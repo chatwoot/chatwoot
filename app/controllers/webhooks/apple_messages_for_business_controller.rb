@@ -8,14 +8,28 @@ class Webhooks::AppleMessagesForBusinessController < ActionController::API
   def process_payload
     Rails.logger.info "[AMB Webhook] Processing payload for channel #{@channel.id}, MSP ID: #{@channel.msp_id}"
     Rails.logger.info "[AMB Webhook] Payload type: #{@decompressed_payload['type']}, ID: #{@decompressed_payload['id']}"
-    
-    Webhooks::AppleMessagesForBusinessEventsJob.perform_later(
-      @channel.id,
-      @decompressed_payload,
-      extract_headers
-    )
-    
-    Rails.logger.info "[AMB Webhook] Job enqueued successfully"
+
+    # Check if message contains IDR (Interactive Data Reference)
+    # IDR URLs expire very quickly, so we must process synchronously
+    has_idr = @decompressed_payload.dig('interactiveDataRef').present?
+
+    if has_idr
+      Rails.logger.info "[AMB Webhook] IDR detected - processing synchronously to prevent expiration"
+      Webhooks::AppleMessagesForBusinessEventsJob.perform_now(
+        @channel.id,
+        @decompressed_payload,
+        extract_headers
+      )
+      Rails.logger.info "[AMB Webhook] IDR processed synchronously"
+    else
+      Webhooks::AppleMessagesForBusinessEventsJob.perform_later(
+        @channel.id,
+        @decompressed_payload,
+        extract_headers
+      )
+      Rails.logger.info "[AMB Webhook] Job enqueued successfully"
+    end
+
     head :ok
   rescue StandardError => e
     Rails.logger.error "[AMB Webhook] Processing failed: #{e.message}"

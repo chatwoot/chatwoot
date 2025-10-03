@@ -30,6 +30,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  availableImages: {
+    type: Array,
+    default: () => [],
+  },
   businessHours: {
     type: Object,
     default: () => ({
@@ -65,14 +69,37 @@ const modalRef = ref(null);
 const isVisible = ref(false);
 const isAnimating = ref(false);
 
+// Debug: Log available images when modal opens
+watch(() => props.show, (newVal) => {
+  if (newVal) {
+    console.log('[EnhancedTimePicker] Modal opened with available images:', props.availableImages.length, props.availableImages);
+  }
+});
+
+// Helper to get image URL by identifier
+const getImageByIdentifier = (identifier) => {
+  if (!identifier) return null;
+  return props.availableImages.find(img => img.identifier === identifier);
+};
+
+const getImagePreviewUrl = (identifier) => {
+  const image = getImageByIdentifier(identifier);
+  if (!image) return null;
+  return image.preview || image.image_url;
+};
+
 // Form data
 const formData = ref({
   eventTitle: 'Schedule Appointment',
   eventDescription: 'Select your preferred time slot',
   receivedTitle: 'Please pick a time',
   receivedSubtitle: 'Select your preferred time slot',
+  receivedImageIdentifier: '',
+  receivedStyle: 'large',
   replyTitle: 'Thank you!',
   replySubtitle: "We'll see you then!",
+  replyImageIdentifier: '',
+  replyStyle: 'large',
   timezoneOffset: 0,
   selectedInterval: 30, // minutes
   customStartTime: '09:00',
@@ -83,6 +110,11 @@ const formData = ref({
   allowMultipleSelection: true, // Always allow multiple selection
   useBusinessHours: true,
   useCustomRange: false,
+});
+
+// Image availability indicator
+const hasAvailableImages = computed(() => {
+  return props.availableImages && props.availableImages.length > 0;
 });
 
 // Time interval options
@@ -577,10 +609,12 @@ const saveTimePickerData = () => {
     timezone_offset: formData.value.timezoneOffset,
     received_title: formData.value.receivedTitle,
     received_subtitle: formData.value.receivedSubtitle,
-    received_style: 'icon',
+    received_image_identifier: formData.value.receivedImageIdentifier,
+    received_style: formData.value.receivedStyle,
     reply_title: formData.value.replyTitle,
     reply_subtitle: formData.value.replySubtitle,
-    reply_style: 'icon',
+    reply_image_identifier: formData.value.replyImageIdentifier,
+    reply_style: formData.value.replyStyle,
   };
 
   // Debug logging
@@ -607,10 +641,12 @@ const saveAndSendTimePickerData = () => {
     timezone_offset: formData.value.timezoneOffset,
     received_title: formData.value.receivedTitle,
     received_subtitle: formData.value.receivedSubtitle,
-    received_style: 'icon',
+    received_image_identifier: formData.value.receivedImageIdentifier,
+    received_style: formData.value.receivedStyle,
     reply_title: formData.value.replyTitle,
     reply_subtitle: formData.value.replySubtitle,
-    reply_style: 'icon',
+    reply_image_identifier: formData.value.replyImageIdentifier,
+    reply_style: formData.value.replyStyle,
   };
 
   // Debug logging
@@ -637,10 +673,12 @@ const previewTimePickerData = () => {
     timezone_offset: formData.value.timezoneOffset,
     received_title: formData.value.receivedTitle,
     received_subtitle: formData.value.receivedSubtitle,
-    received_style: 'icon',
+    received_image_identifier: formData.value.receivedImageIdentifier,
+    received_style: formData.value.receivedStyle,
     reply_title: formData.value.replyTitle,
     reply_subtitle: formData.value.replySubtitle,
-    reply_style: 'icon',
+    reply_image_identifier: formData.value.replyImageIdentifier,
+    reply_style: formData.value.replyStyle,
   };
 
   emit('preview', timePickerData);
@@ -906,6 +944,53 @@ onUnmounted(() => {
                     placeholder="Select your preferred time slot"
                   />
                 </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label
+                      class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
+                    >
+                      Received Image
+                      <span v-if="!hasAvailableImages" class="text-xs text-n-slate-10 dark:text-n-slate-9 font-normal ml-2">(Upload in List Picker first)</span>
+                    </label>
+                    <div class="flex items-center gap-2">
+                      <select
+                        v-model="formData.receivedImageIdentifier"
+                        :disabled="!hasAvailableImages"
+                        class="flex-1 px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-white dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <option value="">No image</option>
+                        <option
+                          v-for="image in availableImages"
+                          :key="image.identifier"
+                          :value="image.identifier"
+                        >
+                          {{ image.originalName || image.original_name || image.description || image.identifier }}
+                        </option>
+                      </select>
+                      <img
+                        v-if="formData.receivedImageIdentifier && getImagePreviewUrl(formData.receivedImageIdentifier)"
+                        :src="getImagePreviewUrl(formData.receivedImageIdentifier)"
+                        class="w-12 h-12 object-cover rounded border border-n-weak dark:border-n-slate-6 flex-shrink-0"
+                        alt="Preview"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
+                    >
+                      Received Style
+                    </label>
+                    <select
+                      v-model="formData.receivedStyle"
+                      class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-white dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+                    >
+                      <option value="icon">Icon (280x65)</option>
+                      <option value="small">Small (280x85)</option>
+                      <option value="large">Large (280x210)</option>
+                    </select>
+                  </div>
+                </div>
                 <div>
                   <label
                     class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
@@ -931,6 +1016,53 @@ onUnmounted(() => {
                     class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-white dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9 transition-colors"
                     placeholder="We'll see you then!"
                   />
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label
+                      class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
+                    >
+                      Reply Image
+                      <span v-if="!hasAvailableImages" class="text-xs text-n-slate-10 dark:text-n-slate-9 font-normal ml-2">(Upload in List Picker first)</span>
+                    </label>
+                    <div class="flex items-center gap-2">
+                      <select
+                        v-model="formData.replyImageIdentifier"
+                        :disabled="!hasAvailableImages"
+                        class="flex-1 px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-white dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <option value="">No image</option>
+                        <option
+                          v-for="image in availableImages"
+                          :key="image.identifier"
+                          :value="image.identifier"
+                        >
+                          {{ image.originalName || image.original_name || image.description || image.identifier }}
+                        </option>
+                      </select>
+                      <img
+                        v-if="formData.replyImageIdentifier && getImagePreviewUrl(formData.replyImageIdentifier)"
+                        :src="getImagePreviewUrl(formData.replyImageIdentifier)"
+                        class="w-12 h-12 object-cover rounded border border-n-weak dark:border-n-slate-6 flex-shrink-0"
+                        alt="Preview"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
+                    >
+                      Reply Style
+                    </label>
+                    <select
+                      v-model="formData.replyStyle"
+                      class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-white dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+                    >
+                      <option value="icon">Icon (280x65)</option>
+                      <option value="small">Small (280x85)</option>
+                      <option value="large">Large (280x210)</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>

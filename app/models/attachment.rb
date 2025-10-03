@@ -41,6 +41,8 @@ class Attachment < ApplicationRecord
     application/vnd.openxmlformats-officedocument.presentationml.presentation
     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
     application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    model/vnd.usdz+zip
+    application/vnd.usdz+zip
   ].freeze
   belongs_to :account
   belongs_to :message
@@ -299,7 +301,10 @@ class Attachment < ApplicationRecord
   end
 
   def validate_file_content_type(file_content_type)
-    errors.add(:file, 'type not supported') unless media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
+    # Check if it's a USDZ file by extension (fallback for incorrect MIME types)
+    is_usdz = file.filename.to_s.downcase.end_with?('.usdz')
+
+    errors.add(:file, 'type not supported') unless media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type) || is_usdz
   end
 
   def validate_file_size(byte_size)

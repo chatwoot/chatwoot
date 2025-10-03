@@ -36,6 +36,28 @@ const submittedAt = computed(() => {
   return new Date(message.value?.created_at).toLocaleString();
 });
 
+// Check if this is an error case where IDR processing failed
+const hasError = computed(() => {
+  return (
+    contentAttributes.value?.idr_failed ||
+    contentAttributes.value?.form_response?.error ||
+    contentAttributes.value?.interactive_response?.error
+  );
+});
+
+const errorMessage = computed(() => {
+  if (contentAttributes.value?.form_response?.error) {
+    return contentAttributes.value.form_response.error;
+  }
+  if (contentAttributes.value?.interactive_response?.user_message) {
+    return contentAttributes.value.interactive_response.user_message;
+  }
+  if (contentAttributes.value?.interactive_response?.error) {
+    return contentAttributes.value.interactive_response.error;
+  }
+  return 'Form data could not be loaded.';
+});
+
 // Format the form responses for display
 const formattedResponses = computed(() => {
   if (!selections.value || selections.value.length === 0) {
@@ -105,7 +127,7 @@ const displayedResponses = computed(() => {
       </div>
 
       <!-- Form Responses -->
-      <div v-if="hasResponses" class="space-y-3">
+      <div v-if="hasResponses && !hasError" class="space-y-3">
         <div
           v-for="(response, index) in displayedResponses"
           :key="index"
@@ -128,6 +150,39 @@ const displayedResponses = computed(() => {
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Error Case -->
+      <div
+        v-else-if="hasError"
+        class="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800"
+      >
+        <div class="flex items-center gap-2 mb-2">
+          <div
+            class="w-6 h-6 bg-amber-500 rounded flex items-center justify-center flex-shrink-0"
+          >
+            <svg
+              class="w-4 h-4 text-white"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <p class="text-sm font-medium text-amber-800 dark:text-amber-200">
+            {{ t('CONVERSATION.APPLE_FORM_RESPONSE.ERROR.TITLE') }}
+          </p>
+        </div>
+        <p class="text-sm text-amber-700 dark:text-amber-300 mb-2">
+          {{ errorMessage }}
+        </p>
+        <p class="text-xs text-amber-600 dark:text-amber-400">
+          {{ t('CONVERSATION.APPLE_FORM_RESPONSE.ERROR.SUBTITLE') }}
+        </p>
       </div>
 
       <!-- No Responses Case -->

@@ -444,6 +444,10 @@
     "DEFAULT_QUESTION": "Question",
     "NO_RESPONSES": "Form was submitted without responses",
     "SHOW_ALL": "Show All ({count} responses)",
-    "SHOW_LESS": "Show Less"
+    "SHOW_LESS": "Show Less",
+    "ERROR": {
+      "TITLE": "Form Data Unavailable",
+      "SUBTITLE": "The form submission data could not be retrieved."
+    }
   }
 }

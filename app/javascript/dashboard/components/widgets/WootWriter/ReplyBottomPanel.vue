@@ -218,6 +218,11 @@ export default {
         channelType = INBOX_TYPES.INSTAGRAM;
       }
 
+      // Apple Messages for Business supports USDZ files - use ALLOWED_FILE_TYPES which includes USDZ
+      if (channelType === 'Channel::AppleMessagesForBusiness') {
+        return this.ALLOWED_FILE_TYPES;
+      }
+
       return getAllowedFileTypesByChannel({
         channelType,
         medium: this.inbox?.medium,

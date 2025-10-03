@@ -175,6 +175,7 @@ class AppleMessagesForBusiness::SendMessageService
   end
 
   def build_list_picker_data
+    Rails.logger.info "[AMB Send] 🔴 PARENT CLASS build_list_picker_data called"
     sections = content_attributes['sections'] || []
 
     # Add missing order and style fields according to Apple MSP spec
@@ -186,12 +187,15 @@ class AppleMessagesForBusiness::SendMessageService
       section['items'].each_with_index do |item, item_index|
         item['order'] = item_index unless item.key?('order')
         item['style'] = 'icon' unless item.key?('style')
+        Rails.logger.info "[AMB Send] 🔴 PARENT: Item keys after processing: #{item.keys.inspect}"
       end
     end
 
-    {
+    result = {
       sections: sections
     }
+    Rails.logger.info "[AMB Send] 🔴 PARENT CLASS returning: #{result[:sections].first['items'].first.keys.inspect if result[:sections].first && result[:sections].first['items'].first}"
+    result
   end
 
   def build_time_picker_data
@@ -555,6 +559,17 @@ class AppleMessagesForBusiness::SendMessageService
       Rails.logger.info "[AMB Send] Requesting IDR for message #{message_id} (payload size: #{payload.to_json.bytesize} bytes)"
     end
 
+    # Debug: Log the actual payload being sent for list pickers
+    if payload[:interactiveData] && payload[:interactiveData][:data] && payload[:interactiveData][:data][:listPicker]
+      list_picker = payload[:interactiveData][:data][:listPicker]
+      Rails.logger.info "[AMB Send] 🔍 Final listPicker payload: #{list_picker.to_json}"
+      if list_picker[:sections] && list_picker[:sections].first && list_picker[:sections].first['items']
+        first_item = list_picker[:sections].first['items'].first
+        Rails.logger.info "[AMB Send] 🔍 First item keys: #{first_item.keys.inspect}"
+        Rails.logger.info "[AMB Send] 🔍 First item: #{first_item.to_json}"
+      end
+    end
+
     HTTParty.post(
       "#{AMB_SERVER}/message",
       body: payload.to_json,
@@ -564,33 +579,40 @@ class AppleMessagesForBusiness::SendMessageService
   end
 
   def should_request_idr?(payload)
+    # TEMPORARY: Disable IDR for all messages due to URL expiration issues in dev/sandbox
+    # IDR URLs from Apple expire within 1-2 seconds, causing 404 errors before we can download
+    # This forces Apple to send the full response inline instead of via IDR
+    Rails.logger.info '[AMB Send] IDR disabled - sending full payload inline'
+    return false
+
+    # Original logic below (commented out for now):
     # Request IDR when the payload is likely to result in a large response
     # This is especially important for list pickers with images
 
-    payload_size = payload.to_json.bytesize
+    # payload_size = payload.to_json.bytesize
 
-    # Always request IDR for payloads > 8KB, as responses may exceed 10KB
-    return true if payload_size > 8192
+    # # Always request IDR for payloads > 8KB, as responses may exceed 10KB
+    # return true if payload_size > 8192
 
-    # Request IDR for list pickers and time pickers with images
-    if payload[:interactiveData] && payload[:interactiveData][:data]
-      interactive_data = payload[:interactiveData][:data]
+    # # Request IDR for list pickers and time pickers with images
+    # if payload[:interactiveData] && payload[:interactiveData][:data]
+    #   interactive_data = payload[:interactiveData][:data]
 
-      # List picker with images is likely to produce large responses
-      if interactive_data[:listPicker] && interactive_data[:images]&.any?
-        Rails.logger.info '[AMB Send] Requesting IDR for list picker with images'
-        return true
-      end
+    #   # List picker with images is likely to produce large responses
+    #   if interactive_data[:listPicker] && interactive_data[:images]&.any?
+    #     Rails.logger.info '[AMB Send] Requesting IDR for list picker with images'
+    #     return true
+    #   end
 
-      # Time picker with multiple time slots may also produce large responses
-      if interactive_data[:timePicker] && interactive_data[:images]&.any?
-        Rails.logger.info '[AMB Send] Requesting IDR for time picker with images'
-        return true
-      end
-    end
+    #   # Time picker with multiple time slots may also produce large responses
+    #   if interactive_data[:timePicker] && interactive_data[:images]&.any?
+    #     Rails.logger.info '[AMB Send] Requesting IDR for time picker with images'
+    #     return true
+    #   end
+    # end
 
-    # For other cases, let Apple decide based on actual response size
-    false
+    # # For other cases, let Apple decide based on actual response size
+    # false
   end
 
   def user_opted_out?

@@ -92,7 +92,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
                                 # Apple Quick Reply
                                 :summary_text, { :items => [:title, :identifier, :description] },
                                 # Apple List Picker
-                                { :sections => [:title, :multiple_selection, { :items => [:title, :subtitle, :identifier, :imageIdentifier] }] },
+                                { :sections => [:title, :multiple_selection, { :items => [:title, :subtitle, :identifier, :imageIdentifier, :image_identifier] }] },
                                 { :images => [:identifier, :data, :description] },  # Fixed: Allow nested image structure
                                 # Apple Time Picker
                                 { :event => [:title, :description, :identifier, { :timeslots => [:startTime, :duration] }] },

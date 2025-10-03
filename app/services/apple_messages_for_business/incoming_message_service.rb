@@ -19,6 +19,13 @@ class AppleMessagesForBusiness::IncomingMessageService
 
     Rails.logger.info '[AMB IncomingMessage] Message validation passed'
 
+    # CRITICAL: Process IDR immediately if present, before any database operations
+    # IDR URLs expire within seconds, so we must download the data first
+    if @params['interactiveDataRef'].present?
+      Rails.logger.info '[AMB IncomingMessage] IDR detected - downloading data immediately before any DB operations'
+      @idr_data = download_idr_data
+    end
+
     set_contact
     set_conversation
     create_message
@@ -124,6 +131,10 @@ class AppleMessagesForBusiness::IncomingMessageService
     Rails.logger.info "[AMB IncomingMessage] Creating message with content: #{message_content}"
     Rails.logger.info "[AMB IncomingMessage] Message type: #{message_type}"
 
+    # Determine content type early - this is critical for IDR to prevent UI flicker
+    determined_content_type = determine_content_type
+    Rails.logger.info "[AMB IncomingMessage] Content type determined: #{determined_content_type} (IDR cached: #{@idr_data.present?})"
+
     @message = @conversation.messages.build(
       content: message_content,
       account_id: @inbox.account_id,
@@ -131,11 +142,12 @@ class AppleMessagesForBusiness::IncomingMessageService
       message_type: message_type,
       sender: message_sender,
       content_attributes: content_attributes,
-      source_id: @params['id']
+      source_id: @params['id'],
+      content_type: determined_content_type
     )
 
     @message.save!
-    Rails.logger.info "[AMB IncomingMessage] Message created successfully - ID: #{@message.id}"
+    Rails.logger.info "[AMB IncomingMessage] Message created successfully - ID: #{@message.id}, content_type: #{@message.content_type}"
   end
 
   def source_id
@@ -145,7 +157,7 @@ class AppleMessagesForBusiness::IncomingMessageService
   def message_content
     case @params['type']
     when 'text'
-      @params['body']
+      parse_tapback_content(@params['body'])
     when 'interactive'
       extract_interactive_content
     else
@@ -172,6 +184,9 @@ class AppleMessagesForBusiness::IncomingMessageService
     attributes.merge!(extract_interactive_attributes) if interactive_message?
 
     attributes[:in_reply_to_external_id] = @params['replyToMessageId'] if @params['replyToMessageId'].present?
+
+    # Add tapback reaction metadata if detected
+    attributes.merge!(extract_tapback_attributes(@params['body'])) if @params['type'] == 'text' && is_tapback?(@params['body'])
 
     attributes
   end
@@ -234,22 +249,30 @@ class AppleMessagesForBusiness::IncomingMessageService
   end
 
   def extract_content_from_interactive_data(interactive_data)
+    Rails.logger.info "[AMB IncomingMessage] Extracting content from interactive data, keys: #{interactive_data&.keys&.inspect}"
+
     # First, try to extract the actual user selection from replyMessage
     if interactive_data['data'] && interactive_data['data']['replyMessage']
       reply_message = interactive_data['data']['replyMessage']
+      Rails.logger.info "[AMB IncomingMessage] Found replyMessage: #{reply_message.inspect}"
 
       # Use the title as the main content, with subtitle as additional context
       content_parts = []
       content_parts << reply_message['title'] if reply_message['title'].present?
       content_parts << reply_message['subtitle'] if reply_message['subtitle'].present?
 
-      return content_parts.join(' - ') if content_parts.any?
+      if content_parts.any?
+        extracted = content_parts.join(' - ')
+        Rails.logger.info "[AMB IncomingMessage] Extracted content from replyMessage: #{extracted}"
+        return extracted
+      end
     end
 
     # Fallback: Extract meaningful content from interactive data structure
     return 'Interactive Message' unless interactive_data['data']
 
     data_keys = interactive_data['data'].keys
+    Rails.logger.info "[AMB IncomingMessage] No replyMessage found, checking data keys: #{data_keys.inspect}"
 
     # Check for specific interactive response types and extract relevant info
     if data_keys.include?('dynamic') && interactive_data['data']['dynamic']['template'] == 'messageForms'
@@ -275,14 +298,15 @@ class AppleMessagesForBusiness::IncomingMessageService
       end
       return 'Time Picker Response'
     elsif data_keys.include?('listPicker')
-      # List picker response - try to extract selected item from replyMessage or sections
+      # List picker response - try to extract selected item(s) from replyMessage or sections
       list_picker = interactive_data['data']['listPicker']
       if list_picker && list_picker['sections']
         # Look for selected items in the "You Selected" section or similar
         selected_section = list_picker['sections'].find { |s| s['title']&.include?('Selected') }
         if selected_section && selected_section['items']&.any?
-          selected_item = selected_section['items'].first
-          return selected_item['title'] if selected_item['title'].present?
+          # Handle multiple selections
+          selected_titles = selected_section['items'].map { |item| item['title'] }.compact
+          return selected_titles.join(', ') if selected_titles.any?
         end
       end
       return 'List Picker Response'
@@ -577,21 +601,31 @@ class AppleMessagesForBusiness::IncomingMessageService
     Rails.logger.info "[AMB IncomingMessage] IDR data: #{idr_data.inspect}"
 
     begin
-      # Use the IDR service to download and decrypt the full interactive data
-      full_interactive_data = AppleMessagesForBusiness::InteractiveDataReferenceService.process_idr_response(
+      # Use cached IDR data if available (downloaded early), otherwise download now
+      full_interactive_data = @idr_data || AppleMessagesForBusiness::InteractiveDataReferenceService.process_idr_response(
         idr_data,
         @inbox.channel
       )
+
+      if @idr_data
+        Rails.logger.info '[AMB IncomingMessage] Using cached IDR data from early download'
+      else
+        Rails.logger.warn '[AMB IncomingMessage] No cached IDR data - downloading now (may fail if URL expired)'
+      end
 
       Rails.logger.info '[AMB IncomingMessage] Successfully processed IDR, storing full interactive data'
 
       # Extract content from the decrypted interactive data
       extracted_content = extract_content_from_interactive_data(full_interactive_data)
+      Rails.logger.info "[AMB IncomingMessage] Extracted content: '#{extracted_content}'"
 
       # Store the full interactive data for response handling and update message content
+      # IMPORTANT: Don't change content_type - it causes UI component to re-mount and flicker
+      Rails.logger.info "[AMB IncomingMessage] Updating message with IDR data (keeping content_type: #{@message.content_type})"
+      Rails.logger.info "[AMB IncomingMessage] Message ID: #{@message.id}, current content: '#{@message.content}'"
+
       @message.update!(
         content: (extracted_content.presence || 'Interactive Data Reference Response'),
-        content_type: determine_content_type_from_data(full_interactive_data),
         content_attributes: @message.content_attributes.merge(
           interactive_response: full_interactive_data,
           idr_processed: true,
@@ -601,19 +635,20 @@ class AppleMessagesForBusiness::IncomingMessageService
         )
       )
 
-      Rails.logger.info '[AMB IncomingMessage] IDR processing completed successfully'
+      @message.reload
+      Rails.logger.info "[AMB IncomingMessage] IDR processing completed successfully - content_type unchanged"
+      Rails.logger.info "[AMB IncomingMessage] Final message content: '#{@message.content}', visible: #{!@message.hidden?}"
     rescue StandardError => e
       Rails.logger.error "[AMB IncomingMessage] IDR processing failed: #{e.message}"
 
-      # Fallback: store the IDR reference for manual processing
+      # Try to create a meaningful fallback based on the IDR BID and available data
+      fallback_content, fallback_type, fallback_attributes = create_idr_fallback(idr_data, e)
+
+      # Store the fallback with error details for debugging
       @message.update!(
-        content: 'Interactive Data Reference (Processing Failed)',
-        content_type: 'text',
-        content_attributes: @message.content_attributes.merge(
-          interactive_response: { error: 'IDR processing failed', details: e.message },
-          idr_failed: true,
-          original_idr: idr_data
-        )
+        content: fallback_content,
+        content_type: fallback_type,
+        content_attributes: @message.content_attributes.merge(fallback_attributes)
       )
     end
   end
@@ -657,6 +692,10 @@ class AppleMessagesForBusiness::IncomingMessageService
 
   def determine_content_type
     return 'input_email' if attachments_present?
+
+    # For IDR responses, we need to peek at the cached data to determine type
+    # This prevents UI flicker from content_type changing after IDR download
+    return determine_content_type_from_data(@idr_data) if @params['interactiveDataRef'].present? && @idr_data.present?
 
     interactive_data = @params['interactiveData']
     return 'text' unless interactive_data&.dig('data')
@@ -755,15 +794,240 @@ class AppleMessagesForBusiness::IncomingMessageService
 
   def store_apple_routing_data
     # Log Apple Messages routing parameters for debugging
-    if @params['group'].present? || @params['intent'].present?
-      Rails.logger.info "[AMB IncomingMessage] Apple Messages routing - Group: #{@params['group']}, Intent: #{@params['intent']}"
+    return unless @params['group'].present? || @params['intent'].present?
 
-      # Store as conversation custom attributes for easier access in automation rules
-      custom_attrs = {}
-      custom_attrs[:apple_messages_group] = @params['group'] if @params['group'].present?
-      custom_attrs[:apple_messages_intent] = @params['intent'] if @params['intent'].present?
+    Rails.logger.info "[AMB IncomingMessage] Apple Messages routing - Group: #{@params['group']}, Intent: #{@params['intent']}"
 
-      @conversation.update!(custom_attributes: custom_attrs) if custom_attrs.any?
+    # Store as conversation custom attributes for easier access in automation rules
+    custom_attrs = {}
+    custom_attrs[:apple_messages_group] = @params['group'] if @params['group'].present?
+    custom_attrs[:apple_messages_intent] = @params['intent'] if @params['intent'].present?
+
+    @conversation.update!(custom_attributes: custom_attrs) if custom_attrs.any?
+  end
+
+  # Tapback detection and parsing methods
+  def is_tapback?(body)
+    return false unless body.is_a?(String)
+
+    # Standard tapback patterns (English and localized)
+    # Examples: Liked "text", Loved "text", Laughed at "text", etc.
+    return true if body.match?(/^(Liked|Loved|Disliked|Laughed at|Emphasized|Questioned)\s+["]/)
+
+    # Emoji reaction pattern: Reacted ☺️ to "text"
+    return true if body.match?(/^Reacted\s+.+\s+to\s+["]/)
+
+    # Sticker/Memoji pattern: Reacted with a sticker to "text"
+    return true if body.match?(/^Reacted with a sticker to\s+["]/)
+
+    # Interactive message tapback: Liked 1 Business Message
+    return true if body.match?(/^(Liked|Loved|Disliked|Laughed at|Emphasized|Questioned)\s+\d+\s+Business Message/)
+
+    # Image tapback: Liked an image
+    return true if body.match?(/^(Liked|Loved|Disliked|Laughed at|Emphasized|Questioned)\s+an?\s+(image|video|audio|file)/)
+
+    # Localized patterns (check for unicode quotes and common reaction verbs in other languages)
+    # Japanese example: "text"に「いいね」と応答
+    return true if body.match?(/["].*["].*[応答|反]/)
+
+    false
+  end
+
+  def create_idr_fallback(idr_data, error)
+    Rails.logger.info "[AMB IncomingMessage] Creating IDR fallback for BID: #{idr_data['bid']}"
+
+    # Analyze the Bundle Identifier (BID) to determine what type of content this likely was
+    bid = idr_data['bid'] || ''
+
+    # Check if this looks like an Apple Messages form based on the BID
+    if bid.include?('messages.business.extension') || bid.include?('MSMessageExtensionBalloonPlugin')
+      Rails.logger.info '[AMB IncomingMessage] IDR appears to be Apple Messages form, creating form fallback'
+      return create_form_fallback(idr_data, error)
+    elsif bid.include?('timePicker') || bid.include?('scheduler')
+      Rails.logger.info '[AMB IncomingMessage] IDR appears to be time picker, creating time picker fallback'
+      return create_time_picker_fallback(idr_data, error)
+    elsif bid.include?('listPicker') || bid.include?('menu')
+      Rails.logger.info '[AMB IncomingMessage] IDR appears to be list picker, creating list picker fallback'
+      return create_list_picker_fallback(idr_data, error)
+    else
+      Rails.logger.info '[AMB IncomingMessage] IDR type unknown, creating generic fallback'
+      return create_generic_fallback(idr_data, error)
+    end
+  end
+
+  def create_form_fallback(idr_data, error)
+    # Create a fallback that shows as a form response even though we couldn't get the actual form data
+    error_message = if error.message.include?('network proxy') || error.message.include?('blocked')
+                      'Form data blocked by network. Please try again or contact support.'
+                    elsif error.message.include?('expired') || error.message.include?('404')
+                      'Form data has expired and is no longer available.'
+                    else
+                      'Form data could not be loaded.'
+                    end
+
+    # Create a mock form response structure
+    fallback_attributes = {
+      interactive_response: {
+        error: 'IDR processing failed',
+        details: error.message,
+        user_message: error_message
+      },
+      form_response: {
+        title: 'Apple Messages Form',
+        template: 'messageForms',
+        selections: [], # Empty selections since we couldn't load the data
+        submitted_at: Time.current.iso8601,
+        error: error_message
+      },
+      idr_failed: true,
+      original_idr: idr_data,
+      interactive_type: 'apple_form_response'
+    }
+
+    content = "Apple Messages Form - #{error_message}"
+
+    [content, 'apple_form_response', fallback_attributes]
+  end
+
+  def create_time_picker_fallback(idr_data, error)
+    error_message = if error.message.include?('expired') || error.message.include?('404')
+                      'Time selection data has expired.'
+                    else
+                      'Time selection could not be loaded.'
+                    end
+
+    fallback_attributes = {
+      interactive_response: {
+        error: 'IDR processing failed',
+        details: error.message,
+        user_message: error_message
+      },
+      idr_failed: true,
+      original_idr: idr_data,
+      interactive_type: 'time_picker'
+    }
+
+    ["Time Selection - #{error_message}", 'apple_time_picker', fallback_attributes]
+  end
+
+  def create_list_picker_fallback(idr_data, error)
+    error_message = if error.message.include?('expired') || error.message.include?('404')
+                      'Selection options have expired.'
+                    else
+                      'Selection options could not be loaded.'
+                    end
+
+    fallback_attributes = {
+      interactive_response: {
+        error: 'IDR processing failed',
+        details: error.message,
+        user_message: error_message
+      },
+      idr_failed: true,
+      original_idr: idr_data,
+      interactive_type: 'list_picker'
+    }
+
+    ["Selection Menu - #{error_message}", 'apple_list_picker', fallback_attributes]
+  end
+
+  def create_generic_fallback(idr_data, error)
+    error_message = if error.message.include?('network proxy') || error.message.include?('blocked')
+                      'Interactive content blocked by network. Please try again or contact support.'
+                    elsif error.message.include?('expired') || error.message.include?('404')
+                      'Interactive content has expired and is no longer available.'
+                    elsif error.message.include?('timeout')
+                      'Interactive content download timed out. Please try again.'
+                    else
+                      'Interactive content could not be processed.'
+                    end
+
+    fallback_attributes = {
+      interactive_response: {
+        error: 'IDR processing failed',
+        details: error.message,
+        user_message: error_message
+      },
+      idr_failed: true,
+      original_idr: idr_data
+    }
+
+    [error_message, 'text', fallback_attributes]
+  end
+
+  def parse_tapback_content(body)
+    return body unless is_tapback?(body)
+
+    # Return the body as-is for display, but mark it as a tapback reaction
+    # The frontend will handle special display
+    body
+  end
+
+  def extract_tapback_attributes(body)
+    attributes = {
+      is_tapback_reaction: true
+    }
+
+    # Extract reaction type
+    case body
+    when /^Liked\s+/
+      attributes[:tapback_type] = 'like'
+      attributes[:tapback_emoji] = '👍'
+    when /^Loved\s+/
+      attributes[:tapback_type] = 'love'
+      attributes[:tapback_emoji] = '❤️'
+    when /^Disliked\s+/
+      attributes[:tapback_type] = 'dislike'
+      attributes[:tapback_emoji] = '👎'
+    when /^Laughed at\s+/
+      attributes[:tapback_type] = 'laugh'
+      attributes[:tapback_emoji] = '😂'
+    when /^Emphasized\s+/
+      attributes[:tapback_type] = 'emphasize'
+      attributes[:tapback_emoji] = '!!'
+    when /^Questioned\s+/
+      attributes[:tapback_type] = 'question'
+      attributes[:tapback_emoji] = '??'
+    when /^Reacted\s+(.+?)\s+to\s+/
+      # Extract emoji from "Reacted ☺️ to" pattern
+      emoji_match = body.match(/^Reacted\s+(.+?)\s+to\s+/)
+      attributes[:tapback_type] = 'emoji'
+      attributes[:tapback_emoji] = emoji_match[1] if emoji_match
+    when /^Reacted with a sticker/
+      attributes[:tapback_type] = 'sticker'
+      attributes[:tapback_emoji] = '🎨'
+    end
+
+    # Extract referenced message text if present (between quotes)
+    if (match = body.match(/["](.+?)["]$/))
+      attributes[:tapback_referenced_text] = match[1]
+    elsif body.match?(/Business Message/)
+      attributes[:tapback_referenced_text] = 'Business Message'
+    elsif (match = body.match(/an?\s+(image|video|audio|file)$/))
+      attributes[:tapback_referenced_text] = match[1]
+    end
+
+    attributes
+  end
+
+  # Download IDR data immediately when webhook is received
+  # IDR URLs expire very quickly (seconds), so we must download before any other processing
+  def download_idr_data
+    idr_params = @params['interactiveDataRef']
+    Rails.logger.info "[AMB IncomingMessage] Downloading IDR immediately: #{idr_params['url']}"
+
+    begin
+      # Download and decrypt the IDR data using the service
+      full_data = AppleMessagesForBusiness::InteractiveDataReferenceService.process_idr_response(
+        idr_params,
+        @inbox.channel
+      )
+
+      Rails.logger.info '[AMB IncomingMessage] IDR download successful (early processing)'
+      full_data
+    rescue StandardError => e
+      Rails.logger.error "[AMB IncomingMessage] Failed to download IDR early: #{e.message}"
+      nil
     end
   end
 end

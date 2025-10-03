@@ -1,4 +1,12 @@
 class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness::SendMessageService
+  def perform
+    # Save images before sending
+    save_images_to_storage
+
+    # Call parent perform
+    super
+  end
+
   private
 
   def message_payload
@@ -21,9 +29,82 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
     }
   end
 
+  def save_images_to_storage
+    images = content_attributes['images'] || []
+    Rails.logger.info "[AMB TimePicker] save_images_to_storage called with #{images.length} images"
+    return if images.empty?
+
+    images.each do |image_data|
+      Rails.logger.info "[AMB TimePicker] Processing image: #{image_data['identifier']}, has data: #{image_data['data'].present?}"
+      next if image_data['identifier'].blank? || image_data['data'].blank?
+
+      # Check if image already exists
+      existing_image = AppleListPickerImage.find_by_identifier(
+        message.inbox_id,
+        image_data['identifier']
+      )
+
+      Rails.logger.info "[AMB TimePicker] Existing image found: #{existing_image.present?}, has attachment: #{existing_image&.image&.attached?}"
+
+      # Skip if already saved
+      next if existing_image&.image&.attached?
+
+      # Create or update the image record
+      picker_image = existing_image || AppleListPickerImage.new(
+        account_id: message.account_id,
+        inbox_id: message.inbox_id,
+        identifier: image_data['identifier']
+      )
+
+      picker_image.description = image_data['description']
+      picker_image.original_name = image_data['originalName'] || image_data['identifier']
+
+      # Decode base64 and attach to ActiveStorage
+      begin
+        decoded_data = Base64.strict_decode64(image_data['data'])
+
+        # Determine filename and content type
+        filename = picker_image.original_name || "#{image_data['identifier']}.jpg"
+        content_type = determine_content_type(decoded_data, filename)
+
+        # Attach to ActiveStorage
+        picker_image.image.attach(
+          io: StringIO.new(decoded_data),
+          filename: filename,
+          content_type: content_type
+        )
+
+        picker_image.save!
+        Rails.logger.info "[AMB TimePicker] Successfully saved image to ActiveStorage: #{image_data['identifier']}"
+      rescue StandardError => e
+        Rails.logger.error "[AMB TimePicker] Failed to save image #{image_data['identifier']}: #{e.message}"
+        Rails.logger.error e.backtrace.join("\n")
+        # Continue processing other images
+      end
+    end
+  end
+
+  def determine_content_type(data, filename)
+    # Try to detect from data
+    return 'image/png' if data[0..3] == "\x89PNG"
+    return 'image/jpeg' if data[0..1] == "\xFF\xD8"
+    return 'image/gif' if data[0..2] == 'GIF'
+    return 'image/webp' if data[8..11] == 'WEBP'
+
+    # Fallback to filename extension
+    ext = File.extname(filename).downcase
+    case ext
+    when '.png' then 'image/png'
+    when '.jpg', '.jpeg' then 'image/jpeg'
+    when '.gif' then 'image/gif'
+    when '.webp' then 'image/webp'
+    else 'image/jpeg' # default
+    end
+  end
+
   def build_event_data
     event_data = content_attributes['event'] || {}
-    
+
     {
       identifier: event_data['identifier'] || SecureRandom.uuid,
       title: event_data['title'] || 'Select a time',
@@ -57,7 +138,7 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
 
   def format_iso8601_time(time_input)
     return nil unless time_input
-    
+
     # Parse various time formats and convert to ISO-8601 format required by Apple
     # Format: 2017-05-26T08:27+0000 (no seconds, no Z notation)
     time = case time_input
@@ -70,7 +151,7 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
            else
              Time.current
            end
-    
+
     time.utc.strftime('%Y-%m-%dT%H:%M+0000')
   rescue ArgumentError
     # Fallback to current time if parsing fails
@@ -109,7 +190,7 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
   def default_timeslots
     # Provide some default time slots for the next few hours
     base_time = Time.current.beginning_of_hour + 1.hour
-    
+
     3.times.map do |i|
       slot_time = base_time + (i * 2).hours
       {

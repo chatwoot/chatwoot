@@ -77,3 +77,54 @@ Practical checklist for any change impacting core logic or public APIs
 - Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
 - Remember that any tailscale command as privilege Claude cannot use, please ask me diretly to execute them
 - keep in memory the Vue configuration requirement
+
+## Apple Messages for Business (AMB) - Critical Implementation Notes
+
+### List Picker with Images
+
+**Key Discovery**: The frontend sends `imageIdentifier` in **camelCase**, not `image_identifier` (snake_case).
+
+**Service Architecture**:
+- Parent: `AppleMessagesForBusiness::SendMessageService` (base class)
+- Child: `AppleMessagesForBusiness::SendListPickerService` (overrides `build_list_picker_data`)
+
+**Critical Implementation Details**:
+
+1. **Child Class Override MUST Check Both Cases**:
+   ```ruby
+   # CORRECT - Check both camelCase and snake_case
+   if item['image_identifier'].present?
+     transformed_item['imageIdentifier'] = item['image_identifier']
+   elsif item['imageIdentifier'].present?
+     transformed_item['imageIdentifier'] = item['imageIdentifier']
+   end
+   ```
+
+2. **Why This Matters**:
+   - Vue/JavaScript frontend naturally uses camelCase: `imageIdentifier`
+   - Rails typically uses snake_case: `image_identifier`
+   - The `content_attributes` hash preserves the original casing from JSON
+   - Apple MSP API expects camelCase: `imageIdentifier`
+
+3. **The Bug That Was Fixed**:
+   - Original code only checked `item['image_identifier']` (snake_case)
+   - Frontend was sending `item['imageIdentifier']` (camelCase)
+   - Result: `imageIdentifier` was silently dropped from the payload
+   - Apple received list picker items without image references
+
+4. **Image Storage Flow**:
+   - Images are base64-encoded on frontend
+   - Sent to backend in `content_attributes['images']`
+   - Stored in ActiveStorage via `AppleListPickerImage` model
+   - Retrieved and re-encoded when sending to Apple MSP
+   - Items reference images via `imageIdentifier` matching the image's `identifier`
+
+5. **Debugging Tips**:
+   - Check final payload with: `payload[:interactiveData][:data][:listPicker][:sections].first['items'].first.keys`
+   - Should include: `["identifier", "title", "subtitle", "order", "style", "imageIdentifier"]`
+   - If `imageIdentifier` is missing, check the casing in `content_attributes`
+
+6. **Related Files**:
+   - Service: `app/services/apple_messages_for_business/send_list_picker_service.rb`
+   - Model: `app/models/apple_list_picker_image.rb`
+   - Controller: `app/controllers/api/v1/accounts/inboxes/apple_list_picker_images_controller.rb`

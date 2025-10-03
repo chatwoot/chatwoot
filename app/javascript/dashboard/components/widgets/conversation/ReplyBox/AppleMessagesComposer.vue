@@ -14,6 +14,7 @@ import {
 import { zonedTimeToUtc } from 'date-fns-tz';
 import EnhancedTimePickerModal from 'dashboard/components-next/message/modals/EnhancedTimePickerModal.vue';
 import AppleFormBuilder from 'dashboard/components-next/message/modals/AppleFormBuilder.vue';
+import AppleListPickerImagesAPI from 'dashboard/api/appleListPickerImages';
 
 const props = defineProps({
   conversation: {
@@ -28,6 +29,10 @@ const { t } = useI18n();
 const store = useStore();
 
 const activeTab = ref('list_picker');
+
+// Saved images from ActiveStorage
+const savedImages = ref([]);
+const loadingSavedImages = ref(false);
 
 // Form Builder State
 const showFormBuilder = ref(false);
@@ -400,6 +405,7 @@ const initializeTimePickerDate = () => {
 // Initialize on component mount
 onMounted(() => {
   initializeTimePickerDate();
+  loadSavedImages();
 });
 
 // List Picker State
@@ -407,10 +413,11 @@ const listPickerData = ref({
   sections: [
     {
       title: 'Options',
-      multiple_selection: false,
+      multipleSelection: false,
       items: [
         { title: 'Option 1', subtitle: 'Description 1' },
         { title: 'Option 2', subtitle: 'Description 2' },
+        { title: 'Option 3', subtitle: 'Description 3' },
       ],
     },
   ],
@@ -522,6 +529,82 @@ const removeImage = index => {
   listPickerData.value.images.splice(index, 1);
 };
 
+// Load saved images from ActiveStorage
+const loadSavedImages = async () => {
+  const inboxId = props.conversation?.inbox_id;
+  if (!inboxId) {
+    console.log('[AppleMessagesComposer] No inbox ID available');
+    return;
+  }
+
+  console.log('[AppleMessagesComposer] Loading saved images for inbox:', inboxId);
+  loadingSavedImages.value = true;
+  try {
+    const response = await AppleListPickerImagesAPI.get({ inboxId });
+    savedImages.value = response.data;
+    console.log('[AppleMessagesComposer] Loaded saved images:', savedImages.value.length, savedImages.value);
+  } catch (error) {
+    console.error('[AppleMessagesComposer] Failed to load saved images:', error.response?.status, error.message);
+  } finally {
+    loadingSavedImages.value = false;
+  }
+};
+
+// Use a saved image
+const useSavedImage = savedImage => {
+  // Check if image already exists in current list
+  const existingIndex = listPickerData.value.images.findIndex(
+    img => img.identifier === savedImage.identifier
+  );
+
+  if (existingIndex !== -1) {
+    // Already in the list, just notify
+    alert('This image is already added to the list picker');
+    return;
+  }
+
+  // Fetch the base64 data and add to images
+  fetch(savedImage.image_url)
+    .then(response => response.blob())
+    .then(blob => {
+      const reader = new FileReader();
+      reader.onload = event => {
+        const imageData = {
+          identifier: savedImage.identifier,
+          data: event.target.result.split(',')[1], // Remove data URL prefix
+          preview: event.target.result,
+          description: savedImage.description || '',
+          originalName: savedImage.original_name || savedImage.identifier,
+          size: blob.size,
+          fromStorage: true, // Mark as from storage
+        };
+        listPickerData.value.images.push(imageData);
+      };
+      reader.readAsDataURL(blob);
+    })
+    .catch(error => {
+      console.error('Failed to load saved image:', error);
+      alert('Failed to load the saved image');
+    });
+};
+
+const addSection = () => {
+  const newSection = {
+    title: `Section ${listPickerData.value.sections.length + 1}`,
+    multipleSelection: false,
+    items: [
+      { title: 'Option 1', subtitle: 'Description 1' },
+    ],
+  };
+  listPickerData.value.sections.push(newSection);
+};
+
+const removeSection = (sectionIndex) => {
+  if (listPickerData.value.sections.length > 1) {
+    listPickerData.value.sections.splice(sectionIndex, 1);
+  }
+};
+
 const addListItem = sectionIndex => {
   const newItem = {
     title: 'New Item',
@@ -532,6 +615,75 @@ const addListItem = sectionIndex => {
 
 const removeListItem = (sectionIndex, itemIndex) => {
   listPickerData.value.sections[sectionIndex].items.splice(itemIndex, 1);
+};
+
+// Image picker state
+const showImagePicker = ref(false);
+const currentImageSelection = ref({ sectionIndex: null, itemIndex: null });
+
+const getImageByIdentifier = (identifier) => {
+  return [...listPickerData.value.images, ...savedImages.value].find(
+    img => img.identifier === identifier
+  );
+};
+
+const openImagePicker = (sectionIndex, itemIndex) => {
+  currentImageSelection.value = { sectionIndex, itemIndex };
+  showImagePicker.value = true;
+};
+
+const selectImageForItem = (image) => {
+  const { sectionIndex, itemIndex } = currentImageSelection.value;
+  if (sectionIndex !== null && itemIndex !== null) {
+    // If it's a saved image (from database), we need to add it to current session
+    if (image.image_url && !image.preview) {
+      // Check if this image is already in the current session
+      const existsInSession = listPickerData.value.images.some(
+        img => img.identifier === image.identifier
+      );
+
+      // If not in session, add it
+      if (!existsInSession) {
+        // Fetch the image data and add to session
+        fetch(image.image_url)
+          .then(response => response.blob())
+          .then(blob => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const imageData = {
+                identifier: image.identifier,
+                data: e.target.result.split(',')[1], // Remove data URL prefix
+                preview: e.target.result,
+                description: image.description || image.original_name,
+                originalName: image.original_name,
+                size: blob.size,
+              };
+              listPickerData.value.images.push(imageData);
+
+              // Now assign to the item
+              listPickerData.value.sections[sectionIndex].items[itemIndex].image_identifier = image.identifier;
+            };
+            reader.readAsDataURL(blob);
+          })
+          .catch(err => {
+            console.error('Failed to load saved image:', err);
+            alert('Failed to load saved image');
+          });
+      } else {
+        // Already in session, just assign
+        listPickerData.value.sections[sectionIndex].items[itemIndex].image_identifier = image.identifier;
+      }
+    } else {
+      // It's a recently uploaded image, just assign
+      listPickerData.value.sections[sectionIndex].items[itemIndex].image_identifier = image.identifier;
+    }
+  }
+  showImagePicker.value = false;
+};
+
+const closeImagePicker = () => {
+  showImagePicker.value = false;
+  currentImageSelection.value = { sectionIndex: null, itemIndex: null };
 };
 
 const addQuickReplyItem = () => {
@@ -606,37 +758,40 @@ const sendAppleMessage = () => {
       // Prepare content_attributes with images if they exist
       content_attributes = { ...listPickerData.value };
 
+      // Transform sections to use snake_case for backend
+      content_attributes.sections = listPickerData.value.sections.map(section => ({
+        title: section.title,
+        multiple_selection: section.multipleSelection || false,
+        items: section.items.map(item => ({
+          title: item.title,
+          subtitle: item.subtitle,
+          image_identifier: item.image_identifier,
+        })),
+      }));
+
+      // Debug: log items with image_identifier
+      console.log('[AMB ListPicker] Items with images:',
+        content_attributes.sections.flatMap(s => s.items)
+          .filter(i => i.image_identifier)
+          .map(i => ({ title: i.title, image_identifier: i.image_identifier }))
+      );
+
       // Only include images if they exist and are not empty
       if (
         listPickerData.value.images &&
         listPickerData.value.images.length > 0
       ) {
         content_attributes.images = listPickerData.value.images.map(
-          (img, index) => ({
-            identifier: `image_${index}`,
+          (img) => ({
+            identifier: img.identifier, // Use the original identifier
             data: img.data,
-            description: img.description || `Image ${index + 1}`,
+            description: img.description || img.originalName || img.identifier,
+            originalName: img.originalName || img.identifier,
           })
         );
-
-        // Associate images with list items using imageIdentifier
-        // Update sections to reference images by their identifiers
-        if (
-          content_attributes.sections &&
-          content_attributes.sections.length > 0
-        ) {
-          content_attributes.sections.forEach((section, sectionIndex) => {
-            if (section.items && section.items.length > 0) {
-              section.items.forEach((item, itemIndex) => {
-                // Associate each item with an image if available
-                if (itemIndex < content_attributes.images.length) {
-                  item.imageIdentifier =
-                    content_attributes.images[itemIndex].identifier;
-                }
-              });
-            }
-          });
-        }
+        console.log('[AMB ListPicker] Sending images:', content_attributes.images.length, content_attributes.images.map(i => i.identifier));
+      } else {
+        console.log('[AMB ListPicker] No images to send');
       }
 
       content = listPickerData.value.received_title || 'List Picker Message';
@@ -657,7 +812,19 @@ const sendAppleMessage = () => {
       break;
     case 'time_picker':
       content_type = 'apple_time_picker';
-      content_attributes = timePickerData.value;
+      content_attributes = { ...timePickerData.value };
+
+      // Include images if they exist in listPickerData
+      if (listPickerData.value.images && listPickerData.value.images.length > 0) {
+        content_attributes.images = listPickerData.value.images.map(img => ({
+          identifier: img.identifier,
+          data: img.data,
+          description: img.description || img.originalName || img.identifier,
+          originalName: img.originalName || img.identifier,
+        }));
+        console.log('[AMB TimePicker] Sending images:', content_attributes.images.length, content_attributes.images.map(i => i.identifier));
+      }
+
       content = timePickerData.value.event?.title || 'Time Picker Message';
       break;
     case 'forms':
@@ -784,13 +951,11 @@ const updateAppData = (key, value) => {
             >
               <option value="">No header image</option>
               <option
-                v-for="(image, index) in listPickerData.images"
+                v-for="image in listPickerData.images"
                 :key="image.identifier"
-                :value="`image_${index}`"
+                :value="image.identifier"
               >
-                {{ image.originalName || image.description }} (image_{{
-                  index
-                }})
+                {{ image.originalName || image.description }} ({{ image.identifier }})
               </option>
             </select>
           </div>
@@ -831,6 +996,67 @@ const updateAppData = (key, value) => {
             Add Image
           </button>
         </div>
+
+        <!-- Saved Images Section -->
+        <div
+          v-if="activeTab === 'list_picker'"
+          class="mb-4 p-3 bg-n-solid-1 dark:bg-n-alpha-2 rounded-lg border border-n-weak dark:border-n-slate-6"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <h5
+              class="text-xs font-semibold text-n-slate-11 dark:text-n-slate-10 uppercase"
+            >
+              Saved Images
+              <span v-if="savedImages.length > 0">({{ savedImages.length }})</span>
+            </h5>
+            <span
+              v-if="loadingSavedImages"
+              class="text-xs text-n-slate-10 dark:text-n-slate-9"
+            >
+              Loading...
+            </span>
+          </div>
+
+          <div
+            v-if="savedImages.length === 0 && !loadingSavedImages"
+            class="text-xs text-n-slate-10 dark:text-n-slate-9 italic py-2"
+          >
+            No saved images yet. Upload images and send a list picker to save them for reuse.
+          </div>
+
+          <div
+            v-else-if="savedImages.length > 0"
+            class="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto"
+          >
+            <div
+              v-for="savedImage in savedImages"
+              :key="savedImage.id"
+              class="relative group cursor-pointer border border-n-weak dark:border-n-slate-6 rounded overflow-hidden hover:border-n-blue-8 dark:hover:border-n-blue-9 transition-colors"
+              @click="useSavedImage(savedImage)"
+            >
+              <img
+                :src="savedImage.image_url"
+                :alt="savedImage.description"
+                class="w-full h-16 object-cover"
+              />
+              <div
+                class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity flex items-center justify-center"
+              >
+                <span
+                  class="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  Click to use
+                </span>
+              </div>
+              <div
+                class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white text-xs px-1 py-0.5 truncate"
+              >
+                {{ savedImage.original_name || savedImage.identifier }}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div
           v-if="listPickerData.images.length === 0"
           class="text-sm text-n-slate-11 dark:text-n-slate-10 italic"
@@ -880,104 +1106,153 @@ const updateAppData = (key, value) => {
         </div>
       </div>
 
-      <!-- Section Title -->
-      <div
-        class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6"
-      >
-        <h4
-          class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3"
-        >
-          Section Title
-        </h4>
-        <div class="space-y-3">
-          <div
-            v-for="(section, sectionIndex) in listPickerData.sections"
-            :key="sectionIndex"
+      <!-- Sections and Options - Grouped Together -->
+      <div class="space-y-4">
+        <div class="flex justify-between items-center mb-4 p-4 rounded-lg border-2 !border-green-600 !bg-green-50 dark:!bg-green-900/20">
+          <h4 class="text-lg font-bold !text-green-900 dark:!text-green-100">
+            Sections & Options
+          </h4>
+          <button
+            class="px-6 py-3 !bg-green-600 hover:!bg-green-700 !text-white rounded-lg transition-all font-bold shadow-lg hover:shadow-xl text-base"
+            @click="addSection"
           >
-            <label
-              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
-              >Section {{ sectionIndex + 1 }} Title</label>
-            <input
-              v-model="section.title"
-              class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
-              placeholder="Enter section title"
-            />
-          </div>
+            ➕ Add Section
+          </button>
         </div>
-      </div>
 
-      <!-- Options/List Items -->
-      <div
-        class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6"
-      >
-        <h4
-          class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3"
-        >
-          Options
-        </h4>
+        <!-- Each Section with its Options -->
         <div
           v-for="(section, sectionIndex) in listPickerData.sections"
           :key="sectionIndex"
-          class="space-y-3"
+          class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6"
         >
-          <div class="space-y-2">
+          <!-- Section Header -->
+          <div class="flex items-start gap-3 mb-4">
+            <div class="flex-1">
+              <label
+                class="block text-xs font-semibold text-n-slate-11 dark:text-n-slate-10 uppercase mb-2"
+              >
+                Section {{ sectionIndex + 1 }} Title
+              </label>
+              <input
+                v-model="section.title"
+                class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+                placeholder="Enter section title (e.g., iPhone, Accessories)"
+              />
+            </div>
+            <button
+              v-if="listPickerData.sections.length > 1"
+              class="px-4 py-2 bg-n-ruby-9 dark:bg-n-ruby-10 text-white rounded-lg hover:bg-n-ruby-10 dark:hover:bg-n-ruby-11 transition-colors mt-6"
+              @click="removeSection(sectionIndex)"
+            >
+              Remove Section
+            </button>
+          </div>
+
+          <!-- Multiple Selection Checkbox -->
+          <div class="mb-4 flex items-center gap-2">
+            <input
+              :id="`multipleSelection-${sectionIndex}`"
+              v-model="section.multipleSelection"
+              type="checkbox"
+              class="w-4 h-4 text-n-blue-9 bg-n-solid-1 border-n-weak rounded focus:ring-n-blue-8 dark:focus:ring-n-blue-9 dark:ring-offset-n-alpha-1 focus:ring-2 dark:bg-n-alpha-2 dark:border-n-alpha-6"
+            />
+            <label
+              :for="`multipleSelection-${sectionIndex}`"
+              class="text-sm text-n-slate-12 dark:text-n-slate-11 cursor-pointer"
+            >
+              Allow multiple selections in this section
+            </label>
+          </div>
+
+          <!-- Section Options -->
+          <div class="space-y-3">
             <div
               v-for="(item, itemIndex) in section.items"
               :key="itemIndex"
-              class="grid grid-cols-4 gap-2"
+              class="grid grid-cols-[1fr_1fr_auto] gap-2"
             >
-              <div class="flex flex-col">
-                <input
-                  v-model="item.title"
-                  class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
-                  style="height: 40px"
-                  placeholder="Option title"
+              <input
+                v-model="item.title"
+                class="px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+                placeholder="Option title"
+              />
+              <input
+                v-model="item.subtitle"
+                class="px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+                placeholder="Description"
+              />
+              <button
+                class="px-4 py-2 bg-n-ruby-9 dark:bg-n-ruby-10 text-white rounded-lg hover:bg-n-ruby-10 dark:hover:bg-n-ruby-11 transition-colors"
+                @click="removeListItem(sectionIndex, itemIndex)"
+              >
+                Remove
+              </button>
+            </div>
+
+            <!-- Image Selection Row -->
+            <div
+              v-for="(item, itemIndex) in section.items"
+              :key="`img-${itemIndex}`"
+              class="flex items-center gap-2 p-2 bg-n-solid-1 dark:bg-n-alpha-2 rounded-lg border border-n-weak dark:border-n-alpha-6"
+            >
+              <label class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11 min-w-[120px]">
+                Image for "{{ item.title }}"
+              </label>
+
+              <!-- Current image preview -->
+              <div
+                v-if="item.image_identifier && getImageByIdentifier(item.image_identifier)"
+                class="flex items-center gap-2 flex-1"
+              >
+                <img
+                  :src="getImageByIdentifier(item.image_identifier).preview || getImageByIdentifier(item.image_identifier).image_url"
+                  class="w-12 h-12 object-cover rounded border border-n-weak dark:border-n-alpha-6"
+                  :alt="item.title"
                 />
-              </div>
-              <div class="flex flex-col">
-                <input
-                  v-model="item.subtitle"
-                  class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
-                  style="height: 40px"
-                  placeholder="Description"
-                />
-              </div>
-              <div class="flex flex-col">
-                <select
-                  v-model="item.image_identifier"
-                  class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
-                  style="height: 40px"
-                >
-                  <option value="">No image</option>
-                  <option
-                    v-for="image in listPickerData.images"
-                    :key="image.identifier"
-                    :value="image.identifier"
-                  >
-                    {{ image.originalName || image.description }} ({{
-                      image.identifier
-                    }})
-                  </option>
-                </select>
-              </div>
-              <div class="flex flex-col">
+                <div class="flex-1 text-sm text-n-slate-11 dark:text-n-slate-10">
+                  {{ getImageByIdentifier(item.image_identifier).originalName || getImageByIdentifier(item.image_identifier).description }}
+                </div>
                 <button
-                  class="w-full px-3 py-2 bg-n-ruby-9 dark:bg-n-ruby-10 text-white dark:text-n-slate-12 rounded-lg hover:bg-n-ruby-10 dark:hover:bg-n-ruby-11 transition-colors"
-                  style="height: 40px"
-                  @click="removeListItem(sectionIndex, itemIndex)"
+                  class="px-3 py-1 text-sm bg-n-slate-3 dark:bg-n-alpha-3 text-n-slate-11 dark:text-n-slate-10 rounded hover:bg-n-slate-4 dark:hover:bg-n-alpha-4"
+                  @click="item.image_identifier = ''"
                 >
-                  Remove
+                  Clear
                 </button>
               </div>
-            </div>
-          </div>
 
-          <button
-            class="px-3 py-2 bg-n-green-9 dark:bg-n-green-10 text-white dark:text-n-slate-12 rounded-lg hover:bg-n-green-10 dark:hover:bg-n-green-11 transition-colors"
-            @click="addListItem(sectionIndex)"
-          >
-            Add Item
-          </button>
+              <!-- No image selected -->
+              <div v-else class="flex-1 text-sm text-n-slate-10 dark:text-n-slate-9 italic">
+                No image selected
+              </div>
+
+              <!-- Select image button -->
+              <button
+                v-if="listPickerData.images.length > 0 || savedImages.length > 0"
+                class="px-3 py-1 text-sm bg-n-blue-9 dark:bg-n-blue-10 text-white rounded hover:bg-n-blue-10 dark:hover:bg-n-blue-11"
+                @click="openImagePicker(sectionIndex, itemIndex)"
+              >
+                {{ item.image_identifier ? 'Change' : 'Select' }}
+              </button>
+              <div v-else class="text-xs text-n-slate-10 dark:text-n-slate-9 italic">
+                Upload images first
+              </div>
+            </div>
+
+            <div
+              v-if="section.items.length === 0"
+              class="text-sm text-n-slate-10 dark:text-n-slate-9 italic py-3 text-center"
+            >
+              No options yet. Click "Add Option" to create items.
+            </div>
+
+            <button
+              class="w-full px-4 py-2 bg-n-blue-9 dark:bg-n-blue-10 text-white rounded-lg hover:bg-n-blue-10 dark:hover:bg-n-blue-11 transition-colors font-medium"
+              @click="addListItem(sectionIndex)"
+            >
+              + Add Option
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1394,6 +1669,7 @@ const updateAppData = (key, value) => {
     <EnhancedTimePickerModal
       :show="showEnhancedTimePicker"
       :initial-data="timePickerData"
+      :available-images="[...listPickerData.images, ...savedImages]"
       :business-hours="{
         monday: { start: '09:00', end: '17:00', enabled: true },
         tuesday: { start: '09:00', end: '17:00', enabled: true },
@@ -1420,6 +1696,76 @@ const updateAppData = (key, value) => {
       @close="closeFormBuilder"
       @create="handleFormCreated"
     />
+
+    <!-- Image Picker Modal -->
+    <div
+      v-if="showImagePicker"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      @click.self="closeImagePicker"
+    >
+      <div class="bg-white dark:bg-n-slate-1 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto m-4">
+        <div class="sticky top-0 bg-white dark:bg-n-slate-1 border-b border-n-weak dark:border-n-alpha-6 p-4 flex justify-between items-center">
+          <h3 class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11">Select Image</h3>
+          <button
+            class="text-n-slate-11 dark:text-n-slate-10 hover:text-n-slate-12 dark:hover:text-n-slate-9"
+            @click="closeImagePicker"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="p-4">
+          <!-- Recently uploaded images -->
+          <div v-if="listPickerData.images.length > 0" class="mb-6">
+            <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3">Recently Uploaded</h4>
+            <div class="grid grid-cols-3 gap-3">
+              <div
+                v-for="image in listPickerData.images"
+                :key="image.identifier"
+                class="relative cursor-pointer border-2 border-transparent hover:border-n-blue-8 dark:hover:border-n-blue-9 rounded-lg overflow-hidden transition-all"
+                @click="selectImageForItem(image)"
+              >
+                <img
+                  :src="image.preview"
+                  :alt="image.description"
+                  class="w-full h-32 object-cover"
+                />
+                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 truncate">
+                  {{ image.originalName || image.description }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Saved images -->
+          <div v-if="savedImages.length > 0">
+            <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3">Saved Images</h4>
+            <div class="grid grid-cols-3 gap-3">
+              <div
+                v-for="image in savedImages"
+                :key="image.id"
+                class="relative cursor-pointer border-2 border-transparent hover:border-n-blue-8 dark:hover:border-n-blue-9 rounded-lg overflow-hidden transition-all"
+                @click="selectImageForItem(image)"
+              >
+                <img
+                  :src="image.image_url"
+                  :alt="image.description"
+                  class="w-full h-32 object-cover"
+                />
+                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 truncate">
+                  {{ image.original_name || image.description }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- No images -->
+          <div v-if="listPickerData.images.length === 0 && savedImages.length === 0" class="text-center py-8 text-n-slate-10 dark:text-n-slate-9">
+            <p>No images available. Upload images using the "Add Image" button above.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

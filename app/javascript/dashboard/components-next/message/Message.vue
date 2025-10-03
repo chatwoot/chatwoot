@@ -42,6 +42,7 @@ import AppleTimePickerBubble from './bubbles/AppleTimePicker.vue';
 import AppleQuickReplyBubble from './bubbles/AppleQuickReply.vue';
 import AppleRichLinkBubble from './bubbles/AppleRichLink.vue';
 import AppleFormResponseBubble from './bubbles/AppleFormResponse.vue';
+import TapbackReactionBubble from './bubbles/TapbackReaction.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -314,6 +315,11 @@ const componentToRender = computed(() => {
   }
   if (props.contentType === CONTENT_TYPES.APPLE_FORM_RESPONSE) {
     return AppleFormResponseBubble;
+  }
+
+  // Check for tapback reactions (Apple Messages)
+  if (props.contentAttributes?.is_tapback_reaction) {
+    return TapbackReactionBubble;
   }
 
   if (props.contentAttributes?.isUnsupported) {
