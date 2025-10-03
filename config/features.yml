@@ -223,6 +223,6 @@
 - name: quoted_email_reply
   display_name: Quoted Email Reply
   enabled: false
-- name: captain_custom_tool
-  display_name: Captain Custom Tool
+- name: captain_custom_tools
+  display_name: Captain Custom Tools
   enabled: false
