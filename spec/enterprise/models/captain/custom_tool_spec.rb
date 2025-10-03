@@ -268,7 +268,7 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
 
     describe '#to_tool_metadata' do
-      it 'returns tool metadata hash' do
+      it 'returns tool metadata hash with custom flag' do
         tool = create(:captain_custom_tool, account: account,
                                             slug: 'custom_test-tool',
                                             title: 'Test Tool',
@@ -278,7 +278,8 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(metadata).to eq({
                                  id: 'custom_test-tool',
                                  title: 'Test Tool',
-                                 description: 'A test tool'
+                                 description: 'A test tool',
+                                 custom: true
                                })
       end
     end

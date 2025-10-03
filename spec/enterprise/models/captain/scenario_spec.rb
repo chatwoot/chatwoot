@@ -48,9 +48,9 @@ RSpec.describe Captain::Scenario, type: :model do
 
     before do
       # Mock available tools
-      allow(described_class).to receive(:available_tool_ids).and_return(%w[
-                                                                          add_contact_note add_private_note update_priority
-                                                                        ])
+      allow(described_class).to receive(:built_in_tool_ids).and_return(%w[
+                                                                         add_contact_note add_private_note update_priority
+                                                                       ])
     end
 
     describe 'validate_instruction_tools' do
@@ -194,11 +194,11 @@ RSpec.describe Captain::Scenario, type: :model do
     let(:assistant) { create(:captain_assistant, account: account) }
 
     before do
-      allow(described_class).to receive(:available_tool_ids).and_return(%w[add_contact_note])
-      allow(described_class).to receive(:available_agent_tools).and_return([
-                                                                             { id: 'add_contact_note', title: 'Add Contact Note',
-                                                                               description: 'Add a note' }
-                                                                           ])
+      allow(described_class).to receive(:built_in_tool_ids).and_return(%w[add_contact_note])
+      allow(described_class).to receive(:built_in_agent_tools).and_return([
+                                                                            { id: 'add_contact_note', title: 'Add Contact Note',
+                                                                              description: 'Add a note' }
+                                                                          ])
     end
 
     describe '#resolved_tools' do
@@ -248,7 +248,8 @@ RSpec.describe Captain::Scenario, type: :model do
         create(:captain_custom_tool, account: account, slug: 'custom_fetch-order')
         scenario = create(:captain_scenario, assistant: assistant, account: account)
 
-        tool_instance = scenario.send(:resolve_tool_instance, 'custom_fetch-order')
+        tool_metadata = { id: 'custom_fetch-order', custom: true }
+        tool_instance = scenario.send(:resolve_tool_instance, tool_metadata)
         expect(tool_instance).to be_a(Captain::Tools::HttpTool)
       end
 
@@ -256,7 +257,8 @@ RSpec.describe Captain::Scenario, type: :model do
         create(:captain_custom_tool, account: account, slug: 'custom_fetch-order', enabled: false)
         scenario = create(:captain_scenario, assistant: assistant, account: account)
 
-        tool_instance = scenario.send(:resolve_tool_instance, 'custom_fetch-order')
+        tool_metadata = { id: 'custom_fetch-order', custom: true }
+        tool_instance = scenario.send(:resolve_tool_instance, tool_metadata)
         expect(tool_instance).to be_nil
       end
 
@@ -268,7 +270,8 @@ RSpec.describe Captain::Scenario, type: :model do
           end
         )
 
-        tool_instance = scenario.send(:resolve_tool_instance, 'add_contact_note')
+        tool_metadata = { id: 'add_contact_note' }
+        tool_instance = scenario.send(:resolve_tool_instance, tool_metadata)
         expect(tool_instance).not_to be_nil
         expect(tool_instance).not_to be_a(Captain::Tools::HttpTool)
       end
