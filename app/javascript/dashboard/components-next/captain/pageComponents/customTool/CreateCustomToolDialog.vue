@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -8,22 +8,49 @@ import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import CustomToolForm from './CustomToolForm.vue';
 
+const props = defineProps({
+  selectedTool: {
+    type: Object,
+    default: () => ({}),
+  },
+  type: {
+    type: String,
+    default: 'create',
+    validator: value => ['create', 'edit'].includes(value),
+  },
+});
+
 const emit = defineEmits(['close']);
 const { t } = useI18n();
 const store = useStore();
 
 const dialogRef = ref(null);
 
-const i18nKey = 'CAPTAIN.CUSTOM_TOOLS.CREATE';
+const updateTool = toolDetails =>
+  store.dispatch('captainCustomTools/update', {
+    id: props.selectedTool.id,
+    ...toolDetails,
+  });
 
-const handleSubmit = async newTool => {
+const i18nKey = computed(
+  () => `CAPTAIN.CUSTOM_TOOLS.${props.type.toUpperCase()}`
+);
+
+const createTool = toolDetails =>
+  store.dispatch('captainCustomTools/create', toolDetails);
+
+const handleSubmit = async updatedTool => {
   try {
-    await store.dispatch('captainCustomTools/create', newTool);
-    useAlert(t(`${i18nKey}.SUCCESS_MESSAGE`));
+    if (props.type === 'edit') {
+      await updateTool(updatedTool);
+    } else {
+      await createTool(updatedTool);
+    }
+    useAlert(t(`${i18nKey.value}.SUCCESS_MESSAGE`));
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =
-      parseAPIErrorResponse(error) || t(`${i18nKey}.ERROR_MESSAGE`);
+      parseAPIErrorResponse(error) || t(`${i18nKey.value}.ERROR_MESSAGE`);
     useAlert(errorMessage);
   }
 };
@@ -49,7 +76,12 @@ defineExpose({ dialogRef });
     :show-confirm-button="false"
     @close="handleClose"
   >
-    <CustomToolForm @submit="handleSubmit" @cancel="handleCancel" />
+    <CustomToolForm
+      :mode="type"
+      :tool="selectedTool"
+      @submit="handleSubmit"
+      @cancel="handleCancel"
+    />
     <template #footer />
   </Dialog>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -17,6 +17,8 @@ const isFetching = computed(() => uiFlags.value.fetchingList);
 const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
 
 const createDialogRef = ref(null);
+const selectedTool = ref(null);
+const dialogType = ref('');
 
 const fetchCustomTools = (page = 1) => {
   store.dispatch('captainCustomTools/get', { page });
@@ -25,13 +27,31 @@ const fetchCustomTools = (page = 1) => {
 const onPageChange = page => fetchCustomTools(page);
 
 const openCreateDialog = () => {
-  createDialogRef.value.dialogRef.open();
+  dialogType.value = 'create';
+  selectedTool.value = null;
+  nextTick(() => createDialogRef.value.dialogRef.open());
+};
+
+const handleEdit = tool => {
+  dialogType.value = 'edit';
+  selectedTool.value = tool;
+  nextTick(() => createDialogRef.value.dialogRef.open());
 };
 
 const handleAction = ({ action, id }) => {
-  // TODO: Implement edit and delete actions
-  // eslint-disable-next-line no-console
-  console.log('Action:', action, 'ID:', id);
+  const tool = customTools.value.find(t => t.id === id);
+  if (action === 'edit') {
+    handleEdit(tool);
+  } else if (action === 'delete') {
+    // TODO: Implement delete
+    // eslint-disable-next-line no-console
+    console.log('Delete:', id);
+  }
+};
+
+const handleDialogClose = () => {
+  dialogType.value = '';
+  selectedTool.value = null;
 };
 
 onMounted(() => {
@@ -82,5 +102,11 @@ onMounted(() => {
     </template>
   </PageLayout>
 
-  <CreateCustomToolDialog ref="createDialogRef" />
+  <CreateCustomToolDialog
+    v-if="dialogType"
+    ref="createDialogRef"
+    :type="dialogType"
+    :selected-tool="selectedTool"
+    @close="handleDialogClose"
+  />
 </template>

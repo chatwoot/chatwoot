@@ -69,17 +69,17 @@ defineExpose({ validate });
       }"
     >
       <div class="flex flex-col flex-1 gap-3">
-        <div class="flex gap-2">
+        <div class="grid grid-cols-3 gap-2">
           <Input
             v-model="name"
             :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_NAME.PLACEHOLDER')"
-            class="flex-1 [&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
+            class="col-span-2"
           />
           <ComboBox
             v-model="type"
             :options="paramTypeOptions"
             :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_TYPE.PLACEHOLDER')"
-            class="w-36 [&>div>button]:h-8 [&>div>button]:py-1.5"
+            class="[&>div>button]:bg-n-alpha-black2"
           />
         </div>
         <Input
@@ -87,7 +87,6 @@ defineExpose({ validate });
           :placeholder="
             t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_DESCRIPTION.PLACEHOLDER')
           "
-          class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
         />
         <label class="flex items-center gap-2 cursor-pointer">
           <Checkbox v-model="required" />
@@ -97,11 +96,10 @@ defineExpose({ validate });
         </label>
       </div>
       <Button
-        sm
         solid
         slate
         icon="i-lucide-trash"
-        class="flex-shrink-0 mt-0.5"
+        class="flex-shrink-0"
         @click.stop="emit('remove')"
       />
     </div>

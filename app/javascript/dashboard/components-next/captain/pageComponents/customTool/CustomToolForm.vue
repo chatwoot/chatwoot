@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, useTemplateRef } from 'vue';
+import { reactive, computed, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, url } from '@vuelidate/validators';
@@ -11,6 +11,18 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ParamRow from './ParamRow.vue';
 import AuthConfig from './AuthConfig.vue';
+
+const props = defineProps({
+  mode: {
+    type: String,
+    default: 'create',
+    validator: value => ['create', 'edit'].includes(value),
+  },
+  tool: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -33,6 +45,25 @@ const initialState = {
 };
 
 const state = reactive({ ...initialState });
+
+// Populate form when in edit mode
+watch(
+  () => props.tool,
+  newTool => {
+    if (props.mode === 'edit' && newTool && newTool.id) {
+      state.title = newTool.title || '';
+      state.description = newTool.description || '';
+      state.endpoint_url = newTool.endpoint_url || '';
+      state.http_method = newTool.http_method || 'GET';
+      state.request_template = newTool.request_template || '';
+      state.response_template = newTool.response_template || '';
+      state.auth_type = newTool.auth_type || 'none';
+      state.auth_config = newTool.auth_config || {};
+      state.param_schema = newTool.param_schema || [];
+    }
+  },
+  { immediate: true }
+);
 
 const DEFAULT_PARAM = {
   name: '',
@@ -65,7 +96,11 @@ const authTypeOptions = computed(() => [
 
 const v$ = useVuelidate(validationRules, state);
 
-const isLoading = computed(() => formState.uiFlags.value.creatingItem);
+const isLoading = computed(() =>
+  props.mode === 'edit'
+    ? formState.uiFlags.value.updatingItem
+    : formState.uiFlags.value.creatingItem
+);
 
 const getErrorMessage = (field, errorKey) => {
   return v$.value[field].$error
@@ -221,7 +256,9 @@ const handleSubmit = async () => {
       />
       <Button
         type="submit"
-        :label="t('CAPTAIN.FORM.CREATE')"
+        :label="
+          t(mode === 'edit' ? 'CAPTAIN.FORM.EDIT' : 'CAPTAIN.FORM.CREATE')
+        "
         class="w-full"
         :is-loading="isLoading"
         :disabled="isLoading"
