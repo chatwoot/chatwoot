@@ -24,6 +24,13 @@
     "buildCommand": "mkdir -p log && bundle install --without development test && pnpm install --frozen-lockfile --prod --ignore-scripts && bundle exec rails assets:precompile RAILS_ENV=production"
   },
   "deploy": {
-    "startCommand": "bundle exec rails db:prepare && bundle exec rails server -p $PORT -e production"
+    "services": {
+      "web": {
+        "startCommand": "bundle exec rails db:prepare && bundle exec rails server -p $PORT -e production"
+      },
+      "worker": {
+        "startCommand": "bundle exec sidekiq -C config/sidekiq.yml"
+      }
+    }
   }
 }
