@@ -1,11 +1,12 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/CustomToolsPageEmptyState.vue';
+import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
 
 const store = useStore();
 
@@ -14,11 +15,17 @@ const customTools = useMapGetter('captainCustomTools/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
 
+const createDialogRef = ref(null);
+
 const fetchCustomTools = (page = 1) => {
   store.dispatch('captainCustomTools/get', { page });
 };
 
 const onPageChange = page => fetchCustomTools(page);
+
+const openCreateDialog = () => {
+  createDialogRef.value.dialogRef.open();
+};
 
 onMounted(() => {
   fetchCustomTools();
@@ -37,13 +44,14 @@ onMounted(() => {
     :is-empty="!customTools.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
     @update:current-page="onPageChange"
+    @button-click="openCreateDialog"
   >
     <template #paywall>
       <CaptainPaywall />
     </template>
 
     <template #emptyState>
-      <CustomToolsPageEmptyState />
+      <CustomToolsPageEmptyState @click="openCreateDialog" />
     </template>
 
     <template #body>
@@ -76,4 +84,6 @@ onMounted(() => {
       </div>
     </template>
   </PageLayout>
+
+  <CreateCustomToolDialog ref="createDialogRef" />
 </template>
