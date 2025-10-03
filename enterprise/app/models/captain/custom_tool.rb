@@ -23,6 +23,8 @@
 #  index_captain_custom_tools_on_account_id_and_slug  (account_id,slug) UNIQUE
 #
 class Captain::CustomTool < ApplicationRecord
+  include Concerns::Toolable
+
   self.table_name = 'captain_custom_tools'
 
   belongs_to :account
@@ -37,6 +39,14 @@ class Captain::CustomTool < ApplicationRecord
   validates :endpoint_url, presence: true
 
   scope :enabled, -> { where(enabled: true) }
+
+  def to_tool_metadata
+    {
+      id: slug,
+      title: title,
+      description: description
+    }
+  end
 
   private
 

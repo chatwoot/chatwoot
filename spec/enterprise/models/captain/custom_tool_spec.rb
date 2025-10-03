@@ -143,4 +143,144 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(tool.auth_config['location']).to eq('header')
     end
   end
+
+  describe 'Toolable concern' do
+    let(:account) { create(:account) }
+
+    describe '#build_request_url' do
+      it 'returns static URL when no template variables present' do
+        tool = create(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/orders')
+
+        expect(tool.build_request_url({})).to eq('https://api.example.com/orders')
+      end
+
+      it 'renders URL template with params' do
+        tool = create(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/orders/{{ order_id }}')
+
+        expect(tool.build_request_url({ order_id: '12345' })).to eq('https://api.example.com/orders/12345')
+      end
+
+      it 'handles multiple template variables' do
+        tool = create(:captain_custom_tool, account: account,
+                                            endpoint_url: 'https://api.example.com/{{ resource }}/{{ id }}?details={{ show_details }}')
+
+        result = tool.build_request_url({ resource: 'orders', id: '123', show_details: 'true' })
+        expect(result).to eq('https://api.example.com/orders/123?details=true')
+      end
+    end
+
+    describe '#build_request_body' do
+      it 'returns nil when request_template is blank' do
+        tool = create(:captain_custom_tool, account: account, request_template: nil)
+
+        expect(tool.build_request_body({})).to be_nil
+      end
+
+      it 'renders request body template with params' do
+        tool = create(:captain_custom_tool, account: account,
+                                            request_template: '{ "order_id": "{{ order_id }}", "source": "chatwoot" }')
+
+        result = tool.build_request_body({ order_id: '12345' })
+        expect(result).to eq('{ "order_id": "12345", "source": "chatwoot" }')
+      end
+    end
+
+    describe '#build_auth_headers' do
+      it 'returns empty hash for none auth type' do
+        tool = create(:captain_custom_tool, account: account, auth_type: 'none')
+
+        expect(tool.build_auth_headers).to eq({})
+      end
+
+      it 'returns bearer token header' do
+        tool = create(:captain_custom_tool, :with_bearer_auth, account: account)
+
+        expect(tool.build_auth_headers).to eq({ 'Authorization' => 'Bearer test_bearer_token_123' })
+      end
+
+      it 'returns API key header when location is header' do
+        tool = create(:captain_custom_tool, :with_api_key, account: account)
+
+        expect(tool.build_auth_headers).to eq({ 'X-API-Key' => 'test_api_key' })
+      end
+
+      it 'returns empty hash for API key when location is not header' do
+        tool = create(:captain_custom_tool, account: account, auth_type: 'api_key',
+                                            auth_config: { key: 'test_key', location: 'query', name: 'api_key' })
+
+        expect(tool.build_auth_headers).to eq({})
+      end
+
+      it 'returns empty hash for basic auth' do
+        tool = create(:captain_custom_tool, :with_basic_auth, account: account)
+
+        expect(tool.build_auth_headers).to eq({})
+      end
+    end
+
+    describe '#build_basic_auth_credentials' do
+      it 'returns nil for non-basic auth types' do
+        tool = create(:captain_custom_tool, account: account, auth_type: 'none')
+
+        expect(tool.build_basic_auth_credentials).to be_nil
+      end
+
+      it 'returns username and password array for basic auth' do
+        tool = create(:captain_custom_tool, :with_basic_auth, account: account)
+
+        expect(tool.build_basic_auth_credentials).to eq(%w[test_user test_pass])
+      end
+    end
+
+    describe '#format_response' do
+      it 'returns raw response when no response_template' do
+        tool = create(:captain_custom_tool, account: account, response_template: nil)
+
+        expect(tool.format_response('raw response')).to eq('raw response')
+      end
+
+      it 'renders response template with JSON response' do
+        tool = create(:captain_custom_tool, account: account,
+                                            response_template: 'Order status: {{ response.status }}')
+        raw_response = '{"status": "shipped", "tracking": "123ABC"}'
+
+        result = tool.format_response(raw_response)
+        expect(result).to eq('Order status: shipped')
+      end
+
+      it 'handles response template with multiple fields' do
+        tool = create(:captain_custom_tool, account: account,
+                                            response_template: 'Order {{ response.id }} is {{ response.status }}. Tracking: {{ response.tracking }}')
+        raw_response = '{"id": "12345", "status": "delivered", "tracking": "ABC123"}'
+
+        result = tool.format_response(raw_response)
+        expect(result).to eq('Order 12345 is delivered. Tracking: ABC123')
+      end
+
+      it 'handles non-JSON response' do
+        tool = create(:captain_custom_tool, account: account,
+                                            response_template: 'Response: {{ response }}')
+        raw_response = 'plain text response'
+
+        result = tool.format_response(raw_response)
+        expect(result).to eq('Response: plain text response')
+      end
+    end
+
+    describe '#to_tool_metadata' do
+      it 'returns tool metadata hash' do
+        tool = create(:captain_custom_tool, account: account,
+                                            slug: 'custom_test-tool',
+                                            title: 'Test Tool',
+                                            description: 'A test tool')
+
+        metadata = tool.to_tool_metadata
+        expect(metadata).to eq({
+                                 id: 'custom_test-tool',
+                                 title: 'Test Tool',
+                                 description: 'A test tool'
+                               })
+      end
+    end
+  end
 end
