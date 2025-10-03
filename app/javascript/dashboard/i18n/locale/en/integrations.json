@@ -762,6 +762,10 @@
         }
       },
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "OPTIONS": {
+        "EDIT_TOOL": "Edit tool",
+        "DELETE_TOOL": "Delete tool"
+      },
       "CREATE": {
         "TITLE": "Create Custom Tool",
         "SUCCESS_MESSAGE": "Custom tool created successfully",

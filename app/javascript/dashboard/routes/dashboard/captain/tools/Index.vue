@@ -7,6 +7,7 @@ import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/CustomToolsPageEmptyState.vue';
 import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
+import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
 
 const store = useStore();
 
@@ -25,6 +26,12 @@ const onPageChange = page => fetchCustomTools(page);
 
 const openCreateDialog = () => {
   createDialogRef.value.dialogRef.open();
+};
+
+const handleAction = ({ action, id }) => {
+  // TODO: Implement edit and delete actions
+  // eslint-disable-next-line no-console
+  console.log('Action:', action, 'ID:', id);
 };
 
 onMounted(() => {
@@ -56,31 +63,21 @@ onMounted(() => {
 
     <template #body>
       <div class="flex flex-col gap-4">
-        <div
+        <CustomToolCard
           v-for="tool in customTools"
+          :id="tool.id"
           :key="tool.id"
-          class="border border-slate-100 dark:border-slate-800 rounded-lg p-4"
-        >
-          <h3 class="text-base font-medium text-slate-900 dark:text-slate-100">
-            {{ tool.title }}
-          </h3>
-          <p
-            v-if="tool.description"
-            class="text-sm text-slate-600 dark:text-slate-400 mt-1"
-          >
-            {{ tool.description }}
-          </p>
-          <div class="flex items-center gap-2 mt-2">
-            <span
-              class="text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-            >
-              {{ tool.http_method }}
-            </span>
-            <span class="text-xs text-slate-500 dark:text-slate-400 truncate">
-              {{ tool.endpoint_url }}
-            </span>
-          </div>
-        </div>
+          :title="tool.title"
+          :description="tool.description"
+          :endpoint-url="tool.endpoint_url"
+          :http-method="tool.http_method"
+          :auth-type="tool.auth_type"
+          :param-schema="tool.param_schema"
+          :enabled="tool.enabled"
+          :created-at="tool.created_at"
+          :updated-at="tool.updated_at"
+          @action="handleAction"
+        />
       </div>
     </template>
   </PageLayout>
