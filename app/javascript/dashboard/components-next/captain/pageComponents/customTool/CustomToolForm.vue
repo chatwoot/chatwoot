@@ -132,7 +132,7 @@ const handleSubmit = async () => {
         <ComboBox
           v-model="state.http_method"
           :options="httpMethodOptions"
-          class="[&>div>button]:bg-n-alpha-black2"
+          class="[&>div>button]:bg-n-alpha-black2 [&_li]:font-mono [&_button]:font-mono [&>div>button]:outline-offset-[-1px]"
         />
       </div>
       <Input
@@ -192,10 +192,12 @@ const handleSubmit = async () => {
     </div>
 
     <Textarea
+      v-if="state.http_method === 'POST'"
       v-model="state.request_template"
       :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
       :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.PLACEHOLDER')"
       :rows="4"
+      class="[&_textarea]:font-mono"
     />
 
     <Textarea
@@ -205,6 +207,7 @@ const handleSubmit = async () => {
         t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.PLACEHOLDER')
       "
       :rows="4"
+      class="[&_textarea]:font-mono"
     />
 
     <div class="flex gap-3 justify-between items-center w-full">
