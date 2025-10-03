@@ -50,6 +50,21 @@ class Captain::Assistant < ApplicationRecord
     name
   end
 
+  def available_agent_tools
+    tools = self.class.built_in_agent_tools.dup
+
+    if account.feature_enabled?(:captain_custom_tools)
+      custom_tools = Captain::CustomTool.where(account_id: account_id, enabled: true).map(&:to_tool_metadata)
+      tools.concat(custom_tools)
+    end
+
+    tools
+  end
+
+  def available_tool_ids
+    available_agent_tools.pluck(:id)
+  end
+
   def push_event_data
     {
       id: id,
