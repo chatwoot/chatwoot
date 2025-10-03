@@ -51,7 +51,7 @@ onMounted(() => {
     :is-empty="!customTools.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
     @update:current-page="onPageChange"
-    @button-click="openCreateDialog"
+    @click="openCreateDialog"
   >
     <template #paywall>
       <CaptainPaywall />
