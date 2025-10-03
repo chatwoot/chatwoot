@@ -17,7 +17,7 @@
 # O agrégala a tu ~/.bashrc para que sea permanente:
 #   echo 'export CHATWOOT_HOST_IP=tu_ip_aqui' >> ~/.bashrc
 
-CHATWOOT_REPO="https://github.com/chatwoot/chatwoot.git"
+CHATWOOT_REPO="https://github.com/sau64inc/chatwoot.git"
 CHATWOOT_VERSION="v4.6.0"
 DOCKER_COMPOSE_SRC="docker-compose.yaml"
 DOCKER_COMPOSE_DST="docker-compose-managernow.yaml"
@@ -150,6 +150,14 @@ function setup_env_file() {
     fi
 }
 
+sedi() {
+  if sed --version >/dev/null 2>&1; then
+    sed -E -i -e "$1" "${@:2}"          # GNU
+  else
+    sed -E -i '' -e "$1" "${@:2}"       # macOS/BSD
+  fi
+}
+
 function set_env_variable() {
     local file="$1"
     local variable="$2"
@@ -163,7 +171,7 @@ function set_env_variable() {
     if ! grep -q "^$variable=" "$file" || grep -q "^$variable=$" "$file" || grep -q "^$variable=\s*$" "$file"; then
         echo "Configurando $variable..."
         if grep -q "^$variable" "$file"; then
-            sed -i "s/^$variable=.*/$variable=$value/" "$file"
+            sedi "s/^$variable=.*/$variable=$value/" "$file"
         else
             echo "$variable=$value" >> "$file"
         fi
@@ -201,7 +209,7 @@ function configure_docker_compose_postgres() {
 
     print_status "Configurando contraseña de PostgreSQL"
 
-    sed -i "s/POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=$POSTGRES_PASSWORD/" "$DOCKER_COMPOSE_DST"
+    sedi "s/POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=$POSTGRES_PASSWORD/" "$DOCKER_COMPOSE_DST"
     print_status_ok
 }
 
@@ -210,12 +218,12 @@ function configure_docker_compose_ports() {
 
     print_status "Configurando puertos con variable de host IP"
 
-    sed -i "s/- [\"']\?\(3000:3000\)[\"']\?/- \"\${CHATWOOT_HOST_IP:-0.0.0.0}:\1\"/" "$DOCKER_COMPOSE_DST"
-    sed -i "s/- [\"']\?\(1025:1025\)[\"']\?/- \"\${CHATWOOT_HOST_IP:-0.0.0.0}:\1\"/" "$DOCKER_COMPOSE_DST"
-    sed -i "s/- [\"']\?\(3036:3036\)[\"']\?/- \"\${CHATWOOT_HOST_IP:-0.0.0.0}:\1\"/" "$DOCKER_COMPOSE_DST"
-    sed -i "s/- [\"']\?\(5432:5432\)[\"']\?/- \"\${CHATWOOT_HOST_IP:-0.0.0.0}:\1\"/" "$DOCKER_COMPOSE_DST"
-    sed -i "s/- [\"']\?\(6379:6379\)[\"']\?/- \"\${CHATWOOT_HOST_IP:-0.0.0.0}:\1\"/" "$DOCKER_COMPOSE_DST"
-    sed -i "s/- [\"']\?\(8025:8025\)[\"']\?/- \"\${CHATWOOT_HOST_IP:-0.0.0.0}:\1\"/" "$DOCKER_COMPOSE_DST"
+	sedi 's/^([[:space:]]*-[[:space:]]*)["'\'']?(3000:3000)["'\'']?[[:space:]]*$/\1"${CHATWOOT_HOST_IP:-127.0.0.1}:\2"/' "$DOCKER_COMPOSE_DST"
+	sedi 's/^([[:space:]]*-[[:space:]]*)["'\'']?(1025:1025)["'\'']?[[:space:]]*$/\1"${CHATWOOT_HOST_IP:-127.0.0.1}:\2"/' "$DOCKER_COMPOSE_DST"
+	sedi 's/^([[:space:]]*-[[:space:]]*)["'\'']?(3036:3036)["'\'']?[[:space:]]*$/\1"${CHATWOOT_HOST_IP:-127.0.0.1}:\2"/' "$DOCKER_COMPOSE_DST"
+	sedi 's/^([[:space:]]*-[[:space:]]*)["'\'']?(5432:5432)["'\'']?[[:space:]]*$/\1"${CHATWOOT_HOST_IP:-127.0.0.1}:\2"/' "$DOCKER_COMPOSE_DST"
+	sedi 's/^([[:space:]]*-[[:space:]]*)["'\'']?(6379:6379)["'\'']?[[:space:]]*$/\1"${CHATWOOT_HOST_IP:-127.0.0.1}:\2"/' "$DOCKER_COMPOSE_DST"
+	sedi 's/^([[:space:]]*-[[:space:]]*)["'\'']?(8025:8025)["'\'']?[[:space:]]*$/\1"${CHATWOOT_HOST_IP:-127.0.0.1}:\2"/' "$DOCKER_COMPOSE_DST"
 
     print_status_ok
 }
@@ -226,10 +234,10 @@ function configure_docker_compose_pv() {
     print_status "Configurando aplicaciones para usar volúmenes persistentes"
 
     # Corregir ruta de montaje de PostgreSQL
-    sed -i 's|postgres:/data/postgres|postgres:/var/lib/postgresql/data|' "$DOCKER_COMPOSE_DST"
+    sedi 's|postgres:/data/postgres|postgres:/var/lib/postgresql/data|' "$DOCKER_COMPOSE_DST"
 
     # Corregir ruta de montaje de Redis
-    sed -i 's|redis:/data/redis|redis:/data|' "$DOCKER_COMPOSE_DST"
+    sedi 's|redis:/data/redis|redis:/data|' "$DOCKER_COMPOSE_DST"
 
     print_status_ok
 }
@@ -337,7 +345,8 @@ function build() {
     fi
 
     print_status "Creando imagen base de Docker..."
-    docker compose -f "$DOCKER_COMPOSE_DST" build base >/dev/null 2>&1
+#     docker compose -f "$DOCKER_COMPOSE_DST" build base >/dev/null 2>&1
+	docker compose -f "$DOCKER_COMPOSE_DST" build base
 
     if [ $? -eq 0 ]; then
         print_status_ok
@@ -475,7 +484,7 @@ function init_database() {
     fi
 
     print_status "Ejecutando scripts de migracion e inicializacion..."
-    docker compose -f "$DOCKER_COMPOSE_DST" run --rm rails bundle exec rails db:chatwoot_prepare >/dev/null 2>&1
+    docker compose -f "$DOCKER_COMPOSE_DST" run --rm rails bundle exec rails db:chatwoot_prepare #>/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
         print_status_ok
