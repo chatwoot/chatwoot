@@ -57,7 +57,7 @@ class Captain::Scenario < ApplicationRecord
   end
 
   def agent_tools
-    resolved_tools.map { |tool| self.class.resolve_tool_class(tool[:id]) }.map { |tool| tool.new(assistant) }
+    resolved_tools.map { |tool| resolve_tool_instance(tool[:id]) }
   end
 
   def resolved_instructions
@@ -71,7 +71,22 @@ class Captain::Scenario < ApplicationRecord
 
     available_tools = self.class.available_agent_tools
     tools.filter_map do |tool_id|
-      available_tools.find { |tool| tool[:id] == tool_id }
+      if tool_id.start_with?('custom_')
+        custom_tool = Captain::CustomTool.find_by(slug: tool_id, account_id: account_id, enabled: true)
+        custom_tool&.to_tool_metadata
+      else
+        available_tools.find { |tool| tool[:id] == tool_id }
+      end
+    end
+  end
+
+  def resolve_tool_instance(tool_id)
+    if tool_id.start_with?('custom_')
+      custom_tool = Captain::CustomTool.find_by(slug: tool_id, account_id: account_id, enabled: true)
+      custom_tool&.tool(assistant)
+    else
+      tool_class = self.class.resolve_tool_class(tool_id)
+      tool_class&.new(assistant)
     end
   end
 
@@ -96,7 +111,10 @@ class Captain::Scenario < ApplicationRecord
     return if tool_ids.empty?
 
     available_tool_ids = self.class.available_tool_ids
-    invalid_tools = tool_ids - available_tool_ids
+    custom_tool_ids = Captain::CustomTool.where(account_id: account_id, enabled: true).pluck(:slug)
+    all_available_tool_ids = available_tool_ids + custom_tool_ids
+
+    invalid_tools = tool_ids - all_available_tool_ids
 
     return unless invalid_tools.any?
 
