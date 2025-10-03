@@ -3,7 +3,7 @@ import ApiClient from '../ApiClient';
 
 class CaptainTools extends ApiClient {
   constructor() {
-    super('captain/assistant/tools', { accountScoped: true });
+    super('captain/assistants/tools', { accountScoped: true });
   }
 
   get(params = {}) {
