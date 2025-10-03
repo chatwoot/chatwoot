@@ -24,12 +24,30 @@ class Captain::Tools::HttpTool < Agents::Tool
 
   private
 
+  PRIVATE_IP_RANGES = [
+    IPAddr.new('127.0.0.0/8'),    # IPv4 Loopback
+    IPAddr.new('10.0.0.0/8'),     # IPv4 Private network
+    IPAddr.new('172.16.0.0/12'),  # IPv4 Private network
+    IPAddr.new('192.168.0.0/16'), # IPv4 Private network
+    IPAddr.new('169.254.0.0/16'), # IPv4 Link-local
+    IPAddr.new('::1'),            # IPv6 Loopback
+    IPAddr.new('fc00::/7'),       # IPv6 Unique local addresses
+    IPAddr.new('fe80::/10')       # IPv6 Link-local
+  ].freeze
+
+  MAX_RESPONSE_SIZE = 2.megabytes
+
   def execute_http_request(url, body)
     uri = URI.parse(url)
+
+    # Check if resolved IP is private
+    check_private_ip!(uri.host)
+
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme == 'https'
     http.read_timeout = 30
     http.open_timeout = 10
+    http.max_retries = 0 # Disable redirects
 
     request = build_http_request(uri, body)
     apply_authentication(request)
@@ -38,7 +56,28 @@ class Captain::Tools::HttpTool < Agents::Tool
 
     raise "HTTP request failed with status #{response.code}" unless response.is_a?(Net::HTTPSuccess)
 
+    validate_response!(response)
+
     response
+  end
+
+  def check_private_ip!(hostname)
+    ip_address = IPAddr.new(Resolv.getaddress(hostname))
+
+    raise 'Request blocked: hostname resolves to private IP address' if PRIVATE_IP_RANGES.any? { |range| range.include?(ip_address) }
+  rescue Resolv::ResolvError, SocketError => e
+    raise "DNS resolution failed: #{e.message}"
+  end
+
+  def validate_response!(response)
+    content_length = response['content-length']&.to_i
+    if content_length && content_length > MAX_RESPONSE_SIZE
+      raise "Response size #{content_length} bytes exceeds maximum allowed #{MAX_RESPONSE_SIZE} bytes"
+    end
+
+    return unless response.body && response.body.bytesize > MAX_RESPONSE_SIZE
+
+    raise "Response body size #{response.body.bytesize} bytes exceeds maximum allowed #{MAX_RESPONSE_SIZE} bytes"
   end
 
   def build_http_request(uri, body)
