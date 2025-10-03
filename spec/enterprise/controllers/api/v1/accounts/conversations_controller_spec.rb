@@ -30,5 +30,33 @@ RSpec.describe 'Conversations API', type: :request do
       expect(response.parsed_body.keys).not_to include('applied_sla')
       expect(response.parsed_body.keys).not_to include('sla_events')
     end
+
+    context 'when agent has a custom role' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:conversation) { create(:conversation, account: account) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'returns not found for unassigned conversation without permission' do
+        custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+        account.account_users.find_by(user_id: agent.id).update!(custom_role: custom_role)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns the conversation when permission allows managing unassigned conversations' do
+        custom_role = create(:custom_role, account: account, permissions: ['conversation_unassigned_manage'])
+        account.account_users.find_by(user_id: agent.id).update!(custom_role: custom_role)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body['id']).to eq(conversation.display_id)
+      end
+    end
   end
 end
