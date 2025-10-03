@@ -776,6 +776,13 @@
         "SUCCESS_MESSAGE": "Custom tool updated successfully",
         "ERROR_MESSAGE": "Failed to update custom tool"
       },
+      "DELETE": {
+        "TITLE": "Delete Custom Tool",
+        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete custom tool"
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",

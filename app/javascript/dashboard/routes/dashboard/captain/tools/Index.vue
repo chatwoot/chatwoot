@@ -8,6 +8,7 @@ import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Pay
 import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/CustomToolsPageEmptyState.vue';
 import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
+import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 
 const store = useStore();
 
@@ -17,6 +18,7 @@ const isFetching = computed(() => uiFlags.value.fetchingList);
 const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
 
 const createDialogRef = ref(null);
+const deleteDialogRef = ref(null);
 const selectedTool = ref(null);
 const dialogType = ref('');
 
@@ -38,20 +40,35 @@ const handleEdit = tool => {
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
 
+const handleDelete = tool => {
+  selectedTool.value = tool;
+  nextTick(() => deleteDialogRef.value.dialogRef.open());
+};
+
 const handleAction = ({ action, id }) => {
   const tool = customTools.value.find(t => t.id === id);
   if (action === 'edit') {
     handleEdit(tool);
   } else if (action === 'delete') {
-    // TODO: Implement delete
-    // eslint-disable-next-line no-console
-    console.log('Delete:', id);
+    handleDelete(tool);
   }
 };
 
 const handleDialogClose = () => {
   dialogType.value = '';
   selectedTool.value = null;
+};
+
+const onDeleteSuccess = () => {
+  selectedTool.value = null;
+  // Check if page will be empty after deletion
+  if (customTools.value.length === 1 && customToolsMeta.value.page > 1) {
+    // Go to previous page if current page will be empty
+    onPageChange(customToolsMeta.value.page - 1);
+  } else {
+    // Refresh current page
+    fetchCustomTools(customToolsMeta.value.page);
+  }
 };
 
 onMounted(() => {
@@ -108,5 +125,14 @@ onMounted(() => {
     :type="dialogType"
     :selected-tool="selectedTool"
     @close="handleDialogClose"
+  />
+
+  <DeleteDialog
+    v-if="selectedTool"
+    ref="deleteDialogRef"
+    :entity="selectedTool"
+    type="Tools"
+    translation-key="CUSTOM_TOOLS"
+    @delete-success="onDeleteSuccess"
   />
 </template>
