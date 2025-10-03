@@ -185,7 +185,7 @@ export default {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
           {
-            key: 'whatsappHealth',
+            key: 'whatsapp-health',
             name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
           },
         ];
@@ -305,6 +305,7 @@ export default {
     $route(to) {
       if (to.name === 'settings_inbox_show') {
         this.fetchInboxSettings();
+        this.setInitialTabFromQuery();
       }
     },
     inbox: {
@@ -367,7 +368,6 @@ export default {
       this.refreshAvatarUrlOnTabChange(selectedTabIndex);
     },
     fetchInboxSettings() {
-      this.selectedTabIndex = 0;
       this.selectedAgents = [];
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
@@ -393,6 +393,9 @@ export default {
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
           : '';
+
+        // Set initial tab after inbox data is loaded
+        this.setInitialTabFromQuery();
       });
     },
     async updateInbox() {
@@ -462,6 +465,22 @@ export default {
         this.$nextTick(() => {
           this.$refs.businessNameInput.focus();
         });
+      }
+    },
+    setInitialTabFromQuery() {
+      const tabParam = this.$route.query.tab;
+      if (tabParam) {
+        // Use nextTick to ensure tabs are computed after data is loaded
+        this.$nextTick(() => {
+          const tabIndex = this.tabs.findIndex(tab => tab.key === tabParam);
+          if (tabIndex !== -1) {
+            this.selectedTabIndex = tabIndex;
+          } else {
+            this.selectedTabIndex = 0;
+          }
+        });
+      } else {
+        this.selectedTabIndex = 0;
       }
     },
   },
@@ -917,7 +936,7 @@ export default {
       <div v-if="selectedTabKey === 'botConfiguration'">
         <BotConfiguration :inbox="inbox" />
       </div>
-      <div v-if="selectedTabKey === 'whatsappHealth'">
+      <div v-if="selectedTabKey === 'whatsapp-health'">
         <AccountHealth :health-data="healthData" />
       </div>
     </section>
