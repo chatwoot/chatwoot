@@ -35,7 +35,9 @@ class Captain::Tools::HttpTool < Agents::Tool
     IPAddr.new('fe80::/10')       # IPv6 Link-local
   ].freeze
 
-  MAX_RESPONSE_SIZE = 2.megabytes
+  # Limit response size to prevent memory exhaustion and match LLM token limits
+  # 1MB of text ≈ 250K tokens, which exceeds most LLM context windows
+  MAX_RESPONSE_SIZE = 1.megabyte
 
   def execute_http_request(url, body)
     uri = URI.parse(url)

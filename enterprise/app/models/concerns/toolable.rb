@@ -63,7 +63,11 @@ module Concerns::Toolable
   private
 
   def render_template(template, context)
-    Liquid::Template.parse(template).render(context.deep_stringify_keys)
+    liquid_template = Liquid::Template.parse(template, error_mode: :strict)
+    liquid_template.render(context.deep_stringify_keys, registers: {}, strict_variables: true, strict_filters: true)
+  rescue Liquid::SyntaxError, Liquid::UndefinedVariable, Liquid::UndefinedFilter => e
+    Rails.logger.error("Liquid template error: #{e.message}")
+    raise "Template rendering failed: #{e.message}"
   end
 
   def parse_response_body(body)
