@@ -1,6 +1,10 @@
 module Concerns::Toolable
   extend ActiveSupport::Concern
 
+  def tool(assistant)
+    Captain::Tools::HttpTool.new(assistant, self)
+  end
+
   def build_request_url(params)
     return endpoint_url if endpoint_url.blank? || endpoint_url.exclude?('{{')
 
