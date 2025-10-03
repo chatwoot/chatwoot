@@ -34,6 +34,64 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(different_account_tool).to be_valid
       end
     end
+
+    describe 'param_schema validation' do
+      let(:account) { create(:account) }
+
+      it 'is valid with proper param_schema' do
+        tool = build(:captain_custom_tool, account: account, param_schema: [
+                       { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID', 'required' => true }
+                     ])
+
+        expect(tool).to be_valid
+      end
+
+      it 'is valid with empty param_schema' do
+        tool = build(:captain_custom_tool, account: account, param_schema: [])
+
+        expect(tool).to be_valid
+      end
+
+      it 'is invalid when param_schema is missing name' do
+        tool = build(:captain_custom_tool, account: account, param_schema: [
+                       { 'type' => 'string', 'description' => 'Order ID' }
+                     ])
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when param_schema is missing type' do
+        tool = build(:captain_custom_tool, account: account, param_schema: [
+                       { 'name' => 'order_id', 'description' => 'Order ID' }
+                     ])
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when param_schema is missing description' do
+        tool = build(:captain_custom_tool, account: account, param_schema: [
+                       { 'name' => 'order_id', 'type' => 'string' }
+                     ])
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with additional properties in param_schema' do
+        tool = build(:captain_custom_tool, account: account, param_schema: [
+                       { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID', 'extra_field' => 'value' }
+                     ])
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is valid when required field is omitted (defaults to optional param)' do
+        tool = build(:captain_custom_tool, account: account, param_schema: [
+                       { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID' }
+                     ])
+
+        expect(tool).to be_valid
+      end
+    end
   end
 
   describe 'scopes' do

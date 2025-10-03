@@ -28,6 +28,21 @@ class Captain::CustomTool < ApplicationRecord
 
   self.table_name = 'captain_custom_tools'
 
+  PARAM_SCHEMA_VALIDATION = {
+    'type': 'array',
+    'items': {
+      'type': 'object',
+      'properties': {
+        'name': { 'type': 'string' },
+        'type': { 'type': 'string' },
+        'description': { 'type': 'string' },
+        'required': { 'type': 'boolean' }
+      },
+      'required': %w[name type description],
+      'additionalProperties': false
+    }
+  }.to_json.freeze
+
   belongs_to :account
 
   enum :http_method, %w[GET POST].index_by(&:itself), validate: true
@@ -38,6 +53,9 @@ class Captain::CustomTool < ApplicationRecord
   validates :slug, presence: true, uniqueness: { scope: :account_id }
   validates :title, presence: true
   validates :endpoint_url, presence: true
+  validates_with JsonSchemaValidator,
+                 schema: PARAM_SCHEMA_VALIDATION,
+                 attribute_resolver: ->(record) { record.param_schema }
 
   scope :enabled, -> { where(enabled: true) }
 
