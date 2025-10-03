@@ -11,6 +11,7 @@ class CreateCaptainCustomTools < ActiveRecord::Migration[7.1]
       t.text :response_template
       t.string :auth_type, default: 'none'
       t.jsonb :auth_config, default: {}
+      t.jsonb :param_schema, default: []
       t.boolean :enabled, default: true, null: false
 
       t.timestamps

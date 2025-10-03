@@ -9,6 +9,7 @@
 #  enabled           :boolean          default(TRUE), not null
 #  endpoint_url      :text             not null
 #  http_method       :string           default("GET"), not null
+#  param_schema      :jsonb
 #  request_template  :text
 #  response_template :text
 #  slug              :string           not null
