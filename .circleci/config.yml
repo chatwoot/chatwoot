@@ -403,7 +403,7 @@ workflows:
                 - main
           cluster-name: prod-india-exchange
           min-replicas: '5'
-          max-replicas: '8'
+          max-replicas: '12'
           env-name: production
           app-name: prod-sidekiq
           secret-name: prod-ind-sidekiq
@@ -429,7 +429,7 @@ workflows:
                 - main
           cluster-name: prod-india-exchange
           min-replicas: '8'
-          max-replicas: '12'
+          max-replicas: '18'
           env-name: production
           app-name: prod-chatwoot
           secret-name: prod-ind-chatwoot
