@@ -44,7 +44,8 @@ class Captain::CustomTool < ApplicationRecord
     {
       id: slug,
       title: title,
-      description: description
+      description: description,
+      custom: true
     }
   end
 
