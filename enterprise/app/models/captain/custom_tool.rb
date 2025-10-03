@@ -25,6 +25,7 @@
 #
 class Captain::CustomTool < ApplicationRecord
   include Concerns::Toolable
+  include Concerns::SafeEndpointValidatable
 
   self.table_name = 'captain_custom_tools'
 
