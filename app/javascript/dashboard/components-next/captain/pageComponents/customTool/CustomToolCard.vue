@@ -26,10 +26,6 @@ const props = defineProps({
     type: String,
     default: 'none',
   },
-  paramSchema: {
-    type: Array,
-    default: () => [],
-  },
   updatedAt: {
     type: Number,
     required: true,
@@ -75,11 +71,6 @@ const authTypeLabel = computed(() => {
     `CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPES.${props.authType.toUpperCase()}`
   );
 });
-
-const parameterNames = computed(() => {
-  if (!props.paramSchema || props.paramSchema.length === 0) return '';
-  return props.paramSchema.map(p => p.name).join(', ');
-});
 </script>
 
 <template>
@@ -124,14 +115,6 @@ const parameterNames = computed(() => {
         >
           <i class="i-lucide-lock text-base" />
           {{ authTypeLabel }}
-        </span>
-        <span
-          v-if="paramSchema.length > 0"
-          class="text-sm shrink-0 text-n-slate-11 inline-flex items-center gap-1"
-          :title="parameterNames"
-        >
-          <i class="i-lucide-braces text-base" />
-          {{ parameterNames }}
         </span>
       </div>
       <span class="text-sm text-n-slate-11 line-clamp-1 shrink-0">
