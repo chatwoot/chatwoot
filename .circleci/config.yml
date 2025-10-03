@@ -3,6 +3,7 @@ executors:
   xlarge-executor:
     machine:
       image: ubuntu-2004:2024.11.1
+      docker_layer_caching: true
     resource_class: xlarge
 orbs:
   aws-cli: circleci/aws-cli@4.1.3
@@ -226,7 +227,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/add-liveness-increase-memory
+                - perf/docker-build-optimise
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -235,7 +236,8 @@ workflows:
             --cache-from type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-rails
             --cache-to type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-rails,mode=max
             --build-arg BUILDKIT_INLINE_CACHE=1
-            --build-arg BUNDLE_JOBS=4
+            --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}
+            --build-arg BUNDLE_JOBS=8
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -253,7 +255,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/add-liveness-increase-memory
+                - perf/docker-build-optimise
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -262,7 +264,8 @@ workflows:
             --cache-from type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-sidekiq
             --cache-to type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-sidekiq,mode=max
             --build-arg BUILDKIT_INLINE_CACHE=1
-            --build-arg BUNDLE_JOBS=4
+            --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}
+            --build-arg BUNDLE_JOBS=8
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -289,7 +292,8 @@ workflows:
             --cache-from type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-rails
             --cache-to type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-rails,mode=max
             --build-arg BUILDKIT_INLINE_CACHE=1
-            --build-arg BUNDLE_JOBS=4
+            --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}
+            --build-arg BUNDLE_JOBS=8
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -315,6 +319,8 @@ workflows:
             --cache-from type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-sidekiq
             --cache-to type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-sidekiq,mode=max
             --build-arg BUILDKIT_INLINE_CACHE=1
+            --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}
+            --build-arg BUNDLE_JOBS=8
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -329,7 +335,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/add-liveness-increase-memory
+                - perf/docker-build-optimise
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -355,7 +361,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/add-liveness-increase-memory
+                - perf/docker-build-optimise
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'

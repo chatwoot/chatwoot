@@ -8,6 +8,7 @@ ARG BUNDLE_WITHOUT="development:test"
 ARG RAILS_SERVE_STATIC_FILES=true
 ARG RAILS_ENV=production
 ARG NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
+ARG CIRCLE_SHA1="unknown"
 
 ENV NODE_VERSION=${NODE_VERSION}
 ENV PNPM_VERSION=${PNPM_VERSION}
@@ -17,8 +18,8 @@ ENV RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES}
 ENV RAILS_ENV=${RAILS_ENV}
 ENV NODE_OPTIONS=${NODE_OPTIONS}
 ENV BUNDLE_PATH="/gems"
-ENV BUNDLE_JOBS="4"
-ENV MAKE="make -j4"
+ENV BUNDLE_JOBS="8"
+ENV MAKE="make -j8"
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
@@ -62,13 +63,14 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,target=/gems/cache \
     --mount=type=cache,target=/tmp/bundle-cache \
+    --mount=type=cache,target=/root/.local/share/pnpm/store \
     bundle config set --local force_ruby_platform true \
   && bundle config set --local cache_path /tmp/bundle-cache \
   && if [ "$RAILS_ENV" = "production" ]; then \
     bundle config set without 'development test'; \
   fi \
   && bundle install -j${BUNDLE_JOBS} & \
-  pnpm install & \
+  pnpm install --frozen-lockfile & \
   wait
 
 # Copy source code (this layer changes most frequently)
@@ -78,13 +80,11 @@ COPY . /app
 RUN mkdir -p /app/log \
   && if [ "$RAILS_ENV" = "production" ]; then \
     SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
-    && rm -rf spec node_modules tmp/cache; \
+    && rm -rf node_modules tmp/cache; \
   fi \
-  && git rev-parse HEAD > /app/.git_sha \
+  && echo "${CIRCLE_SHA1:-unknown}" > /app/.git_sha \
   && rm -rf /gems/ruby/3.3.0/cache/*.gem \
-  && find /gems/ruby/3.3.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
-  && rm -rf .git \
-  && rm .gitignore
+  && find /gems/ruby/3.3.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete
 
 # Final staging-specific layer
 FROM ruby:3.3.3-alpine3.19
