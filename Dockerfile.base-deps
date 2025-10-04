@@ -3,12 +3,12 @@
 # Rebuild: When Gemfile.lock or pnpm-lock.yaml changes
 # Expected build time: ~5 minutes
 
-ARG BASE_IMAGE_TAG=v4.0.4-system
+ARG BASE_IMAGE_TAG=v4.0.4-base1-system
 ARG ECR_URL
 
 FROM ${ECR_URL}/chatwoot-base:${BASE_IMAGE_TAG}
 
-LABEL maintainer="Delta Exchange <dev@delta.exchange>"
+LABEL maintainer="Delta Exchange <anuj.sharma@delta.exchange>"
 LABEL description="Chatwoot v4.0.4 base image with all dependencies installed"
 LABEL version="4.0.4-deps"
 

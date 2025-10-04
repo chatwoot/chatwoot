@@ -4,6 +4,9 @@ parameters:
   workflow:
     type: string
     default: "build-and-deploy"
+  chatwoot_version:
+    type: string
+    default: "v4.0.4"
   base_image_version:
     type: string
     default: "base1"
@@ -242,7 +245,7 @@ workflows:
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot-base
-          tag: v4.0.4-<< pipeline.parameters.base_image_version >>-system
+          tag: << pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-system
 
       # Build Tier 2: Dependencies base image for staging
       - aws-ecr/build_and_push_image:
@@ -257,13 +260,11 @@ workflows:
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile.base-deps
-          extra_build_args: |
-            --build-arg ECR_URL=${AWS_TOKYO_ECR_URL}
-            --build-arg BASE_IMAGE_TAG=v4.0.4-<< pipeline.parameters.base_image_version >>-system
+          extra_build_args: '--build-arg ECR_URL=${AWS_TOKYO_ECR_URL} --build-arg BASE_IMAGE_TAG=<< pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-system'
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot-base
-          tag: v4.0.4-<< pipeline.parameters.base_image_version >>-deps
+          tag: << pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-deps
           requires:
             - build-base-system-staging
 
@@ -283,7 +284,7 @@ workflows:
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot-base
-          tag: v4.0.4-<< pipeline.parameters.base_image_version >>-system
+          tag: << pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-system
 
       # Build Tier 2: Dependencies base image for production India
       - aws-ecr/build_and_push_image:
@@ -298,13 +299,11 @@ workflows:
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
           dockerfile: Dockerfile.base-deps
-          extra_build_args: |
-            --build-arg ECR_URL=${AWS_INDIA_ECR_URL}
-            --build-arg BASE_IMAGE_TAG=v4.0.4-<< pipeline.parameters.base_image_version >>-system
+          extra_build_args: '--build-arg ECR_URL=${AWS_INDIA_ECR_URL} --build-arg BASE_IMAGE_TAG=<< pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-system'
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot-base
-          tag: v4.0.4-<< pipeline.parameters.base_image_version >>-deps
+          tag: << pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-deps
           requires:
             - build-base-system-prod-india
 
@@ -328,10 +327,7 @@ workflows:
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile-staging-rails
-          extra_build_args: |
-            --build-arg ECR_URL=${AWS_TOKYO_ECR_URL}
-            --build-arg BASE_IMAGE_TAG=v4.0.4-deps
-            --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}
+          extra_build_args: '--build-arg ECR_URL=${AWS_TOKYO_ECR_URL} --build-arg BASE_IMAGE_TAG=<< pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-deps --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}'
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -354,10 +350,7 @@ workflows:
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile-staging-sidekiq
-          extra_build_args: |
-            --build-arg ECR_URL=${AWS_TOKYO_ECR_URL}
-            --build-arg BASE_IMAGE_TAG=v4.0.4-deps
-            --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}
+          extra_build_args: '--build-arg ECR_URL=${AWS_TOKYO_ECR_URL} --build-arg BASE_IMAGE_TAG=<< pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-deps --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}'
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -380,10 +373,7 @@ workflows:
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
           dockerfile: Dockerfile-prod-ind-rails
-          extra_build_args: |
-            --build-arg ECR_URL=${AWS_INDIA_ECR_URL}
-            --build-arg BASE_IMAGE_TAG=v4.0.4-deps
-            --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}
+          extra_build_args: '--build-arg ECR_URL=${AWS_INDIA_ECR_URL} --build-arg BASE_IMAGE_TAG=<< pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-deps --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}'
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -405,10 +395,7 @@ workflows:
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
           dockerfile: Dockerfile-prod-ind-sidekiq
-          extra_build_args: |
-            --build-arg ECR_URL=${AWS_INDIA_ECR_URL}
-            --build-arg BASE_IMAGE_TAG=v4.0.4-deps
-            --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}
+          extra_build_args: '--build-arg ECR_URL=${AWS_INDIA_ECR_URL} --build-arg BASE_IMAGE_TAG=<< pipeline.parameters.chatwoot_version >>-<< pipeline.parameters.base_image_version >>-deps --build-arg CIRCLE_SHA1=${CIRCLE_SHA1}'
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
