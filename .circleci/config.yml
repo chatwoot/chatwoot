@@ -225,6 +225,9 @@ jobs:
 
 workflows:
   # Base image build workflow (manual trigger only)
+  # Trigger this workflow by passing parameter: {"workflow": "build-base", "chatwoot_version": "v4.0.4", "base_image_version": "base1"}
+  # This builds the system and deps base images for both staging and production
+  # Run this when: Chatwoot version updates, Ruby/Node version changes, or dependency updates
   build-base-images:
     when:
       equal: [ build-base, << pipeline.parameters.workflow >> ]
@@ -307,7 +310,15 @@ workflows:
           requires:
             - build-base-system-prod-india
 
+  # Application build and deploy workflow (runs on every push to develop or perf/docker-build-optimise)
+  # This workflow only runs when workflow parameter != "build-base"
+  # Default behavior: Automatically triggered on git push
+  # Manual trigger (optional): {"workflow": "build-and-deploy"} or just use default parameters
+  # This builds application images (rails/sidekiq) using the pre-built base images
   build-and-deploy:
+    when:
+      not:
+        equal: [ build-base, << pipeline.parameters.workflow >> ]
     jobs:
       # Build staging environment images with current codebase
       - aws-ecr/build_and_push_image:

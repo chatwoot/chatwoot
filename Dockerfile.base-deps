@@ -3,8 +3,9 @@
 # Rebuild: When Gemfile.lock or pnpm-lock.yaml changes
 # Expected build time: ~5 minutes
 
-ARG BASE_IMAGE_TAG=v4.0.4-base1-system
+# These ARGs must be provided at build time via --build-arg
 ARG ECR_URL
+ARG BASE_IMAGE_TAG=v4.0.4-base1-system
 
 FROM ${ECR_URL}/chatwoot-base:${BASE_IMAGE_TAG}
 

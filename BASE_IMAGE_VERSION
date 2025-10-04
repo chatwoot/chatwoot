@@ -1,1 +1,5 @@
 v4.0.4-base1
+
+# IMPORTANT: When updating this version, also update the pipeline parameter defaults in .circleci/config.yml:
+# - chatwoot_version (e.g., "v4.0.4")
+# - base_image_version (e.g., "base1")
