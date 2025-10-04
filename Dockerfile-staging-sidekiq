@@ -49,13 +49,21 @@ COPY --from=builder /gems/ruby /gems/ruby
 
 WORKDIR /app
 
+# Copy Gemfile first for bundle config
+COPY --from=builder /app/Gemfile /app/Gemfile.lock ./
+
+# Configure bundler to use the correct gem path and exclude dev/test gems
+RUN bundle config set --local path "/gems" && \
+    bundle config set --local without "development:test"
+
 # Copy only necessary application files (Sidekiq doesn't need compiled assets or node_modules)
 COPY --from=builder /app/app ./app
 COPY --from=builder /app/bin ./bin
 COPY --from=builder /app/config ./config
 COPY --from=builder /app/db ./db
+COPY --from=builder /app/docker ./docker
 COPY --from=builder /app/lib ./lib
-COPY --from=builder /app/Rakefile /app/Gemfile /app/Gemfile.lock ./
+COPY --from=builder /app/Rakefile ./
 COPY --from=builder /app/.git_sha ./
 
 EXPOSE 5151

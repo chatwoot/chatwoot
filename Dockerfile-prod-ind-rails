@@ -68,15 +68,23 @@ WORKDIR /app
 # Create necessary runtime directories
 RUN mkdir -p log tmp storage
 
+# Copy Gemfile first for bundle config
+COPY --from=builder /app/Gemfile /app/Gemfile.lock ./
+
+# Configure bundler to use the correct gem path and exclude dev/test gems
+RUN bundle config set --local path "/gems" && \
+    bundle config set --local without "development:test"
+
 # Copy only necessary application files (not node_modules, tmp, cache, etc.)
 COPY --from=builder /app/app ./app
 COPY --from=builder /app/bin ./bin
 COPY --from=builder /app/config ./config
 COPY --from=builder /app/db ./db
+COPY --from=builder /app/docker ./docker
 COPY --from=builder /app/lib ./lib
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/vendor ./vendor
-COPY --from=builder /app/Rakefile /app/config.ru /app/Gemfile /app/Gemfile.lock ./
+COPY --from=builder /app/Rakefile /app/config.ru ./
 COPY --from=builder /app/.git_sha ./
 COPY --from=builder /app/container_init.sh ./
 
