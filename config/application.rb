@@ -59,6 +59,8 @@ module Chatwoot
     # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
     # FIX ME : fixes breakage of installation config. we need to migrate.
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
+
+    config.active_storage.service_urls_expire_in = ENV.fetch('ACTIVE_STORAGE_URL_EXPIRE_TIME', 3600).to_i.seconds
   end
 
   def self.config
