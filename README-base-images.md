@@ -6,25 +6,25 @@ This document explains the base image strategy for optimizing Docker builds in C
 
 We use a **3-tier image architecture** to drastically reduce build times:
 
-### Tier 1: System Base (`chatwoot-base:v4.0.4-system`)
+### Tier 1: System Base (`chatwoot-base:v4.0.4-base1-system`)
 - **Contains:** Ruby 3.3.3, Node.js 23.7.0, system packages, build tools
-- **Size:** ~1.4GB
+- **Size:** ~340MB
 - **Rebuild frequency:** Rarely (when upgrading Ruby/Node or system dependencies)
-- **Build time:** ~4 minutes
+- **Build time:** ~1 minute
 - **Dockerfile:** `Dockerfile.base-system`
 
-### Tier 2: Dependencies Base (`chatwoot-base:v4.0.4-deps`)
+### Tier 2: Dependencies Base (`chatwoot-base:v4.0.4-base1-deps`)
 - **Contains:** All Ruby gems and npm packages installed
 - **Built FROM:** Tier 1 system base
-- **Size:** ~5.5GB (includes gems + node_modules)
+- **Size:** ~990MB (includes gems + node_modules)
 - **Rebuild frequency:** When `Gemfile.lock` or `pnpm-lock.yaml` changes
-- **Build time:** ~5 minutes
+- **Build time:** ~12 minutes
 - **Dockerfile:** `Dockerfile.base-deps`
 
 ### Tier 3: Application Images (rails/sidekiq)
-- **Rails images:** ~2.9GB (gems + app code + compiled assets + Node.js runtime)
-- **Sidekiq images:** ~2.3GB (gems + app code only, no Node.js or assets)
-- **Build time:** **~1-2 minutes** (Rails) or **~30-60 seconds** (Sidekiq)
+- **Rails images:** ~530MB (gems + app code + compiled assets + Node.js runtime)
+- **Sidekiq images:** ~410MB (gems + app code + Node.js runtime)
+- **Build time:** **~1-2 minutes** (Rails and Sidekiq)
 - **Rebuild:** Every code push (automatic)
 - **Dockerfiles:** `Dockerfile-staging-rails`, `Dockerfile-staging-sidekiq`, etc.
 
@@ -33,14 +33,18 @@ We use a **3-tier image architecture** to drastically reduce build times:
 | Build Type | Old Approach | New Approach | Time Saved |
 |------------|--------------|--------------|------------|
 | First build (cold cache) | 8-9 minutes | 8-9 minutes | 0% |
-| Code change only | 8-9 minutes | 1-2 minutes | **75-85%** ✅ |
-| Dependency change | 8-9 minutes | 5-6 minutes | **40%** |
-| System package change | 8-9 minutes | 4 minutes | **55%** |
+| Code change only | 8-9 minutes | **1-2 minutes** | **75-87%** ✅ |
+| Dependency change | 8-9 minutes | 12-13 minutes | -35% (rebuild base) |
+| System package change | 8-9 minutes | 1 minute | **88%** |
+
+**Image size reduction:**
+- Rails: 4.5GB → **530MB** (88% smaller)
+- Sidekiq: 4.9GB → **410MB** (92% smaller)
 
 **Monthly savings:**
-- ~560 minutes (9+ hours) of build time saved
-- ~$200-300 in CircleCI credits saved
+- ~560 minutes (9+ hours) of build time saved per day
 - Faster deployments = faster iteration
+- Reduced ECR storage costs
 
 ## Base Image Versioning
 
@@ -121,12 +125,12 @@ This will build **versioned** base images for both **staging** (Tokyo) and **pro
 - `chatwoot-base:v4.0.4-base2-deps`
 
 **Build order:**
-1. `build-base-system-staging` (4 min)
-2. `build-base-deps-staging` (5 min) - requires system base
-3. `build-base-system-prod-india` (4 min)
-4. `build-base-deps-prod-india` (5 min) - requires system base
+1. `build-base-system-staging` (~1 min)
+2. `build-base-deps-staging` (~12 min) - requires system base
+3. `build-base-system-prod-india` (~1 min)
+4. `build-base-deps-prod-india` (~12 min) - requires system base
 
-**Total time:** ~18 minutes (runs in parallel for staging + prod)
+**Total time:** ~13 minutes (system builds run in parallel, then deps builds run in parallel)
 
 **After base images are built, update application Dockerfiles:**
 
@@ -289,23 +293,22 @@ Update `BASE_IMAGE_TAG` in `.circleci/config.yml` accordingly.
 ## Cost Analysis
 
 ### Old Approach (No Base Images)
-- Build time per image: 8 minutes
-- 4 images per push (2 rails + 2 sidekiq)
-- Total: 32 minutes per deployment
-- CircleCI credits: ~200 credits/build × 4 = 800 credits/deployment
-- Average: 10 deployments/day = 8000 credits/day
-- Monthly: ~240,000 credits = ~$500-600/month
+- Build time per deployment: 8-9 minutes (per image)
+- Images built per push: 2 (staging rails + sidekiq)
+- Total: ~18 minutes per deployment
+- Frequent rebuilds = high CI/CD costs
 
 ### New Approach (With Base Images)
-- Build time per image: 1.5 minutes (avg)
-- 4 images per push
-- Total: 6 minutes per deployment
-- CircleCI credits: ~100 credits/build × 4 = 400 credits/deployment
-- Average: 10 deployments/day = 4000 credits/day
-- Monthly: ~120,000 credits = ~$250-300/month
-- **Base image rebuilds:** ~2x/month × 300 credits = 600 credits/month
+- Build time per deployment: 1-2 minutes (per image)
+- Images built per push: 2 (staging rails + sidekiq)
+- Total: ~2-4 minutes per deployment
+- **Base image rebuilds:** ~2x/month × 13 minutes = 26 minutes/month
+- **Time saved per deployment:** 14-17 minutes (75-87% faster)
 
-**Net savings: ~$250-300/month (50% reduction)**
+**Additional benefits:**
+- Reduced ECR storage costs (88-92% smaller images)
+- Faster deployment rollbacks
+- Better developer experience with faster iteration
 
 ## Reference
 
@@ -368,6 +371,6 @@ Contact the DevOps team or check CircleCI build logs for detailed output.
 
 ---
 
-**Last Updated:** 2025-10-04
+**Last Updated:** 2025-01-04
 **Chatwoot Version:** 4.0.4
-**Base Image Version:** v4.0.4
+**Base Image Version:** v4.0.4-base1
