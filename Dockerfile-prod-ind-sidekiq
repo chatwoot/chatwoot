@@ -36,7 +36,7 @@ ENV RAILS_ENV=production \
     BUNDLE_FORCE_RUBY_PLATFORM=1 \
     BUNDLER_VERSION=${BUNDLER_VERSION}
 
-# Install only runtime dependencies (no Node.js or build tools needed for Sidekiq)
+# Install only runtime dependencies
 RUN apk update && apk add --no-cache \
   openssl \
   tzdata \
@@ -44,6 +44,10 @@ RUN apk update && apk add --no-cache \
   vips \
   && gem install bundler -v ${BUNDLER_VERSION} --no-document \
   && rm -rf /var/cache/apk/*
+
+# Copy Node.js from node image (needed for ExecJS runtime)
+COPY --from=node:23-alpine /usr/local/bin/node /usr/local/bin/
+COPY --from=node:23-alpine /usr/local/lib/node_modules /usr/local/lib/node_modules
 
 # Copy only gems from builder (not entire /gems with cache)
 COPY --from=builder /gems/ruby /gems/ruby
