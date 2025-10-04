@@ -226,7 +226,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/add-liveness-increase-memory
+                - fix/s3-direct
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -253,7 +253,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/add-liveness-increase-memory
+                - fix/s3-direct
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -329,7 +329,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/add-liveness-increase-memory
+                - fix/s3-direct
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -355,7 +355,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/add-liveness-increase-memory
+                - fix/s3-direct
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
