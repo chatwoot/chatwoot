@@ -4,7 +4,10 @@ import {
   getEmailSenderEmail,
   getEmailDate,
   formatQuotedEmailDate,
+  getInboxEmail,
   buildQuotedEmailHeader,
+  buildQuotedEmailHeaderFromContact,
+  buildQuotedEmailHeaderFromInbox,
   formatQuotedTextAsBlockquote,
   extractQuotedEmailText,
   truncatePreviewText,
@@ -131,7 +134,40 @@ describe('quotedEmailHelper', () => {
     });
   });
 
-  describe('buildQuotedEmailHeader', () => {
+  describe('getInboxEmail', () => {
+    it('returns email from contentAttributes.email.to', () => {
+      const lastEmail = {
+        contentAttributes: {
+          email: { to: ['inbox@example.com'] },
+        },
+      };
+      const result = getInboxEmail(lastEmail, {});
+      expect(result).toBe('inbox@example.com');
+    });
+
+    it('returns inbox email as fallback', () => {
+      const lastEmail = {};
+      const inbox = { email: 'support@example.com' };
+      const result = getInboxEmail(lastEmail, inbox);
+      expect(result).toBe('support@example.com');
+    });
+
+    it('returns empty string if no email found', () => {
+      expect(getInboxEmail({}, {})).toBe('');
+    });
+
+    it('trims whitespace from emails', () => {
+      const lastEmail = {
+        contentAttributes: {
+          email: { to: ['  inbox@example.com  '] },
+        },
+      };
+      const result = getInboxEmail(lastEmail, {});
+      expect(result).toBe('inbox@example.com');
+    });
+  });
+
+  describe('buildQuotedEmailHeaderFromContact', () => {
     it('builds complete header with name and email', () => {
       const lastEmail = {
         sender: { name: 'John Doe', email: 'john@example.com' },
@@ -139,7 +175,7 @@ describe('quotedEmailHelper', () => {
           email: { date: '2024-01-15T10:30:00Z' },
         },
       };
-      const result = buildQuotedEmailHeader(lastEmail, {});
+      const result = buildQuotedEmailHeaderFromContact(lastEmail, {});
       expect(result).toContain('John Doe');
       expect(result).toContain('john@example.com');
       expect(result).toContain('wrote:');
@@ -152,14 +188,93 @@ describe('quotedEmailHelper', () => {
           email: { date: '2024-01-15T10:30:00Z' },
         },
       };
-      const result = buildQuotedEmailHeader(lastEmail, {});
+      const result = buildQuotedEmailHeaderFromContact(lastEmail, {});
       expect(result).toContain('<john@example.com>');
       expect(result).not.toContain('undefined');
     });
 
     it('returns empty string if missing required data', () => {
-      expect(buildQuotedEmailHeader(null, {})).toBe('');
-      expect(buildQuotedEmailHeader({}, {})).toBe('');
+      expect(buildQuotedEmailHeaderFromContact(null, {})).toBe('');
+      expect(buildQuotedEmailHeaderFromContact({}, {})).toBe('');
+    });
+  });
+
+  describe('buildQuotedEmailHeaderFromInbox', () => {
+    it('builds complete header with inbox name and email', () => {
+      const lastEmail = {
+        contentAttributes: {
+          email: {
+            date: '2024-01-15T10:30:00Z',
+            to: ['support@example.com'],
+          },
+        },
+      };
+      const inbox = { name: 'Support Team', email: 'support@example.com' };
+      const result = buildQuotedEmailHeaderFromInbox(lastEmail, inbox);
+      expect(result).toContain('Support Team');
+      expect(result).toContain('support@example.com');
+      expect(result).toContain('wrote:');
+    });
+
+    it('builds header without name if not available', () => {
+      const lastEmail = {
+        contentAttributes: {
+          email: {
+            date: '2024-01-15T10:30:00Z',
+            to: ['inbox@example.com'],
+          },
+        },
+      };
+      const inbox = { email: 'inbox@example.com' };
+      const result = buildQuotedEmailHeaderFromInbox(lastEmail, inbox);
+      expect(result).toContain('<inbox@example.com>');
+      expect(result).not.toContain('undefined');
+    });
+
+    it('returns empty string if missing required data', () => {
+      expect(buildQuotedEmailHeaderFromInbox(null, {})).toBe('');
+      expect(buildQuotedEmailHeaderFromInbox({}, {})).toBe('');
+    });
+  });
+
+  describe('buildQuotedEmailHeader', () => {
+    it('uses inbox email for outgoing messages (message_type: 1)', () => {
+      const lastEmail = {
+        message_type: 1,
+        contentAttributes: {
+          email: {
+            date: '2024-01-15T10:30:00Z',
+            to: ['support@example.com'],
+          },
+        },
+      };
+      const inbox = { name: 'Support', email: 'support@example.com' };
+      const contact = { name: 'John Doe', email: 'john@example.com' };
+      const result = buildQuotedEmailHeader(lastEmail, contact, inbox);
+      expect(result).toContain('Support');
+      expect(result).toContain('support@example.com');
+      expect(result).not.toContain('John Doe');
+    });
+
+    it('uses contact email for incoming messages (message_type: 0)', () => {
+      const lastEmail = {
+        message_type: 0,
+        sender: { name: 'Jane Smith', email: 'jane@example.com' },
+        contentAttributes: {
+          email: { date: '2024-01-15T10:30:00Z' },
+        },
+      };
+      const inbox = { name: 'Support', email: 'support@example.com' };
+      const contact = { name: 'Jane Smith', email: 'jane@example.com' };
+      const result = buildQuotedEmailHeader(lastEmail, contact, inbox);
+      expect(result).toContain('Jane Smith');
+      expect(result).toContain('jane@example.com');
+      expect(result).not.toContain('Support');
+    });
+
+    it('returns empty string if missing required data', () => {
+      expect(buildQuotedEmailHeader(null, {}, {})).toBe('');
+      expect(buildQuotedEmailHeader({}, {}, {})).toBe('');
     });
   });
 

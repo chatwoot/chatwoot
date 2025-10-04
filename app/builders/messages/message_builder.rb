@@ -7,6 +7,7 @@ class Messages::MessageBuilder
     @private = params[:private] || false
     @conversation = conversation
     @user = user
+    @account = conversation.account
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
@@ -20,7 +21,9 @@ class Messages::MessageBuilder
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
-    process_email_content
+    # When the message has no quoted content, it will just be rendered as a regular message
+    # The frontend is equipped to handle this case
+    process_email_content if @account.feature_enabled?(:quoted_email_reply)
     @message.save!
     @message
   end

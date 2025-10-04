@@ -63,7 +63,7 @@ const toggleExpand = () => {
       </div>
       <div
         v-dompurify-html="formattedQuotedEmailText"
-        class="w-full max-w-none break-words prose prose-sm dark:prose-invert cursor-pointer pr-8"
+        class="w-full max-w-none break-words prose prose-sm dark:prose-invert cursor-pointer ltr:pr-8 rtl:pl-8"
         :class="{
           'line-clamp-1': !isExpanded,
           'max-h-60 overflow-y-auto': isExpanded,

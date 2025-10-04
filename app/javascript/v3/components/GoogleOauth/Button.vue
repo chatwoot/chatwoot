@@ -34,7 +34,7 @@ export default {
   <div class="flex flex-col">
     <a
       :href="getGoogleAuthUrl()"
-      class="inline-flex justify-center w-full px-4 py-3 bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+      class="inline-flex justify-center w-full px-4 py-3 bg-n-background dark:bg-n-solid-3 items-center rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
     >
       <span class="i-logos-google-icon h-6" />
       <span class="ml-2 text-base font-medium text-n-slate-12">

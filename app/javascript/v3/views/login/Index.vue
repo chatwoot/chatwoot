@@ -15,6 +15,7 @@ import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
 
@@ -33,6 +34,7 @@ export default {
     NextButton,
     SimpleDivider,
     MfaVerification,
+    Icon,
   },
   props: {
     ssoAuthToken: { type: String, default: '' },
@@ -260,9 +262,12 @@ export default {
           <div v-if="showSamlLogin" class="mt-4 text-center">
             <router-link
               to="/app/login/sso"
-              class="inline-flex justify-center w-full px-4 py-3 bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+              class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
             >
-              <span class="i-lucide-key h-6 text-n-slate-11" />
+              <Icon
+                icon="i-lucide-lock-keyhole"
+                class="size-5 text-n-slate-11"
+              />
               <span class="ml-2 text-base font-medium text-n-slate-12">
                 {{ $t('LOGIN.SAML.LABEL') }}
               </span>
