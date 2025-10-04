@@ -41,6 +41,7 @@ export const FEATURE_FLAGS = {
   CAPTAIN_V2: 'captain_integration_v2',
   TEMPLATE_BUILDER: 'template_builder',
   SAML: 'saml',
+  QUOTED_EMAIL_REPLY: 'quoted_email_reply',
 };
 
 export const PREMIUM_FEATURES = [
