@@ -69,20 +69,23 @@ const modalRef = ref(null);
 const isVisible = ref(false);
 const isAnimating = ref(false);
 
-// Debug: Log available images when modal opens
-watch(() => props.show, (newVal) => {
-  if (newVal) {
-    console.log('[EnhancedTimePicker] Modal opened with available images:', props.availableImages.length, props.availableImages);
+// Watch for modal open to reset state if needed
+watch(
+  () => props.show,
+  newVal => {
+    if (newVal) {
+      // Modal opened - state is ready
+    }
   }
-});
+);
 
 // Helper to get image URL by identifier
-const getImageByIdentifier = (identifier) => {
+const getImageByIdentifier = identifier => {
   if (!identifier) return null;
   return props.availableImages.find(img => img.identifier === identifier);
 };
 
-const getImagePreviewUrl = (identifier) => {
+const getImagePreviewUrl = identifier => {
   const image = getImageByIdentifier(identifier);
   if (!image) return null;
   return image.preview || image.image_url;
@@ -401,13 +404,6 @@ const updateSelectedSlots = () => {
   }));
 
   formData.value.selectedSlots = slots;
-
-  // Debug logging
-  console.log('🔥 Enhanced Time Picker - updateSelectedSlots:', {
-    globalSelectedSlots: globalSelectedSlots.value.size,
-    formattedSlots: slots,
-    sampleSlot: slots[0],
-  });
 };
 
 const selectDate = dateString => {
@@ -617,14 +613,6 @@ const saveTimePickerData = () => {
     reply_style: formData.value.replyStyle,
   };
 
-  // Debug logging
-  console.log('🔥 Enhanced Time Picker - saveTimePickerData:', {
-    timePickerData,
-    selectedSlots: formData.value.selectedSlots,
-    timeslotsCount: formData.value.selectedSlots.length,
-    sampleTimeslot: formData.value.selectedSlots[0],
-  });
-
   emit('save', timePickerData);
   closeModal();
 };
@@ -648,14 +636,6 @@ const saveAndSendTimePickerData = () => {
     reply_image_identifier: formData.value.replyImageIdentifier,
     reply_style: formData.value.replyStyle,
   };
-
-  // Debug logging
-  console.log('🔥 Enhanced Time Picker - saveAndSendTimePickerData:', {
-    timePickerData,
-    selectedSlots: formData.value.selectedSlots,
-    timeslotsCount: formData.value.selectedSlots.length,
-    sampleTimeslot: formData.value.selectedSlots[0],
-  });
 
   emit('saveAndSend', timePickerData);
   closeModal();
@@ -950,7 +930,10 @@ onUnmounted(() => {
                       class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
                     >
                       Received Image
-                      <span v-if="!hasAvailableImages" class="text-xs text-n-slate-10 dark:text-n-slate-9 font-normal ml-2">(Upload in List Picker first)</span>
+                      <span
+                        v-if="!hasAvailableImages"
+                        class="text-xs text-n-slate-10 dark:text-n-slate-9 font-normal ml-2"
+                        >(Upload in List Picker first)</span>
                     </label>
                     <div class="flex items-center gap-2">
                       <select
@@ -964,12 +947,22 @@ onUnmounted(() => {
                           :key="image.identifier"
                           :value="image.identifier"
                         >
-                          {{ image.originalName || image.original_name || image.description || image.identifier }}
+                          {{
+                            image.originalName ||
+                            image.original_name ||
+                            image.description ||
+                            image.identifier
+                          }}
                         </option>
                       </select>
                       <img
-                        v-if="formData.receivedImageIdentifier && getImagePreviewUrl(formData.receivedImageIdentifier)"
-                        :src="getImagePreviewUrl(formData.receivedImageIdentifier)"
+                        v-if="
+                          formData.receivedImageIdentifier &&
+                          getImagePreviewUrl(formData.receivedImageIdentifier)
+                        "
+                        :src="
+                          getImagePreviewUrl(formData.receivedImageIdentifier)
+                        "
                         class="w-12 h-12 object-cover rounded border border-n-weak dark:border-n-slate-6 flex-shrink-0"
                         alt="Preview"
                       />
@@ -1023,7 +1016,10 @@ onUnmounted(() => {
                       class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
                     >
                       Reply Image
-                      <span v-if="!hasAvailableImages" class="text-xs text-n-slate-10 dark:text-n-slate-9 font-normal ml-2">(Upload in List Picker first)</span>
+                      <span
+                        v-if="!hasAvailableImages"
+                        class="text-xs text-n-slate-10 dark:text-n-slate-9 font-normal ml-2"
+                        >(Upload in List Picker first)</span>
                     </label>
                     <div class="flex items-center gap-2">
                       <select
@@ -1037,11 +1033,19 @@ onUnmounted(() => {
                           :key="image.identifier"
                           :value="image.identifier"
                         >
-                          {{ image.originalName || image.original_name || image.description || image.identifier }}
+                          {{
+                            image.originalName ||
+                            image.original_name ||
+                            image.description ||
+                            image.identifier
+                          }}
                         </option>
                       </select>
                       <img
-                        v-if="formData.replyImageIdentifier && getImagePreviewUrl(formData.replyImageIdentifier)"
+                        v-if="
+                          formData.replyImageIdentifier &&
+                          getImagePreviewUrl(formData.replyImageIdentifier)
+                        "
                         :src="getImagePreviewUrl(formData.replyImageIdentifier)"
                         class="w-12 h-12 object-cover rounded border border-n-weak dark:border-n-slate-6 flex-shrink-0"
                         alt="Preview"

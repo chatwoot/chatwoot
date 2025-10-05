@@ -17,7 +17,7 @@ const formConfig = computed(() => ({
   pages: formData.value.pages || [],
   submitButton: formData.value.submit_button || { title: 'Submit' },
   cancelButton: formData.value.cancel_button || { title: 'Cancel' },
-  version: formData.value.version || '1.0'
+  version: formData.value.version || '1.0',
 }));
 
 // Form state
@@ -31,11 +31,13 @@ const currentPage = computed(() => {
   if (!formConfig.value.pages || formConfig.value.pages.length === 0) {
     return null;
   }
-  return formConfig.value.pages[selectedPage.value] || formConfig.value.pages[0];
+  return (
+    formConfig.value.pages[selectedPage.value] || formConfig.value.pages[0]
+  );
 });
 
 const isLastPage = computed(() => {
-  return selectedPage.value === (formConfig.value.pages.length - 1);
+  return selectedPage.value === formConfig.value.pages.length - 1;
 });
 
 const isFirstPage = computed(() => {
@@ -56,7 +58,7 @@ const formPreview = computed(() => {
     title: formConfig.value.title,
     description: formConfig.value.description,
     fieldCount: 0,
-    requiredFields: 0
+    requiredFields: 0,
   };
 
   formConfig.value.pages.forEach(page => {
@@ -99,7 +101,9 @@ const validateCurrentPage = () => {
   const requiredFields = currentPage.value.items.filter(item => item.required);
   const missingFields = requiredFields.filter(field => {
     const response = responses.value[field.item_id];
-    return !response || (typeof response === 'string' && response.trim() === '');
+    return (
+      !response || (typeof response === 'string' && response.trim() === '')
+    );
   });
 
   if (missingFields.length > 0) {
@@ -137,7 +141,7 @@ const cancelForm = () => {
 };
 
 // Get field input type
-const getInputType = (item) => {
+const getInputType = item => {
   switch (item.item_type) {
     case 'email':
       return 'email';
@@ -161,21 +165,36 @@ const getInputType = (item) => {
     >
       <div class="flex items-start space-x-3">
         <!-- Form Icon -->
-        <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+        <div
+          class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0"
+        >
+          <svg
+            class="w-5 h-5 text-white"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
+            />
           </svg>
         </div>
 
         <!-- Form Info -->
         <div class="flex-1 min-w-0">
-          <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
+          <h3
+            class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1"
+          >
             {{ formPreview.title }}
           </h3>
-          <p v-if="formPreview.description" class="text-sm text-slate-600 dark:text-slate-400 mb-2 line-clamp-2">
+          <p
+            v-if="formPreview.description"
+            class="text-sm text-slate-600 dark:text-slate-400 mb-2 line-clamp-2"
+          >
             {{ formPreview.description }}
           </p>
-          <div class="flex items-center space-x-4 text-xs text-slate-500 dark:text-slate-400">
+          <div
+            class="flex items-center space-x-4 text-xs text-slate-500 dark:text-slate-400"
+          >
             <span>{{ formPreview.fieldCount }} fields</span>
             <span v-if="formPreview.requiredFields > 0">{{ formPreview.requiredFields }} required</span>
             <span v-if="hasMultiplePages">{{ totalPages }} pages</span>
@@ -184,8 +203,14 @@ const getInputType = (item) => {
 
         <!-- Expand Arrow -->
         <div class="flex-shrink-0">
-          <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+          <svg
+            class="w-5 h-5 text-slate-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+            />
           </svg>
         </div>
       </div>
@@ -206,11 +231,13 @@ const getInputType = (item) => {
             </p>
           </div>
           <button
-            @click="cancelForm"
             class="text-blue-200 hover:text-white transition-colors"
+            @click="cancelForm"
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+              <path
+                d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+              />
             </svg>
           </button>
         </div>
@@ -220,10 +247,8 @@ const getInputType = (item) => {
           <div
             v-for="(page, index) in formConfig.pages"
             :key="page.page_id"
-            :class="[
-              'w-2 h-2 rounded-full transition-colors',
-              index <= selectedPage ? 'bg-white' : 'bg-blue-300'
-            ]"
+            class="w-2 h-2 rounded-full transition-colors"
+            :class="[index <= selectedPage ? 'bg-white' : 'bg-blue-300']"
           />
           <span class="text-blue-100 text-xs ml-2">
             Page {{ selectedPage + 1 }} of {{ totalPages }}
@@ -238,7 +263,10 @@ const getInputType = (item) => {
           <h4 class="text-lg font-medium text-slate-900 dark:text-slate-100">
             {{ currentPage.title }}
           </h4>
-          <p v-if="currentPage.description" class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          <p
+            v-if="currentPage.description"
+            class="text-sm text-slate-600 dark:text-slate-400 mt-1"
+          >
             {{ currentPage.description }}
           </p>
         </div>
@@ -251,13 +279,19 @@ const getInputType = (item) => {
             class="form-field"
           >
             <!-- Field Label -->
-            <label :for="item.item_id" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <label
+              :for="item.item_id"
+              class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+            >
               {{ item.title }}
               <span v-if="item.required" class="text-red-500">*</span>
             </label>
 
             <!-- Field Description -->
-            <p v-if="item.description" class="text-xs text-slate-500 dark:text-slate-400 mb-2">
+            <p
+              v-if="item.description"
+              class="text-xs text-slate-500 dark:text-slate-400 mb-2"
+            >
               {{ item.description }}
             </p>
 
@@ -269,8 +303,8 @@ const getInputType = (item) => {
               :placeholder="item.placeholder"
               :maxlength="item.max_length"
               :value="responses[item.item_id] || ''"
-              @input="updateResponse(item.item_id, $event.target.value)"
               class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              @input="updateResponse(item.item_id, $event.target.value)"
             />
 
             <!-- Text Area -->
@@ -280,9 +314,9 @@ const getInputType = (item) => {
               :placeholder="item.placeholder"
               :maxlength="item.max_length"
               :value="responses[item.item_id] || ''"
-              @input="updateResponse(item.item_id, $event.target.value)"
               rows="3"
               class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              @input="updateResponse(item.item_id, $event.target.value)"
             />
 
             <!-- Single Select -->
@@ -290,8 +324,8 @@ const getInputType = (item) => {
               v-else-if="item.item_type === 'singleSelect'"
               :id="item.item_id"
               :value="responses[item.item_id] || ''"
-              @change="updateResponse(item.item_id, $event.target.value)"
               class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              @change="updateResponse(item.item_id, $event.target.value)"
             >
               <option value="">Select an option...</option>
               <option
@@ -313,13 +347,24 @@ const getInputType = (item) => {
                 <input
                   type="checkbox"
                   :value="option.value"
-                  :checked="(responses[item.item_id] || []).includes(option.value)"
-                  @change="updateResponse(item.item_id, $event.target.checked ?
-                    [...(responses[item.item_id] || []), option.value] :
-                    (responses[item.item_id] || []).filter(v => v !== option.value))"
+                  :checked="
+                    (responses[item.item_id] || []).includes(option.value)
+                  "
                   class="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                  @change="
+                    updateResponse(
+                      item.item_id,
+                      $event.target.checked
+                        ? [...(responses[item.item_id] || []), option.value]
+                        : (responses[item.item_id] || []).filter(
+                            v => v !== option.value
+                          )
+                    )
+                  "
                 />
-                <span class="text-sm text-slate-700 dark:text-slate-300">{{ option.title }}</span>
+                <span class="text-sm text-slate-700 dark:text-slate-300">{{
+                  option.title
+                }}</span>
               </label>
             </div>
 
@@ -331,10 +376,12 @@ const getInputType = (item) => {
               <input
                 type="checkbox"
                 :checked="responses[item.item_id] || false"
-                @change="updateResponse(item.item_id, $event.target.checked)"
                 class="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                @change="updateResponse(item.item_id, $event.target.checked)"
               />
-              <span class="text-sm text-slate-700 dark:text-slate-300">{{ item.title }}</span>
+              <span class="text-sm text-slate-700 dark:text-slate-300">{{
+                item.title
+              }}</span>
             </label>
 
             <!-- Date/Time -->
@@ -345,26 +392,53 @@ const getInputType = (item) => {
               :min="item.min_date"
               :max="item.max_date"
               :value="responses[item.item_id] || ''"
-              @input="updateResponse(item.item_id, $event.target.value)"
               class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              @input="updateResponse(item.item_id, $event.target.value)"
             />
 
             <!-- Stepper -->
-            <div v-else-if="item.item_type === 'stepper'" class="flex items-center space-x-3">
+            <div
+              v-else-if="item.item_type === 'stepper'"
+              class="flex items-center space-x-3"
+            >
               <button
-                @click="updateResponse(item.item_id, Math.max((responses[item.item_id] || item.default_value || item.min_value) - (item.step || 1), item.min_value))"
                 class="w-8 h-8 bg-slate-200 dark:bg-slate-600 rounded-full flex items-center justify-center"
+                @click="
+                  updateResponse(
+                    item.item_id,
+                    Math.max(
+                      (responses[item.item_id] ||
+                        item.default_value ||
+                        item.min_value) - (item.step || 1),
+                      item.min_value
+                    )
+                  )
+                "
               >
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19,13H5V11H19V13Z" />
                 </svg>
               </button>
               <span class="text-lg font-medium min-w-[3rem] text-center">
-                {{ responses[item.item_id] || item.default_value || item.min_value }}
+                {{
+                  responses[item.item_id] ||
+                  item.default_value ||
+                  item.min_value
+                }}
               </span>
               <button
-                @click="updateResponse(item.item_id, Math.min((responses[item.item_id] || item.default_value || item.min_value) + (item.step || 1), item.max_value))"
                 class="w-8 h-8 bg-slate-200 dark:bg-slate-600 rounded-full flex items-center justify-center"
+                @click="
+                  updateResponse(
+                    item.item_id,
+                    Math.min(
+                      (responses[item.item_id] ||
+                        item.default_value ||
+                        item.min_value) + (item.step || 1),
+                      item.max_value
+                    )
+                  )
+                "
               >
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
@@ -375,29 +449,36 @@ const getInputType = (item) => {
         </div>
 
         <!-- Error Message -->
-        <div v-if="hasErrors" class="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-          <p class="text-sm text-red-600 dark:text-red-400">{{ errorMessage }}</p>
+        <div
+          v-if="hasErrors"
+          class="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md"
+        >
+          <p class="text-sm text-red-600 dark:text-red-400">
+            {{ errorMessage }}
+          </p>
         </div>
       </div>
 
       <!-- Form Actions -->
-      <div class="form-actions p-4 bg-slate-50 dark:bg-slate-700 border-t border-slate-200 dark:border-slate-600">
+      <div
+        class="form-actions p-4 bg-slate-50 dark:bg-slate-700 border-t border-slate-200 dark:border-slate-600"
+      >
         <div class="flex items-center justify-between">
           <!-- Previous Button -->
           <button
             v-if="hasMultiplePages && !isFirstPage"
-            @click="previousPage"
             class="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
+            @click="previousPage"
           >
             ← Previous
           </button>
-          <div v-else></div>
+          <div v-else />
 
           <div class="flex space-x-2">
             <!-- Cancel Button -->
             <button
-              @click="cancelForm"
               class="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
+              @click="cancelForm"
             >
               {{ formConfig.cancelButton.title }}
             </button>
@@ -405,19 +486,21 @@ const getInputType = (item) => {
             <!-- Next/Submit Button -->
             <button
               v-if="!isLastPage"
-              @click="nextPage"
               class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+              @click="nextPage"
             >
               Next →
             </button>
             <button
               v-else
-              @click="submitForm"
               :disabled="isSubmitting"
               class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50"
+              @click="submitForm"
             >
               <span v-if="isSubmitting" class="flex items-center space-x-2">
-                <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div
+                  class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+                />
                 <span>Submitting...</span>
               </span>
               <span v-else>{{ formConfig.submitButton.title }}</span>
@@ -449,11 +532,15 @@ const getInputType = (item) => {
 .form-field {
   @apply relative;
 
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     @apply transition-colors;
   }
 
-  input:focus, textarea:focus, select:focus {
+  input:focus,
+  textarea:focus,
+  select:focus {
     @apply ring-2 ring-woot-500;
   }
 }

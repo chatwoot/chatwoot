@@ -89,8 +89,8 @@ export default {
           enabled: false,
           use_live_layout: true,
           app_data: {},
-          images: []
-        }
+          images: [],
+        },
       ],
     };
   },
@@ -163,7 +163,7 @@ export default {
         enabled: false,
         use_live_layout: true,
         app_data: {},
-        images: []
+        images: [],
       };
       this.imessageApps.push(newApp);
     },
@@ -708,7 +708,9 @@ export default {
 
       <!-- DEBUG: This should be visible -->
       <div class="w-full mt-8 bg-red-200 p-4">
-        <p class="text-red-800 font-bold">DEBUG: If you can see this red box, the section is loading correctly!</p>
+        <p class="text-red-800 font-bold">
+          DEBUG: If you can see this red box, the section is loading correctly!
+        </p>
       </div>
 
       <!-- iMessage Apps Configuration -->
@@ -719,7 +721,8 @@ export default {
           📱 iMessage Apps Configuration
         </h3>
         <p class="text-sm text-n-slate-10 mb-4">
-          Configure custom iMessage apps that agents can invoke in conversations. These apps must be installed on customer devices.
+          Configure custom iMessage apps that agents can invoke in
+          conversations. These apps must be installed on customer devices.
         </p>
 
         <!-- Apps List -->
@@ -742,16 +745,21 @@ export default {
               </div>
               <button
                 v-if="imessageApps.length > 1"
-                @click="removeImessageApp(index)"
                 class="text-red-500 hover:text-red-700 transition-colors"
+                @click="removeImessageApp(index)"
               >
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                  <path
+                    d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                  />
                 </svg>
               </button>
             </div>
 
-            <div v-if="app.enabled" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              v-if="app.enabled"
+              class="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               <div>
                 <label class="block text-sm font-medium text-n-slate-12 mb-1">
                   App Name *
@@ -785,10 +793,18 @@ export default {
                   type="text"
                   placeholder="com.apple.messages.MSMessageExtensionBalloonPlugin:bundleId:extension"
                   class="w-full"
-                  :class="app.bid && !validateBidFormat(app.bid) ? 'border-red-500' : ''"
+                  :class="
+                    app.bid && !validateBidFormat(app.bid)
+                      ? 'border-red-500'
+                      : ''
+                  "
                 />
-                <p v-if="app.bid && !validateBidFormat(app.bid)" class="text-xs text-red-500 mt-1">
-                  Invalid BID format. Use: com.apple.messages.MSMessageExtensionBalloonPlugin:bundleId:extension
+                <p
+                  v-if="app.bid && !validateBidFormat(app.bid)"
+                  class="text-xs text-red-500 mt-1"
+                >
+                  Invalid BID format. Use:
+                  com.apple.messages.MSMessageExtensionBalloonPlugin:bundleId:extension
                 </p>
               </div>
 
@@ -849,9 +865,9 @@ export default {
 
         <!-- Add New App Button -->
         <button
-          @click="addImessageApp"
           type="button"
           class="w-full py-3 border-2 border-dashed border-n-weak rounded-lg text-n-slate-10 hover:border-n-slate-8 hover:text-n-slate-12 transition-colors"
+          @click="addImessageApp"
         >
           + Add iMessage App Configuration
         </button>

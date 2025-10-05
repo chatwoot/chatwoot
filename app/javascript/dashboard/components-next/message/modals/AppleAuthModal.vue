@@ -165,7 +165,9 @@ export default {
 
 <template>
   <woot-modal :show="show" :on-close="onClose">
-    <div class="apple-auth-modal shadow-2xl border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
+    <div
+      class="apple-auth-modal shadow-2xl border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden"
+    >
       <div class="modal-header">
         <h2 class="modal-title">
           {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.TITLE') }}

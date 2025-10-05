@@ -19,8 +19,8 @@ import AppleListPickerImagesAPI from 'dashboard/api/appleListPickerImages';
 const props = defineProps({
   conversation: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 const emit = defineEmits(['send', 'cancel']);
@@ -119,18 +119,22 @@ const availableSlots = computed(() => {
   try {
     if (!inlineTimePickerData.value.selectedDate) return [];
 
-    const date = new Date(inlineTimePickerData.value.selectedDate + 'T00:00:00');
+    const date = new Date(
+      inlineTimePickerData.value.selectedDate + 'T00:00:00'
+    );
     const dayName = format(date, 'EEEE').toLowerCase();
 
     console.log('Generating slots for:', {
       selectedDate: inlineTimePickerData.value.selectedDate,
       dayName,
-      useBusinessHours: inlineTimePickerData.value.useBusinessHours
+      useBusinessHours: inlineTimePickerData.value.useBusinessHours,
     });
 
     // Check if the selected date is in the past
     const today = new Date();
-    const selectedDate = new Date(inlineTimePickerData.value.selectedDate + 'T00:00:00');
+    const selectedDate = new Date(
+      inlineTimePickerData.value.selectedDate + 'T00:00:00'
+    );
     const isToday = selectedDate.toDateString() === today.toDateString();
     const isPastDate = selectedDate < today && !isToday;
 
@@ -155,16 +159,24 @@ const availableSlots = computed(() => {
       const startStr = businessHour.start || '09:00';
       const endStr = businessHour.end || '17:00';
 
-      startTime = new Date(`${inlineTimePickerData.value.selectedDate}T${startStr}:00`);
-      endTime = new Date(`${inlineTimePickerData.value.selectedDate}T${endStr}:00`);
+      startTime = new Date(
+        `${inlineTimePickerData.value.selectedDate}T${startStr}:00`
+      );
+      endTime = new Date(
+        `${inlineTimePickerData.value.selectedDate}T${endStr}:00`
+      );
 
       console.log('Using business hours:', { start: startStr, end: endStr });
     } else {
       const startStr = inlineTimePickerData.value.customStartTime || '09:00';
       const endStr = inlineTimePickerData.value.customEndTime || '17:00';
 
-      startTime = new Date(`${inlineTimePickerData.value.selectedDate}T${startStr}:00`);
-      endTime = new Date(`${inlineTimePickerData.value.selectedDate}T${endStr}:00`);
+      startTime = new Date(
+        `${inlineTimePickerData.value.selectedDate}T${startStr}:00`
+      );
+      endTime = new Date(
+        `${inlineTimePickerData.value.selectedDate}T${endStr}:00`
+      );
 
       console.log('Using custom hours:', { start: startStr, end: endStr });
     }
@@ -175,7 +187,9 @@ const availableSlots = computed(() => {
     if (isToday) {
       const now = new Date();
       if (startTime <= now) {
-        const minutesToAdd = inlineTimePickerData.value.selectedInterval - (now.getMinutes() % inlineTimePickerData.value.selectedInterval);
+        const minutesToAdd =
+          inlineTimePickerData.value.selectedInterval -
+          (now.getMinutes() % inlineTimePickerData.value.selectedInterval);
         startTime = new Date(now.getTime() + minutesToAdd * 60000);
         startTime.setSeconds(0, 0);
       }
@@ -186,7 +200,10 @@ const availableSlots = computed(() => {
     let slotId = 0;
 
     while (currentSlot < endTime) {
-      const slotEnd = addMinutes(currentSlot, inlineTimePickerData.value.serviceDuration);
+      const slotEnd = addMinutes(
+        currentSlot,
+        inlineTimePickerData.value.serviceDuration
+      );
 
       if (slotEnd <= endTime) {
         const slotKey = `${inlineTimePickerData.value.selectedDate}_${slotId}`;
@@ -203,12 +220,20 @@ const availableSlots = computed(() => {
           selected: isSelected,
           displayTime: format(currentSlot, 'HH:mm'),
           displayEndTime: format(slotEnd, 'HH:mm'),
-          utcTime: zonedTimeToUtc(currentSlot, Intl.DateTimeFormat().resolvedOptions().timeZone).toISOString().replace('Z', '+0000'),
+          utcTime: zonedTimeToUtc(
+            currentSlot,
+            Intl.DateTimeFormat().resolvedOptions().timeZone
+          )
+            .toISOString()
+            .replace('Z', '+0000'),
           localTime: format(currentSlot, "yyyy-MM-dd'T'HH:mm:ss"),
         });
       }
 
-      currentSlot = addMinutes(currentSlot, inlineTimePickerData.value.selectedInterval);
+      currentSlot = addMinutes(
+        currentSlot,
+        inlineTimePickerData.value.selectedInterval
+      );
       slotId++;
     }
 
@@ -234,7 +259,8 @@ const weekDays = computed(() => {
       displayDate: format(date, 'MMM d'),
       dayName: format(date, 'EEE'),
       isToday: format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd'),
-      isSelected: format(date, 'yyyy-MM-dd') === inlineTimePickerData.value.selectedDate,
+      isSelected:
+        format(date, 'yyyy-MM-dd') === inlineTimePickerData.value.selectedDate,
       isBusinessDay: businessHour?.enabled || false,
       hasSlots: !!businessHour?.enabled,
       isPast: date < startOfDay(new Date()),
@@ -256,7 +282,7 @@ const selectedSlotsData = computed(() => {
 });
 
 // Methods for inline time picker
-const toggleSlot = (slot) => {
+const toggleSlot = slot => {
   if (!slot.available) return;
 
   const slotKey = slot.key;
@@ -299,7 +325,8 @@ const toggleSlot = (slot) => {
       selectedSlotIds.value.add(slot.id);
 
       // Update multi-day selections map
-      const dateSelections = multiDaySelections.value.get(slot.date) || new Set();
+      const dateSelections =
+        multiDaySelections.value.get(slot.date) || new Set();
       dateSelections.add(slot.id);
       multiDaySelections.value.set(slot.date, dateSelections);
     }
@@ -308,9 +335,12 @@ const toggleSlot = (slot) => {
   updateTimePickerData();
 };
 
-const selectDate = (dateString) => {
+const selectDate = dateString => {
   // Save current date selections before switching
-  if (inlineTimePickerData.value.selectedDate && selectedSlotIds.value.size > 0) {
+  if (
+    inlineTimePickerData.value.selectedDate &&
+    selectedSlotIds.value.size > 0
+  ) {
     multiDaySelections.value.set(
       inlineTimePickerData.value.selectedDate,
       new Set(selectedSlotIds.value)
@@ -327,7 +357,7 @@ const selectDate = (dateString) => {
   updateTimePickerData();
 };
 
-const navigateWeek = (direction) => {
+const navigateWeek = direction => {
   if (direction === 'prev') {
     currentWeekStart.value = subWeeks(currentWeekStart.value, 1);
   } else {
@@ -359,7 +389,8 @@ const findNextBusinessDay = () => {
     let date = new Date();
     date.setDate(date.getDate() + 1); // Start from tomorrow
 
-    for (let i = 0; i < 7; i++) { // Check up to 7 days ahead
+    for (let i = 0; i < 7; i++) {
+      // Check up to 7 days ahead
       const dayName = format(date, 'EEEE').toLowerCase();
       const businessHour = businessHours.value[dayName];
 
@@ -387,9 +418,17 @@ const initializeTimePickerDate = () => {
     inlineTimePickerData.value.selectedDate = nextBusinessDay;
 
     console.log('Initialized with business day:', nextBusinessDay);
-    console.log('Day of week:', new Date(nextBusinessDay + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long' }));
+    console.log(
+      'Day of week:',
+      new Date(nextBusinessDay + 'T00:00:00').toLocaleDateString('en-US', {
+        weekday: 'long',
+      })
+    );
     console.log('Business hours:', businessHours.value);
-    console.log('Use business hours:', inlineTimePickerData.value.useBusinessHours);
+    console.log(
+      'Use business hours:',
+      inlineTimePickerData.value.useBusinessHours
+    );
 
     // Force update after a tick to ensure reactive values are set
     setTimeout(() => {
@@ -398,7 +437,10 @@ const initializeTimePickerDate = () => {
   } catch (error) {
     console.error('Error initializing time picker date:', error);
     // Fallback to tomorrow
-    inlineTimePickerData.value.selectedDate = format(addDays(new Date(), 1), 'yyyy-MM-dd');
+    inlineTimePickerData.value.selectedDate = format(
+      addDays(new Date(), 1),
+      'yyyy-MM-dd'
+    );
   }
 };
 
@@ -537,14 +579,25 @@ const loadSavedImages = async () => {
     return;
   }
 
-  console.log('[AppleMessagesComposer] Loading saved images for inbox:', inboxId);
+  console.log(
+    '[AppleMessagesComposer] Loading saved images for inbox:',
+    inboxId
+  );
   loadingSavedImages.value = true;
   try {
     const response = await AppleListPickerImagesAPI.get({ inboxId });
     savedImages.value = response.data;
-    console.log('[AppleMessagesComposer] Loaded saved images:', savedImages.value.length, savedImages.value);
+    console.log(
+      '[AppleMessagesComposer] Loaded saved images:',
+      savedImages.value.length,
+      savedImages.value
+    );
   } catch (error) {
-    console.error('[AppleMessagesComposer] Failed to load saved images:', error.response?.status, error.message);
+    console.error(
+      '[AppleMessagesComposer] Failed to load saved images:',
+      error.response?.status,
+      error.message
+    );
   } finally {
     loadingSavedImages.value = false;
   }
@@ -592,14 +645,12 @@ const addSection = () => {
   const newSection = {
     title: `Section ${listPickerData.value.sections.length + 1}`,
     multipleSelection: false,
-    items: [
-      { title: 'Option 1', subtitle: 'Description 1' },
-    ],
+    items: [{ title: 'Option 1', subtitle: 'Description 1' }],
   };
   listPickerData.value.sections.push(newSection);
 };
 
-const removeSection = (sectionIndex) => {
+const removeSection = sectionIndex => {
   if (listPickerData.value.sections.length > 1) {
     listPickerData.value.sections.splice(sectionIndex, 1);
   }
@@ -621,7 +672,7 @@ const removeListItem = (sectionIndex, itemIndex) => {
 const showImagePicker = ref(false);
 const currentImageSelection = ref({ sectionIndex: null, itemIndex: null });
 
-const getImageByIdentifier = (identifier) => {
+const getImageByIdentifier = identifier => {
   return [...listPickerData.value.images, ...savedImages.value].find(
     img => img.identifier === identifier
   );
@@ -632,7 +683,7 @@ const openImagePicker = (sectionIndex, itemIndex) => {
   showImagePicker.value = true;
 };
 
-const selectImageForItem = (image) => {
+const selectImageForItem = image => {
   const { sectionIndex, itemIndex } = currentImageSelection.value;
   if (sectionIndex !== null && itemIndex !== null) {
     // If it's a saved image (from database), we need to add it to current session
@@ -649,7 +700,7 @@ const selectImageForItem = (image) => {
           .then(response => response.blob())
           .then(blob => {
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = e => {
               const imageData = {
                 identifier: image.identifier,
                 data: e.target.result.split(',')[1], // Remove data URL prefix
@@ -661,7 +712,9 @@ const selectImageForItem = (image) => {
               listPickerData.value.images.push(imageData);
 
               // Now assign to the item
-              listPickerData.value.sections[sectionIndex].items[itemIndex].image_identifier = image.identifier;
+              listPickerData.value.sections[sectionIndex].items[
+                itemIndex
+              ].image_identifier = image.identifier;
             };
             reader.readAsDataURL(blob);
           })
@@ -671,11 +724,15 @@ const selectImageForItem = (image) => {
           });
       } else {
         // Already in session, just assign
-        listPickerData.value.sections[sectionIndex].items[itemIndex].image_identifier = image.identifier;
+        listPickerData.value.sections[sectionIndex].items[
+          itemIndex
+        ].image_identifier = image.identifier;
       }
     } else {
       // It's a recently uploaded image, just assign
-      listPickerData.value.sections[sectionIndex].items[itemIndex].image_identifier = image.identifier;
+      listPickerData.value.sections[sectionIndex].items[
+        itemIndex
+      ].image_identifier = image.identifier;
     }
   }
   showImagePicker.value = false;
@@ -759,19 +816,23 @@ const sendAppleMessage = () => {
       content_attributes = { ...listPickerData.value };
 
       // Transform sections to use snake_case for backend
-      content_attributes.sections = listPickerData.value.sections.map(section => ({
-        title: section.title,
-        multiple_selection: section.multipleSelection || false,
-        items: section.items.map(item => ({
-          title: item.title,
-          subtitle: item.subtitle,
-          image_identifier: item.image_identifier,
-        })),
-      }));
+      content_attributes.sections = listPickerData.value.sections.map(
+        section => ({
+          title: section.title,
+          multiple_selection: section.multipleSelection || false,
+          items: section.items.map(item => ({
+            title: item.title,
+            subtitle: item.subtitle,
+            image_identifier: item.image_identifier,
+          })),
+        })
+      );
 
       // Debug: log items with image_identifier
-      console.log('[AMB ListPicker] Items with images:',
-        content_attributes.sections.flatMap(s => s.items)
+      console.log(
+        '[AMB ListPicker] Items with images:',
+        content_attributes.sections
+          .flatMap(s => s.items)
           .filter(i => i.image_identifier)
           .map(i => ({ title: i.title, image_identifier: i.image_identifier }))
       );
@@ -781,15 +842,17 @@ const sendAppleMessage = () => {
         listPickerData.value.images &&
         listPickerData.value.images.length > 0
       ) {
-        content_attributes.images = listPickerData.value.images.map(
-          (img) => ({
-            identifier: img.identifier, // Use the original identifier
-            data: img.data,
-            description: img.description || img.originalName || img.identifier,
-            originalName: img.originalName || img.identifier,
-          })
+        content_attributes.images = listPickerData.value.images.map(img => ({
+          identifier: img.identifier, // Use the original identifier
+          data: img.data,
+          description: img.description || img.originalName || img.identifier,
+          originalName: img.originalName || img.identifier,
+        }));
+        console.log(
+          '[AMB ListPicker] Sending images:',
+          content_attributes.images.length,
+          content_attributes.images.map(i => i.identifier)
         );
-        console.log('[AMB ListPicker] Sending images:', content_attributes.images.length, content_attributes.images.map(i => i.identifier));
       } else {
         console.log('[AMB ListPicker] No images to send');
       }
@@ -815,14 +878,21 @@ const sendAppleMessage = () => {
       content_attributes = { ...timePickerData.value };
 
       // Include images if they exist in listPickerData
-      if (listPickerData.value.images && listPickerData.value.images.length > 0) {
+      if (
+        listPickerData.value.images &&
+        listPickerData.value.images.length > 0
+      ) {
         content_attributes.images = listPickerData.value.images.map(img => ({
           identifier: img.identifier,
           data: img.data,
           description: img.description || img.originalName || img.identifier,
           originalName: img.originalName || img.identifier,
         }));
-        console.log('[AMB TimePicker] Sending images:', content_attributes.images.length, content_attributes.images.map(i => i.identifier));
+        console.log(
+          '[AMB TimePicker] Sending images:',
+          content_attributes.images.length,
+          content_attributes.images.map(i => i.identifier)
+        );
       }
 
       content = timePickerData.value.event?.title || 'Time Picker Message';
@@ -843,14 +913,20 @@ const sendAppleMessage = () => {
         app_name: selectedApp.value.name,
         bid: selectedApp.value.bid,
         url: selectedApp.value.url,
-        use_live_layout: selectedApp.value.useLiveLayout || selectedApp.value.use_live_layout || false
+        use_live_layout:
+          selectedApp.value.useLiveLayout ||
+          selectedApp.value.use_live_layout ||
+          false,
       };
 
       content = `${selectedApp.value.name}: ${selectedApp.value.description || 'App invocation'}`;
 
       // Debug logging for 422 error
       console.log('🔧 Debug - Selected app data:', selectedApp.value);
-      console.log('🔧 Debug - Content attributes being sent (filtered):', content_attributes);
+      console.log(
+        '🔧 Debug - Content attributes being sent (filtered):',
+        content_attributes
+      );
       break;
   }
 
@@ -870,7 +946,7 @@ const openFormBuilder = () => {
   showFormBuilder.value = true;
 };
 
-const handleFormCreated = (formData) => {
+const handleFormCreated = formData => {
   emit('send', formData);
   showFormBuilder.value = false;
 };
@@ -880,7 +956,7 @@ const closeFormBuilder = () => {
 };
 
 // iMessage App Handlers
-const selectApp = (appId) => {
+const selectApp = appId => {
   selectedAppId.value = appId;
   selectedAppData.value = {};
 };
@@ -895,7 +971,13 @@ const updateAppData = (key, value) => {
     <!-- Tabs -->
     <div class="flex space-x-2 mb-4 border-b border-n-weak">
       <button
-        v-for="tab in ['list_picker', 'quick_reply', 'time_picker', 'forms', 'imessage_apps']"
+        v-for="tab in [
+          'list_picker',
+          'quick_reply',
+          'time_picker',
+          'forms',
+          'imessage_apps',
+        ]"
         :key="tab"
         class="px-4 py-2 text-sm font-medium border-b-2 transition-colors"
         :class="
@@ -905,7 +987,11 @@ const updateAppData = (key, value) => {
         "
         @click="activeTab = tab"
       >
-        {{ tab === 'imessage_apps' ? 'iMessage Apps' : tab.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+        {{
+          tab === 'imessage_apps'
+            ? 'iMessage Apps'
+            : tab.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
+        }}
       </button>
     </div>
 
@@ -955,7 +1041,9 @@ const updateAppData = (key, value) => {
                 :key="image.identifier"
                 :value="image.identifier"
               >
-                {{ image.originalName || image.description }} ({{ image.identifier }})
+                {{ image.originalName || image.description }} ({{
+                  image.identifier
+                }})
               </option>
             </select>
           </div>
@@ -1021,7 +1109,8 @@ const updateAppData = (key, value) => {
             v-if="savedImages.length === 0 && !loadingSavedImages"
             class="text-xs text-n-slate-10 dark:text-n-slate-9 italic py-2"
           >
-            No saved images yet. Upload images and send a list picker to save them for reuse.
+            No saved images yet. Upload images and send a list picker to save
+            them for reuse.
           </div>
 
           <div
@@ -1108,7 +1197,9 @@ const updateAppData = (key, value) => {
 
       <!-- Sections and Options - Grouped Together -->
       <div class="space-y-4">
-        <div class="flex justify-between items-center mb-4 p-4 rounded-lg border-2 !border-green-600 !bg-green-50 dark:!bg-green-900/20">
+        <div
+          class="flex justify-between items-center mb-4 p-4 rounded-lg border-2 !border-green-600 !bg-green-50 dark:!bg-green-900/20"
+        >
           <h4 class="text-lg font-bold !text-green-900 dark:!text-green-100">
             Sections & Options
           </h4>
@@ -1196,22 +1287,35 @@ const updateAppData = (key, value) => {
               :key="`img-${itemIndex}`"
               class="flex items-center gap-2 p-2 bg-n-solid-1 dark:bg-n-alpha-2 rounded-lg border border-n-weak dark:border-n-alpha-6"
             >
-              <label class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11 min-w-[120px]">
+              <label
+                class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11 min-w-[120px]"
+              >
                 Image for "{{ item.title }}"
               </label>
 
               <!-- Current image preview -->
               <div
-                v-if="item.image_identifier && getImageByIdentifier(item.image_identifier)"
+                v-if="
+                  item.image_identifier &&
+                  getImageByIdentifier(item.image_identifier)
+                "
                 class="flex items-center gap-2 flex-1"
               >
                 <img
-                  :src="getImageByIdentifier(item.image_identifier).preview || getImageByIdentifier(item.image_identifier).image_url"
+                  :src="
+                    getImageByIdentifier(item.image_identifier).preview ||
+                    getImageByIdentifier(item.image_identifier).image_url
+                  "
                   class="w-12 h-12 object-cover rounded border border-n-weak dark:border-n-alpha-6"
                   :alt="item.title"
                 />
-                <div class="flex-1 text-sm text-n-slate-11 dark:text-n-slate-10">
-                  {{ getImageByIdentifier(item.image_identifier).originalName || getImageByIdentifier(item.image_identifier).description }}
+                <div
+                  class="flex-1 text-sm text-n-slate-11 dark:text-n-slate-10"
+                >
+                  {{
+                    getImageByIdentifier(item.image_identifier).originalName ||
+                    getImageByIdentifier(item.image_identifier).description
+                  }}
                 </div>
                 <button
                   class="px-3 py-1 text-sm bg-n-slate-3 dark:bg-n-alpha-3 text-n-slate-11 dark:text-n-slate-10 rounded hover:bg-n-slate-4 dark:hover:bg-n-alpha-4"
@@ -1222,19 +1326,27 @@ const updateAppData = (key, value) => {
               </div>
 
               <!-- No image selected -->
-              <div v-else class="flex-1 text-sm text-n-slate-10 dark:text-n-slate-9 italic">
+              <div
+                v-else
+                class="flex-1 text-sm text-n-slate-10 dark:text-n-slate-9 italic"
+              >
                 No image selected
               </div>
 
               <!-- Select image button -->
               <button
-                v-if="listPickerData.images.length > 0 || savedImages.length > 0"
+                v-if="
+                  listPickerData.images.length > 0 || savedImages.length > 0
+                "
                 class="px-3 py-1 text-sm bg-n-blue-9 dark:bg-n-blue-10 text-white rounded hover:bg-n-blue-10 dark:hover:bg-n-blue-11"
                 @click="openImagePicker(sectionIndex, itemIndex)"
               >
                 {{ item.image_identifier ? 'Change' : 'Select' }}
               </button>
-              <div v-else class="text-xs text-n-slate-10 dark:text-n-slate-9 italic">
+              <div
+                v-else
+                class="text-xs text-n-slate-10 dark:text-n-slate-9 italic"
+              >
                 Upload images first
               </div>
             </div>
@@ -1405,8 +1517,11 @@ const updateAppData = (key, value) => {
       <div class="space-y-4">
         <!-- Quick Settings -->
         <div class="flex items-center justify-between">
-          <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11">
-            Schedule Appointment - {{ selectedSlotsData.length }} slot(s) configured
+          <h4
+            class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11"
+          >
+            Schedule Appointment - {{ selectedSlotsData.length }} slot(s)
+            configured
           </h4>
           <div class="flex items-center space-x-4">
             <!-- Time Interval Selector -->
@@ -1436,20 +1551,35 @@ const updateAppData = (key, value) => {
         </div>
 
         <!-- Date Navigation -->
-        <div class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6">
+        <div
+          class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6"
+        >
           <div class="flex items-center justify-between mb-3">
             <button
               class="flex items-center px-2 py-1 text-sm text-n-slate-11 hover:text-n-slate-12 dark:text-n-slate-10 dark:hover:text-n-slate-9 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-3 rounded transition-colors"
               @click="navigateWeek('prev')"
             >
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              <svg
+                class="w-4 h-4 mr-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
               Previous
             </button>
 
-            <div class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11">
-              {{ format(currentWeekStart, 'MMM d') }} - {{ format(addDays(currentWeekStart, 6), 'MMM d, yyyy') }}
+            <div
+              class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11"
+            >
+              {{ format(currentWeekStart, 'MMM d') }} -
+              {{ format(addDays(currentWeekStart, 6), 'MMM d, yyyy') }}
             </div>
 
             <button
@@ -1457,8 +1587,18 @@ const updateAppData = (key, value) => {
               @click="navigateWeek('next')"
             >
               Next
-              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              <svg
+                class="w-4 h-4 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -1488,13 +1628,24 @@ const updateAppData = (key, value) => {
         </div>
 
         <!-- Available Time Slots -->
-        <div class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6">
+        <div
+          class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6"
+        >
           <div class="flex items-center justify-between mb-3">
-            <h4 class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11">
-              Available Slots for {{ format(new Date(inlineTimePickerData.selectedDate), 'MMM d, yyyy') }}
+            <h4
+              class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11"
+            >
+              Available Slots for
+              {{
+                format(
+                  new Date(inlineTimePickerData.selectedDate),
+                  'MMM d, yyyy'
+                )
+              }}
             </h4>
             <div class="text-xs text-n-slate-11 dark:text-n-slate-10">
-              {{ selectedSlotsData.length }} / {{ inlineTimePickerData.maxSlots }} selected
+              {{ selectedSlotsData.length }} /
+              {{ inlineTimePickerData.maxSlots }} selected
             </div>
           </div>
 
@@ -1512,7 +1663,7 @@ const updateAppData = (key, value) => {
               :class="[
                 slot.selected
                   ? 'border-n-green-8 bg-n-green-2 text-n-green-11 dark:border-n-green-9 dark:bg-n-green-3 dark:text-n-green-10'
-                  : 'border-n-weak bg-white hover:border-n-strong hover:bg-n-alpha-1 text-n-slate-11 dark:border-n-slate-6 dark:bg-n-alpha-2 dark:hover:bg-n-alpha-3 dark:text-n-slate-10'
+                  : 'border-n-weak bg-white hover:border-n-strong hover:bg-n-alpha-1 text-n-slate-11 dark:border-n-slate-6 dark:bg-n-alpha-2 dark:hover:bg-n-alpha-3 dark:text-n-slate-10',
               ]"
               @click="toggleSlot(slot)"
             >
@@ -1529,8 +1680,13 @@ const updateAppData = (key, value) => {
         </div>
 
         <!-- Selected Slots Summary -->
-        <div v-if="selectedSlotsData.length > 0" class="bg-n-green-1 dark:bg-n-green-2 p-3 rounded-lg border border-n-green-6 dark:border-n-green-7">
-          <h4 class="text-sm font-medium text-n-green-11 dark:text-n-green-10 mb-2">
+        <div
+          v-if="selectedSlotsData.length > 0"
+          class="bg-n-green-1 dark:bg-n-green-2 p-3 rounded-lg border border-n-green-6 dark:border-n-green-7"
+        >
+          <h4
+            class="text-sm font-medium text-n-green-11 dark:text-n-green-10 mb-2"
+          >
             Selected Time Slots
           </h4>
           <div class="space-y-1">
@@ -1539,13 +1695,24 @@ const updateAppData = (key, value) => {
               :key="slot.key"
               class="flex items-center justify-between text-xs text-n-green-10 dark:text-n-green-9"
             >
-              <span>{{ format(new Date(slot.date), 'MMM d') }} at {{ slot.displayTime }} - {{ slot.displayEndTime }}</span>
+              <span>{{ format(new Date(slot.date), 'MMM d') }} at
+                {{ slot.displayTime }} - {{ slot.displayEndTime }}</span>
               <button
                 class="p-1 hover:bg-n-green-3 dark:hover:bg-n-green-4 rounded transition-colors"
                 @click="toggleSlot(slot)"
               >
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  class="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -1575,40 +1742,63 @@ const updateAppData = (key, value) => {
     <div v-if="activeTab === 'forms'" class="space-y-6">
       <div class="text-center py-12">
         <div class="mb-6">
-          <div class="w-16 h-16 bg-woot-100 dark:bg-woot-900 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-woot-600 dark:text-woot-400" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+          <div
+            class="w-16 h-16 bg-woot-100 dark:bg-woot-900 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <svg
+              class="w-8 h-8 text-woot-600 dark:text-woot-400"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
+              />
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11 mb-2">
+          <h3
+            class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11 mb-2"
+          >
             Create Interactive Forms
           </h3>
-          <p class="text-sm text-n-slate-10 dark:text-n-slate-9 max-w-md mx-auto">
-            Build dynamic forms with multiple field types, validation, and templates. Perfect for surveys, contact forms, and data collection.
+          <p
+            class="text-sm text-n-slate-10 dark:text-n-slate-9 max-w-md mx-auto"
+          >
+            Build dynamic forms with multiple field types, validation, and
+            templates. Perfect for surveys, contact forms, and data collection.
           </p>
         </div>
 
         <div class="flex flex-wrap gap-3 justify-center mb-6">
-          <span class="px-3 py-1 bg-woot-50 dark:bg-woot-900 text-woot-700 dark:text-woot-300 text-xs rounded-full">
+          <span
+            class="px-3 py-1 bg-woot-50 dark:bg-woot-900 text-woot-700 dark:text-woot-300 text-xs rounded-full"
+          >
             📝 Text Fields
           </span>
-          <span class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded-full">
+          <span
+            class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded-full"
+          >
             🔘 Single Choice
           </span>
-          <span class="px-3 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded-full">
+          <span
+            class="px-3 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded-full"
+          >
             ☑️ Multiple Choice
           </span>
-          <span class="px-3 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs rounded-full">
+          <span
+            class="px-3 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs rounded-full"
+          >
             📅 Date & Time
           </span>
-          <span class="px-3 py-1 bg-pink-50 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs rounded-full">
+          <span
+            class="px-3 py-1 bg-pink-50 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs rounded-full"
+          >
             🔢 Number Stepper
           </span>
         </div>
 
         <button
-          @click="openFormBuilder"
           class="px-6 py-3 bg-woot-600 hover:bg-woot-700 text-white font-medium rounded-lg transition-colors"
+          @click="openFormBuilder"
         >
           🛠️ Open Form Builder
         </button>
@@ -1619,26 +1809,42 @@ const updateAppData = (key, value) => {
     <div v-if="activeTab === 'imessage_apps'" class="space-y-6">
       <!-- No Apps Configured Message -->
       <div v-if="availableApps.length === 0" class="text-center py-12">
-        <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-8 h-8 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        <div
+          class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4"
+        >
+          <svg
+            class="w-8 h-8 text-slate-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+            />
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11 mb-2">
+        <h3
+          class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11 mb-2"
+        >
           No iMessage Apps Configured
         </h3>
-        <p class="text-sm text-n-slate-10 dark:text-n-slate-9 max-w-md mx-auto mb-4">
-          Configure iMessage apps in your inbox settings to enable custom app invocations.
+        <p
+          class="text-sm text-n-slate-10 dark:text-n-slate-9 max-w-md mx-auto mb-4"
+        >
+          Configure iMessage apps in your inbox settings to enable custom app
+          invocations.
         </p>
         <p class="text-xs text-n-slate-9 dark:text-n-slate-8">
-          Go to Settings → Inboxes → Your Apple Messages Channel → iMessage Apps Configuration
+          Go to Settings → Inboxes → Your Apple Messages Channel → iMessage Apps
+          Configuration
         </p>
       </div>
 
       <!-- App Selection -->
       <div v-else>
         <div class="mb-6">
-          <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3">
+          <h4
+            class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3"
+          >
             Select iMessage App
           </h4>
           <div class="space-y-2">
@@ -1646,7 +1852,9 @@ const updateAppData = (key, value) => {
               v-for="app in availableApps"
               :key="app.id"
               class="flex items-center space-x-3 p-3 border border-n-weak rounded-lg cursor-pointer hover:bg-n-alpha-2 transition-colors"
-              :class="selectedAppId === app.id ? 'border-n-woot-8 bg-n-woot-1' : ''"
+              :class="
+                selectedAppId === app.id ? 'border-n-woot-8 bg-n-woot-1' : ''
+              "
             >
               <input
                 v-model="selectedAppId"
@@ -1655,9 +1863,17 @@ const updateAppData = (key, value) => {
                 class="rounded-full border-n-weak text-n-woot-8 focus:ring-n-woot-8"
               />
               <div class="flex-1">
-                <div class="font-medium text-n-slate-12 dark:text-n-slate-11">{{ app.name }}</div>
-                <div class="text-sm text-n-slate-10 dark:text-n-slate-9">{{ app.description }}</div>
-                <div class="text-xs text-n-slate-8 dark:text-n-slate-7 font-mono mt-1">{{ app.app_id }}</div>
+                <div class="font-medium text-n-slate-12 dark:text-n-slate-11">
+                  {{ app.name }}
+                </div>
+                <div class="text-sm text-n-slate-10 dark:text-n-slate-9">
+                  {{ app.description }}
+                </div>
+                <div
+                  class="text-xs text-n-slate-8 dark:text-n-slate-7 font-mono mt-1"
+                >
+                  {{ app.app_id }}
+                </div>
               </div>
             </label>
           </div>
@@ -1703,9 +1919,17 @@ const updateAppData = (key, value) => {
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       @click.self="closeImagePicker"
     >
-      <div class="bg-white dark:bg-n-slate-1 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto m-4">
-        <div class="sticky top-0 bg-white dark:bg-n-slate-1 border-b border-n-weak dark:border-n-alpha-6 p-4 flex justify-between items-center">
-          <h3 class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11">Select Image</h3>
+      <div
+        class="bg-white dark:bg-n-slate-1 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto m-4"
+      >
+        <div
+          class="sticky top-0 bg-white dark:bg-n-slate-1 border-b border-n-weak dark:border-n-alpha-6 p-4 flex justify-between items-center"
+        >
+          <h3
+            class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11"
+          >
+            Select Image
+          </h3>
           <button
             class="text-n-slate-11 dark:text-n-slate-10 hover:text-n-slate-12 dark:hover:text-n-slate-9"
             @click="closeImagePicker"
@@ -1717,7 +1941,11 @@ const updateAppData = (key, value) => {
         <div class="p-4">
           <!-- Recently uploaded images -->
           <div v-if="listPickerData.images.length > 0" class="mb-6">
-            <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3">Recently Uploaded</h4>
+            <h4
+              class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3"
+            >
+              Recently Uploaded
+            </h4>
             <div class="grid grid-cols-3 gap-3">
               <div
                 v-for="image in listPickerData.images"
@@ -1730,7 +1958,9 @@ const updateAppData = (key, value) => {
                   :alt="image.description"
                   class="w-full h-32 object-cover"
                 />
-                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 truncate">
+                <div
+                  class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 truncate"
+                >
                   {{ image.originalName || image.description }}
                 </div>
               </div>
@@ -1739,7 +1969,11 @@ const updateAppData = (key, value) => {
 
           <!-- Saved images -->
           <div v-if="savedImages.length > 0">
-            <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3">Saved Images</h4>
+            <h4
+              class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3"
+            >
+              Saved Images
+            </h4>
             <div class="grid grid-cols-3 gap-3">
               <div
                 v-for="image in savedImages"
@@ -1752,7 +1986,9 @@ const updateAppData = (key, value) => {
                   :alt="image.description"
                   class="w-full h-32 object-cover"
                 />
-                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 truncate">
+                <div
+                  class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 truncate"
+                >
                   {{ image.original_name || image.description }}
                 </div>
               </div>
@@ -1760,8 +1996,16 @@ const updateAppData = (key, value) => {
           </div>
 
           <!-- No images -->
-          <div v-if="listPickerData.images.length === 0 && savedImages.length === 0" class="text-center py-8 text-n-slate-10 dark:text-n-slate-9">
-            <p>No images available. Upload images using the "Add Image" button above.</p>
+          <div
+            v-if="
+              listPickerData.images.length === 0 && savedImages.length === 0
+            "
+            class="text-center py-8 text-n-slate-10 dark:text-n-slate-9"
+          >
+            <p>
+              No images available. Upload images using the "Add Image" button
+              above.
+            </p>
           </div>
         </div>
       </div>

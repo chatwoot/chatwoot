@@ -26,7 +26,6 @@ export default {
   },
   emits: ['authSuccess', 'authError', 'authCancel'],
   setup(props, { emit }) {
-
     const isProcessing = ref(false);
     const errorMessage = ref('');
     const authResult = ref(null);

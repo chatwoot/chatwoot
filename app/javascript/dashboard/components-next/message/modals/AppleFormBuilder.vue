@@ -29,7 +29,7 @@ export default {
     const formData = ref({
       title: '',
       description: '',
-      pages: []
+      pages: [],
     });
 
     const activeTab = ref('builder'); // 'builder', 'preview', 'templates'
@@ -40,16 +40,66 @@ export default {
 
     // Field types configuration
     const fieldTypes = ref([
-      { value: 'text', label: 'Text Input', icon: '📝', description: 'Single line text input' },
-      { value: 'textArea', label: 'Text Area', icon: '📄', description: 'Multi-line text input' },
-      { value: 'email', label: 'Email', icon: '📧', description: 'Email address input' },
-      { value: 'phone', label: 'Phone', icon: '📱', description: 'Phone number input' },
-      { value: 'singleSelect', label: 'Single Choice', icon: '🔘', description: 'Select one option' },
-      { value: 'multiSelect', label: 'Multiple Choice', icon: '☑️', description: 'Select multiple options' },
-      { value: 'dateTime', label: 'Date & Time', icon: '📅', description: 'Date and time picker' },
-      { value: 'toggle', label: 'Toggle', icon: '🔄', description: 'Yes/No toggle switch' },
-      { value: 'stepper', label: 'Number Stepper', icon: '🔢', description: 'Number input with +/- buttons' },
-      { value: 'richLink', label: 'Rich Link', icon: '🔗', description: 'Clickable link with preview' },
+      {
+        value: 'text',
+        label: 'Text Input',
+        icon: '📝',
+        description: 'Single line text input',
+      },
+      {
+        value: 'textArea',
+        label: 'Text Area',
+        icon: '📄',
+        description: 'Multi-line text input',
+      },
+      {
+        value: 'email',
+        label: 'Email',
+        icon: '📧',
+        description: 'Email address input',
+      },
+      {
+        value: 'phone',
+        label: 'Phone',
+        icon: '📱',
+        description: 'Phone number input',
+      },
+      {
+        value: 'singleSelect',
+        label: 'Single Choice',
+        icon: '🔘',
+        description: 'Select one option',
+      },
+      {
+        value: 'multiSelect',
+        label: 'Multiple Choice',
+        icon: '☑️',
+        description: 'Select multiple options',
+      },
+      {
+        value: 'dateTime',
+        label: 'Date & Time',
+        icon: '📅',
+        description: 'Date and time picker',
+      },
+      {
+        value: 'toggle',
+        label: 'Toggle',
+        icon: '🔄',
+        description: 'Yes/No toggle switch',
+      },
+      {
+        value: 'stepper',
+        label: 'Number Stepper',
+        icon: '🔢',
+        description: 'Number input with +/- buttons',
+      },
+      {
+        value: 'richLink',
+        label: 'Rich Link',
+        icon: '🔗',
+        description: 'Clickable link with preview',
+      },
     ]);
 
     // Form templates
@@ -59,36 +109,36 @@ export default {
         name: 'Contact Form',
         description: 'Basic contact information form',
         icon: '👤',
-        fields: ['name', 'email', 'phone', 'message']
+        fields: ['name', 'email', 'phone', 'message'],
       },
       {
         id: 'feedback',
         name: 'Feedback Form',
         description: 'Customer feedback and rating form',
         icon: '⭐',
-        fields: ['rating', 'comments', 'recommend']
+        fields: ['rating', 'comments', 'recommend'],
       },
       {
         id: 'appointment',
         name: 'Appointment Booking',
         description: 'Schedule appointments and meetings',
         icon: '📅',
-        fields: ['name', 'date', 'service', 'notes']
+        fields: ['name', 'date', 'service', 'notes'],
       },
       {
         id: 'survey',
         name: 'Survey Form',
         description: 'Multi-page customer survey',
         icon: '📊',
-        fields: ['demographics', 'preferences', 'satisfaction']
+        fields: ['demographics', 'preferences', 'satisfaction'],
       },
       {
         id: 'order',
         name: 'Order Form',
         description: 'Product ordering and billing',
         icon: '🛒',
-        fields: ['product', 'quantity', 'billing', 'terms']
-      }
+        fields: ['product', 'quantity', 'billing', 'terms'],
+      },
     ]);
 
     // New field data
@@ -104,7 +154,7 @@ export default {
       max_value: 10,
       max_length: null,
       url: '',
-      default_value: ''
+      default_value: '',
     });
 
     // Computed properties
@@ -116,9 +166,11 @@ export default {
     });
 
     const canCreateForm = computed(() => {
-      return formData.value.title.trim().length > 0 &&
-             formData.value.pages.length > 0 &&
-             formData.value.pages.some(page => page.items && page.items.length > 0);
+      return (
+        formData.value.title.trim().length > 0 &&
+        formData.value.pages.length > 0 &&
+        formData.value.pages.some(page => page.items && page.items.length > 0)
+      );
     });
 
     const formPreview = computed(() => {
@@ -136,7 +188,11 @@ export default {
             // Backend expects: type, label, name, etc.
             const mappedField = {
               type: field.item_type || field.type,
-              name: field.item_id || field.name || field.title?.toLowerCase().replace(/\s+/g, '_') || `field_${fieldIndex}`,
+              name:
+                field.item_id ||
+                field.name ||
+                field.title?.toLowerCase().replace(/\s+/g, '_') ||
+                `field_${fieldIndex}`,
               label: field.title || field.label,
               placeholder: field.placeholder || '',
               required: field.required || false,
@@ -144,7 +200,7 @@ export default {
               default: field.default || '',
               pattern: field.pattern || '',
               title: field.title || field.label || '',
-              pattern_error: field.pattern_error || ''
+              pattern_error: field.pattern_error || '',
             };
 
             allFields.push(mappedField);
@@ -158,7 +214,7 @@ export default {
         fields: allFields,
         submit_url: `${window.location.origin}/api/v1/forms/submit`, // Default submit URL
         method: 'POST',
-        validation_rules: {} // Optional validation rules
+        validation_rules: {}, // Optional validation rules
       };
     });
 
@@ -173,7 +229,7 @@ export default {
       formData.value = {
         title: '',
         description: '',
-        pages: []
+        pages: [],
       };
       currentPageIndex.value = 0;
       activeTab.value = 'builder';
@@ -186,14 +242,14 @@ export default {
         page_id: `page_${pageNumber}`,
         title: `Page ${pageNumber}`,
         description: '',
-        items: []
+        items: [],
       };
 
       formData.value.pages.push(newPage);
       currentPageIndex.value = formData.value.pages.length - 1;
     };
 
-    const removePage = (index) => {
+    const removePage = index => {
       if (formData.value.pages.length > 1) {
         formData.value.pages.splice(index, 1);
         if (currentPageIndex.value >= formData.value.pages.length) {
@@ -220,7 +276,7 @@ export default {
         max_value: 10,
         max_length: null,
         url: '',
-        default_value: ''
+        default_value: '',
       };
     };
 
@@ -256,7 +312,9 @@ export default {
 
       // Filter out options with empty values
       if (fieldData.options) {
-        fieldData.options = fieldData.options.filter(opt => opt.value && opt.title);
+        fieldData.options = fieldData.options.filter(
+          opt => opt.value && opt.title
+        );
       }
 
       currentPage.value.items.push(fieldData);
@@ -264,7 +322,7 @@ export default {
       resetNewField();
     };
 
-    const removeField = (fieldIndex) => {
+    const removeField = fieldIndex => {
       if (currentPage.value && currentPage.value.items) {
         currentPage.value.items.splice(fieldIndex, 1);
       }
@@ -274,73 +332,108 @@ export default {
       newField.value.options.push({ value: '', title: '' });
     };
 
-    const removeOption = (index) => {
+    const removeOption = index => {
       if (newField.value.options.length > 1) {
         newField.value.options.splice(index, 1);
       }
     };
 
-    const loadTemplate = (templateId) => {
+    const loadTemplate = templateId => {
       // This would typically load from the FormBuilderService templates
 
       switch (templateId) {
         case 'contact':
           formData.value = {
             title: 'Contact Form',
-            description: 'We\'d love to hear from you',
-            pages: [{
-              page_id: 'page_1',
-              title: 'Contact Information',
-              description: 'Please provide your contact details',
-              items: [
-                { item_id: 'full_name', item_type: 'text', title: 'Full Name', required: true, placeholder: 'Enter your full name' },
-                { item_id: 'email', item_type: 'email', title: 'Email Address', required: true, placeholder: 'your.email@example.com' },
-                { item_id: 'phone', item_type: 'phone', title: 'Phone Number', required: false, placeholder: '+1 (555) 123-4567' },
-                {
-                  item_id: 'preferred_contact',
-                  item_type: 'singleSelect',
-                  title: 'Preferred Contact Method',
-                  required: true,
-                  options: [
-                    { value: 'email', title: 'Email' },
-                    { value: 'phone', title: 'Phone Call' },
-                    { value: 'text', title: 'Text Message' }
-                  ]
-                }
-              ]
-            }]
+            description: "We'd love to hear from you",
+            pages: [
+              {
+                page_id: 'page_1',
+                title: 'Contact Information',
+                description: 'Please provide your contact details',
+                items: [
+                  {
+                    item_id: 'full_name',
+                    item_type: 'text',
+                    title: 'Full Name',
+                    required: true,
+                    placeholder: 'Enter your full name',
+                  },
+                  {
+                    item_id: 'email',
+                    item_type: 'email',
+                    title: 'Email Address',
+                    required: true,
+                    placeholder: 'your.email@example.com',
+                  },
+                  {
+                    item_id: 'phone',
+                    item_type: 'phone',
+                    title: 'Phone Number',
+                    required: false,
+                    placeholder: '+1 (555) 123-4567',
+                  },
+                  {
+                    item_id: 'preferred_contact',
+                    item_type: 'singleSelect',
+                    title: 'Preferred Contact Method',
+                    required: true,
+                    options: [
+                      { value: 'email', title: 'Email' },
+                      { value: 'phone', title: 'Phone Call' },
+                      { value: 'text', title: 'Text Message' },
+                    ],
+                  },
+                ],
+              },
+            ],
           };
           break;
         case 'feedback':
           formData.value = {
             title: 'Customer Feedback',
             description: 'Your opinion matters to us',
-            pages: [{
-              page_id: 'page_1',
-              title: 'Feedback',
-              description: 'Help us improve our service',
-              items: [
-                {
-                  item_id: 'rating',
-                  item_type: 'singleSelect',
-                  title: 'Overall Rating',
-                  required: true,
-                  options: [
-                    { value: '5', title: '5 ★★★★★' },
-                    { value: '4', title: '4 ★★★★' },
-                    { value: '3', title: '3 ★★★' },
-                    { value: '2', title: '2 ★★' },
-                    { value: '1', title: '1 ★' }
-                  ]
-                },
-                { item_id: 'comments', item_type: 'textArea', title: 'Comments', required: false, placeholder: 'Tell us about your experience...', max_length: 500 },
-                { item_id: 'recommend', item_type: 'toggle', title: 'Would you recommend us to others?', required: false, default_value: true }
-              ]
-            }]
+            pages: [
+              {
+                page_id: 'page_1',
+                title: 'Feedback',
+                description: 'Help us improve our service',
+                items: [
+                  {
+                    item_id: 'rating',
+                    item_type: 'singleSelect',
+                    title: 'Overall Rating',
+                    required: true,
+                    options: [
+                      { value: '5', title: '5 ★★★★★' },
+                      { value: '4', title: '4 ★★★★' },
+                      { value: '3', title: '3 ★★★' },
+                      { value: '2', title: '2 ★★' },
+                      { value: '1', title: '1 ★' },
+                    ],
+                  },
+                  {
+                    item_id: 'comments',
+                    item_type: 'textArea',
+                    title: 'Comments',
+                    required: false,
+                    placeholder: 'Tell us about your experience...',
+                    max_length: 500,
+                  },
+                  {
+                    item_id: 'recommend',
+                    item_type: 'toggle',
+                    title: 'Would you recommend us to others?',
+                    required: false,
+                    default_value: true,
+                  },
+                ],
+              },
+            ],
           };
           break;
         default:
-          // Unknown template - using default empty form
+        // Unknown template - using default empty form
       }
 
       currentPageIndex.value = 0;
@@ -354,7 +447,7 @@ export default {
 
       emit('create', {
         content_type: 'apple_form',
-        content_attributes: formConfig
+        content_attributes: formConfig,
       });
 
       emit('close');
@@ -367,15 +460,18 @@ export default {
     };
 
     // Initialize with one page when modal opens
-    watch(() => props.show, (newShow) => {
-      if (newShow) {
-        nextTick(() => {
-          if (formData.value.pages.length === 0) {
-            addNewPage();
-          }
-        });
+    watch(
+      () => props.show,
+      newShow => {
+        if (newShow) {
+          nextTick(() => {
+            if (formData.value.pages.length === 0) {
+              addNewPage();
+            }
+          });
+        }
       }
-    });
+    );
 
     return {
       formData,
@@ -403,17 +499,24 @@ export default {
       loadTemplate,
       createForm,
       closeModal,
-      t
+      t,
     };
-  }
+  },
 };
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-80 flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-lg max-w-4xl w-full max-h-full overflow-hidden flex flex-col shadow-2xl border-4 border-blue-500 dark:border-blue-400 ring-4 ring-blue-200 dark:ring-blue-800">
+  <div
+    v-if="show"
+    class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-80 flex items-center justify-center p-4"
+  >
+    <div
+      class="bg-white dark:bg-slate-800 rounded-lg max-w-4xl w-full max-h-full overflow-hidden flex flex-col shadow-2xl border-4 border-blue-500 dark:border-blue-400 ring-4 ring-blue-200 dark:ring-blue-800"
+    >
       <!-- Modal Header -->
-      <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-600">
+      <div
+        class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-600"
+      >
         <div>
           <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
             Create Apple Form Message
@@ -423,11 +526,13 @@ export default {
           </p>
         </div>
         <button
-          @click="closeModal"
           class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+          @click="closeModal"
         >
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+            <path
+              d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+            />
           </svg>
         </button>
       </div>
@@ -435,22 +540,34 @@ export default {
       <!-- Tab Navigation -->
       <div class="flex border-b border-slate-200 dark:border-slate-600">
         <button
-          :class="['px-6 py-3 text-sm font-medium border-b-2 transition-colors',
-                   activeTab === 'templates' ? 'border-woot-500 text-woot-600 dark:text-woot-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300']"
+          class="px-6 py-3 text-sm font-medium border-b-2 transition-colors"
+          :class="[
+            activeTab === 'templates'
+              ? 'border-woot-500 text-woot-600 dark:text-woot-400'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300',
+          ]"
           @click="activeTab = 'templates'"
         >
           📋 Templates
         </button>
         <button
-          :class="['px-6 py-3 text-sm font-medium border-b-2 transition-colors',
-                   activeTab === 'builder' ? 'border-woot-500 text-woot-600 dark:text-woot-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300']"
+          class="px-6 py-3 text-sm font-medium border-b-2 transition-colors"
+          :class="[
+            activeTab === 'builder'
+              ? 'border-woot-500 text-woot-600 dark:text-woot-400'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300',
+          ]"
           @click="activeTab = 'builder'"
         >
           🔧 Builder
         </button>
         <button
-          :class="['px-6 py-3 text-sm font-medium border-b-2 transition-colors',
-                   activeTab === 'preview' ? 'border-woot-500 text-woot-600 dark:text-woot-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300']"
+          class="px-6 py-3 text-sm font-medium border-b-2 transition-colors"
+          :class="[
+            activeTab === 'preview'
+              ? 'border-woot-500 text-woot-600 dark:text-woot-400'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300',
+          ]"
           @click="activeTab = 'preview'"
         >
           👁️ Preview
@@ -461,21 +578,27 @@ export default {
       <div class="flex-1 overflow-y-auto">
         <!-- Templates Tab -->
         <div v-if="activeTab === 'templates'" class="p-6">
-          <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">
+          <h3
+            class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4"
+          >
             Choose a Template
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               v-for="template in formTemplates"
               :key="template.id"
-              @click="loadTemplate(template.id)"
               class="text-left p-4 border-2 border-slate-200 dark:border-slate-600 rounded-lg hover:border-woot-500 dark:hover:border-woot-400 transition-colors"
+              @click="loadTemplate(template.id)"
             >
               <div class="flex items-center space-x-3">
                 <div class="text-2xl">{{ template.icon }}</div>
                 <div>
-                  <h4 class="font-medium text-slate-900 dark:text-slate-100">{{ template.name }}</h4>
-                  <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">{{ template.description }}</p>
+                  <h4 class="font-medium text-slate-900 dark:text-slate-100">
+                    {{ template.name }}
+                  </h4>
+                  <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    {{ template.description }}
+                  </p>
                   <div class="flex flex-wrap gap-1 mt-2">
                     <span
                       v-for="field in template.fields.slice(0, 3)"
@@ -484,7 +607,10 @@ export default {
                     >
                       {{ field }}
                     </span>
-                    <span v-if="template.fields.length > 3" class="px-2 py-1 text-xs text-slate-500 dark:text-slate-400">
+                    <span
+                      v-if="template.fields.length > 3"
+                      class="px-2 py-1 text-xs text-slate-500 dark:text-slate-400"
+                    >
                       +{{ template.fields.length - 3 }} more
                     </span>
                   </div>
@@ -497,13 +623,21 @@ export default {
         <!-- Builder Tab -->
         <div v-else-if="activeTab === 'builder'" class="flex h-full">
           <!-- Form Configuration -->
-          <div class="w-1/2 p-6 border-r border-slate-200 dark:border-slate-600">
+          <div
+            class="w-1/2 p-6 border-r border-slate-200 dark:border-slate-600"
+          >
             <!-- Form Basic Info -->
             <div class="mb-6">
-              <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Form Details</h3>
+              <h3
+                class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4"
+              >
+                Form Details
+              </h3>
               <div class="space-y-4">
                 <div>
-                  <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  <label
+                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >
                     Form Title *
                   </label>
                   <input
@@ -514,7 +648,9 @@ export default {
                   />
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  <label
+                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >
                     Description
                   </label>
                   <textarea
@@ -530,10 +666,14 @@ export default {
             <!-- Pages Management -->
             <div class="mb-6">
               <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100">Pages</h3>
+                <h3
+                  class="text-lg font-medium text-slate-900 dark:text-slate-100"
+                >
+                  Pages
+                </h3>
                 <button
-                  @click="addNewPage"
                   class="px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-colors"
+                  @click="addNewPage"
                 >
                   + Add Page
                 </button>
@@ -543,15 +683,19 @@ export default {
                 <div
                   v-for="(page, index) in formData.pages"
                   :key="page.page_id"
-                  :class="['flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors',
-                           index === currentPageIndex ? 'border-woot-500 bg-woot-50 dark:bg-woot-900/20' : 'border-slate-200 dark:border-slate-600 hover:border-slate-300']"
+                  class="flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors"
+                  :class="[
+                    index === currentPageIndex
+                      ? 'border-woot-500 bg-woot-50 dark:bg-woot-900/20'
+                      : 'border-slate-200 dark:border-slate-600 hover:border-slate-300',
+                  ]"
                   @click="currentPageIndex = index"
                 >
                   <div class="flex-1">
                     <input
                       v-model="page.title"
-                      @click.stop
                       class="font-medium text-slate-900 dark:text-slate-100 bg-transparent border-none p-0 focus:outline-none"
+                      @click.stop
                     />
                     <p class="text-sm text-slate-600 dark:text-slate-400">
                       {{ page.items ? page.items.length : 0 }} fields
@@ -559,11 +703,17 @@ export default {
                   </div>
                   <button
                     v-if="formData.pages.length > 1"
-                    @click.stop="removePage(index)"
                     class="text-red-500 hover:text-red-700 transition-colors ml-2"
+                    @click.stop="removePage(index)"
                   >
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                    <svg
+                      class="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -573,12 +723,14 @@ export default {
             <!-- Current Page Fields -->
             <div v-if="currentPage">
               <div class="flex items-center justify-between mb-4">
-                <h4 class="text-md font-medium text-slate-900 dark:text-slate-100">
+                <h4
+                  class="text-md font-medium text-slate-900 dark:text-slate-100"
+                >
                   Fields - {{ currentPage.title }}
                 </h4>
                 <button
-                  @click="openAddFieldModal"
                   class="px-3 py-1 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-colors"
+                  @click="openAddFieldModal"
                 >
                   + Add Field
                 </button>
@@ -591,18 +743,31 @@ export default {
                   class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-lg"
                 >
                   <div>
-                    <div class="font-medium text-slate-900 dark:text-slate-100">{{ field.title }}</div>
+                    <div class="font-medium text-slate-900 dark:text-slate-100">
+                      {{ field.title }}
+                    </div>
                     <div class="text-sm text-slate-600 dark:text-slate-400">
-                      {{ fieldTypes.find(t => t.value === field.item_type)?.label || field.item_type }}
-                      <span v-if="field.required" class="text-red-500 ml-1">*</span>
+                      {{
+                        fieldTypes.find(t => t.value === field.item_type)
+                          ?.label || field.item_type
+                      }}
+                      <span v-if="field.required"
+class="text-red-500 ml-1"
+                        >*</span>
                     </div>
                   </div>
                   <button
-                    @click="removeField(index)"
                     class="text-red-500 hover:text-red-700 transition-colors"
+                    @click="removeField(index)"
                   >
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                    <svg
+                      class="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -613,12 +778,16 @@ export default {
           <!-- Page Configuration -->
           <div class="w-1/2 p-6">
             <div v-if="currentPage">
-              <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">
+              <h3
+                class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4"
+              >
                 Page Configuration
               </h3>
               <div class="space-y-4">
                 <div>
-                  <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  <label
+                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >
                     Page Title
                   </label>
                   <input
@@ -628,7 +797,9 @@ export default {
                   />
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  <label
+                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >
                     Page Description
                   </label>
                   <textarea
@@ -644,7 +815,9 @@ export default {
 
         <!-- Preview Tab -->
         <div v-else-if="activeTab === 'preview'" class="p-6">
-          <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">
+          <h3
+            class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4"
+          >
             Form Preview
           </h3>
           <div class="flex justify-center">
@@ -654,21 +827,23 @@ export default {
       </div>
 
       <!-- Modal Footer -->
-      <div class="flex items-center justify-between p-6 border-t border-slate-200 dark:border-slate-600">
+      <div
+        class="flex items-center justify-between p-6 border-t border-slate-200 dark:border-slate-600"
+      >
         <div class="text-sm text-slate-600 dark:text-slate-400">
           {{ formData.pages.length }} pages, {{ totalFields }} fields
         </div>
         <div class="flex space-x-3">
           <button
-            @click="closeModal"
             class="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
+            @click="closeModal"
           >
             Cancel
           </button>
           <button
-            @click="createForm"
             :disabled="!canCreateForm"
             class="px-4 py-2 bg-woot-500 text-white rounded-md hover:bg-woot-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            @click="createForm"
           >
             Create Form Message
           </button>
@@ -677,27 +852,48 @@ export default {
     </div>
 
     <!-- Add Field Modal -->
-    <div v-if="showAddFieldModal" class="fixed inset-0 z-60 overflow-y-auto bg-black bg-opacity-90 flex items-center justify-center p-4">
-      <div class="bg-white dark:bg-slate-800 rounded-lg max-w-2xl w-full max-h-full overflow-hidden shadow-2xl border-4 border-green-500 dark:border-green-400 ring-8 ring-green-200 dark:ring-green-800">
+    <div
+      v-if="showAddFieldModal"
+      class="fixed inset-0 z-60 overflow-y-auto bg-black bg-opacity-90 flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white dark:bg-slate-800 rounded-lg max-w-2xl w-full max-h-full overflow-hidden shadow-2xl border-4 border-green-500 dark:border-green-400 ring-8 ring-green-200 dark:ring-green-800"
+      >
         <div class="p-6">
-          <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Add Form Field</h3>
+          <h3
+            class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4"
+          >
+            Add Form Field
+          </h3>
 
           <!-- Field Type Selection -->
           <div class="mb-4">
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Field Type</label>
+            <label
+              class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+              >Field Type</label>
             <div class="grid grid-cols-2 gap-2">
               <button
                 v-for="fieldType in fieldTypes"
                 :key="fieldType.value"
+                class="text-left p-3 border-2 rounded-lg transition-colors"
+                :class="[
+                  newField.item_type === fieldType.value
+                    ? 'border-woot-500 bg-woot-50 dark:bg-woot-900/20'
+                    : 'border-slate-200 dark:border-slate-600 hover:border-slate-300',
+                ]"
                 @click="newField.item_type = fieldType.value"
-                :class="['text-left p-3 border-2 rounded-lg transition-colors',
-                         newField.item_type === fieldType.value ? 'border-woot-500 bg-woot-50 dark:bg-woot-900/20' : 'border-slate-200 dark:border-slate-600 hover:border-slate-300']"
               >
                 <div class="flex items-center space-x-2">
                   <span class="text-lg">{{ fieldType.icon }}</span>
                   <div>
-                    <div class="font-medium text-slate-900 dark:text-slate-100 text-sm">{{ fieldType.label }}</div>
-                    <div class="text-xs text-slate-600 dark:text-slate-400">{{ fieldType.description }}</div>
+                    <div
+                      class="font-medium text-slate-900 dark:text-slate-100 text-sm"
+                    >
+                      {{ fieldType.label }}
+                    </div>
+                    <div class="text-xs text-slate-600 dark:text-slate-400">
+                      {{ fieldType.description }}
+                    </div>
                   </div>
                 </div>
               </button>
@@ -707,7 +903,9 @@ export default {
           <!-- Basic Field Configuration -->
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Field Title *</label>
+              <label
+                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                >Field Title *</label>
               <input
                 v-model="newField.title"
                 type="text"
@@ -717,7 +915,9 @@ export default {
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Field ID</label>
+              <label
+                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                >Field ID</label>
               <input
                 v-model="newField.item_id"
                 type="text"
@@ -727,7 +927,9 @@ export default {
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description</label>
+              <label
+                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                >Description</label>
               <input
                 v-model="newField.description"
                 type="text"
@@ -747,9 +949,18 @@ export default {
 
             <!-- Field-specific configuration -->
             <!-- Text fields -->
-            <div v-if="['text', 'textArea', 'email', 'phone'].includes(newField.item_type)" class="space-y-4">
+            <div
+              v-if="
+                ['text', 'textArea', 'email', 'phone'].includes(
+                  newField.item_type
+                )
+              "
+              class="space-y-4"
+            >
               <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Placeholder</label>
+                <label
+                  class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >Placeholder</label>
                 <input
                   v-model="newField.placeholder"
                   type="text"
@@ -758,7 +969,9 @@ export default {
                 />
               </div>
               <div v-if="['text', 'textArea'].includes(newField.item_type)">
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Max Length</label>
+                <label
+                  class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >Max Length</label>
                 <input
                   v-model="newField.max_length"
                   type="number"
@@ -769,9 +982,16 @@ export default {
             </div>
 
             <!-- Select fields -->
-            <div v-if="['singleSelect', 'multiSelect'].includes(newField.item_type)" class="space-y-4">
+            <div
+              v-if="
+                ['singleSelect', 'multiSelect'].includes(newField.item_type)
+              "
+              class="space-y-4"
+            >
               <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Options</label>
+                <label
+                  class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                  >Options</label>
                 <div class="space-y-2">
                   <div
                     v-for="(option, index) in newField.options"
@@ -791,17 +1011,23 @@ export default {
                       class="flex-1 px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-woot-500 dark:bg-slate-700 dark:text-white"
                     />
                     <button
-                      @click="removeOption(index)"
                       class="text-red-500 hover:text-red-700 transition-colors"
+                      @click="removeOption(index)"
                     >
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                      <svg
+                        class="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                        />
                       </svg>
                     </button>
                   </div>
                   <button
-                    @click="addOption"
                     class="w-full py-2 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-400 hover:border-slate-400 dark:hover:border-slate-500 transition-colors"
+                    @click="addOption"
                   >
                     + Add Option
                   </button>
@@ -810,9 +1036,14 @@ export default {
             </div>
 
             <!-- Stepper fields -->
-            <div v-if="newField.item_type === 'stepper'" class="grid grid-cols-2 gap-4">
+            <div
+              v-if="newField.item_type === 'stepper'"
+              class="grid grid-cols-2 gap-4"
+            >
               <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Min Value</label>
+                <label
+                  class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >Min Value</label>
                 <input
                   v-model.number="newField.min_value"
                   type="number"
@@ -820,7 +1051,9 @@ export default {
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Max Value</label>
+                <label
+                  class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                  >Max Value</label>
                 <input
                   v-model.number="newField.max_value"
                   type="number"
@@ -831,7 +1064,9 @@ export default {
 
             <!-- Rich Link fields -->
             <div v-if="newField.item_type === 'richLink'">
-              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">URL</label>
+              <label
+                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                >URL</label>
               <input
                 v-model="newField.url"
                 type="url"
@@ -843,15 +1078,15 @@ export default {
 
           <div class="flex justify-end space-x-3 mt-6">
             <button
-              @click="showAddFieldModal = false"
               class="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
+              @click="showAddFieldModal = false"
             >
               Cancel
             </button>
             <button
-              @click="addFieldToCurrentPage"
               :disabled="!newField.title"
               class="px-4 py-2 bg-woot-500 text-white rounded-md hover:bg-woot-600 transition-colors disabled:opacity-50"
+              @click="addFieldToCurrentPage"
             >
               Add Field
             </button>

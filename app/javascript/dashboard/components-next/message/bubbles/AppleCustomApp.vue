@@ -20,7 +20,10 @@ function extractAppName() {
     const bundleId = parts[1];
     // Extract app name from bundle ID (e.g., com.company.appname -> AppName)
     const appName = bundleId.split('.').pop();
-    return appName.charAt(0).toUpperCase() + appName.slice(1).replace(/([A-Z])/g, ' $1');
+    return (
+      appName.charAt(0).toUpperCase() +
+      appName.slice(1).replace(/([A-Z])/g, ' $1')
+    );
   }
 
   return 'Custom App';
@@ -37,7 +40,7 @@ const appConfig = computed(() => ({
   receivedMessage: appData.value.received_message,
   replyMessage: appData.value.reply_message,
   images: appData.value.images || [],
-  useLiveLayout: appData.value.use_live_layout !== false
+  useLiveLayout: appData.value.use_live_layout !== false,
 }));
 
 // Check if app has preview image
@@ -101,8 +104,12 @@ const getAppIcon = () => {
         />
 
         <!-- App overlay indicator -->
-        <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 rounded-t-lg">
-          <div class="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
+        <div
+          class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 rounded-t-lg"
+        >
+          <div
+            class="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center"
+          >
             <svg
               class="w-6 h-6 text-slate-700"
               fill="currentColor"
@@ -115,9 +122,14 @@ const getAppIcon = () => {
       </div>
 
       <!-- App Icon Header (when no preview image) -->
-      <div v-else class="app-header bg-gradient-to-br from-blue-500 to-purple-600 p-4 rounded-t-lg">
+      <div
+        v-else
+        class="app-header bg-gradient-to-br from-blue-500 to-purple-600 p-4 rounded-t-lg"
+      >
         <div class="flex items-center space-x-3">
-          <div class="w-12 h-12 bg-white bg-opacity-90 rounded-xl flex items-center justify-center">
+          <div
+            class="w-12 h-12 bg-white bg-opacity-90 rounded-xl flex items-center justify-center"
+          >
             <svg
               class="w-6 h-6 text-slate-700"
               fill="currentColor"
@@ -127,7 +139,9 @@ const getAppIcon = () => {
             </svg>
           </div>
           <div>
-            <h3 class="text-white font-semibold text-lg">{{ appConfig.appName }}</h3>
+            <h3 class="text-white font-semibold text-lg">
+              {{ appConfig.appName }}
+            </h3>
             <p v-if="isWebBasedApp" class="text-blue-100 text-sm">Web App</p>
             <p v-else class="text-blue-100 text-sm">Native App</p>
           </div>
@@ -137,7 +151,10 @@ const getAppIcon = () => {
       <!-- App Content -->
       <div class="app-content p-4">
         <!-- App Name (if preview image is shown) -->
-        <h3 v-if="hasPreviewImage" class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+        <h3
+          v-if="hasPreviewImage"
+          class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2"
+        >
           {{ appConfig.appName }}
         </h3>
 
@@ -147,8 +164,13 @@ const getAppIcon = () => {
         </p>
 
         <!-- App Parameters (if any) -->
-        <div v-if="Object.keys(appConfig.parameters).length > 0" class="app-parameters mb-3">
-          <div class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">
+        <div
+          v-if="Object.keys(appConfig.parameters).length > 0"
+          class="app-parameters mb-3"
+        >
+          <div
+            class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2"
+          >
             Configuration
           </div>
           <div class="space-y-1">
@@ -158,7 +180,9 @@ const getAppIcon = () => {
               class="flex justify-between text-xs"
             >
               <span class="text-slate-600 dark:text-slate-400 capitalize">{{ key.replace(/_/g, ' ') }}:</span>
-              <span class="text-slate-800 dark:text-slate-200 font-medium">{{ value }}</span>
+              <span class="text-slate-800 dark:text-slate-200 font-medium">{{
+                value
+              }}</span>
             </div>
           </div>
         </div>
@@ -166,33 +190,56 @@ const getAppIcon = () => {
         <!-- App Status -->
         <div class="app-status flex items-center justify-between">
           <!-- Loading State -->
-          <div v-if="isLoading" class="flex items-center space-x-2 text-blue-600">
-            <div class="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <div
+            v-if="isLoading"
+            class="flex items-center space-x-2 text-blue-600"
+          >
+            <div
+              class="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"
+            />
             <span class="text-sm">Launching app...</span>
           </div>
 
           <!-- Error State -->
-          <div v-else-if="errorMessage" class="flex items-center space-x-2 text-red-600">
+          <div
+            v-else-if="errorMessage"
+            class="flex items-center space-x-2 text-red-600"
+          >
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+              />
             </svg>
             <span class="text-sm">{{ errorMessage }}</span>
           </div>
 
           <!-- Ready State -->
-          <div v-else class="flex items-center space-x-2 text-slate-600 dark:text-slate-400">
+          <div
+            v-else
+            class="flex items-center space-x-2 text-slate-600 dark:text-slate-400"
+          >
             <span class="text-sm">Tap to launch</span>
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              <path
+                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
+              />
             </svg>
           </div>
         </div>
 
         <!-- App Version Info -->
-        <div class="app-version mt-2 pt-2 border-t border-slate-200 dark:border-slate-600">
-          <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
+        <div
+          class="app-version mt-2 pt-2 border-t border-slate-200 dark:border-slate-600"
+        >
+          <div
+            class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400"
+          >
             <span>Version {{ appConfig.version }}</span>
-            <span v-if="appConfig.bid" class="font-mono truncate max-w-32" :title="appConfig.bid">
+            <span
+              v-if="appConfig.bid"
+              class="font-mono truncate max-w-32"
+              :title="appConfig.bid"
+            >
               {{ appConfig.bid.split(':').pop() }}
             </span>
           </div>
@@ -206,7 +253,7 @@ const getAppIcon = () => {
           fill="currentColor"
           viewBox="0 0 24 24"
         >
-          <path d="M8 5v14l11-7z"/>
+          <path d="M8 5v14l11-7z" />
         </svg>
       </div>
     </div>
