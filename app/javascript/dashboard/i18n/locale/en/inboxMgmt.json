@@ -553,6 +553,10 @@
           "VOICE": {
             "TITLE": "Voice",
             "DESCRIPTION": "Integrate with Twilio Voice"
+          },
+          "APPLE_MESSAGES_FOR_BUSINESS": {
+            "TITLE": "Apple Messages for Business",
+            "DESCRIPTION": "Integrate with Apple Messages for Business"
           }
         }
       },

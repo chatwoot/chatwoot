@@ -1,17 +1,81 @@
-.bundle
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation (keep deployment docs)
+*.md
+!GCP_DEPLOYMENT_GUIDE.md
+!GCP_QUICK_REFERENCE.md
+docs/
+
+# Environment files
 .env
 .env.*
+!.env.gcp.example
+
+# Docker files (except production)
 docker-compose.*
 docker/Dockerfile
 docker/dockerfiles
+Dockerfile*
+!Dockerfile.production
+
+# Logs and temporary files
 log
-storage
-public/system
 tmp
-.codeclimate.yml
-public/packs
-node_modules
-vendor/bundle
-.DS_Store
+*.log
 *.swp
 *~
+
+# Storage (recreated in container)
+storage
+public/system
+public/packs
+public/vite
+
+# Dependencies (installed in container)
+node_modules
+vendor/bundle
+.bundle
+.pnpm-store
+
+# Development tools
+.vscode
+.idea
+.codeclimate.yml
+.byebug_history
+.spring*
+.rspec
+.simplecov
+
+# Testing
+spec/
+test/
+coverage/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# OS files
+.DS_Store
+.AppleDouble
+Thumbs.db
+
+# Local testing scripts
+validate_apple_idr.rb
+test_apple_idr.rb
+test_list_picker_idr_flow.rb
+dev-server.sh
+Procfile.dev
+Procfile.test
+Procfile.tunnel
+
+# MCP config
+docker/.mcp.json
+
+# Credentials
+config/master.key
+config/credentials/*.key
