@@ -24,7 +24,7 @@
     "CREATE_NEW_ACCOUNT": "إنشاء حساب جديد",
     "SUBMIT": "تسجيل الدخول",
     "SAML": {
-      "LABEL": "Log in via SSO",
+      "LABEL": "Login via SSO",
       "TITLE": "Initiate Single Sign-on (SSO)",
       "SUBTITLE": "Enter your work email to access your organization",
       "BACK_TO_LOGIN": "Login via Password",
