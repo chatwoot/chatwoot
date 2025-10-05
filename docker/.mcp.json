@@ -1,0 +1,16 @@
+{
+"mcpServers": {
+"AppleBrowser": {
+      "command": "/opt/homebrew/bin/uv",
+      "args": [
+        "--directory",
+        "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/apple_browseragent",
+        "run",
+        "cli.py",
+        "--mcp"
+      ],
+      "alwaysAllow": []
+    }
+
+}
+}
