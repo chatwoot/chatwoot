@@ -138,11 +138,11 @@
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
+      "HEADER_TITLE": "WhatsApp 活动",
       "NEW_CAMPAIGN": "创建活动",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "没有可用的 WhatsApp 活动",
+        "SUBTITLE": "发起 WhatsApp 活动以直接联系您的客户。轻松发送优惠或发布公告。点击“创建活动”开始。"
       },
       "CARD": {
         "STATUS": {
@@ -155,7 +155,7 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
+        "TITLE": "创建 WhatsApp 活动",
         "CANCEL_BUTTON_TEXT": "取消",
         "CREATE_BUTTON_TEXT": "创建",
         "FORM": {
@@ -170,15 +170,15 @@
             "ERROR": "收件箱是必填项"
           },
           "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
+            "LABEL": "WhatsApp 模板",
+            "PLACEHOLDER": "选择一个模板",
+            "INFO": "选择一个模板用于此活动。",
+            "ERROR": "模板是必填项",
             "PREVIEW_TITLE": "{templateName} 处理中",
             "LANGUAGE": "语言",
             "CATEGORY": "类别",
             "VARIABLES_LABEL": "参数",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "VARIABLE_PLACEHOLDER": "输入 {variable} 的值"
           },
           "AUDIENCE": {
             "LABEL": "受众",
@@ -195,7 +195,7 @@
             "CANCEL": "取消"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "SUCCESS_MESSAGE": "WhatsApp 活动创建成功",
             "ERROR_MESSAGE": "发生错误，请重试。"
           }
         }

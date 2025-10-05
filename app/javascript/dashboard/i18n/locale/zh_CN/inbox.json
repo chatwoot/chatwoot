@@ -74,14 +74,14 @@
       "DELETE_ALL_READ": "所有已读通知已删除"
     },
     "REAUTHORIZE": {
-      "TITLE": "Reauthorization Required",
-      "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
+      "TITLE": "需要重新授权",
+      "DESCRIPTION": "您的 WhatsApp 连接已过期。请重新连接以继续接收和发送消息。",
       "BUTTON_TEXT": "重新连接 WhatsApp",
       "LOADING_FACEBOOK": "加载 Facebook SDK...",
       "SUCCESS": "WhatsApp 重新连接成功",
       "ERROR": "无法重新连接 WhatsApp。请再试一次。",
       "WHATSAPP_APP_ID_MISSING": "WhatsApp ID未配置。请联系您的管理员。",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp 配置 ID 未配置。请联系您的管理员。",
       "CONFIGURATION_ERROR": "重新授权时发生配置错误。",
       "FACEBOOK_LOAD_ERROR": "无法加载 Facebook SDK。请重试。",
       "TROUBLESHOOTING": {

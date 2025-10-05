@@ -41,14 +41,14 @@
         "NO": "否"
       },
       "API": {
-        "SUCCESS_MESSAGE": "宏添加成功",
+        "SUCCESS_MESSAGE": "宏删除成功",
         "ERROR_MESSAGE": "删除宏时出错。请稍后再试"
       }
     },
     "EDIT": {
       "TOOLTIP": "编辑宏文件",
       "API": {
-        "SUCCESS_MESSAGE": "宏观已成功更新",
+        "SUCCESS_MESSAGE": "宏更新成功",
         "ERROR_MESSAGE": "无法更新宏，请稍后再试"
       }
     },

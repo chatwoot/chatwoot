@@ -1,30 +1,30 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "無法使用",
-    "EMAIL_ADDRESS": "電子信箱地址",
+    "NOT_AVAILABLE": "不可用",
+    "EMAIL_ADDRESS": "電子郵件",
     "PHONE_NUMBER": "電話號碼",
-    "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "成功複製到剪貼簿",
+    "IDENTIFIER": "識別碼",
+    "COPY_SUCCESSFUL": "已成功複製到剪貼簿",
     "COMPANY": "公司",
     "LOCATION": "位置",
     "BROWSER_LANGUAGE": "瀏覽器語言",
-    "CONVERSATION_TITLE": "對話詳細資訊",
-    "VIEW_PROFILE": "查看個人檔案",
+    "CONVERSATION_TITLE": "對話詳情",
+    "VIEW_PROFILE": "檢視個人資料",
     "BROWSER": "瀏覽器",
-    "OS": "作業系统",
-    "INITIATED_FROM": "發起自：",
-    "INITIATED_AT": "發起於",
-    "IP_ADDRESS": "IP 位置",
-    "CREATED_AT_LABEL": "Created",
+    "OS": "作業系統",
+    "INITIATED_FROM": "初始於",
+    "INITIATED_AT": "初始於",
+    "IP_ADDRESS": "IP位址",
+    "CREATED_AT_LABEL": "建立於",
     "NEW_MESSAGE": "新訊息",
-    "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL": "通話",
+    "CALL_UNDER_DEVELOPMENT": "通話功能正在開發中",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "選擇一個語音收件匣"
     },
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "此聯絡人没有關聯到以前的對話。",
-      "TITLE": "上一次對話"
+      "NO_RECORDS_FOUND": "此聯絡人沒有過往對話記錄。",
+      "TITLE": "過往對話"
     },
     "LABELS": {
       "CONTACT": {
@@ -32,255 +32,255 @@
         "ERROR": "無法更新標籤"
       },
       "CONVERSATION": {
-        "TITLE": "對話標記",
+        "TITLE": "對話標籤",
         "ADD_BUTTON": "新增標籤"
       },
       "LABEL_SELECT": {
         "TITLE": "新增標籤",
         "PLACEHOLDER": "搜尋標籤",
-        "NO_RESULT": "查無標籤",
-        "CREATE_LABEL": "Create new label"
+        "NO_RESULT": "找不到標籤",
+        "CREATE_LABEL": "建立新標籤"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MERGE_CONTACT": "合併聯絡人",
+    "CONTACT_ACTIONS": "聯絡人操作",
+    "MUTE_CONTACT": "封鎖聯絡人",
+    "UNMUTE_CONTACT": "解除封鎖聯絡人",
+    "MUTED_SUCCESS": "此聯絡人已成功封鎖。您將不會收到任何未來對話的通知。",
+    "UNMUTED_SUCCESS": "此聯絡人已成功解除封鎖。",
+    "SEND_TRANSCRIPT": "傳送文字記錄",
     "EDIT_LABEL": "編輯",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "自訂屬性",
       "CONTACT_LABELS": "聯絡人標籤",
-      "PREVIOUS_CONVERSATIONS": "上一次對話",
-      "NO_RECORDS_FOUND": "No attributes found"
+      "PREVIOUS_CONVERSATIONS": "過往對話",
+      "NO_RECORDS_FOUND": "找不到屬性"
     }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "編輯聯絡人",
     "TITLE": "編輯聯絡人",
-    "DESC": "編輯聯絡人資訊"
+    "DESC": "編輯聯絡人詳情"
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "刪除聯絡人",
     "TITLE": "刪除聯絡人",
-    "DESC": "刪除聯絡人資訊",
+    "DESC": "刪除聯絡人詳情",
     "CONFIRM": {
       "TITLE": "確認刪除",
-      "MESSAGE": "您確定要刪除嗎？ ",
+      "MESSAGE": "您確定要刪除嗎？",
       "YES": "是，刪除",
-      "NO": "不，保留"
+      "NO": "否，保留"
     },
     "API": {
-      "SUCCESS_MESSAGE": "聯絡人刪除成功",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "聯絡人已成功刪除",
+      "ERROR_MESSAGE": "無法刪除聯絡人，請稍後重試。"
     }
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "送出",
+      "SUBMIT": "提交",
       "CANCEL": "取消",
       "AVATAR": {
-        "LABEL": "連絡人頭像"
+        "LABEL": "聯絡人頭像"
       },
       "NAME": {
-        "PLACEHOLDER": "請輸入聯絡人姓名",
-        "LABEL": "聯絡人姓名"
+        "PLACEHOLDER": "輸入聯絡人的全名",
+        "LABEL": "全名"
       },
       "BIO": {
-        "PLACEHOLDER": "請輸入聯絡人簡介",
-        "LABEL": "聯絡人簡介"
+        "PLACEHOLDER": "輸入聯絡人的簡介",
+        "LABEL": "簡介"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "請輸入聯絡人電子信箱",
-        "LABEL": "電子信箱地址",
-        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。",
-        "ERROR": "請輸入一個有效的電子信箱."
+        "PLACEHOLDER": "輸入聯絡人的電子郵件",
+        "LABEL": "電子郵件",
+        "DUPLICATE": "此電子郵件已用於另一個聯絡人。",
+        "ERROR": "請輸入有效的電子郵件。"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "請輸入聯絡人電話",
-        "LABEL": "聯絡人電話",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "PLACEHOLDER": "輸入聯絡人的電話號碼",
+        "LABEL": "電話號碼",
+        "HELP": "電話號碼應為E.164格式，例如：+14155555555 [+][國家代碼][區碼][本地電話號碼]。您可以從下拉清單中選擇撥號代碼。",
+        "ERROR": "電話號碼應為空或E.164格式",
+        "DIAL_CODE_ERROR": "請從清單中選擇一個撥號代碼",
+        "DUPLICATE": "此電話號碼已用於另一個聯絡人。"
       },
       "LOCATION": {
-        "PLACEHOLDER": "請輸入聯絡人位置",
+        "PLACEHOLDER": "輸入聯絡人的位置",
         "LABEL": "位置"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "請輸入公司名稱",
+        "PLACEHOLDER": "輸入公司名稱",
         "LABEL": "公司名稱"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "國家名稱",
+        "PLACEHOLDER": "輸入國家名稱",
+        "LABEL": "國家",
         "SELECT_PLACEHOLDER": "選擇",
-        "REMOVE": "刪除",
-        "SELECT_COUNTRY": "Select Country"
+        "REMOVE": "移除",
+        "SELECT_COUNTRY": "選擇國家"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "輸入城市名稱",
+        "LABEL": "城市"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "請輸入 Facebook 使用者名稱",
+          "PLACEHOLDER": "輸入Facebook使用者名稱",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "請輸入 Twitter 使用者名稱",
+          "PLACEHOLDER": "輸入Twitter使用者名稱",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "請輸入 LinkedIn 使用者名稱",
+          "PLACEHOLDER": "輸入LinkedIn使用者名稱",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "請輸入 Github 使用者名稱",
+          "PLACEHOLDER": "輸入Github使用者名稱",
           "LABEL": "Github"
         }
       }
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "聯絡人頭像已成功刪除",
+        "ERROR_MESSAGE": "無法刪除聯絡人頭像，請稍後重試。"
       }
     },
-    "SUCCESS_MESSAGE": "聯絡人儲存成功",
-    "ERROR_MESSAGE": "出現錯誤，請重試"
+    "SUCCESS_MESSAGE": "聯絡人已成功儲存",
+    "ERROR_MESSAGE": "發生錯誤，請重試"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "開始對話",
-    "TITLE": "新的對話",
-    "DESC": "傳送一則新訊息以開始新的對話",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "TITLE": "新對話",
+    "DESC": "透過傳送新訊息開始新對話。",
+    "NO_INBOX": "找不到可用于與此聯絡人發起新對話的收件匣。",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "收件人"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
-        "PLACEHOLDER": "Choose source inbox",
-        "ERROR": "選擇一個收件匣"
+        "LABEL": "透過收件匣",
+        "PLACEHOLDER": "選擇來源收件匣",
+        "ERROR": "請選擇一個收件匣"
       },
       "SUBJECT": {
         "LABEL": "主旨",
         "PLACEHOLDER": "主旨",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "主旨不能為空"
       },
       "MESSAGE": {
         "LABEL": "訊息",
-        "PLACEHOLDER": "在此填寫你的訊息",
-        "ERROR": "訊息不得為空"
+        "PLACEHOLDER": "在此處撰寫您的訊息",
+        "ERROR": "訊息不能為空"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "選擇檔案",
+        "HELP_TEXT": "將檔案拖放到此處或選擇要附加的檔案"
       },
       "SUBMIT": "傳送訊息",
       "CANCEL": "取消",
-      "SUCCESS_MESSAGE": "訊息已傳送",
-      "GO_TO_CONVERSATION": "查看",
-      "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
+      "SUCCESS_MESSAGE": "訊息已傳送！",
+      "GO_TO_CONVERSATION": "檢視",
+      "ERROR_MESSAGE": "無法傳送！請重試"
     }
   },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
-        "SOCIAL_PROFILES": "社群檔案"
+        "SOCIAL_PROFILES": "社群個人資料"
       }
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "新增自訂屬性",
-    "COPY_SUCCESSFUL": "成功複製到剪貼簿",
-    "SHOW_MORE": "顯示所有",
-    "SHOW_LESS": "顯示部分",
+    "COPY_SUCCESSFUL": "已成功複製到剪貼簿",
+    "SHOW_MORE": "顯示所有屬性",
+    "SHOW_LESS": "顯示部分屬性",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
+      "COPY": "複製屬性",
+      "DELETE": "刪除屬性",
       "EDIT": "編輯屬性"
     },
     "ADD": {
       "TITLE": "建立自訂屬性",
-      "DESC": "為聯絡人新增自訂資訊"
+      "DESC": "向此聯絡人新增自訂資訊。"
     },
     "FORM": {
       "CREATE": "新增屬性",
       "CANCEL": "取消",
       "NAME": {
         "LABEL": "自訂屬性名稱",
-        "PLACEHOLDER": "例如：shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "PLACEHOLDER": "例如：Shopify ID",
+        "ERROR": "無效的自訂屬性名稱"
       },
       "VALUE": {
         "LABEL": "屬性值",
-        "PLACEHOLDER": "例如：11901 "
+        "PLACEHOLDER": "例如：11901"
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "屬性新增成功",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "建立新屬性",
+        "SUCCESS": "屬性已成功新增",
+        "ERROR": "無法新增屬性，請稍後重試。"
       },
       "UPDATE": {
-        "SUCCESS": "屬性更新成功",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "屬性已成功更新",
+        "ERROR": "無法更新屬性，請稍後重試。"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "屬性已成功刪除",
+        "ERROR": "無法刪除屬性，請稍後重試。"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "新增屬性",
+        "PLACEHOLDER": "搜尋屬性",
+        "NO_RESULT": "找不到屬性"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "選擇值",
+          "SEARCH_INPUT_PLACEHOLDER": "搜尋值",
+          "NO_RESULT": "找不到結果"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL",
-      "INVALID_INPUT": "Invalid Input"
+      "REQUIRED": "需要有效值",
+      "INVALID_URL": "無效的URL",
+      "INVALID_INPUT": "無效輸入"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "合併聯絡人",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "合併聯絡人以將兩個個人資料合併為一個，包括所有屬性和對話。如果發生衝突，主聯絡人的屬性將優先。",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "主要聯絡人",
+      "HELP_LABEL": "將被刪除的聯絡人"
     },
     "PARENT": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "要合併的聯絡人",
+      "PLACEHOLDER": "搜尋聯絡人",
+      "HELP_LABEL": "將被保留的聯絡人"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
+      "TITLE": "摘要",
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> 的聯絡人資料將被刪除。",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> 的聯絡人詳情將被複製到 <strong>{parentContactName}</strong>。"
     },
     "SEARCH": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+      "ERROR_MESSAGE": "出錯了，請稍後重試。"
     },
     "FORM": {
-      "SUBMIT": " 合併聯絡人",
+      "SUBMIT": "合併聯絡人",
       "CANCEL": "取消",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "選擇一個要合併的子聯絡人"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "聯絡人已成功合併",
+      "ERROR_MESSAGE": "無法合併聯絡人，請重試！"
     },
     "DROPDOWN_ITEM": {
       "ID": "(ID: {identifier})"
@@ -289,341 +289,341 @@
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "聯絡人",
-      "SEARCH_TITLE": "Search contacts",
-      "ACTIVE_TITLE": "Active contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
+      "SEARCH_TITLE": "搜尋聯絡人",
+      "ACTIVE_TITLE": "活躍聯絡人",
+      "SEARCH_PLACEHOLDER": "搜尋...",
       "MESSAGE_BUTTON": "訊息",
       "SEND_MESSAGE": "傳送訊息",
-      "BLOCK_CONTACT": "Block contact",
-      "UNBLOCK_CONTACT": "Unblock contact",
+      "BLOCK_CONTACT": "封鎖聯絡人",
+      "UNBLOCK_CONTACT": "解除封鎖聯絡人",
       "BREADCRUMB": {
         "CONTACTS": "聯絡人"
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
-          "ADD_CONTACT": "Add contact",
-          "EXPORT_CONTACT": "Export contacts",
-          "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact",
-          "EMAIL_ADDRESS_DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。",
-          "PHONE_NUMBER_DUPLICATE": "This phone number is in use for another contact.",
-          "SUCCESS_MESSAGE": "聯絡人儲存成功",
-          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+          "ADD_CONTACT": "新增聯絡人",
+          "EXPORT_CONTACT": "匯出聯絡人",
+          "IMPORT_CONTACT": "匯入聯絡人",
+          "SAVE_CONTACT": "儲存聯絡人",
+          "EMAIL_ADDRESS_DUPLICATE": "此電子郵件已用於另一個聯絡人。",
+          "PHONE_NUMBER_DUPLICATE": "此電話號碼已用於另一個聯絡人。",
+          "SUCCESS_MESSAGE": "聯絡人已成功儲存",
+          "ERROR_MESSAGE": "無法儲存聯絡人，請稍後重試。"
         },
-        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
-        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
-        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
-        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "BLOCK_SUCCESS_MESSAGE": "此聯絡人已成功封鎖",
+        "BLOCK_ERROR_MESSAGE": "無法封鎖聯絡人，請稍後重試。",
+        "UNBLOCK_SUCCESS_MESSAGE": "此聯絡人已成功解除封鎖",
+        "UNBLOCK_ERROR_MESSAGE": "無法解除封鎖聯絡人，請稍後重試。",
         "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "透過 CSV 匯入聯絡人",
-          "DOWNLOAD_LABEL": "下載 CSV 範例",
-          "LABEL": "CSV File:",
-          "CHOOSE_FILE": "Choose file",
+          "TITLE": "匯入聯絡人",
+          "DESCRIPTION": "透過CSV檔案匯入聯絡人。",
+          "DOWNLOAD_LABEL": "下載範例CSV檔案。",
+          "LABEL": "CSV檔案：",
+          "CHOOSE_FILE": "選擇檔案",
           "CHANGE": "變更",
           "CANCEL": "取消",
           "IMPORT": "匯入",
-          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-          "ERROR_MESSAGE": "出現錯誤，請重試"
+          "SUCCESS_MESSAGE": "匯入完成後，您將收到電子郵件通知。",
+          "ERROR_MESSAGE": "發生錯誤，請重試"
         },
         "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Export",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-          "ERROR_MESSAGE": "出現錯誤，請重試"
+          "TITLE": "匯出聯絡人",
+          "DESCRIPTION": "快速匯出包含聯絡人詳細資訊的CSV檔案",
+          "CONFIRM": "匯出",
+          "SUCCESS_MESSAGE": "匯出正在進行中。當匯出檔案準備好下載時，您將收到電子郵件通知。",
+          "ERROR_MESSAGE": "發生錯誤，請重試"
         },
         "SORT_BY": {
-          "LABEL": "Sort by",
+          "LABEL": "排序依據",
           "OPTIONS": {
             "NAME": "姓名",
-            "EMAIL": "Email",
+            "EMAIL": "電子郵件",
             "PHONE_NUMBER": "電話號碼",
             "COMPANY": "公司",
             "COUNTRY": "國家",
             "CITY": "城市",
-            "LAST_ACTIVITY": "最後活動",
+            "LAST_ACTIVITY": "上次活動",
             "CREATED_AT": "建立於"
           }
         },
         "ORDER": {
-          "LABEL": "Ordering",
+          "LABEL": "排序",
           "OPTIONS": {
-            "ASCENDING": "Ascending",
-            "DESCENDING": "Descending"
+            "ASCENDING": "升序",
+            "DESCENDING": "降序"
           }
         },
         "FILTERS": {
           "CREATE_SEGMENT": {
-            "TITLE": "你要儲存這個篩選條件嗎？",
+            "TITLE": "您要儲存此篩選條件嗎？",
             "CONFIRM": "儲存篩選條件",
-            "LABEL": "姓名",
-            "PLACEHOLDER": "Enter the name of the filter",
-            "ERROR": "Enter a valid name",
-            "SUCCESS_MESSAGE": "Filter saved successfully",
-            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+            "LABEL": "名稱",
+            "PLACEHOLDER": "輸入篩選條件的名稱",
+            "ERROR": "請輸入有效名稱",
+            "SUCCESS_MESSAGE": "篩選條件已成功儲存",
+            "ERROR_MESSAGE": "無法儲存篩選條件，請稍後重試。"
           },
           "DELETE_SEGMENT": {
             "TITLE": "確認刪除",
-            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "DESCRIPTION": "您確定要刪除此篩選條件嗎？",
             "CONFIRM": "是，刪除",
-            "CANCEL": "No, Cancel",
-            "SUCCESS_MESSAGE": "Filter deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+            "CANCEL": "否，取消",
+            "SUCCESS_MESSAGE": "篩選條件已成功刪除",
+            "ERROR_MESSAGE": "無法刪除篩選條件，請稍後重試。"
           }
         }
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "正在顯示 {totalItems} 個聯絡人中的 {startItem} - {endItem} 個"
     },
     "FILTER": {
       "NAME": "姓名",
-      "EMAIL": "Email",
+      "EMAIL": "電子郵件",
       "PHONE_NUMBER": "電話號碼",
-      "IDENTIFIER": "Identifier",
+      "IDENTIFIER": "識別碼",
       "COUNTRY": "國家",
       "CITY": "城市",
       "CREATED_AT": "建立於",
-      "LAST_ACTIVITY": "最後活動",
-      "REFERER_LINK": "推薦人連結",
-      "BLOCKED": "Blocked",
+      "LAST_ACTIVITY": "上次活動",
+      "REFERER_LINK": "來源連結",
+      "BLOCKED": "已封鎖",
       "BLOCKED_TRUE": "是",
       "BLOCKED_FALSE": "否",
       "BUTTONS": {
-        "CLEAR_FILTERS": "清除查詢條件",
-        "UPDATE_SEGMENT": "Update segment",
-        "APPLY_FILTERS": "篩選",
-        "ADD_FILTER": "添加查詢條件"
+        "CLEAR_FILTERS": "清除篩選條件",
+        "UPDATE_SEGMENT": "更新區隔",
+        "APPLY_FILTERS": "套用篩選條件",
+        "ADD_FILTER": "新增篩選條件"
       },
-      "TITLE": "Filter contacts",
-      "EDIT_SEGMENT": "Edit segment",
+      "TITLE": "篩選聯絡人",
+      "EDIT_SEGMENT": "編輯區隔",
       "SEGMENT": {
-        "LABEL": "Segment name",
-        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+        "LABEL": "區隔名稱",
+        "INPUT_PLACEHOLDER": "輸入區隔名稱"
       },
       "ACTIVE_FILTERS": {
-        "MORE_FILTERS": "+ {count} more filters",
-        "CLEAR_FILTERS": "清除查詢條件"
+        "MORE_FILTERS": "+ {count} 個更多篩選條件",
+        "CLEAR_FILTERS": "清除篩選條件"
       }
     },
     "CARD": {
-      "OF": "of",
-      "VIEW_DETAILS": "查看詳細資訊",
+      "OF": "的",
+      "VIEW_DETAILS": "檢視詳情",
       "EDIT_DETAILS_FORM": {
-        "TITLE": "編輯聯絡人資訊",
+        "TITLE": "編輯聯絡人詳情",
         "FORM": {
           "FIRST_NAME": {
-            "PLACEHOLDER": "Enter the first name"
+            "PLACEHOLDER": "輸入名字"
           },
           "LAST_NAME": {
-            "PLACEHOLDER": "Enter the last name"
+            "PLACEHOLDER": "輸入姓氏"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address",
-            "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。"
+            "PLACEHOLDER": "輸入電子郵件",
+            "DUPLICATE": "此電子郵件已用於另一個聯絡人。"
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number",
-            "DUPLICATE": "This phone number is in use for another contact."
+            "PLACEHOLDER": "輸入電話號碼",
+            "DUPLICATE": "此電話號碼已用於另一個聯絡人。"
           },
           "CITY": {
-            "PLACEHOLDER": "Enter the city name"
+            "PLACEHOLDER": "輸入城市名稱"
           },
           "COUNTRY": {
-            "PLACEHOLDER": "Select country"
+            "PLACEHOLDER": "選擇國家"
           },
           "BIO": {
-            "PLACEHOLDER": "Enter the bio"
+            "PLACEHOLDER": "輸入簡介"
           },
           "COMPANY_NAME": {
-            "PLACEHOLDER": "請輸入公司名稱"
+            "PLACEHOLDER": "輸入公司名稱"
           }
         },
-        "UPDATE_BUTTON": "Update contact",
-        "SUCCESS_MESSAGE": "Contact updated successfully",
-        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+        "UPDATE_BUTTON": "更新聯絡人",
+        "SUCCESS_MESSAGE": "聯絡人已成功更新",
+        "ERROR_MESSAGE": "無法更新聯絡人，請稍後重試。"
       },
       "SOCIAL_MEDIA": {
-        "TITLE": "Edit social links",
+        "TITLE": "編輯社群連結",
         "FORM": {
           "FACEBOOK": {
-            "PLACEHOLDER": "Add Facebook"
+            "PLACEHOLDER": "新增Facebook"
           },
           "GITHUB": {
-            "PLACEHOLDER": "Add Github"
+            "PLACEHOLDER": "新增Github"
           },
           "INSTAGRAM": {
-            "PLACEHOLDER": "Add Instagram"
+            "PLACEHOLDER": "新增Instagram"
           },
           "LINKEDIN": {
-            "PLACEHOLDER": "Add LinkedIn"
+            "PLACEHOLDER": "新增LinkedIn"
           },
           "TWITTER": {
-            "PLACEHOLDER": "Add Twitter"
+            "PLACEHOLDER": "新增Twitter"
           }
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "此操作是永久且不可逆的。",
+        "BUTTON": "立即刪除"
       }
     },
     "DETAILS": {
-      "CREATED_AT": "Created {date}",
-      "LAST_ACTIVITY": "Last active {date}",
-      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "CREATED_AT": "建立於 {date}",
+      "LAST_ACTIVITY": "上次活躍於 {date}",
+      "DELETE_CONTACT_DESCRIPTION": "永久刪除此聯絡人。此操作不可逆轉",
       "DELETE_CONTACT": "刪除聯絡人",
       "DELETE_DIALOG": {
         "TITLE": "確認刪除",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "您確定要刪除此聯絡人嗎？",
         "CONFIRM": "是，刪除",
         "API": {
-          "SUCCESS_MESSAGE": "聯絡人刪除成功",
-          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+          "SUCCESS_MESSAGE": "聯絡人已成功刪除",
+          "ERROR_MESSAGE": "無法刪除聯絡人，請稍後重試。"
         }
       },
       "AVATAR": {
         "UPLOAD": {
-          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
-          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+          "ERROR_MESSAGE": "無法上傳頭像，請稍後重試。",
+          "SUCCESS_MESSAGE": "頭像已成功上傳"
         },
         "DELETE": {
-          "SUCCESS_MESSAGE": "Avatar deleted successfully",
-          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+          "SUCCESS_MESSAGE": "頭像已成功刪除",
+          "ERROR_MESSAGE": "無法刪除頭像，請稍後重試。"
         }
       }
     },
     "SIDEBAR": {
       "TABS": {
         "ATTRIBUTES": "屬性",
-        "HISTORY": "History",
-        "NOTES": "筆記",
-        "MERGE": "Merge"
+        "HISTORY": "歷史記錄",
+        "NOTES": "備註",
+        "MERGE": "合併"
       },
       "HISTORY": {
-        "EMPTY_STATE": "There are no previous conversations associated to this contact"
+        "EMPTY_STATE": "此聯絡人沒有過往對話記錄"
       },
       "ATTRIBUTES": {
-        "SEARCH_PLACEHOLDER": "Search for attributes",
-        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
-        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "SEARCH_PLACEHOLDER": "搜尋屬性",
+        "UNUSED_ATTRIBUTES": "{count} 個已用屬性 | {count} 個未用屬性",
+        "EMPTY_STATE": "此帳號中沒有可用的聯絡人自訂屬性。您可以在設定中建立自訂屬性。",
         "YES": "是",
         "NO": "否",
         "TRIGGER": {
-          "SELECT": "Select value",
-          "INPUT": "輸入文字或數值"
+          "SELECT": "選擇值",
+          "INPUT": "輸入值"
         },
         "VALIDATIONS": {
-          "INVALID_NUMBER": "Invalid number",
-          "REQUIRED": "Valid value is required",
-          "INVALID_INPUT": "Invalid input",
-          "INVALID_URL": "Invalid URL",
-          "INVALID_DATE": "Invalid date"
+          "INVALID_NUMBER": "無效數字",
+          "REQUIRED": "需要有效值",
+          "INVALID_INPUT": "無效輸入",
+          "INVALID_URL": "無效URL",
+          "INVALID_DATE": "無效日期"
         },
-        "NO_ATTRIBUTES": "No attributes found",
+        "NO_ATTRIBUTES": "找不到屬性",
         "API": {
-          "SUCCESS_MESSAGE": "屬性更新成功",
-          "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",
-          "UPDATE_ERROR": "Unable to update attribute. Please try again later",
-          "DELETE_ERROR": "Unable to delete attribute. Please try again later"
+          "SUCCESS_MESSAGE": "屬性已成功更新",
+          "DELETE_SUCCESS_MESSAGE": "屬性已成功刪除",
+          "UPDATE_ERROR": "無法更新屬性，請稍後重試。",
+          "DELETE_ERROR": "無法刪除屬性，請稍後重試。"
         }
       },
       "MERGE": {
-        "TITLE": "Merge contact",
-        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
-        "PRIMARY": "Primary contact",
-        "PRIMARY_HELP_LABEL": "To be saved",
-        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
-        "PARENT": "To be merged",
-        "PARENT_HELP_LABEL": "To be deleted",
-        "EMPTY_STATE": "No contacts found",
-        "PLACEHOLDER": "Search for primary contact",
-        "SEARCH_PLACEHOLDER": "Search for a contact",
-        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
-        "SUCCESS_MESSAGE": "Contact merged successfully",
-        "ERROR_MESSAGE": "Could not merge contacts, try again!",
-        "IS_SEARCHING": "Searching...",
+        "TITLE": "合併聯絡人",
+        "DESCRIPTION": "將兩個個人資料合併為一個，包括所有屬性和對話。如果發生衝突，主聯絡人的屬性將優先。",
+        "PRIMARY": "主要聯絡人",
+        "PRIMARY_HELP_LABEL": "將被保留",
+        "PRIMARY_REQUIRED_ERROR": "請在繼續前選擇一個要合併的聯絡人",
+        "PARENT": "要合併的聯絡人",
+        "PARENT_HELP_LABEL": "將被刪除",
+        "EMPTY_STATE": "找不到聯絡人",
+        "PLACEHOLDER": "搜尋主要聯絡人",
+        "SEARCH_PLACEHOLDER": "搜尋聯絡人",
+        "SEARCH_ERROR_MESSAGE": "無法搜尋聯絡人，請稍後重試。",
+        "SUCCESS_MESSAGE": "聯絡人已成功合併",
+        "ERROR_MESSAGE": "無法合併聯絡人，請重試！",
+        "IS_SEARCHING": "正在搜尋...",
         "BUTTONS": {
           "CANCEL": "取消",
-          "CONFIRM": "Merge contact"
+          "CONFIRM": "合併聯絡人"
         }
       },
       "NOTES": {
-        "PLACEHOLDER": "新增筆記",
-        "WROTE": "wrote",
-        "YOU": "You",
-        "SAVE": "Save note",
-        "ADD_NOTE": "Add contact note",
-        "EXPAND": "Expand",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "PLACEHOLDER": "新增備註",
+        "WROTE": "寫道",
+        "YOU": "您",
+        "SAVE": "儲存備註",
+        "ADD_NOTE": "新增聯絡人備註",
+        "EXPAND": "展開",
+        "COLLAPSE": "收合",
+        "NO_NOTES": "沒有備註，您可以從聯絡人詳情頁面新增備註。",
+        "EMPTY_STATE": "此聯絡人沒有關聯的備註。您可以在上方的輸入框中輸入以新增備註。",
+        "CONVERSATION_EMPTY_STATE": "還沒有備註。使用「新增備註」按鈕建立一個。"
       }
     },
     "EMPTY_STATE": {
-      "TITLE": "No contacts found in this account",
-      "SUBTITLE": "Start adding new contacts by clicking on the button below",
-      "BUTTON_LABEL": "Add contact",
-      "SEARCH_EMPTY_STATE_TITLE": "找不到符合條件的聯絡人 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "TITLE": "此帳號中找不到聯絡人",
+      "SUBTITLE": "點擊下方按鈕開始新增新聯絡人",
+      "BUTTON_LABEL": "新增聯絡人",
+      "SEARCH_EMPTY_STATE_TITLE": "沒有與您的搜尋相符的聯絡人 🔍",
+      "LIST_EMPTY_STATE_TITLE": "此檢視中沒有可用的聯絡人 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "目前沒有在線的聯絡人 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+      "ERROR_MESSAGE": "我們無法完成搜尋，請重試。"
     },
     "FORM": {
-      "GO_TO_CONVERSATION": "查看",
-      "SUCCESS_MESSAGE": "The message was sent successfully!",
-      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
-      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "GO_TO_CONVERSATION": "檢視",
+      "SUCCESS_MESSAGE": "訊息已成功傳送！",
+      "ERROR_MESSAGE": "建立對話時發生錯誤，請稍後重試。",
+      "NO_INBOX_ALERT": "沒有可用的收件匣來與此聯絡人開始對話。",
       "CONTACT_SELECTOR": {
-        "LABEL": "To:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
-        "CONTACT_CREATING": "Creating contact..."
+        "LABEL": "收件人：",
+        "TAG_INPUT_PLACEHOLDER": "透過姓名、電子郵件或電話號碼搜尋聯絡人",
+        "CONTACT_CREATING": "正在建立聯絡人..."
       },
       "INBOX_SELECTOR": {
-        "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "LABEL": "透過：",
+        "BUTTON": "顯示收件匣"
       },
       "EMAIL_OPTIONS": {
-        "SUBJECT_LABEL": "主旨 :",
-        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
-        "CC_LABEL": "副本:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
-        "BCC_LABEL": "密件副本:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "SUBJECT_LABEL": "主旨：",
+        "SUBJECT_PLACEHOLDER": "在此處輸入您的郵件主旨",
+        "CC_LABEL": "副本：",
+        "CC_PLACEHOLDER": "透過其電子郵件搜尋聯絡人",
+        "BCC_LABEL": "密件副本：",
+        "BCC_PLACEHOLDER": "透過其電子郵件搜尋聯絡人",
         "BCC_BUTTON": "密件副本"
       },
       "MESSAGE_EDITOR": {
-        "PLACEHOLDER": "在此填寫你的訊息..."
+        "PLACEHOLDER": "在此處撰寫您的訊息..."
       },
       "WHATSAPP_OPTIONS": {
-        "LABEL": "Select template",
-        "SEARCH_PLACEHOLDER": "Search templates",
-        "EMPTY_STATE": "No templates found",
+        "LABEL": "選擇樣板",
+        "SEARCH_PLACEHOLDER": "搜尋樣板",
+        "EMPTY_STATE": "找不到樣板",
         "TEMPLATE_PARSER": {
-          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
-          "VARIABLES": "Variables",
+          "TEMPLATE_NAME": "WhatsApp樣板：{templateName}",
+          "VARIABLES": "變數",
           "BACK": "返回",
           "SEND_MESSAGE": "傳送訊息"
         }
       },
       "TWILIO_OPTIONS": {
-        "LABEL": "Select template",
-        "SEARCH_PLACEHOLDER": "Search templates",
-        "EMPTY_STATE": "No templates found",
+        "LABEL": "選擇樣板",
+        "SEARCH_PLACEHOLDER": "搜尋樣板",
+        "EMPTY_STATE": "找不到樣板",
         "TEMPLATE_PARSER": {
           "BACK": "返回",
           "SEND_MESSAGE": "傳送訊息"
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
-        "SEND": "Send ({keyCode})"
+        "DISCARD": "捨棄",
+        "SEND": "傳送 ({keyCode})"
       }
     }
   }

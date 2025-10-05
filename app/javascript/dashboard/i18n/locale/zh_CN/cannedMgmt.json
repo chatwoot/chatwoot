@@ -1,76 +1,76 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "预设回复",
-    "LEARN_MORE": "了解更多关于预设回复的内容",
-    "DESCRIPTION": "预设回复是预先写好的回复模板，可以帮助您在对话中快速响应。客服人员可以在对话中输入“/”字符，然后输入简码来插入预设回复。 ",
-    "HEADER_BTN_TXT": "新增预设回复",
-    "LOADING": "正在检索预定义回复...",
-    "SEARCH_404": "没有任何项目符合此查询.",
+    "HEADER": "快捷回复",
+    "LEARN_MORE": "了解更多关于快捷回复的信息",
+    "DESCRIPTION": "快捷回复是预先写好的回复模板，可以帮助您快速响应对话。客服人员可以在对话中输入“/”字符后跟简码来插入快捷回复。",
+    "HEADER_BTN_TXT": "新增快捷回复",
+    "LOADING": "正在获取快捷回复...",
+    "SEARCH_404": "没有与此查询匹配的项目。",
     "LIST": {
-      "404": "此帐户中没有预设的回复。",
-      "TITLE": "管理预设回复",
-      "DESC": "预设回复是预先定义的回复模板，可用于快速回复对话。",
+      "404": "此账户中没有可用的快捷回复。",
+      "TITLE": "管理快捷回复",
+      "DESC": "快捷回复是预定义的回复模板，可用于快速回复对话。",
       "TABLE_HEADER": {
-        "SHORT_CODE": "短代码",
+        "SHORT_CODE": "简码",
         "CONTENT": "内容",
         "ACTIONS": "操作"
       }
     },
     "ADD": {
-      "TITLE": "新增预设回复",
-      "DESC": "预设回复是预先定义的回复模板，可用于快速回复对话。",
-      "CANCEL_BUTTON_TEXT": "取消操作",
+      "TITLE": "新增快捷回复",
+      "DESC": "快捷回复是预定义的回复模板，可用于快速回复对话。",
+      "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "短代码",
-          "PLACEHOLDER": "请输入短代码。",
-          "ERROR": "短代码是必填项。"
+          "LABEL": "简码",
+          "PLACEHOLDER": "请输入简码。",
+          "ERROR": "简码是必填项。"
         },
         "CONTENT": {
           "LABEL": "消息",
-          "PLACEHOLDER": "请编写您希望保存为模板以便以后使用的消息。",
-          "ERROR": "请填写消息。"
+          "PLACEHOLDER": "请撰写您希望保存为模板以便日后使用的消息。",
+          "ERROR": "消息为必填项。"
         },
         "SUBMIT": "提交"
       },
       "API": {
-        "SUCCESS_MESSAGE": "预设回复已成功添加。",
-        "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
+        "SUCCESS_MESSAGE": "快捷回复已成功添加。",
+        "ERROR_MESSAGE": "无法连接到服务器，请稍后重试。"
       }
     },
     "EDIT": {
-      "TITLE": "编辑预设回复",
-      "CANCEL_BUTTON_TEXT": "取消操作",
+      "TITLE": "编辑快捷回复",
+      "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "短代码",
-          "PLACEHOLDER": "请填写短代码。",
-          "ERROR": "短代码是必填项"
+          "LABEL": "简码",
+          "PLACEHOLDER": "请输入简码。",
+          "ERROR": "简码是必填项。"
         },
         "CONTENT": {
           "LABEL": "消息",
-          "PLACEHOLDER": "请编写您希望保存为模板以便以后使用的消息。",
-          "ERROR": "请填写消息。"
+          "PLACEHOLDER": "请撰写您希望保存为模板以便日后使用的消息。",
+          "ERROR": "消息为必填项。"
         },
         "SUBMIT": "提交"
       },
       "BUTTON_TEXT": "编辑",
       "API": {
-        "SUCCESS_MESSAGE": "预设回复已成功更新。",
-        "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
+        "SUCCESS_MESSAGE": "快捷回复已成功更新。",
+        "ERROR_MESSAGE": "无法连接到服务器，请稍后重试。"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "删除",
       "API": {
-        "SUCCESS_MESSAGE": "预设回复已成功删除。",
-        "ERROR_MESSAGE": "连接 Woot 服务器失败，请再试一次。"
+        "SUCCESS_MESSAGE": "快捷回复已成功删除。",
+        "ERROR_MESSAGE": "无法连接到服务器，请稍后重试。"
       },
       "CONFIRM": {
         "TITLE": "确认删除",
-        "MESSAGE": "您确定要删除吗？ ",
-        "YES": "是的，删除 ",
-        "NO": "不，保留 "
+        "MESSAGE": "您确定要删除吗？",
+        "YES": "是，删除",
+        "NO": "否，保留"
       }
     }
   }

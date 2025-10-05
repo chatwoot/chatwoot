@@ -20,19 +20,19 @@ zh_CN:
   hello: '您好世界'
   inbox:
     reauthorization:
-      success: 'Channel reauthorized successfully'
-      not_required: 'Reauthorization is not required for this inbox'
-      invalid_channel: 'Invalid channel type for reauthorization'
+      success: '渠道重新授权成功'
+      not_required: '此收件箱不需要重新授权'
+      invalid_channel: '无效的渠道类型，无法重新授权'
   auth:
     saml:
       invalid_email: '请输入一个有效的电子邮件'
-      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+      authentication_failed: '验证失败。请检查您的凭据并重试。'
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
-    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
-    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
-    saml_not_available: SAML authentication is not available in this installation.
+    reset_password_saml_user: '此帐户使用SAML身份验证。密码重置不可用。请联系您的管理员。'
+    login_saml_user: '此帐户使用SAML身份验证。请通过您组织的SAML提供商登录。'
+    saml_not_available: '此安装中SAML身份验证不可用。'
     inbox_deletetion_response: 您的收件箱删除请求将在一段时间内处理。
   errors:
     validations:
@@ -47,9 +47,9 @@ zh_CN:
       invalid_params: '无效，请检查注册参数并重试'
       failed: 注册失败
     assignment_policy:
-      not_found: Assignment policy not found
+      not_found: '找不到分配策略'
     saml:
-      feature_not_enabled: SAML feature not enabled for this account
+      feature_not_enabled: '此帐户未启用SAML功能'
     data_import:
       data_type:
         invalid: 错误的数据类型
@@ -70,12 +70,12 @@ zh_CN:
     slack:
       invalid_channel_id: '无效的Slack频道。请重试'
     whatsapp:
-      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
-      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
-      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      token_exchange_failed: '交换访问令牌失败。请重试。'
+      invalid_token_permissions: '访问令牌没有WhatsApp所需的权限。'
+      phone_info_fetch_failed: '获取电话号码信息失败。请重试。'
       reauthorization:
-        generic: 'Failed to reauthorize WhatsApp. Please try again.'
-        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+        generic: '重新授权WhatsApp失败。请重试。'
+        not_supported: '此类型的WhatsApp渠道不支持重新授权。'
     inboxes:
       imap:
         socket_error: 请检查网络连接，IMAP地址，然后再试一次。
@@ -95,18 +95,18 @@ zh_CN:
       key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
     mfa:
       already_enabled: MFA 已启用
-      not_enabled: MFA is not enabled
-      invalid_code: Invalid verification code
-      invalid_backup_code: Invalid backup code
-      invalid_token: Invalid or expired MFA token
-      invalid_credentials: Invalid credentials or verification code
-      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+      not_enabled: 'MFA未启用'
+      invalid_code: '无效的验证码'
+      invalid_backup_code: '无效的备用码'
+      invalid_token: 'MFA令牌无效或已过期'
+      invalid_credentials: '无效的凭据或验证码'
+      feature_unavailable: 'MFA功能不可用。请配置加密密钥。'
   profile:
     mfa:
-      enabled: MFA enabled successfully
-      disabled: MFA disabled successfully
+      enabled: 'MFA已成功启用'
+      disabled: 'MFA已成功禁用'
     account_saml_settings:
-      invalid_certificate: must be a valid X.509 certificate in PEM format
+      invalid_certificate: '必须是PEM格式的有效X.509证书'
   reports:
     period: 报告周期 %{since} 至 %{until}
     utc_warning: 生成的报表在 UTC 时区
@@ -128,7 +128,7 @@ zh_CN:
       conversations_count: 对话数量
       avg_first_response_time: 平均首次响应时间
       avg_resolution_time: 平均解决时间
-      avg_reply_time: Avg reply time
+      avg_reply_time: '平均回复时间'
       resolution_count: 已解决的数量
     team_csv:
       team_name: 团队名称
@@ -178,7 +178,7 @@ zh_CN:
       instagram_deleted_story_content: 本信息不存在
       deleted: 此消息已被删除
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: '选择一个项目'
       delivery_status:
         error_code: '错误代码: %{error_code}'
     activity:
@@ -201,7 +201,7 @@ zh_CN:
         removed: '%{user_name} 取消了优先级'
       assignee:
         self_assigned: '%{user_name} 自行分配这次会话'
-        assigned: '由 %{assignee_name} 分配给 %{user_name}'
+        assigned: '由 %{user_name} 分配给 %{assignee_name}'
         removed: '对话未被 %{user_name} 分配'
       team:
         assigned: '由 %{team_name} 分配给 %{user_name}'
@@ -214,13 +214,13 @@ zh_CN:
         added: '%{user_name} 添加了 SLA 策略 %{sla_name}'
         removed: '%{user_name} 移除了 SLA 策略 %{sla_name}'
       linear:
-        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
-        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
-        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+        issue_created: 'Linear问题%{issue_id}由%{user_name}创建'
+        issue_linked: 'Linear问题%{issue_id}由%{user_name}链接'
+        issue_unlinked: 'Linear问题%{issue_id}由%{user_name}取消链接'
       csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: '由于消息窗口限制，CSAT调查未发送'
       auto_resolve:
-        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: '由于消息窗口限制，自动解决消息未发送'
       muted: '%{user_name} 已将会话静音'
       unmuted: '%{user_name} 已将会话取消静音'
       auto_resolution_message: '由于对话长时间未活跃，已将其标记为已解决。如果您需要进一步帮助，请开始新的对话。'
@@ -283,12 +283,12 @@ zh_CN:
       description: '直接从对话窗口在 Linear 中创建问题。或者，链接现有的 Linear 问题以简化问题跟踪过程。'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: '直接将数据库、文档和页面与Captain集成。'
+      description: '连接您的Notion工作区，使Captain能够访问和生成智能响应，使用来自您的数据库、文档和页面的内容，以提供更多上下文的客户支持。'
     shopify:
       name: 'Shopify'
       short_description: '从您的 Shopify 商店访问订单详情和客户数据。'
-      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+      description: '连接您的 Shopify 商店，直接在对话中访问订单详情、客户信息和产品数据，帮助您的支持团队为客户提供更快、更具情境的协助。'
     leadsquared:
       name: 'LeadSquared'
       short_description: '与 LeadSquared CRM 同步您的联系人和对话。'
@@ -303,25 +303,25 @@ zh_CN:
       invalid_tool_call: '无效的工具调用'
       tool_not_available: '工具不可用'
     documents:
-      limit_exceeded: 'Document limit exceeded'
-      pdf_format_error: 'must be a PDF file'
-      pdf_size_error: 'must be less than 10MB'
-      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
-      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
-      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
-      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
-      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
-      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
-      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
-      response_creation_error: 'Error in creating response document: %{error}'
-      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
-      openai_api_error: 'OpenAI API Error: %{error}'
-      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
-      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
-      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
-      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
-      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
-      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+      limit_exceeded: '超出文档限制'
+      pdf_format_error: '必须是PDF文件'
+      pdf_size_error: '必须小于10MB'
+      pdf_upload_failed: '上传PDF到OpenAI失败'
+      pdf_upload_success: 'PDF上传成功，文件ID：%{file_id}'
+      pdf_processing_failed: '处理PDF文档%{document_id}失败：%{error}'
+      pdf_processing_success: '成功处理PDF文档%{document_id}'
+      faq_generation_complete: 'FAQ生成完成。创建的FAQ总数：%{count}'
+      using_paginated_faq: '为文档%{document_id}使用分页FAQ生成'
+      using_standard_faq: '为文档%{document_id}使用标准FAQ生成'
+      response_creation_error: '创建响应文档时出错：%{error}'
+      missing_openai_file_id: '文档必须具有openai_file_id才能进行分页处理'
+      openai_api_error: 'OpenAI API错误：%{error}'
+      starting_paginated_faq: '开始分页FAQ生成（每块%{pages_per_chunk}页）'
+      stopping_faq_generation: '停止处理。原因：%{reason}'
+      paginated_faq_complete: '分页生成完成。FAQ总数：%{total_faqs}，已处理页面：%{pages_processed}'
+      processing_pages: '正在处理页面%{start}-%{end}（迭代%{iteration}）'
+      chunk_generated: '块生成了%{chunk_faqs}个FAQ。到目前为止的总数：%{total_faqs}'
+      page_processing_error: '处理页面%{start}-%{end}时出错：%{error}'
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...
@@ -347,7 +347,7 @@ zh_CN:
       made_with: 制作于
     header:
       go_to_homepage: 网站
-      visit_website: Visit website
+      visit_website: '访问网站'
       appearance:
         system: 系统
         light: 浅色
@@ -369,12 +369,16 @@ zh_CN:
     button: 重新打开会话
   time_units:
     days:
+      one: '%{count} 天'
       other: '%{count} 天'
     hours:
+      one: '%{count} 小时'
       other: '%{count} 小时'
     minutes:
+      one: '%{count} 分钟'
       other: '%{count} 分钟'
     seconds:
+      one: '%{count} 秒'
       other: '%{count} 秒'
   automation:
     system_name: '自动化系统'
@@ -399,13 +403,13 @@ zh_CN:
       副本：
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+    inbox_already_assigned: '收件箱已分配给此策略'
   portals:
     send_instructions:
       email_required: 'Email 是必填项'
-      invalid_email_format: 'Invalid email format'
-      custom_domain_not_configured: 'Custom domain is not configured'
-      instructions_sent_successfully: 'Instructions sent successfully'
-      subject: 'Finish setting up %{custom_domain}'
+      invalid_email_format: '无效的电子邮件格式'
+      custom_domain_not_configured: '未配置自定义域'
+      instructions_sent_successfully: '说明已成功发送'
+      subject: '完成%{custom_domain}的设置'
     ssl_status:
-      custom_domain_not_configured: 'Custom domain is not configured'
+      custom_domain_not_configured: '未配置自定义域'

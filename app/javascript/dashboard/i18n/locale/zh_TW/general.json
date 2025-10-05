@@ -1,12 +1,12 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "SHOWING_RESULTS": "共 {totalCount} 項結果，目前顯示第 {firstIndex}-{lastIndex} 項",
     "PHONE_INPUT": {
       "PLACEHOLDER": "搜尋",
-      "EMPTY_STATE": "No results found"
+      "EMPTY_STATE": "查無結果"
     },
     "CLOSE": "關閉",
-    "BETA": "Beta",
-    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+    "BETA": "測試版",
+    "BETA_DESCRIPTION": "此為 Beta 測試功能，未來可能會有所變動。"
   }
 }

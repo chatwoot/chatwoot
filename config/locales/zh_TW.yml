@@ -1,411 +1,430 @@
-#Files in the config/locales directory are used for internationalization
-#and are automatically loaded by Rails. If you want to use locales other
-#than English, add the necessary files in this directory.
-#To use the locales, use `I18n.t`:
-#I18n.t 'hello'
-#In views, this is aliased to just `t`:
-#<%= t('hello') %>
-#To use a different locale, set it with `I18n.locale`:
-#I18n.locale = :es
-#This would use the information in config/locales/es.yml.
-#The following keys must be escaped otherwise they will not be retrieved by
-#the default I18n backend:
-#true, false, on, off, yes, no
-#Instead, surround them with single quotes.
-#en:
-#'true': 'foo'
-#To learn more, please read the Rails Internationalization guide
-#available at https://guides.rubyonrails.org/i18n.html.
+
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
+
 zh_TW:
-  hello: '你好。'
+  hello: '哈囉！'
   inbox:
     reauthorization:
-      success: 'Channel reauthorized successfully'
-      not_required: 'Reauthorization is not required for this inbox'
-      invalid_channel: 'Invalid channel type for reauthorization'
+      success: '頻道重新授權成功'
+      not_required: '此收件匣無需重新授權'
+      invalid_channel: '無效的頻道類型，無法重新授權'
   auth:
     saml:
-      invalid_email: '請輸入一個有效的電子信箱'
-      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+      invalid_email: '請輸入有效的 Email'
+      authentication_failed: '驗證失敗，請檢查您的帳號密碼後再試一次。'
   messages:
-    reset_password_success: 密碼重設成功，請確認您的信箱有收到重設信件。
-    reset_password_failure: 我們找不到用戶指定的電子郵件。
-    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
-    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
-    saml_not_available: SAML authentication is not available in this installation.
-    inbox_deletetion_response: 您的收件匣刪除請求將在一段時間後處理。
+    reset_password_success: '讚！重設密碼的請求已成功送出，請檢查您的信箱以取得後續指示。'
+    reset_password_failure: '哎呀！找不到使用此 Email 的用戶。'
+    reset_password_saml_user: '此帳號使用 SAML 登入，無法重設密碼，請聯繫您的管理員。'
+    login_saml_user: '此帳號使用 SAML 登入，請透過您組織的 SAML 供應商進行登入。'
+    saml_not_available: '此系統目前無法使用 SAML 驗證。'
+    inbox_deletetion_response: '您刪除收件匣的請求將在稍後處理。'
+
   errors:
     validations:
-      presence: must not be blank
+      presence: '此為必填欄位'
     webhook:
-      invalid: Invalid events
+      invalid: '無效的事件'
     signup:
-      disposable_email: 我們不允許一次性電子郵件。
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
-      invalid_email: 您輸入的電子郵件無效。
-      email_already_exists: '您已經註冊了一個帳號%{email}'
-      invalid_params: 'Invalid, please check the signup paramters and try again'
-      failed: 註冊失敗。
+      disposable_email: '我們不接受使用臨時性 Email 註冊。'
+      blocked_domain: '這個域名無法使用。如果您認為這是個錯誤，請聯繫客服。'
+      invalid_email: '您輸入的 Email 無效。'
+      email_already_exists: '這個 Email (%{email}) 已經註冊過帳號了。'
+      invalid_params: '參數無效，請檢查後再試一次。'
+      failed: '註冊失敗'
     assignment_policy:
-      not_found: Assignment policy not found
+      not_found: '找不到指派政策'
     saml:
-      feature_not_enabled: SAML feature not enabled for this account
+      feature_not_enabled: '此帳號未啟用 SAML 功能'
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: '無效的資料類型'
     contacts:
       import:
-        failed: File is blank
+        failed: '檔案為空白'
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: '聯絡人匯出檔案準備就緒後，我們會通知您。'
       email:
-        invalid: 無效的email
+        invalid: '無效的 Email'
       phone_number:
-        invalid: should be in e164 format
+        invalid: '應為 e164 格式'
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: '在分類和入口網站中必須是唯一的'
     dyte:
-      invalid_message_type: 'Invalid message type. Action not permitted'
+      invalid_message_type: '無效的訊息類型，操作不允許。'
     slack:
-      invalid_channel_id: 'Invalid slack channel. Please try again'
+      invalid_channel_id: '無效的 Slack 頻道，請再試一次。'
     whatsapp:
-      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
-      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
-      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      token_exchange_failed: '交換 Access Token 失敗，請再試一次。'
+      invalid_token_permissions: '此 Access Token 沒有 WhatsApp 所需的權限。'
+      phone_info_fetch_failed: '讀取電話號碼資訊失敗，請再試一次。'
       reauthorization:
-        generic: 'Failed to reauthorize WhatsApp. Please try again.'
-        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+        generic: '重新授權 WhatsApp 失敗，請再試一次。'
+        not_supported: '此類型的 WhatsApp 頻道不支援重新授權。'
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: '請檢查網路連線、IMAP 位址後再試一次。'
+        no_response_error: '請檢查 IMAP 憑證後再試一次。'
+        host_unreachable_error: '主機無法連線，請檢查 IMAP 位址、IMAP 連接埠後再試一次。'
+        connection_timed_out_error: '連線逾時 %{address}:%{port}'
+        connection_closed_error: '連線已關閉。'
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: '名稱的開頭或結尾不能是符號，且不能包含 < > / \ @ 等字元。'
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_query_operator: Query operator must be either "AND" or "OR".
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      number_of_records: '已達上限。每個帳號最多允許 50 個自訂篩選器。'
+      invalid_attribute: '無效的屬性索引鍵 - [%{key}]。索引鍵必須是 [%{allowed_keys}] 或帳號中已定義的自訂屬性之一。'
+      invalid_operator: '無效的運算子。%{attribute_name} 可用的運算子為 [%{allowed_keys}]。'
+      invalid_query_operator: '查詢運算子必須是 "AND" 或 "OR"。'
+      invalid_value: '無效的值。為 %{attribute_name} 提供的值無效。'
     custom_attribute_definition:
-      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+      key_conflict: '提供的索引鍵不被允許，因為它可能與預設屬性衝突。'
     mfa:
-      already_enabled: MFA is already enabled
-      not_enabled: MFA is not enabled
-      invalid_code: Invalid verification code
-      invalid_backup_code: Invalid backup code
-      invalid_token: Invalid or expired MFA token
-      invalid_credentials: Invalid credentials or verification code
-      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+      already_enabled: '多重因素驗證（MFA）已啟用'
+      not_enabled: '多重因素驗證（MFA）未啟用'
+      invalid_code: '無效的驗證碼'
+      invalid_backup_code: '無效的備用碼'
+      invalid_token: '無效或已過期的 MFA Token'
+      invalid_credentials: '無效的憑證或驗證碼'
+      feature_unavailable: 'MFA 功能不可用，請設定加密金鑰。'
   profile:
     mfa:
-      enabled: MFA enabled successfully
-      disabled: MFA disabled successfully
+      enabled: 'MFA 已成功啟用'
+      disabled: 'MFA 已成功停用'
     account_saml_settings:
-      invalid_certificate: must be a valid X.509 certificate in PEM format
+      invalid_certificate: '必須是有效的 PEM 格式 X.509 憑證'
   reports:
-    period: Reporting period %{since} to %{until}
-    utc_warning: The report generated is in UTC timezone
+    period: '報告期間 %{since} 到 %{until}'
+    utc_warning: '報告以 UTC 時區生成'
     agent_csv:
-      agent_name: 客服名稱
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      resolution_count: 已解決的數量
-      avg_customer_waiting_time: Avg customer waiting time
+      agent_name: '客服人員'
+      conversations_count: '已指派對話數'
+      avg_first_response_time: '平均首次回覆時間'
+      avg_resolution_time: '平均解決時間'
+      resolution_count: '已解決數量'
+      avg_customer_waiting_time: '平均客戶等待時間'
     inbox_csv:
-      inbox_name: 收件匣名稱
-      inbox_type: 收件匣類型
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      inbox_name: '收件匣名稱'
+      inbox_type: '收件匣類型'
+      conversations_count: '對話數量'
+      avg_first_response_time: '平均首次回覆時間'
+      avg_resolution_time: '平均解決時間'
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      avg_reply_time: Avg reply time
-      resolution_count: 已解決的數量
+      label_title: '標籤'
+      conversations_count: '對話數量'
+      avg_first_response_time: '平均首次回覆時間'
+      avg_resolution_time: '平均解決時間'
+      avg_reply_time: '平均回覆時間'
+      resolution_count: '已解決數量'
     team_csv:
-      team_name: 團隊名稱
-      conversations_count: 對話數量
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      resolution_count: 已解決的數量
-      avg_customer_waiting_time: Avg customer waiting time
+      team_name: '團隊名稱'
+      conversations_count: '對話數量'
+      avg_first_response_time: '平均首次回覆時間'
+      avg_resolution_time: '平均解決時間'
+      resolution_count: '已解決數量'
+      avg_customer_waiting_time: '平均客戶等待時間'
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: '時區'
     sla_csv:
-      conversation_id: Conversation ID
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
-      team: Team
-      inbox: 收件匣
-      labels: 標籤
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
-    default_group_by: day
+      conversation_id: '對話 ID'
+      sla_policy_breached: 'SLA 政策'
+      assignee: '指派對象'
+      team: '團隊'
+      inbox: '收件匣'
+      labels: '標籤'
+      conversation_link: '對話連結'
+      breached_events: '違規事件'
+    default_group_by: '天'
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
-        agent_name: 客服姓名
-        rating: Rating
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        contact_name: '聯絡人名稱'
+        contact_email_address: '聯絡人 Email'
+        contact_phone_number: '聯絡人電話'
+        link_to_the_conversation: '對話連結'
+        agent_name: '客服人員'
+        rating: '評分'
+        feedback: '回饋意見'
+        recorded_at: '記錄日期'
   notifications:
     notification_title:
-      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
-      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
-      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
-      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
-      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
-      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
-      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
-    attachment: 'Attachment'
-    no_content: 'No content'
+      conversation_creation: '收件匣 %{inbox_name} 中有一則新對話 (#%{display_id})'
+      conversation_assignment: '一則對話 (#%{display_id}) 已指派給您'
+      assigned_conversation_new_message: '您被指派的對話 (#%{display_id}) 中有新訊息'
+      conversation_mention: '您在對話 (#%{display_id}) 中被提及'
+      sla_missed_first_response: '對話 (#%{display_id}) 未達到首次回覆的 SLA 目標'
+      sla_missed_next_response: '對話 (#%{display_id}) 未達到下次應答的 SLA 目標'
+      sla_missed_resolution: '對話 (#%{display_id}) 未達到解決時效的 SLA 目標'
+    attachment: '附件'
+    no_content: '無內容'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: '正在轉接給其他客服人員以提供進一步協助。'
     messages:
-      instagram_story_content: '%{story_sender} mentioned you in the story: '
-      instagram_deleted_story_content: This story is no longer available.
-      deleted: 訊息已被刪除
+      instagram_story_content: '%{story_sender} 在限時動態中提到您：'
+      instagram_deleted_story_content: '此限時動態已無法查看。'
+      deleted: '此訊息已被刪除'
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: '選擇一個項目'
       delivery_status:
-        error_code: 'Error code: %{error_code}'
+        error_code: '錯誤碼：%{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
-        open: 'Conversation was marked open by %{user_name}'
+        resolved: '由於長時間未活動，%{user_name} 將對話標示為已解決'
+        open: '%{user_name} 將對話標示為開啟'
       status:
-        resolved: '被%{user_name}標記的對話已解決。'
-        contact_resolved: 'Conversation was resolved by %{contact_name}'
-        open: '被%{user_name}恢復對話。'
-        pending: 'Conversation was marked as pending by %{user_name}'
-        snoozed: 'Conversation was snoozed by %{user_name}'
-        auto_resolved_days: '由於對話已經 %{count} 天沒有新活動，已經被系統標記為完成'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        resolved: '%{user_name} 將對話標示為已解決'
+        contact_resolved: '%{contact_name} 已解決此對話'
+        open: '%{user_name} 重新開啟了此對話'
+        pending: '%{user_name} 將對話標示為待處理'
+        snoozed: '%{user_name} 延後了此對話'
+        auto_resolved_days: '由於 %{count} 天未活動，系統自動將此對話標示為已解決'
+        auto_resolved_hours: '由於 %{count} 小時未活動，系統自動將此對話標示為已解決'
+        auto_resolved_minutes: '由於 %{count} 分鐘未活動，系統自動將此對話標示為已解決'
+        system_auto_open: '因收到新訊息，系統自動重新開啟了此對話。'
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} 將優先順序設為 %{new_priority}'
+        updated: '%{user_name} 將優先順序從 %{old_priority} 改為 %{new_priority}'
+        removed: '%{user_name} 移除了優先順序'
       assignee:
-        self_assigned: '%{user_name} 將對話指派給自己'
-        assigned: '被%{user_name}分配給%{assignee_name}。'
-        removed: '對話被%{user_name}設定成未分配。'
+        self_assigned: '%{user_name} 將此對話指派給自己'
+        assigned: '由 %{user_name} 指派給 %{assignee_name}'
+        removed: '%{user_name} 取消了指派'
       team:
-        assigned: '被%{user_name}分配給%{team_name}。'
-        assigned_with_assignee: 'Assigned to %{assignee_name} via %{team_name} by %{user_name}'
-        removed: '被 %{user_name} 從 %{team_name} 解除指派'
+        assigned: '由 %{user_name} 指派給 %{team_name}'
+        assigned_with_assignee: '由 %{user_name} 透過 %{team_name} 指派給 %{assignee_name}'
+        removed: '由 %{user_name} 從 %{team_name} 取消指派'
       labels:
-        added: '%{user_name} 新增了 %{labels}'
-        removed: '%{user_name} 移除了 %{labels}'
+        added: '%{user_name} 新增了標籤 %{labels}'
+        removed: '%{user_name} 移除了標籤 %{labels}'
       sla:
-        added: '%{user_name} added SLA policy %{sla_name}'
-        removed: '%{user_name} removed SLA policy %{sla_name}'
+        added: '%{user_name} 新增了 SLA 政策 %{sla_name}'
+        removed: '%{user_name} 移除了 SLA 政策 %{sla_name}'
       linear:
-        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
-        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
-        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+        issue_created: '%{user_name} 建立了 Linear 議題 %{issue_id}'
+        issue_linked: '%{user_name} 連結了 Linear 議題 %{issue_id}'
+        issue_unlinked: '%{user_name} 取消連結了 Linear 議題 %{issue_id}'
       csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: '因傳訊限制，未發送客戶滿意度調查'
       auto_resolve:
-        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
-      muted: '%{user_name} 已將對話靜音'
-      unmuted: '%{user_name} 將對話解除靜音'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+        not_sent_due_to_messaging_window: '因傳訊限制，未發送自動解決訊息'
+      muted: '%{user_name} 將此對話靜音'
+      unmuted: '%{user_name} 取消了此對話的靜音'
+      auto_resolution_message: '由於此對話已閒置一段時間，即將被標示為已解決。如需進一步協助，請開啟新對話。'
     templates:
-      greeting_message_body: '%{account_name} 通常在幾小時內回覆'
-      ways_to_reach_you_message_body: '給個聯繫方式讓團隊可以聯繫到您。'
-      email_input_box_message_body: '透過電子郵件得到通知。'
-      csat_input_message_body: 'Please rate the conversation'
+      greeting_message_body: '%{account_name} 通常在幾小時內回覆。'
+      ways_to_reach_you_message_body: '請提供一個能聯絡到您的方式。'
+      email_input_box_message_body: '透過 Email 接收通知'
+      csat_input_message_body: '請為這次的對話評分'
     reply:
       email:
         header:
           notifications: '通知'
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
-          friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
+          from_with_name: '%{assignee_name} 來自 %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} 來自 %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} 來自 %{business_name} <%{from_email}>'
           professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} 來自 %{inbox_name} <%{from_email}>'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
-      email_subject: '在對話中的新訊息'
+      email_subject: '關於此對話的新訊息'
       transcript_subject: '對話紀錄'
     survey:
-      response: 'Please rate this conversation, %{link}'
+      response: '請為這次的對話評分，%{link}'
   contacts:
     online:
-      delete: '%{contact_name} is Online, please try again later'
+      delete: '%{contact_name} 目前在線上，請稍後再試。'
   integration_apps:
-    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
-      name: 'Dashboard Apps'
-      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
+      name: '儀表板應用'
+      description: '儀表板應用讓您能建立並嵌入應用程式，以顯示用戶資訊、訂單或付款紀錄，為您的客服人員提供更多情境資訊。'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
-      meeting_name: '%{agent_name} has started a meeting'
+      short_description: '直接從 Chatwoot 與客戶進行視訊/語音通話。'
+      description: 'Dyte 是一個將影音功能整合到您應用程式的產品。透過此整合，您的客服可以直接從 Chatwoot 與客戶進行視訊/語音通話。'
+      meeting_name: '%{agent_name} 發起了一場會議'
     slack:
       name: 'Slack'
-      short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      short_description: '直接在 Slack 中接收通知並回覆對話。'
+      description: '將 Chatwoot 與 Slack 整合，讓您的團隊保持同步。此整合讓您能接收新對話的通知，並直接在 Slack 介面中回覆。'
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
+      description: 'Webhook 事件提供您 Chatwoot 帳號中活動的即時更新。您可以訂閱您偏好的事件，Chatwoot 將會傳送帶有更新資訊的 HTTP 回呼給您。'
     dialogflow:
       name: 'Dialogflow'
-      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
-      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
+      short_description: '在轉接給真人客服前，先建立聊天機器人來處理初步問題。'
+      description: '使用 Dialogflow 建立聊天機器人，並輕鬆整合到您的收件匣。這些機器人可以在將問題轉接給真人客服前，處理初步的查詢。'
     google_translate:
-      name: 'Google Translate'
-      short_description: 'Automatically translate customer messages for agents.'
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      name: 'Google 翻譯'
+      short_description: '自動為客服翻譯客戶的訊息。'
+      description: '整合 Google 翻譯，幫助客服輕鬆翻譯客戶訊息。此整合會自動偵測語言，並將其轉換為客服或管理員偏好的語言。'
     openai:
       name: 'OpenAI'
-      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
-      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
+      short_description: '由 AI 驅動的回覆建議、摘要和訊息優化。'
+      description: '利用 OpenAI 強大的大型語言模型，提供回覆建議、摘要、訊息改寫、拼字檢查和標籤分類等功能。'
     linear:
       name: 'Linear'
-      short_description: 'Create and link Linear issues directly from conversations.'
-      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+      short_description: '直接從對話中建立並連結 Linear 議題。'
+      description: '直接從您的對話視窗中在 Linear 建立議題。或者，連結現有的 Linear 議題，以實現更流暢、更有效率的議題追蹤流程。'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: '直接將資料庫、文件和頁面與 Captain 整合。'
+      description: '連接您的 Notion 工作區，讓 Captain 能夠存取並利用您資料庫、文件和頁面中的內容，生成更具情境感知能力的智能回覆，以提供更優質的客戶支援。'
     shopify:
       name: 'Shopify'
-      short_description: 'Access order details and customer data from your Shopify store.'
-      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+      short_description: '從您的 Shopify 商店存取訂單詳情和客戶資料。'
+      description: '連接您的 Shopify 商店，直接在對話中存取訂單詳情、客戶資訊和產品資料，幫助您的支援團隊為客戶提供更快、更具情境的協助。'
     leadsquared:
       name: 'LeadSquared'
-      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
-      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+      short_description: '將您的聯絡人和對話與 LeadSquared CRM 同步。'
+      description: '將您的聯絡人和對話與 LeadSquared CRM 同步。此整合會在新增聯絡人時自動在 LeadSquared 中建立潛在客戶，並記錄對話活動，為您的銷售團隊提供完整的背景資訊。'
   captain:
-    copilot_message_required: 訊息為必填
-    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
-    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot_message_required: '訊息為必填'
+    copilot_error: '請將助理連接到此收件匣以使用 Copilot'
+    copilot_limit: '您的 Copilot 點數已用完。您可以從帳務區塊購買更多點數。'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: '正在使用工具 %{function_name}'
+      completed_tool_call: '已完成 %{function_name} 工具呼叫'
+      invalid_tool_call: '無效的工具呼叫'
+      tool_not_available: '工具不可用'
     documents:
-      limit_exceeded: 'Document limit exceeded'
-      pdf_format_error: 'must be a PDF file'
-      pdf_size_error: 'must be less than 10MB'
-      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
-      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
-      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
-      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
-      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
-      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
-      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
-      response_creation_error: 'Error in creating response document: %{error}'
-      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
-      openai_api_error: 'OpenAI API Error: %{error}'
-      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
-      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
-      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
-      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
-      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
-      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+      limit_exceeded: '文件數量超過上限'
+      pdf_format_error: '必須是 PDF 檔案'
+      pdf_size_error: '檔案大小必須小於 10MB'
+      pdf_upload_failed: '上傳 PDF 至 OpenAI 失敗'
+      pdf_upload_success: 'PDF 上傳成功，檔案 ID: %{file_id}'
+      pdf_processing_failed: '處理 PDF 文件 %{document_id} 失敗: %{error}'
+      pdf_processing_success: '成功處理 PDF 文件 %{document_id}'
+      faq_generation_complete: 'FAQ 生成完成。總共建立了 %{count} 個 FAQ'
+      using_paginated_faq: '正在為文件 %{document_id} 使用分頁式 FAQ 生成'
+      using_standard_faq: '正在為文件 %{document_id} 使用標準 FAQ 生成'
+      response_creation_error: '建立回應文件時出錯: %{error}'
+      missing_openai_file_id: '文件必須具有 openai_file_id 才能進行分頁處理'
+      openai_api_error: 'OpenAI API 錯誤: %{error}'
+      starting_paginated_faq: '開始分頁式 FAQ 生成 (每區塊 %{pages_per_chunk} 頁)'
+      stopping_faq_generation: '停止處理。原因: %{reason}'
+      paginated_faq_complete: '分頁式生成完成。總 FAQ 數: %{total_faqs}，已處理頁數: %{pages_processed}'
+      processing_pages: '正在處理頁面 %{start}-%{end} (疊代 %{iteration})'
+      chunk_generated: '區塊生成了 %{chunk_faqs} 個 FAQ。目前總數: %{total_faqs}'
+      page_processing_error: '處理頁面 %{start}-%{end} 時出錯: %{error}'
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
-      empty_placeholder: 查無結果。
-      loading_placeholder: Searching...
-      results_title: Search results
-    toc_header: 'On this page'
+      search_placeholder: '透過標題或內文搜尋文章...'
+      empty_placeholder: '找不到結果。'
+      loading_placeholder: '搜尋中...'
+      results_title: '搜尋結果'
+    toc_header: '本頁目錄'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: '在此處搜尋文章或瀏覽以下分類。'
     common:
-      home: 首頁
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all
-      article: article
-      articles: articles
-      author: author
-      authors: authors
-      other: other
-      others: others
-      by: By
-      no_articles: There are no articles here
+      home: '首頁'
+      last_updated_on: '最後更新於 %{last_updated_on}'
+      view_all_articles: '檢視全部'
+      article: '篇文章'
+      articles: '篇文章'
+      author: '位作者'
+      authors: '位作者'
+      other: '其他'
+      others: '其他'
+      by: '作者：'
+      no_articles: '這裡沒有文章'
     footer:
-      made_with: Made with
+      made_with: '採用'
     header:
-      go_to_homepage: Website
-      visit_website: Visit website
+      go_to_homepage: '網站'
+      visit_website: '造訪網站'
       appearance:
-        system: System
-        light: Light
-        dark: Dark
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+        system: '系統'
+        light: '淺色'
+        dark: '深色'
+      featured_articles: '精選文章'
+      uncategorized: '未分類'
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: '找不到頁面'
+      description: '我們找不到您想看的頁面。'
+      back_to_home: '回到首頁'
   slack_unfurl:
     fields:
-      name: 姓名
-      email: Email
-      phone_number: Phone
-      company_name: 公司
-      inbox_name: 收件匣
-      inbox_type: Inbox Type
-    button: 開啟對話
+      name: '名稱'
+      email: 'Email'
+      phone_number: '電話'
+      company_name: '公司'
+      inbox_name: '收件匣'
+      inbox_type: '收件匣類型'
+    button: '開啟對話'
   time_units:
     days:
-      other: '%{count} days'
+      one: '%{count} 天'
+      other: '%{count} 天'
     hours:
-      other: '%{count} hours'
+      one: '%{count} 小時'
+      other: '%{count} 小時'
     minutes:
-      other: '%{count} minutes'
+      one: '%{count} 分鐘'
+      other: '%{count} 分鐘'
     seconds:
-      other: '%{count} seconds'
+      one: '%{count} 秒'
+      other: '%{count} 秒'
   automation:
-    system_name: 'Automation System'
+    system_name: '自動化系統'
   crm:
-    no_message: 'No messages in conversation'
-    attachment: '[Attachment: %{type}]'
-    no_content: '[No content]'
+    no_message: '對話中沒有訊息'
+    attachment: '[附件: %{type}]'
+    no_content: '[無內容]'
     created_activity: |
-      New conversation started on %{brand_name}
+      在 %{brand_name} 上開始了新對話
 
-      Channel: %{channel_info}
-      Created: %{formatted_creation_time}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      頻道: %{channel_info}
+      建立時間: %{formatted_creation_time}
+      對話 ID: %{display_id}
+      在 %{brand_name} 中檢視: %{url}
     transcript_activity: |
-      Conversation Transcript from %{brand_name}
+      來自 %{brand_name} 的對話紀錄
 
-      Channel: %{channel_info}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      頻道: %{channel_info}
+      對話 ID: %{display_id}
+      在 %{brand_name} 中檢視: %{url}
 
-      Transcript:
+      紀錄:
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+    inbox_already_assigned: '收件匣已被指派給此政策'
   portals:
     send_instructions:
-      email_required: 'Email is required'
-      invalid_email_format: 'Invalid email format'
-      custom_domain_not_configured: 'Custom domain is not configured'
-      instructions_sent_successfully: 'Instructions sent successfully'
-      subject: 'Finish setting up %{custom_domain}'
+      email_required: 'Email 為必填'
+      invalid_email_format: '無效的 Email 格式'
+      custom_domain_not_configured: '未設定自訂網域'
+      instructions_sent_successfully: '指示已成功寄出'
+      subject: '完成 %{custom_domain} 的設定'
     ssl_status:
-      custom_domain_not_configured: 'Custom domain is not configured'
+      custom_domain_not_configured: '未設定自訂網域'

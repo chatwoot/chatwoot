@@ -3,280 +3,280 @@
     "LINK": "個人資料設定",
     "TITLE": "個人資料設定",
     "BTN_TEXT": "更新個人資料",
-    "DELETE_AVATAR": "刪除頭貼",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "你的個人檔案已經成功更新",
-    "PASSWORD_UPDATE_SUCCESS": "你的密碼已成功變更",
-    "AFTER_EMAIL_CHANGED": "您的個人資料已成功更新，請在您的登入憑證更改後重新登入",
+    "DELETE_AVATAR": "刪除頭像",
+    "AVATAR_DELETE_SUCCESS": "頭像已成功刪除",
+    "AVATAR_DELETE_FAILED": "刪除頭像時發生錯誤，請重試",
+    "UPDATE_SUCCESS": "您的個人資料已成功更新",
+    "PASSWORD_UPDATE_SUCCESS": "您的密碼已成功變更。",
+    "AFTER_EMAIL_CHANGED": "您的個人資料已成功更新，由於登入憑證已變更，請重新登入",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "個人資料圖片",
       "AVATAR": "頭像",
       "ERROR": "請修正表單錯誤",
-      "REMOVE_IMAGE": "刪除",
-      "UPLOAD_IMAGE": "上傳頭像",
-      "UPDATE_IMAGE": "更新頭像",
+      "REMOVE_IMAGE": "移除",
+      "UPLOAD_IMAGE": "上傳圖片",
+      "UPDATE_IMAGE": "更新圖片",
       "PROFILE_SECTION": {
-        "TITLE": "個人資訊",
-        "NOTE": "您的電子信箱地址是您的身份並用於登入。"
+        "TITLE": "個人資料",
+        "NOTE": "您的電子郵件是您的身分識別，用於登入。"
       },
       "SEND_MESSAGE": {
-        "TITLE": "傳送訊息熱鍵",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "你的設定已經成功更新",
+        "TITLE": "傳送訊息快捷鍵",
+        "NOTE": "您可以根據自己的輸入習慣選擇一個快捷鍵（Enter 或 Cmd/Ctrl+Enter）。",
+        "UPDATE_SUCCESS": "您的設定已成功更新",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "按 Enter 鍵傳送訊息，而不是點擊傳送按鈕。"
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "按 Cmd/Ctrl + Enter 鍵傳送訊息，而不是點擊傳送按鈕。"
           }
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "介面",
+        "NOTE": "自訂您的 Chatwoot 儀表板外觀。",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "字體大小",
+          "NOTE": "根據您的偏好調整整個儀表板的文字大小。",
+          "UPDATE_SUCCESS": "您的字體設定已成功更新",
+          "UPDATE_ERROR": "更新字體設定時發生錯誤，請重試",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Default",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "SMALLER": "更小",
+            "SMALL": "小",
+            "DEFAULT": "預設",
+            "LARGE": "大",
+            "LARGER": "更大",
+            "EXTRA_LARGE": "特大"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "偏好語言",
+          "NOTE": "選擇您希望使用的語言。",
+          "UPDATE_SUCCESS": "您的語言設定已成功更新",
+          "UPDATE_ERROR": "更新語言設定時發生錯誤，請重試",
+          "USE_ACCOUNT_DEFAULT": "使用帳號預設設定"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "個人訊息簽名",
+        "NOTE": "建立一個獨特的訊息簽名，顯示在您從任何收件匣傳送的每則訊息末尾。您還可以包含內嵌圖片，這在即時聊天、電子郵件和API收件匣中都受支援。",
+        "BTN_TEXT": "儲存訊息簽名",
+        "API_ERROR": "無法儲存簽名！請重試",
+        "API_SUCCESS": "簽名已成功儲存",
+        "IMAGE_UPLOAD_ERROR": "無法上傳圖片！請重試",
+        "IMAGE_UPLOAD_SUCCESS": "圖片已成功新增。請點擊儲存以儲存簽名",
+        "IMAGE_UPLOAD_SIZE_ERROR": "圖片大小應小於 {size}MB"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "訊息簽名",
+        "ERROR": "訊息簽名不能為空",
+        "PLACEHOLDER": "在此處插入您的個人訊息簽名。"
       },
       "PASSWORD_SECTION": {
         "TITLE": "密碼",
-        "NOTE": "更新您的密碼會在多個設備中重置您的登入資訊。",
+        "NOTE": "更新密碼將重設您在多個裝置上的登入狀態。",
         "BTN_TEXT": "變更密碼"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "安全性",
+        "NOTE": "管理您帳號的額外安全功能。",
+        "MFA_BUTTON": "管理兩步驟驗證"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "訪問 token",
-        "NOTE": "如果要構建基於 API 的整合，則可以使用此 token",
+        "TITLE": "存取權杖",
+        "NOTE": "如果您正在建置基於API的整合，可以使用此權杖",
         "COPY": "複製",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "RESET": "重設",
+        "CONFIRM_RESET": "您確定嗎？",
+        "CONFIRM_HINT": "再次點擊以確認",
+        "RESET_SUCCESS": "存取權杖已成功重新產生",
+        "RESET_ERROR": "無法重新產生存取權杖，請重試"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "音效通知",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "聲音提醒",
+        "NOTE": "為新訊息和對話啟用儀表板中的聲音提醒。",
+        "PLAY": "播放聲音",
         "ALERT_TYPES": {
           "NONE": "無",
-          "MINE": "Assigned",
-          "ALL": "所有的",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "MINE": "已指派",
+          "ALL": "全部",
+          "ASSIGNED": "指派給我的對話",
+          "UNASSIGNED": "未指派的對話",
+          "NOTME": "指派給其他人的開放對話"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "您未選擇任何選項，將不會收到任何聲音提醒。",
+          "ASSIGNED": "您將收到指派給您的對話的提醒。",
+          "UNASSIGNED": "您將收到任何未指派對話的提醒。",
+          "NOTME": "您將收到指派給其他人的對話的提醒。",
+          "ASSIGNED+UNASSIGNED": "您將收到您已指派的對話和任何無人處理的對話的提醒。",
+          "ASSIGNED+NOTME": "您將收到指派給您和其他人的對話的提醒，但不會收到未指派對話的提醒。",
+          "NOTME+UNASSIGNED": "您將收到無人處理的對話和指派給其他人的對話的提醒。",
+          "ASSIGNED+NOTME+UNASSIGNED": "您將收到所有對話的提醒。"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "對話的提醒事件",
           "NONE": "無",
           "ASSIGNED": "已指派的對話",
           "ALL_CONVERSATIONS": "所有對話"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "提醒音："
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "提醒條件：",
+          "CONDITION_ONE": "僅當瀏覽器視窗不活動時傳送聲音提醒",
+          "CONDITION_TWO": "每30秒傳送一次提醒，直到所有已指派的對話都被讀取"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "SOUND_PERMISSION_ERROR": "您的瀏覽器停用了自動播放。要自動聽到提醒，請在瀏覽器設定中啟用聲音權限或與頁面互動。",
+        "READ_MORE": "閱讀更多"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "電子信箱通知",
-        "NOTE": "在此更新您的電子信箱通知設定",
-        "CONVERSATION_ASSIGNMENT": "當對話分配給我時發送電子信箱通知",
-        "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知",
-        "CONVERSATION_MENTION": "當你在對話中被提及時以 Email 通知",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以 Email 通知",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "TITLE": "電子郵件通知",
+        "NOTE": "在此處更新您的電子郵件通知偏好",
+        "CONVERSATION_ASSIGNMENT": "當對話指派給我時傳送電子郵件通知",
+        "CONVERSATION_CREATION": "當新對話建立時傳送電子郵件通知",
+        "CONVERSATION_MENTION": "當您在對話中被提及時傳送電子郵件通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當在已指派的對話中建立新訊息時傳送電子郵件通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "當在參與的對話中建立新訊息時傳送電子郵件通知",
+        "SLA_MISSED_FIRST_RESPONSE": "當對話錯過首次回應SLA時傳送電子郵件通知",
+        "SLA_MISSED_NEXT_RESPONSE": "當對話錯過下次回應SLA時傳送電子郵件通知",
+        "SLA_MISSED_RESOLUTION": "當對話錯過解決SLA時傳送電子郵件通知"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
-        "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "TITLE": "通知偏好",
+        "TYPE_TITLE": "通知類型",
+        "EMAIL": "電子郵件",
+        "PUSH": "推播通知",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "新對話已建立",
+          "CONVERSATION_ASSIGNED": "一個對話已指派給您",
+          "CONVERSATION_MENTION": "您在一個對話中被提及",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已指派的對話中建立了新訊息",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "在參與的對話中建立了新訊息",
+          "SLA_MISSED_FIRST_RESPONSE": "一個對話錯過了首次回應SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "一個對話錯過了下次回應SLA",
+          "SLA_MISSED_RESOLUTION": "一個對話錯過了處理SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "為您的瀏覽器啟用推播通知，以便您能接收它們"
       },
       "API": {
-        "UPDATE_SUCCESS": "您的通知設定已成功更新",
-        "UPDATE_ERROR": "更新配置時出錯，請再試一次"
+        "UPDATE_SUCCESS": "您的通知偏好已成功更新",
+        "UPDATE_ERROR": "更新偏好時發生錯誤，請重試"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "推送通知",
-        "NOTE": "在此更新您的電子信箱通知設定",
-        "CONVERSATION_ASSIGNMENT": "當對話被分配給我時發送推送通知",
-        "CONVERSATION_CREATION": "建立新對話時發送推送通知",
-        "CONVERSATION_MENTION": "當你在對話中被提及時以推播通知",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以推播通知",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "您已啟用此瀏覽器的推送。",
-        "REQUEST_PUSH": "啟用推送通知",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "TITLE": "推播通知",
+        "NOTE": "在此處更新您的推播通知偏好",
+        "CONVERSATION_ASSIGNMENT": "當對話指派給我時傳送推播通知",
+        "CONVERSATION_CREATION": "當新對話建立時傳送推播通知",
+        "CONVERSATION_MENTION": "當您在對話中被提及時傳送推播通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當在已指派的對話中建立新訊息時傳送推播通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "當在參與的對話中建立新訊息時傳送推播通知",
+        "HAS_ENABLED_PUSH": "您已為此瀏覽器啟用了推播通知。",
+        "REQUEST_PUSH": "啟用推播通知",
+        "SLA_MISSED_FIRST_RESPONSE": "當對話錯過首次回應SLA時傳送推播通知",
+        "SLA_MISSED_NEXT_RESPONSE": "當對話錯過下次回應SLA時傳送推播通知",
+        "SLA_MISSED_RESOLUTION": "當對話錯過處理SLA時傳送推播通知"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "頭像"
+        "LABEL": "個人資料圖片"
       },
       "NAME": {
-        "LABEL": "你的姓名",
-        "ERROR": "請輸入一個有效的完整姓名",
-        "PLACEHOLDER": "請輸入您的完整姓名"
+        "LABEL": "您的全名",
+        "ERROR": "請輸入有效的全名",
+        "PLACEHOLDER": "請輸入您的全名"
       },
       "DISPLAY_NAME": {
         "LABEL": "顯示名稱",
-        "ERROR": "請輸入一個有效的顯示名稱",
-        "PLACEHOLDER": "請輸入一個名字，這將會在對話中顯示"
+        "ERROR": "請輸入有效的顯示名稱",
+        "PLACEHOLDER": "請輸入顯示名稱，此名稱將用於對話中"
       },
       "AVAILABILITY": {
-        "LABEL": "有效的",
+        "LABEL": "在線狀態",
         "STATUS": {
-          "ONLINE": "上線",
+          "ONLINE": "在線",
           "BUSY": "忙碌",
           "OFFLINE": "離線"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "SET_AVAILABILITY_SUCCESS": "在線狀態已成功設定",
+        "SET_AVAILABILITY_ERROR": "無法設定在線狀態，請重試",
+        "IMPERSONATING_ERROR": "模擬使用者時無法變更在線狀態"
       },
       "EMAIL": {
-        "LABEL": "您的電子信箱地址",
-        "ERROR": "請輸入一個有效的電子信箱",
-        "PLACEHOLDER": "請輸入您的名字，這將會在對話中顯示"
+        "LABEL": "您的電子郵件",
+        "ERROR": "請輸入有效的電子郵件",
+        "PLACEHOLDER": "請輸入您的 Email，此 Email 將會顯示在對話中"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "目前的密碼",
-        "ERROR": "請輸入目前的密碼",
-        "PLACEHOLDER": "請輸入目前的密碼"
+        "LABEL": "目前密碼",
+        "ERROR": "請輸入目前密碼",
+        "PLACEHOLDER": "請輸入目前密碼"
       },
       "PASSWORD": {
         "LABEL": "新密碼",
-        "ERROR": "請輸入長度6或更長的密碼",
+        "ERROR": "請輸入6位或更長的密碼",
         "PLACEHOLDER": "請輸入新密碼"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "重新輸入一次密碼",
-        "ERROR": "兩次密碼不一致",
-        "PLACEHOLDER": "請重複您的新密碼"
+        "LABEL": "確認新密碼",
+        "ERROR": "確認密碼應與新密碼相符",
+        "PLACEHOLDER": "請重新輸入您的新密碼"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "變更",
-    "CHANGE_ACCOUNTS": "切換帳戶",
-    "SWITCH_ACCOUNT": "切換帳戶",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "從以下列表中選擇一個帳戶",
+    "CHANGE_AVAILABILITY_STATUS": "變更狀態",
+    "CHANGE_ACCOUNTS": "切換帳號",
+    "SWITCH_ACCOUNT": "切換帳號",
+    "CONTACT_SUPPORT": "聯絡支援",
+    "SELECTOR_SUBTITLE": "從以下清單中選擇一個帳號",
     "PROFILE_SETTINGS": "個人資料設定",
-    "KEYBOARD_SHORTCUTS": "鍵盤快速鍵",
-    "APPEARANCE": "切換風格",
-    "SUPER_ADMIN_CONSOLE": "系統管理員後台",
-    "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
-    "LOGOUT": "退出登入"
+    "KEYBOARD_SHORTCUTS": "鍵盤快捷鍵",
+    "APPEARANCE": "變更外觀",
+    "SUPER_ADMIN_CONSOLE": "超級管理員主控台",
+    "DOCS": "閱讀文件",
+    "CHANGELOG": "更新日誌",
+    "LOGOUT": "登出"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "剩餘試用期天數",
+    "TRIAL_MESSAGE": " 天試用期剩餘。",
     "TRAIL_BUTTON": "立即購買",
-    "DELETED_USER": "刪除使用者",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "DELETED_USER": "已刪除的使用者",
+    "EMAIL_VERIFICATION_PENDING": "您似乎尚未驗證您的電子郵件。請檢查您的收件匣以取得驗證郵件。",
+    "RESEND_VERIFICATION_MAIL": "重新傳送驗證郵件",
+    "EMAIL_VERIFICATION_SENT": "驗證郵件已傳送。請檢查您的收件匣。",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "帳號已暫停",
+      "MESSAGE": "您的帳號已被暫停。請聯絡支援團隊以取得更多資訊。"
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "複製",
-      "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "CODEPEN": "在 CodePen 中開啟",
+      "COPY_SUCCESSFUL": "已複製到剪貼簿"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "顯示更多",
-      "SHOW_LESS": "顯示更少"
+      "SHOW_LESS": "收合"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下載",
       "UPLOADING": "上傳中...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "此限時動態已不再可用。"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "在地圖上檢視"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "送出"
+      "SUBMIT": "提交"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "此圖片已不再可用。",
+      "LOADING_FAILED": "載入失敗"
     }
   },
   "CONFIRM_EMAIL": "正在驗證...",
@@ -286,470 +286,470 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "NO_ITEMS": "無項目",
+    "CURRENTLY_VIEWING_ACCOUNT": "目前檢視：",
     "SWITCH": "切換",
-    "INBOX_VIEW": "Inbox View",
+    "INBOX_VIEW": "收件匣檢視",
     "CONVERSATIONS": "對話",
-    "INBOX": "My Inbox",
+    "INBOX": "我的收件匣",
     "ALL_CONVERSATIONS": "所有對話",
-    "MENTIONED_CONVERSATIONS": "被提及",
-    "PARTICIPATING_CONVERSATIONS": "參與中",
+    "MENTIONED_CONVERSATIONS": "提及我的",
+    "PARTICIPATING_CONVERSATIONS": "我參與的",
     "UNATTENDED_CONVERSATIONS": "無人處理",
-    "REPORTS": "報表",
+    "REPORTS": "統計報表",
     "SETTINGS": "設定",
     "CONTACTS": "聯絡人",
-    "ACTIVE": "Active",
+    "ACTIVE": "進行中",
     "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_ASSISTANTS": "助理",
+    "CAPTAIN_DOCUMENTS": "文件",
+    "CAPTAIN_RESPONSES": "常見問題",
     "HOME": "首頁",
-    "AGENTS": "客服",
+    "AGENTS": "客服管理",
     "AGENT_BOTS": "機器人",
     "AUDIT_LOGS": "稽核日誌",
     "INBOXES": "收件匣",
     "NOTIFICATIONS": "通知",
-    "CANNED_RESPONSES": "預設回覆",
-    "INTEGRATIONS": "整合方式",
-    "PROFILE_SETTINGS": "個人檔案設定",
-    "ACCOUNT_SETTINGS": "帳戶設定",
-    "APPLICATIONS": "應用程序",
+    "CANNED_RESPONSES": "快速回覆",
+    "INTEGRATIONS": "整合",
+    "PROFILE_SETTINGS": "個人資料設定",
+    "ACCOUNT_SETTINGS": "帳號設定",
+    "APPLICATIONS": "應用程式",
     "LABELS": "標籤",
     "CUSTOM_ATTRIBUTES": "自訂屬性",
     "AUTOMATION": "自動化",
     "MACROS": "巨集",
     "TEAMS": "團隊",
-    "BILLING": "帳單",
-    "CUSTOM_VIEWS_FOLDER": "常用篩選條件",
-    "CUSTOM_VIEWS_SEGMENTS": "分眾",
+    "BILLING": "計費",
+    "CUSTOM_VIEWS_FOLDER": "資料夾",
+    "CUSTOM_VIEWS_SEGMENTS": "區隔",
     "ALL_CONTACTS": "所有聯絡人",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "新增標籤",
-    "NEW_TEAM": "建立新團隊",
-    "NEW_INBOX": "新增收件匣",
+    "TAGGED_WITH": "標記為",
+    "NEW_LABEL": "新標籤",
+    "NEW_TEAM": "新團隊",
+    "NEW_INBOX": "新收件匣",
     "REPORTS_CONVERSATION": "對話",
-    "CSAT": "顧客滿意度得分(CSAT)",
-    "LIVE_CHAT": "Live Chat",
-    "SMS": "SMS",
+    "CSAT": "客戶滿意度",
+    "LIVE_CHAT": "即時聊天",
+    "SMS": "簡訊",
     "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "行銷活動",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "開啟 關閉",
-    "REPORTS_SLA": "服務水準協議(SLA)",
+    "ONGOING": "進行中",
+    "ONE_OFF": "一次性",
+    "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "機器人",
-    "REPORTS_AGENT": "客服",
+    "REPORTS_AGENT": "客服人員",
     "REPORTS_LABEL": "標籤",
     "REPORTS_INBOX": "收件匣",
-    "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
-    "SET_AVAILABILITY_TITLE": "我的狀態",
-    "SET_YOUR_AVAILABILITY": "設定你的服務時間",
-    "SLA": "服務水準協議(SLA)",
+    "REPORTS_TEAM": "團隊",
+    "AGENT_ASSIGNMENT": "客服人員指派",
+    "SET_AVAILABILITY_TITLE": "將自己設定為",
+    "SET_YOUR_AVAILABILITY": "設定您的在線狀態",
+    "SLA": "SLA",
     "CUSTOM_ROLES": "自訂角色",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "總覽",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "BETA": "測試版",
+    "REPORTS_OVERVIEW": "概覽",
+    "REAUTHORIZE": "您的收件匣授權已過期，請重新授權以繼續收發訊息",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
+      "TITLE": "幫助中心",
+      "ARTICLES": "文章",
+      "CATEGORIES": "分類",
+      "LOCALES": "語系",
       "SETTINGS": "設定"
     },
     "CHANNELS": "頻道",
     "SET_AUTO_OFFLINE": {
       "TEXT": "自動標記為離線",
-      "INFO_TEXT": "當您未使用應用程式或儀表板時，讓系統自動將您標記為離線",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_TEXT": "當您未使用應用程式或儀表板時，讓系統自動將您標記為離線。",
+      "INFO_SHORT": "當您未使用應用程式時自動標記為離線。"
     },
-    "DOCS": "Read docs",
-    "SECURITY": "Security"
+    "DOCS": "閱讀文件",
+    "SECURITY": "安全性"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "帳單",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "計費",
+    "DESCRIPTION": "在此管理您的訂閱，升級您的方案並為您的團隊取得更多功能。",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "TITLE": "目前方案",
+      "PLAN_NOTE": "您目前訂閱的是 **{plan}** 方案，擁有 **{quantity}** 個席位",
+      "SEAT_COUNT": "席位數",
+      "RENEWS_ON": "續訂於"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "檢視定價",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "管理您的訂閱",
+      "DESCRIPTION": "檢視您之前的發票，編輯您的帳單詳情或取消您的訂閱。",
+      "BUTTON_TXT": "前往帳單入口網站"
     },
     "CAPTAIN": {
       "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "DESCRIPTION": "管理 Captain AI 的使用和額度。",
+      "BUTTON_TXT": "購買更多額度",
+      "DOCUMENTS": "文件",
+      "RESPONSES": "常見問題",
+      "UPGRADE": "Captain 在免費方案中不可用，立即升級以取得助理、Copilot等更多功能。"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "與我們對話"
+      "TITLE": "需要協助嗎？",
+      "DESCRIPTION": "您在計費方面遇到任何問題嗎？我們在此為您提供協助。",
+      "BUTTON_TXT": "與我們聊天"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "您的計費帳號正在設定中。請重新整理頁面再試一次。"
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
+    "TITLE": "安全性",
+    "DESCRIPTION": "管理您的帳號安全設定。",
+    "LINK_TEXT": "深入了解 SAML SSO",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "為您的帳號設定SAML單一登入。使用者將透過您的身分提供者進行身分驗證，而不是使用電子郵件/密碼。",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "斷言消費者服務URL - 在您的IdP中將此URL設定為SAML回應的目的地位址"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "SAML身分驗證請求將傳送到的URL",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "PEM格式的簽章憑證",
+        "HELP": "來自您的身分提供者的公開憑證，用於驗證SAML回應",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "指紋",
+        "TOOLTIP": "憑證的SHA-1指紋 - 使用此指紋在您的IdP設定中驗證憑證"
       },
-      "COPY_SUCCESS": "Copied to clipboard",
+      "COPY_SUCCESS": "已複製到剪貼簿",
       "SP_ENTITY_ID": {
-        "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "LABEL": "SP 實體ID",
+        "HELP": "此應用程式作為服務提供者的唯一識別碼（自動產生）。",
+        "TOOLTIP": "Chatwoot作為服務提供者的唯一識別碼 - 在您的IdP設定中設定此項"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "身分提供者實體ID",
+        "HELP": "您的身分提供者的唯一識別碼（通常在IdP設定中找到）",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "更新SAML設定",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "SAML設定已成功更新",
+        "ERROR": "更新SAML設定失敗",
+        "ERROR_LOADING": "載入SAML設定失敗",
+        "DISABLED": "SAML設定已成功停用"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL、身分提供者實體ID和憑證是必填欄位",
+        "SSO_URL_ERROR": "請輸入有效的SSO URL",
+        "CERTIFICATE_ERROR": "憑證為必填項",
+        "IDP_ENTITY_ID_ERROR": "身分提供者實體ID為必填項"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "SAML SSO功能僅在企業版方案中可用。",
+        "UPGRADE_PROMPT": "升級到企業版方案以存取SAML單一登入和其他進階安全功能。",
+        "ASK_ADMIN": "請聯絡您的管理員進行升級。"
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "升級以啟用SAML SSO",
+        "AVAILABLE_ON": "SAML SSO功能僅在企業版方案中可用。",
+        "UPGRADE_PROMPT": "升級您的方案以存取SAML單一登入和其他進階功能。",
+        "UPGRADE_NOW": "立即升級",
+        "CANCEL_ANYTIME": "您可以隨時變更或取消您的方案"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "SAML屬性設定",
+        "DESCRIPTION": "必須在您的身分提供者中設定以下屬性對應"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "服務提供者資訊",
+        "TOOLTIP": "複製這些值並在您的身分提供者中設定它們以建立SAML連線"
       }
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "新帳戶",
-    "SELECTOR_SUBTITLE": "建立新帳戶",
+    "NO_ACCOUNT_WARNING": "喔！我們找不到任何Chatwoot帳號。請建立一個新帳號以繼續。",
+    "NEW_ACCOUNT": "新帳號",
+    "SELECTOR_SUBTITLE": "建立一個新帳號",
     "API": {
-      "SUCCESS_MESSAGE": "成功建立帳戶",
-      "EXIST_MESSAGE": "帳戶已經存在",
-      "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+      "SUCCESS_MESSAGE": "帳號已成功建立",
+      "EXIST_MESSAGE": "帳號已存在",
+      "ERROR_MESSAGE": "無法連線到伺服器，請稍後重試"
     },
     "FORM": {
       "NAME": {
         "LABEL": "公司名稱",
-        "PLACEHOLDER": "Wayne 企業"
+        "PLACEHOLDER": "例如：韋恩企業"
       },
-      "SUBMIT": "送出",
+      "SUBMIT": "提交",
       "CANCEL": "取消"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "檢視所有快捷鍵",
     "TITLE": {
       "OPEN_CONVERSATION": "開啟對話",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "RESOLVE_AND_NEXT": "解決並移至下一個",
+      "NAVIGATE_DROPDOWN": "導覽下拉選項",
+      "RESOLVE_CONVERSATION": "解決對話",
+      "GO_TO_CONVERSATION_DASHBOARD": "前往對話儀表板",
       "ADD_ATTACHMENT": "新增附件",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_CONTACTS_DASHBOARD": "前往聯絡人儀表板",
+      "TOGGLE_SIDEBAR": "切換側邊欄",
+      "GO_TO_REPORTS_SIDEBAR": "前往報表側邊欄",
+      "MOVE_TO_NEXT_TAB": "移至對話清單中的下一個分頁",
       "GO_TO_SETTINGS": "前往設定",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "SWITCH_TO_PRIVATE_NOTE": "切換到內部備註",
+      "SWITCH_TO_REPLY": "切換到回覆",
+      "TOGGLE_SNOOZE_DROPDOWN": "切換延後處理下拉選單"
     }
   },
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "客服人員指派",
+        "DESCRIPTION": "定義策略以有效管理工作量，並根據收件匣和客服人員的需求路由對話。在此處深入了解"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "指派策略",
+        "DESCRIPTION": "管理對話在收件匣中的指派方式。",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "按對話平均指派或按可用容量指派",
+          "新增公平分配規則以避免任何客服人員超載工作",
+          "將收件匣新增至策略中 - 每個收件匣一個策略"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "客服人員容量策略",
+        "DESCRIPTION": "管理客服人員的工作負載。",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "定義每個收件匣的最大對話數",
+          "根據標籤和時間建立例外",
+          "將客服人員新增至策略中 - 每個客服人員一個策略"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "指派策略",
+          "CREATE_POLICY": "新策略"
         },
         "CARD": {
-          "ORDER": "Order",
-          "PRIORITY": "優先程度",
-          "ACTIVE": "Active",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
+          "ORDER": "順序",
+          "PRIORITY": "優先順序",
+          "ACTIVE": "啟用",
+          "INACTIVE": "停用",
+          "POPOVER": "已新增的收件匣",
           "EDIT": "編輯"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "找不到指派策略"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "建立指派策略"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "建立策略",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "SUCCESS_MESSAGE": "指派策略已成功建立",
+          "ERROR_MESSAGE": "建立指派策略失敗"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "編輯指派策略"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "更新策略",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "新增收件匣",
+          "DESCRIPTION": "{inboxName} 收件匣已連結至另一個策略。您確定要將其連結至此策略嗎？它將從其他策略中取消連結。",
+          "CONFIRM_BUTTON_LABEL": "繼續",
           "CANCEL_BUTTON_LABEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "指派策略已成功更新",
+          "ERROR_MESSAGE": "更新指派策略失敗"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "收件匣已成功新增至策略中",
+            "ERROR_MESSAGE": "將收件匣新增至策略失敗"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "收件匣已成功從策略中移除",
+            "ERROR_MESSAGE": "從策略中移除收件匣失敗"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "策略名稱：",
+          "PLACEHOLDER": "輸入策略名稱"
         },
         "DESCRIPTION": {
-          "LABEL": "描述資訊:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "描述：",
+          "PLACEHOLDER": "輸入描述"
         },
         "STATUS": {
-          "LABEL": "狀態:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "LABEL": "狀態：",
+          "PLACEHOLDER": "選擇狀態",
+          "ACTIVE": "策略啟用中",
+          "INACTIVE": "策略停用中"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "指派順序",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "輪詢",
+            "DESCRIPTION": "在客服人員之間平均指派對話。"
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "均衡",
+            "DESCRIPTION": "根據可用容量指派對話。"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "指派優先級",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "最早建立",
+            "DESCRIPTION": "最先建立的對話將最先被指派。"
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "等待最長",
+            "DESCRIPTION": "等待時間最長的對話將最先被指派。"
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "公平分配策略",
+          "DESCRIPTION": "設定在時間範圍內可以為每個客服人員指派的最大對話數，以避免任何一個客服人員超載工作。此必填欄位預設為每小時100個對話。",
+          "INPUT_MAX": "指派最大值",
+          "DURATION": "每個客服人員在每段時間內的對話數"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "已新增的收件匣",
+          "DESCRIPTION": "新增此策略將適用的收件匣。",
+          "ADD_BUTTON": "新增收件匣",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "SEARCH_PLACEHOLDER": "搜尋並選擇要新增的收件匣",
             "ADD_BUTTON": "新增"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "沒有收件匣新增至此策略，請新增一個以開始",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "收件匣已成功新增至策略中",
+            "ERROR_MESSAGE": "將收件匣新增至策略失敗"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "指派策略已成功刪除",
+        "ERROR_MESSAGE": "刪除指派策略失敗"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "客服人員容量",
+          "CREATE_POLICY": "新策略"
         },
         "CARD": {
-          "POPOVER": "Added agents",
+          "POPOVER": "已新增的客服人員",
           "EDIT": "編輯"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "找不到客服人員容量策略"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "建立客服人員容量策略"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "建立策略",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "客服人員容量策略已成功建立",
+          "ERROR_MESSAGE": "建立客服人員容量策略失敗"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "編輯客服人員容量策略"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "更新策略",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
-          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "新增客服人員",
+          "DESCRIPTION": "{agentName} 已連結至另一個策略。您確定要將其連結至此策略嗎？它將從其他策略中取消連結。",
+          "CONFIRM_BUTTON_LABEL": "繼續",
           "CANCEL_BUTTON_LABEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "客服人員容量策略已成功更新",
+          "ERROR_MESSAGE": "更新客服人員容量策略失敗"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "客服人員已成功新增至策略中",
+            "ERROR_MESSAGE": "將客服人員新增至策略失敗"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "客服人員已成功從策略中移除",
+            "ERROR_MESSAGE": "從策略中移除客服人員失敗"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "策略名稱：",
+          "PLACEHOLDER": "輸入策略名稱"
         },
         "DESCRIPTION": {
-          "LABEL": "描述資訊:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "描述：",
+          "PLACEHOLDER": "輸入描述"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "收件匣容量限制",
+          "ADD_BUTTON": "新增收件匣",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "選擇收件匣",
+            "MAX_CONVERSATIONS": "最大對話數",
+            "SET_LIMIT": "設定限制"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "未設定收件匣限制"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "排除規則",
+          "DESCRIPTION": "滿足以下條件的對話將不計入客服人員容量",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "排除帶有特定標籤的對話",
+            "ADD_TAG": "新增標籤",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "搜尋並選擇要新增的標籤"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "沒有標籤新增至此策略。"
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "排除超過指定持續時間的對話",
+            "PLACEHOLDER": "設定時間"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "已指派的客服人員",
+          "DESCRIPTION": "新增此策略將適用的客服人員。",
+          "ADD_BUTTON": "新增客服人員",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "SEARCH_PLACEHOLDER": "搜尋並選擇要新增的客服人員",
             "ADD_BUTTON": "新增"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "未新增客服人員",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "客服人員已成功新增至策略中",
+            "ERROR_MESSAGE": "將客服人員新增至策略失敗"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "客服人員容量策略已成功刪除",
+        "ERROR_MESSAGE": "刪除客服人員容量策略失敗"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "刪除策略",
+      "DESCRIPTION": "您確定要刪除此策略嗎？此操作無法復原。",
       "CONFIRM_BUTTON_LABEL": "刪除",
       "CANCEL_BUTTON_LABEL": "取消"
     }

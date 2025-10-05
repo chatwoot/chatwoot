@@ -9,10 +9,10 @@
     "LIST": {
       "404": "此帐户中没有可用的标签。",
       "TITLE": "管理标签",
-      "DESC": "标记可以让您将对话集中起来。",
+      "DESC": "标签能帮助您将对话进行分组。",
       "TABLE_HEADER": {
         "NAME": "名称",
-        "DESCRIPTION": "描述信息",
+        "DESCRIPTION": "描述",
         "COLOR": "颜色"
       }
     },
@@ -25,7 +25,7 @@
         "VALID_ERROR": "仅允许使用字母、数字、连字符和下划线"
       },
       "DESCRIPTION": {
-        "LABEL": "描述信息",
+        "LABEL": "描述",
         "PLACEHOLDER": "标签描述"
       },
       "COLOR": {
@@ -37,7 +37,7 @@
       "EDIT": "编辑",
       "CREATE": "创建",
       "DELETE": "删除",
-      "CANCEL": "取消操作"
+      "CANCEL": "取消"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
@@ -47,7 +47,7 @@
         "DISMISS": "忽略建议"
       },
       "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "取消",
+      "DISMISS": "忽略",
       "ADD_SELECTED_LABELS": "添加选定的标签",
       "ADD_SELECTED_LABEL": "添加选定的标签",
       "ADD_ALL_LABELS": "添加所有标签",
@@ -55,7 +55,7 @@
     },
     "ADD": {
       "TITLE": "添加标签",
-      "DESC": "标记可以让您将对话集中起来。",
+      "DESC": "标签能帮助您将对话进行分组。",
       "API": {
         "SUCCESS_MESSAGE": "标签添加成功",
         "ERROR_MESSAGE": "出现错误，请重试"

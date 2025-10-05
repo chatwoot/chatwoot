@@ -14,24 +14,24 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "不可用"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "在线",
-    "OFFLINE": "当前已离线",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "ONLINE": "我们在线",
+    "OFFLINE": "我们当前不在线",
+    "BACK_AS_SOON_AS_POSSIBLE": "我们会尽快回来"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
-    "IN_A_FEW_HOURS": "通常在几小时内回复您",
-    "IN_A_DAY": "通常在一天之内回复您",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "IN_A_FEW_MINUTES": "通常在几分钟内回复",
+    "IN_A_FEW_HOURS": "通常在几小时内回复",
+    "IN_A_DAY": "通常在一天内回复",
+    "BACK_IN_HOURS": "我们将在 {n} 小时后上线",
+    "BACK_IN_MINUTES": "我们将在 {time} 分钟后上线",
+    "BACK_AT_TIME": "我们将在 {time} 上线",
+    "BACK_ON_DAY": "我们将在 {day} 上线",
+    "BACK_TOMORROW": "我们将在明天上线",
+    "BACK_IN_SOME_TIME": "我们将在一段时间后上线"
   },
   "DAY_NAMES": {
     "SUNDAY": "周日",
@@ -42,60 +42,60 @@
     "FRIDAY": "周五",
     "SATURDAY": "周六"
   },
-  "START_CONVERSATION": "开始会话",
+  "START_CONVERSATION": "开始对话",
   "END_CONVERSATION": "结束对话",
   "CONTINUE_CONVERSATION": "继续对话",
   "YOU": "您",
-  "START_NEW_CONVERSATION": "开始新的对话",
+  "START_NEW_CONVERSATION": "开始新对话",
   "VIEW_UNREAD_MESSAGES": "您有未读消息",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
     "CLOSE_MESSAGES_BUTTON": "关闭",
-    "COMPANY_FROM": "发自",
+    "COMPANY_FROM": "来自",
     "BOT": "机器人"
   },
   "BUBBLE": {
-    "LABEL": "联系我们"
+    "LABEL": "与我们对话"
   },
-  "POWERED_BY": "由 Chatwoot 支持",
-  "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
+  "POWERED_BY": "由 Chatwoot 技术提供",
+  "EMAIL_PLACEHOLDER": "请输入您的电子邮箱",
   "CHAT_PLACEHOLDER": "输入您的消息",
   "TODAY": "今天",
   "YESTERDAY": "昨天",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "名字",
-        "PLACEHOLDER": "请输入您的姓名",
-        "REQUIRED_ERROR": "必须填写姓名"
+        "LABEL": "全名",
+        "PLACEHOLDER": "请输入您的全名",
+        "REQUIRED_ERROR": "全名为必填项"
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "电子邮件地址",
-        "PLACEHOLDER": "请输入您的邮箱地址",
-        "REQUIRED_ERROR": "电子邮件地址是必填项",
-        "VALID_ERROR": "请输入一个有效的电子邮件"
+        "LABEL": "电子邮箱地址",
+        "PLACEHOLDER": "请输入您的电子邮箱地址",
+        "REQUIRED_ERROR": "电子邮箱地址是必填项",
+        "VALID_ERROR": "请输入有效的电子邮箱地址"
       },
       "PHONE_NUMBER": {
         "LABEL": "电话号码",
-        "PLACEHOLDER": "请输入您的手机号码",
+        "PLACEHOLDER": "请输入您的电话号码",
         "REQUIRED_ERROR": "电话号码是必填项",
-        "DIAL_CODE_VALID_ERROR": "请选择国家代码",
-        "VALID_ERROR": "请输入一个有效的电话号码",
-        "DROPDOWN_EMPTY": "没有检索到相关信息",
-        "DROPDOWN_SEARCH": "搜索国家/地区"
+        "DIAL_CODE_VALID_ERROR": "请选择一个国家代码",
+        "VALID_ERROR": "请输入有效的电话号码",
+        "DROPDOWN_EMPTY": "找不到结果",
+        "DROPDOWN_SEARCH": "搜索国家"
       },
       "MESSAGE": {
         "LABEL": "消息",
         "PLACEHOLDER": "请输入您的消息",
-        "ERROR": "消息太短了"
+        "ERROR": "消息过短"
       }
     },
-    "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
+    "CAMPAIGN_HEADER": "在开始对话前，请提供您的姓名和电子邮箱",
     "IS_REQUIRED": "是必填项",
-    "REQUIRED": "必填项",
-    "REGEX_ERROR": "请提供一个有效的值"
+    "REQUIRED": "必填",
+    "REGEX_ERROR": "请提供有效的输入"
   },
-  "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
+  "FILE_SIZE_LIMIT": "文件大小已超出 {MAXIMUM_FILE_UPLOAD_SIZE} 的附件限制",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "无效字段"
@@ -103,27 +103,27 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "搜索表情符号",
-    "NOT_FOUND": "没有适合你的搜索结果",
-    "ARIA_LABEL": "Emoji选择器"
+    "NOT_FOUND": "没有找到符合您搜索的表情符号",
+    "ARIA_LABEL": "表情符号选择器"
   },
   "CSAT": {
-    "TITLE": "评价您的对话",
+    "TITLE": "为您的对话评分",
     "SUBMITTED_TITLE": "感谢您提交评分",
-    "PLACEHOLDER": "请告诉我们更多..."
+    "PLACEHOLDER": "告诉我们更多..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "请求会话抄本",
-    "SEND_EMAIL_SUCCESS": "已成功发送聊天记录",
-    "SEND_EMAIL_ERROR": "出现错误，请重试"
+    "BUTTON_TEXT": "请求对话记录",
+    "SEND_EMAIL_SUCCESS": "对话记录已成功发送",
+    "SEND_EMAIL_ERROR": "发生错误，请重试"
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "点击这里加入",
-      "LEAVE_THE_ROOM": "离开来电"
+      "CLICK_HERE_TO_JOIN": "点击此处加入",
+      "LEAVE_THE_ROOM": "离开通话"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "最受欢迎文章",
+    "POPULAR_ARTICLES": "热门文章",
     "VIEW_ALL_ARTICLES": "查看所有文章",
     "IFRAME_LOAD_ERROR": "加载文章时出错，请刷新页面后重试。"
   },
@@ -138,7 +138,7 @@
       "CONTENT": "视频消息"
     },
     "file": {
-      "CONTENT": "附件"
+      "CONTENT": "文件附件"
     },
     "location": {
       "CONTENT": "位置"

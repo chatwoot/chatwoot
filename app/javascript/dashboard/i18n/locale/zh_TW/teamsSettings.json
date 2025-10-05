@@ -2,102 +2,102 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "建立新團隊",
     "HEADER": "團隊",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "LOADING": "正在讀取團隊列表",
+    "DESCRIPTION": "團隊讓您可以根據職責將客服人員分組。一位客服人員可以屬於多個團隊。在協作時，您可以將對話指派給特定的團隊。",
+    "LEARN_MORE": "深入了解團隊",
     "LIST": {
-      "404": "There are no teams created on this account.",
+      "404": "此帳號尚未建立任何團隊。",
       "EDIT_TEAM": "編輯團隊",
       "NONE": "無"
     },
     "CREATE_FLOW": {
       "CREATE": {
         "TITLE": "建立一個新團隊",
-        "DESC": "為你的新團隊新增一個標題跟描述"
+        "DESC": "為您的新團隊新增標題和描述。"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "將客服加入團隊",
-        "TITLE": "將客服加入團隊 - {teamName}",
-        "DESC": "將客服新增到新建立的團隊。這會讓你可以用團隊的形式處理對話，也可以取得同一個對話的新事件通知。"
+        "BUTTON_TEXT": "將客服人員加入團隊",
+        "TITLE": "將客服人員加入團隊 - {teamName}",
+        "DESC": "將客服人員新增到您新建立的團隊。這讓您可以作為一個團隊在對話中協作，並在同一對話中收到新事件的通知。"
       },
       "WIZARD_CREATE": {
         "TITLE": "建立",
-        "BODY": "為客服建立一個新團隊"
+        "BODY": "建立一個新的客服人員團隊。"
       },
       "WIZARD_ADD_AGENTS": {
-        "TITLE": "新增客服",
-        "BODY": "將客服加入團隊"
+        "TITLE": "新增客服人員",
+        "BODY": "將客服人員加入團隊。"
       },
       "WIZARD_FINISH": {
         "TITLE": "完成",
-        "BODY": "您已設定狀態為離開"
+        "BODY": "一切就緒！"
       }
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "編輯團隊詳細資訊",
-        "DESC": "編輯團隊標題及描述",
+        "TITLE": "編輯您的團隊詳情",
+        "DESC": "編輯您團隊的標題和描述。",
         "BUTTON_TEXT": "更新團隊"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "更新團隊客服",
-        "TITLE": "將客服加入團隊 - {teamName}",
-        "DESC": "為新建立的團隊新增客服，當對話被指派至團隊時，所有加入的客服都會被通知。"
+        "BUTTON_TEXT": "更新團隊中的客服人員",
+        "TITLE": "將客服人員加入團隊 - {teamName}",
+        "DESC": "將客服人員新增到您新建立的團隊。當對話被指派給此團隊時，所有新增的客服人員都會收到通知。"
       },
       "EDIT_WIZARD_DETAILS": {
-        "TITLE": "團隊詳細資訊",
+        "TITLE": "團隊詳情",
         "ROUTE": "settings_teams_edit",
         "BODY": "變更名稱、描述及其他詳細資訊。"
       },
       "EDIT_WIZARD_AGENTS": {
-        "TITLE": "編輯客服",
+        "TITLE": "編輯客服人員",
         "ROUTE": "settings_teams_edit_members",
-        "BODY": "編輯團隊內的客服"
+        "BODY": "編輯您團隊中的客服人員。"
       },
       "EDIT_WIZARD_FINISH": {
         "TITLE": "完成",
         "ROUTE": "settings_teams_edit_finish",
-        "BODY": "您已設定狀態為離開"
+        "BODY": "一切就緒！"
       }
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "無法儲存團隊詳細資訊，請再試一次。"
+      "ERROR_MESSAGE": "無法儲存團隊詳情，請再試一次。"
     },
     "AGENTS": {
-      "AGENT": "客服",
-      "EMAIL": "電子信箱",
-      "BUTTON_TEXT": "新增客服",
-      "ADD_AGENTS": "正在將客服加入到你的團隊...",
+      "AGENT": "客服人員",
+      "EMAIL": "電子郵件",
+      "BUTTON_TEXT": "新增客服人員",
+      "ADD_AGENTS": "正在將客服人員加入您的團隊...",
       "SELECT": "選擇",
-      "SELECT_ALL": "選取所有客服",
-      "SELECTED_COUNT": "{total} 中的 {selected} 個客服被選取"
+      "SELECT_ALL": "選取所有客服人員",
+      "SELECTED_COUNT": "已選取 {total} 位客服人員中的 {selected} 位。"
     },
     "ADD": {
-      "TITLE": "將客服加入團隊 - {teamName}",
-      "DESC": "將客服新增到新建立的團隊。這會讓你可以用團隊的形式處理對話，也可以取得同一個對話的新事件通知。",
+      "TITLE": "將客服人員加入團隊 - {teamName}",
+      "DESC": "將客服人員新增到您新建立的團隊。這讓您可以作為一個團隊在對話中協作，並在同一對話中收到新事件的通知。",
       "SELECT": "選擇",
-      "SELECT_ALL": "選取所有克服",
-      "SELECTED_COUNT": "{total} 中的 {selected} 個客服被選取",
-      "BUTTON_TEXT": "新增客服",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "SELECT_ALL": "選取所有客服人員",
+      "SELECTED_COUNT": "已選取 {total} 位客服人員中的 {selected} 位。",
+      "BUTTON_TEXT": "新增客服人員",
+      "AGENT_VALIDATION_ERROR": "請至少選擇一位客服人員。"
     },
     "FINISH": {
-      "TITLE": "你的團隊已經準備好了",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "TITLE": "您的團隊已準備就緒！",
+      "MESSAGE": "您現在可以作為一個團隊在對話中協作。祝您支援愉快！",
       "BUTTON_TEXT": "完成"
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "團隊刪除成功",
-        "ERROR_MESSAGE": "無法刪除團隊，請再試一次"
+        "SUCCESS_MESSAGE": "團隊已成功刪除。",
+        "ERROR_MESSAGE": "無法刪除團隊，請重試。"
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "您確定要刪除此團隊嗎？",
         "PLACE_HOLDER": "請輸入 {teamName} 以確認",
-        "MESSAGE": "刪除此團隊將會移除已指派給此團隊的對話指派對象",
-        "YES": "刪除 ",
-        "NO": "取消"
+        "MESSAGE": "刪除團隊後，相關對話的團隊指派將被移除。",
+        "YES": "是，刪除",
+        "NO": "否，保留"
       }
     },
     "SETTINGS": "設定",
@@ -110,10 +110,10 @@
       },
       "DESCRIPTION": {
         "LABEL": "團隊描述",
-        "PLACEHOLDER": "對此團隊的簡短描述"
+        "PLACEHOLDER": "關於此團隊的簡短描述。"
       },
       "AUTO_ASSIGN": {
-        "LABEL": "允許在團隊中自動指派"
+        "LABEL": "允許為此團隊自動指派。"
       },
       "SUBMIT_CREATE": "建立團隊"
     }
