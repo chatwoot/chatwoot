@@ -1,0 +1,137 @@
+# Docker Compose for Local Testing
+# Simulates GCP Cloud Run environment
+
+services:
+  # PostgreSQL Database (similar to Cloud SQL)
+  postgres:
+    image: postgres:15-alpine
+    container_name: chatwoot-postgres
+    environment:
+      POSTGRES_DB: chatwoot_production
+      POSTGRES_USER: chatwoot_user
+      POSTGRES_PASSWORD: cacVej-beghoz-tuzjo6
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chatwoot_user -d chatwoot_production"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (similar to Cloud Memorystore)
+  redis:
+    image: redis:7-alpine
+    container_name: chatwoot-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Rails Web Application
+  web:
+    image: chatwoot:production
+    container_name: chatwoot-web
+    networks:
+      - default
+      - npm-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      # Rails Configuration
+      RAILS_ENV: production
+      RAILS_SERVE_STATIC_FILES: "true"
+      RAILS_LOG_TO_STDOUT: "true"
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE:-dummy_secret_key_base_for_testing_only_replace_in_production}"
+
+      # Database Configuration
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DATABASE: chatwoot_production
+      POSTGRES_USERNAME: chatwoot_user
+      POSTGRES_PASSWORD: cacVej-beghoz-tuzjo6
+
+      # Redis Configuration
+      REDIS_URL: redis://redis:6379
+
+      # Application Configuration
+      FRONTEND_URL: https://msp.rhaps.net
+      FORCE_SSL: "false"
+      ENABLE_ACCOUNT_SIGNUP: "false"
+
+      # Storage Configuration (local for testing)
+      ACTIVE_STORAGE_SERVICE: local
+
+      # Mailer Configuration (optional for testing)
+      MAILER_SENDER_EMAIL: "Chatwoot <noreply@chatwoot.test>"
+
+    ports:
+      - "3000:8080"
+    volumes:
+      - ./storage:/app/storage
+      - ./log:/app/log
+      - ./tmp:/app/tmp
+      - ./public/vite:/app/public/vite:ro
+    command: >
+      sh -c "
+        echo 'Waiting for database to be ready...' &&
+        bundle exec rails db:prepare &&
+        echo 'Database ready! Starting web server...' &&
+        rm -f /app/tmp/pids/server.pid &&
+        bundle exec rails server -b 0.0.0.0 -p 8080
+      "
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Sidekiq Worker
+  worker:
+    image: chatwoot:production
+    container_name: chatwoot-worker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_started
+    environment:
+      # Same environment as web service
+      RAILS_ENV: production
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE:-dummy_secret_key_base_for_testing_only_replace_in_production}"
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DATABASE: chatwoot_production
+      POSTGRES_USERNAME: chatwoot_user
+      POSTGRES_PASSWORD: cacVej-beghoz-tuzjo6
+      REDIS_URL: redis://redis:6379
+      ACTIVE_STORAGE_SERVICE: local
+    volumes:
+      - ./storage:/app/storage
+      - ./log:/app/log
+      - ./tmp:/app/tmp
+    command: bundle exec sidekiq -C config/sidekiq.yml
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  npm-network:
+    external: true
+    name: npm-network

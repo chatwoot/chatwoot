@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_02_131046) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_05_120350) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -436,7 +436,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_02_131046) do
     t.jsonb "imessage_apps", default: []
     t.index ["account_id"], name: "index_channel_apple_messages_for_business_on_account_id"
     t.index ["business_id"], name: "index_channel_apple_messages_for_business_on_business_id", unique: true
-    t.index ["msp_id"], name: "index_channel_apple_messages_for_business_on_msp_id", unique: true
+    t.index ["msp_id", "business_id"], name: "index_channel_amb_on_msp_id_and_business_id", unique: true
     t.index ["oauth2_providers"], name: "index_channel_apple_messages_for_business_on_oauth2_providers", using: :gin
     t.index ["payment_processors"], name: "index_channel_apple_messages_for_business_on_payment_processors", using: :gin
     t.index ["payment_settings"], name: "index_channel_apple_messages_for_business_on_payment_settings", using: :gin

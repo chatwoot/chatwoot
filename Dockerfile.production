@@ -1,0 +1,126 @@
+# Chatwoot Production Dockerfile for GCP Cloud Run
+# Optimized multi-stage build for Apple Messages for Business support
+
+# ============================================
+# Stage 1: Ruby Base Image
+# ============================================
+FROM ruby:3.3.9-slim AS base
+
+# Install essential system packages
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    postgresql-client \
+    imagemagick \
+    libvips42 \
+    libssl-dev \
+    curl \
+    gnupg \
+    ca-certificates \
+    tzdata \
+    shared-mime-info \
+    git && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set production environment
+ENV RAILS_ENV=production \
+    NODE_ENV=production \
+    RACK_ENV=production \
+    RAILS_SERVE_STATIC_FILES=true \
+    RAILS_LOG_TO_STDOUT=true
+
+# Create app directory
+RUN mkdir -p /app
+WORKDIR /app
+
+# ============================================
+# Stage 2: Node.js Setup
+# ============================================
+FROM base AS node-builder
+
+# Install Node.js 23.x and pnpm 10.x
+RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g pnpm@10.2.0
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install Node dependencies
+RUN pnpm install --frozen-lockfile --prod=false
+
+# ============================================
+# Stage 3: Build Assets
+# ============================================
+FROM node-builder AS asset-builder
+
+# Copy application code needed for asset compilation
+COPY app/javascript ./app/javascript
+COPY app/assets ./app/assets
+COPY config ./config
+COPY public ./public
+COPY theme ./theme
+COPY vite.config.ts ./
+COPY tailwind.config.js ./
+COPY postcss.config.js ./
+
+# Build frontend assets with Vite directly (with increased memory limit)
+RUN NODE_OPTIONS="--max-old-space-size=2048" npx vite build --mode=production
+
+# ============================================
+# Stage 4: Ruby Dependencies
+# ============================================
+FROM base AS ruby-builder
+
+# Copy Gemfile
+COPY Gemfile Gemfile.lock ./
+
+# Install Ruby gems
+RUN gem install bundler:2.5.23 && \
+    bundle config set --local deployment 'true' && \
+    bundle config set --local without 'development test' && \
+    bundle install --jobs=4 --retry=3
+
+# ============================================
+# Stage 5: Production Image
+# ============================================
+FROM base AS production
+
+# Copy installed gems from ruby-builder
+COPY --from=ruby-builder /usr/local/bundle /usr/local/bundle
+
+# Copy built assets from asset-builder
+COPY --from=asset-builder /app/public /app/public
+
+# Copy application code
+COPY . .
+
+# Create required directories
+RUN mkdir -p /app/tmp/pids \
+    /app/tmp/cache \
+    /app/log \
+    /app/storage \
+    /app/public/packs && \
+    chmod -R 755 /app/tmp /app/log /app/storage /app/public
+
+# Precompile Rails assets (if any remaining)
+RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile || true
+
+# Create non-root user for security
+RUN useradd -m -u 1000 -s /bin/bash chatwoot && \
+    chown -R chatwoot:chatwoot /app
+
+# Switch to non-root user
+USER chatwoot
+
+# Expose port for Cloud Run (Cloud Run uses PORT env var)
+ENV PORT=8080
+EXPOSE 8080
+
+# Health check endpoint
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+
+# Default command (can be overridden in Cloud Run)
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "8080"]

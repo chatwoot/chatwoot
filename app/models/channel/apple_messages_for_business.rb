@@ -23,9 +23,9 @@
 #
 # Indexes
 #
+#  index_channel_amb_on_msp_id_and_business_id                      (msp_id,business_id) UNIQUE
 #  index_channel_apple_messages_for_business_on_account_id          (account_id)
 #  index_channel_apple_messages_for_business_on_business_id         (business_id) UNIQUE
-#  index_channel_apple_messages_for_business_on_msp_id              (msp_id) UNIQUE
 #  index_channel_apple_messages_for_business_on_oauth2_providers    (oauth2_providers) USING gin
 #  index_channel_apple_messages_for_business_on_payment_processors  (payment_processors) USING gin
 #  index_channel_apple_messages_for_business_on_payment_settings    (payment_settings) USING gin
@@ -43,9 +43,10 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
     { imessage_apps: [:id, :name, :app_id, :bid, :version, :url, :description, :enabled, :use_live_layout, { app_data: {} }, { images: [] }] }
   ].freeze
 
-  validates :msp_id, presence: true, uniqueness: true
+  validates :msp_id, presence: true
   validates :business_id, presence: true, uniqueness: true
   validates :secret, presence: true
+  validates :msp_id, uniqueness: { scope: :business_id, message: 'combination with business_id already exists' }
   validate :validate_jwt_credentials
   # Temporarily disable strict validations to debug 422 error
   # validate :validate_oauth2_settings

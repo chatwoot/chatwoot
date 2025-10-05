@@ -1,0 +1,157 @@
+# Cloud Run Service Configuration for Chatwoot Web
+# Use: gcloud run services replace cloudrun-web.yaml
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: chatwoot-web
+  labels:
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    run.googleapis.com/launch-stage: GA
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/maxScale: "4"
+        run.googleapis.com/vpc-access-connector: chatwoot-connector
+        run.googleapis.com/vpc-access-egress: private-ranges-only
+        run.googleapis.com/cloudsql-instances: PROJECT_ID:REGION:chatwoot-postgres
+        run.googleapis.com/execution-environment: gen2
+        run.googleapis.com/cpu-throttling: "false"
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      serviceAccountName: chatwoot-service-account@PROJECT_ID.iam.gserviceaccount.com
+      containers:
+      - name: chatwoot-web
+        image: gcr.io/PROJECT_ID/chatwoot:amb-beta
+        ports:
+        - name: http1
+          containerPort: 8080
+
+        command:
+        - bundle
+        args:
+        - exec
+        - rails
+        - server
+        - -b
+        - 0.0.0.0
+        - -p
+        - "8080"
+
+        resources:
+          limits:
+            cpu: "2000m"
+            memory: 4Gi
+          requests:
+            cpu: "1000m"
+            memory: 2Gi
+
+        env:
+        # Rails Configuration
+        - name: RAILS_ENV
+          value: production
+        - name: RAILS_SERVE_STATIC_FILES
+          value: "true"
+        - name: RAILS_LOG_TO_STDOUT
+          value: "true"
+        - name: LOG_LEVEL
+          value: info
+
+        # Database Configuration
+        - name: POSTGRES_HOST
+          value: /cloudsql/PROJECT_ID:REGION:chatwoot-postgres
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DATABASE
+          value: chatwoot_production
+        - name: POSTGRES_USERNAME
+          value: chatwoot_user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: chatwoot-db-password
+              key: latest
+
+        # Redis Configuration
+        - name: REDIS_URL
+          value: redis://REDIS_HOST:6379
+
+        # Application Configuration
+        - name: FRONTEND_URL
+          value: https://your-domain.com
+        - name: FORCE_SSL
+          value: "true"
+        - name: ENABLE_ACCOUNT_SIGNUP
+          value: "false"
+
+        # Secret Key
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: chatwoot-secret-key-base
+              key: latest
+
+        # Active Record Encryption (for 2FA)
+        - name: ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+          valueFrom:
+            secretKeyRef:
+              name: chatwoot-encryption-primary-key
+              key: latest
+        - name: ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+          valueFrom:
+            secretKeyRef:
+              name: chatwoot-encryption-deterministic-key
+              key: latest
+        - name: ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+          valueFrom:
+            secretKeyRef:
+              name: chatwoot-encryption-derivation-salt
+              key: latest
+
+        # Storage Configuration
+        - name: ACTIVE_STORAGE_SERVICE
+          value: google
+        - name: GCS_PROJECT
+          value: PROJECT_ID
+        - name: GCS_BUCKET
+          value: PROJECT_ID-chatwoot-storage
+
+        # Apple Messages for Business
+        - name: APPLE_MSP_BASE_URL
+          value: https://api.business.apple.com/v1
+        - name: APPLE_MSP_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: apple-msp-token
+              key: latest
+        - name: APPLE_MSP_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: apple-msp-key-id
+              key: latest
+
+        # Add additional AMB environment variables as needed
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 10
+          failureThreshold: 12
