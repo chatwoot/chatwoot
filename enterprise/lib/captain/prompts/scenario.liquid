@@ -7,12 +7,32 @@ You are a specialized agent called {{ title }}, your task is to handle the follo
 
 {{ instructions }}
 
+# Current Context
+
+Here's the metadata we have about the current conversation and the contact associated with it:
+
 {% if conversation -%}
 {% render 'conversation' %}
+{% endif -%}
 
 {% if contact -%}
 {% render 'contact' %}
 {% endif -%}
+
+{% if response_guidelines.size > 0 -%}
+# Response Guidelines
+Your responses should follow these guidelines:
+{% for guideline in response_guidelines -%}
+- {{ guideline }}
+{% endfor %}
+{% endif -%}
+
+{% if guardrails.size > 0 -%}
+# Guardrails
+Always respect these boundaries:
+{% for guardrail in guardrails -%}
+- {{ guardrail }}
+{% endfor %}
 {% endif -%}
 
 {% if tools.size > 0 -%}
