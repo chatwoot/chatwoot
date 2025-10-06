@@ -29,7 +29,8 @@ class Captain::CustomTool < ApplicationRecord
 
   self.table_name = 'captain_custom_tools'
 
-  SLUG_PREFIX = 'custom_'.freeze
+  NAME_PREFIX = 'custom'.freeze
+  NAME_SEPARATOR = '_'.freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -74,16 +75,21 @@ class Captain::CustomTool < ApplicationRecord
 
   def generate_slug
     return if slug.present?
+    return if title.blank?
 
-    base_slug = title.present? ? "#{SLUG_PREFIX}#{title.parameterize(separator: '-')}" : "#{SLUG_PREFIX}#{SecureRandom.uuid}"
+    base_slug = "#{NAME_PREFIX}#{NAME_SEPARATOR}#{title.parameterize(separator: NAME_SEPARATOR)}"
     self.slug = find_unique_slug(base_slug)
   end
 
-  def find_unique_slug(base_slug, counter = 0)
-    slug_candidate = counter.zero? ? base_slug : "#{base_slug}-#{counter}"
-    return find_unique_slug(base_slug, counter + 1) if slug_exists?(slug_candidate)
+  def find_unique_slug(base_slug)
+    return base_slug unless slug_exists?(base_slug)
 
-    slug_candidate
+    5.times do
+      slug_candidate = "#{base_slug}#{NAME_SEPARATOR}#{SecureRandom.alphanumeric(6).downcase}"
+      return slug_candidate unless slug_exists?(slug_candidate)
+    end
+
+    raise ActiveRecord::RecordNotUnique, I18n.t('captain.custom_tool.slug_generation_failed')
   end
 
   def slug_exists?(candidate)
