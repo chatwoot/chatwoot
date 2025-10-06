@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatwoot Performance Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #6b7280;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #4b5563;
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .status.pending {
+      background: #d1d5db;
+      animation: pulse 2s infinite;
+    }
+
+    .status.testing {
+      background: #fbbf24;
+      animation: pulse 1s infinite;
+    }
+
+    .status.success {
+      background: #10b981;
+    }
+
+    .status.error {
+      background: #ef4444;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .metric:last-child {
+      border-bottom: none;
+    }
+
+    .metric-label {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .metric-value {
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .metric-value.good {
+      color: #10b981;
+    }
+
+    .metric-value.warning {
+      color: #f59e0b;
+    }
+
+    .metric-value.error {
+      color: #ef4444;
+    }
+
+    .log-section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .log-output {
+      background: #1f2937;
+      color: #10b981;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      padding: 16px;
+      border-radius: 8px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: 16px;
+    }
+
+    .log-line {
+      margin-bottom: 4px;
+    }
+
+    .log-line.error {
+      color: #ef4444;
+    }
+
+    .log-line.success {
+      color: #10b981;
+    }
+
+    .log-line.warning {
+      color: #fbbf24;
+    }
+
+    .log-line.info {
+      color: #60a5fa;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+    }
+
+    .spinner {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 Chatwoot Performance Monitor</h1>
+      <p class="subtitle">Comprehensive network and connectivity diagnostics</p>
+      <div class="actions">
+        <button class="btn btn-primary" id="runTests">
+          <span>Run All Tests</span>
+        </button>
+        <button class="btn btn-success" id="copyBtn">
+          📋 Copy to Clipboard
+        </button>
+        <button class="btn btn-secondary" id="downloadBtn">
+          💾 Download Report
+        </button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>
+          <span class="status pending" id="statusServer"></span>
+          Server Connectivity
+        </h2>
+        <div id="serverMetrics">
+          <div class="metric">
+            <span class="metric-label">Status</span>
+            <span class="metric-value" id="serverStatus">Not tested</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Latency (avg)</span>
+            <span class="metric-value" id="serverLatency">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Min / Max</span>
+            <span class="metric-value" id="serverMinMax">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Packet Loss</span>
+            <span class="metric-value" id="serverPacketLoss">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <span class="status pending" id="statusWebSocket"></span>
+          WebSocket Connection
+        </h2>
+        <div id="wsMetrics">
+          <div class="metric">
+            <span class="metric-label">Status</span>
+            <span class="metric-value" id="wsStatus">Not tested</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Connection Time</span>
+            <span class="metric-value" id="wsConnectionTime">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">URL</span>
+            <span class="metric-value" id="wsUrl" style="font-size: 11px; word-break: break-all;">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <span class="status pending" id="statusBrowser"></span>
+          Browser Information
+        </h2>
+        <div id="browserMetrics">
+          <div class="metric">
+            <span class="metric-label">Browser</span>
+            <span class="metric-value" id="browserName">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Platform</span>
+            <span class="metric-value" id="browserPlatform">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Screen</span>
+            <span class="metric-value" id="browserScreen">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Online</span>
+            <span class="metric-value" id="browserOnline">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <span class="status pending" id="statusNetwork"></span>
+          Network Quality
+        </h2>
+        <div id="networkMetrics">
+          <div class="metric">
+            <span class="metric-label">Connection Type</span>
+            <span class="metric-value" id="networkType">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Effective Type</span>
+            <span class="metric-value" id="networkEffectiveType">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Downlink</span>
+            <span class="metric-value" id="networkDownlink">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">RTT</span>
+            <span class="metric-value" id="networkRTT">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <span class="status pending" id="statusDatabase"></span>
+          Database Connection
+        </h2>
+        <div id="databaseMetrics">
+          <div class="metric">
+            <span class="metric-label">Status</span>
+            <span class="metric-value" id="dbStatus">Not tested</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Response Time</span>
+            <span class="metric-value" id="dbResponseTime">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Adapter</span>
+            <span class="metric-value" id="dbAdapter">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Pool Size</span>
+            <span class="metric-value" id="dbPoolSize">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <span class="status pending" id="statusRedis"></span>
+          Redis Connection
+        </h2>
+        <div id="redisMetrics">
+          <div class="metric">
+            <span class="metric-label">Status</span>
+            <span class="metric-value" id="redisStatus">Not tested</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Response Time</span>
+            <span class="metric-value" id="redisResponseTime">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Ping Result</span>
+            <span class="metric-value" id="redisPing">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">URL</span>
+            <span class="metric-value" id="redisUrl" style="font-size: 11px; word-break: break-all;">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-section">
+      <h2>📊 Detailed Test Log</h2>
+      <div class="log-output" id="logOutput">
+        <div class="log-line info">Ready to run tests...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const testResults = {
+      timestamp: new Date().toISOString(),
+      server: {},
+      websocket: {},
+      browser: {},
+      network: {},
+      database: {},
+      redis: {},
+      logs: []
+    };
+
+    function log(message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const logLine = `[${timestamp}] ${message}`;
+      testResults.logs.push(logLine);
+
+      const logOutput = document.getElementById('logOutput');
+      const logDiv = document.createElement('div');
+      logDiv.className = `log-line ${type}`;
+      logDiv.textContent = logLine;
+      logOutput.appendChild(logDiv);
+      logOutput.scrollTop = logOutput.scrollHeight;
+    }
+
+    function setStatus(element, status) {
+      element.className = 'status ' + status;
+    }
+
+    function getColorClass(value, good, warning) {
+      if (value <= good) return 'good';
+      if (value <= warning) return 'warning';
+      return 'error';
+    }
+
+    // Test 1: Browser Information
+    async function testBrowser() {
+      log('Testing browser information...', 'info');
+      setStatus(document.getElementById('statusBrowser'), 'testing');
+
+      const browserInfo = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        cookieEnabled: navigator.cookieEnabled,
+        online: navigator.onLine,
+        screen: `${screen.width}x${screen.height}`,
+        viewport: `${window.innerWidth}x${window.innerHeight}`,
+        memory: navigator.deviceMemory || 'Unknown',
+        cores: navigator.hardwareConcurrency || 'Unknown'
+      };
+
+      testResults.browser = browserInfo;
+
+      document.getElementById('browserName').textContent = browserInfo.userAgent.split(' ').slice(-2).join(' ');
+      document.getElementById('browserPlatform').textContent = browserInfo.platform;
+      document.getElementById('browserScreen').textContent = browserInfo.screen;
+      document.getElementById('browserOnline').textContent = browserInfo.online ? '✅ Online' : '❌ Offline';
+      document.getElementById('browserOnline').className = 'metric-value ' + (browserInfo.online ? 'good' : 'error');
+
+      setStatus(document.getElementById('statusBrowser'), 'success');
+      log('✓ Browser information collected', 'success');
+    }
+
+    // Test 2: Network Information
+    async function testNetwork() {
+      log('Testing network information...', 'info');
+      setStatus(document.getElementById('statusNetwork'), 'testing');
+
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+      if (connection) {
+        const networkInfo = {
+          type: connection.type || 'Unknown',
+          effectiveType: connection.effectiveType || 'Unknown',
+          downlink: connection.downlink || 0,
+          rtt: connection.rtt || 0,
+          saveData: connection.saveData || false
+        };
+
+        testResults.network = networkInfo;
+
+        document.getElementById('networkType').textContent = networkInfo.type;
+        document.getElementById('networkEffectiveType').textContent = networkInfo.effectiveType;
+        document.getElementById('networkDownlink').textContent = networkInfo.downlink + ' Mbps';
+        document.getElementById('networkRTT').textContent = networkInfo.rtt + ' ms';
+
+        setStatus(document.getElementById('statusNetwork'), 'success');
+        log('✓ Network information collected', 'success');
+      } else {
+        testResults.network = { error: 'Network Information API not supported' };
+        document.getElementById('networkType').textContent = 'Not supported';
+        document.getElementById('networkEffectiveType').textContent = 'Not supported';
+        document.getElementById('networkDownlink').textContent = 'Not supported';
+        document.getElementById('networkRTT').textContent = 'Not supported';
+        setStatus(document.getElementById('statusNetwork'), 'error');
+        log('⚠ Network Information API not supported', 'warning');
+      }
+    }
+
+    // Test 3: Server Latency
+    async function testServerLatency() {
+      log('Testing server latency (10 pings)...', 'info');
+      setStatus(document.getElementById('statusServer'), 'testing');
+
+      const pingCount = 10;
+      const latencies = [];
+      let failures = 0;
+
+      for (let i = 0; i < pingCount; i++) {
+        try {
+          const start = performance.now();
+          const response = await fetch('/perf/ping?t=' + Date.now(), {
+            method: 'GET',
+            cache: 'no-store'
+          });
+          const end = performance.now();
+
+          if (response.ok) {
+            const latency = Math.round(end - start);
+            latencies.push(latency);
+            log(`  Ping ${i + 1}: ${latency}ms`, 'success');
+          } else {
+            failures++;
+            log(`  Ping ${i + 1}: Failed (${response.status})`, 'error');
+          }
+        } catch (error) {
+          failures++;
+          log(`  Ping ${i + 1}: Failed (${error.message})`, 'error');
+        }
+
+        // Small delay between pings
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      if (latencies.length > 0) {
+        const avg = Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length);
+        const min = Math.min(...latencies);
+        const max = Math.max(...latencies);
+        const packetLoss = Math.round((failures / pingCount) * 100);
+
+        testResults.server = {
+          average: avg,
+          min: min,
+          max: max,
+          packetLoss: packetLoss,
+          samples: latencies
+        };
+
+        document.getElementById('serverStatus').textContent = '✅ Connected';
+        document.getElementById('serverStatus').className = 'metric-value good';
+        document.getElementById('serverLatency').textContent = avg + ' ms';
+        document.getElementById('serverLatency').className = 'metric-value ' + getColorClass(avg, 100, 300);
+        document.getElementById('serverMinMax').textContent = `${min} / ${max} ms`;
+        document.getElementById('serverPacketLoss').textContent = packetLoss + '%';
+        document.getElementById('serverPacketLoss').className = 'metric-value ' + (packetLoss === 0 ? 'good' : 'error');
+
+        setStatus(document.getElementById('statusServer'), 'success');
+        log(`✓ Server latency test complete: ${avg}ms avg`, 'success');
+      } else {
+        document.getElementById('serverStatus').textContent = '❌ Failed';
+        document.getElementById('serverStatus').className = 'metric-value error';
+        setStatus(document.getElementById('statusServer'), 'error');
+        log('✗ Server latency test failed completely', 'error');
+      }
+    }
+
+    // Test 4: WebSocket Connection
+    async function testWebSocket() {
+      log('Testing WebSocket connection...', 'info');
+      setStatus(document.getElementById('statusWebSocket'), 'testing');
+
+      return new Promise((resolve) => {
+        const wsUrl = '<%= ENV.fetch("WEBSOCKET_URL", "wss://#{request.host}/cable") %>';
+        const start = performance.now();
+
+        try {
+          const ws = new WebSocket(wsUrl);
+
+          const timeout = setTimeout(() => {
+            ws.close();
+            testResults.websocket = { status: 'timeout', url: wsUrl };
+            document.getElementById('wsStatus').textContent = '⏱ Timeout';
+            document.getElementById('wsStatus').className = 'metric-value warning';
+            document.getElementById('wsConnectionTime').textContent = '> 10s';
+            document.getElementById('wsUrl').textContent = wsUrl;
+            setStatus(document.getElementById('statusWebSocket'), 'error');
+            log('✗ WebSocket connection timeout', 'error');
+            resolve();
+          }, 10000);
+
+          ws.onopen = () => {
+            clearTimeout(timeout);
+            const end = performance.now();
+            const connectionTime = Math.round(end - start);
+
+            testResults.websocket = {
+              status: 'connected',
+              connectionTime: connectionTime,
+              url: wsUrl
+            };
+
+            document.getElementById('wsStatus').textContent = '✅ Connected';
+            document.getElementById('wsStatus').className = 'metric-value good';
+            document.getElementById('wsConnectionTime').textContent = connectionTime + ' ms';
+            document.getElementById('wsConnectionTime').className = 'metric-value ' + getColorClass(connectionTime, 500, 2000);
+            document.getElementById('wsUrl').textContent = wsUrl;
+            setStatus(document.getElementById('statusWebSocket'), 'success');
+            log(`✓ WebSocket connected in ${connectionTime}ms`, 'success');
+
+            ws.close();
+            resolve();
+          };
+
+          ws.onerror = (error) => {
+            clearTimeout(timeout);
+            testResults.websocket = { status: 'error', url: wsUrl, error: error.toString() };
+            document.getElementById('wsStatus').textContent = '❌ Failed';
+            document.getElementById('wsStatus').className = 'metric-value error';
+            document.getElementById('wsUrl').textContent = wsUrl;
+            setStatus(document.getElementById('statusWebSocket'), 'error');
+            log('✗ WebSocket connection failed', 'error');
+            resolve();
+          };
+        } catch (error) {
+          testResults.websocket = { status: 'error', url: wsUrl, error: error.message };
+          document.getElementById('wsStatus').textContent = '❌ Error';
+          document.getElementById('wsStatus').className = 'metric-value error';
+          document.getElementById('wsUrl').textContent = wsUrl;
+          setStatus(document.getElementById('statusWebSocket'), 'error');
+          log(`✗ WebSocket error: ${error.message}`, 'error');
+          resolve();
+        }
+      });
+    }
+
+    // Test 5: Database Connectivity
+    async function testDatabase() {
+      log('Testing database connection...', 'info');
+      setStatus(document.getElementById('statusDatabase'), 'testing');
+
+      try {
+        const response = await fetch('/perf/database?t=' + Date.now(), {
+          method: 'GET',
+          cache: 'no-store'
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === 'connected') {
+          testResults.database = data;
+
+          document.getElementById('dbStatus').textContent = '✅ Connected';
+          document.getElementById('dbStatus').className = 'metric-value good';
+          document.getElementById('dbResponseTime').textContent = data.response_time + ' ms';
+          document.getElementById('dbResponseTime').className = 'metric-value ' + getColorClass(data.response_time, 50, 200);
+          document.getElementById('dbAdapter').textContent = data.adapter;
+          document.getElementById('dbPoolSize').textContent = `${data.active_connections} / ${data.pool_size}`;
+
+          setStatus(document.getElementById('statusDatabase'), 'success');
+          log(`✓ Database connected (${data.adapter}) in ${data.response_time}ms`, 'success');
+        } else {
+          testResults.database = data;
+          document.getElementById('dbStatus').textContent = '❌ Failed';
+          document.getElementById('dbStatus').className = 'metric-value error';
+          document.getElementById('dbResponseTime').textContent = data.response_time + ' ms';
+          setStatus(document.getElementById('statusDatabase'), 'error');
+          log(`✗ Database connection failed: ${data.error}`, 'error');
+        }
+      } catch (error) {
+        testResults.database = { status: 'error', error: error.message };
+        document.getElementById('dbStatus').textContent = '❌ Error';
+        document.getElementById('dbStatus').className = 'metric-value error';
+        setStatus(document.getElementById('statusDatabase'), 'error');
+        log(`✗ Database test error: ${error.message}`, 'error');
+      }
+    }
+
+    // Test 6: Redis Connectivity
+    async function testRedis() {
+      log('Testing Redis connection...', 'info');
+      setStatus(document.getElementById('statusRedis'), 'testing');
+
+      try {
+        const response = await fetch('/perf/redis?t=' + Date.now(), {
+          method: 'GET',
+          cache: 'no-store'
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === 'connected') {
+          testResults.redis = data;
+
+          document.getElementById('redisStatus').textContent = '✅ Connected';
+          document.getElementById('redisStatus').className = 'metric-value good';
+          document.getElementById('redisResponseTime').textContent = data.response_time + ' ms';
+          document.getElementById('redisResponseTime').className = 'metric-value ' + getColorClass(data.response_time, 50, 200);
+          document.getElementById('redisPing').textContent = data.ping_result;
+          document.getElementById('redisUrl').textContent = data.url;
+
+          setStatus(document.getElementById('statusRedis'), 'success');
+          log(`✓ Redis connected in ${data.response_time}ms`, 'success');
+        } else {
+          testResults.redis = data;
+          document.getElementById('redisStatus').textContent = '❌ Failed';
+          document.getElementById('redisStatus').className = 'metric-value error';
+          document.getElementById('redisResponseTime').textContent = data.response_time + ' ms';
+          setStatus(document.getElementById('statusRedis'), 'error');
+          log(`✗ Redis connection failed: ${data.error}`, 'error');
+        }
+      } catch (error) {
+        testResults.redis = { status: 'error', error: error.message };
+        document.getElementById('redisStatus').textContent = '❌ Error';
+        document.getElementById('redisStatus').className = 'metric-value error';
+        setStatus(document.getElementById('statusRedis'), 'error');
+        log(`✗ Redis test error: ${error.message}`, 'error');
+      }
+    }
+
+    // Run all tests
+    async function runAllTests() {
+      const runButton = document.getElementById('runTests');
+      runButton.disabled = true;
+      runButton.innerHTML = '<div class="spinner"></div><span>Running Tests...</span>';
+
+      // Clear previous logs
+      document.getElementById('logOutput').innerHTML = '';
+      testResults.logs = [];
+      testResults.timestamp = new Date().toISOString();
+
+      log('=== Starting Performance Tests ===', 'info');
+      log(`Test Date: ${new Date().toLocaleString()}`, 'info');
+      log(`Location: ${window.location.href}`, 'info');
+      log('', 'info');
+
+      try {
+        await testBrowser();
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        await testNetwork();
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        await testServerLatency();
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        await testDatabase();
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        await testRedis();
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        await testWebSocket();
+
+        log('', 'info');
+        log('=== All Tests Complete ===', 'success');
+      } catch (error) {
+        log(`Error running tests: ${error.message}`, 'error');
+      }
+
+      runButton.disabled = false;
+      runButton.innerHTML = '<span>Run All Tests</span>';
+    }
+
+    // Generate report text
+    function generateReport() {
+      const lines = [];
+      lines.push('='.repeat(60));
+      lines.push('CHATWOOT PERFORMANCE TEST REPORT');
+      lines.push('='.repeat(60));
+      lines.push('');
+      lines.push(`Test Date: ${new Date(testResults.timestamp).toLocaleString()}`);
+      lines.push(`Test URL: ${window.location.href}`);
+      lines.push('');
+
+      lines.push('--- BROWSER INFORMATION ---');
+      lines.push(`User Agent: ${testResults.browser.userAgent || 'N/A'}`);
+      lines.push(`Platform: ${testResults.browser.platform || 'N/A'}`);
+      lines.push(`Screen: ${testResults.browser.screen || 'N/A'}`);
+      lines.push(`Online: ${testResults.browser.online ? 'Yes' : 'No'}`);
+      lines.push(`Memory: ${testResults.browser.memory} GB`);
+      lines.push(`CPU Cores: ${testResults.browser.cores}`);
+      lines.push('');
+
+      lines.push('--- NETWORK INFORMATION ---');
+      if (testResults.network.error) {
+        lines.push(`Error: ${testResults.network.error}`);
+      } else {
+        lines.push(`Connection Type: ${testResults.network.type || 'N/A'}`);
+        lines.push(`Effective Type: ${testResults.network.effectiveType || 'N/A'}`);
+        lines.push(`Downlink: ${testResults.network.downlink || 'N/A'} Mbps`);
+        lines.push(`RTT: ${testResults.network.rtt || 'N/A'} ms`);
+      }
+      lines.push('');
+
+      lines.push('--- SERVER CONNECTIVITY ---');
+      if (testResults.server.average) {
+        lines.push(`Average Latency: ${testResults.server.average} ms`);
+        lines.push(`Min Latency: ${testResults.server.min} ms`);
+        lines.push(`Max Latency: ${testResults.server.max} ms`);
+        lines.push(`Packet Loss: ${testResults.server.packetLoss}%`);
+        lines.push(`Samples: ${testResults.server.samples?.join(', ') || 'N/A'}`);
+      } else {
+        lines.push('Test failed or not run');
+      }
+      lines.push('');
+
+      lines.push('--- DATABASE CONNECTION ---');
+      lines.push(`Status: ${testResults.database.status || 'Not tested'}`);
+      lines.push(`Response Time: ${testResults.database.response_time || 'N/A'} ms`);
+      lines.push(`Adapter: ${testResults.database.adapter || 'N/A'}`);
+      lines.push(`Pool Size: ${testResults.database.pool_size || 'N/A'}`);
+      lines.push(`Active Connections: ${testResults.database.active_connections || 'N/A'}`);
+      if (testResults.database.error) {
+        lines.push(`Error: ${testResults.database.error}`);
+      }
+      lines.push('');
+
+      lines.push('--- REDIS CONNECTION ---');
+      lines.push(`Status: ${testResults.redis.status || 'Not tested'}`);
+      lines.push(`Response Time: ${testResults.redis.response_time || 'N/A'} ms`);
+      lines.push(`Ping Result: ${testResults.redis.ping_result || 'N/A'}`);
+      lines.push(`URL: ${testResults.redis.url || 'N/A'}`);
+      if (testResults.redis.error) {
+        lines.push(`Error: ${testResults.redis.error}`);
+      }
+      lines.push('');
+
+      lines.push('--- WEBSOCKET CONNECTION ---');
+      lines.push(`Status: ${testResults.websocket.status || 'Not tested'}`);
+      lines.push(`Connection Time: ${testResults.websocket.connectionTime || 'N/A'} ms`);
+      lines.push(`URL: ${testResults.websocket.url || 'N/A'}`);
+      if (testResults.websocket.error) {
+        lines.push(`Error: ${testResults.websocket.error}`);
+      }
+      lines.push('');
+
+      lines.push('--- DETAILED TEST LOG ---');
+      lines.push(...testResults.logs);
+      lines.push('');
+      lines.push('='.repeat(60));
+      lines.push('End of Report');
+      lines.push('='.repeat(60));
+
+      return lines.join('\n');
+    }
+
+    // Copy to clipboard
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const report = generateReport();
+      try {
+        await navigator.clipboard.writeText(report);
+        const btn = document.getElementById('copyBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✅ Copied!';
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+        }, 2000);
+        log('Report copied to clipboard', 'success');
+      } catch (error) {
+        log('Failed to copy: ' + error.message, 'error');
+      }
+    });
+
+    // Download report
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const report = generateReport();
+      const blob = new Blob([report], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `chatwoot-perf-${Date.now()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      log('Report downloaded', 'success');
+    });
+
+    // Run tests button
+    document.getElementById('runTests').addEventListener('click', runAllTests);
+
+    // Auto-run browser and network info on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        testBrowser();
+        testNetwork();
+      }, 500);
+    });
+  </script>
+</body>
+</html>

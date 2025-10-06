@@ -141,8 +141,10 @@ class ActionCableListener < BaseListener
   end
 
   def contact_updated(event)
-    contact, account = extract_contact_and_account(event)
-    broadcast(account, [account_token(account)], CONTACT_UPDATED, contact.push_event_data)
+    # Disabled: Performance issue with thousands of widget users triggering constant updates
+    # Contact details will be loaded on page reload instead
+    # contact, account = extract_contact_and_account(event)
+    # broadcast(account, [account_token(account)], CONTACT_UPDATED, contact.push_event_data)
   end
 
   def contact_merged(event)

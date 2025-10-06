@@ -27,6 +27,12 @@ Rails.application.routes.draw do
       resources :responses, only: [:show]
     end
     resource :slack_uploads, only: [:show]
+
+    # Performance testing page (public, no auth)
+    get '/perf', to: 'performance#index'
+    get '/perf/ping', to: 'performance#ping'
+    get '/perf/database', to: 'performance#database'
+    get '/perf/redis', to: 'performance#redis'
   end
 
   get '/api', to: 'api#index'
