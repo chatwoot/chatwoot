@@ -9,7 +9,6 @@ module Enterprise::Concerns::Account
 
     has_many :captain_assistants, dependent: :destroy_async, class_name: 'Captain::Assistant'
     has_many :captain_assistant_responses, dependent: :destroy_async, class_name: 'Captain::AssistantResponse'
-    has_many :captain_custom_tools, dependent: :destroy_async, class_name: 'Captain::CustomTool'
     has_many :captain_documents, dependent: :destroy_async, class_name: 'Captain::Document'
     has_many :captain_custom_tools, dependent: :destroy_async, class_name: 'Captain::CustomTool'
 
