@@ -70,7 +70,7 @@ module Concerns::Toolable
     return raw_response_body if response_template.blank?
 
     response_data = parse_response_body(raw_response_body)
-    render_template(response_template, { 'response' => response_data })
+    render_template(response_template, { 'response' => response_data, 'r' => response_data })
   end
 
   private
