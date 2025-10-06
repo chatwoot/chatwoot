@@ -62,6 +62,10 @@ export default {
     dataUrl() {
       return this.attachment.data_url;
     },
+    thumbUrl() {
+      // Use thumbnail for preview, fallback to full image if thumb not available
+      return this.attachment.thumb_url || this.attachment.data_url;
+    },
     imageWidth() {
       return this.attachment.width ? `${this.attachment.width}px` : 'auto';
     },
@@ -98,7 +102,7 @@ export default {
     <img
       v-if="isImage && !isImageError"
       class="bg-woot-200 dark:bg-woot-900"
-      :src="dataUrl"
+      :src="thumbUrl"
       :width="imageWidth"
       :height="imageHeight"
       @click="onClick"

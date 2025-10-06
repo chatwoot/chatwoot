@@ -102,8 +102,33 @@ const fileNameFromDataUrl = computed(() => {
   const { data_url: dataUrl } = activeAttachment.value;
   if (!dataUrl) return '';
 
-  const fileName = dataUrl.split('/').pop();
-  return fileName ? decodeURIComponent(fileName) : '';
+  try {
+    // Check if URL has query parameters (S3 direct URL)
+    if (dataUrl.includes('?')) {
+      // Try to extract filename from response-content-disposition parameter
+      const urlParams = new URLSearchParams(dataUrl.split('?')[1]);
+      const disposition = urlParams.get('response-content-disposition');
+
+      if (disposition) {
+        // Extract filename from: inline; filename="IMG_4870.jpeg"
+        const match = disposition.match(/filename[*]?=['"]?([^'";\s]+)['"]?/i);
+        if (match && match[1]) {
+          return decodeURIComponent(match[1]);
+        }
+      }
+
+      // Fallback: strip query params and get last path segment
+      const pathWithoutQuery = dataUrl.split('?')[0];
+      return pathWithoutQuery.split('/').pop() || '';
+    }
+
+    // Old format (Rails Active Storage URL): extract filename from path
+    const fileName = dataUrl.split('/').pop();
+    return fileName ? decodeURIComponent(fileName) : '';
+  } catch (error) {
+    // Fallback to simple extraction if parsing fails
+    return dataUrl.split('?')[0].split('/').pop() || '';
+  }
 });
 
 const onClose = () => emit('close');
