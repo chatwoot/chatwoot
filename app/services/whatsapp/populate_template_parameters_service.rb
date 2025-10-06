@@ -151,7 +151,7 @@ class Whatsapp::PopulateTemplateParametersService
   def validate_url(url)
     return if url.blank?
 
-    url = normalize_url(url)
+    # url is already normalized by the caller
 
     uri = URI.parse(url)
     raise ArgumentError, "Invalid URL scheme: #{uri.scheme}. Only http and https are allowed" unless %w[http https].include?(uri.scheme)
