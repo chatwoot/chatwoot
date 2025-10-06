@@ -6,7 +6,7 @@ import { required } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Input from 'dashboard/components-next/input/Input.vue';
-import Textarea from 'dashboard/components-next/textarea/Textarea.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ParamRow from './ParamRow.vue';
@@ -143,7 +143,10 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
+  <form
+    class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-x-scroll"
+    @submit.prevent="handleSubmit"
+  >
     <Input
       v-model="state.title"
       :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.LABEL')"
@@ -152,7 +155,7 @@ const handleSubmit = async () => {
       :message-type="formErrors.title ? 'error' : 'info'"
     />
 
-    <Textarea
+    <TextArea
       v-model="state.description"
       :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.LABEL')"
       :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.PLACEHOLDER')"
@@ -226,7 +229,7 @@ const handleSubmit = async () => {
       />
     </div>
 
-    <Textarea
+    <TextArea
       v-if="state.http_method === 'POST'"
       v-model="state.request_template"
       :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
@@ -235,7 +238,7 @@ const handleSubmit = async () => {
       class="[&_textarea]:font-mono"
     />
 
-    <Textarea
+    <TextArea
       v-model="state.response_template"
       :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')"
       :placeholder="
