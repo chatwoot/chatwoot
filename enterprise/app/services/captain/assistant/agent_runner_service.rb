@@ -77,7 +77,7 @@ class Captain::Assistant::AgentRunnerService
     response = format_response(result.output)
 
     # Extract agent name from context
-    response['agent_name'] = result.context[:current_agent].name if result.context && result.context[:current_agent]
+    response['agent_name'] = result.context&.dig(:current_agent)
 
     response
   end
