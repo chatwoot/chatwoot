@@ -49,8 +49,7 @@ class PerformanceController < PublicController
       render json: {
         status: 'connected',
         response_time: response_time,
-        ping_result: result,
-        url: ENV.fetch('REDIS_URL', 'redis://localhost:6379').gsub(/:[^:@]*@/, ':***@') # Hide password
+        ping_result: result
       }
     rescue StandardError => e
       render json: {

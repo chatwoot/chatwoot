@@ -411,10 +411,6 @@
             <span class="metric-label">Ping Result</span>
             <span class="metric-value" id="redisPing">-</span>
           </div>
-          <div class="metric">
-            <span class="metric-label">URL</span>
-            <span class="metric-value" id="redisUrl" style="font-size: 11px; word-break: break-all;">-</span>
-          </div>
         </div>
       </div>
     </div>
@@ -856,7 +852,6 @@
           document.getElementById('redisResponseTime').textContent = data.response_time + ' ms';
           document.getElementById('redisResponseTime').className = 'metric-value ' + getColorClass(data.response_time, 50, 200);
           document.getElementById('redisPing').textContent = data.ping_result;
-          document.getElementById('redisUrl').textContent = data.url;
 
           setStatus(document.getElementById('statusRedis'), 'success');
           log(`✓ Redis connected in ${data.response_time}ms`, 'success');
@@ -987,7 +982,6 @@
       lines.push(`Status: ${testResults.redis.status || 'Not tested'}`);
       lines.push(`Response Time: ${testResults.redis.response_time || 'N/A'} ms`);
       lines.push(`Ping Result: ${testResults.redis.ping_result || 'N/A'}`);
-      # lines.push(`URL: ${testResults.redis.url || 'N/A'}`);
       if (testResults.redis.error) {
         lines.push(`Error: ${testResults.redis.error}`);
       }
