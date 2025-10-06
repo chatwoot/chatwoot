@@ -522,9 +522,13 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
-  post 'webhooks/apple_messages_for_business/:msp_id', to: 'webhooks/apple_messages_for_business#process_payload'
-  post 'webhooks/apple_messages_for_business/:msp_id/message', to: 'webhooks/apple_messages_for_business#process_payload'
-  
+  # Apple Messages for Business webhook - permanent URL without MSP ID
+  # The business_id is extracted from the destination-id header sent by Apple
+  # Apple appends /message to the base URL configured in Apple Business Register
+  post 'webhooks/apple_messages_for_business/message', to: 'webhooks/apple_messages_for_business#process_payload'
+  # Also support base URL without /message for flexibility
+  post 'webhooks/apple_messages_for_business', to: 'webhooks/apple_messages_for_business#process_payload'
+
   # Apple Messages for Business routes
   namespace :apple_messages_for_business do
     resources :attachments, only: [:show] do

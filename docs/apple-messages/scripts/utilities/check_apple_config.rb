@@ -3,14 +3,14 @@
 
 require_relative 'config/environment'
 
-puts "=== Apple Messages for Business Channel Configuration ==="
+puts '=== Apple Messages for Business Channel Configuration ==='
 puts "Timestamp: #{Time.current}"
 puts
 
 channels = Channel::AppleMessagesForBusiness.all
 if channels.empty?
-  puts "❌ No Apple Messages for Business channels found."
-  puts "   You need to create an Apple Messages for Business inbox in Chatwoot first."
+  puts '❌ No Apple Messages for Business channels found.'
+  puts '   You need to create an Apple Messages for Business inbox in Chatwoot first.'
 else
   channels.each_with_index do |channel, index|
     puts "📱 Channel ##{index + 1}:"
@@ -23,35 +23,36 @@ else
     puts "   Created: #{channel.created_at}"
     puts
 
-    # Generate the expected webhook URLs based on the MSP ID and current environment
+    # Generate the permanent webhook URL (without MSP ID)
     base_url = detect_active_public_url || 'localhost:10750'
     base_url = "https://#{base_url}" unless base_url.start_with?('http')
-    puts "   📡 Expected webhook URLs for Apple Business Register:"
-    puts "   ├─ Main: #{base_url}/webhooks/apple_messages_for_business/#{channel.msp_id}"
-    puts "   └─ Alt:  #{base_url}/webhooks/apple_messages_for_business/#{channel.msp_id}/message"
+    puts '   📡 Permanent webhook URL for Apple Business Register:'
+    puts "   └─ #{base_url}/webhooks/apple_messages_for_business"
+    puts '      (This URL works for all channels - business_id sent in destination-id header)'
     puts
 
     # Show what Business ID customers should message
-    puts "   💬 Customers should message:"
+    puts '   💬 Customers should message:'
     puts "   └─ https://bcrw.apple.com/urn:biz:#{channel.business_id}"
     puts
-    puts "   " + "─" * 70
+    puts '   ' + ('─' * 70)
     puts
   end
 end
 
-puts "=== Next Steps ==="
-puts "1. Configure webhook URL in Apple Business Register to match the expected URL above"
-puts "2. Ensure your Business ID matches what customers are messaging"
-puts "3. Test by sending a message from your device"
+puts '=== Next Steps ==='
+puts '1. Configure the permanent webhook URL in Apple Business Register'
+puts '   (The same URL works for all your Apple Messages for Business channels)'
+puts '2. Ensure your Business ID matches what customers are messaging'
+puts '3. Test by sending a message from your device'
 puts "4. Monitor logs with: tail -f log/development.log | grep 'AMB Webhook'"
-puts "=== End ==="
+puts '=== End ==='
 
 # Helper method to detect the active public URL by checking what the dev server is using
 def detect_active_public_url
   begin
     # Check if Tailscale URL is saved (from dev-server.sh)
-    tailscale_url_file = File.join(Rails.root, 'tmp', 'pids', 'tailscale_url.txt')
+    tailscale_url_file = Rails.root.join('tmp/pids/tailscale_url.txt').to_s
     if File.exist?(tailscale_url_file)
       tailscale_url = File.read(tailscale_url_file).strip
       return tailscale_url if tailscale_url.present?
@@ -65,9 +66,9 @@ def detect_active_public_url
       require 'json'
       tunnels = JSON.parse(response.body)
       public_url = tunnels.dig('tunnels', 0, 'public_url')
-      return public_url.sub(/^https?:\/\//, '') if public_url&.include?('https')
+      return public_url.sub(%r{^https?://}, '') if public_url&.include?('https')
     end
-  rescue => e
+  rescue StandardError
     # Silent error handling for debug script
   end
 

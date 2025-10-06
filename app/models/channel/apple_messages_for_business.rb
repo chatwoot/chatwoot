@@ -149,13 +149,17 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
     base_url = "https://#{base_url}" unless base_url.start_with?('http://', 'https://')
     base_url = base_url.sub(%r{^https?://https?://}, 'https://') # Fix double protocol
 
-    self.webhook_url = "#{base_url}/webhooks/apple_messages_for_business/#{msp_id}/message"
+    # Use permanent webhook URL without MSP ID - business_id is sent in destination-id header
+    self.webhook_url = "#{base_url}/webhooks/apple_messages_for_business"
   end
 
   def register_webhook
     # Apple MSP doesn't require explicit webhook registration
     # Webhook URL is configured in Apple Business Register
-    Rails.logger.info "Apple Messages for Business channel created for MSP ID: #{msp_id}"
+    # The permanent webhook URL is: #{webhook_url}
+    # Apple will send the business_id in the destination-id header to identify the channel
+    Rails.logger.info "Apple Messages for Business channel created for MSP ID: #{msp_id}, Business ID: #{business_id}"
+    Rails.logger.info "Webhook URL: #{webhook_url}"
   end
 
   def validate_oauth2_settings

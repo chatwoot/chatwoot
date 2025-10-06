@@ -47,13 +47,9 @@ class AppleMessagesForBusiness::FormService
   private
 
   def validate_form_config!
-    unless @form_config['title'].present?
-      raise ArgumentError, 'Form title is required'
-    end
+    raise ArgumentError, 'Form title is required' unless @form_config['title'].present?
 
-    unless @form_config['pages'].present? && @form_config['pages'].is_a?(Array)
-      raise ArgumentError, 'Form must have at least one page'
-    end
+    raise ArgumentError, 'Form must have at least one page' unless @form_config['pages'].present? && @form_config['pages'].is_a?(Array)
 
     @form_config['pages'].each_with_index do |page, index|
       validate_form_page!(page, index)
@@ -61,13 +57,9 @@ class AppleMessagesForBusiness::FormService
   end
 
   def validate_form_page!(page, index)
-    unless page['page_id'].present?
-      raise ArgumentError, "Page #{index} must have a page_id"
-    end
+    raise ArgumentError, "Page #{index} must have a page_id" unless page['page_id'].present?
 
-    unless page['items'].present? && page['items'].is_a?(Array)
-      raise ArgumentError, "Page #{index} must have at least one form item"
-    end
+    raise ArgumentError, "Page #{index} must have at least one form item" unless page['items'].present? && page['items'].is_a?(Array)
 
     page['items'].each_with_index do |item, item_index|
       validate_form_item!(item, index, item_index)
@@ -78,13 +70,9 @@ class AppleMessagesForBusiness::FormService
     required_fields = %w[item_id item_type]
     missing_fields = required_fields.select { |field| item[field].blank? }
 
-    if missing_fields.any?
-      raise ArgumentError, "Page #{page_index}, Item #{item_index}: Missing required fields: #{missing_fields.join(', ')}"
-    end
+    raise ArgumentError, "Page #{page_index}, Item #{item_index}: Missing required fields: #{missing_fields.join(', ')}" if missing_fields.any?
 
-    unless valid_item_type?(item['item_type'])
-      raise ArgumentError, "Page #{page_index}, Item #{item_index}: Invalid item_type '#{item['item_type']}'"
-    end
+    raise ArgumentError, "Page #{page_index}, Item #{item_index}: Invalid item_type '#{item['item_type']}'" unless valid_item_type?(item['item_type'])
 
     validate_item_specific_requirements!(item, page_index, item_index)
   end
@@ -196,6 +184,7 @@ class AppleMessagesForBusiness::FormService
   def add_text_item_fields(base_item, item_config)
     base_item[:max_length] = item_config['max_length'] if item_config['max_length'].present?
     base_item[:keyboard_type] = item_config['keyboard_type'] if item_config['keyboard_type'].present?
+    base_item[:text_content_type] = item_config['text_content_type'] if item_config['text_content_type'].present?
   end
 
   def add_select_item_fields(base_item, item_config)
@@ -302,9 +291,7 @@ class AppleMessagesForBusiness::FormService
   end
 
   def self.format_form_response_content(form_response)
-    if form_response[:responses].empty?
-      return "Form submitted (no responses)"
-    end
+    return 'Form submitted (no responses)' if form_response[:responses].empty?
 
     content = "Form Response:\n"
     form_response[:responses].each do |field_id, value|

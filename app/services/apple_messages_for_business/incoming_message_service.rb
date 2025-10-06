@@ -21,16 +21,21 @@ class AppleMessagesForBusiness::IncomingMessageService
 
     # CRITICAL: Process IDR immediately if present, before any database operations
     # IDR URLs expire within seconds, so we must download the data first
+    Rails.logger.info "[AMB IncomingMessage] Checking for IDR: #{@params.keys.inspect}"
     if @params['interactiveDataRef'].present?
       Rails.logger.info '[AMB IncomingMessage] IDR detected - downloading data immediately before any DB operations'
       @idr_data = download_idr_data
+    else
+      Rails.logger.info '[AMB IncomingMessage] No IDR in params'
     end
 
     set_contact
     set_conversation
     create_message
-    process_attachments if attachments_present?
+    # CRITICAL: Process interactive data (including IDR) BEFORE attachments
+    # If attachment and IDR share the same URL, attachment will consume it
     process_interactive_data if interactive_message?
+    process_attachments if attachments_present?
 
     # Re-broadcast message after attachments are processed to update UI
     if attachments_present? && @message.attachments.any?
@@ -248,8 +253,65 @@ class AppleMessagesForBusiness::IncomingMessageService
     extract_content_from_interactive_data(interactive_data)
   end
 
+  def extract_from_nskeyed_archiver(interactive_data)
+    Rails.logger.info '[AMB IncomingMessage] Parsing NSKeyedArchiver data'
+
+    # Find the URL object in the $objects array
+    objects = interactive_data['$objects'] || []
+    url_string = nil
+
+    objects.each do |obj|
+      if obj.is_a?(String) && obj.start_with?('?')
+        url_string = obj
+        break
+      end
+    end
+
+    unless url_string
+      Rails.logger.warn '[AMB IncomingMessage] No URL found in NSKeyedArchiver data'
+      return 'Interactive Message'
+    end
+
+    Rails.logger.info "[AMB IncomingMessage] Found URL: #{url_string}"
+
+    # Parse the URL parameters
+    require 'uri'
+    require 'cgi'
+    require 'base64'
+    require 'json'
+
+    params = CGI.parse(url_string.sub(/^\?/, ''))
+
+    # Decode replyMessage from Base64
+    if params['replyMessage']&.first
+      begin
+        decoded = Base64.decode64(params['replyMessage'].first)
+        reply_data = JSON.parse(decoded)
+
+        Rails.logger.info "[AMB IncomingMessage] Decoded replyMessage: #{reply_data.inspect}"
+
+        # Extract title and subtitle
+        content_parts = []
+        content_parts << reply_data['title'] if reply_data['title'].present?
+        content_parts << reply_data['subtitle'] if reply_data['subtitle'].present?
+
+        return content_parts.join(' - ') if content_parts.any?
+      rescue StandardError => e
+        Rails.logger.error "[AMB IncomingMessage] Failed to decode replyMessage: #{e.message}"
+      end
+    end
+
+    'Interactive Message'
+  end
+
   def extract_content_from_interactive_data(interactive_data)
     Rails.logger.info "[AMB IncomingMessage] Extracting content from interactive data, keys: #{interactive_data&.keys&.inspect}"
+
+    # Handle NSKeyedArchiver format (from list picker responses)
+    if interactive_data['$objects'] && interactive_data['$objects'].is_a?(Array)
+      Rails.logger.info '[AMB IncomingMessage] Detected NSKeyedArchiver format'
+      return extract_from_nskeyed_archiver(interactive_data)
+    end
 
     # First, try to extract the actual user selection from replyMessage
     if interactive_data['data'] && interactive_data['data']['replyMessage']
@@ -639,7 +701,7 @@ class AppleMessagesForBusiness::IncomingMessageService
 
       @message.reload
       Rails.logger.info '[AMB IncomingMessage] IDR processing completed successfully - content_type unchanged'
-      Rails.logger.info "[AMB IncomingMessage] Final message content: '#{@message.content}', visible: #{!@message.hidden?}"
+      Rails.logger.info "[AMB IncomingMessage] Final message content: '#{@message.content}'"
     rescue StandardError => e
       Rails.logger.error "[AMB IncomingMessage] IDR processing failed: #{e.message}"
 
@@ -838,64 +900,15 @@ class AppleMessagesForBusiness::IncomingMessageService
   def create_idr_fallback(idr_data, error)
     Rails.logger.info "[AMB IncomingMessage] Creating IDR fallback for BID: #{idr_data['bid']}"
 
-    # Analyze the Bundle Identifier (BID) to determine what type of content this likely was
-    bid = idr_data['bid'] || ''
-
-    # Check if this looks like an Apple Messages form based on the BID
-    if bid.include?('messages.business.extension') || bid.include?('MSMessageExtensionBalloonPlugin')
-      Rails.logger.info '[AMB IncomingMessage] IDR appears to be Apple Messages form, creating form fallback'
-      return create_form_fallback(idr_data, error)
-    elsif bid.include?('timePicker') || bid.include?('scheduler')
-      Rails.logger.info '[AMB IncomingMessage] IDR appears to be time picker, creating time picker fallback'
-      return create_time_picker_fallback(idr_data, error)
-    elsif bid.include?('listPicker') || bid.include?('menu')
-      Rails.logger.info '[AMB IncomingMessage] IDR appears to be list picker, creating list picker fallback'
-      return create_list_picker_fallback(idr_data, error)
-    else
-      Rails.logger.info '[AMB IncomingMessage] IDR type unknown, creating generic fallback'
-      return create_generic_fallback(idr_data, error)
-    end
-  end
-
-  def create_form_fallback(idr_data, error)
-    # Create a fallback that shows as a form response even though we couldn't get the actual form data
-    error_message = if error.message.include?('network proxy') || error.message.include?('blocked')
-                      'Form data blocked by network. Please try again or contact support.'
-                    elsif error.message.include?('expired') || error.message.include?('404')
-                      'Form data has expired and is no longer available.'
+    # Apple uses the same BID for multiple interactive types (list picker, form, etc.)
+    # We cannot reliably determine the type without the actual IDR data
+    # Use a generic message that works for all interactive responses
+    error_message = if error.message.include?('404')
+                      'Customer responded to an interactive message'
+                    elsif error.message.include?('expired')
+                      'Customer responded to an interactive message (data expired)'
                     else
-                      'Form data could not be loaded.'
-                    end
-
-    # Create a mock form response structure
-    fallback_attributes = {
-      interactive_response: {
-        error: 'IDR processing failed',
-        details: error.message,
-        user_message: error_message
-      },
-      form_response: {
-        title: 'Apple Messages Form',
-        template: 'messageForms',
-        selections: [], # Empty selections since we couldn't load the data
-        submitted_at: Time.current.iso8601,
-        error: error_message
-      },
-      idr_failed: true,
-      original_idr: idr_data,
-      interactive_type: 'apple_form_response'
-    }
-
-    content = "Apple Messages Form - #{error_message}"
-
-    [content, 'apple_form_response', fallback_attributes]
-  end
-
-  def create_time_picker_fallback(idr_data, error)
-    error_message = if error.message.include?('expired') || error.message.include?('404')
-                      'Time selection data has expired.'
-                    else
-                      'Time selection could not be loaded.'
+                      'Customer responded to an interactive message'
                     end
 
     fallback_attributes = {
@@ -906,52 +919,7 @@ class AppleMessagesForBusiness::IncomingMessageService
       },
       idr_failed: true,
       original_idr: idr_data,
-      interactive_type: 'time_picker'
-    }
-
-    ["Time Selection - #{error_message}", 'apple_time_picker', fallback_attributes]
-  end
-
-  def create_list_picker_fallback(idr_data, error)
-    error_message = if error.message.include?('expired') || error.message.include?('404')
-                      'Selection options have expired.'
-                    else
-                      'Selection options could not be loaded.'
-                    end
-
-    fallback_attributes = {
-      interactive_response: {
-        error: 'IDR processing failed',
-        details: error.message,
-        user_message: error_message
-      },
-      idr_failed: true,
-      original_idr: idr_data,
-      interactive_type: 'list_picker'
-    }
-
-    ["Selection Menu - #{error_message}", 'apple_list_picker', fallback_attributes]
-  end
-
-  def create_generic_fallback(idr_data, error)
-    error_message = if error.message.include?('network proxy') || error.message.include?('blocked')
-                      'Interactive content blocked by network. Please try again or contact support.'
-                    elsif error.message.include?('expired') || error.message.include?('404')
-                      'Interactive content has expired and is no longer available.'
-                    elsif error.message.include?('timeout')
-                      'Interactive content download timed out. Please try again.'
-                    else
-                      'Interactive content could not be processed.'
-                    end
-
-    fallback_attributes = {
-      interactive_response: {
-        error: 'IDR processing failed',
-        details: error.message,
-        user_message: error_message
-      },
-      idr_failed: true,
-      original_idr: idr_data
+      interactive_type: 'unknown'
     }
 
     [error_message, 'text', fallback_attributes]
@@ -1017,6 +985,19 @@ class AppleMessagesForBusiness::IncomingMessageService
   def download_idr_data
     idr_params = @params['interactiveDataRef']
     Rails.logger.info "[AMB IncomingMessage] Downloading IDR immediately: #{idr_params['url']}"
+
+    # Check if any attachment shares the same URL
+    # Apple sometimes uses the same URL for both attachment and IDR with different signatures
+    if @params['attachments'].present?
+      attachment_with_same_url = @params['attachments'].find { |att| att['url'] == idr_params['url'] || att['mmcs-url'] == idr_params['url'] }
+
+      if attachment_with_same_url
+        Rails.logger.warn '[AMB IncomingMessage] IDR shares URL with attachment - Apple may reject duplicate /preDownload'
+        Rails.logger.warn "[AMB IncomingMessage] Attachment signature: #{attachment_with_same_url['signature']}"
+        Rails.logger.warn "[AMB IncomingMessage] IDR signature: #{idr_params['signature']}"
+        # Continue with download attempt - Apple might allow different signatures
+      end
+    end
 
     begin
       # Download and decrypt the IDR data using the service

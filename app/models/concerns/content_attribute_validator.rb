@@ -208,6 +208,10 @@ class ContentAttributeValidator < ActiveModel::Validator
   def validate_apple_list_picker!(record)
     content_attrs = record.content_attributes || {}
 
+    # Skip validation for incoming interactive messages (they contain interactive_data)
+    # These are validated by Apple and we just store the response
+    return if content_attrs['interactive_data'].present?
+
     # Validate top-level keys
     invalid_keys = content_attrs.keys.map(&:to_sym) - ALLOWED_APPLE_LIST_PICKER_KEYS
     record.errors.add(:content_attributes, "contains invalid keys for apple_list_picker: #{invalid_keys}") if invalid_keys.present?
@@ -264,6 +268,10 @@ class ContentAttributeValidator < ActiveModel::Validator
 
   def validate_apple_time_picker!(record)
     content_attrs = record.content_attributes || {}
+
+    # Skip validation for incoming interactive messages (they contain interactive_data)
+    # These are validated by Apple and we just store the response
+    return if content_attrs['interactive_data'].present?
 
     # Validate top-level keys
     invalid_keys = content_attrs.keys.map(&:to_sym) - ALLOWED_APPLE_TIME_PICKER_KEYS

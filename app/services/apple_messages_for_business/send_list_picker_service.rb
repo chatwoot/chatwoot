@@ -199,17 +199,16 @@ class AppleMessagesForBusiness::SendListPickerService < AppleMessagesForBusiness
   def build_images_array
     images = content_attributes['images'] || []
     Rails.logger.info "[AMB ListPicker] Building images array with #{images.length} images"
+    return [] if images.empty?
 
-    # TEMPORARY: Skip images entirely to avoid IDR in dev/sandbox
-    # Apple uses IDR on responses > ~100KB regardless of our request
-    # IDR URLs expire too fast in dev environments (network latency via Tailscale)
-    # TODO: Re-enable for production with direct network connection
-    Rails.logger.info '[AMB ListPicker] ⚠️  SKIPPING ALL IMAGES to avoid IDR (dev workaround)'
-    return []
-
-    # Image handling code below (commented out for dev):
-    # return [] if images.empty?
-    # ... rest of code
+    # Transform images to Apple MSP format with base64 data
+    images.map do |image|
+      {
+        identifier: image['identifier'],
+        data: image['data'], # base64 encoded
+        description: image['description']
+      }.compact
+    end
   end
 
   def build_received_message

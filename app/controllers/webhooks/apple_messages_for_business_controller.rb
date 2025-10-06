@@ -14,20 +14,20 @@ class Webhooks::AppleMessagesForBusinessController < ActionController::API
     has_idr = @decompressed_payload.dig('interactiveDataRef').present?
 
     if has_idr
-      Rails.logger.info "[AMB Webhook] IDR detected - processing synchronously to prevent expiration"
+      Rails.logger.info '[AMB Webhook] IDR detected - processing synchronously to prevent expiration'
       Webhooks::AppleMessagesForBusinessEventsJob.perform_now(
         @channel.id,
         @decompressed_payload,
         extract_headers
       )
-      Rails.logger.info "[AMB Webhook] IDR processed synchronously"
+      Rails.logger.info '[AMB Webhook] IDR processed synchronously'
     else
       Webhooks::AppleMessagesForBusinessEventsJob.perform_later(
         @channel.id,
         @decompressed_payload,
         extract_headers
       )
-      Rails.logger.info "[AMB Webhook] Job enqueued successfully"
+      Rails.logger.info '[AMB Webhook] Job enqueued successfully'
     end
 
     head :ok
@@ -55,20 +55,28 @@ class Webhooks::AppleMessagesForBusinessController < ActionController::API
   end
 
   def find_channel
-    # Extract msp_id from the URL path
-    msp_id = request.path.split('/')[3] # /webhooks/apple_messages_for_business/{msp_id}/message
-    Rails.logger.info "[AMB Webhook] Looking for channel with MSP ID: #{msp_id}"
-    
-    @channel = Channel::AppleMessagesForBusiness.find_by(msp_id: msp_id)
-    
+    # Extract business_id from the destination-id header sent by Apple
+    business_id = request.headers['destination-id']
+
+    unless business_id.present?
+      Rails.logger.error '[AMB Webhook] Missing destination-id header'
+      Rails.logger.info "[AMB Webhook] Available headers: #{request.headers.to_h.select { |k, _| k.match?(/id/i) }}"
+      head :bad_request
+      return
+    end
+
+    Rails.logger.info "[AMB Webhook] Looking for channel with Business ID: #{business_id}"
+
+    @channel = Channel::AppleMessagesForBusiness.find_by(business_id: business_id)
+
     unless @channel
-      Rails.logger.error "[AMB Webhook] Channel not found for MSP ID: #{msp_id}"
-      Rails.logger.info "[AMB Webhook] Available channels: #{Channel::AppleMessagesForBusiness.pluck(:msp_id).join(', ')}"
+      Rails.logger.error "[AMB Webhook] Channel not found for Business ID: #{business_id}"
+      Rails.logger.info "[AMB Webhook] Available channels: #{Channel::AppleMessagesForBusiness.pluck(:business_id).join(', ')}"
       head :not_found
       return
     end
-    
-    Rails.logger.info "[AMB Webhook] Found channel #{@channel.id} for MSP ID: #{msp_id}"
+
+    Rails.logger.info "[AMB Webhook] Found channel #{@channel.id} (MSP ID: #{@channel.msp_id}) for Business ID: #{business_id}"
   end
 
   def verify_jwt_token
@@ -82,9 +90,9 @@ class Webhooks::AppleMessagesForBusinessController < ActionController::API
     token = auth_header.sub('Bearer ', '')
     Rails.logger.info "[AMB Webhook] Verifying JWT token for MSP ID: #{@channel.msp_id}"
     Rails.logger.info "[AMB Webhook] Token length: #{token.length}, Token preview: #{token[0..20]}..."
-    
+
     @channel.verify_jwt_token(token)
-    Rails.logger.info "[AMB Webhook] JWT verification successful"
+    Rails.logger.info '[AMB Webhook] JWT verification successful'
   rescue JWT::DecodeError => e
     Rails.logger.error "[AMB Webhook] JWT verification failed for MSP ID: #{@channel.msp_id}: #{e.message}"
     Rails.logger.error "[AMB Webhook] Full token: #{token}"
@@ -94,21 +102,21 @@ class Webhooks::AppleMessagesForBusinessController < ActionController::API
   def decompress_payload
     raw_data = request.body.read
     Rails.logger.info "[AMB Webhook] Payload size: #{raw_data.size} bytes"
-    
+
     if raw_data.empty?
-      Rails.logger.warn "[AMB Webhook] Empty payload received"
+      Rails.logger.warn '[AMB Webhook] Empty payload received'
       @decompressed_payload = {}
       return
     end
 
     begin
       @decompressed_payload = if gzipped?
-        decompress_gzip(raw_data)
-      else
-        JSON.parse(raw_data)
-      end
-      
-      Rails.logger.info "[AMB Webhook] Payload processed successfully"
+                                decompress_gzip(raw_data)
+                              else
+                                JSON.parse(raw_data)
+                              end
+
+      Rails.logger.info '[AMB Webhook] Payload processed successfully'
       Rails.logger.info "[AMB Webhook] Payload keys: #{@decompressed_payload.keys.join(', ')}"
     rescue StandardError => e
       Rails.logger.error "[AMB Webhook] Payload processing failed: #{e.message}"
