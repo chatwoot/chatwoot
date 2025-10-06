@@ -1,6 +1,7 @@
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import { extractFilenameFromUrl } from 'shared/helpers/FileHelper';
 
 export default {
   components: {
@@ -31,7 +32,7 @@ export default {
         : decodeURI(this.fileName);
     },
     fileName() {
-      return this.url.substring(this.url.lastIndexOf('/') + 1);
+      return extractFilenameFromUrl(this.url);
     },
     contrastingTextColor() {
       return getContrastingTextColor(this.widgetColor);
