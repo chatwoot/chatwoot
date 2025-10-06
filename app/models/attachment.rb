@@ -58,8 +58,12 @@ class Attachment < ApplicationRecord
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url
+    return '' unless file.attached?
+
     ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
-    file.attached? ? file.blob.url : ''
+    file.blob.url
+  rescue ActiveStorage::FileNotFoundError
+    ''
   end
 
   def thumb_url
@@ -73,13 +77,13 @@ class Attachment < ApplicationRecord
   # Returns direct S3 signed URL for thumbnail (bypasses Rails redirect)
   # Use this for multi-replica deployments where redirect URLs may fail
   def download_thumb_url
-    if file.attached? && file.representable?
-      ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
-      variant = file.representation(resize_to_fill: [250, nil])
-      variant.processed.url
-    else
-      ''
-    end
+    return '' unless file.attached? && file.representable?
+
+    ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
+    variant = file.representation(resize_to_fill: [250, nil])
+    variant.processed.url
+  rescue ActiveStorage::FileNotFoundError
+    ''
   end
 
   def with_attached_file?
