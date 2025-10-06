@@ -237,16 +237,16 @@ export default {
       />
       <div
         id="password-requirements"
-        class="text-xs space-y-2 rounded-md px-4 py-3 outline outline-1 outline-n-weak bg-n-alpha-black2"
+        class="text-xs rounded-md px-4 py-3 outline outline-1 outline-n-weak bg-n-alpha-black2"
       >
-        <ul role="list" class="space-y-1 grid grid-cols-2">
+        <ul role="list" class="grid grid-cols-2 gap-1">
           <li
             v-for="item in passwordRequirementItems"
             :key="item.id"
-            class="flex gap-1 items-center"
+            class="inline-flex gap-1 items-start"
           >
             <Icon
-              class="flex-none flex-shrink-0 w-3"
+              class="flex-none flex-shrink-0 w-3 mt-0.5"
               :icon="item.met ? 'i-lucide-circle-check-big' : 'i-lucide-circle'"
               :class="item.met ? 'text-n-teal-10' : 'text-n-slate-10'"
             />
