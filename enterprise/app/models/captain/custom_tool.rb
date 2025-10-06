@@ -77,7 +77,9 @@ class Captain::CustomTool < ApplicationRecord
     return if slug.present?
     return if title.blank?
 
-    base_slug = "#{NAME_PREFIX}#{NAME_SEPARATOR}#{title.parameterize(separator: NAME_SEPARATOR)}"
+    paramterized_title = title.parameterize(separator: NAME_SEPARATOR)
+
+    base_slug = "#{NAME_PREFIX}#{NAME_SEPARATOR}#{paramterized_title}"
     self.slug = find_unique_slug(base_slug)
   end
 
