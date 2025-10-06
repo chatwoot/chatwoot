@@ -48,7 +48,8 @@
       "CREATED_AT": "Creat la",
       "LAST_ACTIVITY": "Ultima activitate",
       "REFERER_LINK": "Link de referință",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Etichete"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtre standard",

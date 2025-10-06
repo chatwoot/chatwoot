@@ -3,22 +3,22 @@
     "MODAL": {
       "TITLE": "WhatsApp Şablonları",
       "SUBTITLE": "Göndermek istediğiniz WhatsApp şablonunu seçin",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TEMPLATE_SELECTED_SUBTITLE": "Şablonu yapılandır: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Şablon Ara",
       "NO_TEMPLATES_FOUND": "İçin hiç şablon bulunamadı",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "Başlık",
+      "BODY": "Gövde",
+      "FOOTER": "Altbilgi",
+      "BUTTONS": "Butonlar",
       "CATEGORY": "Kategori",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "Medya İçeriği",
+      "MEDIA_CONTENT_FALLBACK": "medya içeriği",
+      "NO_TEMPLATES_AVAILABLE": "WhatsApp şablonu mevcut değil. WhatsApp'tan şablonları senkronize etmek için yenile düğmesine tıklayın.",
+      "REFRESH_BUTTON": "Şablonları yenile",
+      "REFRESH_SUCCESS": "Şablonların yenilenmesi başlatıldı. Güncelleme birkaç dakika sürebilir.",
+      "REFRESH_ERROR": "Şablonları yenileme işlemi başarısız oldu. Lütfen tekrar deneyin.",
       "LABELS": {
         "LANGUAGE": "Dil",
         "TEMPLATE_BODY": "Şablon İçeriği",
@@ -33,14 +33,15 @@
       "GO_BACK_LABEL": "Geri Git",
       "SEND_MESSAGE_LABEL": "Mesaj Gönder",
       "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "OTP_CODE": "Enter 4-8 digit OTP",
-      "EXPIRY_MINUTES": "Enter expiry minutes",
-      "BUTTON_PARAMETERS": "Button Parameters",
-      "BUTTON_LABEL": "Button {index}",
-      "COUPON_CODE": "Enter coupon code (max 15 chars)",
-      "MEDIA_URL_LABEL": "Enter {type} URL",
-      "BUTTON_PARAMETER": "Enter button parameter"
+      "MEDIA_HEADER_LABEL": "{type} Başlık",
+      "OTP_CODE": "4-8 haneli OTP girin",
+      "EXPIRY_MINUTES": "Süreyi (dakika) girin",
+      "BUTTON_PARAMETERS": "Buton Parametreleri",
+      "BUTTON_LABEL": "Buton {index}",
+      "COUPON_CODE": "Kupon kodunu girin (maks. 15 karakter)",
+      "MEDIA_URL_LABEL": "{type} URL’sini girin",
+      "DOCUMENT_NAME_PLACEHOLDER": "Belge dosya adını girin (örneğin, Fatura_2025.pdf)",
+      "BUTTON_PARAMETER": "Buton parametresini girin"
     }
   }
 }
