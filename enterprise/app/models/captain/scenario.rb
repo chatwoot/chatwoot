@@ -64,9 +64,7 @@ class Captain::Scenario < ApplicationRecord
   end
 
   def resolved_instructions
-    instruction.gsub(TOOL_REFERENCE_REGEX) do |match|
-      "#{match} tool "
-    end
+    instruction.gsub(TOOL_REFERENCE_REGEX, '`\1` tool')
   end
 
   def resolved_tools
