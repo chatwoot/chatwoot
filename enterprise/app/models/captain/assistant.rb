@@ -105,6 +105,7 @@ class Captain::Assistant < ApplicationRecord
       product_name: config['product_name'] || 'this product',
       scenarios: scenarios.enabled.map do |scenario|
         {
+          title: scenario.title,
           key: scenario.title.parameterize.underscore,
           description: scenario.description
         }
