@@ -131,7 +131,7 @@ export const routes = [
     name: 'captain_tools_index',
     meta: {
       permissions: ['administrator', 'agent'],
-      featureFlag: FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS,
+      featureFlag: FEATURE_FLAGS.CAPTAIN_V2,
       installationTypes: [
         INSTALLATION_TYPES.CLOUD,
         INSTALLATION_TYPES.ENTERPRISE,

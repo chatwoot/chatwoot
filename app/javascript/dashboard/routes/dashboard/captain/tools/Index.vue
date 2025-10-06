@@ -86,7 +86,7 @@ onMounted(() => {
     :show-pagination-footer="!isFetching && !!customTools.length"
     :is-fetching="isFetching"
     :is-empty="!customTools.length"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN_V2"
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
