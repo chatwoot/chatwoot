@@ -226,6 +226,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/attachment-handling
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -252,6 +253,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/attachment-handling
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -327,6 +329,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/attachment-handling
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -352,6 +355,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/attachment-handling
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'

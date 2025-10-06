@@ -70,6 +70,18 @@ class Attachment < ApplicationRecord
     end
   end
 
+  # Returns direct S3 signed URL for thumbnail (bypasses Rails redirect)
+  # Use this for multi-replica deployments where redirect URLs may fail
+  def download_thumb_url
+    if file.attached? && file.representable?
+      ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
+      variant = file.representation(resize_to_fill: [250, nil])
+      variant.processed.url
+    else
+      ''
+    end
+  end
+
   def with_attached_file?
     [:image, :audio, :video, :file].include?(file_type.to_sym)
   end
@@ -79,8 +91,8 @@ class Attachment < ApplicationRecord
   def file_metadata
     metadata = {
       extension: extension,
-      data_url: file_url,
-      thumb_url: thumb_url,
+      data_url: download_url,
+      thumb_url: download_thumb_url,
       file_size: file.byte_size,
       width: file.metadata[:width],
       height: file.metadata[:height]
