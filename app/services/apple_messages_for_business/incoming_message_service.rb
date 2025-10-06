@@ -558,7 +558,9 @@ class AppleMessagesForBusiness::IncomingMessageService
   def process_direct_attachment(attachment, attachment_params, url)
     Rails.logger.info "Downloading direct attachment from: #{url}"
 
-    attachment_file = Down.download(url, max_size: 15.megabytes)
+    # Apple Messages for Business supports attachments up to 100MB
+    # Reference: Apple MSP REST API v4.1.5 - type-text.md
+    attachment_file = Down.download(url, max_size: 100.megabytes)
 
     attachment.file.attach(
       io: attachment_file,
@@ -636,7 +638,7 @@ class AppleMessagesForBusiness::IncomingMessageService
       )
 
       @message.reload
-      Rails.logger.info "[AMB IncomingMessage] IDR processing completed successfully - content_type unchanged"
+      Rails.logger.info '[AMB IncomingMessage] IDR processing completed successfully - content_type unchanged'
       Rails.logger.info "[AMB IncomingMessage] Final message content: '#{@message.content}', visible: #{!@message.hidden?}"
     rescue StandardError => e
       Rails.logger.error "[AMB IncomingMessage] IDR processing failed: #{e.message}"

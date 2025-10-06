@@ -54,17 +54,20 @@ class Attachment < ApplicationRecord
 
   # Encryption support for Apple Messages for Business
   def encrypted?
-    return false unless self.respond_to?(:encryption_key) && self.respond_to?(:encrypted)
+    return false unless respond_to?(:encryption_key) && respond_to?(:encrypted)
+
     encrypted == true && encryption_key.present?
   end
 
   def file_hash
-    return nil unless self.respond_to?(:file_hash_value)
+    return nil unless respond_to?(:file_hash_value)
+
     file_hash_value
   end
 
   def storage_key
-    return nil unless self.respond_to?(:storage_key_value)
+    return nil unless respond_to?(:storage_key_value)
+
     storage_key_value
   end
 
@@ -77,18 +80,18 @@ class Attachment < ApplicationRecord
   # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
     return '' unless file.attached?
-    
+
     Rails.logger.info "[Attachment] Generating file_url for attachment ID: #{id}"
-    
+
     # Use custom controller for Apple Messages for Business attachments
     if message&.inbox&.channel_type == 'Channel::AppleMessagesForBusiness'
-      Rails.logger.info "[Attachment] AMB channel detected. Using custom URL generator with domain."
+      Rails.logger.info '[Attachment] AMB channel detected. Using custom URL generator with domain.'
       token = generate_attachment_token(id)
       url = with_custom_host { Rails.application.routes.url_helpers.apple_messages_for_business_attachment_url(id, token: token) }
       Rails.logger.info "[Attachment] Generated AMB custom domain URL: #{url}"
       url
     else
-      Rails.logger.info "[Attachment] Using standard url_for helper."
+      Rails.logger.info '[Attachment] Using standard url_for helper.'
       url = url_for(file)
       Rails.logger.info "[Attachment] Generated standard URL: #{url}"
       url
@@ -108,13 +111,13 @@ class Attachment < ApplicationRecord
     begin
       # Use custom controller for Apple Messages for Business attachments
       if message&.inbox&.channel_type == 'Channel::AppleMessagesForBusiness'
-        Rails.logger.info "[Attachment] AMB channel detected for thumb. Using custom URL generator with domain."
+        Rails.logger.info '[Attachment] AMB channel detected for thumb. Using custom URL generator with domain.'
         token = generate_attachment_token(id)
         url = with_custom_host { Rails.application.routes.url_helpers.apple_messages_for_business_attachment_url(id, token: token) }
         Rails.logger.info "[Attachment] Generated AMB custom domain thumb URL: #{url}"
         url
       else
-        Rails.logger.info "[Attachment] Using standard url_for helper for thumb."
+        Rails.logger.info '[Attachment] Using standard url_for helper for thumb.'
         url = url_for(file.representation(resize_to_fill: [250, nil]))
         Rails.logger.info "[Attachment] Generated standard thumb URL: #{url}"
         url
@@ -130,75 +133,75 @@ class Attachment < ApplicationRecord
   def with_custom_host
     original_host = Rails.application.routes.default_url_options[:host]
     original_protocol = Rails.application.routes.default_url_options[:protocol]
-    
+
     Rails.logger.info "[Attachment] Entering with_custom_host block. Original host: #{original_host}"
     # Use environment variable, or check for active dev server URL, or fallback to localhost
     custom_host = ENV['FRONTEND_URL'] || detect_active_public_url || 'localhost:10750'
     Rails.logger.info "[Attachment] Using custom host: #{custom_host}. Setting it for URL generation."
     Rails.application.routes.default_url_options[:host] = custom_host
     Rails.application.routes.default_url_options[:protocol] = 'https'
-    
+
     result = yield
-    
+
     Rails.logger.info "[Attachment] Restoring original host: #{original_host}"
     Rails.application.routes.default_url_options[:host] = original_host
     Rails.application.routes.default_url_options[:protocol] = original_protocol
-    
+
     result
   end
 
   def ngrok_available?
     require 'net/http'
     require 'json'
-    
+
     begin
       # Try to connect to ngrok's local API
       uri = URI('http://localhost:4040/api/tunnels')
       response = Net::HTTP.get_response(uri)
-      
+
       if response.code == '200'
         tunnels = JSON.parse(response.body)['tunnels']
-        
+
         # Check if there's an HTTPS tunnel pointing to port 3000
         tunnel = tunnels.find do |t|
           t['config']['addr'] == 'http://localhost:3000' && t['public_url'].start_with?('https://')
         end
-        
+
         return !tunnel.nil?
       end
-    rescue => e
-      Rails.logger.debug "[Apple Messages for Business] Could not detect ngrok: #{e.message}"
+    rescue StandardError => e
+      Rails.logger.debug { "[Apple Messages for Business] Could not detect ngrok: #{e.message}" }
     end
-    
+
     false
   end
 
   def detect_current_ngrok_host
     require 'net/http'
     require 'json'
-    
+
     begin
       # Try to connect to ngrok's local API
       uri = URI('http://localhost:4040/api/tunnels')
       response = Net::HTTP.get_response(uri)
-      
+
       if response.code == '200'
         tunnels = JSON.parse(response.body)['tunnels']
-        
+
         # Find the HTTPS tunnel pointing to port 3000
         tunnel = tunnels.find do |t|
           t['config']['addr'] == 'http://localhost:3000' && t['public_url'].start_with?('https://')
         end
-        
+
         if tunnel
           # Extract just the host from the full URL
           return URI.parse(tunnel['public_url']).host
         end
       end
-    rescue => e
-      Rails.logger.debug "[Apple Messages for Business] Could not detect ngrok host: #{e.message}"
+    rescue StandardError => e
+      Rails.logger.debug { "[Apple Messages for Business] Could not detect ngrok host: #{e.message}" }
     end
-    
+
     # Fallback to localhost if ngrok is not available
     'localhost:3000'
   end
@@ -212,8 +215,6 @@ class Attachment < ApplicationRecord
   def with_attached_file?
     [:image, :audio, :video, :file].include?(file_type.to_sym)
   end
-
-  private
 
   def metadata_for_file_type
     case file_type.to_sym
@@ -308,20 +309,28 @@ class Attachment < ApplicationRecord
   end
 
   def validate_file_size(byte_size)
-    errors.add(:file, 'size is too big') if byte_size > 40.megabytes
+    # Different channels have different size limits:
+    # - WebWidget: 40 MB (general web upload limit)
+    # - Apple Messages for Business: 100 MB (per Apple MSP REST API v4.1.5)
+    max_size = case message.inbox.channel_type
+               when 'Channel::AppleMessagesForBusiness'
+                 100.megabytes
+               else
+                 40.megabytes
+               end
+
+    errors.add(:file, 'size is too big') if byte_size > max_size
   end
 
   def media_file?(file_content_type)
     file_content_type.start_with?('image/', 'video/', 'audio/')
   end
 
-  private
-
   # Detect the active public URL by checking what the dev server is using
   def detect_active_public_url
     begin
       # Check if Tailscale URL is saved (from dev-server.sh)
-      tailscale_url_file = Rails.root.join('tmp', 'pids', 'tailscale_url.txt')
+      tailscale_url_file = Rails.root.join('tmp/pids/tailscale_url.txt')
       if File.exist?(tailscale_url_file)
         tailscale_url = File.read(tailscale_url_file).strip
         return tailscale_url if tailscale_url.present?
@@ -335,10 +344,10 @@ class Attachment < ApplicationRecord
         require 'json'
         tunnels = JSON.parse(response.body)
         public_url = tunnels.dig('tunnels', 0, 'public_url')
-        return public_url.sub(/^https?:\/\//, '') if public_url&.include?('https')
+        return public_url.sub(%r{^https?://}, '') if public_url&.include?('https')
       end
-    rescue => e
-      Rails.logger.debug "[Attachment] Could not detect active public URL: #{e.message}"
+    rescue StandardError => e
+      Rails.logger.debug { "[Attachment] Could not detect active public URL: #{e.message}" }
     end
 
     # Check if custom domain mode is being used (nginx running on port 443)
