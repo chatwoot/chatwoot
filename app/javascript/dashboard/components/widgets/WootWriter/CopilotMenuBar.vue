@@ -17,12 +17,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['executeAction']);
+const emit = defineEmits(['executeCopilotAction']);
 
 const { t } = useI18n();
 
 const { draftMessage } = useAI();
 
+const isRTL = useMapGetter('accounts/isRTL');
 const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
 
 // Selection-based menu items (when text is selected)
@@ -150,33 +151,22 @@ const selectionMenuStyle = computed(() => {
   // Dynamically calculate offset based on actual menu height + 10px gap
   const dynamicOffset = menuHeight.value > 0 ? menuHeight.value + 10 : 60;
 
-  // Check if document is in RTL mode
-  const isRTL = document.documentElement.dir === 'rtl';
-
-  if (isRTL) {
-    return {
-      right: 'var(--selection-right)',
-      top: `calc(var(--selection-top) - ${dynamicOffset}px)`,
-      transform: 'translateX(62%)',
-    };
-  }
-
   return {
-    left: 'var(--selection-left)',
+    left: isRTL.value ? 'var(--selection-right)' : 'var(--selection-left)',
     top: `calc(var(--selection-top) - ${dynamicOffset}px)`,
-    transform: 'translateX(-62%)',
+    transform: isRTL.value ? 'translateX(58%)' : 'translateX(-62%)',
   };
 });
 
 const handleMenuItemClick = item => {
   // For items with submenus, do nothing on click (hover will show submenu)
   if (!item.subMenuItems) {
-    emit('executeAction', item.key);
+    emit('executeCopilotAction', item.key);
   }
 };
 
 const handleSubMenuItemClick = (parentItem, subItem) => {
-  emit('executeAction', subItem.key, {
+  emit('executeCopilotAction', subItem.key, {
     parentKey: parentItem.key,
     tone: subItem.label.toLowerCase(),
   });
@@ -218,7 +208,7 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
         <!-- Hover Submenu -->
         <DropdownBody
           v-if="item.subMenuItems"
-          class="group-hover/submenu:block hidden [&>ul]:gap-2 [&>ul]:px-3 [&>ul]:py-2.5 max-h-[15rem] min-w-40 z-10 top-0"
+          class="group-hover/submenu:block hidden [&>ul]:gap-2 [&>ul]:px-3 [&>ul]:py-2.5 [&>ul]:dark:!border-n-strong max-h-[15rem] min-w-32 z-10 top-0"
           :class="submenuPosition"
         >
           <Button

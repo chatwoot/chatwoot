@@ -176,11 +176,6 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'integrations/getUIFlags',
     }),
-    wrapClass() {
-      return {
-        'is-note-mode': this.isNote,
-      };
-    },
     showAttachButton() {
       return this.showFileUpload || this.isNote;
     },
@@ -283,8 +278,11 @@ export default {
 
 <template>
   <div
-    class="flex justify-between items-center p-3 border-t border-n-weak"
-    :class="wrapClass"
+    class="flex justify-between items-center p-3 border-t"
+    :class="{
+      'border-n-amber-12/5': isNote,
+      'border-n-weak': !isNote,
+    }"
   >
     <div class="left-wrap">
       <NextButton

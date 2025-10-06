@@ -99,7 +99,7 @@ const emit = defineEmits([
   'focus',
   'input',
   'update:modelValue',
-  'executeAction',
+  'executeCopilotAction',
 ]);
 
 const { t } = useI18n();
@@ -171,10 +171,10 @@ const handleCopilotAction = actionKey => {
     const selectedText = editorView.state.doc.textBetween(from, to).trim();
 
     if (from !== to && selectedText) {
-      emit('executeAction', 'rephrase', selectedText);
+      emit('executeCopilotAction', 'rephrase', selectedText);
     }
   } else {
-    emit('executeAction', actionKey);
+    emit('executeCopilotAction', actionKey);
   }
 
   showSelectionMenu.value = false;
@@ -806,7 +806,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       :has-selection="isTextSelected"
       :show-selection-menu="showSelectionMenu"
       :show-general-menu="false"
-      @execute-action="handleCopilotAction"
+      @execute-copilot-action="handleCopilotAction"
     />
     <input
       ref="imageUpload"
@@ -939,5 +939,59 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
 .editor-warning__message {
   @apply text-n-ruby-9 dark:text-n-ruby-9 font-normal text-sm pt-1 pb-0 px-0;
+}
+
+// Float editor menu
+.popover-prosemirror-menu {
+  position: relative;
+
+  .ProseMirror p:last-child {
+    margin-bottom: 10px !important;
+  }
+
+  // Editor Menu
+  .ProseMirror-menubar {
+    display: none; // Hide by default
+  }
+
+  &.has-selection {
+    .ProseMirror-menubar {
+      @apply rounded-lg !px-3 !py-2 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+      display: flex;
+      left: var(--selection-left);
+      top: var(--selection-top);
+      transform: translateX(-50%);
+      width: fit-content !important;
+      position: absolute !important;
+
+      // RTL support: use right positioning and flip transform
+      [dir='rtl'] & {
+        left: unset;
+        right: var(--selection-right);
+        transform: translateX(50%);
+      }
+
+      .ProseMirror-menuitem {
+        @apply mr-0 size-3.5 flex items-center;
+
+        .ProseMirror-icon {
+          @apply p-0 flex-shrink-0;
+
+          svg {
+            width: 14px !important;
+            height: 14px !important;
+          }
+        }
+
+        .ProseMirror-copilot svg {
+          @apply text-n-violet-9;
+        }
+      }
+
+      .ProseMirror-menu-active {
+        @apply bg-n-slate-3;
+      }
+    }
+  }
 }
 </style>

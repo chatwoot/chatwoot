@@ -1,9 +1,9 @@
 <script setup>
-import { computed } from 'vue';
+import { ref } from 'vue';
 import CopilotEditor from 'dashboard/components/widgets/WootWriter/CopilotEditor.vue';
 import Icon from 'next/icon/Icon.vue';
 
-const props = defineProps({
+defineProps({
   showCopilotEditor: {
     type: Boolean,
     default: false,
@@ -12,31 +12,19 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  copilotEditorContent: {
-    type: String,
-    default: '',
-  },
   generatedContent: {
     type: String,
     default: '',
   },
-  updateEditorSelectionWith: {
-    type: String,
-    default: '',
+  isPopout: {
+    type: Boolean,
+    default: false,
   },
 });
 
-const emit = defineEmits([
-  'update:copilotEditorContent',
-  'focus',
-  'blur',
-  'clearSelection',
-]);
+const emit = defineEmits(['focus', 'blur', 'clearSelection']);
 
-const copilotContent = computed({
-  get: () => props.copilotEditorContent,
-  set: value => emit('update:copilotEditorContent', value),
-});
+const copilotEditorContent = ref('');
 
 const onFocus = () => {
   emit('focus');
@@ -54,27 +42,28 @@ const clearEditorSelection = () => {
 <template>
   <CopilotEditor
     v-if="showCopilotEditor && !isGeneratingContent"
-    v-model="copilotContent"
+    v-model="copilotEditorContent"
     class="copilot-editor"
     :generated-content="generatedContent"
-    :update-selection-with="updateEditorSelectionWith"
     :min-height="4"
     :enabled-menu-options="[]"
+    :is-popout="isPopout"
     @focus="onFocus"
     @blur="onBlur"
     @clear-selection="clearEditorSelection"
   />
   <div
     v-else-if="isGeneratingContent"
-    class="bg-n-iris-5 rounded min-h-28 w-full mb-4 p-4 flex items-start"
+    class="bg-n-iris-5 rounded min-h-16 w-full mb-4 p-4 flex items-start"
   >
     <div class="flex items-center gap-2">
       <Icon
         icon="i-fluent-bubble-multiple-20-filled"
         class="text-n-iris-10 size-4 animate-spin"
       />
-      <!-- eslint-disable-next-line vue/no-bare-strings-in-template -->
-      <span class="text-sm text-n-iris-9"> Copilot is thinking </span>
+      <span class="text-sm text-n-iris-10">
+        {{ $t('CONVERSATION.REPLYBOX.COPILOT_THINKING') }}
+      </span>
     </div>
   </div>
 </template>

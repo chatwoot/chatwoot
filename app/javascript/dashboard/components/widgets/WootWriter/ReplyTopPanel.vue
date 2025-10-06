@@ -35,7 +35,7 @@ export default {
       default: () => 0,
     },
   },
-  emits: ['setReplyMode', 'togglePopout', 'executeAction'],
+  emits: ['setReplyMode', 'togglePopout', 'executeCopilotAction'],
   setup(props, { emit }) {
     const setReplyMode = mode => {
       emit('setReplyMode', mode);
@@ -58,7 +58,7 @@ export default {
     const showCopilotMenu = ref(false);
 
     const handleCopilotAction = actionKey => {
-      emit('executeAction', actionKey);
+      emit('executeCopilotAction', actionKey);
       showCopilotMenu.value = false;
     };
 
@@ -149,7 +149,7 @@ export default {
           v-on-click-outside="handleClickOutside"
           :has-selection="false"
           class="ltr:right-0 rtl:left-0 bottom-full mb-2"
-          @execute-action="handleCopilotAction"
+          @execute-copilot-action="handleCopilotAction"
         />
       </div>
       <NextButton

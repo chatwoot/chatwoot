@@ -51,7 +51,6 @@ import {
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useAI } from 'dashboard/composables/useAI';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -101,8 +100,7 @@ export default {
 
     const replyEditor = useTemplateRef('replyEditor');
 
-    const { formatMessage } = useMessageFormatter();
-    const { draftMessage, processEvent, recordAnalytics } = useAI();
+    const { processEvent } = useAI();
 
     return {
       uiSettings,
@@ -112,10 +110,7 @@ export default {
       setQuotedReplyFlagForInbox,
       fetchQuotedReplyFlagFromUISettings,
       replyEditor,
-      draftMessage,
       processEvent,
-      recordAnalytics,
-      formatMessage,
     };
   },
   data() {
@@ -150,7 +145,6 @@ export default {
       editorMenuOptions: MESSAGE_EDITOR_MENU_OPTIONS,
       showCopilotEditor: false,
       isGeneratingContent: false,
-      copilotEditorContent: '',
       generatedContent: '',
       copilotAbortController: null,
     };
@@ -912,7 +906,7 @@ export default {
         this.insertIntoTextEditor(content, selectionStart, selectionEnd);
       }
     },
-    async executeAIAction(action, data) {
+    async executeCopilotAction(action, data) {
       if (action === 'ask_copilot') {
         this.updateUISettings({
           is_contact_sidebar_open: false,
@@ -1224,7 +1218,6 @@ export default {
       // Reset all editor state
       this.showCopilotEditor = false;
       this.isGeneratingContent = false;
-      this.copilotEditorContent = '';
       this.generatedContent = '';
     },
   },
@@ -1243,7 +1236,7 @@ export default {
       @set-reply-mode="setReplyMode"
       @toggle-popout="togglePopout"
       @toggle-copilot="toggleCopilotEditor"
-      @execute-action="executeAIAction"
+      @execute-copilot-action="executeCopilotAction"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"
@@ -1304,11 +1297,10 @@ export default {
       />
       <CopilotEditorSection
         v-else-if="showCopilotEditor || isGeneratingContent"
-        v-model:copilot-editor-content="copilotEditorContent"
         :show-copilot-editor="showCopilotEditor"
         :is-generating-content="isGeneratingContent"
         :generated-content="generatedContent"
-        :update-editor-selection-with="updateEditorSelectionWith"
+        :is-popout="popOutReplyBox"
         @focus="onFocus"
         @blur="onBlur"
         @clear-selection="clearEditorSelection"
@@ -1317,7 +1309,7 @@ export default {
         v-else
         v-model="message"
         :editor-id="editorStateId"
-        class="input reply-editor"
+        class="input popover-prosemirror-menu"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
@@ -1336,7 +1328,7 @@ export default {
         @toggle-canned-menu="toggleCannedMenu"
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
-        @execute-action="executeAIAction"
+        @execute-copilot-action="executeCopilotAction"
       />
       <QuotedEmailPreview
         v-if="shouldShowQuotedPreview"
@@ -1361,6 +1353,7 @@ export default {
     />
     <CopilotReplyBottomPanel
       v-if="showCopilotEditor || isGeneratingContent"
+      :is-private="isOnPrivateNote"
       :is-generating-content="isGeneratingContent"
       @submit="onSubmitCopilotReply"
       @cancel="toggleCopilotEditor"
@@ -1425,7 +1418,7 @@ export default {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .send-button {
   @apply mb-0;
 }
@@ -1477,58 +1470,5 @@ export default {
 .normal-editor__canned-box {
   width: calc(100% - 2 * 1rem);
   left: 1rem;
-}
-
-.reply-editor {
-  position: relative;
-
-  .ProseMirror p:last-child {
-    margin-bottom: 10px !important;
-  }
-
-  // Editor Menu
-  .ProseMirror-menubar {
-    display: none; // Hide by default
-  }
-
-  &.has-selection {
-    .ProseMirror-menubar {
-      @apply rounded-lg !px-3 !py-2 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
-      display: flex;
-      left: var(--selection-left);
-      top: var(--selection-top);
-      transform: translateX(-50%);
-      width: fit-content !important;
-      position: absolute !important;
-
-      // RTL support: use right positioning and flip transform
-      [dir='rtl'] & {
-        left: unset;
-        right: var(--selection-right);
-        transform: translateX(50%);
-      }
-
-      .ProseMirror-menuitem {
-        @apply mr-0 size-3.5 flex items-center;
-
-        .ProseMirror-icon {
-          @apply p-0 flex-shrink-0;
-
-          svg {
-            width: 14px !important;
-            height: 14px !important;
-          }
-        }
-
-        .ProseMirror-copilot svg {
-          fill: #6e56cf;
-        }
-      }
-
-      .ProseMirror-menu-active {
-        @apply bg-n-slate-3;
-      }
-    }
-  }
 }
 </style>

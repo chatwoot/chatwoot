@@ -6,6 +6,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isPrivate: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['submit', 'cancel']);
@@ -20,7 +24,10 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div class="flex justify-between items-center p-3 border-t border-n-weak">
+  <div
+    class="flex justify-between items-center p-3 border-t"
+    :class="{ 'border-n-weak': !isPrivate, 'border-n-amber-12/5': isPrivate }"
+  >
     <NextButton
       label="Discard"
       slate

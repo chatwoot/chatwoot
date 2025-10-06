@@ -28,6 +28,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isPopout: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -204,7 +208,10 @@ onMounted(() => {
         />
       </div>
     </div>
-    <div class="max-h-72 overflow-y-auto">
+    <div
+      class="overflow-y-auto"
+      :class="{ 'max-h-96': isPopout, 'max-h-56': !isPopout }"
+    >
       <p
         v-dompurify-html="formatMessage(generatedContent, false)"
         class="text-n-iris-12 text-sm prose-sm font-normal !mb-4 underline decoration-n-iris-8 underline-offset-auto decoration-solid decoration-[10%]"
@@ -221,13 +228,13 @@ onMounted(() => {
 
   .ProseMirror-woot-style {
     min-height: 5rem;
-    max-height: 7.5rem;
+    max-height: 7.5rem !important;
     overflow: auto;
     @apply px-2 !important;
 
     .empty-node {
       &::before {
-        @apply text-n-iris-9;
+        @apply text-n-iris-9 dark:text-n-iris-11;
       }
     }
   }
