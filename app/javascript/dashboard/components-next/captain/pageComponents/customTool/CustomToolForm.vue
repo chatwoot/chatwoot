@@ -144,7 +144,7 @@ const handleSubmit = async () => {
 
 <template>
   <form
-    class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-x-scroll"
+    class="flex flex-col px-4 -mx-4 gap-4 max-h-[calc(100vh-200px)] overflow-y-scroll"
     @submit.prevent="handleSubmit"
   >
     <Input
