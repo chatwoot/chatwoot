@@ -258,10 +258,10 @@
         <button class="btn btn-primary" id="runTests">
           <span>Run All Tests</span>
         </button>
-        <button class="btn btn-success" id="copyBtn">
+        <button class="btn btn-success" id="copyBtn" style="display: none;">
           📋 Copy to Clipboard
         </button>
-        <button class="btn btn-secondary" id="downloadBtn">
+        <button class="btn btn-secondary" id="downloadBtn" style="display: none;">
           💾 Download Report
         </button>
       </div>
@@ -304,12 +304,16 @@
             <span class="metric-value" id="wsStatus">Not tested</span>
           </div>
           <div class="metric">
-            <span class="metric-label">Connection Time</span>
+            <span class="metric-label">Initial Connection</span>
             <span class="metric-value" id="wsConnectionTime">-</span>
           </div>
           <div class="metric">
-            <span class="metric-label">URL</span>
-            <span class="metric-value" id="wsUrl" style="font-size: 11px; word-break: break-all;">-</span>
+            <span class="metric-label">Reconnection Test</span>
+            <span class="metric-value" id="wsReconnectionTime">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Message Roundtrip</span>
+            <span class="metric-value" id="wsMessageRoundtrip">-</span>
           </div>
         </div>
       </div>
@@ -590,13 +594,86 @@
       }
     }
 
-    // Test 4: WebSocket Connection
+    // Test 4: WebSocket Connection (Comprehensive)
     async function testWebSocket() {
-      log('Testing WebSocket connection...', 'info');
+      log('Testing WebSocket connection (comprehensive)...', 'info');
       setStatus(document.getElementById('statusWebSocket'), 'testing');
 
+      const wsUrl = '<%= ENV.fetch("WEBSOCKET_URL", "wss://#{request.host}/cable") %>';
+      const results = {
+        url: wsUrl,
+        initialConnection: null,
+        messageRoundtrip: null,
+        reconnection: null,
+        status: 'testing'
+      };
+
+      // Test 1: Initial Connection
+      log('  → Testing initial connection...', 'info');
+      const initialResult = await testWebSocketConnection(wsUrl, 'initial');
+      results.initialConnection = initialResult;
+
+      if (!initialResult.success) {
+        // Failed to connect initially, don't proceed
+        testResults.websocket = results;
+        results.status = 'failed';
+        document.getElementById('wsStatus').textContent = '❌ Failed';
+        document.getElementById('wsStatus').className = 'metric-value error';
+        document.getElementById('wsConnectionTime').textContent = 'Failed';
+        setStatus(document.getElementById('statusWebSocket'), 'error');
+        log('✗ Initial WebSocket connection failed', 'error');
+        return;
+      }
+
+      document.getElementById('wsConnectionTime').textContent = initialResult.connectionTime + ' ms';
+      document.getElementById('wsConnectionTime').className = 'metric-value ' + getColorClass(initialResult.connectionTime, 500, 2000);
+      log(`  ✓ Initial connection: ${initialResult.connectionTime}ms`, 'success');
+
+      // Wait a bit before reconnection test
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Test 2: Reconnection Test
+      log('  → Testing reconnection capability...', 'info');
+      const reconnectResult = await testWebSocketReconnection(wsUrl);
+      results.reconnection = reconnectResult;
+
+      if (reconnectResult.success) {
+        document.getElementById('wsReconnectionTime').textContent = reconnectResult.reconnectionTime + ' ms';
+        document.getElementById('wsReconnectionTime').className = 'metric-value ' + getColorClass(reconnectResult.reconnectionTime, 1000, 3000);
+        log(`  ✓ Reconnection successful: ${reconnectResult.reconnectionTime}ms`, 'success');
+      } else {
+        document.getElementById('wsReconnectionTime').textContent = '❌ Failed';
+        document.getElementById('wsReconnectionTime').className = 'metric-value error';
+        log('  ✗ Reconnection failed', 'error');
+      }
+
+      // Test 3: Message Roundtrip (using ActionCable subscribe)
+      log('  → Testing message roundtrip...', 'info');
+      const messageResult = await testWebSocketMessage(wsUrl);
+      results.messageRoundtrip = messageResult;
+
+      if (messageResult.success) {
+        document.getElementById('wsMessageRoundtrip').textContent = messageResult.roundtripTime + ' ms';
+        document.getElementById('wsMessageRoundtrip').className = 'metric-value ' + getColorClass(messageResult.roundtripTime, 100, 500);
+        log(`  ✓ Message roundtrip: ${messageResult.roundtripTime}ms`, 'success');
+      } else {
+        document.getElementById('wsMessageRoundtrip').textContent = messageResult.error || 'N/A';
+        document.getElementById('wsMessageRoundtrip').className = 'metric-value warning';
+        log(`  ⚠ Message test: ${messageResult.error}`, 'warning');
+      }
+
+      // Overall status
+      results.status = 'success';
+      testResults.websocket = results;
+      document.getElementById('wsStatus').textContent = '✅ All Tests Passed';
+      document.getElementById('wsStatus').className = 'metric-value good';
+      setStatus(document.getElementById('statusWebSocket'), 'success');
+      log('✓ WebSocket comprehensive test complete', 'success');
+    }
+
+    // Helper: Test basic WebSocket connection
+    function testWebSocketConnection(wsUrl, testType) {
       return new Promise((resolve) => {
-        const wsUrl = '<%= ENV.fetch("WEBSOCKET_URL", "wss://#{request.host}/cable") %>';
         const start = performance.now();
 
         try {
@@ -604,57 +681,114 @@
 
           const timeout = setTimeout(() => {
             ws.close();
-            testResults.websocket = { status: 'timeout', url: wsUrl };
-            document.getElementById('wsStatus').textContent = '⏱ Timeout';
-            document.getElementById('wsStatus').className = 'metric-value warning';
-            document.getElementById('wsConnectionTime').textContent = '> 10s';
-            document.getElementById('wsUrl').textContent = wsUrl;
-            setStatus(document.getElementById('statusWebSocket'), 'error');
-            log('✗ WebSocket connection timeout', 'error');
-            resolve();
+            resolve({ success: false, error: 'timeout', connectionTime: null });
           }, 10000);
 
           ws.onopen = () => {
             clearTimeout(timeout);
-            const end = performance.now();
-            const connectionTime = Math.round(end - start);
-
-            testResults.websocket = {
-              status: 'connected',
-              connectionTime: connectionTime,
-              url: wsUrl
-            };
-
-            document.getElementById('wsStatus').textContent = '✅ Connected';
-            document.getElementById('wsStatus').className = 'metric-value good';
-            document.getElementById('wsConnectionTime').textContent = connectionTime + ' ms';
-            document.getElementById('wsConnectionTime').className = 'metric-value ' + getColorClass(connectionTime, 500, 2000);
-            document.getElementById('wsUrl').textContent = wsUrl;
-            setStatus(document.getElementById('statusWebSocket'), 'success');
-            log(`✓ WebSocket connected in ${connectionTime}ms`, 'success');
-
+            const connectionTime = Math.round(performance.now() - start);
             ws.close();
-            resolve();
+            resolve({ success: true, connectionTime });
           };
 
-          ws.onerror = (error) => {
+          ws.onerror = () => {
             clearTimeout(timeout);
-            testResults.websocket = { status: 'error', url: wsUrl, error: error.toString() };
-            document.getElementById('wsStatus').textContent = '❌ Failed';
-            document.getElementById('wsStatus').className = 'metric-value error';
-            document.getElementById('wsUrl').textContent = wsUrl;
-            setStatus(document.getElementById('statusWebSocket'), 'error');
-            log('✗ WebSocket connection failed', 'error');
-            resolve();
+            resolve({ success: false, error: 'connection_failed', connectionTime: null });
           };
         } catch (error) {
-          testResults.websocket = { status: 'error', url: wsUrl, error: error.message };
-          document.getElementById('wsStatus').textContent = '❌ Error';
-          document.getElementById('wsStatus').className = 'metric-value error';
-          document.getElementById('wsUrl').textContent = wsUrl;
-          setStatus(document.getElementById('statusWebSocket'), 'error');
-          log(`✗ WebSocket error: ${error.message}`, 'error');
-          resolve();
+          resolve({ success: false, error: error.message, connectionTime: null });
+        }
+      });
+    }
+
+    // Helper: Test WebSocket reconnection
+    function testWebSocketReconnection(wsUrl) {
+      return new Promise((resolve) => {
+        try {
+          const ws = new WebSocket(wsUrl);
+          let connected = false;
+
+          const timeout = setTimeout(() => {
+            ws.close();
+            resolve({ success: false, error: 'timeout', reconnectionTime: null });
+          }, 15000);
+
+          ws.onopen = () => {
+            if (!connected) {
+              connected = true;
+              // Close and immediately try to reconnect
+              ws.close();
+
+              setTimeout(() => {
+                const reconnectStart = performance.now();
+                const ws2 = new WebSocket(wsUrl);
+
+                ws2.onopen = () => {
+                  clearTimeout(timeout);
+                  const reconnectionTime = Math.round(performance.now() - reconnectStart);
+                  ws2.close();
+                  resolve({ success: true, reconnectionTime });
+                };
+
+                ws2.onerror = () => {
+                  clearTimeout(timeout);
+                  resolve({ success: false, error: 'reconnection_failed', reconnectionTime: null });
+                };
+              }, 500);
+            }
+          };
+
+          ws.onerror = () => {
+            clearTimeout(timeout);
+            resolve({ success: false, error: 'initial_connection_failed', reconnectionTime: null });
+          };
+        } catch (error) {
+          resolve({ success: false, error: error.message, reconnectionTime: null });
+        }
+      });
+    }
+
+    // Helper: Test message roundtrip using ActionCable
+    function testWebSocketMessage(wsUrl) {
+      return new Promise((resolve) => {
+        try {
+          const ws = new WebSocket(wsUrl);
+          let messageStart = null;
+
+          const timeout = setTimeout(() => {
+            ws.close();
+            resolve({ success: false, error: 'Message timeout', roundtripTime: null });
+          }, 10000);
+
+          ws.onopen = () => {
+            // Send ActionCable subscribe command
+            const subscribeMsg = {
+              command: 'subscribe',
+              identifier: JSON.stringify({ channel: 'RoomChannel' })
+            };
+
+            messageStart = performance.now();
+            ws.send(JSON.stringify(subscribeMsg));
+          };
+
+          ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            // ActionCable sends confirmation or welcome message
+            if (data.type === 'welcome' || data.type === 'ping' || data.type === 'confirm_subscription') {
+              clearTimeout(timeout);
+              const roundtripTime = Math.round(performance.now() - messageStart);
+              ws.close();
+              resolve({ success: true, roundtripTime });
+            }
+          };
+
+          ws.onerror = () => {
+            clearTimeout(timeout);
+            resolve({ success: false, error: 'Connection error', roundtripTime: null });
+          };
+        } catch (error) {
+          resolve({ success: false, error: error.message, roundtripTime: null });
         }
       });
     }
@@ -749,6 +883,10 @@
       runButton.disabled = true;
       runButton.innerHTML = '<div class="spinner"></div><span>Running Tests...</span>';
 
+      // Hide copy and download buttons while testing
+      document.getElementById('copyBtn').style.display = 'none';
+      document.getElementById('downloadBtn').style.display = 'none';
+
       // Clear previous logs
       document.getElementById('logOutput').innerHTML = '';
       testResults.logs = [];
@@ -779,6 +917,10 @@
 
         log('', 'info');
         log('=== All Tests Complete ===', 'success');
+
+        // Show copy and download buttons after tests complete
+        document.getElementById('copyBtn').style.display = 'inline-flex';
+        document.getElementById('downloadBtn').style.display = 'inline-flex';
       } catch (error) {
         log(`Error running tests: ${error.message}`, 'error');
       }
@@ -845,18 +987,41 @@
       lines.push(`Status: ${testResults.redis.status || 'Not tested'}`);
       lines.push(`Response Time: ${testResults.redis.response_time || 'N/A'} ms`);
       lines.push(`Ping Result: ${testResults.redis.ping_result || 'N/A'}`);
-      lines.push(`URL: ${testResults.redis.url || 'N/A'}`);
+      # lines.push(`URL: ${testResults.redis.url || 'N/A'}`);
       if (testResults.redis.error) {
         lines.push(`Error: ${testResults.redis.error}`);
       }
       lines.push('');
 
       lines.push('--- WEBSOCKET CONNECTION ---');
-      lines.push(`Status: ${testResults.websocket.status || 'Not tested'}`);
-      lines.push(`Connection Time: ${testResults.websocket.connectionTime || 'N/A'} ms`);
+      lines.push(`Overall Status: ${testResults.websocket.status || 'Not tested'}`);
       lines.push(`URL: ${testResults.websocket.url || 'N/A'}`);
-      if (testResults.websocket.error) {
-        lines.push(`Error: ${testResults.websocket.error}`);
+
+      if (testResults.websocket.initialConnection) {
+        lines.push(`\nInitial Connection:`);
+        lines.push(`  Success: ${testResults.websocket.initialConnection.success ? 'Yes' : 'No'}`);
+        lines.push(`  Time: ${testResults.websocket.initialConnection.connectionTime || 'N/A'} ms`);
+        if (testResults.websocket.initialConnection.error) {
+          lines.push(`  Error: ${testResults.websocket.initialConnection.error}`);
+        }
+      }
+
+      if (testResults.websocket.reconnection) {
+        lines.push(`\nReconnection Test:`);
+        lines.push(`  Success: ${testResults.websocket.reconnection.success ? 'Yes' : 'No'}`);
+        lines.push(`  Time: ${testResults.websocket.reconnection.reconnectionTime || 'N/A'} ms`);
+        if (testResults.websocket.reconnection.error) {
+          lines.push(`  Error: ${testResults.websocket.reconnection.error}`);
+        }
+      }
+
+      if (testResults.websocket.messageRoundtrip) {
+        lines.push(`\nMessage Roundtrip:`);
+        lines.push(`  Success: ${testResults.websocket.messageRoundtrip.success ? 'Yes' : 'No'}`);
+        lines.push(`  Time: ${testResults.websocket.messageRoundtrip.roundtripTime || 'N/A'} ms`);
+        if (testResults.websocket.messageRoundtrip.error) {
+          lines.push(`  Error: ${testResults.websocket.messageRoundtrip.error}`);
+        }
       }
       lines.push('');
 

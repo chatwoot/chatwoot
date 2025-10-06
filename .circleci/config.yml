@@ -226,7 +226,6 @@ workflows:
             branches:
               only:
                 - develop
-                - perf/add-perf-page
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -253,8 +252,6 @@ workflows:
             branches:
               only:
                 - develop
-                - perf/add-perf-page
-                - perf/add-perf-page
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -330,7 +327,6 @@ workflows:
             branches:
               only:
                 - develop
-                - perf/add-perf-page
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -356,7 +352,6 @@ workflows:
             branches:
               only:
                 - develop
-                - perf/add-perf-page
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
