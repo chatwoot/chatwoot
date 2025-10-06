@@ -55,14 +55,14 @@ watch(
     </template>
     <template v-else-if="authType === 'api_key'">
       <Input
-        v-model="authConfig.key"
+        v-model="authConfig.name"
         :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_CONFIG.API_KEY')"
         :placeholder="
           t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_CONFIG.API_KEY_PLACEHOLDER')
         "
       />
       <Input
-        v-model="authConfig.value"
+        v-model="authConfig.key"
         :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_CONFIG.API_VALUE')"
         :placeholder="
           t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_CONFIG.API_VALUE_PLACEHOLDER')
