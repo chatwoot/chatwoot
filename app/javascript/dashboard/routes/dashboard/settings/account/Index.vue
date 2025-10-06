@@ -17,7 +17,6 @@ import AccountDelete from './components/AccountDelete.vue';
 import AutoResolve from './components/AutoResolve.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
 import SectionLayout from './components/SectionLayout.vue';
-import Switch from 'next/switch/Switch.vue';
 
 export default {
   components: {
@@ -31,7 +30,6 @@ export default {
     SectionLayout,
     WithLabel,
     NextInput,
-    Switch,
   },
   setup() {
     const { updateUISettings, uiSettings } = useUISettings();
@@ -49,7 +47,6 @@ export default {
       domain: '',
       supportEmail: '',
       features: {},
-      hidePremiumFeatures: false,
     };
   },
   validations: {
@@ -111,7 +108,7 @@ export default {
   methods: {
     async initializeAccount() {
       try {
-        const { name, locale, id, domain, support_email, features, hide_premium_features } =
+        const { name, locale, id, domain, support_email, features } =
           this.getAccount(this.accountId);
 
         this.$root.$i18n.locale = this.uiSettings?.locale || locale;
@@ -121,7 +118,6 @@ export default {
         this.domain = domain;
         this.supportEmail = support_email;
         this.features = features;
-        this.hidePremiumFeatures = hide_premium_features || false;
       } catch (error) {
         // Ignore error
       }
@@ -139,7 +135,6 @@ export default {
           name: this.name,
           domain: this.domain,
           support_email: this.supportEmail,
-          hide_premium_features: this.hidePremiumFeatures,
         });
         // If user locale is set, update the locale with user locale
         if (this.uiSettings?.locale) {
@@ -234,19 +229,6 @@ export default {
               "
             />
           </WithLabel>
-          <div
-            class="rounded-xl border border-n-weak bg-n-solid-1 w-full text-sm text-n-slate-12 p-3 h-12 flex items-center justify-between"
-          >
-            <div class="flex flex-col">
-              <span class="font-medium">
-                {{ $t('GENERAL_SETTINGS.FORM.HIDE_PREMIUM_FEATURES.LABEL') }}
-              </span>
-              <span class="text-xs text-n-slate-11">
-                {{ $t('GENERAL_SETTINGS.FORM.HIDE_PREMIUM_FEATURES.HELP') }}
-              </span>
-            </div>
-            <Switch v-model="hidePremiumFeatures" />
-          </div>
           <div>
             <NextButton blue :is-loading="isUpdating" type="submit">
               {{ $t('GENERAL_SETTINGS.SUBMIT') }}
