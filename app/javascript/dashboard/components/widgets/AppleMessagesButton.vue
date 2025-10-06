@@ -40,13 +40,15 @@ const toggleAppleComposer = () => {
 <template>
   <div v-if="isAppleMessagesChannel" class="relative">
     <NextButton
-      v-tooltip.top-end="'Send Apple Messages rich content'"
+      v-tooltip.top-end="'Apple Messages'"
       icon="i-ph-device-mobile"
       slate
       faded
       sm
       @click="toggleAppleComposer"
-    />
+    >
+      Apple Messages
+    </NextButton>
 
     <!-- Apple Messages Composer Modal - Direct Access -->
     <div
