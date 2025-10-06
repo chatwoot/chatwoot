@@ -29,7 +29,7 @@ class Captain::CustomTool < ApplicationRecord
 
   self.table_name = 'captain_custom_tools'
 
-  SLUG_PREFIX = 'custom-'.freeze
+  SLUG_PREFIX = 'custom_'.freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -75,7 +75,7 @@ class Captain::CustomTool < ApplicationRecord
   def generate_slug
     return if slug.present?
 
-    base_slug = title.present? ? "#{SLUG_PREFIX}#{title.parameterize}" : "#{SLUG_PREFIX}#{SecureRandom.uuid}"
+    base_slug = title.present? ? "#{SLUG_PREFIX}#{title.parameterize(separator: '-')}" : "#{SLUG_PREFIX}#{SecureRandom.uuid}"
     self.slug = find_unique_slug(base_slug)
   end
 
