@@ -872,7 +872,7 @@ export default {
           "
           :show-border="false"
         >
-          <div class="pb-4 w-3/4">
+          <div class="pb-4">
             <LockToSingleConversationPreview
               :lock-to-single-conversation="locktoSingleConversation"
               @update="toggleLockToSingleConversation"

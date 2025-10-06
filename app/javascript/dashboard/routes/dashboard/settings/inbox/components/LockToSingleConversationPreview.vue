@@ -1,62 +1,32 @@
-<script>
-import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
+<script setup>
+import ConversationWorkflowCard from './ConversationWorkflowCard.vue';
 
-export default {
-  components: {
-    PreviewCard,
+defineProps({
+  lockToSingleConversation: {
+    type: Boolean,
+    default: false,
   },
-  props: {
-    lockToSingleConversation: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['update'],
-  data() {
-    return {
-      lockOptions: [
-        {
-          key: true,
-          heading: this.$t(
-            'INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.ENABLED'
-          ),
-          content:
-            'When a contact messages again, the previous conversation will be reopened.',
-        },
-        {
-          key: false,
-          heading: this.$t(
-            'INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.DISABLED'
-          ),
-          content:
-            'A new conversation will be created each time after the previous one is resolved.',
-        },
-      ],
-    };
-  },
-  methods: {
-    toggleLockToSingleConversation(key) {
-      this.$emit('update', key);
-    },
-  },
-};
+});
+
+defineEmits(['update']);
 </script>
 
 <template>
-  <div class="flex flex-col lg:flex-row items-start lg:items-center gap-4">
-    <button
-      v-for="option in lockOptions"
-      :key="option.key"
-      class="text-slate-800 dark:text-slate-100 cursor-pointer p-0"
-      @click="toggleLockToSingleConversation(option.key)"
-    >
-      <PreviewCard
-        :heading="option.heading"
-        :content="option.content"
-        :active="option.key === lockToSingleConversation"
-      >
-        <div class="p-3" />
-      </PreviewCard>
-    </button>
+  <div class="grid grid-cols-1 gap-4 w-full sm:grid-cols-2">
+    <ConversationWorkflowCard
+      :active="!lockToSingleConversation"
+      :title="$t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.DISABLED')"
+      description="A new conversation will be created each time after the previous one is resolved."
+      radio-name="conversation-workflow"
+      @click="$emit('update', false)"
+    />
+
+    <ConversationWorkflowCard
+      :active="lockToSingleConversation"
+      :title="$t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.ENABLED')"
+      description="When a contact messages again, the previous conversation will be reopened."
+      radio-name="conversation-workflow"
+      @click="$emit('update', true)"
+    />
   </div>
 </template>
