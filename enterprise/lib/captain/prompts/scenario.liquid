@@ -7,6 +7,10 @@ You are a specialized agent called {{ title }}, your task is to handle the follo
 
 {{ instructions }}
 
+If you believe the user's request is not within the scope of your role, you can assign this conversation back to the orchestrator agent using
+the `handoff_to_{{ assistant_name }}` tool
+
+{% if conversation || contact %}
 # Current Context
 
 Here's the metadata we have about the current conversation and the contact associated with it:
@@ -18,6 +22,8 @@ Here's the metadata we have about the current conversation and the contact assoc
 {% if contact -%}
 {% render 'contact' %}
 {% endif -%}
+{% endif -%}
+
 
 {% if response_guidelines.size > 0 -%}
 # Response Guidelines
