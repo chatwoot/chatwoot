@@ -74,7 +74,12 @@ class Captain::Assistant::AgentRunnerService
   # Response formatting methods
   def process_agent_result(result)
     Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
-    format_response(result.output)
+    response = format_response(result.output)
+
+    # Extract agent name from context
+    response['agent_name'] = result.context&.dig(:current_agent)
+
+    response
   end
 
   def format_response(output)
