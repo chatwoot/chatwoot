@@ -121,6 +121,10 @@
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+      },
+      "HIDE_PREMIUM_FEATURES": {
+        "LABEL": "Hide premium features",
+        "HELP": "Hide premium features from the dashboard for agents who don't have access to them"
       }
     },
     "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",

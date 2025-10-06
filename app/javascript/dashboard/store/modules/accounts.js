@@ -5,6 +5,7 @@ import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import { PREMIUM_FEATURES } from '../../featureFlags';
 
 const findRecordById = ($state, id) =>
   $state.records.find(record => record.id === Number(id)) || {};
@@ -47,7 +48,15 @@ export const getters = {
     return diffDays <= TRIAL_PERIOD_DAYS;
   },
   isFeatureEnabledonAccount: $state => (id, featureName) => {
-    const { features = {} } = findRecordById($state, id);
+    const account = findRecordById($state, id);
+    const { features = {}, hide_premium_features = false } = account;
+    
+    // If hide_premium_features is enabled and this is a premium feature
+    // return false to hide it from the UI
+    if (hide_premium_features && PREMIUM_FEATURES.includes(featureName)) {
+      return false;
+    }
+    
     return features[featureName] || false;
   },
 };
