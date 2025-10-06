@@ -38,7 +38,7 @@ class Captain::Scenario < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
-  delegate :temperature, :feature_faq, :feature_memory, :product_name, to: :assistant
+  delegate :temperature, :feature_faq, :feature_memory, :product_name, :response_guidelines, :guardrails, to: :assistant
 
   before_save :resolve_tool_references
 
@@ -46,7 +46,10 @@ class Captain::Scenario < ApplicationRecord
     {
       title: title,
       instructions: resolved_instructions,
-      tools: resolved_tools
+      tools: resolved_tools,
+      assistant_name: assistant.name.downcase.gsub(/\s+/, '_'),
+      response_guidelines: response_guidelines || [],
+      guardrails: guardrails || []
     }
   end
 
@@ -61,9 +64,7 @@ class Captain::Scenario < ApplicationRecord
   end
 
   def resolved_instructions
-    instruction.gsub(TOOL_REFERENCE_REGEX) do |match|
-      "#{match} tool "
-    end
+    instruction.gsub(TOOL_REFERENCE_REGEX, '`\1` tool')
   end
 
   def resolved_tools
