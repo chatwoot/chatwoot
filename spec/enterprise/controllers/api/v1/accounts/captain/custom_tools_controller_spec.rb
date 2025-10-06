@@ -130,7 +130,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(json_response[:title]).to eq('Fetch Order Status')
         expect(json_response[:description]).to eq('Fetches order status from external API')
         expect(json_response[:enabled]).to be(true)
-        expect(json_response[:slug]).to eq('custom_fetch-order-status')
+        expect(json_response[:slug]).to eq('custom_fetch_order_status')
         expect(json_response[:param_schema]).to eq([
                                                      { name: 'order_id', type: 'string', description: 'The order ID', required: true }
                                                    ])
