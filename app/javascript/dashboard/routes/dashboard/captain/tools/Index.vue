@@ -131,7 +131,7 @@ onMounted(() => {
     v-if="selectedTool"
     ref="deleteDialogRef"
     :entity="selectedTool"
-    type="CustomTool"
+    type="CustomTools"
     translation-key="CUSTOM_TOOLS"
     @delete-success="onDeleteSuccess"
   />
