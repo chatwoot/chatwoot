@@ -38,7 +38,7 @@ class Captain::Scenario < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
-  delegate :temperature, :feature_faq, :feature_memory, :product_name, to: :assistant
+  delegate :temperature, :feature_faq, :feature_memory, :product_name, :response_guidelines, :guardrails, to: :assistant
 
   before_save :resolve_tool_references
 
