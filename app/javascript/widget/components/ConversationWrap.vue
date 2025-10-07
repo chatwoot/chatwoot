@@ -166,24 +166,16 @@ export default {
         .catch(() => {});
     },
     filterGroupedMessages(groupedMessages) {
-      return groupedMessages?.filter(msg => {
-        // Filter out messages with empty content
-        if (!msg?.content || msg?.content?.trim() === '') {
-          return false;
-        }
-
-        // Filter based on should_show_message_on_chat flag
-        const { content_attributes } = msg;
-        if (
-          content_attributes &&
-          content_attributes?.should_show_message_on_chat === false
-        ) {
-          return false;
-        }
-
-        // Show message if should_show_message_on_chat is true or undefined
-        return true;
-      });
+      return groupedMessages?.filter(
+        msg => msg?.content && msg?.content.trim() !== ''
+      );
+      // return groupedMessages?.filter(
+      //   msg => msg?.content && msg?.content.trim() !== ''
+      // ).sort((a, b) => {
+      //   console.log("timingData", {a: a.created_at, b: b.created_at})
+      //   console.log("First Data", {a: a.content_attributes.external_created_at || a.created_at, b: b.content_attributes.external_created_at || b.created_at})
+      //     return (a.content_attributes.external_created_at || a.created_at) - (b.content_attributes.external_created_at || b.created_at) ;
+      //   });
     },
     openCheckoutPage(selectedProducts) {
       const shopUrl = selectedProducts[0].shopUrl;

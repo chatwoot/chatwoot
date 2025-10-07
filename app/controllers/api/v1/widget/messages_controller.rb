@@ -121,7 +121,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # rubocop:disable Layout/LineLength
     params.permit(message: [
                     { submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }, :user_phone_number, :user_order_id,
-                                         :selected_reply, :previous_selected_replies, :product_id, :product_id_for_more_info, :product_page, :pre_chat_form_response, :assign_to_agent, :conversation_resolved, :should_show_message_on_chat, :is_ai_nudge, { items: [:text, :id] }] },
+                                         :selected_reply, :previous_selected_replies, :product_id, :product_id_for_more_info, :product_page, :pre_chat_form_response, :assign_to_agent, :conversation_resolved] },
                     :user_phone_number,
                     :user_order_id,
                     :selected_reply,
@@ -130,53 +130,21 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
                     :product_id_for_more_info,
                     :product_page,
                     { pre_chat_form_response: {} },
-                    { items: [:text, :id] },
                     :assign_to_agent,
-                    :conversation_resolved,
-                    :should_show_message_on_chat,
-                    :is_ai_nudge
+                    :conversation_resolved
                   ])
     # rubocop:enable Layout/LineLength
   end
 
-  def permitted_params # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Layout/LineLength
+  def permitted_params
     # timestamp parameter is used in create conversation method
 
-    # The original params.permit had a syntax error in the nested hash structure.
-    # Corrected to use Ruby's hash syntax for nested attributes.
-    params.permit(
-      :id,
-      :before,
-      :after,
-      :website_token,
-      contact: [:name, :email],
-      message: [
-        :content,
-        :referer_url,
-        :product_page,
-        :timestamp,
-        :echo_id,
-        :reply_to,
-        :selected_reply,
-        :previous_selected_replies,
-        :phone_number,
-        :order_id,
-        :product_id,
-        :private,
-        :product_id_for_more_info,
-        :assign_to_agent,
-        :conversation_resolved,
-        :should_show_message_on_chat,
-        :is_ai_nudge,
-        :message_type,
-        :content_type,
-        :external_created_at,
-        { items: [:text, :id] },
-        { pre_chat_form_response: [:emailAddress, :fullName, :phoneNumber] }
-      ]
-    )
+    params.permit(:id, :before, :after, :website_token, contact: [:name, :email],
+                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private, :product_id_for_more_info, :product_page, :assign_to_agent, :conversation_resolved, { pre_chat_form_response: [:emailAddress, :fullName, :phoneNumber] }])
   end
 
+  # rubocop:enable Layout/LineLength
   def set_message
     @message = @web_widget.inbox.messages.find(permitted_params[:id])
   end

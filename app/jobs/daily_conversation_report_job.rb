@@ -105,7 +105,7 @@ class DailyConversationReportJob < ApplicationJob
   end
 
   # rubocop:disable Metrics/ParameterLists
-  def process_account(account_id, _current_date, range, mask_data, bitespeed_bot, frequency = 'daily', created_at_flag: false) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def process_account(account_id, _current_date, range, mask_data, bitespeed_bot, frequency = 'daily', created_at_flag: false)
     Rails.logger.info "Starting to process account_id: #{account_id} with frequency: #{frequency}"
 
     report = generate_report(account_id, range, created_at_flag: created_at_flag)
@@ -240,30 +240,30 @@ class DailyConversationReportJob < ApplicationJob
       csv << ["Reporting period #{start_date} to #{end_date}"]
 
       # Chat Overview
-      csv << ['Chat Overview']
-      csv << ['Total', overview[:total]]
-      csv << ['Bot Resolved', overview[:bot_resolved]]
-      csv << ['Agent Handled', overview[:agent_handled]]
-      csv << ['Pending', overview[:pending]]
+      csv << ["Chat Overview"]
+      csv << ["Total", overview[:total]]
+      csv << ["Bot Resolved", overview[:bot_resolved]]
+      csv << ["Agent Handled", overview[:agent_handled]]
+      csv << ["Pending", overview[:pending]]
       csv << []
 
       # Resolution Metrics
-      csv << ['Resolution Metrics']
-      csv << ['Avg First Response (minutes)', resolution_metrics[:avg_first_response_minutes]]
-      csv << ['Avg Resolution (minutes)', resolution_metrics[:avg_resolution_minutes]]
+      csv << ["Resolution Metrics"]
+      csv << ["Avg First Response (minutes)", resolution_metrics[:avg_first_response_minutes]]
+      csv << ["Avg Resolution (minutes)", resolution_metrics[:avg_resolution_minutes]]
       csv << []
 
       # Agent-wise Performance
-      csv << ['Agent-wise Performance']
-      csv << ['Agent Name', 'Chats Handled', 'Resolution Rate (%)', 'Escalations']
+      csv << ["Agent-wise Performance"]
+      csv << ["Agent Name", "Chats Handled", "Resolution Rate (%)", "Escalations"]
       agent_metrics.each do |row|
         csv << [row[:agent_name], row[:chats_handled], row[:resolution_rate_percent], row[:escalations]]
       end
       csv << []
 
       # Label Report
-      csv << ['Label Report']
-      csv << ['Label', 'Count', '%']
+      csv << ["Label Report"]
+      csv << ["Label", "Count", "%"]
       total_labels = issue_breakdown.sum { |i| i[:count].to_i }
       issue_breakdown.each do |row|
         percent = total_labels.positive? ? ((row[:count].to_f / total_labels) * 100.0).round(2) : 0
@@ -272,8 +272,8 @@ class DailyConversationReportJob < ApplicationJob
       csv << []
 
       # Escalations List
-      csv << ['Escalations']
-      csv << ['Conversation ID', 'Conversation Link', 'Status', 'Priority', 'Agent Name']
+      csv << ["Escalations"]
+      csv << ["Conversation ID", "Conversation Link", "Status", "Priority", "Agent Name"]
       escalations.each do |row|
         csv << [row[:conversation_display_id], row[:conversation_link], row[:status], row[:priority], row[:agent_name]]
       end
@@ -374,7 +374,7 @@ class DailyConversationReportJob < ApplicationJob
     end
   end
   # rubocop:enable Metrics/ParameterLists
-
+  
   # Aggregates
   def generate_overview_metrics(account_id, range, created_at_flag: false)
     time_col = created_at_flag ? 'conversations.created_at' : 'conversations.updated_at'
@@ -430,8 +430,7 @@ class DailyConversationReportJob < ApplicationJob
   end
 
   def generate_agent_metrics(account_id, range)
-    handled_sql = ActiveRecord::Base.send(:sanitize_sql_array,
-                                          [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+    handled_sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
       SELECT
         u.name AS agent_name,
         COUNT(*) AS chats_handled,
@@ -449,22 +448,19 @@ class DailyConversationReportJob < ApplicationJob
       JOIN users u ON u.id = last_non_bot_ca.assignee_id
       WHERE re.account_id = :account_id AND re.name = 'conversation_resolved' AND re.created_at BETWEEN :since AND :until
       GROUP BY u.name
-                                          SQL
+    SQL
 
-    assigned_sql = ActiveRecord::Base.send(:sanitize_sql_array,
-                                           [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+    assigned_sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
       SELECT u.name AS agent_name, COUNT(DISTINCT ca.conversation_id) AS assigned_total
       FROM conversation_assignments ca
       JOIN users u ON u.id = ca.assignee_id
       JOIN conversations c ON c.id = ca.conversation_id
       WHERE c.account_id = :account_id AND ca.created_at BETWEEN :since AND :until AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
       GROUP BY u.name
-                                           SQL
+    SQL
 
     handled = ActiveRecord::Base.connection.exec_query(handled_sql).to_a
-    assigned = ActiveRecord::Base.connection.exec_query(assigned_sql).to_a.each_with_object({}) do |r, h|
-      h[r['agent_name']] = r['assigned_total'].to_i
-    end
+    assigned = ActiveRecord::Base.connection.exec_query(assigned_sql).to_a.each_with_object({}) { |r, h| h[r['agent_name']] = r['assigned_total'].to_i }
 
     handled.map do |row|
       agent_name = row['agent_name']

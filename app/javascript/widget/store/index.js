@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import agent from 'widget/store/modules/agent';
-import aiNudge from 'widget/store/modules/aiNudge';
 import appConfig from 'widget/store/modules/appConfig';
 import contacts from 'widget/store/modules/contacts';
 import conversation from 'widget/store/modules/conversation';
@@ -17,7 +16,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     agent,
-    aiNudge,
     appConfig,
     contacts,
     conversation,

@@ -105,20 +105,7 @@ export const mutations = {
 
   setLastMessageId($state) {
     const { conversations } = $state;
-    const allMessages = Object.values(conversations);
-
-    // Filter messages based on should_show_message_on_chat flag
-    const filteredMessages = allMessages.filter(message => {
-      const { content_attributes } = message;
-      // Show message if should_show_message_on_chat is true or undefined
-      // Hide message if should_show_message_on_chat is explicitly false
-      return (
-        !content_attributes ||
-        content_attributes.should_show_message_on_chat !== false
-      );
-    });
-
-    const lastMessage = filteredMessages.pop();
+    const lastMessage = Object.values(conversations).pop();
     if (!lastMessage) return;
     const { id } = lastMessage;
     $state.lastMessageId = id;

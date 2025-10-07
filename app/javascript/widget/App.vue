@@ -69,7 +69,7 @@ export default {
       isRightAligned: 'appConfig/isRightAligned',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       messageCount: 'conversation/getMessageCount',
-      unreadMessageCount: 'conversation/getTotalUnreadCount',
+      unreadMessageCount: 'conversation/getUnreadMessageCount',
       botConfig: 'contacts/getBotConfig',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
       showUnreadMessagesDialog: 'appConfig/getShowUnreadMessagesDialog',
