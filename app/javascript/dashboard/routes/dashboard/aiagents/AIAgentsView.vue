@@ -9,6 +9,7 @@ import { useAlert } from 'dashboard/composables';
 import { minLength, required } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
 const agentTypes = [
   { label: 'Single Agent', id: 'single' },
@@ -34,6 +35,7 @@ onMounted(() => {
   fetchAiAgentTemplates();
 });
 
+const router = useRouter();
 const aiAgentsRef = ref();
 const aiAgentsLoading = ref();
 async function fetchAiAgents() {
@@ -122,9 +124,14 @@ async function createAiAgent() {
 
   try {
     loadingCreate.value = true;
-    await aiAgents.createAiAgent(name, templateIds);
-    fetchAiAgents();
+    const resp = await aiAgents.createAiAgent(name, templateIds);
+    const newAgentId = resp?.data?.id;
     showCreateAgentModal.value = false;
+    if (newAgentId) {
+      router.push(`/app/accounts/${accountId}/ai-agents/${newAgentId}`);
+    } else {
+      fetchAiAgents();
+    }
   } catch (e) {
     const errorMessage = e?.response?.data?.error;
     useAlert(errorMessage || t('AGENT_MGMT.FORM_CREATE.FAILED_ADD'));

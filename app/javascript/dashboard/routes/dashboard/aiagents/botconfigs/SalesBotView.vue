@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full min-h-0">
+  <div class="w-full h-screen overflow-hidden flex flex-col">
     <div v-if="notification"
       :class="['fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transition-all duration-300',
         notification.type === 'success' ? 'bg-green-500 text-white' :
@@ -10,7 +10,7 @@
         <span>{{ notification.message }}</span>
       </div>
     </div>
-    <div class="pb-4">
+    <div class="pb-4 flex-shrink-0">
       <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-1">
         {{ $t('AGENT_MGMT.SALESBOT.HEADER') }}
       </h2>
@@ -19,112 +19,182 @@
       </p>
       <div class="border-b border-gray-200 dark:border-gray-700"></div>
     </div>
-
-    <div class="space-y-6 pb-6">
-      <!-- Sidebar Navigation (always show) -->
-      <div class="flex flex-row justify-stretch gap-2">
-        <!-- Custom Tabs with SVG Icons -->
-        <div class="flex flex-col gap-1 min-w-[200px] mr-4">
-          <div
-            v-for="tab in tabs"
-            :key="tab.key"
-            class="flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50"
-            :class="{
-              'bg-woot-50 border-l-4 border-woot-500 text-woot-600 dark:bg-woot-900/50 dark:border-woot-400 dark:text-woot-400': tab.index === activeTabIndex,
-              'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200': tab.index !== activeTabIndex,
-            }"
-            @click="activeTabIndex = tab.index"
-          >
-            <span
-              :class="[
-                tab.icon,
-                'w-5 h-5 transition-all duration-200',
-                {
-                  'text-woot-600 dark:text-woot-400': tab.index === activeTabIndex,
-                  'text-gray-500 dark:text-gray-400': tab.index !== activeTabIndex,
-                }
-              ]"
-            />
-            <span class="text-sm">{{ tab.name }}</span>
-          </div>
-        </div>
-
-        <!-- Catalog Tab -->
-        <div v-show="activeTabIndex === 0" class="w-full min-w-0">
-          <div class="space-y-6">
-            <!-- Google Sheets Auth Flow -->
-            <div v-if="catalogStep === 'auth'" class="gap-6">
-              <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.SHEETS_TITLE') }}</label>
-              <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.SHEETS_AUTH_DESC') }}</p>
-              <button
-                @click="connectGoogle"
-                class="inline-flex items-center space-x-3 bg-green-600 hover:bg-green-700 dark:bg-green-400 dark:hover:bg-green-500 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-                :disabled="catalogLoading"
-              >
-                <span>{{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_BTN') }}</span>
-              </button>
+    <div class="flex-1 overflow-y-auto min-h-0">
+      <div class="space-y-6 pb-6">
+        <!-- Sidebar Navigation (always show) -->
+        <div class="flex flex-row justify-stretch gap-2">
+          <!-- Custom Tabs with SVG Icons -->
+          <div class="flex flex-col gap-1 min-w-[200px] mr-4">
+            <div
+              v-for="tab in tabs"
+              :key="tab.key"
+              class="flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+              :class="{
+                'bg-woot-50 border-l-4 border-woot-500 text-woot-600 dark:bg-woot-900/50 dark:border-woot-400 dark:text-woot-400': tab.index === activeTabIndex,
+                'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200': tab.index !== activeTabIndex,
+              }"
+              @click="activeTabIndex = tab.index"
+            >
+              <span
+                :class="[
+                  tab.icon,
+                  'w-5 h-5 transition-all duration-200',
+                  {
+                    'text-woot-600 dark:text-woot-400': tab.index === activeTabIndex,
+                    'text-gray-500 dark:text-gray-400': tab.index !== activeTabIndex,
+                  }
+                ]"
+              />
+              <span class="text-sm">{{ tab.name }}</span>
             </div>
-            <div v-else-if="catalogStep === 'connected'" class="py-8">
-              <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                  </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_HEADER') }}</h3>
-                <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_DESC') }}</p>
-                <p class="mt-2 text-sm text-gray-500">{{ catalogAccount?.email }}</p>
-                <div class="flex gap-2 center justify-center mt-4">
-                  <template v-if="!salesAuthError">
-                    <button
-                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                      @click="createSheets"
-                      :disabled="catalogLoading"
-                    >
-                      <span v-if="catalogLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
-                      <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
-                    </button>
-                    </template>
-                    <template v-else>
-                      <div class="mt-3 text-red-600 text-sm flex items-center gap-2">
-                        <p class="text-sm">{{ salesAuthError }}</p>
-                        <button
-                          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                          @click="retryAuthentication"
-                          :disabled="catalogLoading"
-                        >
-                          <span v-if="catalogLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
-                          <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
-                        </button>
-                      </div>
-                    </template>
+          </div>
+  
+          <!-- Catalog Tab -->
+          <div v-show="activeTabIndex === 0" class="w-full min-w-0">
+            <div class="space-y-6">
+              <!-- Google Sheets Auth Flow -->
+              <div v-if="catalogStep === 'auth'" class="gap-6">
+                <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.SHEETS_TITLE') }}</label>
+                <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.SHEETS_AUTH_DESC') }}</p>
+                <button
+                  @click="connectGoogle"
+                  class="inline-flex items-center space-x-3 bg-green-600 hover:bg-green-700 dark:bg-green-400 dark:hover:bg-green-500 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  :disabled="catalogLoading"
+                >
+                  <span>{{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_BTN') }}</span>
+                </button>
+              </div>
+              <div v-else-if="catalogStep === 'connected'" class="py-8">
+                <div class="text-center mb-8">
+                  <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_HEADER') }}</h3>
+                  <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_DESC') }}</p>
+                  <p class="mt-2 text-sm text-gray-500">{{ catalogAccount?.email }}</p>
+                  <div class="flex gap-2 center justify-center mt-4">
+                    <template v-if="!salesAuthError">
+                      <button
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                        @click="createSheets"
+                        :disabled="catalogLoading"
+                      >
+                        <span v-if="catalogLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
+                        <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
+                      </button>
+                      </template>
+                      <template v-else>
+                        <div class="mt-3 text-red-600 text-sm flex items-center gap-2">
+                          <p class="text-sm">{{ salesAuthError }}</p>
+                          <button
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                            @click="retryAuthentication"
+                            :disabled="catalogLoading"
+                          >
+                            <span v-if="catalogLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                            <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                          </button>
+                        </div>
+                      </template>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div v-else-if="catalogStep === 'sheetConfig'">
-              <!-- Input Sheet Section - Product Catalog -->
-              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="flex items-center mb-3">
+              <div v-else-if="catalogStep === 'sheetConfig'">
+                <!-- Input Sheet Section - Product Catalog -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
+                  <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                      <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                          <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 class="font-medium text-slate-900 dark:text-slate-25">
+                            {{ $t('AGENT_MGMT.SALESBOT.CATALOG.INPUT_SHEET_TITLE') }}
+                          </h3>
+                          <p class="text-sm text-slate-600 dark:text-slate-400">
+                            {{ $t('AGENT_MGMT.SALESBOT.CATALOG.INPUT_SHEET_DESC') }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div v-if="catalogSheets.input && !salesAuthError" class="flex flex-col gap-2">
+                      <a 
+                        :href="catalogSheets.input" 
+                        target="_blank" 
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                      >
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                        {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
+                      </a>
+                    </div>
+                  </div>
+  
+                  <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
+                    <div class="flex justify-start">
+                      <div v-if="catalogSheets.input && !salesAuthError">
+                        <button
+                          @click="syncProductColumns"
+                          :disabled="syncingColumns"
+                          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+                        >
+                          <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
+                          </svg>
+                          <svg v-else class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                          </svg>
+                          {{ syncingColumns ? $t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_BUTTON_LOADING') : $t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_BUTTON') }}
+                        </button>
+                      </div>
+                      <div v-else class="text-red-600 text-sm flex items-center gap-2">
+                        <button
+                          @click="retryAuthentication"
+                          class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 pr-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20"
+                          :disabled="loading"
+                        >
+                          <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                          <span>{{ t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                        </button>
+                      </div>
+                      <div class="gap-2 items-center">
+                        <button
+                          @click="disconnectGoogle"
+                          class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
+                          :disabled="loading"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                          <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Output Sheet Section - Order Tracking -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
                       <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
                         <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                         </svg>
                       </div>
                       <div>
-                        <h3 class="font-medium text-slate-900 dark:text-slate-25">
-                          {{ $t('AGENT_MGMT.SALESBOT.CATALOG.INPUT_SHEET_TITLE') }}
-                        </h3>
-                        <p class="text-sm text-slate-600 dark:text-slate-400">
-                          {{ $t('AGENT_MGMT.SALESBOT.CATALOG.INPUT_SHEET_DESC') }}
-                        </p>
+                        <h4 class="font-medium text-slate-900 dark:text-slate-25">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.OUTPUT_SHEET_TITLE') }}</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.OUTPUT_SHEET_DESC') }}</p>
                       </div>
                     </div>
-                  </div>
-                  <div v-if="catalogSheets.input && !salesAuthError" class="flex flex-col gap-2">
                     <a 
-                      :href="catalogSheets.input" 
+                      v-if="catalogSheets.output && !salesAuthError"
+                      :href="catalogSheets.output" 
                       target="_blank" 
                       class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
                     >
@@ -135,288 +205,172 @@
                     </a>
                   </div>
                 </div>
-
-                <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
-                  <div class="flex justify-start">
-                    <div v-if="catalogSheets.input && !salesAuthError">
-                      <button
-                        @click="syncProductColumns"
-                        :disabled="syncingColumns"
-                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
-                      >
-                        <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
-                          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
-                          <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
-                        </svg>
-                        <svg v-else class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                        </svg>
-                        {{ syncingColumns ? $t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_BUTTON_LOADING') : $t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_BUTTON') }}
-                      </button>
-                    </div>
-                    <div v-else class="text-red-600 text-sm flex items-center gap-2">
-                      <button
-                        @click="retryAuthentication"
-                        class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 pr-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20"
-                        :disabled="loading"
-                      >
-                        <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
-                        <span>{{ t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
-                      </button>
-                    </div>
-                    <div class="gap-2 items-center">
-                      <button
-                        @click="disconnectGoogle"
-                        class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
-                        :disabled="loading"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
-                        <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Output Sheet Section - Order Tracking -->
-              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center">
-                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                      <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="font-medium text-slate-900 dark:text-slate-25">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.OUTPUT_SHEET_TITLE') }}</h4>
-                      <p class="text-sm text-slate-600 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.OUTPUT_SHEET_DESC') }}</p>
-                    </div>
-                  </div>
-                  <a 
-                    v-if="catalogSheets.output && !salesAuthError"
-                    :href="catalogSheets.output" 
-                    target="_blank" 
-                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
-                  >
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                    </svg>
-                    {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
-                  </a>
-                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Shipping Tab -->
-        <div v-show="activeTabIndex === 1" class="w-full min-w-0">
-          <div class="flex flex-row gap-4">
-            <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
-              <div class="space-y-4">
-                <div>
-                  <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.METHOD_TITLE') }}</label>
-              
-              <!-- Kurir Toko -->
-              <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
-                <div class="flex items-center justify-between p-4">
-                  <div class="flex items-center">
-                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path class="fill-green-600 dark:fill-white"
-                          d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5a.75.75 0 0 1-.75.75h-1v-8.25c0-.11-.012-.219-.036-.325l-.739-3.326a3 3 0 0 0-2.928-2.349H8.453A3 3 0 0 0 5.525 7.6l-.74 3.325a1.5 1.5 0 0 0-.035.325v8.25h-1a.75.75 0 0 1-.75-.75V5.25Z"
-                          fill="currentColor" />
-                        <path class="fill-green-600 dark:fill-white"
-                          d="M8.453 6a2.25 2.25 0 0 0-2.196 1.762l-.74 3.325a.75.75 0 0 0-.017.163v9c0 .966.784 1.75 1.75 1.75h1.5a1.75 1.75 0 0 0 1.75-1.75v-.75h3v.75c0 .966.784 1.75 1.75 1.75h1.5a1.75 1.75 0 0 0 1.75-1.75v-9a.748.748 0 0 0-.018-.163l-.739-3.325A2.25 2.25 0 0 0 15.547 6H8.453Zm-.732 2.087a.75.75 0 0 1 .732-.587h7.094a.75.75 0 0 1 .732.587l.536 2.413h-9.63l.536-2.413ZM7 20.25v-.75h2v.75a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25Zm10-.75v.75a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-.75h2Zm-6.25-3h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1 0-1.5Zm-.745-2.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM15 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"
-                          fill="currentColor" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STORE_COURIER') }}</h3>
-                      <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_STORE_COURIER') }}</p>
-                    </div>
-                  </div>
-
-                  <label class="inline-flex items-center cursor-pointer">
-                    <input type="checkbox" v-model="shippingMethods.kurirToko" class="sr-only peer">
-                    <div
-                      class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                    </div>
-                  </label>
-                </div>
+  
+          <!-- Shipping Tab -->
+          <div v-show="activeTabIndex === 1" class="w-full min-w-0">
+            <div class="flex flex-row gap-4">
+              <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
+                <div class="space-y-4">
+                  <div>
+                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.METHOD_TITLE') }}</label>
                 
-                <div 
-                  v-if="shippingMethods.kurirToko" 
-                  class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
-                >
-                  <!-- Store Address -->
-                  <div>
-                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STORE_ADDRESS') }}</label>
-                    <input 
-                      type="text" 
-                      class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                      :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.STORE_ADDRESS_PLACEHOLDER')" 
-                      v-model="kurirToko.alamat" 
-                    />
-                  </div>
-
-                  <!-- Google Maps Integration -->
-                  <div>
-                    <label class="block font-medium mb-2">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MAP_LOCATION') }}</label>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MAP_INSTRUCTION') }}</p>
-                    
-                    <!-- Map Container -->
-                    <div class="relative bg-gray-100 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
-                      <div 
-                        ref="mapRef"
-                        class="w-full h-64"
-                        style="min-height: 256px;"
-                      ></div>
-                      
-                      <!-- Loading Overlay -->
-                      <div v-if="!kurirToko.mapLoaded" class="absolute inset-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                        <div class="text-center">
-                          <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
-                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
-                          </svg>
-                          <p class="text-sm text-gray-600 dark:text-gray-400">Loading map...</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Coordinates Display -->
-                    <div class="grid grid-cols-2 gap-4 mt-3">
-                      <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.LATITUDE') }}</label>
-                        <input 
-                          type="number" 
-                          step="0.000001"
-                          v-model="kurirToko.latitude"
-                          class="w-full text-xs px-2 py-1 border border-gray-300 rounded bg-gray-50 text-gray-700 cursor-not-allowed"
-                          readonly
-                        />
+                <!-- Kurir Toko -->
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                  <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center">
+                      <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path class="fill-green-600 dark:fill-white"
+                            d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5a.75.75 0 0 1-.75.75h-1v-8.25c0-.11-.012-.219-.036-.325l-.739-3.326a3 3 0 0 0-2.928-2.349H8.453A3 3 0 0 0 5.525 7.6l-.74 3.325a1.5 1.5 0 0 0-.035.325v8.25h-1a.75.75 0 0 1-.75-.75V5.25Z"
+                            fill="currentColor" />
+                          <path class="fill-green-600 dark:fill-white"
+                            d="M8.453 6a2.25 2.25 0 0 0-2.196 1.762l-.74 3.325a.75.75 0 0 0-.017.163v9c0 .966.784 1.75 1.75 1.75h1.5a1.75 1.75 0 0 0 1.75-1.75v-.75h3v.75c0 .966.784 1.75 1.75 1.75h1.5a1.75 1.75 0 0 0 1.75-1.75v-9a.748.748 0 0 0-.018-.163l-.739-3.325A2.25 2.25 0 0 0 15.547 6H8.453Zm-.732 2.087a.75.75 0 0 1 .732-.587h7.094a.75.75 0 0 1 .732.587l.536 2.413h-9.63l.536-2.413ZM7 20.25v-.75h2v.75a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25Zm10-.75v.75a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-.75h2Zm-6.25-3h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1 0-1.5Zm-.745-2.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM15 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"
+                            fill="currentColor" />
+                        </svg>
                       </div>
                       <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.LONGITUDE') }}</label>
-                        <input 
-                          type="number" 
-                          step="0.000001"
-                          v-model="kurirToko.longitude"
-                          class="w-full text-xs px-2 py-1 border border-gray-300 rounded bg-gray-50 text-gray-700 cursor-not-allowed"
-                          readonly
-                        />
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STORE_COURIER') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_STORE_COURIER') }}</p>
                       </div>
                     </div>
+  
+                    <label class="inline-flex items-center cursor-pointer">
+                      <input type="checkbox" v-model="shippingMethods.kurirToko" class="sr-only peer">
+                      <div
+                        class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                      </div>
+                    </label>
                   </div>
                   
-                  <!-- Service Area -->
-                  <div>
-                    <label class="block font-medium mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_AREA') }}</label>
-                    <div class="space-y-4">
-                      <!-- Radius Option -->
-                      <div class="flex items-start space-x-3">
-                        <label class="inline-flex items-center cursor-pointer">
-                          <input 
-                            type="radio" 
-                            v-model="kurirToko.serviceAreaType" 
-                            value="radius"
-                            class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
-                          />
-                        </label>
-                        <div class="flex-1">
-                          <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_RADIUS') }}</label>
-                          <div class="relative">
-                            <input 
-                              type="number" 
-                              min="0"
-                              step="0.1"
-                              :disabled="kurirToko.serviceAreaType !== 'radius'"
-                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pr-10 !pl-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                              :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_RADIUS_PLACEHOLDER')" 
-                              v-model="kurirToko.radius" 
-                            />
-                            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">km</span>
+                  <div 
+                    v-if="shippingMethods.kurirToko" 
+                    class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
+                  >
+                    <!-- Store Address -->
+                    <div>
+                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STORE_ADDRESS') }}</label>
+                      <input 
+                        type="text" 
+                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.STORE_ADDRESS_PLACEHOLDER')" 
+                        v-model="kurirToko.alamat" 
+                      />
+                    </div>
+  
+                    <!-- Google Maps Integration -->
+                    <div>
+                      <label class="block font-medium mb-2">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MAP_LOCATION') }}</label>
+                      <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MAP_INSTRUCTION') }}</p>
+                      
+                      <!-- Map Container -->
+                      <div class="relative bg-gray-100 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                        <div 
+                          ref="mapRef"
+                          class="w-full h-64"
+                          style="min-height: 256px;"
+                        ></div>
+                        
+                        <!-- Loading Overlay -->
+                        <div v-if="!kurirToko.mapLoaded" class="absolute inset-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                          <div class="text-center">
+                            <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24">
+                              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                              <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
+                            </svg>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Loading map...</p>
                           </div>
                         </div>
                       </div>
-
-                      <!-- Region Option -->
-                      <div class="flex items-start space-x-3">
-                        <label class="inline-flex items-center cursor-pointer">
+  
+                      <!-- Coordinates Display -->
+                      <div class="grid grid-cols-2 gap-4 mt-3">
+                        <div>
+                          <label class="block text-xs font-medium text-gray-500 mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.LATITUDE') }}</label>
                           <input 
-                            type="radio" 
-                            v-model="kurirToko.serviceAreaType" 
-                            value="region"
-                            class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                            type="number" 
+                            step="0.000001"
+                            v-model="kurirToko.latitude"
+                            class="w-full text-xs px-2 py-1 border border-gray-300 rounded bg-gray-50 text-gray-700 cursor-not-allowed"
+                            readonly
                           />
-                        </label>
-                        <div class="flex-1">
-                          <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_REGION') }}</label>
-                          <div class="dropdown-menu dropdown-container bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60" ref="serviceAreaDropdownRef">
+                        </div>
+                        <div>
+                          <label class="block text-xs font-medium text-gray-500 mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.LONGITUDE') }}</label>
+                          <input 
+                            type="number" 
+                            step="0.000001"
+                            v-model="kurirToko.longitude"
+                            class="w-full text-xs px-2 py-1 border border-gray-300 rounded bg-gray-50 text-gray-700 cursor-not-allowed"
+                            readonly
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Service Area -->
+                    <div>
+                      <label class="block font-medium mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_AREA') }}</label>
+                      <div class="space-y-4">
+                        <!-- Radius Option -->
+                        <div class="flex items-start space-x-3">
+                          <label class="inline-flex items-center cursor-pointer">
+                            <input 
+                              type="radio" 
+                              v-model="kurirToko.serviceAreaType" 
+                              value="radius"
+                              class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                            />
+                          </label>
+                          <div class="flex-1">
+                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_RADIUS') }}</label>
                             <div class="relative">
-                              <input
-                                v-model="serviceAreaProvinsiSearchQuery"
-                                type="text"
-                                :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL_PLACEHOLDER')"
-                                :disabled="kurirToko.serviceAreaType !== 'region'"
-                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                                @input="onServiceAreaProvinsiSearch"
-                                @click="toggleServiceAreaProvinsiDropdown"
-                                :readonly="loadingProvinsi || kurirToko.serviceAreaType !== 'region'"
-                                :value="selectedServiceAreaProvinsiName"
+                              <input 
+                                type="number" 
+                                min="0"
+                                step="0.1"
+                                :disabled="kurirToko.serviceAreaType !== 'radius'"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pr-10 !pl-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                                :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_RADIUS_PLACEHOLDER')" 
+                                v-model="kurirToko.radius" 
                               />
-                              <button
-                                type="button"
-                                @click="toggleServiceAreaProvinsiDropdown"
-                                :disabled="loadingProvinsi || kurirToko.serviceAreaType !== 'region'"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                              >
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                              </button>
-                            </div>
-                            
-                            <div
-                              v-if="isServiceAreaProvinsiDropdownOpen && kurirToko.serviceAreaType === 'region'"
-                              class="dropdown-menu absolute top-full left-0 right-0 mt-1 bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-600 rounded-lg max-h-60 overflow-y-auto z-50"
-                            >
-                              <div
-                                v-for="provinsi in filteredServiceAreaProvinsiOptions"
-                                :key="provinsi.id"
-                                @click="selectServiceAreaProvinsi(provinsi)"
-                                class="dropdown-item px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100 text-sm"
-                              >
-                                {{ provinsi.name }}
-                              </div>
-                              <div v-if="filteredServiceAreaProvinsiOptions.length === 0" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
-                                {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.NO_PROVINCE_FOUND') }}
-                              </div>
+                              <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">km</span>
                             </div>
                           </div>
-                          
-                          <!-- City/District Dropdown for Region -->
-                          <div v-if="kurirToko.serviceAreaType === 'region' && kurirToko.wilayah" class="mt-3">
-                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
-                            <div class="dropdown-container" ref="serviceAreaKotaDropdownRef">
+                        </div>
+  
+                        <!-- Region Option -->
+                        <div class="flex items-start space-x-3">
+                          <label class="inline-flex items-center cursor-pointer">
+                            <input 
+                              type="radio" 
+                              v-model="kurirToko.serviceAreaType" 
+                              value="region"
+                              class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                            />
+                          </label>
+                          <div class="flex-1">
+                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_REGION') }}</label>
+                            <div class="dropdown-menu dropdown-container bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60" ref="serviceAreaDropdownRef">
                               <div class="relative">
                                 <input
-                                  v-model="serviceAreaKotaSearchQuery"
+                                  v-model="serviceAreaProvinsiSearchQuery"
                                   type="text"
-                                  :placeholder="selectedServiceAreaKotaName || (loadingServiceAreaKota ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL_PLACEHOLDER'))"
-                                  :disabled="!kurirToko.wilayah || loadingServiceAreaKota"
+                                  :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL_PLACEHOLDER')"
+                                  :disabled="kurirToko.serviceAreaType !== 'region'"
                                   class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                                  @input="onServiceAreaKotaSearch"
-                                  @click="toggleServiceAreaKotaDropdown"
-                                  :readonly="!kurirToko.wilayah || loadingServiceAreaKota"
-                                  :value="selectedServiceAreaKotaName"
+                                  @input="onServiceAreaProvinsiSearch"
+                                  @click="toggleServiceAreaProvinsiDropdown"
+                                  :readonly="loadingProvinsi || kurirToko.serviceAreaType !== 'region'"
+                                  :value="selectedServiceAreaProvinsiName"
                                 />
                                 <button
                                   type="button"
-                                  @click="toggleServiceAreaKotaDropdown"
-                                  :disabled="!kurirToko.wilayah || loadingServiceAreaKota"
+                                  @click="toggleServiceAreaProvinsiDropdown"
+                                  :disabled="loadingProvinsi || kurirToko.serviceAreaType !== 'region'"
                                   class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                                 >
                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -426,22 +380,69 @@
                               </div>
                               
                               <div
-                                v-if="isServiceAreaKotaDropdownOpen && kurirToko.wilayah"
+                                v-if="isServiceAreaProvinsiDropdownOpen && kurirToko.serviceAreaType === 'region'"
                                 class="dropdown-menu absolute top-full left-0 right-0 mt-1 bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-600 rounded-lg max-h-60 overflow-y-auto z-50"
                               >
-                                <div v-if="loadingServiceAreaKota" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
-                                  Loading cities...
-                                </div>
                                 <div
-                                  v-for="kota in filteredServiceAreaKotaOptions"
-                                  :key="kota.id"
-                                  @click="selectServiceAreaKota(kota)"
+                                  v-for="provinsi in filteredServiceAreaProvinsiOptions"
+                                  :key="provinsi.id"
+                                  @click="selectServiceAreaProvinsi(provinsi)"
                                   class="dropdown-item px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100 text-sm"
                                 >
-                                  {{ kota.name }}
+                                  {{ provinsi.name }}
                                 </div>
-                                <div v-if="!loadingServiceAreaKota && filteredServiceAreaKotaOptions.length === 0 && kurirToko.wilayah" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
-                                  {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.NO_CITY_FOUND') }}
+                                <div v-if="filteredServiceAreaProvinsiOptions.length === 0" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
+                                  {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.NO_PROVINCE_FOUND') }}
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <!-- City/District Dropdown for Region -->
+                            <div v-if="kurirToko.serviceAreaType === 'region' && kurirToko.wilayah" class="mt-3">
+                              <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
+                              <div class="dropdown-container" ref="serviceAreaKotaDropdownRef">
+                                <div class="relative">
+                                  <input
+                                    v-model="serviceAreaKotaSearchQuery"
+                                    type="text"
+                                    :placeholder="selectedServiceAreaKotaName || (loadingServiceAreaKota ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL_PLACEHOLDER'))"
+                                    :disabled="!kurirToko.wilayah || loadingServiceAreaKota"
+                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                    @input="onServiceAreaKotaSearch"
+                                    @click="toggleServiceAreaKotaDropdown"
+                                    :readonly="!kurirToko.wilayah || loadingServiceAreaKota"
+                                    :value="selectedServiceAreaKotaName"
+                                  />
+                                  <button
+                                    type="button"
+                                    @click="toggleServiceAreaKotaDropdown"
+                                    :disabled="!kurirToko.wilayah || loadingServiceAreaKota"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                  >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                  </button>
+                                </div>
+                                
+                                <div
+                                  v-if="isServiceAreaKotaDropdownOpen && kurirToko.wilayah"
+                                  class="dropdown-menu absolute top-full left-0 right-0 mt-1 bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-600 rounded-lg max-h-60 overflow-y-auto z-50"
+                                >
+                                  <div v-if="loadingServiceAreaKota" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
+                                    Loading cities...
+                                  </div>
+                                  <div
+                                    v-for="kota in filteredServiceAreaKotaOptions"
+                                    :key="kota.id"
+                                    @click="selectServiceAreaKota(kota)"
+                                    class="dropdown-item px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100 text-sm"
+                                  >
+                                    {{ kota.name }}
+                                  </div>
+                                  <div v-if="!loadingServiceAreaKota && filteredServiceAreaKotaOptions.length === 0 && kurirToko.wilayah" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
+                                    {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.NO_CITY_FOUND') }}
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -449,871 +450,871 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <!-- Shipping Cost -->
-                  <div>
-                    <label class="block font-medium mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SHIPPING_COST') }}</label>
-                    <div class="space-y-4">
-                      <!-- Pricing Method Selection -->
-                      <div class="space-y-3">
-                        <!-- Flat Rate Option -->
-                        <div class="flex items-start space-x-3">
-                          <label class="inline-flex items-center cursor-pointer">
-                            <input 
-                              type="radio" 
-                              v-model="kurirToko.pricingMethod" 
-                              value="flatRate"
-                              class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
-                            />
-                          </label>
-                          <div class="flex-1">
-                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE') }}</label>
-                            <div class="relative">
-                              <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+  
+                    <!-- Shipping Cost -->
+                    <div>
+                      <label class="block font-medium mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SHIPPING_COST') }}</label>
+                      <div class="space-y-4">
+                        <!-- Pricing Method Selection -->
+                        <div class="space-y-3">
+                          <!-- Flat Rate Option -->
+                          <div class="flex items-start space-x-3">
+                            <label class="inline-flex items-center cursor-pointer">
+                              <input 
+                                type="radio" 
+                                v-model="kurirToko.pricingMethod" 
+                                value="flatRate"
+                                class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                              />
+                            </label>
+                            <div class="flex-1">
+                              <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE') }}</label>
+                              <div class="relative">
+                                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                                <input 
+                                  type="number" 
+                                  min="0"
+                                  :disabled="kurirToko.pricingMethod !== 'flatRate'"
+                                  class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pl-8 !pr-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                                  :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE_PLACEHOLDER')" 
+                                  v-model="kurirToko.flatRate" 
+                                />
+                              </div>
+                            </div>
+                          </div>
+  
+                          <!-- Cost per Distance Option -->
+                          <div class="flex items-start space-x-3">
+                            <label class="inline-flex items-center cursor-pointer">
+                              <input 
+                                type="radio" 
+                                v-model="kurirToko.pricingMethod" 
+                                value="perDistance"
+                                class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                              />
+                            </label>
+                            <div class="flex-1">
+                              <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE') }}</label>
                               <input 
                                 type="number" 
                                 min="0"
-                                :disabled="kurirToko.pricingMethod !== 'flatRate'"
-                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pl-8 !pr-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                                :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE_PLACEHOLDER')" 
-                                v-model="kurirToko.flatRate" 
+                                :disabled="kurirToko.pricingMethod !== 'perDistance'"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                                :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE_PLACEHOLDER')" 
+                                v-model="kurirToko.biayaPerJarak" 
                               />
                             </div>
                           </div>
                         </div>
-
-                        <!-- Cost per Distance Option -->
+  
+                        <!-- Free Shipping Toggle -->
                         <div class="flex items-start space-x-3">
                           <label class="inline-flex items-center cursor-pointer">
-                            <input 
-                              type="radio" 
-                              v-model="kurirToko.pricingMethod" 
-                              value="perDistance"
-                              class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
-                            />
+                            <input type="checkbox" v-model="kurirToko.gratisOngkir" class="sr-only peer">
+                            <div
+                              class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                            </div>
                           </label>
                           <div class="flex-1">
-                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE') }}</label>
+                            <label class="block text-sm font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.FREE_SHIPPING') }}</label>
+                            <!-- <p class="text-xs text-gray-500 mt-1">Aktifkan gratis ongkir dengan syarat minimal belanja</p> -->
+                          </div>
+                        </div>
+  
+                        <!-- Minimum Purchase (show when free shipping is enabled) -->
+                        <div v-if="kurirToko.gratisOngkir" class="ml-14 transition-all duration-200 ease-in-out">
+                          <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MIN_PURCHASE') }}</label>
+                          <div class="relative">
+                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">Rp</span>
                             <input 
                               type="number" 
                               min="0"
-                              :disabled="kurirToko.pricingMethod !== 'perDistance'"
-                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                              :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE_PLACEHOLDER')" 
-                              v-model="kurirToko.biayaPerJarak" 
+                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pl-8 !pr-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                              :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.MIN_PURCHASE_PLACEHOLDER')" 
+                              v-model="kurirToko.minimalBelanja" 
                             />
                           </div>
                         </div>
                       </div>
-
-                      <!-- Free Shipping Toggle -->
-                      <div class="flex items-start space-x-3">
-                        <label class="inline-flex items-center cursor-pointer">
-                          <input type="checkbox" v-model="kurirToko.gratisOngkir" class="sr-only peer">
+                    </div>
+                    <!-- estimasi pengiriman -->
+                     <div>
+                        <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DELIVERY_TIME') }}</label>
+                        <input 
+                          type="text" 
+                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                          :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME_PLACEHOLDER')" 
+                          v-model="kurirToko.estimasi" 
+                        />
+                      </div>
+                  </div>
+                </div>
+  
+                <!-- Kurir Biasa -->
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                  <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center">
+                      <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                      </div>
+                      <div>
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.REGULAR_COURIER') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_REGULAR_COURIER') }}</p>
+                      </div>
+                    </div>
+                    <label class="inline-flex items-center cursor-pointer">
+                      <input type="checkbox" v-model="shippingMethods.kurirBiasa" class="sr-only peer">
+                      <div
+                        class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                      </div>
+                    </label>
+                  </div>
+                  
+                  <div 
+                    v-if="shippingMethods.kurirBiasa" 
+                    class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
+                  >
+                  <!-- Coming Soon Message -->
+                  <div class="flex items-center justify-center py-8">
+                    <div class="text-center">
+                      <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                      </div>
+                      <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Coming Soon</h4>
+                      <p class="text-sm text-gray-500 dark:text-gray-400">Regular courier configuration will be available soon.</p>
+                    </div>
+                  </div>
+                  <!-- DONT DELETE! -->
+                    <!-- <div>
+                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ORIGIN_ADDRESS') }}</label>
+                      
+                      <div class="mb-3">
+                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL') }}</label>
+                        <div class="relative dropdown-container" ref="provinsiDropdownRef">
                           <div
-                            class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                            class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                            :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': loadingProvinsi }"
+                            @click="toggleProvinsiDropdown"
+                          >
+                            <input
+                              v-model="provinsiSearchQuery"
+                              :placeholder="selectedProvinsiName || (loadingProvinsi ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL_PLACEHOLDER'))"
+                              class="flex-1 bg-transparent outline-none"
+                              :disabled="loadingProvinsi"
+                              @input="onProvinsiSearch"
+                              @click.stop
+                              @focus="isProvinsiDropdownOpen = true"
+                            />
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
                           </div>
-                        </label>
-                        <div class="flex-1">
-                          <label class="block text-sm font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.FREE_SHIPPING') }}</label>
-                          <!-- <p class="text-xs text-gray-500 mt-1">Aktifkan gratis ongkir dengan syarat minimal belanja</p> -->
+                          <div
+                            v-show="isProvinsiDropdownOpen"
+                            class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
+                          >
+                            <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                              <div v-if="loadingProvinsi" class="px-3 py-2 text-sm text-gray-500">
+                                Loading provinces...
+                              </div>
+                              <div
+                                v-for="provinsi in filteredProvinsiOptions"
+                                :key="provinsi.id"
+                                class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                                @click="selectProvinsi(provinsi)"
+                              >
+                                {{ provinsi.name }}
+                              </div>
+                              <div v-if="!loadingProvinsi && filteredProvinsiOptions.length === 0" class="px-3 py-2 text-sm text-gray-500">
+                                No provinces found
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-
-                      <!-- Minimum Purchase (show when free shipping is enabled) -->
-                      <div v-if="kurirToko.gratisOngkir" class="ml-14 transition-all duration-200 ease-in-out">
-                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MIN_PURCHASE') }}</label>
-                        <div class="relative">
-                          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+  
+                      <div class="mb-3">
+                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
+                        <div class="relative dropdown-container" ref="kotaDropdownRef">
+                          <div
+                            class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                            :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.provinsi || loadingKota }"
+                            @click="toggleKotaDropdown"
+                          >
+                            <input
+                              v-model="kotaSearchQuery"
+                              :placeholder="selectedKotaName || (!kurirBiasa.provinsi ? $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_SELECT_FIRST') : loadingKota ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL_PLACEHOLDER'))"
+                              class="flex-1 bg-transparent outline-none"
+                              :disabled="!kurirBiasa.provinsi || loadingKota"
+                              @input="onKotaSearch"
+                              @click.stop
+                              @focus="isKotaDropdownOpen = true"
+                            />
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                          </div>
+                          <div
+                            v-show="isKotaDropdownOpen"
+                            class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
+                          >
+                            <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                              <div v-if="loadingKota" class="px-3 py-2 text-sm text-gray-500">
+                                Loading cities...
+                              </div>
+                              <div
+                                v-for="kota in filteredKotaOptions"
+                                :key="kota.id"
+                                class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                                @click="selectKota(kota)"
+                              >
+                                {{ kota.name }}
+                              </div>
+                              <div v-if="!loadingKota && filteredKotaOptions.length === 0 && kurirBiasa.provinsi" class="px-3 py-2 text-sm text-gray-500">
+                                No cities found
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+  
+                      <div class="mb-3">
+                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL') }}</label>
+                        <div class="relative dropdown-container" ref="kecamatanDropdownRef">
+                          <div
+                            class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                            :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.kota || loadingKecamatan }"
+                            @click="toggleKecamatanDropdown"
+                          >
+                            <input
+                              v-model="kecamatanSearchQuery"
+                              :placeholder="selectedKecamatanName || (!kurirBiasa.kota ? $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_SELECT_FIRST') : loadingKecamatan ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL_PLACEHOLDER'))"
+                              class="flex-1 bg-transparent outline-none"
+                              :disabled="!kurirBiasa.kota || loadingKecamatan"
+                              @input="onKecamatanSearch"
+                              @click.stop
+                              @focus="isKecamatanDropdownOpen = true"
+                            />
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                          </div>
+                          <div
+                            v-show="isKecamatanDropdownOpen"
+                            class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
+                          >
+                            <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                              <div v-if="loadingKecamatan" class="px-3 py-2 text-sm text-gray-500">
+                                Loading subdistricts...
+                              </div>
+                              <div
+                                v-for="kecamatan in filteredKecamatanOptions"
+                                :key="kecamatan.id"
+                                class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                                @click="selectKecamatan(kecamatan)"
+                              >
+                                {{ kecamatan.name }}
+                              </div>
+                              <div v-if="!loadingKecamatan && filteredKecamatanOptions.length === 0 && kurirBiasa.kota" class="px-3 py-2 text-sm text-gray-500">
+                                No subdistricts found
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+  
+                      <div class="mb-3">
+                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL') }}</label>
+                        <div class="relative dropdown-container" ref="kelurahanDropdownRef">
+                          <div
+                            class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                            :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.kecamatan || loadingKelurahan }"
+                            @click="toggleKelurahanDropdown"
+                          >
+                            <input
+                              v-model="kelurahanSearchQuery"
+                              :placeholder="selectedKelurahanName || (!kurirBiasa.kecamatan ? $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_SELECT_FIRST') : loadingKelurahan ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL_PLACEHOLDER'))"
+                              class="flex-1 bg-transparent outline-none"
+                              :disabled="!kurirBiasa.kecamatan || loadingKelurahan"
+                              @input="onKelurahanSearch"
+                              @click.stop
+                              @focus="isKelurahanDropdownOpen = true"
+                            />
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                          </div>
+                          <div
+                            v-show="isKelurahanDropdownOpen"
+                            class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
+                          >
+                            <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                              <div v-if="loadingKelurahan" class="px-3 py-2 text-sm text-gray-500">
+                                Loading villages...
+                              </div>
+                              <div
+                                v-for="kelurahan in filteredKelurahanOptions"
+                                :key="kelurahan.id"
+                                class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                                @click="selectKelurahan(kelurahan)"
+                              >
+                                {{ kelurahan.name }}
+                              </div>
+                              <div v-if="!loadingKelurahan && filteredKelurahanOptions.length === 0 && kurirBiasa.kecamatan" class="px-3 py-2 text-sm text-gray-500">
+                                No villages found
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+  
+                      <div class="mb-3">
+                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STREET_LABEL') }}</label>
+                        <input 
+                          type="text" 
+                          v-model="kurirBiasa.jalan"
+                          :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.STREET_LABEL_PLACEHOLDER')" 
+                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                        />
+                      </div>
+  
+                      <div class="mb-3">
+                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ZIP_CODE_LABEL') }}</label>
+                        <input 
+                          type="text" 
+                          v-model="kurirBiasa.kodePos"
+                          :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.ZIP_CODE_LABEL_PLACEHOLDER')"
+                          maxlength="5"
+                          pattern="[0-9]{5}"
+                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SELECT_COURIER') }}</label>
+                      <div class="relative" ref="kurirDropdownRef">
+                        <div
+                          @click="isKurirDropdownOpen = !isKurirDropdownOpen"
+                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-auto !px-3 !py-2.5 !mb-4 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out cursor-pointer flex items-center justify-between min-h-[40px]"
+                        >
+                          <div class="flex-1 text-left">
+                            <span v-if="kurirBiasa.kurir.length === 0" class="text-gray-500">
+                              {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SELECT_COURIER_PLACEHOLDER') }}
+                            </span>
+                            <div v-else class="flex flex-wrap gap-1">
+                              <span
+                                v-for="kurirId in kurirBiasa.kurir"
+                                :key="kurirId"
+                                class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                              >
+                                {{ kurirOptions.find(t => t.id === kurirId)?.label }}
+                                <button
+                                  type="button"
+                                  @click.stop="toggleKurir(kurirId)"
+                                  class="ml-1 hover:text-green-600"
+                                >
+                                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                      d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"
+                                    />
+                                  </svg>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <svg
+                            class="w-5 h-5 text-gray-400 transition-transform"
+                            :class="{ 'rotate-180': isKurirDropdownOpen }"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                        <div
+                          v-show="isKurirDropdownOpen"
+                          class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
+                        >
+                          <div
+                            v-for="kurir in kurirOptions"
+                            :key="kurir.id"
+                            @click="toggleKurir(kurir.id)"
+                            class="flex items-center px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-900 dark:text-gray-100 transition-colors duration-150"
+                            :class="{ 
+                              'bg-blue-50 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100': isKurirSelected(kurir.id),
+                              'hover:bg-gray-50 dark:hover:bg-slate-700': !isKurirSelected(kurir.id)
+                            }"
+                          >
+                            <input
+                              type="checkbox"
+                              :checked="isKurirSelected(kurir.id)"
+                              class="mr-3 text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:focus:ring-blue-400"
+                              @click.stop
+                            >
+                            <span class="flex-1 text-sm">{{ kurir.label }}</span>
+                            <svg
+                              v-if="isKurirSelected(kurir.id)"
+                              class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div v-if="kurirBiasa.kurir.length > 0 && kurirBiasa.kota" class="mb-4">
+                        <button
+                          @click="calculateShippingCosts"
+                          :disabled="loadingShippingCost"
+                          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+                        >
+                          <svg v-if="loadingShippingCost" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
+                          </svg>
+                          <span>{{ loadingShippingCost ? 'Calculating...' : 'Calculate Shipping Cost' }}</span>
+                        </button>
+                      </div>
+  
+                      <div v-if="Object.keys(kurirBiasa.shippingCosts).length > 0" class="mb-4">
+                        <h4 class="font-medium mb-2">Shipping Cost Estimates:</h4>
+                        <div class="space-y-2">
+                          <div 
+                            v-for="(costs, courier) in kurirBiasa.shippingCosts" 
+                            :key="courier"
+                            class="border rounded-lg p-3 bg-gray-50"
+                          >
+                            <h5 class="font-medium text-sm mb-1">{{ courier.toUpperCase() }}</h5>
+                            <div v-if="costs.length > 0" class="space-y-1">
+                              <div 
+                                v-for="service in costs" 
+                                :key="service.service"
+                                class="flex justify-between text-xs"
+                              >
+                                <span>{{ service.service }} ({{ service.description }})</span>
+                                <span class="font-medium">Rp {{ service.cost[0].value.toLocaleString() }}</span>
+                              </div>
+                            </div>
+                            <div v-else class="text-xs text-gray-500">No services available</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+  
+                <!-- Ambil ke Toko -->
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                  <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center">
+                      <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                        <svg class="fill-green-600 dark:fill-white" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.495 14.501v7.498H7.498v-7.498h2.996Zm6.76-1.5h-3.502a.75.75 0 0 0-.75.75v3.502c0 .414.336.75.75.75h3.502a.75.75 0 0 0 .75-.75v-3.502a.75.75 0 0 0-.75-.75Zm-.751 1.5v2.002h-2.001v-2.002h2ZM8.166 7.002H3.5v1.165c0 1.18.878 2.157 2.016 2.311l.157.016.16.005c1.234 0 2.245-.959 2.327-2.173l.005-.16V7.003Zm6.165 0H9.666v1.165c0 1.18.878 2.157 2.016 2.311l.157.016.16.005c1.234 0 2.245-.959 2.327-2.173l.005-.16V7.003Zm6.167 0h-4.665v1.165c0 1.18.878 2.157 2.017 2.311l.156.016.16.005c1.235 0 2.245-.959 2.327-2.173l.006-.16-.001-1.164ZM9.06 3.5H6.326L4.469 5.502h3.977L9.06 3.5Zm4.307 0H10.63l-.616 2.002h3.97L13.369 3.5Zm4.305 0h-2.734l.614 2.002h3.977L17.673 3.5ZM2.2 5.742l3.25-3.502a.75.75 0 0 1 .446-.233L6 2h12a.75.75 0 0 1 .474.169l.076.07 3.272 3.53.03.038c.102.136.148.29.148.44L22 8.168c0 .994-.379 1.9-1 2.58V21.25a.75.75 0 0 1-.649.743L20.25 22l-8.254-.001v-8.248a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v8.248L3.75 22a.75.75 0 0 1-.743-.648l-.007-.102V10.748a3.818 3.818 0 0 1-.995-2.384l-.005-.197V6.29a.728.728 0 0 1 .096-.408l.05-.076.054-.065Z"/></svg>                    </div>
+                      <div>
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_STORE') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_PICKUP_STORE') }}</p>
+                      </div>
+                    </div>
+                    <label class="inline-flex items-center cursor-pointer">
+                      <input type="checkbox" v-model="shippingMethods.ambilToko" class="sr-only peer">
+                      <div
+                        class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                      </div>
+                    </label>
+                  </div>
+                  
+                  <div 
+                    v-if="shippingMethods.ambilToko" 
+                    class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
+                  >
+                    <div>
+                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.BRANCH_ADDRESS') }}</label>
+                      <input 
+                        type="text" 
+                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.BRANCH_ADDRESS_PLACEHOLDER')" 
+                        v-model="ambilToko.alamat" 
+                      />
+                    </div>
+                    <div>
+                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.OPERATION_HOURS') }}</label>
+                      <div class="flex gap-2 items-center">
+                        <div class="flex-1">
+                          <label class="block text-sm text-gray-600 mb-1">Jam Buka</label>
                           <input 
-                            type="number" 
-                            min="0"
-                            class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pl-8 !pr-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                            :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.MIN_PURCHASE_PLACEHOLDER')" 
-                            v-model="kurirToko.minimalBelanja" 
+                            type="time" 
+                            v-model="ambilToko.jamBuka"
+                            class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                          />
+                        </div>
+                        <div class="pt-6 text-gray-500">-</div>
+                        <div class="flex-1">
+                          <label class="block text-sm text-gray-600 mb-1">Jam Tutup</label>
+                          <input 
+                            type="time" 
+                            v-model="ambilToko.jamTutup"
+                            class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
                           />
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <!-- estimasi pengiriman -->
-                   <div>
-                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DELIVERY_TIME') }}</label>
+                    <div>
+                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME') }}</label>
                       <input 
                         type="text" 
                         class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
                         :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME_PLACEHOLDER')" 
-                        v-model="kurirToko.estimasi" 
+                        v-model="ambilToko.estimasi" 
                       />
                     </div>
+                  </div>
+                </div>
+                  </div>
                 </div>
               </div>
-
-              <!-- Kurir Biasa -->
-              <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
-                <div class="flex items-center justify-between p-4">
-                  <div class="flex items-center">
-                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+              
+              <div class="w-[240px] flex flex-col gap-3">
+                <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2b9966" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
                     </div>
                     <div>
-                      <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.REGULAR_COURIER') }}</h3>
-                      <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_REGULAR_COURIER') }}</p>
+                      <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER') }}</h3>
+                      <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER_DESC') }}</p>
                     </div>
                   </div>
-                  <label class="inline-flex items-center cursor-pointer">
-                    <input type="checkbox" v-model="shippingMethods.kurirBiasa" class="sr-only peer">
-                    <div
-                      class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                    </div>
-                  </label>
-                </div>
-                
-                <div 
-                  v-if="shippingMethods.kurirBiasa" 
-                  class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
-                >
-                <!-- Coming Soon Message -->
-                <div class="flex items-center justify-center py-8">
-                  <div class="text-center">
-                    <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12,6 12,12 16,14"/>
+                  
+                  <Button
+                    class="w-full"
+                    :is-loading="isSaving"
+                    :disabled="isSaving"
+                    @click="() => submitShippingConfig()"
+                  >
+                    <span class="flex items-center gap-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
-                    </div>
-                    <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Coming Soon</h4>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Regular courier configuration will be available soon.</p>
-                  </div>
+                      {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
+                    </span>
+                  </Button>
                 </div>
-                <!-- DONT DELETE! -->
-                  <!-- <div>
-                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ORIGIN_ADDRESS') }}</label>
-                    
-                    <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL') }}</label>
-                      <div class="relative dropdown-container" ref="provinsiDropdownRef">
-                        <div
-                          class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
-                          :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': loadingProvinsi }"
-                          @click="toggleProvinsiDropdown"
-                        >
-                          <input
-                            v-model="provinsiSearchQuery"
-                            :placeholder="selectedProvinsiName || (loadingProvinsi ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL_PLACEHOLDER'))"
-                            class="flex-1 bg-transparent outline-none"
-                            :disabled="loadingProvinsi"
-                            @input="onProvinsiSearch"
-                            @click.stop
-                            @focus="isProvinsiDropdownOpen = true"
-                          />
-                          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                          </svg>
-                        </div>
-                        <div
-                          v-show="isProvinsiDropdownOpen"
-                          class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
-                        >
-                          <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
-                            <div v-if="loadingProvinsi" class="px-3 py-2 text-sm text-gray-500">
-                              Loading provinces...
-                            </div>
-                            <div
-                              v-for="provinsi in filteredProvinsiOptions"
-                              :key="provinsi.id"
-                              class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
-                              @click="selectProvinsi(provinsi)"
-                            >
-                              {{ provinsi.name }}
-                            </div>
-                            <div v-if="!loadingProvinsi && filteredProvinsiOptions.length === 0" class="px-3 py-2 text-sm text-gray-500">
-                              No provinces found
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
-                      <div class="relative dropdown-container" ref="kotaDropdownRef">
-                        <div
-                          class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
-                          :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.provinsi || loadingKota }"
-                          @click="toggleKotaDropdown"
-                        >
-                          <input
-                            v-model="kotaSearchQuery"
-                            :placeholder="selectedKotaName || (!kurirBiasa.provinsi ? $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_SELECT_FIRST') : loadingKota ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL_PLACEHOLDER'))"
-                            class="flex-1 bg-transparent outline-none"
-                            :disabled="!kurirBiasa.provinsi || loadingKota"
-                            @input="onKotaSearch"
-                            @click.stop
-                            @focus="isKotaDropdownOpen = true"
-                          />
-                          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                          </svg>
-                        </div>
-                        <div
-                          v-show="isKotaDropdownOpen"
-                          class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
-                        >
-                          <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
-                            <div v-if="loadingKota" class="px-3 py-2 text-sm text-gray-500">
-                              Loading cities...
-                            </div>
-                            <div
-                              v-for="kota in filteredKotaOptions"
-                              :key="kota.id"
-                              class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
-                              @click="selectKota(kota)"
-                            >
-                              {{ kota.name }}
-                            </div>
-                            <div v-if="!loadingKota && filteredKotaOptions.length === 0 && kurirBiasa.provinsi" class="px-3 py-2 text-sm text-gray-500">
-                              No cities found
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL') }}</label>
-                      <div class="relative dropdown-container" ref="kecamatanDropdownRef">
-                        <div
-                          class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
-                          :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.kota || loadingKecamatan }"
-                          @click="toggleKecamatanDropdown"
-                        >
-                          <input
-                            v-model="kecamatanSearchQuery"
-                            :placeholder="selectedKecamatanName || (!kurirBiasa.kota ? $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_SELECT_FIRST') : loadingKecamatan ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL_PLACEHOLDER'))"
-                            class="flex-1 bg-transparent outline-none"
-                            :disabled="!kurirBiasa.kota || loadingKecamatan"
-                            @input="onKecamatanSearch"
-                            @click.stop
-                            @focus="isKecamatanDropdownOpen = true"
-                          />
-                          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                          </svg>
-                        </div>
-                        <div
-                          v-show="isKecamatanDropdownOpen"
-                          class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
-                        >
-                          <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
-                            <div v-if="loadingKecamatan" class="px-3 py-2 text-sm text-gray-500">
-                              Loading subdistricts...
-                            </div>
-                            <div
-                              v-for="kecamatan in filteredKecamatanOptions"
-                              :key="kecamatan.id"
-                              class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
-                              @click="selectKecamatan(kecamatan)"
-                            >
-                              {{ kecamatan.name }}
-                            </div>
-                            <div v-if="!loadingKecamatan && filteredKecamatanOptions.length === 0 && kurirBiasa.kota" class="px-3 py-2 text-sm text-gray-500">
-                              No subdistricts found
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL') }}</label>
-                      <div class="relative dropdown-container" ref="kelurahanDropdownRef">
-                        <div
-                          class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
-                          :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.kecamatan || loadingKelurahan }"
-                          @click="toggleKelurahanDropdown"
-                        >
-                          <input
-                            v-model="kelurahanSearchQuery"
-                            :placeholder="selectedKelurahanName || (!kurirBiasa.kecamatan ? $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_SELECT_FIRST') : loadingKelurahan ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL_PLACEHOLDER'))"
-                            class="flex-1 bg-transparent outline-none"
-                            :disabled="!kurirBiasa.kecamatan || loadingKelurahan"
-                            @input="onKelurahanSearch"
-                            @click.stop
-                            @focus="isKelurahanDropdownOpen = true"
-                          />
-                          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                          </svg>
-                        </div>
-                        <div
-                          v-show="isKelurahanDropdownOpen"
-                          class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
-                        >
-                          <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
-                            <div v-if="loadingKelurahan" class="px-3 py-2 text-sm text-gray-500">
-                              Loading villages...
-                            </div>
-                            <div
-                              v-for="kelurahan in filteredKelurahanOptions"
-                              :key="kelurahan.id"
-                              class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
-                              @click="selectKelurahan(kelurahan)"
-                            >
-                              {{ kelurahan.name }}
-                            </div>
-                            <div v-if="!loadingKelurahan && filteredKelurahanOptions.length === 0 && kurirBiasa.kecamatan" class="px-3 py-2 text-sm text-gray-500">
-                              No villages found
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STREET_LABEL') }}</label>
-                      <input 
-                        type="text" 
-                        v-model="kurirBiasa.jalan"
-                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.STREET_LABEL_PLACEHOLDER')" 
-                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                      />
-                    </div>
-
-                    <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ZIP_CODE_LABEL') }}</label>
-                      <input 
-                        type="text" 
-                        v-model="kurirBiasa.kodePos"
-                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.ZIP_CODE_LABEL_PLACEHOLDER')"
-                        maxlength="5"
-                        pattern="[0-9]{5}"
-                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SELECT_COURIER') }}</label>
-                    <div class="relative" ref="kurirDropdownRef">
-                      <div
-                        @click="isKurirDropdownOpen = !isKurirDropdownOpen"
-                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-auto !px-3 !py-2.5 !mb-4 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out cursor-pointer flex items-center justify-between min-h-[40px]"
-                      >
-                        <div class="flex-1 text-left">
-                          <span v-if="kurirBiasa.kurir.length === 0" class="text-gray-500">
-                            {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SELECT_COURIER_PLACEHOLDER') }}
-                          </span>
-                          <div v-else class="flex flex-wrap gap-1">
-                            <span
-                              v-for="kurirId in kurirBiasa.kurir"
-                              :key="kurirId"
-                              class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
-                            >
-                              {{ kurirOptions.find(t => t.id === kurirId)?.label }}
-                              <button
-                                type="button"
-                                @click.stop="toggleKurir(kurirId)"
-                                class="ml-1 hover:text-green-600"
-                              >
-                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                  <path
-                                    d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"
-                                  />
-                                </svg>
-                              </button>
-                            </span>
-                          </div>
-                        </div>
-                        <svg
-                          class="w-5 h-5 text-gray-400 transition-transform"
-                          :class="{ 'rotate-180': isKurirDropdownOpen }"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                      <div
-                        v-show="isKurirDropdownOpen"
-                        class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
-                      >
-                        <div
-                          v-for="kurir in kurirOptions"
-                          :key="kurir.id"
-                          @click="toggleKurir(kurir.id)"
-                          class="flex items-center px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-900 dark:text-gray-100 transition-colors duration-150"
-                          :class="{ 
-                            'bg-blue-50 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100': isKurirSelected(kurir.id),
-                            'hover:bg-gray-50 dark:hover:bg-slate-700': !isKurirSelected(kurir.id)
-                          }"
-                        >
-                          <input
-                            type="checkbox"
-                            :checked="isKurirSelected(kurir.id)"
-                            class="mr-3 text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:focus:ring-blue-400"
-                            @click.stop
-                          >
-                          <span class="flex-1 text-sm">{{ kurir.label }}</span>
-                          <svg
-                            v-if="isKurirSelected(kurir.id)"
-                            class="w-4 h-4 text-blue-600 dark:text-blue-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div v-if="kurirBiasa.kurir.length > 0 && kurirBiasa.kota" class="mb-4">
-                      <button
-                        @click="calculateShippingCosts"
-                        :disabled="loadingShippingCost"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
-                      >
-                        <svg v-if="loadingShippingCost" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
-                          <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
-                        </svg>
-                        <span>{{ loadingShippingCost ? 'Calculating...' : 'Calculate Shipping Cost' }}</span>
-                      </button>
-                    </div>
-
-                    <div v-if="Object.keys(kurirBiasa.shippingCosts).length > 0" class="mb-4">
-                      <h4 class="font-medium mb-2">Shipping Cost Estimates:</h4>
-                      <div class="space-y-2">
-                        <div 
-                          v-for="(costs, courier) in kurirBiasa.shippingCosts" 
-                          :key="courier"
-                          class="border rounded-lg p-3 bg-gray-50"
-                        >
-                          <h5 class="font-medium text-sm mb-1">{{ courier.toUpperCase() }}</h5>
-                          <div v-if="costs.length > 0" class="space-y-1">
-                            <div 
-                              v-for="service in costs" 
-                              :key="service.service"
-                              class="flex justify-between text-xs"
-                            >
-                              <span>{{ service.service }} ({{ service.description }})</span>
-                              <span class="font-medium">Rp {{ service.cost[0].value.toLocaleString() }}</span>
-                            </div>
-                          </div>
-                          <div v-else class="text-xs text-gray-500">No services available</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
-                </div>
-              </div>
-
-              <!-- Ambil ke Toko -->
-              <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
-                <div class="flex items-center justify-between p-4">
-                  <div class="flex items-center">
-                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                      <svg class="fill-green-600 dark:fill-white" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.495 14.501v7.498H7.498v-7.498h2.996Zm6.76-1.5h-3.502a.75.75 0 0 0-.75.75v3.502c0 .414.336.75.75.75h3.502a.75.75 0 0 0 .75-.75v-3.502a.75.75 0 0 0-.75-.75Zm-.751 1.5v2.002h-2.001v-2.002h2ZM8.166 7.002H3.5v1.165c0 1.18.878 2.157 2.016 2.311l.157.016.16.005c1.234 0 2.245-.959 2.327-2.173l.005-.16V7.003Zm6.165 0H9.666v1.165c0 1.18.878 2.157 2.016 2.311l.157.016.16.005c1.234 0 2.245-.959 2.327-2.173l.005-.16V7.003Zm6.167 0h-4.665v1.165c0 1.18.878 2.157 2.017 2.311l.156.016.16.005c1.235 0 2.245-.959 2.327-2.173l.006-.16-.001-1.164ZM9.06 3.5H6.326L4.469 5.502h3.977L9.06 3.5Zm4.307 0H10.63l-.616 2.002h3.97L13.369 3.5Zm4.305 0h-2.734l.614 2.002h3.977L17.673 3.5ZM2.2 5.742l3.25-3.502a.75.75 0 0 1 .446-.233L6 2h12a.75.75 0 0 1 .474.169l.076.07 3.272 3.53.03.038c.102.136.148.29.148.44L22 8.168c0 .994-.379 1.9-1 2.58V21.25a.75.75 0 0 1-.649.743L20.25 22l-8.254-.001v-8.248a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v8.248L3.75 22a.75.75 0 0 1-.743-.648l-.007-.102V10.748a3.818 3.818 0 0 1-.995-2.384l-.005-.197V6.29a.728.728 0 0 1 .096-.408l.05-.076.054-.065Z"/></svg>                    </div>
-                    <div>
-                      <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_STORE') }}</h3>
-                      <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_PICKUP_STORE') }}</p>
-                    </div>
-                  </div>
-                  <label class="inline-flex items-center cursor-pointer">
-                    <input type="checkbox" v-model="shippingMethods.ambilToko" class="sr-only peer">
-                    <div
-                      class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                    </div>
-                  </label>
-                </div>
-                
-                <div 
-                  v-if="shippingMethods.ambilToko" 
-                  class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
-                >
-                  <div>
-                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.BRANCH_ADDRESS') }}</label>
-                    <input 
-                      type="text" 
-                      class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                      :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.BRANCH_ADDRESS_PLACEHOLDER')" 
-                      v-model="ambilToko.alamat" 
-                    />
-                  </div>
-                  <div>
-                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.OPERATION_HOURS') }}</label>
-                    <div class="flex gap-2 items-center">
-                      <div class="flex-1">
-                        <label class="block text-sm text-gray-600 mb-1">Jam Buka</label>
-                        <input 
-                          type="time" 
-                          v-model="ambilToko.jamBuka"
-                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                        />
-                      </div>
-                      <div class="pt-6 text-gray-500">-</div>
-                      <div class="flex-1">
-                        <label class="block text-sm text-gray-600 mb-1">Jam Tutup</label>
-                        <input 
-                          type="time" 
-                          v-model="ambilToko.jamTutup"
-                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME') }}</label>
-                    <input 
-                      type="text" 
-                      class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                      :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME_PLACEHOLDER')" 
-                      v-model="ambilToko.estimasi" 
-                    />
-                  </div>
-                </div>
-              </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="w-[240px] flex flex-col gap-3">
-              <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
-                <div class="flex items-center gap-3 mb-4">
-                  <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2b9966" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
-                  </div>
-                  <div>
-                    <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER') }}</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER_DESC') }}</p>
-                  </div>
-                </div>
-                
-                <Button
-                  class="w-full"
-                  :is-loading="isSaving"
-                  :disabled="isSaving"
-                  @click="() => submitShippingConfig()"
-                >
-                  <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
-                  </span>
-                </Button>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Payment Methods Tab -->
-        <div v-show="activeTabIndex === 2" class="w-full min-w-0">
-          <div class="flex flex-row gap-4">
-            <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
-              <div class="space-y-4">
-                <div>
-                  <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER') }}</label>
-
-                  <!-- COD -->
-                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
-                    <div class="flex items-center justify-between p-4">
-                      <div class="flex items-center">
-                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-circle-dollar-sign-icon lucide-circle-dollar-sign"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg> 
-                        </div>
-                        <div>
-                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_TITLE') }}</h3>
-                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_DESC') }}</p>
-                        </div>
-                      </div>
-                      <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox" v-model="paymentMethods.cod" class="sr-only peer">
-                        <div
-                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                        </div>
-                      </label>
-                    </div>
-                  </div>
-
-                  <!-- Bank Transfer -->
-                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
-                    <div class="flex items-center justify-between p-4">
-                      <div class="flex items-center">
-                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-landmark-icon lucide-landmark"><path d="M10 18v-7"/><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/></svg>
-                        </div>
-                        <div>
-                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
-                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
-                        </div>
-                      </div>
-                      <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox" v-model="paymentMethods.bankTransfer" class="sr-only peer">
-                        <div
-                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                        </div>
-                      </label>
-                    </div>
-                    
-                    <div 
-                      v-if="paymentMethods.bankTransfer" 
-                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
-                    >
-                      <div class="space-y-4">
-                        <div
-                          v-for="(account, index) in bankAccounts"
-                          :key="account.id"
-                          class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4"
-                        >
-                          <div class="flex items-center justify-between mb-4">
-                            <h5 class="font-medium text-slate-700 dark:text-slate-300">
-                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_ACCOUNT_TITLE')}} #{{ index + 1 }}
-                            </h5>
-                            <Button
-                              variant="ghost"
-                              color="ruby"
-                              icon="i-lucide-trash"
-                              size="sm"
-                              @click="() => deleteBankAccount(index)"
-                              class="opacity-70 hover:opacity-100"
-                            />
+  
+          <!-- Payment Methods Tab -->
+          <div v-show="activeTabIndex === 2" class="w-full min-w-0">
+            <div class="flex flex-row gap-4">
+              <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
+                <div class="space-y-4">
+                  <div>
+                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER') }}</label>
+  
+                    <!-- COD -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                      <div class="flex items-center justify-between p-4">
+                        <div class="flex items-center">
+                          <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-circle-dollar-sign-icon lucide-circle-dollar-sign"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg> 
                           </div>
-                          
-                          <div class="grid grid-cols-1 gap-4">
-                            <div>
-                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_NAME_LABEL') }} <span class="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                v-model="account.bankName"
-                                placeholder="e.g., Bank BCA, Bank Mandiri"
-                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                              />
-                            </div>
-                            <div>
-                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_NUMBER_LABEL') }} <span class="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                v-model="account.accountNumber"
-                                placeholder="e.g., 1234567890"
-                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                              />
-                            </div>
-                            <div>
-                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_HOLDER_LABEL') }} <span class="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                v-model="account.accountHolder"
-                                placeholder="e.g., John Doe"
-                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                              />
-                            </div>
+                          <div>
+                            <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_TITLE') }}</h3>
+                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_DESC') }}</p>
                           </div>
                         </div>
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input type="checkbox" v-model="paymentMethods.cod" class="sr-only peer">
+                          <div
+                            class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                          </div>
+                        </label>
                       </div>
-
-                      <Button 
-                        class="w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-green-400 hover:text-green-600 transition-all duration-200 rounded-xl bg-transparent hover:bg-green-50 dark:hover:bg-green-900/10" 
-                        variant="ghost"
-                        @click="addBankAccount"
+                    </div>
+  
+                    <!-- Bank Transfer -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                      <div class="flex items-center justify-between p-4">
+                        <div class="flex items-center">
+                          <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-landmark-icon lucide-landmark"><path d="M10 18v-7"/><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/></svg>
+                          </div>
+                          <div>
+                            <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
+                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
+                          </div>
+                        </div>
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input type="checkbox" v-model="paymentMethods.bankTransfer" class="sr-only peer">
+                          <div
+                            class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                          </div>
+                        </label>
+                      </div>
+                      
+                      <div 
+                        v-if="paymentMethods.bankTransfer" 
+                        class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
                       >
-                        <span class="flex items-center gap-2">
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                          </svg>
-                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ADD_BANK_ACCOUNT') }}
-                        </span>
-                      </Button>
-                    </div>
-                  </div>
-
-                  <!-- Payment Gateway -->
-                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
-                    <div class="flex items-center justify-between p-4">
-                      <div class="flex items-center">
-                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-credit-card-icon lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                        <div class="space-y-4">
+                          <div
+                            v-for="(account, index) in bankAccounts"
+                            :key="account.id"
+                            class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4"
+                          >
+                            <div class="flex items-center justify-between mb-4">
+                              <h5 class="font-medium text-slate-700 dark:text-slate-300">
+                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_ACCOUNT_TITLE')}} #{{ index + 1 }}
+                              </h5>
+                              <Button
+                                variant="ghost"
+                                color="ruby"
+                                icon="i-lucide-trash"
+                                size="sm"
+                                @click="() => deleteBankAccount(index)"
+                                class="opacity-70 hover:opacity-100"
+                              />
+                            </div>
+                            
+                            <div class="grid grid-cols-1 gap-4">
+                              <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                  {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_NAME_LABEL') }} <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  v-model="account.bankName"
+                                  placeholder="e.g., Bank BCA, Bank Mandiri"
+                                  class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                />
+                              </div>
+                              <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                  {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_NUMBER_LABEL') }} <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  v-model="account.accountNumber"
+                                  placeholder="e.g., 1234567890"
+                                  class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                />
+                              </div>
+                              <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                  {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_HOLDER_LABEL') }} <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  v-model="account.accountHolder"
+                                  placeholder="e.g., John Doe"
+                                  class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                />
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h3>
-                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
-                        </div>
-                      </div>
-                      <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox" v-model="paymentMethods.paymentGateway" class="sr-only peer">
-                        <div
-                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                        </div>
-                      </label>
-                    </div>
-                    
-                    <div 
-                      v-if="paymentMethods.paymentGateway" 
-                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
-                    >
-                      <!-- Coming Soon -->
-                      <div class="flex items-center justify-center py-8">
-                        <div class="text-center">
-                          <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
-                              <circle cx="12" cy="12" r="10"/>
-                              <polyline points="12,6 12,12 16,14"/>
+  
+                        <Button 
+                          class="w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-green-400 hover:text-green-600 transition-all duration-200 rounded-xl bg-transparent hover:bg-green-50 dark:hover:bg-green-900/10" 
+                          variant="ghost"
+                          @click="addBankAccount"
+                        >
+                          <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
+                            {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ADD_BANK_ACCOUNT') }}
+                          </span>
+                        </Button>
+                      </div>
+                    </div>
+  
+                    <!-- Payment Gateway -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                      <div class="flex items-center justify-between p-4">
+                        <div class="flex items-center">
+                          <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-credit-card-icon lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
                           </div>
-                          <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Coming Soon</h4>
-                          <p class="text-sm text-gray-500 dark:text-gray-400">Payment gateway configuration will be available soon.</p>
+                          <div>
+                            <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h3>
+                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
+                          </div>
                         </div>
-                      </div>
-
-                      <!-- DONT DELETE! -->
-                      <!--
-                      <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input type="checkbox" v-model="paymentMethods.paymentGateway" class="sr-only peer">
+                          <div
+                            class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                          </div>
                         </label>
-                        <select 
-                          v-model="paymentGateway.provider"
-                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-                        >
-                          <option value="">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.SELECT_PROVIDER') }}</option>
-                          <option v-for="provider in paymentGatewayProviders" :key="provider.id" :value="provider.id">
-                            {{ provider.label }}
-                          </option>
-                        </select>
                       </div>
                       
-                      <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          API Key <span class="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="password"
-                          v-model="paymentGateway.apiKey"
-                          :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.API_KEY_PLACEHOLDER')"
-                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                        />
+                      <div 
+                        v-if="paymentMethods.paymentGateway" 
+                        class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
+                      >
+                        <!-- Coming Soon -->
+                        <div class="flex items-center justify-center py-8">
+                          <div class="text-center">
+                            <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12,6 12,12 16,14"/>
+                              </svg>
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Coming Soon</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Payment gateway configuration will be available soon.</p>
+                          </div>
+                        </div>
+  
+                        <!-- DONT DELETE! -->
+                        <!--
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
+                          </label>
+                          <select 
+                            v-model="paymentGateway.provider"
+                            class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                          >
+                            <option value="">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.SELECT_PROVIDER') }}</option>
+                            <option v-for="provider in paymentGatewayProviders" :key="provider.id" :value="provider.id">
+                              {{ provider.label }}
+                            </option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            API Key <span class="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="password"
+                            v-model="paymentGateway.apiKey"
+                            :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.API_KEY_PLACEHOLDER')"
+                            class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_LABEL') }} <span class="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            v-model="paymentGateway.merchantCode"
+                            :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_PLACEHOLDER')"
+                            class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                          />
+                        </div>
+                        -->
                       </div>
-                      
-                      <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_LABEL') }} <span class="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          v-model="paymentGateway.merchantCode"
-                          :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_PLACEHOLDER')"
-                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                        />
-                      </div>
-                      -->
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <div class="w-[240px] flex flex-col gap-3">
-              <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
-                <div class="flex items-center gap-3 mb-4">
-                  <div class="w-10 h-10 flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card-icon lucide-credit-card w-5 h-5 text-green-600 dark:text-green-400"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+              
+              <div class="w-[240px] flex flex-col gap-3">
+                <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card-icon lucide-credit-card w-5 h-5 text-green-600 dark:text-green-400"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER') }}</h3>
+                      <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER_DESC') }}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER') }}</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER_DESC') }}</p>
-                  </div>
+                  
+                  <Button
+                    class="w-full"
+                    :is-loading="isSaving"
+                    :disabled="isSaving"
+                    @click="() => submitPaymentConfig()"
+                  >
+                    <span class="flex items-center gap-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
+                    </span>
+                  </Button>
                 </div>
-                
-                <Button
-                  class="w-full"
-                  :is-loading="isSaving"
-                  :disabled="isSaving"
-                  @click="() => submitPaymentConfig()"
-                >
-                  <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
-                  </span>
-                </Button>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Cart Configuration Tab -->
-        <div v-show="activeTabIndex === 3" class="w-full min-w-0">
-          <div class="flex flex-row gap-4">
-            <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
-              <div class="space-y-4">
-                <div>
-                  <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER') }}</label>
-
-                  <!-- Cart Toggle -->
-                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
-                    <div class="flex items-center justify-between p-4">
-                      <div class="flex items-center">
-                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-shopping-cart">
-                            <circle cx="8" cy="21" r="1"/>
-                            <circle cx="19" cy="21" r="1"/>
-                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-                          </svg> 
-                        </div>
-                        <div>
-                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.CART.ENABLE_TITLE') }}</h3>
-                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.CART.ENABLE_DESC') }}</p>
-                        </div>
-                      </div>
-                      <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox" v-model="cartEnabled" class="sr-only peer">
-                        <div
-                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                        </div>
-                      </label>
-                    </div>
-                    
-                    <!-- Cart Status Info -->
-                    <div class="border-t border-gray-200 dark:border-gray-700 p-4">
-                      <div v-if="cartEnabled" class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
-                        <div class="flex items-start">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-green-400 mt-0.5 mr-2 flex-shrink-0">
-                            <path d="M9 12l2 2 4-4"/>
-                            <circle cx="12" cy="12" r="10"/>
-                          </svg>
+  
+          <!-- Cart Configuration Tab -->
+          <div v-show="activeTabIndex === 3" class="w-full min-w-0">
+            <div class="flex flex-row gap-4">
+              <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
+                <div class="space-y-4">
+                  <div>
+                    <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER') }}</label>
+  
+                    <!-- Cart Toggle -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                      <div class="flex items-center justify-between p-4">
+                        <div class="flex items-center">
+                          <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-shopping-cart">
+                              <circle cx="8" cy="21" r="1"/>
+                              <circle cx="19" cy="21" r="1"/>
+                              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                            </svg> 
+                          </div>
                           <div>
-                            <p class="text-sm font-medium text-green-800 dark:text-green-200">
-                              {{ $t('AGENT_MGMT.SALESBOT.CART.ENABLED_STATUS') }}
-                            </p>
-                            <p class="text-sm text-green-600 dark:text-green-300 mt-1">
-                              {{ $t('AGENT_MGMT.SALESBOT.CART.ENABLED_DESC_DETAIL') }}
-                            </p>
+                            <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.CART.ENABLE_TITLE') }}</h3>
+                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.CART.ENABLE_DESC') }}</p>
                           </div>
                         </div>
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input type="checkbox" v-model="cartEnabled" class="sr-only peer">
+                          <div
+                            class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                          </div>
+                        </label>
                       </div>
                       
-                      <div v-else class="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-700 rounded-lg p-3">
-                        <div class="flex items-start">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-gray-500 dark:stroke-gray-400 mt-0.5 mr-2 flex-shrink-0">
-                            <circle cx="12" cy="12" r="10"/>
-                            <line x1="15" y1="9" x2="9" y2="15"/>
-                            <line x1="9" y1="9" x2="15" y2="15"/>
-                          </svg>
-                          <div>
-                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                              {{ $t('AGENT_MGMT.SALESBOT.CART.DISABLED_STATUS') }}
-                            </p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                              {{ $t('AGENT_MGMT.SALESBOT.CART.DISABLED_DESC_DETAIL') }}
-                            </p>
+                      <!-- Cart Status Info -->
+                      <div class="border-t border-gray-200 dark:border-gray-700 p-4">
+                        <div v-if="cartEnabled" class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
+                          <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-green-400 mt-0.5 mr-2 flex-shrink-0">
+                              <path d="M9 12l2 2 4-4"/>
+                              <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            <div>
+                              <p class="text-sm font-medium text-green-800 dark:text-green-200">
+                                {{ $t('AGENT_MGMT.SALESBOT.CART.ENABLED_STATUS') }}
+                              </p>
+                              <p class="text-sm text-green-600 dark:text-green-300 mt-1">
+                                {{ $t('AGENT_MGMT.SALESBOT.CART.ENABLED_DESC_DETAIL') }}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div v-else class="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-700 rounded-lg p-3">
+                          <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-gray-500 dark:stroke-gray-400 mt-0.5 mr-2 flex-shrink-0">
+                              <circle cx="12" cy="12" r="10"/>
+                              <line x1="15" y1="9" x2="9" y2="15"/>
+                              <line x1="9" y1="9" x2="15" y2="15"/>
+                            </svg>
+                            <div>
+                              <p class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {{ $t('AGENT_MGMT.SALESBOT.CART.DISABLED_STATUS') }}
+                              </p>
+                              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                {{ $t('AGENT_MGMT.SALESBOT.CART.DISABLED_DESC_DETAIL') }}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1321,37 +1322,37 @@
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <div class="w-[240px] flex flex-col gap-3">
-              <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
-                <div class="flex items-center gap-3 mb-4">
-                  <div class="w-10 h-10 flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart w-5 h-5 text-green-600 dark:text-green-400">
-                        <circle cx="8" cy="21" r="1"/>
-                        <circle cx="19" cy="21" r="1"/>
-                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+              
+              <div class="w-[240px] flex flex-col gap-3">
+                <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart w-5 h-5 text-green-600 dark:text-green-400">
+                          <circle cx="8" cy="21" r="1"/>
+                          <circle cx="19" cy="21" r="1"/>
+                          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                        </svg>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER') }}</h3>
+                      <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER_DESC') }}</p>
+                    </div>
+                  </div>
+                  
+                  <Button
+                    class="w-full"
+                    :is-loading="isSaving"
+                    :disabled="isSaving"
+                    @click="() => submitCartConfig()"
+                  >
+                    <span class="flex items-center gap-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
-                  </div>
-                  <div>
-                    <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER') }}</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER_DESC') }}</p>
-                  </div>
+                      {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
+                    </span>
+                  </Button>
                 </div>
-                
-                <Button
-                  class="w-full"
-                  :is-loading="isSaving"
-                  :disabled="isSaving"
-                  @click="() => submitCartConfig()"
-                >
-                  <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
-                  </span>
-                </Button>
               </div>
             </div>
           </div>
