@@ -41,8 +41,17 @@ class AutomationRules::ActionService < ActionService
   end
 
   def send_message(message)
+    Rails.logger.info("AutomationRules::ActionService#send_message called - rule_id: #{@rule.id}, conversation_id: #{@conversation.id}")
+
     return if conversation_a_tweet?
 
+    # Check if user is subscribed before sending automation message
+    unless WhatsappSubscriptionChecker.new(conversation: @conversation).subscribed?
+      Rails.logger.info("Automation message not sent - user unsubscribed: conversation_id=#{@conversation.id}, rule_id=#{@rule.id}")
+      return
+    end
+
+    Rails.logger.info("Sending automation message - rule_id: #{@rule.id}, conversation_id: #{@conversation.id}")
     params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end

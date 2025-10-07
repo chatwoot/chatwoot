@@ -3,7 +3,13 @@ class CustomCsatService
 
   SHOP_URL_TTL = 24.hours
 
-  def perform
+  def perform  # rubocop:disable Metrics/MethodLength  , Metrics/AbcSize
+    # Check if user is subscribed before sending CSAT message
+    unless WhatsappSubscriptionChecker.new(conversation: conversation).subscribed?
+      Rails.logger.info("CSAT message not sent - user unsubscribed: conversation_id=#{conversation.id}")
+      return false
+    end
+
     shop_url = fetch_shop_url_from_api(conversation.account_id)
     return false if shop_url.blank?
 
