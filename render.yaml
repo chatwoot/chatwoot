@@ -181,10 +181,10 @@ services:
         sync: false
       
       - key: AWS_REGION
-        value: us-west-2
-      
+        value: us-east-2
+
       - key: S3_BUCKET_NAME
-        value: gp-bikes-production-uploads
+        value: keai-crm-production
       
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       # GP BIKES CONFIGURATION
@@ -352,10 +352,10 @@ services:
         sync: false
       
       - key: AWS_REGION
-        value: us-west-2
-      
+        value: us-east-2
+
       - key: S3_BUCKET_NAME
-        value: gp-bikes-production-uploads
+        value: keai-crm-production
       
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       # ERROR TRACKING
