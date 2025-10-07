@@ -86,7 +86,7 @@ ja:
       validations:
         name: 記号で開始または終了しないでください。< > / \ @ を使用しないでください。
     custom_filters:
-      number_of_records: 制限に達しました。1つのアカウントにつき、ユーザーごとに許可されるカスタムフィルターの最大数は 50 です。
+      number_of_records: 制限に達しました。1つのアカウントにつき、ユーザーごとに許可されるカスタムフィルターの最大数は 1000 です。
       invalid_attribute: 無効な属性キー - [%{key}]。キーは[%{allowed_keys}]のいずれかである必要があります。または、アカウント内で定義されたカスタム属性でなければなりません。
       invalid_operator: 無効な演算子です。%{attribute_name} に許可されている演算子は [%{allowed_keys}] です。
       invalid_query_operator: クエリ演算子は "AND" または "OR" でなければなりません。
@@ -322,6 +322,8 @@ ja:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: タイトルまたは本文で記事を検索...
