@@ -86,7 +86,7 @@ zh_CN:
       validations:
         name: 不应该以符号开头或结尾，它不应该有 < > / \ @ 字符。
     custom_filters:
-      number_of_records: 已达到上限。每个账户允许用户自定义过滤器的最大数目为50个。
+      number_of_records: 已达到上限。每个账户允许用户自定义过滤器的最大数目为1000个。
       invalid_attribute: 无效的属性键 - [%{key}]。键应为 [%{allowed_keys}] 之一或帐户中定义的自定义属性。
       invalid_operator: 无效的操作符。%{attribute_name} 允许的操作符为 [%{allowed_keys}]。
       invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
@@ -322,6 +322,8 @@ zh_CN:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...
