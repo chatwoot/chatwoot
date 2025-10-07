@@ -32,21 +32,41 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     end
   end
 
+  def omniauth_failure
+    return super unless params[:provider] == 'saml'
+
+    relay_state = saml_relay_state
+    error = params[:message] || 'authentication-failed'
+
+    if mobile_relay_state?(relay_state)
+      redirect_to_mobile_error(error, relay_state)
+    else
+      redirect_to login_page_url(error: "saml-#{error}"), allow_other_host: true
+    end
+  end
+
   private
 
   def handle_saml_auth
     account_id = extract_saml_account_id
-    return redirect_to login_page_url(error: 'saml-not-enabled') unless saml_enabled_for_account?(account_id)
+    relay_state = saml_relay_state
+
+    unless saml_enabled_for_account?(account_id)
+      return redirect_to_mobile_error('saml-not-enabled', relay_state) if mobile_relay_state?(relay_state)
+
+      return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true
+    end
 
     @resource = SamlUserBuilder.new(auth_hash, account_id).perform
 
     if @resource.persisted?
-      relay_state = saml_relay_state
       return sign_in_user_on_mobile if mobile_relay_state?(relay_state)
 
       sign_in_user
     else
-      redirect_to login_page_url(error: 'saml-authentication-failed')
+      return redirect_to_mobile_error('saml-authentication-failed', relay_state) if mobile_relay_state?(relay_state)
+
+      redirect_to login_page_url(error: 'saml-authentication-failed'), allow_other_host: true
     end
   end
 
@@ -60,6 +80,10 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
 
   def mobile_relay_state?(relay_state)
     relay_state.to_s.casecmp('mobile').zero?
+  end
+
+  def redirect_to_mobile_error(error, _relay_state)
+    redirect_to "chatwootapp://auth/saml?error=#{error}", allow_other_host: true
   end
 
   def saml_enabled_for_account?(account_id)

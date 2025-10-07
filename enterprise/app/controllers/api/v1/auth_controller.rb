@@ -46,7 +46,17 @@ class Api::V1::AuthController < Api::BaseController
   end
 
   def render_saml_error
-    redirect_to sso_login_page_url(error: 'saml-authentication-failed')
+    error = 'saml-authentication-failed'
+
+    if mobile_target?
+      redirect_to "chatwootapp://auth/saml?error=#{error}", allow_other_host: true
+    else
+      redirect_to sso_login_page_url(error: error), allow_other_host: true
+    end
+  end
+
+  def mobile_target?
+    params[:target]&.casecmp('mobile')&.zero?
   end
 
   def sso_login_page_url(error: nil)
