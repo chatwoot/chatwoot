@@ -81,8 +81,7 @@ class Accounts::InstagramDmConversationsCreator
     private_message_params = private_message_params(old_conversation,
                                                     "Conversation Moved to Instagram DM.\n\nNew Conversation: #{new_conversation_link}")
 
-    # Custom message for account ID 1622
-    message_content = @account.id == 1622 ? 'Hi, Please check your DM' : 'Check your DM'
+    message_content = @account.instagram_dm_message
     comment_message_params = instagram_comment_reply_message_params(old_conversation, message_content)
 
     old_conversation.messages.create!(private_message_params)

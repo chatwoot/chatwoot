@@ -127,6 +127,19 @@ class Account < ApplicationRecord
     }
   end
 
+  def instagram_inbox?
+    facebook_pages.where.not(instagram_id: nil).exists?
+  end
+
+  def instagram_dm_message
+    custom_attributes&.dig('instagram_dm_message').presence || 'Check your DM'
+  end
+
+  def instagram_dm_message=(value)
+    self.custom_attributes ||= {}
+    self.custom_attributes['instagram_dm_message'] = value
+  end
+
   private
 
   def notify_creation

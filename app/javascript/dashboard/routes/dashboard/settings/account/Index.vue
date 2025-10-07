@@ -87,6 +87,35 @@
       </div>
 
       <div
+        v-if="hasInstagramInbox"
+        class="flex flex-row p-4 border-b border-slate-25 dark:border-slate-800"
+      >
+        <div
+          class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
+        >
+          <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
+            Instagram Settings
+          </h4>
+          <p>Configure Instagram Comment notification message</p>
+        </div>
+        <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
+          <label>
+            Instagram Comment Message
+            <input
+              v-model="instagramDmMessage"
+              type="text"
+              placeholder="Check your DM"
+              maxlength="200"
+            />
+            <span class="help-text">
+              This message will be posted as a comment when moving conversations
+              to Instagram DM ({{ instagramDmMessage.length }}/200 characters)
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div
         class="p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300 flex flex-row"
       >
         <div
@@ -151,6 +180,8 @@ export default {
       features: {},
       autoResolveDuration: null,
       latestChatwootVersion: null,
+      instagramDmMessage: 'Check your DM',
+      hasInstagramInbox: false,
     };
   },
   validations: {
@@ -234,6 +265,8 @@ export default {
           features,
           auto_resolve_duration,
           latest_chatwoot_version: latestChatwootVersion,
+          has_instagram_inbox: hasInstagramInbox,
+          custom_attributes: customAttributes,
         } = this.getAccount(this.accountId);
 
         this.$root.$i18n.locale = locale;
@@ -245,6 +278,9 @@ export default {
         this.features = features;
         this.autoResolveDuration = auto_resolve_duration;
         this.latestChatwootVersion = latestChatwootVersion;
+        this.hasInstagramInbox = hasInstagramInbox || false;
+        this.instagramDmMessage =
+          customAttributes?.instagram_dm_message || 'Check your DM';
       } catch (error) {
         // Ignore error
       }
@@ -257,13 +293,19 @@ export default {
         return;
       }
       try {
-        await this.$store.dispatch('accounts/update', {
+        const updatePayload = {
           locale: this.locale,
           name: this.name,
           domain: this.domain,
           support_email: this.supportEmail,
           auto_resolve_duration: this.autoResolveDuration,
-        });
+        };
+
+        if (this.hasInstagramInbox) {
+          updatePayload.instagram_dm_message = this.instagramDmMessage;
+        }
+
+        await this.$store.dispatch('accounts/update', updatePayload);
         this.$root.$i18n.locale = this.locale;
         this.getAccount(this.id).locale = this.locale;
         this.updateDirectionView(this.locale);

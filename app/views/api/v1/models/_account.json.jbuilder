@@ -22,6 +22,7 @@ if resource.custom_attributes.present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
     json.logo resource.custom_attributes['logo'] if resource.custom_attributes['logo'].present?
     json.onboarding_step resource.custom_attributes['onboarding_step'] if resource.custom_attributes['onboarding_step'].present?
+    json.instagram_dm_message resource.instagram_dm_message if @account.instagram_inbox?
   end
 end
 json.domain @account.domain
@@ -32,3 +33,4 @@ json.name @account.name
 json.support_email @account.support_email
 json.status @account.status
 json.cache_keys @account.cache_keys
+json.has_instagram_inbox @account.instagram_inbox?

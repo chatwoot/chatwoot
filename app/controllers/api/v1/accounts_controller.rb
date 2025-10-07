@@ -56,6 +56,10 @@ class Api::V1::AccountsController < Api::BaseController
     @account.custom_attributes.merge!(new_attributes)
 
     @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
+
+    # Update Instagram DM message settings
+    return if params[:instagram_dm_message].present? && !update_instagram_settings
+
     @account.save!
   end
 
@@ -178,6 +182,22 @@ class Api::V1::AccountsController < Api::BaseController
 
   def custom_attributes_params
     params.permit(:industry, :company_size, :timezone, calling_settings: {}).to_h.compact
+  end
+
+  def update_instagram_settings
+    unless @account.instagram_inbox?
+      render json: { error: 'Instagram inbox not found for this account' }, status: :forbidden
+      return false
+    end
+
+    message = params[:instagram_dm_message].to_s.strip
+    if message.length > 200
+      render json: { error: 'Instagram DM message must be 200 characters or less' }, status: :unprocessable_entity
+      return false
+    end
+
+    @account.instagram_dm_message = message
+    true
   end
 
   def check_signup_enabled
