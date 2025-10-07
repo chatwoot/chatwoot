@@ -3,11 +3,31 @@ require 'rails_helper'
 describe Linear do
   let(:access_token) { 'valid_access_token' }
   let(:url) { 'https://api.linear.app/graphql' }
-  let(:linear_client) { described_class.new(access_token) }
+  let(:hook_settings) do
+    {
+      refresh_token: 'valid_refresh_token',
+      expires_at: 30.days.from_now.iso8601,
+      token_type: 'Bearer',
+      expires_in: 3600,
+      scope: 'read,write'
+    }
+  end
+  let(:hook) { instance_double(Integrations::Hook, access_token: access_token, settings: hook_settings, updated_at: 2.days.ago) }
+  let(:linear_client) { described_class.new(hook) }
   let(:headers) { { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{access_token}" } }
 
-  it 'raises an exception if the API key is absent' do
-    expect { described_class.new(nil) }.to raise_error(ArgumentError, 'Missing Credentials')
+  before do
+    # Mock the TokenRefreshService to return the access token without making HTTP calls
+    allow_any_instance_of(Linear::TokenRefreshService).to receive(:token).and_return(access_token)
+  end
+
+  it 'raises an exception if the hook is absent' do
+    expect { described_class.new(nil) }.to raise_error(ArgumentError, 'Missing hook or access token')
+  end
+
+  it 'raises an exception if the access token is absent' do
+    hook_without_token = instance_double(Integrations::Hook, access_token: nil)
+    expect { described_class.new(hook_without_token) }.to raise_error(ArgumentError, 'Missing hook or access token')
   end
 
   context 'when querying teams' do

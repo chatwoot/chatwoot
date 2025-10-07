@@ -12,7 +12,7 @@ class Linear::TokenRefreshService
   # This is the main entry point - call this whenever you need a valid token
   # @return [String] Valid OAuth access token
   def token
-    return @hook.access_token unless @hook
+    return nil unless @hook
 
     # For existing accounts without refresh token, attempt migration first
     # This migrates long-lived tokens to the new refresh token system, https://linear.app/developers/oauth-2-0-authentication#migrate-to-using-refresh-tokens
