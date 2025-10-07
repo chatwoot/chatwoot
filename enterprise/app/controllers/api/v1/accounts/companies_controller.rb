@@ -1,4 +1,4 @@
-class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAccountsController
   before_action :check_authorization
   before_action :fetch_company, only: [:show, :update, :destroy]
 
@@ -23,6 +23,11 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def check_authorization
+    raise Pundit::NotAuthorizedError unless ChatwootApp.enterprise?
+    authorize(Company)
+  end
 
   def fetch_company
     @company = Current.account.companies.find(params[:id])
