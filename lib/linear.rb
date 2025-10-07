@@ -3,9 +3,10 @@ class Linear
   REVOKE_URL = 'https://api.linear.app/oauth/revoke'.freeze
   PRIORITY_LEVELS = (0..4).to_a
 
-  def initialize(access_token)
-    @access_token = access_token
-    raise ArgumentError, 'Missing Credentials' if access_token.blank?
+  def initialize(hook)
+    @hook = hook
+    @token_refresh_service = Linear::TokenRefreshService.new(hook)
+    raise ArgumentError, 'Missing hook or access token' if hook.blank? || hook.access_token.blank?
   end
 
   def teams
@@ -81,7 +82,7 @@ class Linear
   def revoke_token
     response = HTTParty.post(
       REVOKE_URL,
-      headers: { 'Authorization' => "Bearer #{@access_token}", 'Content-Type' => 'application/json' }
+      headers: { 'Authorization' => "Bearer #{@hook.access_token}", 'Content-Type' => 'application/json' }
     )
     response.success?
   end
@@ -145,9 +146,13 @@ class Linear
   def post(payload)
     HTTParty.post(
       BASE_URL,
-      headers: { 'Authorization' => "Bearer #{@access_token}", 'Content-Type' => 'application/json' },
+      headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
       body: payload.to_json
     )
+  end
+
+  def access_token
+    @token_refresh_service&.token || @hook.access_token
   end
 
   def process_response(response)

@@ -38,10 +38,11 @@ class Linear::CallbacksController < ApplicationController
       settings: {
         token_type: parsed_body['token_type'],
         expires_in: parsed_body['expires_in'],
-        scope: parsed_body['scope']
-      }
+        scope: parsed_body['scope'],
+        refresh_token: parsed_body['refresh_token'],
+        expires_at: calculate_expires_at(parsed_body['expires_in'])
+      }.compact
     )
-    # You may wonder why we're not handling the refresh token update, since the token will expire only after 10 years, https://github.com/linear/linear/issues/251
     hook.save!
     redirect_to linear_redirect_uri
   rescue StandardError => e
@@ -69,5 +70,11 @@ class Linear::CallbacksController < ApplicationController
 
   def base_url
     ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+  end
+
+  def calculate_expires_at(expires_in)
+    return nil unless expires_in
+
+    (Time.current + expires_in.to_i.seconds).iso8601
   end
 end
