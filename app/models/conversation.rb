@@ -137,6 +137,12 @@ class Conversation < ApplicationRecord
     self[:last_activity_at] || created_at
   end
 
+  def last_customer_message_at
+    # Get last message from customer (incoming message from Contact, not from AgentBot)
+    last_customer_msg = messages.where(message_type: :incoming, sender_type: 'Contact').last
+    last_customer_msg&.created_at || created_at
+  end
+
   def last_incoming_message
     messages&.incoming&.last
   end

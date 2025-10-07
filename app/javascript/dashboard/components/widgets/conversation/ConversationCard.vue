@@ -78,6 +78,7 @@
           <time-ago
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
+            :last-customer-message-timestamp="chat.last_customer_message_at"
           />
         </span>
         <span

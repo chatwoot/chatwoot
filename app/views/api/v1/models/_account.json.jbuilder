@@ -17,6 +17,9 @@ if resource.custom_attributes.present?
     if resource.custom_attributes['hide_delete_message_button_for_agent'].present?
       json.hide_delete_message_button_for_agent resource.custom_attributes['hide_delete_message_button_for_agent']
     end
+    if resource.custom_attributes['show_only_customer_message_timestamp'].present?
+      json.show_only_customer_message_timestamp resource.custom_attributes['show_only_customer_message_timestamp']
+    end
     json.contact_masking resource.custom_attributes['contact_masking'] if resource.custom_attributes['contact_masking'].present?
     json.company_size resource.custom_attributes['company_size'] if resource.custom_attributes['company_size'].present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
