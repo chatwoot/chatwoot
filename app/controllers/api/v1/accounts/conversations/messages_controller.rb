@@ -95,7 +95,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
                                 { :sections => [:title, :multiple_selection, { :items => [:title, :subtitle, :identifier, :imageIdentifier, :image_identifier] }] },
                                 { :images => [:identifier, :data, :description] },  # Fixed: Allow nested image structure
                                 # Apple Time Picker
-                                { :event => [:title, :description, :identifier, { :timeslots => [:startTime, :duration] }] },
+                                { :event => [:title, :description, :identifier, { :timeslots => [:identifier, :startTime, :duration] }] },
                                 :timezone_offset,
                                 # Apple Rich Link
                                 :url, :title, :description, :image_url, :site_name,

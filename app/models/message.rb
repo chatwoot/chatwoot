@@ -4,6 +4,7 @@
 #
 #  id                        :integer          not null, primary key
 #  additional_attributes     :jsonb
+#  apple_msp_payload         :jsonb
 #  content                   :text
 #  content_attributes        :json
 #  content_type              :integer          default("text"), not null

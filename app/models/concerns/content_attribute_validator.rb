@@ -20,7 +20,7 @@ class ContentAttributeValidator < ActiveModel::Validator
   ALLOWED_APPLE_RICH_LINK_KEYS = [:url, :title, :description, :image_data, :image_mime_type, :video_url, :video_mime_type, :site_name].freeze
   ALLOWED_APPLE_PAY_KEYS = [:payment_request, :merchant_session, :endpoints].freeze
   ALLOWED_APPLE_AUTHENTICATION_KEYS = [:oauth2, :response_encryption_key, :state, :redirect_uri].freeze
-  ALLOWED_APPLE_FORM_KEYS = [:title, :description, :fields, :submit_url, :method, :validation_rules].freeze
+  ALLOWED_APPLE_FORM_KEYS = [:title, :description, :fields, :pages, :submit_url, :method, :validation_rules].freeze
   ALLOWED_APPLE_CUSTOM_APP_KEYS = [:app_id, :app_name, :bid, :url, :use_live_layout].freeze
 
   # Apple MSP style values
@@ -437,13 +437,23 @@ class ContentAttributeValidator < ActiveModel::Validator
     invalid_keys = content_attrs.keys.map(&:to_sym) - ALLOWED_APPLE_FORM_KEYS
     record.errors.add(:content_attributes, "contains invalid keys for apple_form: #{invalid_keys}") if invalid_keys.present?
 
-    # Fields array is required
-    fields = content_attrs['fields']
-    record.errors.add(:content_attributes, 'fields is required for apple_form') if fields.blank?
-    record.errors.add(:content_attributes, 'fields must be an array') if fields.present? && !fields.is_a?(Array)
+    # Check if using new pages-based format (Apple MSP Forms) or legacy flat format
+    has_pages = content_attrs['pages'].present?
+    has_fields = content_attrs['fields'].present?
 
-    # Submit URL is required
-    record.errors.add(:content_attributes, 'submit_url is required for apple_form') if content_attrs['submit_url'].blank?
+    if has_pages
+      # New pages-based format validation
+      record.errors.add(:content_attributes, 'pages must be an array') unless content_attrs['pages'].is_a?(Array)
+      record.errors.add(:content_attributes, 'title is required for apple_form') if content_attrs['title'].blank?
+      # pages format doesn't require submit_url (handled by FormService)
+    elsif has_fields
+      # Legacy flat format validation
+      record.errors.add(:content_attributes, 'fields must be an array') unless content_attrs['fields'].is_a?(Array)
+      record.errors.add(:content_attributes, 'submit_url is required for apple_form') if content_attrs['submit_url'].blank?
+    else
+      # Neither format found
+      record.errors.add(:content_attributes, 'either pages or fields is required for apple_form')
+    end
   end
 
   def validate_apple_custom_app!(record)

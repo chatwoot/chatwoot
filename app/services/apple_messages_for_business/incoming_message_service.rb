@@ -269,6 +269,7 @@ class AppleMessagesForBusiness::IncomingMessageService
 
     unless url_string
       Rails.logger.warn '[AMB IncomingMessage] No URL found in NSKeyedArchiver data'
+      Rails.logger.info "[AMB IncomingMessage] Full $objects array: #{objects.inspect}"
       return 'Interactive Message'
     end
 
@@ -281,6 +282,7 @@ class AppleMessagesForBusiness::IncomingMessageService
     require 'json'
 
     params = CGI.parse(url_string.sub(/^\?/, ''))
+    Rails.logger.info "[AMB IncomingMessage] URL params: #{params.keys.inspect}"
 
     # Decode replyMessage from Base64
     if params['replyMessage']&.first
@@ -295,10 +297,16 @@ class AppleMessagesForBusiness::IncomingMessageService
         content_parts << reply_data['title'] if reply_data['title'].present?
         content_parts << reply_data['subtitle'] if reply_data['subtitle'].present?
 
-        return content_parts.join(' - ') if content_parts.any?
+        if content_parts.any?
+          result = content_parts.join(' - ')
+          Rails.logger.info "[AMB IncomingMessage] Final extracted content: #{result}"
+          return result
+        end
       rescue StandardError => e
         Rails.logger.error "[AMB IncomingMessage] Failed to decode replyMessage: #{e.message}"
       end
+    else
+      Rails.logger.warn '[AMB IncomingMessage] No replyMessage parameter found in URL'
     end
 
     'Interactive Message'

@@ -78,6 +78,8 @@ class AppleMessagesForBusiness::SendMessageService
     response = send_to_apple_gateway(payload, message_id)
 
     if response.success?
+      # Store the payload in the message for debugging
+      @message.update(apple_msp_payload: payload)
       { success: true, message_id: message_id }
     else
       { success: false, error: "HTTP #{response.code}: #{response.body}" }
@@ -95,6 +97,9 @@ class AppleMessagesForBusiness::SendMessageService
     response = send_to_apple_gateway(payload, message_id, request_idr: request_idr)
 
     if response.success?
+      # Store the payload in the message for debugging
+      @message.update(apple_msp_payload: payload)
+
       result = { success: true, message_id: message_id }
 
       # If we requested IDR and got a dataRef back, store it
@@ -175,7 +180,7 @@ class AppleMessagesForBusiness::SendMessageService
   end
 
   def build_list_picker_data
-    Rails.logger.info "[AMB Send] 🔴 PARENT CLASS build_list_picker_data called"
+    Rails.logger.info '[AMB Send] 🔴 PARENT CLASS build_list_picker_data called'
     sections = content_attributes['sections'] || []
 
     # Add missing order and style fields according to Apple MSP spec
@@ -194,7 +199,9 @@ class AppleMessagesForBusiness::SendMessageService
     result = {
       sections: sections
     }
-    Rails.logger.info "[AMB Send] 🔴 PARENT CLASS returning: #{result[:sections].first['items'].first.keys.inspect if result[:sections].first && result[:sections].first['items'].first}"
+    Rails.logger.info "[AMB Send] 🔴 PARENT CLASS returning: #{if result[:sections].first && result[:sections].first['items'].first
+                                                                result[:sections].first['items'].first.keys.inspect
+                                                              end}"
     result
   end
 
@@ -578,7 +585,7 @@ class AppleMessagesForBusiness::SendMessageService
     )
   end
 
-  def should_request_idr?(payload)
+  def should_request_idr?(_payload)
     # TEMPORARY: Disable IDR for all messages due to URL expiration issues in dev/sandbox
     # IDR URLs from Apple expire within 1-2 seconds, causing 404 errors before we can download
     # This forces Apple to send the full response inline instead of via IDR

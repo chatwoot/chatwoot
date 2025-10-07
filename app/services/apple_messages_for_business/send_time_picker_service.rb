@@ -7,6 +7,29 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
     super
   end
 
+  # Override parent's build_interactive_data to include images
+  def build_interactive_data
+    base_data = {
+      bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension',
+      data: {
+        version: '1.0',
+        requestIdentifier: SecureRandom.uuid,
+        event: build_time_picker_data
+      },
+      useLiveLayout: true,
+      receivedMessage: build_received_message,
+      replyMessage: build_reply_message
+    }
+
+    # Fetch and include images
+    images = build_images_array
+    base_data[:data][:images] = images if images.present?
+
+    Rails.logger.info "[AMB TimePicker] build_interactive_data - Images included: #{images&.length || 0}"
+
+    base_data
+  end
+
   private
 
   def message_payload
@@ -102,13 +125,16 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
     end
   end
 
-  def build_event_data
+  def build_time_picker_data
     event_data = content_attributes['event'] || {}
+
+    # Handle both camelCase and snake_case for imageIdentifier (frontend sends camelCase)
+    image_identifier = event_data['image_identifier'] || event_data['imageIdentifier']
 
     {
       identifier: event_data['identifier'] || SecureRandom.uuid,
       title: event_data['title'] || 'Select a time',
-      imageIdentifier: event_data['image_identifier'],
+      imageIdentifier: image_identifier,
       location: build_location_data(event_data['location']),
       timeslots: build_timeslots(event_data['timeslots'] || default_timeslots),
       timezoneOffset: event_data['timezone_offset']
@@ -128,9 +154,12 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
 
   def build_timeslots(timeslots)
     timeslots.map do |slot|
+      # Handle both camelCase (from frontend) and snake_case
+      start_time = slot['startTime'] || slot['start_time']
+
       {
         identifier: slot['identifier'] || SecureRandom.uuid,
-        startTime: format_iso8601_time(slot['start_time']),
+        startTime: format_iso8601_time(start_time),
         duration: slot['duration']&.to_i || 3600 # Default 1 hour in seconds
       }
     end
@@ -159,30 +188,86 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
   end
 
   def build_images_array
-    images = content_attributes['images'] || []
-    images.map do |image|
-      {
-        identifier: image['identifier'],
-        data: image['data'], # Base64 encoded image data
-        description: image['description']
-      }
+    Rails.logger.info '[AMB TimePicker] build_images_array called'
+    Rails.logger.info "[AMB TimePicker] content_attributes keys: #{content_attributes.keys.inspect}"
+    Rails.logger.info "[AMB TimePicker] received_image_identifier: #{content_attributes['received_image_identifier'].inspect}"
+    Rails.logger.info "[AMB TimePicker] receivedImageIdentifier: #{content_attributes['receivedImageIdentifier'].inspect}"
+
+    images_data = content_attributes['images'] || []
+    all_images = []
+
+    # First, include any images provided directly with base64 data
+    if images_data.any? && images_data.first['data'].present?
+      Rails.logger.info "[AMB TimePicker] Using #{images_data.length} images from content_attributes"
+      all_images = images_data.map do |image|
+        {
+          identifier: image['identifier'],
+          data: image['data'], # Base64 encoded image data
+          description: image['description']
+        }
+      end
     end
+
+    # Collect all image identifiers referenced in event, received_message, and reply_message
+    image_identifiers = []
+    event_data = content_attributes['event'] || {}
+    image_identifiers << (event_data['image_identifier'] || event_data['imageIdentifier'])
+    image_identifiers << (content_attributes['received_image_identifier'] || content_attributes['receivedImageIdentifier'])
+    image_identifiers << (content_attributes['reply_image_identifier'] || content_attributes['replyImageIdentifier'])
+    image_identifiers.compact!
+    image_identifiers.uniq!
+
+    Rails.logger.info "[AMB TimePicker] Collected image identifiers: #{image_identifiers.inspect}"
+
+    # Find which identifiers are NOT already in all_images (need to be fetched from database)
+    existing_identifiers = all_images.map { |img| img[:identifier] }
+    missing_identifiers = image_identifiers - existing_identifiers
+
+    # Fetch missing images from database
+    if missing_identifiers.any?
+      Rails.logger.info "[AMB TimePicker] Fetching #{missing_identifiers.length} images from database: #{missing_identifiers.inspect}"
+
+      fetched_images = AppleListPickerImage.where(
+        inbox_id: message.inbox_id,
+        identifier: missing_identifiers
+      ).map do |picker_image|
+        next unless picker_image.image.attached?
+
+        Rails.logger.info "[AMB TimePicker] Found image: #{picker_image.identifier}"
+        {
+          identifier: picker_image.identifier,
+          data: Base64.strict_encode64(picker_image.image.download),
+          description: picker_image.description
+        }
+      end.compact
+
+      all_images.concat(fetched_images)
+      Rails.logger.info "[AMB TimePicker] Total images after database fetch: #{all_images.length}"
+    end
+
+    all_images
   end
 
   def build_received_message
+    # Handle both camelCase and snake_case for imageIdentifier (frontend sends camelCase)
+    received_image_id = content_attributes['received_image_identifier'] || content_attributes['receivedImageIdentifier']
+
     {
       title: content_attributes['received_title'] || 'Select a time',
       subtitle: content_attributes['received_subtitle'],
-      imageIdentifier: content_attributes['received_image_identifier'],
+      imageIdentifier: received_image_id,
       style: content_attributes['received_style'] || 'large'
     }
   end
 
   def build_reply_message
+    # Handle both camelCase and snake_case for imageIdentifier (frontend sends camelCase)
+    reply_image_id = content_attributes['reply_image_identifier'] || content_attributes['replyImageIdentifier']
+
     {
       title: content_attributes['reply_title'] || 'Selected: ${event.title}',
       subtitle: content_attributes['reply_subtitle'],
-      imageIdentifier: content_attributes['reply_image_identifier'],
+      imageIdentifier: reply_image_id,
       style: content_attributes['reply_style'] || 'large'
     }
   end
