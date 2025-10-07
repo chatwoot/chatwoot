@@ -92,7 +92,7 @@ const conversationDynamicScroller = ref(null);
 
 provide('contextMenuElementTarget', conversationDynamicScroller);
 
-const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
+const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ALL);
 const activeStatus = ref([
   wootConstants.STATUS_TYPE.OPEN,
   wootConstants.STATUS_TYPE.PENDING,
@@ -116,8 +116,8 @@ const advancedFilterTypes = ref(
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
-const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
+const mineChatsList = useMapGetter('getMineChats');
 const commentsChatList = useMapGetter('getCommentsList');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
@@ -202,7 +202,7 @@ const userPermissions = computed(() => {
 });
 
 const assigneeTabItems = computed(() => {
-  return filterItemsByPermission(
+  const filteredItems = filterItemsByPermission(
     ASSIGNEE_TYPE_TAB_PERMISSIONS,
     userPermissions.value,
     item => item.permissions
@@ -211,6 +211,12 @@ const assigneeTabItems = computed(() => {
     name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
     count: conversationStats.value[countKey] || 0,
   }));
+
+  // Reorder tabs to show 'all' first, then other tabs in their original order
+  const allTab = filteredItems.find(item => item.key === 'all');
+  const otherTabs = filteredItems.filter(item => item.key !== 'all');
+  
+  return allTab ? [allTab, ...otherTabs] : filteredItems;
 });
 
 const showAssigneeInConversationCard = computed(() => {
