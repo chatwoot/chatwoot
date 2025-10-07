@@ -52,7 +52,7 @@ useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 // and also when the user refreshes the page
 const expandedItem = useStorage(
   'next-sidebar-expanded-item',
-  null,
+  'Conversation',
   sessionStorage
 );
 

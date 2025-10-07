@@ -43,10 +43,10 @@ const showBadge = useMapGetter(props.getterKeys.badge);
     <span class="text-sm font-medium leading-5 flex-grow">
       {{ label }}
     </span>
-    <span
+    <Icon
       v-if="expandable"
-      v-show="isExpanded"
-      class="i-lucide-chevron-up size-3"
+      :icon="isExpanded ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+      class="size-3"
       @click.stop="emit('toggle')"
     />
   </component>
