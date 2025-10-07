@@ -38,7 +38,7 @@ export default {
     }
     return false;
   },
-  profileUpdate({ displayName, avatar, ...profileAttributes }) {
+  profileUpdate({ displayName, phoneNumber, avatar, ...profileAttributes }) {
     const formData = new FormData();
     Object.keys(profileAttributes).forEach(key => {
       const hasValue = profileAttributes[key] === undefined;
@@ -47,6 +47,9 @@ export default {
       }
     });
     formData.append('profile[display_name]', displayName || '');
+    if (phoneNumber !== undefined) {
+      formData.append('profile[phone_number]', phoneNumber || '');
+    }
     if (avatar) {
       formData.append('profile[avatar]', avatar);
     }

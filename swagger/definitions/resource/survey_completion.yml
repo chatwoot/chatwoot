@@ -1,0 +1,12 @@
+type: object
+properties:
+  survey_id:
+    type: integer
+    description: Survey ID
+  survey_name:
+    type: string
+    description: Survey name
+  completed_at:
+    type: string
+    format: date-time
+    description: When the survey was completed

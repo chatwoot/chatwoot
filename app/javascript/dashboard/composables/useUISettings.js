@@ -12,6 +12,7 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'linear_issues' },
   { name: 'shopify_orders' },
   { name: 'sumary' },
+  { name: 'survey_responses' },
 ]);
 
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = Object.freeze([

@@ -21,6 +21,14 @@
       "DISCONNECTED_ERROR_MESSAGE": "No se pudo desconectar el agente IA, por favor inténtalo de nuevo más tarde.",
       "SELECT_PLACEHOLDER": "Seleccionar agente IA"
     },
+    "SURVEY": {
+      "TITLE": "Asigne una encuesta",
+      "DESC": "Asigne una encuesta a su bandeja de entrada. Pueden manejar conversaciones iniciales y transferirlas a un agente en vivo cuando sea necesario.",
+      "SUBMIT": "Actualizar",
+      "SUCCESS_MESSAGE": "Encuesta asignada correctamente.",
+      "ERROR_MESSAGE": "No se pudo asignar la encuesta, por favor inténtalo de nuevo más tarde.",
+      "SELECT_PLACEHOLDER": "Seleccionar encuesta"
+    },
     "ADD": {
       "TITLE": "Add AI agent",
       "CANCEL_BUTTON_TEXT": "Cancelar",

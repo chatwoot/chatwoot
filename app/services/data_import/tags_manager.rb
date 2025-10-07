@@ -22,9 +22,11 @@ class DataImport::TagsManager
   def find_existing_contact(params)
     return if params.blank?
 
-    @account.contacts.find_by(identifier: params[:identifier]) ||
-      @account.contacts.from_email(params[:email]) ||
-      @account.contacts.find_by(phone_number: formatted_phone(params[:phone_number]))
+    return @account.contacts.find_by(identifier: params[:identifier]) if params[:identifier].present?
+    return @account.contacts.from_email(params[:email]) if params[:email].present?
+    return @account.contacts.find_by(phone_number: formatted_phone(params[:phone_number])) if params[:phone_number].present?
+
+    nil
   end
 
   def formatted_phone(phone_number)

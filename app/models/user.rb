@@ -21,6 +21,7 @@
 #  otp_backup_codes       :text
 #  otp_required_for_login :boolean          default(FALSE)
 #  otp_secret             :string
+#  phone_number           :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -76,6 +77,9 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, presence: true
+  validates :phone_number,
+            allow_blank: true,
+            format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   serialize :otp_backup_codes, type: Array
 
@@ -114,6 +118,7 @@ class User < ApplicationRecord
   # rubocop:enable Rails/HasManyOrHasOneDependent
 
   before_validation :set_password_and_uid, on: :create
+  before_validation :phone_number_format
   after_destroy :remove_macros
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
@@ -201,6 +206,12 @@ class User < ApplicationRecord
   end
 
   private
+
+  def phone_number_format
+    return if phone_number.blank?
+
+    self.phone_number = phone_number_was unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+  end
 
   def remove_macros
     macros.personal.destroy_all

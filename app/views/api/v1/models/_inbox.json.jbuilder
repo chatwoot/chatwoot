@@ -19,6 +19,14 @@ json.allow_messages_after_resolved resource.allow_messages_after_resolved
 json.lock_to_single_conversation resource.lock_to_single_conversation
 json.sender_name_type resource.sender_name_type
 json.business_name resource.business_name
+json.survey_id resource.try(:survey_id)
+
+# Add survey data if it exists
+if resource.survey.present?
+  json.survey do
+    json.partial! 'api/v1/models/survey', formats: [:json], resource: resource.survey
+  end
+end
 
 if resource.portal.present?
   json.help_center do

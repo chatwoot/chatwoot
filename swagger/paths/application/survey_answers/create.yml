@@ -1,0 +1,64 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+
+post:
+  tags:
+    - Survey Answers
+  operationId: createSurveyAnswer
+  summary: Create Survey Answer
+  security:
+    - userApiKey: []
+  description: Create or update a survey answer for a contact
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/survey_answer_create_payload'
+  responses:
+    '201':
+      description: Survey answer created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Survey answer ID
+              contact_id:
+                type: integer
+                description: Contact ID
+              survey_question_id:
+                type: integer
+                description: Survey question ID
+              answer_text:
+                type: string
+                nullable: true
+                description: Text answer
+              survey_question_option_id:
+                type: integer
+                nullable: true
+                description: Selected option ID
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+    '422':
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                description: Validation errors
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

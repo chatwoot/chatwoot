@@ -1,0 +1,160 @@
+{
+  "SURVEYS": {
+    "HEADER": "Encuestas",
+    "DESCRIPTION": "Crea y gestiona encuestas para calificar y filtrar leads. Construye encuestas personalizadas con múltiples tipos de preguntas para recopilar información esencial de clientes potenciales.",
+    "LEARN_MORE": "Aprende sobre encuestas",
+    "STATUS": {
+      "ACTIVE": "Activa",
+      "INACTIVE": "Inactiva",
+      "COMPLETED": "Completada",
+      "IN_PROGRESS": "En Progreso"
+    },
+    "RESPONSES": {
+      "FETCH_ERROR": "Error al cargar las respuestas de la encuesta",
+      "EMPTY_STATE": "No se encontraron respuestas de encuesta",
+      "MORE_ANSWERS": "+{count} respuestas más"
+    },
+    "SURVEYS_CONFIGURATION": {
+      "TITLE": "Seleccione una encuesta",
+      "DESC": "Asigne una encuesta a su bandeja de entrada. Permiten conocer mejor a tus clientes potenciales.",
+      "SUBMIT": "Actualizar",
+      "DISCONNECT": "Desconectar encuesta",
+      "SUCCESS_MESSAGE": "Encuesta asignada correctamente.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Desconectado correctamente la encuesta.",
+      "ERROR_MESSAGE": "No se pudo asignar la encuesta, por favor inténtalo de nuevo más tarde.",
+      "DISCONNECTED_ERROR_MESSAGE": "No se pudo desconectar la encuesta, por favor inténtalo de nuevo más tarde.",
+      "SELECT_PLACEHOLDER": "Seleccionar encuesta"
+    },
+    "QUESTION_TYPES": {
+      "OPEN_ENDED": "Respuesta Abierta",
+      "MULTIPLE_CHOICE": "Selección Múltiple"
+    },
+    "INPUT_TYPES": {
+      "TEXT": "Texto",
+      "NUMBER": "Número"
+    },
+    "ADD": {
+      "TITLE": "Agregar Encuesta",
+      "API": {
+        "SUCCESS_MESSAGE": "Encuesta agregada exitosamente.",
+        "ERROR_MESSAGE": "No se pudo agregar la encuesta. Por favor intenta de nuevo más tarde."
+      }
+    },
+    "LIST": {
+      "404": "No se encontraron encuestas. Puedes crear una encuesta haciendo clic en el botón 'Agregar Encuesta'.",
+      "LOADING": "Cargando encuestas...",
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "DESCRIPTION": "Descripción",
+        "QUESTIONS": "Preguntas",
+        "STATUS": "Estado"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eliminar",
+      "CONFIRM": {
+        "TITLE": "Confirmar Eliminación",
+        "MESSAGE": "¿Estás seguro de que deseas eliminar {name}?",
+        "YES": "Sí, Eliminar",
+        "NO": "No, Mantener"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Encuesta eliminada exitosamente.",
+        "ERROR_MESSAGE": "No se pudo eliminar la encuesta. Por favor intenta de nuevo."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Editar",
+      "TITLE": "Editar Encuesta",
+      "API": {
+        "SUCCESS_MESSAGE": "Encuesta actualizada exitosamente.",
+        "ERROR_MESSAGE": "No se pudo actualizar la encuesta. Por favor intenta de nuevo."
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nombre de la Encuesta",
+        "PLACEHOLDER": "Ingresa el nombre de la encuesta"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripción",
+        "PLACEHOLDER": "¿De qué trata esta encuesta?"
+      },
+      "ACTIVE": {
+        "LABEL": "Activa"
+      },
+      "ERRORS": {
+        "NAME": "El nombre de la encuesta es requerido"
+      },
+      "CANCEL": "Cancelar",
+      "CREATE": "Crear Encuesta",
+      "UPDATE": "Actualizar Encuesta"
+    },
+    "QUESTIONS": {
+      "HEADER": "Preguntas de la Encuesta",
+      "DESCRIPTION": "Gestiona las preguntas de esta encuesta. Agrega preguntas abiertas o de opción múltiple para calificar leads y recopilar información importante.",
+      "LOADING": "Cargando preguntas...",
+      "404": "No se encontraron preguntas. Agrega tu primera pregunta haciendo clic en el botón 'Agregar Pregunta'.",
+      "GO_BACK": "Volver a encuestas",
+      "TYPE": "Tipo",
+      "INPUT": "Entrada",
+      "OPTIONS": "Opciones",
+      "REQUIRED": "Requerida",
+      "ADD": {
+        "TITLE": "Agregar Pregunta",
+        "API": {
+          "SUCCESS_MESSAGE": "Pregunta agregada exitosamente.",
+          "ERROR_MESSAGE": "No se pudo agregar la pregunta. Por favor intenta de nuevo más tarde."
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Eliminar",
+        "CONFIRM": {
+          "TITLE": "Confirmar Eliminación",
+          "MESSAGE": "¿Estás seguro de que deseas eliminar esta pregunta: {question}?",
+          "YES": "Sí, Eliminar",
+          "NO": "No, Mantener"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Pregunta eliminada exitosamente.",
+          "ERROR_MESSAGE": "No se pudo eliminar la pregunta. Por favor intenta de nuevo."
+        }
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Editar",
+        "TITLE": "Editar Pregunta",
+        "API": {
+          "SUCCESS_MESSAGE": "Pregunta actualizada exitosamente.",
+          "ERROR_MESSAGE": "No se pudo actualizar la pregunta. Por favor intenta de nuevo."
+        }
+      },
+      "FORM": {
+        "QUESTION_TEXT": {
+          "LABEL": "Pregunta",
+          "PLACEHOLDER": "Ingresa tu pregunta"
+        },
+        "QUESTION_TYPE": {
+          "LABEL": "Tipo de Pregunta"
+        },
+        "INPUT_TYPE": {
+          "LABEL": "Tipo de Entrada"
+        },
+        "OPTIONS": {
+          "LABEL": "Opciones",
+          "PLACEHOLDER": "Opción {number}",
+          "ADD_OPTION": "Agregar Opción",
+          "REMOVE_OPTION": "Eliminar opción"
+        },
+        "REQUIRED": {
+          "LABEL": "Pregunta Requerida"
+        },
+        "ERRORS": {
+          "QUESTION_TEXT": "El texto de la pregunta es requerido"
+        },
+        "CANCEL": "Cancelar",
+        "CREATE": "Crear Pregunta",
+        "UPDATE": "Actualizar Pregunta"
+      }
+    }
+  }
+}

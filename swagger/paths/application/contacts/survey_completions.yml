@@ -1,0 +1,51 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the contact
+  - name: survey_id
+    in: query
+    required: false
+    schema:
+      type: number
+    description: Optional survey ID to get completion status for a specific survey
+
+get:
+  tags:
+    - Contacts
+  operationId: getContactSurveyCompletions
+  summary: Get Contact Survey Completions
+  security:
+    - userApiKey: []
+  description: |
+    Get survey completion information for a contact.
+    - If survey_id is provided, returns detailed completion status for that survey
+    - If survey_id is not provided, returns a list of all completed surveys
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: array
+                description: List of completed surveys (when survey_id is not provided)
+                items:
+                  $ref: '#/components/schemas/survey_completion'
+              - $ref: '#/components/schemas/survey_completion_status'
+                description: Detailed completion status (when survey_id is provided)
+    '404':
+      description: Contact or survey not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

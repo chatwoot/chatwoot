@@ -7,6 +7,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
 import WeeklyAvailabilitySection from '../components/WeeklyAvailabilitySection.vue';
+import { isPhoneNumberValid } from 'shared/helpers/Validators';
+import parsePhoneNumber from 'libphonenumber-js';
 
 const emit = defineEmits(['close']);
 
@@ -15,7 +17,52 @@ const { t } = useI18n();
 
 const agentName = ref('');
 const agentEmail = ref('');
+const agentPhoneNumber = ref('');
+const activeDialCode = ref('');
 const selectedRoleId = ref('agent');
+
+const parsedPhoneNumber = computed(() => {
+  return parsePhoneNumber(agentPhoneNumber.value || '');
+});
+
+const isPhoneNumberNotValid = computed(() => {
+  if (agentPhoneNumber.value !== '') {
+    return (
+      !isPhoneNumberValid(agentPhoneNumber.value, activeDialCode.value) ||
+      (agentPhoneNumber.value !== '' ? activeDialCode.value === '' : false)
+    );
+  }
+  return false;
+});
+
+const setPhoneNumber = computed(() => {
+  if (parsedPhoneNumber.value && parsedPhoneNumber.value.countryCallingCode) {
+    return agentPhoneNumber.value;
+  }
+  if (agentPhoneNumber.value === '' && activeDialCode.value !== '') {
+    return '';
+  }
+  return activeDialCode.value
+    ? `${activeDialCode.value}${agentPhoneNumber.value}`
+    : '';
+});
+
+const setPhoneCode = code => {
+  if (agentPhoneNumber.value !== '' && parsedPhoneNumber.value) {
+    const dialCode = parsedPhoneNumber.value.countryCallingCode;
+    if (dialCode === code) {
+      return;
+    }
+    activeDialCode.value = `+${dialCode}`;
+    const newPhoneNumber = agentPhoneNumber.value.replace(
+      `+${dialCode}`,
+      `${code}`
+    );
+    agentPhoneNumber.value = newPhoneNumber;
+  } else {
+    activeDialCode.value = code;
+  }
+};
 
 const rules = {
   agentName: { required },
@@ -66,7 +113,7 @@ const childRef = ref(null);
 
 const addAgent = async () => {
   v$.value.$touch();
-  if (v$.value.$invalid) return;
+  if (v$.value.$invalid || isPhoneNumberNotValid.value) return;
 
   try {
     const availability = childRef.value.updateWeeklyAvailability();
@@ -74,6 +121,7 @@ const addAgent = async () => {
     const payload = {
       name: agentName.value,
       email: agentEmail.value,
+      phone_number: setPhoneNumber.value,
       ...availability,
     };
 
@@ -150,6 +198,22 @@ const addAgent = async () => {
             :placeholder="$t('AGENT_MGMT.ADD.FORM.EMAIL.PLACEHOLDER')"
             @input="v$.agentEmail.$touch"
           />
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label :class="{ error: isPhoneNumberNotValid }">
+          {{ $t('AGENT_MGMT.ADD.FORM.PHONE_NUMBER.LABEL') }}
+          <woot-phone-input
+            v-model="agentPhoneNumber"
+            :value="agentPhoneNumber"
+            :error="isPhoneNumberNotValid"
+            :placeholder="$t('AGENT_MGMT.ADD.FORM.PHONE_NUMBER.PLACEHOLDER')"
+            @set-code="setPhoneCode"
+          />
+          <span v-if="isPhoneNumberNotValid" class="message">
+            {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR') }}
+          </span>
         </label>
       </div>
 

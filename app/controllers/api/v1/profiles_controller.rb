@@ -69,6 +69,7 @@ class Api::V1::ProfilesController < Api::BaseController
       :display_name,
       :avatar,
       :message_signature,
+      :phone_number,
       :account_id,
       ui_settings: {}
     )
@@ -79,7 +80,7 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def custom_attributes_params
-    params.require(:profile).permit(:phone_number)
+    params.require(:profile).permit(custom_attributes: {})
   end
 
   def password_params

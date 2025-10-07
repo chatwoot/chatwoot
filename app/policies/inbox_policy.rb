@@ -54,6 +54,10 @@ class InboxPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def set_survey?
+    @account_user.administrator?
+  end
+
   def avatar?
     @account_user.administrator?
   end

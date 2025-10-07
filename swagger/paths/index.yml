@@ -274,6 +274,15 @@
   $ref: ./application/contact_inboxes/create.yml
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
   $ref: ./application/contactable_inboxes/get.yml
+/api/v1/accounts/{account_id}/contacts/{id}/survey_answers:
+  $ref: ./application/contacts/survey_answers.yml
+/api/v1/accounts/{account_id}/contacts/{id}/survey_completions:
+  $ref: ./application/contacts/survey_completions.yml
+
+
+# Survey Answers
+/api/v1/accounts/{account_id}/survey_answers:
+  $ref: ./application/survey_answers/create.yml
 
 
 # Automation Rule

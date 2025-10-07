@@ -39,6 +39,10 @@
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone Number",
+          "PLACEHOLDER": "Please enter a phone number (e.g. +1234567890)"
+        },
         "SUBMIT": "Add Agent"
       },
       "API": {

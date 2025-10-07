@@ -1,0 +1,149 @@
+{
+  "SURVEYS": {
+    "HEADER": "Surveys",
+    "DESCRIPTION": "Create and manage surveys to qualify and filter leads. Build custom surveys with multiple question types to collect essential information from potential customers.",
+    "LEARN_MORE": "Learn about surveys",
+    "STATUS": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "COMPLETED": "Completed",
+      "IN_PROGRESS": "In Progress"
+    },
+    "RESPONSES": {
+      "FETCH_ERROR": "Failed to load survey responses",
+      "EMPTY_STATE": "No survey responses found",
+      "MORE_ANSWERS": "+{count} more answers"
+    },
+    "QUESTION_TYPES": {
+      "OPEN_ENDED": "Open Ended",
+      "MULTIPLE_CHOICE": "Multiple Choice"
+    },
+    "INPUT_TYPES": {
+      "TEXT": "Text",
+      "NUMBER": "Number"
+    },
+    "ADD": {
+      "TITLE": "Add Survey",
+      "API": {
+        "SUCCESS_MESSAGE": "Survey added successfully.",
+        "ERROR_MESSAGE": "Could not add survey. Please try again later."
+      }
+    },
+    "LIST": {
+      "404": "No surveys found. You can create a survey by clicking the 'Add Survey' button.",
+      "LOADING": "Fetching surveys...",
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "QUESTIONS": "Questions",
+        "STATUS": "Status"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Yes, Delete",
+        "NO": "No, Keep"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Survey deleted successfully.",
+        "ERROR_MESSAGE": "Could not delete survey. Please try again."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Edit",
+      "TITLE": "Edit Survey",
+      "API": {
+        "SUCCESS_MESSAGE": "Survey updated successfully.",
+        "ERROR_MESSAGE": "Could not update survey. Please try again."
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Survey Name",
+        "PLACEHOLDER": "Enter survey name"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "What is this survey about?"
+      },
+      "ACTIVE": {
+        "LABEL": "Active"
+      },
+      "ERRORS": {
+        "NAME": "Survey name is required"
+      },
+      "CANCEL": "Cancel",
+      "CREATE": "Create Survey",
+      "UPDATE": "Update Survey"
+    },
+    "QUESTIONS": {
+      "HEADER": "Survey Questions",
+      "DESCRIPTION": "Manage questions for this survey. Add open-ended or multiple choice questions to qualify leads and collect important information.",
+      "LOADING": "Fetching questions...",
+      "404": "No questions found. Add your first question by clicking the 'Add Question' button.",
+      "GO_BACK": "Go back to surveys",
+      "TYPE": "Type",
+      "INPUT": "Input",
+      "OPTIONS": "Options",
+      "REQUIRED": "Required",
+      "ADD": {
+        "TITLE": "Add Question",
+        "API": {
+          "SUCCESS_MESSAGE": "Question added successfully.",
+          "ERROR_MESSAGE": "Could not add question. Please try again later."
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Delete",
+        "CONFIRM": {
+          "TITLE": "Confirm Deletion",
+          "MESSAGE": "Are you sure you want to delete this question: {question}?",
+          "YES": "Yes, Delete",
+          "NO": "No, Keep"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Question deleted successfully.",
+          "ERROR_MESSAGE": "Could not delete question. Please try again."
+        }
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Edit",
+        "TITLE": "Edit Question",
+        "API": {
+          "SUCCESS_MESSAGE": "Question updated successfully.",
+          "ERROR_MESSAGE": "Could not update question. Please try again."
+        }
+      },
+      "FORM": {
+        "QUESTION_TEXT": {
+          "LABEL": "Question",
+          "PLACEHOLDER": "Enter your question"
+        },
+        "QUESTION_TYPE": {
+          "LABEL": "Question Type"
+        },
+        "INPUT_TYPE": {
+          "LABEL": "Input Type"
+        },
+        "OPTIONS": {
+          "LABEL": "Options",
+          "PLACEHOLDER": "Option {number}",
+          "ADD_OPTION": "Add Option",
+          "REMOVE_OPTION": "Remove option"
+        },
+        "REQUIRED": {
+          "LABEL": "Required Question"
+        },
+        "ERRORS": {
+          "QUESTION_TEXT": "Question text is required"
+        },
+        "CANCEL": "Cancel",
+        "CREATE": "Create Question",
+        "UPDATE": "Update Question"
+      }
+    }
+  }
+}

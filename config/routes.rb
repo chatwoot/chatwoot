@@ -75,6 +75,10 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
           end
+          resources :surveys, only: [:index, :create, :show, :update, :destroy] do
+            resources :survey_questions, only: [:index, :create, :show, :update, :destroy]
+          end
+          resources :survey_answers, only: [:create]
           resources :contact_inboxes, only: [] do
             collection do
               post :filter
@@ -172,6 +176,8 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              resources :survey_answers, only: [:index]
+              resources :survey_completions, only: [:index]
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -193,6 +199,7 @@ Rails.application.routes.draw do
             get :campaigns, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
+            post :set_survey, on: :member
             delete :avatar, on: :member
             post :sync_templates, on: :member
             get :health, on: :member

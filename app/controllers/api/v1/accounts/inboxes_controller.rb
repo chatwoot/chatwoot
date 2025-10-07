@@ -65,6 +65,16 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def set_survey
+    if params[:survey_id].present?
+      survey = Current.account.surveys.find(params[:survey_id])
+      @inbox.update!(survey: survey)
+    else
+      @inbox.update!(survey: nil)
+    end
+    head :ok
+  end
+
   def destroy
     ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }

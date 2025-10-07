@@ -9,6 +9,8 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
 import WeeklyAvailabilitySection from '../components/WeeklyAvailabilitySection.vue';
+import { isPhoneNumberValid } from 'shared/helpers/Validators';
+import parsePhoneNumber from 'libphonenumber-js';
 
 const props = defineProps({
   id: {
@@ -20,6 +22,10 @@ const props = defineProps({
     required: true,
   },
   email: {
+    type: String,
+    default: '',
+  },
+  phoneNumber: {
     type: String,
     default: '',
   },
@@ -55,9 +61,58 @@ const store = useStore();
 const { t } = useI18n();
 
 const agentName = ref(props.name);
+const agentPhoneNumber = ref('');
+const activeDialCode = ref('');
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
+
+const parsedPhoneNumber = computed(() => {
+  return parsePhoneNumber(agentPhoneNumber.value || '');
+});
+
+const isPhoneNumberNotValid = computed(() => {
+  if (agentPhoneNumber.value !== '') {
+    return (
+      !isPhoneNumberValid(agentPhoneNumber.value, activeDialCode.value) ||
+      (agentPhoneNumber.value !== '' ? activeDialCode.value === '' : false)
+    );
+  }
+  return false;
+});
+
+const setPhoneNumber = computed(() => {
+  if (parsedPhoneNumber.value && parsedPhoneNumber.value.countryCallingCode) {
+    return agentPhoneNumber.value;
+  }
+  if (agentPhoneNumber.value === '' && activeDialCode.value !== '') {
+    return '';
+  }
+  return activeDialCode.value
+    ? `${activeDialCode.value}${agentPhoneNumber.value}`
+    : '';
+});
+
+const setPhoneCode = code => {
+  activeDialCode.value = code;
+};
+
+// Initialize phone number from props
+if (props.phoneNumber) {
+  const parsed = parsePhoneNumber(props.phoneNumber);
+  if (parsed && parsed.countryCallingCode) {
+    // Set dial code
+    activeDialCode.value = `+${parsed.countryCallingCode}`;
+    // Extract number without country code for the input
+    agentPhoneNumber.value = props.phoneNumber.replace(
+      `+${parsed.countryCallingCode}`,
+      ''
+    );
+  } else {
+    // If not parseable, use the raw value
+    agentPhoneNumber.value = props.phoneNumber;
+  }
+}
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
@@ -126,7 +181,7 @@ const availabilityStatuses = computed(() =>
 
 const editAgent = async () => {
   v$.value.$touch();
-  if (v$.value.$invalid) return;
+  if (v$.value.$invalid || isPhoneNumberNotValid.value) return;
 
   try {
     const availability = childRef.value.updateWeeklyAvailability();
@@ -134,6 +189,7 @@ const editAgent = async () => {
     const payload = {
       id: props.id,
       name: agentName.value,
+      phone_number: setPhoneNumber.value,
       availability: agentAvailability.value,
       ...availability,
     };
@@ -189,6 +245,22 @@ const resetPassword = async () => {
           </select>
           <span v-if="v$.selectedRoleId.$error" class="message">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.ERROR') }}
+          </span>
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label :class="{ error: isPhoneNumberNotValid }">
+          {{ $t('AGENT_MGMT.ADD.FORM.PHONE_NUMBER.LABEL') }}
+          <woot-phone-input
+            v-model="agentPhoneNumber"
+            :value="agentPhoneNumber"
+            :error="isPhoneNumberNotValid"
+            :placeholder="$t('AGENT_MGMT.ADD.FORM.PHONE_NUMBER.PLACEHOLDER')"
+            @set-code="setPhoneCode"
+          />
+          <span v-if="isPhoneNumberNotValid" class="message">
+            {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR') }}
           </span>
         </label>
       </div>

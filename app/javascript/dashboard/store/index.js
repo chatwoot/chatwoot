@@ -44,6 +44,7 @@ import reports from './modules/reports';
 import sla from './modules/sla';
 import slaReports from './modules/SLAReports';
 import summaryReports from './modules/summaryReports';
+import surveys from './modules/surveys';
 import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
@@ -107,6 +108,7 @@ export default createStore({
     sla,
     slaReports,
     summaryReports,
+    surveys,
     teamMembers,
     teams,
     userNotificationSettings,

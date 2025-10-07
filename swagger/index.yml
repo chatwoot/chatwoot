@@ -49,6 +49,8 @@ tags:
     description: Agent management APIs
   - name: Canned Responses
     description: Pre-defined responses for common queries
+  - name: Surveys
+    description: Survey management and responses
   - name: Contacts
     description: Contact management APIs
   - name: Contact Labels
@@ -89,6 +91,8 @@ tags:
     description: Public message APIs
   - name: CSAT Survey Page
     description: Customer satisfaction survey
+  - name: Survey Answers
+    description: Survey answer management APIs
 x-tagGroups:
   - name: Platform
     tags:
@@ -119,6 +123,7 @@ x-tagGroups:
       - Webhooks
       - Automation Rule
       - Help Center
+      - Survey Answers
   - name: Client
     tags:
       - Contacts API

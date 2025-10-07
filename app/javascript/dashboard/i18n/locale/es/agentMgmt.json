@@ -39,6 +39,10 @@
           "LABEL": "Dirección de correo",
           "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del agente"
         },
+        "PHONE_NUMBER": {
+          "LABEL": "Número de teléfono",
+          "PLACEHOLDER": "Por favor, introduzca un número de teléfono (ej. +1234567890)"
+        },
         "SUBMIT": "Añadir agente"
       },
       "API": {

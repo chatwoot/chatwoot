@@ -20,6 +20,10 @@ export default {
       type: String,
       default: '',
     },
+    phoneNumber: {
+      type: String,
+      default: '',
+    },
     emailEnabled: {
       type: Boolean,
       default: false,
@@ -34,6 +38,7 @@ export default {
       userName: this.name,
       userDisplayName: this.displayName,
       userEmail: this.email,
+      userPhoneNumber: this.phoneNumber,
       inputStyles: {
         borderRadius: '0.75rem',
         padding: '0.375rem 0.75rem',
@@ -72,6 +77,12 @@ export default {
       },
       immediate: true,
     },
+    phoneNumber: {
+      handler(value) {
+        this.userPhoneNumber = value;
+      },
+      immediate: true,
+    },
   },
   methods: {
     async updateUser() {
@@ -84,6 +95,7 @@ export default {
         name: this.userName,
         displayName: this.userDisplayName,
         email: this.userEmail,
+        phoneNumber: this.userPhoneNumber,
       });
     },
   },
@@ -130,6 +142,12 @@ export default {
       }`"
       @input="v$.userEmail.$touch"
       @blur="v$.userEmail.$touch"
+    />
+    <woot-input
+      v-model="userPhoneNumber"
+      :styles="inputStyles"
+      :label="$t('PROFILE_SETTINGS.FORM.PHONE_NUMBER.LABEL')"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.PHONE_NUMBER.PLACEHOLDER')"
     />
     <div>
       <NextButton type="submit" :label="$t('PROFILE_SETTINGS.BTN_TEXT')" />

@@ -16,6 +16,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       availability: new_agent_params['availability'],
       auto_offline: new_agent_params['auto_offline'],
       timezone: new_agent_params['timezone'],
+      phone_number: new_agent_params['phone_number'],
       inviter: current_user,
       account: Current.account
     )
@@ -25,9 +26,10 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @agent.update!(agent_params.slice(:name).compact)
+    @agent.update!(agent_params.slice(:name, :phone_number).compact)
     @agent.current_account_user.update!(agent_params.slice(*account_user_attributes).compact)
     update_agent_working_hours
+    @agent.reload
   end
 
   def destroy
@@ -75,7 +77,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def allowed_agent_params
-    [:name, :email, :role, :availability, :auto_offline, :timezone]
+    [:name, :email, :role, :availability, :auto_offline, :timezone, :phone_number]
   end
 
   def agent_params
@@ -83,7 +85,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def new_agent_params
-    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline, :timezone, working_hours: Inbox::OFFISABLE_ATTRS)
+    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline, :timezone, :phone_number, working_hours: Inbox::OFFISABLE_ATTRS)
   end
 
   def agents
