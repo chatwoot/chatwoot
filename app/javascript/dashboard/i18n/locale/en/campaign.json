@@ -209,6 +209,32 @@
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
+    },
+    "DETAIL": {
+      "SUBTITLE": "View campaign details and contact delivery status",
+      "EMPTY_STATE": "No contacts found for this campaign",
+      "PREPARING_CONTACTS": "Preparing contacts list...",
+      "OF": "/",
+      "STATS": {
+        "TOTAL": "Total Contacts",
+        "SENT": "Sent",
+        "FAILED": "Failed",
+        "PENDING": "Pending",
+        "SKIPPED": "Skipped"
+      },
+      "STATUS": {
+        "PENDING": "Pending",
+        "SENT": "Sent",
+        "FAILED": "Failed",
+        "SKIPPED": "Skipped"
+      },
+      "TABLE": {
+        "CONTACT": "Contact",
+        "PHONE": "Phone Number",
+        "STATUS": "Status",
+        "SENT_AT": "Sent At",
+        "ERROR": "Error Message"
+      }
     }
   }
 }

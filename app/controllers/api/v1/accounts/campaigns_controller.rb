@@ -6,7 +6,9 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     @campaigns = Current.account.campaigns
   end
 
-  def show; end
+  def show
+    @campaign_contacts = @campaign.campaign_contacts.includes(:contact).order(created_at: :desc)
+  end
 
   def create
     @campaign = Current.account.campaigns.create!(campaign_params)

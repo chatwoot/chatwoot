@@ -12,10 +12,11 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(['edit', 'delete', 'view']);
 
 const handleEdit = campaign => emit('edit', campaign);
 const handleDelete = campaign => emit('delete', campaign);
+const handleView = campaign => emit('view', campaign);
 </script>
 
 <template>
@@ -33,6 +34,7 @@ const handleDelete = campaign => emit('delete', campaign);
       :is-live-chat-type="isLiveChatType"
       @edit="handleEdit(campaign)"
       @delete="handleDelete(campaign)"
+      @view="handleView(campaign)"
     />
   </div>
 </template>

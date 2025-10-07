@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -12,6 +13,7 @@ import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pag
 import WhatsAppCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/WhatsAppCampaignEmptyState.vue';
 
 const { t } = useI18n();
+const router = useRouter();
 const getters = useStoreGetters();
 
 const selectedCampaign = ref(null);
@@ -33,6 +35,13 @@ const hasNoWhatsAppCampaigns = computed(
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
+};
+
+const handleView = campaign => {
+  router.push({
+    name: 'whatsapp_campaign_detail',
+    params: { campaignId: campaign.id },
+  });
 };
 </script>
 
@@ -59,6 +68,7 @@ const handleDelete = campaign => {
       v-else-if="!hasNoWhatsAppCampaigns"
       :campaigns="WhatsAppCampaigns"
       @delete="handleDelete"
+      @view="handleView"
     />
     <WhatsAppCampaignEmptyState
       v-else
