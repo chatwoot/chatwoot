@@ -41,7 +41,7 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     if for_mobile?(relay_state)
       redirect_to_mobile_error(error, relay_state)
     else
-      redirect_to login_page_url(error: "saml-#{error}"), allow_other_host: true
+      redirect_to login_page_url(error: "saml-#{error}")
     end
   end
 
@@ -54,7 +54,7 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     unless saml_enabled_for_account?(account_id)
       return redirect_to_mobile_error('saml-not-enabled') if for_mobile?(relay_state)
 
-      return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true
+      return redirect_to login_page_url(error: 'saml-not-enabled')
     end
 
     @resource = SamlUserBuilder.new(auth_hash, account_id).perform
@@ -66,7 +66,7 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     else
       return redirect_to_mobile_error('saml-authentication-failed') if for_mobile?(relay_state)
 
-      redirect_to login_page_url(error: 'saml-authentication-failed'), allow_other_host: true
+      redirect_to login_page_url(error: 'saml-authentication-failed')
     end
   end
 
