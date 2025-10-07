@@ -23,6 +23,10 @@ vi:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Vui lòng nhập một địa chỉ email hợp lệ'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
@@ -82,7 +86,7 @@ vi:
       validations:
         name: không nên bắt đầu hoặc kết thúc bằng các ký hiệu và không nên có kí tự < > / \ @.
     custom_filters:
-      number_of_records: Đã đạt giới hạn. Số lượng tuỳ chọn lọc tối đa cho mỗi mỗi người dùng mỗi tài khoản là 50.
+      number_of_records: Đã đạt giới hạn. Số lượng tuỳ chọn lọc tối đa cho mỗi mỗi người dùng mỗi tài khoản là 1000.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
@@ -318,6 +322,8 @@ vi:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: Tìm bài viết theo tiêu đề hoặc nội dung...

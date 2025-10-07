@@ -554,10 +554,12 @@
         "WROTE": "写道",
         "YOU": "您",
         "SAVE": "保存备注",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "扩展",
         "COLLAPSE": "收起",
         "NO_NOTES": "没有备注，您可以从联系人详细信息页面添加备注。",
-        "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。"
+        "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
