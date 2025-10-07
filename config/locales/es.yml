@@ -86,7 +86,7 @@ es:
       validations:
         name: no debe comenzar ni terminar con símbolos, y no debe tener caracteres < > / \ @.
     custom_filters:
-      number_of_records: Límite alcanzado. El número máximo de filtros personalizados permitidos para un usuario por cuenta es de 50.
+      number_of_records: Límite alcanzado. El número máximo de filtros personalizados permitidos para un usuario por cuenta es de 1000.
       invalid_attribute: Clave de atributo no válida - [%{key}]. La clave debe ser una de [%{allowed_keys}] o un atributo personalizado definido en la cuenta.
       invalid_operator: Operador no válido. Los operadores permitidos para %{attribute_name} son [%{allowed_keys}].
       invalid_query_operator: El operador de consulta debe ser "Y" o "O".
@@ -322,6 +322,8 @@ es:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...
