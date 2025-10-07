@@ -117,6 +117,7 @@ const props = defineProps({
   attachments: { type: Array, default: () => [] },
   content: { type: String, default: null },
   contentAttributes: { type: Object, default: () => ({}) },
+  appleMspPayload: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   contentType: {
     type: String,
     default: 'text',

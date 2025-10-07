@@ -449,5 +449,117 @@
       "TITLE": "Form Data Unavailable",
       "SUBTITLE": "The form submission data could not be retrieved."
     }
+  },
+  "APPLE_PAYLOAD": {
+    "TITLE": "Apple Messages Payload",
+    "DESCRIPTION": "This is the JSON payload sent to Apple's mspgw.apple.com server:",
+    "TOOLTIP": "View Apple Messages payload",
+    "COPY": "Copy"
+  },
+  "APPLE_FORM": {
+    "MODAL_TITLE": "Create Apple Form Message",
+    "MODAL_SUBTITLE": "Build interactive forms for Apple Messages",
+    "TABS": {
+      "TEMPLATES": "Templates",
+      "BUILDER": "Builder",
+      "PREVIEW": "Preview"
+    },
+    "CHOOSE_TEMPLATE": "Choose a Template",
+    "FORM_DETAILS": "Form Details",
+    "FORM_TITLE_LABEL": "Form Title *",
+    "FORM_TITLE_PLACEHOLDER": "Enter form title",
+    "DESCRIPTION_LABEL": "Description",
+    "DESCRIPTION_PLACEHOLDER": "Optional form description",
+    "PAGES": "Pages",
+    "ADD_PAGE": "+ Add Page",
+    "PAGE_LABEL": "Page",
+    "FIELDS_COUNT": "fields",
+    "FIELDS_TITLE": "Fields - {page}",
+    "ADD_FIELD": "+ Add Field",
+    "PAGE_CONFIG": "Page Configuration",
+    "PAGE_TITLE_LABEL": "Page Title",
+    "PAGE_DESCRIPTION_LABEL": "Page Description",
+    "FORM_PREVIEW": "Form Preview",
+    "NO_PAGES_YET": "No form pages created yet. Add pages and fields in the Builder tab to see a preview.",
+    "SELECT_OPTION": "Select an option",
+    "TOGGLE_OPTION": "Toggle option",
+    "LINK_URL": "Link URL",
+    "NO_FIELDS_YET": "No fields added to this page yet",
+    "SUMMARY": "{pages} pages, {fields} fields",
+    "CANCEL": "Cancel",
+    "CREATE_FORM": "Create Form Message",
+    "ADD_FIELD_TITLE": "Add Form Field",
+    "FIELD_TYPE": "Field Type",
+    "FIELD_TITLE": "Field Title *",
+    "FIELD_TITLE_PLACEHOLDER": "Enter field title",
+    "FIELD_DESCRIPTION_PLACEHOLDER": "Optional field description",
+    "REQUIRED_FIELD": "Required field",
+    "PLACEHOLDER": "Placeholder",
+    "PLACEHOLDER_TEXT": "Placeholder text",
+    "OPTIONS": "Options",
+    "OPTION_VALUE": "Option value",
+    "OPTION_LABEL": "Option label",
+    "ADD_OPTION": "+ Add Option",
+    "DEFAULT_TITLE": "Form",
+    "FIELD_TYPES": {
+      "TEXT": "Text Input",
+      "TEXT_AREA": "Text Area",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "SINGLE_CHOICE": "Single Choice",
+      "MULTIPLE_CHOICE": "Multiple Choice",
+      "DATE_TIME": "Date & Time",
+      "TOGGLE": "Toggle",
+      "STEPPER": "Number Stepper",
+      "RICH_LINK": "Rich Link"
+    },
+    "FIELD_DESCRIPTIONS": {
+      "TEXT": "Single line text input",
+      "TEXT_AREA": "Multi-line text input",
+      "EMAIL": "Email address input",
+      "PHONE": "Phone number input",
+      "SINGLE_CHOICE": "Select one option",
+      "MULTIPLE_CHOICE": "Select multiple options",
+      "DATE_TIME": "Date and time picker",
+      "TOGGLE": "Yes/No toggle switch",
+      "STEPPER": "Number input with +/- buttons",
+      "RICH_LINK": "Clickable link with preview"
+    },
+    "FIELD_LABELS": {
+      "FULL_NAME": "Full Name",
+      "EMAIL": "Email Address",
+      "PHONE": "Phone Number"
+    },
+    "PLACEHOLDERS": {
+      "FULL_NAME": "Enter your full name",
+      "EMAIL": "your.email@example.com",
+      "PHONE": "+1 (555) 123-4567"
+    },
+    "TEMPLATES": {
+      "CONTACT": {
+        "NAME": "Contact Form",
+        "DESCRIPTION": "Basic contact information form",
+        "FORM_TITLE": "Contact Form",
+        "FORM_DESC": "We'd love to hear from you",
+        "PAGE_TITLE": "Contact Information",
+        "PAGE_DESC": "Please provide your contact details"
+      },
+      "FEEDBACK": {
+        "NAME": "Feedback Form",
+        "DESCRIPTION": "Customer feedback and rating form"
+      },
+      "APPOINTMENT": {
+        "NAME": "Appointment Booking",
+        "DESCRIPTION": "Schedule appointments and meetings"
+      },
+      "SURVEY": {
+        "NAME": "Survey Form",
+        "DESCRIPTION": "Multi-page customer survey"
+      },
+      "ORDER": {
+        "NAME": "Order Form",
+        "DESCRIPTION": "Product ordering and billing"
+      }
+    }
   }
 }
