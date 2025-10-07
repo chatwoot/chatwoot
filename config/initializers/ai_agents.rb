@@ -15,7 +15,6 @@ Rails.application.config.after_initialize do
         config.openai_api_base = api_base
       end
       config.default_model = model
-      config.max_turns = 30
       config.debug = false
     end
   end
