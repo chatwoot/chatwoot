@@ -48,17 +48,17 @@ spec:
               port: 3000
             initialDelaySeconds: 30
             periodSeconds: 10
-            timeoutSeconds: 5
+            timeoutSeconds: 10
             successThreshold: 1
-            failureThreshold: 3
+            failureThreshold: 5
           livenessProbe:
             httpGet:
               path: /api
               port: 3000
-            initialDelaySeconds: 60
+            initialDelaySeconds: 90
             periodSeconds: 30
-            timeoutSeconds: 10
-            failureThreshold: 3
+            timeoutSeconds: 15
+            failureThreshold: 5
           resources:
             limits:
               cpu: 'TOTAL_CPU'
@@ -90,8 +90,8 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 75
-  - type: Resource    
+        averageUtilization: 85
+  - type: Resource
     resource:
       name: memory
       target:
