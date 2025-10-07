@@ -99,5 +99,19 @@ CLAUDE.local.md
 # Histoire deployment
 .netlify
 .histoire
-.pnpm-store/*
+
+# pnpm store (local cache)
+.pnpm-store/
+
 local/
+
+# Local Docker configuration changes
+docker-compose.yaml
+
+# Local documentation
+SERVICIOS.md
+CLAUDE.md
+
+# Husky git hooks (if installed locally)
+.husky/
+!.husky/.gitkeep
