@@ -73,23 +73,11 @@ class Linear::TokenRefreshService
   end
 
   def token_eligible_for_refresh?
-    return false unless @hook&.settings&.dig('expires_at')
-    return false unless @hook&.settings&.dig('refresh_token')
+    return false unless required_token_data?
 
     expires_at = Time.zone.parse(@hook.settings['expires_at'])
 
-    # Three conditions must be met for proactive refresh:
-    # 1. Token is still valid (not expired yet)
-    token_is_valid = Time.current < expires_at
-
-    # 2. Token is at least 24 hours old (prevents excessive refresh attempts)
-    token_is_old_enough = @hook.updated_at.present? && Time.current - @hook.updated_at >= 24.hours
-
-    # 3. Token is approaching expiry (within 10 days)
-    # This gives enough buffer to handle refresh failures
-    approaching_expiry = expires_at < 10.days.from_now
-
-    token_is_valid && token_is_old_enough && approaching_expiry
+    token_valid?(expires_at) && token_old_enough? && token_approaching_expiry?(expires_at)
   end
 
   def refresh_token?
@@ -117,5 +105,25 @@ class Linear::TokenRefreshService
     return nil unless expires_in
 
     (Time.current + expires_in.to_i.seconds).iso8601
+  end
+
+  # Checks if hook has both expires_at and refresh_token data
+  def required_token_data?
+    @hook&.settings&.dig('expires_at') && @hook&.settings&.dig('refresh_token')
+  end
+
+  # Checks if token is still valid (not expired yet)
+  def token_valid?(expires_at)
+    Time.current < expires_at
+  end
+
+  # Checks if token is at least 24 hours old (prevents excessive refresh attempts)
+  def token_old_enough?
+    @hook.updated_at.present? && Time.current - @hook.updated_at >= 24.hours
+  end
+
+  # Checks if token is approaching expiry (within 10 days)
+  def token_approaching_expiry?(expires_at)
+    expires_at < 10.days.from_now
   end
 end
