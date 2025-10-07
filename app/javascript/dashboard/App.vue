@@ -95,6 +95,15 @@ export default {
     this.setLocale(
       this.uiSettings?.locale || window.chatwootConfig.selectedLocale
     );
+
+    // Emergency timeout: if still loading after 10s, force logout
+    setTimeout(() => {
+      if (this.authUIFlags.isFetching || this.accountUIFlags.isFetchingItem) {
+        // eslint-disable-next-line no-console
+        console.error('Loading timeout exceeded - forcing logout');
+        window.location.href = '/app/logout';
+      }
+    }, 10000);
   },
   unmounted() {
     if (this.reconnectService) {

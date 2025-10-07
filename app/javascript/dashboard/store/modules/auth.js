@@ -110,6 +110,9 @@ export const actions = {
     } catch (error) {
       if (error?.response?.status === 401) {
         clearCookiesOnLogout();
+        context.commit(types.CLEAR_USER);
+        // Force redirect to login immediately on 401
+        window.location.href = '/app/login';
       }
     }
   },

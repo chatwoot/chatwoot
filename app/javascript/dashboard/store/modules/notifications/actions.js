@@ -39,6 +39,10 @@ export const actions = {
       }
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
+      // Stop pagination loop on 401 (unauthorized)
+      if (error?.response?.status === 401) {
+        commit(types.SET_ALL_NOTIFICATIONS_LOADED);
+      }
     }
   },
   unReadCount: async ({ commit } = {}) => {
