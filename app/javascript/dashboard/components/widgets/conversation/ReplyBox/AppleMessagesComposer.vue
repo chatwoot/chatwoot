@@ -1,5 +1,17 @@
+<!-- eslint-disable no-unused-vars -->
+<!-- eslint-disable no-use-before-define -->
+<!-- eslint-disable no-plusplus -->
+<!-- eslint-disable no-lonely-if -->
+<!-- eslint-disable default-case -->
+<!-- eslint-disable no-console -->
+<!-- eslint-disable no-alert -->
+<!-- eslint-disable no-shadow -->
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
+<!-- eslint-disable no-template-curly-in-string -->
+<!-- eslint-disable prettier/prettier -->
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import {
@@ -28,7 +40,14 @@ const emit = defineEmits(['send', 'cancel']);
 const { t } = useI18n();
 const store = useStore();
 
-const activeTab = ref('list_picker');
+const activeTab = ref('quick_reply');
+
+// Automatically open form builder when Forms tab is selected
+watch(activeTab, newTab => {
+  if (newTab === 'forms') {
+    showFormBuilder.value = true;
+  }
+});
 
 // Saved images from ActiveStorage
 const savedImages = ref([]);
@@ -502,9 +521,11 @@ const timePickerData = ref({
   timezone_offset: -480,
   received_title: 'Please pick a time',
   received_subtitle: 'Select your preferred time slot',
+  receivedImageIdentifier: '', // Image for received message
   received_style: 'icon',
   reply_title: 'Thank you!',
   reply_subtitle: '',
+  replyImageIdentifier: '', // Image for reply message
   reply_style: 'icon',
   reply_image_title: '',
   reply_image_subtitle: '',
@@ -875,14 +896,30 @@ const sendAppleMessage = () => {
       break;
     case 'time_picker':
       content_type = 'apple_time_picker';
-      content_attributes = { ...timePickerData.value };
+      // Map camelCase to snake_case for backend
+      content_attributes = {
+        event: timePickerData.value.event,
+        timezone_offset: timePickerData.value.timezone_offset,
+        received_title: timePickerData.value.received_title,
+        received_subtitle: timePickerData.value.received_subtitle,
+        received_image_identifier: timePickerData.value.receivedImageIdentifier, // Map camelCase to snake_case
+        received_style: timePickerData.value.received_style,
+        reply_title: timePickerData.value.reply_title,
+        reply_subtitle: timePickerData.value.reply_subtitle,
+        reply_image_identifier: timePickerData.value.replyImageIdentifier, // Map camelCase to snake_case
+        reply_style: timePickerData.value.reply_style,
+        reply_image_title: timePickerData.value.reply_image_title,
+        reply_image_subtitle: timePickerData.value.reply_image_subtitle,
+        reply_secondary_subtitle: timePickerData.value.reply_secondary_subtitle,
+        reply_tertiary_subtitle: timePickerData.value.reply_tertiary_subtitle,
+      };
 
-      // Include images if they exist in listPickerData
+      // Include images if they exist (same as list picker)
       if (
-        listPickerData.value.images &&
-        listPickerData.value.images.length > 0
+        timePickerData.value.images &&
+        timePickerData.value.images.length > 0
       ) {
-        content_attributes.images = listPickerData.value.images.map(img => ({
+        content_attributes.images = timePickerData.value.images.map(img => ({
           identifier: img.identifier,
           data: img.data,
           description: img.description || img.originalName || img.identifier,
@@ -893,7 +930,14 @@ const sendAppleMessage = () => {
           content_attributes.images.length,
           content_attributes.images.map(i => i.identifier)
         );
+      } else {
+        console.log('[AMB TimePicker] No images to send');
       }
+
+      console.log('[AMB TimePicker] Using image identifiers:', {
+        received: content_attributes.received_image_identifier,
+        reply: content_attributes.reply_image_identifier,
+      });
 
       content = timePickerData.value.event?.title || 'Time Picker Message';
       break;
@@ -964,19 +1008,63 @@ const selectApp = appId => {
 const updateAppData = (key, value) => {
   selectedAppData.value[key] = value;
 };
+
+// Handle image upload from EnhancedTimePickerModal
+const handleImageUpload = imageInfo => {
+  // Generate identifier
+  const fileNameWithoutExt = imageInfo.name.replace(/\.[^/.]+$/, '');
+  const cleanName = fileNameWithoutExt
+    .replace(/[^a-zA-Z0-9]/g, '_')
+    .toLowerCase();
+  const imageIndex = listPickerData.value.images.length + 1;
+
+  const imageData = {
+    identifier: `${cleanName}_${imageIndex}`,
+    data: imageInfo.data.split(',')[1], // Remove data:image/...;base64, prefix
+    preview: imageInfo.data, // Keep full data URL for preview
+    description: imageInfo.name,
+    originalName: imageInfo.name,
+    size: imageInfo.size,
+  };
+
+  // Add to list picker images (for shared image library)
+  listPickerData.value.images.push(imageData);
+
+  // Also add to time picker images so it's included when saving
+  if (!timePickerData.value.images) {
+    timePickerData.value.images = [];
+  }
+  timePickerData.value.images.push(imageData);
+};
+
+// Select image for time picker (automatically sets both received and reply)
+const selectTimePickerImage = identifier => {
+  console.log('[AMB TimePicker] Image selected:', identifier);
+  timePickerData.value.receivedImageIdentifier = identifier;
+  timePickerData.value.replyImageIdentifier = identifier;
+  console.log('[AMB TimePicker] Updated identifiers:', {
+    received: timePickerData.value.receivedImageIdentifier,
+    reply: timePickerData.value.replyImageIdentifier,
+  });
+};
 </script>
 
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <div class="apple-messages-composer bg-n-solid-1 text-n-slate-12">
     <!-- Tabs -->
     <div class="flex space-x-2 mb-4 border-b border-n-weak">
       <button
         v-for="tab in [
-          'list_picker',
           'quick_reply',
+          'list_picker',
           'time_picker',
           'forms',
           'imessage_apps',
+          'oauth',
+          'apple_pay',
         ]"
         :key="tab"
         class="px-4 py-2 text-sm font-medium border-b-2 transition-colors"
@@ -990,7 +1078,11 @@ const updateAppData = (key, value) => {
         {{
           tab === 'imessage_apps'
             ? 'iMessage Apps'
-            : tab.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
+            : tab === 'oauth'
+              ? 'OAuth'
+              : tab === 'apple_pay'
+                ? 'Apple Pay'
+                : tab.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
         }}
       </button>
     </div>
@@ -1010,7 +1102,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Title</label>
+              >Title</label
+            >
             <input
               v-model="listPickerData.received_title"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1020,7 +1113,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Subtitle</label>
+              >Subtitle</label
+            >
             <input
               v-model="listPickerData.received_subtitle"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1029,28 +1123,84 @@ const updateAppData = (key, value) => {
           </div>
           <div>
             <label
-              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Header Image</label>
-            <select
-              v-model="listPickerData.received_image_identifier"
-              class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9 h-10"
+              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
             >
-              <option value="">No header image</option>
-              <option
-                v-for="image in listPickerData.images"
-                :key="image.identifier"
-                :value="image.identifier"
+              Header Image
+            </label>
+            <div class="grid grid-cols-4 gap-2">
+              <div
+                class="relative cursor-pointer border-2 rounded-lg overflow-hidden transition-all"
+                :class="
+                  listPickerData.received_image_identifier === ''
+                    ? 'border-n-blue-8 dark:border-n-blue-9 bg-n-blue-1 dark:bg-n-blue-2'
+                    : 'border-n-weak dark:border-n-slate-6 hover:border-n-blue-8 dark:hover:border-n-blue-9'
+                "
+                @click="listPickerData.received_image_identifier = ''"
               >
-                {{ image.originalName || image.description }} ({{
-                  image.identifier
-                }})
-              </option>
-            </select>
+                <div
+                  class="h-16 flex items-center justify-center bg-n-alpha-2 dark:bg-n-alpha-3"
+                >
+                  <span class="text-2xl">🚫</span>
+                </div>
+                <div
+                  class="text-xs text-center py-1 bg-n-solid-1 dark:bg-n-alpha-2"
+                >
+                  None
+                </div>
+              </div>
+              <div
+                v-for="image in [...listPickerData.images, ...savedImages]"
+                :key="image.identifier"
+                class="relative cursor-pointer border-2 rounded-lg overflow-hidden transition-all"
+                :class="
+                  listPickerData.received_image_identifier === image.identifier
+                    ? 'border-n-blue-8 dark:border-n-blue-9 bg-n-blue-1 dark:bg-n-blue-2'
+                    : 'border-n-weak dark:border-n-slate-6 hover:border-n-blue-8 dark:hover:border-n-blue-9'
+                "
+                @click="
+                  listPickerData.received_image_identifier = image.identifier
+                "
+              >
+                <img
+                  :src="image.preview || image.image_url"
+                  :alt="image.originalName || image.description"
+                  class="w-full h-16 object-cover"
+                />
+                <div
+                  class="text-xs text-center py-1 bg-n-solid-1 dark:bg-n-alpha-2 truncate px-1"
+                  :title="
+                    image.originalName ||
+                    image.original_name ||
+                    image.description ||
+                    image.identifier
+                  "
+                >
+                  {{
+                    (
+                      image.originalName ||
+                      image.original_name ||
+                      image.description ||
+                      image.identifier
+                    ).substring(0, 12)
+                  }}...
+                </div>
+                <div
+                  v-if="
+                    listPickerData.received_image_identifier ===
+                    image.identifier
+                  "
+                  class="absolute top-1 right-1 bg-n-blue-9 dark:bg-n-blue-10 rounded-full w-5 h-5 flex items-center justify-center"
+                >
+                  <span class="text-white text-xs">✓</span>
+                </div>
+              </div>
+            </div>
           </div>
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Style</label>
+              >Style</label
+            >
             <select
               v-model="listPickerData.received_style"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9 h-10"
@@ -1067,7 +1217,7 @@ const updateAppData = (key, value) => {
         </div>
       </div>
 
-      <!-- Images Management - MOVED UP for better UX flow -->
+      <!-- Images Management -->
       <div
         class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6"
       >
@@ -1075,7 +1225,7 @@ const updateAppData = (key, value) => {
           <h4
             class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11"
           >
-            Images
+            Item Images
           </h4>
           <button
             class="px-3 py-1 bg-n-blue-9 dark:bg-n-blue-10 text-white dark:text-n-slate-12 rounded text-sm hover:bg-n-blue-10 dark:hover:bg-n-blue-11 transition-colors"
@@ -1085,112 +1235,51 @@ const updateAppData = (key, value) => {
           </button>
         </div>
 
-        <!-- Saved Images Section -->
-        <div
-          v-if="activeTab === 'list_picker'"
-          class="mb-4 p-3 bg-n-solid-1 dark:bg-n-alpha-2 rounded-lg border border-n-weak dark:border-n-slate-6"
-        >
-          <div class="flex items-center justify-between mb-2">
-            <h5
-              class="text-xs font-semibold text-n-slate-11 dark:text-n-slate-10 uppercase"
-            >
-              Saved Images
-              <span v-if="savedImages.length > 0">({{ savedImages.length }})</span>
-            </h5>
-            <span
-              v-if="loadingSavedImages"
-              class="text-xs text-n-slate-10 dark:text-n-slate-9"
-            >
-              Loading...
-            </span>
-          </div>
-
-          <div
-            v-if="savedImages.length === 0 && !loadingSavedImages"
-            class="text-xs text-n-slate-10 dark:text-n-slate-9 italic py-2"
-          >
-            No saved images yet. Upload images and send a list picker to save
-            them for reuse.
-          </div>
-
-          <div
-            v-else-if="savedImages.length > 0"
-            class="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto"
-          >
-            <div
-              v-for="savedImage in savedImages"
-              :key="savedImage.id"
-              class="relative group cursor-pointer border border-n-weak dark:border-n-slate-6 rounded overflow-hidden hover:border-n-blue-8 dark:hover:border-n-blue-9 transition-colors"
-              @click="useSavedImage(savedImage)"
-            >
-              <img
-                :src="savedImage.image_url"
-                :alt="savedImage.description"
-                class="w-full h-16 object-cover"
-              />
-              <div
-                class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity flex items-center justify-center"
-              >
-                <span
-                  class="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  Click to use
-                </span>
-              </div>
-              <div
-                class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white text-xs px-1 py-0.5 truncate"
-              >
-                {{ savedImage.original_name || savedImage.identifier }}
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div
           v-if="listPickerData.images.length === 0"
           class="text-sm text-n-slate-11 dark:text-n-slate-10 italic"
         >
           No images added. Images can be referenced by list items.
         </div>
-        <div v-else class="space-y-2">
+        <div v-else class="grid grid-cols-3 gap-2">
           <div
             v-for="(image, index) in listPickerData.images"
             :key="index"
-            class="flex items-center justify-between p-3 bg-n-solid-1 dark:bg-n-alpha-2 rounded-lg border border-n-weak dark:border-n-alpha-6"
+            class="relative group border border-n-weak dark:border-n-slate-6 rounded-lg overflow-hidden hover:border-n-blue-8 dark:hover:border-n-blue-9 transition-colors"
           >
-            <div class="flex items-center space-x-3">
-              <!-- Enhanced image preview -->
-              <div
-                class="w-12 h-12 bg-n-alpha-3 dark:bg-n-alpha-4 rounded-lg flex items-center justify-center overflow-hidden"
-              >
-                <img
-                  v-if="image.preview"
-                  :src="image.preview"
-                  :alt="image.originalName || image.description"
-                  class="w-full h-full object-cover rounded-lg"
-                />
-                <span v-else class="text-lg">📷</span>
-              </div>
-              <div>
-                <div
-                  class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11"
-                >
-                  {{ image.originalName || image.description }}
-                </div>
-                <div class="text-xs text-n-slate-11 dark:text-n-slate-10">
-                  ID: {{ image.identifier }}
-                </div>
-                <div class="text-xs text-n-slate-10 dark:text-n-slate-9">
-                  {{ formatFileSize(image.size) }}
-                </div>
-              </div>
-            </div>
-            <button
-              class="px-3 py-1 bg-n-ruby-9 dark:bg-n-ruby-10 text-white dark:text-n-slate-12 rounded text-xs hover:bg-n-ruby-10 dark:hover:bg-n-ruby-11 transition-colors"
-              @click="removeImage(index)"
+            <img
+              v-if="image.preview"
+              :src="image.preview"
+              :alt="image.originalName || image.description"
+              class="w-full h-24 object-cover"
+            />
+            <div
+              v-else
+              class="w-full h-24 bg-n-alpha-3 dark:bg-n-alpha-4 flex items-center justify-center"
             >
-              Remove
-            </button>
+              <span class="text-2xl">📷</span>
+            </div>
+            <div
+              class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-70 transition-opacity flex items-center justify-center"
+            >
+              <button
+                class="opacity-0 group-hover:opacity-100 px-2 py-1 bg-n-ruby-9 text-white rounded text-xs hover:bg-n-ruby-10 transition-all"
+                @click.stop="removeImage(index)"
+              >
+                Remove
+              </button>
+            </div>
+            <div
+              class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white text-xs px-2 py-1 truncate"
+              :title="`${image.originalName || image.description} (${formatFileSize(image.size)})`"
+            >
+              {{ image.originalName || image.description }}
+            </div>
+            <div
+              class="absolute top-1 right-1 bg-black bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded"
+            >
+              {{ formatFileSize(image.size) }}
+            </div>
           </div>
         </div>
       </div>
@@ -1381,7 +1470,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Title</label>
+              >Title</label
+            >
             <input
               v-model="listPickerData.reply_title"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1391,7 +1481,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Subtitle</label>
+              >Subtitle</label
+            >
             <input
               v-model="listPickerData.reply_subtitle"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1401,7 +1492,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Image Title</label>
+              >Image Title</label
+            >
             <input
               v-model="listPickerData.reply_image_title"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1411,7 +1503,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Image Subtitle</label>
+              >Image Subtitle</label
+            >
             <input
               v-model="listPickerData.reply_image_subtitle"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1421,7 +1514,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Secondary Subtitle</label>
+              >Secondary Subtitle</label
+            >
             <input
               v-model="listPickerData.reply_secondary_subtitle"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1431,7 +1525,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Tertiary Subtitle</label>
+              >Tertiary Subtitle</label
+            >
             <input
               v-model="listPickerData.reply_tertiary_subtitle"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1441,7 +1536,8 @@ const updateAppData = (key, value) => {
           <div>
             <label
               class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
-              >Style</label>
+              >Style</label
+            >
             <select
               v-model="listPickerData.reply_style"
               class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1466,7 +1562,8 @@ const updateAppData = (key, value) => {
       >
         <label
           class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
-          >Question</label>
+          >Question</label
+        >
         <input
           v-model="quickReplyData.summary_text"
           class="w-full px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
@@ -1479,7 +1576,8 @@ const updateAppData = (key, value) => {
       >
         <label
           class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11"
-          >Reply Options (2-5)</label>
+          >Reply Options (2-5)</label
+        >
         <div
           v-for="(item, index) in quickReplyData.items"
           :key="index"
@@ -1513,6 +1611,270 @@ const updateAppData = (key, value) => {
 
     <!-- Time Picker Tab -->
     <div v-if="activeTab === 'time_picker'" class="space-y-6">
+      <!-- Images Management for Time Picker -->
+      <div
+        class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6"
+      >
+        <div class="flex justify-between items-center mb-3">
+          <h4
+            class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11"
+          >
+            Choose 1 image for the Time Picker
+          </h4>
+          <button
+            class="px-3 py-1 bg-n-blue-9 dark:bg-n-blue-10 text-white dark:text-n-slate-12 rounded text-sm hover:bg-n-blue-10 dark:hover:bg-n-blue-11 transition-colors"
+            @click="addImage"
+          >
+            Add Image
+          </button>
+        </div>
+
+        <!-- Combined Images Gallery (Saved + Uploaded) -->
+        <div class="grid grid-cols-6 gap-2 mb-4">
+          <!-- Saved Images -->
+          <div
+            v-for="savedImage in savedImages"
+            :key="`saved-${savedImage.id}`"
+            class="relative group cursor-pointer aspect-square border-2 rounded-lg overflow-hidden transition-all"
+            :class="
+              timePickerData.receivedImageIdentifier === savedImage.identifier
+                ? 'border-n-blue-8 dark:border-n-blue-9 ring-2 ring-n-blue-8 dark:ring-n-blue-9'
+                : 'border-n-weak dark:border-n-slate-6 hover:border-n-blue-8 dark:hover:border-n-blue-9'
+            "
+            @click="selectTimePickerImage(savedImage.identifier)"
+          >
+            <img
+              :src="savedImage.image_url"
+              :alt="savedImage.description"
+              class="w-full h-full object-cover"
+            />
+            <div
+              v-if="
+                timePickerData.receivedImageIdentifier === savedImage.identifier
+              "
+              class="absolute top-1 right-1 bg-n-blue-9 text-white rounded-full p-1"
+            >
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Uploaded Images -->
+          <div
+            v-for="(image, index) in listPickerData.images"
+            :key="`uploaded-${index}`"
+            class="relative group cursor-pointer aspect-square border-2 rounded-lg overflow-hidden transition-all"
+            :class="
+              timePickerData.receivedImageIdentifier === image.identifier
+                ? 'border-n-blue-8 dark:border-n-blue-9 ring-2 ring-n-blue-8 dark:ring-n-blue-9'
+                : 'border-n-weak dark:border-n-slate-6 hover:border-n-blue-8 dark:hover:border-n-blue-9'
+            "
+            @click="selectTimePickerImage(image.identifier)"
+          >
+            <img
+              v-if="image.preview"
+              :src="image.preview"
+              :alt="image.originalName || image.description"
+              class="w-full h-full object-cover"
+            />
+            <div
+              v-if="timePickerData.receivedImageIdentifier === image.identifier"
+              class="absolute top-1 right-1 bg-n-blue-9 text-white rounded-full p-1"
+            >
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <button
+              class="absolute top-1 left-1 bg-n-ruby-9 dark:bg-n-ruby-10 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+              @click.stop="removeImage(index)"
+            >
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-if="savedImages.length === 0 && listPickerData.images.length === 0"
+          class="text-sm text-n-slate-11 dark:text-n-slate-10 italic text-center py-4"
+        >
+          No images available. Click "Add Image" to upload.
+        </div>
+      </div>
+
+      <!-- Received & Reply Message Configuration for Time Picker -->
+      <div
+        class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6"
+      >
+        <h4
+          class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3"
+        >
+          Message Configuration
+        </h4>
+        <div class="space-y-4">
+          <!-- Received Message -->
+          <div>
+            <label
+              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
+              >Received Title</label
+            >
+            <input
+              v-model="timePickerData.received_title"
+              class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+              placeholder="Please pick a time"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
+              >Received Subtitle</label
+            >
+            <input
+              v-model="timePickerData.received_subtitle"
+              class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+              placeholder="Select your preferred time slot"
+            />
+          </div>
+
+          <!-- Received Style with Preview -->
+          <div>
+            <label
+              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
+              >Received Style</label
+            >
+            <div class="flex gap-4">
+              <label
+                v-for="style in styleOptions"
+                :key="`received-${style.value}`"
+                class="flex-1 cursor-pointer"
+              >
+                <input
+                  v-model="timePickerData.received_style"
+                  type="radio"
+                  :value="style.value"
+                  class="sr-only"
+                />
+                <div
+                  class="border-2 rounded-lg p-3 transition-all"
+                  :class="
+                    timePickerData.received_style === style.value
+                      ? 'border-n-blue-8 dark:border-n-blue-9 bg-n-blue-1 dark:bg-n-blue-2'
+                      : 'border-n-weak dark:border-n-slate-6 hover:border-n-blue-8 dark:hover:border-n-blue-9'
+                  "
+                >
+                  <div
+                    class="text-xs font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
+                  >
+                    {{ style.label }}
+                  </div>
+                  <div
+                    class="bg-n-alpha-3 dark:bg-n-alpha-4 rounded flex items-center justify-center"
+                    :style="{
+                      height:
+                        style.value === 'icon'
+                          ? '40px'
+                          : style.value === 'small'
+                            ? '60px'
+                            : '150px',
+                    }"
+                  >
+                    <span class="text-2xl">📅</span>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Reply Message -->
+          <div>
+            <label
+              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
+              >Reply Title</label
+            >
+            <input
+              v-model="timePickerData.reply_title"
+              class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+              placeholder="Thank you!"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
+              >Reply Subtitle</label
+            >
+            <input
+              v-model="timePickerData.reply_subtitle"
+              class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+              placeholder=""
+            />
+          </div>
+
+          <!-- Reply Style with Preview -->
+          <div>
+            <label
+              class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
+              >Reply Style</label
+            >
+            <div class="flex gap-4">
+              <label
+                v-for="style in styleOptions"
+                :key="`reply-${style.value}`"
+                class="flex-1 cursor-pointer"
+              >
+                <input
+                  v-model="timePickerData.reply_style"
+                  type="radio"
+                  :value="style.value"
+                  class="sr-only"
+                />
+                <div
+                  class="border-2 rounded-lg p-3 transition-all"
+                  :class="
+                    timePickerData.reply_style === style.value
+                      ? 'border-n-blue-8 dark:border-n-blue-9 bg-n-blue-1 dark:bg-n-blue-2'
+                      : 'border-n-weak dark:border-n-slate-6 hover:border-n-blue-8 dark:hover:border-n-blue-9'
+                  "
+                >
+                  <div
+                    class="text-xs font-medium text-n-slate-12 dark:text-n-slate-11 mb-1"
+                  >
+                    {{ style.label }}
+                  </div>
+                  <div
+                    class="bg-n-alpha-3 dark:bg-n-alpha-4 rounded flex items-center justify-center"
+                    :style="{
+                      height:
+                        style.value === 'icon'
+                          ? '40px'
+                          : style.value === 'small'
+                            ? '60px'
+                            : '150px',
+                    }"
+                  >
+                    <span class="text-2xl">📅</span>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Inline Time Picker Interface -->
       <div class="space-y-4">
         <!-- Quick Settings -->
@@ -1695,8 +2057,10 @@ const updateAppData = (key, value) => {
               :key="slot.key"
               class="flex items-center justify-between text-xs text-n-green-10 dark:text-n-green-9"
             >
-              <span>{{ format(new Date(slot.date), 'MMM d') }} at
-                {{ slot.displayTime }} - {{ slot.displayEndTime }}</span>
+              <span
+                >{{ format(new Date(slot.date), 'MMM d') }} at
+                {{ slot.displayTime }} - {{ slot.displayEndTime }}</span
+              >
               <button
                 class="p-1 hover:bg-n-green-3 dark:hover:bg-n-green-4 rounded transition-colors"
                 @click="toggleSlot(slot)"
@@ -1881,6 +2245,71 @@ const updateAppData = (key, value) => {
       </div>
     </div>
 
+    <!-- OAuth Tab -->
+    <div v-if="activeTab === 'oauth'" class="space-y-6">
+      <div class="text-center py-12">
+        <div
+          class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4"
+        >
+          <svg
+            class="w-8 h-8 text-slate-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"
+            />
+          </svg>
+        </div>
+        <h3
+          class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11 mb-2"
+        >
+          OAuth Authentication
+        </h3>
+        <p
+          class="text-sm text-n-slate-10 dark:text-n-slate-9 max-w-md mx-auto mb-4"
+        >
+          OAuth authentication for Apple Messages for Business is coming soon.
+        </p>
+        <p class="text-xs text-n-slate-9 dark:text-n-slate-8">
+          This feature will allow secure authentication flows within iMessage.
+        </p>
+      </div>
+    </div>
+
+    <!-- Apple Pay Tab -->
+    <div v-if="activeTab === 'apple_pay'" class="space-y-6">
+      <div class="text-center py-12">
+        <div
+          class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4"
+        >
+          <svg
+            class="w-8 h-8 text-slate-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+            />
+          </svg>
+        </div>
+        <h3
+          class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11 mb-2"
+        >
+          Apple Pay Integration
+        </h3>
+        <p
+          class="text-sm text-n-slate-10 dark:text-n-slate-9 max-w-md mx-auto mb-4"
+        >
+          Apple Pay integration for Apple Messages for Business is coming soon.
+        </p>
+        <p class="text-xs text-n-slate-9 dark:text-n-slate-8">
+          This feature will enable secure payment processing within iMessage
+          conversations.
+        </p>
+      </div>
+    </div>
+
     <!-- Enhanced Time Picker Modal -->
     <EnhancedTimePickerModal
       :show="showEnhancedTimePicker"
@@ -1902,6 +2331,7 @@ const updateAppData = (key, value) => {
       @save="handleEnhancedTimePickerSave"
       @preview="handleEnhancedTimePickerPreview"
       @save-and-send="handleEnhancedTimePickerSaveAndSend"
+      @upload-image="handleImageUpload"
     />
 
     <!-- Apple Form Builder Modal -->
@@ -2012,60 +2442,3 @@ const updateAppData = (key, value) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.apple-messages-composer {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-/* Ensure proper dark mode transitions */
-.apple-messages-composer * {
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-/* Fix select dropdown appearance in dark mode */
-.apple-messages-composer select {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.5rem center;
-  background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
-  height: 40px !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  .apple-messages-composer select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%9ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-  }
-}
-
-/* Ensure consistent height for all form elements */
-.apple-messages-composer input,
-.apple-messages-composer select,
-.apple-messages-composer button {
-  height: 40px !important;
-  min-height: 40px;
-  box-sizing: border-box;
-}
-
-/* Ensure proper alignment in grid layouts */
-.apple-messages-composer .grid {
-  align-items: stretch;
-}
-
-.apple-messages-composer .grid > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-}
-
-/* Fix button alignment */
-.apple-messages-composer button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

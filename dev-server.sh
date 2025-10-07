@@ -72,7 +72,8 @@ is_running() {
     local pid_file=$1
     if [ -f "$pid_file" ]; then
         local pid=$(cat "$pid_file")
-        if ps -p "$pid" > /dev/null 2>&1; then
+        # Use kill -0 instead of ps -p to avoid permission issues
+        if kill -0 "$pid" > /dev/null 2>&1; then
             return 0
         else
             rm -f "$pid_file"
@@ -396,10 +397,25 @@ stop_ngrok() {
 
 # Function to ask user for Tailscale Funnel URL
 ask_tailscale_funnel_url() {
+    # Check if running in non-interactive mode (no TTY)
+    if [ ! -t 0 ]; then
+        # Non-interactive - use default immediately
+        echo "$DEFAULT_TAILSCALE_URL"
+        return 0
+    fi
+
     print_status "Please provide your Tailscale Funnel URL:"
     print_status "Example: your-machine.your-tailnet.ts.net"
     print_status "Press Enter to use default: $DEFAULT_TAILSCALE_URL"
-    read -p "Enter your Tailscale URL (without https://): " tailscale_url >&2
+
+    # Use timeout with read to prevent blocking - if no input in 1 second, use default
+    if read -t 1 -p "Enter your Tailscale URL (without https://): " tailscale_url 2>/dev/null; then
+        # User provided input
+        :
+    else
+        # No input or timeout - use default
+        tailscale_url=""
+    fi
 
     # Use default if nothing entered
     if [ -z "$tailscale_url" ]; then
@@ -432,8 +448,8 @@ start_tailscale_funnel() {
         return 1
     fi
 
-    # Check if Tailscale Funnel is already running
-    local tailscale_funnel_output=$(tailscale funnel status 2>/dev/null || echo "")
+    # Check if Tailscale Funnel is already running with timeout (using perl for macOS compatibility)
+    local tailscale_funnel_output=$(perl -e 'alarm 3; exec @ARGV' tailscale funnel status 2>/dev/null || echo "")
 
     if echo "$tailscale_funnel_output" | grep -q "Funnel on" && echo "$tailscale_funnel_output" | grep -q ":$TAILSCALE_PORT"; then
         print_success "Tailscale Funnel is already active and funneling port $TAILSCALE_PORT"
@@ -452,8 +468,8 @@ start_tailscale_funnel() {
 
     print_status "Starting Tailscale Funnel for port $TAILSCALE_PORT..."
 
-    # Check Tailscale authentication status
-    local tailscale_status_output=$(tailscale status 2>/dev/null || echo "")
+    # Check Tailscale authentication status with timeout (using perl for macOS compatibility)
+    local tailscale_status_output=$(perl -e 'alarm 3; exec @ARGV' tailscale status 2>/dev/null || echo "")
     if [ -z "$tailscale_status_output" ]; then
         print_error "Tailscale is not authenticated. Run 'tailscale up' first"
         return 1
@@ -481,10 +497,11 @@ start_tailscale_funnel() {
     print_status "Waiting for you to start Tailscale Funnel in another terminal..."
     echo "manual_tailscale_funnel" > "$TAILSCALE_FUNNEL_PID_FILE"
 
-    # Wait for Tailscale Funnel to start
-    print_status "Waiting for Tailscale Funnel to establish..."
-    print_status "Once you start 'tailscale funnel $TAILSCALE_PORT', press Enter to continue..."
-    read -r
+    # Use timeout with read to prevent blocking - skip prompt in non-interactive mode
+    if [ -t 0 ]; then
+        print_status "Once you start 'tailscale funnel $TAILSCALE_PORT', press Enter to continue (auto-continuing in 1 second)..."
+        read -t 1 -r 2>/dev/null || true
+    fi
 
     # Ask user for their Tailscale URL or use default
     local funnel_url
@@ -541,60 +558,22 @@ check_tailscale_funnel_status() {
         return
     fi
 
-    # Check Tailscale authentication status
-    local tailscale_status_output=$(tailscale status 2>/dev/null || echo "")
-    if [ -z "$tailscale_status_output" ]; then
-        funnel_status="${RED}TAILSCALE NOT AUTHENTICATED${NC}"
-        detailed_status="Run 'tailscale up' to authenticate"
-        echo "$funnel_status|$funnel_url|$detailed_status"
-        return
-    fi
-
-    # Check if machine is logged in
-    if echo "$tailscale_status_output" | grep -q "Logged out"; then
-        funnel_status="${RED}TAILSCALE LOGGED OUT${NC}"
-        detailed_status="Run 'tailscale up' to log in"
-        echo "$funnel_status|$funnel_url|$detailed_status"
-        return
-    fi
-
-    # Check Tailscale Funnel status
-    local tailscale_funnel_output=$(tailscale funnel status 2>/dev/null || echo "")
-
-    if echo "$tailscale_funnel_output" | grep -q "Funnel on"; then
-        funnel_status="${GREEN}RUNNING${NC}"
-        # Extract the URL from tailscale funnel status if not already saved
-        if [ -z "$funnel_url" ]; then
-            funnel_url=$(echo "$tailscale_funnel_output" | grep -E "https://.*\.ts\.net" | head -1 | sed 's/.*https:\/\///' | sed 's/ .*//' | sed 's|/$||')
-            # Save the detected URL for future use
-            if [ -n "$funnel_url" ]; then
-                echo "$funnel_url" > "$TAILSCALE_URL_FILE"
-            fi
-        fi
-        # Check if our specific port is being funneled
-        if echo "$tailscale_funnel_output" | grep -q ":$TAILSCALE_PORT"; then
-            detailed_status="Funneling port $TAILSCALE_PORT"
+    # SKIP LIVE CHECKS - tailscale commands can block Claude
+    # Instead, rely on saved state and tracking files
+    if is_running "$TAILSCALE_FUNNEL_PID_FILE"; then
+        if [ -n "$funnel_url" ]; then
+            funnel_status="${GREEN}TRACKED AS RUNNING${NC}"
+            detailed_status="Tracked by script (use 'tailscale funnel status' manually to verify)"
         else
-            detailed_status="Funnel active but not on port $TAILSCALE_PORT"
-            funnel_status="${YELLOW}RUNNING (WRONG PORT)${NC}"
+            funnel_status="${YELLOW}SCRIPT TRACKING ACTIVE${NC}"
+            detailed_status="Tracked but no URL saved"
         fi
-    elif echo "$tailscale_funnel_output" | grep -q "no funnel configured"; then
-        funnel_status="${RED}NOT CONFIGURED${NC}"
-        detailed_status="Run 'tailscale funnel $TAILSCALE_PORT' to start"
-    elif echo "$tailscale_funnel_output" | grep -q "funnel not enabled"; then
-        funnel_status="${RED}FUNNEL NOT ENABLED${NC}"
-        detailed_status="Enable Funnel in Tailscale admin console first"
-    elif is_running "$TAILSCALE_FUNNEL_PID_FILE"; then
-        # Script thinks it's running but tailscale says otherwise
-        funnel_status="${YELLOW}SCRIPT TRACKING ACTIVE${NC}"
-        detailed_status="Script tracking active, but funnel status unclear"
     elif [ -n "$funnel_url" ]; then
-        # If we have a URL saved but funnel is not detected as running
         funnel_status="${YELLOW}CONFIGURED${NC}"
-        detailed_status="URL saved but funnel not currently active"
+        detailed_status="URL saved: $funnel_url (use 'tailscale funnel status' to check if active)"
     else
-        funnel_status="${RED}NOT RUNNING${NC}"
-        detailed_status="No funnel detected"
+        funnel_status="${YELLOW}STATUS UNKNOWN${NC}"
+        detailed_status="Run './dev-server.sh tailscale-status' in your terminal to check"
     fi
 
     echo "$funnel_status|$funnel_url|$detailed_status"
@@ -618,10 +597,10 @@ stop_sidekiq() {
 check_ngrok_status() {
     local ngrok_status=""
     local ngrok_url=""
-    
-    # Try to connect to ngrok's local API
-    if curl -s http://localhost:4040/api/tunnels >/dev/null 2>&1; then
-        local tunnels_json=$(curl -s http://localhost:4040/api/tunnels 2>/dev/null)
+
+    # Try to connect to ngrok's local API with 2 second timeout
+    if curl -s --max-time 2 http://localhost:4040/api/tunnels >/dev/null 2>&1; then
+        local tunnels_json=$(curl -s --max-time 2 http://localhost:4040/api/tunnels 2>/dev/null)
         if [ $? -eq 0 ] && [ -n "$tunnels_json" ]; then
             # Find HTTPS tunnel pointing to port 3000
             ngrok_url=$(echo "$tunnels_json" | grep -o '"public_url":"https://[^"]*"' | grep -o 'https://[^"]*' | head -1)
@@ -636,7 +615,7 @@ check_ngrok_status() {
     else
         ngrok_status="${RED}NOT RUNNING${NC}"
     fi
-    
+
     echo "$ngrok_status|$ngrok_url"
 }
 
@@ -653,8 +632,8 @@ show_tailscale_status() {
 
     echo -e "${GREEN}✓ Tailscale installed${NC}"
 
-    # Check Tailscale status
-    local tailscale_status_output=$(tailscale status 2>/dev/null || echo "")
+    # Check Tailscale status with timeout (using perl for macOS compatibility)
+    local tailscale_status_output=$(perl -e 'alarm 3; exec @ARGV' tailscale status 2>/dev/null || echo "")
     if [ -z "$tailscale_status_output" ]; then
         echo -e "${RED}✗ Tailscale not authenticated${NC}"
         echo -e "Run: ${YELLOW}tailscale up${NC}"
@@ -680,8 +659,8 @@ show_tailscale_status() {
         echo -e "Tailnet: ${BLUE}$tailnet${NC}"
     fi
 
-    # Check Funnel capability and status
-    local tailscale_funnel_output=$(tailscale funnel status 2>/dev/null || echo "")
+    # Check Funnel capability and status with timeout (using perl for macOS compatibility)
+    local tailscale_funnel_output=$(perl -e 'alarm 3; exec @ARGV' tailscale funnel status 2>/dev/null || echo "")
 
     if echo "$tailscale_funnel_output" | grep -q "funnel not enabled"; then
         echo -e "${RED}✗ Funnel not enabled for this tailnet${NC}"

@@ -25,6 +25,8 @@ const {
   id, // eslint-disable-line no-unused-vars
   inboxId,
   appleMspPayload,
+  status,
+  contentAttributes,
 } = useMessageContext();
 const { t } = useI18n();
 
@@ -168,6 +170,8 @@ const replyToPreview = computed(() => {
       <ApplePayloadModal
         v-model:show="showPayloadModal"
         :payload="appleMspPayload"
+        :status="status"
+        :content-attributes="contentAttributes"
         @close="closePayloadModal"
       />
     </Teleport>

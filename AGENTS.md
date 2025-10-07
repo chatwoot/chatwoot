@@ -128,3 +128,5 @@ Practical checklist for any change impacting core logic or public APIs
    - Service: `app/services/apple_messages_for_business/send_list_picker_service.rb`
    - Model: `app/models/apple_list_picker_image.rb`
    - Controller: `app/controllers/api/v1/accounts/inboxes/apple_list_picker_images_controller.rb`
+- always check the logs as you can't access the postgreSQL database directly
+- remember to implement camelCase format for any functions

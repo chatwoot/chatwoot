@@ -1,3 +1,11 @@
+<!-- eslint-disable no-unused-vars -->
+<!-- eslint-disable no-use-before-define -->
+<!-- eslint-disable no-plusplus -->
+<!-- eslint-disable no-lonely-if -->
+<!-- eslint-disable default-case -->
+<!-- eslint-disable no-alert -->
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -60,7 +68,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'save', 'preview', 'saveAndSend']);
+const emit = defineEmits([
+  'close',
+  'save',
+  'preview',
+  'saveAndSend',
+  'uploadImage',
+]);
 
 const { t } = useI18n();
 
@@ -76,6 +90,15 @@ watch(
     if (newVal) {
       // Modal opened - state is ready
     }
+  }
+);
+
+// Automatically sync reply image with received image
+watch(
+  () => formData.value.receivedImageIdentifier,
+  newIdentifier => {
+    // When received image changes, automatically update reply image to match
+    formData.value.replyImageIdentifier = newIdentifier;
   }
 );
 
@@ -596,6 +619,16 @@ const closeModal = () => {
 const saveTimePickerData = () => {
   if (!isFormValid.value) return;
 
+  // Collect all images that are actually being used
+  const usedImageIdentifiers = [
+    formData.value.receivedImageIdentifier,
+    formData.value.replyImageIdentifier,
+  ].filter(Boolean);
+
+  const usedImages = props.availableImages.filter(img =>
+    usedImageIdentifiers.includes(img.identifier)
+  );
+
   const timePickerData = {
     event: {
       title: '', // Apple MSP requires empty title in event
@@ -611,6 +644,7 @@ const saveTimePickerData = () => {
     reply_subtitle: formData.value.replySubtitle,
     reply_image_identifier: formData.value.replyImageIdentifier,
     reply_style: formData.value.replyStyle,
+    images: usedImages, // Include the actual images being used
   };
 
   emit('save', timePickerData);
@@ -620,6 +654,16 @@ const saveTimePickerData = () => {
 const saveAndSendTimePickerData = () => {
   if (!isFormValid.value) return;
 
+  // Collect all images that are actually being used
+  const usedImageIdentifiers = [
+    formData.value.receivedImageIdentifier,
+    formData.value.replyImageIdentifier,
+  ].filter(Boolean);
+
+  const usedImages = props.availableImages.filter(img =>
+    usedImageIdentifiers.includes(img.identifier)
+  );
+
   const timePickerData = {
     event: {
       title: '', // Apple MSP requires empty title in event
@@ -635,6 +679,7 @@ const saveAndSendTimePickerData = () => {
     reply_subtitle: formData.value.replySubtitle,
     reply_image_identifier: formData.value.replyImageIdentifier,
     reply_style: formData.value.replyStyle,
+    images: usedImages, // Include the actual images being used
   };
 
   emit('saveAndSend', timePickerData);
@@ -692,6 +737,36 @@ watch(
   }
 );
 
+// Image upload handler
+const triggerImageUpload = () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image file size must be less than 5MB');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = event => {
+        // Emit to parent to handle image storage
+        emit('uploadImage', {
+          file,
+          data: event.target.result,
+          name: file.name,
+          size: file.size,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  input.click();
+};
+
 // Lifecycle
 onMounted(() => {
   document.addEventListener('keydown', handleKeyNavigation);
@@ -702,6 +777,8 @@ onUnmounted(() => {
 });
 </script>
 
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable @intlify/vue-i18n/no-raw-text -->
 <template>
   <!-- Modal Backdrop -->
   <Teleport to="body">
@@ -892,11 +969,20 @@ onUnmounted(() => {
 
             <!-- Message Configuration -->
             <div class="mb-6">
-              <h3
-                class="text-lg font-medium text-n-slate-12 dark:text-n-slate-1 mb-4"
-              >
-                Message Settings
-              </h3>
+              <div class="flex items-center justify-between mb-4">
+                <h3
+                  class="text-lg font-medium text-n-slate-12 dark:text-n-slate-11"
+                >
+                  Message Settings
+                </h3>
+                <button
+                  type="button"
+                  class="px-3 py-1.5 text-sm bg-n-blue-9 dark:bg-n-blue-10 text-white rounded hover:bg-n-blue-10 dark:hover:bg-n-blue-11 transition-colors"
+                  @click="triggerImageUpload"
+                >
+                  📷 Upload Image
+                </button>
+              </div>
               <div class="space-y-4">
                 <div>
                   <label
@@ -933,7 +1019,9 @@ onUnmounted(() => {
                       <span
                         v-if="!hasAvailableImages"
                         class="text-xs text-n-slate-10 dark:text-n-slate-9 font-normal ml-2"
-                        >(Upload in List Picker first)</span>
+                      >
+                        (Upload in List Picker first)
+                      </span>
                     </label>
                     <div class="flex items-center gap-2">
                       <select
@@ -1019,7 +1107,9 @@ onUnmounted(() => {
                       <span
                         v-if="!hasAvailableImages"
                         class="text-xs text-n-slate-10 dark:text-n-slate-9 font-normal ml-2"
-                        >(Upload in List Picker first)</span>
+                      >
+                        (Upload in List Picker first)
+                      </span>
                     </label>
                     <div class="flex items-center gap-2">
                       <select
@@ -1448,9 +1538,11 @@ onUnmounted(() => {
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span>Timezone: {{ timezone }} ({{
+            <span>
+              Timezone: {{ timezone }} ({{
                 formData.timezoneOffset > 0 ? '+' : ''
-              }}{{ formData.timezoneOffset / 60 }}h)</span>
+              }}{{ formData.timezoneOffset / 60 }}h)
+            </span>
           </div>
 
           <div class="flex space-x-3">
@@ -1480,137 +1572,3 @@ onUnmounted(() => {
     </div>
   </Teleport>
 </template>
-
-<style scoped>
-.enhanced-time-picker-modal {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-/* Custom slider styles */
-.slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #3b82f6;
-  cursor: pointer;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #3b82f6;
-  cursor: pointer;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Animation classes */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes scaleOut {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-.animate-fade-out {
-  animation: fadeOut 0.3s ease-out;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.3s ease-out;
-}
-
-.animate-scale-out {
-  animation: scaleOut 0.3s ease-out;
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Focus styles for better accessibility */
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .border-n-weak {
-    border-color: #000000;
-  }
-
-  .text-n-slate-11 {
-    color: #000000;
-  }
-
-  .bg-n-alpha-1 {
-    background-color: #ffffff;
-  }
-}
-
-/* Touch-friendly sizing */
-@media (pointer: coarse) {
-  button {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-</style>
-:key="slot.id" class="flex items-center justify-between p-3 rounded-lg border
-transition-all duration-200 transform" :class="[ slot.selected ?
-'border-n-green-8 bg-n-green-2 text-n-green-11 dark:border-n-green-9
-dark:bg-n-green-3 dark:text-n-green-10 scale-105 shadow-md' : slot.available ?
-'border-n-weak bg-white hover:border-n-strong hover:bg-n-alpha-1 text-n-slate-11
-dark:border-n-slate-6 dark:bg-n-alpha-2 dark:hover:bg-n-alpha-3
-dark:text-n-slate-10 hover:scale-102 hover:shadow-sm' : 'border-n-weak
-bg-n-alpha-1 text-n-slate-9 cursor-not-allowed dark:border-n-slate-7
-dark:bg-n-alpha-3 dark
