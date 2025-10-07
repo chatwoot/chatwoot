@@ -83,7 +83,8 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   end
 
   def redirect_to_mobile_error(error, _relay_state)
-    redirect_to "chatwootapp://auth/saml?error=#{error}", allow_other_host: true
+    mobile_deep_link_base = GlobalConfigService.load('MOBILE_DEEP_LINK_BASE', 'chatwootapp://')
+    redirect_to "#{mobile_deep_link_base}://auth/saml?error=#{error}", allow_other_host: true
   end
 
   def saml_enabled_for_account?(account_id)
