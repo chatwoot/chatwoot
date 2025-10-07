@@ -79,6 +79,8 @@ const openInNewTab = url => {
       >
         <slot name="description">{{ description }}</slot>
       </p>
+      <!-- HIDDEN: Learn More links to Chatwoot documentation -->
+      <!--
       <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
         <a
           v-if="helpURL && linkText"
@@ -94,11 +96,14 @@ const openInNewTab = url => {
           />
         </a>
       </CustomBrandPolicyWrapper>
+      -->
     </div>
     <div
       class="flex flex-wrap items-start justify-start w-full gap-3 sm:hidden"
     >
       <slot name="actions" />
+      <!-- HIDDEN: Learn More button for mobile -->
+      <!--
       <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
         <Button
           v-if="helpURL && linkText"
@@ -110,6 +115,7 @@ const openInNewTab = url => {
           @click="openInNewTab(helpURL)"
         />
       </CustomBrandPolicyWrapper>
+      -->
     </div>
   </div>
 </template>
