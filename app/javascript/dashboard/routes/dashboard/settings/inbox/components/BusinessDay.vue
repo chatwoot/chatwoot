@@ -1,6 +1,7 @@
 <script>
 import parse from 'date-fns/parse';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
+import { formatDuration } from 'date-fns';
 import { generateTimeSlots } from '../helpers/businessHour';
 
 const timeSlots = generateTimeSlots(30);
@@ -96,11 +97,14 @@ export default {
       return parse(this.toTime, 'hh:mm a', new Date());
     },
     totalHours() {
-      if (this.timeSlot.openAllDay) {
-        return 24;
-      }
-      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
-      return totalHours;
+      if (this.timeSlot.openAllDay)
+        return formatDuration({ hours: 24, minutes: 0 });
+
+      const totalMinutes = differenceInMinutes(this.toDate, this.fromDate);
+      return formatDuration({
+        hours: Math.floor(totalMinutes / 60),
+        minutes: totalMinutes % 60,
+      });
     },
     hasError() {
       return !this.timeSlot.valid;
@@ -211,7 +215,7 @@ export default {
         v-if="isDayEnabled && !hasError"
         class="label bg-n-brand/10 dark:bg-n-brand/30 text-n-blue-text text-xs inline-block px-2 py-1 rounded-lg cursor-default whitespace-nowrap"
       >
-        {{ totalHours }} {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
+        {{ totalHours }}
       </span>
     </div>
   </div>
