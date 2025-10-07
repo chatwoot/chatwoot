@@ -26,7 +26,7 @@ function onPageChange(newPage) {
 }
 
 const onNextPage = () => {
-  if (!onNextPage.value) {
+  if (!hasNextPage.value) {
     onPageChange(props.currentPage + 1);
   }
 };
