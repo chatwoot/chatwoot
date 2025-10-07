@@ -352,6 +352,7 @@ const menuItems = computed(() => {
         },
       ],
     },
+    /* HIDDEN: Help Center (Portals)
     {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
@@ -399,6 +400,7 @@ const menuItems = computed(() => {
         },
       ],
     },
+    */
     {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
