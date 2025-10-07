@@ -22,7 +22,7 @@
           <% end %>
           This message contains <%= message.attachments.count > 1 ? 'attachments' : 'an attachment' %>.
           <% message.attachments.each do |attachment| %>
-            <br />- View the attachment <a href="<%= attachment.file_url %>" _target="blank">here</a>.
+            <br />- View the attachment <a href="<%= attachment.download_url %>" _target="blank">here</a>.
           <% end %>
         </p>
       <% end %>

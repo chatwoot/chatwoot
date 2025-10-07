@@ -7,6 +7,7 @@ import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useImageZoom } from 'dashboard/composables/useImageZoom';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { extractFilenameFromUrl } from 'shared/helpers/FileHelper';
 import { downloadFile } from '@chatwoot/utils';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -100,9 +101,7 @@ const senderDetails = computed(() => {
 
 const fileNameFromDataUrl = computed(() => {
   const { data_url: dataUrl } = activeAttachment.value;
-  if (!dataUrl) return '';
-
-  const fileName = dataUrl.split('/').pop();
+  const fileName = extractFilenameFromUrl(dataUrl);
   return fileName ? decodeURIComponent(fileName) : '';
 });
 
