@@ -160,4 +160,52 @@ RSpec.describe Campaign do
       )
     end
   end
+
+  describe 'campaign_contacts preparation' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account, channel: create(:channel_twilio_sms, account: account)) }
+    let(:label) { create(:label, account: account, title: 'vip') }
+    let!(:contact1) { create(:contact, account: account).tap { |c| c.update(label_list: ['vip']) } }
+    let!(:contact2) { create(:contact, account: account).tap { |c| c.update(label_list: ['vip']) } }
+
+    context 'when creating a one_off campaign' do
+      it 'schedules PrepareCampaignContactsJob' do
+        expect(Campaigns::PrepareCampaignContactsJob).to receive(:perform_later)
+
+        create(:campaign,
+               account: account,
+               inbox: inbox,
+               campaign_type: :one_off,
+               audience: [{ 'id' => label.id, 'type' => 'Label' }])
+      end
+    end
+
+    context 'when creating an ongoing campaign' do
+      let(:web_widget) { create(:channel_widget, account: account) }
+      let(:website_inbox) { create(:inbox, channel: web_widget, account: account) }
+
+      it 'does not schedule PrepareCampaignContactsJob' do
+        expect(Campaigns::PrepareCampaignContactsJob).not_to receive(:perform_later)
+
+        create(:campaign,
+               account: account,
+               inbox: website_inbox,
+               campaign_type: :ongoing,
+               trigger_rules: { url: 'https://test.com' })
+      end
+    end
+  end
+
+  describe 'associations for campaign_contacts' do
+    it { is_expected.to have_many(:campaign_contacts).dependent(:destroy) }
+    it { is_expected.to have_many(:contacts).through(:campaign_contacts) }
+  end
+
+  describe 'enums' do
+    it {
+      expect(subject).to define_enum_for(:contacts_preparation_status)
+        .with_values(preparing: 0, prepared: 1, failed: 2)
+        .backed_by_column_of_type(:integer)
+    }
+  end
 end

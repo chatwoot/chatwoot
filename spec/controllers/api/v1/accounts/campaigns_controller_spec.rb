@@ -69,6 +69,60 @@ RSpec.describe 'Campaigns API', type: :request do
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(campaign.display_id)
       end
+
+      context 'with campaign_contacts' do
+        let(:inbox) { create(:inbox, account: account, channel: create(:channel_twilio_sms, account: account)) }
+        let(:campaign) { create(:campaign, account: account, inbox: inbox, campaign_type: :one_off) }
+        let(:contact1) { create(:contact, account: account, name: 'John Doe', phone_number: '+1234567890') }
+        let(:contact2) { create(:contact, account: account, name: 'Jane Smith', phone_number: '+0987654321') }
+        let!(:campaign_contact1) { create(:campaign_contact, campaign: campaign, contact: contact1, status: :sent) }
+        let!(:campaign_contact2) { create(:campaign_contact, campaign: campaign, contact: contact2, status: :pending) }
+
+        it 'includes campaign_contacts in the response' do
+          get "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          body = JSON.parse(response.body, symbolize_names: true)
+
+          expect(body[:campaign_contacts]).to be_present
+          expect(body[:campaign_contacts].length).to eq(2)
+        end
+
+        it 'includes contact details in campaign_contacts' do
+          get "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+          body = JSON.parse(response.body, symbolize_names: true)
+          first_contact = body[:campaign_contacts].first
+
+          expect(first_contact[:contact]).to be_present
+          expect(first_contact[:contact][:name]).to be_present
+          expect(first_contact[:contact][:phone_number]).to be_present
+          expect(first_contact[:status]).to be_present
+        end
+
+        it 'includes statistics in the response' do
+          create(:campaign_contact, campaign: campaign, contact: create(:contact, account: account), status: :failed)
+          create(:campaign_contact, campaign: campaign, contact: create(:contact, account: account), status: :skipped)
+
+          get "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+          body = JSON.parse(response.body, symbolize_names: true)
+          stats = body[:statistics]
+
+          expect(stats).to be_present
+          expect(stats[:total]).to eq(4)
+          expect(stats[:sent]).to eq(1)
+          expect(stats[:pending]).to eq(1)
+          expect(stats[:failed]).to eq(1)
+          expect(stats[:skipped]).to eq(1)
+        end
+      end
     end
   end
 

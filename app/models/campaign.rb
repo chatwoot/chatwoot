@@ -6,12 +6,15 @@
 #  audience                           :jsonb
 #  campaign_status                    :integer          default("active"), not null
 #  campaign_type                      :integer          default("ongoing"), not null
+#  contacts_preparation_status        :integer          default(0), not null
 #  description                        :text
 #  enabled                            :boolean          default(TRUE)
 #  message                            :text             not null
+#  prepared_contacts_count            :integer          default(0)
 #  scheduled_at                       :datetime
 #  template_params                    :jsonb
 #  title                              :string           not null
+#  total_contacts_count               :integer          default(0)
 #  trigger_only_during_business_hours :boolean          default(FALSE)
 #  trigger_rules                      :jsonb
 #  created_at                         :datetime         not null
@@ -23,11 +26,12 @@
 #
 # Indexes
 #
-#  index_campaigns_on_account_id       (account_id)
-#  index_campaigns_on_campaign_status  (campaign_status)
-#  index_campaigns_on_campaign_type    (campaign_type)
-#  index_campaigns_on_inbox_id         (inbox_id)
-#  index_campaigns_on_scheduled_at     (scheduled_at)
+#  index_campaigns_on_account_id                   (account_id)
+#  index_campaigns_on_campaign_status              (campaign_status)
+#  index_campaigns_on_campaign_type                (campaign_type)
+#  index_campaigns_on_contacts_preparation_status  (contacts_preparation_status)
+#  index_campaigns_on_inbox_id                     (inbox_id)
+#  index_campaigns_on_scheduled_at                 (scheduled_at)
 #
 class Campaign < ApplicationRecord
   include UrlHelper
@@ -48,11 +52,15 @@ class Campaign < ApplicationRecord
   enum campaign_type: { ongoing: 0, one_off: 1 }
   # TODO : enabled attribute is unneccessary . lets move that to the campaign status with additional statuses like draft, disabled etc.
   enum campaign_status: { active: 0, completed: 1 }
+  enum contacts_preparation_status: { preparing: 0, prepared: 1, failed: 2 }
 
   has_many :conversations, dependent: :nullify, autosave: true
+  has_many :campaign_contacts, dependent: :destroy
+  has_many :contacts, through: :campaign_contacts
 
   before_validation :ensure_correct_campaign_attributes
-  after_commit :set_display_id, unless: :display_id?
+  after_create_commit :set_display_id, unless: :display_id?
+  after_create_commit :schedule_prepare_campaign_contacts, if: :one_off?
 
   def trigger!
     return unless one_off?
@@ -122,6 +130,10 @@ class Campaign < ApplicationRecord
 
   def prevent_completed_campaign_from_update
     errors.add :status, 'The campaign is already completed' if !campaign_status_changed? && completed?
+  end
+
+  def schedule_prepare_campaign_contacts
+    Campaigns::PrepareCampaignContactsJob.perform_later(self)
   end
 
   # creating db triggers

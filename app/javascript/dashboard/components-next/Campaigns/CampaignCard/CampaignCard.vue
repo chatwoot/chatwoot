@@ -44,7 +44,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(['edit', 'delete', 'view']);
 
 const { t } = useI18n();
 
@@ -116,7 +116,15 @@ const inboxIcon = computed(() => {
         />
       </div>
     </div>
-    <div class="flex items-center justify-end w-20 gap-2">
+    <div class="flex items-center justify-end gap-2">
+      <Button
+        v-if="!isLiveChatType"
+        variant="faded"
+        size="sm"
+        color="slate"
+        icon="i-lucide-eye"
+        @click="emit('view')"
+      />
       <Button
         v-if="isLiveChatType"
         variant="faded"

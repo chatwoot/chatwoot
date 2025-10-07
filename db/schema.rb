@@ -261,6 +261,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
 
+  create_table "campaign_contacts", force: :cascade do |t|
+    t.bigint "campaign_id", null: false
+    t.bigint "contact_id", null: false
+    t.integer "status", default: 0, null: false
+    t.text "error_message"
+    t.datetime "sent_at"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id", "contact_id"], name: "index_campaign_contacts_on_campaign_id_and_contact_id", unique: true
+    t.index ["campaign_id"], name: "index_campaign_contacts_on_campaign_id"
+    t.index ["contact_id"], name: "index_campaign_contacts_on_contact_id"
+    t.index ["status"], name: "index_campaign_contacts_on_status"
+  end
+
   create_table "campaigns", force: :cascade do |t|
     t.integer "display_id", null: false
     t.string "title", null: false
@@ -279,9 +294,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
     t.jsonb "template_params"
+    t.integer "contacts_preparation_status", default: 0, null: false
+    t.integer "total_contacts_count", default: 0
+    t.integer "prepared_contacts_count", default: 0
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
+    t.index ["contacts_preparation_status"], name: "index_campaigns_on_contacts_preparation_status"
     t.index ["inbox_id"], name: "index_campaigns_on_inbox_id"
     t.index ["scheduled_at"], name: "index_campaigns_on_scheduled_at"
   end
@@ -1325,6 +1344,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "campaign_contacts", "campaigns"
+  add_foreign_key "campaign_contacts", "contacts"
   add_foreign_key "contact_survey_completions", "accounts"
   add_foreign_key "contact_survey_completions", "contacts"
   add_foreign_key "contact_survey_completions", "surveys"

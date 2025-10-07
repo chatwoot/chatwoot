@@ -3,7 +3,8 @@ class Whatsapp::OneoffCampaignService
 
   def perform
     validate_campaign!
-    # marks campaign completed so that other jobs won't pick it up
+    prepare_campaign_contacts(extract_audience_labels)
+    process_audience
     campaign.completed!
     process_audience(extract_audience_labels)
   end
@@ -45,32 +46,43 @@ class Whatsapp::OneoffCampaignService
     campaign.account.labels.where(id: audience_label_ids).pluck(:title)
   end
 
-  def process_contact(contact)
+  def prepare_campaign_contacts(audience_labels)
+    contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
+    Rails.logger.info "Preparing #{contacts.count} contacts for campaign #{campaign.id}"
+
+    contacts.each do |contact|
+      campaign.campaign_contacts.find_or_create_by!(contact: contact)
+    end
+  end
+
+  def process_contact(campaign_contact)
+    contact = campaign_contact.contact
     Rails.logger.info "Processing contact: #{contact.name} (#{contact.phone_number})"
 
     if contact.phone_number.blank?
       Rails.logger.info "Skipping contact #{contact.name} - no phone number"
+      campaign_contact.mark_as_skipped!('No phone number')
       return
     end
 
     if campaign.template_params.blank?
       Rails.logger.error "Skipping contact #{contact.name} - no template_params found for WhatsApp campaign"
+      campaign_contact.mark_as_skipped!('No template params')
       return
     end
 
-    send_whatsapp_template_message(to: contact.phone_number)
+    send_whatsapp_template_message(contact: contact, campaign_contact: campaign_contact)
   end
 
-  def process_audience(audience_labels)
-    contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
-    Rails.logger.info "Processing #{contacts.count} contacts for campaign #{campaign.id}"
+  def process_audience
+    Rails.logger.info "Processing #{campaign.campaign_contacts.count} contacts for campaign #{campaign.id}"
 
-    contacts.each { |contact| process_contact(contact) }
+    campaign.campaign_contacts.pending.each { |campaign_contact| process_contact(campaign_contact) }
 
     Rails.logger.info "Campaign #{campaign.id} processing completed"
   end
 
-  def send_whatsapp_template_message(to:)
+  def send_whatsapp_template_message(contact:, campaign_contact:)
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
       template_params: campaign.template_params
@@ -78,19 +90,25 @@ class Whatsapp::OneoffCampaignService
 
     name, namespace, lang_code, processed_parameters = processor.call
 
-    return if name.blank?
+    if name.blank?
+      error_msg = "Template '#{campaign.template_params['name']}' could not be processed or not found in WhatsApp Business API"
+      campaign_contact.mark_as_failed!(error_msg)
+      return
+    end
 
-    channel.send_template(to, {
+    channel.send_template(contact.phone_number, {
                             name: name,
                             namespace: namespace,
                             lang_code: lang_code,
                             parameters: processed_parameters
                           }, nil)
 
+    campaign_contact.mark_as_sent!
+    Rails.logger.info "Successfully sent message to #{contact.phone_number}"
   rescue StandardError => e
-    Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{e.message}"
+    error_message = "#{e.class.name}: #{e.message}"
+    Rails.logger.error "Failed to send WhatsApp template message to #{contact.phone_number}: #{error_message}"
     Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
-    # continue processing remaining contacts
-    nil
+    campaign_contact.mark_as_failed!(error_message)
   end
 end

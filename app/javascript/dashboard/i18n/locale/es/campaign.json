@@ -209,6 +209,32 @@
         "SUCCESS_MESSAGE": "Campaña borrada satisfactoriamente",
         "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
       }
+    },
+    "DETAIL": {
+      "SUBTITLE": "Ver detalles de la campaña y estado de entrega de contactos",
+      "EMPTY_STATE": "No se encontraron contactos para esta campaña",
+      "PREPARING_CONTACTS": "Preparando lista de contactos...",
+      "OF": "/",
+      "STATS": {
+        "TOTAL": "Total de Contactos",
+        "SENT": "Enviados",
+        "FAILED": "Fallidos",
+        "PENDING": "Pendientes",
+        "SKIPPED": "Omitidos"
+      },
+      "STATUS": {
+        "PENDING": "Pendiente",
+        "SENT": "Enviado",
+        "FAILED": "Fallido",
+        "SKIPPED": "Omitido"
+      },
+      "TABLE": {
+        "CONTACT": "Contacto",
+        "PHONE": "Número de Teléfono",
+        "STATUS": "Estado",
+        "SENT_AT": "Enviado el",
+        "ERROR": "Mensaje de Error"
+      }
     }
   }
 }
