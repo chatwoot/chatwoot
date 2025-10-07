@@ -217,6 +217,10 @@
         "ERROR": "Por favor, introduzca una dirección de correo válida",
         "PLACEHOLDER": "Por favor, introduzca su dirección de correo electrónico, esto se mostrará en las conversaciones"
       },
+      "PHONE_NUMBER": {
+        "LABEL": "Número de teléfono",
+        "PLACEHOLDER": "Por favor, introduzca su número de teléfono (ej. +1234567890)"
+      },
       "CURRENT_PASSWORD": {
         "LABEL": "Contraseña actual",
         "ERROR": "Por favor, introduzca su contraseña actual",
@@ -325,6 +329,7 @@
     "HOME": "Inicio",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Agentes IA",
+    "SURVEYS": "Encuestas",
     "AUDIT_LOGS": "Auditoría de registros",
     "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",

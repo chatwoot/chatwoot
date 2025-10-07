@@ -2505,6 +2505,140 @@
           }
         }
       },
+      "survey_answer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Survey answer ID"
+          },
+          "question_text": {
+            "type": "string",
+            "description": "The text of the survey question"
+          },
+          "question_type": {
+            "type": "string",
+            "description": "The type of question (text, single_select, multi_select)",
+            "enum": [
+              "text",
+              "single_select",
+              "multi_select"
+            ]
+          },
+          "answer_text": {
+            "type": "string",
+            "nullable": true,
+            "description": "The text answer (for text questions)"
+          },
+          "selected_option": {
+            "type": "object",
+            "nullable": true,
+            "description": "The selected option (for single_select/multi_select questions)",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Option ID"
+              },
+              "option_text": {
+                "type": "string",
+                "description": "Option text"
+              }
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the answer was created"
+          }
+        }
+      },
+      "contact_survey_answer": {
+        "type": "object",
+        "properties": {
+          "survey_id": {
+            "type": "integer",
+            "description": "Survey ID"
+          },
+          "survey_name": {
+            "type": "string",
+            "description": "Survey name"
+          },
+          "survey_description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Survey description"
+          },
+          "answers": {
+            "type": "array",
+            "description": "Array of answers for this survey",
+            "items": {
+              "$ref": "#/components/schemas/survey_answer"
+            }
+          }
+        }
+      },
+      "survey_completion": {
+        "type": "object",
+        "properties": {
+          "survey_id": {
+            "type": "integer",
+            "description": "Survey ID"
+          },
+          "survey_name": {
+            "type": "string",
+            "description": "Survey name"
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the survey was completed"
+          }
+        }
+      },
+      "survey_completion_status": {
+        "type": "object",
+        "properties": {
+          "survey_id": {
+            "type": "integer",
+            "description": "Survey ID"
+          },
+          "survey_name": {
+            "type": "string",
+            "description": "Survey name"
+          },
+          "is_completed": {
+            "type": "boolean",
+            "description": "Whether the survey is completed"
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the survey was completed"
+          },
+          "total_questions": {
+            "type": "integer",
+            "description": "Total number of questions in the survey"
+          },
+          "answered_questions": {
+            "type": "integer",
+            "description": "Number of answered questions"
+          },
+          "required_questions": {
+            "type": "integer",
+            "description": "Number of required questions"
+          },
+          "required_answered": {
+            "type": "integer",
+            "description": "Number of required questions answered"
+          },
+          "progress_percentage": {
+            "type": "number",
+            "format": "float",
+            "description": "Progress percentage (0-100)"
+          }
+        }
+      },
       "public_contact": {
         "type": "object",
         "properties": {
@@ -3982,6 +4116,31 @@
               "title": "article title",
               "description": "article description"
             }
+          }
+        }
+      },
+      "survey_answer_create_payload": {
+        "type": "object",
+        "required": [
+          "contact_id",
+          "survey_question_id"
+        ],
+        "properties": {
+          "contact_id": {
+            "type": "integer",
+            "description": "ID of the contact answering the survey"
+          },
+          "survey_question_id": {
+            "type": "integer",
+            "description": "ID of the survey question being answered"
+          },
+          "answer_text": {
+            "type": "string",
+            "description": "Text answer (required for text questions)"
+          },
+          "survey_question_option_id": {
+            "type": "integer",
+            "description": "ID of the selected option (required for single_select/multi_select questions)"
           }
         }
       },
@@ -5570,7 +5729,8 @@
         "Teams",
         "Webhooks",
         "Automation Rule",
-        "Help Center"
+        "Help Center",
+        "Survey Answers"
       ]
     },
     {

@@ -57,6 +57,10 @@ class ContactAPI extends ApiClient {
     return axios.post(`${this.url}/${contactId}/labels`, { labels });
   }
 
+  getSurveyAnswers(contactId) {
+    return axios.get(`${this.url}/${contactId}/survey_answers`);
+  }
+
   search(search = '', page = 1, sortAttr = 'name', label = '') {
     let requestURL = `${this.url}/search?${buildContactParams(
       page,

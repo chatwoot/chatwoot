@@ -1,0 +1,32 @@
+type: object
+properties:
+  survey_id:
+    type: integer
+    description: Survey ID
+  survey_name:
+    type: string
+    description: Survey name
+  is_completed:
+    type: boolean
+    description: Whether the survey is completed
+  completed_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: When the survey was completed
+  total_questions:
+    type: integer
+    description: Total number of questions in the survey
+  answered_questions:
+    type: integer
+    description: Number of answered questions
+  required_questions:
+    type: integer
+    description: Number of required questions
+  required_answered:
+    type: integer
+    description: Number of required questions answered
+  progress_percentage:
+    type: number
+    format: float
+    description: Progress percentage (0-100)

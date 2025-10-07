@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.boolean "auto_offline", default: true, null: false
     t.bigint "custom_role_id"
     t.bigint "agent_capacity_policy_id"
+    t.string "timezone", default: "UTC"
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["agent_capacity_policy_id"], name: "index_account_users_on_agent_capacity_policy_id"
@@ -598,6 +599,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
   end
 
+  create_table "contact_survey_completions", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "survey_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "completed_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "completed_at"], name: "idx_on_account_id_completed_at_5f0c3174ed"
+    t.index ["account_id"], name: "index_contact_survey_completions_on_account_id"
+    t.index ["contact_id", "survey_id"], name: "index_contact_survey_completions_unique", unique: true
+    t.index ["contact_id"], name: "index_contact_survey_completions_on_contact_id"
+    t.index ["survey_id"], name: "index_contact_survey_completions_on_survey_id"
+  end
+
   create_table "contacts", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.string "email"
@@ -669,6 +684,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
+    t.text "summary", default: ""
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -861,9 +877,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
     t.jsonb "csat_config", default: {}, null: false
+    t.bigint "survey_id"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
+    t.index ["survey_id"], name: "index_inboxes_on_survey_id"
   end
 
   create_table "installation_configs", force: :cascade do |t|
@@ -1137,6 +1155,55 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
+  create_table "survey_answers", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "survey_question_id", null: false
+    t.bigint "survey_question_option_id"
+    t.bigint "account_id", null: false
+    t.text "answer_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_survey_answers_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_survey_answers_on_account_id"
+    t.index ["contact_id", "survey_question_id"], name: "index_survey_answers_on_contact_id_and_survey_question_id", unique: true
+    t.index ["contact_id"], name: "index_survey_answers_on_contact_id"
+    t.index ["survey_question_id"], name: "index_survey_answers_on_survey_question_id"
+    t.index ["survey_question_option_id"], name: "index_survey_answers_on_survey_question_option_id"
+  end
+
+  create_table "survey_question_options", force: :cascade do |t|
+    t.bigint "survey_question_id", null: false
+    t.string "option_text", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_question_id", "position"], name: "index_survey_question_options_on_question_and_position"
+    t.index ["survey_question_id"], name: "index_survey_question_options_on_survey_question_id"
+  end
+
+  create_table "survey_questions", force: :cascade do |t|
+    t.bigint "survey_id", null: false
+    t.text "question_text", null: false
+    t.integer "question_type", default: 0, null: false
+    t.integer "input_type", default: 0
+    t.integer "position", default: 0, null: false
+    t.boolean "required", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id", "position"], name: "index_survey_questions_on_survey_id_and_position"
+    t.index ["survey_id"], name: "index_survey_questions_on_survey_id"
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.bigint "account_id", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_surveys_on_account_id"
+  end
+
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -1214,8 +1281,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
+    t.string "phone_number"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
     t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true
@@ -1248,13 +1316,27 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "open_all_day", default: false
+    t.string "workable_type"
+    t.bigint "workable_id"
     t.index ["account_id"], name: "index_working_hours_on_account_id"
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
+    t.index ["workable_type", "workable_id"], name: "index_working_hours_on_workable_type_and_workable_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contact_survey_completions", "accounts"
+  add_foreign_key "contact_survey_completions", "contacts"
+  add_foreign_key "contact_survey_completions", "surveys"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "inboxes", "surveys"
+  add_foreign_key "survey_answers", "accounts"
+  add_foreign_key "survey_answers", "contacts"
+  add_foreign_key "survey_answers", "survey_question_options"
+  add_foreign_key "survey_answers", "survey_questions"
+  add_foreign_key "survey_question_options", "survey_questions"
+  add_foreign_key "survey_questions", "surveys"
+  add_foreign_key "surveys", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

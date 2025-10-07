@@ -63,6 +63,7 @@ class Account < ApplicationRecord
   has_many :api_channels, dependent: :destroy_async, class_name: '::Channel::Api'
   has_many :articles, dependent: :destroy_async, class_name: '::Article'
   has_many :assignment_policies, dependent: :destroy_async
+  has_many :surveys, dependent: :destroy_async
   has_many :automation_rules, dependent: :destroy_async
   has_many :macros, dependent: :destroy_async
   has_many :campaigns, dependent: :destroy_async
@@ -71,6 +72,8 @@ class Account < ApplicationRecord
   has_many :contacts, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
+  has_many :survey_answers, dependent: :destroy_async
+  has_many :contact_survey_completions, dependent: :destroy_async
   has_many :custom_attribute_definitions, dependent: :destroy_async
   has_many :custom_filters, dependent: :destroy_async
   has_many :dashboard_apps, dependent: :destroy_async

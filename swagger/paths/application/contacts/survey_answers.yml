@@ -1,0 +1,38 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the contact
+
+get:
+  tags:
+    - Contacts
+  operationId: getContactSurveyAnswers
+  summary: Get Contact Survey Answers
+  security:
+    - userApiKey: []
+  description: Get all survey answers for a contact, grouped by survey
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/contact_survey_answer'
+    '404':
+      description: Contact not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

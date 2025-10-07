@@ -6,6 +6,7 @@ json.confirmed resource.confirmed?
 json.display_name resource.display_name
 json.message_signature resource.message_signature
 json.email resource.email
+json.phone_number resource.phone_number
 json.id resource.id
 json.name resource.name
 json.provider resource.provider

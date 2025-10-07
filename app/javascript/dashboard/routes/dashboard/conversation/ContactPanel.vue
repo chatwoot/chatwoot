@@ -16,6 +16,7 @@ import ConversationParticipant from './ConversationParticipant.vue';
 import ContactInfo from './contact/ContactInfo.vue';
 import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
+import ContactSurveyResponses from './ContactSurveyResponses.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
@@ -185,6 +186,24 @@ onMounted(() => {
               "
             >
               <ConversationSumary :raw-sumary="conversationSummary" />
+            </AccordionItem>
+          </div>
+          <div
+            v-else-if="element.name === 'survey_responses'"
+            class="conversation--actions"
+          >
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SURVEY_RESPONSES')"
+              :is-open="isContactSidebarItemOpen('is_survey_responses_open')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_survey_responses_open', value)
+              "
+            >
+              <ContactSurveyResponses
+                v-if="contactId"
+                :contact-id="contactId"
+              />
             </AccordionItem>
           </div>
           <div

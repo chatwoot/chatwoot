@@ -530,6 +530,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('agent_bots'),
         },
         {
+          name: 'Settings Surveys',
+          label: t('SIDEBAR.SURVEYS'),
+          icon: 'i-lucide-clipboard-list',
+          to: accountScopedRoute('surveys_list'),
+        },
+        {
           name: 'Settings Macros',
           label: t('SIDEBAR.MACROS'),
           icon: 'i-lucide-toy-brick',

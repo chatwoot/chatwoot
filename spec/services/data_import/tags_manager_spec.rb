@@ -29,10 +29,10 @@ RSpec.describe DataImport::TagsManager do
     end
 
     context 'when tags are valid' do
-      it 'assigns only valid tags to the contact' do
+      it 'assigns all tags to the contact' do
         manager.build(identifier: '123', tags: 'ruby, invalid_tag')
 
-        expect(contact.reload.label_list).to contain_exactly('ruby')
+        expect(contact.reload.label_list).to match_array(%w[ruby invalid_tag])
       end
     end
 

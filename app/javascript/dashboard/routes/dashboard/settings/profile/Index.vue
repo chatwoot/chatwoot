@@ -65,6 +65,7 @@ export default {
       name: '',
       displayName: '',
       email: '',
+      phoneNumber: '',
       messageSignature: '',
       hotKeys: [
         {
@@ -116,6 +117,7 @@ export default {
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
+      this.phoneNumber = this.currentUser.phone_number;
       this.messageSignature = this.currentUser.message_signature;
     },
     async dispatchUpdate(payload, successMessage, errorMessage) {
@@ -134,16 +136,18 @@ export default {
       }
     },
     async updateProfile(userAttributes) {
-      const { name, email, displayName } = userAttributes;
+      const { name, email, displayName, phoneNumber } = userAttributes;
       const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
+      this.phoneNumber = phoneNumber || this.phoneNumber;
 
       const updatePayload = {
         name: this.name,
         email: this.email,
         displayName: this.displayName,
+        phoneNumber: this.phoneNumber,
         avatar: this.avatarFile,
       };
 
@@ -221,6 +225,7 @@ export default {
         :name="name"
         :display-name="displayName"
         :email="email"
+        :phone-number="phoneNumber"
         :email-enabled="!globalConfig.disableUserProfileUpdate"
         @update-user="updateProfile"
       />

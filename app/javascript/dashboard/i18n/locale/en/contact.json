@@ -501,6 +501,7 @@
         "ATTRIBUTES": "Attributes",
         "HISTORY": "History",
         "NOTES": "Notes",
+        "SURVEYS": "Surveys",
         "MERGE": "Merge"
       },
       "HISTORY": {
@@ -562,6 +563,9 @@
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
         "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      },
+      "SURVEY_ANSWERS": {
+        "EMPTY_STATE": "This contact has not responded to any surveys yet."
       }
     },
     "EMPTY_STATE": {

@@ -264,6 +264,7 @@ const confirmDeletion = () => {
         :provider="currentAgent.provider"
         :type="currentAgent.role"
         :email="currentAgent.email"
+        :phone-number="currentAgent.phone_number"
         :availability="currentAgent.availability_status"
         :custom-role-id="currentAgent.custom_role_id"
         :agent="currentAgent"

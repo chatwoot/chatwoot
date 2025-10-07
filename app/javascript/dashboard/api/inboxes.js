@@ -29,6 +29,12 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
+  setSurvey(inboxId, surveyId) {
+    return axios.post(`${this.url}/${inboxId}/set_survey`, {
+      survey_id: surveyId,
+    });
+  }
+
   syncTemplates(inboxId) {
     return axios.post(`${this.url}/${inboxId}/sync_templates`);
   }

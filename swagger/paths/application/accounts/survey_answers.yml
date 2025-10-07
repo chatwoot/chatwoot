@@ -1,0 +1,66 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: contact_id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the contact
+  - name: survey_question_id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the survey question
+
+post:
+  tags:
+    - Surveys
+  operationId: createOrUpdateSurveyAnswer
+  summary: Create or update a survey answer
+  security:
+    - userApiKey: []
+  description: Create a new survey answer or update an existing one for a contact
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - survey_answer
+          properties:
+            survey_answer:
+              type: object
+              properties:
+                answer_text:
+                  type: string
+                  description: The text of the answer (for text-based questions)
+                survey_question_option_id:
+                  type: number
+                  description: The ID of the selected option (for multiple choice questions)
+  responses:
+    '201':
+      description: Survey answer created/updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/survey_answer'
+    '400':
+      description: Invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/unauthorized_error'
+    '404':
+      description: Contact or survey question not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/not_found_error'

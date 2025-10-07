@@ -1,0 +1,17 @@
+type: object
+properties:
+  survey_id:
+    type: integer
+    description: Survey ID
+  survey_name:
+    type: string
+    description: Survey name
+  survey_description:
+    type: string
+    nullable: true
+    description: Survey description
+  answers:
+    type: array
+    description: Array of answers for this survey
+    items:
+      $ref: '#/components/schemas/survey_answer'

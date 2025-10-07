@@ -342,7 +342,8 @@
       "PREVIOUS_CONVERSATION": "Conversaciones anteriores",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Problemas lineales vinculados",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SURVEY_RESPONSES": "Respuestas de Encuesta"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

@@ -1,0 +1,17 @@
+type: object
+required:
+  - contact_id
+  - survey_question_id
+properties:
+  contact_id:
+    type: integer
+    description: ID of the contact answering the survey
+  survey_question_id:
+    type: integer
+    description: ID of the survey question being answered
+  answer_text:
+    type: string
+    description: Text answer (required for text questions)
+  survey_question_option_id:
+    type: integer
+    description: ID of the selected option (required for single_select/multi_select questions)
