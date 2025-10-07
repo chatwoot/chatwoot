@@ -10,6 +10,7 @@ class Api::V1::Accounts::KnowledgeSourceTextsController < Api::V1::Accounts::Bas
     end
 
     create_source(knowledge_source)
+    upsert_document_store(knowledge_source)
   end
 
   def update
