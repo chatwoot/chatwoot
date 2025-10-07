@@ -67,3 +67,19 @@ sidekiq_thread_utilization_monitoring_job:
   cron: '*/15 * * * * *'
   class: 'SidekiqThreadUtilizationMonitoringJob'
   queue: scheduled_jobs
+
+# executed every 5 minutes; jobs self-gate by time/day inside perform
+weekly_bot_report_job:
+  cron: '*/5 * * * *'
+  class: 'WeeklyBotReportJob'
+  queue: scheduled_jobs
+
+weekly_agent_level_report_job:
+  cron: '*/5 * * * *'
+  class: 'WeeklyAgentLevelReportJob'
+  queue: scheduled_jobs
+
+weekly_inbox_channel_report_job:
+  cron: '*/5 * * * *'
+  class: 'WeeklyInboxChannelReportJob'
+  queue: scheduled_jobs

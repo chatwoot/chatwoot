@@ -166,6 +166,78 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
 
+  def weekly_inbox_channel_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Weekly Inbox Channel Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def monthly_inbox_channel_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Monthly Inbox Channel Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def custom_inbox_channel_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Inbox Channel Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def weekly_agent_level_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Weekly Agent Level Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def monthly_agent_level_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Monthly Agent Level Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def custom_agent_level_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Agent Level Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def weekly_bot_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Weekly Bitespeed Bot Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def monthly_bot_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Monthly Bitespeed Bot Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def custom_bot_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Bitespeed Bot Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
   def contact_import_failed
     return unless smtp_config_set_or_development?
 
