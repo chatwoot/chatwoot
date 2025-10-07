@@ -103,7 +103,7 @@ class Attachment < ApplicationRecord
   def file_metadata
     metadata = {
       extension: extension,
-      data_url: file_url,
+      data_url: download_url,
       thumb_url: thumb_url,
       file_size: file.byte_size,
       width: file.metadata[:width],
