@@ -649,7 +649,7 @@
           "TIER_10K": "10K customers per 24h",
           "TIER_100K": "100K customers per 24h",
           "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "UNKNOWN": "Değerlendirme mevcut değil"
         },
         "STATUSES": {
           "APPROVED": "Approved",
@@ -657,7 +657,7 @@
           "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
           "REJECTED": "Rejected",
           "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "NON_EXISTS": "Mevcut değil"
         },
         "MODES": {
           "SANDBOX": "Sandbox",
