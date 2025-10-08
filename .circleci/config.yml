@@ -333,6 +333,7 @@ workflows:
             branches:
               only:
                 - develop
+                - feat/storage-perf-test
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -355,6 +356,7 @@ workflows:
             branches:
               only:
                 - develop
+                - feat/storage-perf-test
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -419,6 +421,7 @@ workflows:
             branches:
               only:
                 - develop
+                - feat/storage-perf-test
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -444,6 +447,7 @@ workflows:
             branches:
               only:
                 - develop
+                - feat/storage-perf-test
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
