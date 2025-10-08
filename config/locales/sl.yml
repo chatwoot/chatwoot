@@ -86,7 +86,7 @@ sl:
       validations:
         name: se ne sme začeti ali končati s simboli in ne sme vsebovati znakov < > / \ @.
     custom_filters:
-      number_of_records: Omejitev dosežena. Največje dovoljeno število filtrov po meri za uporabnika na račun je 50.
+      number_of_records: Omejitev dosežena. Največje dovoljeno število filtrov po meri za uporabnika na račun je 1000.
       invalid_attribute: Neveljaven ključ atributa - [%{key}]. Ključ mora biti eden od [%{allowed_keys}] ali atribut po meri, določen v računu.
       invalid_operator: Neveljaven operater. Dovoljeni operaterji za %{attribute_name} so [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
@@ -322,6 +322,8 @@ sl:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: Iskanje članka po naslovu ali telesu ...
