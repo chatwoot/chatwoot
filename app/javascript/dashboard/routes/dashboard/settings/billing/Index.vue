@@ -28,6 +28,8 @@ const {
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
 
+const BILLING_REFRESH_ATTEMPTED = 'billing_refresh_attempted';
+
 // State for handling refresh attempts and loading
 const isWaitingForBilling = ref(false);
 
@@ -81,9 +83,7 @@ const handleBillingPageLogic = async () => {
   }
 
   // Check if we've already attempted a refresh for billing setup
-  const billingRefreshAttempted = sessionStorage.get(
-    'billing_refresh_attempted'
-  );
+  const billingRefreshAttempted = sessionStorage.get(BILLING_REFRESH_ATTEMPTED);
 
   // If cloud user, fetch account details first
   await fetchAccountDetails();
@@ -93,7 +93,7 @@ const handleBillingPageLogic = async () => {
     // If we haven't attempted refresh yet, do it once
     if (!billingRefreshAttempted) {
       isWaitingForBilling.value = true;
-      sessionStorage.set('billing_refresh_attempted', true);
+      sessionStorage.set(BILLING_REFRESH_ATTEMPTED, true);
 
       setTimeout(() => {
         window.location.reload();
@@ -101,11 +101,11 @@ const handleBillingPageLogic = async () => {
     } else {
       // We've already tried refreshing, so just show the no billing message
       // Clear the flag for future visits
-      sessionStorage.remove('billing_refresh_attempted');
+      sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
     }
   } else {
     // Billing plan found, clear any existing refresh flag
-    sessionStorage.remove('billing_refresh_attempted');
+    sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
   }
 };
 
