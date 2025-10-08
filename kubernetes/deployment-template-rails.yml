@@ -31,7 +31,6 @@ spec:
                     operator: In
                     values:
                       - chatwoot
-      serviceAccountName: SERVICE_ACCOUNT
       # volumes:
       # - name: persistent-storage
       #   persistentVolumeClaim:
