@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 ruby '3.4.4'
 
 ##-- base gems for rails --##
-gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.1'
+gem 'rack-cors', '2.0.1', require: 'rack/cors'
+gem 'rails', '~> 8.0', '>= 8.0.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -67,10 +67,10 @@ gem 'opensearch-ruby'
 gem 'faraday_middleware-aws-sigv4'
 
 ##--- gems for server & infra configuration ---##
-gem 'dotenv-rails', '>= 3.0.0'
+gem 'dotenv-rails', '>= 3.1.3'
 gem 'foreman'
 gem 'puma'
-gem 'vite_rails'
+gem 'vite_rails', '>= 3.0.18'
 # metrics on heroku
 gem 'barnes'
 
@@ -86,8 +86,8 @@ gem 'pundit'
 
 # super admin
 gem 'administrate', '>= 0.20.1'
-gem 'administrate-field-active_storage', '>= 1.0.3'
-gem 'administrate-field-belongs_to_search', '>= 0.9.0'
+gem 'administrate-field-active_storage', '>= 1.0.4'
+gem 'administrate-field-belongs_to_search', '>= 0.10.0'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -120,14 +120,14 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.19.0', require: false
+gem 'sentry-rails', '>= 5.20.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.19.0', require: false
+gem 'sentry-sidekiq', '>= 5.20.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.3.1'
+gem 'sidekiq', '>= 7.3.2'
 # We want cron jobs
-gem 'sidekiq-cron', '>= 1.12.0'
+gem 'sidekiq-cron', '>= 2.0.0'
 # for sidekiq healthcheck
 gem 'sidekiq_alive'
 
@@ -173,9 +173,9 @@ gem 'omniauth-oauth2'
 gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # need for google auth
-gem 'omniauth', '>= 2.1.2'
+gem 'omniauth', '>= 2.1.4'
 gem 'omniauth-saml'
-gem 'omniauth-google-oauth2', '>= 1.1.3'
+gem 'omniauth-google-oauth2', '>= 1.2.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
 
 ## Gems for reponse bot
@@ -201,8 +201,8 @@ group :production do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
   # for heroku autoscaling
-  gem 'judoscale-rails', require: false
-  gem 'judoscale-sidekiq', require: false
+  gem 'judoscale-rails', '>= 1.8.3', require: false
+  gem 'judoscale-sidekiq', '>= 1.8.3', require: false
 end
 
 group :development do
@@ -216,12 +216,12 @@ group :development do
   gem 'squasher'
 
   # profiling
-  gem 'rack-mini-profiler', '>= 3.2.0', require: false
+  gem 'rack-mini-profiler', '>= 3.2.1', require: false
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
-  gem 'meta_request', '>= 0.8.3'
+  gem 'meta_request', '>= 0.8.5'
 
-  gem 'tidewave'
+  gem 'tidewave', '>= 0.3.0'
 end
 
 group :test do
@@ -243,15 +243,15 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'climate_control'
   gem 'debug', '~> 1.8'
-  gem 'factory_bot_rails', '>= 6.4.3'
+  gem 'factory_bot_rails', '>= 6.4.4'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '>= 6.1.5'
+  gem 'rspec-rails', '>= 7.0.2'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', require: false
+  gem 'rubocop-rails', '>= 2.33.0', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
