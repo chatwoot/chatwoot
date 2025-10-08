@@ -5,7 +5,9 @@ require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
 RSpec.describe Message do
   before do
+    # rubocop:disable RSpec/AnyInstance
     allow_any_instance_of(described_class).to receive(:reindex_for_search).and_return(true)
+    # rubocop:enable RSpec/AnyInstance
   end
 
   context 'with validations' do
@@ -700,7 +702,9 @@ RSpec.describe Message do
       end
 
       it 'calls reindex_for_search for outgoing message on update' do
+        # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(described_class).to receive(:reindex_for_search).and_return(true)
+        # rubocop:enable RSpec/AnyInstance
         message = create(:message, conversation: conversation, account: account, message_type: :outgoing)
         expect(message).to receive(:reindex_for_search).and_return(true)
         message.update!(content: 'Updated content')
