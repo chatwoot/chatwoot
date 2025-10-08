@@ -124,7 +124,7 @@ describe ActionCableListener do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         ["account_#{account.id}"],
         'contact.deleted',
-        contact_data.merge(account_id: account.id)
+        contact.webhook_data
       )
       listener.contact_deleted(event)
     end
