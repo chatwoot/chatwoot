@@ -1,0 +1,80 @@
+# Chatwoot Base Image - Tier 1: System Dependencies
+# This image contains Ruby, Node.js, and all system packages
+# Rebuild: Only when system dependencies or Ruby/Node versions change
+# Expected build time: ~4 minutes
+
+FROM node:23-alpine AS node
+FROM ruby:3.3.3-alpine3.19
+
+ARG NODE_VERSION="23.7.0"
+ARG PNPM_VERSION="10.2.0"
+
+LABEL maintainer="Delta Exchange <dev@delta.exchange>"
+LABEL description="Chatwoot v4.0.4 base image with system dependencies"
+LABEL version="4.0.4-system"
+
+ENV NODE_VERSION=${NODE_VERSION}
+ENV PNPM_VERSION=${PNPM_VERSION}
+ENV BUNDLER_VERSION=2.5.11
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV BUNDLE_PATH="/gems"
+
+# Install all system dependencies in one optimized layer
+RUN apk update && apk add --no-cache \
+  # Build tools
+  build-base \
+  gcc \
+  g++ \
+  make \
+  musl \
+  musl-dev \
+  # Ruby dependencies
+  ruby-dev \
+  ruby-full \
+  # Cryptography and SSL
+  openssl \
+  openssl-dev \
+  # Database client
+  postgresql-dev \
+  postgresql-client \
+  # Version control
+  git \
+  # Utilities
+  curl \
+  xz \
+  tar \
+  # Image processing
+  vips \
+  imagemagick \
+  # System
+  tzdata \
+  linux-headers \
+  # Clean up
+  && rm -rf /var/cache/apk/* \
+  # Install bundler
+  && gem install bundler -v ${BUNDLER_VERSION} --no-document
+
+# Setup Node.js from official image
+COPY --from=node /usr/local/bin/node /usr/local/bin/
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+
+# Create symlinks for npm and npx, install pnpm globally
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+  && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx \
+  && npm install -g pnpm@${PNPM_VERSION} \
+  && pnpm config set store-dir /root/.local/share/pnpm/store
+
+# Verify installations
+RUN ruby --version && \
+    node --version && \
+    npm --version && \
+    pnpm --version && \
+    bundler --version && \
+    psql --version
+
+# Create application directory
+RUN mkdir -p /app /gems
+WORKDIR /app
+
+# This base image is ready for installing Ruby gems and Node packages

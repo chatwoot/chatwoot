@@ -1,0 +1,56 @@
+# Chatwoot Base Image - Tier 2: Dependencies
+# This image contains all Ruby gems and Node packages
+# Rebuild: When Gemfile.lock or pnpm-lock.yaml changes
+# Expected build time: ~5 minutes
+
+# These ARGs must be provided at build time via --build-arg
+ARG ECR_URL
+ARG BASE_IMAGE_TAG=v4.0.4-base1-system
+
+FROM ${ECR_URL}/chatwoot-base:${BASE_IMAGE_TAG}
+
+LABEL maintainer="Delta Exchange <anuj.sharma@delta.exchange>"
+LABEL description="Chatwoot v4.0.4 base image with all dependencies installed"
+LABEL version="4.0.4-deps"
+
+ARG BUNDLE_WITHOUT="development:test"
+ARG RAILS_ENV=production
+ARG BUNDLE_JOBS=8
+ARG MAKE="make -j8"
+
+ENV BUNDLE_WITHOUT=${BUNDLE_WITHOUT}
+ENV RAILS_ENV=${RAILS_ENV}
+ENV BUNDLE_JOBS=${BUNDLE_JOBS}
+ENV MAKE=${MAKE}
+ENV BUNDLE_PATH="/gems"
+ENV RAILS_SERVE_STATIC_FILES=true
+ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
+
+WORKDIR /app
+
+# Copy only dependency lock files first for optimal layer caching
+COPY Gemfile Gemfile.lock ./
+COPY package.json pnpm-lock.yaml ./
+
+# Install all Ruby gems and Node packages in parallel with optimized settings
+RUN bundle config set --local without "${BUNDLE_WITHOUT}" \
+  && bundle config set --local force_ruby_platform true \
+  && bundle config set --local jobs ${BUNDLE_JOBS} \
+  && bundle install -j${BUNDLE_JOBS} & \
+  pnpm install --frozen-lockfile & \
+  wait \
+  && echo "✓ Gems and packages installed successfully"
+
+# Clean up gem cache to reduce image size
+RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
+  && find /gems/ruby/3.3.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete
+
+# Verify critical gems are installed
+RUN bundle list | grep -E "(rails|sidekiq|devise)" && \
+    echo "✓ Critical gems verified"
+
+# Verify pnpm packages
+RUN pnpm list --depth=0 && \
+    echo "✓ Node packages verified"
+
+# This base image is ready for copying application code and compiling assets

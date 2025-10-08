@@ -15,3 +15,12 @@ vendor/bundle
 .DS_Store
 *.swp
 *~
+.gitignore
+.github
+.circleci
+*.md
+README*
+.vscode
+.idea
+coverage
+test
