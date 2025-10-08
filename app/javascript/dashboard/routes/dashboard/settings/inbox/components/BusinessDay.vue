@@ -1,7 +1,6 @@
 <script>
 import parse from 'date-fns/parse';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
-import { formatDuration } from 'date-fns';
 import { generateTimeSlots } from '../helpers/businessHour';
 
 const timeSlots = generateTimeSlots(30);
@@ -97,14 +96,12 @@ export default {
       return parse(this.toTime, 'hh:mm a', new Date());
     },
     totalHours() {
-      if (this.timeSlot.openAllDay)
-        return formatDuration({ hours: 24, minutes: 0 });
+      if (this.timeSlot.openAllDay) return '24h';
 
       const totalMinutes = differenceInMinutes(this.toDate, this.fromDate);
-      return formatDuration({
-        hours: Math.floor(totalMinutes / 60),
-        minutes: totalMinutes % 60,
-      });
+      const [h, m] = [Math.floor(totalMinutes / 60), totalMinutes % 60];
+
+      return [h && `${h}h`, m && `${m}m`].filter(Boolean).join(' ') || '0m';
     },
     hasError() {
       return !this.timeSlot.valid;
