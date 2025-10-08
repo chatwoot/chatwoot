@@ -9,53 +9,37 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
     )
   end
 
-  def report(credits_used, feature, _metadata: {})
+  def report(credits_used, feature, _metadata = {})
     return { success: false, message: 'Usage reporting disabled' } unless should_report_usage?
 
-    with_stripe_error_handling do
-      payload = build_meter_payload(credits_used, feature)
+    identifier = usage_identifier(feature)
 
-      response = stripe_client.execute_request(
-        :post,
-        '/v1/billing/meter_events',
-        headers: { 'Idempotency-Key' => payload[:identifier] },
-        params: payload
-      )
+    # Stripe V2 meter events API
+    response, _api_key = stripe_client.execute_request(
+      :post,
+      '/v1/billing/meter_events',
+      headers: { 'Stripe-Version' => '2025-08-27.preview' },
+      params: {
+        :event_name => meter_event_name,
+        'payload[value]' => credits_used.to_s,
+        'payload[stripe_customer_id]' => stripe_customer_id,
+        :identifier => identifier
+      }
+    )
 
-      response_data = extract_response_data(response)
-      event_id = response_data['id'] || payload[:identifier]
+    event_id = response.data[:identifier]
+    Rails.logger.info "Usage reported: #{credits_used} credits for #{feature} (#{event_id})"
 
-      log_usage_payload(credits_used, feature, payload)
-
-      { success: true, event_id: event_id, reported_credits: credits_used }
-    end
+    { success: true, event_id: event_id, reported_credits: credits_used }
+  rescue Stripe::StripeError => e
+    Rails.logger.error "Stripe usage reporting failed: #{e.message}"
+    { success: false, message: e.message }
   rescue StandardError => e
-    Rails.logger.error "Failed to report usage for account #{account.id}: #{e.message}"
+    Rails.logger.error "Usage reporting error: #{e.message}"
     { success: false, message: e.message }
   end
 
   private
-
-  # No HTTP client; use Stripe gem's generic execute_request to support preview endpoints
-
-  def build_meter_payload(credits_used, feature)
-    {
-      identifier: usage_identifier(feature),
-      event_name: meter_event_name,
-      timestamp: Time.current.to_i,
-      payload: {
-        value: credits_used,
-        stripe_customer_id: stripe_customer_id,
-        feature: feature
-      }
-    }
-  end
-
-  def log_usage_payload(credits_used, feature, payload)
-    Rails.logger.info "Usage Reported: #{credits_used} credits for account #{account.id} (#{feature})"
-    Rails.logger.info "Stripe meter ID: #{v2_config[:meter_id]}"
-    Rails.logger.debug { "Stripe meter event payload: #{payload}" }
-  end
 
   def should_report_usage?
     v2_enabled? &&
@@ -65,7 +49,8 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
   end
 
   def meter_event_name
-    v2_config[:meter_event_name].presence || "captain_prompts_#{Rails.env}"
+    # Use the exact event name configured in the meter
+    ENV['STRIPE_V2_METER_EVENT_NAME'] || v2_config[:meter_event_name].presence || 'ai_prompts'
   end
 
   def usage_identifier(feature)
@@ -74,12 +59,5 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
 
   def stripe_customer_id
     custom_attribute('stripe_customer_id')
-  end
-
-  def extract_response_data(response)
-    return response if response.is_a?(Hash)
-    return response.data if response.respond_to?(:data)
-
-    {}
   end
 end

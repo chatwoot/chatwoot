@@ -8,7 +8,9 @@ class Enterprise::Billing::V2::BaseService
   private
 
   def stripe_client
-    @stripe_client ||= Stripe::StripeClient.new(api_key: ENV.fetch('STRIPE_SECRET_KEY', nil))
+    @stripe_client ||= Stripe::StripeClient.new(
+      api_key: ENV.fetch('STRIPE_SECRET_KEY', nil)
+    )
   end
 
   def v2_enabled?

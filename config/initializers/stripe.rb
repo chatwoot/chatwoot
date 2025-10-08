@@ -2,8 +2,8 @@ require 'stripe'
 
 Stripe.api_key = ENV.fetch('STRIPE_SECRET_KEY', nil)
 
-# Set API version if specified
-Stripe.api_version = ENV['STRIPE_API_VERSION'] if ENV['STRIPE_API_VERSION'].present?
+# Set API version - using V2 preview version for credit management
+Stripe.api_version = ENV['STRIPE_API_VERSION'] || '2025-08-27.preview'
 
 # V2 Billing Configuration
 Rails.application.config.stripe_v2 = {
