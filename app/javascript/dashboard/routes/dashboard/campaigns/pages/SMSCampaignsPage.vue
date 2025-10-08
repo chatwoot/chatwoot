@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -12,6 +13,7 @@ import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pag
 import SMSCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/SMSCampaignEmptyState.vue';
 
 const { t } = useI18n();
+const router = useRouter();
 const getters = useStoreGetters();
 
 const selectedCampaign = ref(null);
@@ -27,6 +29,13 @@ const SMSCampaigns = computed(() => getters['campaigns/getSMSCampaigns'].value);
 const hasNoSMSCampaigns = computed(
   () => SMSCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
+
+const handleView = campaign => {
+  router.push({
+    name: 'sms_campaign_detail',
+    params: { campaignId: campaign.id },
+  });
+};
 
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
@@ -57,6 +66,7 @@ const handleDelete = campaign => {
       v-else-if="!hasNoSMSCampaigns"
       :campaigns="SMSCampaigns"
       @delete="handleDelete"
+      @view="handleView"
     />
     <SMSCampaignEmptyState
       v-else
