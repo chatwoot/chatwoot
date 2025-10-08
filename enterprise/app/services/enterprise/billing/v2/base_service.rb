@@ -68,7 +68,6 @@ class Enterprise::Billing::V2::BaseService
   def with_stripe_error_handling
     yield
   rescue Stripe::StripeError => e
-    Rails.logger.error "Stripe V2 Error: #{e.message}"
     { success: false, message: e.message }
   end
 end

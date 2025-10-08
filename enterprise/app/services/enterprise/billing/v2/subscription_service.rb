@@ -1,36 +1,16 @@
 class Enterprise::Billing::V2::SubscriptionService < Enterprise::Billing::V2::BaseService
-  # rubocop:disable Metrics/MethodLength
   def migrate_to_v2(plan_type: 'startup')
     return { success: false, message: 'Already on V2' } if v2_enabled?
 
-    credits = plan_credits(plan_type)
-
     with_locked_account do
-      update_custom_attributes(
-        'stripe_billing_version' => 2,
-        'monthly_credits' => credits,
-        'topup_credits' => 0,
-        'plan_name' => plan_type.capitalize,
-        'subscription_status' => 'active'
-      )
-
-      log_credit_transaction(
-        type: 'grant',
-        amount: credits,
-        credit_type: 'monthly',
-        description: "Initial V2 migration grant - #{plan_type} plan",
-        metadata: { 'source' => 'migration', 'plan_type' => plan_type }
-      )
-
-      Rails.logger.info "Migrated account #{account.id} to V2 billing with #{plan_type} plan"
+      apply_migration_attributes(plan_type)
+      log_migration_grant(plan_type)
     end
 
     { success: true, message: 'Successfully migrated to V2 billing' }
   rescue StandardError => e
-    Rails.logger.error "Failed to migrate account #{account.id} to V2: #{e.message}"
     { success: false, message: e.message }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def update_plan(plan_type)
     return { success: false, message: 'Not on V2 billing' } unless v2_enabled?
@@ -41,6 +21,28 @@ class Enterprise::Billing::V2::SubscriptionService < Enterprise::Billing::V2::Ba
   end
 
   private
+
+  def apply_migration_attributes(plan_type)
+    credits = plan_credits(plan_type)
+    update_custom_attributes(
+      'stripe_billing_version' => 2,
+      'monthly_credits' => credits,
+      'topup_credits' => 0,
+      'plan_name' => plan_type.capitalize,
+      'subscription_status' => 'active'
+    )
+  end
+
+  def log_migration_grant(plan_type)
+    credits = plan_credits(plan_type)
+    log_credit_transaction(
+      type: 'grant',
+      amount: credits,
+      credit_type: 'monthly',
+      description: "Initial V2 migration grant - #{plan_type} plan",
+      metadata: { 'source' => 'migration', 'plan_type' => plan_type }
+    )
+  end
 
   def plan_credits(plan_type)
     config = Rails.application.config.stripe_v2
