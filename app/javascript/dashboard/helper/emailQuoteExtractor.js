@@ -10,6 +10,8 @@ const QUOTE_INDICATORS = [
   '[class*="Quote"]',
 ];
 
+const BLOCKQUOTE_FALLBACK_SELECTOR = 'blockquote';
+
 // Regex patterns for quote identification
 const QUOTE_PATTERNS = [
   /On .* wrote:/i,
@@ -36,6 +38,8 @@ export class EmailQuoteExtractor {
       });
     });
 
+    this.removeTrailingBlockquote(tempDiv);
+
     // Remove text-based quotes
     const textNodeQuotes = this.findTextNodeQuotes(tempDiv);
     textNodeQuotes.forEach(el => {
@@ -60,6 +64,10 @@ export class EmailQuoteExtractor {
       if (tempDiv.querySelector(selector)) {
         return true;
       }
+    }
+
+    if (this.findTrailingBlockquote(tempDiv)) {
+      return true;
     }
 
     // Check for text-based quotes
@@ -121,6 +129,28 @@ export class EmailQuoteExtractor {
       current = current.parentElement;
     }
 
+    return null;
+  }
+
+  /**
+   * Remove fallback blockquote if it is the last top-level element.
+   * @param {Element} rootElement - Root element containing the HTML
+   */
+  static removeTrailingBlockquote(rootElement) {
+    const trailingBlockquote = this.findTrailingBlockquote(rootElement);
+    trailingBlockquote?.remove();
+  }
+
+  /**
+   * Locate a fallback blockquote that is the last top-level element.
+   * @param {Element} rootElement - Root element containing the HTML
+   * @returns {Element|null} The trailing blockquote element if present
+   */
+  static findTrailingBlockquote(rootElement) {
+    const lastElement = rootElement.lastElementChild;
+    if (lastElement?.matches?.(BLOCKQUOTE_FALLBACK_SELECTOR)) {
+      return lastElement;
+    }
     return null;
   }
 }

@@ -26,6 +26,10 @@ export default [
     name: 'sso_login',
     component: SamlLogin,
     meta: { requireEnterprise: true },
+    props: route => ({
+      authError: route.query.error,
+      target: route.query.target,
+    }),
   },
   {
     path: frontendURL('auth/signup'),

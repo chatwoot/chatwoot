@@ -5,7 +5,9 @@ class Api::V1::AuthController < Api::BaseController
   def saml_login
     return if @account.nil?
 
-    saml_initiation_url = "/auth/saml?account_id=#{@account.id}"
+    relay_state = params[:target] || 'web'
+
+    saml_initiation_url = "/auth/saml?account_id=#{@account.id}&RelayState=#{relay_state}"
     redirect_to saml_initiation_url, status: :temporary_redirect
   end
 
@@ -44,6 +46,27 @@ class Api::V1::AuthController < Api::BaseController
   end
 
   def render_saml_error
-    render json: { error: I18n.t('auth.saml.authentication_failed') }, status: :unauthorized
+    error = 'saml-authentication-failed'
+
+    if mobile_target?
+      mobile_deep_link_base = GlobalConfigService.load('MOBILE_DEEP_LINK_BASE', 'chatwootapp')
+      redirect_to "#{mobile_deep_link_base}://auth/saml?error=#{ERB::Util.url_encode(error)}", allow_other_host: true
+    else
+      redirect_to sso_login_page_url(error: error)
+    end
+  end
+
+  def mobile_target?
+    params[:target]&.casecmp('mobile')&.zero?
+  end
+
+  def sso_login_page_url(error: nil)
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    params = { error: error }.compact
+
+    query = params.to_query
+    query_fragment = query.present? ? "?#{query}" : ''
+
+    "#{frontend_url}/app/login/sso#{query_fragment}"
   end
 end

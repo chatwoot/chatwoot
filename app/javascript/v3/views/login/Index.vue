@@ -11,15 +11,19 @@ import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
 
 // components
+import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
+  'saml-authentication-failed': 'LOGIN.SAML.API.ERROR_MESSAGE',
+  'saml-not-enabled': 'LOGIN.SAML.API.ERROR_MESSAGE',
 };
 
 const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
@@ -30,7 +34,9 @@ export default {
     GoogleOAuthButton,
     Spinner,
     NextButton,
+    SimpleDivider,
     MfaVerification,
+    Icon,
   },
   props: {
     ssoAuthToken: { type: String, default: '' },
@@ -253,7 +259,28 @@ export default {
       }"
     >
       <div v-if="!email">
-        <GoogleOAuthButton v-if="showGoogleOAuth" />
+        <div class="flex flex-col">
+          <GoogleOAuthButton v-if="showGoogleOAuth" />
+          <div v-if="showSamlLogin" class="mt-4 text-center">
+            <router-link
+              to="/app/login/sso"
+              class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+            >
+              <Icon
+                icon="i-lucide-lock-keyhole"
+                class="size-5 text-n-slate-11"
+              />
+              <span class="ml-2 text-base font-medium text-n-slate-12">
+                {{ $t('LOGIN.SAML.LABEL') }}
+              </span>
+            </router-link>
+          </div>
+          <SimpleDivider
+            v-if="showGoogleOAuth || showSamlLogin"
+            :label="$t('COMMON.OR')"
+            class="uppercase"
+          />
+        </div>
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
             v-model="credentials.email"
@@ -305,13 +332,5 @@ export default {
         <Spinner color-scheme="primary" size="" />
       </div>
     </section>
-    <div v-if="showSamlLogin" class="mt-6 text-center">
-      <router-link
-        to="/app/login/sso"
-        class="inline-flex items-center text-sm font-medium text-n-brand hover:text-n-brand-dark"
-      >
-        {{ $t('LOGIN.SAML.LABEL') }}
-      </router-link>
-    </div>
   </main>
 </template>
