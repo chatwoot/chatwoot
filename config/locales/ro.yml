@@ -86,7 +86,7 @@ ro:
       validations:
         name: nu ar trebui să înceapă sau să se termine cu simboluri și nu ar trebui să aibă < > / \ @ caractere.
     custom_filters:
-      number_of_records: Limita atinsă. Numărul maxim de filtre personalizate permise pentru un utilizator per cont este de 50.
+      number_of_records: Limita atinsă. Numărul maxim de filtre personalizate permise pentru un utilizator per cont este de 1000.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
@@ -322,6 +322,8 @@ ro:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: Căutați articol după titlu sau corp...
