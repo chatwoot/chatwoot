@@ -935,7 +935,7 @@ GEM
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
     uniform_notifier (1.17.0)
-    uri (1.0.3)
+    uri (1.0.4)
     uri_template (0.7.0)
     valid_email2 (5.2.6)
       activemodel (>= 3.2)
