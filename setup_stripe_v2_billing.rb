@@ -6,7 +6,6 @@ require 'optparse'
 require 'json'
 
 # Provision core V2 Billing objects using Stripe Ruby client.
-# Uses generic execute_request to call preview endpoints.
 
 class StripeV2Provisioner
   def initialize(api_key:, api_version: ENV.fetch('STRIPE_API_VERSION', '2024-09-30.acacia'))
@@ -18,31 +17,41 @@ class StripeV2Provisioner
   end
 
   def run!
-    # Always ensure the v1 meter exists first so usage reporting works
-    meter = find_or_create_meter(env_suffix('captain_prompts'), 'Captain Prompts')
-
+    meter = ensure_meter
     results = { meter: meter }
-
-    # Attempt V2 provisioning; if preview not enabled, continue gracefully
-    begin
-      cpu   = create_custom_pricing_unit
-      plan  = create_pricing_plan
-      item  = create_licensed_item
-      fee   = create_license_fee(item['id'])
-      svc   = create_service_action(cpu['id'])
-      mi    = create_metered_item(meter['id'])
-      rc    = create_rate_card
-      add_rate(rc['id'], mi['id'], cpu['id'])
-
-      attach_components(plan['id'], fee, svc, rc)
-      publish_plan(plan['id'])
-
-      results.merge!(cpu: cpu, plan: plan, licensed_item: item, license_fee: fee, service_action: svc, metered_item: mi, rate_card: rc)
-    rescue StandardError => e
-      warn "[WARN] V2 provisioning skipped due to: #{e.message}"
-    end
-
+    v2 = provision_v2_resources(meter)
+    results.merge!(v2) if v2
     print_summary(results)
+  end
+
+  def ensure_meter
+    find_or_create_meter(env_suffix('captain_prompts'), 'Captain Prompts')
+  end
+
+  def provision_v2_resources(meter)
+    resources = create_v2_core(meter)
+    attach_and_publish(resources)
+    resources
+  rescue StandardError => e
+    warn "[WARN] V2 provisioning skipped due to: #{e.message}"
+    nil
+  end
+
+  def create_v2_core(meter)
+    cpu  = create_custom_pricing_unit
+    plan = create_pricing_plan
+    item = create_licensed_item
+    fee  = create_license_fee(item['id'])
+    svc  = create_service_action(cpu['id'])
+    mi   = create_metered_item(meter['id'])
+    rc   = create_rate_card
+    add_rate(rc['id'], mi['id'], cpu['id'])
+    { cpu: cpu, plan: plan, licensed_item: item, license_fee: fee, service_action: svc, metered_item: mi, rate_card: rc }
+  end
+
+  def attach_and_publish(res)
+    attach_components(res[:plan]['id'], res[:license_fee], res[:service_action], res[:rate_card])
+    publish_plan(res[:plan]['id'])
   end
 
   def create_custom_pricing_unit
@@ -138,24 +147,10 @@ class StripeV2Provisioner
 
   def print_summary(results)
     puts "\n--- Stripe V2 IDs ---"
-    summary = {}
-    summary[:meter_id] = results[:meter]['id'] if results[:meter]
-    summary[:cpu_id] = results[:cpu]['id'] if results[:cpu]
-    summary[:plan_id] = results[:plan]['id'] if results[:plan]
-    summary[:licensed_item_id] = results[:licensed_item]['id'] if results[:licensed_item]
-    summary[:license_fee_id] = results[:license_fee]['id'] if results[:license_fee]
-    summary[:service_action_id] = results[:service_action]['id'] if results[:service_action]
-    summary[:metered_item_id] = results[:metered_item]['id'] if results[:metered_item]
-    summary[:rate_card_id] = results[:rate_card]['id'] if results[:rate_card]
-    puts JSON.pretty_generate(summary)
-
+    puts JSON.pretty_generate(StripeV2Printer.build_summary(results))
     puts "\nEnvironment variables to set:"
     puts 'STRIPE_V2_ENABLED=true'
-    if results[:meter]
-      puts "STRIPE_V2_METER_ID=#{results[:meter]['id']}"
-      puts "STRIPE_V2_METER_EVENT_NAME=#{env_suffix('captain_prompts')}"
-    end
-    puts "STRIPE_V2_BUSINESS_PLAN_ID=#{results[:plan]['id']}" if results[:plan]
+    StripeV2Printer.print_env_vars(results, env_suffix('captain_prompts'))
     puts "STRIPE_API_VERSION=#{Stripe.api_version}"
   end
 
@@ -196,6 +191,38 @@ class StripeV2Provisioner
     raise(StandardError, response.parsed_response) unless response.success?
 
     response.parsed_response
+  end
+end
+
+module StripeV2Printer
+  module_function
+
+  def build_summary(results)
+    mapping = {
+      meter: :meter_id,
+      cpu: :cpu_id,
+      plan: :plan_id,
+      licensed_item: :licensed_item_id,
+      license_fee: :license_fee_id,
+      service_action: :service_action_id,
+      metered_item: :metered_item_id,
+      rate_card: :rate_card_id
+    }
+    mapping.each_with_object({}) do |(key, out_key), acc|
+      obj = results[key]
+      id = obj && obj['id']
+      acc[out_key] = id if id
+    end
+  end
+
+  def print_env_vars(results, event_name)
+    meter_id = results[:meter] && results[:meter]['id']
+    plan_id  = results[:plan] && results[:plan]['id']
+    if meter_id
+      puts "STRIPE_V2_METER_ID=#{meter_id}"
+      puts "STRIPE_V2_METER_EVENT_NAME=#{event_name}"
+    end
+    puts "STRIPE_V2_BUSINESS_PLAN_ID=#{plan_id}" if plan_id
   end
 end
 
