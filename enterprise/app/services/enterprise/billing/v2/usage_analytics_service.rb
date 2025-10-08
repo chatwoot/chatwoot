@@ -2,15 +2,11 @@ class Enterprise::Billing::V2::UsageAnalyticsService < Enterprise::Billing::V2::
   def fetch_usage_summary
     return { success: false, message: 'Not on V2 billing' } unless v2_enabled?
 
-    # ALWAYS use Stripe as primary source
     stripe_analytics = fetch_stripe_meter_events
 
     if stripe_analytics && stripe_analytics[:success]
-      Rails.logger.info 'Using Stripe meter events as source of truth'
-      return stripe_analytics
+      stripe_analytics
     else
-      Rails.logger.warn 'Stripe unavailable - using local cache as fallback'
-      # Only use local as fallback with warning
       local_summary = fetch_local_usage_summary
       local_summary[:warning] = 'Using cached data - Stripe unavailable'
       local_summary
@@ -23,67 +19,12 @@ class Enterprise::Billing::V2::UsageAnalyticsService < Enterprise::Billing::V2::
     begin
       end_time = Time.current
       start_time = end_time.beginning_of_month
-      meter_id = ENV.fetch('STRIPE_V2_METER_ID', nil)
 
-      # Fetch meter event summaries
-      response = stripe_client.execute_request(
-        :get,
-        "/v1/billing/meters/#{meter_id}/event_summaries",
-        params: {
-          customer: stripe_customer_id,
-          start_time: start_time.to_i,
-          end_time: end_time.to_i
-        }
-      )
+      summaries = fetch_meter_summaries_from_stripe(start_time, end_time)
+      return nil unless summaries
 
-      # Handle response - it can be an Array directly or a Hash with 'data'
-      summaries = if response.is_a?(Array)
-                    response
-                  elsif response.is_a?(Hash) && response['data']
-                    response['data']
-                  end
-
-      if summaries
-        # Calculate total usage from summaries
-        total_usage = 0
-        usage_by_day = {}
-
-        summaries.each do |summary|
-          next unless summary.is_a?(Hash)
-
-          value = summary['aggregated_value'].to_i
-          total_usage += value
-
-          # Group by day if period info available
-          next unless summary['period'] && summary['period']['start']
-
-          day = Time.at(summary['period']['start']).strftime('%Y-%m-%d')
-          usage_by_day[day] ||= 0
-          usage_by_day[day] += value
-        end
-
-        # Get current balance from credit service
-        credit_service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
-        balance = credit_service.credit_balance
-
-        # For feature breakdown, we'll need to track this locally
-        # since meter summaries don't include feature metadata
-        usage_by_feature = fetch_local_feature_breakdown(start_time, end_time)
-
-        {
-          success: true,
-          total_usage: total_usage,
-          credits_remaining: balance[:total],
-          period_start: start_time,
-          period_end: end_time,
-          usage_by_feature: usage_by_feature,
-          usage_by_day: usage_by_day,
-          event_count: summaries.length,
-          source: 'stripe_meter_events'
-        }
-      end
-    rescue StandardError => e
-      Rails.logger.error "Failed to fetch Stripe meter summaries: #{e.message}"
+      build_usage_analytics_result(summaries, start_time, end_time)
+    rescue StandardError
       nil
     end
   end
@@ -134,40 +75,13 @@ class Enterprise::Billing::V2::UsageAnalyticsService < Enterprise::Billing::V2::
   def parse_stripe_analytics(response, start_time, end_time)
     return nil unless response
 
-    data = response.is_a?(Hash) ? response : response.data
+    data = extract_data_from_response(response)
     return nil unless data
 
-    # Sum up all meter events
-    total_usage = 0
-    usage_by_day = {}
+    metrics = calculate_usage_metrics_from_events(data)
+    balance = fetch_credit_balance
 
-    if data['data'].is_a?(Array)
-      data['data'].each do |event|
-        value = event['value'] || 0
-        total_usage += value
-
-        # Group by day if timestamp available
-        next unless event['timestamp']
-
-        day = Time.at(event['timestamp']).strftime('%Y-%m-%d')
-        usage_by_day[day] ||= 0
-        usage_by_day[day] += value
-      end
-    end
-
-    # Get current credit balance
-    credit_service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
-    balance = credit_service.credit_balance
-
-    {
-      success: true,
-      total_usage: total_usage,
-      credits_remaining: balance[:total],
-      period_start: start_time,
-      period_end: end_time,
-      usage_by_day: usage_by_day,
-      source: 'stripe_analytics'
-    }
+    build_analytics_result(metrics, balance, start_time, end_time)
   end
 
   def credit_usage_scope(start_time:, end_time:)
@@ -190,5 +104,103 @@ class Enterprise::Billing::V2::UsageAnalyticsService < Enterprise::Billing::V2::
 
   def stripe_customer_id
     custom_attribute('stripe_customer_id')
+  end
+
+  # Helper methods for fetch_stripe_meter_events
+  def fetch_meter_summaries_from_stripe(start_time, end_time)
+    meter_id = ENV.fetch('STRIPE_V2_METER_ID', nil)
+    response = Stripe::Billing::Meter.list_event_summaries(
+      meter_id,
+      { customer: stripe_customer_id, start_time: start_time.to_i, end_time: end_time.to_i },
+      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
+    )
+    extract_summaries_from_response(response)
+  end
+
+  def extract_summaries_from_response(response)
+    return response if response.is_a?(Array)
+    return response.data if response.respond_to?(:data)
+    return response['data'] if response.is_a?(Hash) && response['data']
+
+    nil
+  end
+
+  def build_usage_analytics_result(summaries, start_time, end_time)
+    metrics = calculate_usage_metrics(summaries)
+    balance = fetch_credit_balance
+    usage_by_feature = fetch_local_feature_breakdown(start_time, end_time)
+
+    {
+      success: true,
+      total_usage: metrics[:total_usage],
+      credits_remaining: balance[:total],
+      period_start: start_time,
+      period_end: end_time,
+      usage_by_feature: usage_by_feature,
+      usage_by_day: metrics[:usage_by_day],
+      event_count: summaries.length,
+      source: 'stripe_meter_events'
+    }
+  end
+
+  def calculate_usage_metrics(summaries)
+    total_usage = 0
+    usage_by_day = {}
+
+    summaries.each do |summary|
+      next unless summary.is_a?(Hash)
+
+      value = summary['aggregated_value'].to_i
+      total_usage += value
+
+      next unless summary['period']&.[]('start')
+
+      day = Time.zone.at(summary['period']['start']).strftime('%Y-%m-%d')
+      usage_by_day[day] ||= 0
+      usage_by_day[day] += value
+    end
+
+    { total_usage: total_usage, usage_by_day: usage_by_day }
+  end
+
+  def fetch_credit_balance
+    Enterprise::Billing::V2::CreditManagementService.new(account: account).credit_balance
+  end
+
+  # Helper methods for parse_stripe_analytics
+  def extract_data_from_response(response)
+    response.is_a?(Hash) ? response : response.data
+  end
+
+  def calculate_usage_metrics_from_events(data)
+    total_usage = 0
+    usage_by_day = {}
+
+    return { total_usage: total_usage, usage_by_day: usage_by_day } unless data['data'].is_a?(Array)
+
+    data['data'].each do |event|
+      value = event['value'] || 0
+      total_usage += value
+
+      next unless event['timestamp']
+
+      day = Time.zone.at(event['timestamp']).strftime('%Y-%m-%d')
+      usage_by_day[day] ||= 0
+      usage_by_day[day] += value
+    end
+
+    { total_usage: total_usage, usage_by_day: usage_by_day }
+  end
+
+  def build_analytics_result(metrics, balance, start_time, end_time)
+    {
+      success: true,
+      total_usage: metrics[:total_usage],
+      credits_remaining: balance[:total],
+      period_start: start_time,
+      period_end: end_time,
+      usage_by_day: metrics[:usage_by_day],
+      source: 'stripe_analytics'
+    }
   end
 end

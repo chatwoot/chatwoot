@@ -12,30 +12,9 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
   def report(credits_used, feature, _metadata = {})
     return { success: false, message: 'Usage reporting disabled' } unless should_report_usage?
 
-    identifier = usage_identifier(feature)
-
-    # Stripe V2 meter events API
-    response, _api_key = stripe_client.execute_request(
-      :post,
-      '/v1/billing/meter_events',
-      headers: { 'Stripe-Version' => '2025-08-27.preview' },
-      params: {
-        :event_name => meter_event_name,
-        'payload[value]' => credits_used.to_s,
-        'payload[stripe_customer_id]' => stripe_customer_id,
-        :identifier => identifier
-      }
-    )
-
-    event_id = response.data[:identifier]
-    Rails.logger.info "Usage reported: #{credits_used} credits for #{feature} (#{event_id})"
-
-    { success: true, event_id: event_id, reported_credits: credits_used }
-  rescue Stripe::StripeError => e
-    Rails.logger.error "Stripe usage reporting failed: #{e.message}"
-    { success: false, message: e.message }
+    meter_event = create_meter_event(credits_used, feature)
+    { success: true, event_id: meter_event.identifier, reported_credits: credits_used }
   rescue StandardError => e
-    Rails.logger.error "Usage reporting error: #{e.message}"
     { success: false, message: e.message }
   end
 
@@ -59,5 +38,17 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
 
   def stripe_customer_id
     custom_attribute('stripe_customer_id')
+  end
+
+  def create_meter_event(credits_used, feature)
+    identifier = usage_identifier(feature)
+    Stripe::Billing::MeterEvent.create(
+      {
+        event_name: meter_event_name,
+        payload: { value: credits_used.to_s, stripe_customer_id: stripe_customer_id },
+        identifier: identifier
+      },
+      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
+    )
   end
 end
