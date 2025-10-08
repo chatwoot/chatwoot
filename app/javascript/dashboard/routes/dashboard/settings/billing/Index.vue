@@ -68,7 +68,7 @@ const hasABillingPlan = computed(() => {
 
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
-    store.dispatch('accounts/subscription');
+    await store.dispatch('accounts/subscription');
     fetchLimits();
   }
 };
