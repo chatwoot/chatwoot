@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen overflow-hidden flex flex-col">
+  <div class="w-full min-h-0">
     <div v-if="notification"
       :class="['fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transition-all duration-300',
         notification.type === 'success' ? 'bg-green-500 text-white' :
@@ -19,7 +19,7 @@
       </p>
       <div class="border-b border-gray-200 dark:border-gray-700"></div>
     </div>
-    <div class="flex-1 overflow-y-auto min-h-0">
+    <div class="overflow-y-auto min-h-0">
       <div class="space-y-6 pb-6">
         <!-- Sidebar Navigation (always show) -->
         <div class="flex flex-row justify-stretch gap-2">
