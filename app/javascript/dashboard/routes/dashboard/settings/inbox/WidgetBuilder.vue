@@ -126,6 +126,20 @@
                 @blur="$v.chatOnWhatsappSettings.defaultText.$touch"
               />
             </div>
+            <label class="w-full pb-4">
+              Default Country for Order Tracking Card
+              <select v-model="selectedCountry" class="w-full">
+                <option
+                  v-for="country in countries"
+                  :key="country.id"
+                  :value="country.id"
+                >
+                  {{ country.emoji }} {{ country.name }} ({{
+                    country.dial_code
+                  }})
+                </option>
+              </select>
+            </label>
             <!-- there can be number of input for faq question and answer. -->
             <div class="faq-section-header">
               <label> FAQs </label>
@@ -269,6 +283,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
+import countries from 'shared/constants/countries';
 
 export default {
   components: {
@@ -343,12 +358,22 @@ export default {
         activeDialCode: '',
       },
       additionalAttributes: {},
+      selectedCountry: 'IN',
+      countries,
     };
   },
   computed: {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    defaultCountryCode() {
+      const country = this.countries.find(c => c.id === this.selectedCountry);
+      return country ? country.id : 'IN';
+    },
+    defaultDialCode() {
+      const country = this.countries.find(c => c.id === this.selectedCountry);
+      return country ? country.dial_code : '+91';
+    },
     parsePhoneNumber() {
       return parsePhoneNumber(this.chatOnWhatsappSettings.phoneNumber);
     },
@@ -527,6 +552,8 @@ export default {
       this.chatOnWhatsappSettings.phoneNumber =
         additional_attributes?.chat_on_whatsapp_settings?.phone_number || '';
       this.backPopulateConversationMessages = back_populates_conversation;
+      this.selectedCountry =
+        additional_attributes?.default_country_code || 'IN';
 
       this.setNeedMoreHelpOptionsData(
         need_more_help_type ?? 'need_more_help_type'
@@ -668,6 +695,8 @@ export default {
                 default_text: this.chatOnWhatsappSettings.defaultText,
                 phone_number: this.setPhoneNumber,
               },
+              default_country_code: this.defaultCountryCode,
+              default_dial_code: this.defaultDialCode,
             },
           },
         });

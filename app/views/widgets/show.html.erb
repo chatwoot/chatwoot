@@ -32,7 +32,9 @@
         faqs: <%= @web_widget.faqs.to_json.html_safe %>,
         needMoreHelpType: '<%= @web_widget.need_more_help_type %>',
         backPopulateConversation: <%= @web_widget.back_populates_conversation %>,
-        chatOnWhatsappSettings: <%= (@web_widget.additional_attributes['chat_on_whatsapp_settings'] || { enabled: false, button_text: 'Send Us a Text on WhatsApp', default_text: 'Hey! I need help with something.', phone_number: '' }).to_json.html_safe %>
+        chatOnWhatsappSettings: <%= (@web_widget.additional_attributes['chat_on_whatsapp_settings'] || { enabled: false, button_text: 'Send Us a Text on WhatsApp', default_text: 'Hey! I need help with something.', phone_number: '' }).to_json.html_safe %>,
+        defaultCountryCode: '<%= @web_widget.additional_attributes['default_country_code'] || 'IN' %>',
+        defaultDialCode: '<%= @web_widget.additional_attributes['default_dial_code'] || '+91' %>'
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'

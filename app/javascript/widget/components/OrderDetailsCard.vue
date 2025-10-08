@@ -8,8 +8,8 @@
         :readonly="false"
         :styles="inputStyles"
         :error="hasError"
-        :default-country-code="'IN'"
-        :default-dial-code="'+91'"
+        :default-country-code="defaultCountryCode"
+        :default-dial-code="defaultDialCode"
         @setCode="handleSetCode"
       />
       <input
@@ -40,12 +40,14 @@ import PhoneInput from 'widget/components/PhoneInput.vue';
 import { mapActions } from 'vuex';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import configMixin from 'widget/mixins/configMixin';
 
 export default {
   name: 'OrderCard',
   components: {
     PhoneInput,
   },
+  mixins: [configMixin],
   props: {
     messageId: {
       type: Number,
@@ -66,6 +68,12 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    defaultCountryCode() {
+      return this.channelConfig.defaultCountryCode;
+    },
+    defaultDialCode() {
+      return this.channelConfig.defaultDialCode;
+    },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },

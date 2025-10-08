@@ -23,6 +23,8 @@ json.website_channel_config do
   json.widget_color @web_widget.widget_color
   json.working_hours @web_widget.inbox.working_hours
   json.working_hours_enabled @web_widget.inbox.working_hours_enabled
+  json.default_country_code @web_widget.additional_attributes&.dig('default_country_code') || 'IN'
+  json.default_dial_code @web_widget.additional_attributes&.dig('default_dial_code') || '+91'
 end
 
 json.contact do
