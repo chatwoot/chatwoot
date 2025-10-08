@@ -3,6 +3,30 @@ module Enterprise::Integrations::OpenaiProcessorService
                            make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
+  def perform
+    # Check and use credits if account is on V2 billing
+    if hook.account.custom_attributes['stripe_billing_version'].to_i == 2
+      credit_service = Enterprise::Ai::CaptainCreditService.new(
+        account: hook.account,
+        conversation: conversation
+      )
+
+      result = credit_service.check_and_use_credits(
+        feature: "ai_#{event_name}",
+        amount: 1,
+        metadata: {
+          'event_name' => event_name,
+          'conversation_id' => conversation&.id
+        }
+      )
+
+      return { error: 'Insufficient credits', error_code: 402 } unless result[:success]
+    end
+
+    # Call the parent perform method
+    super
+  end
+
   def label_suggestion_message
     payload = label_suggestion_body
     return nil if payload.blank?

@@ -1,0 +1,14 @@
+# Stripe V2 Billing Scheduled Jobs
+# Add these to your config/sidekiq_cron.yml or config/schedule.yml
+
+v2_credit_sync:
+  cron: "0 */6 * * *" # Every 6 hours
+  class: "Enterprise::Billing::CreditSyncJob"
+  queue: low
+  description: "Sync V2 billing credits with Stripe"
+
+v2_retry_failed_usage:
+  cron: "*/30 * * * *" # Every 30 minutes
+  class: "Enterprise::Billing::RetryFailedUsageReportsJob"
+  queue: low
+  description: "Retry failed V2 usage reports"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_07_111938) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -73,7 +73,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
+    t.integer "stripe_billing_version", default: 1, null: false
+    t.string "stripe_cadence_id"
+    t.string "stripe_pricing_plan_id"
+    t.integer "monthly_credits", default: 0, null: false
+    t.integer "topup_credits", default: 0, null: false
+    t.datetime "last_credit_sync_at"
+    t.string "stripe_customer_id"
     t.index ["status"], name: "index_accounts_on_status"
+    t.index ["stripe_billing_version"], name: "index_accounts_on_stripe_billing_version"
+    t.index ["stripe_cadence_id"], name: "index_accounts_on_stripe_cadence_id"
+    t.index ["stripe_customer_id"], name: "index_accounts_on_stripe_customer_id"
+    t.index ["stripe_pricing_plan_id"], name: "index_accounts_on_stripe_pricing_plan_id"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -694,6 +705,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
   end
 
+  create_table "credit_transactions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "transaction_type", null: false
+    t.integer "amount", null: false
+    t.string "credit_type", null: false
+    t.string "description"
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_credit_transactions_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_credit_transactions_on_account_id"
+  end
+
   create_table "csat_survey_responses", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
@@ -782,6 +806,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
+  create_table "failed_usage_reports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.integer "credits", null: false
+    t.string "feature", null: false
+    t.text "error"
+    t.integer "retry_count", default: 0
+    t.datetime "retried_at"
+    t.boolean "resolved", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "resolved_at"
+    t.index ["account_id"], name: "index_failed_usage_reports_on_account_id"
+    t.index ["resolved", "created_at"], name: "index_failed_usage_reports_on_resolved_and_created_at"
   end
 
   create_table "folders", force: :cascade do |t|
@@ -882,6 +921,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_labels_on_account_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
+  end
+
+  create_table "leave_records", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.integer "leave_type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.text "reason"
+    t.bigint "approved_by_id"
+    t.datetime "approved_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_leave_records_on_account_id_and_status"
+    t.index ["account_id"], name: "index_leave_records_on_account_id"
+    t.index ["approved_by_id"], name: "index_leave_records_on_approved_by_id"
+    t.index ["user_id"], name: "index_leave_records_on_user_id"
   end
 
   create_table "leaves", force: :cascade do |t|
@@ -1197,7 +1254,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
@@ -1236,6 +1293,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "failed_usage_reports", "accounts"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

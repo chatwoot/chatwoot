@@ -2,24 +2,35 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  internal_attributes   :jsonb            not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  settings              :jsonb
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                     :integer          not null, primary key
+#  auto_resolve_duration  :integer
+#  custom_attributes      :jsonb
+#  domain                 :string(100)
+#  feature_flags          :bigint           default(0), not null
+#  internal_attributes    :jsonb            not null
+#  last_credit_sync_at    :datetime
+#  limits                 :jsonb
+#  locale                 :integer          default("en")
+#  monthly_credits        :integer          default(0), not null
+#  name                   :string           not null
+#  settings               :jsonb
+#  status                 :integer          default("active")
+#  stripe_billing_version :integer          default(1), not null
+#  support_email          :string(100)
+#  topup_credits          :integer          default(0), not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  stripe_cadence_id      :string
+#  stripe_customer_id     :string
+#  stripe_pricing_plan_id :string
 #
 # Indexes
 #
-#  index_accounts_on_status  (status)
+#  index_accounts_on_status                  (status)
+#  index_accounts_on_stripe_billing_version  (stripe_billing_version)
+#  index_accounts_on_stripe_cadence_id       (stripe_cadence_id)
+#  index_accounts_on_stripe_customer_id      (stripe_customer_id)
+#  index_accounts_on_stripe_pricing_plan_id  (stripe_pricing_plan_id)
 #
 
 class Account < ApplicationRecord
@@ -69,6 +80,7 @@ class Account < ApplicationRecord
   has_many :categories, dependent: :destroy_async, class_name: '::Category'
   has_many :contacts, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
+  has_many :credit_transactions, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :custom_attribute_definitions, dependent: :destroy_async
   has_many :custom_filters, dependent: :destroy_async

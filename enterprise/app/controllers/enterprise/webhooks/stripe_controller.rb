@@ -7,7 +7,14 @@ class Enterprise::Webhooks::StripeController < ActionController::API
     # Attempt to verify the signature. If successful, we'll handle the event
     begin
       event = Stripe::Webhook.construct_event(payload, sig_header, ENV.fetch('STRIPE_WEBHOOK_SECRET', nil))
-      ::Enterprise::Billing::HandleStripeEventService.new.perform(event: event)
+
+      # Check if this is a V2 billing event
+      if v2_billing_event?(event)
+        handle_v2_event(event)
+      else
+        # Handle V1 events with existing service
+        ::Enterprise::Billing::HandleStripeEventService.new.perform(event: event)
+      end
     # If we fail to verify the signature, then something was wrong with the request
     rescue JSON::ParserError, Stripe::SignatureVerificationError
       # Invalid payload
@@ -17,5 +24,60 @@ class Enterprise::Webhooks::StripeController < ActionController::API
 
     # We've successfully processed the event without blowing up
     head :ok
+  end
+
+  private
+
+  def v2_billing_event?(event)
+    %w[
+      billing.credit_grant.created
+      billing.credit_grant.expired
+      invoice.payment_failed
+      invoice.payment_succeeded
+      billing.alert.triggered
+      v2.billing.pricing_plan_subscription.servicing_activated
+    ].include?(event.type)
+  end
+
+  def handle_v2_event(event)
+    customer_id = extract_customer_id(event)
+    return if customer_id.blank?
+
+    account = Account.find_by("custom_attributes->>'stripe_customer_id' = ?", customer_id)
+    return unless account&.custom_attributes&.[]('stripe_billing_version').to_i == 2
+
+    service = ::Enterprise::Billing::V2::WebhookHandlerService.new(account: account)
+    service.process(event)
+  end
+
+  def extract_customer_id(event)
+    data = event.data.object
+    candidate = customer_id_from_reader(data) ||
+                customer_id_from_hash(data) ||
+                customer_id_from_alert(data)
+    candidate.presence
+  end
+
+  def customer_id_from_reader(data)
+    return unless data.respond_to?(:customer)
+    return if data.customer.blank?
+
+    data.customer
+  end
+
+  def customer_id_from_hash(data)
+    return unless data.respond_to?(:[])
+
+    value = data['customer']
+    (value.presence)
+  end
+
+  def customer_id_from_alert(data)
+    return unless data.respond_to?(:[])
+
+    customer = data.dig('credit_balance_threshold', 'customer')
+    return unless customer.is_a?(Hash)
+
+    customer['id']
   end
 end
