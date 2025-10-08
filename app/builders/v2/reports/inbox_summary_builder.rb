@@ -29,7 +29,17 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
   end
 
   def set_grouped_resolved_conversations_count
-    @grouped_resolved_conversations_count = reporting_events.where(name: 'conversation_resolved').group(group_by_key).count
+    @grouped_resolved_conversations_count = Current.account.reporting_events
+                                                   .joins(:conversation)
+                                                   .select(:conversation_id)
+                                                   .where(
+                                                     name: 'conversation_resolved',
+                                                     conversations: { status: :resolved },
+                                                     created_at: range
+                                                   )
+                                                   .distinct
+                                                   .group('conversations.inbox_id')
+                                                   .count
   end
 
   def group_by_key
