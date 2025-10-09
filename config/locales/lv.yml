@@ -62,6 +62,9 @@ lv:
         invalid: Nederīga e-pasta adrese
       phone_number:
         invalid: vajadzētu būt E.164 formātā
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: vajadzētu būt unikālai, kategorijā un portālā
