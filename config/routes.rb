@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     get '/perf/redis', to: 'performance#redis'
     post '/perf/upload', to: 'performance#upload_file'
     delete '/perf/cleanup/:blob_id', to: 'performance#cleanup_file'
+    get '/perf/sample', to: 'performance#sample_file'
   end
 
   get '/api', to: 'api#index'

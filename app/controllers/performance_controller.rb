@@ -116,4 +116,15 @@ class PerformanceController < PublicController
       render json: { status: 'error', error: e.message }, status: :internal_server_error
     end
   end
+
+  def sample_file
+    # Serve sample file for download testing
+    file_path = Rails.root.join('public', 'perf_samples', 'sample.mp4')
+
+    if File.exist?(file_path)
+      send_file file_path, type: 'video/mp4', disposition: 'attachment', filename: 'sample.mp4'
+    else
+      render json: { status: 'error', error: 'Sample file not found' }, status: :not_found
+    end
+  end
 end

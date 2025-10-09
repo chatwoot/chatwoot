@@ -438,9 +438,14 @@
           </div>
           <div style="margin-top: 16px;">
             <input type="file" id="fileInput" style="display: block; margin-bottom: 12px; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; width: 100%; cursor: pointer;">
-            <button class="btn btn-primary" id="testFileTransferBtn" style="width: 100%;">
-              <span>Test Upload & Download</span>
-            </button>
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <button class="btn btn-primary" id="testFileTransferBtn" style="flex: 1;">
+                <span>Test Upload & Download</span>
+              </button>
+            </div>
+            <a href="/perf/sample" download class="btn btn-secondary" style="width: 100%; text-decoration: none; display: inline-flex; justify-content: center;">
+              📥 Download Sample File (50MB)
+            </a>
           </div>
         </div>
       </div>
