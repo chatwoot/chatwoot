@@ -62,6 +62,9 @@ es:
         invalid: Email inválido
       phone_number:
         invalid: debe estar en formato e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: debe ser único en la categoría y el portal
