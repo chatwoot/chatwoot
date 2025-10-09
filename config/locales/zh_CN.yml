@@ -62,6 +62,9 @@ zh_CN:
         invalid: 无效的电子邮件
       phone_number:
         invalid: 应该是e164格式
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: 在类别和门户中应该是唯一的
