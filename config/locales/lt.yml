@@ -62,6 +62,9 @@ lt:
         invalid: Neteisingas el. paštas
       phone_number:
         invalid: turėtų būti e164 formato
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: turėtų būti unikalūs kategorijoje ir portale
