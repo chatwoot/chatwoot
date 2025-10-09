@@ -15,12 +15,10 @@ class Enterprise::Ai::CaptainCreditService
     service.use_credit(feature: feature, amount: amount, metadata: metadata)
   end
 
-  # rubocop:disable Naming/PredicateName
-  def has_credits?
+  def credits_available?
     return true if account.custom_attributes['stripe_billing_version'].to_i != 2
 
     service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
     service.total_credits.positive?
   end
-  # rubocop:enable Naming/PredicateName
 end

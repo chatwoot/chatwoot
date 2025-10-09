@@ -23,8 +23,7 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
   def should_report_usage?
     v2_enabled? &&
       stripe_customer_id.present? &&
-      meter_event_name.present? &&
-      v2_config[:usage_reporting_enabled] != false
+      meter_event_name.present?
   end
 
   def meter_event_name

@@ -37,10 +37,10 @@ describe Enterprise::Ai::CaptainCreditService do
     end
   end
 
-  describe '#has_credits?' do
+  describe '#credits_available?' do
     context 'when account is not on v2 billing' do
       it 'returns true without checking credit service' do
-        expect(service.has_credits?).to be(true)
+        expect(service.credits_available?).to be(true)
         expect(Enterprise::Billing::V2::CreditManagementService).not_to have_received(:new)
       end
     end
@@ -52,7 +52,7 @@ describe Enterprise::Ai::CaptainCreditService do
       end
 
       it 'returns credit availability from credit service' do
-        expect(service.has_credits?).to be(true)
+        expect(service.credits_available?).to be(true)
         expect(credit_service).to have_received(:total_credits)
       end
     end

@@ -16,7 +16,6 @@ describe Enterprise::Billing::V2::UsageReporterService do
 
     config[:meter_id] = 'mtr_test_123'
     config[:meter_event_name] = 'chat_prompts'
-    config[:usage_reporting_enabled] = true
   end
 
   after { config.replace(original_config) }
@@ -38,13 +37,5 @@ describe Enterprise::Billing::V2::UsageReporterService do
       expect(kw[:params][:payload][:value]).to eq(5)
       expect(kw[:params][:payload][:stripe_customer_id]).to eq('cus_test_123')
     end
-  end
-
-  it 'returns failure when usage reporting disabled' do
-    Rails.application.config.stripe_v2[:usage_reporting_enabled] = false
-
-    result = service.report(5, 'ai_test')
-
-    expect(result).to include(success: false)
   end
 end
