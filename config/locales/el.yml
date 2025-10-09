@@ -62,6 +62,9 @@ el:
         invalid: Ακατάλληλο email
       phone_number:
         invalid: πρέπει να είναι σε μορφή e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: πρέπει να είναι μοναδικό στην κατηγορία και την πύλη
