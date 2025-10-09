@@ -22,6 +22,8 @@ puts "Estimated time: #{(total_batches / JOBS_PER_MINUTE.to_f / 60).round(2)} ho
 puts '=' * 80
 puts ''
 
+sleep(15)
+
 Message.find_in_batches(batch_size: BATCH_SIZE).with_index do |batch, index|
   batch_count += 1
 
