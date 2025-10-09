@@ -39,7 +39,7 @@
 #
 
 class Message < ApplicationRecord
-  searchkick callbacks: :async if ChatwootApp.advanced_search_allowed?
+  searchkick callbacks: false if ChatwootApp.advanced_search_allowed?
 
   include MessageFilterHelpers
   include Liquidable
@@ -135,6 +135,7 @@ class Message < ApplicationRecord
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
+  after_commit :reindex_for_search, if: :should_index?, on: [:create, :update]
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -435,6 +436,10 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def reindex_for_search
+    reindex(mode: :async)
   end
 end
 
