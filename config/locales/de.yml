@@ -62,6 +62,9 @@ de:
         invalid: Ungültige E-Mail
       phone_number:
         invalid: sollte im e164-Format vorliegen
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: sollte in der Kategorie und im Portal eindeutig sein
