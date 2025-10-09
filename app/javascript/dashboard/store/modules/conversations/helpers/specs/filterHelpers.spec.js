@@ -192,6 +192,32 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    it('should not match conversation with equal_to operator when assignee is null', () => {
+      const conversation = { meta: { assignee: null } };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'equal_to',
+          values: { id: 1, name: 'John Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match conversation with not_equal_to operator when assignee is null', () => {
+      const conversation = { meta: { assignee: null } };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'not_equal_to',
+          values: { id: 1, name: 'John Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     it('should match conversation with is_not_present operator for assignee_id', () => {
       const conversation = { meta: { assignee: null } };
       const filters = [

@@ -190,10 +190,8 @@ const compareDates = (conversationValue, filterValue, compareFn) => {
 const matchesCondition = (conversationValue, filter) => {
   const { filter_operator: filterOperator, values } = filter;
 
-  // Handle null/undefined values
-  if (conversationValue === null || conversationValue === undefined) {
-    return filterOperator === 'is_not_present';
-  }
+  const isNullish =
+    conversationValue === null || conversationValue === undefined;
 
   const filterValue = Array.isArray(values)
     ? values.map(resolveValue)
@@ -213,10 +211,10 @@ const matchesCondition = (conversationValue, filter) => {
       return !contains(filterValue, conversationValue);
 
     case 'is_present':
-      return true; // We already handled null/undefined above
+      return !isNullish;
 
     case 'is_not_present':
-      return false; // We already handled null/undefined above
+      return isNullish;
 
     case 'is_greater_than':
       return compareDates(conversationValue, filterValue, (a, b) => a > b);
@@ -225,6 +223,10 @@ const matchesCondition = (conversationValue, filter) => {
       return compareDates(conversationValue, filterValue, (a, b) => a < b);
 
     case 'days_before': {
+      if (isNullish) {
+        return false;
+      }
+
       const today = new Date();
       const daysInMilliseconds = filterValue * 24 * 60 * 60 * 1000;
       const targetDate = new Date(today.getTime() - daysInMilliseconds);
