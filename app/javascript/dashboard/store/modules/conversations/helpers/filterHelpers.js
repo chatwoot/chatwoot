@@ -154,7 +154,10 @@ const equalTo = (filterValue, conversationValue) => {
  * It only works with string values and returns false for non-string types.
  */
 const contains = (filterValue, conversationValue) => {
-  if (typeof conversationValue === 'string') {
+  if (
+    typeof conversationValue === 'string' &&
+    typeof filterValue === 'string'
+  ) {
     return conversationValue.toLowerCase().includes(filterValue.toLowerCase());
   }
   return false;
