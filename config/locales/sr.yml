@@ -62,6 +62,9 @@ sr-Latn:
         invalid: Neispravna e-pošta
       phone_number:
         invalid: treba biti u e164 formatu
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: treba biti jedinstvena u kategoriji i portalu
