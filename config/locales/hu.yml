@@ -62,6 +62,9 @@ hu:
         invalid: Hibás email
       phone_number:
         invalid: e164 formátumban kell megadni
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: egyedinek kell lennie a kategóriában a portálon
