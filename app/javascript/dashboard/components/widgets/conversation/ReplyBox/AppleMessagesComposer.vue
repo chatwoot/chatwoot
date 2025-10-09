@@ -26,7 +26,7 @@ import {
 import { zonedTimeToUtc } from 'date-fns-tz';
 import EnhancedTimePickerModal from 'dashboard/components-next/message/modals/EnhancedTimePickerModal.vue';
 import AppleFormBuilder from 'dashboard/components-next/message/modals/AppleFormBuilder.vue';
-import AppleListPickerImagesAPI from 'dashboard/api/appleListPickerImages';
+import AppleMessagesImagesAPI from 'dashboard/api/appleMessagesImages';
 
 const props = defineProps({
   conversation: {
@@ -606,7 +606,7 @@ const loadSavedImages = async () => {
   );
   loadingSavedImages.value = true;
   try {
-    const response = await AppleListPickerImagesAPI.get({ inboxId });
+    const response = await AppleMessagesImagesAPI.get({ inboxId });
     savedImages.value = response.data;
     console.log(
       '[AppleMessagesComposer] Loaded saved images:',
@@ -1037,6 +1037,46 @@ const handleImageUpload = imageInfo => {
   timePickerData.value.images.push(imageData);
 };
 
+// Handle image upload from AppleFormBuilder
+const handleFormImageUpload = async imageData => {
+  try {
+    const inboxId = props.conversation?.inbox_id;
+    if (!inboxId) {
+      console.error('No inbox ID available');
+      alert('Unable to save image: No inbox found');
+      return;
+    }
+
+    // Save image to backend using the API
+    // Note: The controller expects image_data as a direct parameter, not nested
+    const response = await AppleMessagesImagesAPI.create({
+      inboxId,
+      identifier: imageData.identifier,
+      image_data: imageData.data,  // Changed from imageData to image_data
+      description: imageData.description || imageData.originalName,
+      original_name: imageData.originalName,
+      filename: imageData.originalName,
+    });
+
+    // Add to saved images list so it appears in the selector
+    if (response && response.data) {
+      const newImage = response.data;
+      savedImages.value.push({
+        identifier: newImage.identifier,
+        description: newImage.description,
+        image_url: newImage.image_url,
+        original_name: newImage.original_name,
+        preview: imageData.preview, // Use the preview from upload
+      });
+
+      console.log('[AppleFormBuilder] Image saved successfully:', newImage.identifier);
+    }
+  } catch (error) {
+    console.error('Failed to save image:', error);
+    alert('Failed to save image. Please try again.');
+  }
+};
+
 // Select image for time picker (automatically sets both received and reply)
 const selectTimePickerImage = identifier => {
   console.log('[AMB TimePicker] Image selected:', identifier);
@@ -1346,97 +1386,99 @@ const selectTimePickerImage = identifier => {
           </div>
 
           <!-- Section Options -->
-          <div class="space-y-3">
+          <div class="space-y-2">
             <div
               v-for="(item, itemIndex) in section.items"
               :key="itemIndex"
-              class="grid grid-cols-[1fr_1fr_auto] gap-2"
+              class="space-y-2"
             >
-              <input
-                v-model="item.title"
-                class="px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
-                placeholder="Option title"
-              />
-              <input
-                v-model="item.subtitle"
-                class="px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
-                placeholder="Description"
-              />
-              <button
-                class="px-4 py-2 bg-n-ruby-9 dark:bg-n-ruby-10 text-white rounded-lg hover:bg-n-ruby-10 dark:hover:bg-n-ruby-11 transition-colors"
-                @click="removeListItem(sectionIndex, itemIndex)"
-              >
-                Remove
-              </button>
-            </div>
-
-            <!-- Image Selection Row -->
-            <div
-              v-for="(item, itemIndex) in section.items"
-              :key="`img-${itemIndex}`"
-              class="flex items-center gap-2 p-2 bg-n-solid-1 dark:bg-n-alpha-2 rounded-lg border border-n-weak dark:border-n-alpha-6"
-            >
-              <label
-                class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11 min-w-[120px]"
-              >
-                Image for "{{ item.title }}"
-              </label>
-
-              <!-- Current image preview -->
-              <div
-                v-if="
-                  item.image_identifier &&
-                  getImageByIdentifier(item.image_identifier)
-                "
-                class="flex items-center gap-2 flex-1"
-              >
-                <img
-                  :src="
-                    getImageByIdentifier(item.image_identifier).preview ||
-                    getImageByIdentifier(item.image_identifier).image_url
-                  "
-                  class="w-12 h-12 object-cover rounded border border-n-weak dark:border-n-alpha-6"
-                  :alt="item.title"
+              <!-- Option Title and Description -->
+              <div class="grid grid-cols-[1fr_1fr_auto] gap-2">
+                <input
+                  v-model="item.title"
+                  class="px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9 text-sm"
+                  placeholder="Option title"
                 />
-                <div
-                  class="flex-1 text-sm text-n-slate-11 dark:text-n-slate-10"
-                >
-                  {{
-                    getImageByIdentifier(item.image_identifier).originalName ||
-                    getImageByIdentifier(item.image_identifier).description
-                  }}
-                </div>
+                <input
+                  v-model="item.subtitle"
+                  class="px-3 py-2 border border-n-weak dark:border-n-alpha-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9 text-sm"
+                  placeholder="Description"
+                />
                 <button
-                  class="px-3 py-1 text-sm bg-n-slate-3 dark:bg-n-alpha-3 text-n-slate-11 dark:text-n-slate-10 rounded hover:bg-n-slate-4 dark:hover:bg-n-alpha-4"
-                  @click="item.image_identifier = ''"
+                  class="px-3 py-2 bg-n-ruby-9 dark:bg-n-ruby-10 text-white rounded-lg hover:bg-n-ruby-10 dark:hover:bg-n-ruby-11 transition-colors text-sm"
+                  @click="removeListItem(sectionIndex, itemIndex)"
                 >
-                  Clear
+                  Remove
                 </button>
               </div>
 
-              <!-- No image selected -->
+              <!-- Image Selection Row (Compact) -->
               <div
-                v-else
-                class="flex-1 text-sm text-n-slate-10 dark:text-n-slate-9 italic"
+                class="flex items-center gap-2 px-3 py-2 bg-n-alpha-1 dark:bg-n-alpha-2 rounded-lg"
               >
-                No image selected
-              </div>
+                <span
+                  class="text-xs text-n-slate-11 dark:text-n-slate-10 min-w-[80px]"
+                >
+                  Image:
+                </span>
 
-              <!-- Select image button -->
-              <button
-                v-if="
-                  listPickerData.images.length > 0 || savedImages.length > 0
-                "
-                class="px-3 py-1 text-sm bg-n-blue-9 dark:bg-n-blue-10 text-white rounded hover:bg-n-blue-10 dark:hover:bg-n-blue-11"
-                @click="openImagePicker(sectionIndex, itemIndex)"
-              >
-                {{ item.image_identifier ? 'Change' : 'Select' }}
-              </button>
-              <div
-                v-else
-                class="text-xs text-n-slate-10 dark:text-n-slate-9 italic"
-              >
-                Upload images first
+                <!-- Current image preview -->
+                <div
+                  v-if="
+                    item.image_identifier &&
+                    getImageByIdentifier(item.image_identifier)
+                  "
+                  class="flex items-center gap-2 flex-1"
+                >
+                  <img
+                    :src="
+                      getImageByIdentifier(item.image_identifier).preview ||
+                      getImageByIdentifier(item.image_identifier).image_url
+                    "
+                    class="w-8 h-8 object-cover rounded border border-n-weak dark:border-n-alpha-6"
+                    :alt="item.title"
+                  />
+                  <div
+                    class="flex-1 text-xs text-n-slate-11 dark:text-n-slate-10 truncate"
+                  >
+                    {{
+                      getImageByIdentifier(item.image_identifier)
+                        .originalName ||
+                      getImageByIdentifier(item.image_identifier).description
+                    }}
+                  </div>
+                  <button
+                    class="px-2 py-1 text-xs bg-n-slate-3 dark:bg-n-alpha-3 text-n-slate-11 dark:text-n-slate-10 rounded hover:bg-n-slate-4 dark:hover:bg-n-alpha-4"
+                    @click="item.image_identifier = ''"
+                  >
+                    Clear
+                  </button>
+                </div>
+
+                <!-- No image selected -->
+                <span
+                  v-else
+                  class="flex-1 text-xs text-n-slate-10 dark:text-n-slate-9 italic"
+                >
+                  No image selected
+                </span>
+
+                <!-- Select image button -->
+                <button
+                  v-if="
+                    listPickerData.images.length > 0 || savedImages.length > 0
+                  "
+                  class="px-2 py-1 text-xs bg-n-blue-9 dark:bg-n-blue-10 text-white rounded hover:bg-n-blue-10 dark:hover:bg-n-blue-11"
+                  @click="openImagePicker(sectionIndex, itemIndex)"
+                >
+                  {{ item.image_identifier ? 'Change' : 'Select' }}
+                </button>
+                <span
+                  v-else
+                  class="text-xs text-n-slate-10 dark:text-n-slate-9 italic"
+                >
+                  Upload images first
+                </span>
               </div>
             </div>
 
@@ -1444,11 +1486,11 @@ const selectTimePickerImage = identifier => {
               v-if="section.items.length === 0"
               class="text-sm text-n-slate-10 dark:text-n-slate-9 italic py-3 text-center"
             >
-              No options yet. Click "Add Option" to create items.
+              No options yet. Click "+ Add Option" to create items.
             </div>
 
             <button
-              class="w-full px-4 py-2 bg-n-blue-9 dark:bg-n-blue-10 text-white rounded-lg hover:bg-n-blue-10 dark:hover:bg-n-blue-11 transition-colors font-medium"
+              class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium text-sm"
               @click="addListItem(sectionIndex)"
             >
               + Add Option
@@ -1575,7 +1617,7 @@ const selectTimePickerImage = identifier => {
         class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6 space-y-2"
       >
         <label
-          class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11"
+          class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-2"
           >Reply Options (2-5)</label
         >
         <div
@@ -1600,11 +1642,11 @@ const selectTimePickerImage = identifier => {
         </div>
 
         <button
-          class="px-3 py-2 bg-n-green-9 dark:bg-n-green-10 text-white dark:text-n-slate-12 rounded-lg hover:bg-n-green-10 dark:hover:bg-n-green-11 transition-colors"
+          class="w-full px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium"
           :disabled="quickReplyData.items.length >= 5"
           @click="addQuickReplyItem"
         >
-          Add Option
+          + Add Option
         </button>
       </div>
     </div>
@@ -2337,10 +2379,12 @@ const selectTimePickerImage = identifier => {
     <!-- Apple Form Builder Modal -->
     <AppleFormBuilder
       :show="showFormBuilder"
+      :available-images="savedImages"
       :msp-id="conversation?.inbox?.channel?.business_id || ''"
       :conversation-id="conversation?.id?.toString() || ''"
       @close="closeFormBuilder"
       @create="handleFormCreated"
+      @upload-image="handleFormImageUpload"
     />
 
     <!-- Image Picker Modal -->
