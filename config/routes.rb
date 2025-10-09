@@ -333,6 +333,7 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+          resources :marketing_campaigns, except: [:new, :edit]
         end
       end
       # end of account scoped api routes

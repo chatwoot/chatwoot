@@ -7,6 +7,7 @@ import SMSCampaignDetailPage from './pages/SMSCampaignDetailPage.vue';
 import WhatsAppCampaignsPage from './pages/WhatsAppCampaignsPage.vue';
 import WhatsAppCampaignDetailPage from './pages/WhatsAppCampaignDetailPage.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import MarketingCampaignsPage from './pages/MarketingCampaignsPage.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.CAMPAIGNS,
@@ -76,6 +77,12 @@ const campaignsRoutes = {
             featureFlag: FEATURE_FLAGS.WHATSAPP_CAMPAIGNS,
           },
           component: WhatsAppCampaignDetailPage,
+        },
+        {
+          path: 'marketing',
+          name: 'campaigns_marketing_index',
+          meta,
+          component: MarketingCampaignsPage,
         },
       ],
     },

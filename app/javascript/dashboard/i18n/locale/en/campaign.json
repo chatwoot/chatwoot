@@ -235,6 +235,76 @@
         "SENT_AT": "Sent At",
         "ERROR": "Error Message"
       }
+    },
+    "MARKETING": {
+      "HEADER_TITLE": "Marketing campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ACTIVE": "Active",
+          "INACTIVE": "Inactive"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Sent by",
+          "BOT": "AI agent",
+          "FROM": "From",
+          "TO": "To",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No Marketing campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a Marketing campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel",
+        "CREATE_BUTTON_TEXT": "Create",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "Title is required"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Description",
+            "PLACEHOLDER": "Please enter the description of campaign",
+            "ERROR": "Description is required"
+          },
+          "START_DATE": {
+            "LABEL": "Start date",
+            "PLACEHOLDER": "Please select the time",
+            "ERROR": "Start date is required"
+          },
+          "END_DATE": {
+            "LABEL": "End date",
+            "PLACEHOLDER": "Please select the time",
+            "ERROR": "End date is required"
+          },
+          "SOURCE_ID": {
+            "LABEL": "Soruce ID",
+            "PLACEHOLDER": "Please enter the soruce ID of campaign",
+            "ERROR": "Soruce ID is required"
+          },
+          "BUTTONS": {
+            "CREATE": "Create",
+            "CANCEL": "Cancel"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Marketing campaign created successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit Marketing campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Marketing campaign updated successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      }
     }
   }
 }

@@ -11,6 +11,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  urlToDispatch: {
+    type: String,
+    default: 'campaigns/delete',
+  },
 });
 
 const { t } = useI18n();
@@ -22,7 +26,7 @@ const deleteCampaign = async id => {
   if (!id) return;
 
   try {
-    await store.dispatch('campaigns/delete', id);
+    await store.dispatch(props.urlToDispatch, id);
     useAlert(t('CAMPAIGN.CONFIRM_DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(t('CAMPAIGN.CONFIRM_DELETE.API.ERROR_MESSAGE'));

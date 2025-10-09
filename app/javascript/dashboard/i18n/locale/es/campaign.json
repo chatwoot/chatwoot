@@ -235,6 +235,76 @@
         "SENT_AT": "Enviado el",
         "ERROR": "Mensaje de Error"
       }
+    },
+    "MARKETING": {
+      "HEADER_TITLE": "Campañas de marketing",
+      "NEW_CAMPAIGN": "Crear campaña",
+      "CARD": {
+        "STATUS": {
+          "ACTIVE": "Activa",
+          "INACTIVE": "Inactiva"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Enviado por",
+          "BOT": "Agente IA",
+          "FROM": "Desde",
+          "TO": "Hasta",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No hay campañas de marketing disponibles",
+        "SUBTITLE": "Conéctate con tus clientes mediante mensajes proactivos. Haz clic en 'Crear campaña' para comenzar."
+      },
+      "CREATE": {
+        "TITLE": "Crear una campaña de marketing",
+        "CANCEL_BUTTON_TEXT": "Cancelar",
+        "CREATE_BUTTON_TEXT": "Crear",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Título",
+            "PLACEHOLDER": "Introduce el título de la campaña",
+            "ERROR": "El título es obligatorio"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descripción",
+            "PLACEHOLDER": "Introduce la descripción de la campaña",
+            "ERROR": "La descripción es obligatoria"
+          },
+          "START_DATE": {
+            "LABEL": "Fecha de inicio",
+            "PLACEHOLDER": "Selecciona la fecha de inicio",
+            "ERROR": "La fecha de inicio es obligatoria"
+          },
+          "END_DATE": {
+            "LABEL": "Fecha de fin",
+            "PLACEHOLDER": "Selecciona la fecha de fin",
+            "ERROR": "La fecha de fin es obligatoria"
+          },
+          "SOURCE_ID": {
+            "LABEL": "ID de origen",
+            "PLACEHOLDER": "Introduce el ID de origen de la campaña",
+            "ERROR": "El ID de origen es obligatorio"
+          },
+          "BUTTONS": {
+            "CREATE": "Crear",
+            "CANCEL": "Cancelar"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Campaña de marketing creada correctamente",
+            "ERROR_MESSAGE": "Hubo un error. Por favor, inténtalo de nuevo."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Editar campaña de marketing",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Campaña de marketing actualizada correctamente",
+            "ERROR_MESSAGE": "Hubo un error. Por favor, inténtalo de nuevo."
+          }
+        }
+      }
     }
   }
 }
