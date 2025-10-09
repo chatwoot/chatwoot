@@ -28,6 +28,9 @@ class AppleMessagesForBusiness::SendOnAppleMessagesForBusinessService < Base::Se
     when 'apple_rich_link'
       Rails.logger.info "🔥 Routing to rich link service"
       send_rich_link_message
+    when 'apple_form'
+      Rails.logger.info "🔥 Routing to form service"
+      send_form_message
     else
       Rails.logger.info "🔥 Unknown content type, routing to text message service (fallback)"
       send_text_or_attachment_message # fallback
@@ -84,7 +87,18 @@ class AppleMessagesForBusiness::SendOnAppleMessagesForBusinessService < Base::Se
       destination_id: message.conversation.contact_inbox.source_id,
       message: message
     )
-    
+
+    response = service.perform
+    update_message_status(response)
+  end
+
+  def send_form_message
+    service = AppleMessagesForBusiness::SendMessageService.new(
+      channel: channel,
+      destination_id: message.conversation.contact_inbox.source_id,
+      message: message
+    )
+
     response = service.perform
     update_message_status(response)
   end

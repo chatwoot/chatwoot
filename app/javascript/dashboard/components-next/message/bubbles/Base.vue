@@ -39,9 +39,10 @@ const isAppleMessagesChannel = computed(() => {
   return inbox.value?.channel_type === 'Channel::AppleMessagesForBusiness';
 });
 
-const isAppleMessagesSent = computed(() => {
+const hasApplePayloadData = computed(() => {
   return (
-    isAppleMessagesChannel.value && messageType.value === MESSAGE_TYPES.OUTGOING
+    isAppleMessagesChannel.value &&
+    (appleMspPayload.value || contentAttributes.value)
   );
 });
 
@@ -138,7 +139,7 @@ const replyToPreview = computed(() => {
     ]"
   >
     <button
-      v-if="isAppleMessagesSent"
+      v-if="hasApplePayloadData"
       v-tooltip.top-start="'View Apple Messages payload'"
       class="absolute top-1 ltr:right-1 rtl:left-1 z-10 p-1 rounded-full bg-n-alpha-2 hover:bg-n-alpha-3 transition-colors"
       @click.stop="openPayloadModal"

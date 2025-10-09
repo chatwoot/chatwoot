@@ -93,15 +93,6 @@ watch(
   }
 );
 
-// Automatically sync reply image with received image
-watch(
-  () => formData.value.receivedImageIdentifier,
-  newIdentifier => {
-    // When received image changes, automatically update reply image to match
-    formData.value.replyImageIdentifier = newIdentifier;
-  }
-);
-
 // Helper to get image URL by identifier
 const getImageByIdentifier = identifier => {
   if (!identifier) return null;
@@ -137,6 +128,16 @@ const formData = ref({
   useBusinessHours: true,
   useCustomRange: false,
 });
+
+// Automatically sync reply image with received image
+watch(
+  () => formData.value.receivedImageIdentifier,
+  newIdentifier => {
+    // When received image changes, automatically update reply image to match
+    formData.value.replyImageIdentifier = newIdentifier;
+  },
+  { immediate: true }
+);
 
 // Image availability indicator
 const hasAvailableImages = computed(() => {
@@ -633,6 +634,7 @@ const saveTimePickerData = () => {
     event: {
       title: '', // Apple MSP requires empty title in event
       description: formData.value.eventDescription,
+      imageIdentifier: formData.value.receivedImageIdentifier, // Include event image
       timeslots: formData.value.selectedSlots,
     },
     timezone_offset: formData.value.timezoneOffset,
@@ -660,14 +662,28 @@ const saveAndSendTimePickerData = () => {
     formData.value.replyImageIdentifier,
   ].filter(Boolean);
 
+  console.log('DEBUG saveAndSendTimePickerData:');
+  console.log(
+    'receivedImageIdentifier:',
+    formData.value.receivedImageIdentifier
+  );
+  console.log('replyImageIdentifier:', formData.value.replyImageIdentifier);
+  console.log('usedImageIdentifiers:', usedImageIdentifiers);
+
   const usedImages = props.availableImages.filter(img =>
     usedImageIdentifiers.includes(img.identifier)
+  );
+
+  console.log(
+    'usedImages:',
+    usedImages.map(img => img.identifier)
   );
 
   const timePickerData = {
     event: {
       title: '', // Apple MSP requires empty title in event
       description: formData.value.eventDescription,
+      imageIdentifier: formData.value.receivedImageIdentifier, // Include event image
       timeslots: formData.value.selectedSlots,
     },
     timezone_offset: formData.value.timezoneOffset,
@@ -681,6 +697,11 @@ const saveAndSendTimePickerData = () => {
     reply_style: formData.value.replyStyle,
     images: usedImages, // Include the actual images being used
   };
+
+  console.log(
+    'timePickerData being sent:',
+    JSON.stringify(timePickerData, null, 2)
+  );
 
   emit('saveAndSend', timePickerData);
   closeModal();

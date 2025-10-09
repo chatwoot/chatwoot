@@ -144,8 +144,8 @@ class AppleMessagesForBusiness::SendMessageService
       useLiveLayout: true
     }
 
-    # Add images array if present
-    images = content_attributes['images']
+    # Add images array if present (enrich with base64 data from database)
+    images = enrich_images_with_data(content_attributes['images'])
     base_data[:data][:images] = images if images.present?
 
     # Add the specific interactive content based on message type
@@ -169,6 +169,39 @@ class AppleMessagesForBusiness::SendMessageService
     end
 
     base_data
+  end
+
+  # Enrich images array with base64 data from database
+  def enrich_images_with_data(images_array)
+    return [] if images_array.blank?
+
+    # Get all identifiers
+    identifiers = images_array.map { |img| img['identifier'] }.compact
+
+    # Fetch images from database
+    stored_images = AppleListPickerImage.where(
+      inbox_id: @channel.inbox.id,
+      identifier: identifiers
+    ).index_by(&:identifier)
+
+    # Enrich each image with data from database
+    images_array.map do |img|
+      identifier = img['identifier']
+      stored_image = stored_images[identifier]
+
+      if stored_image
+        # Image found in database, use its data
+        {
+          identifier: identifier,
+          data: stored_image.image_data_base64, # Base64 encoded image
+          description: img['description'] || stored_image.description || identifier
+        }
+      else
+        # Image not found in database, return as-is (might already have data)
+        Rails.logger.warn "[AMB Send] Image #{identifier} not found in database for inbox #{@channel.inbox.id}"
+        img
+      end
+    end.compact
   end
 
   # Override these methods in subclasses for specific message types
@@ -262,16 +295,22 @@ class AppleMessagesForBusiness::SendMessageService
                       @message.content || 'Interactive Message'
                     end
 
+    # Check if we have a nested received_message object (new form builder format)
+    received_msg = content_attributes['received_message'] || {}
+
+    # Build the message, prioritizing nested structure over flat keys
     msg = {
-      title: content_attributes['received_title'] || default_title,
-      style: content_attributes['received_style'] || 'icon'
+      title: received_msg['title'] || content_attributes['received_title'] || default_title,
+      style: received_msg['style'] || content_attributes['received_style'] || 'icon'
     }
 
-    # Only add subtitle if explicitly provided
-    msg[:subtitle] = content_attributes['received_subtitle'] if content_attributes['received_subtitle'].present?
+    # Add subtitle if present
+    subtitle = received_msg['subtitle'] || content_attributes['received_subtitle']
+    msg[:subtitle] = subtitle if subtitle.present?
 
-    # Add imageIdentifier if provided
-    msg[:imageIdentifier] = content_attributes['received_image_identifier'] if content_attributes['received_image_identifier'].present?
+    # Add imageIdentifier if present (check both camelCase and snake_case)
+    image_id = received_msg['image_identifier'] || received_msg['imageIdentifier'] || content_attributes['received_image_identifier']
+    msg[:imageIdentifier] = image_id if image_id.present?
 
     msg
   end
@@ -284,13 +323,18 @@ class AppleMessagesForBusiness::SendMessageService
                             'Selection Made'
                           end
 
+    # Check if we have a nested reply_message object (new form builder format)
+    reply_msg = content_attributes['reply_message'] || {}
+
+    # Build the message, prioritizing nested structure over flat keys
     msg = {
-      title: content_attributes['reply_title'] || default_reply_title,
-      style: content_attributes['reply_style'] || 'icon'
+      title: reply_msg['title'] || content_attributes['reply_title'] || default_reply_title,
+      style: reply_msg['style'] || content_attributes['reply_style'] || 'icon'
     }
 
-    # Only add subtitle if explicitly provided (Apple samples for time picker don't include subtitle)
-    msg[:subtitle] = content_attributes['reply_subtitle'] if content_attributes['reply_subtitle'].present?
+    # Add subtitle if present
+    subtitle = reply_msg['subtitle'] || content_attributes['reply_subtitle']
+    msg[:subtitle] = subtitle if subtitle.present?
 
     # Add enriched replyMessage fields according to Apple MSP specification
     msg[:imageTitle] = content_attributes['reply_image_title'] if content_attributes['reply_image_title'].present?
@@ -301,8 +345,9 @@ class AppleMessagesForBusiness::SendMessageService
 
     msg[:tertiarySubtitle] = content_attributes['reply_tertiary_subtitle'] if content_attributes['reply_tertiary_subtitle'].present?
 
-    # Add imageIdentifier if provided
-    msg[:imageIdentifier] = content_attributes['reply_image_identifier'] if content_attributes['reply_image_identifier'].present?
+    # Add imageIdentifier if present (check both camelCase and snake_case)
+    image_id = reply_msg['image_identifier'] || reply_msg['imageIdentifier'] || content_attributes['reply_image_identifier']
+    msg[:imageIdentifier] = image_id if image_id.present?
 
     msg
   end
@@ -311,21 +356,166 @@ class AppleMessagesForBusiness::SendMessageService
     # Apple MSP Form specification requires specific dynamic structure
     form_data = content_attributes || {}
 
-    # Convert our form structure to Apple MSP format
-    pages = convert_form_pages_to_msp_format(form_data['fields'] || [])
+    # Check if we have pages from the form builder (new format)
+    if form_data['pages'].present?
+      # Convert pages with items to Apple MSP format
+      pages = convert_form_builder_pages_to_msp(form_data['pages'])
+      # Set startPageIdentifier to the first page's ID
+      start_page_id = pages.first&.dig(:pageIdentifier) || '0'
+    else
+      # Legacy: Convert flat fields array to MSP format
+      pages = convert_legacy_fields_to_msp(form_data['fields'] || [])
+      start_page_id = '0'
+    end
 
     {
       version: '1.2',
       template: 'messageForms',
       data: {
-        startPageIdentifier: '0',
+        startPageIdentifier: start_page_id,
         showSummary: form_data['show_summary'] || false,
         pages: pages
       }
     }
   end
 
-  def convert_form_pages_to_msp_format(fields)
+  def convert_form_builder_pages_to_msp(builder_pages)
+    return [] if builder_pages.blank?
+
+    msp_pages = []
+
+    # First, collect all page IDs to know what comes next
+    all_page_items = []
+    builder_pages.each_with_index do |page, page_index|
+      page_id = page['page_id'] || page_index.to_s
+      items = page['items'] || []
+
+      items.each_with_index do |item, item_index|
+        all_page_items << {
+          page_id: "#{page_id}_#{item_index}",
+          item: item,
+          page: page
+        }
+      end
+    end
+
+    # Now build MSP pages with correct next page references
+    all_page_items.each_with_index do |page_item, global_index|
+      next_page_id = global_index < all_page_items.length - 1 ? all_page_items[global_index + 1][:page_id] : nil
+
+      msp_page = build_msp_page_from_item(
+        page_item[:item],
+        page_item[:page],
+        page_item[:page_id],
+        next_page_id,
+        next_page_id.nil?
+      )
+      msp_pages << msp_page if msp_page
+    end
+
+    msp_pages
+  end
+
+  def build_msp_page_from_item(item, page, item_page_id, next_page_id, is_last)
+    # Each item becomes its own page in Apple MSP
+
+    case item['item_type']
+    when 'text', 'textArea', 'email', 'phone'
+      {
+        pageIdentifier: item_page_id,
+        type: 'input',
+        title: item['title'] || 'Input',
+        subtitle: item['description'] || item['placeholder'] || '',
+        nextPageIdentifier: next_page_id,
+        submitForm: is_last,
+        options: {
+          required: item['required'] || false,
+          inputType: item['item_type'] == 'textArea' ? 'multiline' : 'singleline',
+          keyboardType: item['keyboard_type'] || (item['item_type'] == 'email' ? 'emailAddress' : (item['item_type'] == 'phone' ? 'phonePad' : 'default')),
+          placeholder: item['placeholder'] || '',
+          textContentType: item['text_content_type'],
+          maximumCharacterCount: item['max_length'] || 300
+        }.compact
+      }
+    when 'singleSelect', 'multiSelect'
+      multiple_selection = item['item_type'] == 'multiSelect'
+      items_list = (item['options'] || []).map.with_index do |option, opt_index|
+        item_data = {
+          title: option['title'] || option['value'],
+          value: option['value'],
+          identifier: "#{item_page_id}_#{opt_index}"
+        }
+        # For single select, each item can specify next page
+        item_data[:nextPageIdentifier] = next_page_id if !multiple_selection && next_page_id
+        item_data
+      end
+
+      page_data = {
+        pageIdentifier: item_page_id,
+        type: 'select',
+        title: item['title'] || 'Select',
+        subtitle: item['description'] || item['placeholder'] || 'Please select an option',
+        multipleSelection: multiple_selection,
+        items: items_list,
+        submitForm: is_last
+      }
+
+      # For multiple selection, set nextPageIdentifier on page level
+      page_data[:nextPageIdentifier] = next_page_id if multiple_selection && next_page_id
+      page_data
+    when 'dateTime'
+      # Get current date/time for default values
+      current_datetime = Time.now.utc.strftime('%Y-%m-%d %H:%M:%S')
+      # Set maximum date to 1 year from now to allow future bookings
+      max_date = (Time.now.utc + 365.days).strftime('%Y-%m-%d')
+
+      {
+        pageIdentifier: item_page_id,
+        type: 'datePicker',
+        title: item['title'] || 'Select Date',
+        subtitle: item['description'] || 'Please select a date and time',
+        nextPageIdentifier: next_page_id,
+        submitForm: is_last,
+        options: {
+          required: item['required'] || false,
+          startDate: current_datetime,      # Default to current date/time
+          maximumDate: max_date,            # Allow up to 1 year in the future
+          labelText: item['title'] || 'Date'
+        }.compact
+      }
+    when 'toggle'
+      {
+        pageIdentifier: item_page_id,
+        type: 'select',
+        title: item['title'] || 'Toggle',
+        subtitle: item['description'] || '',
+        multipleSelection: false,
+        nextPageIdentifier: next_page_id,
+        submitForm: is_last,
+        items: [
+          { title: 'Yes', value: 'true', identifier: "#{item_page_id}_yes", nextPageIdentifier: next_page_id },
+          { title: 'No', value: 'false', identifier: "#{item_page_id}_no", nextPageIdentifier: next_page_id }
+        ]
+      }
+    when 'stepper'
+      {
+        pageIdentifier: item_page_id,
+        type: 'input',
+        title: item['title'] || 'Number',
+        subtitle: item['description'] || "Enter a number between #{item['min_value']} and #{item['max_value']}",
+        nextPageIdentifier: next_page_id,
+        submitForm: is_last,
+        options: {
+          required: item['required'] || false,
+          inputType: 'singleline',
+          keyboardType: 'numberPad',
+          placeholder: (item['default_value'] || item['min_value'] || '1').to_s
+        }.compact
+      }
+    end
+  end
+
+  def convert_legacy_fields_to_msp(fields)
     return [] if fields.empty?
 
     # Create separate pages for each field (Apple MSP forms are page-based)

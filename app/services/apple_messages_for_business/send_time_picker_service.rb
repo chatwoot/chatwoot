@@ -264,6 +264,13 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
     # Handle both camelCase and snake_case for imageIdentifier (frontend sends camelCase)
     reply_image_id = content_attributes['reply_image_identifier'] || content_attributes['replyImageIdentifier']
 
+    # If reply image is not specified, reuse the received image identifier
+    # This follows Apple MSP best practice: reply message should show the same image as received message
+    if reply_image_id.blank?
+      received_image_id = content_attributes['received_image_identifier'] || content_attributes['receivedImageIdentifier']
+      reply_image_id = received_image_id
+    end
+
     {
       title: content_attributes['reply_title'] || 'Selected: ${event.title}',
       subtitle: content_attributes['reply_subtitle'],

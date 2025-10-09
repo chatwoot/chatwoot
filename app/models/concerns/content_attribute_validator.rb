@@ -20,7 +20,7 @@ class ContentAttributeValidator < ActiveModel::Validator
   ALLOWED_APPLE_RICH_LINK_KEYS = [:url, :title, :description, :image_data, :image_mime_type, :video_url, :video_mime_type, :site_name].freeze
   ALLOWED_APPLE_PAY_KEYS = [:payment_request, :merchant_session, :endpoints].freeze
   ALLOWED_APPLE_AUTHENTICATION_KEYS = [:oauth2, :response_encryption_key, :state, :redirect_uri].freeze
-  ALLOWED_APPLE_FORM_KEYS = [:title, :description, :fields, :pages, :submit_url, :method, :validation_rules].freeze
+  ALLOWED_APPLE_FORM_KEYS = [:title, :description, :fields, :pages, :submit_url, :method, :validation_rules, :images, :received_message, :reply_message].freeze
   ALLOWED_APPLE_CUSTOM_APP_KEYS = [:app_id, :app_name, :bid, :url, :use_live_layout].freeze
 
   # Apple MSP style values

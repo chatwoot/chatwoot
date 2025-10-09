@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageContext } from '../provider.js';
 import BaseBubble from './Base.vue';
@@ -7,53 +7,110 @@ import BaseBubble from './Base.vue';
 const { message, contentAttributes } = useMessageContext();
 const { t } = useI18n();
 
+onMounted(() => {
+  console.log('AppleFormResponse mounted');
+  console.log(
+    'contentAttributes:',
+    JSON.stringify(contentAttributes.value, null, 2)
+  );
+  console.log('form_response:', contentAttributes.value?.form_response);
+  console.log(
+    'selections:',
+    contentAttributes.value?.form_response?.selections
+  );
+  console.log('interactive_data:', contentAttributes.value?.interactive_data);
+  console.log(
+    'interactive_data.data:',
+    contentAttributes.value?.interactive_data?.data
+  );
+  console.log(
+    'interactive_data.data.dynamic:',
+    contentAttributes.value?.interactive_data?.data?.dynamic
+  );
+});
+
 // Reactive state for expanding/collapsing large forms
 const showAll = ref(false);
 
-// Extract form response data from content_attributes
+// Extract form response data from content_attributes (handle both camelCase and snake_case)
 const formResponse = computed(
-  () => contentAttributes.value?.form_response || {}
+  () =>
+    contentAttributes.value?.formResponse ||
+    contentAttributes.value?.form_response ||
+    {}
 );
-const selections = computed(() => formResponse.value?.selections || []);
+const selections = computed(() => {
+  const response =
+    contentAttributes.value?.formResponse ||
+    contentAttributes.value?.form_response;
+  return response?.selections || [];
+});
 const formTitle = computed(() => {
-  // Try to get title from various sources
-  if (contentAttributes.value?.form_response?.title) {
-    return contentAttributes.value.form_response.title;
+  try {
+    // Try to get title from various sources
+    const response =
+      contentAttributes.value?.formResponse ||
+      contentAttributes.value?.form_response;
+    if (response?.title) {
+      return response.title;
+    }
+    // Parse from message content if it follows "FormTitle - Submitted" pattern
+    if (message?.value?.content) {
+      const content = message.value.content;
+      const match = content.match(/^(.+?) - Submitted/);
+      if (match) {
+        return match[1];
+      }
+    }
+    return 'Form Response';
+  } catch (e) {
+    console.error('Error getting form title:', e);
+    return 'Form Response';
   }
-  // Parse from message content if it follows "FormTitle - Response:" pattern
-  const content = message.value?.content || '';
-  const match = content.match(/^(.+?) - Response:/);
-  return match
-    ? match[1]
-    : t('CONVERSATION.APPLE_FORM_RESPONSE.DEFAULT_FORM_TITLE');
 });
 
 const submittedAt = computed(() => {
-  const timestamp = formResponse.value?.submitted_at;
+  const timestamp =
+    formResponse.value?.submittedAt || formResponse.value?.submitted_at;
   if (timestamp) {
     return new Date(timestamp).toLocaleString();
   }
-  return new Date(message.value?.created_at).toLocaleString();
+  if (message?.value?.created_at) {
+    return new Date(message.value.created_at).toLocaleString();
+  }
+  return new Date().toLocaleString();
 });
 
 // Check if this is an error case where IDR processing failed
 const hasError = computed(() => {
+  const response =
+    contentAttributes.value?.formResponse ||
+    contentAttributes.value?.form_response;
+  const interactiveResponse =
+    contentAttributes.value?.interactiveResponse ||
+    contentAttributes.value?.interactive_response;
   return (
     contentAttributes.value?.idr_failed ||
-    contentAttributes.value?.form_response?.error ||
-    contentAttributes.value?.interactive_response?.error
+    response?.error ||
+    interactiveResponse?.error
   );
 });
 
 const errorMessage = computed(() => {
-  if (contentAttributes.value?.form_response?.error) {
-    return contentAttributes.value.form_response.error;
+  const response =
+    contentAttributes.value?.formResponse ||
+    contentAttributes.value?.form_response;
+  const interactiveResponse =
+    contentAttributes.value?.interactiveResponse ||
+    contentAttributes.value?.interactive_response;
+  if (response?.error) {
+    return response.error;
   }
-  if (contentAttributes.value?.interactive_response?.user_message) {
-    return contentAttributes.value.interactive_response.user_message;
+  if (interactiveResponse?.user_message) {
+    return interactiveResponse.user_message;
   }
-  if (contentAttributes.value?.interactive_response?.error) {
-    return contentAttributes.value.interactive_response.error;
+  if (interactiveResponse?.error) {
+    return interactiveResponse.error;
   }
   return 'Form data could not be loaded.';
 });
@@ -70,7 +127,7 @@ const formattedResponses = computed(() => {
         selection.title ||
         selection.subtitle ||
         selection.pageIdentifier ||
-        t('CONVERSATION.APPLE_FORM_RESPONSE.DEFAULT_QUESTION'),
+        'Question',
       answers: (selection.items || [])
         .map(item => item.title || item.value)
         .filter(Boolean),
@@ -95,14 +152,14 @@ const displayedResponses = computed(() => {
     <div class="apple-form-response max-w-md">
       <!-- Form Header -->
       <div
-        class="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800"
+        class="mb-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800"
       >
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2">
           <div
-            class="w-6 h-6 bg-blue-500 rounded flex items-center justify-center"
+            class="w-5 h-5 bg-blue-500 rounded flex items-center justify-center flex-shrink-0"
           >
             <svg
-              class="w-4 h-4 text-white"
+              class="w-3 h-3 text-white"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -114,37 +171,36 @@ const displayedResponses = computed(() => {
               />
             </svg>
           </div>
-          <h3 class="text-sm font-semibold text-blue-900 dark:text-blue-100">
-            {{ formTitle
-            }}{{ t('CONVERSATION.APPLE_FORM_RESPONSE.HEADER.SEPARATOR')
-            }}{{ t('CONVERSATION.APPLE_FORM_RESPONSE.HEADER.RESPONSE_TITLE') }}
-          </h3>
+          <div class="flex-1 min-w-0">
+            <h3
+              class="text-sm font-semibold text-blue-900 dark:text-blue-100 truncate"
+            >
+              {{ formTitle }}
+            </h3>
+            <p class="text-xs text-blue-700 dark:text-blue-300">
+              {{ submittedAt }}
+            </p>
+          </div>
         </div>
-        <p class="text-xs text-blue-700 dark:text-blue-300">
-          {{ t('CONVERSATION.APPLE_FORM_RESPONSE.HEADER.SUBMITTED') }}
-          {{ submittedAt }}
-        </p>
       </div>
 
       <!-- Form Responses -->
-      <div v-if="hasResponses && !hasError" class="space-y-3">
+      <div v-if="hasResponses && !hasError" class="space-y-2">
         <div
           v-for="(response, index) in displayedResponses"
           :key="index"
-          class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700"
+          class="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700"
         >
-          <div class="mb-2">
-            <label
-              class="text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
-              {{ response.question }}
-            </label>
-          </div>
-          <div class="space-y-1">
+          <label
+            class="text-xs font-medium text-slate-600 dark:text-slate-400 block mb-1.5"
+          >
+            {{ response.question }}
+          </label>
+          <div class="flex flex-wrap gap-1.5">
             <div
               v-for="(answer, answerIndex) in response.answers"
               :key="answerIndex"
-              class="inline-block px-2 py-1 mr-2 mb-1 text-sm bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-slate-800 dark:text-slate-200"
+              class="inline-block px-2 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded text-slate-800 dark:text-slate-200"
             >
               {{ answer }}
             </div>
@@ -155,14 +211,14 @@ const displayedResponses = computed(() => {
       <!-- Error Case -->
       <div
         v-else-if="hasError"
-        class="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800"
+        class="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800"
       >
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-start gap-2">
           <div
-            class="w-6 h-6 bg-amber-500 rounded flex items-center justify-center flex-shrink-0"
+            class="w-5 h-5 bg-amber-500 rounded flex items-center justify-center flex-shrink-0"
           >
             <svg
-              class="w-4 h-4 text-white"
+              class="w-3 h-3 text-white"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -173,40 +229,37 @@ const displayedResponses = computed(() => {
               />
             </svg>
           </div>
-          <p class="text-sm font-medium text-amber-800 dark:text-amber-200">
-            {{ t('CONVERSATION.APPLE_FORM_RESPONSE.ERROR.TITLE') }}
-          </p>
+          <div>
+            <p
+              class="text-sm font-medium text-amber-800 dark:text-amber-200 mb-1"
+            >
+              Error Loading Form
+            </p>
+            <p class="text-xs text-amber-700 dark:text-amber-300">
+              {{ errorMessage }}
+            </p>
+          </div>
         </div>
-        <p class="text-sm text-amber-700 dark:text-amber-300 mb-2">
-          {{ errorMessage }}
-        </p>
-        <p class="text-xs text-amber-600 dark:text-amber-400">
-          {{ t('CONVERSATION.APPLE_FORM_RESPONSE.ERROR.SUBTITLE') }}
-        </p>
       </div>
 
       <!-- No Responses Case -->
       <div
         v-else
-        class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-center"
+        class="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-center"
       >
-        <p class="text-sm text-slate-600 dark:text-slate-400">
-          {{ t('CONVERSATION.APPLE_FORM_RESPONSE.NO_RESPONSES') }}
+        <p class="text-xs text-slate-600 dark:text-slate-400">
+          No responses received
         </p>
       </div>
 
       <!-- Expand/Collapse for Large Forms -->
-      <div v-if="formattedResponses.length > 3" class="mt-3 text-center">
+      <div v-if="formattedResponses.length > 3" class="mt-2 text-center">
         <button
           class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
           @click="showAll = !showAll"
         >
           {{
-            showAll
-              ? t('CONVERSATION.APPLE_FORM_RESPONSE.SHOW_LESS')
-              : t('CONVERSATION.APPLE_FORM_RESPONSE.SHOW_ALL', {
-                  count: formattedResponses.length,
-                })
+            showAll ? 'Show Less' : `Show All (${formattedResponses.length})`
           }}
         </button>
       </div>

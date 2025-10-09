@@ -99,16 +99,21 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
                                 :timezone_offset,
                                 # Apple Rich Link
                                 :url, :title, :description, :image_url, :site_name,
-                                # Apple Form - MISSING FIELDS ADDED
+                                # Apple Form
                                 :title, :description, :submit_url, :method, :validation_rules,
                                 { :fields => [:type, :name, :label, :placeholder, :required, :default, :pattern, :title, :pattern_error, { :options => [:value, :title] }] },
+                                { :pages => [:page_id, :title, :description, { :items => [:item_id, :item_type, :title, :description, :required, :placeholder, :keyboard_type, :keyboardType, :text_content_type, :textContentType, :validation, :min_value, :max_value, :max_length, :url, :default_value, { :options => [:value, :title] }] }] },
                                 # Apple Custom App
                                 :app_id, :app_name, :bid, :use_live_layout,
-                                # Common Apple Messages fields
+                                # Common Apple Messages fields (flat structure for backward compatibility)
                                 :received_title, :received_subtitle, :received_image_identifier, :received_style,
                                 :reply_title, :reply_subtitle, :reply_style,
                                 :reply_image_title, :reply_image_subtitle,
-                                :reply_secondary_subtitle, :reply_tertiary_subtitle
+                                :reply_secondary_subtitle, :reply_tertiary_subtitle,
+                                :reply_image_identifier,
+                                # Nested message structures (new form builder format)
+                                { :received_message => [:title, :subtitle, :image_identifier, :imageIdentifier, :style] },
+                                { :reply_message => [:title, :subtitle, :image_identifier, :imageIdentifier, :style] }
                               ])
 
     Rails.logger.info "🔥 MessagesController permitted params: #{permitted.inspect}"

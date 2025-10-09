@@ -114,7 +114,7 @@ class AppleMessagesForBusiness::FormService
   end
 
   def build_form_data
-    {
+    form_data = {
       bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:com.apple.messages.form:form',
       data: {
         version: @form_config['version'] || '1.0',
@@ -123,6 +123,22 @@ class AppleMessagesForBusiness::FormService
       },
       useLiveLayout: @form_config['use_live_layout'] != false
     }
+
+    # Add receivedMessage if configured
+    if @form_config['received_message'].present?
+      form_data[:receivedMessage] = build_received_message
+    end
+
+    # Add replyMessage if configured
+    if @form_config['reply_message'].present?
+      form_data[:replyMessage] = build_reply_message
+    end
+
+    # Add images if present
+    images = build_images_array
+    form_data[:data][:images] = images if images.present?
+
+    form_data
   end
 
   def build_form_structure
@@ -226,6 +242,53 @@ class AppleMessagesForBusiness::FormService
   def add_button_item_fields(base_item, item_config)
     base_item[:button_style] = item_config['button_style'] || 'primary'
     base_item[:action] = item_config['action']
+  end
+
+  def build_received_message
+    received_msg = @form_config['received_message'] || {}
+    # Handle both camelCase and snake_case for imageIdentifier
+    received_image_id = received_msg['image_identifier'] || received_msg['imageIdentifier']
+
+    {
+      title: received_msg['title'] || @form_config['title'] || 'Please fill out this form',
+      subtitle: received_msg['subtitle'],
+      imageIdentifier: received_image_id,
+      style: received_msg['style'] || 'large'
+    }
+  end
+
+  def build_reply_message
+    reply_msg = @form_config['reply_message'] || {}
+    # Handle both camelCase and snake_case for imageIdentifier
+    reply_image_id = reply_msg['image_identifier'] || reply_msg['imageIdentifier']
+
+    # If reply image is not specified, reuse the received image identifier
+    # This follows Apple MSP best practice: reply message should show the same image as received message
+    if reply_image_id.blank?
+      received_msg = @form_config['received_message'] || {}
+      received_image_id = received_msg['image_identifier'] || received_msg['imageIdentifier']
+      reply_image_id = received_image_id
+    end
+
+    {
+      title: reply_msg['title'] || 'Thank you for your submission!',
+      subtitle: reply_msg['subtitle'],
+      imageIdentifier: reply_image_id,
+      style: reply_msg['style'] || 'large'
+    }
+  end
+
+  def build_images_array
+    images_data = @form_config['images'] || []
+    return [] if images_data.empty?
+
+    images_data.map do |image|
+      {
+        identifier: image['identifier'],
+        data: image['data'], # Base64 encoded image data
+        description: image['description']
+      }
+    end
   end
 
   def send_to_apple_gateway(payload, message_id)

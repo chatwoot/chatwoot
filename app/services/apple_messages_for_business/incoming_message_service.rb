@@ -136,6 +136,17 @@ class AppleMessagesForBusiness::IncomingMessageService
     Rails.logger.info "[AMB IncomingMessage] Creating message with content: #{message_content}"
     Rails.logger.info "[AMB IncomingMessage] Message type: #{message_type}"
 
+    # Check for duplicate message by source_id to prevent creating the same message twice
+    message_source_id = @params['id']
+    if message_source_id.present?
+      existing_message = @conversation.messages.find_by(source_id: message_source_id)
+      if existing_message
+        Rails.logger.info "[AMB IncomingMessage] Duplicate message detected - source_id: #{message_source_id}, existing message_id: #{existing_message.id}"
+        @message = existing_message
+        return
+      end
+    end
+
     # Determine content type early - this is critical for IDR to prevent UI flicker
     determined_content_type = determine_content_type
     Rails.logger.info "[AMB IncomingMessage] Content type determined: #{determined_content_type} (IDR cached: #{@idr_data.present?})"
@@ -147,7 +158,7 @@ class AppleMessagesForBusiness::IncomingMessageService
       message_type: message_type,
       sender: message_sender,
       content_attributes: content_attributes,
-      source_id: @params['id'],
+      source_id: message_source_id,
       content_type: determined_content_type
     )
 
@@ -747,10 +758,13 @@ class AppleMessagesForBusiness::IncomingMessageService
     when 'timePicker'
       'apple_time_picker'
     when 'event'
-      # Check if it's a time picker event response
-      if interactive_data['data']['event']['timeslots']
+      # Check if it's a time picker being sent (has multiple timeslots) vs a user selection response (single selected timeslot)
+      event_data = interactive_data['data']['event']
+      if event_data['timeslots']&.length.to_i > 1
+        # Multiple timeslots = displaying a time picker
         'apple_time_picker'
       else
+        # Single timeslot or no timeslots = user selection response, display as text
         'text'
       end
     when 'authenticate'
@@ -784,10 +798,13 @@ class AppleMessagesForBusiness::IncomingMessageService
     when 'timePicker'
       'apple_time_picker'
     when 'event'
-      # Check if it's a time picker event response
-      if interactive_data['data']['event']['timeslots']
+      # Check if it's a time picker being sent (has multiple timeslots) vs a user selection response (single selected timeslot)
+      event_data = interactive_data['data']['event']
+      if event_data['timeslots']&.length.to_i > 1
+        # Multiple timeslots = displaying a time picker
         'apple_time_picker'
       else
+        # Single timeslot or no timeslots = user selection response, display as text
         'text'
       end
     when 'authenticate'

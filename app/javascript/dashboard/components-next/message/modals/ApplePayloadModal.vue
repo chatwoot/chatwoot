@@ -35,15 +35,35 @@ const debugInfo = computed(() => {
 });
 
 const formattedPayload = computed(() => {
-  if (!props.payload) {
-    return 'No payload data available';
+  // For sent messages, show the payload
+  if (props.payload) {
+    try {
+      return JSON.stringify(props.payload, null, 2);
+    } catch (e) {
+      return 'Error formatting payload';
+    }
   }
 
-  try {
-    return JSON.stringify(props.payload, null, 2);
-  } catch (e) {
-    return 'Error formatting payload';
+  // For received messages, show content attributes
+  if (
+    props.contentAttributes &&
+    Object.keys(props.contentAttributes).length > 0
+  ) {
+    try {
+      return JSON.stringify(props.contentAttributes, null, 2);
+    } catch (e) {
+      return 'Error formatting content attributes';
+    }
   }
+
+  return 'No payload data available';
+});
+
+const payloadLabel = computed(() => {
+  if (props.payload) {
+    return 'Request Payload (Sent to Apple)';
+  }
+  return 'Received Payload (From Apple)';
 });
 
 const formattedDebugInfo = computed(() => {
@@ -57,7 +77,7 @@ const formattedDebugInfo = computed(() => {
 const copyToClipboard = async () => {
   try {
     const fullData = {
-      payload: props.payload,
+      payload: props.payload || props.contentAttributes,
       debug: debugInfo.value,
     };
     await navigator.clipboard.writeText(JSON.stringify(fullData, null, 2));
@@ -90,7 +110,11 @@ const closeModal = () => {
             Apple Messages Payload
           </h3>
           <p class="text-xs text-n-slate-11">
-            JSON payload sent to mspgw.apple.com
+            {{
+              props.payload
+                ? 'JSON payload sent to mspgw.apple.com'
+                : 'JSON payload received from Apple'
+            }}
           </p>
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
@@ -146,9 +170,7 @@ const closeModal = () => {
           </div>
           <pre
             class="p-3 bg-n-slate-2 rounded-md text-xs font-mono text-n-slate-12 overflow-x-auto border border-n-weak"
-          >
-            {{ formattedDebugInfo }}
-          </pre>
+            >{{ formattedDebugInfo }}</pre>
         </div>
 
         <!-- Payload -->
@@ -156,14 +178,12 @@ const closeModal = () => {
           <div class="flex items-center gap-2 mb-2">
             <fluent-icon icon="code" size="14" class="text-n-slate-11" />
             <h4 class="text-xs font-semibold text-n-slate-12">
-              Request Payload
+              {{ payloadLabel }}
             </h4>
           </div>
           <pre
             class="p-4 bg-n-slate-2 rounded-md text-xs font-mono text-n-slate-12 overflow-x-auto border border-n-weak leading-relaxed"
-          >
-            {{ formattedPayload }}
-          </pre>
+            >{{ formattedPayload }}</pre>
         </div>
       </div>
     </div>
