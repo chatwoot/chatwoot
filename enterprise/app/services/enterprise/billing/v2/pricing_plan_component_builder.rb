@@ -58,14 +58,18 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
   private
 
   def create_licensed_item(display_name:, lookup_key:, unit_label:)
-    Stripe::V2::Billing::LicensedItem.create(
+    StripeV2Client.request(
+      :post,
+      '/v2/billing/licensed_items',
       { display_name: display_name, lookup_key: lookup_key, unit_label: unit_label },
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
   end
 
   def create_license_fee(display_name:, unit_amount:, licensed_item_id:)
-    Stripe::V2::Billing::LicenseFee.create(
+    StripeV2Client.request(
+      :post,
+      '/v2/billing/license_fees',
       {
         display_name: display_name,
         currency: 'usd',
@@ -80,7 +84,9 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
   end
 
   def create_service_action(lookup_key:, credit_amount:, cpu_id:)
-    Stripe::V2::Billing::ServiceAction.create(
+    StripeV2Client.request(
+      :post,
+      '/v2/billing/service_actions',
       {
         lookup_key: lookup_key,
         service_interval: 'month',
@@ -101,7 +107,9 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
   end
 
   def create_rate_card(display_name:)
-    Stripe::V2::Billing::RateCard.create(
+    StripeV2Client.request(
+      :post,
+      '/v2/billing/rate_cards',
       {
         display_name: display_name,
         currency: 'usd',
@@ -114,15 +122,18 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
   end
 
   def create_metered_item(display_name:, lookup_key:, meter_id:)
-    Stripe::V2::Billing::MeteredItem.create(
+    StripeV2Client.request(
+      :post,
+      '/v2/billing/metered_items',
       { display_name: display_name, lookup_key: lookup_key, meter: meter_id },
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
   end
 
   def add_rate(card_id:, item_id:, cpu_id:, value:)
-    Stripe::V2::Billing::RateCard::Rate.create(
-      card_id,
+    StripeV2Client.request(
+      :post,
+      "/v2/billing/rate_cards/#{card_id}/rates",
       {
         metered_item: item_id,
         custom_pricing_unit_amount: { id: cpu_id, value: value.to_s }
@@ -141,8 +152,9 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
                { type: 'rate_card', rate_card: data }
              end
 
-    Stripe::V2::Billing::PricingPlan::Component.create(
-      plan_id,
+    StripeV2Client.request(
+      :post,
+      "/v2/billing/pricing_plans/#{plan_id}/components",
       params,
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )

@@ -1,26 +1,34 @@
 class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::BaseService
   def create_custom_pricing_unit(display_name:, lookup_key:)
-    Stripe::V2::Billing::CustomPricingUnit.create(
+    StripeV2Client.request(
+      :post,
+      '/v2/billing/custom_pricing_units',
       { display_name: display_name, lookup_key: lookup_key },
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
   end
 
   def create_meter(display_name:, event_name:)
-    Stripe::Billing::Meter.create(
-      {
-        display_name: display_name,
-        event_name: event_name,
-        default_aggregation: { formula: 'sum' },
-        customer_mapping: { type: 'by_id', event_payload_key: 'stripe_customer_id' },
-        value_settings: { event_payload_key: 'value' }
-      },
+    params = {
+      'display_name' => display_name,
+      'event_name' => event_name,
+      'default_aggregation[formula]' => 'sum',
+      'customer_mapping[type]' => 'by_id',
+      'customer_mapping[event_payload_key]' => 'stripe_customer_id',
+      'value_settings[event_payload_key]' => 'value'
+    }
+    StripeV2Client.request(
+      :post,
+      '/v1/billing/meters',
+      params,
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
   end
 
   def create_pricing_plan(display_name:, currency: 'usd', tax_behavior: 'exclusive')
-    Stripe::V2::Billing::PricingPlan.create(
+    StripeV2Client.request(
+      :post,
+      '/v2/billing/pricing_plans',
       { display_name: display_name, currency: currency, tax_behavior: tax_behavior },
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
