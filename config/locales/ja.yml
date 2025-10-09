@@ -62,6 +62,9 @@ ja:
         invalid: 無効なEメールです
       phone_number:
         invalid: e164形式である必要があります
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: カテゴリとポータルで一意である必要があります
