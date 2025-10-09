@@ -72,6 +72,10 @@ module Integrations::Slack::SlackMessageHelper
       :image
     when 'pdf'
       :file
+    when 'mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'
+      :video
+    else
+      :file
     end
   end
 
