@@ -62,6 +62,9 @@ nl:
         invalid: Ongeldig email
       phone_number:
         invalid: moet in e164-formaat zijn
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: moet uniek zijn in de categorie en portal
