@@ -62,6 +62,9 @@ ro:
         invalid: E-mail invalid
       phone_number:
         invalid: ar trebui să fie în format e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: ar trebui să fie unic în categorie și portal
