@@ -62,6 +62,9 @@ sl:
         invalid: Napačen e-poštni naslov
       phone_number:
         invalid: mora biti v formatu e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: mora biti edinstven v kategoriji in portalu
