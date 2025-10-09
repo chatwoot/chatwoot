@@ -62,6 +62,9 @@ vi:
         invalid: Email không hợp lệ
       phone_number:
         invalid: nên theo đinh dạng e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: phải là duy nhất trong danh mục và cổng thông tin
