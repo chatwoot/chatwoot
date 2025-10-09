@@ -77,15 +77,33 @@ class PerformanceController < PublicController
 
         upload_time = ((Time.current - start_time) * 1000).round(2)
 
+        # Get storage region based on service type
+        region = case ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local')
+                 when 'amazon'
+                   ENV.fetch('AWS_REGION', 'unknown')
+                 when 's3_compatible'
+                   ENV.fetch('STORAGE_REGION', 'unknown')
+                 when 'google'
+                   ENV.fetch('GCS_PROJECT', 'unknown')
+                 when 'microsoft'
+                   ENV.fetch('AZURE_STORAGE_ACCOUNT_NAME', 'unknown')
+                 else
+                   'local'
+                 end
+
+        # Use direct S3 URL instead of Rails redirect URL for multi-pod compatibility
+        download_url = blob.service.url(blob.key, expires_in: 1.hour, disposition: 'attachment', filename: blob.filename, content_type: blob.content_type)
+
         render json: {
           status: 'success',
           blob_id: blob.id,
           file_size: file_size,
           file_size_mb: (file_size / 1024.0 / 1024.0).round(2),
-          upload_time: upload_time,
+          server_upload_time: upload_time,
           throughput_mbps: file_size > 0 ? ((file_size * 8.0 / 1024.0 / 1024.0) / (upload_time / 1000.0)).round(2) : 0,
-          download_url: rails_blob_url(blob, disposition: 'attachment'),
-          storage_service: ActiveStorage::Blob.service.name
+          download_url: download_url,
+          storage_service: ActiveStorage::Blob.service.name,
+          region: region
         }
       else
         render json: {
@@ -94,9 +112,12 @@ class PerformanceController < PublicController
         }, status: :bad_request
       end
     rescue StandardError => e
+      Rails.logger.error "Performance upload error: #{e.class.name} - #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
       render json: {
         status: 'error',
         error: e.message,
+        error_class: e.class.name,
         upload_time: ((Time.current - start_time) * 1000).round(2)
       }, status: :internal_server_error
     end

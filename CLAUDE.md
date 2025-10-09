@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Chatwoot is an open-source customer support platform built with Ruby on Rails (backend) and Vue 3 (frontend). It provides omnichannel support, live chat, help center, and AI-powered customer support features.
 
+This project started as a fork of chatwoot v4.0.4
+
 **Stack:**
 - Backend: Rails 7.0, Ruby 3.3.3
 - Frontend: Vue 3, Vite, TailwindCSS
@@ -14,46 +16,34 @@ Chatwoot is an open-source customer support platform built with Ruby on Rails (b
 - Real-time: ActionCable (WebSocket)
 - Package Manager: pnpm 10.x for JavaScript, Bundler for Ruby
 
-## Common Commands
 
 ### Development Setup
+
+Install docker and docker compose for local development from <https://docs.docker.com/get-started/get-docker/> then run 
+
+
 ```bash
-make setup                    # Install dependencies (bundle + pnpm)
-make burn                     # Quick reinstall of dependencies
-make db                       # Run db:chatwoot_prepare (create, migrate, seed)
-make run                      # Start development server (overmind)
-make force_run                # Force restart overmind
-make debug                    # Connect to Rails console in overmind
-make debug_worker             # Connect to Sidekiq worker in overmind
+docker compose build base-system
+docker compose build base-deps
+docker compose up
 ```
 
-### Running the Application
-```bash
-# Using overmind (recommended for development)
-overmind start -f Procfile.dev
+### Production Server
 
-# Using foreman
-foreman start -f Procfile.dev
+Production build is made on CircleCI via .circleci/config.yml
 
-# Start processes individually
-bin/rails s -p 3000          # Rails server
-bin/vite dev                 # Vite dev server
-bundle exec sidekiq -C config/sidekiq.yml  # Background workers
-```
+For deployment, kubernetes cluster is used. 
+Rails deployment: `kubernetes/deployment-template-rails.yml`
 
-The Procfile.dev defines three processes: `backend` (Rails), `worker` (Sidekiq), `vite` (frontend dev server).
+Sidekiq deployment: `kubernetes/deployment-template-sidekiq.yml`
 
-### Testing
+We have two environments: 
+- devnet
+- prod-india
 
-**Ruby/Rails Tests (RSpec):**
-```bash
-bundle exec rspec                           # Run all specs
-bundle exec rspec spec/models               # Run model specs
-bundle exec rspec spec/path/to/file_spec.rb # Run single file
-bundle exec rspec spec/path/to/file_spec.rb:42  # Run single example at line 42
-```
+## Common Commands
 
-**JavaScript Tests (Vitest):**
+### JavaScript Tests (Vitest):
 ```bash
 pnpm test                    # Run all tests (no watch)
 pnpm test:watch              # Run tests in watch mode
@@ -166,16 +156,6 @@ Common concerns in `app/models/concerns/`:
 - `vitest.setup.js` - Vitest test setup
 - `histoire.config.ts` - Component story tool (Histoire)
 
-### Enterprise Features
-
-Enterprise-specific code lives in `enterprise/`:
-- `enterprise/app/` - Enterprise models, controllers, services
-- `enterprise/lib/` - Enterprise libraries
-- `enterprise/listeners/` - Enterprise event listeners
-- `enterprise/config/` - Enterprise configuration (premium features, installation config)
-
-These paths are added to Rails eager_load_paths in `config/application.rb`.
-
 ## Database & Migrations
 
 - PostgreSQL is the primary database
@@ -199,25 +179,6 @@ These paths are added to Rails eager_load_paths in `config/application.rb`.
 - Uses `fake-indexeddb` for IndexedDB mocking
 - Timezone set to UTC for consistency
 
-## Integrations & Channels
-
-Chatwoot supports multiple channels:
-- Email (IMAP mailboxes in `app/mailboxes/`)
-- Facebook Messenger (`facebook-messenger` gem)
-- Twitter (`twitty` gem)
-- Twilio (`twilio-ruby` gem)
-- Line (`line-bot-api` gem)
-- Slack (`slack-ruby-client` gem)
-- WhatsApp (via Twilio)
-- And more...
-
-Integrations:
-- Dialogflow for chatbots (`google-cloud-dialogflow-v2`)
-- Google Translate (`google-cloud-translate-v3`)
-- Stripe for billing
-- Shopify (`shopify_api`)
-- OpenAI (`ruby-openai`) for AI features
-
 ## Environment Variables
 
 Configuration is managed via:
@@ -230,6 +191,15 @@ Configuration is managed via:
 - Branching model: git-flow
 - Base branch: `develop` (NOT `master`)
 - Stable releases: `master` branch
+
+## Documentation
+
+**When creating technical documentation:**
+- ALWAYS place documentation files in the `docs/` folder
+- Use markdown format (`.md` extension)
+- Include comprehensive details: problem statement, solution, code changes, deployment considerations
+- Name files descriptively (e.g., `ATTACHMENTS_S3_MULTI_POD_FIX.md`, `API_AUTHENTICATION_GUIDE.md`)
+- Never create documentation in the project root directory
 
 ## Performance & Monitoring
 

@@ -20,11 +20,15 @@ A comprehensive, public (no-login required) performance monitoring page at `/per
   - Yellow: 100-300ms (warning)
   - Red: > 300ms (error)
 
-### 2. **WebSocket Connection Test**
-- Tests ActionCable WebSocket connection
-- Measures connection establishment time
-- Shows WebSocket URL
+### 2. **WebSocket Connection Test** (Comprehensive)
+- Tests ActionCable WebSocket connection with multiple scenarios:
+  - **Initial Connection**: Establishes WebSocket and measures connection time
+  - **Message Round-trip**: Sends test message and measures echo response time
+  - **Reconnection**: Tests disconnection and automatic reconnection capability
+- Shows WebSocket URL (dynamically constructed from current page)
 - Detects connection failures and timeouts
+- Works correctly in both HTTP (ws://) and HTTPS (wss://) environments
+- Compatible with Docker Compose, localhost, and production deployments
 
 ### 3. **Database Connectivity Test** ⭐ NEW
 - Tests PostgreSQL/database connection
@@ -33,20 +37,40 @@ A comprehensive, public (no-login required) performance monitoring page at `/per
 - Shows connection pool status (active/total)
 - Identifies database connectivity issues
 
-### 4. **Redis Connectivity Test** ⭐ NEW
+### 4. **Redis Connectivity Test**
 - Tests Redis connection
 - Measures PING response time
 - Shows Redis URL (with password masked)
 - Verifies cache/session store connectivity
 
-### 5. **Browser Information**
+### 5. **File Transfer Performance Test** ⭐ NEW
+- Tests storage service (S3/local) upload and download performance
+- Upload test:
+  - Measures file upload time to storage service
+  - Calculates upload throughput (Mbps)
+  - Shows file size and server processing time
+- Download test:
+  - Measures file download time from storage service
+  - Calculates download throughput (Mbps)
+  - Tests direct S3 signed URLs (multi-pod compatible)
+- Sample file download:
+  - Provides pre-generated sample files for testing
+  - Available sizes: 1MB, 5MB, 10MB
+  - Useful for testing without uploading
+- Storage service detection:
+  - Automatically detects: Amazon S3, S3-compatible, Google Cloud, Azure, or Local
+  - Shows storage region/location
+- Automatic cleanup of test files after completion
+- **Note**: Download test requires proper S3 CORS configuration for localhost testing (see Troubleshooting section)
+
+### 6. **Browser Information**
 - User agent details
 - Platform/OS information
 - Screen resolution
 - Online/offline status
 - Device memory and CPU cores (if available)
 
-### 6. **Network Quality**
+### 7. **Network Quality**
 - Connection type (WiFi, 4G, etc.)
 - Effective connection type
 - Downlink speed
@@ -111,8 +135,20 @@ URL: redis://...
 
 --- WEBSOCKET CONNECTION ---
 Status: connected/error/timeout
-Connection Time: X ms
+Initial Connection Time: X ms
+Message Round-trip Time: X ms
+Reconnection Time: X ms
 URL: wss://...
+
+--- FILE TRANSFER PERFORMANCE ---
+Status: success/error
+Storage Service: Amazon S3
+Region: ap-south-1
+Upload Time: X ms
+Upload Speed: X Mbps
+Download Time: X ms
+Download Speed: X Mbps
+File Size: X MB
 
 --- DETAILED TEST LOG ---
 [timestamp] Log entries...
@@ -156,6 +192,45 @@ Tests Redis connectivity.
 }
 ```
 
+### POST /perf/upload
+Uploads a test file to storage service and returns performance metrics.
+
+**Request**: `multipart/form-data` with `file` field
+
+**Response**:
+```json
+{
+  "status": "success",
+  "blob_id": "abc123",
+  "file_size": 1048576,
+  "file_size_mb": 1.0,
+  "server_upload_time": 450.23,
+  "throughput_mbps": 18.52,
+  "download_url": "https://bucket.s3.amazonaws.com/key?...",
+  "storage_service": "Amazon",
+  "region": "ap-south-1"
+}
+```
+
+### DELETE /perf/cleanup/:blob_id
+Deletes a test file from storage.
+
+**Response**:
+```json
+{
+  "status": "success",
+  "message": "File deleted"
+}
+```
+
+### GET /perf/sample?size=:size
+Downloads a pre-generated sample file for testing.
+
+**Query Parameters**:
+- `size`: File size in MB (1, 5, or 10)
+
+**Response**: Binary file download
+
 ## Usage Workflow
 
 When an agent reports connectivity or performance issues:
@@ -173,6 +248,7 @@ When an agent reports connectivity or performance issues:
    - Database errors → DB connectivity problem
    - Redis errors → Cache/session issue
    - WebSocket errors → ActionCable problem
+   - Slow file transfers → Storage service or bandwidth issue
    - Browser issues → Client-side problem
 
 ## Technical Details
@@ -182,8 +258,15 @@ When an agent reports connectivity or performance issues:
 - **Base Class**: `PublicController` (no authentication required)
 
 ### Routes
-- **Location**: `config/routes.rb` (lines 31-35)
-- All routes under `/perf` prefix
+- **Location**: `config/routes.rb` (lines 31-39)
+- All routes under `/perf` prefix:
+  - `GET /perf` - Main page
+  - `GET /perf/ping` - Server ping
+  - `GET /perf/database` - Database test
+  - `GET /perf/redis` - Redis test
+  - `POST /perf/upload` - File upload test
+  - `DELETE /perf/cleanup/:blob_id` - Cleanup test file
+  - `GET /perf/sample` - Download sample file
 
 ### View
 - **Location**: `app/views/performance/index.html.erb`
@@ -197,12 +280,14 @@ When an agent reports connectivity or performance issues:
 - No sensitive data exposed
 - Redis password is masked in output
 - Only tests connectivity, doesn't expose data
-- Read-only operations
-- No destructive actions
+- Read-only operations (except file upload test)
+- File upload test automatically cleans up after completion
+- S3 URLs are time-limited signed URLs (expire after 1 hour)
 
 ⚠ **Note:**
 - Database and Redis tests run server-side queries
-- Minimal performance impact (single SELECT and PING)
+- File upload test creates temporary ActiveStorage blobs (automatically deleted)
+- Minimal performance impact (single SELECT, PING, and optional file transfer)
 - Tests are lightweight and safe for production
 
 ## Color Coding
@@ -230,6 +315,11 @@ When an agent reports connectivity or performance issues:
 - Warning: 500-2000ms
 - Error: > 2000ms or failed
 
+**File Transfer:**
+- Good: > 10 Mbps
+- Warning: 1-10 Mbps
+- Error: < 1 Mbps
+
 ## Auto-Run on Load
 
 Browser and Network information are automatically collected when the page loads. Other tests require clicking "Run All Tests".
@@ -254,15 +344,95 @@ Browser and Network information are automatically collected when the page loads.
 - Check Redis authentication
 
 ### "WebSocket timeout"
-- Check ActionCable server
-- Verify WEBSOCKET_URL configuration
-- Check reverse proxy WebSocket support
+- Check ActionCable server is running
+- Verify WEBSOCKET_URL environment variable (optional, auto-detected if not set)
+- Check reverse proxy WebSocket support (nginx/Apache)
+- Ensure WebSocket endpoint `/cable` is accessible
+- For Docker Compose: WebSocket URL is automatically constructed from page location
+
+### "WebSocket connection to 'wss://localhost/cable' failed"
+- **Localhost Testing**: WebSocket URL is now dynamically constructed from current page
+- Access via `http://localhost:3000/perf` → uses `ws://localhost:3000/cable`
+- Access via `https://domain.com/perf` → uses `wss://domain.com/cable`
+- No manual WEBSOCKET_URL configuration needed for standard setups
 
 ### "High server latency"
 - Network congestion
 - Server overload
 - Geographic distance
 - ISP issues
+
+### "File upload/download CORS error" (S3 Only)
+**Problem**: `Access to fetch at 'https://bucket.s3.amazonaws.com/...' has been blocked by CORS policy`
+
+**Solution**: Add CORS configuration to S3 bucket:
+
+```json
+[
+    {
+        "AllowedHeaders": ["*"],
+        "AllowedMethods": ["GET", "HEAD"],
+        "AllowedOrigins": [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "https://your-production-domain.com"
+        ],
+        "ExposeHeaders": ["ETag", "Content-Length"],
+        "MaxAgeSeconds": 3000
+    }
+]
+```
+
+Apply via AWS CLI:
+```bash
+aws s3api put-bucket-cors \
+  --bucket your-bucket-name \
+  --cors-configuration file://cors.json \
+  --region your-region
+```
+
+Or via AWS Console: S3 → Bucket → Permissions → Cross-origin resource sharing (CORS)
+
+### "File upload works but download test fails"
+- Check S3 CORS configuration (see above)
+- Verify S3 signed URLs are being generated correctly
+- Check browser console for specific CORS error
+- Ensure `ACTIVE_STORAGE_SERVICE` environment variable is set correctly
+
+### "Slow file transfer speed"
+- Network bandwidth limitation
+- S3 region far from user location
+- Server resource constraints
+- Large file size relative to connection speed
+
+## Environment Variables
+
+### Optional Configuration
+
+- **WEBSOCKET_URL**: WebSocket endpoint URL
+  - Default: Auto-detected from current page (`ws://` or `wss://` + hostname + `/cable`)
+  - Example: `wss://your-domain.com/cable`
+  - Only set if using non-standard WebSocket endpoint
+
+- **ACTIVE_STORAGE_SERVICE**: Storage service type
+  - Options: `amazon`, `s3_compatible`, `google`, `microsoft`, `local`
+  - Default: `local`
+  - Affects file transfer test
+
+- **ACTIVE_STORAGE_CACHE_CONTROL**: S3 cache headers
+  - Default: `public, max-age=3600`
+  - Controls browser caching of S3 files
+
+## Recent Updates
+
+### 2025-10-09
+- ✅ Added comprehensive WebSocket testing (connection, message round-trip, reconnection)
+- ✅ Added file transfer performance testing with S3 support
+- ✅ Fixed WebSocket URL construction for Docker Compose/localhost
+- ✅ Added direct S3 signed URL support (multi-pod compatible)
+- ✅ Added sample file download feature (1MB, 5MB, 10MB)
+- ✅ Added automatic test file cleanup
+- ✅ Improved error logging for file uploads
 
 ## Future Enhancements
 
@@ -274,3 +444,5 @@ Potential additions:
 - [ ] Historical data comparison
 - [ ] Export to JSON format
 - [ ] Automated issue detection with recommendations
+- [ ] Multi-region S3 performance comparison
+- [ ] Image processing performance test (ActiveStorage variants)

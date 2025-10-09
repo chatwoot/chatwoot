@@ -1,0 +1,29 @@
+# Chatwoot Local Development - Rails Service
+# Built FROM base-deps image with all dependencies pre-installed
+# Application code is mounted as volume for live reloading
+
+ARG BASE_IMAGE_TAG=dev-deps
+FROM chatwoot-base:${BASE_IMAGE_TAG}
+
+LABEL maintainer="Delta Exchange <dev@delta.exchange>"
+LABEL description="Chatwoot Local Development - Rails Server"
+LABEL environment="development"
+
+ARG RAILS_ENV=development
+ENV RAILS_ENV=${RAILS_ENV}
+ENV BUNDLE_PATH="/gems"
+ENV RAILS_SERVE_STATIC_FILES=false
+ENV NODE_ENV=development
+
+WORKDIR /app
+
+# Create necessary directories
+RUN mkdir -p log tmp storage public/packs
+
+# Application code will be mounted as volume at runtime
+# This allows for live code reloading without rebuilding the image
+
+EXPOSE 3000
+
+# Default command (can be overridden in docker-compose.yaml)
+CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
