@@ -128,5 +128,77 @@ Practical checklist for any change impacting core logic or public APIs
    - Service: `app/services/apple_messages_for_business/send_list_picker_service.rb`
    - Model: `app/models/apple_list_picker_image.rb`
    - Controller: `app/controllers/api/v1/accounts/inboxes/apple_list_picker_images_controller.rb`
+
+### Time Picker with Images
+
+**Key Discovery**: The `replyMessage` should automatically reuse the same `imageIdentifier` as `receivedMessage` when not explicitly set.
+
+**Critical Implementation Details**:
+
+1. **Automatic Image Fallback**:
+   ```ruby
+   # In SendTimePickerService#build_reply_message
+   reply_image_id = content_attributes['reply_image_identifier'] || content_attributes['replyImageIdentifier']
+
+   # If reply image is not specified, reuse the received image identifier
+   if reply_image_id.blank?
+     received_image_id = content_attributes['received_image_identifier'] || content_attributes['receivedImageIdentifier']
+     reply_image_id = received_image_id
+   end
+   ```
+
+2. **Why This Matters**:
+   - Apple MSP best practice: reply message should display the same image as received message
+   - Frontend may not always explicitly set `replyImageIdentifier`
+   - Automatic fallback ensures visual consistency in the time picker flow
+   - User sees the same image when selecting a time slot as when viewing the picker
+
+3. **The Fix**:
+   - `SendTimePickerService#build_reply_message` now checks if `reply_image_identifier` is blank
+   - If blank/nil/empty, it automatically uses `received_image_identifier`
+   - Supports both camelCase and snake_case for frontend compatibility
+   - Ensures Apple receives consistent image identifiers in both received and reply messages
+
+4. **Related Files**:
+   - Service: `app/services/apple_messages_for_business/send_time_picker_service.rb`
+   - Frontend Modal: `app/javascript/dashboard/components-next/message/modals/EnhancedTimePickerModal.vue`
+   - Frontend Composer: `app/javascript/dashboard/components/widgets/conversation/ReplyBox/AppleMessagesComposer.vue`
+
+### Apple Messages Forms with Images
+
+**Key Implementation**: Forms now support `receivedMessage` and `replyMessage` with images, similar to Time Picker and List Picker.
+
+**Critical Implementation Details**:
+
+1. **Automatic Image Fallback**:
+   ```ruby
+   # In FormService#build_reply_message
+   reply_image_id = reply_msg['image_identifier'] || reply_msg['imageIdentifier']
+
+   # If reply image is not specified, reuse the received image identifier
+   if reply_image_id.blank?
+     received_msg = @form_config['received_message'] || {}
+     received_image_id = received_msg['image_identifier'] || received_msg['imageIdentifier']
+     reply_image_id = received_image_id
+   end
+   ```
+
+2. **Frontend Integration**:
+   - AppleFormBuilder.vue has a new "Messages" tab for configuring receivedMessage and replyMessage
+   - Image selector with preview similar to Time Picker
+   - Auto-sync: reply image automatically uses received image if not explicitly set
+   - Upload button to add new images to the library
+
+3. **Service Updates**:
+   - `FormService#build_form_data` includes receivedMessage and replyMessage
+   - `FormService#build_images_array` collects and encodes images
+   - Supports both camelCase and snake_case for frontend compatibility
+
+4. **Related Files**:
+   - Service: `app/services/apple_messages_for_business/form_service.rb`
+   - Frontend Modal: `app/javascript/dashboard/components-next/message/modals/AppleFormBuilder.vue`
+   - Frontend Composer: `app/javascript/dashboard/components/widgets/conversation/ReplyBox/AppleMessagesComposer.vue`
+
 - always check the logs as you can't access the postgreSQL database directly
 - remember to implement camelCase format for any functions
+- postgreSQL is not acccessible directly to Claude in this project because of permission issue. Ask user to execute Command Line

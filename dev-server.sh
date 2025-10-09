@@ -721,23 +721,25 @@ show_status() {
         echo -e "Sidekiq: ${RED}STOPPED${NC}"
     fi
     
-    if is_nginx_running; then
-        echo -e "Nginx: ${GREEN}RUNNING${NC}"
-        echo -e "HTTPS URL: ${BLUE}https://$CUSTOM_DOMAIN${NC}"
-    else
-        echo -e "Nginx: ${RED}STOPPED${NC}"
-    fi
+    # Nginx status output disabled
+    # if is_nginx_running; then
+    #     echo -e "Nginx: ${GREEN}RUNNING${NC}"
+    #     echo -e "HTTPS URL: ${BLUE}https://$CUSTOM_DOMAIN${NC}"
+    # else
+    #     echo -e "Nginx: ${RED}STOPPED${NC}"
+    # fi
     
+    # Ngrok status output disabled
     # Check ngrok status
     local ngrok_info=$(check_ngrok_status)
     local ngrok_status=$(echo "$ngrok_info" | cut -d'|' -f1)
     local ngrok_url=$(echo "$ngrok_info" | cut -d'|' -f2)
 
-    if is_running "$NGROK_PID_FILE"; then
-        echo -e "Ngrok: ${GREEN}RUNNING${NC} (PID: $(cat $NGROK_PID_FILE))"
-    else
-        echo -e "Ngrok: $ngrok_status"
-    fi
+    # if is_running "$NGROK_PID_FILE"; then
+    #     echo -e "Ngrok: ${GREEN}RUNNING${NC} (PID: $(cat $NGROK_PID_FILE))"
+    # else
+    #     echo -e "Ngrok: $ngrok_status"
+    # fi
 
     # Check Tailscale Funnel status
     local tailscale_info=$(check_tailscale_funnel_status)
