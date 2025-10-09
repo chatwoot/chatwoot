@@ -62,6 +62,9 @@ uk:
         invalid: Невірний email
       phone_number:
         invalid: має бути у форматі e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: має бути унікальним на категорії і порталі
