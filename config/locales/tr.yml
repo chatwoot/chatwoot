@@ -62,6 +62,9 @@ tr:
         invalid: Hatalı e-posta
       phone_number:
         invalid: e164 formatında olmalı
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: kategori ve portalde tekil olmalı
