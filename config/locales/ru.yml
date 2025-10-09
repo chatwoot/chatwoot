@@ -62,6 +62,9 @@ ru:
         invalid: Неверный email
       phone_number:
         invalid: должен иметь формат e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: Должны быть уникальными в категории и портале
