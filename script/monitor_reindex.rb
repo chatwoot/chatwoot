@@ -8,11 +8,11 @@ loop do
   prod_queue = Sidekiq::Queue.new('async_database_migration')
   retry_set = Sidekiq::RetrySet.new
 
-  puts "[#{Time.now.strftime('%Y-%m-%d %H:%M:%S')}]"
+  puts "[#{Time.zone.now.strftime('%Y-%m-%d %H:%M:%S')}]"
   puts "  Bulk Reindex Queue: #{bulk_queue.size} jobs"
   puts "  Production Queue: #{prod_queue.size} jobs"
   puts "  Retry Queue: #{retry_set.size} jobs"
-  puts '  ' + ('-' * 60)
+  puts "  #{('-' * 60)}"
 
   sleep(30)
 end
