@@ -10,6 +10,7 @@ export const generateCustomAttributesInputType = type => {
     text: 'string',
     number: 'string',
     date: 'string',
+    datetime: 'string',
     checkbox: 'multi_select',
     list: 'multi_select',
     link: 'string',

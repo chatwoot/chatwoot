@@ -90,6 +90,28 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         expect(json_response['attribute_key']).to eq 'developer_id'
       end
 
+      it 'creates a datetime type custom attribute' do
+        datetime_payload = {
+          custom_attribute_definition: {
+            attribute_display_name: 'Event Date Time',
+            attribute_key: 'event_datetime',
+            attribute_model: 'contact_attribute',
+            attribute_display_type: 'datetime',
+            default_value: ''
+          }
+        }
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/custom_attribute_definitions", headers: user.create_new_auth_token,
+                                                                              params: datetime_payload
+        end.to change(CustomAttributeDefinition, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['attribute_key']).to eq 'event_datetime'
+        expect(json_response['attribute_display_type']).to eq 'datetime'
+      end
+
       context 'when creating with a conflicting attribute_key' do
         let(:standard_key) { CustomAttributeDefinition::STANDARD_ATTRIBUTES[:conversation].first }
         let(:conflicting_payload) do

@@ -1,9 +1,10 @@
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { splitName } from '@chatwoot/utils';
+import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import countries from 'shared/constants/countries.js';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -28,6 +29,8 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t } = useI18n();
+const store = useStore();
+const getters = useStoreGetters();
 
 const FORM_CONFIG = {
   FIRST_NAME: { field: 'firstName' },
@@ -55,6 +58,7 @@ const defaultState = {
   firstName: '',
   lastName: '',
   phoneNumber: '',
+  customAttributes: {},
   additionalAttributes: {
     description: '',
     companyName: '',
@@ -92,6 +96,7 @@ const prepareStateBasedOnProps = () => {
     name = '',
     email: emailAddress,
     phoneNumber,
+    customAttributes = {},
     additionalAttributes = {},
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name || '');
@@ -111,6 +116,7 @@ const prepareStateBasedOnProps = () => {
     lastName,
     email: emailAddress,
     phoneNumber,
+    customAttributes,
     additionalAttributes: {
       description,
       companyName,
@@ -142,6 +148,26 @@ const socialProfilesForm = computed(() =>
     icon,
   }))
 );
+
+// Custom attributes
+const contactAttributeDefinitions = computed(() => {
+  const attributes =
+    getters['attributes/getAttributesByModel'].value('contact_attribute');
+  return attributes || [];
+});
+
+const customAttributesWithValues = computed(() => {
+  if (
+    !contactAttributeDefinitions.value ||
+    contactAttributeDefinitions.value.length === 0
+  ) {
+    return [];
+  }
+  return contactAttributeDefinitions.value.map(attribute => ({
+    ...attribute,
+    value: state.customAttributes[attribute.attribute_key] || '',
+  }));
+});
 
 const isValidationField = key => {
   const field = FORM_CONFIG[key]?.field;
@@ -218,6 +244,14 @@ const resetForm = () => {
   Object.assign(state, defaultState);
 };
 
+const handleCustomAttributeUpdate = (key, value) => {
+  state.customAttributes = {
+    ...state.customAttributes,
+    [key]: value,
+  };
+  emit('update', state);
+};
+
 watch(
   () => props.contactData?.id,
   id => {
@@ -225,6 +259,10 @@ watch(
   },
   { immediate: true }
 );
+
+onMounted(async () => {
+  await store.dispatch('attributes/get');
+});
 
 // Expose state to parent component for avatar upload
 defineExpose({
@@ -282,6 +320,192 @@ defineExpose({
                 v$[getValidationKey(item.key)].$touch()
             "
           />
+        </template>
+      </div>
+    </div>
+    <div
+      v-if="customAttributesWithValues.length > 0"
+      class="flex flex-col items-start gap-2"
+    >
+      <span class="py-1 text-sm font-medium text-n-slate-12">
+        {{ t('CONTACT_FORM.FORM.CUSTOM_ATTRIBUTES.LABEL') }}
+      </span>
+      <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
+        <template
+          v-for="attribute in customAttributesWithValues"
+          :key="attribute.attribute_key"
+        >
+          <div
+            v-if="
+              !attribute.attribute_display_type ||
+              attribute.attribute_display_type === 'text' ||
+              attribute.attribute_display_type === 'link'
+            "
+            class="flex flex-col gap-1"
+          >
+            <label class="text-xs font-medium text-n-slate-11">
+              {{ attribute.attribute_display_name }}
+            </label>
+            <Input
+              :model-value="attribute.value"
+              :placeholder="attribute.attribute_display_name"
+              message-type="info"
+              :custom-input-class="`h-8 !pt-1 !pb-1 ${
+                !isDetailsView
+                  ? '[&:not(.error,.focus)]:!outline-transparent'
+                  : ''
+              }`"
+              class="w-full"
+              @update:model-value="
+                value =>
+                  handleCustomAttributeUpdate(attribute.attribute_key, value)
+              "
+            />
+          </div>
+          <div
+            v-else-if="
+              attribute.attribute_display_type === 'number' ||
+              attribute.attribute_display_type === 'currency' ||
+              attribute.attribute_display_type === 'percent'
+            "
+            class="flex flex-col gap-1"
+          >
+            <label class="text-xs font-medium text-n-slate-11">
+              {{ attribute.attribute_display_name }}
+            </label>
+            <Input
+              :model-value="attribute.value"
+              type="number"
+              :placeholder="attribute.attribute_display_name"
+              message-type="info"
+              :custom-input-class="`h-8 !pt-1 !pb-1 ${
+                !isDetailsView
+                  ? '[&:not(.error,.focus)]:!outline-transparent'
+                  : ''
+              }`"
+              class="w-full"
+              @update:model-value="
+                value =>
+                  handleCustomAttributeUpdate(attribute.attribute_key, value)
+              "
+            />
+          </div>
+          <div
+            v-else-if="attribute.attribute_display_type === 'date'"
+            class="flex flex-col gap-1"
+          >
+            <label class="text-xs font-medium text-n-slate-11">
+              {{ attribute.attribute_display_name }}
+            </label>
+            <Input
+              :model-value="attribute.value"
+              type="date"
+              :placeholder="attribute.attribute_display_name"
+              message-type="info"
+              :custom-input-class="`h-8 !pt-1 !pb-1 ${
+                !isDetailsView
+                  ? '[&:not(.error,.focus)]:!outline-transparent'
+                  : ''
+              }`"
+              class="w-full"
+              @update:model-value="
+                value =>
+                  handleCustomAttributeUpdate(attribute.attribute_key, value)
+              "
+            />
+          </div>
+          <div
+            v-else-if="attribute.attribute_display_type === 'datetime'"
+            class="flex flex-col gap-1"
+          >
+            <label class="text-xs font-medium text-n-slate-11">
+              {{ attribute.attribute_display_name }}
+            </label>
+            <Input
+              :model-value="attribute.value"
+              type="datetime-local"
+              :placeholder="attribute.attribute_display_name"
+              message-type="info"
+              :custom-input-class="`h-8 !pt-1 !pb-1 ${
+                !isDetailsView
+                  ? '[&:not(.error,.focus)]:!outline-transparent'
+                  : ''
+              }`"
+              class="w-full"
+              @update:model-value="
+                value =>
+                  handleCustomAttributeUpdate(attribute.attribute_key, value)
+              "
+            />
+          </div>
+          <div
+            v-else-if="attribute.attribute_display_type === 'checkbox'"
+            class="flex items-center h-8 gap-2"
+          >
+            <input
+              :checked="attribute.value === true || attribute.value === 'true'"
+              type="checkbox"
+              class="w-4 h-4 rounded border-n-weak"
+              @change="
+                e =>
+                  handleCustomAttributeUpdate(
+                    attribute.attribute_key,
+                    e.target.checked
+                  )
+              "
+            />
+            <label class="text-sm text-n-slate-12">
+              {{ attribute.attribute_display_name }}
+            </label>
+          </div>
+          <div
+            v-else-if="
+              attribute.attribute_display_type === 'list' &&
+              attribute.attribute_values
+            "
+            class="flex flex-col gap-1"
+          >
+            <label class="text-xs font-medium text-n-slate-11">
+              {{ attribute.attribute_display_name }}
+            </label>
+            <ComboBox
+              :model-value="attribute.value"
+              :options="
+                attribute.attribute_values.map(v => ({ label: v, value: v }))
+              "
+              :placeholder="attribute.attribute_display_name"
+              class="[&>div>button]:h-8"
+              :class="{
+                '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
+                  !isDetailsView,
+                '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
+              }"
+              @update:model-value="
+                value =>
+                  handleCustomAttributeUpdate(attribute.attribute_key, value)
+              "
+            />
+          </div>
+          <div v-else class="flex flex-col gap-1">
+            <label class="text-xs font-medium text-n-slate-11">
+              {{ attribute.attribute_display_name }}
+            </label>
+            <Input
+              :model-value="attribute.value"
+              :placeholder="attribute.attribute_display_name"
+              message-type="info"
+              :custom-input-class="`h-8 !pt-1 !pb-1 ${
+                !isDetailsView
+                  ? '[&:not(.error,.focus)]:!outline-transparent'
+                  : ''
+              }`"
+              class="w-full"
+              @update:model-value="
+                value =>
+                  handleCustomAttributeUpdate(attribute.attribute_key, value)
+              "
+            />
+          </div>
         </template>
       </div>
     </div>

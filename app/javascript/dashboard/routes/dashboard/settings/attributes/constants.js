@@ -10,4 +10,5 @@ export const ATTRIBUTE_TYPES = [
   { id: 5, key: 'DATE' },
   { id: 6, key: 'LIST' },
   { id: 7, key: 'CHECKBOX' },
+  { id: 8, key: 'DATETIME' },
 ];
