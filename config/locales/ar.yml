@@ -62,6 +62,9 @@ ar:
         invalid: إيميل غير صالح
       phone_number:
         invalid: يجب أن يكون بصيغة e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
