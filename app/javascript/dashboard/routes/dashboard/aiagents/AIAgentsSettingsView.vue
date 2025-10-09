@@ -61,7 +61,7 @@ const allTabs = [
     key: '7',
     index: 7,
     name: 'Lead Gen Bot',
-    type: 'customer_service',
+    type: 'lead_generation',
   },
 ];
 
@@ -119,7 +119,7 @@ const googleSheetsAuth = reactive({
     customer_service: { output: '' },
     restaurant: { input: '', output: '' },
     sales: { input: '', output: '' },
-    lead_gen: { output: '' } 
+    lead_generation: { input: '', output: '' } 
   },
   error: null,
 });
@@ -295,9 +295,12 @@ async function loadSpreadsheetUrls() {
         if (response.data.output_spreadsheet_url) {
           googleSheetsAuth.spreadsheetUrls.sales.output = response.data.output_spreadsheet_url;
         }
-      } else if (agentType === 'lead_gen') {
+      } else if (agentType === 'lead_generation') {
+        if (response.data.input_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.lead_generation.input = response.data.input_spreadsheet_url;
+        }
         if (response.data.output_spreadsheet_url) {
-          googleSheetsAuth.spreadsheetUrls.lead_gen.output = response.data.output_spreadsheet_url;
+          googleSheetsAuth.spreadsheetUrls.lead_generation.output = response.data.output_spreadsheet_url;
         }
       }
       

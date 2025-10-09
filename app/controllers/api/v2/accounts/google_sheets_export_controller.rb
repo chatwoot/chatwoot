@@ -96,7 +96,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
             render json: { error: 'Spreadsheet URL not returned', response: json_response }, status: :unprocessable_entity
           end
 
-        when 'booking', 'restaurant', 'sales'
+        when 'booking', 'restaurant', 'sales', 'lead_generation'
           input_url = json_response['input_spreadsheet_url']
           output_url = json_response['output_spreadsheet_url']
 
@@ -263,7 +263,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
             }, status: :unprocessable_entity
           end
 
-        when 'booking', 'restaurant', 'sales'
+        when 'booking', 'restaurant', 'sales', 'lead_generation'
           input_url = json_response['input_spreadsheet_url']
           output_url = json_response['output_spreadsheet_url']
 
