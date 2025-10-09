@@ -5,6 +5,7 @@ RSpec.describe Enterprise::Billing::V2::PricingPlanService do
   let(:service) { described_class.new(account: account) }
 
   before do
+    allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with('STRIPE_SECRET_KEY', nil).and_return('sk_test_123')
   end
 

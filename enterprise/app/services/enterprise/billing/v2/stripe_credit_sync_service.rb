@@ -36,6 +36,35 @@ class Enterprise::Billing::V2::StripeCreditSyncService < Enterprise::Billing::V2
     create_stripe_grant(params)
   end
 
+  def calculate_balance_from_stripe(stripe_usage, initial_credits)
+    total_used = stripe_usage
+    total_granted = initial_credits[:total_granted]
+    remaining = [total_granted - total_used, 0].max
+
+    monthly_portion = [remaining, initial_credits[:monthly_granted]].min
+    topup_portion = [remaining - monthly_portion, 0].max
+
+    {
+      monthly: monthly_portion,
+      topup: topup_portion,
+      total: remaining,
+      usage_from_stripe: total_used,
+      granted_from_stripe: total_granted,
+      last_synced: Time.current,
+      source: 'stripe'
+    }
+  end
+
+  def local_fallback_balance
+    {
+      monthly: monthly_credits,
+      topup: topup_credits,
+      total: monthly_credits + topup_credits,
+      last_synced: Time.current,
+      source: 'local_fallback'
+    }
+  end
+
   private
 
   def stripe_customer_id
@@ -152,34 +181,5 @@ class Enterprise::Billing::V2::StripeCreditSyncService < Enterprise::Billing::V2
       params,
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
-  end
-
-  def calculate_balance_from_stripe(stripe_usage, initial_credits)
-    total_used = stripe_usage
-    total_granted = initial_credits[:total_granted]
-    remaining = [total_granted - total_used, 0].max
-
-    monthly_portion = [remaining, initial_credits[:monthly_granted]].min
-    topup_portion = [remaining - monthly_portion, 0].max
-
-    {
-      monthly: monthly_portion,
-      topup: topup_portion,
-      total: remaining,
-      usage_from_stripe: total_used,
-      granted_from_stripe: total_granted,
-      last_synced: Time.current,
-      source: 'stripe'
-    }
-  end
-
-  def local_fallback_balance
-    {
-      monthly: monthly_credits,
-      topup: topup_credits,
-      total: monthly_credits + topup_credits,
-      last_synced: Time.current,
-      source: 'local_fallback'
-    }
   end
 end
