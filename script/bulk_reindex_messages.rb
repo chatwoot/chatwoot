@@ -8,26 +8,29 @@ batch_count = 0
 total_batches = (Message.count / BATCH_SIZE.to_f).ceil
 start_time = Time.zone.now
 
+index_name = Message.searchkick_index.name
+
 puts '=' * 80
 puts "Bulk Reindex Started at #{start_time}"
 puts '=' * 80
 puts "Total messages: #{Message.count}"
 puts "Batch size: #{BATCH_SIZE}"
 puts "Total batches: #{total_batches}"
+puts "Index name: #{index_name}"
 puts "Rate: #{JOBS_PER_MINUTE} jobs/minute (#{JOBS_PER_MINUTE * BATCH_SIZE} messages/minute)"
 puts "Estimated time: #{(total_batches / JOBS_PER_MINUTE.to_f / 60).round(2)} hours"
 puts '=' * 80
 puts ''
 
-Message.find_in_batches(batch_size: BATCH_SIZE) do |batch|
+Message.find_in_batches(batch_size: BATCH_SIZE).with_index do |batch, index|
   batch_count += 1
 
-  # Enqueue to low priority queue
+  # Enqueue to low priority queue with proper format
   Searchkick::BulkReindexJob.set(queue: :bulk_reindex_low).perform_later(
     class_name: 'Message',
-    record_ids: batch.map(&:id).map(&:to_s),
-    index_name: Message.searchkick_index.name,
-    method_name: nil
+    index_name: index_name,
+    batch_id: index,
+    record_ids: batch.map(&:id)  # Keep as integers like Message.reindex does
   )
 
   # Throttle: wait after every N jobs
