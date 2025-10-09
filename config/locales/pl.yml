@@ -62,6 +62,9 @@ pl:
         invalid: Nieprawidłowy adres e-mail
       phone_number:
         invalid: powinno być w formacie e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: powinno być unikalne w kategorii i portalu
