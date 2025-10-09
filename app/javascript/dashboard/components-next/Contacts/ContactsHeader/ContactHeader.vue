@@ -107,12 +107,16 @@ const emit = defineEmits([
               @update:sort="emit('update:sort', $event)"
             />
             <ContactMoreActions
-              @add="emit('add')"
               @import="emit('import')"
               @export="emit('export')"
             />
           </div>
           <div class="w-px h-4 bg-n-strong" />
+          <Button size="sm" icon="i-lucide-plus" @click="emit('add')">
+            {{
+              $t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.ADD_CONTACT')
+            }}
+          </Button>
           <ComposeConversation>
             <template #trigger="{ toggle }">
               <Button :label="buttonLabel" size="sm" @click="toggle" />

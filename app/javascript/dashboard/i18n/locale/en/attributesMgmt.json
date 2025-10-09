@@ -15,7 +15,8 @@
       "LINK": "Link",
       "DATE": "Date",
       "LIST": "List",
-      "CHECKBOX": "Checkbox"
+      "CHECKBOX": "Checkbox",
+      "DATETIME": "Date Time"
     },
     "ADD": {
       "TITLE": "Add Custom Attribute",

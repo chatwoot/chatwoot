@@ -9,6 +9,8 @@ const customAttributeInputType = key => {
   switch (key) {
     case 'date':
       return 'date';
+    case 'datetime':
+      return 'date';
     case 'text':
       return 'plain_text';
     case 'list':
@@ -31,6 +33,8 @@ const getOperatorTypes = key => {
     case 'link':
       return OPERATORS.OPERATOR_TYPES_1;
     case 'date':
+      return OPERATORS.OPERATOR_TYPES_4;
+    case 'datetime':
       return OPERATORS.OPERATOR_TYPES_4;
     case 'checkbox':
       return OPERATORS.OPERATOR_TYPES_1;

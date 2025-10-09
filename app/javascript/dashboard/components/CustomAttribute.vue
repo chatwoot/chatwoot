@@ -12,6 +12,7 @@ import { emitter } from 'shared/helpers/mitt';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
+const DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
 
 export default {
   components: {
@@ -51,15 +52,30 @@ export default {
           ? new Date(this.value || new Date()).toLocaleDateString()
           : '---';
       }
+      if (this.isAttributeTypeDatetime) {
+        return this.value
+          ? new Date(this.value || new Date()).toLocaleString()
+          : '---';
+      }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
       return this.hasValue ? this.value : '---';
     },
     formattedValue() {
-      return this.isAttributeTypeDate
-        ? format(this.value ? new Date(this.value) : new Date(), DATE_FORMAT)
-        : this.value;
+      if (this.isAttributeTypeDate) {
+        return format(
+          this.value ? new Date(this.value) : new Date(),
+          DATE_FORMAT
+        );
+      }
+      if (this.isAttributeTypeDatetime) {
+        return format(
+          this.value ? new Date(this.value) : new Date(),
+          DATETIME_FORMAT
+        );
+      }
+      return this.value;
     },
     listOptions() {
       return this.values.map((value, index) => ({
@@ -83,6 +99,9 @@ export default {
     isAttributeTypeDate() {
       return this.attributeType === 'date';
     },
+    isAttributeTypeDatetime() {
+      return this.attributeType === 'datetime';
+    },
     hasValue() {
       return this.value !== null && this.value !== '';
     },
@@ -96,7 +115,9 @@ export default {
       return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
     },
     inputType() {
-      return this.isAttributeTypeLink ? 'url' : this.attributeType;
+      if (this.isAttributeTypeLink) return 'url';
+      if (this.isAttributeTypeDatetime) return 'datetime-local';
+      return this.attributeType;
     },
     shouldShowErrorMessage() {
       return this.v$.editedValue.$error;
@@ -176,10 +197,10 @@ export default {
       }
     },
     onUpdate() {
-      const updatedValue =
-        this.attributeType === 'date'
-          ? parseISO(this.editedValue)
-          : this.editedValue;
+      let updatedValue = this.editedValue;
+      if (this.attributeType === 'date' || this.attributeType === 'datetime') {
+        updatedValue = parseISO(this.editedValue);
+      }
       this.v$.$touch();
       if (this.v$.$invalid) {
         return;

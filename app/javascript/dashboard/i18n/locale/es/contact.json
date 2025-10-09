@@ -125,6 +125,9 @@
         "PLACEHOLDER": "Introduzca el nombre de la ciudad",
         "LABEL": "Nombre de ciudad"
       },
+      "CUSTOM_ATTRIBUTES": {
+        "LABEL": "Atributos Personalizados"
+      },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
           "PLACEHOLDER": "Escriba el usuario de Facebook",

@@ -15,6 +15,7 @@ import actionQueryGenerator from './actionQueryGenerator';
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
+    datetime: 'date',
     text: 'plain_text',
     list: 'search_select',
     checkbox: 'search_select',
@@ -66,6 +67,7 @@ export const getOperatorTypes = key => {
     number: OPERATOR_TYPES_1,
     link: OPERATOR_TYPES_1,
     date: OPERATOR_TYPES_4,
+    datetime: OPERATOR_TYPES_4,
     checkbox: OPERATOR_TYPES_1,
   };
 
