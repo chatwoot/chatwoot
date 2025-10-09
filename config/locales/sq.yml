@@ -62,6 +62,9 @@ sq:
         invalid: Invalid email
       phone_number:
         invalid: should be in e164 format
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: should be unique in the category and portal
