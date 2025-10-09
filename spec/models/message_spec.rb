@@ -709,6 +709,15 @@ RSpec.describe Message do
         expect(message).to receive(:reindex_for_search).and_return(true)
         message.update!(content: 'Updated content')
       end
+
+      it 'calls reindex_for_search when message is soft-deleted' do
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(described_class).to receive(:reindex_for_search).and_return(true)
+        # rubocop:enable RSpec/AnyInstance
+        message = create(:message, conversation: conversation, account: account, message_type: :incoming)
+        expect(message).to receive(:reindex_for_search).and_return(true)
+        message.update!(content_attributes: { deleted: true })
+      end
     end
 
     context 'when message should not be indexed' do
