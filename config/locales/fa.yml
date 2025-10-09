@@ -62,6 +62,9 @@ fa:
         invalid: ایمیل نامعتبر است
       phone_number:
         invalid: باید در قالب e164 باشد
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
