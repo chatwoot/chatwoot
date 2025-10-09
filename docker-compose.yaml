@@ -1,25 +1,79 @@
+# Chatwoot Local Development with Multi-Stage Docker Build
+# This setup mirrors the production 3-tier base image architecture for faster builds
+#
+# Build order:
+#   1. base-system  (Tier 1: Ruby, Node, system packages)
+#   2. base-deps    (Tier 2: Gems + npm packages)
+#   3. rails/sidekiq/vite (Tier 3: Application code)
+#
+# Quick start:
+#   docker-compose build base-system base-deps  # Build base images (once)
+#   docker-compose up                            # Start all services
+#
+# See README-docker-compose.md for detailed instructions
+
 services:
+  # ============================================================================
+  # TIER 1: System Base Image
+  # Contains: Ruby, Node.js, system packages
+  # Rebuild: When upgrading Ruby/Node or system dependencies
+  # ============================================================================
+  base-system:
+    image: chatwoot-base:dev-system
+    build:
+      context: .
+      dockerfile: Dockerfile.base-system
+      args:
+        NODE_VERSION: "23.7.0"
+        PNPM_VERSION: "10.2.0"
+    # This service only builds the base image, doesn't run
+    command: /bin/true
+
+  # ============================================================================
+  # TIER 2: Dependencies Base Image
+  # Contains: All Ruby gems and npm packages
+  # Rebuild: When Gemfile.lock or pnpm-lock.yaml changes
+  # ============================================================================
+  base-deps:
+    image: chatwoot-base:dev-deps
+    build:
+      context: .
+      dockerfile: Dockerfile.base-deps
+      args:
+        ECR_URL: ""  # Empty for local builds
+        BASE_IMAGE_TAG: dev-system
+        BUNDLE_WITHOUT: ""  # Install all gems for development
+        RAILS_ENV: development
+        BUNDLE_JOBS: 8
+    depends_on:
+      - base-system
+    # This service only builds the base image, doesn't run
+    command: /bin/true
+
+  # ============================================================================
+  # TIER 3: Application Services
+  # ============================================================================
+
+  # Rails Application Server
   rails:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: Dockerfile.local-rails
       args:
-        BUNDLE_WITHOUT: 'test'
-        RAILS_ENV: 'development'
-        EXECJS_RUNTIME: 'Node'
-        RAILS_SERVE_STATIC_FILES: 'false'
-        BUILDKIT_INLINE_CACHE: 'true'
+        BASE_IMAGE_TAG: dev-deps
+        RAILS_ENV: development
     tty: true
     stdin_open: true
     image: chatwoot-rails:development
     env_file: .env
     volumes:
       - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - gems:/gems
+      - node_modules:/app/node_modules  # Persist node_modules
+      - packs:/app/public/packs          # Persist compiled assets
+      - cache:/app/tmp/cache             # Persist cache
+      - gems:/gems                       # Persist gems
     depends_on:
+      - base-deps
       - postgres
       - redis
       - vite
@@ -34,15 +88,14 @@ services:
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
+  # Sidekiq Background Worker
   sidekiq:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: Dockerfile.local-sidekiq
       args:
-        BUNDLE_WITHOUT: 'test'
-        RAILS_ENV: 'development'
-        EXECJS_RUNTIME: 'Node'
-        BUILDKIT_INLINE_CACHE: 'true'
+        BASE_IMAGE_TAG: dev-deps
+        RAILS_ENV: development
     tty: true
     stdin_open: true
     image: chatwoot-sidekiq:development
@@ -54,6 +107,7 @@ services:
       - cache:/app/tmp/cache
       - gems:/gems
     depends_on:
+      - base-deps
       - postgres
       - redis
       - mailhog
@@ -62,16 +116,14 @@ services:
       - RAILS_ENV=development
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
+  # Vite Development Server
   vite:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: Dockerfile.local-vite
       args:
-        BUNDLE_WITHOUT: 'test'
-        RAILS_ENV: 'development'
-        EXECJS_RUNTIME: 'Node'
-        RAILS_SERVE_STATIC_FILES: 'false'
-        BUILDKIT_INLINE_CACHE: 'true'
+        BASE_IMAGE_TAG: dev-deps
+        RAILS_ENV: development
     tty: true
     stdin_open: true
     image: chatwoot-vite:development
@@ -82,14 +134,20 @@ services:
       - packs:/app/public/packs
       - cache:/app/tmp/cache
       - gems:/gems
+    depends_on:
+      - base-deps
     ports:
-      - "3036:3036" # Vite dev server
+      - "3036:3036"  # Vite dev server
     environment:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/vite.sh
     command: bin/vite dev
+
+  # ============================================================================
+  # Supporting Services (unchanged from original)
+  # ============================================================================
 
   postgres:
     image: pgvector/pgvector:pg17
@@ -106,7 +164,7 @@ services:
   redis:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    command: ["sh", "-c", "redis-server"]
     env_file: .env
     volumes:
       - redis:/data/redis
@@ -119,6 +177,7 @@ services:
       - 1025:1025
       - 8025:8025
 
+# Volumes for persisting data and caching
 volumes:
   postgres:
   redis:

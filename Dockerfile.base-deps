@@ -7,7 +7,9 @@
 ARG ECR_URL
 ARG BASE_IMAGE_TAG=v4.0.4-base1-system
 
-FROM ${ECR_URL}/chatwoot-base:${BASE_IMAGE_TAG}
+# Support both ECR (production) and local builds
+# For local: ECR_URL="" (empty), for production: ECR_URL="123456789.dkr.ecr.region.amazonaws.com"
+FROM ${ECR_URL:+${ECR_URL}/}chatwoot-base:${BASE_IMAGE_TAG}
 
 LABEL maintainer="Delta Exchange <anuj.sharma@delta.exchange>"
 LABEL description="Chatwoot v4.0.4 base image with all dependencies installed"

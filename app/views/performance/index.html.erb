@@ -415,6 +415,58 @@
       </div>
     </div>
 
+    <!-- File Transfer Test - Full Width Section -->
+    <div class="card" style="margin-bottom: 24px;">
+      <h2>
+        <span class="status pending" id="statusFileTransfer"></span>
+        File Transfer Test
+        <span id="fileTransferError" style="display: none; margin-left: 12px; padding: 4px 12px; background: #fee; color: #c00; border-radius: 4px; font-size: 14px; font-weight: normal;">❌ Test Failed</span>
+      </h2>
+      <div id="fileTransferMetrics">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+          <div class="metric">
+            <span class="metric-label">Storage Service</span>
+            <span class="metric-value" id="storageService">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Region</span>
+            <span class="metric-value" id="storageRegion">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">File Size</span>
+            <span class="metric-value" id="fileSize">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Upload Time</span>
+            <span class="metric-value" id="uploadTime">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Upload Speed</span>
+            <span class="metric-value" id="uploadSpeed">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Download Time</span>
+            <span class="metric-value" id="downloadTime">-</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Download Speed</span>
+            <span class="metric-value" id="downloadSpeed">-</span>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start;">
+          <div>
+            <input type="file" id="fileInput" style="display: block; margin-bottom: 12px; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; width: 100%; cursor: pointer;">
+            <button class="btn btn-primary" id="testFileTransferBtn" style="width: 100%;">
+              <span>Test Upload & Download</span>
+            </button>
+          </div>
+          <a href="/perf/sample" download class="btn btn-secondary" style="text-decoration: none; display: inline-flex; justify-content: center; align-items: center; white-space: nowrap; height: 100%; padding: 12px 24px;">
+            📥 Download Sample File (50MB)
+          </a>
+        </div>
+      </div>
+    </div>
+
     <div class="log-section">
       <h2>📊 Detailed Test Log</h2>
       <div class="log-output" id="logOutput">
@@ -432,6 +484,7 @@
       network: {},
       database: {},
       redis: {},
+      fileTransfer: {},
       logs: []
     };
 
@@ -595,7 +648,9 @@
       log('Testing WebSocket connection (comprehensive)...', 'info');
       setStatus(document.getElementById('statusWebSocket'), 'testing');
 
-      const wsUrl = '<%= ENV.fetch("WEBSOCKET_URL", "wss://#{request.host}/cable") %>';
+      // Construct WebSocket URL dynamically from current page location
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = '<%= ENV.fetch("WEBSOCKET_URL", "") %>' || `${protocol}//${window.location.host}/cable`;
       const results = {
         url: wsUrl,
         initialConnection: null,
@@ -872,6 +927,138 @@
       }
     }
 
+    // Test 7: File Transfer (Upload & Download)
+    async function testFileTransfer() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        log('⚠ No file selected for transfer test', 'warning');
+        alert('Please select a file first');
+        return;
+      }
+
+      log('Testing file transfer (upload & download)...', 'info');
+      setStatus(document.getElementById('statusFileTransfer'), 'testing');
+      document.getElementById('fileTransferError').style.display = 'none';
+
+      const testBtn = document.getElementById('testFileTransferBtn');
+      testBtn.disabled = true;
+      testBtn.innerHTML = '<div class="spinner"></div><span>Testing...</span>';
+
+      try {
+        // Test Upload
+        log(`  → Uploading file: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`, 'info');
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const uploadStart = performance.now();
+        const uploadResponse = await fetch('/perf/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const uploadData = await uploadResponse.json();
+
+        if (!uploadResponse.ok || uploadData.status !== 'success') {
+          throw new Error(uploadData.error || 'Upload failed');
+        }
+
+        const uploadEnd = performance.now();
+        const actualUploadTime = Math.round(uploadEnd - uploadStart);
+
+        log(`  ✓ Upload complete: ${actualUploadTime}ms (${uploadData.throughput_mbps} Mbps)`, 'success');
+
+        // Display upload results
+        document.getElementById('storageService').textContent = uploadData.storage_service || 'Unknown';
+        document.getElementById('storageRegion').textContent = uploadData.region || '-';
+        document.getElementById('fileSize').textContent = uploadData.file_size_mb + ' MB';
+
+        // Format upload time
+        const uploadTimeDisplay = actualUploadTime >= 1000
+          ? `${(actualUploadTime / 1000).toFixed(2)} s`
+          : `${actualUploadTime} ms`;
+        document.getElementById('uploadTime').textContent = uploadTimeDisplay;
+        document.getElementById('uploadTime').className = 'metric-value ' + getColorClass(actualUploadTime, 2000, 5000);
+
+        document.getElementById('uploadSpeed').textContent = uploadData.throughput_mbps + ' Mbps';
+        document.getElementById('uploadSpeed').className = 'metric-value ' + getColorClass(actualUploadTime, 2000, 5000);
+
+        // Test Download
+        log('  → Testing download speed...', 'info');
+        const downloadStart = performance.now();
+        const downloadResponse = await fetch(uploadData.download_url, {
+          method: 'GET',
+          cache: 'no-store'
+        });
+
+        if (!downloadResponse.ok) {
+          throw new Error('Download failed');
+        }
+
+        // Read the entire response to measure actual download time
+        await downloadResponse.blob();
+        const downloadEnd = performance.now();
+        const downloadTime = Math.round(downloadEnd - downloadStart);
+        const downloadThroughput = uploadData.file_size > 0
+          ? ((uploadData.file_size * 8.0 / 1024.0 / 1024.0) / (downloadTime / 1000.0)).toFixed(2)
+          : 0;
+
+        log(`  ✓ Download complete: ${downloadTime}ms (${downloadThroughput} Mbps)`, 'success');
+
+        // Format download time
+        const downloadTimeDisplay = downloadTime >= 1000
+          ? `${(downloadTime / 1000).toFixed(2)} s`
+          : `${downloadTime} ms`;
+
+        // Display download results
+        document.getElementById('downloadTime').textContent = downloadTimeDisplay;
+        document.getElementById('downloadTime').className = 'metric-value ' + getColorClass(downloadTime, 2000, 5000);
+
+        document.getElementById('downloadSpeed').textContent = downloadThroughput + ' Mbps';
+        document.getElementById('downloadSpeed').className = 'metric-value ' + getColorClass(downloadTime, 2000, 5000);
+
+        // Store results
+        testResults.fileTransfer = {
+          fileName: file.name,
+          fileSize: uploadData.file_size,
+          fileSizeMB: uploadData.file_size_mb,
+          storageService: uploadData.storage_service,
+          region: uploadData.region,
+          uploadTime: actualUploadTime,
+          uploadThroughput: uploadData.throughput_mbps,
+          downloadTime: downloadTime,
+          downloadThroughput: downloadThroughput,
+          blobId: uploadData.blob_id
+        };
+
+        setStatus(document.getElementById('statusFileTransfer'), 'success');
+        document.getElementById('fileTransferError').style.display = 'none';
+        log('✓ File transfer test complete', 'success');
+
+        // Cleanup uploaded file
+        log('  → Cleaning up test file...', 'info');
+        await fetch(`/perf/cleanup/${uploadData.blob_id}`, {
+          method: 'DELETE'
+        });
+        log('  ✓ Test file deleted', 'success');
+
+      } catch (error) {
+        testResults.fileTransfer = { status: 'error', error: error.message };
+        setStatus(document.getElementById('statusFileTransfer'), 'error');
+
+        // Show error badge with specific error message
+        const errorBadge = document.getElementById('fileTransferError');
+        errorBadge.textContent = `❌ ${error.message}`;
+        errorBadge.style.display = 'inline-block';
+
+        log(`✗ File transfer test error: ${error.message}`, 'error');
+      } finally {
+        testBtn.disabled = false;
+        testBtn.innerHTML = '<span>Test Upload & Download</span>';
+      }
+    }
+
     // Run all tests
     async function runAllTests() {
       const runButton = document.getElementById('runTests');
@@ -987,6 +1174,23 @@
       }
       lines.push('');
 
+      lines.push('--- FILE TRANSFER TEST ---');
+      if (testResults.fileTransfer.fileName) {
+        lines.push(`File Name: ${testResults.fileTransfer.fileName}`);
+        lines.push(`File Size: ${testResults.fileTransfer.fileSizeMB} MB`);
+        lines.push(`Storage Service: ${testResults.fileTransfer.storageService || 'N/A'}`);
+        lines.push(`Region: ${testResults.fileTransfer.region || 'N/A'}`);
+        lines.push(`Upload Time: ${testResults.fileTransfer.uploadTime} ms`);
+        lines.push(`Upload Throughput: ${testResults.fileTransfer.uploadThroughput} Mbps`);
+        lines.push(`Download Time: ${testResults.fileTransfer.downloadTime} ms`);
+        lines.push(`Download Throughput: ${testResults.fileTransfer.downloadThroughput} Mbps`);
+      } else if (testResults.fileTransfer.error) {
+        lines.push(`Error: ${testResults.fileTransfer.error}`);
+      } else {
+        lines.push('Test not run (requires manual trigger)');
+      }
+      lines.push('');
+
       lines.push('--- WEBSOCKET CONNECTION ---');
       lines.push(`Overall Status: ${testResults.websocket.status || 'Not tested'}`);
       lines.push(`URL: ${testResults.websocket.url || 'N/A'}`);
@@ -1063,6 +1267,9 @@
 
     // Run tests button
     document.getElementById('runTests').addEventListener('click', runAllTests);
+
+    // File transfer test button
+    document.getElementById('testFileTransferBtn').addEventListener('click', testFileTransfer);
 
     // Auto-run browser and network info on load
     window.addEventListener('load', () => {

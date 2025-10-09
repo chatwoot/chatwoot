@@ -1,0 +1,29 @@
+# Chatwoot Local Development - Vite Service
+# Built FROM base-deps image with all dependencies pre-installed
+# Application code is mounted as volume for live reloading
+
+ARG BASE_IMAGE_TAG=dev-deps
+FROM chatwoot-base:${BASE_IMAGE_TAG}
+
+LABEL maintainer="Delta Exchange <dev@delta.exchange>"
+LABEL description="Chatwoot Local Development - Vite Dev Server"
+LABEL environment="development"
+
+ARG RAILS_ENV=development
+ENV RAILS_ENV=${RAILS_ENV}
+ENV BUNDLE_PATH="/gems"
+ENV NODE_ENV=development
+ENV VITE_DEV_SERVER_HOST=0.0.0.0
+
+WORKDIR /app
+
+# Create necessary directories
+RUN mkdir -p log tmp public/packs node_modules
+
+# Application code will be mounted as volume at runtime
+# This allows for hot module reloading (HMR)
+
+EXPOSE 3036
+
+# Default command (can be overridden in docker-compose.yaml)
+CMD ["bin/vite", "dev"]
