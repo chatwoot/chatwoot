@@ -4,6 +4,7 @@ import { required, url, minLength, or } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { isLocalhostUrl } from 'shared/helpers/Validators';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -19,20 +20,6 @@ const SUPPORTED_WEBHOOK_EVENTS = [
   'conversation_typing_on',
   'conversation_typing_off',
 ];
-
-// NOTE: The `url` validator fails for localhost URLs.
-// This custom validator allows localhost URLs when the app is running on localhost.
-const localhostUrl = value => {
-  if (!value) {
-    return true;
-  }
-  const isRunningOnLocalhost = ['127.0.0.1', 'localhost'].includes(
-    window.location.hostname
-  );
-  const localUrlPattern =
-    /^(?:https?:\/\/)?(?:127\.0\.0\.1|localhost)(?::\d+)?(?:\/.*)?$/i;
-  return isRunningOnLocalhost && localUrlPattern.test(value);
-};
 
 export default {
   components: {
@@ -60,7 +47,7 @@ export default {
     url: {
       required,
       minLength: minLength(7),
-      url: or(localhostUrl, url),
+      url: or(isLocalhostUrl, url),
     },
     subscriptions: {
       required,
