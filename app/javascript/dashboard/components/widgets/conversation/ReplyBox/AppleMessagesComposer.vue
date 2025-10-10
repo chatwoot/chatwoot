@@ -14,6 +14,18 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+
+const props = defineProps({
+  conversation: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
+const emit = defineEmits(['send', 'cancel', 'save-as-template']);
+
+console.log('[AMB] AppleMessagesComposer loading...');
+
 import {
   format,
   addMinutes,
@@ -26,21 +38,18 @@ import {
 import { zonedTimeToUtc } from 'date-fns-tz';
 import EnhancedTimePickerModal from 'dashboard/components-next/message/modals/EnhancedTimePickerModal.vue';
 import AppleFormBuilder from 'dashboard/components-next/message/modals/AppleFormBuilder.vue';
+import SaveAsTemplateModal from 'dashboard/components-next/message/modals/SaveAsTemplateModal.vue';
 import AppleMessagesImagesAPI from 'dashboard/api/appleMessagesImages';
-
-const props = defineProps({
-  conversation: {
-    type: Object,
-    default: () => ({}),
-  },
-});
-
-const emit = defineEmits(['send', 'cancel']);
+import TemplateSelector from 'dashboard/components/widgets/conversation/TemplateSelector.vue';
 
 const { t } = useI18n();
 const store = useStore();
 
 const activeTab = ref('quick_reply');
+
+// Template selector state
+const showTemplateSelector = ref(false);
+const templateSearchKey = ref('');
 
 // Automatically open form builder when Forms tab is selected
 watch(activeTab, newTab => {
@@ -55,6 +64,10 @@ const loadingSavedImages = ref(false);
 
 // Form Builder State
 const showFormBuilder = ref(false);
+
+// Save As Template Modal State
+const showSaveAsTemplateModal = ref(false);
+const pendingTemplateData = ref(null);
 
 // iMessage App State
 const selectedAppId = ref('');
@@ -463,10 +476,25 @@ const initializeTimePickerDate = () => {
   }
 };
 
+// Register global handler immediately (not waiting for mount)
+window.handleAppleTemplateSelect = null; // Will be set after handleTemplateSelect is defined
+
 // Initialize on component mount
 onMounted(() => {
   initializeTimePickerDate();
   loadSavedImages();
+  // Load templates
+  store.dispatch('messageTemplates/get', {
+    channel: 'apple_messages_for_business',
+  });
+
+  // Register global handler as workaround for event propagation issues
+  if (typeof handleTemplateSelect === 'function') {
+    window.handleAppleTemplateSelect = handleTemplateSelect;
+    console.log('[AMB Templates] Registered global template handler');
+  } else {
+    console.error('[AMB Templates] handleTemplateSelect is not a function!');
+  }
 });
 
 // List Picker State
@@ -812,6 +840,11 @@ const handleEnhancedTimePickerSaveAndSend = enhancedData => {
   sendAppleMessage();
 };
 
+const handleEnhancedTimePickerSaveAsTemplate = templateData => {
+  showEnhancedTimePicker.value = false;
+  emit('save-as-template', templateData);
+};
+
 const handleEnhancedTimePickerPreview = enhancedData => {
   // Update the existing timePickerData for preview
   Object.assign(timePickerData.value, enhancedData);
@@ -985,6 +1018,55 @@ const cancelComposer = () => {
   emit('cancel');
 };
 
+const saveAsTemplate = () => {
+  let messageType;
+  let messageData;
+
+  switch (activeTab.value) {
+    case 'list_picker':
+      messageType = 'list_picker';
+      messageData = { ...listPickerData.value };
+      break;
+    case 'quick_reply':
+      messageType = 'quick_reply';
+      messageData = { ...quickReplyData.value };
+      break;
+    case 'time_picker':
+      messageType = 'time_picker';
+      messageData = { ...timePickerData.value };
+      break;
+    default:
+      return;
+  }
+
+  // Store the data and show the modal
+  pendingTemplateData.value = {
+    messageType,
+    messageData,
+  };
+  showSaveAsTemplateModal.value = true;
+};
+
+// Handle save from modal
+const handleTemplateSave = () => {
+  showSaveAsTemplateModal.value = false;
+  pendingTemplateData.value = null;
+};
+
+// Handle save and send from modal
+const handleTemplateSaveAndSend = () => {
+  showSaveAsTemplateModal.value = false;
+  // Send the message immediately after saving
+  sendAppleMessage();
+  pendingTemplateData.value = null;
+};
+
+// Handle modal close
+const closeTemplateModal = () => {
+  showSaveAsTemplateModal.value = false;
+  pendingTemplateData.value = null;
+};
+
 // Form Builder Handlers
 const openFormBuilder = () => {
   showFormBuilder.value = true;
@@ -993,6 +1075,11 @@ const openFormBuilder = () => {
 const handleFormCreated = formData => {
   emit('send', formData);
   showFormBuilder.value = false;
+};
+
+const handleFormSaveAsTemplate = templateData => {
+  showFormBuilder.value = false;
+  emit('save-as-template', templateData);
 };
 
 const closeFormBuilder = () => {
@@ -1087,6 +1174,236 @@ const selectTimePickerImage = identifier => {
     reply: timePickerData.value.replyImageIdentifier,
   });
 };
+
+// Template handling
+const toggleTemplateSelector = () => {
+  showTemplateSelector.value = !showTemplateSelector.value;
+};
+
+const handleTemplateSelect = async item => {
+  console.log('[AMB Templates] ===== handleTemplateSelect CALLED =====');
+  console.log('[AMB Templates] Template selected:', item);
+
+  if (item.type === 'canned') {
+    // Handle canned response - not applicable for Apple Messages
+    console.log('[AMB Templates] Canned response, closing selector');
+    showTemplateSelector.value = false;
+    return;
+  }
+
+  if (item.type === 'template') {
+    const template = item.template;
+    console.log('[AMB Templates] Processing template:', template);
+
+    try {
+      // Call the render API to get the formatted message
+      const inboxChannelType = props.conversation?.inbox?.channel_type || 'Channel::AppleMessagesForBusiness';
+      console.log('[AMB Templates] Channel type:', inboxChannelType);
+
+      const response = await store.dispatch('messageTemplates/render', {
+        templateId: template.id,
+        parameters: {}, // TODO: Add parameter collection UI if template has parameters
+        channelType: inboxChannelType
+      });
+
+      console.log('[AMB Templates] Rendered template response:', response);
+
+      // Extract data from response
+      const renderedData = response.data || response;
+
+      // Send the rendered message
+      if (renderedData && renderedData.content_type && renderedData.content_attributes) {
+        console.log('[AMB Templates] Emitting send event with:', {
+          content_type: renderedData.content_type,
+          content: renderedData.content
+        });
+        emit('send', {
+          content_type: renderedData.content_type,
+          content_attributes: renderedData.content_attributes,
+          content: renderedData.content
+        });
+      } else {
+        console.error('[AMB Templates] Invalid response format:', renderedData);
+        alert('Error: Invalid template response format');
+      }
+    } catch (error) {
+      console.error('[AMB Templates] Error rendering template:', error);
+      const errorMessage = error.response?.data?.details || error.message || 'Unknown error';
+      alert(`Error loading template: ${errorMessage}`);
+    }
+  }
+
+  showTemplateSelector.value = false;
+};
+
+// Register global handler immediately after definition
+window.handleAppleTemplateSelect = handleTemplateSelect;
+console.log('[AMB Templates] Registered global template handler:', typeof handleTemplateSelect);
+
+// Watch for template selection from store (fallback for event propagation issues)
+const selectedTemplateFromStore = computed(() => {
+  const value = store.getters['messageTemplates/getSelectedTemplate'];
+  console.log('[AMB Templates] Computed selectedTemplateFromStore evaluated:', value);
+  return value;
+});
+
+console.log('[AMB Templates] Setting up watcher for selectedTemplateFromStore');
+
+watch(
+  selectedTemplateFromStore,
+  async (newValue, oldValue) => {
+    console.log('[AMB Templates] Watcher triggered! Old:', oldValue, 'New:', newValue);
+    if (newValue && newValue.type === 'template') {
+      console.log('[AMB Templates] Store watcher detected template selection:', newValue);
+      await handleTemplateSelect(newValue);
+      // Clear the selection after handling
+      store.commit('messageTemplates/SET_SELECTED_TEMPLATE', null);
+    }
+  },
+  { deep: true, immediate: true }
+);
+
+const loadTemplateIntoComposer = template => {
+  console.log('[AMB Templates] Loading template:', template.name);
+
+  // Determine message type from content blocks
+  const contentBlocks = template.contentBlocks || template.content_blocks || [];
+
+  if (contentBlocks.length === 0) {
+    console.warn('[AMB Templates] No content blocks in template');
+    return;
+  }
+
+  // Find the primary content block type
+  const primaryBlock = contentBlocks[0];
+  const blockType = primaryBlock.blockType || primaryBlock.block_type;
+
+  console.log('[AMB Templates] Primary block type:', blockType);
+
+  switch (blockType) {
+    case 'quick_reply':
+      loadQuickReplyTemplate(primaryBlock);
+      activeTab.value = 'quick_reply';
+      break;
+    case 'list_picker':
+      loadListPickerTemplate(primaryBlock);
+      activeTab.value = 'list_picker';
+      break;
+    case 'time_picker':
+      loadTimePickerTemplate(primaryBlock);
+      activeTab.value = 'time_picker';
+      break;
+    case 'form':
+      // Forms need to go through the form builder
+      console.log('[AMB Templates] Form templates not yet supported via selector');
+      break;
+    default:
+      console.warn('[AMB Templates] Unknown block type:', blockType);
+  }
+};
+
+const loadQuickReplyTemplate = block => {
+  const config = block.blockConfig || block.block_config || {};
+
+  quickReplyData.value = {
+    summary_text: config.summaryText || config.summary_text || 'Quick Reply Question',
+    items: (config.items || []).map(item => ({
+      title: item.title || item.label || 'Reply',
+    })),
+  };
+
+  console.log('[AMB Templates] Loaded quick reply:', quickReplyData.value);
+};
+
+const loadListPickerTemplate = block => {
+  const config = block.blockConfig || block.block_config || {};
+
+  // Load sections
+  const sections = config.sections || [];
+  listPickerData.value.sections = sections.map(section => ({
+    title: section.title || 'Section',
+    multipleSelection: section.multipleSelection || section.multiple_selection || false,
+    items: (section.items || []).map(item => ({
+      title: item.title || '',
+      subtitle: item.subtitle || '',
+      image_identifier: item.imageIdentifier || item.image_identifier || '',
+    })),
+  }));
+
+  // Load images if present
+  if (config.images && Array.isArray(config.images)) {
+    listPickerData.value.images = config.images.map(img => ({
+      identifier: img.identifier,
+      data: img.data,
+      preview: img.data ? `data:image/jpeg;base64,${img.data}` : img.preview,
+      description: img.description || img.identifier,
+      originalName: img.originalName || img.original_name || img.identifier,
+      size: img.size || 0,
+    }));
+  }
+
+  // Load received message config
+  listPickerData.value.received_title = config.receivedTitle || config.received_title || 'Please select an option';
+  listPickerData.value.received_subtitle = config.receivedSubtitle || config.received_subtitle || '';
+  listPickerData.value.received_image_identifier = config.receivedImageIdentifier || config.received_image_identifier || '';
+  listPickerData.value.received_style = config.receivedStyle || config.received_style || 'icon';
+
+  // Load reply message config
+  listPickerData.value.reply_title = config.replyTitle || config.reply_title || 'Selection Made';
+  listPickerData.value.reply_subtitle = config.replySubtitle || config.reply_subtitle || '';
+  listPickerData.value.reply_style = config.replyStyle || config.reply_style || 'icon';
+  listPickerData.value.reply_image_title = config.replyImageTitle || config.reply_image_title || '';
+  listPickerData.value.reply_image_subtitle = config.replyImageSubtitle || config.reply_image_subtitle || '';
+  listPickerData.value.reply_secondary_subtitle = config.replySecondarySubtitle || config.reply_secondary_subtitle || '';
+  listPickerData.value.reply_tertiary_subtitle = config.replyTertiarySubtitle || config.reply_tertiary_subtitle || '';
+
+  console.log('[AMB Templates] Loaded list picker:', listPickerData.value);
+};
+
+const loadTimePickerTemplate = block => {
+  const config = block.blockConfig || block.block_config || {};
+
+  // Load event details
+  timePickerData.value.event = {
+    title: config.eventTitle || config.event?.title || 'Schedule Appointment',
+    description: config.eventDescription || config.event?.description || 'Select a time slot',
+    timeslots: config.timeslots || config.event?.timeslots || [],
+  };
+
+  // Load timezone
+  timePickerData.value.timezone_offset = config.timezoneOffset || config.timezone_offset || -480;
+
+  // Load received message config
+  timePickerData.value.received_title = config.receivedTitle || config.received_title || 'Please pick a time';
+  timePickerData.value.received_subtitle = config.receivedSubtitle || config.received_subtitle || 'Select your preferred time slot';
+  timePickerData.value.receivedImageIdentifier = config.receivedImageIdentifier || config.received_image_identifier || '';
+  timePickerData.value.received_style = config.receivedStyle || config.received_style || 'icon';
+
+  // Load reply message config
+  timePickerData.value.reply_title = config.replyTitle || config.reply_title || 'Thank you!';
+  timePickerData.value.reply_subtitle = config.replySubtitle || config.reply_subtitle || '';
+  timePickerData.value.replyImageIdentifier = config.replyImageIdentifier || config.reply_image_identifier || '';
+  timePickerData.value.reply_style = config.replyStyle || config.reply_style || 'icon';
+  timePickerData.value.reply_image_title = config.replyImageTitle || config.reply_image_title || '';
+  timePickerData.value.reply_image_subtitle = config.replyImageSubtitle || config.reply_image_subtitle || '';
+  timePickerData.value.reply_secondary_subtitle = config.replySecondarySubtitle || config.reply_secondary_subtitle || '';
+  timePickerData.value.reply_tertiary_subtitle = config.replyTertiarySubtitle || config.reply_tertiary_subtitle || '';
+
+  // Load images if present
+  if (config.images && Array.isArray(config.images)) {
+    timePickerData.value.images = config.images.map(img => ({
+      identifier: img.identifier,
+      data: img.data,
+      preview: img.data ? `data:image/jpeg;base64,${img.data}` : img.preview,
+      description: img.description || img.identifier,
+      originalName: img.originalName || img.original_name || img.identifier,
+      size: img.size || 0,
+    }));
+  }
+
+  console.log('[AMB Templates] Loaded time picker:', timePickerData.value);
+};
+
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
@@ -1094,37 +1411,103 @@ const selectTimePickerImage = identifier => {
 <!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <div class="apple-messages-composer bg-n-solid-1 text-n-slate-12">
-    <!-- Tabs -->
-    <div class="flex space-x-2 mb-4 border-b border-n-weak">
-      <button
-        v-for="tab in [
-          'quick_reply',
-          'list_picker',
-          'time_picker',
-          'forms',
-          'imessage_apps',
-          'oauth',
-          'apple_pay',
-        ]"
-        :key="tab"
-        class="px-4 py-2 text-sm font-medium border-b-2 transition-colors"
-        :class="
-          activeTab === tab
-            ? 'border-n-blue-8 text-n-blue-11 dark:text-n-blue-10'
-            : 'border-transparent text-n-slate-11 hover:text-n-slate-12 dark:text-n-slate-10 dark:hover:text-n-slate-9'
-        "
-        @click="activeTab = tab"
-      >
-        {{
-          tab === 'imessage_apps'
-            ? 'iMessage Apps'
-            : tab === 'oauth'
-              ? 'OAuth'
-              : tab === 'apple_pay'
-                ? 'Apple Pay'
-                : tab.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
-        }}
-      </button>
+    <!-- Header with Tabs and Template Button -->
+    <div class="flex items-center justify-between mb-4 border-b border-n-weak">
+      <!-- Tabs -->
+      <div class="flex space-x-2">
+        <button
+          v-for="tab in [
+            'quick_reply',
+            'list_picker',
+            'time_picker',
+            'forms',
+            'imessage_apps',
+            'oauth',
+            'apple_pay',
+          ]"
+          :key="tab"
+          class="px-4 py-2 text-sm font-medium border-b-2 transition-colors"
+          :class="
+            activeTab === tab
+              ? 'border-n-blue-8 text-n-blue-11 dark:text-n-blue-10'
+              : 'border-transparent text-n-slate-11 hover:text-n-slate-12 dark:text-n-slate-10 dark:hover:text-n-slate-9'
+          "
+          @click="activeTab = tab"
+        >
+          {{
+            tab === 'imessage_apps'
+              ? 'iMessage Apps'
+              : tab === 'oauth'
+                ? 'OAuth'
+                : tab === 'apple_pay'
+                  ? 'Apple Pay'
+                  : tab.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
+          }}
+        </button>
+      </div>
+
+      <!-- Template Selector Button -->
+      <div class="relative pb-2">
+        <button
+          class="px-3 py-1 text-sm bg-n-woot-6 dark:bg-n-woot-7 text-white rounded-lg hover:bg-n-woot-7 dark:hover:bg-n-woot-8 transition-colors flex items-center gap-2"
+          @click="toggleTemplateSelector"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
+            />
+          </svg>
+          Load Template
+        </button>
+
+        <!-- Template Selector Dropdown -->
+        <div
+          v-if="showTemplateSelector"
+          class="absolute top-full right-0 mt-1 z-50 bg-n-solid-1 border border-n-weak dark:border-n-slate-6 rounded-lg shadow-xl w-80 max-h-96 overflow-y-auto"
+        >
+          <div
+            class="sticky top-0 bg-n-solid-1 dark:bg-n-slate-1 p-3 border-b border-n-weak dark:border-n-slate-6"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <h4
+                class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11"
+              >
+                Select Template
+              </h4>
+              <button
+                class="text-n-slate-11 dark:text-n-slate-10 hover:text-n-slate-12 dark:hover:text-n-slate-9"
+                @click="showTemplateSelector = false"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+            <input
+              v-model="templateSearchKey"
+              type="text"
+              class="w-full px-3 py-2 text-sm border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-blue-8 dark:focus:border-n-blue-9"
+              placeholder="Search templates..."
+            />
+          </div>
+          <TemplateSelector
+            :search-key="templateSearchKey"
+            @select="handleTemplateSelect"
+          />
+        </div>
+      </div>
     </div>
 
     <!-- List Picker Tab -->
@@ -2137,6 +2520,13 @@ const selectTimePickerImage = identifier => {
         Cancel
       </button>
       <button
+        v-if="['quick_reply', 'list_picker', 'time_picker'].includes(activeTab)"
+        class="px-4 py-2 border border-n-blue-9 dark:border-n-blue-10 text-n-blue-9 dark:text-n-blue-10 rounded-lg hover:bg-n-blue-1 dark:hover:bg-n-blue-2 transition-colors"
+        @click="saveAsTemplate"
+      >
+        Save as Template
+      </button>
+      <button
         class="px-4 py-2 bg-n-blue-9 dark:bg-n-blue-10 text-white dark:text-n-slate-12 rounded-lg hover:bg-n-blue-10 dark:hover:bg-n-blue-11 transition-colors"
         @click="sendAppleMessage"
       >
@@ -2374,6 +2764,7 @@ const selectTimePickerImage = identifier => {
       @preview="handleEnhancedTimePickerPreview"
       @save-and-send="handleEnhancedTimePickerSaveAndSend"
       @upload-image="handleImageUpload"
+      @save-as-template="handleEnhancedTimePickerSaveAsTemplate"
     />
 
     <!-- Apple Form Builder Modal -->
@@ -2385,6 +2776,18 @@ const selectTimePickerImage = identifier => {
       @close="closeFormBuilder"
       @create="handleFormCreated"
       @upload-image="handleFormImageUpload"
+      @save-as-template="handleFormSaveAsTemplate"
+    />
+
+    <!-- Save As Template Modal -->
+    <SaveAsTemplateModal
+      v-if="pendingTemplateData"
+      :show="showSaveAsTemplateModal"
+      :message-type="pendingTemplateData.messageType"
+      :message-data="pendingTemplateData.messageData"
+      @close="closeTemplateModal"
+      @save="handleTemplateSave"
+      @save-and-send="handleTemplateSaveAndSend"
     />
 
     <!-- Image Picker Modal -->

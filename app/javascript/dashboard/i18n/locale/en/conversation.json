@@ -229,6 +229,7 @@
         }
       }
     },
+    "TEMPLATE_REQUIRES_PARAMETERS": "The template '{name}' requires parameters. Please use the template builder to configure it.",
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
     "CHANGE_STATUS_FAILED": "Conversation status change failed",

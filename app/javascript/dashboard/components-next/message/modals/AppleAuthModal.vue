@@ -21,7 +21,7 @@ export default {
       required: true,
     },
   },
-  emits: ['close', 'create'],
+  emits: ['close', 'create', 'save-as-template'],
   setup(props, { emit }) {
     const { t } = useI18n();
 
@@ -128,6 +128,23 @@ export default {
       emit('close');
     };
 
+    const saveAsTemplate = () => {
+      if (!canCreateMessage.value) return;
+
+      const messageData = {
+        provider: selectedProvider.value.id,
+        message: authMessage.value,
+        success_url: successUrl.value,
+        cancel_url: cancelUrl.value,
+        require_encryption: requireEncryption.value,
+      };
+
+      emit('save-as-template', {
+        messageType: 'oauth',
+        messageData,
+      });
+    };
+
     // Watch for show prop changes to reset form
     watch(
       () => props.show,
@@ -158,6 +175,7 @@ export default {
       changeProvider,
       createAuthenticationMessage,
       onClose,
+      saveAsTemplate,
     };
   },
 };
@@ -300,6 +318,15 @@ export default {
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" @click="onClose">
           {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CANCEL') }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          :disabled="!canCreateMessage"
+          @click="saveAsTemplate"
+        >
+          Save as Template
         </button>
 
         <button

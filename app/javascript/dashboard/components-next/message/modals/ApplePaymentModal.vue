@@ -21,7 +21,7 @@ export default {
       required: true,
     },
   },
-  emits: ['close', 'create'],
+  emits: ['close', 'create', 'save-as-template'],
   setup(props, { emit }) {
     const { t } = useI18n();
 
@@ -220,6 +220,31 @@ export default {
       emit('close');
     };
 
+    const saveAsTemplate = () => {
+      if (!canCreateMessage.value) return;
+
+      const templateData = {
+        merchantName: paymentData.value.merchantName,
+        currencyCode: paymentData.value.currencyCode,
+        countryCode: paymentData.value.countryCode,
+        lineItems: paymentData.value.lineItems.filter(
+          item => item.label && item.amount
+        ),
+        shippingMethods: paymentData.value.shippingMethods.filter(
+          method => method.label && method.amount
+        ),
+        requiresShipping: paymentData.value.requiresShipping,
+        requiresBilling: paymentData.value.requiresBilling,
+        requiresEmail: paymentData.value.requiresEmail,
+        requiresPhone: paymentData.value.requiresPhone,
+      };
+
+      emit('save-as-template', {
+        messageType: 'apple_pay',
+        messageData: templateData,
+      });
+    };
+
     // Watch for show prop changes to reset form
     watch(
       () => props.show,
@@ -245,6 +270,7 @@ export default {
       removeShippingMethod,
       createPaymentMessage,
       onClose,
+      saveAsTemplate,
     };
   },
 };
@@ -547,6 +573,15 @@ export default {
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" @click="onClose">
           {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CANCEL') }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          :disabled="!canCreateMessage"
+          @click="saveAsTemplate"
+        >
+          Save as Template
         </button>
 
         <button

@@ -74,6 +74,7 @@ const emit = defineEmits([
   'preview',
   'saveAndSend',
   'uploadImage',
+  'save-as-template',
 ]);
 
 const { t } = useI18n();
@@ -728,6 +729,33 @@ const previewTimePickerData = () => {
   };
 
   emit('preview', timePickerData);
+};
+
+const saveAsTemplate = () => {
+  if (!isFormValid.value) return;
+
+  const timePickerData = {
+    event: {
+      title: '', // Apple MSP requires empty title in event
+      description: formData.value.eventDescription,
+      timeslots: formData.value.selectedSlots,
+    },
+    timezone_offset: formData.value.timezoneOffset,
+    received_title: formData.value.receivedTitle,
+    received_subtitle: formData.value.receivedSubtitle,
+    received_image_identifier: formData.value.receivedImageIdentifier,
+    received_style: formData.value.receivedStyle,
+    reply_title: formData.value.replyTitle,
+    reply_subtitle: formData.value.replySubtitle,
+    reply_image_identifier: formData.value.replyImageIdentifier,
+    reply_style: formData.value.replyStyle,
+    images: formData.value.images || [],
+  };
+
+  emit('save-as-template', {
+    messageType: 'time_picker',
+    messageData: timePickerData,
+  });
 };
 
 // Watchers
@@ -1572,6 +1600,13 @@ onUnmounted(() => {
               @click="closeModal"
             >
               Cancel
+            </button>
+            <button
+              class="px-4 py-2 border border-n-blue-9 dark:border-n-blue-10 text-n-blue-9 dark:text-n-blue-10 rounded-lg hover:bg-n-blue-1 dark:hover:bg-n-blue-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              :disabled="!isFormValid"
+              @click="saveAsTemplate"
+            >
+              Save as Template
             </button>
             <button
               class="px-4 py-2 border border-n-blue-9 dark:border-n-blue-10 text-n-blue-9 dark:text-n-blue-10 rounded-lg hover:bg-n-blue-1 dark:hover:bg-n-blue-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"

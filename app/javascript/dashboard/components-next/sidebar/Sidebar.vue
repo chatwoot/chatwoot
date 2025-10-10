@@ -465,6 +465,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('macros_wrapper'),
         },
         {
+          name: 'Settings Templates',
+          label: t('SIDEBAR.TEMPLATES'),
+          icon: 'i-lucide-file-text',
+          to: accountScopedRoute('templates_list'),
+        },
+        {
           name: 'Settings Canned Responses',
           label: t('SIDEBAR.CANNED_RESPONSES'),
           icon: 'i-lucide-message-square-quote',

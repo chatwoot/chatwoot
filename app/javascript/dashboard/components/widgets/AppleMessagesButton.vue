@@ -18,7 +18,15 @@ const showAppleComposer = ref(false);
 const currentChat = useMapGetter('getSelectedChat');
 
 const isAppleMessagesChannel = computed(() => {
-  return props.inbox?.channel_type === 'Channel::AppleMessagesForBusiness';
+  console.log('[AMB] AppleMessagesButton - inbox prop:', props.inbox);
+  console.log(
+    '[AMB] AppleMessagesButton - channel_type:',
+    props.inbox?.channel_type
+  );
+  const result =
+    props.inbox?.channel_type === 'Channel::AppleMessagesForBusiness';
+  console.log('[AMB] AppleMessagesButton - isAppleMessagesChannel:', result);
+  return result;
 });
 
 const handleSendAppleMessage = messageData => {

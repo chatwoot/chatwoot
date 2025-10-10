@@ -1,4 +1,5 @@
 <script>
+console.log('[AMB] ReplyBottomPanel.vue loading...');
 import { ref } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -265,6 +266,11 @@ export default {
   },
   mounted() {
     ActiveStorage.start();
+    console.log('[AMB] ReplyBottomPanel mounted - inbox prop:', this.inbox);
+    console.log(
+      '[AMB] ReplyBottomPanel mounted - channel_type:',
+      this.inbox?.channel_type
+    );
   },
   methods: {
     toggleMessageSignature() {

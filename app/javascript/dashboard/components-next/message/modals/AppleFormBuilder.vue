@@ -14,7 +14,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'create', 'uploadImage']);
+const emit = defineEmits([
+  'close',
+  'create',
+  'uploadImage',
+  'save-as-template',
+]);
 
 const { t } = useI18n();
 
@@ -864,6 +869,49 @@ const closeModal = () => {
   initializeForm();
 };
 
+const saveAsTemplate = () => {
+  if (!canCreateForm.value) return;
+
+  // Collect images that are actually being used
+  const usedImageIdentifiers = [
+    formData.value.receivedMessage.imageIdentifier,
+    formData.value.replyMessage.imageIdentifier,
+  ].filter(Boolean);
+
+  const usedImages = props.availableImages.filter(img =>
+    usedImageIdentifiers.includes(img.identifier)
+  );
+
+  const formConfig = {
+    title: formData.value.title,
+    description: formData.value.description || '',
+    pages: formData.value.pages,
+    received_message: {
+      title: formData.value.receivedMessage.title || formData.value.title,
+      subtitle: formData.value.receivedMessage.subtitle,
+      image_identifier: formData.value.receivedMessage.imageIdentifier,
+      style: formData.value.receivedMessage.style,
+    },
+    reply_message: {
+      title: formData.value.replyMessage.title,
+      subtitle: formData.value.replyMessage.subtitle,
+      image_identifier: formData.value.replyMessage.imageIdentifier,
+      style: formData.value.replyMessage.style,
+    },
+    images: usedImages.map(img => ({
+      identifier: img.identifier,
+      data: img.data,
+      description: img.description || img.originalName || img.identifier,
+      originalName: img.originalName || img.identifier,
+    })),
+  };
+
+  emit('save-as-template', {
+    messageType: 'form',
+    messageData: formConfig,
+  });
+};
+
 watch(
   () => props.show,
   newShow => {
@@ -1508,6 +1556,13 @@ watch(
               @click="closeModal"
             >
               {{ t('APPLE_FORM.CANCEL') }}
+            </button>
+            <button
+              :disabled="!canCreateForm"
+              class="px-4 py-2 border border-woot-500 text-woot-600 rounded-md hover:bg-woot-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              @click="saveAsTemplate"
+            >
+              Save as Template
             </button>
             <button
               :disabled="!canCreateForm"

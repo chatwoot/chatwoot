@@ -7,6 +7,7 @@ import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import CannedResponse from './CannedResponse.vue';
+import TemplateSelector from './TemplateSelector.vue';
 import ReplyToMessage from './ReplyToMessage.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
@@ -63,6 +64,7 @@ export default {
     AttachmentPreview,
     AudioRecorder,
     CannedResponse,
+    TemplateSelector,
     ReplyBoxBanner,
     EmojiInput,
     MessageSignatureMissingAlert,
@@ -782,6 +784,280 @@ export default {
         this.message = updatedMessage;
       }, 100);
     },
+    handleTemplateSelect(item) {
+      console.log('[AMB] handleTemplateSelect called with:', item);
+      if (item.type === 'canned') {
+        // Handle canned response - just replace text
+        this.replaceText(item.content);
+      } else if (item.type === 'template') {
+        // Handle unified template - need to render and send
+        this.handleUnifiedTemplate(item.template);
+      }
+    },
+    async handleUnifiedTemplate(template) {
+      console.log('[AMB] handleUnifiedTemplate called with:', template);
+
+      try {
+        // Always fetch full template data to see content blocks
+        console.log('[AMB] Fetching full template with content blocks...');
+        const fullTemplate = await this.$store.dispatch(
+          'messageTemplates/show',
+          {
+            id: template.id,
+          }
+        );
+        console.log('[AMB] Full template fetched:', fullTemplate);
+        console.log('[AMB] Content blocks:', fullTemplate.contentBlocks);
+        console.log('[AMB] Template content:', fullTemplate.content);
+        console.log(
+          '[AMB] Template content JSON:',
+          JSON.stringify(fullTemplate.content, null, 2)
+        );
+        console.log('[AMB] Channel type:', this.channelType);
+        console.log(
+          '[AMB] Is Apple Messages:',
+          this.isAppleMessagesConversation
+        );
+
+        // Check if this is an Apple Messages interactive template
+        // Interactive templates have specific content structures:
+        // - type field (explicit type like 'list_picker', 'time_picker', 'form', etc.)
+        // - OR specific structure patterns (images/replies for quick reply, etc.)
+        const content = fullTemplate.content;
+        const isAppleInteractive =
+          fullTemplate.supportedChannels?.includes(
+            'apple_messages_for_business'
+          ) &&
+          content &&
+          (content.type || // Explicit type field
+            content.items || // Quick reply structure (new format)
+            content.replies || // Quick reply structure (legacy format)
+            content.list_picker || // List picker structure
+            content.time_picker || // Time picker structure
+            content.form || // Form structure
+            content.apple_pay); // Apple Pay structure
+
+        console.log('[AMB] Template content type:', content?.type);
+        console.log('[AMB] Is Apple interactive template:', isAppleInteractive);
+
+        if (isAppleInteractive && this.isAppleMessagesConversation) {
+          // This is an Apple Messages interactive template - send it directly
+          console.log('[AMB] Sending Apple interactive template directly');
+
+          // Detect the message type and wrap the content appropriately
+          let messageData;
+          if (content.type) {
+            // Content has explicit type - use it directly
+            messageData = content;
+          } else if (content.items || content.replies) {
+            // Quick reply structure - normalize to the format backend expects
+            const items = content.items || content.replies;
+            messageData = {
+              type: 'quick_reply',
+              content_type: 'apple_quick_reply',
+              content_attributes: {
+                summary_text: content.summaryText || content.summary_text || '',
+                items: items.map((item, index) => ({
+                  title: item.title,
+                  identifier: item.identifier || `reply_${index}`,
+                })),
+                received_title:
+                  content.summaryText ||
+                  content.summary_text ||
+                  'Please select an option',
+                received_subtitle: '',
+                reply_title: '',
+                reply_subtitle: '',
+              },
+            };
+          } else if (content.list_picker || content.listPicker) {
+            // List picker structure - normalize field names
+            const listPickerData =
+              content.list_picker || content.listPicker || content;
+            messageData = {
+              type: 'list_picker',
+              content_type: 'input_select',
+              content_attributes: {
+                sections: listPickerData.sections || [],
+                images: listPickerData.images || [],
+                received_title:
+                  listPickerData.received_title ||
+                  listPickerData.receivedTitle ||
+                  'Please select an option',
+                received_subtitle:
+                  listPickerData.received_subtitle ||
+                  listPickerData.receivedSubtitle ||
+                  '',
+                received_image_identifier:
+                  listPickerData.received_image_identifier ||
+                  listPickerData.receivedImageIdentifier ||
+                  '',
+                received_style:
+                  listPickerData.received_style ||
+                  listPickerData.receivedStyle ||
+                  'icon',
+                reply_title:
+                  listPickerData.reply_title ||
+                  listPickerData.replyTitle ||
+                  'Selection Made',
+                reply_subtitle:
+                  listPickerData.reply_subtitle ||
+                  listPickerData.replySubtitle ||
+                  '',
+                reply_style:
+                  listPickerData.reply_style ||
+                  listPickerData.replyStyle ||
+                  'icon',
+                reply_image_title:
+                  listPickerData.reply_image_title ||
+                  listPickerData.replyImageTitle ||
+                  '',
+                reply_image_subtitle:
+                  listPickerData.reply_image_subtitle ||
+                  listPickerData.replyImageSubtitle ||
+                  '',
+                reply_secondary_subtitle:
+                  listPickerData.reply_secondary_subtitle ||
+                  listPickerData.replySecondarySubtitle ||
+                  '',
+                reply_tertiary_subtitle:
+                  listPickerData.reply_tertiary_subtitle ||
+                  listPickerData.replyTertiarySubtitle ||
+                  '',
+              },
+            };
+          } else if (content.time_picker || content.timePicker) {
+            // Time picker structure - normalize field names
+            const timePickerData =
+              content.time_picker || content.timePicker || content;
+            messageData = {
+              type: 'time_picker',
+              content_type: 'input_select',
+              content_attributes: {
+                eventTitle:
+                  timePickerData.eventTitle || timePickerData.event_title || '',
+                eventDescription:
+                  timePickerData.eventDescription ||
+                  timePickerData.event_description ||
+                  '',
+                timeslots: timePickerData.timeslots || [],
+                timezoneOffset:
+                  timePickerData.timezoneOffset ||
+                  timePickerData.timezone_offset ||
+                  0,
+                images: timePickerData.images || [],
+                receivedTitle:
+                  timePickerData.receivedTitle ||
+                  timePickerData.received_title ||
+                  'Please pick a time',
+                receivedSubtitle:
+                  timePickerData.receivedSubtitle ||
+                  timePickerData.received_subtitle ||
+                  '',
+                receivedImageIdentifier:
+                  timePickerData.receivedImageIdentifier ||
+                  timePickerData.received_image_identifier ||
+                  '',
+                receivedStyle:
+                  timePickerData.receivedStyle ||
+                  timePickerData.received_style ||
+                  'large',
+                replyTitle:
+                  timePickerData.replyTitle ||
+                  timePickerData.reply_title ||
+                  'Thank you!',
+                replySubtitle:
+                  timePickerData.replySubtitle ||
+                  timePickerData.reply_subtitle ||
+                  '',
+                replyImageIdentifier:
+                  timePickerData.replyImageIdentifier ||
+                  timePickerData.reply_image_identifier ||
+                  '',
+                replyStyle:
+                  timePickerData.replyStyle ||
+                  timePickerData.reply_style ||
+                  'large',
+                replyImageTitle:
+                  timePickerData.replyImageTitle ||
+                  timePickerData.reply_image_title ||
+                  '',
+                replyImageSubtitle:
+                  timePickerData.replyImageSubtitle ||
+                  timePickerData.reply_image_subtitle ||
+                  '',
+                replySecondarySubtitle:
+                  timePickerData.replySecondarySubtitle ||
+                  timePickerData.reply_secondary_subtitle ||
+                  '',
+                replyTertiarySubtitle:
+                  timePickerData.replyTertiarySubtitle ||
+                  timePickerData.reply_tertiary_subtitle ||
+                  '',
+              },
+            };
+          } else if (content.form) {
+            // Form structure
+            messageData = {
+              type: 'form',
+              content_type: 'form',
+              content_attributes: content,
+            };
+          } else if (content.apple_pay || content.applePay) {
+            // Apple Pay structure
+            messageData = {
+              type: 'apple_pay',
+              content_type: 'input_select',
+              content_attributes: content,
+            };
+          } else {
+            // Unknown structure - use as-is
+            messageData = content;
+          }
+
+          console.log('[AMB] Wrapped message data:', messageData);
+          await this.sendAppleMessage(messageData);
+          return;
+        }
+
+        // For templates without parameters, render and insert
+        const hasParameters =
+          fullTemplate.parameters &&
+          Object.keys(fullTemplate.parameters).length > 0;
+
+        if (!hasParameters) {
+          // Simple template without parameters - render and insert as text
+          const response = await this.$store.dispatch(
+            'messageTemplates/render',
+            {
+              templateId: fullTemplate.id,
+              parameters: {},
+              channelType: this.channelType,
+            }
+          );
+
+          if (response.data.content) {
+            this.replaceText(response.data.content);
+          }
+        } else {
+          // Template with parameters - need to show parameter input UI
+          // For now, show an alert that this needs parameter input
+          this.$store.dispatch('alerts/show', {
+            message: this.$t('CONVERSATION.TEMPLATE_REQUIRES_PARAMETERS', {
+              name: fullTemplate.name,
+            }),
+            type: 'info',
+          });
+          // TODO: Open a modal to collect parameters
+        }
+      } catch (error) {
+        console.error('Error handling template:', error);
+        this.$store.dispatch('alerts/show', {
+          message: error?.message || 'Failed to load template',
+          type: 'error',
+        });
+      }
+    },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
       // This is to prevent from breaking the upload rules
@@ -1308,12 +1584,12 @@ export default {
         @send-as-rich-link="onRichLinkSendAsRichLink"
         @dismiss="onRichLinkDismiss"
       />
-      <CannedResponse
+      <TemplateSelector
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
-        class="normal-editor__canned-box"
+        class="normal-editor__template-box"
         :search-key="mentionSearchKey"
-        @replace="replaceText"
+        @select="handleTemplateSelect"
       />
       <EmojiInput
         v-if="showEmojiPicker"
@@ -1505,8 +1781,18 @@ export default {
   }
 }
 
-.normal-editor__canned-box {
+.normal-editor__template-box {
   width: calc(100% - 2 * 1rem);
   left: 1rem;
+  position: absolute;
+  bottom: 100%;
+  z-index: 100;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 </style>
