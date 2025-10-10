@@ -38,6 +38,10 @@ describe Enterprise::Billing::V2::UsageAnalyticsService do
           metadata: {},
           created_at: Time.current
         )
+
+        # Stub the Stripe API call to return nil (which will fallback to local data)
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('STRIPE_V2_METER_ID').and_return(nil)
       end
 
       it 'aggregates usage from credit transactions' do

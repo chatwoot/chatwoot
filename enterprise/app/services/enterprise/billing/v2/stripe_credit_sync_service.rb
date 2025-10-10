@@ -159,7 +159,7 @@ class Enterprise::Billing::V2::StripeCreditSyncService < Enterprise::Billing::V2
   end
 
   def build_credit_grant_params(amount, type, metadata)
-    params = {
+    {
       customer: stripe_customer_id,
       name: "#{type.titleize} Credits - #{Time.current.strftime('%Y-%m-%d')}",
       amount: { type: 'monetary', monetary: { currency: 'usd', value: amount.to_i } },
@@ -172,8 +172,6 @@ class Enterprise::Billing::V2::StripeCreditSyncService < Enterprise::Billing::V2
         credits: amount.to_s
       )
     }
-    params[:expiry_config] = { type: 'end_of_service_period' } if type == 'monthly'
-    params
   end
 
   def create_stripe_grant(params)

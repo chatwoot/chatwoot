@@ -20,22 +20,22 @@ describe Enterprise::Billing::V2::UsageReporterService do
 
   after { config.replace(original_config) }
 
-  it 'posts usage events to Stripe meters' do # rubocop:disable RSpec/MultipleExpectations
-    response = { 'id' => 'me_test_123' }
-    stripe_client = instance_double(Stripe::StripeClient)
-    allow(service).to receive(:stripe_client).and_return(stripe_client)
-    allow(stripe_client).to receive(:execute_request).and_return(response)
+  it 'posts usage events to Stripe meters' do
+    meter_event = OpenStruct.new(identifier: 'me_test_123')
+    allow(Stripe::Billing::MeterEvent).to receive(:create).and_return(meter_event)
+
+    # Stub ENV to return the configured meter event name from config
+    allow(ENV).to receive(:[]).and_call_original
+    allow(ENV).to receive(:[]).with('STRIPE_V2_METER_EVENT_NAME').and_return(nil)
 
     result = service.report(5, 'ai_test')
 
     expect(result).to include(success: true, reported_credits: 5)
-    expect(stripe_client).to have_received(:execute_request) do |method, path, **kw|
-      expect(method).to eq(:post)
-      expect(path).to eq('/v1/billing/meter_events')
-      expect(kw[:headers]).to include('Idempotency-Key')
-      expect(kw[:params][:event_name]).to eq('chat_prompts')
-      expect(kw[:params][:payload][:value]).to eq(5)
-      expect(kw[:params][:payload][:stripe_customer_id]).to eq('cus_test_123')
+    expect(Stripe::Billing::MeterEvent).to have_received(:create) do |params, options|
+      expect(params[:event_name]).to eq('chat_prompts') # Should use the config value
+      expect(params[:payload][:value]).to eq('5')
+      expect(params[:payload][:stripe_customer_id]).to eq('cus_test_123')
+      expect(options[:stripe_version]).to eq('2025-08-27.preview')
     end
   end
 end

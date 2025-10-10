@@ -20,11 +20,11 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
   def use_credit(feature: 'ai_captain', amount: 1, metadata: {})
     return { success: true, credits_used: 0, remaining: total_credits } if amount <= 0
 
-    stripe_result = report_usage_to_stripe(amount, feature, metadata)
-    return { success: false, message: "Usage reporting failed: #{stripe_result[:message]}" } unless stripe_result[:success]
-
     with_locked_account do
       return { success: false, message: 'Insufficient credits' } unless sufficient_balance?(amount)
+
+      stripe_result = report_usage_to_stripe(amount, feature, metadata)
+      return { success: false, message: "Usage reporting failed: #{stripe_result[:message]}" } unless stripe_result[:success]
 
       credit_type = deduct_credits(amount)
       log_credit_usage(amount, feature, credit_type, stripe_result[:event_id], metadata)
@@ -113,8 +113,8 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
   end
 
   def sufficient_balance?(amount)
-    current_balance = credit_balance
-    current_balance[:total] >= amount
+    # Use local balance (real-time) instead of Stripe balance (5-10 min delay)
+    total_credits >= amount
   end
 
   def deduct_credits(amount)
@@ -143,12 +143,12 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
   end
 
   def build_credit_usage_result(amount, event_id)
-    final_balance = credit_balance
+    # Use local balance (already deducted) instead of fetching from Stripe
     {
       success: true,
       credits_used: amount,
-      remaining: final_balance[:total],
-      source: final_balance[:source],
+      remaining: total_credits,
+      source: 'local',
       stripe_event_id: event_id
     }
   end

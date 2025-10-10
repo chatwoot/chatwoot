@@ -87,23 +87,35 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
     StripeV2Client.request(
       :post,
       '/v2/billing/service_actions',
-      {
-        lookup_key: lookup_key,
-        service_interval: 'month',
-        service_interval_count: 1,
-        type: 'credit_grant',
-        credit_grant: {
-          name: 'Monthly Credits',
-          amount: {
-            type: 'custom_pricing_unit',
-            custom_pricing_unit: { id: cpu_id, value: credit_amount.to_s }
-          },
-          expiry_config: { type: 'end_of_service_period' },
-          applicability_config: { scope: { price_type: 'metered' } }
-        }
-      },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
+      service_action_params(lookup_key, credit_amount, cpu_id),
+      stripe_api_options
     )
+  end
+
+  def service_action_params(lookup_key, credit_amount, cpu_id)
+    {
+      lookup_key: lookup_key,
+      service_interval: 'month',
+      service_interval_count: 1,
+      type: 'credit_grant',
+      credit_grant: credit_grant_config(credit_amount, cpu_id)
+    }
+  end
+
+  def credit_grant_config(credit_amount, cpu_id)
+    {
+      name: 'Monthly Credits',
+      amount: {
+        type: 'custom_pricing_unit',
+        custom_pricing_unit: { id: cpu_id, value: credit_amount.to_s }
+      },
+      expiry_config: { type: 'end_of_service_period' },
+      applicability_config: { scope: { price_type: 'metered' } }
+    }
+  end
+
+  def stripe_api_options
+    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
   end
 
   def create_rate_card(display_name:)

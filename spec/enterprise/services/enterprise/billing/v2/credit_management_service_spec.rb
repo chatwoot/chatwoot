@@ -6,11 +6,23 @@ describe Enterprise::Billing::V2::CreditManagementService do
 
   before do
     allow(Enterprise::Billing::ReportUsageJob).to receive(:perform_later)
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with('STRIPE_V2_METER_EVENT_NAME', anything).and_return('ai_prompts')
+    allow(ENV).to receive(:[]).and_call_original
+    allow(ENV).to receive(:[]).with('STRIPE_V2_METER_EVENT_NAME').and_return('ai_prompts')
+    allow(ENV).to receive(:[]).with('STRIPE_V2_METER_ID').and_return(nil) # Disable Stripe meter fetching
+
+    # Stub Stripe credit grant creation
+    allow(Stripe::Billing::CreditGrant).to receive(:create).and_return(
+      OpenStruct.new(id: 'cg_test_123')
+    )
+
     account.update!(
       custom_attributes: (account.custom_attributes || {}).merge(
         'stripe_billing_version' => 2,
         'monthly_credits' => 100,
-        'topup_credits' => 50
+        'topup_credits' => 50,
+        'stripe_customer_id' => 'cus_test_123'
       )
     )
   end
@@ -26,6 +38,13 @@ describe Enterprise::Billing::V2::CreditManagementService do
   end
 
   describe '#use_credit' do
+    before do
+      # Stub the Stripe meter event creation
+      allow(Stripe::Billing::MeterEvent).to receive(:create).and_return(
+        OpenStruct.new(identifier: 'test_event_123')
+      )
+    end
+
     context 'when sufficient monthly credits' do
       it 'uses monthly credits first' do
         result = service.use_credit(feature: 'ai_test', amount: 10)

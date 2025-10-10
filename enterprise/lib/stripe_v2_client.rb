@@ -45,6 +45,12 @@ module StripeV2Client
     def parse_response(response)
       body = JSON.parse(response.body)
 
+      # Check for Stripe error responses
+      if body.is_a?(Hash) && body['error']
+        error = body['error']
+        raise Stripe::StripeError, "#{error['code']}: #{error['message']}"
+      end
+
       # Convert to OpenStruct for dot notation access (mimicking Stripe SDK objects)
       case body
       when Hash
