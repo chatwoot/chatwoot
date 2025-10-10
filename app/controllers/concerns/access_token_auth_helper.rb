@@ -2,7 +2,9 @@ module AccessTokenAuthHelper
   BOT_ACCESSIBLE_ENDPOINTS = {
     'api/v1/accounts/conversations' => %w[toggle_status toggle_priority create update custom_attributes],
     'api/v1/accounts/conversations/messages' => ['create'],
-    'api/v1/accounts/conversations/assignments' => ['create']
+    'api/v1/accounts/conversations/assignments' => ['create'],
+    'api/v1/accounts/bot_templates' => %w[search render send_message],
+    'api/v1/accounts/templates' => %w[index show]
   }.freeze
 
   def ensure_access_token

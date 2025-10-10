@@ -89,8 +89,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     permitted = params.permit(:content, :private, :message_type, :content_type, :echo_id, :sender_type, :sender_id, :external_created_at,
                               :attachments => [],
                               :content_attributes => [
+                                # Common type field for all Apple Messages
+                                :type,
                                 # Apple Quick Reply
                                 :summary_text, { :items => [:title, :identifier, :description] },
+                                { :replies => [:title, :identifier, :description, :imageIdentifier, :image_identifier] },
                                 # Apple List Picker
                                 { :sections => [:title, :multiple_selection, { :items => [:title, :subtitle, :identifier, :imageIdentifier, :image_identifier] }] },
                                 { :images => [:identifier, :data, :description] },  # Fixed: Allow nested image structure
