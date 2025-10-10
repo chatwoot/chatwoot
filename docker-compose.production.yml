@@ -72,8 +72,18 @@ services:
       # Storage Configuration (local for testing)
       ACTIVE_STORAGE_SERVICE: local
 
-      # Mailer Configuration (optional for testing)
-      MAILER_SENDER_EMAIL: "Chatwoot <noreply@chatwoot.test>"
+      # SMTP Configuration for sending emails
+      SMTP_DOMAIN: icloud.com
+      SMTP_ADDRESS: smtp.mail.me.com
+      SMTP_PORT: 587
+      SMTP_USERNAME: rhaps@icloud.com
+      SMTP_PASSWORD: ymwf-naww-acri-cdkc
+      SMTP_AUTHENTICATION: login
+      SMTP_ENABLE_STARTTLS_AUTO: "true"
+      SMTP_OPENSSL_VERIFY_MODE: peer
+
+      # Mailer Configuration
+      MAILER_SENDER_EMAIL: "Chatwoot <rhaps@icloud.com>"
 
     ports:
       - "3000:8080"
@@ -119,6 +129,20 @@ services:
       POSTGRES_PASSWORD: cacVej-beghoz-tuzjo6
       REDIS_URL: redis://redis:6379
       ACTIVE_STORAGE_SERVICE: local
+
+      # Frontend URL for email links
+      FRONTEND_URL: https://msp.rhaps.net
+
+      # SMTP Configuration for sending emails
+      SMTP_DOMAIN: icloud.com
+      SMTP_ADDRESS: smtp.mail.me.com
+      SMTP_PORT: 587
+      SMTP_USERNAME: rhaps@icloud.com
+      SMTP_PASSWORD: ymwf-naww-acri-cdkc
+      SMTP_AUTHENTICATION: login
+      SMTP_ENABLE_STARTTLS_AUTO: "true"
+      SMTP_OPENSSL_VERIFY_MODE: peer
+      MAILER_SENDER_EMAIL: "Chatwoot <rhaps@icloud.com>"
     volumes:
       - ./storage:/app/storage
       - ./log:/app/log

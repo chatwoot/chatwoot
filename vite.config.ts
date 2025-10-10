@@ -44,6 +44,13 @@ if (isLibraryMode) {
 
 export default defineConfig({
   plugins: plugins,
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler', // Use modern Sass API to suppress deprecation warnings
+      },
+    },
+  },
   build: {
     rollupOptions: {
       output: {

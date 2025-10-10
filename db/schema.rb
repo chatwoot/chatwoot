@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_06_215811) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_10_215900) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -951,6 +951,30 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_06_215811) do
     t.index ["user_id"], name: "index_mentions_on_user_id"
   end
 
+  create_table "message_templates", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.string "category"
+    t.text "description"
+    t.jsonb "parameters", default: {}
+    t.text "supported_channels", default: [], array: true
+    t.string "status", default: "active"
+    t.integer "version", default: 1
+    t.text "tags", default: [], array: true
+    t.text "use_cases", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "metadata", default: {}
+    t.index ["account_id", "category"], name: "index_message_templates_on_account_id_and_category"
+    t.index ["account_id", "status"], name: "index_message_templates_on_account_id_and_status"
+    t.index ["account_id"], name: "index_message_templates_on_account_id"
+    t.index ["category"], name: "index_message_templates_on_category"
+    t.index ["metadata"], name: "index_message_templates_on_metadata", using: :gin
+    t.index ["status"], name: "index_message_templates_on_status"
+    t.index ["supported_channels"], name: "index_message_templates_on_supported_channels", using: :gin
+    t.index ["tags"], name: "index_message_templates_on_tags", using: :gin
+  end
+
   create_table "messages", id: :serial, force: :cascade do |t|
     t.text "content"
     t.integer "account_id", null: false
@@ -1192,6 +1216,51 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_06_215811) do
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
+  create_table "template_channel_mappings", force: :cascade do |t|
+    t.bigint "message_template_id", null: false
+    t.string "channel_type", null: false
+    t.string "content_type"
+    t.jsonb "field_mappings", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_type"], name: "index_template_channel_mappings_on_channel_type"
+    t.index ["message_template_id", "channel_type"], name: "index_channel_mappings_on_template_and_channel", unique: true
+    t.index ["message_template_id"], name: "index_template_channel_mappings_on_message_template_id"
+  end
+
+  create_table "template_content_blocks", force: :cascade do |t|
+    t.bigint "message_template_id", null: false
+    t.string "block_type", null: false
+    t.jsonb "properties", default: {}
+    t.jsonb "conditions", default: {}
+    t.integer "order_index", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["block_type"], name: "index_template_content_blocks_on_block_type"
+    t.index ["message_template_id", "order_index"], name: "index_content_blocks_on_template_and_order"
+    t.index ["message_template_id"], name: "index_template_content_blocks_on_message_template_id"
+  end
+
+  create_table "template_usage_logs", force: :cascade do |t|
+    t.bigint "message_template_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id"
+    t.string "sender_type"
+    t.bigint "sender_id"
+    t.jsonb "parameters_used", default: {}
+    t.string "channel_type"
+    t.boolean "success", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_template_usage_logs_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_template_usage_logs_on_account_id"
+    t.index ["channel_type"], name: "index_template_usage_logs_on_channel_type"
+    t.index ["conversation_id"], name: "index_template_usage_logs_on_conversation_id"
+    t.index ["created_at"], name: "index_template_usage_logs_on_created_at"
+    t.index ["message_template_id", "success"], name: "index_template_usage_logs_on_message_template_id_and_success"
+    t.index ["message_template_id"], name: "index_template_usage_logs_on_message_template_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -1264,6 +1333,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_06_215811) do
   add_foreign_key "apple_list_picker_images", "accounts"
   add_foreign_key "apple_list_picker_images", "inboxes"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "message_templates", "accounts", on_delete: :cascade
+  add_foreign_key "template_channel_mappings", "message_templates", on_delete: :cascade
+  add_foreign_key "template_content_blocks", "message_templates", on_delete: :cascade
+  add_foreign_key "template_usage_logs", "accounts", on_delete: :cascade
+  add_foreign_key "template_usage_logs", "conversations", on_delete: :cascade
+  add_foreign_key "template_usage_logs", "message_templates", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

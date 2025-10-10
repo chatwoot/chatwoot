@@ -215,6 +215,40 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  ###-----------------------------------------------###
+  ###---------Bot Template API Throttling-----------###
+  ###-----------------------------------------------###
+
+  ## Throttle bot template search endpoint
+  throttle('bot_templates/search', limit: ENV.fetch('RATE_LIMIT_BOT_TEMPLATE_SEARCH', '100').to_i, period: 1.minute) do |req|
+    if req.path.match?(%r{/api/v1/accounts/\d+/bot_templates/search}) && req.get?
+      # Track by API token or IP for bot requests
+      api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+      user_uid = req.get_header('HTTP_UID')
+      user_uid.presence || api_access_token.presence || req.ip
+    end
+  end
+
+  ## Throttle bot template render endpoint
+  throttle('bot_templates/render', limit: ENV.fetch('RATE_LIMIT_BOT_TEMPLATE_RENDER', '300').to_i, period: 1.minute) do |req|
+    if req.path.match?(%r{/api/v1/accounts/\d+/bot_templates/render}) && req.post?
+      # Track by API token or IP for bot requests
+      api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+      user_uid = req.get_header('HTTP_UID')
+      user_uid.presence || api_access_token.presence || req.ip
+    end
+  end
+
+  ## Throttle bot template send_message endpoint
+  throttle('bot_templates/send_message', limit: ENV.fetch('RATE_LIMIT_BOT_TEMPLATE_SEND', '200').to_i, period: 1.minute) do |req|
+    if req.path.match?(%r{/api/v1/accounts/\d+/bot_templates/send_message}) && req.post?
+      # Track by API token or IP for bot requests
+      api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+      user_uid = req.get_header('HTTP_UID')
+      user_uid.presence || api_access_token.presence || req.ip
+    end
+  end
+
   ## ----------------------------------------------- ##
 end
 

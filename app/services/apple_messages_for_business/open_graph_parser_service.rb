@@ -3,6 +3,7 @@
 require 'nokogiri'
 require 'open-uri'
 require 'httparty'
+require 'cgi'
 
 class AppleMessagesForBusiness::OpenGraphParserService
   def initialize(url)
@@ -12,16 +13,97 @@ class AppleMessagesForBusiness::OpenGraphParserService
   def parse
     return default_data unless valid_url?
 
+    # Special handling for Apple Maps URLs with query parameters
+    # Short URLs (maps.apple/p/...) should go through normal OpenGraph parsing
+    if apple_maps_url_with_params?
+      return parse_apple_maps_url
+    end
+
     begin
       doc = fetch_document
       extract_open_graph_data(doc)
     rescue StandardError => e
       Rails.logger.error "OpenGraph parsing failed for #{@url}: #{e.message}"
-      default_data
+      # Provide better fallback for Apple Maps short URLs
+      if apple_maps_short_url?
+        apple_maps_fallback_data
+      else
+        default_data
+      end
     end
   end
 
   private
+
+  # Check if URL is an Apple Maps URL with query parameters (needs special handling)
+  def apple_maps_url_with_params?
+    (@url.include?('maps.apple.com') || @url.include?('maps.apple')) && @url.include?('?')
+  end
+
+  # Check if URL is an Apple Maps short URL
+  def apple_maps_short_url?
+    @url.match?(%r{maps\.apple(?:\.com)?/p/})
+  end
+
+  # Fallback data for Apple Maps short URLs
+  def apple_maps_fallback_data
+    {
+      success: true,
+      title: 'Apple Maps Location',
+      description: 'View this location in Apple Maps',
+      image_url: nil,
+      favicon_url: 'https://logo.clearbit.com/apple.com',
+      url: @url,
+      site_name: 'Apple Maps'
+    }
+  end
+
+  # Parse Apple Maps URL and extract location information
+  def parse_apple_maps_url
+    # Encode non-ASCII characters for URI parsing
+    encoded_url = @url.encode('UTF-8').gsub(/[^\x00-\x7F]/) { |char| CGI.escape(char) }
+    uri = URI.parse(encoded_url)
+    params = URI.decode_www_form(uri.query || '').to_h
+
+    # Extract place information from URL parameters
+    place_name = params['name'] || params['q'] || 'Location'
+    address = params['address'] || ''
+    coordinate = params['coordinate']&.split(',')
+
+    # Build descriptive title and description
+    title = place_name
+    description_parts = []
+    description_parts << address if address.present?
+    description_parts << "Coordinates: #{coordinate.join(', ')}" if coordinate
+
+    {
+      success: true,
+      title: title,
+      description: description_parts.join("\n"),
+      image_url: apple_maps_preview_image(coordinate),
+      favicon_url: 'https://logo.clearbit.com/apple.com',
+      url: @url,
+      site_name: 'Apple Maps'
+    }
+  rescue StandardError => e
+    Rails.logger.error "Apple Maps URL parsing failed for #{@url}: #{e.message}"
+    {
+      success: true,
+      title: 'Apple Maps Location',
+      description: 'View location in Apple Maps',
+      image_url: nil,
+      favicon_url: 'https://logo.clearbit.com/apple.com',
+      url: @url,
+      site_name: 'Apple Maps'
+    }
+  end
+
+  # Generate a static map preview image for Apple Maps
+  def apple_maps_preview_image(coordinate)
+    # Return nil for now - could integrate with MapKit or another mapping service
+    # For now, Apple Maps rich links will use the Apple favicon
+    nil
+  end
 
   # Normalize URL by adding protocol if missing
   def normalize_url(url)
