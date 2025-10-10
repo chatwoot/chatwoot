@@ -1,0 +1,391 @@
+{
+  "TEMPLATES": {
+    "HEADER": "Message Templates",
+    "DESCRIPTION": "Create reusable message templates with rich content blocks that work across multiple channels. Build once, use everywhere.",
+    "LEARN_MORE": "Learn more about templates",
+    "HEADER_BTN_TXT": "Create Template",
+    "LOADING": "Loading templates...",
+    "SEARCH_PLACEHOLDER": "Search templates by name, description, or category...",
+    "CLEAR_FILTERS": "Clear Filters",
+    "FILTER_BY_CATEGORY": "Category",
+    "FILTER_BY_CHANNEL": "Channel",
+    "FILTER_BY_TAGS": "Filter by Tags",
+    "SUPPORTED_CHANNELS": "Channels",
+    "VERSION": "Version",
+    "UPDATED": "Updated",
+    "CREATE_FIRST_TEMPLATE": "Create Your First Template",
+    "NO_RESULTS": "No templates match your search criteria",
+    "CHANNELS": {
+      "ALL": "All Channels",
+      "APPLE_MESSAGES": "Apple Messages",
+      "WHATSAPP": "WhatsApp",
+      "WEB_WIDGET": "Web Widget",
+      "SMS": "SMS",
+      "EMAIL": "Email"
+    },
+    "CATEGORIES": {
+      "ALL": "All Categories",
+      "UNCATEGORIZED": "Uncategorized",
+      "GENERAL": "General",
+      "PAYMENT": "Payment",
+      "SCHEDULING": "Scheduling",
+      "SUPPORT": "Support",
+      "MARKETING": "Marketing",
+      "FEEDBACK": "Feedback",
+      "NOTIFICATION": "Notification",
+      "CONFIRMATION": "Confirmation",
+      "SALES": "Sales",
+      "FORM": "Form",
+      "AUTHENTICATION": "Authentication"
+    },
+    "STATUS": {
+      "ACTIVE": "Active",
+      "DRAFT": "Draft",
+      "DEPRECATED": "Deprecated"
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No templates yet",
+      "MESSAGE": "Create your first template to start using rich messaging across all channels"
+    },
+    "ACTIONS": {
+      "EDIT": "Edit",
+      "DUPLICATE": "Duplicate",
+      "DELETE": "Delete",
+      "TEST": "Test",
+      "PREVIEW": "Preview"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete Template",
+      "MESSAGE": "Are you sure you want to delete {name}? This action cannot be undone.",
+      "CONFIRM": "Yes, Delete",
+      "CANCEL": "Cancel"
+    },
+    "BUILDER": {
+      "TITLE_NEW": "Create New Template",
+      "TITLE_EDIT": "Edit Template",
+      "SAVE": "Save Template",
+      "CANCEL": "Cancel",
+      "SAVING": "Saving...",
+      "BASIC_INFO": "Basic Information",
+      "NAME": {
+        "LABEL": "Template Name",
+        "PLACEHOLDER": "Enter template name",
+        "ERROR": "Template name is required"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Describe what this template does"
+      },
+      "CATEGORY": {
+        "LABEL": "Category",
+        "PLACEHOLDER": "Select a category"
+      },
+      "STATUS": {
+        "LABEL": "Status"
+      },
+      "CHANNELS": {
+        "LABEL": "Supported Channels",
+        "DESCRIPTION": "Select which channels this template can be used on"
+      },
+      "TAGS": {
+        "LABEL": "Tags",
+        "PLACEHOLDER": "Add tags (press Enter)",
+        "DESCRIPTION": "Add tags to help organize and search templates"
+      },
+      "USE_CASES": {
+        "LABEL": "Use Cases",
+        "PLACEHOLDER": "Add use cases (press Enter)",
+        "DESCRIPTION": "Describe scenarios where this template can be used"
+      },
+      "PARAMETERS": {
+        "TITLE": "Parameters",
+        "DESCRIPTION": "Define parameters that can be customized when using this template",
+        "ADD": "Add Parameter",
+        "EMPTY": "No parameters defined",
+        "NAME": {
+          "LABEL": "Parameter Name",
+          "PLACEHOLDER": "e.g., customer_name"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "OPTIONS": {
+            "STRING": "Text",
+            "NUMBER": "Number",
+            "BOOLEAN": "True/False",
+            "DATE": "Date",
+            "DATETIME": "Date & Time",
+            "ARRAY": "List",
+            "OBJECT": "Object"
+          }
+        },
+        "REQUIRED": {
+          "LABEL": "Required"
+        },
+        "DEFAULT": {
+          "LABEL": "Default Value",
+          "PLACEHOLDER": "Enter default value"
+        },
+        "DESCRIPTION_LABEL": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Describe this parameter"
+        },
+        "EXAMPLE": {
+          "LABEL": "Example",
+          "PLACEHOLDER": "Provide an example value"
+        }
+      },
+      "CONTENT_BLOCKS": {
+        "TITLE": "Content Blocks",
+        "DESCRIPTION": "Build your template using content blocks. Drag to reorder.",
+        "ADD": "Add Content Block",
+        "EMPTY": "No content blocks added yet",
+        "TYPES": {
+          "TEXT": "Text Message",
+          "TIME_PICKER": "Time Picker",
+          "LIST_PICKER": "List Picker",
+          "PAYMENT": "Payment Request",
+          "FORM": "Form",
+          "BUTTON_GROUP": "Button Group",
+          "QUICK_REPLY": "Quick Reply",
+          "MEDIA": "Image/Video",
+          "LOCATION_PICKER": "Location Picker",
+          "FILE_UPLOAD": "File Upload",
+          "RICH_LINK": "Rich Link",
+          "AUTH_REQUEST": "Authentication Request"
+        },
+        "BLOCK_SETTINGS": "Block Settings",
+        "DELETE_BLOCK": "Delete Block",
+        "MOVE_UP": "Move Up",
+        "MOVE_DOWN": "Move Down"
+      },
+      "TEXT_BLOCK": {
+        "CONTENT": {
+          "LABEL": "Message Content",
+          "PLACEHOLDER": "Enter your message. Use {{parameter_name}} for dynamic values."
+        }
+      },
+      "MEDIA_BLOCK": {
+        "TYPE": {
+          "LABEL": "Media Type"
+        },
+        "URL": {
+          "LABEL": "Media URL",
+          "PLACEHOLDER": "https://example.com/image.jpg",
+          "HELP": "Enter a URL or upload a file"
+        },
+        "UPLOAD": "Upload",
+        "THUMBNAIL": {
+          "LABEL": "Thumbnail URL (Video)",
+          "PLACEHOLDER": "https://example.com/thumbnail.jpg",
+          "HELP": "Optional thumbnail image for videos"
+        },
+        "CAPTION": {
+          "LABEL": "Caption",
+          "PLACEHOLDER": "Optional caption for the media"
+        },
+        "ALT_TEXT": {
+          "LABEL": "Alt Text",
+          "PLACEHOLDER": "Describe the media content",
+          "HELP": "Accessibility text for screen readers"
+        }
+      },
+      "BUTTON_GROUP_BLOCK": {
+        "TITLE": "Buttons",
+        "DESCRIPTION": "Add action buttons to your message",
+        "ADD": "Add Button",
+        "ADD_FIRST": "Add First Button",
+        "EMPTY": "No buttons configured yet",
+        "BUTTON_TITLE": "Button Text",
+        "BUTTON_TITLE_PLACEHOLDER": "Click here",
+        "BUTTON_TYPE": "Type",
+        "URL": "URL",
+        "PHONE": "Phone Number",
+        "PAYLOAD": "Payload",
+        "LIMITS": "Most channels support up to 3 buttons"
+      },
+      "TIME_PICKER_BLOCK": {
+        "IMAGES": {
+          "TITLE": "Images",
+          "ADD": "Add Image",
+          "NONE": "No images added. Click 'Add Image' to upload.",
+          "REMOVE": "Remove"
+        },
+        "EVENT": {
+          "TITLE": "Event Details",
+          "EVENT_TITLE": "Event Title",
+          "EVENT_TITLE_PLACEHOLDER": "Schedule Appointment",
+          "DESCRIPTION": "Event Description",
+          "DESCRIPTION_PLACEHOLDER": "Select a time slot",
+          "TIMEZONE_OFFSET": "Timezone Offset",
+          "TIMEZONE_OFFSET_PLACEHOLDER": "-480",
+          "TIMEZONE_HELP": "Minutes offset from UTC (e.g., -480 for PST)"
+        },
+        "TIMESLOTS": {
+          "TITLE": "Time Slots",
+          "ADD": "Add Time Slot",
+          "NONE": "No time slots configured. Click 'Add Time Slot' to create one.",
+          "START_TIME": "Start Time",
+          "DURATION": "Duration (seconds)",
+          "DURATION_PLACEHOLDER": "3600",
+          "REMOVE": "Remove"
+        },
+        "RECEIVED_MESSAGE": {
+          "TITLE": "Received Message",
+          "MESSAGE_TITLE": "Title",
+          "MESSAGE_TITLE_PLACEHOLDER": "Please pick a time",
+          "SUBTITLE": "Subtitle",
+          "SUBTITLE_PLACEHOLDER": "Select your preferred time slot",
+          "IMAGE": "Image",
+          "NO_IMAGE": "No image",
+          "STYLE": "Style"
+        },
+        "REPLY_MESSAGE": {
+          "TITLE": "Reply Message",
+          "MESSAGE_TITLE": "Title",
+          "MESSAGE_TITLE_PLACEHOLDER": "Thank you!",
+          "SUBTITLE": "Subtitle",
+          "SUBTITLE_PLACEHOLDER": "We'll see you then!",
+          "IMAGE": "Image",
+          "NO_IMAGE": "No image",
+          "STYLE": "Style",
+          "IMAGE_TITLE": "Image Title",
+          "IMAGE_TITLE_PLACEHOLDER": "Optional image title",
+          "IMAGE_SUBTITLE": "Image Subtitle",
+          "IMAGE_SUBTITLE_PLACEHOLDER": "Optional image subtitle",
+          "SECONDARY_SUBTITLE": "Secondary Subtitle",
+          "SECONDARY_SUBTITLE_PLACEHOLDER": "Right-aligned title",
+          "TERTIARY_SUBTITLE": "Tertiary Subtitle",
+          "TERTIARY_SUBTITLE_PLACEHOLDER": "Right-aligned subtitle"
+        }
+      },
+      "LIST_PICKER_BLOCK": {
+        "TITLE": {
+          "LABEL": "Title",
+          "PLACEHOLDER": "Choose an option"
+        },
+        "SUBTITLE": {
+          "LABEL": "Subtitle",
+          "PLACEHOLDER": "Select one from the list"
+        },
+        "MULTIPLE_SELECTION": {
+          "LABEL": "Allow Multiple Selection"
+        },
+        "RECEIVED_MESSAGE": {
+          "TITLE": "Received Message",
+          "MESSAGE_TITLE": "Title",
+          "SUBTITLE": "Subtitle",
+          "HEADER_IMAGE": "Header Image",
+          "STYLE": "Style"
+        },
+        "REPLY_MESSAGE": {
+          "TITLE": "Reply Message",
+          "MESSAGE_TITLE": "Title",
+          "SUBTITLE": "Subtitle",
+          "IMAGE_TITLE": "Image Title",
+          "IMAGE_SUBTITLE": "Image Subtitle",
+          "SECONDARY_SUBTITLE": "Secondary Subtitle",
+          "TERTIARY_SUBTITLE": "Tertiary Subtitle",
+          "STYLE": "Style"
+        },
+        "IMAGES": {
+          "TITLE": "Item Images",
+          "ADD": "Add Image",
+          "EMPTY": "No images added. Images can be referenced by list items."
+        },
+        "SECTIONS": {
+          "TITLE": "Sections & Options",
+          "ADD": "Add Section",
+          "SECTION_TITLE": "Section",
+          "REMOVE": "Remove Section",
+          "MULTIPLE_SELECTION": "Allow multiple selections in this section"
+        },
+        "ITEMS": {
+          "LABEL": "List Items",
+          "ADD": "Add Item",
+          "IDENTIFIER": "ID",
+          "TITLE": "Title",
+          "SUBTITLE": "Subtitle",
+          "IMAGE": "Image"
+        }
+      },
+      "PAYMENT_BLOCK": {
+        "MERCHANT_NAME": {
+          "LABEL": "Merchant Name",
+          "PLACEHOLDER": "{{merchant_name}}"
+        },
+        "AMOUNT": {
+          "LABEL": "Amount",
+          "PLACEHOLDER": "{{amount}}"
+        },
+        "CURRENCY": {
+          "LABEL": "Currency",
+          "PLACEHOLDER": "USD"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "{{payment_description}}"
+        }
+      },
+      "FORM_BLOCK": {
+        "TITLE": {
+          "LABEL": "Form Title",
+          "PLACEHOLDER": "Please provide information"
+        },
+        "FIELDS": {
+          "LABEL": "Form Fields",
+          "ADD": "Add Field",
+          "NAME": "Field Name",
+          "TYPE": "Field Type",
+          "LABEL_TEXT": "Label",
+          "REQUIRED": "Required",
+          "PLACEHOLDER": "Placeholder"
+        }
+      },
+      "QUICK_REPLY_BLOCK": {
+        "SUMMARY_TEXT": {
+          "LABEL": "Question / Prompt",
+          "PLACEHOLDER": "Quick Reply Question",
+          "DESCRIPTION": "The question or prompt that users will respond to"
+        },
+        "ITEMS": {
+          "LABEL": "Reply Options",
+          "ADD": "Add Reply Option",
+          "EMPTY": "No reply options added yet",
+          "TITLE_LABEL": "Reply Text",
+          "TITLE_PLACEHOLDER": "Enter reply option",
+          "DESCRIPTION": "Add quick reply buttons that users can tap to respond"
+        }
+      },
+      "PREVIEW": {
+        "TITLE": "Channel Preview",
+        "DESCRIPTION": "Preview how your template will appear on different channels",
+        "SELECT_CHANNEL": "Select Channel to Preview",
+        "NO_PREVIEW": "Preview not available for this channel",
+        "TEST_PARAMETERS": "Test with Parameters",
+        "ENTER_PARAMETERS": "Enter parameter values to see live preview"
+      },
+      "VALIDATION": {
+        "NAME_REQUIRED": "Template name is required",
+        "CATEGORY_REQUIRED": "Please select a category",
+        "CHANNEL_REQUIRED": "Select at least one channel",
+        "CONTENT_REQUIRED": "Add at least one content block",
+        "PARAMETER_NAME_REQUIRED": "Parameter name is required",
+        "PARAMETER_TYPE_REQUIRED": "Parameter type is required",
+        "DUPLICATE_PARAMETER": "Parameter name already exists"
+      }
+    },
+    "API": {
+      "FETCH_ERROR": "Failed to load templates",
+      "CREATE_SUCCESS": "Template created successfully",
+      "CREATE_ERROR": "Failed to create template",
+      "UPDATE_SUCCESS": "Template updated successfully",
+      "UPDATE_ERROR": "Failed to update template",
+      "DELETE_SUCCESS": "Template deleted successfully",
+      "DELETE_ERROR": "Failed to delete template",
+      "DUPLICATE_SUCCESS": "Template duplicated successfully",
+      "DUPLICATE_ERROR": "Failed to duplicate template",
+      "TEST_SUCCESS": "Template test sent successfully",
+      "TEST_ERROR": "Failed to test template"
+    }
+  }
+}

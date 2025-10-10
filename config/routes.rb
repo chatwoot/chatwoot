@@ -74,6 +74,23 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
           end
+          # Template endpoints for CRUD operations
+          resources :templates, only: [:index, :show, :create, :update, :destroy] do
+            member do
+              post :render_template
+            end
+            collection do
+              post :from_apple_message
+            end
+          end
+          # Bot-friendly template endpoints for search, render, and send
+          resources :bot_templates, only: [] do
+            collection do
+              get :search
+              post :render
+              post :send_message
+            end
+          end
           resources :contact_inboxes, only: [] do
             collection do
               post :filter
