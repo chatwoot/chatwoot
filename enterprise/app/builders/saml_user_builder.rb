@@ -17,11 +17,19 @@ class SamlUserBuilder
     user = User.from_email(auth_attribute('email'))
 
     if user
+      confirm_user_if_required(user)
       convert_existing_user_to_saml(user)
       return user
     end
 
     create_user
+  end
+
+  def confirm_user_if_required(user)
+    return if user.confirmed?
+
+    user.skip_confirmation!
+    user.save!
   end
 
   def convert_existing_user_to_saml(user)

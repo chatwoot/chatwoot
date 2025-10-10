@@ -34,6 +34,29 @@ const mockInboxes = [
   },
 ];
 
+const mockTags = [
+  {
+    id: 1,
+    name: 'urgent',
+    color: '#ff4757',
+  },
+  {
+    id: 2,
+    name: 'bug',
+    color: '#ff6b6b',
+  },
+  {
+    id: 3,
+    name: 'feature-request',
+    color: '#4834d4',
+  },
+  {
+    id: 4,
+    name: 'documentation',
+    color: '#26de81',
+  },
+];
+
 const handleAdd = item => {
   console.log('Add item:', item);
 };
@@ -42,14 +65,25 @@ const handleAdd = item => {
 <template>
   <Story
     title="Components/AgentManagementPolicy/AddDataDropdown"
-    :layout="{ type: 'grid', width: '400px' }"
+    :layout="{ type: 'grid', width: '500px' }"
   >
-    <Variant title="Basic Usage">
+    <Variant title="Basic Usage - Inboxes">
       <div class="p-8 bg-n-background flex gap-4 h-[400px] items-start">
         <AddDataDropdown
           label="Add Inbox"
           search-placeholder="Search inboxes..."
           :items="mockInboxes"
+          @add="handleAdd"
+        />
+      </div>
+    </Variant>
+
+    <Variant title="Basic Usage - Tags">
+      <div class="p-8 bg-n-background flex gap-4 h-[400px] items-start">
+        <AddDataDropdown
+          label="Add Tag"
+          search-placeholder="Search tags..."
+          :items="mockTags"
           @add="handleAdd"
         />
       </div>

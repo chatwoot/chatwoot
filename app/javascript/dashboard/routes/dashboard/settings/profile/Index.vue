@@ -7,6 +7,7 @@ import { useBranding } from 'shared/composables/useBranding';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import { parseBoolean } from '@chatwoot/utils';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
@@ -18,6 +19,7 @@ import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
+import MfaSettingsCard from './MfaSettingsCard.vue';
 import Policy from 'dashboard/components/policy.vue';
 import {
   ROLES,
@@ -38,6 +40,7 @@ export default {
     NotificationPreferences,
     AudioNotifications,
     AccessToken,
+    MfaSettingsCard,
   },
   setup() {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
@@ -95,6 +98,9 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
+    isMfaEnabled() {
+      return parseBoolean(window.chatwootConfig?.isMfaEnabled);
+    },
   },
   mounted() {
     if (this.currentUserId) {
@@ -282,6 +288,13 @@ export default {
       :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
     >
       <ChangePassword />
+    </FormSection>
+    <FormSection
+      v-if="isMfaEnabled"
+      :title="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.TITLE')"
+      :description="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE')"
+    >
+      <MfaSettingsCard />
     </FormSection>
     <Policy :permissions="audioNotificationPermissions">
       <FormSection

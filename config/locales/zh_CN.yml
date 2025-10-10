@@ -23,9 +23,16 @@ zh_CN:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: '请输入一个有效的电子邮件'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: 您的收件箱删除请求将在一段时间内处理。
   errors:
     validations:
@@ -41,6 +48,8 @@ zh_CN:
       failed: 注册失败
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: 错误的数据类型
@@ -77,13 +86,27 @@ zh_CN:
       validations:
         name: 不应该以符号开头或结尾，它不应该有 < > / \ @ 字符。
     custom_filters:
-      number_of_records: 已达到上限。每个账户允许用户自定义过滤器的最大数目为50个。
+      number_of_records: 已达到上限。每个账户允许用户自定义过滤器的最大数目为1000个。
       invalid_attribute: 无效的属性键 - [%{key}]。键应为 [%{allowed_keys}] 之一或帐户中定义的自定义属性。
       invalid_operator: 无效的操作符。%{attribute_name} 允许的操作符为 [%{allowed_keys}]。
       invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
       invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
     custom_attribute_definition:
       key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
+    mfa:
+      already_enabled: MFA 已启用
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: 报告周期 %{since} 至 %{until}
     utc_warning: 生成的报表在 UTC 时区
@@ -209,6 +232,7 @@ zh_CN:
     reply:
       email:
         header:
+          notifications: '消息通知'
           from_with_name: '%{assignee_name} 来自 %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} 来自 %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} 来自 %{business_name} <%{from_email}>'
@@ -298,6 +322,8 @@ zh_CN:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...

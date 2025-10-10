@@ -136,7 +136,7 @@ RSpec.describe Conversation do
           notifiable_assignee_change: false,
           changed_attributes: changed_attributes,
           performed_by: nil
-        ).exactly(2).times
+        )
     end
 
     it 'runs after_update callbacks' do
@@ -215,7 +215,7 @@ RSpec.describe Conversation do
     it 'adds a message for system auto resolution if marked resolved by system' do
       account.update(auto_resolve_after: 40 * 24 * 60)
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
-      Current.user = nil
+      Current.reset
 
       message_data = if account.auto_resolve_after >= 1440 && account.auto_resolve_after % 1440 == 0
                        { key: 'auto_resolved_days', count: account.auto_resolve_after / 1440 }

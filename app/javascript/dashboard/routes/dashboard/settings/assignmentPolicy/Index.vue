@@ -30,7 +30,7 @@ const agentAssignments = computed(() => [
     ],
   },
   {
-    key: 'agent_capacity_policy',
+    key: 'agent_capacity_policy_index',
     title: t('ASSIGNMENT_POLICY.INDEX.AGENT_CAPACITY_POLICY.TITLE'),
     description: t('ASSIGNMENT_POLICY.INDEX.AGENT_CAPACITY_POLICY.DESCRIPTION'),
     features: [

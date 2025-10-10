@@ -1,4 +1,5 @@
 <script setup>
+import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -32,12 +33,14 @@ const handleDelete = itemId => {
   >
     <Spinner />
   </div>
-  <span
+  <div
     v-else-if="items.length === 0 && emptyStateMessage"
-    class="flex items-center justify-center pt-4 pb-8 w-full text-sm text-n-slate-11"
+    class="custom-dashed-border flex items-center justify-center py-6 w-full"
   >
-    {{ emptyStateMessage }}
-  </span>
+    <span class="text-sm text-n-slate-11">
+      {{ emptyStateMessage }}
+    </span>
+  </div>
   <div v-else class="flex flex-col divide-y divide-n-weak">
     <div
       v-for="item in items"
@@ -50,7 +53,14 @@ const handleDelete = itemId => {
           :icon="item.icon"
           class="size-4 text-n-slate-12 flex-shrink-0"
         />
-
+        <Avatar
+          v-else
+          :title="item.name"
+          :src="item.avatarUrl"
+          :name="item.name"
+          :size="20"
+          rounded-full
+        />
         <span class="text-sm text-n-slate-12 truncate min-w-0">
           {{ item.name }}
         </span>

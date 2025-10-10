@@ -31,19 +31,13 @@ defineExpose({ openDialog, closeDialog });
   <Dialog
     ref="dialogRef"
     type="alert"
-    :title="t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.DELETE_POLICY.TITLE')"
-    :description="
-      t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.DELETE_POLICY.DESCRIPTION')
-    "
+    :title="t('ASSIGNMENT_POLICY.DELETE_POLICY.TITLE')"
+    :description="t('ASSIGNMENT_POLICY.DELETE_POLICY.DESCRIPTION')"
     :confirm-button-label="
-      t(
-        'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.DELETE_POLICY.CONFIRM_BUTTON_LABEL'
-      )
+      t('ASSIGNMENT_POLICY.DELETE_POLICY.CONFIRM_BUTTON_LABEL')
     "
     :cancel-button-label="
-      t(
-        'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.DELETE_POLICY.CANCEL_BUTTON_LABEL'
-      )
+      t('ASSIGNMENT_POLICY.DELETE_POLICY.CANCEL_BUTTON_LABEL')
     "
     @confirm="handleDialogConfirm"
   />
