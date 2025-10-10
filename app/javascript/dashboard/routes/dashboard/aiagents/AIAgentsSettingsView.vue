@@ -9,6 +9,7 @@ import RestaurantBotView from './botconfigs/RestaurantBotView.vue';
 import BookingBotView from './botconfigs/BookingBotView.vue';
 import SalesBotView from './botconfigs/SalesBotView.vue';
 import LeadGenBotView from './botconfigs/LeadGenBotView.vue';
+import EOBotView from './botconfigs/EOBotView.vue';
 import { onMounted, ref, computed, reactive } from 'vue';
 import aiAgents from '../../../api/aiAgents';
 import googleSheetsExportAPI from '../../../api/googleSheetsExport';
@@ -63,6 +64,12 @@ const allTabs = [
     name: 'Lead Gen Bot',
     type: 'lead_generation',
   },
+  {
+    key: '8',
+    index: 8,
+    name: 'Event Organizer Bot',
+    type: 'event_organizer',
+  }
 ];
 
 const visibleTabs = computed(() => {
@@ -119,7 +126,8 @@ const googleSheetsAuth = reactive({
     customer_service: { output: '' },
     restaurant: { input: '', output: '' },
     sales: { input: '', output: '' },
-    lead_generation: { input: '', output: '' } 
+    lead_generation: { input: '', output: '' },
+    event_organizer: { input: '', output: '' },
   },
   error: null,
 });
@@ -302,6 +310,13 @@ async function loadSpreadsheetUrls() {
         if (response.data.output_spreadsheet_url) {
           googleSheetsAuth.spreadsheetUrls.lead_generation.output = response.data.output_spreadsheet_url;
         }
+      } else if (agentType === 'event_organizer') {
+        if (response.data.input_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.event_organizer.input = response.data.input_spreadsheet_url;
+        }
+        if (response.data.output_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.event_organizer.output = response.data.output_spreadsheet_url;
+        }
       }
       
       successCount++;
@@ -432,6 +447,9 @@ onMounted(() => {
 
     <div v-show="visibleTabs[activeIndex]?.index === 7">
       <LeadGenBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
+    </div>
+    <div v-show="visibleTabs[activeIndex]?.index === 8">
+      <EOBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
     </div>
   </div>
 </template>
