@@ -105,7 +105,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="show" class="modal-overlay">
+  <div v-if="show" class="modal-overlay" @click.self="cancel">
     <div class="modal">
       <h3 v-text="this.isEditing ? $t('COLUMN_MODAL.EDIT_COLUMN') : $t('COLUMN_MODAL.ADD_COLUMN')"></h3>
       <input 
@@ -122,8 +122,8 @@ export default {
         multiple
         class="labels-select"
       >
-        <option v-for="label in mockLabels" :key="label.title" :value="label">
-          {{ label.description || label.title }}
+        <option v-for="label in mockLabels" :key="label.title" :value="label" :title="label.description || label.title">
+          {{  label.title }}
         </option>
       </select>
       <label for="label_to_add">{{ $t('COLUMN_MODAL.LABEL_TO_ADD') }}</label>
