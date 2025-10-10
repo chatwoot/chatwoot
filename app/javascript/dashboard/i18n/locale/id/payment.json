@@ -22,6 +22,7 @@
     "EXPIRED_LABEL_BUY_NOW": "Upgrade Sekarang!",
     "EXPIRED_CHAT_MSG": "Masa berlaku langganan Anda telah habis. Perpanjang untuk melanjutkan penggunaan",
     "CONTINUE": "Lanjutkan",
-    "PROCESSING": "Processing..."
+    "PROCESSING": "Processing...",
+    "SUCCESS_FREE_PLAN": "Langganan berhasil diaktifkan!"
   }
 }

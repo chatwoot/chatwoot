@@ -128,6 +128,9 @@ const submit = async () => {
 
   isSubmitting.value = true;
 
+  // Calculate final price after discount
+  const finalPrice = selectedVoucher.value?.new_price ?? totalPrice.value;
+
   let errorMessage = '';
   try {
     const payload = {
@@ -144,6 +147,13 @@ const submit = async () => {
 
     const response = await store.dispatch('createSubscription', payload);
     console.log('Response received:', response);
+
+    // If total price is 0, directly activate the plan without payment
+    if (finalPrice === 0) {
+      useAlert(t('PAYMENT.SUCCESS_FREE_PLAN') || 'Langganan berhasil diaktifkan!');
+      emit('close');
+      return;
+    }
 
     if (
       response &&
