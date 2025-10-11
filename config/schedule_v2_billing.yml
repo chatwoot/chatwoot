@@ -6,9 +6,3 @@ v2_credit_sync:
   class: "Enterprise::Billing::CreditSyncJob"
   queue: low
   description: "Sync V2 billing credits with Stripe"
-
-v2_retry_failed_usage:
-  cron: "*/30 * * * *" # Every 30 minutes
-  class: "Enterprise::Billing::RetryFailedUsageReportsJob"
-  queue: low
-  description: "Retry failed V2 usage reports"

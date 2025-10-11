@@ -20,7 +20,10 @@ describe Enterprise::Billing::V2::WebhookHandlerService do
     context 'when handling monthly credit grant' do
       it 'syncs monthly credits from Stripe' do
         allow(credit_service).to receive(:sync_monthly_credits)
-        grant = Struct.new(:amount, :expires_at).new(2000, Time.current)
+        grant = OpenStruct.new(
+          amount: { 'custom_pricing_unit' => { 'value' => '2000' } },
+          expires_at: Time.current
+        )
         event = build_event(type: 'billing.credit_grant.created', object: grant)
 
         result = service.process(event)
@@ -33,7 +36,10 @@ describe Enterprise::Billing::V2::WebhookHandlerService do
     context 'when handling topup credit grant' do
       it 'adds topup credits' do
         allow(credit_service).to receive(:add_topup_credits)
-        grant = Struct.new(:amount, :expires_at).new(500, nil)
+        grant = OpenStruct.new(
+          amount: { 'custom_pricing_unit' => { 'value' => '500' } },
+          expires_at: nil
+        )
         event = build_event(type: 'billing.credit_grant.created', object: grant)
 
         result = service.process(event)
@@ -45,13 +51,13 @@ describe Enterprise::Billing::V2::WebhookHandlerService do
 
     context 'when handling credit expiration' do
       it 'expires monthly credits' do
-        allow(credit_service).to receive(:sync_monthly_expired).and_return(100)
+        allow(credit_service).to receive(:expire_monthly_credits).and_return(100)
         event = build_event(type: 'billing.credit_grant.expired', object: {})
 
         result = service.process(event)
 
         expect(result[:success]).to be(true)
-        expect(credit_service).to have_received(:sync_monthly_expired)
+        expect(credit_service).to have_received(:expire_monthly_credits)
       end
     end
 

@@ -73,9 +73,9 @@ describe Enterprise::Billing::V2::CreditManagementService do
     end
   end
 
-  describe '#sync_monthly_expired' do
+  describe '#expire_monthly_credits' do
     it 'expires monthly credits' do
-      expired = service.sync_monthly_expired
+      expired = service.expire_monthly_credits
 
       expect(expired).to eq(100)
       account.reload

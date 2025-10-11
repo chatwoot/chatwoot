@@ -49,7 +49,7 @@ describe Enterprise::Billing::V2::UsageReporterService do
     it 'returns error' do
       result = service.report(5, 'ai_test')
 
-      expect(result).to include(success: false, message: 'No Stripe customer')
+      expect(result).to include(success: false, message: 'Missing Stripe configuration')
     end
   end
 end
