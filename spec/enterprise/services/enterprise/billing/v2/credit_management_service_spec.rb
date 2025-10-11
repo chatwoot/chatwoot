@@ -5,57 +5,40 @@ describe Enterprise::Billing::V2::CreditManagementService do
   let(:service) { described_class.new(account: account) }
 
   before do
-    allow(Enterprise::Billing::ReportUsageJob).to receive(:perform_later)
-    allow(ENV).to receive(:fetch).and_call_original
-    allow(ENV).to receive(:fetch).with('STRIPE_V2_METER_EVENT_NAME', anything).and_return('ai_prompts')
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('STRIPE_V2_METER_EVENT_NAME').and_return('ai_prompts')
-    allow(ENV).to receive(:[]).with('STRIPE_V2_METER_ID').and_return(nil) # Disable Stripe meter fetching
-
-    # Stub Stripe credit grant creation
-    allow(Stripe::Billing::CreditGrant).to receive(:create).and_return(
-      OpenStruct.new(id: 'cg_test_123')
-    )
-
     account.update!(
-      custom_attributes: (account.custom_attributes || {}).merge(
+      custom_attributes: {
         'stripe_billing_version' => 2,
         'monthly_credits' => 100,
         'topup_credits' => 50,
-        'stripe_customer_id' => 'cus_test_123'
-      )
+        'stripe_customer_id' => 'cus_test_123',
+        'stripe_meter_event_name' => 'ai_prompts'
+      }
+    )
+
+    # Stub Stripe meter event creation
+    allow(Stripe::Billing::MeterEvent).to receive(:create).and_return(
+      OpenStruct.new(identifier: 'test_event_123')
     )
   end
 
-  describe '#credit_balance' do
-    it 'returns current credit balance' do
-      balance = service.credit_balance
-
-      expect(balance[:monthly]).to eq(100)
-      expect(balance[:topup]).to eq(50)
-      expect(balance[:total]).to eq(150)
+  describe '#total_credits' do
+    it 'returns sum of monthly and topup credits' do
+      expect(service.total_credits).to eq(150)
     end
   end
 
   describe '#use_credit' do
-    before do
-      # Stub the Stripe meter event creation
-      allow(Stripe::Billing::MeterEvent).to receive(:create).and_return(
-        OpenStruct.new(identifier: 'test_event_123')
-      )
-    end
-
-    context 'when sufficient monthly credits' do
-      it 'uses monthly credits first' do
+    context 'when sufficient credits' do
+      it 'uses credits and reports to Stripe' do
         result = service.use_credit(feature: 'ai_test', amount: 10)
 
         expect(result[:success]).to be(true)
         expect(result[:credits_used]).to eq(10)
+        expect(result[:remaining]).to eq(140)
 
         account.reload
         expect(account.custom_attributes['monthly_credits']).to eq(90)
         expect(account.custom_attributes['topup_credits']).to eq(50)
-        expect(account.credit_transactions.order(created_at: :desc).first.metadata['feature']).to eq('ai_test')
       end
     end
 
@@ -67,27 +50,46 @@ describe Enterprise::Billing::V2::CreditManagementService do
         expect(result[:message]).to eq('Insufficient credits')
       end
     end
+
+    context 'when using mixed credits' do
+      it 'uses monthly first then topup' do
+        result = service.use_credit(feature: 'ai_test', amount: 120)
+
+        expect(result[:success]).to be(true)
+        account.reload
+        expect(account.custom_attributes['monthly_credits']).to eq(0)
+        expect(account.custom_attributes['topup_credits']).to eq(30)
+      end
+    end
   end
 
-  describe '#grant_monthly_credits' do
-    it 'grants new monthly credits and logs transaction metadata' do
-      expect { service.grant_monthly_credits(500, metadata: { source: 'spec' }) }
-        .to change { account.credit_transactions.count }.by(2) # expire + grant
+  describe '#sync_monthly_credits' do
+    it 'updates monthly credits from Stripe' do
+      service.sync_monthly_credits(500)
 
       account.reload
       expect(account.custom_attributes['monthly_credits']).to eq(500)
-      expect(account.credit_transactions.order(created_at: :desc).first.metadata['source']).to eq('spec')
+      expect(account.credit_transactions.last.description).to eq('Monthly credits from Stripe')
+    end
+  end
+
+  describe '#sync_monthly_expired' do
+    it 'expires monthly credits' do
+      expired = service.sync_monthly_expired
+
+      expect(expired).to eq(100)
+      account.reload
+      expect(account.custom_attributes['monthly_credits']).to eq(0)
     end
   end
 
   describe '#add_topup_credits' do
     it 'adds topup credits' do
-      expect { service.add_topup_credits(100, metadata: { source: 'spec' }) }
-        .to change { account.credit_transactions.count }.by(1)
+      service.add_topup_credits(100)
 
       account.reload
       expect(account.custom_attributes['topup_credits']).to eq(150)
-      expect(account.credit_transactions.order(created_at: :desc).first.metadata['source']).to eq('spec')
+      expect(account.credit_transactions.last.description).to eq('Topup credits added')
     end
   end
 end

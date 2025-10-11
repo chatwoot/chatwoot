@@ -16,17 +16,20 @@ describe Enterprise::Billing::V2::UsageAnalyticsService do
 
     context 'when account has usage' do
       before do
-        account.update!(custom_attributes: (account.custom_attributes || {}).merge(
-          'stripe_billing_version' => 2,
-          'stripe_customer_id' => 'cus_123'
-        ))
+        account.update!(
+          custom_attributes: {
+            'stripe_billing_version' => 2,
+            'monthly_credits' => 100,
+            'topup_credits' => 50
+          }
+        )
 
         account.credit_transactions.create!(
           transaction_type: 'use',
           credit_type: 'monthly',
           amount: 5,
           description: 'spec monthly',
-          metadata: {},
+          metadata: { 'feature' => 'ai_captain' },
           created_at: Time.current
         )
 
@@ -35,13 +38,9 @@ describe Enterprise::Billing::V2::UsageAnalyticsService do
           credit_type: 'topup',
           amount: 3,
           description: 'spec topup',
-          metadata: {},
+          metadata: { 'feature' => 'ai_summary' },
           created_at: Time.current
         )
-
-        # Stub the Stripe API call to return nil (which will fallback to local data)
-        allow(ENV).to receive(:[]).and_call_original
-        allow(ENV).to receive(:[]).with('STRIPE_V2_METER_ID').and_return(nil)
       end
 
       it 'aggregates usage from credit transactions' do
@@ -49,8 +48,29 @@ describe Enterprise::Billing::V2::UsageAnalyticsService do
 
         expect(result[:success]).to be(true)
         expect(result[:total_usage]).to eq(8)
-        expect(result[:source]).to eq('local')
+        expect(result[:credits_remaining]).to eq(150)
+        expect(result[:usage_by_feature]).to include('ai_captain' => 5, 'ai_summary' => 3)
       end
+    end
+  end
+
+  describe '#recent_transactions' do
+    it 'returns recent transactions' do
+      account.update!(custom_attributes: { 'stripe_billing_version' => 2 })
+
+      3.times do |i|
+        account.credit_transactions.create!(
+          transaction_type: 'use',
+          amount: i + 1,
+          credit_type: 'monthly',
+          created_at: i.hours.ago
+        )
+      end
+
+      transactions = service.recent_transactions(limit: 2)
+
+      expect(transactions.count).to eq(2)
+      expect(transactions.first.amount).to eq(1) # Most recent
     end
   end
 end

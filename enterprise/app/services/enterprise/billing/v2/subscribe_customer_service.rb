@@ -1,9 +1,11 @@
 class Enterprise::Billing::V2::SubscribeCustomerService < Enterprise::Billing::V2::BaseService
   include Enterprise::Billing::V2::Concerns::PaymentIntentHandler
 
-  def subscribe_to_pricing_plan(pricing_plan_id:, customer_id: nil)
+  def subscribe_to_pricing_plan(pricing_plan_id:, customer_id: nil, meter_id: nil, meter_event_name: nil)
     @pricing_plan_id = pricing_plan_id
     @customer_id = customer_id || stripe_customer_id
+    @meter_id = meter_id
+    @meter_event_name = meter_event_name
 
     validate_subscription_params
     execute_subscription_flow
@@ -169,13 +171,18 @@ class Enterprise::Billing::V2::SubscribeCustomerService < Enterprise::Billing::V
   end
 
   def update_account_subscription_info(pricing_plan)
-    update_custom_attributes(
+    attributes = {
       'stripe_billing_version' => 2,
       'stripe_customer_id' => @customer_id,
       'stripe_pricing_plan_id' => @pricing_plan_id,
       'plan_name' => extract_plan_name(pricing_plan),
       'subscription_status' => 'active'
-    )
+    }
+    # Store meter configuration if provided
+    attributes['stripe_meter_id'] = @meter_id if @meter_id.present?
+    attributes['stripe_meter_event_name'] = @meter_event_name if @meter_event_name.present?
+
+    update_custom_attributes(attributes)
   end
 
   def extract_plan_name(pricing_plan)
