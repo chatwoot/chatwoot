@@ -57,15 +57,22 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
     Rails.logger.info "[AMB TimePicker] save_images_to_storage called with #{images.length} images"
     return if images.empty?
 
+    # Performance Optimization: Batch fetch all existing images to avoid N+1 queries
+    # This replaces multiple find_by_identifier calls with a single WHERE IN query
+    image_identifiers = images.map { |img| img['identifier'] }.compact.uniq
+    existing_images = AppleListPickerImage
+                      .where(inbox_id: message.inbox_id, identifier: image_identifiers)
+                      .includes(image_attachment: :blob)
+                      .index_by(&:identifier)
+
+    Rails.logger.info "[AMB TimePicker] Batch loaded #{existing_images.size} existing images (avoiding N+1 queries)"
+
     images.each do |image_data|
       Rails.logger.info "[AMB TimePicker] Processing image: #{image_data['identifier']}, has data: #{image_data['data'].present?}"
       next if image_data['identifier'].blank? || image_data['data'].blank?
 
-      # Check if image already exists
-      existing_image = AppleListPickerImage.find_by_identifier(
-        message.inbox_id,
-        image_data['identifier']
-      )
+      # Use pre-loaded existing image (no database query here)
+      existing_image = existing_images[image_data['identifier']]
 
       Rails.logger.info "[AMB TimePicker] Existing image found: #{existing_image.present?}, has attachment: #{existing_image&.image&.attached?}"
 
@@ -227,6 +234,8 @@ class AppleMessagesForBusiness::SendTimePickerService < AppleMessagesForBusiness
     if missing_identifiers.any?
       Rails.logger.info "[AMB TimePicker] Fetching #{missing_identifiers.length} images from database: #{missing_identifiers.inspect}"
 
+      # Performance Optimization: Batch fetch with single WHERE IN query (avoids N+1)
+      # This already uses optimal eager loading pattern
       fetched_images = AppleListPickerImage.where(
         inbox_id: message.inbox_id,
         identifier: missing_identifiers

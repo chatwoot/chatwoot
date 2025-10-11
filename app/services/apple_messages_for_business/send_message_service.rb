@@ -178,11 +178,12 @@ class AppleMessagesForBusiness::SendMessageService
     # Get all identifiers
     identifiers = images_array.map { |img| img['identifier'] }.compact
 
-    # Fetch images from database
+    # Performance Optimization: Batch fetch images with eager loading to avoid N+1 queries
+    # The .includes ensures ActiveStorage attachments and blobs are preloaded
     stored_images = AppleListPickerImage.where(
       inbox_id: @channel.inbox.id,
       identifier: identifiers
-    ).index_by(&:identifier)
+    ).includes(image_attachment: :blob).index_by(&:identifier)
 
     # Enrich each image with data from database
     images_array.map do |img|
@@ -416,7 +417,7 @@ class AppleMessagesForBusiness::SendMessageService
     msp_pages
   end
 
-  def build_msp_page_from_item(item, page, item_page_id, next_page_id, is_last)
+  def build_msp_page_from_item(item, _page, item_page_id, next_page_id, is_last)
     # Each item becomes its own page in Apple MSP
 
     case item['item_type']
@@ -431,7 +432,11 @@ class AppleMessagesForBusiness::SendMessageService
         options: {
           required: item['required'] || false,
           inputType: item['item_type'] == 'textArea' ? 'multiline' : 'singleline',
-          keyboardType: item['keyboard_type'] || (item['item_type'] == 'email' ? 'emailAddress' : (item['item_type'] == 'phone' ? 'phonePad' : 'default')),
+          keyboardType: item['keyboard_type'] || (if item['item_type'] == 'email'
+                                                    'emailAddress'
+                                                  else
+                                                    (item['item_type'] == 'phone' ? 'phonePad' : 'default')
+                                                  end),
           placeholder: item['placeholder'] || '',
           textContentType: item['text_content_type'],
           maximumCharacterCount: item['max_length'] || 300
@@ -631,6 +636,9 @@ class AppleMessagesForBusiness::SendMessageService
   end
 
   def process_attachments
+    # Performance Note: To avoid N+1 queries, ensure @message is loaded with:
+    # .includes(attachments: { file_attachment: :blob })
+    # This preloads ActiveStorage attachments and blobs for all message attachments
     attachments = []
 
     @message.attachments.each do |attachment|

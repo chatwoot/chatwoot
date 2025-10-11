@@ -95,7 +95,7 @@ class Webhooks::AppleMessagesForBusinessController < ActionController::API
     Rails.logger.info '[AMB Webhook] JWT verification successful'
   rescue JWT::DecodeError => e
     Rails.logger.error "[AMB Webhook] JWT verification failed for MSP ID: #{@channel.msp_id}: #{e.message}"
-    Rails.logger.error "[AMB Webhook] Full token: #{token}"
+    Rails.logger.error "[AMB Webhook] Token metadata: length=#{token.length}, prefix=#{token[0..10]}..."
     head :forbidden
   end
 
@@ -130,8 +130,22 @@ class Webhooks::AppleMessagesForBusinessController < ActionController::API
   end
 
   def decompress_gzip(data)
+    # Set maximum decompressed size (10MB)
+    max_decompressed_size = 10 * 1024 * 1024
+
     gz = Zlib::GzipReader.new(StringIO.new(data))
-    JSON.parse(gz.read)
+    decompressed = String.new
+
+    # Read in chunks to enforce size limit
+    while (chunk = gz.read(1024 * 1024)) # 1MB chunks
+      decompressed << chunk
+      if decompressed.bytesize > max_decompressed_size
+        Rails.logger.error "[AMB Webhook] Decompressed payload exceeds maximum size (#{max_decompressed_size} bytes)"
+        raise StandardError, 'Decompressed payload too large'
+      end
+    end
+
+    JSON.parse(decompressed)
   ensure
     gz&.close
   end

@@ -34,54 +34,113 @@ class AppleMessagesForBusiness::SendListPickerService < AppleMessagesForBusiness
     Rails.logger.info "[AMB ListPicker] save_images_to_storage called with #{images.length} images"
     return if images.empty?
 
-    images.each do |image_data|
-      Rails.logger.info "[AMB ListPicker] Processing image: #{image_data['identifier']}, has data: #{image_data['data'].present?}"
-      next if image_data['identifier'].blank? || image_data['data'].blank?
+    # Performance Optimization: Batch fetch all existing images to avoid N+1 queries
+    # This replaces multiple find_by_identifier calls with a single WHERE IN query
+    image_identifiers = images.map { |img| img['identifier'] }.compact.uniq
+    existing_images = AppleListPickerImage
+                      .where(inbox_id: message.inbox_id, identifier: image_identifiers)
+                      .includes(image_attachment: :blob)
+                      .index_by(&:identifier)
 
-      # Check if image already exists
-      existing_image = AppleListPickerImage.find_by_identifier(
-        message.inbox_id,
-        image_data['identifier']
-      )
+    Rails.logger.info "[AMB ListPicker] Batch loaded #{existing_images.size} existing images (avoiding N+1 queries)"
 
-      Rails.logger.info "[AMB ListPicker] Existing image found: #{existing_image.present?}, has attachment: #{existing_image&.image&.attached?}"
+    # Performance Optimization: Process images in batches to control memory usage
+    # and provide better progress tracking for large image sets
+    batch_size = 10
+    total_batches = (images.length.to_f / batch_size).ceil
+    successful_count = 0
+    failed_count = 0
+    skipped_count = 0
 
-      # Skip if already saved
-      next if existing_image&.image&.attached?
+    images.each_slice(batch_size).with_index do |batch, batch_index|
+      Rails.logger.info "[AMB ListPicker] Processing batch #{batch_index + 1}/#{total_batches} (#{batch.length} images)"
 
-      # Create or update the image record
-      picker_image = existing_image || AppleListPickerImage.new(
-        account_id: message.account_id,
-        inbox_id: message.inbox_id,
-        identifier: image_data['identifier']
-      )
+      batch.each do |image_data|
+        Rails.logger.info "[AMB ListPicker] Processing image: #{image_data['identifier']}, has data: #{image_data['data'].present?}"
 
-      picker_image.description = image_data['description']
-      picker_image.original_name = image_data['originalName'] || image_data['identifier']
+        # Skip invalid images
+        unless image_data['identifier'].present? && image_data['data'].present?
+          Rails.logger.warn '[AMB ListPicker] Skipping image with missing identifier or data'
+          skipped_count += 1
+          next
+        end
 
-      # Decode base64 and attach to ActiveStorage
-      begin
-        decoded_data = Base64.strict_decode64(image_data['data'])
+        # Use pre-loaded existing image (no database query here)
+        existing_image = existing_images[image_data['identifier']]
 
-        # Determine filename and content type
-        filename = picker_image.original_name || "#{image_data['identifier']}.jpg"
-        content_type = determine_content_type(decoded_data, filename)
+        Rails.logger.info "[AMB ListPicker] Existing image found: #{existing_image.present?}, has attachment: #{existing_image&.image&.attached?}"
 
-        # Attach to ActiveStorage
-        picker_image.image.attach(
-          io: StringIO.new(decoded_data),
-          filename: filename,
-          content_type: content_type
+        # Skip if already saved with attachment
+        if existing_image&.image&.attached?
+          Rails.logger.info "[AMB ListPicker] Image #{image_data['identifier']} already exists, skipping"
+          skipped_count += 1
+          next
+        end
+
+        # Create or update the image record
+        picker_image = existing_image || AppleListPickerImage.new(
+          account_id: message.account_id,
+          inbox_id: message.inbox_id,
+          identifier: image_data['identifier']
         )
 
-        picker_image.save!
-        Rails.logger.info "[AMB ListPicker] Successfully saved image to ActiveStorage: #{image_data['identifier']}"
-      rescue StandardError => e
-        Rails.logger.error "[AMB ListPicker] Failed to save image #{image_data['identifier']}: #{e.message}"
-        Rails.logger.error e.backtrace.join("\n")
-        # Continue processing other images
+        picker_image.description = image_data['description']
+        picker_image.original_name = image_data['originalName'] || image_data['identifier']
+
+        # Decode base64 and attach to ActiveStorage
+        begin
+          # Validate base64 format before decoding
+          unless %r{\A[A-Za-z0-9+/]*={0,2}\z}.match?(image_data['data'])
+            Rails.logger.error "[AMB ListPicker] Invalid base64 format for image #{image_data['identifier']}"
+            failed_count += 1
+            next
+          end
+
+          decoded_data = Base64.strict_decode64(image_data['data'])
+
+          # Validate decoded data size (prevent memory issues)
+          max_size = 10.megabytes
+          if decoded_data.bytesize > max_size
+            Rails.logger.error "[AMB ListPicker] Image #{image_data['identifier']} exceeds max size (#{decoded_data.bytesize} bytes > #{max_size} bytes)"
+            failed_count += 1
+            next
+          end
+
+          # Determine filename and content type
+          filename = picker_image.original_name || "#{image_data['identifier']}.jpg"
+          content_type = determine_content_type(decoded_data, filename)
+
+          # Attach to ActiveStorage
+          picker_image.image.attach(
+            io: StringIO.new(decoded_data),
+            filename: filename,
+            content_type: content_type
+          )
+
+          picker_image.save!
+          successful_count += 1
+          Rails.logger.info "[AMB ListPicker] Successfully saved image to ActiveStorage: #{image_data['identifier']}"
+        rescue ArgumentError => e
+          Rails.logger.error "[AMB ListPicker] Base64 decode failed for image #{image_data['identifier']}: #{e.message}"
+          failed_count += 1
+        rescue ActiveRecord::RecordInvalid => e
+          Rails.logger.error "[AMB ListPicker] Validation failed for image #{image_data['identifier']}: #{e.message}"
+          failed_count += 1
+        rescue StandardError => e
+          Rails.logger.error "[AMB ListPicker] Failed to save image #{image_data['identifier']}: #{e.message}"
+          Rails.logger.error e.backtrace.join("\n")
+          failed_count += 1
+
+          # Clear decoded data from memory after processing
+        end
       end
+
+      # Log batch completion with progress
+      Rails.logger.info "[AMB ListPicker] Batch #{batch_index + 1}/#{total_batches} completed"
     end
+
+    # Log final summary with statistics
+    Rails.logger.info "[AMB ListPicker] Image processing complete: #{successful_count} successful, #{skipped_count} skipped, #{failed_count} failed out of #{images.length} total"
   end
 
   def determine_content_type(data, filename)

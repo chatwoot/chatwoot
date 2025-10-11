@@ -2,7 +2,9 @@ class SendReplyJob < ApplicationJob
   queue_as :high
 
   def perform(message_id)
-    message = Message.find(message_id)
+    # Performance Optimization: Eager load attachments with ActiveStorage associations
+    # This prevents N+1 queries when processing attachments in SendMessageService
+    message = Message.includes(attachments: { file_attachment: :blob }).find(message_id)
     conversation = message.conversation
     channel_name = conversation.inbox.channel.class.to_s
 
