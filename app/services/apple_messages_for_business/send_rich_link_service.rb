@@ -26,6 +26,13 @@ class AppleMessagesForBusiness::SendRichLinkService
       richLinkData: rich_link_data
     }
 
+    Rails.logger.info "🔍 Rich Link - Final payload richLinkData: #{rich_link_data.to_json}"
+    Rails.logger.info "🔍 Rich Link - Has image asset: #{rich_link_data[:assets]&.key?(:image)}"
+    if rich_link_data[:assets]&.key?(:image)
+      Rails.logger.info "🔍 Rich Link - Image data length: #{rich_link_data[:assets][:image][:data]&.length}"
+      Rails.logger.info "🔍 Rich Link - Image mime type: #{rich_link_data[:assets][:image][:mimeType]}"
+    end
+
     response = send_to_apple_gateway(payload, message_id)
 
     if response.success?
@@ -56,16 +63,23 @@ class AppleMessagesForBusiness::SendRichLinkService
     # Get image from either 'image_data' (base64), 'image_url' (URL), or 'favicon_url' (fallback)
     image_source = content_attrs['image_data'] || content_attrs['image_url'] || content_attrs['favicon_url']
 
+    Rails.logger.info "🔍 Rich Link - Image source: #{image_source&.truncate(100)}"
+    Rails.logger.info "🔍 Rich Link - Content attrs keys: #{content_attrs.keys}"
+
     # Add image asset if provided
     if image_source.present?
       if image_source.start_with?('http')
         # Download and encode image from URL (including favicon URLs)
+        Rails.logger.info "🔍 Rich Link - Downloading image from URL: #{image_source}"
         encoded_image = download_and_encode_image(image_source)
         if encoded_image
+          Rails.logger.info "✅ Rich Link - Successfully encoded image (#{encoded_image.length} chars)"
           assets[:image] = {
             data: encoded_image,
             mimeType: detect_image_mime_type(image_source, content_attrs)
           }
+        else
+          Rails.logger.error "❌ Rich Link - Failed to download/encode image from URL: #{image_source}"
         end
       elsif image_source.start_with?('data:image')
         # Handle data URLs (base64 embedded)
@@ -120,6 +134,8 @@ class AppleMessagesForBusiness::SendRichLinkService
   def download_and_encode_image(image_url)
     return nil unless image_url.present?
 
+    Rails.logger.info "🔍 Rich Link - Starting download for: #{image_url}"
+
     # Enhanced headers for better favicon access
     headers = {
       'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.4 Safari/605.1.15',
@@ -136,19 +152,35 @@ class AppleMessagesForBusiness::SendRichLinkService
       follow_redirects: true
     )
 
-    return nil unless response.success?
+    Rails.logger.info "🔍 Rich Link - Response code: #{response.code}"
+    Rails.logger.info "🔍 Rich Link - Content-Type: #{response.headers['content-type']}"
+    Rails.logger.info "🔍 Rich Link - Body size: #{response.body.bytesize} bytes"
+
+    unless response.success?
+      Rails.logger.error "❌ Rich Link - HTTP request failed with code: #{response.code}"
+      return nil
+    end
 
     # Check file size (limit to 1MB for Rich Links)
-    return nil if response.body.bytesize > 1.megabyte
+    if response.body.bytesize > 1.megabyte
+      Rails.logger.error "❌ Rich Link - Image too large: #{response.body.bytesize} bytes (max 1MB)"
+      return nil
+    end
 
     # Validate content type
     content_type = response.headers['content-type']
-    return nil unless content_type&.start_with?('image/')
+    unless content_type&.start_with?('image/')
+      Rails.logger.error "❌ Rich Link - Invalid content type: #{content_type}"
+      return nil
+    end
 
     # Encode to base64
-    Base64.strict_encode64(response.body)
+    encoded = Base64.strict_encode64(response.body)
+    Rails.logger.info "✅ Rich Link - Successfully encoded image (#{encoded.length} chars)"
+    encoded
   rescue StandardError => e
-    Rails.logger.error "Failed to download image #{image_url}: #{e.message}"
+    Rails.logger.error "❌ Rich Link - Failed to download image #{image_url}: #{e.message}"
+    Rails.logger.error "❌ Rich Link - Backtrace: #{e.backtrace.first(3).join("\n")}"
     nil
   end
 

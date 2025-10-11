@@ -10,10 +10,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  parameters: {
-    type: Object,
-    default: () => ({}),
-  },
 });
 
 const emit = defineEmits(['update:properties']);
@@ -405,13 +401,15 @@ const fetchRichLinkData = async () => {
         newField.value.description = result.richLinkData.description;
       }
 
-      useAlert('Rich Link data fetched successfully!');
+      useAlert(t('CONVERSATION.APPLE_FORM.RICH_LINK_AUTOFILL.SUCCESS'));
     } else {
-      useAlert('Could not fetch Rich Link data. Please fill manually.', 'warning');
+      useAlert(
+        t('CONVERSATION.APPLE_FORM.RICH_LINK_AUTOFILL.WARNING'),
+        'warning'
+      );
     }
   } catch (error) {
-    console.error('Failed to fetch Rich Link data:', error);
-    useAlert('Failed to fetch Rich Link data', 'error');
+    useAlert(t('CONVERSATION.APPLE_FORM.RICH_LINK_AUTOFILL.ERROR'), 'error');
   } finally {
     isLoadingRichLink.value = false;
   }
@@ -672,7 +670,7 @@ if (localProps.value.pages.length === 0) {
           <h3 class="text-lg font-medium text-n-slate-12">
             {{
               typeof newField.editingIndex === 'number'
-                ? 'Edit Form Field'
+                ? t('CONVERSATION.APPLE_FORM.EDIT_FIELD_TITLE')
                 : t('APPLE_FORM.ADD_FIELD_TITLE')
             }}
           </h3>
@@ -782,12 +780,16 @@ if (localProps.value.pages.length === 0) {
 
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-2">
-                Maximum Character Count
+                {{ t('CONVERSATION.APPLE_FORM.FIELD_OPTIONS.MAX_CHAR_COUNT') }}
               </label>
               <input
                 v-model.number="newField.maximum_character_count"
                 type="number"
-                placeholder="Default: 30 for singleline, 300 for multiline"
+                :placeholder="
+                  t(
+                    'CONVERSATION.APPLE_FORM.FIELD_OPTIONS.MAX_CHAR_COUNT_PLACEHOLDER'
+                  )
+                "
                 class="w-full px-4 py-2 border border-n-slate-7 rounded-lg focus:outline-none focus:ring-2 focus:ring-n-blue-7"
               />
             </div>
@@ -832,12 +834,18 @@ if (localProps.value.pages.length === 0) {
 
                   <!-- Image selector for option -->
                   <div class="ml-4 flex items-center gap-2">
-                    <label class="text-xs text-n-slate-11">Image:</label>
+                    <label class="text-xs text-n-slate-11">
+                      {{
+                        t('CONVERSATION.APPLE_FORM.FIELD_OPTIONS.OPTION_IMAGE')
+                      }}
+                    </label>
                     <select
                       v-model="option.imageIdentifier"
                       class="flex-1 px-2 py-1 text-sm border border-n-slate-7 rounded-lg focus:outline-none focus:ring-2 focus:ring-n-blue-7"
                     >
-                      <option value="">No image</option>
+                      <option value="">
+                        {{ t('CONVERSATION.APPLE_FORM.MESSAGES_TAB.NO_IMAGE') }}
+                      </option>
                       <option
                         v-for="img in localProps.images"
                         :key="img.identifier"
@@ -879,7 +887,7 @@ if (localProps.value.pages.length === 0) {
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-n-slate-12 mb-2">
-                  Min Value
+                  {{ t('CONVERSATION.APPLE_FORM.STEPPER.MIN_VALUE') }}
                 </label>
                 <input
                   v-model.number="newField.min_value"
@@ -889,7 +897,7 @@ if (localProps.value.pages.length === 0) {
               </div>
               <div>
                 <label class="block text-sm font-medium text-n-slate-12 mb-2">
-                  Max Value
+                  {{ t('CONVERSATION.APPLE_FORM.STEPPER.MAX_VALUE') }}
                 </label>
                 <input
                   v-model.number="newField.max_value"
@@ -907,13 +915,15 @@ if (localProps.value.pages.length === 0) {
           >
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-2">
-                URL
+                {{ t('CONVERSATION.APPLE_FORM.RICH_LINK.URL_LABEL') }}
               </label>
               <div class="flex gap-2">
                 <input
                   v-model="newField.url"
                   type="url"
-                  placeholder="https://example.com"
+                  :placeholder="
+                    t('CONVERSATION.APPLE_FORM.RICH_LINK.URL_PLACEHOLDER')
+                  "
                   class="flex-1 px-4 py-2 border border-n-slate-7 rounded-lg focus:outline-none focus:ring-2 focus:ring-n-blue-7"
                 />
                 <Button
@@ -922,11 +932,17 @@ if (localProps.value.pages.length === 0) {
                   :disabled="!newField.url || isLoadingRichLink"
                   @click="fetchRichLinkData"
                 >
-                  {{ isLoadingRichLink ? 'Loading...' : 'Auto-fill' }}
+                  {{
+                    isLoadingRichLink
+                      ? t('CONVERSATION.APPLE_FORM.RICH_LINK.LOADING')
+                      : t('CONVERSATION.APPLE_FORM.RICH_LINK.AUTOFILL_BUTTON')
+                  }}
                 </Button>
               </div>
               <p class="text-xs text-n-slate-10 mt-1">
-                Click "Auto-fill" to automatically populate title and description from the URL
+                {{
+                  t('CONVERSATION.APPLE_FORM.RICH_LINK.AUTOFILL_DESCRIPTION')
+                }}
               </p>
             </div>
           </div>

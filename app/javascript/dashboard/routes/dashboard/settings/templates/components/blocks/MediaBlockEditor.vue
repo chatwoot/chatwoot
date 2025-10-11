@@ -74,7 +74,11 @@ const handleFileUpload = () => {
         v-model="localProps.type"
         class="w-full px-4 py-2 border border-n-slate-7 rounded-lg focus:outline-none focus:ring-2 focus:ring-n-blue-7"
       >
-        <option v-for="type in mediaTypes" :key="type.value" :value="type.value">
+        <option
+          v-for="type in mediaTypes"
+          :key="type.value"
+          :value="type.value"
+        >
           {{ type.label }}
         </option>
       </select>
@@ -103,7 +107,9 @@ const handleFileUpload = () => {
 
     <!-- Preview -->
     <div v-if="localProps.url" class="bg-n-slate-2 rounded-lg p-4">
-      <div class="text-xs font-medium text-n-slate-11 mb-2">Preview:</div>
+      <div class="text-xs font-medium text-n-slate-11 mb-2">
+        {{ t('TEMPLATES.BUILDER.MEDIA_BLOCK.PREVIEW') }}
+      </div>
       <div class="bg-white rounded border border-n-weak p-2">
         <img
           v-if="localProps.type === 'image'"

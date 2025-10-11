@@ -77,22 +77,6 @@ const blockTypes = computed(() => [
 ]);
 
 // Methods
-const addBlock = type => {
-  const newBlock = {
-    blockType: type,
-    properties: getDefaultProperties(type),
-    orderIndex: props.blocks.length,
-    conditions: null,
-  };
-
-  const updatedBlocks = [...props.blocks, newBlock];
-  emit('update:blocks', updatedBlocks);
-  showBlockTypeSelector.value = false;
-
-  // Auto-open editor for new block
-  editingBlockIndex.value = updatedBlocks.length - 1;
-};
-
 const getDefaultProperties = type => {
   const defaults = {
     text: {
@@ -115,7 +99,7 @@ const getDefaultProperties = type => {
       replyImageTitle: '',
       replyImageSubtitle: '',
       replySecondarySubtitle: '',
-      replyTertiarySubtitle: ''
+      replyTertiarySubtitle: '',
     },
     list_picker: {
       sections: [
@@ -136,9 +120,9 @@ const getDefaultProperties = type => {
               identifier: 'item_2',
               order: 1,
               image_identifier: '',
-            }
-          ]
-        }
+            },
+          ],
+        },
       ],
       images: [],
       received_title: 'Please select an option',
@@ -151,7 +135,7 @@ const getDefaultProperties = type => {
       reply_image_title: '',
       reply_image_subtitle: '',
       reply_secondary_subtitle: '',
-      reply_tertiary_subtitle: ''
+      reply_tertiary_subtitle: '',
     },
     payment: {
       merchantName: '{{merchant_name}}',
@@ -168,10 +152,7 @@ const getDefaultProperties = type => {
     },
     quick_reply: {
       summaryText: 'Quick Reply Question',
-      items: [
-        { title: 'Yes' },
-        { title: 'No' },
-      ],
+      items: [{ title: 'Yes' }, { title: 'No' }],
     },
     media: {
       url: '',
@@ -180,6 +161,22 @@ const getDefaultProperties = type => {
   };
 
   return defaults[type] || {};
+};
+
+const addBlock = type => {
+  const newBlock = {
+    blockType: type,
+    properties: getDefaultProperties(type),
+    orderIndex: props.blocks.length,
+    conditions: null,
+  };
+
+  const updatedBlocks = [...props.blocks, newBlock];
+  emit('update:blocks', updatedBlocks);
+  showBlockTypeSelector.value = false;
+
+  // Auto-open editor for new block
+  editingBlockIndex.value = updatedBlocks.length - 1;
 };
 
 const updateBlock = (index, properties) => {
@@ -323,7 +320,12 @@ const getBlockLabel = type => {
                 {{ getBlockLabel(block.blockType) }}
               </div>
               <div class="text-xs text-n-slate-10">
-                Block {{ index + 1 }} of {{ blocks.length }}
+                {{
+                  t('TEMPLATES.BUILDER.CONTENT_BLOCKS.BLOCK_POSITION', {
+                    index: index + 1,
+                    total: blocks.length,
+                  })
+                }}
               </div>
             </div>
           </div>
@@ -361,7 +363,7 @@ const getBlockLabel = type => {
               xs
               faded
               :class="[
-                editingBlockIndex === index ? 'bg-n-blue-2 text-n-blue-11' : ''
+                editingBlockIndex === index ? 'bg-n-blue-2 text-n-blue-11' : '',
               ]"
               @click="toggleBlockEditor(index)"
             />

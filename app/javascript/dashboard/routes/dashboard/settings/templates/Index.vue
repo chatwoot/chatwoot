@@ -149,7 +149,17 @@ const duplicateTemplate = async template => {
 
 const getCategoryLabel = category => {
   if (!category) return t('TEMPLATES.CATEGORIES.UNCATEGORIZED');
-  return t(`TEMPLATES.CATEGORIES.${category.toUpperCase()}`, category);
+
+  const lowerCategory = category.toLowerCase();
+  if (lowerCategory === 'all') return t('TEMPLATES.CATEGORIES.ALL');
+  if (lowerCategory === 'general') return t('TEMPLATES.CATEGORIES.GENERAL');
+  if (lowerCategory === 'marketing') return t('TEMPLATES.CATEGORIES.MARKETING');
+  if (lowerCategory === 'support') return t('TEMPLATES.CATEGORIES.SUPPORT');
+  if (lowerCategory === 'sales') return t('TEMPLATES.CATEGORIES.SALES');
+  if (lowerCategory === 'onboarding')
+    return t('TEMPLATES.CATEGORIES.ONBOARDING');
+
+  return category;
 };
 
 const getChannelIcon = channel => {
@@ -169,11 +179,25 @@ const isAppleMessagesChannel = channel => {
 
 const getStatusBadgeClass = status => {
   const classes = {
-    active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-semibold',
-    draft: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 font-semibold',
-    deprecated: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 font-semibold',
+    active:
+      'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-semibold',
+    draft:
+      'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 font-semibold',
+    deprecated:
+      'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 font-semibold',
   };
   return classes[status] || 'bg-n-slate-3 text-n-slate-11';
+};
+
+const getStatusLabel = status => {
+  if (!status) return '';
+
+  const lowerStatus = status.toLowerCase();
+  if (lowerStatus === 'active') return t('TEMPLATES.STATUS.ACTIVE');
+  if (lowerStatus === 'draft') return t('TEMPLATES.STATUS.DRAFT');
+  if (lowerStatus === 'deprecated') return t('TEMPLATES.STATUS.DEPRECATED');
+
+  return status;
 };
 
 const toggleTag = tag => {
@@ -357,12 +381,7 @@ onMounted(() => {
                   class="px-2 py-1 text-xs rounded-full"
                   :class="getStatusBadgeClass(template.status)"
                 >
-                  {{
-                    t(
-                      `TEMPLATES.STATUS.${template.status?.toUpperCase()}`,
-                      template.status
-                    )
-                  }}
+                  {{ getStatusLabel(template.status) }}
                 </span>
                 <span
                   v-if="template.category"
@@ -385,7 +404,7 @@ onMounted(() => {
           <!-- Supported Channels -->
           <div class="flex items-center gap-2 mb-3">
             <span class="text-xs font-medium text-n-slate-10 uppercase">
-              {{ t('TEMPLATES.SUPPORTED_CHANNELS') }}:
+              {{ t('TEMPLATES.SUPPORTED_CHANNELS') }}
             </span>
             <div class="flex gap-2">
               <span
@@ -423,7 +442,9 @@ onMounted(() => {
                 v-if="template.tags.length > 3"
                 class="px-2 py-1 text-xs rounded bg-n-slate-2 text-n-slate-11 font-medium"
               >
-                +{{ template.tags.length - 3 }}
+                {{
+                  t('TEMPLATES.TAGS_MORE', { count: template.tags.length - 3 })
+                }}
               </span>
             </div>
           </div>
@@ -464,11 +485,16 @@ onMounted(() => {
             class="flex items-center justify-between mt-3 pt-3 border-t border-n-weak"
           >
             <span class="text-xs text-n-slate-10">
-              {{ t('TEMPLATES.VERSION') }}: {{ template.version || 1 }}
+              {{
+                t('TEMPLATES.VERSION_LABEL', { version: template.version || 1 })
+              }}
             </span>
             <span class="text-xs text-n-slate-10">
-              {{ t('TEMPLATES.UPDATED') }}:
-              {{ new Date(template.updatedAt).toLocaleDateString() }}
+              {{
+                t('TEMPLATES.UPDATED_LABEL', {
+                  date: new Date(template.updatedAt).toLocaleDateString(),
+                })
+              }}
             </span>
           </div>
         </div>

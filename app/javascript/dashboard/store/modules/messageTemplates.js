@@ -24,7 +24,6 @@ export const getters = {
     return _state.records.find(record => record.id === Number(id));
   },
   getSelectedTemplate(_state) {
-    console.log('[Store] getSelectedTemplate called, returning:', _state.selectedTemplate);
     return _state.selectedTemplate;
   },
 };
@@ -127,7 +126,6 @@ export const actions = {
     }
   },
   templateSelected: function selectTemplate({ commit }, item) {
-    console.log('[Store] templateSelected action called with:', item);
     commit(types.SET_SELECTED_TEMPLATE, item);
   },
 };
@@ -144,7 +142,6 @@ export const mutations = {
   [types.EDIT_TEMPLATE]: MutationHelpers.update,
   [types.DELETE_TEMPLATE]: MutationHelpers.destroy,
   [types.SET_SELECTED_TEMPLATE](_state, item) {
-    console.log('[Store] SET_SELECTED_TEMPLATE mutation:', item);
     _state.selectedTemplate = item;
   },
 };

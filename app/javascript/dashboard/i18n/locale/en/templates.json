@@ -13,8 +13,17 @@
     "SUPPORTED_CHANNELS": "Channels",
     "VERSION": "Version",
     "UPDATED": "Updated",
+    "VERSION_LABEL": "Version {version}",
+    "UPDATED_LABEL": "Updated {date}",
+    "TAGS_MORE": "+{count}",
     "CREATE_FIRST_TEMPLATE": "Create Your First Template",
     "NO_RESULTS": "No templates match your search criteria",
+    "SELECTOR": {
+      "TEMPLATE_ICON": "📋",
+      "CANNED_ICON": "📝",
+      "NO_MATCH": "No templates found matching \"{searchKey}\"",
+      "NO_AVAILABLE": "No templates available for this channel"
+    },
     "CHANNELS": {
       "ALL": "All Channels",
       "APPLE_MESSAGES": "Apple Messages",
@@ -31,6 +40,7 @@
       "SCHEDULING": "Scheduling",
       "SUPPORT": "Support",
       "MARKETING": "Marketing",
+      "ONBOARDING": "Onboarding",
       "FEEDBACK": "Feedback",
       "NOTIFICATION": "Notification",
       "CONFIRMATION": "Confirmation",
@@ -139,6 +149,7 @@
         "DESCRIPTION": "Build your template using content blocks. Drag to reorder.",
         "ADD": "Add Content Block",
         "EMPTY": "No content blocks added yet",
+        "BLOCK_POSITION": "Block {index} of {total}",
         "TYPES": {
           "TEXT": "Text Message",
           "TIME_PICKER": "Time Picker",
@@ -174,6 +185,7 @@
           "HELP": "Enter a URL or upload a file"
         },
         "UPLOAD": "Upload",
+        "PREVIEW": "Preview:",
         "THUMBNAIL": {
           "LABEL": "Thumbnail URL (Video)",
           "PLACEHOLDER": "https://example.com/thumbnail.jpg",

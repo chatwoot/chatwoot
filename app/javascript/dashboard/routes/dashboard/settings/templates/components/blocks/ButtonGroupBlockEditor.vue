@@ -55,7 +55,10 @@ const moveButton = (fromIndex, direction) => {
   if (toIndex < 0 || toIndex >= localProps.value.buttons.length) return;
 
   const buttons = [...localProps.value.buttons];
-  [buttons[fromIndex], buttons[toIndex]] = [buttons[toIndex], buttons[fromIndex]];
+  [buttons[fromIndex], buttons[toIndex]] = [
+    buttons[toIndex],
+    buttons[fromIndex],
+  ];
   localProps.value.buttons = buttons;
 };
 </script>
@@ -129,7 +132,9 @@ const moveButton = (fromIndex, direction) => {
                 v-model="button.title"
                 type="text"
                 :placeholder="
-                  t('TEMPLATES.BUILDER.BUTTON_GROUP_BLOCK.BUTTON_TITLE_PLACEHOLDER')
+                  t(
+                    'TEMPLATES.BUILDER.BUTTON_GROUP_BLOCK.BUTTON_TITLE_PLACEHOLDER'
+                  )
                 "
                 class="w-full px-3 py-2 border border-n-weak rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-n-blue-7"
               />

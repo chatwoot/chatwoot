@@ -656,6 +656,23 @@
       "SELECTED_INDEX_HELP": "Zero-indexed default selected item (defaults to 0)",
       "MULTIPLE_SELECTION": "Enable Multiple Selection",
       "OPTION_IMAGE": "Image:"
-    }
+    },
+    "STEPPER": {
+      "MIN_VALUE": "Min Value",
+      "MAX_VALUE": "Max Value"
+    },
+    "RICH_LINK": {
+      "URL_LABEL": "URL",
+      "URL_PLACEHOLDER": "https://example.com",
+      "LOADING": "Loading...",
+      "AUTOFILL_BUTTON": "Auto-fill",
+      "AUTOFILL_DESCRIPTION": "Click Auto-fill to automatically populate title and description from the URL"
+    },
+    "RICH_LINK_AUTOFILL": {
+      "SUCCESS": "Rich Link data fetched successfully!",
+      "WARNING": "Could not fetch Rich Link data. Please fill manually.",
+      "ERROR": "Failed to fetch Rich Link data"
+    },
+    "EDIT_FIELD_TITLE": "Edit Form Field"
   }
 }

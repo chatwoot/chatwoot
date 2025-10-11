@@ -1,9 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
-import MentionBox from '../mentions/MentionBox.vue';
 
 export default {
-  components: { MentionBox },
   props: {
     searchKey: {
       type: String,
@@ -104,14 +102,10 @@ export default {
       });
     },
     handleSelect(item = {}) {
-      console.log('[TemplateSelector] Item clicked:', item);
-      console.log('[TemplateSelector] About to emit select event');
       this.$emit('select', item);
-      console.log('[TemplateSelector] Select event emitted');
 
       // DIRECT WORKAROUND: Use global event bus
       if (item.type === 'template' && window.handleAppleTemplateSelect) {
-        console.log('[TemplateSelector] Calling global handleAppleTemplateSelect');
         window.handleAppleTemplateSelect(item);
       }
     },
@@ -136,8 +130,10 @@ export default {
               : 'bg-n-blue-1 dark:bg-n-blue-2 text-n-blue-9'
           "
         >
-          <span v-if="item.type === 'template'">📋</span>
-          <span v-else>📝</span>
+          <span v-if="item.type === 'template'">{{
+            $t('TEMPLATES.SELECTOR.TEMPLATE_ICON')
+          }}</span>
+          <span v-else>{{ $t('TEMPLATES.SELECTOR.CANNED_ICON') }}</span>
         </div>
         <div class="flex-1 min-w-0">
           <div
@@ -168,9 +164,11 @@ export default {
     class="p-4 text-center text-sm text-n-slate-10 dark:text-n-slate-9"
   >
     <div v-if="searchKey" class="italic">
-      No templates found matching "{{ searchKey }}"
+      {{ $t('TEMPLATES.SELECTOR.NO_MATCH', { searchKey }) }}
     </div>
-    <div v-else class="italic">No templates available for this channel</div>
+    <div v-else class="italic">
+      {{ $t('TEMPLATES.SELECTOR.NO_AVAILABLE') }}
+    </div>
   </div>
 </template>
 
