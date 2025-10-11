@@ -118,8 +118,30 @@ class Whatsapp::IncomingMessageBaseService
     attachment_payload = @processed_params[:messages].first[message_type.to_sym]
     @message.content ||= attachment_payload[:caption]
 
-    attachment_file = download_attachment_file(attachment_payload)
-    return if attachment_file.blank?
+    # Log before attempting download
+    Rails.logger.info "[WHATSAPP] Descargando attachment tipo: #{message_type}, ID: #{attachment_payload[:id]}"
+
+    begin
+      attachment_file = download_attachment_file(attachment_payload)
+    rescue Down::Error => e
+      Rails.logger.error "[WHATSAPP] Down::Error al descargar attachment: #{e.message}"
+      Rails.logger.error "[WHATSAPP] Attachment ID: #{attachment_payload[:id]}, Tipo: #{message_type}"
+      return
+    rescue StandardError => e
+      Rails.logger.error "[WHATSAPP] Error inesperado en download_attachment_file: #{e.class} - #{e.message}"
+      Rails.logger.error e.backtrace.first(5).join("\n")
+      return
+    end
+
+    if attachment_file.blank?
+      # Log when attachment file is nil/empty
+      Rails.logger.error "[WHATSAPP] Attachment file vacío (nil) - ID: #{attachment_payload[:id]}, Tipo: #{message_type}"
+      Rails.logger.error "[WHATSAPP] Payload completo: #{attachment_payload.inspect}"
+      return
+    end
+
+    # Log success
+    Rails.logger.info "[WHATSAPP] Attachment descargado exitosamente. Tamaño: #{attachment_file.size} bytes, Filename: #{attachment_file.original_filename}"
 
     @message.attachments.new(
       account_id: @message.account_id,
@@ -130,6 +152,8 @@ class Whatsapp::IncomingMessageBaseService
         content_type: attachment_file.content_type
       }
     )
+
+    Rails.logger.info '[WHATSAPP] Attachment agregado a mensaje (será guardado con @message.save!)'
   end
 
   def attach_location
