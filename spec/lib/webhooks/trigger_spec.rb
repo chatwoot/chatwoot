@@ -77,6 +77,25 @@ describe Webhooks::Trigger do
 
         expect(conversation.reload.status).to eq('open')
       end
+
+      it 'does not update message status when conversation is not pending' do
+        payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+
+        expect(RestClient::Request).to receive(:execute)
+          .with(
+            method: :post,
+            url: url,
+            payload: payload.to_json,
+            headers: { content_type: :json, accept: :json },
+            timeout: 5
+          ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
+
+        expect do
+          trigger.execute(url, payload, webhook_type)
+        end.not_to(change { message.reload.status })
+
+        expect(conversation.reload.status).to eq('open')
+      end
     end
   end
 

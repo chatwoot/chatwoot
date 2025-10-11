@@ -31,36 +31,19 @@ class Webhooks::Trigger
   end
 
   def handle_error(error)
+    return unless SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
+    return unless message
+
     case @webhook_type
-    when :api_inbox_webhook
-      return unless should_handle_api_error?
-      return unless message
+    when :agent_bot_webhook
+      conversation = message.conversation
+      return unless conversation&.pending?
 
       update_message_status(error)
-    when :agent_bot_webhook
-      update_message_status(error) if message
-      open_conversation_if_pending
+      conversation.open!
+    when :api_inbox_webhook
+      update_message_status(error)
     end
-  end
-
-  def should_handle_api_error?
-    SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
-  end
-
-  def open_conversation_if_pending
-    return unless conversation&.pending?
-
-    conversation.open!
-  end
-
-  def conversation
-    return if conversation_id.blank?
-
-    @conversation ||= Conversation.find_by(id: conversation_id)
-  end
-
-  def conversation_id
-    @payload.dig(:conversation, :id) || @payload[:id]
   end
 
   def update_message_status(error)
