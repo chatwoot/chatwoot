@@ -32,10 +32,6 @@ class Enterprise::Webhooks::StripeController < ActionController::API
     %w[
       billing.credit_grant.created
       billing.credit_grant.expired
-      invoice.payment_failed
-      invoice.payment_succeeded
-      billing.alert.triggered
-      v2.billing.pricing_plan_subscription.servicing_activated
     ].include?(event.type)
   end
 
@@ -52,32 +48,12 @@ class Enterprise::Webhooks::StripeController < ActionController::API
 
   def extract_customer_id(event)
     data = event.data.object
-    candidate = customer_id_from_reader(data) ||
-                customer_id_from_hash(data) ||
-                customer_id_from_alert(data)
-    candidate.presence
-  end
 
-  def customer_id_from_reader(data)
-    return unless data.respond_to?(:customer)
-    return if data.customer.blank?
-
-    data.customer
-  end
-
-  def customer_id_from_hash(data)
-    return unless data.respond_to?(:[])
-
-    value = data['customer']
-    (value.presence)
-  end
-
-  def customer_id_from_alert(data)
-    return unless data.respond_to?(:[])
-
-    customer = data.dig('credit_balance_threshold', 'customer')
-    return unless customer.is_a?(Hash)
-
-    customer['id']
+    # Credit grants have customer field
+    if data.respond_to?(:customer)
+      data.customer
+    elsif data.respond_to?(:[])
+      data['customer']
+    end
   end
 end
