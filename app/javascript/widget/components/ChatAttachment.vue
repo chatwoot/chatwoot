@@ -11,6 +11,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
 import { emitter } from 'shared/helpers/mitt';
+import { captureSentryException } from '../helpers/sentry';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -81,6 +82,22 @@ export default {
 
           upload.create((error, blob) => {
             if (error) {
+              // Log attachment upload failure to Sentry (lazy-loaded)
+              captureSentryException(new Error('Widget: Direct file upload failed'), {
+                level: 'error',
+                tags: {
+                  component: 'ChatAttachment',
+                  error_type: 'file_upload_failure',
+                  upload_method: 'direct',
+                },
+                extra: {
+                  error: error,
+                  fileName: file.name,
+                  fileSize: file.size,
+                  fileType: file.type,
+                  websiteToken: window.chatwootWebChannel?.websiteToken,
+                },
+              });
               emitter.emit(BUS_EVENTS.SHOW_ALERT, {
                 message: error,
               });
@@ -99,7 +116,19 @@ export default {
           });
         }
       } catch (error) {
-        // Error
+        // Log unexpected errors during direct upload (lazy-loaded)
+        captureSentryException(error, {
+          level: 'error',
+          tags: {
+            component: 'ChatAttachment',
+            error_type: 'direct_upload_exception',
+          },
+          extra: {
+            fileName: file?.name,
+            fileSize: file?.size,
+            fileType: file?.type,
+          },
+        });
       }
       this.isUploading = false;
     },
@@ -122,7 +151,20 @@ export default {
           });
         }
       } catch (error) {
-        // Error
+        // Log indirect upload failures to Sentry (lazy-loaded)
+        captureSentryException(error, {
+          level: 'error',
+          tags: {
+            component: 'ChatAttachment',
+            error_type: 'file_upload_failure',
+            upload_method: 'indirect',
+          },
+          extra: {
+            fileName: file?.name,
+            fileSize: file?.size,
+            fileType: file?.type,
+          },
+        });
       }
       this.isUploading = false;
     },

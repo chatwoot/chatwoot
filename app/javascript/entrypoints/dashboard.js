@@ -52,6 +52,12 @@ if (window.errorLoggingConfig) {
   Sentry.init({
     app,
     dsn: window.errorLoggingConfig,
+    environment:
+      window.chatwootConfig?.installationName ||
+      window.chatwootEnv ||
+      'production',
+    // Send default PII (IP address, etc.) unless explicitly disabled
+    sendDefaultPii: !window.chatwootConfig?.disableSentryPii,
     denyUrls: [
       // Chrome extensions
       /^chrome:\/\//i,
@@ -65,10 +71,23 @@ if (window.errorLoggingConfig) {
       /safari-web-extension:/i,
       /safari-extension:/i,
     ],
-    integrations: [Sentry.browserTracingIntegration({ router })],
+    integrations: [
+      Sentry.browserTracingIntegration({ router }),
+      Sentry.replayIntegration({
+        maskAllText: false,
+        blockAllMedia: false,
+      }),
+    ],
     ignoreErrors: [
       'ResizeObserver loop completed with undelivered notifications',
+      'ResizeObserver loop limit exceeded',
+      'Non-Error promise rejection captured',
     ],
+    // Performance monitoring
+    tracesSampleRate: 0.1,
+    // Session Replay
+    replaysSessionSampleRate: 0.1, // Sample 10% of all sessions
+    replaysOnErrorSampleRate: 1.0, // Sample 100% of sessions with errors
   });
 }
 
@@ -80,7 +99,7 @@ app.use(
     rules: {
       JSON: ({ value }) => isJSONValid(value),
     },
-  })
+  }),
 );
 app.use(FloatingVue, {
   instantMove: true,

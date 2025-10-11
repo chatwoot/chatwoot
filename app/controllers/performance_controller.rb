@@ -148,4 +148,56 @@ class PerformanceController < PublicController
       render json: { status: 'error', error: 'Sample file not found' }, status: :not_found
     end
   end
+
+  def log_test_results
+    # Log performance test results to Sentry
+    begin
+      test_data = params[:test_data]
+
+      if test_data.blank?
+        render json: { status: 'error', error: 'No test data provided' }, status: :bad_request
+        return
+      end
+
+      # Log to Sentry Logs (structured, searchable logs in Sentry)
+      if defined?(Sentry) && ENV['SENTRY_DSN'].present?
+        # Use Sentry.logger for structured logs (requires sentry-ruby >= 5.24.0)
+        Sentry.logger.info(
+          'Performance test completed - test_type: %{test_type}, server_latency: %{server_latency}ms, db: %{db_time}ms, redis: %{redis_time}ms',
+          test_type: test_data[:test_type] || 'all_tests',
+          environment: ENV.fetch('APP_ENVIRONMENT', Rails.env),
+          timestamp: test_data[:timestamp],
+          # Server metrics
+          server_latency: test_data.dig(:server, :average),
+          server_packet_loss: test_data.dig(:server, :packetLoss),
+          # Database metrics
+          db_time: test_data.dig(:database, :response_time),
+          db_status: test_data.dig(:database, :status),
+          # Redis metrics
+          redis_time: test_data.dig(:redis, :response_time),
+          redis_status: test_data.dig(:redis, :status),
+          # WebSocket metrics
+          websocket_status: test_data.dig(:websocket, :status),
+          websocket_connection_time: test_data.dig(:websocket, :initialConnection, :connectionTime),
+          # Browser info
+          browser: test_data.dig(:browser, :userAgent),
+          # Network info
+          network_type: test_data.dig(:network, :effectiveType),
+          network_downlink: test_data.dig(:network, :downlink),
+          # File transfer metrics
+          file_upload_time: test_data.dig(:fileTransfer, :upload, :serverUploadTime),
+          file_download_time: test_data.dig(:fileTransfer, :download, :downloadTime),
+          file_upload_throughput: test_data.dig(:fileTransfer, :upload, :throughputMbps),
+          file_download_throughput: test_data.dig(:fileTransfer, :download, :throughputMbps)
+        )
+        render json: { status: 'success', message: 'Test results logged to Sentry Logs' }
+      else
+        Rails.logger.info "Performance test completed (Sentry not configured): #{test_data.inspect}"
+        render json: { status: 'success', message: 'Test results logged locally (Sentry not configured)' }
+      end
+    rescue StandardError => e
+      Rails.logger.error "Failed to log test results to Sentry: #{e.message}"
+      render json: { status: 'error', error: e.message }, status: :internal_server_error
+    end
+  end
 end

@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { captureSentryException } from '../helpers/sentry';
+
+const props = defineProps({
   url: { type: String, default: '' },
   readableTime: { type: String, default: '' },
 });
@@ -7,6 +9,18 @@ defineProps({
 const emit = defineEmits(['error']);
 
 const onVideoError = () => {
+  // Log video attachment failure to Sentry (lazy-loaded)
+  captureSentryException(new Error('Widget: Video attachment failed to load'), {
+    level: 'warning',
+    tags: {
+      component: 'VideoBubble',
+      error_type: 'attachment_download_failure',
+    },
+    extra: {
+      videoUrl: props.url,
+      timestamp: props.readableTime,
+    },
+  });
   emit('error');
 };
 </script>

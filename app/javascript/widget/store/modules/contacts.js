@@ -2,14 +2,15 @@ import { sendMessage } from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
 import { SET_USER_ERROR } from '../../constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
+import { setSentryUser } from '../../helpers/sentry';
 const state = {
   currentUser: {},
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
-const parseErrorData = error =>
+const parseErrorData = (error) =>
   error && error.response && error.response.data ? error.response.data : error;
-export const updateWidgetAuthToken = widgetAuthToken => {
+export const updateWidgetAuthToken = (widgetAuthToken) => {
   if (widgetAuthToken) {
     setHeader(widgetAuthToken);
     sendMessage({
@@ -107,6 +108,9 @@ export const mutations = {
   [SET_CURRENT_USER]($state, user) {
     const { currentUser } = $state;
     $state.currentUser = { ...currentUser, ...user };
+
+    // Update Sentry user context whenever contact data changes
+    setSentryUser($state.currentUser);
   },
 };
 

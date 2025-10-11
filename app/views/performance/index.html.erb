@@ -511,6 +511,36 @@
       return 'error';
     }
 
+    // Log test results to Sentry
+    async function logResultsToSentry(testType) {
+      try {
+        log('  → Logging results to Sentry...', 'info');
+
+        const response = await fetch('/perf/log', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            test_data: {
+              ...testResults,
+              test_type: testType
+            }
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          log('  ✓ Results logged to Sentry', 'success');
+        } else {
+          log(`  ⚠ Failed to log to Sentry: ${data.error}`, 'warning');
+        }
+      } catch (error) {
+        log(`  ⚠ Failed to log to Sentry: ${error.message}`, 'warning');
+      }
+    }
+
     // Test 1: Browser Information
     async function testBrowser() {
       log('Testing browser information...', 'info');
@@ -1043,6 +1073,9 @@
         });
         log('  ✓ Test file deleted', 'success');
 
+        // Log results to Sentry
+        await logResultsToSentry('file_transfer');
+
       } catch (error) {
         testResults.fileTransfer = { status: 'error', error: error.message };
         setStatus(document.getElementById('statusFileTransfer'), 'error');
@@ -1053,6 +1086,9 @@
         errorBadge.style.display = 'inline-block';
 
         log(`✗ File transfer test error: ${error.message}`, 'error');
+
+        // Log error to Sentry
+        await logResultsToSentry('file_transfer');
       } finally {
         testBtn.disabled = false;
         testBtn.innerHTML = '<span>Test Upload & Download</span>';
@@ -1099,6 +1135,9 @@
 
         log('', 'info');
         log('=== All Tests Complete ===', 'success');
+
+        // Log results to Sentry
+        await logResultsToSentry('all_tests');
 
         // Show copy and download buttons after tests complete
         document.getElementById('copyBtn').style.display = 'inline-flex';

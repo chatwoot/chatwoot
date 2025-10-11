@@ -54,6 +54,16 @@ user_name: john@acme.inc
 password: Password1!
 ```
 
+### Testing Chat Widget
+To test the chat widget in your local environment:
+0. Ensure local dev server is running
+1. Precompile assets:
+   ```bash
+   docker compose exec rails bundle exec rails assets:precompile
+   ```
+2. Visit http://localhost:3000/widget_tests?setUser=true
+3. Reference: https://developers.chatwoot.com/contributing-guide/setup-guide#testing-chat-widget-in-your-local-environment
+
 ### Restoring devnet chatwoot db backup and setup
 
 Get the backup dump file from @anuj-delta or @mankupathak-delta

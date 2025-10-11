@@ -1,4 +1,6 @@
 <script>
+import { captureSentryException } from '../helpers/sentry';
+
 export default {
   props: {
     url: { type: String, default: '' },
@@ -8,6 +10,19 @@ export default {
   emits: ['error'],
   methods: {
     onImgError() {
+      // Log attachment download failure to Sentry (lazy-loaded)
+      captureSentryException(new Error('Widget: Image attachment failed to load'), {
+        level: 'warning',
+        tags: {
+          component: 'ImageBubble',
+          error_type: 'attachment_download_failure',
+        },
+        extra: {
+          imageUrl: this.url,
+          thumbUrl: this.thumb,
+          timestamp: this.readableTime,
+        },
+      });
       this.$emit('error');
     },
   },

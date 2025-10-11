@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     post '/perf/upload', to: 'performance#upload_file'
     delete '/perf/cleanup/:blob_id', to: 'performance#cleanup_file'
     get '/perf/sample', to: 'performance#sample_file'
+    post '/perf/log', to: 'performance#log_test_results'
   end
 
   get '/api', to: 'api#index'

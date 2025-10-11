@@ -2,6 +2,7 @@
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { extractFilenameFromUrl } from 'shared/helpers/FileHelper';
+import { captureSentryException } from '../helpers/sentry';
 
 export default {
   components: {
@@ -45,8 +46,26 @@ export default {
   },
   methods: {
     openLink() {
-      const win = window.open(this.url, '_blank');
-      win.focus();
+      try {
+        const win = window.open(this.url, '_blank');
+        if (!win) {
+          throw new Error('Failed to open file link - popup blocked or invalid URL');
+        }
+        win.focus();
+      } catch (error) {
+        // Log file download/open failure to Sentry (lazy-loaded)
+        captureSentryException(error, {
+          level: 'warning',
+          tags: {
+            component: 'FileBubble',
+            error_type: 'file_download_failure',
+          },
+          extra: {
+            fileUrl: this.url,
+            fileName: this.fileName,
+          },
+        });
+      }
     },
   },
 };

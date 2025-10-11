@@ -248,3 +248,52 @@ Configuration is managed via:
    - Kubernetes configs in `kubernetes/`
    - Heroku support via `app.json`
    - `judoscale` for autoscaling
+
+## Docker Base Images & Rebuild Policy
+
+**IMPORTANT: Claude must proactively alert users when base image rebuilds are needed.**
+
+This project uses a 3-tier base image architecture (see [README-base-images.md](README-base-images.md)):
+- **Tier 1 - System Base:** Ruby + Node.js + system packages (~1 min build)
+- **Tier 2 - Dependencies Base:** All gems + npm packages (~12 min build)
+- **Tier 3 - Application Images:** App code + assets (~1-2 min build, automatic)
+
+### 🚨 When to Alert User About Base Image Rebuild
+
+**Tier 1 (System Base) - Alert when changes to:**
+- Ruby version in Dockerfiles
+- Node.js version in Dockerfiles
+- System packages (apt packages) in `Dockerfile.base-system`
+- Alpine Linux version
+
+**Tier 2 (Dependencies Base) - Alert when changes to:**
+- `Gemfile.lock` (after `bundle install` or `bundle update`)
+- `pnpm-lock.yaml` (after `pnpm install` or `pnpm update`)
+- `package.json` dependencies
+- After Tier 1 rebuild
+
+**✅ NO rebuild needed for:**
+- Application code changes (Ruby/JS/Vue files)
+- Configuration changes (unless dependencies affected)
+- Kubernetes or CircleCI config changes
+
+### Alert Message Template
+
+When detecting changes requiring rebuild, use this message:
+
+```
+⚠️ BASE IMAGE REBUILD REQUIRED
+
+Your changes to [file] require rebuilding the base images.
+
+Steps:
+1. Update version: echo "v4.0.4-base2" > BASE_IMAGE_VERSION
+2. Commit and push
+3. Trigger rebuild at https://app.circleci.com/pipelines/github/delta-exchange/chatwoot
+   - Click "Trigger Pipeline"
+   - Parameters: {"workflow": "build-base", "base_image_version": "base2"}
+4. Wait ~13 minutes
+5. Update Dockerfiles to use base2-deps
+
+See [README-base-images.md](README-base-images.md) for details.
+```
