@@ -86,7 +86,7 @@ hu:
       validations:
         name: nem kezdődhet vagy végződhet szimbólummal, és nem tartalmazhat < > / \ @ karaktereket.
     custom_filters:
-      number_of_records: Limit túllépve. Maximum 50 speciális szűrőt használhat egy fiók.
+      number_of_records: Limit túllépve. Maximum 1000 speciális szűrőt használhat egy fiók.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
@@ -322,6 +322,8 @@ hu:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: Keress a bejegyzések címében és tartalmában...

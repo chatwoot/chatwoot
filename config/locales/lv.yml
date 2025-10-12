@@ -86,7 +86,7 @@ lv:
       validations:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
     custom_filters:
-      number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 50.
+      number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 1000.
       invalid_attribute: Nederīga atribūta atslēga - [%{key}]. Atslēgai ir jābūt vienai no [%{allowed_keys}] vai pielāgotam atribūtam, kas definēts kontā.
       invalid_operator: Nederīgs operators. Atļautie operatori priekš %{attribute_name} ir [%{allowed_keys}].
       invalid_query_operator: Vaicājuma operatoram ir jābūt "UN" vai "VAI".
@@ -322,6 +322,8 @@ lv:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
