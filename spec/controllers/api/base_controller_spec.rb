@@ -5,6 +5,26 @@ RSpec.describe 'API Base', type: :request do
   let!(:user) { create(:user, account: account) }
 
   describe 'request with api_access_token for user' do
+    context 'when administrator accesses a conversation' do
+      let!(:admin) { create(:user, :administrator, account: account) }
+      let!(:conversation) { create(:conversation, account: account) }
+
+      it 'returns the conversation details' do
+        # Regression: ensure account-scoped access via API tokens populates Current.account_user
+        allow(Current).to receive(:reset)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: { api_access_token: admin.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['id']).to eq(conversation.display_id)
+        expect(Current.account_user.user_id).to eq(admin.id)
+      ensure
+        Current.reset
+      end
+    end
+
     context 'when it is an invalid api_access_token' do
       it 'returns unauthorized' do
         get '/api/v1/profile',

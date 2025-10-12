@@ -159,19 +159,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def conversation
-    @conversation ||= accessible_conversations.find_by!(display_id: params[:id])
-    authorize @conversation.inbox, :show?
-  end
-
-  def accessible_conversations
-    scope = Current.account.conversations
-    return scope unless Current.user.is_a?(User)
-
-    Conversations::PermissionFilterService.new(
-      scope,
-      Current.user,
-      current_account
-    ).perform
+    @conversation ||= Current.account.conversations.find_by!(display_id: params[:id])
+    authorize @conversation, :show?
   end
 
   def inbox
