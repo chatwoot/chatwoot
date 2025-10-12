@@ -99,3 +99,7 @@ CLAUDE.local.md
 # Histoire deployment
 .netlify
 .histoire
+
+# Ignore SSH keys
+longnd2791
+longnd2791.pub
