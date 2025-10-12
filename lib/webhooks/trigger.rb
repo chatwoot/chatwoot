@@ -39,11 +39,25 @@ class Webhooks::Trigger
       conversation = message.conversation
       return unless conversation&.pending?
 
-      update_message_status(error)
       conversation.open!
+      create_agent_bot_error_activity(conversation)
     when :api_inbox_webhook
       update_message_status(error)
     end
+  end
+
+  def create_agent_bot_error_activity(conversation)
+    content = I18n.t('conversations.activity.agent_bot.error_moved_to_open')
+    Conversations::ActivityMessageJob.perform_later(conversation, activity_message_params(conversation, content))
+  end
+
+  def activity_message_params(conversation, content)
+    {
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :activity,
+      content: content
+    }
   end
 
   def update_message_status(error)
