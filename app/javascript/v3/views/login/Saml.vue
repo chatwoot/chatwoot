@@ -15,6 +15,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  target: {
+    type: String,
+    default: 'web',
+  },
 });
 
 const store = useStore();
@@ -107,6 +111,7 @@ onMounted(async () => {
           name="authenticity_token"
           :value="csrfToken"
         />
+        <input type="hidden" class="h-0" name="target" :value="target" />
         <NextButton
           lg
           type="submit"
