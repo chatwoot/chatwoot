@@ -1,0 +1,79 @@
+name: Sync develop with upstream
+
+on:
+  workflow_dispatch: # Manual trigger only
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream
+        run: git remote add upstream https://github.com/chatwoot/chatwoot.git
+
+      - name: Fetch upstream
+        run: git fetch upstream
+
+      - name: Create sync branch
+        run: |
+          git checkout -B sync-develop
+          git merge upstream/develop || echo "Merge conflicts detected"
+
+      - name: Push sync branch
+        run: git push origin sync-develop --force
+
+      - name: Create or update Pull Request
+        id: pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Sync develop with upstream"
+          body: "Automated PR to sync develop branch with upstream Chatwoot"
+          base: develop
+          head: sync-develop
+          branch: sync-develop
+          draft: false
+
+      - name: Auto-merge if no conflicts
+        if: steps.pr.outputs.pull-request-number != ''
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = parseInt("${{ steps.pr.outputs.pull-request-number }}");
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            if (pr.mergeable_state === 'clean') {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                merge_method: 'merge',
+              });
+              console.log(`✅ PR #${prNumber} merged automatically.`);
+
+              // Delete the temporary branch after successful merge
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'heads/sync-develop',
+              });
+              console.log("🧹 Temporary branch 'sync-develop' deleted.");
+            } else {
+              console.log(`⚠️ PR #${prNumber} has conflicts and must be merged manually.`);
+            }
