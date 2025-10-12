@@ -91,12 +91,15 @@ RSpec.describe Enterprise::Billing::V2::PricingPlanService do
       rate_card = OpenStruct.new(id: 'rc_123', latest_version: 'v1')
 
       allow(StripeV2Client).to receive(:request).and_return(cpu, meter, plan, service_action, rate_card)
-      allow_any_instance_of(Enterprise::Billing::V2::PricingPlanComponentBuilder)
-        .to receive(:add_license_fee_component).and_return(true)
-      allow_any_instance_of(Enterprise::Billing::V2::PricingPlanComponentBuilder)
-        .to receive(:add_service_action_component).and_return(service_action)
-      allow_any_instance_of(Enterprise::Billing::V2::PricingPlanComponentBuilder)
-        .to receive(:add_rate_card_component).and_return(rate_card)
+
+      # Create a double for the component builder
+      component_builder = instance_double(Enterprise::Billing::V2::PricingPlanComponentBuilder)
+      allow(component_builder).to receive(:add_license_fee_component).and_return(true)
+      allow(component_builder).to receive(:add_service_action_component).and_return(service_action)
+      allow(component_builder).to receive(:add_rate_card_component).and_return(rate_card)
+
+      # Stub the private component_builder method to return our double
+      allow(service).to receive(:component_builder).and_return(component_builder)
 
       result = service.create_complete_pricing_plan(config)
 

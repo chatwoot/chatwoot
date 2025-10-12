@@ -133,12 +133,4 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
       account_user: @current_account_user
     }
   end
-
-  def v2_enabled?
-    Rails.application.config.stripe_v2[:enabled] && @account.custom_attributes['stripe_billing_version'].to_i == 2
-  end
-
-  def render_v2_not_enabled
-    render json: { error: 'V2 billing not enabled for this account' }, status: :unprocessable_entity
-  end
 end
