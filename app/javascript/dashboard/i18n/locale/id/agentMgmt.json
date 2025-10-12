@@ -109,7 +109,7 @@
         "ERROR": "Field ini wajib diisi",
         "DUPE_ERROR": "Nama harus unik",
         "HEADER": "Konfigurasi Lead Gen Bot",
-        "HEADER_DESC": "Halaman ini berisi pengaturan sistem Lead Gen Bot.",
+        "HEADER_DESC": "Halaman ini berisi pengaturan untuk bot Anda.",
         "SYSTEM_TITLE": "Aktifkan Sistem Tiket",
         "SYSTEM_DESC": "Jika nonaktif, semua percakapan akan langsung dialihkan ke agen.",
         "GENERAL_SETTINGS": "Umum",

@@ -43,7 +43,10 @@
           <GeneralTab :config="config" :data="data" :google-sheets-auth="googleSheetsAuth"/>
         </div>
         <div v-show="activeIndex === 1" class="w-full min-w-0">
-          <FileKnowledgeSources :data="data" />
+         <FileKnowledgeSources 
+            :data="data" 
+            context="cs"
+          />
         </div>
         <div v-show="activeIndex === 2" class="w-full">
           <QnaKnowledgeSources :data="data" />

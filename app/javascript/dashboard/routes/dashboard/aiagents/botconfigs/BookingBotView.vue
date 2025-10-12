@@ -576,7 +576,10 @@ onMounted(async () => {
 
         <!-- File Tab Content -->
         <div v-show="activeIndex === 1" class="w-full min-w-0">
-          <FileKnowledgeSources :data="data" />
+          <FileKnowledgeSources
+            :data="data" 
+            context="booking"
+          />
         </div>
       </div>
     </div>
