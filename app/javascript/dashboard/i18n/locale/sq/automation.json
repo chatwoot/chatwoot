@@ -177,7 +177,8 @@
       "REFERER_LINK": "Lidhja e referuesit",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",
-      "PRIORITY": "Priority"
+      "PRIORITY": "Priority",
+      "LABELS": "Labels"
     }
   }
 }
