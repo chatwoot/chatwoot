@@ -14,11 +14,4 @@ class Enterprise::Ai::CaptainCreditService
     service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
     service.use_credit(feature: feature, amount: amount, metadata: metadata)
   end
-
-  def credits_available?
-    return true if account.custom_attributes['stripe_billing_version'].to_i != 2
-
-    service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
-    service.total_credits.positive?
-  end
 end

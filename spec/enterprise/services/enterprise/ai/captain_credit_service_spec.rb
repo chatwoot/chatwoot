@@ -36,25 +36,4 @@ describe Enterprise::Ai::CaptainCreditService do
       end
     end
   end
-
-  describe '#credits_available?' do
-    context 'when account is not on v2 billing' do
-      it 'returns true without checking credit service' do
-        expect(service.credits_available?).to be(true)
-        expect(Enterprise::Billing::V2::CreditManagementService).not_to have_received(:new)
-      end
-    end
-
-    context 'when account is on v2 billing' do
-      before do
-        account.update!(custom_attributes: (account.custom_attributes || {}).merge('stripe_billing_version' => 2))
-        allow(credit_service).to receive(:total_credits).and_return(5)
-      end
-
-      it 'returns credit availability from credit service' do
-        expect(service.credits_available?).to be(true)
-        expect(credit_service).to have_received(:total_credits)
-      end
-    end
-  end
 end

@@ -57,8 +57,6 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   # V2 Billing Endpoints
   def credits_balance
-    return render_v2_not_enabled unless v2_enabled?
-
     service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
     balance = service.credit_balance
 
@@ -68,41 +66,6 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
       topup_credits: balance[:topup],
       total_credits: balance[:total]
     }
-  end
-
-  def usage_metrics
-    return render_v2_not_enabled unless v2_enabled?
-
-    service = Enterprise::Billing::V2::UsageAnalyticsService.new(account: @account)
-    result = service.fetch_usage_summary
-
-    if result[:success]
-      render json: result
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
-  end
-
-  def enable_v2_billing
-    unless Rails.application.config.stripe_v2[:enabled]
-      return render json: { error: 'V2 billing not enabled system-wide' },
-                    status: :unprocessable_entity
-    end
-    return render json: { error: 'Account already on V2 billing' }, status: :ok if @account.custom_attributes['stripe_billing_version'].to_i == 2
-
-    plan_type = params[:plan_type] || 'startup'
-    service = Enterprise::Billing::V2::SubscriptionService.new(account: @account)
-    result = service.migrate_to_v2(plan_type: plan_type)
-
-    if result[:success]
-      render json: {
-        success: true,
-        message: result[:message],
-        billing_version: @account.custom_attributes['stripe_billing_version']
-      }
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
   end
 
   private

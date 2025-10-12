@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Enterprise::Billing::V2::Concerns::PaymentIntentHandler
   extend ActiveSupport::Concern
 
