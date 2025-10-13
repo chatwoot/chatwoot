@@ -1,5 +1,6 @@
 # Bulk reindex all messages with throttling to prevent DB overload
 # This creates jobs slowly to avoid overwhelming the database connection pool
+# Usage: RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=6000s bundle exec rails runner script/bulk_reindex_messages.rb
 
 JOBS_PER_MINUTE = 50  # Adjust based on your DB capacity
 BATCH_SIZE = 1000     # Messages per job

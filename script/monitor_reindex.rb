@@ -1,4 +1,5 @@
 # Monitor bulk reindex progress
+# RAILS_ENV=production bundle exec rails runner script/monitor_reindex.rb
 
 puts 'Monitoring bulk reindex progress (Ctrl+C to stop)...'
 puts ''
