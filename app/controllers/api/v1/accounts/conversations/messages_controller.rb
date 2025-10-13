@@ -15,30 +15,13 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def update
     # Track who performed the update so listeners can use it
-    Current.executed_by = Current.user || @resource
-
-    # If status update is requested, ensure it is allowed only for API inboxes
-    if permitted_status_params[:status].present?
-      return unless ensure_api_inbox!
-      Messages::StatusUpdateService.new(message, permitted_status_params[:status], permitted_status_params[:external_error]).perform
+    with_execution_context do
+      handle_status_update
+      handle_content_update
+      @message = message
     end
-
-    # If content/content_attributes update is requested, apply it
-    content_attrs = permitted_content_params
-    if content_attrs.present?
-      if content_attrs.key?(:content_attributes)
-        merged_attrs = (message.content_attributes || {}).deep_merge(content_attrs[:content_attributes].to_h)
-        content_attrs[:content_attributes] = merged_attrs
-      end
-      message.update!(content_attrs)
-    end
-
-    @message = message
   rescue StandardError => e
     render_could_not_create_error(e.message)
-  ensure
-    # Reset executed_by to avoid leaking context
-    Current.executed_by = nil
   end
 
   def destroy
@@ -113,5 +96,39 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
       render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden
       false
     end
+  end
+
+  # Extracted helpers to reduce complexity of update
+  def with_execution_context
+    Current.executed_by = Current.user || @resource
+    yield
+  ensure
+    # Reset executed_by to avoid leaking context
+    Current.executed_by = nil
+  end
+
+  def handle_status_update
+    status = permitted_status_params[:status]
+    return if status.blank?
+
+    return unless ensure_api_inbox!
+
+    Messages::StatusUpdateService.new(
+      message,
+      status,
+      permitted_status_params[:external_error]
+    ).perform
+  end
+
+  def handle_content_update
+    attrs = permitted_content_params
+    return if attrs.blank?
+
+    if attrs.key?(:content_attributes)
+      merged_attrs = (message.content_attributes || {}).deep_merge(attrs[:content_attributes].to_h)
+      attrs = attrs.merge(content_attributes: merged_attrs)
+    end
+
+    message.update!(attrs)
   end
 end
