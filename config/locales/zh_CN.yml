@@ -188,6 +188,8 @@ zh_CN:
       captain:
         resolved: '对话被系统标记为已解决, 原因是 %{user_name} 不活跃'
         open: '对话被 %{user_name} 打开'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: '对话被标记由 %{user_name} 解决'
         contact_resolved: '对话被 %{contact_name} 重新打开'
