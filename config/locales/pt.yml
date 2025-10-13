@@ -188,6 +188,8 @@ pt:
       captain:
         resolved: 'A conversa foi marcada como resolvida por %{user_name} devido à inatividade'
         open: 'A conversa foi marcada como aberta por %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'Conversa foi resolvida por %{contact_name}'
