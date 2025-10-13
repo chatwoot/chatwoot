@@ -5,8 +5,8 @@
 #  id          :bigint           not null, primary key
 #  active      :boolean          default(TRUE), not null
 #  description :text             default("")
-#  end_date    :date             not null
-#  start_date  :date             not null
+#  end_date    :datetime         not null
+#  start_date  :datetime         not null
 #  title       :string           default(""), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
