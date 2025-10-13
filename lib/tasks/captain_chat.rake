@@ -180,10 +180,12 @@ class CaptainChatSession
   def display_response(result)
     response_text = result['response'] || 'No response generated'
     reasoning = result['reasoning']
+    arq_plan = result['arq_plan']
 
     puts dim_text("\n#{@current_system_messages.join("\n")}") if @current_system_messages.any?
     puts response_text
     puts dim_italic_text("(Reasoning: #{reasoning})") if reasoning && reasoning != 'Processed by agent'
+    print_arq_plan(arq_plan)
 
     add_to_history('assistant', response_text, reasoning: reasoning)
   end
@@ -204,6 +206,27 @@ class CaptainChatSession
     message[:reasoning] = reasoning if reasoning
 
     @message_history << message
+  end
+
+  def print_arq_plan(arq_plan)
+    return if arq_plan.blank?
+
+    puts dim_text('ARQ Plan:')
+    arq_plan.each do |key, value|
+      formatted_value = format_arq_value(value)
+      puts dim_text("  #{key}: #{formatted_value}")
+    end
+  end
+
+  def format_arq_value(value)
+    case value
+    when Array
+      value.empty? ? '[]' : value.map { |entry| "- #{entry}" }.join("\n    ")
+    when Hash
+      value.transform_values { |nested| format_arq_value(nested) }
+    else
+      value.to_s
+    end
   end
 
   def clear_history
