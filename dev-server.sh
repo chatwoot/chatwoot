@@ -240,7 +240,7 @@ start_rails() {
     if [ -n "$port_check" ]; then
         print_warning "Port 10750 is in use by process $port_check. Killing it..."
         kill -9 "$port_check" 2>/dev/null || true
-        sleep 1
+        sleep 2
     fi
 
     # Remove any stale Rails PID files before starting
@@ -255,17 +255,39 @@ start_rails() {
     nohup bundle exec rails server -p 10750 --binding=0.0.0.0 --pid="$RAILS_PID_FILE" > log/rails.log 2>&1 &
     RAILS_PID=$!
 
-    # Wait a moment for the server to start
-    sleep 5
+    # Wait and check for Rails to start with multiple retries
+    local attempts=0
+    local max_attempts=15
+    local port_ready=false
 
-    # Check if Rails is actually running by testing the port
-    if lsof -i :10750 > /dev/null 2>&1; then
+    print_status "Waiting for Rails server to start..."
+
+    while [ $attempts -lt $max_attempts ]; do
+        if lsof -i :10750 > /dev/null 2>&1; then
+            port_ready=true
+            break
+        fi
+
+        # Check if the process is still running
+        if ! kill -0 "$RAILS_PID" > /dev/null 2>&1; then
+            print_error "Rails process terminated unexpectedly"
+            break
+        fi
+
+        attempts=$((attempts + 1))
+        sleep 1
+        echo -n "."
+    done
+    echo ""
+
+    # Final check
+    if [ "$port_ready" = true ]; then
         print_success "Rails server started successfully (PID: $RAILS_PID)"
         print_status "Server available at: http://localhost:10750"
     else
-        print_error "Failed to start Rails server"
+        print_error "Failed to start Rails server after ${max_attempts} seconds"
         print_status "Check log/rails.log for details:"
-        tail -10 log/rails.log 2>/dev/null || echo "No log file found"
+        tail -20 log/rails.log 2>/dev/null || echo "No log file found"
         rm -f "$RAILS_PID_FILE"
     fi
 }

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'dashboard/composables/store';
 import TemplatesPicker from './ContentTemplatesPicker.vue';
 import TemplateParser from '../../../../components-next/content-templates/ContentTemplateParser.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -19,6 +20,7 @@ const props = defineProps({
 const emit = defineEmits(['onSend', 'cancel', 'update:show']);
 
 const { t } = useI18n();
+const store = useStore();
 
 const selectedContentTemplate = ref(null);
 
@@ -39,7 +41,23 @@ const modalHeaderContent = computed(() => {
     : t('CONTENT_TEMPLATES.MODAL.SUBTITLE');
 });
 
-const pickTemplate = template => {
+const pickTemplate = async template => {
+  // Check if this is a unified template (not Twilio)
+  if (template.source === 'unified') {
+    // Let the parent component (ReplyBox) handle unified templates
+    // It has the full handleUnifiedTemplate logic for Apple Messages
+    emit('onSend', {
+      message: template.description || template.name,
+      templateParams: {
+        template: template,
+        source: 'unified',
+      },
+    });
+    emit('cancel'); // Close the modal
+    return;
+  }
+
+  // For Twilio templates, show the parser
   selectedContentTemplate.value = template;
 };
 

@@ -14,7 +14,8 @@ const props = defineProps({
     default: () => ({}),
     validator: value => {
       if (!value || typeof value !== 'object') return false;
-      if (!value.friendly_name) return false;
+      // Accept templates with either friendly_name (Twilio) or name (unified)
+      if (!value.friendly_name && !value.name) return false;
       return true;
     },
   },
@@ -28,15 +29,27 @@ const { t } = useI18n();
 
 const processedParams = ref({});
 
+const isUnifiedTemplate = computed(() => {
+  return props.template.source === 'unified';
+});
+
 const languageLabel = computed(() => {
+  if (isUnifiedTemplate.value) {
+    return `${t('CONTENT_TEMPLATES.PARSER.LANGUAGE')}: multi`;
+  }
   return `${t('CONTENT_TEMPLATES.PARSER.LANGUAGE')}: ${props.template.language || 'en'}`;
 });
 
 const categoryLabel = computed(() => {
-  return `${t('CONTENT_TEMPLATES.PARSER.CATEGORY')}: ${props.template.category || 'utility'}`;
+  const category =
+    props.template.displayCategory || props.template.category || 'utility';
+  return `${t('CONTENT_TEMPLATES.PARSER.CATEGORY')}: ${category}`;
 });
 
 const templateBody = computed(() => {
+  if (isUnifiedTemplate.value) {
+    return props.template.content || props.template.description || '';
+  }
   return props.template.body || '';
 });
 
@@ -133,6 +146,20 @@ const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid || isFormInvalid.value) return;
 
+  // For unified templates, emit the full template object
+  if (isUnifiedTemplate.value) {
+    const payload = {
+      message: renderedTemplate.value,
+      templateParams: {
+        template: props.template,
+        source: 'unified',
+      },
+    };
+    emit('sendMessage', payload);
+    return;
+  }
+
+  // For Twilio templates, use the legacy format
   const { friendly_name, language } = props.template;
 
   // Process parameters and extract filename from media URL if needed
@@ -196,7 +223,7 @@ defineExpose({
     <div class="flex flex-col gap-4 p-4 mb-4 rounded-lg bg-n-alpha-black2">
       <div class="flex justify-between items-center">
         <h3 class="text-sm font-medium text-n-slate-12">
-          {{ template.friendly_name }}
+          {{ template.displayName || template.friendly_name || template.name }}
         </h3>
         <span class="text-xs text-n-slate-11">
           {{ languageLabel }}

@@ -201,9 +201,40 @@ const updateContentBlocks = blocks => {
   template.value.contentBlocks = blocks;
 };
 
+const resetTemplate = () => {
+  template.value = {
+    name: '',
+    description: '',
+    category: 'general',
+    status: 'draft',
+    supportedChannels: [],
+    tags: [],
+    useCases: [],
+    parameters: {},
+    contentBlocks: [],
+    version: 1,
+  };
+  errors.value = {};
+  activeTab.value = 'basic';
+};
+
+// Watch for route changes
+watch(
+  () => route.params.templateId,
+  (newId, oldId) => {
+    if (newId) {
+      fetchTemplate();
+    } else {
+      resetTemplate();
+    }
+  }
+);
+
 onMounted(() => {
   if (isEditMode.value) {
     fetchTemplate();
+  } else {
+    resetTemplate();
   }
 });
 </script>

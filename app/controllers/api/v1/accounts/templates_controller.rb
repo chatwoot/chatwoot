@@ -177,6 +177,9 @@ class Api::V1::Accounts::TemplatesController < Api::V1::Accounts::BaseController
     @template = service.call
 
     render json: @template.detailed_json(include_content_blocks: true), status: :created
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error "[Templates] Validation failed: #{e.message}"
+    render json: { error: 'Validation failed', details: e.record.errors.full_messages.join(', ') }, status: :unprocessable_entity
   rescue StandardError => e
     Rails.logger.error "[Templates] from_apple_message failed: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
@@ -216,6 +219,8 @@ class Api::V1::Accounts::TemplatesController < Api::V1::Accounts::BaseController
       :description,
       :status,
       :version,
+      :content,
+      :metadata,
       parameters: {},
       supported_channels: [],
       tags: [],
@@ -227,10 +232,14 @@ class Api::V1::Accounts::TemplatesController < Api::V1::Accounts::BaseController
     return unless blocks_data.is_a?(Array)
 
     blocks_data.each_with_index do |block_data, index|
+      # Handle both camelCase (from frontend) and snake_case
+      properties = block_data[:properties] || block_data['properties'] || {}
+      conditions = block_data[:conditions] || block_data['conditions'] || {}
+
       @template.content_blocks.create!(
         block_type: block_data[:block_type] || block_data['blockType'],
-        properties: block_data[:properties] || {},
-        conditions: block_data[:conditions] || {},
+        properties: properties,
+        conditions: conditions,
         order_index: block_data[:order_index] || block_data['orderIndex'] || index
       )
     end
@@ -240,10 +249,13 @@ class Api::V1::Accounts::TemplatesController < Api::V1::Accounts::BaseController
     return unless mappings_data.is_a?(Array)
 
     mappings_data.each do |mapping_data|
+      # Handle both camelCase (from frontend) and snake_case
+      field_mappings = mapping_data[:field_mappings] || mapping_data['fieldMappings'] || {}
+
       @template.channel_mappings.create!(
         channel_type: mapping_data[:channel_type] || mapping_data['channelType'],
         content_type: mapping_data[:content_type] || mapping_data['contentType'],
-        field_mappings: mapping_data[:field_mappings] || mapping_data['fieldMappings'] || {}
+        field_mappings: field_mappings
       )
     end
   end

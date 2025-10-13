@@ -123,6 +123,19 @@ module Templates
             end
           }.compact
         end,
+        # Received message configuration
+        receivedTitle: message_data[:received_title] || message_data[:receivedTitle] || message_data['receivedTitle'],
+        receivedSubtitle: message_data[:received_subtitle] || message_data[:receivedSubtitle] || message_data['receivedSubtitle'],
+        receivedImageIdentifier: message_data[:received_image_identifier] || message_data[:receivedImageIdentifier] || message_data['receivedImageIdentifier'],
+        receivedStyle: message_data[:received_style] || message_data[:receivedStyle] || message_data['receivedStyle'] || 'icon',
+        # Reply message configuration
+        replyTitle: message_data[:reply_title] || message_data[:replyTitle] || message_data['replyTitle'],
+        replySubtitle: message_data[:reply_subtitle] || message_data[:replySubtitle] || message_data['replySubtitle'],
+        replyStyle: message_data[:reply_style] || message_data[:replyStyle] || message_data['replyStyle'] || 'icon',
+        replyImageTitle: message_data[:reply_image_title] || message_data[:replyImageTitle] || message_data['replyImageTitle'],
+        replyImageSubtitle: message_data[:reply_image_subtitle] || message_data[:replyImageSubtitle] || message_data['replyImageSubtitle'],
+        replySecondarySubtitle: message_data[:reply_secondary_subtitle] || message_data[:replySecondarySubtitle] || message_data['replySecondarySubtitle'],
+        replyTertiarySubtitle: message_data[:reply_tertiary_subtitle] || message_data[:replyTertiarySubtitle] || message_data['replyTertiarySubtitle'],
         images: message_data[:images] || []
       }.compact
     end
@@ -135,18 +148,18 @@ module Templates
           timeslots: message_data.dig(:event, :timeslots) || message_data.dig('event', 'timeslots') || []
         },
         timezoneOffset: message_data[:timezone_offset] || message_data[:timezoneOffset] || message_data['timezoneOffset'],
-        receivedMessage: {
-          title: message_data[:received_title] || message_data[:receivedTitle] || message_data['receivedTitle'],
-          subtitle: message_data[:received_subtitle] || message_data[:receivedSubtitle] || message_data['receivedSubtitle'],
-          imageIdentifier: message_data[:received_image_identifier] || message_data[:receivedImageIdentifier] || message_data['receivedImageIdentifier'],
-          style: message_data[:received_style] || message_data[:receivedStyle] || message_data['receivedStyle'] || 'icon'
-        }.compact,
-        replyMessage: {
-          title: message_data[:reply_title] || message_data[:replyTitle] || message_data['replyTitle'],
-          subtitle: message_data[:reply_subtitle] || message_data[:replySubtitle] || message_data['replySubtitle'],
-          imageIdentifier: message_data[:reply_image_identifier] || message_data[:replyImageIdentifier] || message_data['replyImageIdentifier'],
-          style: message_data[:reply_style] || message_data[:replyStyle] || message_data['replyStyle'] || 'icon'
-        }.compact,
+        receivedTitle: message_data[:received_title] || message_data[:receivedTitle] || message_data['receivedTitle'],
+        receivedSubtitle: message_data[:received_subtitle] || message_data[:receivedSubtitle] || message_data['receivedSubtitle'],
+        receivedImageIdentifier: message_data[:received_image_identifier] || message_data[:receivedImageIdentifier] || message_data['receivedImageIdentifier'],
+        receivedStyle: message_data[:received_style] || message_data[:receivedStyle] || message_data['receivedStyle'] || 'icon',
+        replyTitle: message_data[:reply_title] || message_data[:replyTitle] || message_data['replyTitle'],
+        replySubtitle: message_data[:reply_subtitle] || message_data[:replySubtitle] || message_data['replySubtitle'],
+        replyImageIdentifier: message_data[:reply_image_identifier] || message_data[:replyImageIdentifier] || message_data['replyImageIdentifier'],
+        replyStyle: message_data[:reply_style] || message_data[:replyStyle] || message_data['replyStyle'] || 'icon',
+        replyImageTitle: message_data[:reply_image_title] || message_data[:replyImageTitle] || message_data['replyImageTitle'],
+        replyImageSubtitle: message_data[:reply_image_subtitle] || message_data[:replyImageSubtitle] || message_data['replyImageSubtitle'],
+        replySecondarySubtitle: message_data[:reply_secondary_subtitle] || message_data[:replySecondarySubtitle] || message_data['replySecondarySubtitle'],
+        replyTertiarySubtitle: message_data[:reply_tertiary_subtitle] || message_data[:replyTertiarySubtitle] || message_data['replyTertiarySubtitle'],
         images: message_data[:images] || []
       }.compact
     end

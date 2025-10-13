@@ -18,9 +18,28 @@ const emit = defineEmits(['update:properties']);
 
 const { t } = useI18n();
 
+// Normalize sections to handle both camelCase and snake_case from backend
+const normalizeSections = sections => {
+  if (!sections || !Array.isArray(sections)) return [];
+
+  return sections.map(section => ({
+    title: section.title || 'Options',
+    multipleSelection:
+      section.multipleSelection ?? section.multiple_selection ?? false,
+    items: (section.items || []).map(item => ({
+      title: item.title || '',
+      subtitle: item.subtitle || '',
+      identifier: item.identifier || '',
+      order: item.order ?? 0,
+      // Handle both camelCase (from DB) and snake_case (from editor)
+      image_identifier: item.imageIdentifier || item.image_identifier || '',
+    })),
+  }));
+};
+
 // Initialize localProps with complete structure matching AMB composer
 const localProps = ref({
-  sections: props.properties.sections || [
+  sections: normalizeSections(props.properties.sections) || [
     {
       title: 'Options',
       multipleSelection: false,
@@ -43,17 +62,47 @@ const localProps = ref({
     },
   ],
   images: props.properties.images || [],
-  received_title: props.properties.received_title || 'Please select an option',
-  received_subtitle: props.properties.received_subtitle || '',
-  received_image_identifier: props.properties.received_image_identifier || '',
-  received_style: props.properties.received_style || 'icon',
-  reply_title: props.properties.reply_title || 'Selection Made',
-  reply_subtitle: props.properties.reply_subtitle || 'Your selection',
-  reply_style: props.properties.reply_style || 'icon',
-  reply_image_title: props.properties.reply_image_title || '',
-  reply_image_subtitle: props.properties.reply_image_subtitle || '',
-  reply_secondary_subtitle: props.properties.reply_secondary_subtitle || '',
-  reply_tertiary_subtitle: props.properties.reply_tertiary_subtitle || '',
+  // Handle both camelCase and snake_case for all fields
+  received_title:
+    props.properties.receivedTitle ||
+    props.properties.received_title ||
+    'Please select an option',
+  received_subtitle:
+    props.properties.receivedSubtitle ||
+    props.properties.received_subtitle ||
+    '',
+  received_image_identifier:
+    props.properties.receivedImageIdentifier ||
+    props.properties.received_image_identifier ||
+    '',
+  received_style:
+    props.properties.receivedStyle || props.properties.received_style || 'icon',
+  reply_title:
+    props.properties.replyTitle ||
+    props.properties.reply_title ||
+    'Selection Made',
+  reply_subtitle:
+    props.properties.replySubtitle ||
+    props.properties.reply_subtitle ||
+    'Your selection',
+  reply_style:
+    props.properties.replyStyle || props.properties.reply_style || 'icon',
+  reply_image_title:
+    props.properties.replyImageTitle ||
+    props.properties.reply_image_title ||
+    '',
+  reply_image_subtitle:
+    props.properties.replyImageSubtitle ||
+    props.properties.reply_image_subtitle ||
+    '',
+  reply_secondary_subtitle:
+    props.properties.replySecondarySubtitle ||
+    props.properties.reply_secondary_subtitle ||
+    '',
+  reply_tertiary_subtitle:
+    props.properties.replyTertiarySubtitle ||
+    props.properties.reply_tertiary_subtitle ||
+    '',
 });
 
 // Style options for received and reply messages

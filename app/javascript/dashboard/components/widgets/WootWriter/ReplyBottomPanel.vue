@@ -1,5 +1,4 @@
 <script>
-console.log('[AMB] ReplyBottomPanel.vue loading...');
 import { ref } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -266,11 +265,6 @@ export default {
   },
   mounted() {
     ActiveStorage.start();
-    console.log('[AMB] ReplyBottomPanel mounted - inbox prop:', this.inbox);
-    console.log(
-      '[AMB] ReplyBottomPanel mounted - channel_type:',
-      this.inbox?.channel_type
-    );
   },
   methods: {
     toggleMessageSignature() {
@@ -283,12 +277,7 @@ export default {
       this.$emit('toggleInsertArticle');
     },
     handleSendAppleMessage(messageData) {
-      console.log(
-        '🔥 ReplyBottomPanel: handleSendAppleMessage called with:',
-        messageData
-      );
       this.$emit('send-apple-message', messageData);
-      console.log('🔥 ReplyBottomPanel: emitted send-apple-message event');
     },
   },
 };
@@ -386,15 +375,7 @@ export default {
       />
       <AppleMessagesButton
         :inbox="inbox"
-        @send-apple-message="
-          data => {
-            console.log(
-              '🔥 ReplyBottomPanel: received send-apple-message from AppleMessagesButton:',
-              data
-            );
-            handleSendAppleMessage(data);
-          }
-        "
+        @send-apple-message="handleSendAppleMessage"
       />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"

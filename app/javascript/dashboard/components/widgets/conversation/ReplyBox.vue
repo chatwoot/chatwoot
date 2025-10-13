@@ -177,6 +177,8 @@ export default {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
     },
     showContentTemplates() {
+      // Only show for Twilio WhatsApp, not for Apple Messages
+      // Apple Messages uses the / command (TemplateSelector)
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     isPrivate() {
@@ -760,6 +762,16 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     async onSendContentTemplateReply(messagePayload) {
+      // Check if this is a unified template - if so, use handleUnifiedTemplate
+      if (messagePayload.templateParams?.source === 'unified') {
+        this.hideContentTemplatesModal();
+        await this.handleUnifiedTemplate(
+          messagePayload.templateParams.template
+        );
+        return;
+      }
+
+      // For Twilio templates, use the standard send flow
       this.sendMessage({
         conversationId: this.currentChat.id,
         ...messagePayload,
@@ -785,7 +797,6 @@ export default {
       }, 100);
     },
     handleTemplateSelect(item) {
-      console.log('[AMB] handleTemplateSelect called with:', item);
       if (item.type === 'canned') {
         // Handle canned response - just replace text
         this.replaceText(item.content);
@@ -795,58 +806,62 @@ export default {
       }
     },
     async handleUnifiedTemplate(template) {
-      console.log('[AMB] handleUnifiedTemplate called with:', template);
-
       try {
         // Always fetch full template data to see content blocks
-        console.log('[AMB] Fetching full template with content blocks...');
         const fullTemplate = await this.$store.dispatch(
           'messageTemplates/show',
           {
             id: template.id,
           }
         );
-        console.log('[AMB] Full template fetched:', fullTemplate);
-        console.log('[AMB] Content blocks:', fullTemplate.contentBlocks);
-        console.log('[AMB] Template content:', fullTemplate.content);
-        console.log(
-          '[AMB] Template content JSON:',
-          JSON.stringify(fullTemplate.content, null, 2)
-        );
-        console.log('[AMB] Channel type:', this.channelType);
-        console.log(
-          '[AMB] Is Apple Messages:',
-          this.isAppleMessagesConversation
-        );
 
         // Check if this is an Apple Messages interactive template
         // Interactive templates have specific content structures:
         // - type field (explicit type like 'list_picker', 'time_picker', 'form', etc.)
         // - OR specific structure patterns (images/replies for quick reply, etc.)
+        // - OR content_attributes with the structure inside
         const content = fullTemplate.content;
-        const isAppleInteractive =
-          fullTemplate.supportedChannels?.includes(
-            'apple_messages_for_business'
-          ) &&
-          content &&
-          (content.type || // Explicit type field
-            content.items || // Quick reply structure (new format)
-            content.replies || // Quick reply structure (legacy format)
-            content.list_picker || // List picker structure
-            content.time_picker || // Time picker structure
-            content.form || // Form structure
-            content.apple_pay); // Apple Pay structure
+        const contentAttrs =
+          content?.content_attributes || content?.contentAttributes;
 
-        console.log('[AMB] Template content type:', content?.type);
-        console.log('[AMB] Is Apple interactive template:', isAppleInteractive);
+        const isAppleInteractive = !!(
+          (
+            fullTemplate.supportedChannels?.includes(
+              'apple_messages_for_business'
+            ) &&
+            content &&
+            (content.type || // Explicit type field
+              content.content_type || // Explicit content_type field
+              content.items || // Quick reply structure (new format)
+              content.replies || // Quick reply structure (legacy format)
+              content.list_picker || // List picker structure (nested)
+              content.time_picker || // Time picker structure (nested)
+              content.form || // Form structure
+              content.apple_pay || // Apple Pay structure
+              (content.sections && content.images) || // List picker structure (direct)
+              (content.timeslots && content.eventTitle) || // Time picker structure (direct)
+              (contentAttrs?.sections && contentAttrs?.images) || // List picker in content_attributes
+              (contentAttrs?.timeslots && contentAttrs?.eventTitle))
+          ) // Time picker in content_attributes
+        );
 
         if (isAppleInteractive && this.isAppleMessagesConversation) {
           // This is an Apple Messages interactive template - send it directly
-          console.log('[AMB] Sending Apple interactive template directly');
 
           // Detect the message type and wrap the content appropriately
           let messageData;
-          if (content.type) {
+          if (
+            (content.content_type || content.contentType) &&
+            (content.content_attributes || content.contentAttributes)
+          ) {
+            // Content already has the right structure - use it directly
+            messageData = {
+              content_type: content.content_type || content.contentType,
+              content_attributes:
+                content.content_attributes || content.contentAttributes,
+              type: content.type,
+            };
+          } else if (content.type) {
             // Content has explicit type - use it directly
             messageData = content;
           } else if (content.items || content.replies) {
@@ -870,13 +885,23 @@ export default {
                 reply_subtitle: '',
               },
             };
-          } else if (content.list_picker || content.listPicker) {
+          } else if (
+            content.list_picker ||
+            content.listPicker ||
+            (content.sections && content.images) ||
+            (contentAttrs?.sections && contentAttrs?.images)
+          ) {
             // List picker structure - normalize field names
+            // Handle both nested (content.list_picker) and direct (content.sections) structures
             const listPickerData =
-              content.list_picker || content.listPicker || content;
+              content.list_picker ||
+              content.listPicker ||
+              contentAttrs ||
+              content;
+
             messageData = {
               type: 'list_picker',
-              content_type: 'input_select',
+              content_type: 'apple_list_picker',
               content_attributes: {
                 sections: listPickerData.sections || [],
                 images: listPickerData.images || [],
@@ -926,13 +951,22 @@ export default {
                   '',
               },
             };
-          } else if (content.time_picker || content.timePicker) {
+          } else if (
+            content.time_picker ||
+            content.timePicker ||
+            (content.timeslots && content.eventTitle) ||
+            (contentAttrs?.timeslots && contentAttrs?.eventTitle)
+          ) {
             // Time picker structure - normalize field names
+            // Handle both nested (content.time_picker) and direct (content.timeslots) structures
             const timePickerData =
-              content.time_picker || content.timePicker || content;
+              content.time_picker ||
+              content.timePicker ||
+              contentAttrs ||
+              content;
             messageData = {
               type: 'time_picker',
-              content_type: 'input_select',
+              content_type: 'apple_time_picker',
               content_attributes: {
                 eventTitle:
                   timePickerData.eventTitle || timePickerData.event_title || '',
@@ -1015,7 +1049,16 @@ export default {
             messageData = content;
           }
 
-          console.log('[AMB] Wrapped message data:', messageData);
+          // Clean up images array - remove base64 data and preview, keep only identifiers
+          if (messageData.content_attributes?.images) {
+            messageData.content_attributes.images =
+              messageData.content_attributes.images.map(img => ({
+                identifier: img.identifier,
+                description: img.description || '',
+                data: img.data, // Keep data for now, backend will handle
+              }));
+          }
+
           await this.sendAppleMessage(messageData);
           return;
         }
@@ -1051,7 +1094,6 @@ export default {
           // TODO: Open a modal to collect parameters
         }
       } catch (error) {
-        console.error('Error handling template:', error);
         this.$store.dispatch('alerts/show', {
           message: error?.message || 'Failed to load template',
           type: 'error',
@@ -1379,7 +1421,6 @@ export default {
       this.$emit('update:popOutReplyBox', !this.popOutReplyBox);
     },
     async sendAppleMessage(messageData) {
-      console.log('🔥 ReplyBox: sendAppleMessage called with:', messageData);
       try {
         const messagePayload = {
           conversationId: this.currentChat.id,
@@ -1390,28 +1431,22 @@ export default {
           private: false,
         };
 
-        console.log('🔥 ReplyBox: messagePayload prepared:', messagePayload);
-        console.log('🔥 ReplyBox: about to call createPendingMessageAndSend');
-
         // Use createPendingMessageAndSend directly to ensure proper message creation
         await this.$store.dispatch(
           'createPendingMessageAndSend',
           messagePayload
         );
 
-        console.log(
-          '🔥 ReplyBox: createPendingMessageAndSend dispatched successfully'
-        );
         this.clearMessage();
         this.hideEmojiPicker();
 
         // Note: Tracking removed to avoid $track dependency issues
-
-        console.log('🔥 ReplyBox: Apple message sent successfully');
       } catch (error) {
-        console.error('🔥 ReplyBox: Error sending Apple message:', error);
         const errorMessage =
-          error?.message || this.$t('CONVERSATION.MESSAGE_ERROR');
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          error?.message ||
+          this.$t('CONVERSATION.MESSAGE_ERROR');
         this.$store.dispatch('alerts/show', {
           message: errorMessage,
           type: 'error',
@@ -1698,15 +1733,7 @@ export default {
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
-      @send-apple-message="
-        data => {
-          console.log(
-            '🔥 ReplyBox: received send-apple-message from ReplyBottomPanel:',
-            data
-          );
-          sendAppleMessage(data);
-        }
-      "
+      @send-apple-message="sendAppleMessage"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"

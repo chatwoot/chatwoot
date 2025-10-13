@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useAlert } from 'dashboard/composables';
 import Modal from 'dashboard/components/Modal.vue';
 
 const props = defineProps({
@@ -81,9 +82,53 @@ const copyToClipboard = async () => {
       debug: debugInfo.value,
     };
     await navigator.clipboard.writeText(JSON.stringify(fullData, null, 2));
-    window.bus.$emit('newToastMessage', 'Payload copied to clipboard');
+    useAlert('Payload copied to clipboard');
   } catch (err) {
-    window.bus.$emit('newToastMessage', 'Failed to copy payload');
+    useAlert('Failed to copy payload');
+  }
+};
+
+// Recursively remove base64 image data from objects
+const stripBase64Data = obj => {
+  if (obj === null || obj === undefined) return obj;
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => stripBase64Data(item));
+  }
+
+  if (typeof obj === 'object') {
+    const cleaned = {};
+    for (const [key, value] of Object.entries(obj)) {
+      // Remove 'data' field if it appears to be base64 (starts with / or contains base64 indicators)
+      if (
+        key === 'data' &&
+        typeof value === 'string' &&
+        (value.startsWith('/') ||
+          value.includes('base64') ||
+          value.length > 100)
+      ) {
+        cleaned[key] = '[BASE64_DATA_REMOVED]';
+      } else {
+        cleaned[key] = stripBase64Data(value);
+      }
+    }
+    return cleaned;
+  }
+
+  return obj;
+};
+
+const copyToClipboardLight = async () => {
+  try {
+    const payload = props.payload || props.contentAttributes;
+    const lightData = {
+      payload: stripBase64Data(payload),
+      debug: debugInfo.value,
+    };
+    await navigator.clipboard.writeText(JSON.stringify(lightData, null, 2));
+    useAlert('Light payload copied (base64 data removed)');
+  } catch (err) {
+    useAlert('Failed to copy light payload');
   }
 };
 
@@ -120,10 +165,19 @@ const closeModal = () => {
         <div class="flex items-center gap-2 flex-shrink-0">
           <button
             class="px-3 py-1.5 text-xs font-medium text-n-slate-12 bg-n-alpha-2 hover:bg-n-alpha-3 rounded-md transition-colors flex items-center gap-1.5"
+            title="Copy full payload with all image data"
             @click="copyToClipboard"
           >
             <fluent-icon icon="copy" size="14" />
             Copy
+          </button>
+          <button
+            class="px-3 py-1.5 text-xs font-medium text-n-slate-11 bg-n-alpha-1 hover:bg-n-alpha-2 rounded-md transition-colors flex items-center gap-1.5 border border-n-weak"
+            title="Copy payload without base64 image data (LLM-friendly)"
+            @click="copyToClipboardLight"
+          >
+            <fluent-icon icon="copy" size="14" />
+            Copy (Light)
           </button>
           <button
             class="p-1.5 text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-2 rounded-md transition-colors"

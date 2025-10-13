@@ -1235,6 +1235,223 @@ resources :bot_templates, only: [] do
 end
 ```
 
+### 5. Template Duplication Bug Fix - CamelCase/Snake_case Handling (2025-10-13)
+
+**Issue**: When duplicating templates (especially those with list picker, time picker, or form blocks), the `properties` and `conditions` fields were being lost in the duplicate. For example, duplicating template 24 (list picker) resulted in template 28 missing all list picker configuration.
+
+**Root Cause**: The `create_content_blocks` method in `TemplatesController` was only checking for symbol keys (`:properties`, `:conditions`) but the frontend was sending string keys (`'properties'`, `'conditions'`). When symbol keys were `nil`, it defaulted to empty hashes `{}`, losing all data.
+
+**Code Location**: `app/controllers/api/v1/accounts/templates_controller.rb:231-246`
+
+**Original Problematic Code**:
+```ruby
+def create_content_blocks(blocks_data)
+  blocks_data.each_with_index do |block_data, index|
+    @template.content_blocks.create!(
+      block_type: block_data[:block_type] || block_data['blockType'],
+      properties: block_data[:properties] || {},  # ❌ Only checks symbol key!
+      conditions: block_data[:conditions] || {},  # ❌ Only checks symbol key!
+      order_index: block_data[:order_index] || block_data['orderIndex'] || index
+    )
+  end
+end
+```
+
+**Fixed Code**:
+```ruby
+def create_content_blocks(blocks_data)
+  blocks_data.each_with_index do |block_data, index|
+    # Handle both camelCase (from frontend) and snake_case
+    properties = block_data[:properties] || block_data['properties'] || {}
+    conditions = block_data[:conditions] || block_data['conditions'] || {}
+
+    @template.content_blocks.create!(
+      block_type: block_data[:block_type] || block_data['blockType'],
+      properties: properties,  # ✅ Now checks both symbol and string keys
+      conditions: conditions,  # ✅ Now checks both symbol and string keys
+      order_index: block_data[:order_index] || block_data['orderIndex'] || index
+    )
+  end
+end
+```
+
+**Similar Fix Applied to `create_channel_mappings`**:
+```ruby
+def create_channel_mappings(mappings_data)
+  mappings_data.each do |mapping_data|
+    # Handle both camelCase (from frontend) and snake_case
+    field_mappings = mapping_data[:field_mappings] || mapping_data['fieldMappings'] || {}
+
+    @template.channel_mappings.create!(
+      channel_type: mapping_data[:channel_type] || mapping_data['channelType'],
+      content_type: mapping_data[:content_type] || mapping_data['contentType'],
+      field_mappings: field_mappings  # ✅ Now checks both cases
+    )
+  end
+end
+```
+
+**Why This Happened**:
+- Frontend sends JSON with string keys: `{'properties': {...}, 'conditions': {...}}`
+- Rails `params` can have either symbol or string keys depending on how data is processed
+- Other fields like `blockType` were already checking both cases, but `properties` and `conditions` were not
+- When duplication sends `contentBlocks` array from frontend, string keys are used
+- Symbol key check returns `nil`, triggering fallback to empty hash `{}`
+
+**Impact**:
+- **Before**: Duplicating templates with interactive content (list picker, time picker, forms) lost all configuration
+- **After**: Template duplication preserves all properties and conditions correctly
+- **Affected Content Types**: All block types with complex properties (list_picker, time_picker, form, payment_request, etc.)
+
+**Files Modified**:
+- `app/controllers/api/v1/accounts/templates_controller.rb` (lines 231-261)
+
+**Testing**:
+```bash
+# Test template duplication
+1. Create template with list picker (includes sections, images, etc.)
+2. Duplicate the template via frontend
+3. Verify duplicate has all properties intact
+4. Check both contentBlocks and channelMappings are preserved
+```
+
+This fix ensures compatibility with the frontend's camelCase JSON format and follows the same pattern established for other fields in the controller.
+
+### 6. Frontend Template Rendering for Apple Messages (2025-10-13)
+
+**Issue**: Templates with Apple Messages interactive content (list picker, time picker, forms) were not clickable in the Content Templates modal. Clicking templates resulted in JavaScript errors because the `ContentTemplateParser` expected string content with `{{variables}}`, but Apple Messages templates have structured object content.
+
+**Root Causes**:
+1. **Type Detection**: The `handleUnifiedTemplate` method checked for nested structures like `content.list_picker`, but templates stored their structure directly (`content.sections`, `content.images`)
+2. **Content Type Mismatch**: Frontend was sending `content_type: 'input_select'` but backend expected `content_type: 'apple_list_picker'`
+3. **Modal Flow**: Content Templates modal tried to parse Apple Messages templates as text templates
+
+**Solution Implemented**:
+
+#### 1. Enhanced Template Structure Detection (ReplyBox.vue:845-864)
+
+Added detection for both nested and direct template structures:
+
+```javascript
+const content = fullTemplate.content;
+const contentAttrs = content?.content_attributes || content?.contentAttributes;
+
+const isAppleInteractive = !!(
+  fullTemplate.supportedChannels?.includes('apple_messages_for_business') &&
+  content &&
+  (content.type ||                                    // Explicit type field
+   content.content_type ||                            // Explicit content_type field
+   content.items || content.replies ||                // Quick reply
+   content.list_picker || content.listPicker ||       // List picker (nested)
+   content.time_picker || content.timePicker ||       // Time picker (nested)
+   content.form || content.apple_pay ||               // Form/Apple Pay
+   (content.sections && content.images) ||            // List picker (direct) ✨
+   (content.timeslots && content.eventTitle) ||       // Time picker (direct) ✨
+   (contentAttrs?.sections && contentAttrs?.images) || // List picker in content_attributes
+   (contentAttrs?.timeslots && contentAttrs?.eventTitle)) // Time picker in content_attributes
+);
+```
+
+**Key Additions**:
+- `(content.sections && content.images)` - Detects list picker stored directly
+- `(content.timeslots && content.eventTitle)` - Detects time picker stored directly
+- `contentAttrs` check - Handles templates with nested `content_attributes`
+- `!!` wrapper - Forces boolean evaluation (prevents returning arrays)
+
+#### 2. Correct Content Type Mapping (ReplyBox.vue:935, 1001)
+
+Changed content types to match backend expectations:
+
+```javascript
+// List Picker
+messageData = {
+  type: 'list_picker',
+  content_type: 'apple_list_picker',  // ✨ Changed from 'input_select'
+  content_attributes: { ... }
+};
+
+// Time Picker
+messageData = {
+  type: 'time_picker',
+  content_type: 'apple_time_picker',  // ✨ Changed from 'input_select'
+  content_attributes: { ... }
+};
+```
+
+**Backend Validation** (MessagesController line 56-64):
+```ruby
+def apple_specific_content_type?(content_type)
+  %w[
+    apple_form
+    apple_list_picker      # ✅ Now matches
+    apple_quick_reply
+    apple_time_picker      # ✅ Now matches
+    apple_custom_app
+    apple_pay
+    apple_authentication
+  ].include?(content_type)
+end
+```
+
+#### 3. Unified Template Modal Flow (ContentTemplatesModal.vue:44-64)
+
+Bypass the text parser for unified templates and route to `handleUnifiedTemplate`:
+
+```javascript
+const pickTemplate = async template => {
+  // Check if this is a unified template (not Twilio)
+  if (template.source === 'unified') {
+    // Let the parent component (ReplyBox) handle unified templates
+    emit('onSend', {
+      message: template.description || template.name,
+      templateParams: {
+        template: template,
+        source: 'unified',
+      },
+    });
+    emit('cancel'); // Close modal
+    return;
+  }
+
+  // For Twilio templates, show the parser
+  selectedContentTemplate.value = template;
+};
+```
+
+#### 4. Template Handler Routing (ReplyBox.vue:768-783)
+
+Route unified templates through `handleUnifiedTemplate` instead of direct send:
+
+```javascript
+async onSendContentTemplateReply(messagePayload) {
+  // Check if this is a unified template - if so, use handleUnifiedTemplate
+  if (messagePayload.templateParams?.source === 'unified') {
+    this.hideContentTemplatesModal();
+    await this.handleUnifiedTemplate(messagePayload.templateParams.template);
+    return;
+  }
+
+  // For Twilio templates, use the standard send flow
+  this.sendMessage({
+    conversationId: this.currentChat.id,
+    ...messagePayload,
+  });
+  this.hideContentTemplatesModal();
+}
+```
+
+**Result**: Templates now work through both:
+1. ✅ **Slash command (`/`)**: `TemplateSelector` → `handleTemplateSelect` → `handleUnifiedTemplate`
+2. ✅ **Template button (Twilio WhatsApp only)**: `ContentTemplatesModal` → `onSendContentTemplateReply` → `handleUnifiedTemplate`
+
+**For Apple Messages**: Only the slash command (`/`) is enabled, ensuring a consistent UX.
+
+**Files Modified**:
+- `app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue`
+- `app/javascript/dashboard/components/widgets/conversation/ContentTemplates/ContentTemplatesModal.vue`
+
+**Testing**: All Apple Messages interactive templates (list picker, time picker, quick reply, forms) now send correctly with proper `content_type` and `content_attributes` structure.
+
 ## Troubleshooting
 
 ### Common Issues

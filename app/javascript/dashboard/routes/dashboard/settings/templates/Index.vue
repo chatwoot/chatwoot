@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -10,6 +10,7 @@ import AppleLogo from 'dashboard/assets/images/apple-logo.png';
 
 const { t } = useI18n();
 const router = useRouter();
+const route = useRoute();
 
 // State
 const templates = ref([]);
@@ -133,11 +134,47 @@ const confirmDelete = async () => {
 
 const duplicateTemplate = async template => {
   try {
+    // Fetch full template data including content blocks
+    const fullTemplateResponse = await TemplatesAPI.show(template.id);
+    const fullTemplate = fullTemplateResponse.data;
+
+    // Generate unique name by appending timestamp
+    const timestamp = Date.now();
+    const baseName = template.name.replace(/ \(Copy( \d+)?\)$/, ''); // Remove existing " (Copy)" suffix
+
+    // Clean content blocks - remove IDs so backend creates new ones
+    const contentBlocks = (fullTemplate.contentBlocks || []).map(block => ({
+      blockType: block.blockType,
+      properties: block.properties || {},
+      conditions: block.conditions || {},
+      orderIndex: block.orderIndex,
+    }));
+
+    // Clean channel mappings - remove IDs so backend creates new ones
+    const channelMappings = (fullTemplate.channelMappings || []).map(
+      mapping => ({
+        channelType: mapping.channelType,
+        contentType: mapping.contentType,
+        fieldMappings: mapping.fieldMappings || {},
+      })
+    );
+
     const duplicatedData = {
-      ...template,
-      name: `${template.name} (Copy)`,
-      id: undefined,
+      name: `${baseName} (Copy ${timestamp})`,
+      category: fullTemplate.category,
+      description: fullTemplate.description,
+      supportedChannels: fullTemplate.supportedChannels,
+      tags: fullTemplate.tags || [],
+      useCases: fullTemplate.useCases || [],
+      parameters: fullTemplate.parameters || {},
+      status: fullTemplate.status || 'active',
+      version: 1,
+      content: fullTemplate.content,
+      metadata: fullTemplate.metadata || {},
+      contentBlocks: contentBlocks, // ✨ Use camelCase for API
+      channelMappings: channelMappings, // ✨ Use camelCase for API
     };
+
     const response = await TemplatesAPI.create(duplicatedData);
     useAlert(t('TEMPLATES.API.DUPLICATE_SUCCESS'));
     await fetchTemplates();
@@ -219,6 +256,16 @@ const clearFilters = () => {
 onMounted(() => {
   fetchTemplates();
 });
+
+// Refetch templates when navigating back to this route
+watch(
+  () => route.name,
+  newName => {
+    if (newName === 'templates_list') {
+      fetchTemplates();
+    }
+  }
+);
 </script>
 
 <template>

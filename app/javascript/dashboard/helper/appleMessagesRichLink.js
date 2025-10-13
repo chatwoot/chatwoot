@@ -92,15 +92,24 @@ export const createRichLinkPreview = async url => {
     // Normalize URL before sending to backend
     const normalizedURL = normalizeURL(url);
 
+    // Get account ID from current URL path
+    const accountId = window.location.pathname.match(/accounts\/(\d+)/)?.[1];
+    if (!accountId) {
+      throw new Error('Account ID not found');
+    }
+
     // Call backend to parse OpenGraph data
-    const response = await fetch('/api/v1/apple_messages/parse_url', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Auth-Token': window.authToken || '',
-      },
-      body: JSON.stringify({ url: normalizedURL }),
-    });
+    const response = await fetch(
+      `/api/v1/accounts/${accountId}/apple_messages/parse_url`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin', // Include cookies for authentication
+        body: JSON.stringify({ url: normalizedURL }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);

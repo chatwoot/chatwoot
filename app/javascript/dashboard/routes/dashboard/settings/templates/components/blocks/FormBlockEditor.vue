@@ -401,15 +401,18 @@ const fetchRichLinkData = async () => {
         newField.value.description = result.richLinkData.description;
       }
 
-      useAlert(t('CONVERSATION.APPLE_FORM.RICH_LINK_AUTOFILL.SUCCESS'));
+      useAlert(t('TEMPLATES.BUILDER.APPLE_FORM.RICH_LINK_AUTOFILL.SUCCESS'));
     } else {
       useAlert(
-        t('CONVERSATION.APPLE_FORM.RICH_LINK_AUTOFILL.WARNING'),
+        t('TEMPLATES.BUILDER.APPLE_FORM.RICH_LINK_AUTOFILL.WARNING'),
         'warning'
       );
     }
   } catch (error) {
-    useAlert(t('CONVERSATION.APPLE_FORM.RICH_LINK_AUTOFILL.ERROR'), 'error');
+    useAlert(
+      t('TEMPLATES.BUILDER.APPLE_FORM.RICH_LINK_AUTOFILL.ERROR'),
+      'error'
+    );
   } finally {
     isLoadingRichLink.value = false;
   }
@@ -670,8 +673,8 @@ if (localProps.value.pages.length === 0) {
           <h3 class="text-lg font-medium text-n-slate-12">
             {{
               typeof newField.editingIndex === 'number'
-                ? t('CONVERSATION.APPLE_FORM.EDIT_FIELD_TITLE')
-                : t('APPLE_FORM.ADD_FIELD_TITLE')
+                ? t('TEMPLATES.BUILDER.APPLE_FORM.EDIT_FIELD_TITLE')
+                : t('TEMPLATES.BUILDER.APPLE_FORM.ADD_FIELD_TITLE')
             }}
           </h3>
 
@@ -780,14 +783,16 @@ if (localProps.value.pages.length === 0) {
 
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-2">
-                {{ t('CONVERSATION.APPLE_FORM.FIELD_OPTIONS.MAX_CHAR_COUNT') }}
+                {{
+                  t('TEMPLATES.BUILDER.APPLE_FORM.FIELD_OPTIONS.MAX_CHAR_COUNT')
+                }}
               </label>
               <input
                 v-model.number="newField.maximum_character_count"
                 type="number"
                 :placeholder="
                   t(
-                    'CONVERSATION.APPLE_FORM.FIELD_OPTIONS.MAX_CHAR_COUNT_PLACEHOLDER'
+                    'TEMPLATES.BUILDER.APPLE_FORM.FIELD_OPTIONS.MAX_CHAR_COUNT_PLACEHOLDER'
                   )
                 "
                 class="w-full px-4 py-2 border border-n-slate-7 rounded-lg focus:outline-none focus:ring-2 focus:ring-n-blue-7"
@@ -836,7 +841,9 @@ if (localProps.value.pages.length === 0) {
                   <div class="ml-4 flex items-center gap-2">
                     <label class="text-xs text-n-slate-11">
                       {{
-                        t('CONVERSATION.APPLE_FORM.FIELD_OPTIONS.OPTION_IMAGE')
+                        t(
+                          'TEMPLATES.BUILDER.APPLE_FORM.FIELD_OPTIONS.OPTION_IMAGE'
+                        )
                       }}
                     </label>
                     <select
@@ -844,7 +851,11 @@ if (localProps.value.pages.length === 0) {
                       class="flex-1 px-2 py-1 text-sm border border-n-slate-7 rounded-lg focus:outline-none focus:ring-2 focus:ring-n-blue-7"
                     >
                       <option value="">
-                        {{ t('CONVERSATION.APPLE_FORM.MESSAGES_TAB.NO_IMAGE') }}
+                        {{
+                          t(
+                            'TEMPLATES.BUILDER.APPLE_FORM.MESSAGES_TAB.NO_IMAGE'
+                          )
+                        }}
                       </option>
                       <option
                         v-for="img in localProps.images"
@@ -887,7 +898,7 @@ if (localProps.value.pages.length === 0) {
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-n-slate-12 mb-2">
-                  {{ t('CONVERSATION.APPLE_FORM.STEPPER.MIN_VALUE') }}
+                  {{ t('TEMPLATES.BUILDER.APPLE_FORM.STEPPER.MIN_VALUE') }}
                 </label>
                 <input
                   v-model.number="newField.min_value"
@@ -897,7 +908,7 @@ if (localProps.value.pages.length === 0) {
               </div>
               <div>
                 <label class="block text-sm font-medium text-n-slate-12 mb-2">
-                  {{ t('CONVERSATION.APPLE_FORM.STEPPER.MAX_VALUE') }}
+                  {{ t('TEMPLATES.BUILDER.APPLE_FORM.STEPPER.MAX_VALUE') }}
                 </label>
                 <input
                   v-model.number="newField.max_value"
@@ -915,14 +926,14 @@ if (localProps.value.pages.length === 0) {
           >
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-2">
-                {{ t('CONVERSATION.APPLE_FORM.RICH_LINK.URL_LABEL') }}
+                {{ t('TEMPLATES.BUILDER.APPLE_FORM.RICH_LINK.URL_LABEL') }}
               </label>
               <div class="flex gap-2">
                 <input
                   v-model="newField.url"
                   type="url"
                   :placeholder="
-                    t('CONVERSATION.APPLE_FORM.RICH_LINK.URL_PLACEHOLDER')
+                    t('TEMPLATES.BUILDER.APPLE_FORM.RICH_LINK.URL_PLACEHOLDER')
                   "
                   class="flex-1 px-4 py-2 border border-n-slate-7 rounded-lg focus:outline-none focus:ring-2 focus:ring-n-blue-7"
                 />
@@ -934,14 +945,18 @@ if (localProps.value.pages.length === 0) {
                 >
                   {{
                     isLoadingRichLink
-                      ? t('CONVERSATION.APPLE_FORM.RICH_LINK.LOADING')
-                      : t('CONVERSATION.APPLE_FORM.RICH_LINK.AUTOFILL_BUTTON')
+                      ? t('TEMPLATES.BUILDER.APPLE_FORM.RICH_LINK.LOADING')
+                      : t(
+                          'TEMPLATES.BUILDER.APPLE_FORM.RICH_LINK.AUTOFILL_BUTTON'
+                        )
                   }}
                 </Button>
               </div>
               <p class="text-xs text-n-slate-10 mt-1">
                 {{
-                  t('CONVERSATION.APPLE_FORM.RICH_LINK.AUTOFILL_DESCRIPTION')
+                  t(
+                    'TEMPLATES.BUILDER.APPLE_FORM.RICH_LINK.AUTOFILL_DESCRIPTION'
+                  )
                 }}
               </p>
             </div>

@@ -19,8 +19,13 @@ const emit = defineEmits(['update:properties']);
 const { t } = useI18n();
 
 const localProps = ref({
-  summaryText: props.properties.summaryText || 'Quick Reply Question',
-  items: props.properties.items || [{ title: 'Yes' }, { title: 'No' }],
+  // Handle both 'text' (from backend) and 'summaryText' (legacy)
+  summaryText:
+    props.properties.summaryText ||
+    props.properties.text ||
+    'Quick Reply Question',
+  items: props.properties.items ||
+    props.properties.replies || [{ title: 'Yes' }, { title: 'No' }],
 });
 
 watch(

@@ -353,6 +353,97 @@
           "PLACEHOLDER": "Placeholder"
         }
       },
+      "APPLE_FORM": {
+        "FORM_DETAILS": "Form Details",
+        "FORM_TITLE_LABEL": "Form Title",
+        "FORM_TITLE_PLACEHOLDER": "Enter form title",
+        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Optional form description",
+        "PAGES": "Pages",
+        "ADD_PAGE": "Add Page",
+        "PAGE_LABEL": "Page",
+        "FIELDS_COUNT": "fields",
+        "FIELDS_TITLE": "Fields - {page}",
+        "ADD_FIELD": "Add Field",
+        "ADD_FIELD_TITLE": "Add Form Field",
+        "EDIT_FIELD_TITLE": "Edit Form Field",
+        "CANCEL": "Cancel",
+        "FIELD_TYPE": "Field Type",
+        "FIELD_TITLE": "Field Title",
+        "FIELD_TITLE_PLACEHOLDER": "Enter field title",
+        "FIELD_DESCRIPTION_PLACEHOLDER": "Optional field description",
+        "REQUIRED_FIELD": "Required field",
+        "PLACEHOLDER": "Placeholder",
+        "PLACEHOLDER_TEXT": "Placeholder text",
+        "OPTIONS": "Options",
+        "OPTION_VALUE": "Option value",
+        "OPTION_LABEL": "Option label",
+        "ADD_OPTION": "Add Option",
+        "FIELD_TYPES": {
+          "TEXT": "Text Input",
+          "TEXT_AREA": "Text Area",
+          "EMAIL": "Email",
+          "PHONE": "Phone",
+          "SINGLE_CHOICE": "Single Choice",
+          "MULTIPLE_CHOICE": "Multiple Choice",
+          "DATE_TIME": "Date & Time",
+          "TOGGLE": "Toggle",
+          "STEPPER": "Number Stepper",
+          "RICH_LINK": "Rich Link"
+        },
+        "FIELD_DESCRIPTIONS": {
+          "TEXT": "Single line text input",
+          "TEXT_AREA": "Multi-line text input",
+          "EMAIL": "Email address input",
+          "PHONE": "Phone number input",
+          "SINGLE_CHOICE": "Select one option",
+          "MULTIPLE_CHOICE": "Select multiple options",
+          "DATE_TIME": "Date and time picker",
+          "TOGGLE": "Yes/No toggle switch",
+          "STEPPER": "Number input with +/- buttons",
+          "RICH_LINK": "Clickable link with preview"
+        },
+        "IMAGE_UPLOAD": {
+          "INVALID_FILE_TYPE": "Please select an image file"
+        },
+        "MESSAGES_TAB": {
+          "MESSAGE_CONFIGURATION": "Message Configuration",
+          "RECEIVED_MESSAGE_SUBTITLE_LABEL": "Received Message Subtitle",
+          "RECEIVED_MESSAGE_SUBTITLE_PLACEHOLDER": "Optional subtitle for received message",
+          "REPLY_MESSAGE": "Reply Message (After submission)",
+          "IMAGE_LABEL": "Image",
+          "NO_IMAGE": "No image",
+          "UPLOAD_BUTTON": "Upload",
+          "IMAGE_STYLE": "Image Style"
+        },
+        "REPLY_MESSAGE_TITLE_LABEL": "Title",
+        "REPLY_MESSAGE_TITLE_PLACEHOLDER": "Thank you for your submission!",
+        "REPLY_MESSAGE_SUBTITLE_LABEL": "Subtitle",
+        "REPLY_MESSAGE_SUBTITLE_PLACEHOLDER": "Optional subtitle",
+        "FIELD_OPTIONS": {
+          "LABEL_TEXT": "Label Text",
+          "LABEL_TEXT_PLACEHOLDER": "Optional label shown next to the field",
+          "MAX_CHAR_COUNT": "Maximum Character Count",
+          "MAX_CHAR_COUNT_PLACEHOLDER": "Default: 30 for singleline, 300 for multiline",
+          "OPTION_IMAGE": "Image:"
+        },
+        "STEPPER": {
+          "MIN_VALUE": "Min Value",
+          "MAX_VALUE": "Max Value"
+        },
+        "RICH_LINK": {
+          "URL_LABEL": "URL",
+          "URL_PLACEHOLDER": "https://example.com",
+          "LOADING": "Loading...",
+          "AUTOFILL_BUTTON": "Auto-fill",
+          "AUTOFILL_DESCRIPTION": "Click Auto-fill to automatically populate title and description from the URL"
+        },
+        "RICH_LINK_AUTOFILL": {
+          "SUCCESS": "Rich Link data fetched successfully!",
+          "WARNING": "Could not fetch Rich Link data. Please fill manually.",
+          "ERROR": "Failed to fetch Rich Link data"
+        }
+      },
       "QUICK_REPLY_BLOCK": {
         "SUMMARY_TEXT": {
           "LABEL": "Question / Prompt",

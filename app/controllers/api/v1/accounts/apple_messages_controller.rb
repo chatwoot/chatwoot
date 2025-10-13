@@ -1,9 +1,7 @@
-class Api::V1::AppleMessagesController < Api::V1::BaseController
-  before_action :check_authorization
-
+class Api::V1::Accounts::AppleMessagesController < Api::V1::Accounts::BaseController
   def parse_url
     url = params[:url]
-    
+
     if url.blank?
       render json: { error: 'URL is required' }, status: :bad_request
       return
@@ -29,11 +27,5 @@ class Api::V1::AppleMessagesController < Api::V1::BaseController
       Rails.logger.error "Apple Messages URL parsing failed: #{e.message}"
       render json: { error: 'Failed to parse URL' }, status: :internal_server_error
     end
-  end
-
-  private
-
-  def check_authorization
-    authorize! :read, current_account
   end
 end
