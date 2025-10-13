@@ -72,27 +72,28 @@ function getDayOfTheWeek(date) {
 
 const COLOR_SCHEMES = {
   blue: [
-    'bg-n-blue-3 dark:outline-n-blue-4',
-    'bg-n-blue-5 dark:outline-n-blue-6',
-    'bg-n-blue-7 dark:outline-n-blue-8',
-    'bg-n-blue-8 dark:outline-n-blue-9',
-    'bg-n-blue-10 dark:outline-n-blue-8',
-    'bg-n-blue-11 dark:outline-n-blue-10',
+    'bg-n-blue-3 border border-n-blue-4/30',
+    'bg-n-blue-5 border border-n-blue-6/30',
+    'bg-n-blue-7 border border-n-blue-8/30',
+    'bg-n-blue-8 border border-n-blue-9/30',
+    'bg-n-blue-10 border border-n-blue-8/30',
+    'bg-n-blue-11 border border-n-blue-10/30',
   ],
   green: [
-    'bg-n-teal-3 dark:outline-n-teal-4',
-    'bg-n-teal-5 dark:outline-n-teal-6',
-    'bg-n-teal-7 dark:outline-n-teal-8',
-    'bg-n-teal-8 dark:outline-n-teal-9',
-    'bg-n-teal-10 dark:outline-n-teal-8',
-    'bg-n-teal-11 dark:outline-n-teal-10',
+    'bg-n-teal-3 border border-n-teal-4/30',
+    'bg-n-teal-5 border border-n-teal-6/30',
+    'bg-n-teal-7 border border-n-teal-8/30',
+    'bg-n-teal-8 border border-n-teal-9/30',
+    'bg-n-teal-10 border border-n-teal-8/30',
+    'bg-n-teal-11 border border-n-teal-10/30',
   ],
 };
 
 // Memoized function to calculate CSS class for heatmap cell intensity levels
 const getHeatmapLevelClass = useMemoize(
   (value, quantileRangeArray, colorScheme) => {
-    if (!value) return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+    if (!value)
+      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
     let level = [...quantileRangeArray, Infinity].findIndex(
       range => value <= range && value > 0
     );
@@ -100,7 +101,7 @@ const getHeatmapLevelClass = useMemoize(
     if (level > 6) level = 5;
 
     if (level === 0) {
-      return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
     }
 
     return COLOR_SCHEMES[colorScheme][level - 1];
@@ -177,12 +178,12 @@ const tooltip = useHeatmapTooltip();
           :key="row.dateKey"
           v-memo="[row.dataHash, colorScheme]"
           class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
-          style="content-visibility: auto; contain-intrinsic-size: auto 32px"
+          style="content-visibility: auto"
         >
           <div
             v-for="data in row.data"
             :key="data.timestamp"
-            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 cursor-pointer"
+            class="h-8 rounded-sm cursor-pointer"
             :class="getHeatmapClass(data.value)"
             @mouseenter="tooltip.show($event, data.value)"
             @mouseleave="tooltip.hide"
