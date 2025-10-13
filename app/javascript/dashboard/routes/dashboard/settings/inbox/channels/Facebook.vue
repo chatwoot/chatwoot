@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+import Multiselect from 'vue-multiselect';
 
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
@@ -21,6 +22,7 @@ export default {
     LoadingState,
     PageHeader,
     NextButton,
+    Multiselect,
   },
   setup() {
     const { accountId } = useAccount();
@@ -106,6 +108,12 @@ export default {
     },
 
     runFBInit() {
+      if (!window.chatwootConfig.fbAppId) {
+        this.hasError = true;
+        this.errorStateMessage = 'Facebook App ID is not configured';
+        return;
+      }
+
       FB.init({
         appId: window.chatwootConfig.fbAppId,
         xfbml: true,
@@ -219,7 +227,7 @@ export default {
         />
       </a>
       <p class="py-6">
-        {{ useInstallationName($t('INBOX_MGMT.ADD.FB.HELP'), 'AlooChat') }}
+        {{ replaceInstallationName($t('INBOX_MGMT.ADD.FB.HELP')) }}
       </p>
     </div>
     <div v-else>
@@ -240,7 +248,7 @@ export default {
           <PageHeader
             :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
             :header-content="
-              useInstallationName($t('INBOX_MGMT.ADD.DETAILS.DESC'), 'AlooChat')
+              replaceInstallationName($t('INBOX_MGMT.ADD.DETAILS.DESC'))
             "
           />
         </div>
@@ -248,7 +256,7 @@ export default {
           <div class="w-full">
             <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
-              <multiselect
+              <Multiselect
                 v-model="selectedPage"
                 close-on-select
                 allow-empty

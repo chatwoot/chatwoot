@@ -161,9 +161,8 @@ export default {
             <img class="max-w-2.5 max-h-2.5" :src="globalConfig.logo" />
             <span>
               {{
-                useInstallationName(
-                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT'),
-                  'AlooChat'
+                replaceInstallationName(
+                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT')
                 )
               }}
             </span>

@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { frontendURL } from 'dashboard/helper/URLHelper';
-// import { useBranding } from 'shared/composables/useBranding';
+import { useBranding } from 'shared/composables/useBranding';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -31,7 +31,7 @@ const accountId = getters.getCurrentAccountId;
 // const F = getters['globalConfig/get'];
 
 const { t } = useI18n();
-// const { replaceInstallationName } = useBranding();
+const { replaceInstallationName } = useBranding();
 
 const integrationStatus = computed(() =>
   props.enabled
@@ -81,7 +81,7 @@ const actionURL = computed(() =>
         </router-link>
       </div>
       <p class="text-n-slate-11">
-        {{ useInstallationName(description, 'AlooChat') }}
+        {{ replaceInstallationName(description) }}
       </p>
     </div>
   </div>

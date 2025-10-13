@@ -47,10 +47,7 @@ export default {
     <woot-modal-header
       :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.TITLE')"
       :header-content="
-        useInstallationName(
-          $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.DESC'),
-          'AlooChat'
-        )
+        replaceInstallationName($t('INTEGRATION_SETTINGS.WEBHOOK.FORM.DESC'))
       "
     />
     <WebhookForm

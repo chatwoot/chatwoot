@@ -314,10 +314,7 @@ export default {
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
       :description="
-        useInstallationName(
-          $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
-          'AlooChat'
-        )
+        replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
       "
     >
       <AccessToken

@@ -34,10 +34,6 @@ const isActive = computed(() => {
   if (key === 'facebook') {
     return props.enabledFeatures.channel_facebook && hasFbConfigured.value;
   }
-  if (key === 'email') {
-    return props.enabledFeatures.channel_email;
-  }
-
   if (key === 'instagram') {
     return (
       props.enabledFeatures.channel_instagram && hasInstagramConfigured.value
