@@ -5,7 +5,7 @@ module Enterprise::Integrations::OpenaiProcessorService
 
   def perform
     # Check and use credits if account is on V2 billing
-    if hook.account.custom_attributes['stripe_billing_version'].to_i == 2
+    if v2_enabled?
       credit_service = Enterprise::Ai::CaptainCreditService.new(
         account: hook.account,
         conversation: conversation
@@ -102,5 +102,9 @@ module Enterprise::Integrations::OpenaiProcessorService
 
   def label_suggestions_enabled?
     hook.settings['label_suggestion'].present?
+  end
+
+  def v2_enabled?
+    hook.account.custom_attributes&.[]('stripe_billing_version').to_i == 2
   end
 end

@@ -49,10 +49,11 @@ describe Enterprise::Billing::V2::WebhookHandlerService do
       end
     end
 
-    context 'when handling credit expiration' do
-      it 'expires monthly credits' do
+    context 'when handling credit grant update with expiration' do
+      it 'expires monthly credits when grant is expired' do
         allow(credit_service).to receive(:expire_monthly_credits).and_return(100)
-        event = build_event(type: 'billing.credit_grant.expired', object: {})
+        grant = OpenStruct.new(expired_at: Time.current)
+        event = build_event(type: 'billing.credit_grant.updated', object: grant)
 
         result = service.process(event)
 

@@ -1,5 +1,5 @@
 class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2::BaseService
-  def use_credit(feature: 'ai_captain', amount: 1)
+  def use_credit(feature: 'ai_captain', amount: 1, metadata: {})
     return { success: true, credits_used: 0, remaining: total_credits } if amount <= 0
 
     with_locked_account do
@@ -17,7 +17,8 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
         type: 'use',
         amount: amount,
         credit_type: determine_credit_type(amount),
-        description: "Used for #{feature}"
+        description: "Used for #{feature}",
+        metadata: metadata
       )
 
       { success: true, credits_used: amount, remaining: total_credits }

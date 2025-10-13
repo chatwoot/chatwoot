@@ -8,10 +8,16 @@ class Enterprise::Ai::CaptainCreditService
 
   def check_and_use_credits(feature: 'ai_captain', amount: 1, metadata: {})
     # V1 accounts don't use credit system
-    return { success: true } if account.custom_attributes['stripe_billing_version'].to_i != 2
+    return { success: true } unless v2_enabled?
 
     # V2 accounts use credit-based billing
     service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
     service.use_credit(feature: feature, amount: amount, metadata: metadata)
+  end
+
+  private
+
+  def v2_enabled?
+    account.custom_attributes&.[]('stripe_billing_version').to_i == 2
   end
 end

@@ -31,7 +31,7 @@ class Enterprise::Webhooks::StripeController < ActionController::API
   def v2_billing_event?(event)
     %w[
       billing.credit_grant.created
-      billing.credit_grant.expired
+      billing.credit_grant.updated
     ].include?(event.type)
   end
 
@@ -40,7 +40,7 @@ class Enterprise::Webhooks::StripeController < ActionController::API
     return if customer_id.blank?
 
     account = Account.find_by("custom_attributes->>'stripe_customer_id' = ?", customer_id)
-    return unless account&.custom_attributes&.[]('stripe_billing_version').to_i == 2
+    return unless account && account_v2_enabled?(account)
 
     service = ::Enterprise::Billing::V2::WebhookHandlerService.new(account: account)
     service.process(event)
@@ -55,5 +55,9 @@ class Enterprise::Webhooks::StripeController < ActionController::API
     elsif data.respond_to?(:[])
       data['customer']
     end
+  end
+
+  def account_v2_enabled?(account)
+    account.custom_attributes&.[]('stripe_billing_version').to_i == 2
   end
 end

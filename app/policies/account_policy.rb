@@ -30,4 +30,8 @@ class AccountPolicy < ApplicationPolicy
   def toggle_deletion?
     @account_user.administrator?
   end
+
+  def credits_balance?
+    @account_user.administrator? || @account_user.agent?
+  end
 end

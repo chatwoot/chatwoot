@@ -3,13 +3,12 @@ class Enterprise::Billing::V2::WebhookHandlerService < Enterprise::Billing::V2::
     case event.type
     when 'billing.credit_grant.created'
       handle_credit_grant_created(event.data.object)
-    when 'billing.credit_grant.expired'
-      handle_credit_grant_expired
+    when 'billing.credit_grant.updated'
+      handle_credit_grant_updated(event.data.object)
     else
       { success: true }
     end
   rescue StandardError => e
-    Rails.logger.error "V2 webhook error: #{e.message}"
     { success: false, error: e.message }
   end
 
@@ -30,9 +29,19 @@ class Enterprise::Billing::V2::WebhookHandlerService < Enterprise::Billing::V2::
     { success: true }
   end
 
+  def handle_credit_grant_updated(grant)
+    # Check if grant has expired
+    if grant.respond_to?(:expired_at) && grant.expired_at
+      # Grant has expired
+      handle_credit_grant_expired
+    else
+      # Other updates (voided, amount changes, etc)
+      { success: true }
+    end
+  end
+
   def handle_credit_grant_expired
-    expired = Enterprise::Billing::V2::CreditManagementService.new(account: account).expire_monthly_credits
-    Rails.logger.info "Expired #{expired} monthly credits for account #{account.id}"
+    Enterprise::Billing::V2::CreditManagementService.new(account: account).expire_monthly_credits
     { success: true }
   end
 
