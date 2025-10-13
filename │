@@ -213,6 +213,8 @@ module Templates
         'payment'
       when 'form'
         'support'
+      else
+        nil
       end
     end
 
