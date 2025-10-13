@@ -188,6 +188,8 @@ sq:
       captain:
         resolved: 'Biseda u shënua si e zgjidhur nga %{user_name} për shkak të mungesës së aktivitetit'
         open: 'Biseda u shënua si e hapur nga %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Conversation was marked resolved by %{user_name}'
         contact_resolved: 'Conversation was resolved by %{contact_name}'
