@@ -81,6 +81,7 @@ onMounted(() => {
     <button
       v-for="(item, index) in filteredMenuItems"
       :key="index"
+      type="button"
       class="inline-flex items-center justify-start w-full h-8 min-w-0 gap-2 px-2 py-1.5 transition-all duration-200 ease-in-out border-0 rounded-lg z-60 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-2 disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50"
       :class="{
         'bg-n-alpha-1 dark:bg-n-solid-active': item.isSelected,

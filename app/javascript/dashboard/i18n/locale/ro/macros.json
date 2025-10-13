@@ -99,6 +99,13 @@
       "CHANGE_PRIORITY": "Modificarea priorității",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nimic",
+      "LOW": "Scăzut",
+      "MEDIUM": "Mediu",
+      "HIGH": "Mare",
+      "URGENT": "Urgent"
     }
   }
 }

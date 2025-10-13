@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -38,14 +38,14 @@ const visibilityLabel = computed(() => {
     <td class="py-4 ltr:pr-4 rtl:pl-4 truncate">{{ macro.name }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">
       <div v-if="macro.created_by" class="flex items-center">
-        <Thumbnail :username="createdByName" size="24px" />
+        <Avatar :name="createdByName" :size="24" rounded-full />
         <span class="mx-2">{{ createdByName }}</span>
       </div>
       <div v-else>--</div>
     </td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">
       <div v-if="macro.updated_by" class="flex items-center">
-        <Thumbnail :username="updatedByName" size="24px" />
+        <Avatar :name="updatedByName" :size="24" rounded-full />
         <span class="mx-2">{{ updatedByName }}</span>
       </div>
       <div v-else>--</div>

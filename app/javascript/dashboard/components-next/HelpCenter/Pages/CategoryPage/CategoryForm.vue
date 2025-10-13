@@ -200,6 +200,7 @@ defineExpose({ state, isSubmitDisabled });
                 :label="state.icon"
                 color="slate"
                 size="sm"
+                type="button"
                 :icon="!state.icon ? 'i-lucide-smile-plus' : ''"
                 class="!h-[2.4rem] !w-[2.375rem] absolute top-[1.94rem] !outline-none !rounded-[0.438rem] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
                 @click="isEmojiPickerOpen = !isEmojiPickerOpen"
@@ -245,7 +246,7 @@ defineExpose({ state, isSubmitDisabled });
           variant="faded"
           color="slate"
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.CANCEL')"
-          class="w-full bg-n-alpha-2 n-blue-text hover:bg-n-alpha-3"
+          class="w-full bg-n-alpha-2 text-n-blue-text hover:bg-n-alpha-3"
           @click="handleCancel"
         />
         <Button

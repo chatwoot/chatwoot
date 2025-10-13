@@ -13,11 +13,12 @@ const globalConfig = useMapGetter('globalConfig/get');
     :src="globalConfig.mainLogo"
   />
   <svg
-    width="441"
-    height="387"
+    v-else
+    v-bind="attrs"
     viewBox="0 0 441 387"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    class="w-full h-full"
   >
     <rect width="386" height="386" rx="193" fill="#2E4AFF" />
     <path

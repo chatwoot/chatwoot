@@ -1,14 +1,18 @@
 FactoryBot.define do
   factory :instagram_message_create_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-123',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -27,15 +31,19 @@ FactoryBot.define do
   end
 
   factory :instagram_message_standby_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
           'time': '2021-09-08T06:34:04+0000',
-          'id': 'instagram-message-id-123',
+          'id': ig_entry_id,
           'standby': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -54,15 +62,19 @@ FactoryBot.define do
   end
 
   factory :instagram_story_reply_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-123',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -87,15 +99,19 @@ FactoryBot.define do
   end
 
   factory :instagram_message_reply_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-123',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:35:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -117,11 +133,14 @@ FactoryBot.define do
   end
 
   factory :instagram_test_text_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+    end
     entry do
       [
         {
           'time' => 1_661_141_837_537,
-          'id' => '0',
+          'id' => ig_entry_id,
           'messaging' => [
             {
               'sender' => {
@@ -144,15 +163,19 @@ FactoryBot.define do
   end
 
   factory :instagram_message_unsend_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-123',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -171,15 +194,19 @@ FactoryBot.define do
   end
 
   factory :instagram_message_attachment_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-1234',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -205,15 +232,19 @@ FactoryBot.define do
   end
 
   factory :instagram_shared_reel_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-1234',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -241,15 +272,19 @@ FactoryBot.define do
   end
 
   factory :instagram_story_mention_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-1234',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -275,15 +310,19 @@ FactoryBot.define do
   end
 
   factory :instagram_story_mention_event_with_echo, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-1234',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -310,15 +349,19 @@ FactoryBot.define do
   end
 
   factory :instagram_message_unsupported_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-unsupported-id-123',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'
@@ -337,15 +380,19 @@ FactoryBot.define do
   end
 
   factory :messaging_seen_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
     entry do
       [
         {
-          'id': 'instagram-message-id-123',
+          'id': ig_entry_id,
           'time': '2021-09-08T06:34:04+0000',
           'messaging': [
             {
               'sender': {
-                'id': 'Sender-id-1'
+                'id': sender_id
               },
               'recipient': {
                 'id': 'chatwoot-app-user-id-1'

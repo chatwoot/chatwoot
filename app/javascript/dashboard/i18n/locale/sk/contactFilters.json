@@ -48,7 +48,8 @@
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Posledná aktivita",
       "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Labels"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

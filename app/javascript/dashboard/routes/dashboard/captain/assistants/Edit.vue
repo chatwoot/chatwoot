@@ -5,9 +5,12 @@ import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import EditAssistantForm from '../../../../components-next/captain/pageComponents/assistant/EditAssistantForm.vue';
 import AssistantPlayground from 'dashboard/components-next/captain/assistant/AssistantPlayground.vue';
+
+import AssistantSettings from 'dashboard/routes/dashboard/captain/assistants/settings/Settings.vue';
 
 const route = useRoute();
 const store = useStore();
@@ -17,6 +20,16 @@ const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const isFetching = computed(() => uiFlags.value.fetchingItem);
 const assistant = computed(() =>
   store.getters['captainAssistants/getRecord'](Number(assistantId))
+);
+
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+const currentAccountId = useMapGetter('getCurrentAccountId');
+
+const isCaptainV2Enabled = isFeatureEnabledonAccount.value(
+  currentAccountId.value,
+  FEATURE_FLAGS.CAPTAIN_V2
 );
 
 const isAssistantAvailable = computed(() => !!assistant.value?.id);
@@ -36,14 +49,16 @@ const handleSubmit = async updatedAssistant => {
 };
 
 onMounted(() => {
-  if (!isAssistantAvailable.value) {
+  if (!isAssistantAvailable.value || !isCaptainV2Enabled) {
     store.dispatch('captainAssistants/show', assistantId);
   }
 });
 </script>
 
 <template>
+  <AssistantSettings v-if="isCaptainV2Enabled" />
   <PageLayout
+    v-else
     :header-title="assistant?.name"
     :show-pagination-footer="false"
     :is-fetching="isFetching"

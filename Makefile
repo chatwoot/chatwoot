@@ -41,7 +41,14 @@ run:
 
 force_run:
 	rm -f ./.overmind.sock
+	rm -f tmp/pids/*.pid
 	overmind start -f Procfile.dev
+
+force_run_tunnel:
+	lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+	rm -f ./.overmind.sock
+	rm -f tmp/pids/*.pid
+	overmind start -f Procfile.tunnel
 
 debug:
 	overmind connect backend
@@ -123,4 +130,4 @@ dev-console:
 # db_prepare:
 # 	docker compose run --rm rails bundle exec rails db:chatwoot_prepare
 
-.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run debug debug_worker dev-setup dev-up dev-down dev-migrate dev-init dev-logs dev-console
+.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run debug debug_worker dev-setup dev-up dev-down dev-migrate dev-init dev-logs dev-console force_run_tunnel

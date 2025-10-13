@@ -1,22 +1,25 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import { mapGetters } from 'vuex';
 import WebhookForm from './WebhookForm.vue';
 
 export default {
   components: { WebhookForm },
-  mixins: [globalConfigMixin],
   props: {
     onClose: {
       type: Function,
       required: true,
     },
   },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+    };
+  },
   computed: {
     ...mapGetters({
-      // eslint-disable-next-line vue/no-unused-properties
-      globalConfig: 'globalConfig/get',
       uiFlags: 'webhooks/getUIFlags',
     }),
   },

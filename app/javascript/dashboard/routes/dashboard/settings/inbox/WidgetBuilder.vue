@@ -7,13 +7,18 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Avatar from 'next/avatar/Avatar.vue';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
     Widget,
     InputRadioGroup,
     NextButton,
+    Editor,
+    Avatar,
   },
   props: {
     inbox: {
@@ -71,6 +76,7 @@ export default {
           checked: false,
         },
       ],
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -272,15 +278,23 @@ export default {
       <div class="w-100 lg:w-[40%]">
         <div class="min-h-full py-4 overflow-y-scroll px-px">
           <form @submit.prevent="updateWidget">
-            <woot-avatar-uploader
-              :label="
-                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
-              "
-              :src="avatarUrl"
-              delete-avatar
-              @on-avatar-select="handleImageUpload"
-              @on-avatar-delete="handleAvatarDelete"
-            />
+            <div class="flex flex-col mb-4 items-start gap-1 w-full">
+              <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+                {{
+                  $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
+                }}
+              </label>
+              <Avatar
+                :src="avatarUrl"
+                :size="72"
+                icon-name="i-ri-global-fill"
+                name=""
+                allow-upload
+                rounded-full
+                @upload="handleImageUpload"
+                @delete="handleAvatarDelete"
+              />
+            </div>
             <woot-input
               v-model="websiteName"
               :class="{ error: v$.websiteName.$error }"
@@ -310,7 +324,7 @@ export default {
                 )
               "
             />
-            <woot-input
+            <Editor
               v-model="welcomeTagline"
               :label="
                 $t(
@@ -322,6 +336,9 @@ export default {
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
                 )
               "
+              :max-length="255"
+              :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+              class="mb-4"
             />
             <label>
               {{
@@ -401,7 +418,7 @@ export default {
         />
         <div
           v-if="isWidgetPreview"
-          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-slate-50 dark:bg-slate-900/50 rounded-lg"
+          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-n-slate-3 rounded-lg"
         >
           <Widget
             :welcome-heading="welcomeHeading"

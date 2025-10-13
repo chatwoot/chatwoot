@@ -21,7 +21,7 @@ const props = defineProps({
 const isRelaxed = computed(() => props.type === 'relaxed');
 const headerClass = computed(() =>
   isRelaxed.value
-    ? 'first:rounded-bl-lg first:rounded-tl-lg last:rounded-br-lg last:rounded-tr-lg'
+    ? 'ltr:first:rounded-bl-lg ltr:first:rounded-tl-lg ltr:last:rounded-br-lg ltr:last:rounded-tr-lg rtl:first:rounded-br-lg rtl:first:rounded-tr-lg rtl:last:rounded-bl-lg rtl:last:rounded-tl-lg'
     : ''
 );
 </script>

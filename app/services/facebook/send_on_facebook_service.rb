@@ -47,10 +47,27 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def fb_text_message_params
     {
       recipient: { id: contact.get_source_id(inbox.id) },
-      message: { text: message.content },
+      message: fb_text_message_payload,
       messaging_type: 'MESSAGE_TAG',
       tag: 'ACCOUNT_UPDATE'
     }
+  end
+
+  def fb_text_message_payload
+    if message.content_type == 'input_select' && message.content_attributes['items'].any?
+      {
+        text: message.content,
+        quick_replies: message.content_attributes['items'].map do |item|
+          {
+            content_type: 'text',
+            payload: item['title'],
+            title: item['title']
+          }
+        end
+      }
+    else
+      { text: message.outgoing_content }
+    end
   end
 
   def external_error(response)

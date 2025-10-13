@@ -6,11 +6,11 @@ import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
-import { mapGetters } from 'vuex';
+
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
@@ -22,11 +22,12 @@ export default {
     PageHeader,
     NextButton,
   },
-  mixins: [globalConfigMixin],
   setup() {
     const { accountId } = useAccount();
+    const { replaceInstallationName } = useBranding();
     return {
       accountId,
+      replaceInstallationName,
       v$: useVuelidate(),
     };
   },
@@ -66,10 +67,6 @@ export default {
     getSelectablePages() {
       return this.pageList.filter(item => !item.exists);
     },
-    ...mapGetters({
-      // eslint-disable-next-line vue/no-unused-properties
-      globalConfig: 'globalConfig/get',
-    }),
   },
 
   mounted() {
@@ -209,16 +206,14 @@ export default {
 </script>
 
 <template>
-  <div
-    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
-  >
+  <div class="w-full h-full col-span-6 p-6 overflow-auto">
     <div
       v-if="!hasLoginStarted"
       class="flex flex-col items-center justify-center h-full text-center"
     >
       <a href="#" @click="startLogin()">
         <img
-          class="w-auto h-10"
+          class="w-auto h-10 rounded-md"
           src="~dashboard/assets/images/channels/facebook_login.png"
           alt="Facebook-logo"
         />

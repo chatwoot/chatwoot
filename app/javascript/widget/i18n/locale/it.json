@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Impossibile inviare, riprova"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Siamo online",
-    "OFFLINE": "Siamo offline in questo momento"
+    "OFFLINE": "Siamo offline in questo momento",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
     "IN_A_FEW_HOURS": "In genere risponde in poche ore",
     "IN_A_DAY": "In genere risponde in un giorno",
-    "BACK_IN": "We will be back online"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
     "SUNDAY": "Sunday",
@@ -112,7 +123,7 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
+    "POPULAR_ARTICLES": "Articoli Popolari",
     "VIEW_ALL_ARTICLES": "View all articles",
     "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },

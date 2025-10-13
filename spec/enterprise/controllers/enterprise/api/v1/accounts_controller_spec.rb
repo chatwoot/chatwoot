@@ -199,7 +199,10 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           expected_response = {
             'id' => account.id,
             'limits' => {
-              'agents' => {},
+              'agents' => {
+                'allowed' => account.usage_limits[:agents],
+                'consumed' => account.users.count
+              },
               'conversation' => {},
               'captain' => {
                 'documents' => { 'consumed' => 0, 'current_available' => ChatwootApp.max_limit, 'total_count' => ChatwootApp.max_limit },
