@@ -15,8 +15,8 @@ class Whatsapp::PhoneNumberNormalizationService
   # Extracts clean number, normalizes it, and returns appropriate format for provider
   #
   # @param raw_number [String] The phone number in provider-specific format
-  #   - Cloud: "919745786257" (clean number)
-  #   - Twilio: "whatsapp:+919745786257" (prefixed format)
+  #   - Cloud: "5541988887777" (clean number)
+  #   - Twilio: "whatsapp:+5541988887777" (prefixed format)
   # @param provider [Symbol] :cloud or :twilio
   # @return [String] Normalized source_id in provider format or original if not found
   def normalize_and_find_contact_by_provider(raw_number, provider)
@@ -54,23 +54,21 @@ class Whatsapp::PhoneNumberNormalizationService
   def extract_clean_number(raw_number, provider)
     case provider
     when :cloud
-      raw_number # Already clean: "919745786257"
+      raw_number # Already clean: "5541988887777"
     when :twilio
-      raw_number.gsub(/^whatsapp:\+/, '') # Remove prefix: "whatsapp:+919745786257" → "919745786257"
+      raw_number.gsub(/^whatsapp:\+/, '') # Remove prefix: "whatsapp:+5541988887777" → "5541988887777"
     else
-      raise ArgumentError, "Unsupported provider: #{provider}. Use :cloud or :twilio"
+      raw_number # Default fallback for unknown providers
     end
   end
 
   # Format normalized number for provider-specific storage
   def format_for_provider(clean_number, provider)
     case provider
-    when :cloud
-      clean_number # Keep clean: "919745786257"
     when :twilio
-      "whatsapp:+#{clean_number}" # Add prefix: "919745786257" → "whatsapp:+919745786257"
+      "whatsapp:+#{clean_number}" # Add prefix: "5541988887777" → "whatsapp:+5541988887777"
     else
-      raise ArgumentError, "Unsupported provider: #{provider}. Use :cloud or :twilio"
+      clean_number # Default for :cloud and unknown providers: "5541988887777"
     end
   end
 

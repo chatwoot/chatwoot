@@ -47,7 +47,6 @@ class Twilio::IncomingMessageService
   def normalized_phone_number
     return phone_number unless twilio_channel.whatsapp?
 
-    # Use the generic normalization service for Twilio WhatsApp
     Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider("whatsapp:#{phone_number}", :twilio)
   end
 
