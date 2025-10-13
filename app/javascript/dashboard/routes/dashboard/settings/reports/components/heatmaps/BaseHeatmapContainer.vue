@@ -63,6 +63,10 @@ const menuItems = [
     value: 6,
   },
   {
+    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_14_DAYS'),
+    value: 13,
+  },
+  {
     label: t('REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS'),
     value: 29,
   },
