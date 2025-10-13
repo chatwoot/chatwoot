@@ -93,7 +93,7 @@ const COLOR_SCHEMES = {
 const getHeatmapLevelClass = useMemoize(
   (value, quantileRangeArray, colorScheme) => {
     if (!value)
-      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
     let level = [...quantileRangeArray, Infinity].findIndex(
       range => value <= range && value > 0
     );
@@ -101,7 +101,7 @@ const getHeatmapLevelClass = useMemoize(
     if (level > 6) level = 5;
 
     if (level === 0) {
-      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
     }
 
     return COLOR_SCHEMES[colorScheme][level - 1];
