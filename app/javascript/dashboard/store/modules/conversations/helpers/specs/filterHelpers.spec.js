@@ -192,6 +192,32 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    it('should not match conversation with equal_to operator when assignee is null', () => {
+      const conversation = { meta: { assignee: null } };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'equal_to',
+          values: { id: 1, name: 'John Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match conversation with not_equal_to operator when assignee is null', () => {
+      const conversation = { meta: { assignee: null } };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'not_equal_to',
+          values: { id: 1, name: 'John Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     it('should match conversation with is_not_present operator for assignee_id', () => {
       const conversation = { meta: { assignee: null } };
       const filters = [
@@ -283,6 +309,58 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should not match contains operator when display_id is null', () => {
+      const conversation = { id: null };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'contains',
+          values: '234',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should not match contains operator when filter value is null', () => {
+      const conversation = { id: '12345' };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'contains',
+          values: null,
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match does_not_contain operator when display_id is null', () => {
+      const conversation = { id: null };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'does_not_contain',
+          values: '234',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should match does_not_contain operator when filter value is null', () => {
+      const conversation = { id: '12345' };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'does_not_contain',
+          values: null,
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
     it('should match conversation with does_not_contain operator when value is not present', () => {
