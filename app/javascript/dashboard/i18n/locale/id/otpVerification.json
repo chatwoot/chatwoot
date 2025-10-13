@@ -23,6 +23,19 @@
       "DIDNT_RECEIVE": "Tidak menerima kode?",
       "EXPIRED": "Kode kedaluwarsa. Silakan minta yang baru."
     },
+    "REDIRECT": {
+      "ALREADY_VERIFIED": "Anda sudah verified, tidak bisa kirim OTP registrasi lagi",
+      "ALREADY_VERIFIED_GENERATE": "Anda sudah verified, tidak bisa kirim OTP registrasi lagi",
+      "ALREADY_VERIFIED_VERIFY": "Anda sudah verified, tidak bisa verifikasi lagi",
+      "ALREADY_VERIFIED_RESEND": "Anda sudah verified, tidak bisa kirim ulang OTP",
+      "USER_NOT_FOUND": "User tidak ditemukan. Silakan daftar terlebih dahulu",
+      "TITLE_VERIFIED": "Email Sudah Terverifikasi",
+      "TITLE_NOT_FOUND": "User Tidak Ditemukan",
+      "BUTTON_LOGIN": "Login Sekarang",
+      "BUTTON_SIGNUP": "Daftar Sekarang",
+      "COUNTDOWN_TEXT": "Anda akan diredirect dalam {seconds} detik",
+      "COOLDOWN_MESSAGE": "Tunggu {seconds} detik sebelum kirim ulang OTP"
+    },
     "ERRORS": {
       "USER_NOT_FOUND": "Pengguna tidak ditemukan",
       "EMAIL_ALREADY_VERIFIED": "Email sudah diverifikasi",
