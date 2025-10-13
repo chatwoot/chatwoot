@@ -25,6 +25,9 @@ POSTGRES_PASSWORD="managernow_postgres_2024"
 ENV_FILE=".env"
 ENV_EXAMPLE_FILE=".env.example"
 
+# Branch a actualizar por defecto
+DEFAULT_UPDATE_BRANCH="develop"
+
 # Variable de host IP para Docker Compose (debe configurarse externamente)
 CHATWOOT_HOST_IP=${CHATWOOT_HOST_IP:-0.0.0.0}
 
@@ -85,6 +88,8 @@ function help() {
     echo "  start        Iniciar todos los servicios de Chatwoot"
     echo "  stop         Detener todos los servicios de Chatwoot"
     echo "  console      Acceso a la consola interactiva de Rails"
+    echo "  update [BR]  Actualiza código al branch (por defecto: $DEFAULT_UPDATE_BRANCH), aplica bin/update y reinicia servicios"
+    echo "  sync-branch [BASE]  Rebasea la rama actual con BASE (por defecto: $DEFAULT_UPDATE_BRANCH), luego aplica bin/update sin rebuild"
     echo "  destroy      Detiene y elimina los volúmenes de Docker"
     echo "  help         Ayuda"
     echo ""
@@ -245,14 +250,14 @@ function configure_docker_compose_pv() {
 function init_docker_compose() {
     change_chatwoot_dir
 
-    if [ ! -f "$DOCKER_COMPOSE_SRC" ]; then
-        print_error "$DOCKER_COMPOSE_SRC no encontrado"
-        return 1
-    fi
+#    if [ ! -f "$DOCKER_COMPOSE_SRC" ]; then
+#        print_error "$DOCKER_COMPOSE_SRC no encontrado"
+#        return 1
+#    fi
 
-    print_status "Configurando archivo docker-compose"
-    cp "$DOCKER_COMPOSE_SRC" "$DOCKER_COMPOSE_DST"
-    print_status_ok
+#    print_status "Configurando archivo docker-compose"
+#    cp "$DOCKER_COMPOSE_SRC" "$DOCKER_COMPOSE_DST"
+#    print_status_ok
 
     # Configurar contraseña de PostgreSQL
     configure_docker_compose_postgres
@@ -433,6 +438,113 @@ function install() {
     fi
 }
 
+# Nueva función: actualizar código e infraestructura
+function update() {
+    check_chatwoot_exists
+    change_chatwoot_dir
+
+    local target_branch="${1:-$DEFAULT_UPDATE_BRANCH}"
+
+    if [ ! -f "$DOCKER_COMPOSE_DST" ]; then
+        print_error "$DOCKER_COMPOSE_DST no encontrado. Ejecuta 'init-dc' primero."
+        exit 1
+    fi
+
+    if ! check_git_repo; then
+        exit 1
+    fi
+
+    prompt_continue_on_dirty_tree
+
+    print_status "Descargando últimos cambios de git"
+    git fetch --all --prune >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        print_error "git fetch falló"
+        exit 1
+    fi
+    print_status_ok
+
+    print_status "Cambiando a branch ${target_branch}"
+    # Crear tracking si no existe
+    if ! git rev-parse --verify "$target_branch" >/dev/null 2>&1; then
+        git checkout -b "$target_branch" "origin/$target_branch" >/dev/null 2>&1
+    else
+        git checkout "$target_branch" >/dev/null 2>&1
+    fi
+    if [ $? -ne 0 ]; then
+        print_error "No se pudo cambiar al branch $target_branch"
+        exit 1
+    fi
+    print_status_ok
+
+    print_status "Actualizando branch ${target_branch} (rebase)"
+    if ! git pull --rebase --autostash origin "$target_branch" >/dev/null 2>&1; then
+        echo
+        print_warning "git pull con rebase falló; mostrando diagnóstico básico"
+        git status -sb || true
+        git rebase --abort >/dev/null 2>&1 || true
+        print_error "git pull --rebase --autostash falló. Si tienes cambios sin confirmar, guárdalos (git add/commit) o usa: git stash -u"
+        exit 1
+    fi
+    print_status_ok
+
+    # Reaplicar configuración de docker-compose (idempotente)
+    echo
+    echo -e "${BLUE} Ajustando configuración de Docker Compose${NC}"
+    init_docker_compose
+
+    echo
+    # Importante: NO reconstruimos imágenes en modo desarrollo
+    print_status "Iniciando/asegurando servicios (sin rebuild)"
+    if ! check_services_running; then
+        docker compose -f "$DOCKER_COMPOSE_DST" up -d >/dev/null 2>&1 || true
+    fi
+    print_status_ok
+
+    echo
+    print_status "Ejecutando actualización (bin/update) dentro del contenedor"
+    if check_services_running; then
+        # Usamos exec si los servicios ya están arriba
+        if ! docker compose -f "$DOCKER_COMPOSE_DST" exec rails bin/update >/dev/null 2>&1; then
+            print_warning "exec bin/update falló, intentando con run --rm"
+            if ! docker compose -f "$DOCKER_COMPOSE_DST" run --rm rails bin/update >/dev/null 2>&1; then
+                print_error "bin/update falló"
+                echo -e "${YELLOW}Sugerencia:${NC} Si el fallo persiste, intenta reiniciar servicios o, como última opción, reconstruir imágenes."
+                exit 1
+            fi
+        fi
+    else
+        # Si aún no corren, ejecutar con run
+        if ! docker compose -f "$DOCKER_COMPOSE_DST" run --rm rails bin/update >/dev/null 2>&1; then
+            print_error "bin/update falló"
+            exit 1
+        fi
+    fi
+    print_status_ok
+
+    echo
+    print_status "Reiniciando servicios (rails, sidekiq, vite)"
+    docker compose -f "$DOCKER_COMPOSE_DST" exec rails bin/rails restart >/dev/null 2>&1 || true
+    docker compose -f "$DOCKER_COMPOSE_DST" restart sidekiq >/dev/null 2>&1 || true
+    docker compose -f "$DOCKER_COMPOSE_DST" restart vite >/dev/null 2>&1 || true
+    print_status_ok
+
+    # Asegurar que todo siga arriba
+    docker compose -f "$DOCKER_COMPOSE_DST" up -d >/dev/null 2>&1 || true
+
+    if ! wait_for_postgres; then
+        exit 1
+    fi
+    if ! wait_for_rails; then
+        exit 1
+    fi
+
+    echo
+    echo -e "${GREEN} Actualización completada correctamente.${NC}"
+    echo
+    echo "Versión actual:" $(git rev-parse --short HEAD) "en" $(get_current_branch)
+}
+
 function init_env() {
     check_chatwoot_exists
     change_chatwoot_dir
@@ -594,6 +706,138 @@ function destroy() {
     fi
 }
 
+# Sincroniza la rama actual con develop sin reconstruir imágenes
+sync_branch() {
+  change_chatwoot_dir
+  if ! check_git_repo; then
+    return 1
+  fi
+
+  local base_branch="${1:-$DEFAULT_UPDATE_BRANCH}"
+
+  # Verificar rama actual
+  local current_branch
+  current_branch=$(get_current_branch)
+  if [ -z "$current_branch" ]; then
+    print_error "No se pudo determinar la rama actual"
+    return 1
+  fi
+
+  if [ "$current_branch" = "$base_branch" ]; then
+    print_error "Estás en '$base_branch'. Ejecuta sync-branch desde otra rama para traer $base_branch al branch actual."
+    return 1
+  fi
+
+  echo
+  print_status "Actualizando referencias remotas"
+  git fetch --all --prune >/dev/null 2>&1 || { print_error "git fetch falló"; return 1; }
+  print_status_ok
+
+  echo
+  print_status "Rebasando '$current_branch' sobre 'origin/$base_branch' (autostash)"
+  if ! git rebase --autostash "origin/$base_branch" >/dev/null 2>&1; then
+    echo
+    print_warning "Rebase falló. Puede haber conflictos."
+    git status -sb || true
+    echo
+    echo "Sugerencias:"
+    echo " - Resolver conflictos, luego: git rebase --continue"
+    echo " - O abortar: git rebase --abort"
+    return 1
+  fi
+  print_status_ok
+
+  # Aplicar actualizaciones de deps y DB sin reconstruir imágenes
+  echo
+  if [ -f "$DOCKER_COMPOSE_DST" ]; then
+    print_status "Asegurando servicios arriba (sin rebuild)"
+    if ! check_services_running; then
+      docker compose -f "$DOCKER_COMPOSE_DST" up -d >/dev/null 2>&1 || true
+    fi
+    print_status_ok
+
+    print_status "Aplicando bin/update dentro del contenedor (sin rebuild)"
+    if check_services_running; then
+      if ! docker compose -f "$DOCKER_COMPOSE_DST" exec rails bin/update >/dev/null 2>&1; then
+        print_warning "exec bin/update falló, intentando con run --rm"
+        if ! docker compose -f "$DOCKER_COMPOSE_DST" run --rm rails bin/update >/dev/null 2>&1; then
+          print_error "bin/update falló dentro del contenedor"
+          echo "Puedes intentar: docker compose -f $DOCKER_COMPOSE_DST exec rails bin/rails db:migrate"
+          return 1
+        fi
+      fi
+    else
+      if ! docker compose -f "$DOCKER_COMPOSE_DST" run --rm rails bin/update >/dev/null 2>&1; then
+        print_error "bin/update falló dentro del contenedor"
+        return 1
+      fi
+    fi
+    print_status_ok
+
+    # Reinicios suaves/duros según servicio
+    print_status "Reiniciando servicios (rails, sidekiq, vite)"
+    docker compose -f "$DOCKER_COMPOSE_DST" exec rails bin/rails restart >/dev/null 2>&1 || true
+    docker compose -f "$DOCKER_COMPOSE_DST" restart sidekiq >/dev/null 2>&1 || true
+    docker compose -f "$DOCKER_COMPOSE_DST" restart vite >/dev/null 2>&1 || true
+    print_status_ok
+
+    # Salud
+    if ! wait_for_postgres; then
+      return 1
+    fi
+    if ! wait_for_rails; then
+      return 1
+    fi
+  else
+    print_status "Aplicando bin/update en host (modo dev)"
+    if ! bin/update >/dev/null 2>&1; then
+      print_error "bin/update falló en host"
+      return 1
+    fi
+    print_status_ok
+  fi
+
+  echo
+  echo -e "${GREEN} Sync con '$base_branch' completado en '${current_branch}'.${NC}"
+}
+
+# Utilidades git
+check_git_repo() {
+    if [ ! -d .git ]; then
+        print_error "No es un repositorio git."
+        return 1
+    fi
+    return 0
+}
+
+has_uncommitted_changes() {
+    if ! check_git_repo; then
+        return 1
+    fi
+    if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+        return 0
+    fi
+    return 1
+}
+
+get_current_branch() {
+    git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
+
+prompt_continue_on_dirty_tree() {
+    if has_uncommitted_changes; then
+        echo
+        print_warning "Tienes cambios sin confirmar en el repositorio. Podrían perderse al actualizar."
+        echo -n -e " ${BLUE}¿Deseas continuar de todas formas? (s/N): ${NC}"
+        read -r ans
+        echo
+        if [[ ! "$ans" =~ ^[SsYy]$ ]]; then
+            echo -e "${BLUE} Operación cancelada.${NC}"
+            exit 0
+        fi
+    fi
+}
+
 case "$1" in
     install)
         install "$1" "$2"
@@ -621,6 +865,14 @@ case "$1" in
         ;;
     console)
         console
+        ;;
+    update)
+        # Permite ./chatwoot.sh update [branch]
+        update "$2"
+        ;;
+    sync-branch)
+        # Permite ./chatwoot.sh sync-branch [base-branch]
+        sync_branch "$2"
         ;;
     destroy)
         destroy
