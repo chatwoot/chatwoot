@@ -153,6 +153,7 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :companies, only: [:index, :show, :create, :update, :destroy]
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active

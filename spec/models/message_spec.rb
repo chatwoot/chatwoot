@@ -4,6 +4,12 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
 RSpec.describe Message do
+  before do
+    # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(described_class).to receive(:reindex_for_search).and_return(true)
+    # rubocop:enable RSpec/AnyInstance
+  end
+
   context 'with validations' do
     it { is_expected.to validate_presence_of(:inbox_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }
@@ -675,6 +681,56 @@ RSpec.describe Message do
       it 'returns true for outgoing message' do
         message.message_type = 'outgoing'
         expect(message.should_index?).to be true
+      end
+    end
+  end
+
+  describe '#reindex_for_search callback' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+
+    before do
+      allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+      account.enable_features('advanced_search_indexing')
+    end
+
+    context 'when message should be indexed' do
+      it 'calls reindex_for_search for incoming message on create' do
+        message = build(:message, conversation: conversation, account: account, message_type: :incoming)
+        expect(message).to receive(:reindex_for_search)
+        message.save!
+      end
+
+      it 'calls reindex_for_search for outgoing message on update' do
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(described_class).to receive(:reindex_for_search).and_return(true)
+        # rubocop:enable RSpec/AnyInstance
+        message = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+        expect(message).to receive(:reindex_for_search).and_return(true)
+        message.update!(content: 'Updated content')
+      end
+    end
+
+    context 'when message should not be indexed' do
+      it 'does not call reindex_for_search for activity message' do
+        message = build(:message, conversation: conversation, account: account, message_type: :activity)
+        expect(message).not_to receive(:reindex_for_search)
+        message.save!
+      end
+
+      it 'does not call reindex_for_search for unpaid account on cloud' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features('advanced_search_indexing')
+        message = build(:message, conversation: conversation, account: account, message_type: :incoming)
+        expect(message).not_to receive(:reindex_for_search)
+        message.save!
+      end
+
+      it 'does not call reindex_for_search when advanced search is not allowed' do
+        allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
+        message = build(:message, conversation: conversation, account: account, message_type: :incoming)
+        expect(message).not_to receive(:reindex_for_search)
+        message.save!
       end
     end
   end
