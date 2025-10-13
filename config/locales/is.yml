@@ -188,6 +188,8 @@ is:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
         open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Samtal var merkt sem leyst af %{user_name}'
         contact_resolved: 'Samtal var leyst af %{contact_name}'
