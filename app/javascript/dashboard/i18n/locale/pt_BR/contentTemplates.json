@@ -1,7 +1,7 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
+      "TITLE": "Templates Twilio",
       "SUBTITLE": "Select the Twilio template you want to send",
       "TEMPLATE_SELECTED_SUBTITLE": "Configurar modelo: {templateName}"
     },
@@ -27,7 +27,7 @@
       },
       "TYPES": {
         "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
+        "QUICK_REPLY": "Resposta Rápida",
         "TEXT": "Texto"
       }
     },
@@ -41,7 +41,7 @@
       "FORM_ERROR_MESSAGE": "Por favor, preencha todas as variáveis antes de enviar",
       "MEDIA_HEADER_LABEL": "Cabeçalho {type}",
       "MEDIA_URL_LABEL": "Enter full media URL",
-      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+      "MEDIA_URL_PLACEHOLDER": "https://exemplo.com.br/imagem.jpg"
     },
     "FORM": {
       "BACK_BUTTON": "Anterior",

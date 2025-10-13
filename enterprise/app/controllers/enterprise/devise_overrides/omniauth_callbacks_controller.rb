@@ -32,23 +32,59 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     end
   end
 
+  def omniauth_failure
+    return super unless params[:provider] == 'saml'
+
+    relay_state = saml_relay_state
+    error = params[:message] || 'authentication-failed'
+
+    if for_mobile?(relay_state)
+      redirect_to_mobile_error(error, relay_state)
+    else
+      redirect_to login_page_url(error: "saml-#{error}")
+    end
+  end
+
   private
 
   def handle_saml_auth
     account_id = extract_saml_account_id
-    return redirect_to login_page_url(error: 'saml-not-enabled') unless saml_enabled_for_account?(account_id)
+    relay_state = saml_relay_state
+
+    unless saml_enabled_for_account?(account_id)
+      return redirect_to_mobile_error('saml-not-enabled') if for_mobile?(relay_state)
+
+      return redirect_to login_page_url(error: 'saml-not-enabled')
+    end
 
     @resource = SamlUserBuilder.new(auth_hash, account_id).perform
 
     if @resource.persisted?
+      return sign_in_user_on_mobile if for_mobile?(relay_state)
+
       sign_in_user
     else
+      return redirect_to_mobile_error('saml-authentication-failed') if for_mobile?(relay_state)
+
       redirect_to login_page_url(error: 'saml-authentication-failed')
     end
   end
 
   def extract_saml_account_id
     params[:account_id] || session[:saml_account_id] || request.env['omniauth.params']&.dig('account_id')
+  end
+
+  def saml_relay_state
+    session[:saml_relay_state] || request.env['omniauth.params']&.dig('RelayState')
+  end
+
+  def for_mobile?(relay_state)
+    relay_state.to_s.casecmp('mobile').zero?
+  end
+
+  def redirect_to_mobile_error(error)
+    mobile_deep_link_base = GlobalConfigService.load('MOBILE_DEEP_LINK_BASE', 'chatwootapp')
+    redirect_to "#{mobile_deep_link_base}://auth/saml?error=#{ERB::Util.url_encode(error)}", allow_other_host: true
   end
 
   def saml_enabled_for_account?(account_id)
