@@ -287,7 +287,7 @@ const submit = async () => {
             <div class="font-semibold text-right flex flex-col gap-1">
               <span>{{ totalPrice.toLocaleString() }} IDR</span>
               <span>{{ selectedVoucher?.voucher?.voucher?.discount_value?.toLocaleString() || 0 }} {{ selectedVoucherType }}</span>
-              <span>{{ (selectedVoucher?.new_price || totalPrice).toLocaleString() || 0 }} IDR</span>
+              <span>{{ (Math.max(selectedVoucher?.new_price ?? totalPrice, 0)).toLocaleString() }} IDR</span>
             </div>
           </div>
          </div>
