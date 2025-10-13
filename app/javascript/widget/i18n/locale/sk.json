@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Znova odoslať správu",
       "ERROR_MESSAGE": "Couldn't send, try again"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Prebieha preklad..."
     }
   },
   "THUMBNAIL": {

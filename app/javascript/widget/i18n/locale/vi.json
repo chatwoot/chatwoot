@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Gửi lại tin nhắn",
       "ERROR_MESSAGE": "Không thể gửi, xin thử lại"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Đang dịch..."
     }
   },
   "THUMBNAIL": {

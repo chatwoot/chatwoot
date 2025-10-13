@@ -53,7 +53,8 @@ export default {
       ) {
         return false;
       }
-      return this.message.content;
+      // Mostrar el texto efectivo que verá el contacto (fallback a content)
+      return this.displayedText;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
@@ -131,6 +132,13 @@ export default {
     hasReplyTo() {
       return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
     },
+    // Nuevo: texto mostrado al contacto con fallback a content
+    displayedText() {
+      const { message } = this;
+      return (
+        this.message?.content_attributes?.contact_view_text || message.content
+      );
+    },
   },
   watch: {
     message() {
@@ -194,7 +202,7 @@ export default {
               :message-content-attributes="messageContentAttributes"
               :message-id="message.id"
               :message-type="messageType"
-              :message="message.content"
+              :message="displayedText"
             />
             <div
               v-if="hasAttachments"

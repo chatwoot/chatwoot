@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Kirim pesan lagi",
       "ERROR_MESSAGE": "Tidak dapat mengirim, coba lagi"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Sedang menerjemahkan..."
     }
   },
   "THUMBNAIL": {

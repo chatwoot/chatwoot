@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Skicka meddelande igen",
       "ERROR_MESSAGE": "Kunde inte skicka, försök igen"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Översätter..."
     }
   },
   "THUMBNAIL": {

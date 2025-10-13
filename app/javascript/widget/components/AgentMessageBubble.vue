@@ -7,6 +7,7 @@ import ChatArticle from './template/Article.vue';
 import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import IntegrationCard from './template/IntegrationCard.vue';
+import aiStars from '../assets/images/ai-stars.svg';
 
 export default {
   name: 'AgentMessageBubble',
@@ -37,6 +38,7 @@ export default {
       getPlainText,
       truncateMessage,
       highlightContent,
+      aiStars,
     };
   },
   computed: {
@@ -63,6 +65,12 @@ export default {
     },
     isIntegrations() {
       return this.contentType === 'integrations';
+    },
+    // Show the auto-translation indicator only while translating and no contact_view_text
+    isTranslating() {
+      const state = this.messageContentAttributes?.contact_view_state;
+      const viewText = this.messageContentAttributes?.contact_view_text;
+      return state === 'translating' && !viewText;
     },
   },
   methods: {
@@ -112,6 +120,15 @@ export default {
         :message-id="messageId"
         :meeting-data="messageContentAttributes.data"
       />
+
+      <!-- Auto-Translation progress indicator -->
+      <div
+        v-if="isTranslating"
+        class="mt-1 flex items-center gap-1 text-xs text-n-slate-11 animate-loader-pulse"
+      >
+        <img :src="aiStars" width="24" height="24" alt="" aria-hidden="true" />
+        <span>{{ $t('COMPONENTS.AGENT_MESSAGE.TRANSLATING') }}</span>
+      </div>
     </div>
     <div v-if="isOptions">
       <ChatOptions

@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Dërgo mesazh përsëri",
       "ERROR_MESSAGE": "Nuk mund të dërgohej, provo sërish"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Duke përkthyer..."
     }
   },
   "THUMBNAIL": {

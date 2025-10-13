@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Üzenet elküldése újból",
       "ERROR_MESSAGE": "Nem sikerült az elküldés, kérjük próbáld később"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Fordítás folyamatban..."
     }
   },
   "THUMBNAIL": {

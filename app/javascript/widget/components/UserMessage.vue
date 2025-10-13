@@ -51,9 +51,15 @@ export default {
       const { status = '' } = this.message;
       return status === 'in_progress';
     },
-    showTextBubble() {
+    // Nuevo: texto mostrado al contacto con fallback a content
+    displayedText() {
       const { message } = this;
-      return !!message.content;
+      return (
+        this.message?.content_attributes?.contact_view_text || message.content
+      );
+    },
+    showTextBubble() {
+      return !!this.displayedText;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
@@ -124,7 +130,7 @@ export default {
           <DragWrapper direction="left" @dragged="toggleReply">
             <UserMessageBubble
               v-if="showTextBubble"
-              :message="message.content"
+              :message="displayedText"
               :status="message.status"
               :widget-color="widgetColor"
             />

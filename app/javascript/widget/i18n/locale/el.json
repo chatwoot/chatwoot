@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Επαναποστολή μηνύματος",
       "ERROR_MESSAGE": "Αδυναμία αποστολής! Προσπαθήστε ξανά"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Γίνεται μετάφραση..."
     }
   },
   "THUMBNAIL": {

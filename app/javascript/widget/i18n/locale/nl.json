@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Bericht opnieuw verzenden",
       "ERROR_MESSAGE": "Verzenden mislukt, probeer het opnieuw"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Bezig met vertalen..."
     }
   },
   "THUMBNAIL": {

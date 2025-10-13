@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Siųsti žinutę dar kartą",
       "ERROR_MESSAGE": "Nepavyko išsiųsti! bandykite dar kartą"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Verčiama..."
     }
   },
   "THUMBNAIL": {

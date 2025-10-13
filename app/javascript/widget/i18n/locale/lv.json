@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Sūtīt ziņojumu vēlreiz",
       "ERROR_MESSAGE": "Nevarēja nosūtīt. Lūdzu, mēģiniet vēlreiz"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Notiek tulkošana..."
     }
   },
   "THUMBNAIL": {

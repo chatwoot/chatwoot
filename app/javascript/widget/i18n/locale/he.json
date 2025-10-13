@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "שלח שוב הודעה",
       "ERROR_MESSAGE": "לא ניתן לשלוח, נסה שוב"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "מתבצע תרגום..."
     }
   },
   "THUMBNAIL": {

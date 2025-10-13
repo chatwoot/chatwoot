@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Endursenda skilaboð",
       "ERROR_MESSAGE": "Tókst ekki að senda skilaboðin, reyndu aftur"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Er að þýða..."
     }
   },
   "THUMBNAIL": {

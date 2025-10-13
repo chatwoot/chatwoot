@@ -6,6 +6,9 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Submit"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "正在翻译..."
     }
   },
   "AGENT_AVAILABILITY": {

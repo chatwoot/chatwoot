@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Надіслати ще раз",
       "ERROR_MESSAGE": "Не вдалося надіслати, спробуйте ще раз"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Виконується переклад..."
     }
   },
   "THUMBNAIL": {

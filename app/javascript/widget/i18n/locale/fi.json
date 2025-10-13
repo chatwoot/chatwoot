@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Lähetä viesti uudelleen",
       "ERROR_MESSAGE": "Ei voitu lähettää, yritä uudestaan"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Käännetään..."
     }
   },
   "THUMBNAIL": {

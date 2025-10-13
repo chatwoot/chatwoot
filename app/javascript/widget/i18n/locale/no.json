@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Send meldingen på nytt",
       "ERROR_MESSAGE": "Kunne ikke sende, prøv på nytt"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Oversetter..."
     }
   },
   "THUMBNAIL": {

@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "دوباره پیام بدید",
       "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "در حال ترجمه..."
     }
   },
   "THUMBNAIL": {

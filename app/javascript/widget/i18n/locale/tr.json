@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Mesajı tekrar gönder",
       "ERROR_MESSAGE": "Gönderilemedi, tekrar deneyin"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Çeviri yapılıyor..."
     }
   },
   "THUMBNAIL": {

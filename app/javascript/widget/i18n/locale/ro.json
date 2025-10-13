@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Trimiteți din nou un mesaj",
       "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Se traduce..."
     }
   },
   "THUMBNAIL": {

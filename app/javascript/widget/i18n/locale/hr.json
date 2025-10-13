@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "Pošalji poruku ponovno",
       "ERROR_MESSAGE": "Nismo uspjeli poslati, pokušajte ponovno"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "Prevođenje u tijeku..."
     }
   },
   "THUMBNAIL": {

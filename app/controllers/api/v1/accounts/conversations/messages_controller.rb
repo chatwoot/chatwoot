@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
-  before_action :ensure_api_inbox, only: :update
+  # before_action :ensure_api_inbox, only: :update
 
   def index
     @messages = message_finder.perform
@@ -14,8 +14,31 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def update
-    Messages::StatusUpdateService.new(message, permitted_params[:status], permitted_params[:external_error]).perform
+    # Track who performed the update so listeners can use it
+    Current.executed_by = Current.user || @resource
+
+    # If status update is requested, ensure it is allowed only for API inboxes
+    if permitted_status_params[:status].present?
+      return unless ensure_api_inbox!
+      Messages::StatusUpdateService.new(message, permitted_status_params[:status], permitted_status_params[:external_error]).perform
+    end
+
+    # If content/content_attributes update is requested, apply it
+    content_attrs = permitted_content_params
+    if content_attrs.present?
+      if content_attrs.key?(:content_attributes)
+        merged_attrs = (message.content_attributes || {}).deep_merge(content_attrs[:content_attributes].to_h)
+        content_attrs[:content_attributes] = merged_attrs
+      end
+      message.update!(content_attrs)
+    end
+
     @message = message
+  rescue StandardError => e
+    render_could_not_create_error(e.message)
+  ensure
+    # Reset executed_by to avoid leaking context
+    Current.executed_by = nil
   end
 
   def destroy
@@ -65,7 +88,16 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language, :status, :external_error)
+    params.permit(:id, :target_language)
+  end
+
+  def permitted_status_params
+    params.permit(:status, :external_error)
+  end
+
+  def permitted_content_params
+    # Allow updating content and content_attributes
+    params.permit(:content, content_attributes: {})
   end
 
   def already_translated_content_available?
@@ -73,8 +105,13 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   # API inbox check
-  def ensure_api_inbox
-    # Only API inboxes can update messages
-    render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden unless @conversation.inbox.api?
+  def ensure_api_inbox!
+    # Only API inboxes can update message status
+    if @conversation.inbox.api?
+      true
+    else
+      render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden
+      false
+    end
   end
 end

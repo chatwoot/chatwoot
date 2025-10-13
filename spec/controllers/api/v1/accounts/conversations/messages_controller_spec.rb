@@ -324,6 +324,29 @@ RSpec.describe 'Conversation Messages API', type: :request do
           ), params: { status: 'failed', external_error: 'err' }, headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:forbidden)
         end
+
+        it 'allows updating content for non-API inbox' do
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { content: 'new content' }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(message.reload.content).to eq('new content')
+        end
+
+        it 'does not update content when status param present and inbox is non-API' do
+          original_content = message.content
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { status: 'failed', content: 'should not apply' }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:forbidden)
+          expect(message.reload.content).to eq(original_content)
+        end
       end
 
       context 'when agent has API inbox' do
@@ -352,6 +375,51 @@ RSpec.describe 'Conversation Messages API', type: :request do
           expect(response).to have_http_status(:success)
           expect(message.reload.status).to eq('failed')
           expect(message.reload.external_error).to eq('err123')
+        end
+
+        it 'updates content and merges content_attributes' do
+          message.update!(content: 'old content', content_attributes: { 'foo' => { 'a' => 1 }, 'bar' => 2 })
+
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { content: 'new content', content_attributes: { foo: { b: 3 }, baz: 4 } }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          msg = message.reload
+          expect(msg.content).to eq('new content')
+          expect(msg.content_attributes).to include('bar' => 2, 'baz' => 4)
+          expect(msg.content_attributes['foo']).to eq({ 'a' => 1, 'b' => 3 })
+        end
+
+        it 'updates both status and content in one call' do
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { status: 'failed', external_error: 'boom', content: 'also updated' }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          msg = message.reload
+          expect(msg.status).to eq('failed')
+          expect(msg.external_error).to eq('boom')
+          expect(msg.content).to eq('also updated')
+        end
+
+        it 'dispatches message_updated event' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
+
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { content: 'triggers event' }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(Rails.configuration.dispatcher)
+            .to have_received(:dispatch)
+            .with(anything, kind_of(Time), hash_including(message: message, performed_by: kind_of(User)))
         end
       end
     end

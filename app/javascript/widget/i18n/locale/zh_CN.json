@@ -10,6 +10,9 @@
     "MESSAGE_BUBBLE": {
       "RETRY": "请重新发送消息",
       "ERROR_MESSAGE": "无法发送，请重试"
+    },
+    "AGENT_MESSAGE": {
+      "TRANSLATING": "正在翻译..."
     }
   },
   "THUMBNAIL": {
