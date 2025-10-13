@@ -25,7 +25,7 @@ function handleAgentTypeChange(item) {
 const aiTemplates = ref();
 async function fetchAiAgentTemplates() {
   aiTemplates.value = await aiAgents.listAiTemplate().then(v => v?.data);
-}
+  }
 
 const { accountId } = useAccount();
 const { t } = useI18n()
@@ -144,6 +144,7 @@ const templates = computed(() =>
   aiTemplates.value?.map(e => ({
     label: e.name,
     id: `${e.id}`,
+    description: e.description,
   }))
 );
 const selectedTemplate = computed({
@@ -153,6 +154,10 @@ const selectedTemplate = computed({
 const selectedTemplates = computed({
   get: () => state.selectedTemplates,
   set: (value) => { state.selectedTemplates = value; }
+});
+
+const selectedTemplateDescription = computed(() => {
+  return templates.value?.find(t => t.id === selectedTemplate.value)?.description || '';
 });
 
 // Multi-select dropdown state
@@ -395,6 +400,9 @@ function setDefaultTemplate() {
               {{ template.label }}
             </option>
           </select>
+          <div v-if="selectedAgentType === 'single' && selectedTemplateDescription" class="text-xs text-gray-500 mt-1 mb-2">
+            {{ selectedTemplateDescription }}
+          </div>
           
           <!-- Custom: input for Flowise link -->
           <div v-else-if="selectedAgentType === 'custom'" class="w-full mb-1">
@@ -497,7 +505,11 @@ function setDefaultTemplate() {
                   class="mr-3 text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:focus:ring-blue-400"
                   @click.stop
                 >
-                <span class="flex-1 text-sm">{{ template.label }}</span>
+                <span class="flex-1 text-sm">{{ template.label }}
+                  <span v-if="template.description" class="block text-xs text-gray-500 dark:text-gray-400">
+                    {{ template.description }}
+                  </span>
+                </span>
                 <svg
                   v-if="isTemplateSelected(template.id)"
                   class="w-4 h-4 text-blue-600 dark:text-blue-400"

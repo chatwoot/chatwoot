@@ -43,34 +43,12 @@
           <GeneralTab :config="config" :data="data" :google-sheets-auth="googleSheetsAuth"/>
         </div>
         <div v-show="activeIndex === 1" class="w-full min-w-0">
-         <FileKnowledgeSources 
-            :data="data" 
-            context="cs"
-          />
+          <FileKnowledgeSources :data="data" />
         </div>
         <div v-show="activeIndex === 2" class="w-full">
           <QnaKnowledgeSources :data="data" />
         </div>
-        <div v-show="activeIndex === 3" class="w-full">
-          <CategoryTab :data="data" />
-        </div>
-        <div v-show="activeIndex === 4" class="w-full">
-          <PrioritiesTab :data="data" />
-        </div>
-        <div v-show="activeIndex === 5" class="w-full">
-          <ProductCatalogTab :data="data" />
-        </div>
       </div>
-
-      <!-- Submit Button -->
-      <!-- <div class="pt-6">
-        <button
-          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-          @click="submitConfig"
-        >
-          {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
-        </button>
-      </div> -->
     </div>
   </div>
 </template>
@@ -80,10 +58,7 @@ import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import FileKnowledgeSources from '../knowledge-sources/FileKnowledgeSources.vue'
 import QnaKnowledgeSources from '../knowledge-sources/QnaKnowledgeSources.vue'
-import CategoryTab from './cs-bot-tabs/CategoryTab.vue'
-import PrioritiesTab from './cs-bot-tabs/PrioritiesTab.vue'
-import ProductCatalogTab from './cs-bot-tabs/ProductCatalogTab.vue'
-import GeneralTab from './cs-bot-tabs/GeneralTab.vue'
+import GeneralTab from './eo-bot-tabs/GeneralTab.vue'
 
 const { t } = useI18n()
 
@@ -122,32 +97,10 @@ const tabs = computed(() => [
     name: 'QnA',
     icon: 'i-lucide-help-circle',
   },
-  {
-    key: '3',
-    index: 3,
-    name: t('AGENT_MGMT.CSBOT.TICKET.CATEGORY_TITLE'),
-    icon: 'i-lucide-tag',
-  },
-  {
-    key: '4',
-    index: 4,
-    name: t('AGENT_MGMT.CSBOT.TICKET.PRIORITY_TITLE'),
-    icon: 'i-lucide-star',
-  },
-  // {
-  //   key: '5',
-  //   index: 5,
-  //   name: 'Catalog',
-  //   icon: 'i-lucide-shopping-cart',
-  // },
 ])
 
 const activeIndex = ref(0)
 
-// function submitConfig() {
-//   console.log('Submitting config:', config)
-//   // TODO: API call integration
-// }
 </script>
 
 <style lang="css">

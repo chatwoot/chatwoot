@@ -104,6 +104,49 @@
         "REMOVE": "Hapus"
       }
     },
+    "LEADGENBOT": {
+      "TICKET": {
+        "ERROR": "Field ini wajib diisi",
+        "DUPE_ERROR": "Nama harus unik",
+        "HEADER": "Konfigurasi Lead Gen Bot",
+        "HEADER_DESC": "Halaman ini berisi pengaturan untuk bot Anda.",
+        "SYSTEM_TITLE": "Aktifkan Sistem Tiket",
+        "SYSTEM_DESC": "Jika nonaktif, semua percakapan akan langsung dialihkan ke agen.",
+        "GENERAL_SETTINGS": "Umum",
+        "ACTIVE": "Aktif",
+        "INACTIVE": "Tidak Aktif",
+        "CREATE_WHEN_DESC": "Pilih kapan sistem akan membuat tiket otomatis",
+        "CREATE_WHEN": "Kapan tiket dibuat?",
+        "CREATE_ALWAYS": "Selalu buat tiket",
+        "CREATE_ON_FAIL": "Hanya jika bot tidak bisa menjawab",
+        "PRIORITY_TITLE": "Prioritas Tiket",
+        "PRIORITY_DESC": "Atur level prioritas dan (opsional) tuliskan kondisi seperti kata kunci.",
+        "PRIORITY_PLACEHOLDER": "Nama prioritas (mis. Rendah)",
+        "CATEGORY_TITLE": "Kategori Tiket",
+        "CATEGORY_DESC": "Atur kategori dan (opsional) tuliskan kondisi.",
+        "CATEGORY_PLACEHOLDER": "Nama kategori (mis. Teknis)",
+        "CONDITION_PLACEHOLDER": "Kondisi atau kata kunci opsional...",
+        "ADD_PRIORITY": "Tambah Prioritas",
+        "ADD_CATEGORY": "Tambah Kategori",
+        "CATEGORY_CONDITION": "Kondisi Kategori",
+        "PRIORITY_CONDITION": "Kondisi Prioritas",
+        "SAVE_SUCCESS": "Berhasil simpan",
+        "SAVE_ERROR": "Gagal simpan",
+        "SAVE_BUTTON": "Simpan",
+        "VALIDATION_ERROR": "Silakan perbaiki kesalahan validasi",
+        "SYSTEM_SETTINGS": "Pengaturan Sistem",
+        "CHARACTERS": "Karakter"
+      },
+      "COMMON": {
+        "GOOGLE_SHEETS_OUTPUT": "Sheet Output Tiket",
+        "GOOGLE_SHEETS_OUTPUT_DESC": "Tiket akan otomatis disimpan di sini",
+        "GOOGLE_SHEETS_AUTH_TITLE": "Hubungkan Google Sheets",
+        "GOOGLE_SHEETS_AUTH_DESC": "Beri akses untuk membuat sheet output tiket",
+        "GOOGLE_SHEETS_TITLE": "Integrasi Google Sheets",
+        "CONNECT_SHEETS_DESC": "Hubungkan ke Google Sheets untuk secara otomatis membuat spreadsheet yang berisi data tiket dari Bot CS Anda. Setelah otentikasi berhasil, sistem akan segera membuat spreadsheet baru di akun Google Anda.",
+        "REMOVE": "Hapus"
+      }
+    },
     "COMMON": {
       "REMOVE": "Hapus"
     },
@@ -258,6 +301,50 @@
         "DISABLED_STATUS": "Keranjang belanja dinonaktifkan",
         "DISABLED_DESC_DETAIL": "Pelanggan akan membeli produk secara individual tanpa fungsi keranjang"
       }
+    },
+    "EOBOT": {
+      "CATALOG": {
+        "HEADER": "Sheets Input",
+        "SHEETS_TITLE": "Katalog Acara Google Sheets",
+        "SHEETS_PLACEHOLDER": "Tautan Google Sheets katalog acara",
+        "SHEETS_AUTH_DESC": "Lakukan autentikasi dengan Google untuk membuat spreadsheet berisi data acara secara otomatis.",
+        "DESC_TITLE": "Deskripsi Kolom (Opsional)",
+        "DESC_PLACEHOLDER": "Nama Acara, Tanggal, Lokasi, Harga, dll",
+        "PRODUCT_COLUMNS_TITLE": "Kolom Informasi Acara",
+        "PRODUCT_COLUMNS_PLACEHOLDER": "event_id,nama_acara,tanggal,lokasi,harga,deskripsi",
+        "PRODUCT_COLUMNS_DESC": "Pisahkan kolom dengan koma untuk data acara. Klik \"Sinkron dari Sheet\" untuk mengambil kolom secara otomatis dari spreadsheet Anda.",
+        "SYNC_BUTTON": "Sinkron dari Sheet",
+        "SYNC_BUTTON_LOADING": "Sedang Sinkronisasi...",
+        "SYNC_SUCCESS": "Kolom acara berhasil disinkronkan!",
+        "SYNC_ERROR": "Gagal menyinkronkan kolom acara",
+        "SYNC_INFO": "Menyinkronkan kolom acara dari spreadsheet...",
+        "INPUT_SHEET_TITLE": "Sheets Input Katalog Acara",
+        "INPUT_SHEET_DESC": "Tabel utama untuk mengelola data acara, harga, jadwal, dan detail acara.",
+        "OUTPUT_SHEET_TITLE": "Sheets Pelacakan Pemesanan",
+        "OUTPUT_SHEET_DESC": "Menampilkan data pemesanan dan interaksi klien yang ditangani oleh EO Bot."
+      },
+      "GENERAL_TAB": "Umum",
+      "KNOWLEDGE_SOURCES_TAB": "Sumber Pengetahuan",
+      "HEADER": "Konfigurasi EO Bot",
+      "HEADER_DESC": "Halaman ini berisi pengaturan konfigurasi untuk Event Organizer Bot Anda.",
+      "AUTH_LABEL": "Autentikasi",
+      "AUTH_DESC": "Lakukan autentikasi dengan Google untuk membuat spreadsheet berisi data dari EO Bot secara otomatis. Setelah autentikasi berhasil, sistem akan langsung membuat spreadsheet baru di akun Google Anda.",
+      "AUTH_BTN": "Mulai Autentikasi dengan Google",
+      "CONNECTED_HEADER": "Berhasil Terhubung!",
+      "CONNECTED_DESC": "Akun Google Anda telah terhubung.",
+      "RETRY_AUTH_BTN": "Coba Autentikasi Ulang",
+      "RETRY_AUTH_LOADING": "Sedang Mengautentikasi Ulang...",
+      "DISC_BTN": "Putuskan Koneksi",
+      "CREATE_SHEETS_BTN": "Buat Sheets Input & Output",
+      "CREATE_SHEETS_LOADING": "Sedang Membuat Sheets...",
+      "INPUT_SHEET_LABEL": "Sheets Input",
+      "INPUT_SHEET_DESC": "Sheets untuk konfigurasi dan data katalog acara EO Bot",
+      "OUTPUT_SHEET_LABEL": "Sheets Output",
+      "OUTPUT_SHEET_DESC": "Sheets untuk menyimpan data pemesanan dan interaksi klien dari EO Bot",
+      "OPEN_SHEET_BTN": "Buka Sheets",
+      "SAVE_BTN": "Simpan",
+      "SAVE_SUCCESS": "Berhasil disimpan",
+      "SAVE_ERROR": "Gagal menyimpan"
     },
     "SEARCH": {
       "NO_RESULTS": "Tidak ada hasil ditemukan."

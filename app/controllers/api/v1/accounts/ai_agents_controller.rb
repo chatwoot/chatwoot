@@ -73,7 +73,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def ai_agent_templates
-    agent_templates = AiAgentTemplate.jangkau.select(:id, :name)
+    agent_templates = AiAgentTemplate.jangkau.select(:id, :name, :description)
     render json: agent_templates, status: :ok
   end
 

@@ -2,10 +2,10 @@
   <div class="w-full">
     <div class="pb-4">
       <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-1">
-        {{ $t('AGENT_MGMT.CSBOT.TICKET.HEADER') }}
+        {{ $t('AGENT_MGMT.LEADGENBOT.TICKET.HEADER') }}
       </h2>
       <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-        {{ $t('AGENT_MGMT.CSBOT.TICKET.HEADER_DESC') }}
+        {{ $t('AGENT_MGMT.LEADGENBOT.TICKET.HEADER_DESC') }}
       </p>
       <div class="border-b border-gray-200 dark:border-gray-700"></div>
     </div>
@@ -42,35 +42,7 @@
         <div v-show="activeIndex === 0" class="w-full min-w-0">
           <GeneralTab :config="config" :data="data" :google-sheets-auth="googleSheetsAuth"/>
         </div>
-        <div v-show="activeIndex === 1" class="w-full min-w-0">
-         <FileKnowledgeSources 
-            :data="data" 
-            context="cs"
-          />
-        </div>
-        <div v-show="activeIndex === 2" class="w-full">
-          <QnaKnowledgeSources :data="data" />
-        </div>
-        <div v-show="activeIndex === 3" class="w-full">
-          <CategoryTab :data="data" />
-        </div>
-        <div v-show="activeIndex === 4" class="w-full">
-          <PrioritiesTab :data="data" />
-        </div>
-        <div v-show="activeIndex === 5" class="w-full">
-          <ProductCatalogTab :data="data" />
-        </div>
       </div>
-
-      <!-- Submit Button -->
-      <!-- <div class="pt-6">
-        <button
-          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-          @click="submitConfig"
-        >
-          {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
-        </button>
-      </div> -->
     </div>
   </div>
 </template>
@@ -78,12 +50,7 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import FileKnowledgeSources from '../knowledge-sources/FileKnowledgeSources.vue'
-import QnaKnowledgeSources from '../knowledge-sources/QnaKnowledgeSources.vue'
-import CategoryTab from './cs-bot-tabs/CategoryTab.vue'
-import PrioritiesTab from './cs-bot-tabs/PrioritiesTab.vue'
-import ProductCatalogTab from './cs-bot-tabs/ProductCatalogTab.vue'
-import GeneralTab from './cs-bot-tabs/GeneralTab.vue'
+import GeneralTab from './lead-gen-tabs/GeneralTab.vue'
 
 const { t } = useI18n()
 
@@ -110,36 +77,6 @@ const tabs = computed(() => [
     name: t('AGENT_MGMT.CSBOT.TICKET.GENERAL_SETTINGS'),
     icon: 'i-lucide-settings',
   },
-  {
-    key: '1',
-    index: 1,
-    name: 'File',
-    icon: 'i-lucide-folder',
-  },
-  {
-    key: '2',
-    index: 2,
-    name: 'QnA',
-    icon: 'i-lucide-help-circle',
-  },
-  {
-    key: '3',
-    index: 3,
-    name: t('AGENT_MGMT.CSBOT.TICKET.CATEGORY_TITLE'),
-    icon: 'i-lucide-tag',
-  },
-  {
-    key: '4',
-    index: 4,
-    name: t('AGENT_MGMT.CSBOT.TICKET.PRIORITY_TITLE'),
-    icon: 'i-lucide-star',
-  },
-  // {
-  //   key: '5',
-  //   index: 5,
-  //   name: 'Catalog',
-  //   icon: 'i-lucide-shopping-cart',
-  // },
 ])
 
 const activeIndex = ref(0)

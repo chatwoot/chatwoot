@@ -8,6 +8,8 @@ import CSBotView from './botconfigs/CSBotView.vue';
 import RestaurantBotView from './botconfigs/RestaurantBotView.vue';
 import BookingBotView from './botconfigs/BookingBotView.vue';
 import SalesBotView from './botconfigs/SalesBotView.vue';
+import LeadGenBotView from './botconfigs/LeadGenBotView.vue';
+import EOBotView from './botconfigs/EOBotView.vue';
 import { onMounted, ref, computed, reactive } from 'vue';
 import aiAgents from '../../../api/aiAgents';
 import googleSheetsExportAPI from '../../../api/googleSheetsExport';
@@ -56,6 +58,18 @@ const allTabs = [
     name: 'Sales Bot',
     type: 'sales',
   },
+  {
+    key: '7',
+    index: 7,
+    name: 'Lead Gen Bot',
+    type: 'lead_generation',
+  },
+  {
+    key: '8',
+    index: 8,
+    name: 'Event Organizer Bot',
+    type: 'event_organizer',
+  }
 ];
 
 const visibleTabs = computed(() => {
@@ -111,7 +125,9 @@ const googleSheetsAuth = reactive({
     booking: { input: '', output: '' },
     customer_service: { output: '' },
     restaurant: { input: '', output: '' },
-    sales: { input: '', output: '' }
+    sales: { input: '', output: '' },
+    lead_generation: { input: '', output: '' },
+    event_organizer: { input: '', output: '' },
   },
   error: null,
 });
@@ -287,6 +303,20 @@ async function loadSpreadsheetUrls() {
         if (response.data.output_spreadsheet_url) {
           googleSheetsAuth.spreadsheetUrls.sales.output = response.data.output_spreadsheet_url;
         }
+      } else if (agentType === 'lead_generation') {
+        if (response.data.input_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.lead_generation.input = response.data.input_spreadsheet_url;
+        }
+        if (response.data.output_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.lead_generation.output = response.data.output_spreadsheet_url;
+        }
+      } else if (agentType === 'event_organizer') {
+        if (response.data.input_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.event_organizer.input = response.data.input_spreadsheet_url;
+        }
+        if (response.data.output_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.event_organizer.output = response.data.output_spreadsheet_url;
+        }
       }
       
       successCount++;
@@ -352,11 +382,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full px-8 py-8 bg-n-background dark:bg-gray-900 overflow-hidden">
+  <div class="w-full px-8 py-8 bg-n-background dark:bg-gray-900 overflow-auto">
     <div>
-      <center v-if="loadingData">
+      <div v-if="loadingData" class="text-center">
         <span class="mt-4 mb-4 spinner" />
-      </center>
+      </div>
       <div class="mb-3 mt-6">
         <h1
           class="text-2xl font-semibold font-interDisplay tracking-[0.3px] text-slate-900 dark:text-slate-25"
@@ -387,7 +417,6 @@ onMounted(() => {
     <div v-show="activeIndex === 0">
       <AiAgentGeneralSettingsView :data="data" :bot-type="data?.display_flow_data?.type" />
     </div>
-
     <!-- <div v-show="activeIndex === 1">
       <AiAgentKnowledgeSources :data="data" />
     </div> -->
@@ -414,6 +443,13 @@ onMounted(() => {
 
     <div v-show="visibleTabs[activeIndex]?.index === 6">
       <SalesBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
+    </div>
+
+    <div v-show="visibleTabs[activeIndex]?.index === 7">
+      <LeadGenBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
+    </div>
+    <div v-show="visibleTabs[activeIndex]?.index === 8">
+      <EOBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
     </div>
   </div>
 </template>
