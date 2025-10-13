@@ -188,6 +188,8 @@ it:
       captain:
         resolved: 'La conversazione è stata segnata risolta da %{user_name} a causa di inattività'
         open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'La conversazione è stata contrassegnata come risolta da %{user_name}'
         contact_resolved: 'La conversazione è stata risolta da %{contact_name}'
