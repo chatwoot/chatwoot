@@ -23,7 +23,10 @@
 class SubscriptionPlan < ApplicationRecord
   has_many :subscriptions
   has_and_belongs_to_many :vouchers
+  belongs_to :owner_account, class_name: 'Account', optional: true
 
+  validates :owner_account_id, presence: true, if: :is_custom?
+  validates :owner_account_id, uniqueness: { message: 'Custom plan for this account already exists' }, if: :is_custom?
   validates :description, presence: true
   validates :name, presence: true
   validates :max_mau, :max_ai_agents, :max_ai_responses, :max_human_agents, :max_channels, numericality: { greater_than_or_equal_to: 0 }

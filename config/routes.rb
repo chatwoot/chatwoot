@@ -61,16 +61,6 @@ Rails.application.routes.draw do
       # ----------------------------------
 
       # ----------------------------------
-      # start of subscription scoped api routes
-      resources :subscriptions, only: [] do
-        collection do
-          get :plans
-        end
-      end
-      # end of subscription scoped api routes
-      # ----------------------------------
-
-      # ----------------------------------
       # start of pricing plan scoped api routes
       post 'duitku/webhook', to: 'duitku#webhook'
       # end of pricing plan scoped api routes
@@ -98,6 +88,10 @@ Rails.application.routes.draw do
 
           collection do
             get :latest
+          end
+
+          collection do
+            get :plans
           end
 
           member do
