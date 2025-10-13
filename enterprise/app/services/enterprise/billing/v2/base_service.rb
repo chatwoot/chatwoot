@@ -17,10 +17,6 @@ class Enterprise::Billing::V2::BaseService
     custom_attribute('stripe_billing_version').to_i == 2
   end
 
-  def v2_config
-    Rails.application.config.stripe_v2 || {}
-  end
-
   def monthly_credits
     custom_attribute('monthly_credits').to_i
   end

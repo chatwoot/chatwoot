@@ -3,28 +3,13 @@ require 'rails_helper'
 describe Enterprise::Billing::V2::SubscriptionService do
   let(:account) { create(:account) }
   let(:service) { described_class.new(account: account) }
-  let(:config) { Rails.application.config.stripe_v2 }
-
-  around do |example|
-    original_config = config.deep_dup
-    example.run
-    config.replace(original_config)
-  end
-
-  before do
-    config[:plans] ||= {}
-    config[:plans][:startup] = {
-      monthly_credits: 800,
-      pricing_plan_id: 'plan_startup'
-    }
-  end
 
   describe '#migrate_to_v2' do
     it 'updates account attributes and logs initial credit grant' do # rubocop:disable RSpec/MultipleExpectations
       result = nil
 
       expect do
-        result = service.migrate_to_v2(plan_type: 'startup')
+        result = service.migrate_to_v2(plan_type: 'startup', monthly_credits: 800)
       end.to change { account.reload.credit_transactions.count }.by(1)
 
       account.reload
@@ -39,10 +24,17 @@ describe Enterprise::Billing::V2::SubscriptionService do
       expect(transaction.metadata['plan_type']).to eq('startup')
     end
 
+    it 'uses default credits when not specified' do
+      result = service.migrate_to_v2
+
+      expect(result).to include(success: true)
+      expect(account.reload.custom_attributes['monthly_credits']).to eq(100)
+    end
+
     it 'returns error when already on v2' do
       account.update!(custom_attributes: (account.custom_attributes || {}).merge('stripe_billing_version' => 2))
 
-      result = service.migrate_to_v2
+      result = service.migrate_to_v2(monthly_credits: 500)
 
       expect(result[:success]).to be(false)
       expect(result[:message]).to eq('Already on V2')
