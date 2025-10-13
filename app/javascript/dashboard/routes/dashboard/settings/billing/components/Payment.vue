@@ -148,13 +148,16 @@ const submit = async () => {
     const response = await store.dispatch('createSubscription', payload);
     console.log('Response received:', response);
 
-    // If total price is 0, directly activate the plan without payment
-    if (finalPrice === 0) {
-      useAlert(t('PAYMENT.SUCCESS_FREE_PLAN') || 'Langganan berhasil diaktifkan!');
+    // Handle free subscription (activated with voucher)
+    if (response && response.is_free) {
+      useAlert(response.message || 'Langganan berhasil diaktifkan dengan voucher!');
       emit('close');
+      // Optionally refresh subscription data
+      await store.dispatch('myActiveSubscription');
       return;
     }
 
+    // Handle regular paid subscription
     if (
       response &&
       response.subscription_payment &&

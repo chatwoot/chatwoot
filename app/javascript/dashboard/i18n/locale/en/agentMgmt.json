@@ -241,7 +241,8 @@
       "INDUSTRY_TEMPLATE": "Select Industry Template",
       "MIN_DURATION_LABEL": "Minimum duration per session (Minutes)",
       "SAVE_BTN": "Save",
-      "SYNC_BUTTON": "Sync data based on Sheet"
+      "SYNC_BUTTON": "Sync data based on Sheet",
+      "CHARACTERS": "characters"
     },
     "RESTAURANT_BOT": {
       "GENERAL_TAB": "General",

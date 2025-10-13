@@ -29,6 +29,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
     billing_cycle = params[:billing_cycle] || 'monthly'
     qty = params[:qty] || 1
     voucher_code = params[:voucher_code]
+    voucher = nil
     price = calculate_package_price(@subscription_plan.monthly_price, @subscription_plan.name, qty)
 
     # Apply voucher if present
@@ -39,6 +40,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
         price = result[:new_price]
       else
         render json: { success: false, error: result[:voucher][:error] }, status: :unprocessable_entity
+        return
       end
     end
     
@@ -60,63 +62,156 @@ class Api::V1::SubscriptionsController < Api::BaseController
       )
       
       if @subscription.save
-        VoucherUsage.create!(voucher: voucher, account: @account, subscription: @subscription) if voucher_code.present?
-        
         begin
-          order_id = "RADAI-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
+          VoucherUsage.create!(voucher: voucher, account: @account, subscription: @subscription) if voucher.present?
+          
+          # Handle free subscription (price = 0) - activate immediately without payment
+          if price == 0
+            @subscription.update!(
+              status: 'active',
+              payment_status: 'paid'
+            )
+            
+            # Deactivate previous active subscriptions for this account (same as Duitku webhook)
+            updated_count = Subscription.where(account_id: @account.id, status: 'active', payment_status: 'paid')
+              .where.not(id: @subscription.id)
+              .update_all(status: 'inactive')
 
-          transaction = Transaction.create!(
-            transaction_id: order_id,
-            user_id: current_user.id,
-            account_id: @account.id,
-            package_type: 'subscription',
-            package_name: @subscription.plan_name,
-            price: @subscription.price,
-            duration: qty.to_i,
-            duration_unit: 'month',
-            status: 'pending',
-            payment_method: params[:payment_method],
-            transaction_date: Time.current,
-            action: 'pay'
-          )
+            if updated_count > 0
+              Rails.logger.info("Deactivated #{updated_count} previous active subscriptions for account #{@account.id}")
+            else
+              Rails.logger.info("No previous active subscriptions found for account #{@account.id}")
+            end
+            
+            # Create transaction record for audit trail
+            transaction = Transaction.create!(
+              transaction_id: "RADAI-FREE-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}",
+              user_id: current_user.id,
+              account_id: @account.id,
+              package_type: 'subscription',
+              package_name: @subscription.plan_name,
+              price: 0,
+              duration: qty.to_i,
+              duration_unit: 'month',
+              status: 'paid',
+              payment_method: 'voucher',
+              transaction_date: Time.current,
+              payment_date: Time.current,
+              action: 'pay'
+            )
 
-          # Hubungkan subscription ke transaction
-          TransactionSubscriptionRelation.create!(
-            transaction_id: transaction.id,
-            subscription_id: @subscription.id
-          )
+            # Hubungkan subscription ke transaction
+            TransactionSubscriptionRelation.create!(
+              transaction_id: transaction.id,
+              subscription_id: @subscription.id
+            )
 
-          payment_created = create_payment_for_subscription(order_id)
-          payment = payment_created[:payment]
-
-          transaction.update!(
-            payment_url: payment.payment_url,
-            expiry_date: payment.expires_at
-          )  
-
-          PaymentExpireJob.set(wait: (payment_created[:expiry_period].to_i + 1).minutes).perform_later(transaction.transaction_id)
+            # Create SubscriptionPayment record for consistency with Duitku webhook flow
+            subscription_payment = @subscription.subscription_payments.create!(
+              amount: 0,
+              duitku_order_id: transaction.transaction_id,
+              payment_method: 'voucher',
+              status: 'paid',
+              paid_at: Time.current,
+              payment_details: { 
+                voucher_code: voucher_code,
+                voucher_discount: voucher&.discount_value,
+                voucher_type: voucher&.discount_type,
+                original_price: calculate_package_price(@subscription_plan.monthly_price, @subscription_plan.name, qty)
+              }
+            )
 
           user = transaction.user
-          InvoiceMailer.send_invoice_waiting(
+          # Send activation email for successful subscription
+          InvoiceMailer.send_invoice(
               user.email,
               user.name,
               transaction.transaction_id,
               transaction.transaction_date.in_time_zone("Asia/Jakarta").strftime("%d-%m-%Y %H:%M:%S"),
-              transaction.price.to_i,
+              0,
               transaction.package_name,
-              transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
+              'Voucher',
+              @subscription.ends_at.in_time_zone("Asia/Jakarta").strftime("%d-%m-%Y %H:%M:%S")
             ).deliver_later
-            Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
+            Rails.logger.info("Free subscription activated & confirmation sent to #{user.email} (##{transaction.transaction_id})")
 
           render json: { 
             subscription: @subscription, 
-            subscription_payment: payment,
-            transaction: transaction
+            subscription_payment: subscription_payment,
+            transaction: transaction,
+            message: 'Subscription activated successfully with voucher',
+            is_free: true
           }, status: :created
+        else
+          # Normal payment flow for non-zero prices
+          begin
+            order_id = "RADAI-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
+
+            transaction = Transaction.create!(
+              transaction_id: order_id,
+              user_id: current_user.id,
+              account_id: @account.id,
+              package_type: 'subscription',
+              package_name: @subscription.plan_name,
+              price: @subscription.price,
+              duration: qty.to_i,
+              duration_unit: 'month',
+              status: 'pending',
+              payment_method: params[:payment_method],
+              transaction_date: Time.current,
+              action: 'pay'
+            )
+
+            # Hubungkan subscription ke transaction
+            TransactionSubscriptionRelation.create!(
+              transaction_id: transaction.id,
+              subscription_id: @subscription.id
+            )
+
+            payment_created = create_payment_for_subscription(order_id)
+            payment = payment_created[:payment]
+
+            transaction.update!(
+              payment_url: payment.payment_url,
+              expiry_date: payment.expires_at
+            )  
+
+            PaymentExpireJob.set(wait: (payment_created[:expiry_period].to_i + 1).minutes).perform_later(transaction.transaction_id)
+
+            user = transaction.user
+            InvoiceMailer.send_invoice_waiting(
+                user.email,
+                user.name,
+                transaction.transaction_id,
+                transaction.transaction_date.in_time_zone("Asia/Jakarta").strftime("%d-%m-%Y %H:%M:%S"),
+                transaction.price.to_i,
+                transaction.package_name,
+                transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
+              ).deliver_later
+              Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
+
+            render json: { 
+              subscription: @subscription, 
+              subscription_payment: payment,
+              transaction: transaction
+            }, status: :created
+          rescue => e
+            Rails.logger.error "Payment creation error: #{e.message}"
+            raise ActiveRecord::Rollback
+            render json: { errors: "Failed to create payment: #{e.message}" }, status: :unprocessable_entity
+          end
+        end
         rescue => e
-          Rails.logger.error "Payment creation error: #{e.message}"
+          Rails.logger.error "Subscription creation error: #{e.message}"
+          if e.is_a?(ActiveRecord::RecordInvalid) && e.record
+            Rails.logger.error "Record errors: #{e.record.errors.full_messages.join(', ')}"
+            error_message = "Failed to create subscription: #{e.record.errors.full_messages.join(', ')}"
+          else
+            Rails.logger.error e.backtrace.join("\n")
+            error_message = "Failed to create subscription: #{e.message}"
+          end
           raise ActiveRecord::Rollback
-          render json: { errors: "Failed to create payment: #{e.message}" }, status: :unprocessable_entity
+          render json: { errors: error_message }, status: :unprocessable_entity
         end
       else
         render json: { errors: @subscription.errors }, status: :unprocessable_entity
