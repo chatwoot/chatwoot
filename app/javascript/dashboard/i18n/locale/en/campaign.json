@@ -282,9 +282,9 @@
             "ERROR": "End date is required"
           },
           "SOURCE_ID": {
-            "LABEL": "Soruce ID",
-            "PLACEHOLDER": "Please enter the soruce ID of campaign",
-            "ERROR": "Soruce ID is required"
+            "LABEL": "Meta origin ID",
+            "PLACEHOLDER": "Please enter the meta origin ID of campaign",
+            "ERROR": "Meta origin ID is required"
           },
           "BUTTONS": {
             "CREATE": "Create",

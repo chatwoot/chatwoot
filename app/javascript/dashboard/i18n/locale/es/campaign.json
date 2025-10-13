@@ -282,9 +282,9 @@
             "ERROR": "La fecha de fin es obligatoria"
           },
           "SOURCE_ID": {
-            "LABEL": "ID de origen",
-            "PLACEHOLDER": "Introduce el ID de origen de la campaña",
-            "ERROR": "El ID de origen es obligatorio"
+            "LABEL": "Meta ID de origen",
+            "PLACEHOLDER": "Introduce el Meta ID de origen de la campaña",
+            "ERROR": "El Meta ID de origen es obligatorio"
           },
           "BUTTONS": {
             "CREATE": "Crear",

@@ -2,7 +2,7 @@
 import { reactive, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
+import { required, minLength, helpers } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -42,10 +42,21 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 
+// Validator that only checks minLength if value is not empty
+const minLengthIfNotEmpty = value => {
+  if (!value || value.trim() === '') return true;
+  return value.length >= 1;
+};
+
 const validationRules = {
   title: { required, minLength: minLength(1) },
-  description: { required, minLength: minLength(1) },
-  source_id: { required },
+  description: {
+    minLengthIfNotEmpty: helpers.withMessage(
+      'Description must have at least 1 character',
+      minLengthIfNotEmpty
+    ),
+  },
+  source_id: {},
   start_date: { required },
   end_date: { required },
 };
@@ -79,13 +90,25 @@ const resetState = () => Object.assign(state, initialState);
 
 const handleCancel = () => emit('cancel');
 
-const prepareCampaignDetails = () => ({
-  title: state.title,
-  description: state.description,
-  source_id: state.source_id,
-  start_date: state.start_date,
-  end_date: state.end_date,
-});
+const prepareCampaignDetails = () => {
+  // Convert datetime-local format to ISO 8601 format for API
+  const formatDateTimeForAPI = dateTimeString => {
+    if (!dateTimeString) return '';
+    // datetime-local format: YYYY-MM-DDTHH:MM
+    // Create a Date object treating it as local time
+    const date = new Date(dateTimeString);
+    // Convert to ISO 8601 string (includes timezone)
+    return date.toISOString();
+  };
+
+  return {
+    title: state.title,
+    description: state.description,
+    source_id: state.source_id,
+    start_date: formatDateTimeForAPI(state.start_date),
+    end_date: formatDateTimeForAPI(state.end_date),
+  };
+};
 
 const handleSubmit = async () => {
   const isFormValid = await v$.value.$validate();
@@ -103,12 +126,28 @@ const updateStateFromCampaign = campaign => {
 
   const { title, description, source_id, start_date, end_date } = campaign;
 
+  // Convert Unix timestamp (seconds) to datetime-local format (YYYY-MM-DDTHH:MM)
+  const formatTimestampForInput = timestamp => {
+    if (!timestamp) return '';
+    // API returns Unix timestamp in seconds
+    // Create Date object (multiply by 1000 to convert to milliseconds)
+    const date = new Date(timestamp * 1000);
+    // Convert to ISO string and extract YYYY-MM-DDTHH:MM format
+    // toISOString returns UTC, but datetime-local input expects local time
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   Object.assign(state, {
     title,
     description,
     source_id,
-    start_date,
-    end_date,
+    start_date: formatTimestampForInput(start_date),
+    end_date: formatTimestampForInput(end_date),
   });
 };
 
