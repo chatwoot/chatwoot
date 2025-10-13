@@ -28,7 +28,7 @@
 class SubscriptionPayment < ApplicationRecord
     belongs_to :subscription
     
-    validates :amount, numericality: { greater_than: 0 }
+    validates :amount, numericality: { greater_than_or_equal_to: 0 }  # Allow 0 for voucher discounts
     validates :duitku_order_id, presence: true
     validates :status, inclusion: { in: %w(pending paid failed cancelled expired) }
     

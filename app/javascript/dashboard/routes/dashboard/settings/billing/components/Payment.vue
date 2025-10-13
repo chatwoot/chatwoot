@@ -145,6 +145,16 @@ const submit = async () => {
     const response = await store.dispatch('createSubscription', payload);
     console.log('Response received:', response);
 
+    // Handle free subscription (activated with voucher)
+    if (response && response.is_free) {
+      useAlert(response.message || 'Langganan berhasil diaktifkan dengan voucher!');
+      emit('close');
+      // Optionally refresh subscription data
+      await store.dispatch('myActiveSubscription');
+      return;
+    }
+
+    // Handle regular paid subscription
     if (
       response &&
       response.subscription_payment &&
