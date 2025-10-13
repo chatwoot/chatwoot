@@ -53,8 +53,6 @@ class Whatsapp::PhoneNumberNormalizationService
   # Extract clean number from provider-specific format
   def extract_clean_number(raw_number, provider)
     case provider
-    when :cloud
-      raw_number # Already clean: "5541988887777"
     when :twilio
       raw_number.gsub(/^whatsapp:\+/, '') # Remove prefix: "whatsapp:+5541988887777" → "5541988887777"
     else
