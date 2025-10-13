@@ -48,7 +48,7 @@ class Migration::CompanyAccountBatchJob < ApplicationJob
   end
 
   def derive_company_name(contact, domain)
-    contact.additional_attributes&.dig('company_name')&.presence ||
+    contact.additional_attributes&.dig('company_name').presence ||
       domain.split('.').first.tr('-_', ' ').titleize
   end
 end
