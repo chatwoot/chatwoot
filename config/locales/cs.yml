@@ -188,6 +188,8 @@ cs:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
         open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Konverzace byla vyřešena uživatelem %{user_name}'
         contact_resolved: 'Conversation was resolved by %{contact_name}'
