@@ -93,7 +93,9 @@ RSpec.describe Migration::CompanyAccountBatchJob, type: :job do
             updated_at: Time.current
           }
         end
+        # rubocop:disable Rails/SkipsModelValidations
         Contact.insert_all(contacts_data)
+        # rubocop:enable Rails/SkipsModelValidations
       end
 
       it 'processes all contacts in batches' do

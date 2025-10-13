@@ -16,7 +16,9 @@ class Migration::CompanyAccountBatchJob < ApplicationJob
       next unless should_process?(contact)
 
       company = find_or_create_company(contact, account)
+      # rubocop:disable Rails/SkipsModelValidations
       contact.update_column(:company_id, company.id) if company
+      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 

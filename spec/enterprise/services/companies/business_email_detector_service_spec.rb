@@ -6,7 +6,7 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
   describe '#perform' do
     context 'when email is from a business domain' do
       let(:email) { 'user@acme.com' }
-      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false) }
+      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
 
       it 'returns true' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
@@ -16,7 +16,7 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
 
     context 'when email is from gmail' do
       let(:email) { 'user@gmail.com' }
-      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false) }
+      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
 
       it 'returns false' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
@@ -26,7 +26,7 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
 
     context 'when email is from Brazilian free provider' do
       let(:email) { 'user@uol.com.br' }
-      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false) }
+      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
 
       it 'returns false' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
@@ -36,7 +36,7 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
 
     context 'when email is disposable' do
       let(:email) { 'user@mailinator.com' }
-      let(:disposable_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: true) }
+      let(:disposable_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: true) }
 
       it 'returns false' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(disposable_email_address)
@@ -72,7 +72,7 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
 
     context 'when email domain is uppercase' do
       let(:email) { 'user@GMAIL.COM' }
-      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false) }
+      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
 
       it 'returns false (case insensitive)' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
