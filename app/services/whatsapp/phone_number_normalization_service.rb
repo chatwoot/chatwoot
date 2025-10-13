@@ -1,19 +1,11 @@
 # Service to handle phone number normalization for WhatsApp messages
 # Currently supports Brazil and Argentina phone number format variations
 # Supports both WhatsApp Cloud API and Twilio WhatsApp providers
-# Designed to be extensible for additional countries in future PRs
-#
-# Usage:
-#   Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(number, :cloud)
-#   Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(number, :twilio)
 class Whatsapp::PhoneNumberNormalizationService
   def initialize(inbox)
     @inbox = inbox
   end
 
-  # Generic method to handle both WhatsApp Cloud and Twilio formats
-  # Extracts clean number, normalizes it, and returns appropriate format for provider
-  #
   # @param raw_number [String] The phone number in provider-specific format
   #   - Cloud: "5541988887777" (clean number)
   #   - Twilio: "whatsapp:+5541988887777" (prefixed format)
