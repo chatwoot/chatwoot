@@ -53,6 +53,10 @@ class Captain::Scenario < ApplicationRecord
     }
   end
 
+  def agent_response_schema
+    Captain::ScenarioResponseSchema
+  end
+
   private
 
   def agent_name

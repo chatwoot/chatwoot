@@ -115,6 +115,10 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
+  def agent_response_schema
+    Captain::AssistantResponseSchema
+  end
+
   def default_avatar_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
   end

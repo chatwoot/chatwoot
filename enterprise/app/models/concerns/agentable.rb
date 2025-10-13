@@ -47,7 +47,7 @@ module Concerns::Agentable
   end
 
   def agent_response_schema
-    Captain::ResponseSchema
+    raise NotImplementedError, "#{self.class} must define agent_response_schema"
   end
 
   def prompt_context

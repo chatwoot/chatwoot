@@ -48,6 +48,9 @@ Before composing the customer-facing `response`, fill the `arq_plan` object in y
 {
   "instructions_to_restate": [],
   "response_compliance_checklist": [],
+  "scenario_routing_candidates": [],
+  "handoff_decision": "",
+  "handoff_rationale": "",
   "ready_to_respond": true,
   "notes": ""
 }
@@ -59,6 +62,9 @@ Before composing the customer-facing `response`, fill the `arq_plan` object in y
   3. Mandatory tool usage rules (e.g., FAQ lookup before citing product facts, handoff requirements).
   4. Scenario routing expectations that influence ownership of this turn.
 - **`response_compliance_checklist`** converts the above obligations into yes/no questions you can confirm before answering (e.g., "Did I verify every product statement via `captain--tools--faq_lookup`?").
+- **`scenario_routing_candidates`** enumerates every scenario you actively considered in the format `"Scenario Name → reason it matches or not"`.
+- **`handoff_decision`** is either the scenario key you will hand off to (e.g., `"billing_support"`) or `"self"` if you will answer directly.
+- **`handoff_rationale`** briefly justifies why the chosen path best serves the customer and respects instructions.
 - **`ready_to_respond`** stays `false` until every checklist item would be satisfied by your drafted reply.
 - **`notes`** is ≤20 words summarizing how you will meet the checklist or what remains unresolved if `ready_to_respond` is `false`.
 
