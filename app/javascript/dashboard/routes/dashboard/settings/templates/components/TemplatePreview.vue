@@ -120,6 +120,14 @@ const processProperties = properties => {
   return processed;
 };
 
+// Helper to get image data from identifier
+const getImageData = (imageIdentifier, blockProperties) => {
+  if (!imageIdentifier) return null;
+  const images = blockProperties.images || [];
+  const image = images.find(img => img.identifier === imageIdentifier);
+  return image?.data || null;
+};
+
 // Initialize test parameters with defaults or examples
 watch(
   () => props.template.parameters,
@@ -391,10 +399,16 @@ watch(selectedChannel, () => {
                     class="flex items-center gap-3 p-3 border border-n-slate-7 rounded hover:bg-n-slate-2 transition-colors"
                   >
                     <div
-                      v-if="item.imageIdentifier"
-                      class="w-10 h-10 bg-n-slate-3 rounded flex items-center justify-center"
+                      v-if="item.imageIdentifier || item.image_identifier"
+                      class="w-10 h-10 bg-n-slate-3 rounded flex items-center justify-center overflow-hidden flex-shrink-0"
                     >
-                      <i class="i-lucide-image text-n-slate-9" />
+                      <img
+                        v-if="getImageData(item.imageIdentifier || item.image_identifier, block.properties)"
+                        :src="getImageData(item.imageIdentifier || item.image_identifier, block.properties)"
+                        alt=""
+                        class="w-full h-full object-cover"
+                      />
+                      <i v-else class="i-lucide-image text-n-slate-9" />
                     </div>
                     <div class="flex-1">
                       <div class="text-sm font-medium text-n-slate-12">
