@@ -126,6 +126,25 @@ const openDelete = inbox => {
                     :channel-type="inbox.channel_type"
                     :medium="inbox.medium"
                   />
+                  <div
+                    v-if="
+                      inbox.channel_type === 'Channel::AppleMessagesForBusiness'
+                    "
+                    class="mt-1 text-xs text-n-slate-10"
+                  >
+                    <span>{{ $t('INBOX_MGMT.APPLE_MESSAGES_STARTER_LINK') }}
+                    </span>
+                    <a
+                      :href="`https://bcrw.apple.com/sms:open?service=iMessage&recipient=urn:biz:${inbox.business_id}`"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-n-woot-9 hover:text-n-woot-10 hover:underline"
+                    >
+                      {{
+                        `https://bcrw.apple.com/sms:open?service=iMessage&recipient=urn:biz:${inbox.business_id}`
+                      }}
+                    </a>
+                  </div>
                 </div>
               </div>
             </td>
