@@ -1,11 +1,10 @@
 <script setup>
 import { computed } from 'vue';
-import { useUISettings } from 'dashboard/composables/useUISettings';
 import { formatNumber } from '@chatwoot/utils';
-import wootConstants from 'dashboard/constants/globals';
 
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
-import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchLayout.vue';
+// Block 2: SwitchLayout removed for operators
+// import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchLayout.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -26,8 +25,6 @@ const emit = defineEmits([
   'filtersModal',
 ]);
 
-const { uiSettings, updateUISettings } = useUISettings();
-
 const onBasicFilterChange = (value, type) => {
   emit('basicFilterChange', value, type);
 };
@@ -38,21 +35,6 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
 
 const allCount = computed(() => props.conversationStats?.allCount || 0);
 const formattedAllCount = computed(() => formatNumber(allCount.value));
-
-const toggleConversationLayout = () => {
-  const { LAYOUT_TYPES } = wootConstants;
-  const {
-    conversation_display_type: conversationDisplayType = LAYOUT_TYPES.CONDENSED,
-  } = uiSettings.value;
-  const newViewType =
-    conversationDisplayType === LAYOUT_TYPES.CONDENSED
-      ? LAYOUT_TYPES.EXPANDED
-      : LAYOUT_TYPES.CONDENSED;
-  updateUISettings({
-    conversation_display_type: newViewType,
-    previously_used_conversation_display_type: newViewType,
-  });
-};
 </script>
 
 <template>
@@ -159,10 +141,11 @@ const toggleConversationLayout = () => {
         :is-on-expanded-layout="isOnExpandedLayout"
         @change-filter="onBasicFilterChange"
       />
-      <SwitchLayout
+      <!-- Block 2: Hide view switch button for operators -->
+      <!-- <SwitchLayout
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle="toggleConversationLayout"
-      />
+      /> -->
     </div>
   </div>
 </template>

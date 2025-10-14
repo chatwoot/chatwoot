@@ -10,6 +10,7 @@ const props = defineProps({
   icon: { type: [String, Object], default: null },
   active: { type: Boolean, default: false },
   component: { type: Function, default: null },
+  count: { type: Number, default: 0 },
 });
 
 const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
@@ -39,13 +40,21 @@ const shouldRenderComponent = computed(() => {
       <component
         :is="component"
         v-if="shouldRenderComponent"
-        :label
-        :icon
-        :active
+        :label="label"
+        :icon="icon"
+        :active="active"
+        :count="count"
+        :to="to"
       />
       <template v-else>
         <Icon v-if="icon" :icon="icon" class="size-4 inline-block" />
         <div class="flex-1 truncate min-w-0">{{ label }}</div>
+        <span
+          v-if="count > 0"
+          class="ml-auto text-xs font-semibold px-1.5 py-0.5 rounded bg-red-500 text-white"
+        >
+          {{ count }}
+        </span>
       </template>
     </component>
   </Policy>

@@ -22,41 +22,69 @@ const state = {
   syncConversationsMessages: {},
   conversationFilters: {},
   copilotAssistant: {},
+  // Separate storage for sidebar counts
+  sidebarCountsData: [],
 };
 
 // mutations
 export const mutations = {
-  [types.SET_ALL_CONVERSATION](_state, conversationList) {
-    const newAllConversations = [..._state.allConversations];
-    conversationList.forEach(conversation => {
-      const indexInCurrentList = newAllConversations.findIndex(
-        c => c.id === conversation.id
-      );
-      if (indexInCurrentList < 0) {
-        newAllConversations.push(conversation);
-      } else if (conversation.id !== _state.selectedChatId) {
-        // If the conversation is already in the list, replace it
-        // Added this to fix the issue of the conversation not being updated
-        // When reconnecting to the websocket. If the selectedChatId is not the same as
-        // the conversation.id in the store, replace the existing conversation with the new one
-        newAllConversations[indexInCurrentList] = conversation;
-      } else {
-        // If the conversation is already in the list and selectedChatId is the same,
-        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
-        const existingConversation = newAllConversations[indexInCurrentList];
-        newAllConversations[indexInCurrentList] = {
-          ...conversation,
-          allMessagesLoaded: existingConversation.allMessagesLoaded,
-          messages: existingConversation.messages,
-          dataFetched: existingConversation.dataFetched,
-        };
-      }
-    });
-    _state.allConversations = newAllConversations;
+  [types.SET_ALL_CONVERSATION](_state, payload) {
+    // Handle both old format (array) and new format (object with conversations and replace flag)
+    const conversationList = Array.isArray(payload)
+      ? payload
+      : payload.conversations;
+    const shouldReplace = payload.replace === true;
+
+    if (shouldReplace && conversationList.length > 0) {
+      // Only replace if we have new data to avoid clearing counts
+      _state.allConversations = conversationList;
+    } else if (!shouldReplace) {
+      // Add/update conversations (for pagination or updates)
+      const newAllConversations = [..._state.allConversations];
+      conversationList.forEach(conversation => {
+        const indexInCurrentList = newAllConversations.findIndex(
+          c => c.id === conversation.id
+        );
+        if (indexInCurrentList < 0) {
+          newAllConversations.push(conversation);
+        } else if (conversation.id !== _state.selectedChatId) {
+          // If the conversation is already in the list, replace it
+          // Added this to fix the issue of the conversation not being updated
+          // When reconnecting to the websocket. If the selectedChatId is not the same as
+          // the conversation.id in the store, replace the existing conversation with the new one
+          newAllConversations[indexInCurrentList] = conversation;
+        } else {
+          // If the conversation is already in the list and selectedChatId is the same,
+          // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
+          const existingConversation = newAllConversations[indexInCurrentList];
+          newAllConversations[indexInCurrentList] = {
+            ...conversation,
+            allMessagesLoaded: existingConversation.allMessagesLoaded,
+            messages: existingConversation.messages,
+            dataFetched: existingConversation.dataFetched,
+          };
+        }
+      });
+      _state.allConversations = newAllConversations;
+    }
   },
   [types.EMPTY_ALL_CONVERSATION](_state) {
-    _state.allConversations = [];
+    // Don't clear conversations immediately to avoid flickering
+    // They will be replaced when new data arrives
     _state.selectedChatId = null;
+  },
+
+  [types.UPDATE_CONVERSATIONS_FOR_COUNTS](_state, conversations) {
+    // Store sidebar counts data separately from main conversations
+    _state.sidebarCountsData = conversations.map(conv => ({
+      id: conv.id,
+      unread_count: conv.unread_count || 0,
+      labels: conv.labels || [],
+      inbox_id: conv.inbox_id,
+      team_id: conv.meta?.team?.id,
+      status: conv.status,
+      assignee_id: conv.meta?.assignee?.id,
+    }));
   },
   [types.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
@@ -123,12 +151,15 @@ export const mutations = {
 
   [types.CHANGE_CONVERSATION_STATUS](
     _state,
-    { conversationId, status, snoozedUntil }
+    { conversationId, status, snoozedUntil, resolutionReason }
   ) {
     const conversation =
       getters.getConversationById(_state)(conversationId) || {};
     conversation.snoozed_until = snoozedUntil;
     conversation.status = status;
+    if (resolutionReason !== undefined) {
+      conversation.resolution_reason = resolutionReason;
+    }
   },
 
   [types.MUTE_CONVERSATION](_state) {
@@ -177,10 +208,10 @@ export const mutations = {
     });
   },
 
-  [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
+  [types.ADD_MESSAGE](_state, message) {
     const { conversation_id: conversationId } = message;
     const [chat] = getSelectedChatConversation({
-      allConversations,
+      allConversations: _state.allConversations,
       selectedChatId: conversationId,
     });
     if (!chat) return;
@@ -191,9 +222,24 @@ export const mutations = {
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
-      const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
+      const {
+        conversation: {
+          unread_count: unreadCount = 0,
+          unread_count_full: unreadCountFull,
+        } = {},
+      } = message;
       chat.unread_count = unreadCount;
-      if (selectedChatId === conversationId) {
+      if (unreadCountFull !== undefined) {
+        chat.unread_count_full = unreadCountFull;
+      }
+      // Update sidebar counts if conversation exists there
+      const sidebarItem = _state.sidebarCountsData.find(
+        c => c.id === conversationId
+      );
+      if (sidebarItem) {
+        sidebarItem.unread_count = unreadCount;
+      }
+      if (_state.selectedChatId === conversationId) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
@@ -202,10 +248,26 @@ export const mutations = {
 
   [types.ADD_CONVERSATION](_state, conversation) {
     _state.allConversations.push(conversation);
+    // Also add to sidebar counts if needed
+    if (!_state.sidebarCountsData.find(c => c.id === conversation.id)) {
+      _state.sidebarCountsData.push({
+        id: conversation.id,
+        unread_count: conversation.unread_count || 0,
+        labels: conversation.labels || [],
+        inbox_id: conversation.inbox_id,
+        team_id: conversation.meta?.team?.id,
+        status: conversation.status,
+        assignee_id: conversation.meta?.assignee?.id,
+      });
+    }
   },
 
   [types.DELETE_CONVERSATION](_state, conversationId) {
     _state.allConversations = _state.allConversations.filter(
+      c => c.id !== conversationId
+    );
+    // Also remove from sidebar counts data
+    _state.sidebarCountsData = _state.sidebarCountsData.filter(
       c => c.id !== conversationId
     );
   },
@@ -224,12 +286,42 @@ export const mutations = {
 
       const { messages, ...updates } = conversation;
       allConversations[index] = { ...selectedConversation, ...updates };
+
+      // Update sidebar counts data
+      const sidebarItem = _state.sidebarCountsData.find(
+        c => c.id === conversation.id
+      );
+      if (sidebarItem) {
+        sidebarItem.unread_count = conversation.unread_count || 0;
+        sidebarItem.labels = conversation.labels || [];
+        sidebarItem.team_id = conversation.meta?.team?.id;
+        sidebarItem.status = conversation.status;
+        sidebarItem.assignee_id = conversation.meta?.assignee?.id;
+      } else {
+        _state.sidebarCountsData.push({
+          id: conversation.id,
+          unread_count: conversation.unread_count || 0,
+          labels: conversation.labels || [],
+          inbox_id: conversation.inbox_id,
+          team_id: conversation.meta?.team?.id,
+        });
+      }
       if (_state.selectedChatId === conversation.id) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
       _state.allConversations.push(conversation);
+      // Also add to sidebar counts if new
+      if (!_state.sidebarCountsData.find(c => c.id === conversation.id)) {
+        _state.sidebarCountsData.push({
+          id: conversation.id,
+          unread_count: conversation.unread_count || 0,
+          labels: conversation.labels || [],
+          inbox_id: conversation.inbox_id,
+          team_id: conversation.meta?.team?.id,
+        });
+      }
     }
   },
 
@@ -243,12 +335,20 @@ export const mutations = {
 
   [types.UPDATE_MESSAGE_UNREAD_COUNT](
     _state,
-    { id, lastSeen, unreadCount = 0 }
+    { id, lastSeen, unreadCount = 0, unreadCountFull }
   ) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (chat) {
       chat.agent_last_seen_at = lastSeen;
       chat.unread_count = unreadCount;
+      if (unreadCountFull !== undefined) {
+        chat.unread_count_full = unreadCountFull;
+      }
+    }
+    // Also update sidebar counts
+    const sidebarItem = _state.sidebarCountsData.find(c => c.id === id);
+    if (sidebarItem) {
+      sidebarItem.unread_count = unreadCount;
     }
   },
   [types.CHANGE_CHAT_STATUS_FILTER](_state, data) {

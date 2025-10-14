@@ -37,12 +37,28 @@ class ConversationFinder
   end
 
   def perform
-    set_up
+    set_inboxes
+    set_assignee_type
 
-    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    find_all_conversations # find all with the inbox
+
+    # Calculate counts for different tabs
+    # Base query includes all filters except status and assignee_type
+    base_conversations = @conversations
+
+    # Count open conversations for main tabs
+    mine_count = base_conversations.open.assigned_to(current_user).count
+    unassigned_count = base_conversations.open.unassigned.count
+    all_count = base_conversations.open.count
+
+    # Count resolved conversations
+    resolved_count = base_conversations.resolved.count
     assigned_count = all_count - unassigned_count
 
-    filter_by_assignee_type
+    filter_by_assignee_type # filter by assignee
+
+    # Apply status filter for conversation list (but not for resolved tab which already filters by status)
+    filter_by_status unless @assignee_type == 'resolved'
 
     {
       conversations: conversations,
@@ -50,25 +66,13 @@ class ConversationFinder
         mine_count: mine_count,
         assigned_count: assigned_count,
         unassigned_count: unassigned_count,
-        all_count: all_count
+        all_count: all_count,
+        resolved_count: resolved_count
       }
     }
   end
 
   private
-
-  def set_up
-    set_inboxes
-    set_team
-    set_assignee_type
-
-    find_all_conversations
-    filter_by_status unless params[:q]
-    filter_by_team
-    filter_by_labels
-    filter_by_query
-    filter_by_source_id
-  end
 
   def set_inboxes
     @inbox_ids = if params[:inbox_id]
@@ -114,6 +118,8 @@ class ConversationFinder
       @conversations = @conversations.unassigned
     when 'assigned'
       @conversations = @conversations.assigned
+    when 'resolved'
+      @conversations = @conversations.resolved
     end
     @conversations
   end
@@ -164,14 +170,6 @@ class ConversationFinder
 
     @conversations = @conversations.joins(:contact_inbox)
     @conversations = @conversations.where(contact_inboxes: { source_id: params[:source_id] })
-  end
-
-  def set_count_for_all_conversations
-    [
-      @conversations.assigned_to(current_user).count,
-      @conversations.unassigned.count,
-      @conversations.count
-    ]
   end
 
   def current_page

@@ -1,0 +1,17 @@
+{
+  "TODO": {
+    "TITLE": "Todo List",
+    "CREATE_TASK": "Create Task",
+    "CREATE_TASK_FROM_CHAT": "Creating task from chat with",
+    "CLOSE": "Close",
+    "VIEW_ALL_TASKS": "View All Tasks",
+    "OVERDUE_TASKS": "Overdue Tasks",
+    "TODAY_TASKS": "Tasks for Today",
+    "TOMORROW_TASKS": "Tasks for Tomorrow",
+    "ADD_TASK": "Add Task",
+    "TASK_ADDED": "Task added successfully",
+    "TASK_COMPLETED": "Task completed successfully",
+    "TASK_DELETED": "Task deleted successfully",
+    "TASK_UPDATED": "Task updated successfully"
+  }
+}

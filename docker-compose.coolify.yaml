@@ -1,0 +1,133 @@
+version: '3.9'
+
+x-env-common: &env_common
+  RAILS_ENV: ${RAILS_ENV:-production}
+  NODE_ENV: ${NODE_ENV:-production}
+  INSTALLATION_ENV: ${INSTALLATION_ENV:-docker}
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+  FRONTEND_URL: ${FRONTEND_URL}
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: ${POSTGRES_DB:-chatwoot}
+  POSTGRES_USERNAME: postgres
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  REDIS_PASSWORD: ${REDIS_PASSWORD}
+  REDIS_OPENSSL_VERIFY_MODE: ${REDIS_OPENSSL_VERIFY_MODE:-none}
+  RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+  RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-true}
+  ENABLE_ACCOUNT_SIGNUP: ${ENABLE_ACCOUNT_SIGNUP:-false}
+  DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en}
+  FORCE_SSL: ${FORCE_SSL:-false}
+
+x-image: &chatwoot_image
+  image: ${CHATWOOT_IMAGE:-ghcr.io/cn-corporation/chatwoot:latest}
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: chatwoot-pgvector
+    pull_policy: always
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-chatwoot}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U postgres -d ${POSTGRES_DB:-chatwoot} -h 127.0.0.1',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:7-alpine
+    container_name: chatwoot-redis
+    pull_policy: always
+    restart: always
+    command: >
+      sh -c 'redis-server --appendonly yes --requirepass "$$REDIS_PASSWORD"'
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', 'PING']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  chatwoot:
+    <<: *chatwoot_image
+    container_name: chatwoot-main-app
+    pull_policy: always
+    restart: always
+    environment:
+      <<: *env_common
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        export REDIS_URL="redis://default:${REDIS_PASSWORD}@redis:6379/0"
+        echo "Preparing database..."
+        cd /app && bundle exec rails db:prepare
+        echo "Removing old server PID..."
+        rm -f /app/tmp/pids/server.pid
+        echo "Starting Rails server..."
+        exec bundle exec rails s -p 3000 -b 0.0.0.0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - rails-data:/app/storage
+      - rails-assets:/app/public/packs
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:3000']
+      interval: 10s
+      timeout: 5s
+      retries: 24
+    labels:
+      - 'coolify.managed=true'
+
+  sidekiq:
+    <<: *chatwoot_image
+    container_name: chatwoot-sidekiq
+    pull_policy: always
+    restart: always
+    environment:
+      <<: *env_common
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        export REDIS_URL="redis://default:${REDIS_PASSWORD}@redis:6379/0"
+        echo "Waiting for Chatwoot to start..."
+        sleep 10
+        echo "Starting Sidekiq..."
+        cd /app && exec bundle exec sidekiq -C config/sidekiq.yml
+    depends_on:
+      chatwoot:
+        condition: service_started
+    volumes:
+      - rails-data:/app/storage
+      - rails-assets:/app/public/packs
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "bundle exec rails runner 'puts Sidekiq.redis(&:info)' > /dev/null 2>&1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  rails-data:
+  rails-assets:
+  postgres-db:
+  redis-data:

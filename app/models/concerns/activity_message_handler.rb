@@ -68,7 +68,12 @@ module ActivityMessageHandler
 
   def user_status_change_activity_content(user_name)
     if user_name
-      I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+      if resolved? && resolution_reason.present?
+        reason_text = I18n.t("close_reason.#{resolution_reason}", default: resolution_reason.humanize)
+        I18n.t("conversations.activity.status.resolved_with_reason", user_name: user_name, reason: reason_text)
+      else
+        I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+      end
     elsif Current.contact.present? && resolved?
       I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
     elsif resolved?

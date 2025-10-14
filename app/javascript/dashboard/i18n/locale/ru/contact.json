@@ -17,11 +17,6 @@
     "IP_ADDRESS": "IP адрес",
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
-    "CALL": "Вызов",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
-    "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
-    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
       "TITLE": "Предыдущие диалоги"
@@ -151,7 +146,34 @@
       }
     },
     "SUCCESS_MESSAGE": "Контакт успешно сохранен",
-    "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+    "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз",
+    "DUPLICATE_CONTACT": "Контакт с такими данными уже существует",
+    "PLAYER_ID": {
+      "LABEL": "ID игрока",
+      "PLACEHOLDER": "ID игрока из базы данных"
+    },
+    "GG_NICKNAME": {
+      "LABEL": "Ник в GG",
+      "PLACEHOLDER": "Первый ник за всю историю в GG"
+    },
+    "PLAYER_STATUS": {
+      "LABEL": "Статус игрока",
+      "BEGINNER": "Новичок",
+      "AMATEUR": "Любитель",
+      "REGULAR": "Регуляр",
+      "ADVANCED": "Продвинутый игрок",
+      "PROFESSIONAL": "Профессионал",
+      "HIGH_ROLLER": "High Roller"
+    },
+    "BEHAVIOR_STATUS": {
+      "LABEL": "Поведенческий статус",
+      "TOXIC": "Токсичный",
+      "MANIPULATOR": "Манипулятор",
+      "LOYAL": "Лояльный",
+      "TILT": "В тильте",
+      "ARTIST": "Артист",
+      "TEAPOT": "Чайник"
+    }
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Начать диалог",
@@ -606,15 +628,6 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "Шаблон WhatsApp: {templateName}",
           "VARIABLES": "Переменные",
-          "BACK": "Вернуться",
-          "SEND_MESSAGE": "Отправить сообщение"
-        }
-      },
-      "TWILIO_OPTIONS": {
-        "LABEL": "Выбрать шаблон",
-        "SEARCH_PLACEHOLDER": "Поиск шаблонов",
-        "EMPTY_STATE": "Шаблоны не найдены",
-        "TEMPLATE_PARSER": {
           "BACK": "Вернуться",
           "SEND_MESSAGE": "Отправить сообщение"
         }

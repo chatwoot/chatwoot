@@ -13,6 +13,7 @@
 #  identifier             :string
 #  last_activity_at       :datetime         not null
 #  priority               :integer
+#  resolution_reason      :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
 #  uuid                   :uuid             not null
@@ -42,6 +43,7 @@
 #  index_conversations_on_id_and_account_id           (account_id,id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
+#  index_conversations_on_resolution_reason           (resolution_reason)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
@@ -71,6 +73,14 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
+  enum resolution_reason: {
+    resolved_success: 0,
+    resolved_compensation: 1,
+    partially_resolved: 2,
+    waiting_client: 3,
+    escalated: 4,
+    conflict: 5
+  }, _prefix: true
 
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
@@ -146,12 +156,17 @@ class Conversation < ApplicationRecord
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
     self.status = :open if pending? || snoozed?
+    
+    # Clear resolution reason when opening conversation
+    self.resolution_reason = nil if status == 'open'
+    
     save
   end
 
   def toggle_priority(priority = nil)
-    self.priority = priority.presence
-    save
+    # Use update_column to skip callbacks and timestamp updates
+    # This prevents the timestamp from being updated when priority changes
+    update_column(:priority, priority.presence)
   end
 
   def bot_handoff!
@@ -165,6 +180,10 @@ class Conversation < ApplicationRecord
 
   def unread_incoming_messages
     unread_messages.where(account_id: account_id).incoming.last(10)
+  end
+
+  def unread_incoming_messages_count
+    unread_messages.where(account_id: account_id).incoming.count
   end
 
   def cached_label_list_array
@@ -296,6 +315,8 @@ class Conversation < ApplicationRecord
 
     previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
+
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
 
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)

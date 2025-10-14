@@ -151,6 +151,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def set_conversation_status
     @conversation.status = params[:status]
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
+    # Set resolution reason when closing conversation
+    @conversation.resolution_reason = params[:resolution_reason] if params[:resolution_reason].present?
+    # Clear resolution reason when reopening conversation
+    @conversation.resolution_reason = nil if params[:status] == 'open'
   end
 
   def assign_conversation

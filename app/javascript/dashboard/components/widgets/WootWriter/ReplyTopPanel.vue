@@ -1,23 +1,17 @@
 <script>
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 import EditorModeToggle from './EditorModeToggle.vue';
 
 export default {
   name: 'ReplyTopPanel',
   components: {
-    NextButton,
     EditorModeToggle,
   },
   props: {
     mode: {
       type: String,
       default: REPLY_EDITOR_MODES.REPLY,
-    },
-    isReplyRestricted: {
-      type: Boolean,
-      default: false,
     },
     isMessageLengthReachingThreshold: {
       type: Boolean,
@@ -28,13 +22,12 @@ export default {
       default: () => 0,
     },
   },
-  emits: ['setReplyMode', 'togglePopout'],
+  emits: ['setReplyMode'],
   setup(props, { emit }) {
     const setReplyMode = mode => {
       emit('setReplyMode', mode);
     };
     const handleReplyClick = () => {
-      if (props.isReplyRestricted) return;
       setReplyMode(REPLY_EDITOR_MODES.REPLY);
     };
     const handleNoteClick = () => {
@@ -93,7 +86,6 @@ export default {
   <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
     <EditorModeToggle
       :mode="mode"
-      :disabled="isReplyRestricted"
       class="mt-3"
       @toggle-mode="handleModeToggle"
     />
@@ -104,11 +96,5 @@ export default {
         </span>
       </div>
     </div>
-    <NextButton
-      ghost
-      class="ltr:rounded-bl-md rtl:rounded-br-md ltr:rounded-br-none rtl:rounded-bl-none ltr:rounded-tl-none rtl:rounded-tr-none text-n-slate-11 ltr:rounded-tr-[11px] rtl:rounded-tl-[11px]"
-      icon="i-lucide-maximize-2"
-      @click="$emit('togglePopout')"
-    />
   </div>
 </template>

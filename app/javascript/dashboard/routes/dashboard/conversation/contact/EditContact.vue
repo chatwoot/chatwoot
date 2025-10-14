@@ -1,10 +1,11 @@
 <script>
 import { mapGetters } from 'vuex';
-import ContactForm from './ContactForm.vue';
+// import ContactForm from './ContactForm.vue'; // Original form
+import ContactFormPoker from './ContactFormPoker.vue'; // Simplified poker form
 
 export default {
   components: {
-    ContactForm,
+    ContactForm: ContactFormPoker, // Use simplified form for poker operators
   },
   props: {
     show: {

@@ -10,6 +10,7 @@ import campaignsRoutes from './campaigns/campaigns.routes';
 import { routes as captainRoutes } from './captain/captain.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
+import TodoList from './TodoList.vue';
 
 export default {
   routes: [
@@ -17,6 +18,14 @@ export default {
       path: frontendURL('accounts/:accountId'),
       component: AppContainer,
       children: [
+        {
+          path: 'todo',
+          name: 'todo_list',
+          meta: {
+            permissions: ['administrator', 'agent', 'custom_role'],
+          },
+          component: TodoList,
+        },
         ...captainRoutes,
         ...inboxRoutes,
         ...conversation.routes,

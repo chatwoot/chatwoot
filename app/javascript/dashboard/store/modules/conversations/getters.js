@@ -102,6 +102,13 @@ const getters = {
       return isUnAssigned && shouldFilter;
     });
   },
+  getResolvedChats: _state => activeFilters => {
+    return _state.allConversations.filter(conversation => {
+      const isResolved = conversation.status === 'resolved';
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      return isResolved && shouldFilter;
+    });
+  },
   getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
     const currentUser = rootGetters.getCurrentUser;
     const currentUserId = rootGetters.getCurrentUser.id;
@@ -160,6 +167,104 @@ const getters = {
 
   getCopilotAssistant: _state => {
     return _state.copilotAssistant;
+  },
+
+  // Get total unread count across all conversations (uses separate counts data)
+  getTotalUnreadCount: _state => {
+    // Use sidebar counts data if available, fallback to allConversations
+    const source =
+      _state.sidebarCountsData.length > 0
+        ? _state.sidebarCountsData
+        : _state.allConversations;
+
+    return source.reduce((total, conversation) => {
+      return total + (conversation.unread_count || 0);
+    }, 0);
+  },
+
+  // Get unread count for specific inbox (uses separate counts data)
+  getUnreadCountForInbox: _state => inboxId => {
+    // Use sidebar counts data if available, fallback to allConversations
+    const source =
+      _state.sidebarCountsData.length > 0
+        ? _state.sidebarCountsData
+        : _state.allConversations;
+
+    return source
+      .filter(conversation => conversation.inbox_id === inboxId)
+      .reduce((total, conversation) => {
+        return total + (conversation.unread_count || 0);
+      }, 0);
+  },
+
+  // Get unread count for specific label (uses separate counts data)
+  getUnreadCountForLabel: _state => labelTitle => {
+    // Use sidebar counts data if available, fallback to allConversations
+    const source =
+      _state.sidebarCountsData.length > 0
+        ? _state.sidebarCountsData
+        : _state.allConversations;
+
+    return source
+      .filter(conversation => {
+        if (!conversation.labels || !Array.isArray(conversation.labels))
+          return false;
+        // Labels can be either strings or objects with title property
+        return conversation.labels.some(label =>
+          typeof label === 'string'
+            ? label === labelTitle
+            : label.title === labelTitle
+        );
+      })
+      .reduce((total, conversation) => {
+        return total + (conversation.unread_count || 0);
+      }, 0);
+  },
+
+  // Get unread count for specific team (uses separate counts data)
+  getUnreadCountForTeam: _state => teamId => {
+    // Use sidebar counts data if available, fallback to allConversations
+    const source =
+      _state.sidebarCountsData.length > 0
+        ? _state.sidebarCountsData
+        : _state.allConversations;
+
+    return source
+      .filter(conversation => {
+        const convTeamId = conversation.team_id || conversation.meta?.team?.id;
+        return convTeamId === teamId;
+      })
+      .reduce((total, conversation) => {
+        return total + (conversation.unread_count || 0);
+      }, 0);
+  },
+
+  // Get conversations for tab counts in label views
+  getConversationsForLabelTabs: _state => label => {
+    const source =
+      _state.sidebarCountsData.length > 0
+        ? _state.sidebarCountsData
+        : _state.allConversations;
+
+    return source.filter(conversation => {
+      if (!conversation.labels || !Array.isArray(conversation.labels)) {
+        return false;
+      }
+      return conversation.labels.includes(label);
+    });
+  },
+
+  // Get conversations for tab counts in team views
+  getConversationsForTeamTabs: _state => teamId => {
+    const source =
+      _state.sidebarCountsData.length > 0
+        ? _state.sidebarCountsData
+        : _state.allConversations;
+
+    return source.filter(conversation => {
+      const convTeamId = conversation.team_id || conversation.meta?.team?.id;
+      return convTeamId === Number(teamId);
+    });
   },
 };
 

@@ -1,14 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useAlert } from 'dashboard/composables';
-import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import ConversationCloseReasonModal from 'dashboard/components/ConversationCloseReasonModal.vue';
 import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_REOPEN_CONVERSATION,
@@ -21,12 +19,9 @@ const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
 
-const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
-
-const [showActionsDropdown, toggleDropdown] = useToggle();
-const closeDropdown = () => toggleDropdown(false);
-const openDropdown = () => toggleDropdown(true);
+const showCloseReasonModal = ref(false);
+const closeConversationId = ref(null);
 
 const currentChat = computed(() => getters.getSelectedChat.value);
 
@@ -41,10 +36,6 @@ const isResolved = computed(
 );
 const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
-);
-
-const showAdditionalActions = computed(
-  () => !isPending.value && !isSnoozed.value
 );
 
 const showOpenButton = computed(() => {
@@ -71,13 +62,15 @@ const getConversationParams = () => {
   };
 };
 
-const openSnoozeModal = () => {
-  const ninja = document.querySelector('ninja-keys');
-  ninja.open({ parent: 'snooze_conversation' });
-};
-
 const toggleStatus = (status, snoozedUntil) => {
-  closeDropdown();
+  // Show close reason modal first when resolving
+  if (status === wootConstants.STATUS_TYPE.RESOLVED) {
+    closeConversationId.value = currentChat.value.id;
+    showCloseReasonModal.value = true;
+    return;
+  }
+
+  // For other status changes, proceed normally
   isLoading.value = true;
   store
     .dispatch('toggleStatus', {
@@ -91,6 +84,18 @@ const toggleStatus = (status, snoozedUntil) => {
     });
 };
 
+const closeCloseReasonModal = () => {
+  showCloseReasonModal.value = false;
+  closeConversationId.value = null;
+};
+
+const onCloseReasonSuccess = () => {
+  showCloseReasonModal.value = false;
+  closeConversationId.value = null;
+  // No quality rating modal - just close
+  useAlert(t('CONVERSATION.CHANGE_STATUS'));
+};
+
 const onCmdOpenConversation = () => {
   toggleStatus(wootConstants.STATUS_TYPE.OPEN);
 };
@@ -100,19 +105,15 @@ const onCmdResolveConversation = () => {
 };
 
 const keyboardEvents = {
-  'Alt+KeyM': {
-    action: () => arrowDownButtonRef.value?.$el.click(),
-    allowOnFocusedInput: true,
-  },
   'Alt+KeyE': {
-    action: async () => {
-      await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+    action: () => {
+      toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
     },
   },
   '$mod+Alt+KeyE': {
-    action: async event => {
+    action: event => {
       const { all, activeIndex, lastIndex } = getConversationParams();
-      await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+      toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
 
       if (activeIndex < lastIndex) {
         all[activeIndex + 1].click();
@@ -133,79 +134,37 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
-    <div
-      class="rounded-lg shadow outline-1 outline flex-shrink-0"
-      :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
-    >
-      <Button
-        v-if="isOpen"
-        :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
-        size="sm"
-        color="slate"
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
-        :is-loading="isLoading"
-        @click="onCmdResolveConversation"
-      />
-      <Button
-        v-else-if="isResolved"
-        :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
-        size="sm"
-        color="slate"
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
-        :is-loading="isLoading"
-        @click="onCmdOpenConversation"
-      />
-      <Button
-        v-else-if="showOpenButton"
-        :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
-        size="sm"
-        color="slate"
-        :is-loading="isLoading"
-        @click="onCmdOpenConversation"
-      />
-      <Button
-        v-if="showAdditionalActions"
-        ref="arrowDownButtonRef"
-        icon="i-lucide-chevron-down"
-        :disabled="isLoading"
-        size="sm"
-        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
-        color="slate"
-        trailing-icon
-        @click="openDropdown"
-      />
-    </div>
-    <div
-      v-if="showActionsDropdown"
-      v-on-clickaway="closeDropdown"
-      class="border rounded-lg shadow-lg border-n-strong dark:border-n-strong box-content p-2 w-fit z-10 bg-n-alpha-3 backdrop-blur-[100px] absolute block left-auto top-full mt-0.5 start-0 xl:start-auto xl:end-0 max-w-[12.5rem] min-w-[9.75rem] [&_ul>li]:mb-0"
-    >
-      <WootDropdownMenu class="mb-0">
-        <WootDropdownItem v-if="!isPending">
-          <Button
-            :label="t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL')"
-            ghost
-            slate
-            sm
-            start
-            icon="i-lucide-alarm-clock-minus"
-            class="w-full"
-            @click="() => openSnoozeModal()"
-          />
-        </WootDropdownItem>
-        <WootDropdownItem v-if="!isPending">
-          <Button
-            :label="t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING')"
-            ghost
-            slate
-            sm
-            start
-            icon="i-lucide-circle-dot-dashed"
-            class="w-full"
-            @click="() => toggleStatus(wootConstants.STATUS_TYPE.PENDING)"
-          />
-        </WootDropdownItem>
-      </WootDropdownMenu>
-    </div>
+    <Button
+      v-if="isOpen"
+      :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
+      size="sm"
+      color="slate"
+      :is-loading="isLoading"
+      @click="onCmdResolveConversation"
+    />
+    <Button
+      v-else-if="isResolved"
+      :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
+      size="sm"
+      color="slate"
+      :is-loading="isLoading"
+      @click="onCmdOpenConversation"
+    />
+    <Button
+      v-else-if="showOpenButton"
+      :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
+      size="sm"
+      color="slate"
+      :is-loading="isLoading"
+      @click="onCmdOpenConversation"
+    />
+    <!-- Close Reason Modal -->
+    <ConversationCloseReasonModal
+      v-if="showCloseReasonModal"
+      :show="showCloseReasonModal"
+      :conversation-id="closeConversationId"
+      @close="closeCloseReasonModal"
+      @success="onCloseReasonSuccess"
+    />
   </div>
 </template>

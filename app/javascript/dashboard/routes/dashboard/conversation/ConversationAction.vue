@@ -38,11 +38,12 @@ export default {
           name: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
           thumbnail: `/assets/images/dashboard/priority/none.svg`,
         },
-        {
-          id: CONVERSATION_PRIORITY.URGENT,
-          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
-          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.URGENT}.svg`,
-        },
+        // Block 3: Hide URGENT option from priority selector
+        // {
+        //   id: CONVERSATION_PRIORITY.URGENT,
+        //   name: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
+        //   thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.URGENT}.svg`,
+        // },
         {
           id: CONVERSATION_PRIORITY.HIGH,
           name: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),

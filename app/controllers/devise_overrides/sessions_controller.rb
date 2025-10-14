@@ -37,6 +37,15 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     render_create_success
   end
 
+  def destroy
+    # Unassign all conversations when user logs out
+    if current_user
+      current_user.assigned_conversations.open.update_all(assignee_id: nil)
+    end
+    super
+  end
+
+
   def login_page_url(error: nil)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
 

@@ -29,9 +29,6 @@ export const getters = {
   getInboxes($state) {
     return $state.records;
   },
-  getAllInboxes($state) {
-    return camelcaseKeys($state.records, { deep: true });
-  },
   getWhatsAppTemplates: $state => inboxId => {
     const [inbox] = $state.records.filter(
       record => record.id === Number(inboxId)
@@ -299,11 +296,12 @@ export const actions = {
       throwErrorMessage(error);
     }
   },
-  delete: async ({ commit }, inboxId) => {
+  delete: async ({ commit, dispatch }, inboxId) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: true });
     try {
       await InboxesAPI.delete(inboxId);
       commit(types.default.DELETE_INBOXES, inboxId);
+      dispatch('cleanupInboxCounts', inboxId, { root: true });
       commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: false });
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: false });

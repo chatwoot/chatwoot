@@ -30,5 +30,13 @@ do
   sleep 2;
 done
 
+if [ "${SKIP_DB_PREPARE:-false}" != "true" ]; then
+  echo "Preparing database (bundle exec rails db:prepare)..."
+  if ! bundle exec rails db:prepare; then
+    echo "Database preparation failed. Set SKIP_DB_PREPARE=true to bypass." >&2
+    exit 1
+  fi
+fi
+
 # Execute the main process of the container
 exec "$@"

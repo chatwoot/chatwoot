@@ -151,7 +151,34 @@
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "There was an error, please try again",
+    "DUPLICATE_CONTACT": "A contact with this information already exists",
+    "PLAYER_ID": {
+      "LABEL": "Player ID",
+      "PLACEHOLDER": "Player ID from database"
+    },
+    "GG_NICKNAME": {
+      "LABEL": "GG Nickname",
+      "PLACEHOLDER": "First nickname in GG history"
+    },
+    "PLAYER_STATUS": {
+      "LABEL": "Player Status",
+      "BEGINNER": "Beginner",
+      "AMATEUR": "Amateur",
+      "REGULAR": "Regular",
+      "ADVANCED": "Advanced Player",
+      "PROFESSIONAL": "Professional",
+      "HIGH_ROLLER": "High Roller"
+    },
+    "BEHAVIOR_STATUS": {
+      "LABEL": "Behavior Status",
+      "TOXIC": "Toxic",
+      "MANIPULATOR": "Manipulator",
+      "LOYAL": "Loyal",
+      "TILT": "On Tilt",
+      "ARTIST": "Artist",
+      "TEAPOT": "Teapot"
+    }
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Start conversation",
@@ -608,15 +635,6 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variables",
-          "BACK": "Go back",
-          "SEND_MESSAGE": "Send message"
-        }
-      },
-      "TWILIO_OPTIONS": {
-        "LABEL": "Select template",
-        "SEARCH_PLACEHOLDER": "Search templates",
-        "EMPTY_STATE": "No templates found",
-        "TEMPLATE_PARSER": {
           "BACK": "Go back",
           "SEND_MESSAGE": "Send message"
         }

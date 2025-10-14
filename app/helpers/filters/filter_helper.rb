@@ -100,6 +100,10 @@ module Filters::FilterHelper
     values.map { |x| Conversation.priorities[x.to_sym] }
   end
 
+  def conversation_resolution_reason_values(values)
+    values.map { |x| Conversation.resolution_reasons[x.to_sym] }
+  end
+
   def message_type_values(values)
     values.map { |x| Message.message_types[x.to_sym] }
   end

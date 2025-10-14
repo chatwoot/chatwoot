@@ -123,8 +123,7 @@ const createState = (
   });
 };
 
-const { isEditorHotKeyEnabled, fetchSignatureFlagFromUISettings } =
-  useUISettings();
+const { fetchSignatureFlagFromUISettings } = useUISettings();
 
 const typingIndicator = createTypingIndicator(
   () => emit('typingOn'),
@@ -436,11 +435,13 @@ function updateImgToolbarOnDelete() {
 }
 
 function isEnterToSendEnabled() {
-  return isEditorHotKeyEnabled('enter');
+  // Always use Enter to send for poker operator UI
+  return true;
 }
 
 function isCmdPlusEnterToSendEnabled() {
-  return isEditorHotKeyEnabled('cmd_enter');
+  // Disable Cmd+Enter since we're using Enter to send
+  return false;
 }
 
 useKeyboardEvents({

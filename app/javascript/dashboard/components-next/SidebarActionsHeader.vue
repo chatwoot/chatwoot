@@ -11,7 +11,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['click', 'close']);
+const emit = defineEmits(['click']);
 
 const handleButtonClick = button => {
   emit('click', button.key);
@@ -33,13 +33,6 @@ const handleButtonClick = button => {
           ghost
           sm
           @click="handleButtonClick(button)"
-        />
-        <Button
-          v-tooltip="$t('GENERAL.CLOSE')"
-          icon="i-lucide-x"
-          ghost
-          sm
-          @click="$emit('close')"
         />
       </div>
     </div>

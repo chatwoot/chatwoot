@@ -35,11 +35,6 @@
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -70,17 +65,6 @@
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
-    },
-    "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
@@ -137,6 +121,24 @@
         "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
+    },
+    "QUALITY_RATING": {
+      "TITLE": "Rate Service Quality",
+      "SUBTITLE": "How would you rate the operator {agentName}?",
+      "SUBTITLE_NO_AGENT": "How would you rate the service quality?",
+      "RATINGS": {
+        "POOR": "Poor",
+        "FAIR": "Fair",
+        "GOOD": "Good",
+        "VERY_GOOD": "Very Good",
+        "EXCELLENT": "Excellent"
+      },
+      "COMMENT_LABEL": "Comment (optional)",
+      "COMMENT_PLACEHOLDER": "Tell us more about your experience...",
+      "SUBMIT": "Submit Rating",
+      "SKIP": "Skip",
+      "SUCCESS": "Thank you for your rating!",
+      "ERROR": "Error saving rating. Please try again."
     },
     "DELETE_CONVERSATION": {
       "TITLE": "Delete conversation #{conversationId}",
@@ -418,5 +420,40 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "CLOSE_REASON": {
+    "TITLE": "Select Resolution Status",
+    "SELECT_REASON": "Select resolution reason:",
+    "RESOLVED_SUCCESS": "Successfully resolved",
+    "RESOLVED_COMPENSATION": "Resolved with compensation",
+    "PARTIALLY_RESOLVED": "Partially resolved",
+    "WAITING_CLIENT": "Waiting for client action",
+    "ESCALATED": "Escalated for review",
+    "CONFLICT": "Conflict resolution",
+    "CUSTOM": "Other",
+    "CUSTOM_PLACEHOLDER": "Enter custom reason...",
+    "SUCCESS_INFO": "The ticket will be marked as successfully resolved.",
+    "SUCCESS_MESSAGE": "Resolution status saved successfully",
+    "ERROR_MESSAGE": "Failed to save resolution status",
+    "CANCEL": "Cancel",
+    "SAVE": "Save"
+  },
+  "QUALITY_RATING": {
+    "TITLE": "Rate Service Quality",
+    "QUESTION_WITH_AGENT": "How would you rate the operator {agentName}?",
+    "QUESTION_GENERAL": "How would you rate the service quality?",
+    "COMMENT_LABEL": "Comment (optional)",
+    "COMMENT_PLACEHOLDER": "Tell us more about your experience...",
+    "SKIP_BUTTON": "Skip",
+    "SUBMIT_BUTTON": "Submit Rating",
+    "RATINGS": {
+      "POOR": "Poor",
+      "FAIR": "Fair",
+      "GOOD": "Good",
+      "VERY_GOOD": "Very Good",
+      "EXCELLENT": "Excellent"
+    },
+    "SUCCESS_MESSAGE": "Thank you for your rating!",
+    "ERROR_MESSAGE": "Error saving rating. Please try again."
   }
 }

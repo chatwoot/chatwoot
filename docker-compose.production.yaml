@@ -1,63 +1,56 @@
-version: '3'
+version: '3.8'
+
+x-base: &base
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+    args:
+      RAILS_ENV: production
+      NODE_ENV: production
+      BUNDLE_WITHOUT: 'development:test'
+      RAILS_SERVE_STATIC_FILES: 'true'
+  env_file: .env
+  environment:
+    - NODE_ENV=production
+    - RAILS_ENV=production
+    - INSTALLATION_ENV=docker
+    - TODO_APP_URL=${TODO_APP_URL:-http://localhost:3002}
+  depends_on:
+    - postgres
+    - redis
 
 services:
-  base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
-    volumes:
-      - storage_data:/app/storage
-
   rails:
     <<: *base
-    depends_on:
-      - postgres
-      - redis
+    command: bundle exec rails s -p 3000 -b 0.0.0.0
     ports:
-      - '127.0.0.1:3000:3000'
-    environment:
-      - NODE_ENV=production
-      - RAILS_ENV=production
-      - INSTALLATION_ENV=docker
-    entrypoint: docker/entrypoints/rails.sh
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
-    restart: always
+      - '3000:3000'
+    volumes:
+      - ./storage:/app/storage
 
   sidekiq:
     <<: *base
-    depends_on:
-      - postgres
-      - redis
-    environment:
-      - NODE_ENV=production
-      - RAILS_ENV=production
-      - INSTALLATION_ENV=docker
-    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
-    restart: always
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - ./storage:/app/storage
 
   postgres:
-    image: pgvector/pgvector:pg16
+    image: postgres:12
     restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=chatwoot
+      - POSTGRES_DB=chatwoot_production
       - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
 
   redis:
-    image: redis:alpine
+    image: redis:7-alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis}
     volumes:
       - redis_data:/data
-    ports:
-      - '127.0.0.1:6379:6379'
 
 volumes:
-  storage_data:
   postgres_data:
   redis_data:

@@ -1,9 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted, watch, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
-import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Avatar from 'next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
@@ -37,8 +36,8 @@ const emit = defineEmits([
   'assignTeam',
   'markAsUnread',
   'markAsRead',
-  'assignPriority',
   'updateConversationStatus',
+  'createTask',
   'deleteConversation',
   'selectConversation',
   'deSelectConversation',
@@ -47,12 +46,19 @@ const emit = defineEmits([
 const router = useRouter();
 const store = useStore();
 
+// Inject assignPriority function from parent
+const assignPriority = inject('assignPriority', null);
+
 const hovered = ref(false);
 const showContextMenu = ref(false);
 const contextMenu = ref({
   x: null,
   y: null,
 });
+
+// Dynamic priority based on waiting time
+const currentTime = ref(Date.now());
+let intervalId = null;
 
 const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
@@ -83,16 +89,6 @@ const isInboxNameVisible = computed(() => !activeInbox.value);
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 
-const callStatus = computed(
-  () => props.chat.additional_attributes?.call_status
-);
-const callDirection = computed(
-  () => props.chat.additional_attributes?.call_direction
-);
-
-const { labelKey: voiceLabelKey, listIconColor: voiceIconColor } =
-  useVoiceCallStatus(callStatus, callDirection);
-
 const inboxId = computed(() => props.chat.inbox_id);
 
 const inbox = computed(() => {
@@ -107,11 +103,72 @@ const showInboxName = computed(() => {
   );
 });
 
+// Calculate waiting time in minutes
+const waitingTime = computed(() => {
+  // Use timestamp (last activity) for waiting time calculation
+  // This is updated when new messages arrive
+  const lastActivityAt = props.chat.timestamp;
+
+  // If there's no activity timestamp, no need to calculate
+  if (!lastActivityAt) return 0;
+
+  // Calculate time since last activity
+  const waitingMs = currentTime.value - lastActivityAt * 1000;
+  return Math.floor(waitingMs / 60000);
+});
+
+// Calculate dynamic priority based on waiting time
+const dynamicPriority = computed(() => {
+  // Priority is now always dynamic, no manual override
+
+  // Don't show priority for resolved conversations
+  if (props.chat.status === 'resolved') {
+    return null;
+  }
+
+  // Check if there are unread messages (means client wrote and operator hasn't read yet)
+  const hasUnreadMessages = props.chat.unread_count > 0;
+
+  // Only show priority if there are unread messages from client
+  if (!hasUnreadMessages) {
+    return null;
+  }
+
+  const minutes = waitingTime.value;
+
+  // Automatically assign priority based on waiting time since last unread message
+  if (minutes <= 5) {
+    return 'low'; // Low priority (green) - new message (0-5 min)
+  }
+  if (minutes <= 10) {
+    return 'medium'; // Medium priority (yellow) - moderate wait (5-10 min)
+  }
+  return 'high'; // High priority (red) - long wait (10+ min)
+});
+
+// Format waiting time for display
+const formattedWaitingTime = computed(() => {
+  const minutes = waitingTime.value;
+
+  if (minutes < 1) {
+    return 'сейчас';
+  }
+  if (minutes < 60) {
+    return `${minutes} мин`;
+  }
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (mins === 0) {
+    return `${hours} ч`;
+  }
+  return `${hours} ч ${mins} мин`;
+});
+
 const showMetaSection = computed(() => {
   return (
     showInboxName.value ||
     (props.showAssignee && assignee.value.name) ||
-    props.chat.priority
+    dynamicPriority.value
   );
 });
 
@@ -226,8 +283,8 @@ const markAsRead = () => {
   closeContextMenu();
 };
 
-const assignPriority = priority => {
-  emit('assignPriority', priority, props.chat.id);
+const createTask = () => {
+  emit('createTask', props.chat.id);
   closeContextMenu();
 };
 
@@ -235,6 +292,46 @@ const deleteConversation = () => {
   emit('deleteConversation', props.chat.id);
   closeContextMenu();
 };
+
+// Update priority in store when dynamic priority changes
+watch(dynamicPriority, async (newPriority, oldPriority) => {
+  // Skip if priority didn't actually change or if it's the initial load
+  if (oldPriority === undefined) return;
+
+  // Only update if priority actually changed and assignPriority is available
+  if (
+    newPriority !== oldPriority &&
+    newPriority !== props.chat.priority &&
+    assignPriority
+  ) {
+    // Use the proper assignPriority method that updates backend and store
+    await assignPriority(newPriority, props.chat.id);
+  }
+});
+
+// Update time every minute to recalculate priority
+onMounted(async () => {
+  // Set initial priority if different from stored
+  const currentPriority = dynamicPriority.value;
+  if (
+    currentPriority &&
+    currentPriority !== props.chat.priority &&
+    assignPriority
+  ) {
+    await assignPriority(currentPriority, props.chat.id);
+  }
+
+  // Start interval for updating time
+  intervalId = setInterval(() => {
+    currentTime.value = Date.now();
+  }, 60000); // Update every minute
+});
+
+onUnmounted(() => {
+  if (intervalId) {
+    clearInterval(intervalId);
+  }
+});
 </script>
 
 <template>
@@ -261,6 +358,7 @@ const deleteConversation = () => {
         :src="currentContact.thumbnail"
         :size="32"
         :status="currentContact.availability_status"
+        :inbox="inbox"
         :class="!showInboxName ? 'mt-4' : 'mt-8'"
         hide-offline-status
         rounded-full
@@ -308,7 +406,15 @@ const deleteConversation = () => {
             <fluent-icon icon="person" size="12" class="text-n-slate-11" />
             {{ assignee.name }}
           </span>
-          <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
+          <div class="flex items-center gap-1 flex-shrink-0">
+            <PriorityMark :priority="dynamicPriority" />
+            <span
+              v-if="dynamicPriority && waitingTime > 0"
+              class="text-xs text-n-slate-10"
+            >
+              {{ formattedWaitingTime }}
+            </span>
+          </div>
         </div>
       </div>
       <h4
@@ -317,30 +423,14 @@ const deleteConversation = () => {
       >
         {{ currentContact.name }}
       </h4>
-      <div
-        v-if="callStatus"
-        key="voice-status-row"
-        class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
-        :class="messagePreviewClass"
-      >
-        <span
-          class="inline-block -mt-0.5 align-middle text-[16px] i-ph-phone-incoming"
-          :class="[voiceIconColor]"
-        />
-        <span class="mx-1">
-          {{ $t(voiceLabelKey) }}
-        </span>
-      </div>
       <MessagePreview
-        v-else-if="lastMessageInChat"
-        key="message-preview"
+        v-if="lastMessageInChat"
         :message="lastMessageInChat"
         class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm"
         :class="messagePreviewClass"
       />
       <p
         v-else
-        key="no-messages"
         class="text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap"
         :class="messagePreviewClass"
       >
@@ -389,7 +479,7 @@ const deleteConversation = () => {
       <ConversationContextMenu
         :status="chat.status"
         :inbox-id="inbox.id"
-        :priority="chat.priority"
+        :priority="chat.priority || dynamicPriority"
         :chat-id="chat.id"
         :has-unread-messages="hasUnread"
         :conversation-url="conversationPath"
@@ -401,6 +491,7 @@ const deleteConversation = () => {
         @mark-as-unread="markAsUnread"
         @mark-as-read="markAsRead"
         @assign-priority="assignPriority"
+        @create-task="createTask"
         @delete-conversation="deleteConversation"
         @close="closeContextMenu"
       />

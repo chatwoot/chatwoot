@@ -87,7 +87,15 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # Generate .git_sha file with current commit hash
-RUN git rev-parse HEAD > /app/.git_sha
+# Use SOURCE_COMMIT build arg if available, otherwise try git, fallback to 'unknown'
+ARG SOURCE_COMMIT
+RUN if [ -n "$SOURCE_COMMIT" ]; then \
+  echo "$SOURCE_COMMIT" > /app/.git_sha; \
+  elif [ -d .git ]; then \
+  git rev-parse HEAD > /app/.git_sha; \
+  else \
+  echo "unknown" > /app/.git_sha; \
+  fi
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \

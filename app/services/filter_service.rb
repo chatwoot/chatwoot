@@ -48,6 +48,7 @@ class FilterService
 
     return conversation_status_values(values) if attribute_key == 'status'
     return conversation_priority_values(values) if attribute_key == 'priority'
+    return conversation_resolution_reason_values(values) if attribute_key == 'resolution_reason'
     return message_type_values(values) if attribute_key == 'message_type'
     return downcase_array_values(values) if attribute_key == 'content'
 

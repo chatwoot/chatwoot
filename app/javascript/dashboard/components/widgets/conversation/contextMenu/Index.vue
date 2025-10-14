@@ -21,6 +21,7 @@ const MENU = {
   AGENT: 'agent',
   TEAM: 'team',
   LABEL: 'label',
+  CREATE_TASK: 'create-task',
   DELETE: 'delete',
   OPEN_NEW_TAB: 'open-new-tab',
   COPY_LINK: 'copy-link',
@@ -70,6 +71,7 @@ export default {
     'assignAgent',
     'assignTeam',
     'assignLabel',
+    'createTask',
     'deleteConversation',
     'close',
   ],
@@ -122,10 +124,8 @@ export default {
             label: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
             key: null,
           },
-          {
-            label: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
-            key: 'urgent',
-          },
+          // Block 3: Hide URGENT option from UI but keep constant for compatibility
+          // Only show None, High, Medium, Low in the menu
           {
             label: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
             key: 'high',
@@ -154,6 +154,11 @@ export default {
         key: MENU.TEAM,
         icon: 'people-team-add',
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.ASSIGN_TEAM'),
+      },
+      createTaskOption: {
+        key: MENU.CREATE_TASK,
+        icon: 'add',
+        label: this.$t('TODO.CREATE_TASK'),
       },
       deleteOption: {
         key: MENU.DELETE,
@@ -230,6 +235,9 @@ export default {
     },
     assignPriority(priority) {
       this.$emit('assignPriority', priority);
+    },
+    createTask() {
+      this.$emit('createTask', this.chatId);
     },
     deleteConversation() {
       this.$emit('deleteConversation', this.chatId);
@@ -314,17 +322,7 @@ export default {
     <template
       v-if="isAllowed([MENU.PRIORITY, MENU.LABEL, MENU.AGENT, MENU.TEAM])"
     >
-      <MenuItemWithSubmenu
-        v-if="isAllowed([MENU.PRIORITY])"
-        :option="priorityConfig"
-      >
-        <MenuItem
-          v-for="(option, i) in priorityConfig.options"
-          :key="i"
-          :option="option"
-          @click.stop="assignPriority(option.key)"
-        />
-      </MenuItemWithSubmenu>
+      <!-- Priority assignment removed - now automatic based on waiting time -->
       <MenuItemWithSubmenu
         v-if="isAllowed([MENU.LABEL])"
         :option="labelMenuConfig"
@@ -366,6 +364,14 @@ export default {
           @click.stop="$emit('assignTeam', team)"
         />
       </MenuItemWithSubmenu>
+      <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
+    </template>
+    <template v-if="isAllowed([MENU.CREATE_TASK])">
+      <MenuItem
+        :option="createTaskOption"
+        variant="icon"
+        @click.stop="createTask"
+      />
       <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
     </template>
     <template v-if="isAllowed([MENU.OPEN_NEW_TAB, MENU.COPY_LINK])">

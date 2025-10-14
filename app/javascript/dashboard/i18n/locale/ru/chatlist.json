@@ -17,7 +17,8 @@
     "ASSIGNEE_TYPE_TABS": {
       "me": "Мои",
       "unassigned": "Неназначен",
-      "all": "Все"
+      "all": "Все",
+      "resolved": "Архив"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {

@@ -14,6 +14,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       custom_attributes: custom_attributes,
       snoozed_until: snoozed_until,
       unread_count: unread_incoming_messages.count,
+      unread_count_full: unread_incoming_messages_count,
       first_reply_created_at: first_reply_created_at,
       priority: priority,
       waiting_since: waiting_since.to_i,

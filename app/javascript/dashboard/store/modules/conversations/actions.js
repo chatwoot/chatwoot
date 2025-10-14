@@ -7,7 +7,6 @@ import {
   buildConversationList,
   isOnMentionsView,
   isOnUnattendedView,
-  isOnFoldersView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
@@ -53,6 +52,38 @@ const actions = {
     } catch (error) {
       // Handle error
     }
+  },
+
+  fetchAllConversationsForCounts: async ({ commit }) => {
+    try {
+      const [meResponse, unassignedResponse] = await Promise.all([
+        ConversationApi.get({ page: 1, status: 'all', assigneeType: 'me' }),
+        ConversationApi.get({
+          page: 1,
+          status: 'all',
+          assigneeType: 'unassigned',
+        }),
+      ]);
+
+      const meConversations = meResponse.data.data.payload || [];
+      const unassignedConversations =
+        unassignedResponse.data.data.payload || [];
+
+      const allConversations = [...meConversations, ...unassignedConversations];
+
+      if (allConversations.length > 0) {
+        commit(types.UPDATE_CONVERSATIONS_FOR_COUNTS, allConversations);
+      }
+    } catch (error) {
+      // Handle error silently - counts are not critical
+    }
+  },
+
+  cleanupInboxCounts: ({ commit, state }, inboxId) => {
+    const filteredCounts = state.sidebarCountsData.filter(
+      conversation => conversation.inbox_id !== inboxId
+    );
+    commit(types.UPDATE_CONVERSATIONS_FOR_COUNTS, filteredCounts);
   },
 
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
@@ -236,7 +267,7 @@ const actions = {
 
   toggleStatus: async (
     { commit },
-    { conversationId, status, snoozedUntil = null }
+    { conversationId, status, snoozedUntil = null, resolutionReason = null }
   ) => {
     try {
       const {
@@ -244,17 +275,20 @@ const actions = {
           payload: {
             current_status: updatedStatus,
             snoozed_until: updatedSnoozedUntil,
+            resolution_reason: updatedResolutionReason,
           } = {},
         } = {},
       } = await ConversationApi.toggleStatus({
         conversationId,
         status,
         snoozedUntil,
+        resolutionReason,
       });
       commit(types.CHANGE_CONVERSATION_STATUS, {
         conversationId,
         status: updatedStatus,
         snoozedUntil: updatedSnoozedUntil,
+        resolutionReason: updatedResolutionReason,
       });
     } catch (error) {
       // Handle error
@@ -337,22 +371,25 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch, rootState }, conversation) {
+  addConversation({ commit, state, dispatch }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
       meta: { sender },
     } = conversation;
-    const hasAppliedFilters = !!appliedFilters.length;
+
+    // Skip if there are applied filters (custom filters have their own logic)
+    if (appliedFilters && appliedFilters.length > 0) {
+      return;
+    }
+
+    // Check if inbox matches current filter
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
-    if (
-      !hasAppliedFilters &&
-      !isOnFoldersView(rootState) &&
-      !isOnMentionsView(rootState) &&
-      !isOnUnattendedView(rootState) &&
-      isMatchingInboxFilter
-    ) {
+
+    // Always add conversation to the store if inbox matches
+    // The getters will handle filtering for different views
+    if (isMatchingInboxFilter) {
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
     }

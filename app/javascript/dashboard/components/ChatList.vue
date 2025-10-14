@@ -32,13 +32,13 @@ import ConversationBulkActions from './widgets/conversation/conversationBulkActi
 import IntersectionObserver from './IntersectionObserver.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import TodoModal from './widgets/conversation/TodoModal.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useChatListKeyboardEvents } from 'dashboard/composables/chatlist/useChatListKeyboardEvents';
 import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
 import { useFilter } from 'shared/composables/useFilter';
-import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import {
   useCamelCase,
@@ -65,7 +65,6 @@ import {
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
 import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
-import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
@@ -116,6 +115,7 @@ const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
+const resolvedChatsList = useMapGetter('getResolvedChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
@@ -197,16 +197,100 @@ const userPermissions = computed(() => {
   return getUserPermissions(currentUser.value, currentAccountId.value);
 });
 
+const getConversationsForLabelTabs = useMapGetter(
+  'getConversationsForLabelTabs'
+);
+const getConversationsForTeamTabs = useMapGetter('getConversationsForTeamTabs');
+
 const assigneeTabItems = computed(() => {
+  const isLabelView = props.label && props.label !== '';
+  const isTeamView = props.teamId && props.teamId !== 0;
+
   return filterItemsByPermission(
     ASSIGNEE_TYPE_TAB_PERMISSIONS,
     userPermissions.value,
     item => item.permissions
-  ).map(({ key, count: countKey }) => ({
-    key,
-    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-    count: conversationStats.value[countKey] || 0,
-  }));
+  ).map(({ key, count: countKey }) => {
+    let count = 0;
+
+    if (isLabelView) {
+      // Use the store getter that has access to sidebarCountsData
+      const labelConversations =
+        getConversationsForLabelTabs.value(props.label) || [];
+
+      switch (key) {
+        case 'me':
+          count = labelConversations.filter(
+            c =>
+              c.status !== 'resolved' && c.assignee_id === currentUser.value?.id
+          ).length;
+          break;
+        case 'unassigned':
+          count = labelConversations.filter(
+            c => c.status !== 'resolved' && !c.assignee_id
+          ).length;
+          break;
+        case 'all':
+          count = labelConversations.filter(
+            c => c.status !== 'resolved'
+          ).length;
+          break;
+        case 'resolved':
+          count = labelConversations.filter(
+            c => c.status === 'resolved'
+          ).length;
+          break;
+        default:
+          count = 0;
+      }
+    } else if (isTeamView) {
+      // Use the store getter that has access to sidebarCountsData
+      const teamConversations =
+        getConversationsForTeamTabs.value(props.teamId) || [];
+
+      switch (key) {
+        case 'me':
+          count = teamConversations.filter(
+            c =>
+              c.status !== 'resolved' && c.assignee_id === currentUser.value?.id
+          ).length;
+          break;
+        case 'unassigned':
+          count = teamConversations.filter(
+            c => c.status !== 'resolved' && !c.assignee_id
+          ).length;
+          break;
+        case 'all':
+          count = teamConversations.filter(c => c.status !== 'resolved').length;
+          break;
+        case 'resolved':
+          count = teamConversations.filter(c => c.status === 'resolved').length;
+          break;
+        default:
+          count = 0;
+      }
+    } else {
+      count = conversationStats.value[countKey] || 0;
+    }
+
+    return {
+      key,
+      name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+      count,
+    };
+  });
+});
+
+// Simplified tabs for operators - Block 1 requirement
+// Only showing "Dialogs" (me), "Unanswered" (unassigned), "All dialogs" (all), "Mentions", and "Categories"
+const simplifiedAssigneeTabItems = computed(() => {
+  const operatorEssentialTabs = ['me', 'unassigned', 'resolved'];
+  const filteredTabs = assigneeTabItems.value.filter(item =>
+    operatorEssentialTabs.includes(item.key)
+  );
+
+  // Add counter for unanswered messages to categories section
+  return filteredTabs;
 });
 
 const showAssigneeInConversationCard = computed(() => {
@@ -269,10 +353,14 @@ const conversationListPagination = computed(() => {
 });
 
 const conversationFilters = computed(() => {
+  // For resolved tab, override status to 'resolved'
+  const status =
+    activeAssigneeTab.value === 'resolved' ? 'resolved' : activeStatus.value;
+
   return {
     inboxId: props.conversationInbox ? props.conversationInbox : undefined,
     assigneeType: activeAssigneeTab.value,
-    status: activeStatus.value,
+    status,
     sortBy: activeSortBy.value,
     page: conversationListPagination.value,
     labels: props.label ? [props.label] : undefined,
@@ -325,6 +413,9 @@ const conversationList = computed(() => {
       localConversationList = [...mineChatsList.value(filters)];
     } else if (activeAssigneeTab.value === 'unassigned') {
       localConversationList = [...unAssignedChatsList.value(filters)];
+    } else if (activeAssigneeTab.value === 'resolved') {
+      // Use dedicated resolved chats list
+      localConversationList = [...resolvedChatsList.value(filters)];
     } else {
       localConversationList = [...allChatList.value(filters)];
     }
@@ -615,10 +706,14 @@ function updateAssigneeTab(selectedTab) {
   if (activeAssigneeTab.value !== selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
+
+    // Reset page counter for the new tab before switching
+    store.dispatch('conversationPage/reset');
+
     activeAssigneeTab.value = selectedTab;
-    if (!currentPage.value) {
-      fetchConversations();
-    }
+
+    // Always fetch conversations for the new tab (will fetch page 1 now)
+    fetchConversations();
   }
 }
 
@@ -673,23 +768,20 @@ function redirectToConversationList() {
   );
 }
 
+// Auto-assign priority based on waiting time (no manual assignment)
 async function assignPriority(priority, conversationId = null) {
+  // Skip if trying to set null or same priority
+  const conversation = chatLists.value.find(c => c.id === conversationId);
+  if (!priority || (conversation && conversation.priority === priority)) {
+    return;
+  }
+
   store.dispatch('setCurrentChatPriority', {
     priority,
     conversationId,
   });
-  store.dispatch('assignPriority', { conversationId, priority }).then(() => {
-    useTrack(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
-      newValue: priority,
-      from: 'Context menu',
-    });
-    useAlert(
-      t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
-        priority,
-        conversationId,
-      })
-    );
-  });
+  // Silent update for automatic priority changes
+  await store.dispatch('assignPriority', { conversationId, priority });
 }
 
 async function markAsUnread(conversationId) {
@@ -758,7 +850,7 @@ function toggleSelectAll(check) {
 
 useEmitter('fetch_conversation_stats', () => {
   if (hasAppliedFiltersOrActiveFolders.value) return;
-  store.dispatch('conversationStats/get', conversationFilters.value);
+  fetchConversations();
 });
 
 useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
@@ -772,10 +864,14 @@ onMounted(() => {
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }
+  // Refresh conversation stats to get accurate counts
+  store.dispatch('conversationStats/get', conversationFilters.value);
 });
 
 const deleteConversationDialogRef = ref(null);
 const selectedConversationId = ref(null);
+const showTodoModal = ref(false);
+const selectedChatForTask = ref(null);
 
 async function deleteConversation() {
   try {
@@ -794,6 +890,19 @@ const handleDelete = conversationId => {
   deleteConversationDialogRef.value.open();
 };
 
+const handleCreateTask = conversationId => {
+  const conversation = chatLists.value.find(c => c.id === conversationId);
+  if (conversation) {
+    selectedChatForTask.value = conversation;
+    showTodoModal.value = true;
+  }
+};
+
+const closeTodoModal = () => {
+  showTodoModal.value = false;
+  selectedChatForTask.value = null;
+};
+
 provide('selectConversation', selectConversation);
 provide('deSelectConversation', deSelectConversation);
 provide('assignAgent', onAssignAgent);
@@ -803,8 +912,9 @@ provide('updateConversationStatus', toggleConversationStatus);
 provide('toggleContextMenu', onContextMenuToggle);
 provide('markAsUnread', markAsUnread);
 provide('markAsRead', markAsRead);
-provide('assignPriority', assignPriority);
+provide('assignPriority', assignPriority); // Used for automatic priority updates
 provide('isConversationSelected', isConversationSelected);
+provide('createTask', handleCreateTask);
 provide('deleteConversation', handleDelete);
 
 watch(activeTeam, () => resetAndFetchData());
@@ -885,9 +995,10 @@ watch(conversationFilters, (newVal, oldVal) => {
       @close="onCloseDeleteFoldersModal"
     />
 
+    <!-- Simplified tabs for operators - only showing essential tabs -->
     <ChatTypeTabs
       v-if="!hasAppliedFiltersOrActiveFolders"
-      :items="assigneeTabItems"
+      :items="simplifiedAssigneeTabItems"
       :active-tab="activeAssigneeTab"
       is-compact
       @chat-tab-change="updateAssigneeTab"
@@ -983,6 +1094,12 @@ watch(conversationFilters, (newVal, oldVal) => {
       :confirm-button-label="$t('CONVERSATION.DELETE_CONVERSATION.CONFIRM')"
       @confirm="deleteConversation"
       @close="selectedConversationId = null"
+    />
+    <TodoModal
+      v-if="showTodoModal"
+      :show="showTodoModal"
+      :current-chat="selectedChatForTask"
+      @cancel="closeTodoModal"
     />
     <TeleportWithDirection
       v-if="showAdvancedFilters"

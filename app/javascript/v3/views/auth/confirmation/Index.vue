@@ -1,5 +1,4 @@
 <script>
-import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { verifyPasswordToken } from '../../../api/auth';
 import Spinner from 'shared/components/Spinner.vue';
 
@@ -20,9 +19,12 @@ export default {
         await verifyPasswordToken({
           confirmationToken: this.confirmationToken,
         });
-        window.location = DEFAULT_REDIRECT_URL;
+        // After successful confirmation, redirect to login page
+        // The user needs to login after email confirmation
+        window.location = '/app/login';
       } catch (error) {
-        window.location = DEFAULT_REDIRECT_URL;
+        // On error, also redirect to login page with error message
+        window.location = '/app/login?error=invalid_confirmation_token';
       }
     },
   },

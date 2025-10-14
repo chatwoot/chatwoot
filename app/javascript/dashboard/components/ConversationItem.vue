@@ -16,6 +16,7 @@ export default {
     'markAsRead',
     'assignPriority',
     'isConversationSelected',
+    'createTask',
     'deleteConversation',
   ],
   props: {
@@ -68,6 +69,7 @@ export default {
     @mark-as-unread="markAsUnread"
     @mark-as-read="markAsRead"
     @assign-priority="assignPriority"
+    @create-task="createTask"
     @delete-conversation="deleteConversation"
   />
 </template>

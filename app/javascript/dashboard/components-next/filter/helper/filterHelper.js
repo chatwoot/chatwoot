@@ -4,6 +4,7 @@
 export const CONVERSATION_ATTRIBUTES = {
   STATUS: 'status',
   PRIORITY: 'priority',
+  RESOLUTION_REASON: 'resolution_reason',
   ASSIGNEE_ID: 'assignee_id',
   INBOX_ID: 'inbox_id',
   TEAM_ID: 'team_id',

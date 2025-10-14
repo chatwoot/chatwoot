@@ -54,6 +54,7 @@
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priority",
+      "RESOLUTION_REASON": "Resolution reason",
       "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Referer link",
       "CUSTOM_ATTRIBUTE_LIST": "List",
