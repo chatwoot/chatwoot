@@ -216,3 +216,4 @@ Practical checklist for any change impacting core logic or public APIs
 
 - Remember to implement camelCase format for any functions
 - Remember that any tailscale command requires privilege - ask user to execute them directly
+- Do not push changes to git until i noticed you
