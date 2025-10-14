@@ -233,13 +233,13 @@ jobs:
 
           # Wait for all deployments to be ready
           echo "Waiting for Rails deployment (staging)..."
-          kubectl rollout status deployment/chatwoot-rails-staging -n chatwoot-staging --timeout=300s
+          kubectl rollout status deployment/chatwoot-rails-staging -n chatwoot-staging --timeout=900s
 
           echo "Waiting for Vite deployment (staging)..."
-          kubectl rollout status deployment/chatwoot-vite-staging -n chatwoot-staging --timeout=300s
+          kubectl rollout status deployment/chatwoot-vite-staging -n chatwoot-staging --timeout=600s
 
           echo "Waiting for Sidekiq deployment (staging)..."
-          kubectl rollout status deployment/chatwoot-sidekiq-staging -n chatwoot-staging --timeout=300s
+          kubectl rollout status deployment/chatwoot-sidekiq-staging -n chatwoot-staging --timeout=600s
 
           echo "Waiting for Mailhog deployment (staging)..."
           kubectl rollout status deployment/chatwoot-mailhog-staging -n chatwoot-staging --timeout=300s

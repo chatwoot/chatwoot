@@ -7,6 +7,7 @@ metadata:
     container.apparmor.security.beta.kubernetes.io/vite: runtime/default
 spec:
   replicas: 1
+  progressDeadlineSeconds: 600
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -24,7 +25,7 @@ spec:
     spec:
       containers:
       - name: vite
-        image: wavai/chatwoot-vite-staging:v1.0.15
+        image: wavai/chatwoot-vite-staging:v1.0.21
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "docker/entrypoints/vite.sh"]
