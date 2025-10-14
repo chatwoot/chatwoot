@@ -23,6 +23,10 @@ ru:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Пожалуйста, введите действительный адрес электронной почты'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
     reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
@@ -82,13 +86,27 @@ ru:
       validations:
         name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
     custom_filters:
-      number_of_records: Достигнут лимит. Максимальное количество разрешенных пользовательских фильтров для каждого пользователя - 50.
+      number_of_records: Достигнут лимит. Максимальное количество разрешенных пользовательских фильтров для каждого пользователя - 1000.
       invalid_attribute: Недопустимый ключ атрибута - [%{key}]. Ключ должен быть одним из [%{allowed_keys}] или пользовательским атрибутом, указанным в учетной записи.
       invalid_operator: Неверный оператор. Допустимыми операторами для %{attribute_name} являются [%{allowed_keys}].
       invalid_query_operator: Оператор запроса должен быть "AND" или "OR".
       invalid_value: Недопустимое значение. Значения, предоставленные для %{attribute_name} являются недопустимыми
     custom_attribute_definition:
       key_conflict: Предоставленный ключ не разрешён, так как он может конфликтовать со стандартными атрибутами.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Отчётный период с %{since} по %{until}
     utc_warning: Отчёт создан в часовом поясе UTC
@@ -304,6 +322,8 @@ ru:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...

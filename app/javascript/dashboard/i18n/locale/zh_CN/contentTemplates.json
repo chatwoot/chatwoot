@@ -1,33 +1,33 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Twilio 模板",
+      "SUBTITLE": "选择您想要发送的 Twilio 模板",
+      "TEMPLATE_SELECTED_SUBTITLE": "配置模板: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "查找模板",
       "NO_TEMPLATES_FOUND": "没有找到对应的模版",
       "NO_CONTENT": "无内容",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "页头",
+      "BODY": "正文内容",
+      "FOOTER": "页脚",
+      "BUTTONS": "按钮",
       "CATEGORY": "类别",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "媒体内容",
+      "MEDIA_CONTENT_FALLBACK": "媒体内容",
+      "NO_TEMPLATES_AVAILABLE": "没有可用的 Twilio 模板。单击刷新以同步Twilio 的模板。",
+      "REFRESH_BUTTON": "刷新模板",
+      "REFRESH_SUCCESS": "模板刷新已启动。更新可能需要几分钟时间。",
+      "REFRESH_ERROR": "刷新模板失败。请重试。",
       "LABELS": {
         "LANGUAGE": "语言",
         "TEMPLATE_BODY": "模板内容",
         "CATEGORY": "类别"
       },
       "TYPES": {
-        "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
+        "MEDIA": "媒体",
+        "QUICK_REPLY": "快速回复",
         "TEXT": "文本"
       }
     },
@@ -40,7 +40,7 @@
       "SEND_MESSAGE_LABEL": "发送消息",
       "FORM_ERROR_MESSAGE": "你必须填写所有参数才能发送",
       "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_LABEL": "输入完整媒体 URL",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {

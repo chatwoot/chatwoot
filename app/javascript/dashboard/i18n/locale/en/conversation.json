@@ -228,6 +228,13 @@
           "YES": "Send",
           "CANCEL": "Cancel"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "TEMPLATE_REQUIRES_PARAMETERS": "The template '{name}' requires parameters. Please use the template builder to configure it.",

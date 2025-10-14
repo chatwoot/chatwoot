@@ -5,8 +5,8 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
-import CannedResponse from './CannedResponse.vue';
 import TemplateSelector from './TemplateSelector.vue';
 import ReplyToMessage from './ReplyToMessage.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
@@ -17,6 +17,7 @@ import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBotto
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
+import QuotedEmailPreview from './QuotedEmailPreview.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
@@ -33,6 +34,12 @@ import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
+import {
+  extractQuotedEmailText,
+  buildQuotedEmailHeader,
+  truncatePreviewText,
+  appendQuotedTextToMessage,
+} from 'dashboard/helper/quotedEmailHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
@@ -44,9 +51,7 @@ import {
 import AppleRichLinkPreview from './AppleRichLinkPreview.vue';
 import {
   URL_REGEX,
-  normalizeURL,
   detectURLsInText,
-  splitMessageByURLs,
   processMessageForAppleMessages,
 } from 'dashboard/helper/appleMessagesRichLink';
 
@@ -63,7 +68,6 @@ export default {
     ArticleSearchPopover,
     AttachmentPreview,
     AudioRecorder,
-    CannedResponse,
     TemplateSelector,
     ReplyBoxBanner,
     EmojiInput,
@@ -76,6 +80,7 @@ export default {
     ContentTemplates,
     WhatsappTemplates,
     WootMessageEditor,
+    QuotedEmailPreview,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
@@ -91,6 +96,8 @@ export default {
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
+      setQuotedReplyFlagForInbox,
+      fetchQuotedReplyFlagFromUISettings,
     } = useUISettings();
 
     const replyEditor = useTemplateRef('replyEditor');
@@ -100,6 +107,8 @@ export default {
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
+      setQuotedReplyFlagForInbox,
+      fetchQuotedReplyFlagFromUISettings,
       replyEditor,
     };
   },
@@ -145,6 +154,8 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -388,6 +399,51 @@ export default {
       const { slug = '' } = portal;
       return slug;
     },
+    isQuotedEmailReplyEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.QUOTED_EMAIL_REPLY
+      );
+    },
+    quotedReplyPreference() {
+      if (!this.isAnEmailChannel || !this.isQuotedEmailReplyEnabled) {
+        return false;
+      }
+
+      return !!this.fetchQuotedReplyFlagFromUISettings(this.channelType);
+    },
+    lastEmailWithQuotedContent() {
+      if (!this.isAnEmailChannel) {
+        return null;
+      }
+
+      const lastEmail = this.lastEmail;
+      if (!lastEmail || lastEmail.private) {
+        return null;
+      }
+
+      return lastEmail;
+    },
+    quotedEmailText() {
+      return extractQuotedEmailText(this.lastEmailWithQuotedContent);
+    },
+    quotedEmailPreviewText() {
+      return truncatePreviewText(this.quotedEmailText, 80);
+    },
+    shouldShowQuotedReplyToggle() {
+      return (
+        this.isAnEmailChannel &&
+        !this.isOnPrivateNote &&
+        this.isQuotedEmailReplyEnabled
+      );
+    },
+    shouldShowQuotedPreview() {
+      return (
+        this.shouldShowQuotedReplyToggle &&
+        this.quotedReplyPreference &&
+        !!this.quotedEmailText
+      );
+    },
   },
   watch: {
     currentChat(conversation, oldConversation) {
@@ -539,6 +595,36 @@ export default {
           this.messageSignature
         );
       }
+    },
+    toggleQuotedReply() {
+      if (!this.isAnEmailChannel) {
+        return;
+      }
+
+      const nextValue = !this.quotedReplyPreference;
+      this.setQuotedReplyFlagForInbox(this.channelType, nextValue);
+    },
+    shouldIncludeQuotedEmail() {
+      return (
+        this.isQuotedEmailReplyEnabled &&
+        this.quotedReplyPreference &&
+        this.shouldShowQuotedReplyToggle &&
+        !!this.quotedEmailText
+      );
+    },
+    getMessageWithQuotedEmailText(message) {
+      if (!this.shouldIncludeQuotedEmail()) {
+        return message;
+      }
+
+      const quotedText = this.quotedEmailText || '';
+      const header = buildQuotedEmailHeader(
+        this.lastEmailWithQuotedContent,
+        this.currentContact,
+        this.inbox
+      );
+
+      return appendQuotedTextToMessage(message, quotedText, header);
     },
     resetRecorderAndClearAttachments() {
       // Reset audio recorder UI state
@@ -1338,9 +1424,13 @@ export default {
         }
       }
 
+      // Apply quoted email text for email channels
+      const messageWithQuote =
+        this.getMessageWithQuotedEmailText(processedMessage);
+
       let messagePayload = {
         conversationId: this.currentChat.id,
-        message: processedMessage,
+        message: messageWithQuote,
         private: this.isPrivate,
         sender: this.sender,
       };
@@ -1368,7 +1458,6 @@ export default {
       if (this.toEmails && !this.isOnPrivateNote) {
         messagePayload.toEmails = this.toEmails;
       }
-
       return messagePayload;
     },
     setCcEmails(value) {
@@ -1532,11 +1621,7 @@ export default {
           conversation
         );
 
-        console.log('🔗 Processing message with URL:', messageContent);
-        console.log('📝 Split into parts:', processedMessages.length);
-
-        // ✅ CRITICAL FIX: Send messages sequentially with delay per Apple MSP docs
-        console.log('📝 Processing', processedMessages.length, 'message(s)');
+        // Process messages sequentially with delay per Apple MSP docs
 
         if (processedMessages.length === 1) {
           // Single message (likely combined rich link) - send directly
@@ -1548,7 +1633,7 @@ export default {
             content_attributes: processedMessages[0].content_attributes || {},
           };
 
-          console.log('📤 Sending single combined message:', messagePayload);
+          // Send single combined message
 
           await this.$store.dispatch(
             'createPendingMessageAndSend',
@@ -1556,7 +1641,8 @@ export default {
           );
         } else {
           // Multiple messages - send sequentially with delays
-          for (let i = 0; i < processedMessages.length; i++) {
+          /* eslint-disable no-await-in-loop */
+          for (let i = 0; i < processedMessages.length; i += 1) {
             const messagePart = processedMessages[i];
             const messagePayload = {
               conversationId: this.currentChat.id,
@@ -1566,27 +1652,27 @@ export default {
               content_attributes: messagePart.content_attributes || {},
             };
 
-            console.log(
-              `📤 Sending message part ${i + 1}/${processedMessages.length}:`,
-              messagePayload
-            );
-
+            // Send message part
             await this.$store.dispatch(
               'createPendingMessageAndSend',
               messagePayload
             );
 
+            // Brief delay between messages (per Apple MSP docs)
             if (i < processedMessages.length - 1) {
-              console.log('⏳ Brief delay between messages...');
-              await new Promise(resolve => setTimeout(resolve, 1500));
+              /* eslint-disable no-promise-executor-return */
+              await new Promise(resolve => {
+                setTimeout(resolve, 1500);
+              });
+              /* eslint-enable no-promise-executor-return */
             }
           }
+          /* eslint-enable no-await-in-loop */
         }
 
         this.clearMessage();
         this.hideRichLinkPreview();
       } catch (error) {
-        console.error('Rich Link send error:', error);
         const errorMessage =
           error?.message || this.$t('CONVERSATION.MESSAGE_ERROR');
         this.$store.dispatch('alerts/show', {
@@ -1704,6 +1790,12 @@ export default {
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
       />
+      <QuotedEmailPreview
+        v-if="shouldShowQuotedPreview"
+        :quoted-email-text="quotedEmailText"
+        :preview-text="quotedEmailPreviewText"
+        @toggle="toggleQuotedReply"
+      />
     </div>
     <div
       v-if="hasAttachments && !showAudioRecorderEditor"
@@ -1739,6 +1831,8 @@ export default {
       :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
       :show-emoji-picker="showEmojiPicker"
       :show-file-upload="showFileUpload"
+      :show-quoted-reply-toggle="shouldShowQuotedReplyToggle"
+      :quoted-reply-enabled="quotedReplyPreference"
       :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
@@ -1751,6 +1845,7 @@ export default {
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
       @send-apple-message="sendAppleMessage"
+      @toggle-quoted-reply="toggleQuotedReply"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"

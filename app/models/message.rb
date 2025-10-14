@@ -40,7 +40,7 @@
 #
 
 class Message < ApplicationRecord
-  searchkick callbacks: :async if ChatwootApp.advanced_search_allowed?
+  searchkick callbacks: false if ChatwootApp.advanced_search_allowed?
 
   include MessageFilterHelpers
   include Liquidable
@@ -148,6 +148,7 @@ class Message < ApplicationRecord
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
+  after_commit :reindex_for_search, if: :should_index?, on: [:create, :update]
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -257,8 +258,16 @@ class Message < ApplicationRecord
 
   def should_index?
     return false unless ChatwootApp.advanced_search_allowed?
-    return false unless account.feature_enabled?('advanced_search')
     return false unless incoming? || outgoing?
+    # For Chatwoot Cloud:
+    #   - Enable indexing only if the account is paid.
+    #   - The `advanced_search_indexing` feature flag is used only in the cloud.
+    #
+    # For Self-hosted:
+    #   - Adding an extra feature flag here would cause confusion.
+    #   - If the user has configured Elasticsearch, enabling `advanced_search`
+    #     should automatically work without any additional flags.
+    return false if ChatwootApp.chatwoot_cloud? && !account.feature_enabled?('advanced_search_indexing')
 
     true
   end
@@ -458,6 +467,10 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def reindex_for_search
+    reindex(mode: :async)
   end
 end
 
