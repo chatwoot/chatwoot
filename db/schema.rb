@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_22_000002) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_13_074048) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -736,3 +736,787 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_22_000002) do
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
   end
 
+  create_table "folders", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "category_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "inbox_members", id: :serial, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "inbox_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["inbox_id", "user_id"], name: "index_inbox_members_on_inbox_id_and_user_id", unique: true
+    t.index ["inbox_id"], name: "index_inbox_members_on_inbox_id"
+  end
+
+  create_table "inboxes", id: :serial, force: :cascade do |t|
+    t.integer "channel_id", null: false
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "channel_type"
+    t.boolean "enable_auto_assignment", default: true
+    t.boolean "greeting_enabled", default: false
+    t.string "greeting_message"
+    t.string "email_address"
+    t.boolean "working_hours_enabled", default: false
+    t.string "out_of_office_message"
+    t.string "timezone", default: "UTC"
+    t.boolean "enable_email_collect", default: true
+    t.boolean "csat_survey_enabled", default: false
+    t.boolean "allow_messages_after_resolved", default: true
+    t.jsonb "auto_assignment_config", default: {}
+    t.boolean "lock_to_single_conversation", default: false, null: false
+    t.bigint "portal_id"
+    t.integer "sender_name_type", default: 0, null: false
+    t.string "business_name"
+    t.index ["account_id"], name: "index_inboxes_on_account_id"
+    t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
+    t.index ["portal_id"], name: "index_inboxes_on_portal_id"
+  end
+
+  create_table "installation_configs", force: :cascade do |t|
+    t.string "name", null: false
+    t.jsonb "serialized_value", default: {}, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.boolean "locked", default: true, null: false
+    t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+    t.index ["name"], name: "index_installation_configs_on_name", unique: true
+  end
+
+  create_table "integrations_hooks", force: :cascade do |t|
+    t.integer "status", default: 1
+    t.integer "inbox_id"
+    t.integer "account_id"
+    t.string "app_id"
+    t.integer "hook_type", default: 0
+    t.string "reference_id"
+    t.string "access_token"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.jsonb "settings", default: {}
+  end
+
+  create_table "knowledge_source_files", force: :cascade do |t|
+    t.bigint "knowledge_source_id", null: false
+    t.string "loader_id", null: false
+    t.string "file_name"
+    t.string "file_type"
+    t.integer "file_size"
+    t.integer "total_chunks", default: 0, null: false
+    t.integer "total_chars", default: 0, null: false
+    t.jsonb "source_config", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "ai_agent_name_id"
+    t.index ["knowledge_source_id"], name: "index_knowledge_source_files_on_knowledge_source_id"
+  end
+
+  create_table "knowledge_source_qnas", force: :cascade do |t|
+    t.bigint "knowledge_source_id", null: false
+    t.string "question", null: false
+    t.text "answer", null: false
+    t.jsonb "source_config", default: {}, null: false
+    t.integer "total_chunks", default: 0, null: false
+    t.integer "total_chars", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "loader_id", default: "", null: false
+    t.string "ai_agent_name_id"
+    t.index ["knowledge_source_id"], name: "index_knowledge_source_qnas_on_knowledge_source_id"
+  end
+
+  create_table "knowledge_source_texts", force: :cascade do |t|
+    t.bigint "knowledge_source_id", null: false
+    t.text "text", null: false
+    t.string "loader_id", null: false
+    t.integer "tab", null: false
+    t.jsonb "source_config", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "total_chunks", default: 0, null: false
+    t.integer "total_chars", default: 0, null: false
+    t.string "ai_agent_name_id"
+    t.index ["knowledge_source_id"], name: "index_knowledge_source_texts_on_knowledge_source_id"
+  end
+
+  create_table "knowledge_source_websites", force: :cascade do |t|
+    t.bigint "knowledge_source_id", null: false
+    t.string "url", null: false
+    t.string "parent_url", null: false
+    t.integer "total_chars", null: false
+    t.integer "total_chunks", null: false
+    t.string "loader_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "content", default: "", null: false
+    t.string "ai_agent_name_id"
+    t.string "loader_ids", default: [], array: true
+    t.index ["knowledge_source_id"], name: "index_knowledge_source_websites_on_knowledge_source_id"
+  end
+
+  create_table "knowledge_sources", force: :cascade do |t|
+    t.bigint "ai_agent_id", null: false
+    t.string "name", null: false
+    t.string "store_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "store_config", default: {}, null: false
+    t.index ["ai_agent_id"], name: "index_knowledge_sources_on_ai_agent_id", unique: true
+  end
+
+  create_table "labels", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "color", default: "#1f93ff", null: false
+    t.boolean "show_on_sidebar"
+    t.bigint "account_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["account_id"], name: "index_labels_on_account_id"
+    t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
+  end
+
+  create_table "macros", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.integer "visibility", default: 0
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.jsonb "actions", default: {}, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["account_id"], name: "index_macros_on_account_id"
+  end
+
+  create_table "mentions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "mentioned_at", precision: nil, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["account_id"], name: "index_mentions_on_account_id"
+    t.index ["conversation_id"], name: "index_mentions_on_conversation_id"
+    t.index ["user_id", "conversation_id"], name: "index_mentions_on_user_id_and_conversation_id", unique: true
+    t.index ["user_id"], name: "index_mentions_on_user_id"
+  end
+
+  create_table "messages", id: :serial, force: :cascade do |t|
+    t.text "content"
+    t.integer "account_id", null: false
+    t.integer "inbox_id", null: false
+    t.integer "conversation_id", null: false
+    t.integer "message_type", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.boolean "private", default: false, null: false
+    t.integer "status", default: 0
+    t.string "source_id"
+    t.integer "content_type", default: 0, null: false
+    t.json "content_attributes", default: {}
+    t.string "sender_type"
+    t.bigint "sender_id"
+    t.jsonb "external_source_ids", default: {}
+    t.jsonb "additional_attributes", default: {}
+    t.text "processed_message_content"
+    t.jsonb "sentiment", default: {}
+    t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
+    t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
+    t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
+    t.index ["account_id"], name: "index_messages_on_account_id"
+    t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
+    t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["created_at"], name: "index_messages_on_created_at"
+    t.index ["inbox_id"], name: "index_messages_on_inbox_id"
+    t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
+    t.index ["source_id"], name: "index_messages_on_source_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["account_id"], name: "index_notes_on_account_id"
+    t.index ["contact_id"], name: "index_notes_on_contact_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "notification_settings", force: :cascade do |t|
+    t.integer "account_id"
+    t.integer "user_id"
+    t.integer "email_flags", default: 0, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "push_flags", default: 0, null: false
+    t.index ["account_id", "user_id"], name: "by_account_user", unique: true
+  end
+
+  create_table "notification_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "subscription_type", null: false
+    t.jsonb "subscription_attributes", default: {}, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.text "identifier"
+    t.index ["identifier"], name: "index_notification_subscriptions_on_identifier", unique: true
+    t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "notification_type", null: false
+    t.string "primary_actor_type", null: false
+    t.bigint "primary_actor_id", null: false
+    t.string "secondary_actor_type"
+    t.bigint "secondary_actor_id"
+    t.datetime "read_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "snoozed_until"
+    t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.jsonb "meta", default: {}
+    t.index ["account_id"], name: "index_notifications_on_account_id"
+    t.index ["last_activity_at"], name: "index_notifications_on_last_activity_at"
+    t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
+    t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "operational_hours", force: :cascade do |t|
+    t.bigint "agent_bot_id", null: false
+    t.integer "day_of_week", null: false
+    t.integer "open_hour"
+    t.integer "open_minute"
+    t.integer "close_hour"
+    t.integer "close_minute"
+    t.boolean "open_allday", default: false
+    t.boolean "close_allday", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_bot_id"], name: "index_operational_hours_on_agent_bot_id"
+    t.index ["day_of_week", "agent_bot_id"], name: "index_operational_hours_on_day_of_week_and_agent_bot_id", unique: true
+  end
+
+  create_table "otps", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "code", limit: 6, null: false
+    t.string "purpose", default: "email_verification", null: false
+    t.boolean "verified", default: false, null: false
+    t.datetime "verified_at", precision: nil
+    t.datetime "expires_at", precision: nil, null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code", "expires_at"], name: "index_otps_on_code_and_expires_at"
+    t.index ["expires_at"], name: "index_otps_on_expires_at"
+    t.index ["user_id", "purpose"], name: "index_otps_on_user_id_and_purpose_unique", unique: true
+    t.index ["user_id"], name: "index_otps_on_user_id"
+  end
+
+  create_table "platform_app_permissibles", force: :cascade do |t|
+    t.bigint "platform_app_id", null: false
+    t.string "permissible_type", null: false
+    t.bigint "permissible_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["permissible_type", "permissible_id"], name: "index_platform_app_permissibles_on_permissibles"
+    t.index ["platform_app_id", "permissible_id", "permissible_type"], name: "unique_permissibles_index", unique: true
+    t.index ["platform_app_id"], name: "index_platform_app_permissibles_on_platform_app_id"
+  end
+
+  create_table "platform_apps", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "portal_members", force: :cascade do |t|
+    t.bigint "portal_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["portal_id", "user_id"], name: "index_portal_members_on_portal_id_and_user_id", unique: true
+    t.index ["user_id", "portal_id"], name: "index_portal_members_on_user_id_and_portal_id", unique: true
+  end
+
+  create_table "portals", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "custom_domain"
+    t.string "color"
+    t.string "homepage_link"
+    t.string "page_title"
+    t.text "header_text"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.boolean "archived", default: false
+    t.bigint "channel_web_widget_id"
+    t.index ["channel_web_widget_id"], name: "index_portals_on_channel_web_widget_id"
+    t.index ["custom_domain"], name: "index_portals_on_custom_domain", unique: true
+    t.index ["slug"], name: "index_portals_on_slug", unique: true
+  end
+
+  create_table "portals_members", id: false, force: :cascade do |t|
+    t.bigint "portal_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
+    t.index ["portal_id"], name: "index_portals_members_on_portal_id"
+    t.index ["user_id"], name: "index_portals_members_on_user_id"
+  end
+
+  create_table "pricing_plans", force: :cascade do |t|
+    t.string "name"
+    t.integer "price"
+    t.text "description"
+    t.integer "max_active_users"
+    t.integer "human_agents"
+    t.integer "ai_responses"
+    t.boolean "dedicated_support", default: false
+    t.boolean "openapi_access", default: false
+    t.string "tag", default: "regular"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "ai_agents", default: 0
+    t.integer "monthly_price", default: 0
+    t.integer "annual_price", default: 0
+    t.text "integration_channels"
+    t.string "support_level"
+    t.integer "sequence_number"
+  end
+
+  create_table "quick_replies", force: :cascade do |t|
+    t.string "name"
+    t.text "content"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_quick_replies_on_account_id"
+  end
+
+  create_table "related_categories", force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "related_category_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["category_id", "related_category_id"], name: "index_related_categories_on_category_id_and_related_category_id", unique: true
+    t.index ["related_category_id", "category_id"], name: "index_related_categories_on_related_category_id_and_category_id", unique: true
+  end
+
+  create_table "reporting_events", force: :cascade do |t|
+    t.string "name"
+    t.float "value"
+    t.integer "account_id"
+    t.integer "inbox_id"
+    t.integer "user_id"
+    t.integer "conversation_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.float "value_in_business_hours"
+    t.datetime "event_start_time", precision: nil
+    t.datetime "event_end_time", precision: nil
+    t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
+    t.index ["account_id"], name: "index_reporting_events_on_account_id"
+    t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
+    t.index ["created_at"], name: "index_reporting_events_on_created_at"
+    t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
+    t.index ["name"], name: "index_reporting_events_on_name"
+    t.index ["user_id"], name: "index_reporting_events_on_user_id"
+  end
+
+  create_table "sla_events", force: :cascade do |t|
+    t.bigint "applied_sla_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "sla_policy_id", null: false
+    t.bigint "inbox_id", null: false
+    t.integer "event_type"
+    t.jsonb "meta", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_sla_events_on_account_id"
+    t.index ["applied_sla_id"], name: "index_sla_events_on_applied_sla_id"
+    t.index ["conversation_id"], name: "index_sla_events_on_conversation_id"
+    t.index ["inbox_id"], name: "index_sla_events_on_inbox_id"
+    t.index ["sla_policy_id"], name: "index_sla_events_on_sla_policy_id"
+  end
+
+  create_table "sla_policies", force: :cascade do |t|
+    t.string "name", null: false
+    t.float "first_response_time_threshold"
+    t.float "next_response_time_threshold"
+    t.boolean "only_during_business_hours", default: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "description"
+    t.float "resolution_time_threshold"
+    t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "subscription_payments", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.string "duitku_transaction_id"
+    t.string "duitku_order_id", null: false
+    t.string "payment_method"
+    t.string "payment_url"
+    t.string "status", default: "pending", null: false
+    t.datetime "paid_at"
+    t.datetime "expires_at"
+    t.text "payment_details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["duitku_order_id"], name: "index_subscription_payments_on_duitku_order_id"
+    t.index ["subscription_id"], name: "index_subscription_payments_on_subscription_id"
+  end
+
+  create_table "subscription_plans", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "max_mau", default: 0, null: false
+    t.integer "max_ai_agents", default: 0, null: false
+    t.integer "max_ai_responses", default: 0, null: false
+    t.integer "max_human_agents", default: 0, null: false
+    t.text "available_channels", default: [], array: true
+    t.string "support_level"
+    t.integer "duration_days"
+    t.decimal "monthly_price", precision: 16, scale: 2, null: false
+    t.decimal "annual_price", precision: 16, scale: 2, null: false
+    t.boolean "is_active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "features", default: [], null: false
+    t.text "description"
+    t.integer "max_channels", default: 0
+    t.boolean "is_custom", default: false
+    t.bigint "owner_account_id"
+    t.index ["owner_account_id"], name: "index_subscription_plans_on_owner_account_id"
+  end
+
+  create_table "subscription_plans_vouchers", id: false, force: :cascade do |t|
+    t.bigint "subscription_plan_id", null: false
+    t.bigint "voucher_id", null: false
+    t.index ["subscription_plan_id", "voucher_id"], name: "index_plan_voucher"
+  end
+
+  create_table "subscription_topups", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.string "topup_type", null: false
+    t.integer "amount", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.string "status", null: false
+    t.string "duitku_transaction_id"
+    t.string "duitku_order_id"
+    t.string "payment_method"
+    t.string "payment_url"
+    t.datetime "paid_at", precision: nil
+    t.datetime "expires_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "payment_details"
+    t.index ["subscription_id"], name: "index_subscription_topups_on_subscription_id"
+  end
+
+  create_table "subscription_usage", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.integer "mau_count", default: 0
+    t.integer "ai_responses_count", default: 0
+    t.datetime "last_reset_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "additional_mau_count", default: 0, null: false
+    t.integer "additional_ai_response_count", default: 0, null: false
+    t.index ["subscription_id"], name: "index_subscription_usage_on_subscription_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "plan_name", null: false
+    t.integer "max_mau", default: 0, null: false
+    t.integer "max_ai_agents", default: 0, null: false
+    t.integer "max_ai_responses", default: 0, null: false
+    t.integer "max_human_agents", default: 0, null: false
+    t.text "available_channels", default: [], array: true
+    t.string "support_level"
+    t.datetime "starts_at", null: false
+    t.datetime "ends_at", null: false
+    t.string "status", default: "pending", null: false
+    t.string "payment_status", default: "pending", null: false
+    t.string "billing_cycle", default: "monthly", null: false
+    t.string "duitku_order_id"
+    t.decimal "amount_paid", precision: 10, scale: 2
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.bigint "subscription_plan_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "additional_mau", default: 0, null: false
+    t.integer "additional_ai_responses", default: 0, null: false
+    t.datetime "last_notify_expiry"
+    t.integer "max_channels", default: 0
+    t.index ["account_id"], name: "index_subscriptions_on_account_id"
+    t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
+  end
+
+  create_table "taggings", id: :serial, force: :cascade do |t|
+    t.integer "tag_id"
+    t.string "taggable_type"
+    t.integer "taggable_id"
+    t.string "tagger_type"
+    t.integer "tagger_id"
+    t.string "context", limit: 128
+    t.datetime "created_at", precision: nil
+    t.index ["context"], name: "index_taggings_on_context"
+    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
+    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
+    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
+    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
+    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+  end
+
+  create_table "tags", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.integer "taggings_count", default: 0
+    t.index "lower((name)::text) gin_trgm_ops", name: "tags_name_trgm_idx", using: :gin
+    t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "team_members", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["team_id", "user_id"], name: "index_team_members_on_team_id_and_user_id", unique: true
+    t.index ["team_id"], name: "index_team_members_on_team_id"
+    t.index ["user_id"], name: "index_team_members_on_user_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "allow_auto_assign", default: true
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["account_id"], name: "index_teams_on_account_id"
+    t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
+  end
+
+  create_table "telegram_bots", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "auth_key"
+    t.integer "account_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "transaction_subscription_relations", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "subscription_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscription_id"], name: "index_transaction_subscription_relations_on_subscription_id"
+    t.index ["transaction_id", "subscription_id"], name: "index_tx_sub_rel", unique: true
+    t.index ["transaction_id"], name: "index_transaction_subscription_relations_on_transaction_id"
+  end
+
+  create_table "transaction_topup_relations", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "topup_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topup_id"], name: "index_transaction_topup_relations_on_topup_id"
+    t.index ["transaction_id", "topup_id"], name: "index_tx_topup_rel", unique: true
+    t.index ["transaction_id"], name: "index_transaction_topup_relations_on_transaction_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "transaction_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.string "package_type", null: false
+    t.string "package_name"
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.integer "duration"
+    t.string "duration_unit"
+    t.string "status", null: false
+    t.string "payment_method"
+    t.string "payment_url"
+    t.datetime "transaction_date", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "payment_date", precision: nil
+    t.datetime "expiry_date", precision: nil
+    t.string "action", default: "pay"
+    t.text "notes"
+    t.jsonb "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_transactions_on_account_id"
+    t.index ["package_type"], name: "index_transactions_on_package_type"
+    t.index ["status"], name: "index_transactions_on_status"
+    t.index ["transaction_date"], name: "index_transactions_on_transaction_date"
+    t.index ["transaction_id"], name: "index_transactions_on_transaction_id", unique: true
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+  end
+
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
+    t.string "unconfirmed_email"
+    t.string "name", null: false
+    t.string "display_name"
+    t.string "email"
+    t.json "tokens"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "pubsub_token"
+    t.integer "availability", default: 0
+    t.jsonb "ui_settings", default: {}
+    t.jsonb "custom_attributes", default: {}
+    t.string "type"
+    t.text "message_signature"
+    t.string "phone"
+    t.index ["email"], name: "index_users_on_email"
+    t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  end
+
+  create_table "voucher_usages", force: :cascade do |t|
+    t.bigint "voucher_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "subscription_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_voucher_usages_on_account_id"
+    t.index ["subscription_id"], name: "index_voucher_usages_on_subscription_id"
+    t.index ["voucher_id"], name: "index_voucher_usages_on_voucher_id"
+  end
+
+  create_table "vouchers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.string "discount_type", null: false
+    t.integer "discount_value", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.boolean "is_recurring", default: false
+    t.integer "usage_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_vouchers_on_code", unique: true
+  end
+
+  create_table "webhooks", force: :cascade do |t|
+    t.integer "account_id"
+    t.integer "inbox_id"
+    t.string "url"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "webhook_type", default: 0
+    t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
+    t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
+  end
+
+  create_table "working_hours", force: :cascade do |t|
+    t.bigint "inbox_id"
+    t.bigint "account_id"
+    t.integer "day_of_week", null: false
+    t.boolean "closed_all_day", default: false
+    t.integer "open_hour"
+    t.integer "open_minutes"
+    t.integer "close_hour"
+    t.integer "close_minutes"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.boolean "open_all_day", default: false
+    t.index ["account_id"], name: "index_working_hours_on_account_id"
+    t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
+  end
+
+  add_foreign_key "accounts", "subscriptions", column: "active_subscription_id"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_agent_followups", "ai_agents"
+  add_foreign_key "ai_agent_selected_labels", "ai_agents"
+  add_foreign_key "ai_agent_selected_labels", "labels"
+  add_foreign_key "inboxes", "portals"
+  add_foreign_key "knowledge_source_files", "knowledge_sources"
+  add_foreign_key "knowledge_source_qnas", "knowledge_sources"
+  add_foreign_key "knowledge_source_texts", "knowledge_sources"
+  add_foreign_key "knowledge_source_websites", "knowledge_sources"
+  add_foreign_key "knowledge_sources", "ai_agents"
+  add_foreign_key "operational_hours", "agent_bots"
+  add_foreign_key "otps", "users"
+  add_foreign_key "quick_replies", "accounts"
+  add_foreign_key "subscription_payments", "subscriptions"
+  add_foreign_key "subscription_plans", "accounts", column: "owner_account_id"
+  add_foreign_key "subscription_topups", "subscriptions"
+  add_foreign_key "subscription_usage", "subscriptions"
+  add_foreign_key "subscriptions", "accounts"
+  add_foreign_key "transaction_subscription_relations", "subscriptions", on_delete: :cascade
+  add_foreign_key "transaction_subscription_relations", "transactions", on_delete: :cascade
+  add_foreign_key "transaction_topup_relations", "subscription_topups", column: "topup_id", on_delete: :cascade
+  add_foreign_key "transaction_topup_relations", "transactions", on_delete: :cascade
+  add_foreign_key "transactions", "accounts"
+  add_foreign_key "transactions", "users"
+  add_foreign_key "voucher_usages", "accounts"
+  add_foreign_key "voucher_usages", "subscriptions"
+  add_foreign_key "voucher_usages", "vouchers"
+  create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("accounts").
+      after(:insert).
+      for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
+  end
+
+  create_trigger("conversations_before_insert_row_tr", :generated => true, :compatibility => 1).
+      on("conversations").
+      before(:insert).
+      for_each(:row) do
+    "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
+  end
+
+  create_trigger("camp_dpid_before_insert", :generated => true, :compatibility => 1).
+      on("accounts").
+      name("camp_dpid_before_insert").
+      after(:insert).
+      for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
+  end
+
+  create_trigger("campaigns_before_insert_row_tr", :generated => true, :compatibility => 1).
+      on("campaigns").
+      before(:insert).
+      for_each(:row) do
+    "NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);"
+  end
+
+end
