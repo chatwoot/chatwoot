@@ -382,6 +382,7 @@ export default {
     },
     setTabFromRouteParam() {
       const { tab: tabParam } = this.$route.params;
+      if (!tabParam) return;
       const tabIndex = this.tabs.findIndex(tab => tab.key === tabParam);
 
       this.selectedTabIndex = tabIndex === -1 ? 0 : tabIndex;
