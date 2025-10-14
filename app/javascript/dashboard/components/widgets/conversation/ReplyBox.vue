@@ -893,6 +893,9 @@ export default {
     },
     async handleUnifiedTemplate(template) {
       try {
+        // eslint-disable-next-line no-console
+        console.log('🎯 handleUnifiedTemplate called with:', template);
+
         // Always fetch full template data to see content blocks
         const fullTemplate = await this.$store.dispatch(
           'messageTemplates/show',
@@ -900,6 +903,9 @@ export default {
             id: template.id,
           }
         );
+
+        // eslint-disable-next-line no-console
+        console.log('🎯 Full template fetched:', fullTemplate);
 
         // Check if this is an Apple Messages interactive template
         // Interactive templates have specific content structures:
@@ -910,38 +916,178 @@ export default {
         const contentAttrs =
           content?.content_attributes || content?.contentAttributes;
 
+        // eslint-disable-next-line no-console
+        console.log('🎯 Content:', content);
+        // eslint-disable-next-line no-console
+        console.log('🎯 ContentAttrs:', contentAttrs);
+        // eslint-disable-next-line no-console
+        console.log('🎯 Supported channels:', fullTemplate.supportedChannels);
+        // eslint-disable-next-line no-console
+        console.log('🎯 Is Apple conversation:', this.isAppleMessagesConversation);
+
+        // Check if content is an array (multi-block template)
+        const isArrayContent = Array.isArray(content);
+        // eslint-disable-next-line no-console
+        console.log('🎯 Is array content:', isArrayContent);
+
+        // For array content, check if any block is interactive
+        let hasInteractiveBlock = false;
+        if (isArrayContent) {
+          hasInteractiveBlock = content.some(block =>
+            block.type === 'quick_reply' ||
+            block.type === 'interactive' ||
+            block.type === 'list_picker' ||
+            block.type === 'time_picker' ||
+            block.type === 'form' ||
+            block.items ||
+            block.replies ||
+            block.sections ||
+            block.timeslots
+          );
+          // eslint-disable-next-line no-console
+          console.log('🎯 Has interactive block in array:', hasInteractiveBlock);
+        }
+
         const isAppleInteractive = !!(
+          fullTemplate.supportedChannels?.includes('apple_messages_for_business') &&
           (
-            fullTemplate.supportedChannels?.includes(
-              'apple_messages_for_business'
-            ) &&
-            content &&
-            (content.type || // Explicit type field
-              content.content_type || // Explicit content_type field
-              content.items || // Quick reply structure (new format)
-              content.replies || // Quick reply structure (legacy format)
-              content.list_picker || // List picker structure (nested)
-              content.time_picker || // Time picker structure (nested)
-              content.form || // Form structure
-              content.apple_pay || // Apple Pay structure
-              (content.sections && content.images) || // List picker structure (direct)
-              (content.timeslots && content.eventTitle) || // Time picker structure (direct)
-              (contentAttrs?.sections && contentAttrs?.images) || // List picker in content_attributes
-              (contentAttrs?.timeslots && contentAttrs?.eventTitle))
+            (isArrayContent && hasInteractiveBlock) || // Array with interactive blocks
+            (content &&
+              (content.type || // Explicit type field
+                content.content_type || // Explicit content_type field
+                content.items || // Quick reply structure (new format)
+                content.replies || // Quick reply structure (legacy format)
+                content.list_picker || // List picker structure (nested)
+                content.time_picker || // Time picker structure (nested)
+                content.form || // Form structure
+                content.apple_pay || // Apple Pay structure
+                (content.sections && content.images) || // List picker structure (direct)
+                (content.timeslots && content.eventTitle) || // Time picker structure (direct)
+                (contentAttrs?.sections && contentAttrs?.images) || // List picker in content_attributes
+                (contentAttrs?.timeslots && contentAttrs?.eventTitle)))
           ) // Time picker in content_attributes
         );
+
+        // eslint-disable-next-line no-console
+        console.log('🎯 isAppleInteractive:', isAppleInteractive);
 
         if (isAppleInteractive && this.isAppleMessagesConversation) {
           // This is an Apple Messages interactive template - send it directly
 
-          // Check if this is a combined template with multiple blocks
+          // Check if this is an array-based template (content is an array of blocks)
+          if (isArrayContent) {
+            // eslint-disable-next-line no-console
+            console.log('📦 Processing array-based template with blocks:', content);
+
+            // Process each block in sequence
+            /* eslint-disable no-await-in-loop */
+            for (let i = 0; i < content.length; i += 1) {
+              const block = content[i];
+              // eslint-disable-next-line no-console
+              console.log(`📦 Processing block ${i}:`, block);
+
+              // Show typing indicator before sending (except for first block)
+              if (i > 0) {
+                this.$store.dispatch('toggleAgentTypingStatus', {
+                  conversationId: this.currentChat.id,
+                  status: 'on',
+                });
+
+                // Wait 800ms with typing indicator
+                await new Promise(resolve => {
+                  setTimeout(resolve, 800);
+                });
+
+                // Turn off typing indicator
+                this.$store.dispatch('toggleAgentTypingStatus', {
+                  conversationId: this.currentChat.id,
+                  status: 'off',
+                });
+              }
+
+              // Text block - just has content property
+              if (block.content && !block.type && !block.items && !block.replies) {
+                // Send text block as a regular message
+                const textPayload = {
+                  conversationId: this.currentChat.id,
+                  message: block.content,
+                  private: false,
+                };
+                // eslint-disable-next-line no-console
+                console.log('📤 Sending text block:', textPayload);
+                await this.sendMessage(textPayload);
+
+                // Small delay after message
+                await new Promise(resolve => {
+                  setTimeout(resolve, 300);
+                });
+              } else if (block.items || block.replies || block.type === 'quick_reply') {
+                // Quick reply block
+                const items = block.items || block.replies || [];
+                const messageData = {
+                  type: 'quick_reply',
+                  content_type: 'apple_quick_reply',
+                  content_attributes: {
+                    summary_text: block.summary_text || block.summaryText || '',
+                    items: items.map((item, index) => ({
+                      title: item.title,
+                      identifier: item.identifier || `reply_${index}`,
+                    })),
+                    received_title: block.received_title || block.receivedTitle || 'Please select an option',
+                    received_subtitle: block.received_subtitle || block.receivedSubtitle || '',
+                    reply_title: block.reply_title || block.replyTitle || '',
+                    reply_subtitle: block.reply_subtitle || block.replySubtitle || '',
+                  },
+                };
+                // eslint-disable-next-line no-console
+                console.log('📤 Sending quick reply block:', messageData);
+                await this.sendAppleMessage(messageData);
+              } else if (block.type === 'list_picker' || block.sections) {
+                // List picker block
+                const messageData = {
+                  type: 'list_picker',
+                  content_type: 'apple_list_picker',
+                  content_attributes: block,
+                };
+                // eslint-disable-next-line no-console
+                console.log('📤 Sending list picker block:', messageData);
+                await this.sendAppleMessage(messageData);
+              } else if (block.type === 'time_picker' || block.timeslots) {
+                // Time picker block
+                const messageData = {
+                  type: 'time_picker',
+                  content_type: 'apple_time_picker',
+                  content_attributes: block,
+                };
+                // eslint-disable-next-line no-console
+                console.log('📤 Sending time picker block:', messageData);
+                await this.sendAppleMessage(messageData);
+              }
+            }
+            /* eslint-enable no-await-in-loop */
+            return;
+          }
+
+          // Legacy block-based template (content.blocks array)
           const blocks = fullTemplate.content?.blocks || [];
           const hasMultipleBlocks = blocks.length > 1;
+
+          // Debug logging
+          // eslint-disable-next-line no-console
+          console.log('📦 Template content:', fullTemplate.content);
+          // eslint-disable-next-line no-console
+          console.log('📦 Blocks detected:', blocks);
+          // eslint-disable-next-line no-console
+          console.log('📦 Has multiple blocks:', hasMultipleBlocks);
 
           if (hasMultipleBlocks) {
             // Combined template - send text blocks first, then interactive block
             /* eslint-disable no-await-in-loop */
-            for (const block of blocks) {
+            for (let i = 0; i < blocks.length; i += 1) {
+              const block = blocks[i];
+              // eslint-disable-next-line no-console
+              console.log(`📦 Processing block ${i}:`, block);
+
               if (block.type === 'text') {
                 // Send text block as a regular message
                 const textPayload = {
@@ -949,6 +1095,8 @@ export default {
                   message: block.content || '',
                   private: false,
                 };
+                // eslint-disable-next-line no-console
+                console.log('📤 Sending text block:', textPayload);
                 await this.sendMessage(textPayload);
 
                 // Small delay between messages
@@ -962,6 +1110,8 @@ export default {
                   content_type: `apple_${block.type}`,
                   content_attributes: block.content_attributes || block,
                 };
+                // eslint-disable-next-line no-console
+                console.log('📤 Sending interactive block:', messageData);
                 await this.sendAppleMessage(messageData);
               }
             }
