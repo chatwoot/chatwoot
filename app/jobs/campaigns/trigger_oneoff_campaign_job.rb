@@ -1,5 +1,5 @@
 class Campaigns::TriggerOneoffCampaignJob < ApplicationJob
-  queue_as :low
+  queue_as :medium
 
   def perform(campaign)
     campaign.trigger!

@@ -1,5 +1,5 @@
 class Campaigns::PrepareCampaignContactsJob < ApplicationJob
-  queue_as :low
+  queue_as :medium
 
   def perform(campaign)
     campaign.update!(contacts_preparation_status: :preparing)
