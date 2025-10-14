@@ -177,6 +177,9 @@ export default {
     },
 
     replyWindowBannerMessage() {
+      if (this.isAppleMessagesConversation) {
+        return this.$t('CONVERSATION.APPLE_MESSAGES_OPTED_OUT');
+      }
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
       }
@@ -199,6 +202,9 @@ export default {
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
+      if (this.isAppleMessagesConversation) {
+        return ''; // No link for Apple Messages
+      }
       if (this.isAFacebookInbox || this.isAnInstagramChannel) {
         return REPLY_POLICY.FACEBOOK;
       }
@@ -211,6 +217,9 @@ export default {
       return '';
     },
     replyWindowLinkText() {
+      if (this.isAppleMessagesConversation) {
+        return ''; // No link text for Apple Messages
+      }
       if (
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
@@ -242,6 +251,9 @@ export default {
         !this.is360DialogWhatsAppChannel;
 
       return { incoming, outgoing };
+    },
+    isAppleMessagesConversation() {
+      return this.inbox?.channel_type === 'Channel::AppleMessagesForBusiness';
     },
   },
 

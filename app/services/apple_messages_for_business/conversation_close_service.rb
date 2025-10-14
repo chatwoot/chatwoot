@@ -39,14 +39,31 @@ class AppleMessagesForBusiness::ConversationCloseService
   def find_conversation
     Rails.logger.info "[AMB ConversationClose] Looking for conversation with source_id: #{source_id}"
 
-    # Find the contact first
+    # Find the contact first using JSONB query syntax
     contact_inbox = ContactInbox.joins(:contact)
                                 .where(inbox: @inbox)
-                                .where(contacts: { additional_attributes: { apple_messages_source_id: source_id } })
+                                .where("contacts.additional_attributes->>'apple_messages_source_id' = ?", source_id)
                                 .first
 
     unless contact_inbox
       Rails.logger.warn "[AMB ConversationClose] No contact found for source_id: #{source_id}"
+      Rails.logger.info '[AMB ConversationClose] Searching for conversation by source_id in conversation additional_attributes...'
+
+      # Fallback: Try to find conversation directly by source_id in additional_attributes
+      @conversation = @inbox.conversations
+                            .where("additional_attributes->>'apple_messages_source_id' = ?", source_id)
+                            .where(status: [:open, :pending])
+                            .order(updated_at: :desc)
+                            .first
+
+      if @conversation
+        Rails.logger.info "[AMB ConversationClose] Found conversation #{@conversation.id} via fallback search"
+        @contact_inbox = @conversation.contact_inbox
+        @contact = @conversation.contact
+      else
+        Rails.logger.warn '[AMB ConversationClose] No conversation found via fallback search either'
+      end
+
       return
     end
 
@@ -77,7 +94,6 @@ class AppleMessagesForBusiness::ConversationCloseService
 
     # Mark conversation as resolved
     @conversation.status = :resolved
-    @conversation.resolved_at = Time.current
 
     # Add close reason to additional attributes
     additional_attrs = @conversation.additional_attributes || {}

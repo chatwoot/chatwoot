@@ -100,7 +100,7 @@ class AppleMessagesForBusiness::IncomingMessageService
       # This properly handles the case where user sends a message after opting out and then back in
       if @conversation.status == 'resolved' && conversation_closed_by_amb?(@conversation)
         Rails.logger.info "[AMB IncomingMessage] Reopening AMB-closed conversation ID: #{@conversation.id}"
-        @conversation.update!(status: 'open', resolved_at: nil)
+        @conversation.update!(status: 'open')
 
         # Add a system message about conversation reopening
         @conversation.messages.create!(

@@ -7,10 +7,10 @@ class AppleMessagesForBusiness::ConversationReopenService
   def perform
     Rails.logger.info "[AMB ConversationReopen] Re-enabling messages for source_id: #{@source_id}"
 
-    # Find the contact and contact_inbox
+    # Find the contact and contact_inbox using proper JSONB syntax
     contact_inbox = ContactInbox.joins(:contact)
                                 .where(inbox: @inbox)
-                                .where(contacts: { additional_attributes: { apple_messages_source_id: @source_id } })
+                                .where("contacts.additional_attributes->>'apple_messages_source_id' = ?", @source_id)
                                 .first
 
     return unless contact_inbox
@@ -29,6 +29,9 @@ class AppleMessagesForBusiness::ConversationReopenService
       contact.additional_attributes = contact_attrs
       contact.save!
       Rails.logger.info "[AMB ConversationReopen] Unblocked contact #{contact.id}"
+
+      # Broadcast contact update to refresh UI
+      contact.dispatch_contact_updated_event
     end
 
     Rails.logger.info "[AMB ConversationReopen] Successfully re-enabled messages for source_id: #{@source_id}"
