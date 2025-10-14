@@ -14,22 +14,16 @@ class V2::Reports::Conversations::ReportingEventsAggregator < V2::Reports::Conve
   private
 
   def compute_metrics
-    row = base_relation.pluck(*select_fragments).first || default_row
+    result = base_relation.select(*select_fragments).first
+    return default_metrics unless result
 
-    counts_hash(row.first(COUNT_MAPPINGS.size)).merge(averages_hash(row.last(AVERAGE_MAPPINGS.size)))
-  end
-
-  def counts_hash(values)
-    COUNT_MAPPINGS.keys.zip(values).to_h.transform_values { |value| value || 0 }
-  end
-
-  def averages_hash(values)
-    AVERAGE_MAPPINGS.keys.zip(values).to_h
+    COUNT_MAPPINGS.keys.index_with { |key| result.public_send(key) || 0 }
+                  .merge(AVERAGE_MAPPINGS.keys.index_with { |key| result.public_send(key) })
   end
 
   def select_fragments
-    COUNT_MAPPINGS.map { |_metric, event_name| count_fragment(event_name) } +
-      AVERAGE_MAPPINGS.map { |_metric, event_name| average_fragment(event_name) }
+    COUNT_MAPPINGS.map { |metric, event_name| "#{count_fragment(event_name)} AS #{metric}" } +
+      AVERAGE_MAPPINGS.map { |metric, event_name| "#{average_fragment(event_name)} AS #{metric}" }
   end
 
   def count_fragment(event_name)
@@ -55,7 +49,8 @@ class V2::Reports::Conversations::ReportingEventsAggregator < V2::Reports::Conve
     params[:business_hours].present? ? 'value_in_business_hours' : 'value'
   end
 
-  def default_row
-    Array.new(COUNT_MAPPINGS.size, 0) + Array.new(AVERAGE_MAPPINGS.size)
+  def default_metrics
+    COUNT_MAPPINGS.keys.index_with { 0 }
+                  .merge(AVERAGE_MAPPINGS.keys.index_with { nil })
   end
 end
