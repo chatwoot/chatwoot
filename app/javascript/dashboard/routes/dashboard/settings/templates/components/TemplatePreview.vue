@@ -299,6 +299,41 @@ watch(selectedChannel, () => {
               {{ processProperties(block.properties).content }}
             </div>
 
+            <!-- Quick Reply Block -->
+            <div
+              v-else-if="block.blockType === 'quick_reply'"
+              class="space-y-3"
+            >
+              <div
+                v-if="block.properties.summary_text"
+                class="text-sm text-n-slate-11"
+              >
+                {{ processProperties(block.properties).summary_text }}
+              </div>
+              <div
+                v-if="block.properties.received_title"
+                class="font-medium text-n-slate-12"
+              >
+                {{ processProperties(block.properties).received_title }}
+              </div>
+              <div
+                v-if="block.properties.received_subtitle"
+                class="text-sm text-n-slate-11"
+              >
+                {{ processProperties(block.properties).received_subtitle }}
+              </div>
+              <div class="flex gap-2 flex-wrap mt-3">
+                <button
+                  v-for="(item, i) in block.properties.items || block.properties.replies || []"
+                  :key="i"
+                  disabled
+                  class="px-4 py-2 bg-n-blue-2 border border-n-blue-7 text-n-blue-11 rounded-full text-sm font-medium hover:bg-n-blue-3 transition-colors cursor-pointer"
+                >
+                  {{ item.title }}
+                </button>
+              </div>
+            </div>
+
             <!-- Time Picker Block -->
             <div
               v-else-if="block.blockType === 'time_picker'"
