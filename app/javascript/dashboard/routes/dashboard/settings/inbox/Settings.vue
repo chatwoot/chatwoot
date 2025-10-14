@@ -362,37 +362,29 @@ export default {
       )
         this.avatarUrl = this.inbox.avatar_url;
     },
-    setTabFromRoute() {
-      const tabParam = this.$route.params.tab;
-      if (!tabParam) {
-        this.selectedTabIndex = 0;
-        return;
-      }
-
-      const tabIndex = this.tabs.findIndex(tab => tab.key === tabParam);
-      this.selectedTabIndex = tabIndex >= 0 ? tabIndex : 0;
-    },
     onTabChange(selectedTabIndex) {
       this.selectedTabIndex = selectedTabIndex;
       this.refreshAvatarUrlOnTabChange(selectedTabIndex);
+      this.updateRouteWithoutRefresh(selectedTabIndex);
+    },
+    updateRouteWithoutRefresh(selectedTabIndex) {
+      const tab = this.tabs[selectedTabIndex];
+      if (!tab) return;
 
-      // Update URL
-      const currentTab = this.tabs[selectedTabIndex];
-      if (!currentTab) return;
+      const { accountId, inboxId } = this.$route.params;
+      const baseUrl = `/app/accounts/${accountId}/settings/inboxes/${inboxId}`;
 
-      const params = {
-        accountId: this.$route.params.accountId,
-        inboxId: this.$route.params.inboxId,
-      };
+      // Append the tab key only if it's not the default.
+      const newUrl =
+        tab.key === 'inbox-settings' ? baseUrl : `${baseUrl}/${tab.key}`;
+      // Update URL without triggering route watcher
+      window.history.replaceState(null, '', newUrl);
+    },
+    setTabFromRouteParam() {
+      const { tab: tabParam } = this.$route.params;
+      const tabIndex = this.tabs.findIndex(tab => tab.key === tabParam);
 
-      // Only add tab param if not the first tab (inbox-settings)
-      if (currentTab.key !== 'inbox-settings') {
-        params.tab = currentTab.key;
-      }
-      this.$router.replace({
-        name: 'settings_inbox_show',
-        params,
-      });
+      this.selectedTabIndex = tabIndex === -1 ? 0 : tabIndex;
     },
     fetchInboxSettings() {
       this.selectedAgents = [];
@@ -421,8 +413,8 @@ export default {
           ? this.inbox.help_center.slug
           : '';
 
-        // Set tab from route after inbox data is loaded and tabs are computed
-        this.setTabFromRoute();
+        // Set initial tab after inbox data is loaded
+        this.setTabFromRouteParam();
       });
     },
     async updateInbox() {
