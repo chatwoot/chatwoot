@@ -26,12 +26,12 @@ const fetchMetaData = async (commit, params) => {
 };
 
 const debouncedFetchMetaData = debounce(fetchMetaData, 500, false, 1500);
-const longDebouncedFetchMetaData = debounce(fetchMetaData, 1000, false, 8000);
+const longDebouncedFetchMetaData = debounce(fetchMetaData, 5000, false, 10000);
 const superLongDebouncedFetchMetaData = debounce(
   fetchMetaData,
-  1500,
+  10000,
   false,
-  10000
+  20000
 );
 
 export const actions = {
