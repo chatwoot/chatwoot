@@ -179,6 +179,94 @@ describe Messages::MessageBuilder do
         expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
         expect(message.content_attributes[:bcc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
       end
+
+      context 'when custom email content is provided' do
+        before do
+          account.enable_features('quoted_email_reply')
+        end
+
+        it 'creates message with custom HTML and text email content' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Regular message content',
+                                                      email_html_content: '<p>Custom <strong>HTML</strong> content</p>',
+                                                      email_text_content: 'Custom text content'
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'html_content', 'full')).to eq '<p>Custom <strong>HTML</strong> content</p>'
+          expect(message.content_attributes.dig('email', 'html_content', 'reply')).to eq '<p>Custom <strong>HTML</strong> content</p>'
+          expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq 'Custom text content'
+          expect(message.content_attributes.dig('email', 'text_content', 'reply')).to eq 'Custom text content'
+        end
+
+        it 'creates message with only custom HTML content and falls back to message content for text' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Regular message content',
+                                                      email_html_content: '<p>Custom <strong>HTML</strong> content</p>'
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'html_content', 'full')).to eq '<p>Custom <strong>HTML</strong> content</p>'
+          expect(message.content_attributes.dig('email', 'html_content', 'reply')).to eq '<p>Custom <strong>HTML</strong> content</p>'
+          expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq 'Regular message content'
+          expect(message.content_attributes.dig('email', 'text_content', 'reply')).to eq 'Regular message content'
+        end
+
+        it 'creates message with only custom text content and generates HTML from markdown' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Regular **markdown** content',
+                                                      email_text_content: 'Custom text content'
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq 'Custom text content'
+          expect(message.content_attributes.dig('email', 'text_content', 'reply')).to eq 'Custom text content'
+          expect(message.content_attributes.dig('email', 'html_content', 'full')).to include('<strong>markdown</strong>')
+          expect(message.content_attributes.dig('email', 'html_content', 'reply')).to include('<strong>markdown</strong>')
+        end
+
+        it 'does not process custom email content when quoted_email_reply feature is disabled' do
+          account.disable_features('quoted_email_reply')
+          params = ActionController::Parameters.new({
+                                                      content: 'Regular message content',
+                                                      email_html_content: '<p>Custom HTML content</p>',
+                                                      email_text_content: 'Custom text content'
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'html_content')).to be_nil
+          expect(message.content_attributes.dig('email', 'text_content')).to be_nil
+        end
+
+        it 'does not process custom email content for private messages' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Regular message content',
+                                                      email_html_content: '<p>Custom HTML content</p>',
+                                                      email_text_content: 'Custom text content',
+                                                      private: true
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'html_content')).to be_nil
+          expect(message.content_attributes.dig('email', 'text_content')).to be_nil
+        end
+
+        it 'falls back to default behavior when no custom email content is provided' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Regular **markdown** content'
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'html_content', 'full')).to include('<strong>markdown</strong>')
+          expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq 'Regular **markdown** content'
+        end
+      end
     end
   end
 end

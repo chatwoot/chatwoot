@@ -1,0 +1,12 @@
+<% if @message.content_attributes.dig('email', 'text_content', 'reply').present? %>
+<%= @message.content_attributes.dig('email', 'text_content', 'reply') %>
+<% elsif @message.content %>
+<%= @message.outgoing_content %>
+<% end %>
+<% if @large_attachments.present? %>
+
+Attachments:
+<% @large_attachments.each do |attachment| %>
+<%= attachment.file.filename.to_s %>: <%= attachment.file_url %>
+<% end %>
+<% end %>
