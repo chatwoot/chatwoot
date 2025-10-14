@@ -302,6 +302,14 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+            resource :github, controller: 'github', only: [] do
+              collection do
+                delete :destroy
+                get :repositories
+                get :search_repositories
+                get 'repositories/:owner/:repo/assignees', to: 'github#assignees', as: :repository_assignees
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -547,6 +555,10 @@ Rails.application.routes.draw do
         end
       end
     end
+  end
+
+  namespace :github do
+    get :callback, to: 'callbacks#show'
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

@@ -451,3 +451,22 @@
   locked: false
   description: 'Token expiry in days'
 ## ------ End of Customizations for Customers ------ ##
+
+# ------- Github Integration Config ------- #
+- name: GITHUB_CLIENT_ID
+  display_title: 'Github Client ID'
+  value:
+  locked: false
+  description: 'Github client ID'
+- name: GITHUB_CLIENT_SECRET
+  display_title: 'Github Client Secret'
+  value:
+  locked: false
+  description: 'Github client secret'
+  type: secret
+- name: GITHUB_APP_NAME
+  display_title: 'Github App Name'
+  value:
+  locked: false
+  description: 'Github App name for installation URLs (e.g., "chatwoot-qa")'
+## ------ End of Github Integration Config ------- #
