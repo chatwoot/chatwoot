@@ -73,6 +73,8 @@ jobs:
           POSTMARK_API_TOKEN=${{ secrets.PROD_POSTMARK_API_TOKEN }}
           SOURCE_TOKEN=${{ secrets.PROD_SOURCE_TOKEN }}
           INGESTING_HOST=${{ secrets.PROD_INGESTING_HOST }}
+          STORAGE_ACCESS_KEY_ID: ${{ secrets.STORAGE_ACCESS_KEY_ID }}
+          STORAGE_SECRET_ACCESS_KEY: ${{ secrets.STORAGE_SECRET_ACCESS_KEY }}
           EOF
 
       - name: Build Docker images with docker compose
