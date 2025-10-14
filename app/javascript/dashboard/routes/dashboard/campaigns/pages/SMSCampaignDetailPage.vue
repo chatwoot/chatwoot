@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import CampaignsAPI from 'dashboard/api/campaigns';
+import { useMapGetter } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -10,6 +11,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const currentAccountId = useMapGetter('getCurrentAccountId');
 
 const campaign = ref(null);
 const isLoading = ref(true);
@@ -262,9 +264,18 @@ onUnmounted(() => {
                     {{ campaignContact.contact.name?.charAt(0).toUpperCase() }}
                   </div>
                   <div>
-                    <p class="text-sm font-medium text-n-slate-12">
+                    <router-link
+                      :to="{
+                        name: 'contacts_edit',
+                        params: {
+                          accountId: currentAccountId,
+                          contactId: campaignContact.contact.id,
+                        },
+                      }"
+                      class="text-sm font-medium text-n-slate-12 hover:text-n-blue-11 hover:underline"
+                    >
                       {{ campaignContact.contact.name }}
-                    </p>
+                    </router-link>
                     <p class="text-xs text-n-slate-11">
                       {{ campaignContact.contact.email }}
                     </p>

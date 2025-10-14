@@ -96,19 +96,152 @@ class Whatsapp::OneoffCampaignService
       return
     end
 
-    channel.send_template(contact.phone_number, {
-                            name: name,
-                            namespace: namespace,
-                            lang_code: lang_code,
-                            parameters: processed_parameters
-                          }, nil)
+    # Find or create contact_inbox for this contact
+    contact_inbox = find_or_create_contact_inbox(contact)
+
+    # Find or create conversation
+    conversation = find_or_create_conversation(contact_inbox)
+
+    # Send the template message via WhatsApp API first (without creating message in DB)
+    message_id = channel.send_template(contact.phone_number, {
+                                         name: name,
+                                         namespace: namespace,
+                                         lang_code: lang_code,
+                                         parameters: processed_parameters
+                                       }, nil)
+
+    # Only create the message in conversation after successful send
+    raise 'Failed to send template message - no message_id returned' unless message_id.present?
+
+    create_outgoing_message(conversation, contact, name, message_id)
 
     campaign_contact.mark_as_sent!
-    Rails.logger.info "Successfully sent message to #{contact.phone_number}"
+    Rails.logger.info "Successfully sent message to #{contact.phone_number} in conversation #{conversation.id}"
   rescue StandardError => e
     error_message = "#{e.class.name}: #{e.message}"
     Rails.logger.error "Failed to send WhatsApp template message to #{contact.phone_number}: #{error_message}"
     Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
     campaign_contact.mark_as_failed!(error_message)
+  end
+
+  def find_or_create_contact_inbox(contact)
+    # Normalize phone number to WhatsApp format (remove '+' and keep only digits)
+    normalized_phone = contact.phone_number.to_s.gsub(/\D/, '')
+
+    contact_inbox = inbox.contact_inboxes.find_by(source_id: normalized_phone)
+    return contact_inbox if contact_inbox
+
+    # Create new contact_inbox if not found
+    ContactInboxBuilder.new(
+      contact: contact,
+      inbox: inbox,
+      source_id: normalized_phone
+    ).perform
+  end
+
+  def find_or_create_conversation(contact_inbox)
+    # Follow the same logic as incoming messages
+    conversation = if inbox.lock_to_single_conversation
+                     contact_inbox.conversations.last
+                   else
+                     contact_inbox.conversations.where.not(status: :resolved).last
+                   end
+
+    return conversation if conversation
+
+    # Create new conversation
+    Conversation.create!(
+      account_id: inbox.account_id,
+      inbox_id: inbox.id,
+      contact_id: contact_inbox.contact_id,
+      contact_inbox_id: contact_inbox.id
+    )
+  end
+
+  def create_outgoing_message(conversation, contact, template_name, message_id)
+    # Generate the rendered template content
+    rendered_content = render_template_content(template_name, contact)
+
+    message = conversation.messages.create!(
+      account_id: inbox.account_id,
+      inbox_id: inbox.id,
+      message_type: :outgoing,
+      content: rendered_content,
+      sender: nil,
+      source_id: message_id,
+      status: :sent,
+      content_attributes: {
+        campaign_id: campaign.id,
+        template_name: template_name
+      }
+    )
+
+    # Attach media if present in template (image, video, document)
+    attach_template_media(message, template_name)
+
+    message
+  end
+
+  def render_template_content(template_name, _contact)
+    # Find the template from channel's message_templates
+    template = find_template(template_name)
+    return "Template: #{template_name}" if template.blank?
+
+    # Extract body text from template components
+    body_component = template['components']&.find { |c| c['type'] == 'BODY' }
+    return "Template: #{template_name}" if body_component.blank?
+
+    template_text = body_component['text']
+    return template_text if template_text.blank?
+
+    # Replace variables with actual values from processed_params
+    rendered_text = template_text.dup
+    processed_params = campaign.template_params.dig('processed_params', 'body') || {}
+
+    # Replace {{1}}, {{2}}, etc. with actual values
+    processed_params.each do |key, value|
+      rendered_text.gsub!("{{#{key}}}", value.to_s)
+    end
+
+    rendered_text
+  end
+
+  def attach_template_media(message, _template_name)
+    # Get header media from template_params
+    header_params = campaign.template_params.dig('processed_params', 'header')
+    return if header_params.blank?
+
+    media_url = header_params['media_url']
+    media_type = header_params['media_type']
+    return if media_url.blank? || media_type.blank?
+
+    # Map WhatsApp media types to Chatwoot file types
+    file_type = case media_type.downcase
+                when 'image' then :image
+                when 'video' then :video
+                when 'document' then :file
+                else :file
+                end
+
+    # Download and attach the media
+    begin
+      downloaded_file = Down.download(media_url)
+      message.attachments.create!(
+        account_id: message.account_id,
+        file_type: file_type,
+        file: {
+          io: downloaded_file,
+          filename: header_params['media_name'] || File.basename(media_url),
+          content_type: downloaded_file.content_type
+        }
+      )
+    rescue StandardError => e
+      Rails.logger.error "Failed to attach media to message #{message.id}: #{e.message}"
+    end
+  end
+
+  def find_template(template_name)
+    @template_cache ||= channel.message_templates.index_by { |t| "#{t['name']}:#{t['language']}" }
+    @template_cache["#{template_name}:#{campaign.template_params['language']}"]
   end
 end
