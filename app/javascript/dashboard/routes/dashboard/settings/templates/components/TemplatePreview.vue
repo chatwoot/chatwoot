@@ -362,28 +362,53 @@ watch(selectedChannel, () => {
               v-else-if="block.blockType === 'list_picker'"
               class="space-y-2"
             >
-              <div class="font-medium text-n-slate-12">
-                {{ processProperties(block.properties).title }}
+              <div
+                v-if="block.properties.received_title"
+                class="font-medium text-n-slate-12"
+              >
+                {{ processProperties(block.properties).received_title }}
               </div>
-              <div class="text-sm text-n-slate-11">
-                {{ processProperties(block.properties).subtitle }}
+              <div
+                v-if="block.properties.received_subtitle"
+                class="text-sm text-n-slate-11"
+              >
+                {{ processProperties(block.properties).received_subtitle }}
               </div>
               <div class="space-y-2">
-                <div
-                  v-for="(item, i) in block.properties.items.slice(0, 3)"
-                  :key="i"
-                  class="flex items-center gap-3 p-3 border border-n-slate-7 rounded"
+                <template
+                  v-for="(section, sectionIdx) in (block.properties.sections || []).slice(0, 2)"
+                  :key="sectionIdx"
                 >
-                  <div class="w-10 h-10 bg-n-slate-3 rounded" />
-                  <div class="flex-1">
-                    <div class="text-sm font-medium text-n-slate-12">
-                      {{ item.title }}
+                  <div
+                    v-if="section.title"
+                    class="text-xs font-semibold text-n-slate-11 uppercase mt-3 first:mt-0"
+                  >
+                    {{ section.title }}
+                  </div>
+                  <div
+                    v-for="(item, i) in (section.items || []).slice(0, 3)"
+                    :key="`${sectionIdx}-${i}`"
+                    class="flex items-center gap-3 p-3 border border-n-slate-7 rounded hover:bg-n-slate-2 transition-colors"
+                  >
+                    <div
+                      v-if="item.imageIdentifier"
+                      class="w-10 h-10 bg-n-slate-3 rounded flex items-center justify-center"
+                    >
+                      <i class="i-lucide-image text-n-slate-9" />
                     </div>
-                    <div class="text-xs text-n-slate-10">
-                      {{ item.subtitle }}
+                    <div class="flex-1">
+                      <div class="text-sm font-medium text-n-slate-12">
+                        {{ item.title }}
+                      </div>
+                      <div
+                        v-if="item.subtitle"
+                        class="text-xs text-n-slate-10"
+                      >
+                        {{ item.subtitle }}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </template>
               </div>
             </div>
 
