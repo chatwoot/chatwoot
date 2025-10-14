@@ -12,13 +12,19 @@ class Api::V1::OtpController < Api::BaseController
 
     if user.blank?
       Rails.logger.warn "User not found for email: #{params[:email]}"
-      return render json: { error: 'User not found' }, status: :not_found
+      return render json: { 
+        error: 'User not found',
+        status: 'user_not_found',
+        message: 'User tidak ditemukan'
+      }, status: :not_found
     end
 
     if user.confirmed?
       return render json: { 
+        error: 'Email already verified',
         status: 'verified',
-        message: 'Email already verified' 
+        message: 'Anda sudah verified, tidak bisa kirim OTP registrasi lagi',
+        redirect_to_login: true
       }, status: :ok
     end
 
@@ -53,13 +59,22 @@ class Api::V1::OtpController < Api::BaseController
 
     if user.blank?
       Rails.logger.warn "User not found for email: #{params[:email]}"
-      return render json: { error: 'User not found' }, status: :not_found
+      return render json: { 
+        error: 'User not found',
+        status: 'user_not_found',
+        message: 'User tidak ditemukan'
+      }, status: :not_found
     end
 
     Rails.logger.info "User found: #{user.id}, confirmed: #{user.confirmed?}"
 
     if user.confirmed?
-      return render json: { error: 'Email already verified' }, status: :unprocessable_entity
+      return render json: { 
+        error: 'Email already verified',
+        status: 'verified',
+        message: 'Anda sudah verified, tidak bisa kirim OTP registrasi lagi',
+        redirect_to_login: true
+      }, status: :unprocessable_entity
     end
 
     # Check if there's already an active OTP
@@ -108,11 +123,20 @@ class Api::V1::OtpController < Api::BaseController
     user = User.find_by(email: params[:email])
 
     if user.blank?
-      return render json: { error: 'User not found' }, status: :not_found
+      return render json: { 
+        error: 'User not found',
+        status: 'user_not_found',
+        message: 'User tidak ditemukan'
+      }, status: :not_found
     end
 
     if user.confirmed?
-      return render json: { error: 'Email already verified' }, status: :unprocessable_entity
+      return render json: { 
+        error: 'Email already verified',
+        status: 'verified',
+        message: 'Anda sudah verified, tidak bisa kirim OTP registrasi lagi',
+        redirect_to_login: true
+      }, status: :unprocessable_entity
     end
 
     Rails.logger.info "OTP verification request for user: #{user.email}"
@@ -214,11 +238,20 @@ class Api::V1::OtpController < Api::BaseController
     user = User.find_by(email: params[:email])
 
     if user.blank?
-      return render json: { error: 'User not found' }, status: :not_found
+      return render json: { 
+        error: 'User not found',
+        status: 'user_not_found',
+        message: 'User tidak ditemukan'
+      }, status: :not_found
     end
 
     if user.confirmed?
-      return render json: { error: 'Email already verified' }, status: :unprocessable_entity
+      return render json: { 
+        error: 'Email already verified',
+        status: 'verified',
+        message: 'Anda sudah verified, tidak bisa kirim OTP registrasi lagi',
+        redirect_to_login: true
+      }, status: :unprocessable_entity
     end
 
     # Check for recent OTP generation (cooldown: 1 minute)

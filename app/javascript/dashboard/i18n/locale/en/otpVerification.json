@@ -23,6 +23,19 @@
       "DIDNT_RECEIVE": "Didn't receive the code?",
       "EXPIRED": "Code expired. Please request a new one."
     },
+    "REDIRECT": {
+      "ALREADY_VERIFIED": "You are already verified and cannot send OTP registration again",
+      "ALREADY_VERIFIED_GENERATE": "You are already verified and cannot send OTP registration again",
+      "ALREADY_VERIFIED_VERIFY": "You are already verified and cannot verify again",
+      "ALREADY_VERIFIED_RESEND": "You are already verified and cannot resend OTP",
+      "USER_NOT_FOUND": "User not found. Please register first",
+      "TITLE_VERIFIED": "Email Already Verified",
+      "TITLE_NOT_FOUND": "User Not Found",
+      "BUTTON_LOGIN": "Login Now",
+      "BUTTON_SIGNUP": "Sign Up Now",
+      "COUNTDOWN_TEXT": "You will be redirected in {seconds} seconds",
+      "COOLDOWN_MESSAGE": "Please wait {seconds} seconds before resending OTP"
+    },
     "ERRORS": {
       "USER_NOT_FOUND": "User not found",
       "EMAIL_ALREADY_VERIFIED": "Email already verified", 

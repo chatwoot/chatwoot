@@ -4,12 +4,6 @@ class Captain::Llm::BaseJangkauService
   include HTTParty
   base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/')
 
-  # default_options.update(
-  #   open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 5).to_i,
-  #   read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 15).to_i,
-  #   write_timeout: ENV.fetch('JANGKAU_AGENT_API_WRITE_TIMEOUT', 30).to_i
-  # )
-
   def initialize(account_id, ai_agent, question, session_id, additional_attributes)
     @account_id = account_id
     @ai_agent = ai_agent
@@ -24,38 +18,29 @@ class Captain::Llm::BaseJangkauService
 
   private
 
-  def generate_response # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def generate_response
     Rails.logger.info '[generate_response] Generating response for Jangkau AI Agent'
 
-    # 👇 Build the full URL
-    base_url = self.class.base_uri.strip # e.g., "https://agent.jangkau.ai/v2"
-    endpoint = '/v2/chat/override/' # the path you're POSTing to
-    full_url = "#{base_url}#{endpoint}" # 👈 Full URL
-
-    Rails.logger.info "[generate_response] Request will be sent to: #{full_url}"
-    Rails.logger.info "[generate_response] Request message: #{@question}"
+    endpoint = feature_enabled_for_ai_agent? ? '/v2/chat/completion/' : '/v2/chat/override/'
 
     response = self.class.post(
-      '/v2/chat/override/',
+      endpoint,
       body: request_body.to_json,
       headers: headers
     )
     Rails.logger.info '[generate_response] Received Jangkau response'
     response
-  rescue Net::OpenTimeout => e
-    Rails.logger.error "[generate_response] Net::OpenTimeout error: #{e.message}"
-    raise "Failed to generate response: #{e.message}"
-  rescue Net::ReadTimeout => e
-    Rails.logger.error "[generate_response] Net::ReadTimeout error: #{e.message}"
-    raise "Failed to generate response: #{e.message}"
-  rescue Net::WriteTimeout => e
-    Rails.logger.error "[generate_response] Net::WriteTimeout error: #{e.message}"
-  rescue HTTParty::Error => e
-    Rails.logger.error "[generate_response] HTTParty error: #{e.message}"
-    raise "Failed to generate response: #{e.message}"
   rescue StandardError => e
-    Rails.logger.error "[generate_response] Standard error: #{e.message}"
+    Rails.logger.error "[generate_response] error: #{e.message}"
     raise "Failed to generate response: #{e.message}"
+  end
+
+  def feature_enabled_for_ai_agent?
+    enabled_ai_agents = ENV.fetch('FEATURE_FLAG_NEW_JANGKAU_ENDPOINT', '')
+                           .split(',')
+                           .map(&:strip)
+
+    enabled_ai_agents.include?(@ai_agent.id.to_s)
   end
 
   def request_body
@@ -78,7 +63,6 @@ class Captain::Llm::BaseJangkauService
       'Content-Type' => 'application/json',
       'Accept' => 'application/json',
       'X-API-Key' => ENV.fetch('JANGKAU_AGENT_API_KEY', nil)
-      # 'Authorization' => "Bearer #{ENV.fetch('JANGKAU_AGENT_API_KEY', nil)}"
     }
   end
 end

@@ -77,28 +77,23 @@ export const resetPassword = async ({ email }) =>
 
 // OTP related functions
 export const generateOTP = async ({ email }) => {
-  try {
-    const response = await wootAPI.post('api/v1/otp/generate', { email });
-    return response.data;
-  } catch (error) {
-    throwErrorMessage(error);
-  }
+  const response = await wootAPI.post('api/v1/otp/generate', { email });
+  return response.data;
 };
 
 export const verifyOTP = async ({ email, code }) => {
-  try {
-    const response = await wootAPI.post('api/v1/otp/verify', { email, code });
-    return response.data;
-  } catch (error) {
-    throwErrorMessage(error);
-  }
+  const response = await wootAPI.post('api/v1/otp/verify', { email, code });
+  return response.data;
 };
 
 export const resendOTP = async ({ email }) => {
-  try {
-    const response = await wootAPI.post('api/v1/otp/resend', { email });
-    return response.data;
-  } catch (error) {
-    throwErrorMessage(error);
-  }
+  const response = await wootAPI.post('api/v1/otp/resend', { email });
+  return response.data;
+};
+
+export const checkOTPStatus = async ({ email }) => {
+  const response = await wootAPI.get('api/v1/otp/status', { 
+    params: { email } 
+  });
+  return response.data;
 };
