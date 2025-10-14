@@ -8,7 +8,12 @@ export default {
       default: '',
     },
   },
-  emits: ['select'],
+  emits: ['select', 'keydown'],
+  data() {
+    return {
+      selectedIndex: 0,
+    };
+  },
   computed: {
     ...mapGetters({
       cannedMessages: 'getCannedResponses',
@@ -85,11 +90,22 @@ export default {
     searchKey() {
       this.fetchCannedResponses();
       this.fetchTemplates();
+      this.selectedIndex = 0; // Reset selection on search
+    },
+    items() {
+      // Reset selection if current index is out of bounds
+      if (this.selectedIndex >= this.items.length) {
+        this.selectedIndex = Math.max(0, this.items.length - 1);
+      }
     },
   },
   mounted() {
     this.fetchCannedResponses();
     this.fetchTemplates();
+    window.addEventListener('keydown', this.handleKeyDown);
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
   },
   methods: {
     fetchCannedResponses() {
@@ -109,6 +125,48 @@ export default {
         window.handleAppleTemplateSelect(item);
       }
     },
+    handleKeyDown(event) {
+      if (!this.hasItems) return;
+
+      switch (event.key) {
+        case 'ArrowDown':
+          event.preventDefault();
+          this.selectedIndex = Math.min(
+            this.selectedIndex + 1,
+            this.items.length - 1
+          );
+          this.scrollToSelected();
+          break;
+        case 'ArrowUp':
+          event.preventDefault();
+          this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+          this.scrollToSelected();
+          break;
+        case 'Enter':
+          event.preventDefault();
+          if (this.items[this.selectedIndex]) {
+            this.handleSelect(this.items[this.selectedIndex]);
+          }
+          break;
+        case 'Escape':
+          this.$emit('keydown', event);
+          break;
+        default:
+          // Allow other keys to pass through
+          break;
+      }
+    },
+    scrollToSelected() {
+      this.$nextTick(() => {
+        const selectedElement = this.$refs[`item-${this.selectedIndex}`]?.[0];
+        if (selectedElement) {
+          selectedElement.scrollIntoView({
+            block: 'nearest',
+            behavior: 'smooth',
+          });
+        }
+      });
+    },
   },
 };
 </script>
@@ -116,9 +174,15 @@ export default {
 <template>
   <div v-if="hasItems" class="template-selector-list p-2">
     <div
-      v-for="item in items"
+      v-for="(item, index) in items"
       :key="item.key"
-      class="template-item px-3 py-2 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-3 rounded-lg cursor-pointer transition-colors mb-1"
+      :ref="`item-${index}`"
+      class="template-item px-3 py-2 rounded-lg cursor-pointer transition-colors mb-1"
+      :class="
+        index === selectedIndex
+          ? 'bg-n-blue-3 dark:bg-n-blue-3'
+          : 'hover:bg-n-alpha-2 dark:hover:bg-n-alpha-3'
+      "
       @click="handleSelect(item)"
     >
       <div class="flex items-start gap-2">
