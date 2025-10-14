@@ -1004,10 +1004,10 @@ export default new TemplatesAPI();
 
 ## Related Documentation
 
-- [Unified Template System Architecture](./UNIFIED_TEMPLATE_SYSTEM_ARCHITECTURE.md)
-- [Template Migration Guide](./TEMPLATE_MIGRATION_GUIDE.md)
-- [Apple Messages for Business Integration](./apple-messages/README.md)
-- [Apple MSP Outgoing Services](./apple-messages/APPLE_MSP_OUTGOING_SERVICES.md)
+- [Unified Template System Architecture](../UNIFIED_TEMPLATE_SYSTEM_ARCHITECTURE.md)
+- [Template Migration Guide](../TEMPLATE_MIGRATION_GUIDE.md)
+- [Apple Messages for Business Integration](./README.md)
+- [Apple MSP Outgoing Services](./APPLE_MSP_OUTGOING_SERVICES.md)
 
 ## Best Practices
 
