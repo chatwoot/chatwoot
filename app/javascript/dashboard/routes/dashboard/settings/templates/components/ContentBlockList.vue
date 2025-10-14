@@ -273,15 +273,10 @@ const getBlockLabel = type => {
       <p class="text-sm text-n-slate-11 mb-4">
         {{ t('TEMPLATES.BUILDER.CONTENT_BLOCKS.EMPTY') }}
       </p>
-      <Button
-        icon="i-lucide-plus"
-        :label="t('TEMPLATES.BUILDER.CONTENT_BLOCKS.ADD')"
-        @click="showBlockTypeSelector = true"
-      />
     </div>
 
     <!-- Blocks List -->
-    <div v-else class="space-y-3">
+    <div v-if="blocks.length > 0" class="space-y-3">
       <div
         v-for="(block, index) in blocks"
         :key="index"
@@ -391,6 +386,15 @@ const getBlockLabel = type => {
           />
         </div>
       </div>
+    </div>
+
+    <!-- Add Block Button - Always visible -->
+    <div class="flex justify-center pt-4">
+      <Button
+        icon="i-lucide-plus"
+        :label="t('TEMPLATES.BUILDER.CONTENT_BLOCKS.ADD')"
+        @click="showBlockTypeSelector = true"
+      />
     </div>
 
     <!-- Block Type Selector Modal -->

@@ -199,6 +199,20 @@ Practical checklist for any change impacting core logic or public APIs
    - Frontend Modal: `app/javascript/dashboard/components-next/message/modals/AppleFormBuilder.vue`
    - Frontend Composer: `app/javascript/dashboard/components/widgets/conversation/ReplyBox/AppleMessagesComposer.vue`
 
-- always check the logs as you can't access the postgreSQL database directly
-- remember to implement camelCase format for any functions
-- postgreSQL is not acccessible directly to Claude in this project because of permission issue. Ask user to execute Command Line
+## Database Access
+
+- **NEVER use `psql` directly** - Claude Code runs in a macOS sandbox that blocks direct PostgreSQL access
+- **ALWAYS use `rails runner`** for database queries:
+  ```bash
+  rails runner "puts User.count"
+  rails runner "puts Message.last.inspect"
+  rails runner "puts ActiveRecord::Base.connection.execute('SELECT version()').to_a"
+  ```
+- **Alternative**: Use `rails console` for interactive queries
+- **Logs**: Check `log/development.log` for Rails database activity
+- **Only ask user to run `psql`** if rails runner cannot accomplish the task
+
+## Other Notes
+
+- Remember to implement camelCase format for any functions
+- Remember that any tailscale command requires privilege - ask user to execute them directly

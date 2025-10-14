@@ -172,7 +172,11 @@
       "TEXT_BLOCK": {
         "CONTENT": {
           "LABEL": "Message Content",
-          "PLACEHOLDER": "Enter your message. Use {{parameter_name}} for dynamic values."
+          "PLACEHOLDER": "Enter your message. Use {parameter_name} for dynamic values.",
+          "HELP": "Use double curly braces for parameters:"
+        },
+        "PARAMETERS": {
+          "LABEL": "Available Parameters (click to insert):"
         }
       },
       "MEDIA_BLOCK": {
