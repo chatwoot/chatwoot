@@ -318,7 +318,6 @@ export default {
     this.fetchInboxSettings();
     this.fetchPortals();
     this.fetchHealthData();
-    this.setTabFromRoute();
   },
   methods: {
     fetchPortals() {
@@ -421,6 +420,9 @@ export default {
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
           : '';
+
+        // Set tab from route after inbox data is loaded and tabs are computed
+        this.setTabFromRoute();
       });
     },
     async updateInbox() {
