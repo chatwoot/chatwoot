@@ -125,7 +125,22 @@ const getImageData = (imageIdentifier, blockProperties) => {
   if (!imageIdentifier) return null;
   const images = blockProperties.images || [];
   const image = images.find(img => img.identifier === imageIdentifier);
-  return image?.data || null;
+  if (!image) return null;
+
+  // Return preview URL if available (full data URL)
+  if (image.preview) return image.preview;
+
+  // Otherwise construct data URL from base64 data
+  if (image.data) {
+    // Check if data already has the data URL prefix
+    if (image.data.startsWith('data:')) {
+      return image.data;
+    }
+    // Add data URL prefix for base64 string
+    return `data:image/jpeg;base64,${image.data}`;
+  }
+
+  return null;
 };
 
 // Initialize test parameters with defaults or examples
