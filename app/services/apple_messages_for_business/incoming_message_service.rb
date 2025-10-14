@@ -101,21 +101,7 @@ class AppleMessagesForBusiness::IncomingMessageService
       if @conversation.status == 'resolved' && conversation_closed_by_amb?(@conversation)
         Rails.logger.info "[AMB IncomingMessage] Reopening AMB-closed conversation ID: #{@conversation.id}"
         @conversation.update!(status: 'open')
-
-        # Add a system message about conversation reopening
-        @conversation.messages.create!(
-          content: 'Customer resumed conversation by sending a new message.',
-          account_id: @inbox.account_id,
-          inbox_id: @inbox.id,
-          message_type: :activity,
-          sender: nil,
-          content_type: 'text',
-          content_attributes: {
-            automation_rule_id: nil,
-            system_generated: true,
-            reopened_by: 'customer_message'
-          }
-        )
+        # NOTE: No activity message needed here - the incoming user message itself indicates conversation resumed
       end
 
       # Update existing conversation with latest capability information
