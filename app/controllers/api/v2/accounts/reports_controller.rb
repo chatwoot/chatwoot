@@ -125,7 +125,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def build_summary(method)
-    builder = V2::Reports::Conversations::MetricBuilder
+    builder = V2::Reports::Conversations::BetterMetricBuilder
     current_summary = builder.new(Current.account, current_summary_params).send(method)
     previous_summary = builder.new(Current.account, previous_summary_params).send(method)
     current_summary.merge(previous: previous_summary)
