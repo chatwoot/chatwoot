@@ -1068,13 +1068,31 @@ export default {
           fullTemplate.parameters &&
           Object.keys(fullTemplate.parameters).length > 0;
 
-        if (!hasParameters) {
-          // Simple template without parameters - render and insert as text
+        // Check if all parameters have default values
+        const allParametersHaveDefaults = hasParameters
+          ? Object.values(fullTemplate.parameters).every(
+              param => param.default !== undefined
+            )
+          : false;
+
+        // Build default parameters object
+        const defaultParameters = {};
+        if (hasParameters) {
+          Object.entries(fullTemplate.parameters).forEach(([key, config]) => {
+            if (config.default !== undefined) {
+              defaultParameters[key] = config.default;
+            }
+          });
+        }
+
+        if (!hasParameters || allParametersHaveDefaults) {
+          // Simple template without parameters OR all parameters have defaults
+          // Render and insert as text
           const response = await this.$store.dispatch(
             'messageTemplates/render',
             {
               templateId: fullTemplate.id,
-              parameters: {},
+              parameters: defaultParameters,
               channelType: this.channelType,
             }
           );
@@ -1083,8 +1101,7 @@ export default {
             this.replaceText(response.data.content);
           }
         } else {
-          // Template with parameters - need to show parameter input UI
-          // For now, show an alert that this needs parameter input
+          // Template with parameters that need user input
           this.$store.dispatch('alerts/show', {
             message: this.$t('CONVERSATION.TEMPLATE_REQUIRES_PARAMETERS', {
               name: fullTemplate.name,
