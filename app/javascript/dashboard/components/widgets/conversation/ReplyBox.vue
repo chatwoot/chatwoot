@@ -934,7 +934,42 @@ export default {
         if (isAppleInteractive && this.isAppleMessagesConversation) {
           // This is an Apple Messages interactive template - send it directly
 
-          // Detect the message type and wrap the content appropriately
+          // Check if this is a combined template with multiple blocks
+          const blocks = fullTemplate.content?.blocks || [];
+          const hasMultipleBlocks = blocks.length > 1;
+
+          if (hasMultipleBlocks) {
+            // Combined template - send text blocks first, then interactive block
+            /* eslint-disable no-await-in-loop */
+            for (const block of blocks) {
+              if (block.type === 'text') {
+                // Send text block as a regular message
+                const textPayload = {
+                  conversationId: this.currentChat.id,
+                  message: block.content || '',
+                  private: false,
+                };
+                await this.sendMessage(textPayload);
+
+                // Small delay between messages
+                await new Promise(resolve => {
+                  setTimeout(resolve, 500);
+                });
+              } else if (block.type === 'quick_reply' || block.type === 'interactive') {
+                // Send interactive block
+                const messageData = {
+                  type: block.type,
+                  content_type: `apple_${block.type}`,
+                  content_attributes: block.content_attributes || block,
+                };
+                await this.sendAppleMessage(messageData);
+              }
+            }
+            /* eslint-enable no-await-in-loop */
+            return;
+          }
+
+          // Single interactive message - detect the message type and wrap the content appropriately
           let messageData;
           if (
             (content.content_type || content.contentType) &&
