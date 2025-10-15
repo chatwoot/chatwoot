@@ -18,8 +18,8 @@ const dismissedSlugs = computed(() => {
   return uiSettings.value.changelog_dismissed_slugs || [];
 });
 
-// Get undismissed posts
-const visibleCards = computed(() => {
+// Get undismissed posts - these are the changelog posts that should be shown
+const undismissedPosts = computed(() => {
   return posts.value.filter(post => !dismissedSlugs.value.includes(post.slug));
 });
 
@@ -75,23 +75,24 @@ const handleDismiss = slug => {
   setTimeout(() => {
     dismissPost(slug);
     dismissingCards.value = dismissingCards.value.filter(s => s !== slug);
-    if (currentIndex.value >= visibleCards.value.length) currentIndex.value = 0;
+    if (currentIndex.value >= undismissedPosts.value.length)
+      currentIndex.value = 0;
   }, 200);
 };
 
 const handleReadMore = () => {
-  const currentCard = visibleCards.value[currentIndex.value];
-  if (currentCard?.url) {
-    window.open(currentCard.url, '_blank');
+  const currentPost = undismissedPosts.value[currentIndex.value];
+  if (currentPost?.url) {
+    window.open(currentPost.url, '_blank');
     // Also dismiss the card when user clicks read more
-    handleDismiss(currentCard.slug);
+    handleDismiss(currentPost.slug);
   }
 };
 
 const handleCardClick = () => {
-  const currentCard = visibleCards.value[currentIndex.value];
-  if (currentCard?.url) {
-    window.open(currentCard.url, '_blank');
+  const currentPost = undismissedPosts.value[currentIndex.value];
+  if (currentPost?.url) {
+    window.open(currentPost.url, '_blank');
   }
 };
 
@@ -101,11 +102,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="visibleCards.length > 0" class="px-2 pt-1">
+  <div v-if="undismissedPosts.length > 0" class="px-2 pt-1">
     <GroupedStackedChangelogCard
-      :cards="visibleCards"
+      :posts="undismissedPosts"
       :current-index="currentIndex"
-      :dismissing-cards="dismissingCards"
+      :dismissing-slugs="dismissingCards"
       class="min-h-[240px]"
       @read-more="handleReadMore"
       @dismiss="handleDismiss"

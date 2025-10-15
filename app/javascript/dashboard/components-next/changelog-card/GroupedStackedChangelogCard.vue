@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import StackedChangelogCard from './StackedChangelogCard.vue';
 
 const props = defineProps({
-  cards: {
+  posts: {
     type: Array,
     required: true,
   },
@@ -11,7 +11,7 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  dismissingCards: {
+  dismissingSlugs: {
     type: Array,
     default: () => [],
   },
@@ -19,22 +19,22 @@ const props = defineProps({
 
 const emit = defineEmits(['readMore', 'dismiss', 'cardClick']);
 
-const stackedCards = computed(() => props.cards?.slice(0, 5));
+const stackedPosts = computed(() => props.posts?.slice(0, 5));
 
-const isCardDismissing = card => props.dismissingCards.includes(card.slug);
+const isPostDismissing = post => props.dismissingSlugs.includes(post.slug);
 
-const handleReadMore = card => emit('readMore', card.slug);
-const handleDismiss = card => emit('dismiss', card.slug);
-const handleCardClick = (card, index) => {
-  if (index !== props.currentIndex && !isCardDismissing(card)) {
-    emit('cardClick', { slug: card.slug, index });
+const handleReadMore = post => emit('readMore', post.slug);
+const handleDismiss = post => emit('dismiss', post.slug);
+const handlePostClick = (post, index) => {
+  if (index !== props.currentIndex && !isPostDismissing(post)) {
+    emit('cardClick', { slug: post.slug, index });
   }
 };
 
 const getCardClasses = index => {
   const pos =
-    (index - props.currentIndex + stackedCards.value.length) %
-    stackedCards.value.length;
+    (index - props.currentIndex + stackedPosts.value.length) %
+    stackedPosts.value.length;
   const base =
     'relative transition-all duration-500 ease-out col-start-1 row-start-1';
 
@@ -56,18 +56,17 @@ const getCardClasses = index => {
   <div class="overflow-hidden">
     <div class="hidden relative grid-cols-1 pt-8 pb-2 lg:grid">
       <div
-        v-for="(card, index) in stackedCards"
-        :key="card.slug || index"
+        v-for="(post, index) in stackedPosts"
+        :key="post.slug || index"
         :class="getCardClasses(index)"
       >
         <StackedChangelogCard
-          :card="card"
-          :show-actions="index === currentIndex"
-          :show-media="index === currentIndex"
-          :is-dismissing="isCardDismissing(card)"
-          @read-more="handleReadMore(card)"
-          @dismiss="handleDismiss(card)"
-          @card-click="handleCardClick(card, index)"
+          :card="post"
+          :is-actions-visible="index === currentIndex"
+          :is-dismissing="isPostDismissing(post)"
+          @read-more="handleReadMore(post)"
+          @dismiss="handleDismiss(post)"
+          @card-click="handlePostClick(post, index)"
         />
       </div>
     </div>

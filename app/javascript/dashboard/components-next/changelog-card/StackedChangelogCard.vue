@@ -6,15 +6,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  primaryAction: {
-    type: Object,
-    default: () => ({ label: 'Read more', color: 'slate' }),
-  },
-  secondaryAction: {
-    type: Object,
-    default: () => ({ label: 'Dismiss', color: 'slate' }),
-  },
-  showActions: {
+  isActionsVisible: {
     type: Boolean,
     default: true,
   },
@@ -84,18 +76,18 @@ const handleCardClick = () => {
       />
     </div>
 
-    <div v-if="showActions" class="flex justify-between items-center mt-2">
+    <div v-if="isActionsVisible" class="flex justify-between items-center mt-2">
       <Button
-        :label="primaryAction.label"
-        :color="primaryAction.color"
+        label="Read more"
+        color="slate"
         link
         sm
         class="text-xs font-normal hover:!no-underline"
         @click.stop="handleReadMore"
       />
       <Button
-        :label="secondaryAction.label"
-        :color="secondaryAction.color"
+        label="Dismiss"
+        color="slate"
         link
         sm
         class="text-xs font-normal hover:!no-underline"
