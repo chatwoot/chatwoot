@@ -13,8 +13,7 @@ describe Messages::SendEmailNotificationService do
 
       before do
         conversation.contact.update!(email: 'test@example.com')
-        allow(Redis::Alfred).to receive(:get).and_return(nil)
-        allow(Redis::Alfred).to receive(:setex)
+        allow(Redis::Alfred).to receive(:set).and_return(true)
         allow(ConversationReplyEmailWorker).to receive(:perform_in)
       end
 
@@ -28,17 +27,17 @@ describe Messages::SendEmailNotificationService do
         )
       end
 
-      it 'sets redis key to prevent duplicate emails' do
+      it 'atomically sets redis key to prevent duplicate emails' do
         expected_key = format(Redis::Alfred::CONVERSATION_MAILER_KEY, conversation_id: conversation.id)
 
         service.perform
 
-        expect(Redis::Alfred).to have_received(:setex).with(expected_key, message.id)
+        expect(Redis::Alfred).to have_received(:set).with(expected_key, message.id, nx: true, ex: 2.minutes.to_i)
       end
 
       context 'when redis key already exists' do
         before do
-          allow(Redis::Alfred).to receive(:get).and_return('existing_key')
+          allow(Redis::Alfred).to receive(:set).and_return(false)
         end
 
         it 'does not schedule worker' do
@@ -47,10 +46,10 @@ describe Messages::SendEmailNotificationService do
           expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
         end
 
-        it 'does not set redis key' do
+        it 'attempts atomic set once' do
           service.perform
 
-          expect(Redis::Alfred).not_to have_received(:setex)
+          expect(Redis::Alfred).to have_received(:set).once
         end
       end
     end
