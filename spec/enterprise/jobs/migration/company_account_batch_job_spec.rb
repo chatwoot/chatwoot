@@ -4,6 +4,17 @@ RSpec.describe Migration::CompanyAccountBatchJob, type: :job do
   let(:account) { create(:account) }
 
   describe '#perform' do
+    before do
+      # Stub EmailProvideInfo to control behavior in tests
+      allow(EmailProviderInfo).to receive(:call) do |email|
+        domain = email.split('@').last&.downcase
+        case domain
+        when 'gmail.com', 'yahoo.com', 'hotmail.com', 'uol.com.br'
+          'free_provider' # generic free provider name
+        end
+      end
+    end
+
     context 'when contact has business email' do
       let!(:contact) { create(:contact, account: account, email: 'user@acme.com') }
 

@@ -8,8 +8,12 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
       let(:email) { 'user@acme.com' }
       let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
 
-      it 'returns true' do
+      before do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
+        allow(EmailProviderInfo).to receive(:call).with(email).and_return(nil)
+      end
+
+      it 'returns true' do
         expect(service.perform).to be(true)
       end
     end
@@ -18,8 +22,12 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
       let(:email) { 'user@gmail.com' }
       let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
 
-      it 'returns false' do
+      before do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
+        allow(EmailProviderInfo).to receive(:call).with(email).and_return('gmail')
+      end
+
+      it 'returns false' do
         expect(service.perform).to be(false)
       end
     end
@@ -28,9 +36,46 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
       let(:email) { 'user@uol.com.br' }
       let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
 
-      it 'returns false' do
+      before do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
+        allow(EmailProviderInfo).to receive(:call).with(email).and_return('uol')
+      end
+
+      it 'returns false' do
         expect(service.perform).to be(false)
+      end
+    end
+
+    context 'when email is from a paid provider' do
+      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
+
+      shared_examples 'treats as business email' do |email_address, provider_name|
+        let(:email) { email_address }
+
+        before do
+          allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
+          allow(EmailProviderInfo).to receive(:call).with(email).and_return(provider_name)
+        end
+
+        it 'returns true (treats paid providers as business)' do
+          expect(service.perform).to be(true)
+        end
+      end
+
+      describe 'Fastmail' do
+        it_behaves_like 'treats as business email', 'user@fastmail.fm', 'fastmail'
+      end
+
+      describe 'ProtonMail' do
+        it_behaves_like 'treats as business email', 'user@protonmail.com', 'protonmail'
+      end
+
+      describe 'Hey' do
+        it_behaves_like 'treats as business email', 'user@hey.com', 'hey'
+      end
+
+      describe 'Tuta' do
+        it_behaves_like 'treats as business email', 'user@tuta.io', 'tuta'
       end
     end
 
@@ -74,8 +119,12 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
       let(:email) { 'user@GMAIL.COM' }
       let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
 
-      it 'returns false (case insensitive)' do
+      before do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
+        allow(EmailProviderInfo).to receive(:call).with(email).and_return('gmail')
+      end
+
+      it 'returns false (case insensitive)' do
         expect(service.perform).to be(false)
       end
     end

@@ -1,15 +1,7 @@
 class Companies::BusinessEmailDetectorService
-  # FIXME: It should be possible to do this another way,
-  # check the ticket
-  FREE_DOMAINS = %w[
-    gmail.com yahoo.com hotmail.com outlook.com
-    aol.com icloud.com mail.com protonmail.com
-    live.com msn.com yandex.com zoho.com
-    gmx.com inbox.com
-    uol.com.br bol.com.br terra.com.br ig.com.br
-    sapo.pt iol.pt
-    terra.es hotmail.es yahoo.es
-  ].freeze
+  # Paid email services that businesses legitimately use
+  # We should not filter these as `free` providers
+  PAID_PROVIDERS = %w[fastmail protonmail hey tuta].freeze
 
   attr_reader :email
 
@@ -24,13 +16,21 @@ class Companies::BusinessEmailDetectorService
     return false unless address.valid?
     return false if address.disposable_domain?
 
-    domain = extract_domain(email)
-    FREE_DOMAINS.exclude?(domain)
+    provider = EmailProviderInfo.call(email)
+
+    # If no provider found, it's likely a business domain
+    return true if provider.nil?
+
+    # If it's a paid provider, treat as business email
+    return true if paid_provider?(provider)
+
+    # If it's a known free provider (gmail, yahoo, etc.), not a business email
+    false
   end
 
   private
 
-  def extract_domain(email)
-    email.split('@').last&.downcase
+  def paid_provider?(provider)
+    PAID_PROVIDERS.any? { |name| provider.downcase.include?(name) }
   end
 end
