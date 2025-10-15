@@ -13,7 +13,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
-// import SidebarChangelogCard from './SidebarChangelogCard.vue';
+import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
@@ -533,20 +533,20 @@ const menuItems = computed(() => {
     ]"
   >
     <section class="grid gap-2 mt-2 mb-4">
-      <div class="flex items-center min-w-0 gap-2 px-2">
-        <div class="grid flex-shrink-0 size-6 place-content-center">
+      <div class="flex gap-2 items-center px-2 min-w-0">
+        <div class="grid flex-shrink-0 place-content-center size-6">
           <Logo class="size-4" />
         </div>
         <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
         <SidebarAccountSwitcher
-          class="flex-grow min-w-0 -mx-1"
+          class="flex-grow -mx-1 min-w-0"
           @show-create-account-modal="emit('showCreateAccountModal')"
         />
       </div>
       <div class="flex gap-2 px-2">
         <RouterLink
           :to="{ name: 'search' }"
-          class="flex items-center w-full gap-2 px-2 py-1 rounded-lg h-7 outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
+          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
         >
           <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-11" />
           <span class="flex-grow text-left">
@@ -571,7 +571,7 @@ const menuItems = computed(() => {
         </ComposeConversation>
       </div>
     </section>
-    <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
+    <nav class="grid overflow-y-scroll flex-grow gap-2 px-2 pb-5 no-scrollbar">
       <ul class="flex flex-col gap-1.5 m-0 list-none">
         <SidebarGroup
           v-for="item in menuItems"
@@ -581,9 +581,9 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="flex-shrink-0 flex flex-col justify-between gap-2 items-center"
+      class="flex flex-col flex-shrink-0 gap-2 justify-between items-center"
     >
-      <!-- <SidebarChangelogCard /> -->
+      <SidebarChangelogCard />
       <div
         class="p-1 flex-shrink-0 flex w-full justify-between gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
       >

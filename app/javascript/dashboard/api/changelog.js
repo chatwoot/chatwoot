@@ -1,0 +1,67 @@
+import ApiClient from './ApiClient';
+
+class ChangelogApi extends ApiClient {
+  constructor() {
+    super('changelog', { apiVersion: 'v1' });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  fetchFromHub() {
+    // Return hardcoded data for now - will be replaced with API URL later
+    const hardcodedData = {
+      posts: [
+        {
+          url: 'https://www-internal-blog.chatwoot.com/whatsapp-account-health-and-allowed-domains/',
+          slug: 'whatsapp-account-health-and-allowed-domains',
+          title: 'WhatsApp Account Health and Allowed Domains',
+          excerpt:
+            "WhatsApp Account Health\n\nWe've added a new Account Health tab under WhatsApp Inbox settings. It shows your number's current status, messaging limits, display name, and quality rating all in one place.\n\nThis helps teams quickly verify if their number is active, healthy, and ready to send messages without having to switch to Meta Business Manager. For deeper checks, there's a direct link to open your WhatsApp Manager dashboard.\n\n\nWeb Widget: Allowed Domains\n\nYou can now restrict where your web wid",
+          published_at: '2025-10-10T12:29:54.000+00:00',
+          feature_image: null,
+        },
+        {
+          url: 'https://www-internal-blog.chatwoot.com/mfa-and-pdf-support/',
+          slug: 'mfa-and-pdf-support',
+          title: 'Multi-Factor Authentication and Captain PDF Uploads',
+          excerpt:
+            "This release focuses on practical improvements that make everyday work smoother: stronger security, and better ways to manage knowledge in Captain. Alongside these, we've made a set of smaller updates and fixes that address feedback from teams using Chatwoot day to day.\n\n\nCaptain Now Supports PDF Documents\n\n\nYou can now upload PDFs as knowledge sources in Captain. This allows you to bring existing documents like product manuals, training guides, or policy documents into Captain without convertin",
+          published_at: '2025-09-19T12:13:10.000+00:00',
+          feature_image: null,
+        },
+        {
+          url: 'https://www-internal-blog.chatwoot.com/twilio-content-templates/',
+          slug: 'twilio-content-templates',
+          title: 'Twilio Content Templates',
+          excerpt:
+            "This release brings one of the most requested features, along with a handful of quality-of-life improvements and a set of smaller fixes.\n\nIf you're using Twilio's WhatsApp Business API, you can send pre-approved WhatsApp templates directly from Chatwoot. These templates are required to start new WhatsApp conversations and are also useful for sending structured messages, like appointment reminders or verification codes, that comply with WhatsApp's rules.\n\nPlease read more details about here.\n\n\nOt",
+          published_at: '2025-08-29T11:14:16.000+00:00',
+          feature_image: null,
+        },
+        {
+          url: 'https://www-internal-blog.chatwoot.com/enhanced-whatsapp-templates-coexistence-and-small-fixes/',
+          slug: 'enhanced-whatsapp-templates-coexistence-and-small-fixes',
+          title: 'Enhanced WhatsApp Templates and Coexistence',
+          excerpt:
+            'This release brings better WhatsApp support and a set of small fixes across the app. Nothing big, just steady improvements to make daily use easier.\n\n\nEnhanced WhatsApp Template Support with Media Headers\n\nYou can now use media headers, buttons, and structured fields in WhatsApp templates. This makes templates look and feel closer to the final message that customers receive.\n\nFor example, a promotion can now include a product photo, a call‑to‑action button, and placeholders for names or prices..',
+          published_at: '2025-08-18T10:32:47.000+00:00',
+          feature_image: null,
+        },
+        {
+          url: 'https://www-internal-blog.chatwoot.com/easier-custom-domains-and-mobile-ui-improvements/',
+          slug: 'easier-custom-domains-and-mobile-ui-improvements',
+          title: 'Easier Custom Domains and Mobile UI Improvements',
+          excerpt:
+            "This update is focused on simplifying a few core workflows, mainly around custom domains and mobile experience. It's a smaller release, but a meaningful one if you're working with our Help Center or managing inboxes on the go.\n\n\n🌐 Custom Domain Setup Made Easier\n\nWe've improved the flow for setting up custom domains on your Help Center. You can now verify DNS and activate SSL certificates directly from the Chatwoot UI—no need to reach out to support or wait for manual intervention.\n\nOnce you up",
+          published_at: '2025-08-04T14:03:29.000+00:00',
+          feature_image: null,
+        },
+      ],
+      last_synced_at: '2025-10-15T08:19:01.226Z',
+      synced_posts_count: 5,
+    };
+
+    return Promise.resolve({ data: hardcodedData });
+  }
+}
+
+export default new ChangelogApi();

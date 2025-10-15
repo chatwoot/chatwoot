@@ -1,95 +1,103 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import GroupedStackedChangelogCard from 'dashboard/components-next/changelog-card/GroupedStackedChangelogCard.vue';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import changelogAPI from 'dashboard/api/changelog';
 
-const sampleCards = [
-  {
-    id: 'chatwoot-captain',
-    title: 'Chatwoot Captain',
-    slug: 'chatwoot-captain',
-    description:
-      'Watch how our latest feature can transform your workflow with powerful automation tools.',
-    media: {
-      type: 'image',
-      src: 'https://www.chatwoot.com/images/captain/captain_thumbnail.jpg',
-      alt: 'Chatwoot Captain demo image',
-    },
-  },
-  {
-    id: 'smart-routing',
-    title: 'Smart Routing Forms',
-    slug: 'smart-routing',
-    description:
-      'Screen bookers with intelligent forms and route them to the right team member.',
-    media: {
-      type: 'video',
-      src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-      poster:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg',
-      alt: 'Routing forms demo video',
-    },
-  },
-  {
-    id: 'instant-meetings',
-    title: 'Instant Meetings',
-    slug: 'instant-meetings',
-    description: 'Start instant meetings directly from shared links.',
-    media: {
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=600',
-      alt: 'Instant meetings UI preview',
-    },
-  },
-  {
-    id: 'analytics',
-    title: 'Advanced Analytics',
-    slug: 'analytics',
-    description:
-      'Track meeting performance, conversion, and response rates in one place.',
-    media: {
-      type: 'video',
-      src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-      poster:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg',
-      alt: 'Analytics dashboard video preview',
-    },
-  },
-  {
-    id: 'team-collaboration',
-    title: 'Team Collaboration',
-    slug: 'team-collaboration',
-    description:
-      'Coordinate with your team seamlessly using shared availability.',
-    media: {
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600',
-      alt: 'Team collaboration meeting view',
-    },
-  },
-];
+const MAX_DISMISSED_SLUGS = 5;
 
-const visibleCards = ref([...sampleCards]);
+const { uiSettings, updateUISettings } = useUISettings();
+const posts = ref([]);
 const currentIndex = ref(0);
 const dismissingCards = ref([]);
+const isLoading = ref(false);
+const error = ref(null);
+
+// Get current dismissed slugs from ui_settings
+const dismissedSlugs = computed(() => {
+  return uiSettings.value.changelog_dismissed_slugs || [];
+});
+
+// Get undismissed posts - pass them directly without transformation
+const visibleCards = computed(() => {
+  return posts.value.filter(post => !dismissedSlugs.value.includes(post.slug));
+});
+
+// Fetch changelog posts from API
+const fetchChangelog = async () => {
+  isLoading.value = true;
+  error.value = null;
+
+  try {
+    const response = await changelogAPI.fetchFromHub();
+    posts.value = response.data.posts || [];
+
+    // Clean up dismissed slugs - remove any that are no longer in the current feed
+    const currentSlugs = posts.value.map(post => post.slug);
+    const cleanedDismissedSlugs = dismissedSlugs.value.filter(slug =>
+      currentSlugs.includes(slug)
+    );
+
+    // Update ui_settings if cleanup occurred
+    if (cleanedDismissedSlugs.length !== dismissedSlugs.value.length) {
+      updateUISettings({
+        changelog_dismissed_slugs: cleanedDismissedSlugs,
+      });
+    }
+  } catch (err) {
+    error.value = err;
+    // eslint-disable-next-line no-console
+    console.error('Failed to fetch changelog:', err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// Dismiss a changelog post
+const dismissPost = slug => {
+  const currentDismissed = [...dismissedSlugs.value];
+
+  // Add new slug if not already present
+  if (!currentDismissed.includes(slug)) {
+    currentDismissed.push(slug);
+
+    // Keep only the most recent MAX_DISMISSED_SLUGS entries
+    if (currentDismissed.length > MAX_DISMISSED_SLUGS) {
+      currentDismissed.shift(); // Remove oldest entry
+    }
+
+    updateUISettings({
+      changelog_dismissed_slugs: currentDismissed,
+    });
+  }
+};
 
 const handlePrimaryAction = () => {
-  // TODO
+  const currentCard = visibleCards.value[currentIndex.value];
+  if (currentCard?.url) {
+    window.open(currentCard.url, '_blank');
+  }
 };
 
 const handleSecondaryAction = slug => {
-  // TODO Update this function
   dismissingCards.value.push(slug);
   setTimeout(() => {
-    const idx = visibleCards.value.findIndex(c => c.slug === slug);
-    if (idx !== -1) visibleCards.value.splice(idx, 1);
+    dismissPost(slug);
     dismissingCards.value = dismissingCards.value.filter(s => s !== slug);
     if (currentIndex.value >= visibleCards.value.length) currentIndex.value = 0;
   }, 200);
 };
 
 const handleCardClick = () => {
-  // TODO
+  const currentCard = visibleCards.value[currentIndex.value];
+  if (currentCard?.url) {
+    window.open(currentCard.url, '_blank');
+  }
 };
+
+onMounted(() => {
+  fetchChangelog();
+});
 </script>
 
 <template>

@@ -8,7 +8,7 @@ const props = defineProps({
   },
   primaryAction: {
     type: Object,
-    default: () => ({ label: 'Try now', color: 'slate' }),
+    default: () => ({ label: 'Read more', color: 'slate' }),
   },
   secondaryAction: {
     type: Object,
@@ -24,14 +24,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['primaryAction', 'secondaryAction', 'cardClick']);
+const emit = defineEmits(['readMore', 'dismiss', 'cardClick']);
 
-const handlePrimaryAction = () => {
-  emit('primaryAction', { card: props.card });
+const handleReadMore = () => {
+  emit('readMore', { card: props.card });
 };
 
-const handleSecondaryAction = () => {
-  emit('secondaryAction', { card: props.card });
+const handleDismiss = () => {
+  emit('dismiss', { card: props.card });
 };
 
 const handleCardClick = () => {
@@ -42,59 +42,56 @@ const handleCardClick = () => {
 <template>
   <div
     data-testid="changelog-card"
-    class="flex flex-col justify-between w-full p-3 border-n-weak hover:shadow-md rounded-lg border bg-n-background text-n-slate-12 shadow-sm transition-all duration-200 cursor-pointer"
+    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 cursor-pointer border-n-weak hover:shadow-md bg-n-background text-n-slate-12"
     :class="{ 'animate-fade-out pointer-events-none': isDismissing }"
     @click="handleCardClick"
   >
     <div>
       <h5
         :title="card.title"
-        class="line-clamp-1 font-semibold text-sm text-n-slate-12 mb-1"
+        class="mb-1 text-sm font-semibold line-clamp-1 text-n-slate-12"
       >
         {{ card.title }}
       </h5>
       <p
-        :title="card.description"
-        class="text-xs text-n-slate-11 line-clamp-2 mb-0 leading-relaxed"
+        :title="card.excerpt"
+        class="mb-0 text-xs leading-relaxed text-n-slate-11 line-clamp-2"
       >
-        {{ card.description }}
+        {{ card.excerpt }}
       </p>
     </div>
 
-    <a
-      v-if="card.media"
-      :href="card.media.src"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="my-3 border border-n-weak/40 rounded-md block overflow-hidden"
-      @click.stop
+    <div
+      v-if="card.feature_image"
+      class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
     >
-      <video
-        v-if="card.media.type === 'video'"
-        :src="card.media.src"
-        :alt="card.media.alt || card.title"
-        class="w-full h-24 object-cover rounded-md"
-        :poster="card.media.poster"
-        controls
-        preload="metadata"
-      />
       <img
-        v-else-if="card.media.type === 'image'"
-        :src="card.media.src"
-        :alt="card.media.alt || card.title"
-        class="w-full h-24 object-cover rounded-md"
+        :src="card.feature_image"
+        :alt="`${card.title} preview image`"
+        class="object-cover w-full h-24 rounded-md"
         loading="lazy"
       />
-    </a>
+    </div>
+    <div
+      v-else
+      class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600"
+        :alt="`${card.title} preview image`"
+        class="object-cover w-full h-24 rounded-md"
+        loading="lazy"
+      />
+    </div>
 
-    <div v-if="showActions" class="mt-2 flex items-center justify-between">
+    <div v-if="showActions" class="flex justify-between items-center mt-2">
       <Button
         :label="primaryAction.label"
         :color="primaryAction.color"
         link
         sm
         class="text-xs font-normal hover:!no-underline"
-        @click.stop="handlePrimaryAction"
+        @click.stop="handleReadMore"
       />
       <Button
         :label="secondaryAction.label"
@@ -102,7 +99,7 @@ const handleCardClick = () => {
         link
         sm
         class="text-xs font-normal hover:!no-underline"
-        @click.stop="handleSecondaryAction"
+        @click.stop="handleDismiss"
       />
     </div>
   </div>
