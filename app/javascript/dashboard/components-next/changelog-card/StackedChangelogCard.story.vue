@@ -54,7 +54,6 @@ const handleCardClick = data => {
       <div class="p-3 bg-n-solid-2 w-56">
         <StackedChangelogCard
           :card="imageCards"
-          is-active
           show-actions
           show-media
           @primary-action="handlePrimaryAction"
@@ -68,7 +67,6 @@ const handleCardClick = data => {
       <div class="p-3 bg-n-solid-2 w-56">
         <StackedChangelogCard
           :card="videoCards"
-          is-active
           show-actions
           show-media
           @primary-action="handlePrimaryAction"

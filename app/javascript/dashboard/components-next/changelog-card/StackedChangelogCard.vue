@@ -14,10 +14,6 @@ const props = defineProps({
     type: Object,
     default: () => ({ label: 'Dismiss', color: 'slate' }),
   },
-  isActive: {
-    type: Boolean,
-    default: true,
-  },
   showActions: {
     type: Boolean,
     default: true,
@@ -66,7 +62,7 @@ const handleCardClick = () => {
     </div>
 
     <a
-      v-if="card.media && isActive"
+      v-if="card.media"
       :href="card.media.src"
       target="_blank"
       rel="noopener noreferrer"

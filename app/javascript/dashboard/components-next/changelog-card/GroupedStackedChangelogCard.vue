@@ -62,7 +62,6 @@ const getCardClasses = index => {
       >
         <StackedChangelogCard
           :card="card"
-          :is-active="index === currentIndex"
           :show-actions="index === currentIndex"
           :show-media="index === currentIndex"
           :is-dismissing="isCardDismissing(card)"
