@@ -72,20 +72,22 @@ const dismissPost = slug => {
   }
 };
 
-const handlePrimaryAction = () => {
-  const currentCard = visibleCards.value[currentIndex.value];
-  if (currentCard?.url) {
-    window.open(currentCard.url, '_blank');
-  }
-};
-
-const handleSecondaryAction = slug => {
+const handleDismiss = slug => {
   dismissingCards.value.push(slug);
   setTimeout(() => {
     dismissPost(slug);
     dismissingCards.value = dismissingCards.value.filter(s => s !== slug);
     if (currentIndex.value >= visibleCards.value.length) currentIndex.value = 0;
   }, 200);
+};
+
+const handleReadMore = () => {
+  const currentCard = visibleCards.value[currentIndex.value];
+  if (currentCard?.url) {
+    window.open(currentCard.url, '_blank');
+    // Also dismiss the card when user clicks read more
+    handleDismiss(currentCard.slug);
+  }
 };
 
 const handleCardClick = () => {
@@ -107,8 +109,8 @@ onMounted(() => {
       :current-index="currentIndex"
       :dismissing-cards="dismissingCards"
       class="min-h-[240px]"
-      @primary-action="handlePrimaryAction"
-      @secondary-action="handleSecondaryAction"
+      @read-more="handleReadMore"
+      @dismiss="handleDismiss"
       @card-click="handleCardClick"
     />
   </div>

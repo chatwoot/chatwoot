@@ -17,14 +17,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['primaryAction', 'secondaryAction', 'cardClick']);
+const emit = defineEmits(['readMore', 'dismiss', 'cardClick']);
 
 const stackedCards = computed(() => props.cards?.slice(0, 5));
 
 const isCardDismissing = card => props.dismissingCards.includes(card.slug);
 
-const handlePrimaryAction = card => emit('primaryAction', card.slug);
-const handleSecondaryAction = card => emit('secondaryAction', card.slug);
+const handleReadMore = card => emit('readMore', card.slug);
+const handleDismiss = card => emit('dismiss', card.slug);
 const handleCardClick = (card, index) => {
   if (index !== props.currentIndex && !isCardDismissing(card)) {
     emit('cardClick', { slug: card.slug, index });
@@ -54,7 +54,7 @@ const getCardClasses = index => {
 
 <template>
   <div class="overflow-hidden">
-    <div class="hidden pb-2 pt-8 lg:grid relative grid-cols-1">
+    <div class="hidden relative grid-cols-1 pt-8 pb-2 lg:grid">
       <div
         v-for="(card, index) in stackedCards"
         :key="card.slug || index"
@@ -65,8 +65,8 @@ const getCardClasses = index => {
           :show-actions="index === currentIndex"
           :show-media="index === currentIndex"
           :is-dismissing="isCardDismissing(card)"
-          @primary-action="handlePrimaryAction(card)"
-          @secondary-action="handleSecondaryAction(card)"
+          @read-more="handleReadMore(card)"
+          @dismiss="handleDismiss(card)"
           @card-click="handleCardClick(card, index)"
         />
       </div>
