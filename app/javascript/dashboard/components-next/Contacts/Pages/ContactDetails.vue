@@ -25,9 +25,6 @@ const store = useStore();
 
 const confirmDeleteContactDialogRef = ref(null);
 
-const avatarFile = ref(null);
-const avatarUrl = ref('');
-
 const contactsFormRef = ref(null);
 
 const uiFlags = useMapGetter('contacts/getUIFlags');
@@ -59,7 +56,7 @@ const lastActivityAt = computed(() => {
 });
 
 const avatarSrc = computed(() => {
-  return avatarUrl.value ? avatarUrl.value : contactData.value?.thumbnail;
+  return contactData.value?.thumbnail;
 });
 
 const handleFormUpdate = updatedData => {
@@ -83,40 +80,6 @@ const updateContact = async () => {
 const openConfirmDeleteContactDialog = () => {
   confirmDeleteContactDialogRef.value?.dialogRef.open();
 };
-
-const handleAvatarUpload = async ({ file, url }) => {
-  avatarFile.value = file;
-  avatarUrl.value = url;
-
-  try {
-    await store.dispatch('contacts/update', {
-      ...contactsFormRef.value?.state,
-      avatar: file,
-      isFormData: true,
-    });
-    useAlert(t('CONTACTS_LAYOUT.DETAILS.AVATAR.UPLOAD.SUCCESS_MESSAGE'));
-  } catch {
-    useAlert(t('CONTACTS_LAYOUT.DETAILS.AVATAR.UPLOAD.ERROR_MESSAGE'));
-  }
-};
-
-const handleAvatarDelete = async () => {
-  try {
-    if (props.selectedContact && props.selectedContact.id) {
-      await store.dispatch('contacts/deleteAvatar', props.selectedContact.id);
-      useAlert(t('CONTACTS_LAYOUT.DETAILS.AVATAR.DELETE.SUCCESS_MESSAGE'));
-    }
-    avatarFile.value = null;
-    avatarUrl.value = '';
-    contactData.value.thumbnail = null;
-  } catch (error) {
-    useAlert(
-      error.message
-        ? error.message
-        : t('CONTACTS_LAYOUT.DETAILS.AVATAR.DELETE.ERROR_MESSAGE')
-    );
-  }
-};
 </script>
 
 <template>
@@ -126,9 +89,6 @@ const handleAvatarDelete = async () => {
         :src="avatarSrc || ''"
         :name="selectedContact?.name || ''"
         :size="72"
-        allow-upload
-        @upload="handleAvatarUpload"
-        @delete="handleAvatarDelete"
       />
       <div class="flex flex-col gap-1">
         <h3 class="text-base font-medium text-n-slate-12">
