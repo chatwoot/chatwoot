@@ -1,5 +1,5 @@
 # Service to handle phone number normalization for WhatsApp messages
-# Currently supports Brazil phone number format variations
+# Currently supports Brazil and Argentina phone number format variations
 # Designed to be extensible for additional countries in future PRs
 #
 # Usage: Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact(waid)
@@ -34,6 +34,7 @@ class Whatsapp::PhoneNumberNormalizationService
   end
 
   NORMALIZERS = [
-    Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer
+    Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer,
+    Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer
   ].freeze
 end
