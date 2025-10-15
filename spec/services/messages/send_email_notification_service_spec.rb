@@ -74,7 +74,8 @@ describe Messages::SendEmailNotificationService do
         threads.each(&:join)
 
         # Only ONE worker should be scheduled despite 5 concurrent attempts
-        expect(ConversationReplyEmailWorker.jobs.size).to eq(1)
+        jobs_for_conversation = ConversationReplyEmailWorker.jobs.select { |job| job['args'].first == conversation.id }
+        expect(jobs_for_conversation.size).to eq(1)
       end
     end
 
