@@ -3,22 +3,22 @@
     "MODAL": {
       "TITLE": "Whatsapp Templates",
       "SUBTITLE": "Select the whatsapp template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TEMPLATE_SELECTED_SUBTITLE": "Konfiguro shabllonin: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Search Templates",
       "NO_TEMPLATES_FOUND": "No templates found for",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "Krye",
+      "BODY": "Trup",
+      "FOOTER": "Fund",
+      "BUTTONS": "Butona",
       "CATEGORY": "Category",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "Përmbajtje mediatike",
+      "MEDIA_CONTENT_FALLBACK": "përmbajtje mediatike",
+      "NO_TEMPLATES_AVAILABLE": "Nuk ka shabllone WhatsApp të disponueshme. Klikoni Rifresko për të sinkronizuar shabllonet nga WhatsApp.",
+      "REFRESH_BUTTON": "Rifresko shabllonet",
+      "REFRESH_SUCCESS": "Rifreskimi i shablloneve u nis. Mund të duhen disa minuta për t'u përditësuar.",
+      "REFRESH_ERROR": "Dështoi rifreskimi i shablloneve. Ju lutemi, provoni përsëri.",
       "LABELS": {
         "LANGUAGE": "Language",
         "TEMPLATE_BODY": "Template Body",
@@ -33,14 +33,15 @@
       "GO_BACK_LABEL": "Go Back",
       "SEND_MESSAGE_LABEL": "Send Message",
       "FORM_ERROR_MESSAGE": "Please fill all variables before sending",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "OTP_CODE": "Enter 4-8 digit OTP",
-      "EXPIRY_MINUTES": "Enter expiry minutes",
-      "BUTTON_PARAMETERS": "Button Parameters",
-      "BUTTON_LABEL": "Button {index}",
-      "COUPON_CODE": "Enter coupon code (max 15 chars)",
-      "MEDIA_URL_LABEL": "Enter {type} URL",
-      "BUTTON_PARAMETER": "Enter button parameter"
+      "MEDIA_HEADER_LABEL": "Krye {type}",
+      "OTP_CODE": "Futni kodin OTP me 4-8 shifra",
+      "EXPIRY_MINUTES": "Futni minutat e skadimit",
+      "BUTTON_PARAMETERS": "Parametrat e butonit",
+      "BUTTON_LABEL": "Butoni {index}",
+      "COUPON_CODE": "Futni kodin e kuponit (maks 15 karaktere)",
+      "MEDIA_URL_LABEL": "Futni URL-në e {type}",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Futni parametrin e butonit"
     }
   }
 }

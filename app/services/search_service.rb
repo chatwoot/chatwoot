@@ -43,10 +43,18 @@ class SearchService
   def filter_messages
     @messages = if use_gin_search
                   filter_messages_with_gin
+                elsif should_run_advanced_search?
+                  advanced_search
                 else
                   filter_messages_with_like
                 end
   end
+
+  def should_run_advanced_search?
+    ChatwootApp.advanced_search_allowed? && current_account.feature_enabled?('advanced_search')
+  end
+
+  def advanced_search; end
 
   def filter_messages_with_gin
     base_query = message_base_query
@@ -115,3 +123,5 @@ class SearchService
                                .per(15)
   end
 end
+
+SearchService.prepend_mod_with('SearchService')

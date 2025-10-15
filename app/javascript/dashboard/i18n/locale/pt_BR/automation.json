@@ -131,7 +131,7 @@
       "CONVERSATION_CREATED": "Conversa Criada",
       "CONVERSATION_UPDATED": "Conversa Atualizada",
       "MESSAGE_CREATED": "Mensagem Criada",
-      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_RESOLVED": "Conversa Resolvida",
       "CONVERSATION_OPENED": "Conversa Aberta"
     },
     "ACTIONS": {
@@ -153,8 +153,8 @@
       "OPEN_CONVERSATION": "Abrir conversa"
     },
     "MESSAGE_TYPES": {
-      "INCOMING": "Incoming Message",
-      "OUTGOING": "Outgoing Message"
+      "INCOMING": "Mensagem Recebida",
+      "OUTGOING": "Mensagem de Saída"
     },
     "PRIORITY_TYPES": {
       "NONE": "Nenhuma",
@@ -177,7 +177,8 @@
       "REFERER_LINK": "Link de origem",
       "ASSIGNEE_NAME": "Agente atribuído",
       "TEAM_NAME": "Time",
-      "PRIORITY": "Prioridade"
+      "PRIORITY": "Prioridade",
+      "LABELS": "Etiquetas"
     }
   }
 }
