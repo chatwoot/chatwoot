@@ -54,6 +54,30 @@ describe Messages::SendEmailNotificationService do
       end
     end
 
+    context 'when handling concurrent requests' do
+      let(:inbox) { create(:inbox, account: account, channel: create(:channel_widget, account: account, continuity_via_email: true)) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+      before do
+        conversation.contact.update!(email: 'test@example.com')
+      end
+
+      it 'prevents duplicate workers under race conditions' do
+        # Create 5 threads that simultaneously try to enqueue workers for the same conversation
+        threads = Array.new(5) do
+          Thread.new do
+            msg = create(:message, conversation: conversation, message_type: 'outgoing')
+            described_class.new(message: msg).perform
+          end
+        end
+
+        threads.each(&:join)
+
+        # Only ONE worker should be scheduled despite 5 concurrent attempts
+        expect(ConversationReplyEmailWorker.jobs.size).to eq(1)
+      end
+    end
+
     context 'when email notification should not be sent' do
       before do
         allow(ConversationReplyEmailWorker).to receive(:perform_in)
