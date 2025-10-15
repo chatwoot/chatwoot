@@ -389,6 +389,12 @@ export default {
       const { slug = '' } = portal;
       return slug;
     },
+    isConversationResolved() {
+      return this.currentChat.status === wootConstants.STATUS_TYPE.RESOLVED;
+    },
+    isInputDisabled() {
+      return this.isConversationResolved || !this.currentChat.can_reply;
+    },
   },
   watch: {
     currentChat(conversation, oldConversation) {
@@ -606,7 +612,7 @@ export default {
         },
         Enter: {
           action: e => {
-            if (this.isAValidEvent('enter')) {
+            if (this.isAValidEvent('enter') && !this.isInputDisabled) {
               this.onSendReply();
               e.preventDefault();
             }
@@ -615,7 +621,7 @@ export default {
         },
         '$mod+Enter': {
           action: () => {
-            if (this.isAValidEvent('cmd_enter')) {
+            if (this.isAValidEvent('cmd_enter') && !this.isInputDisabled) {
               this.onSendReply();
             }
           },
@@ -1160,6 +1166,7 @@ export default {
         v-model:cc-emails="ccEmails"
         v-model:bcc-emails="bccEmails"
         v-model:to-emails="toEmails"
+        :disabled="isInputDisabled"
       />
       <AudioRecorder
         v-if="showAudioRecorderEditor"
@@ -1178,6 +1185,7 @@ export default {
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
+        :disabled="isInputDisabled"
         allow-signature
         :send-with-signature="sendWithSignature"
         @typing-off="onTypingOff"
@@ -1194,6 +1202,7 @@ export default {
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
+        :disabled="isInputDisabled"
         enable-variables
         :variables="messageVariables"
         :signature="signatureToApply"
@@ -1230,7 +1239,8 @@ export default {
       :inbox="inbox"
       :is-on-private-note="isOnPrivateNote"
       :is-recording-audio="isRecordingAudio"
-      :is-send-disabled="isReplyButtonDisabled"
+      :is-send-disabled="isReplyButtonDisabled || isInputDisabled"
+      :is-input-disabled="isInputDisabled"
       :mode="replyType"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
@@ -1260,7 +1270,6 @@ export default {
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
-
     <woot-confirm-modal
       ref="confirmDialog"
       :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"

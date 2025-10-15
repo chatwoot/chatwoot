@@ -39,6 +39,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'typingOn',
@@ -166,6 +170,7 @@ export default {
     :placeholder="placeholder"
     :rows="rows"
     :value="modelValue"
+    :disabled="disabled"
     @input="onInput"
     @focus="onFocus"
     @keyup="onKeyup"

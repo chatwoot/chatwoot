@@ -78,6 +78,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isInputDisabled: {
+      type: Boolean,
+      default: false,
+    },
     showEditorToggle: {
       type: Boolean,
       default: false,
@@ -276,6 +280,7 @@ export default {
         slate
         faded
         sm
+        :disabled="isInputDisabled"
         @click="toggleEmojiPicker"
       />
       <FileUpload
@@ -285,8 +290,9 @@ export default {
         :size="4096 * 4096"
         :accept="allowedFileTypes"
         :multiple="enableMultipleFileUpload"
-        :drop="enableDragAndDrop"
+        :drop="enableDragAndDrop && !isInputDisabled"
         :drop-directory="false"
+        :disabled="isInputDisabled"
         :data="{
           direct_upload_url: '/rails/active_storage/direct_uploads',
           direct_upload: true,
@@ -300,6 +306,7 @@ export default {
           slate
           faded
           sm
+          :disabled="isInputDisabled"
         />
       </FileUpload>
       <NextButton
@@ -309,6 +316,7 @@ export default {
         slate
         faded
         sm
+        :disabled="isInputDisabled"
         @click="toggleAudioRecorder"
       />
       <NextButton
@@ -318,6 +326,7 @@ export default {
         slate
         faded
         sm
+        :disabled="isInputDisabled"
         @click="$emit('toggleEditor')"
       />
       <NextButton
@@ -328,6 +337,7 @@ export default {
         faded
         sm
         :label="recordingAudioDurationText"
+        :disabled="isInputDisabled"
         @click="toggleAudioRecorderPlayPause"
       />
       <NextButton
@@ -337,6 +347,7 @@ export default {
         slate
         faded
         sm
+        :disabled="isInputDisabled"
         @click="toggleMessageSignature"
       />
       <NextButton
@@ -346,6 +357,7 @@ export default {
         slate
         faded
         sm
+        :disabled="isInputDisabled"
         @click="$emit('selectWhatsappTemplate')"
       />
       <NextButton
@@ -355,17 +367,20 @@ export default {
         slate
         faded
         sm
+        :disabled="isInputDisabled"
         @click="$emit('selectContentTemplate')"
       />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
+        :disabled="isInputDisabled"
       />
       <AIAssistanceButton
         v-if="!isFetchingAppIntegrations"
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
+        :disabled="isInputDisabled"
         @replace-text="replaceText"
       />
       <transition name="modal-fade">
@@ -386,6 +401,7 @@ export default {
         slate
         faded
         sm
+        :disabled="isInputDisabled"
         @click="toggleInsertArticle"
       />
     </div>

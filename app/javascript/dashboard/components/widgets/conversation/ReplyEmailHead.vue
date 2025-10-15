@@ -20,6 +20,10 @@ export default {
       type: String,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:bccEmails', 'update:ccEmails', 'update:toEmails'],
   setup() {
@@ -100,6 +104,7 @@ export default {
             class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:!outline-none [&>input]:h-8 [&>input]:!text-sm [&>input]:!border-0 [&>input]:border-none [&>input]:!bg-transparent dark:[&>input]:!bg-transparent"
             :class="{ error: v$.toEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
+            :disabled="disabled"
             @blur="onBlur"
           />
         </div>
@@ -117,6 +122,7 @@ export default {
             type="text"
             :class="{ error: v$.ccEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
+            :disabled="disabled"
             @blur="onBlur"
           />
         </div>
@@ -126,6 +132,7 @@ export default {
           ghost
           xs
           primary
+          :disabled="disabled"
           @click="handleAddBcc"
         />
       </div>
@@ -147,6 +154,7 @@ export default {
             :placeholder="
               $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
             "
+            :disabled="disabled"
             @blur="onBlur"
           />
         </div>

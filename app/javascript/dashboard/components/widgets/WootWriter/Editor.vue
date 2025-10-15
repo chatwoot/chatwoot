@@ -669,6 +669,18 @@ watch(sendWithSignature, newValue => {
   }
 });
 
+watch(
+  computed(() => props.disabled),
+  () => {
+    if (editorView) {
+      // Force the editor to re-check its editable state
+      editorView.setProps({
+        editable: () => !props.disabled,
+      });
+    }
+  }
+);
+
 onMounted(() => {
   // [VITE] state assignment was done in created before
   state = createState(
