@@ -428,6 +428,7 @@
           "URL": "Website URL",
           "URL_PLACEHOLDER": "https://example.com",
           "DESCRIPTION": "Create buttons that let customers respond to your message or take action. You can add up to ten buttons. If you add more than three buttons, they will appear in a list.",
+          "SEE_ALL_OPTIONS": "See all options",
           "TYPE_LABEL": "Type",
           "EXAMPLE_CODE_LABEL": "Example code",
           "EXAMPLE_CODE_PLACEHOLDER": "SAVE20",
@@ -463,11 +464,9 @@
         "PREVIEW": {
           "TITLE": "Preview",
           "NO_CONTENT": "Start building your template to see a preview",
-          "TEMPLATE_MESSAGE": "Template Message",
-          "HELP": "This is how your template will appear to customers on WhatsApp",
-          "BODY_REQUIRED": "Body text is required",
-          "HEADER_CONTENT": "Header content is complete",
-          "BUTTON_TEXT": "All buttons have text"
+          "IMAGE_HEADER": "Image header preview",
+          "VIDEO_HEADER": "Video header preview",
+          "DOCUMENT_HEADER": "Document header preview"
         },
         "PARAMETER_TYPES": {
           "TITLE": "Type of parameter",

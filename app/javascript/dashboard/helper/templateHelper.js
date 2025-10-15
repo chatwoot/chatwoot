@@ -6,6 +6,12 @@ export const COMPONENT_TYPES = {
   BODY: 'BODY',
   BUTTONS: 'BUTTONS',
 };
+export const BUTTON_TYPES = {
+  QUICK_REPLY: 'QUICK_REPLY',
+  URL: 'URL',
+  PHONE_NUMBER: 'PHONE_NUMBER',
+  COPY_CODE: 'COPY_CODE',
+};
 export const MEDIA_FORMATS = ['IMAGE', 'VIDEO', 'DOCUMENT'];
 export const UPLOAD_CONFIG = {
   IMAGE: { accept: 'image/jpeg,image/jpg,image/png' },
@@ -350,4 +356,27 @@ export const validateTemplateData = templateData => {
   }
 
   return true;
+};
+
+export const replaceTemplateVariablesByExamples = ({
+  templateText,
+  examples,
+  parameterType,
+}) => {
+  if (!templateText) return '';
+  const replacements = {};
+  if (parameterType === 'named') {
+    examples.forEach(item => {
+      if (item.example) {
+        replacements[item.param_name] = item.example;
+      }
+    });
+  } else {
+    examples.forEach((example, index) => {
+      if (example) {
+        replacements[index + 1] = example;
+      }
+    });
+  }
+  return replaceTemplateVariables(templateText, { body: replacements });
 };

@@ -1,5 +1,6 @@
 import {
   replaceTemplateVariables,
+  replaceTemplateVariablesByExamples,
   buildTemplateParameters,
   processVariable,
   allKeysRequired,
@@ -1190,6 +1191,60 @@ describe('templateHelper', () => {
         buttons: [{ type: 'URL', text: 'Visit', url: 'https://example.com' }],
       };
       expect(validateTemplateData(templateData)).toBe(true);
+    });
+  });
+
+  describe('replaceTemplateVariablesByExamples', () => {
+    it('should replace positional variables using provided examples', () => {
+      const templateText = 'Hi {{1}}, your order {{2}} is ready';
+      const examples = ['John', 'ORD-42'];
+
+      const result = replaceTemplateVariablesByExamples({
+        templateText,
+        examples,
+        parameterType: 'positional',
+      });
+
+      expect(result).toBe('Hi John, your order ORD-42 is ready');
+    });
+
+    it('should skip empty positional examples', () => {
+      const templateText = 'Tracking: {{1}} - Status: {{2}}';
+      const examples = ['TRK-1', ''];
+
+      const result = replaceTemplateVariablesByExamples({
+        templateText,
+        examples,
+        parameterType: 'positional',
+      });
+
+      expect(result).toBe('Tracking: TRK-1 - Status: {{2}}');
+    });
+
+    it('should replace named variables using provided examples', () => {
+      const templateText = 'Hi {{name}}, your OTP is {{otp}}';
+      const examples = [
+        { param_name: 'name', example: 'Jane' },
+        { param_name: 'otp', example: '987654' },
+      ];
+
+      const result = replaceTemplateVariablesByExamples({
+        templateText,
+        examples,
+        parameterType: 'named',
+      });
+
+      expect(result).toBe('Hi Jane, your OTP is 987654');
+    });
+
+    it('should return empty string when template text is empty', () => {
+      const result = replaceTemplateVariablesByExamples({
+        templateText: '',
+        examples: ['Example'],
+        parameterType: 'positional',
+      });
+
+      expect(result).toBe('');
     });
   });
 });

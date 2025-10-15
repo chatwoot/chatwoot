@@ -8,6 +8,7 @@ import HeaderSection from './components/HeaderSection.vue';
 import BodySection from './components/BodySection.vue';
 import FooterSection from './components/FooterSection.vue';
 import ButtonsSection from './components/ButtonsSection.vue';
+import TemplatePreview from './components/TemplatePreview.vue';
 import {
   generateTemplateComponents,
   validateTemplateData,
@@ -110,49 +111,63 @@ const closeParameterTypeDropdown = () => {
 </script>
 
 <template>
-  <div class="space-y-12">
-    <!-- Parameter Type Selector -->
-    <div class="bg-n-solid-2 rounded-lg p-4 border border-n-weak">
-      <div class="flex items-center gap-3 mb-4">
-        <h4 class="font-medium text-n-slate-12">
-          {{ t('SETTINGS.TEMPLATES.BUILDER.PARAMETER_TYPES.TITLE') }}
-        </h4>
-      </div>
+  <div
+    class="grid gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] xl:items-start"
+  >
+    <div class="space-y-12">
+      <!-- Parameter Type Selector -->
+      <div class="bg-n-solid-2 rounded-lg p-4 border border-n-weak">
+        <div class="flex items-center gap-3 mb-4">
+          <h4 class="font-medium text-n-slate-12">
+            {{ t('SETTINGS.TEMPLATES.BUILDER.PARAMETER_TYPES.TITLE') }}
+          </h4>
+        </div>
 
-      <div class="space-y-3">
-        <!-- Parameter Type Dropdown -->
-        <div
-          v-on-click-outside="closeParameterTypeDropdown"
-          class="relative w-full"
-        >
-          <button
-            type="button"
-            class="flex items-center justify-between gap-2 w-full px-3 py-2 border border-n-blue-5 rounded-lg bg-n-solid-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 focus:border-n-blue-5 transition-colors hover:bg-n-solid-2"
-            @click="toggleParameterTypeDropdown"
+        <div class="space-y-3">
+          <!-- Parameter Type Dropdown -->
+          <div
+            v-on-click-outside="closeParameterTypeDropdown"
+            class="relative w-full"
           >
-            <span class="truncate">{{ selectedParameterTypeLabel }}</span>
-            <Icon
-              icon="i-lucide-chevron-down"
-              class="size-4 flex-shrink-0 transition-transform"
-              :class="{ 'rotate-180': isParameterTypeDropdownOpen }"
+            <button
+              type="button"
+              class="flex items-center justify-between gap-2 w-full px-3 py-2 border border-n-blue-5 rounded-lg bg-n-solid-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 focus:border-n-blue-5 transition-colors hover:bg-n-solid-2"
+              @click="toggleParameterTypeDropdown"
+            >
+              <span class="truncate">{{ selectedParameterTypeLabel }}</span>
+              <Icon
+                icon="i-lucide-chevron-down"
+                class="size-4 flex-shrink-0 transition-transform"
+                :class="{ 'rotate-180': isParameterTypeDropdownOpen }"
+              />
+            </button>
+            <DropdownMenu
+              v-if="isParameterTypeDropdownOpen"
+              :menu-items="parameterTypesOptions"
+              class="absolute top-full mt-1 left-0 right-0 w-full z-50"
+              @action="handleParameterTypeAction"
             />
-          </button>
-          <DropdownMenu
-            v-if="isParameterTypeDropdownOpen"
-            :menu-items="parameterTypesOptions"
-            class="absolute top-full mt-1 left-0 right-0 w-full z-50"
-            @action="handleParameterTypeAction"
-          />
+          </div>
         </div>
       </div>
+
+      <HeaderSection
+        v-model="templateData.header"
+        :parameter-type="parameterType"
+      />
+      <BodySection
+        v-model="templateData.body"
+        :parameter-type="parameterType"
+      />
+      <FooterSection v-model="templateData.footer" />
+      <ButtonsSection v-model="templateData.buttons" />
     </div>
 
-    <HeaderSection
-      v-model="templateData.header"
-      :parameter-type="parameterType"
-    />
-    <BodySection v-model="templateData.body" :parameter-type="parameterType" />
-    <FooterSection v-model="templateData.footer" />
-    <ButtonsSection v-model="templateData.buttons" />
+    <div class="xl:sticky xl:top-24">
+      <TemplatePreview
+        :template-data="templateData"
+        :parameter-type="parameterType"
+      />
+    </div>
   </div>
 </template>
