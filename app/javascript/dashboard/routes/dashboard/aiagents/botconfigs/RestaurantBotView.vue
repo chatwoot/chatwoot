@@ -84,8 +84,19 @@ function retryAuthentication() {
 
 
 function disconnectGoogle() {
-  // TODO: Implement disconnect logic
   console.log('Disconnect Google account clicked');
+  googleSheetsExportAPI.disconnectAccount()
+    .then(() => {
+      props.googleSheetsAuth.step = 'auth';
+      props.googleSheetsAuth.account = null;
+      props.googleSheetsAuth.spreadsheetUrls.restaurant = { input: null, output: null };
+      props.googleSheetsAuth.error = null;
+      showNotification('Disconnected from Google successfully.', 'success');
+    })
+    .catch((error) => {
+      console.error('Failed to disconnect Google account:', error);
+      showNotification('Failed to disconnect Google account. Please try again.', 'error');
+    });
 }
 
 // Orders & Costs Tab
@@ -331,7 +342,7 @@ function saveOrderSettings() {
               <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.RESTAURANT_BOT.CONNECTED_HEADER') }}</h3>
               <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.RESTAURANT_BOT.CONNECTED_DESC') }}</p>
               <p class="mt-2 text-sm text-gray-500">{{ account?.email }}</p>
-              <div class="flex gap-2 center justify-center mt-4">
+              <div class="flex gap-4 center justify-center mt-4">
                   <template v-if="!authError">
                     <button
                       class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
@@ -340,6 +351,18 @@ function saveOrderSettings() {
                     >
                       <span v-if="loading">{{ $t('AGENT_MGMT.RESTAURANT_BOT.CREATE_SHEETS_LOADING') }}</span>
                       <span v-else>{{ $t('AGENT_MGMT.RESTAURANT_BOT.CREATE_SHEETS_BTN') }}</span>
+                    </button>
+                    
+                    <button
+                      class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20"
+                      @click="disconnectGoogle"
+                      :disabled="loading"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban">
+                        <path d="M4.929 4.929 19.07 19.071"/>
+                        <circle cx="12" cy="12" r="10"/>
+                      </svg>
+                      <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
                     </button>
                   </template>
                   <template v-else>
@@ -355,15 +378,19 @@ function saveOrderSettings() {
                     </div>
                   </template>
               </div>
+              
+              <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                {{ $t('AGENT_MGMT.BOOKING_BOT.OR_RETRY_BTN') }}
+              </p>
             </div>
           </div>
 
           <!-- Step 3: Sheet Configuration -->
-          <div v-else-if="restaurantStep === 'sheetConfig' && sheets.input && sheets.output">
+          <div v-else-if="restaurantStep === 'sheetConfig'">
             <div class="space-y-6">
               <!-- Input Sheet Section - Restaurant Data -->
               <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <div class="flex items-start justify-between">
+                <div class="flex items-center justify-between">
                   <div class="flex-1">
                     <div class="flex items-center mb-3">
                       <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
@@ -396,9 +423,10 @@ function saveOrderSettings() {
                 </div>
 
                 <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
-                  <div class="flex justify-start">
-                    <div v-if="!authError">
-                      <button
+                  <div class="flex justify-between items-center">
+                    <div>
+                      <div v-if="!restaurantAuthError">
+                        <button
                       @click="syncScheduleColumns"
                       :disabled="syncingColumns"
                       class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 h-10"
@@ -412,9 +440,11 @@ function saveOrderSettings() {
                       </svg>
                       {{ syncingColumns ? 'Syncing...' : $t('AGENT_MGMT.BOOKING_BOT.SYNC_BUTTON') }}
                     </button>
-                    </div>
-                    <div v-else class="text-red-600 text-sm flex items-center gap-2">
-                      <button
+                  </div>
+                </div>
+                <div class="flex flex-row">
+                  <div class="text-red-600 text-sm flex items-center gap-2">
+                    <button
                         @click="retryAuthentication"
                         class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 pr-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20"
                         :disabled="loading"
@@ -425,8 +455,8 @@ function saveOrderSettings() {
                     </div>
                     <div class="gap-2 items-center">
                       <button
-                        @click="disconnectGoogle"
-                        class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
+                      @click="disconnectGoogle"
+                      class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
                         :disabled="loading"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
@@ -436,7 +466,8 @@ function saveOrderSettings() {
                   </div>
                 </div>
               </div>
-
+              </div>
+              
               <!-- Output Sheet Section - Order Results -->
               <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
                 <div class="flex items-center justify-between">

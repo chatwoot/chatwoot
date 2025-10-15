@@ -100,7 +100,7 @@
     "Total_PAY": "Total Bayar",
     "DISCOUNT": {
       "INPUT_PLACEHOLDER": "Masukkan kode voucher",
-      "SUCCESS_APPLY": "Voucher bisa digunakkan",
+      "SUCCESS_APPLY": "Voucher bisa digunakan",
       "CLEAR_VOUCHER_BTN": "Batal",
       "APPLY_BTN": "Apply"
     }

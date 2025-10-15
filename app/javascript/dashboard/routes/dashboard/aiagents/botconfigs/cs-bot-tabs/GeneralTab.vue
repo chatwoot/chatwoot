@@ -322,7 +322,7 @@ console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError.
           </div>
 
           <!-- Connected State -->
-          <div v-else-if="ticketStep === 'connected'" class="mb-6">
+          <!-- <div v-else-if="ticketStep === 'autsh'" class="mb-6">
             <div class="dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
@@ -374,59 +374,121 @@ console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError.
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <!-- Sheet Configuration -->
-          <div v-else-if="ticketStep === 'sheetConfig'" class="mb-6">
-            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+            <!-- Connected State -->
+              <div v-else-if="ticketStep === 'connected'" class="mb-6">
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
+                  <div class="flex flex-col gap-4">
+                  <!-- Top section: Account info -->
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
-                  </div>
-                  <div>
-                    <h5 class="text-sm font-medium text-slate-900 dark:text-slate-100">Google Account Connected</h5>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">{{ ticketAccount?.email || 'Connected successfully' }}</p>
-                  </div>
-                </div>
-                  <div class="space-y-3">
-                    <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded-lg">
-                      <div v-if="ticketAuthError === null || !ticketAuthError.value">
-                        <a 
-                          :href="ticketSheets.output" 
-                          target="_blank" 
-                          class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
-                        >
-                          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                          </svg>
-                          {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
-                        </a>
-                      </div>
-                      <div v-if="ticketAuthError.value" class="text-red-600 text-sm flex items-center gap-2">
-                        <button
-                          @click="retryAuthentication"
-                          class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20 ml-3"
-                          :disabled="ticketLoading"
-                          >
-                          <span>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
-                        </button>
-                      </div>
-                      <button
-                        @click="disconnectGoogle"
-                        class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
-                        :disabled="ticketLoading"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
-                        <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
-                      </button>
+                    </div>
+                    <div>
+                    <h5 class="text-sm font-medium text-blue-900 dark:text-blue-100">Google Account Connected</h5>
+                    <p class="text-xs text-blue-700 dark:text-blue-300">{{ ticketAccount?.email || 'Connected successfully' }}</p>
                     </div>
                   </div>
+
+                  <!-- Separator line -->
+                  <div class="border-t border-blue-200 dark:border-blue-700"></div>
+
+                  <!-- Bottom section: Action buttons -->
+                  <div class="flex items-center justify-end gap-2">
+                    <template v-if="!ticketAuthError || !ticketAuthError.value">
+                    <button
+                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                      @click="createTicketSheet"
+                      :disabled="ticketLoading"
+                    >
+                      <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
+                      <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
+                    </button>
+                    </template>
+                    <template v-else>
+                    <button
+                      class="inline-flex items-center space-x-2 border-2 border-green-600 hover:border-green-700 dark:border-green-600 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-green-50 dark:hover:bg-green-900/20"
+                      @click="retryAuthentication"
+                      :disabled="ticketLoading"
+                    >
+                      <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                      <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                    </button>
+                    </template>
+
+                    <button
+                    @click="disconnectGoogle"
+                    class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20"
+                    :disabled="ticketLoading"
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                    <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                    </button>
+                  </div>
+                  </div>
+                </div>
+                </div>
+
+            <!-- Sheet Configuration -->
+            <div v-else-if="ticketStep === 'sheetConfig'" class="mb-6">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
+              <div class="flex flex-col gap-4">
+              <!-- Top section: Account info and open sheet button -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                  <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h5 class="text-sm font-medium text-slate-900 dark:text-slate-100">Google Account Connected</h5>
+                  <p class="text-xs text-slate-600 dark:text-slate-300">{{ ticketAccount?.email || 'Connected successfully' }}</p>
+                </div>
+                </div>
+                
+                <div v-if="ticketAuthError === null || !ticketAuthError.value">
+                <a 
+                  :href="ticketSheets.output" 
+                  target="_blank" 
+                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                >
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                  {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
+                </a>
+                </div>
+              </div>
+
+              <!-- Separator line -->
+              <div class="border-t border-blue-200 dark:border-blue-700"></div>
+
+              <!-- Bottom section: Action buttons -->
+              <div class="flex items-center justify-end gap-2">
+                <button
+                @click="retryAuthentication"
+                class="inline-flex items-center space-x-2 border-2 border-green-600 hover:border-green-700 dark:border-green-600 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-green-50 dark:hover:bg-green-900/20"
+                :disabled="ticketLoading"
+                >
+                <span>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                </button>
+                
+                <button
+                @click="disconnectGoogle"
+                class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20"
+                :disabled="ticketLoading"
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                </button>
+              </div>
               </div>
             </div>
-          </div>
+            </div>
         </div>
       </div>
     </div>

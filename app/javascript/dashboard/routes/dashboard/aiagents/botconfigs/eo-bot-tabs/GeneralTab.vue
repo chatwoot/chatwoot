@@ -267,38 +267,56 @@ console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError.
               </button>
             </div>
             <div v-else-if="ticketStep === 'connected'" class="py-8">
-              <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                  </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_HEADER') }}</h3>
-                <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_DESC') }}</p>
-                <p class="mt-2 text-sm text-gray-500">{{ catalogAccount?.email }}</p>
-                <div class="flex gap-2 center justify-center mt-4">
-                  <template v-if="true">
-                    <button
-                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                      @click="createTicketSheet"
-                      :disabled="ticketLoading"
-                    >
-                      <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
-                      <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
-                    </button>
-                  </template>
-                  <template v-else>
-                    <div class="text-red-600 text-sm flex items-center gap-2 content-center">
+              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
+                <div class="flex flex-col gap-4">
+                  <!-- Top section: Account info -->
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                      <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h5 class="text-sm font-medium text-blue-900 dark:text-blue-100">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_HEADER') }}</h5>
+                      <p class="text-xs text-blue-700 dark:text-blue-300">{{ ticketAccount?.email || 'Connected successfully' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Separator line -->
+                  <div class="border-t border-blue-200 dark:border-blue-700"></div>
+
+                  <!-- Bottom section: Action buttons -->
+                  <div class="flex items-center justify-end gap-2">
+                    <template v-if="!ticketAuthError || !ticketAuthError.value">
                       <button
                         class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                        @click="createTicketSheet"
+                        :disabled="ticketLoading"
+                      >
+                        <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
+                        <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
+                      </button>
+                    </template>
+                    <template v-else>
+                      <button
+                        class="inline-flex items-center space-x-2 border-2 border-green-600 hover:border-green-700 dark:border-green-600 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-green-50 dark:hover:bg-green-900/20"
                         @click="retryAuthentication"
                         :disabled="ticketLoading"
                       >
                         <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
                         <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
                       </button>
-                    </div>
-                  </template>
+                    </template>
+
+                    <button
+                      @click="disconnectGoogle"
+                      class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20"
+                      :disabled="ticketLoading"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                      <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -337,7 +355,7 @@ console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError.
                 </div>
 
                 <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
-                  <div class="flex justify-start">
+                  <div class="flex justify-end">
                     <div v-if="ticketSheets.input && !salesAuthError">
                       <button
                         @click="syncProductColumns"

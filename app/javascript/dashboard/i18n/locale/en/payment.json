@@ -22,7 +22,7 @@
       "EXPIRED_LABEL_BUY_NOW": "Upgrade Now!",
       "EXPIRED_CHAT_MSG": "Your subscription has expired. Renew to continue using the service.",
       "CONTINUE": "Lanjutkan",
-      "PROCESSING": "Memproses..."
+      "PROCESSING": "Memproses...",
+      "SUCCESS_FREE_PLAN": "Subscription successfully activated!"
     }
   }
-  
