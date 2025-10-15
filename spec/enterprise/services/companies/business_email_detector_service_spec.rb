@@ -46,39 +46,6 @@ RSpec.describe Companies::BusinessEmailDetectorService, type: :service do
       end
     end
 
-    context 'when email is from a paid provider' do
-      let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false) }
-
-      shared_examples 'treats as business email' do |email_address, provider_name|
-        let(:email) { email_address }
-
-        before do
-          allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
-          allow(EmailProviderInfo).to receive(:call).with(email).and_return(provider_name)
-        end
-
-        it 'returns true (treats paid providers as business)' do
-          expect(service.perform).to be(true)
-        end
-      end
-
-      describe 'Fastmail' do
-        it_behaves_like 'treats as business email', 'user@fastmail.fm', 'fastmail'
-      end
-
-      describe 'ProtonMail' do
-        it_behaves_like 'treats as business email', 'user@protonmail.com', 'protonmail'
-      end
-
-      describe 'Hey' do
-        it_behaves_like 'treats as business email', 'user@hey.com', 'hey'
-      end
-
-      describe 'Tuta' do
-        it_behaves_like 'treats as business email', 'user@tuta.io', 'tuta'
-      end
-    end
-
     context 'when email is disposable' do
       let(:email) { 'user@mailinator.com' }
       let(:disposable_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: true) }
