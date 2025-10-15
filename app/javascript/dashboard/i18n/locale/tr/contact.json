@@ -18,9 +18,9 @@
     "CREATED_AT_LABEL": "Oluşturuldu",
     "NEW_MESSAGE": "Yeni Mesaj",
     "CALL": "Ara",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL_UNDER_DEVELOPMENT": "Arama özelliği geliştirme aşamasındadır",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "Sesli gelen kutusu seçin"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
@@ -554,12 +554,12 @@
         "WROTE": "wrote",
         "YOU": "Sen",
         "SAVE": "Save note",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "Kişi notu ekle",
         "EXPAND": "Genişlet",
         "COLLAPSE": "Daralt",
         "NO_NOTES": "Not yok, kişi detayları sayfasından not ekleyebilirsiniz.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "Henüz not yok. Not eklemek için Not ekle düğmesini kullanın."
       }
     },
     "EMPTY_STATE": {
