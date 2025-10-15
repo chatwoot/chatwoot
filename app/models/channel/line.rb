@@ -18,6 +18,12 @@
 class Channel::Line < ApplicationRecord
   include Channelable
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  if Chatwoot.encryption_configured?
+    encrypts :line_channel_secret
+    encrypts :line_channel_token
+  end
+
   self.table_name = 'channel_line'
   EDITABLE_ATTRS = [:line_channel_id, :line_channel_secret, :line_channel_token].freeze
 
