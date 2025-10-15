@@ -13,6 +13,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
+// import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
@@ -580,11 +581,16 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="p-1 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
+      class="flex-shrink-0 flex flex-col justify-between gap-2 items-center"
     >
-      <SidebarProfileMenu
-        @open-key-shortcut-modal="emit('openKeyShortcutModal')"
-      />
+      <!-- <SidebarChangelogCard /> -->
+      <div
+        class="p-1 flex-shrink-0 flex w-full justify-between gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+      >
+        <SidebarProfileMenu
+          @open-key-shortcut-modal="emit('openKeyShortcutModal')"
+        />
+      </div>
     </section>
   </aside>
 </template>
