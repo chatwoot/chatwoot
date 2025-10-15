@@ -74,9 +74,17 @@ export const mutations = {
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+      if (chat) {
+        // Duplicate check: only add messages that don't already exist
+        const existingIds = new Set(chat.messages.map(m => m.id));
+        const newMessages = data.filter(m => !existingIds.has(m.id));
+        if (newMessages.length) {
+          chat.messages.unshift(...newMessages);
+        }
+      }
     }
   },
+
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
     _state.attachments[id] = [...data];
   },
