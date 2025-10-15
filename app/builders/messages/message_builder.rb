@@ -186,7 +186,6 @@ class Messages::MessageBuilder
                                       end
 
     email_attributes[:text_content] = build_text_content(normalized_content)
-
     email_attributes
   end
 
