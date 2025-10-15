@@ -11,7 +11,6 @@ import { NOTIFICATION_TYPES_MAPPING } from 'dashboard/routes/dashboard/inbox/hel
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
-import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/ConversationCard/SLACardLabel.vue';
 import InboxContextMenu from 'dashboard/routes/dashboard/inbox/components/InboxContextMenu.vue';
 
@@ -216,12 +215,6 @@ onBeforeMount(contextMenuActions.close);
           :class="
             !isUnread && '[&>span]:text-n-slate-11 [&>div>svg]:fill-n-slate-11'
           "
-        />
-        <div v-if="hasSlaThreshold" class="w-px h-3 rounded-sm bg-n-slate-4" />
-        <CardPriorityIcon
-          v-if="primaryActor?.priority"
-          :priority="primaryActor?.priority"
-          class="[&>svg]:size-4"
         />
         <div
           v-if="inboxIcon"

@@ -9,7 +9,6 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardMessagePreview from './CardMessagePreview.vue';
 import CardMessagePreviewWithMeta from './CardMessagePreviewWithMeta.vue';
-import CardPriorityIcon from './CardPriorityIcon.vue';
 
 const props = defineProps({
   conversation: {
@@ -103,7 +102,6 @@ const onCardClick = e => {
           {{ currentContactName }}
         </h4>
         <div class="flex items-center gap-2">
-          <CardPriorityIcon :priority="conversation.priority || null" />
           <div
             v-tooltip.left="inboxName"
             class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"

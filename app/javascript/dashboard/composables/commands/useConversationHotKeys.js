@@ -14,14 +14,8 @@ import wootConstants from 'dashboard/constants/globals';
 import {
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
-  ICON_ASSIGN_PRIORITY,
   ICON_ASSIGN_TEAM,
   ICON_REMOVE_LABEL,
-  ICON_PRIORITY_URGENT,
-  ICON_PRIORITY_HIGH,
-  ICON_PRIORITY_LOW,
-  ICON_PRIORITY_MEDIUM,
-  ICON_PRIORITY_NONE,
   ICON_AI_ASSIST,
   ICON_AI_SUMMARY,
   ICON_AI_SHORTEN,
@@ -48,36 +42,6 @@ const prepareActions = (actions, t) => {
     title: t(action.title),
     section: t(action.section),
   }));
-};
-
-const createPriorityOptions = (t, currentPriority) => {
-  return [
-    {
-      label: t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
-      key: null,
-      icon: ICON_PRIORITY_NONE,
-    },
-    {
-      label: t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
-      key: 'urgent',
-      icon: ICON_PRIORITY_URGENT,
-    },
-    {
-      label: t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
-      key: 'high',
-      icon: ICON_PRIORITY_HIGH,
-    },
-    {
-      label: t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
-      key: 'medium',
-      icon: ICON_PRIORITY_MEDIUM,
-    },
-    {
-      label: t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
-      key: 'low',
-      icon: ICON_PRIORITY_LOW,
-    },
-  ].filter(item => item.key !== currentPriority);
 };
 
 const createNonDraftMessageAIAssistActions = (t, replyMode) => {
@@ -183,13 +147,6 @@ export function useConversationHotKeys() {
     });
   };
 
-  const onChangePriority = action => {
-    store.dispatch('assignPriority', {
-      conversationId: currentChat.value.id,
-      priority: action.priority.key,
-    });
-  };
-
   const onChangeTeam = action => {
     store.dispatch('assignTeam', {
       conversationId: currentChat.value.id,
@@ -213,10 +170,6 @@ export function useConversationHotKeys() {
     return prepareActions(actions, t);
   });
 
-  const priorityOptions = computed(() =>
-    createPriorityOptions(t, currentChat.value?.priority)
-  );
-
   const assignAgentActions = computed(() => {
     const agentOptions = agentsList.value.map(agent => ({
       id: `agent-${agent.id}`,
@@ -236,28 +189,6 @@ export function useConversationHotKeys() {
         children: agentOptions.map(option => option.id),
       },
       ...agentOptions,
-    ];
-  });
-
-  const assignPriorityActions = computed(() => {
-    const options = priorityOptions.value.map(priority => ({
-      id: `priority-${priority.key}`,
-      title: priority.label,
-      parent: 'assign_priority',
-      section: t('COMMAND_BAR.SECTIONS.CHANGE_PRIORITY'),
-      priority: priority,
-      icon: priority.icon,
-      handler: onChangePriority,
-    }));
-    return [
-      {
-        id: 'assign_priority',
-        title: t('COMMAND_BAR.COMMANDS.ASSIGN_PRIORITY'),
-        section: t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-        icon: ICON_ASSIGN_PRIORITY,
-        children: options.map(option => option.id),
-      },
-      ...options,
     ];
   });
 
@@ -384,7 +315,6 @@ export function useConversationHotKeys() {
       ...assignAgentActions.value,
       ...assignTeamActions.value,
       ...labelActions.value,
-      ...assignPriorityActions.value,
     ];
     if (isAIIntegrationEnabled.value) {
       return [...defaultConversationHotKeys, ...AIAssistActions.value];
