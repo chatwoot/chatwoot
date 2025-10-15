@@ -57,6 +57,12 @@ export const getters = {
       return false;
     }
     
+    // For premium features, default to true if not explicitly set
+    // This allows self-hosted instances to see all features by default
+    if (PREMIUM_FEATURES.includes(featureName)) {
+      return features[featureName] !== false;
+    }
+    
     return features[featureName] || false;
   },
 };

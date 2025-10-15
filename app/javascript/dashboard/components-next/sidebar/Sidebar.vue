@@ -2,6 +2,7 @@
 import { h, computed, onMounted } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
@@ -34,6 +35,7 @@ const emit = defineEmits([
 ]);
 
 const { accountScopedRoute } = useAccount();
+const { isAdmin } = useAdmin();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
@@ -537,20 +539,22 @@ const menuItems = computed(() => {
     });
   }
 
-  settingsChildren.push(
-    {
+  // Security is only visible to administrators
+  if (isAdmin.value) {
+    settingsChildren.push({
       name: 'Settings Security',
       label: t('SIDEBAR.SECURITY'),
       icon: 'i-lucide-shield',
       to: accountScopedRoute('security_settings_index'),
-    },
-    {
-      name: 'Settings Billing',
-      label: t('SIDEBAR.BILLING'),
-      icon: 'i-lucide-credit-card',
-      to: accountScopedRoute('billing_settings_index'),
-    }
-  );
+    });
+  }
+
+  settingsChildren.push({
+    name: 'Settings Billing',
+    label: t('SIDEBAR.BILLING'),
+    icon: 'i-lucide-credit-card',
+    to: accountScopedRoute('billing_settings_index'),
+  });
 
   items.push({
     name: 'Settings',
