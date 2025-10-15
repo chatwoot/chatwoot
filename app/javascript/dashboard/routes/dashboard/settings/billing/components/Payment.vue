@@ -128,6 +128,9 @@ const submit = async () => {
 
   isSubmitting.value = true;
 
+  // Calculate final price after discount
+  const finalPrice = selectedVoucher.value?.new_price ?? totalPrice.value;
+
   let errorMessage = '';
   try {
     const payload = {
@@ -145,6 +148,16 @@ const submit = async () => {
     const response = await store.dispatch('createSubscription', payload);
     console.log('Response received:', response);
 
+    // Handle free subscription (activated with voucher)
+    if (response && response.is_free) {
+      useAlert(response.message || 'Langganan berhasil diaktifkan dengan voucher!');
+      emit('close');
+      // Optionally refresh subscription data
+      await store.dispatch('myActiveSubscription');
+      return;
+    }
+
+    // Handle regular paid subscription
     if (
       response &&
       response.subscription_payment &&
@@ -277,7 +290,7 @@ const submit = async () => {
             <div class="font-semibold text-right flex flex-col gap-1">
               <span>{{ totalPrice.toLocaleString() }} IDR</span>
               <span>{{ selectedVoucher?.voucher?.voucher?.discount_value?.toLocaleString() || 0 }} {{ selectedVoucherType }}</span>
-              <span>{{ (selectedVoucher?.new_price || totalPrice).toLocaleString() || 0 }} IDR</span>
+              <span>{{ (Math.max(selectedVoucher?.new_price ?? totalPrice, 0)).toLocaleString() }} IDR</span>
             </div>
           </div>
          </div>

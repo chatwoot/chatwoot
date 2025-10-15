@@ -123,18 +123,20 @@ async function createAiAgent() {
   }
 
   try {
-    loadingCreate.value = true;
-    const resp = await aiAgents.createAiAgent(name, templateIds);
-    const newAgentId = resp?.data?.id;
-    showCreateAgentModal.value = false;
-    if (newAgentId) {
-      router.push(`/app/accounts/${accountId}/ai-agents/${newAgentId}`);
-    } else {
-      fetchAiAgents();
-    }
+  loadingCreate.value = true;
+  const resp = await aiAgents.createAiAgent(name, templateIds);
+  const newAgentId = resp?.data?.id;
+  showCreateAgentModal.value = false;
+  if (newAgentId) {
+    const accountIdValue = accountId?.value || accountId;
+    router.push(`/app/accounts/${accountIdValue}/ai-agents/${newAgentId}`);
+  } else {
+    console.log('No agent ID found, fetching agents list');
+    fetchAiAgents();
+  }
   } catch (e) {
-    const errorMessage = e?.response?.data?.error;
-    useAlert(errorMessage || t('AGENT_MGMT.FORM_CREATE.FAILED_ADD'));
+  const errorMessage = e?.response?.data?.error;
+  useAlert(errorMessage || t('AGENT_MGMT.FORM_CREATE.FAILED_ADD'));  
   } finally {
     loadingCreate.value = false;
   }
