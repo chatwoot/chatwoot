@@ -135,6 +135,11 @@ export default {
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
+    copyContactName() {
+      navigator.clipboard.writeText(this.contact.name).then(() => {
+        useAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      });
+    },
     onAssignAgent(agent) {
       if (!this.currentChat?.id) return;
 
@@ -228,7 +233,9 @@ export default {
       <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
         <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
           <h3
-            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12"
+            v-tooltip.left="$t('CONTACT_PANEL.COPY_CONTACT_NAME')"
+            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 cursor-pointer hover:text-n-slate-11"
+            @click="copyContactName"
           >
             {{ contact.name }}
           </h3>
@@ -241,6 +248,11 @@ export default {
                 )}`
               "
               class="i-lucide-info text-sm text-n-slate-10"
+            />
+            <button
+              v-tooltip.left="$t('CONTACT_PANEL.COPY_CONTACT_NAME')"
+              class="i-lucide-copy text-sm text-n-slate-10 hover:text-n-slate-12 cursor-pointer"
+              @click="copyContactName"
             />
             <a
               :href="contactProfileLink"

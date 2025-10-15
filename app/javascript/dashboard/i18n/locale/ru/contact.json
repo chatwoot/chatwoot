@@ -5,6 +5,7 @@
     "PHONE_NUMBER": "Номер телефона",
     "IDENTIFIER": "Идентификатор",
     "COPY_SUCCESSFUL": "Скопировано в буфер обмена",
+    "COPY_CONTACT_NAME": "Копировать имя контакта",
     "COMPANY": "Компания",
     "LOCATION": "Местоположение",
     "BROWSER_LANGUAGE": "Язык браузера",
