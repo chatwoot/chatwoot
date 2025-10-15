@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { FEATURE_FLAGS, PREMIUM_FEATURES } from 'dashboard/featureFlags';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -76,8 +76,26 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+const currentAccount = useMapGetter('getCurrentAccount');
 
 const isFeatureEnabled = featureFlag => {
+  const account = currentAccount.value;
+  const hidePremiumFeatures = account?.hide_premium_features || false;
+  
+  // If hide_premium_features is enabled and this is a premium feature, hide it
+  if (hidePremiumFeatures && PREMIUM_FEATURES.includes(featureFlag)) {
+    return false;
+  }
+  
+  // For premium features in the sidebar, show by default if not explicitly disabled
+  // This allows self-hosted instances to see all features
+  if (PREMIUM_FEATURES.includes(featureFlag)) {
+    const features = account?.features || {};
+    // Show if feature is not explicitly set to false
+    return features[featureFlag] !== false;
+  }
+  
+  // For non-premium features, use the standard getter
   return isFeatureEnabledonAccount.value(currentAccountId.value, featureFlag);
 };
 

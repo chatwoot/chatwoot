@@ -51,18 +51,13 @@ export const getters = {
     const account = findRecordById($state, id);
     const { features = {}, hide_premium_features = false } = account;
 
-    // For premium features, the hide_premium_features flag takes precedence
-    if (PREMIUM_FEATURES.includes(featureName)) {
-      // If hide_premium_features is enabled, hide all premium features
-      if (hide_premium_features) {
-        return false;
-      }
-      // If hide_premium_features is disabled, check if feature is enabled in plan
-      // Default to true if not explicitly set (for self-hosted instances)
-      return features[featureName] !== false;
+    // If hide_premium_features is enabled and this is a premium feature
+    // return false to hide it from the UI
+    if (hide_premium_features && PREMIUM_FEATURES.includes(featureName)) {
+      return false;
     }
 
-    // For non-premium features, check if explicitly enabled in features object
+    // Check if the feature is actually enabled in the account's features object
     return features[featureName] || false;
   },
 };
