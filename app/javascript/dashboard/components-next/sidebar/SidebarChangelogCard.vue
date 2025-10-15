@@ -18,7 +18,7 @@ const dismissedSlugs = computed(() => {
   return uiSettings.value.changelog_dismissed_slugs || [];
 });
 
-// Get undismissed posts - pass them directly without transformation
+// Get undismissed posts
 const visibleCards = computed(() => {
   return posts.value.filter(post => !dismissedSlugs.value.includes(post.slug));
 });
@@ -46,8 +46,6 @@ const fetchChangelog = async () => {
     }
   } catch (err) {
     error.value = err;
-    // eslint-disable-next-line no-console
-    console.error('Failed to fetch changelog:', err);
   } finally {
     isLoading.value = false;
   }
