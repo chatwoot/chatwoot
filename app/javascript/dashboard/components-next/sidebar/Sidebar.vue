@@ -539,8 +539,8 @@ const menuItems = computed(() => {
     });
   }
 
-  // Security is only visible to administrators
-  if (isAdmin.value) {
+  // Security is only visible when SAML feature is enabled (not hidden by hide_premium_features)
+  if (isFeatureEnabled(FEATURE_FLAGS.SAML)) {
     settingsChildren.push({
       name: 'Settings Security',
       label: t('SIDEBAR.SECURITY'),
