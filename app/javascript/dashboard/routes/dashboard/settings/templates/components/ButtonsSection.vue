@@ -5,8 +5,10 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import VariableSection from './VariableSection.vue';
 import { vOnClickOutside } from '@vueuse/components';
+import { BUTTON_TYPES } from 'dashboard/helper/templateHelper';
 
 const props = defineProps({
   modelValue: {
@@ -25,56 +27,73 @@ const buttonsData = computed({
   set: value => emit('update:modelValue', value),
 });
 
+const BUTTON_CATEGORY = {
+  [BUTTON_TYPES.URL]: 'cta',
+  [BUTTON_TYPES.PHONE_NUMBER]: 'cta',
+  [BUTTON_TYPES.COPY_CODE]: 'cta',
+  [BUTTON_TYPES.QUICK_REPLY]: 'quickReply',
+};
+
 const buttonTypes = computed(() => [
   {
     label: t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.DROPDOWN.VISIT_WEBSITE'),
     icon: 'i-lucide-external-link',
-    type: 'URL',
+    type: BUTTON_TYPES.URL,
   },
   {
     label: t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.DROPDOWN.CALL_PHONE'),
     icon: 'i-lucide-phone',
-    type: 'PHONE_NUMBER',
+    type: BUTTON_TYPES.PHONE_NUMBER,
   },
   {
     label: t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.DROPDOWN.QUICK_REPLY'),
-    icon: 'i-lucide-message-circle',
-    type: 'QUICK_REPLY',
+    icon: 'i-lucide-reply',
+    type: BUTTON_TYPES.QUICK_REPLY,
   },
   {
     label: t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.DROPDOWN.COPY_CODE'),
     icon: 'i-lucide-copy',
-    type: 'COPY_CODE',
+    type: BUTTON_TYPES.COPY_CODE,
   },
 ]);
+
+const getButtonCategory = type => BUTTON_CATEGORY[type] || 'cta';
 
 const addButton = buttonType => {
   const maxButtons = 10; // Meta allows up to 10 buttons
   if (buttonsData.value.length < maxButtons) {
     const defaultButtons = {
-      QUICK_REPLY: {
-        type: 'QUICK_REPLY',
-        text: '',
+      [BUTTON_TYPES.QUICK_REPLY]: {
+        type: BUTTON_TYPES.QUICK_REPLY,
+        text: 'Quick Reply',
       },
-      URL: {
-        type: 'URL',
-        text: '',
+      [BUTTON_TYPES.URL]: {
+        type: BUTTON_TYPES.URL,
+        text: 'Visit website',
         url: '',
         example: [],
         error: '',
       },
-      PHONE_NUMBER: {
-        type: 'PHONE_NUMBER',
-        text: '',
+      [BUTTON_TYPES.PHONE_NUMBER]: {
+        type: BUTTON_TYPES.PHONE_NUMBER,
+        text: 'Call phone number',
         phone_number: '',
       },
-      COPY_CODE: {
-        type: 'COPY_CODE',
+      [BUTTON_TYPES.COPY_CODE]: {
+        type: BUTTON_TYPES.COPY_CODE,
         example: '',
       },
     };
-
-    buttonsData.value = [...buttonsData.value, defaultButtons[buttonType]];
+    const newButton = defaultButtons[buttonType];
+    const newButtons = [...buttonsData.value];
+    const category = getButtonCategory(buttonType);
+    // find button with the same category from last and add new button after it
+    const found = newButtons
+      .toReversed()
+      .findIndex(btn => getButtonCategory(btn.type) === category);
+    const idx = newButtons.length - (found >= 0 ? found : 0);
+    newButtons.splice(idx, 0, newButton);
+    buttonsData.value = newButtons;
   }
   showDropdown.value = false;
 };
@@ -124,6 +143,12 @@ const updateUrlWithVariable = (index, variableData) => {
   };
   buttonsData.value = newButtons;
 };
+
+const getButtonTypeMeta = type =>
+  buttonTypes.value.find(button => button.type === type) || {
+    label: '',
+    icon: null,
+  };
 </script>
 
 <template>
@@ -188,31 +213,40 @@ const updateUrlWithVariable = (index, variableData) => {
       <div
         v-for="(button, index) in buttonsData"
         :key="`button-${index}`"
-        class="bg-n-solid-1 border border-n-weak rounded-lg p-4"
+        class="bg-n-solid-1 border border-n-weak rounded-lg p-4 space-y-1"
       >
-        <div class="grid grid-cols-12 gap-4 items-start">
-          <!-- Button Type -->
-          <div class="col-span-2">
-            <label class="block text-xs font-medium text-n-slate-11 mb-1">
-              {{ t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.TYPE_LABEL') }}
-            </label>
-            <div
-              class="px-3 py-2 text-sm bg-n-solid-3 rounded text-n-slate-11 h-10 flex items-center"
-            >
-              {{ buttonTypes.find(b => b.type === button.type).label }}
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex items-center gap-2">
+            <Icon
+              v-if="getButtonTypeMeta(button.type).icon"
+              :icon="getButtonTypeMeta(button.type).icon"
+              class="size-5 text-n-slate-11"
+            />
+            <div>
+              <p class="text-sm font-medium text-n-slate-12">
+                {{ getButtonTypeMeta(button.type).label }}
+              </p>
             </div>
           </div>
+          <Button
+            icon="i-lucide-x"
+            variant="ghost"
+            color="slate"
+            size="sm"
+            @click="removeButton(index)"
+          />
+        </div>
 
-          <!-- Button Text -->
-          <div class="col-span-3">
+        <div class="grid gap-4 md:grid-cols-2 items-start">
+          <div class="md:col-span-1 w-full">
             <label class="block text-xs font-medium text-n-slate-11 mb-1">
               {{ t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.BUTTON_TEXT') }}
             </label>
             <Input
-              v-if="button.type !== 'COPY_CODE'"
+              v-if="button.type !== BUTTON_TYPES.COPY_CODE"
               :model-value="button.text"
               :placeholder="
-                button.type === 'QUICK_REPLY'
+                button.type === BUTTON_TYPES.QUICK_REPLY
                   ? t(
                       'SETTINGS.TEMPLATES.BUILDER.BUTTONS.PLACEHOLDERS.QUICK_REPLY'
                     )
@@ -233,8 +267,8 @@ const updateUrlWithVariable = (index, variableData) => {
           <!-- URL Field -->
           <!--url can have max 1 dynamic variable but doesn't support named format-->
           <div
-            v-if="button.type === 'URL'"
-            class="col-span-6 url-variable-container"
+            v-if="button.type === BUTTON_TYPES.URL"
+            class="md:col-span-1 w-full url-variable-container"
           >
             <VariableSection
               :model-value="getUrlVariableData(button)"
@@ -252,7 +286,10 @@ const updateUrlWithVariable = (index, variableData) => {
           </div>
 
           <!-- Phone Number Field -->
-          <div v-if="button.type === 'PHONE_NUMBER'" class="col-span-6">
+          <div
+            v-if="button.type === BUTTON_TYPES.PHONE_NUMBER"
+            class="md:col-span-1"
+          >
             <label class="block text-xs font-medium text-n-slate-11 mb-1">
               {{ t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.PHONE_NUMBER') }}
             </label>
@@ -272,7 +309,10 @@ const updateUrlWithVariable = (index, variableData) => {
           </div>
 
           <!-- Copy Code Example Field -->
-          <div v-if="button.type === 'COPY_CODE'" class="col-span-6">
+          <div
+            v-if="button.type === BUTTON_TYPES.COPY_CODE"
+            class="md:col-span-1 w-full"
+          >
             <label class="block text-xs font-medium text-n-slate-11 mb-1">
               {{ t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.EXAMPLE_CODE_LABEL') }}
             </label>
@@ -282,17 +322,6 @@ const updateUrlWithVariable = (index, variableData) => {
                 t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.EXAMPLE_CODE_PLACEHOLDER')
               "
               @update:model-value="updateButton(index, 'example', $event)"
-            />
-          </div>
-
-          <!-- Delete Button -->
-          <div class="col-span-1 flex justify-end">
-            <Button
-              icon="i-lucide-x"
-              variant="ghost"
-              color="slate"
-              size="sm"
-              @click="removeButton(index)"
             />
           </div>
         </div>
