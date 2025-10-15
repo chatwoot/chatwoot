@@ -79,7 +79,11 @@ export default {
       return this.shortTimestamp(this.lastCustomerMessageAtTimeAgo);
     },
     displayTime() {
-      // Always show both created time and last activity time
+      // If showing only customer message time, hide created time
+      if (this.showOnlyCustomerMessageTime) {
+        return this.lastActivityTime;
+      }
+      // Otherwise show both created time and last activity time
       return `${this.createdAtTime} • ${this.lastActivityTime}`;
     },
     createdAt() {
@@ -118,6 +122,10 @@ export default {
         : `${notActiveLabel} ${this.dateFormat(timestampToUse)}`;
     },
     tooltipText() {
+      // If showing only customer message time, hide created at info from tooltip
+      if (this.showOnlyCustomerMessageTime) {
+        return this.lastActivity;
+      }
       return `${this.createdAt}
               ${this.lastActivity}`;
     },
