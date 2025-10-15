@@ -2,7 +2,6 @@
 import { h, computed, onMounted } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
@@ -35,7 +34,6 @@ const emit = defineEmits([
 ]);
 
 const { accountScopedRoute } = useAccount();
-const { isAdmin } = useAdmin();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
