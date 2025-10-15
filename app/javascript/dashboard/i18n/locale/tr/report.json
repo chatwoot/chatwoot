@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Etiketler Genel Bakış",
+    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülmüş vakalar gibi temel ölçümlerle etiket performansını takip edin. Ayrıntılı içgörüler için bir etiket adına tıklayın.",
     "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "DOWNLOAD_LABEL_REPORTS": "Etiket raporlarını indir",
@@ -559,6 +560,7 @@
     "INBOX": "Gelen Kutusu",
     "AGENT": "Kullanıcı",
     "TEAM": "Ekip",
+    "LABEL": "Etiket",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

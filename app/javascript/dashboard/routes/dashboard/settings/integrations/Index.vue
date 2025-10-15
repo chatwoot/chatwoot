@@ -1,12 +1,14 @@
 <script setup>
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { computed, onMounted } from 'vue';
+import { useBranding } from 'shared/composables/useBranding';
 import IntegrationItem from './IntegrationItem.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
 const store = useStore();
 const getters = useStoreGetters();
+const { replaceInstallationName } = useBranding();
 
 const uiFlags = getters['integrations/getUIFlags'];
 
@@ -27,7 +29,9 @@ onMounted(() => {
     <template #header>
       <BaseSettingsHeader
         :title="$t('INTEGRATION_SETTINGS.HEADER')"
-        :description="$t('INTEGRATION_SETTINGS.DESCRIPTION')"
+        :description="
+          replaceInstallationName($t('INTEGRATION_SETTINGS.DESCRIPTION'))
+        "
         :link-text="$t('INTEGRATION_SETTINGS.LEARN_MORE')"
         feature-name="integrations"
       />

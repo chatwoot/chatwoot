@@ -4,12 +4,14 @@
       "ALL": "Vse",
       "CONTACTS": "Kontakti",
       "CONVERSATIONS": "Pogovori",
-      "MESSAGES": "Sporočila"
+      "MESSAGES": "Sporočila",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Kontakti",
       "CONVERSATIONS": "Pogovori",
-      "MESSAGES": "Sporočila"
+      "MESSAGES": "Sporočila",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

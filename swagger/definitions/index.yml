@@ -74,6 +74,8 @@ integrations_app:
   $ref: ./resource/integrations/app.yml
 integrations_hook:
   $ref: ./resource/integrations/hook.yml
+audit_log:
+  $ref: ./resource/audit_log.yml
 
 ## public resources
 public_contact:

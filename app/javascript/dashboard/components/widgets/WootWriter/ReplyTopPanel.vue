@@ -19,6 +19,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isReplyRestricted: {
+      type: Boolean,
+      default: false,
+    },
     isMessageLengthReachingThreshold: {
       type: Boolean,
       default: () => false,
@@ -34,6 +38,7 @@ export default {
       emit('setReplyMode', mode);
     };
     const handleReplyClick = () => {
+      if (props.isReplyRestricted) return;
       setReplyMode(REPLY_EDITOR_MODES.REPLY);
     };
     const handleNoteClick = () => {
@@ -77,7 +82,7 @@ export default {
       };
     },
     charLengthClass() {
-      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
+      return this.charactersRemaining < 0 ? 'text-n-ruby-9' : 'text-n-slate-11';
     },
     characterLengthWarning() {
       return this.charactersRemaining < 0
@@ -92,6 +97,7 @@ export default {
   <div class="flex justify-between h-[3.25rem] gap-2 ms-3">
     <EditorModeToggle
       :mode="mode"
+      :disabled="isReplyRestricted"
       class="mt-3"
       @toggle-mode="handleModeToggle"
     />

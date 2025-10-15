@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Panoramica etichette",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Caricamento dati del grafico...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_LABEL_REPORTS": "Scarica report etichette",
@@ -559,6 +560,7 @@
     "INBOX": "Casella",
     "AGENT": "Agente",
     "TEAM": "Team",
+    "LABEL": "Etichetta",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

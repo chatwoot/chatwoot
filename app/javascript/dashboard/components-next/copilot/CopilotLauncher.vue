@@ -19,6 +19,7 @@ const isConversationRoute = computed(() => {
     'conversation_through_mentions',
     'conversation_through_unattended',
     'conversation_through_participating',
+    'inbox_view_conversation',
   ];
   return CONVERSATION_ROUTES.includes(route.name);
 });
@@ -48,7 +49,10 @@ const toggleSidebar = () => {
 </script>
 
 <template>
-  <div v-if="showCopilotLauncher" class="fixed bottom-4 right-4 z-50">
+  <div
+    v-if="showCopilotLauncher"
+    class="fixed bottom-4 ltr:right-4 rtl:left-4 z-50"
+  >
     <div class="rounded-full bg-n-alpha-2 p-1">
       <Button
         icon="i-woot-captain"

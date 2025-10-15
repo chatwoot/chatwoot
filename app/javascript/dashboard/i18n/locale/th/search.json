@@ -4,12 +4,14 @@
       "ALL": "ทั้งหมด",
       "CONTACTS": "ผู้ติดต่อ",
       "CONVERSATIONS": "การสนทนา",
-      "MESSAGES": "ข้อความทั้งหมด"
+      "MESSAGES": "ข้อความทั้งหมด",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "ผู้ติดต่อ",
       "CONVERSATIONS": "การสนทนา",
-      "MESSAGES": "ข้อความทั้งหมด"
+      "MESSAGES": "ข้อความทั้งหมด",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

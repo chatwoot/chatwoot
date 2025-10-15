@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Zakończone",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Anuluj",
+        "CREATE_BUTTON_TEXT": "Stwórz",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Tytuł",
+            "PLACEHOLDER": "Wprowadź tytuł kampanii",
+            "ERROR": "Tytuł jest wymagany"
+          },
+          "INBOX": {
+            "LABEL": "Wybierz skrzynkę odbiorczą",
+            "PLACEHOLDER": "Wybierz skrzynkę odbiorczą",
+            "ERROR": "Skrzynka jest wymagana"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Przetwarzanie {templateName}",
+            "LANGUAGE": "Język",
+            "CATEGORY": "Kategoria",
+            "VARIABLES_LABEL": "Zmienne",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Grupa docelowa",
+            "PLACEHOLDER": "Wybierz etykiety klienta",
+            "ERROR": "Grupa docelowa jest wymagana"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Zaplanowany czas",
+            "PLACEHOLDER": "Wybierz czas",
+            "ERROR": "Zaplanowany czas jest wymagany"
+          },
+          "BUTTONS": {
+            "CREATE": "Stwórz",
+            "CANCEL": "Anuluj"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Wystąpił błąd. Spróbuj ponownie."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Czy na pewno chcesz usunąć?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",

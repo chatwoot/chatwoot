@@ -24,10 +24,32 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def channels
-    conversations_list = slack_client.conversations_list(types: 'public_channel, private_channel', exclude_archived: true)
+    # Split channel fetching into separate API calls to avoid rate limiting issues.
+    # Slack's API handles single-type requests (public OR private) much more efficiently
+    # than mixed-type requests (public AND private). This approach eliminates rate limits
+    # that occur when requesting both channel types simultaneously.
+    channel_list = []
+
+    # Step 1: Fetch all private channels in one call (expect very few)
+    private_channels = fetch_channels_by_type('private_channel')
+    channel_list.concat(private_channels)
+
+    # Step 2: Fetch public channels with pagination
+    public_channels = fetch_channels_by_type('public_channel')
+    channel_list.concat(public_channels)
+    channel_list
+  end
+
+  def fetch_channels_by_type(channel_type, limit: 1000)
+    conversations_list = slack_client.conversations_list(types: channel_type, exclude_archived: true, limit: limit)
     channel_list = conversations_list.channels
     while conversations_list.response_metadata.next_cursor.present?
-      conversations_list = slack_client.conversations_list(cursor: conversations_list.response_metadata.next_cursor)
+      conversations_list = slack_client.conversations_list(
+        cursor: conversations_list.response_metadata.next_cursor,
+        types: channel_type,
+        exclude_archived: true,
+        limit: limit
+      )
       channel_list.concat(conversations_list.channels)
     end
     channel_list

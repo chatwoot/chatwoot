@@ -35,6 +35,10 @@ class Inboxes extends BaseClass {
       agent_bot: botId,
     });
   }
+
+  syncTemplates(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/sync_templates`);
+  }
 }
 
 export default new Inboxes();

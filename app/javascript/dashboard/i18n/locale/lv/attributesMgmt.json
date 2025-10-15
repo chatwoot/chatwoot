@@ -5,6 +5,18 @@
     "LOADING": "Notiek pielāgotu īpašību iegūšana",
     "DESCRIPTION": "Pielāgots atribūts ļauj izsekot papildu informāciju par jūsu kontaktpersonām vai sarunām, piemēram, abonēšanas plānu vai viņu pirmā pirkuma datumu. Varat pievienot dažāda veida pielāgotus atribūtus, piemēram, tekstu, sarakstus vai skaitļus, lai tvertu konkrētu jums nepieciešamo informāciju.",
     "LEARN_MORE": "Uzzināt vairāk par pielāgotajiem atribūtiem",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Saruna",
+      "CONTACT": "Kontaktpersona"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Teksts",
+      "NUMBER": "Numurs",
+      "LINK": "Saite",
+      "DATE": "Date",
+      "LIST": "Saraksts",
+      "CHECKBOX": "Izvēles rūtiņa"
+    },
     "ADD": {
       "TITLE": "Pievienot Pielāgotu Īpašību",
       "SUBMIT": "Izveidot",

@@ -24,6 +24,25 @@ class Instagram::Messenger::MessageText < Instagram::BaseMessageText
   end
 
   def handle_client_error(error)
+    # Handle error code 230: User consent is required to access user profile
+    # This typically occurs when the connected Instagram account attempts to send a message to a user
+    # who has never messaged this Instagram account before.
+    # We can safely ignore this error as per Facebook documentation.
+    if error.message.include?('230')
+      Rails.logger.warn error
+      return
+    end
+
+    # Handle error code 9010: No matching Instagram user
+    # This occurs when trying to fetch an Instagram user that doesn't exist or is not accessible
+    # We can safely ignore this error and return empty result
+    if error.message.include?('9010')
+      Rails.logger.warn("[Instagram User Not Found]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
+      Rails.logger.warn("[Instagram User Not Found]: #{error.message}")
+      Rails.logger.warn("[Instagram User Not Found]: #{error}")
+      return
+    end
+
     Rails.logger.warn("[FacebookUserFetchClientError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
     Rails.logger.warn("[FacebookUserFetchClientError]: #{error.message}")
     ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception

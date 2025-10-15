@@ -66,9 +66,7 @@ export default {
           <template v-if="filteredTeams.length">
             <li v-for="team in filteredTeams" :key="team.id">
               <div class="team__list-item" @click="assignTeam(team)">
-                <span
-                  class="my-0 ltr:ml-2 rtl:mr-2 text-slate-800 dark:text-slate-75"
-                >
+                <span class="my-0 ltr:ml-2 rtl:mr-2 text-n-slate-12">
                   {{ team.name }}
                 </span>
               </div>
@@ -76,9 +74,7 @@ export default {
           </template>
           <li v-else>
             <div class="team__list-item">
-              <span
-                class="my-0 ltr:ml-2 rtl:mr-2 text-slate-800 dark:text-slate-75"
-              >
+              <span class="my-0 ltr:ml-2 rtl:mr-2 text-n-slate-12">
                 {{ $t('BULK_ACTION.TEAMS.NO_TEAMS_AVAILABLE') }}
               </span>
             </div>
@@ -91,7 +87,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__teams {
-  @apply max-w-[75%] absolute right-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
+  @apply max-w-[75%] absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
   .header {
     @apply p-2.5;
 
@@ -108,7 +104,7 @@ export default {
     .agent-list-search {
       @apply py-0 px-2.5 bg-n-alpha-black2 border border-solid border-n-strong rounded-md;
       .search-icon {
-        @apply text-slate-400 dark:text-slate-200;
+        @apply text-n-slate-10;
       }
 
       .agent--search_input {
@@ -117,8 +113,7 @@ export default {
     }
   }
   .triangle {
-    right: var(--triangle-position);
-    @apply block z-10 absolute text-left -top-3;
+    @apply block z-10 absolute text-left -top-3 ltr:right-[--triangle-position] rtl:left-[--triangle-position];
 
     svg path {
       @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;

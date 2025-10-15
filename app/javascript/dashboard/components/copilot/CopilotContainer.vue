@@ -1,23 +1,37 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useConfig } from 'dashboard/composables/useConfig';
+import { useWindowSize } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import wootConstants from 'dashboard/constants/globals';
+
 defineProps({
   conversationInboxType: {
     type: String,
-    required: true,
+    default: '',
   },
 });
 
 const store = useStore();
+const { uiSettings, updateUISettings } = useUISettings();
+const { isEnterprise } = useConfig();
+const { width: windowWidth } = useWindowSize();
+
 const currentUser = useMapGetter('getCurrentUser');
 const assistants = useMapGetter('captainAssistants/getRecords');
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const currentChat = useMapGetter('getSelectedChat');
+
+const isSmallScreen = computed(
+  () => windowWidth.value < wootConstants.SMALL_SCREEN_BREAKPOINT
+);
 
 const selectedCopilotThreadId = ref(null);
 const messages = computed(() =>
@@ -32,7 +46,6 @@ const isFeatureEnabledonAccount = useMapGetter(
 );
 
 const selectedAssistantId = ref(null);
-const { uiSettings, updateUISettings } = useUISettings();
 
 const activeAssistant = computed(() => {
   const preferredId = uiSettings.value.preferred_captain_assistant_id;
@@ -55,6 +68,15 @@ const activeAssistant = computed(() => {
   return assistants.value[0];
 });
 
+const closeCopilotPanel = () => {
+  if (isSmallScreen.value && uiSettings.value?.is_copilot_panel_open) {
+    updateUISettings({
+      is_contact_sidebar_open: false,
+      is_copilot_panel_open: false,
+    });
+  }
+};
+
 const setAssistant = async assistant => {
   selectedAssistantId.value = assistant.id;
   await updateUISettings({
@@ -63,6 +85,9 @@ const setAssistant = async assistant => {
 };
 
 const shouldShowCopilotPanel = computed(() => {
+  if (!isEnterprise) {
+    return false;
+  }
   const isCaptainEnabled = isFeatureEnabledonAccount.value(
     currentAccountId.value,
     FEATURE_FLAGS.CAPTAIN
@@ -76,32 +101,45 @@ const handleReset = () => {
 };
 
 const sendMessage = async message => {
-  if (selectedCopilotThreadId.value) {
-    await store.dispatch('copilotMessages/create', {
-      assistant_id: activeAssistant.value.id,
-      conversation_id: currentChat.value?.id,
-      threadId: selectedCopilotThreadId.value,
-      message,
-    });
-  } else {
-    const response = await store.dispatch('copilotThreads/create', {
-      assistant_id: activeAssistant.value.id,
-      conversation_id: currentChat.value?.id,
-      message,
-    });
-    selectedCopilotThreadId.value = response.id;
+  try {
+    if (selectedCopilotThreadId.value) {
+      await store.dispatch('copilotMessages/create', {
+        assistant_id: activeAssistant.value.id,
+        conversation_id: currentChat.value?.id,
+        threadId: selectedCopilotThreadId.value,
+        message,
+      });
+    } else {
+      const response = await store.dispatch('copilotThreads/create', {
+        assistant_id: activeAssistant.value.id,
+        conversation_id: currentChat.value?.id,
+        message,
+      });
+      selectedCopilotThreadId.value = response.id;
+    }
+  } catch (error) {
+    useAlert(error.message);
   }
 };
 
 onMounted(() => {
-  store.dispatch('captainAssistants/get');
+  if (isEnterprise) {
+    store.dispatch('captainAssistants/get');
+  }
 });
 </script>
 
 <template>
   <div
     v-if="shouldShowCopilotPanel"
-    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 w-[320px] min-w-[320px] 2xl:min-w-[360px] 2xl:w-[360px] flex flex-col bg-n-background"
+    v-on-click-outside="() => closeCopilotPanel()"
+    class="bg-n-background h-full overflow-hidden flex-col fixed top-0 ltr:right-0 rtl:left-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out md:static md:w-[320px] md:min-w-[320px] ltr:border-l rtl:border-r border-n-weak 2xl:min-w-[360px] 2xl:w-[360px] shadow-lg md:shadow-none"
+    :class="[
+      {
+        'md:flex': shouldShowCopilotPanel,
+        'md:hidden': !shouldShowCopilotPanel,
+      },
+    ]"
   >
     <Copilot
       :messages="messages"

@@ -83,3 +83,31 @@ export const convertToPortalSlug = text => {
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '-');
 };
+
+/**
+ * Strip curly braces, commas and leading/trailing whitespace from a search key.
+ * Eg. "{{contact.name}}," => "contact.name"
+ * @param {string} searchKey
+ * @returns {string}
+ */
+export const sanitizeVariableSearchKey = (searchKey = '') => {
+  return searchKey
+    .replace(/[{}]/g, '') // remove all curly braces
+    .replace(/,/g, '') // remove commas
+    .trim();
+};
+
+/**
+ * Convert underscore-separated string to title case.
+ * Eg. "round_robin" => "Round Robin"
+ * @param {string} str
+ * @returns {string}
+ */
+export const formatToTitleCase = str => {
+  return (
+    str
+      ?.replace(/_/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase())
+      .trim() || ''
+  );
+};

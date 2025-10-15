@@ -99,7 +99,9 @@ x-tagGroups:
   - name: Application
     tags:
       - Account AgentBots
+      - Account
       - Agents
+      - Audit Logs
       - Canned Responses
       - Contacts
       - Contact Labels

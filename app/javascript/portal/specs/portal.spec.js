@@ -29,22 +29,21 @@ describe('InitializationHelpers.navigateToLocalePage', () => {
     delete global.window;
   });
 
-  it('should return false if .locale-switcher is not found', () => {
+  it('sets up document event listener regardless of locale-switcher existence', () => {
     document.querySelector('.locale-switcher').remove();
-    const result = InitializationHelpers.navigateToLocalePage();
-    expect(result).toBe(false);
+    const documentSpy = vi.spyOn(document, 'addEventListener');
+    InitializationHelpers.navigateToLocalePage();
+    expect(documentSpy).toHaveBeenCalledWith('change', expect.any(Function));
+    documentSpy.mockRestore();
   });
 
-  it('should add change event listener to .locale-switcher', () => {
-    const localeSwitcher = document.querySelector('.locale-switcher');
-    const addEventListenerSpy = vi.spyOn(localeSwitcher, 'addEventListener');
+  it('adds document-level event listener to handle locale switching', () => {
+    const documentSpy = vi.spyOn(document, 'addEventListener');
 
     InitializationHelpers.navigateToLocalePage();
 
-    expect(addEventListenerSpy).toHaveBeenCalledWith(
-      'change',
-      expect.any(Function)
-    );
+    expect(documentSpy).toHaveBeenCalledWith('change', expect.any(Function));
+    documentSpy.mockRestore();
   });
 });
 

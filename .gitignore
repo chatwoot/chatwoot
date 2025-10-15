@@ -97,3 +97,9 @@ yarn-debug.log*
 
 # react component
 dist
+
+CLAUDE.local.md
+
+# Histoire deployment
+.netlify
+.histoire

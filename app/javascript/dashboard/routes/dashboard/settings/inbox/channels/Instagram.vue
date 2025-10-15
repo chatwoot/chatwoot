@@ -1,11 +1,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { useAccount } from 'dashboard/composables/useAccount';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import instagramClient from 'dashboard/api/channel/instagramClient';
 
 export default {
-  mixins: [globalConfigMixin],
   setup() {
     const { accountId } = useAccount();
     return {
@@ -64,9 +62,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
-  >
+  <div class="h-full p-6 w-full max-w-full flex-shrink-0 flex-grow-0">
     <div class="flex flex-col items-center justify-start h-full text-center">
       <div v-if="hasError" class="max-w-lg mx-auto text-center">
         <h5>{{ errorStateMessage }}</h5>
@@ -77,7 +73,7 @@ export default {
       </div>
       <div
         v-else
-        class="flex flex-col items-center justify-center px-8 py-10 text-center shadow rounded-3xl outline outline-1 outline-n-weak"
+        class="flex flex-col items-center justify-center px-8 py-10 text-center rounded-2xl outline outline-1 outline-n-weak"
       >
         <h6 class="text-2xl font-medium">
           {{ $t('INBOX_MGMT.ADD.INSTAGRAM.CONNECT_YOUR_INSTAGRAM_PROFILE') }}

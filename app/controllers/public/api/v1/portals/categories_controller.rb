@@ -8,7 +8,9 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
     @categories = @portal.categories.order(position: :asc)
   end
 
-  def show; end
+  def show
+    @og_image_url = helpers.set_og_image_url(@portal.name, @category.name)
+  end
 
   private
 

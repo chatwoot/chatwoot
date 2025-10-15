@@ -29,32 +29,32 @@ const longBreadcrumb = ref([
     :layout="{ type: 'grid', width: '800px' }"
   >
     <Variant title="Single Item">
-      <div class="w-full p-4 bg-white dark:bg-slate-900">
+      <div class="w-full p-4 bg-n-background">
         <Breadcrumb :items="singleItem" />
       </div>
     </Variant>
 
     <Variant title="Two Items">
-      <div class="w-full p-4 bg-white dark:bg-slate-900">
+      <div class="w-full p-4 bg-n-background">
         <Breadcrumb :items="twoItems" />
       </div>
     </Variant>
 
     <Variant title="Three Items with Count">
-      <div class="w-full p-4 bg-white dark:bg-slate-900">
+      <div class="w-full p-4 bg-n-background">
         <Breadcrumb :items="threeItems" count-label="articles" />
       </div>
     </Variant>
 
     <Variant title="Long Breadcrumb">
-      <div class="w-full p-4 bg-white dark:bg-slate-900">
+      <div class="w-full p-4 bg-n-background">
         <Breadcrumb :items="longBreadcrumb" count-label="articles" />
       </div>
     </Variant>
 
     <Variant title="RTL Support">
       <div dir="rtl">
-        <div class="w-full p-4 bg-white dark:bg-slate-900">
+        <div class="w-full p-4 bg-n-background">
           <Breadcrumb :items="threeItems" count-label="articles" />
         </div>
       </div>

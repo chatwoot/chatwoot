@@ -55,6 +55,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showMenu: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['action', 'navigate', 'select', 'hover']);
@@ -123,14 +127,14 @@ const handleDocumentableClick = () => {
     @mouseenter="emit('hover', true)"
     @mouseleave="emit('hover', false)"
   >
-    <div v-show="selectable" class="absolute top-7 ltr:left-4 rtl:right-4">
+    <div v-show="selectable" class="absolute top-7 ltr:left-3 rtl:right-3">
       <Checkbox v-model="modelValue" />
     </div>
     <div class="flex relative justify-between w-full gap-1">
       <span class="text-base text-n-slate-12 line-clamp-1">
         {{ question }}
       </span>
-      <div v-if="!compact" class="flex items-center gap-2">
+      <div v-if="!compact && showMenu" class="flex items-center gap-2">
         <Policy
           v-on-clickaway="() => toggleDropdown(false)"
           :permissions="['administrator']"

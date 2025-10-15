@@ -4,6 +4,9 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "جستجو",
       "EMPTY_STATE": "نتیجه‌ای یافت نشد"
-    }
+    },
+    "CLOSE": "بستن",
+    "BETA": "آزمایشی",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

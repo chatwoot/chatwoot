@@ -17,6 +17,7 @@ class Twilio::IncomingMessageService
       source_id: params[:SmsSid]
     )
     attach_files
+    attach_location if location_message?
     @message.save!
   end
 
@@ -60,6 +61,9 @@ class Twilio::IncomingMessageService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+
+    # Update existing contact name if ProfileName is available and current name is just phone number
+    update_contact_name_if_needed
   end
 
   def conversation_params
@@ -87,10 +91,14 @@ class Twilio::IncomingMessageService
 
   def contact_attributes
     {
-      name: formatted_phone_number,
+      name: contact_name,
       phone_number: phone_number,
       additional_attributes: additional_attributes
     }
+  end
+
+  def contact_name
+    params[:ProfileName].presence || formatted_phone_number
   end
 
   def additional_attributes
@@ -154,5 +162,32 @@ class Twilio::IncomingMessageService
   rescue StandardError => e
     Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
     nil
+  end
+
+  def location_message?
+    params[:MessageType] == 'location' && params[:Latitude].present? && params[:Longitude].present?
+  end
+
+  def attach_location
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: :location,
+      coordinates_lat: params[:Latitude].to_f,
+      coordinates_long: params[:Longitude].to_f
+    )
+  end
+
+  def update_contact_name_if_needed
+    return if params[:ProfileName].blank?
+    return if @contact.name == params[:ProfileName]
+
+    # Only update if current name exactly matches the phone number or formatted phone number
+    return unless contact_name_matches_phone_number?
+
+    @contact.update!(name: params[:ProfileName])
+  end
+
+  def contact_name_matches_phone_number?
+    @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end
