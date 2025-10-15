@@ -32,7 +32,7 @@ describe Messages::SendEmailNotificationService do
 
         service.perform
 
-        expect(Redis::Alfred).to have_received(:set).with(expected_key, message.id, nx: true, ex: 2.minutes.to_i)
+        expect(Redis::Alfred).to have_received(:set).with(expected_key, message.id, nx: true, ex: 1.hour.to_i)
       end
 
       context 'when redis key already exists' do

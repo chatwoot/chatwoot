@@ -7,10 +7,10 @@ class Messages::SendEmailNotificationService
     conversation = message.conversation
     conversation_mail_key = format(::Redis::Alfred::CONVERSATION_MAILER_KEY, conversation_id: conversation.id)
 
-    # Atomically set redis key to prevent duplicate email workers
-    # Only the first message in a 2-minute window will successfully set the key and enqueue the worker
-    # Subsequent messages will fail to set the key (returns false) and skip enqueueing
-    return unless Redis::Alfred.set(conversation_mail_key, message.id, nx: true, ex: 2.minutes.to_i)
+    # Atomically set redis key to prevent duplicate email workers. Keep the key alive longer than
+    # the worker delay (1 hour) so slow queues don't enqueue duplicate jobs, but let it expire if
+    # the worker never manages to clean up.
+    return unless Redis::Alfred.set(conversation_mail_key, message.id, nx: true, ex: 1.hour.to_i)
 
     ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, message.id)
   end
