@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
@@ -17,6 +18,7 @@ defineProps({
 
 const imageError = ref(false);
 const [isPopupVisible, togglePopup] = useToggle();
+const { isOnChatwootCloud } = useAccount();
 
 const handleImageError = () => {
   imageError.value = true;
@@ -92,7 +94,10 @@ const openLink = link => {
             {{ note }}
           </p>
 
-          <div class="flex gap-3 justify-between w-full">
+          <div
+            v-if="isOnChatwootCloud"
+            class="flex gap-3 justify-between w-full"
+          >
             <slot name="actions">
               <Button
                 v-if="videoUrl"

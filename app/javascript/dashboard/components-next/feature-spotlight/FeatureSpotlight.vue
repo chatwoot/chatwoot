@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 defineProps({
   title: { type: String, default: '' },
@@ -11,6 +12,8 @@ defineProps({
   fallbackThumbnailDark: { type: String, default: '' },
   learnMoreUrl: { type: String, default: '' },
 });
+
+const { isOnChatwootCloud } = useAccount();
 
 const imageError = ref(false);
 
@@ -65,7 +68,7 @@ const openLink = link => {
       <div class="flex flex-col flex-1 gap-3 ltr:pr-8 rtl:pl-8">
         <p v-if="note" class="text-n-slate-12 text-sm mb-0">{{ note }}</p>
 
-        <div class="flex gap-3">
+        <div v-if="isOnChatwootCloud" class="flex gap-3">
           <slot name="actions">
             <Button
               v-if="videoUrl"
