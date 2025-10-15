@@ -178,14 +178,14 @@ class Messages::MessageBuilder
     email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
     normalized_content = normalize_email_body(@message.content)
 
-    # Use custom email content if provided, otherwise generate from message content
-    if custom_email_content_provided?
-      email_attributes[:html_content] = build_custom_html_content
-      email_attributes[:text_content] = build_custom_text_content
-    else
-      email_attributes[:html_content] = build_html_content(normalized_content)
-      email_attributes[:text_content] = build_text_content(normalized_content)
-    end
+    # Use custom HTML content if provided, otherwise generate from message content
+    email_attributes[:html_content] = if custom_email_content_provided?
+                                        build_custom_html_content
+                                      else
+                                        build_html_content(normalized_content)
+                                      end
+
+    email_attributes[:text_content] = build_text_content(normalized_content)
 
     email_attributes
   end
@@ -222,39 +222,15 @@ class Messages::MessageBuilder
   end
 
   def custom_email_content_provided?
-    @params[:email_html_content].present? || @params[:email_text_content].present?
+    @params[:email_html_content].present?
   end
 
   def build_custom_html_content
     html_content = ensure_indifferent_access(@message.content_attributes.dig(:email, :html_content) || {})
 
-    if @params[:email_html_content].present?
-      html_content[:full] = @params[:email_html_content]
-      html_content[:reply] = @params[:email_html_content]
-    else
-      # Fallback to rendered markdown if only text content is provided
-      normalized_content = normalize_email_body(@message.content)
-      rendered_html = render_email_html(normalized_content)
-      html_content[:full] = rendered_html
-      html_content[:reply] = rendered_html
-    end
+    html_content[:full] = @params[:email_html_content]
+    html_content[:reply] = @params[:email_html_content]
 
     html_content
-  end
-
-  def build_custom_text_content
-    text_content = ensure_indifferent_access(@message.content_attributes.dig(:email, :text_content) || {})
-
-    if @params[:email_text_content].present?
-      text_content[:full] = @params[:email_text_content]
-      text_content[:reply] = @params[:email_text_content]
-    else
-      # Fallback to normalized message content if only HTML is provided
-      normalized_content = normalize_email_body(@message.content)
-      text_content[:full] = normalized_content
-      text_content[:reply] = normalized_content
-    end
-
-    text_content
   end
 end

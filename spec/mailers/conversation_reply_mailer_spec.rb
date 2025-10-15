@@ -420,9 +420,8 @@ RSpec.describe ConversationReplyMailer do
 
           mail = described_class.email_reply(message_with_nil_content).deliver_now
 
-          html_part = mail.html_part || mail
-          expect(html_part.body.encoded).to include('<strong>markdown</strong>')
-          expect(html_part.body.encoded).to include('Regular')
+          expect(mail.body.encoded).to include('<strong>markdown</strong>')
+          expect(mail.body.encoded).to include('Regular')
         end
 
         it 'uses custom text content in text part when only text is provided' do
