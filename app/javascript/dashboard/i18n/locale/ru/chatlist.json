@@ -18,6 +18,7 @@
       "me": "Мои",
       "unassigned": "Неназначен",
       "all": "Все",
+      "all-operators": "Все",
       "resolved": "Архив"
     },
     "CHAT_STATUS_FILTER_ITEMS": {

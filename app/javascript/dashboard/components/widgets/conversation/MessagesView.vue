@@ -98,7 +98,20 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
+      conversationFilters: 'getChatListFilters',
+      appliedFilters: 'getAppliedConversationFiltersV2',
     }),
+    isAllOperatorsTab() {
+      // Check if viewing from all-operators tab (read-only mode for admins)
+      return this.conversationFilters?.assigneeType === 'all-operators';
+    },
+    hasAppliedFilters() {
+      return this.appliedFilters && this.appliedFilters.length > 0;
+    },
+    isReadOnlyMode() {
+      // Read-only when viewing all-operators tab or when filters are applied
+      return this.isAllOperatorsTab || this.hasAppliedFilters;
+    },
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
     },
@@ -527,6 +540,7 @@ export default {
         </div>
       </div>
       <ReplyBox
+        v-if="!isReadOnlyMode"
         :pop-out-reply-box="isPopOutReplyBox"
         @update:pop-out-reply-box="isPopOutReplyBox = $event"
       />

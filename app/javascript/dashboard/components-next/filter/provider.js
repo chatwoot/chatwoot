@@ -57,6 +57,9 @@ export function useConversationFilterContext() {
   const agents = useMapGetter('agents/getAgents');
   const inboxes = useMapGetter('inboxes/getInboxes');
   const teams = useMapGetter('teams/getTeams');
+  const currentUser = useMapGetter('getCurrentUser');
+
+  const isAdmin = computed(() => currentUser.value?.role === 'administrator');
 
   const {
     equalityOperators,
@@ -79,78 +82,96 @@ export function useConversationFilterContext() {
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
    */
+  const baseFilterTypes = computed(() => {
+    const filters = [
+      {
+        attributeKey: CONVERSATION_ATTRIBUTES.STATUS,
+        value: CONVERSATION_ATTRIBUTES.STATUS,
+        attributeName: t('FILTER.ATTRIBUTES.STATUS'),
+        label: t('FILTER.ATTRIBUTES.STATUS'),
+        inputType: 'multiSelect',
+        options: ['open', 'resolved', 'pending', 'snoozed', 'all'].map(id => {
+          return {
+            id,
+            name: t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${id}.TEXT`),
+          };
+        }),
+        dataType: 'text',
+        filterOperators: equalityOperators.value,
+        attributeModel: 'standard',
+      },
+      {
+        attributeKey: CONVERSATION_ATTRIBUTES.PRIORITY,
+        value: CONVERSATION_ATTRIBUTES.PRIORITY,
+        attributeName: t('FILTER.ATTRIBUTES.PRIORITY'),
+        label: t('FILTER.ATTRIBUTES.PRIORITY'),
+        inputType: 'multiSelect',
+        options: ['low', 'medium', 'high', 'urgent'].map(id => {
+          return {
+            id,
+            name: t(`CONVERSATION.PRIORITY.OPTIONS.${id.toUpperCase()}`),
+          };
+        }),
+        dataType: 'text',
+        filterOperators: equalityOperators.value,
+        attributeModel: 'standard',
+      },
+      {
+        attributeKey: CONVERSATION_ATTRIBUTES.RESOLUTION_REASON,
+        value: CONVERSATION_ATTRIBUTES.RESOLUTION_REASON,
+        attributeName: t('FILTER.ATTRIBUTES.RESOLUTION_REASON'),
+        label: t('FILTER.ATTRIBUTES.RESOLUTION_REASON'),
+        inputType: 'multiSelect',
+        options: [
+          'resolved_success',
+          'resolved_compensation',
+          'partially_resolved',
+          'waiting_client',
+          'escalated',
+          'conflict',
+        ].map(id => {
+          return {
+            id,
+            name: t(`CLOSE_REASON.${id.toUpperCase()}`),
+          };
+        }),
+        dataType: 'text',
+        filterOperators: [
+          ...equalityOperators.value,
+          ...presenceOperators.value,
+        ],
+        attributeModel: 'standard',
+      },
+    ];
+
+    // Only add assignee filter for admin users
+    if (isAdmin.value) {
+      filters.push({
+        attributeKey: CONVERSATION_ATTRIBUTES.ASSIGNEE_ID,
+        value: CONVERSATION_ATTRIBUTES.ASSIGNEE_ID,
+        attributeName: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
+        label: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
+        inputType: 'searchSelect',
+        options: agents.value.map(agent => {
+          return {
+            id: agent.id,
+            name: agent.name,
+          };
+        }),
+        dataType: 'text',
+        filterOperators: presenceOperators.value,
+        attributeModel: 'standard',
+      });
+    }
+
+    return filters;
+  });
+
+  /**
+   * @type {import('vue').ComputedRef<FilterType[]>}
+   */
   const filterTypes = computed(() => [
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.STATUS,
-      value: CONVERSATION_ATTRIBUTES.STATUS,
-      attributeName: t('FILTER.ATTRIBUTES.STATUS'),
-      label: t('FILTER.ATTRIBUTES.STATUS'),
-      inputType: 'multiSelect',
-      options: ['open', 'resolved', 'pending', 'snoozed', 'all'].map(id => {
-        return {
-          id,
-          name: t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${id}.TEXT`),
-        };
-      }),
-      dataType: 'text',
-      filterOperators: equalityOperators.value,
-      attributeModel: 'standard',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.PRIORITY,
-      value: CONVERSATION_ATTRIBUTES.PRIORITY,
-      attributeName: t('FILTER.ATTRIBUTES.PRIORITY'),
-      label: t('FILTER.ATTRIBUTES.PRIORITY'),
-      inputType: 'multiSelect',
-      options: ['low', 'medium', 'high', 'urgent'].map(id => {
-        return {
-          id,
-          name: t(`CONVERSATION.PRIORITY.OPTIONS.${id.toUpperCase()}`),
-        };
-      }),
-      dataType: 'text',
-      filterOperators: equalityOperators.value,
-      attributeModel: 'standard',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.RESOLUTION_REASON,
-      value: CONVERSATION_ATTRIBUTES.RESOLUTION_REASON,
-      attributeName: t('FILTER.ATTRIBUTES.RESOLUTION_REASON'),
-      label: t('FILTER.ATTRIBUTES.RESOLUTION_REASON'),
-      inputType: 'multiSelect',
-      options: [
-        'resolved_success',
-        'resolved_compensation',
-        'partially_resolved',
-        'waiting_client',
-        'escalated',
-        'conflict',
-      ].map(id => {
-        return {
-          id,
-          name: t(`CLOSE_REASON.${id.toUpperCase()}`),
-        };
-      }),
-      dataType: 'text',
-      filterOperators: [...equalityOperators.value, ...presenceOperators.value],
-      attributeModel: 'standard',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.ASSIGNEE_ID,
-      value: CONVERSATION_ATTRIBUTES.ASSIGNEE_ID,
-      attributeName: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
-      label: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
-      inputType: 'searchSelect',
-      options: agents.value.map(agent => {
-        return {
-          id: agent.id,
-          name: agent.name,
-        };
-      }),
-      dataType: 'text',
-      filterOperators: presenceOperators.value,
-      attributeModel: 'standard',
-    },
+    ...baseFilterTypes.value,
     {
       attributeKey: CONVERSATION_ATTRIBUTES.INBOX_ID,
       value: CONVERSATION_ATTRIBUTES.INBOX_ID,

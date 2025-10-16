@@ -50,6 +50,10 @@ export const ASSIGNEE_TYPE_TAB_PERMISSIONS = {
       CONVERSATION_PARTICIPATING_PERMISSIONS,
     ],
   },
+  'all-operators': {
+    count: 'allCount',
+    permissions: ['administrator'], // Only admins can see this tab
+  },
   resolved: {
     count: 'resolvedCount',
     permissions: [
