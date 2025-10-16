@@ -1,5 +1,6 @@
 export default {
   GRAVATAR_URL: 'https://www.gravatar.com/avatar/',
+  CONVERSATIONS_PER_PAGE: 25,
   ASSIGNEE_TYPE: {
     ME: 'me',
     UNASSIGNED: 'unassigned',

@@ -249,7 +249,7 @@ const activeAssigneeTabCount = computed(() => {
 });
 
 const conversationListPagination = computed(() => {
-  const conversationsPerPage = 25;
+  const conversationsPerPage = wootConstants.CONVERSATIONS_PER_PAGE;
   const hasChatsOnView =
     chatsOnView.value &&
     Array.isArray(chatsOnView.value) &&
@@ -339,7 +339,10 @@ const conversationList = computed(() => {
     });
   }
 
-  return localConversationList;
+  // Clip to current page size to fix pagination order bug
+  const maxItems =
+    currentFiltersPage.value * wootConstants.CONVERSATIONS_PER_PAGE;
+  return localConversationList.slice(0, maxItems);
 });
 
 const showEndOfListMessage = computed(() => {
