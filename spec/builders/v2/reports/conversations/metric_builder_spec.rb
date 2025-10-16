@@ -14,25 +14,55 @@ RSpec.describe V2::Reports::Conversations::MetricBuilder, type: :model do
   end
 
   describe '#summary' do
-    it 'returns the correct summary values' do
-      summary = subject.summary
-      expect(summary).to eq(
-        {
-          conversations_count: 42,
-          incoming_messages_count: 42,
-          outgoing_messages_count: 42,
-          avg_first_response_time: 42,
-          avg_resolution_time: 42,
-          resolutions_count: 42,
-          reply_time: 42
-        }
-      )
+    context 'when type is not agent' do
+      let(:params) { { since: '2023-01-01', until: '2024-01-01', type: :inbox } }
+
+      it 'returns the correct summary values including incoming_messages_count' do
+        summary = subject.summary
+        expect(summary).to eq(
+          {
+            conversations_count: 42,
+            outgoing_messages_count: 42,
+            avg_first_response_time: 42,
+            avg_resolution_time: 42,
+            resolutions_count: 42,
+            reply_time: 42,
+            incoming_messages_count: 42
+          }
+        )
+      end
+
+      it 'creates builders with proper params' do
+        subject.summary
+        expect(V2::Reports::Timeseries::CountReportBuilder).to have_received(:new).with(account, params.merge(metric: 'conversations_count'))
+        expect(V2::Reports::Timeseries::CountReportBuilder).to have_received(:new).with(account, params.merge(metric: 'incoming_messages_count'))
+        expect(V2::Reports::Timeseries::AverageReportBuilder).to have_received(:new).with(account, params.merge(metric: 'avg_first_response_time'))
+      end
     end
 
-    it 'creates builders with proper params' do
-      subject.summary
-      expect(V2::Reports::Timeseries::CountReportBuilder).to have_received(:new).with(account, params.merge(metric: 'conversations_count'))
-      expect(V2::Reports::Timeseries::AverageReportBuilder).to have_received(:new).with(account, params.merge(metric: 'avg_first_response_time'))
+    context 'when type is agent' do
+      let(:params) { { since: '2023-01-01', until: '2024-01-01', type: :agent } }
+
+      it 'returns the correct summary values without incoming_messages_count' do
+        summary = subject.summary
+        expect(summary).to eq(
+          {
+            conversations_count: 42,
+            outgoing_messages_count: 42,
+            avg_first_response_time: 42,
+            avg_resolution_time: 42,
+            resolutions_count: 42,
+            reply_time: 42
+          }
+        )
+      end
+
+      it 'does not create builder for incoming_messages_count' do
+        subject.summary
+        expect(V2::Reports::Timeseries::CountReportBuilder).to have_received(:new).with(account, params.merge(metric: 'conversations_count'))
+        expect(V2::Reports::Timeseries::CountReportBuilder).not_to have_received(:new).with(account, params.merge(metric: 'incoming_messages_count'))
+        expect(V2::Reports::Timeseries::AverageReportBuilder).to have_received(:new).with(account, params.merge(metric: 'avg_first_response_time'))
+      end
     end
   end
 
