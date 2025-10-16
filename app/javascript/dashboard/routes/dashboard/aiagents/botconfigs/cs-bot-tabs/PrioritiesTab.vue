@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -10,42 +10,79 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  agentType: {
+    type: String,
+    required: true,
+    validator: (value) => ['customer_service', 'lead_generation'].includes(value)
+  },
+  defaultPriorities: {
+    type: Array,
+    default: () => []
+  }
 });
 
-const { t } = useI18n()
+const { t } = useI18n();
 
-const priorities = reactive([
-  { name: 'Low', condition: '' },
-  { name: 'Medium', condition: '' },
-  { name: 'High', condition: '' },
-  { name: 'Urgent', condition: '' }
-])
-
-const expandedPriorities = ref({}); // Track expanded state for each priority
-
+const priorities = reactive([]);
+const expandedPriorities = ref({});
 const validation = reactive({
   priorities: {}
-})
+});
+const isSaving = ref(false);
 
-const isSaving = ref(false)
-// ✅ Load priorities from backend when data arrives
+// Agent type configuration mapping
+const agentConfig = {
+  customer_service: {
+    titleKey: 'AGENT_MGMT.CSBOT.TICKET.PRIORITY_TITLE',
+    nameLabel: 'AGENT_MGMT.CSBOT.TICKET.PRIORITY_PLACEHOLDER',
+    conditionLabel: 'AGENT_MGMT.CSBOT.TICKET.PRIORITY_CONDITION',
+    conditionPlaceholder: 'AGENT_MGMT.CSBOT.TICKET.CONDITION_PLACEHOLDER',
+    addButton: 'AGENT_MGMT.CSBOT.TICKET.ADD_PRIORITY',
+    saveSuccess: 'AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS',
+    saveError: 'AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR',
+    validationError: 'AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR',
+    errorKey: 'AGENT_MGMT.CSBOT.TICKET.ERROR',
+    dupeErrorKey: 'AGENT_MGMT.CSBOT.TICKET.DUPE_ERROR'
+  },
+  lead_generation: {
+    titleKey: 'AGENT_MGMT.LEADGENBOT.PRIORITY.PRIORITY_TITLE',
+    nameLabel: 'AGENT_MGMT.LEADGENBOT.PRIORITY.PRIORITY_PLACEHOLDER',
+    conditionLabel: 'AGENT_MGMT.LEADGENBOT.PRIORITY.PRIORITY_CONDITION',
+    conditionPlaceholder: 'AGENT_MGMT.LEADGENBOT.PRIORITY.CONDITION_PLACEHOLDER',
+    addButton: 'AGENT_MGMT.LEADGENBOT.PRIORITY.ADD_PRIORITY',
+    saveSuccess: 'AGENT_MGMT.LEADGENBOT.PRIORITY.SAVE_SUCCESS',
+    saveError: 'AGENT_MGMT.LEADGENBOT.PRIORITY.SAVE_ERROR',
+    validationError: 'AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR',
+    errorKey: 'AGENT_MGMT.CSBOT.TICKET.ERROR',
+    dupeErrorKey: 'AGENT_MGMT.CSBOT.TICKET.DUPE_ERROR'
+  }
+};
+
+const config = computed(() => agentConfig[props.agentType] || agentConfig.customer_service);
+
+// Load priorities from backend when data arrives
 watch(
   () => props.data,
   (newData) => {
     if (!newData?.display_flow_data) return
 
     const flowData = newData.display_flow_data
-    const agentIndex = flowData.enabled_agents.indexOf('customer_service')
+    const agentIndex = flowData.enabled_agents.indexOf(props.agentType);
     
     if (agentIndex === -1) return // Skip if agent not in flow
 
     const priorityConfig = flowData.agents_config?.[agentIndex]?.configurations?.priority
-    if (Array.isArray(priorityConfig)) {
-      // Replace local priorities with backend values
+    if (Array.isArray(priorityConfig) && priorityConfig.length > 0) {
       priorities.splice(0, priorities.length, ...priorityConfig.map(c => ({
         name: c.key || '',
         condition: c.conditions || ''
-      })))
+      })));
+    } else if (props.defaultPriorities.length > 0) {
+      // Use default priorities if no config exists
+      priorities.splice(0, priorities.length, ...props.defaultPriorities.map(p => ({
+        name: p.name || p,
+        condition: p.condition || ''
+      })));
     }
 
     // Auto-expand all loaded priorities
@@ -54,21 +91,20 @@ watch(
     })
   },
   { immediate: true, deep: true }
-)
-
+);
 
 function validatePriorityName(index) {
-  const name = priorities[index]?.name?.trim()
+  const name = priorities[index]?.name?.trim();
   if (!name) {
-    validation.priorities[index] = t('AGENT_MGMT.CSBOT.TICKET.ERROR')
+    validation.priorities[index] = t(config.value.errorKey)
     return false
   }
   
   const duplicateIndex = priorities.findIndex((p, i) => 
     i !== index && p.name?.trim().toLowerCase() === name.toLowerCase()
-  )
+  );
   if (duplicateIndex !== -1) {
-    validation.priorities[index] = t('AGENT_MGMT.CSBOT.TICKET.DUPE_ERROR')
+    validation.priorities[index] = t(config.value.dupeErrorKey)
     return false
   }
   
@@ -79,7 +115,6 @@ function validatePriorityName(index) {
 function addPriority() {
   const newIndex = priorities.length;
   priorities.push({ name: '', condition: '' })
-  // Auto-expand the newly added priority
   expandedPriorities.value[newIndex] = true;
 }
 
@@ -112,41 +147,51 @@ async function save() {
       if (!validatePriorityName(index)) {
         isValid = false
       }
-    })
+    });
     
     if (!isValid) {
-      useAlert(t('AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR'))
-      return
+      useAlert(t(config.value.validationError))
+      return;
     }
 
-    // TODO: API call to save priorities
-    
     let flowData = props.data.display_flow_data;
     let priorityItems = [];
-    priorities.forEach((item, _) => {
+    priorities.forEach((item,  _) => {
       priorityItems.push({
         key: item.name,
         conditions: item.condition,
       });
     });
-    const agent_index = flowData.enabled_agents.indexOf('customer_service');
-    flowData.agents_config[agent_index].configurations.priority = priorityItems;
-
+    
+    const agentIndex = flowData.enabled_agents.indexOf(props.agentType);
+    
+    if (agentIndex === -1) {
+      useAlert('Agent not found in flow');
+      return;
+    }
+    
+    // Initialize configurations if not exists
+    if (!flowData.agents_config[agentIndex].configurations) {
+      flowData.agents_config[agentIndex].configurations = {};
+    }
+    
+    flowData.agents_config[agentIndex].configurations.priority = priorityItems;
 
     const payload = {
       flow_data: flowData,
     };
-    // ✅ Properly await the API call
+    
     await aiAgents.updateAgent(props.data.id, payload);
-    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'))
+    useAlert(t(config.value.saveSuccess));
   } catch (e) {
-
-    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'))
+    console.error(e);
+    useAlert(t(config.value.saveError));
   } finally {
-    isSaving.value = false
+    isSaving.value = false;
   }
 }
 </script>
+
 <template>
   <div class="flex flex-row gap-4">
     <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-4">
@@ -163,7 +208,7 @@ async function save() {
             <div class="flex items-center gap-3">
               <div class="w-2 h-2 bg-green-500 rounded-full"></div>
               <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300">
-                {{ $t('AGENT_MGMT.CSBOT.TICKET.PRIORITY_TITLE') }} #{{ index + 1 }}
+                {{ $t(config.titleKey) }} #{{ index + 1 }}
               </h3>
               <span v-if="priority.name" class="text-xs text-slate-500 dark:text-slate-400 truncate max-w-xs">
                 - {{ priority.name }}
@@ -198,14 +243,14 @@ async function save() {
             <div class="pt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                  {{ $t('AGENT_MGMT.CSBOT.TICKET.PRIORITY_PLACEHOLDER') }}
+                  {{ $t(config.nameLabel) }}
                   <span class="text-red-500">*</span>
                 </label>
                 <textarea
                   v-model="priority.name"
                   @blur="validatePriorityName(index)"
                   @input="validatePriorityName(index)"
-                  :placeholder="$t('AGENT_MGMT.CSBOT.TICKET.PRIORITY_PLACEHOLDER')"
+                  :placeholder="$t(config.nameLabel)"
                   :class="[
                     'w-full px-3 py-2.5 text-sm rounded-lg border transition-all duration-200 resize-none',
                     'bg-slate-50 dark:bg-slate-900/50',
@@ -225,11 +270,11 @@ async function save() {
               
               <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                  {{ $t('AGENT_MGMT.CSBOT.TICKET.PRIORITY_CONDITION') }}
+                  {{ $t(config.conditionLabel) }}
                 </label>
                 <textarea
                   v-model="priority.condition"
-                  :placeholder="$t('AGENT_MGMT.CSBOT.TICKET.CONDITION_PLACEHOLDER')"
+                  :placeholder="$t(config.conditionPlaceholder)"
                   class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200 resize-none placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   rows="3"
                 ></textarea>
@@ -249,7 +294,7 @@ async function save() {
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
-          {{ $t('AGENT_MGMT.CSBOT.TICKET.ADD_PRIORITY') }}
+          {{ $t(config.addButton) }}
         </span>
       </Button>
     </div>
@@ -263,7 +308,7 @@ async function save() {
             </svg>
           </div>
           <div>
-            <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.CSBOT.TICKET.PRIORITY_TITLE') }}</h3>
+            <!-- <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t(config.titleKey) }}</h3> -->
             <p class="text-sm text-slate-500 dark:text-slate-400">{{ priorities.length }} items</p>
           </div>
         </div>
