@@ -312,15 +312,19 @@ const showAssigneeInConversationCard = computed(() => {
 });
 
 const currentPageFilterKey = computed(() => {
-  return hasAppliedFiltersOrActiveFolders.value
-    ? 'appliedFilters'
+  if (hasAppliedFiltersOrActiveFolders.value) {
+    return 'appliedFilters';
+  }
+  // Map all-operators to 'all' for page tracking (frontend-only distinction)
+  return activeAssigneeTab.value === 'all-operators'
+    ? 'all'
     : activeAssigneeTab.value;
 });
 
 const inbox = useFunctionGetter('inboxes/getInbox', activeInbox);
 const currentPage = useFunctionGetter(
   'conversationPage/getCurrentPageFilter',
-  activeAssigneeTab
+  currentPageFilterKey
 );
 const currentFiltersPage = useFunctionGetter(
   'conversationPage/getCurrentPageFilter',
@@ -337,10 +341,13 @@ const conversationCustomAttributes = useFunctionGetter(
 );
 
 const activeAssigneeTabCount = computed(() => {
-  const count = assigneeTabItems.value.find(
-    item => item.key === activeAssigneeTab.value
-  ).count;
-  return count;
+  // For all-operators tab, use the 'all' count since they map to the same backend data
+  const tabKey =
+    activeAssigneeTab.value === 'all-operators'
+      ? 'all'
+      : activeAssigneeTab.value;
+  const tabItem = assigneeTabItems.value.find(item => item.key === tabKey);
+  return tabItem ? tabItem.count : 0;
 });
 
 const conversationListPagination = computed(() => {
@@ -368,9 +375,15 @@ const conversationFilters = computed(() => {
   const status =
     activeAssigneeTab.value === 'resolved' ? 'resolved' : activeStatus.value;
 
+  // Map all-operators to 'all' for backend API (frontend-only distinction)
+  const assigneeType =
+    activeAssigneeTab.value === 'all-operators'
+      ? 'all'
+      : activeAssigneeTab.value;
+
   return {
     inboxId: props.conversationInbox ? props.conversationInbox : undefined,
-    assigneeType: activeAssigneeTab.value,
+    assigneeType,
     status,
     sortBy: activeSortBy.value,
     page: conversationListPagination.value,
@@ -957,11 +970,12 @@ watch(chatLists, () => {
   chatsOnView.value = conversationList.value;
 });
 
-watch(conversationFilters, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    store.dispatch('updateChatListFilters', newVal);
-  }
-});
+// Remove infinite loop watcher - conversationFilters is already updated via fetchConversations
+// watch(conversationFilters, (newVal, oldVal) => {
+//   if (newVal !== oldVal) {
+//     store.dispatch('updateChatListFilters', newVal);
+//   }
+// });
 </script>
 
 <template>
