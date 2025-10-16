@@ -28,6 +28,7 @@ class Account < ApplicationRecord
   include Reportable
   include Featurable
   include CacheKeys
+  include SubscriptionTiers
 
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',
