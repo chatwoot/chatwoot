@@ -13,18 +13,39 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  context: {
+    type: String,
+    default: 'general',
+    validator: (value) => ['booking', 'cs', 'general', 'lead_generation', 'sales'].includes(value)
+  }
 });
 
 const maxQna = 25
 const qnas = ref([]);
 const expandedQnas = ref({}); // Track expanded state for each QnA
-const reachedMaxQnas = computed(() => qnas.value.length >= maxQna)
+
+// Filter QnAs based on context prefix in question field
+const contextQnas = computed(() => {
+  if (props.context === 'general') {
+    return qnas.value;
+  }
+  
+  // Filter based on prefix [BOOKING], [CS], [SALES] in question
+  const prefix = `[${props.context.toUpperCase()}]`;
+  return qnas.value.filter(qna => {
+    const question = qna.question || '';
+    return question.startsWith(prefix);
+  });
+});
+
+const reachedMaxQnas = computed(() => contextQnas.value.length >= maxQna)
 const isFetching = ref(false);
 async function fetchKnowledge() {
   try {
     isFetching.value = true;
     const data = await aiAgents.getKnowledgeSources(props.data.id);
     qnas.value = data.data?.knowledge_source_qnas || [];
+    console.log(`[${props.context}] Total QnAs: ${qnas.value.length} | Context QnAs: ${contextQnas.value.length}`);
   } catch (e) {
     useAlert(t('AGENT_MGMT.QNA.FETCH_ERROR'));
   } finally {
@@ -49,25 +70,25 @@ watch(
 const showDeleteModal = ref();
 const deleteModalData = ref();
 function deleteQna(data, index) {
-  deleteModalData.value = {
-    ...data,
-    itemIndex: index,
-  };
+  // Find the actual QnA from contextQnas
+  deleteModalData.value = contextQnas.value[index];
   showDeleteModal.value = true;
 }
 const deleteLoadingIds = ref({});
 async function deleteData() {
-  const dataId = deleteModalData.value.id;
-  const itemIndex = deleteModalData.value.itemIndex;
+  const dataToDelete = deleteModalData.value;
+  const dataId = dataToDelete?.id;
+  
   try {
     showDeleteModal.value = false;
     deleteLoadingIds.value[dataId] = true;
     if (dataId) {
       await aiAgents.deleteKnowledgeQna(props.data.id, dataId);
-      fetchKnowledge();
-      useAlert(t('AGENT_MGMT.QNA.SAVE_SUCCESS'));
     }
-    qnas.value = qnas.value.filter((v, i) => v.id !== dataId || i != itemIndex);
+    // Remove from main qnas array
+    qnas.value = qnas.value.filter(v => v.id !== dataId || v !== dataToDelete);
+    fetchKnowledge();
+    useAlert(t('AGENT_MGMT.QNA.SAVE_SUCCESS'));
   } catch (e) {
     useAlert(t('AGENT_MGMT.QNA.SAVE_ERROR'));
   } finally {
@@ -103,8 +124,17 @@ function addQna() {
   if (reachedMaxQnas.value) {
     return
   }
-  const newIndex = qnas.value.length;
-  qnas.value.push({});
+  
+  // Add prefix to new QnA question
+  const prefix = props.context !== 'general' ? `[${props.context.toUpperCase()}] ` : '';
+  const newQna = {
+    question: prefix,
+    answer: ''
+  };
+  
+  qnas.value.push(newQna);
+  const newIndex = contextQnas.value.length - 1;
+  
   // Auto-expand the newly added QnA
   expandedQnas.value[newIndex] = true;
   nextTick(() => {
@@ -119,6 +149,16 @@ function toggleQnaExpand(index) {
   expandedQnas.value[index] = !expandedQnas.value[index];
 }
 
+const contextLabel = computed(() => {
+  switch(props.context) {
+    case 'booking': return 'Booking Bot';
+    case 'cs': return 'CS Bot';
+    case 'sales': return 'Sales Bot';
+    case 'lead_generation': return 'Lead Generation Bot';
+    default: return 'General';
+  }
+});
+
 const maxCharQuestion = 150
 const maxCharAnswer = 700
 </script>
@@ -132,7 +172,7 @@ const maxCharAnswer = 700
 
       <div class="space-y-4">
         <div
-          v-for="(item, index) in qnas"
+          v-for="(item, index) in contextQnas"
           :key="index"
           class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:shadow-md transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
         >
@@ -209,6 +249,13 @@ const maxCharAnswer = 700
             </div>
           </div>
         </div>
+        
+        <div v-if="contextQnas.length === 0 && !isFetching" class="text-center py-8 text-gray-500 dark:text-gray-400">
+          <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <p class="text-sm">Belum ada QnA untuk {{ contextLabel }}</p>
+        </div>
       </div>
 
       <Button 
@@ -254,9 +301,9 @@ const maxCharAnswer = 700
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <div>
-            <h3 class="font-semibold text-slate-700 dark:text-slate-300">QnA</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400">{{ qnas.length }}/{{ maxQna }}</p>
+          <div class="min-w-0">
+            <h3 class="font-semibold text-slate-700 dark:text-slate-300 truncate">{{ contextLabel }}</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400">{{ contextQnas.length }}/{{ maxQna }}</p>
           </div>
         </div>
         

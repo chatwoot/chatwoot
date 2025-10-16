@@ -3,6 +3,7 @@ import { ref, reactive, onMounted, computed, watch } from 'vue';
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
 import FileKnowledgeSources from '../knowledge-sources/FileKnowledgeSources.vue';
 import aiAgents from '../../../../api/aiAgents';
+import QnaKnowledgeSources from '../knowledge-sources/QnaKnowledgeSources.vue'
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -34,6 +35,12 @@ const tabs = computed(() => [
     index: 1,
     name: t('AGENT_MGMT.BOOKING_BOT.FILE_TAB'),
     icon: 'i-lucide-folder',
+  },
+  {
+    key: '2',
+    index: 2,
+    name: 'QnA',
+    icon: 'i-lucide-help-circle',
   },
 ]);
 
@@ -603,6 +610,11 @@ onMounted(async () => {
             :data="data" 
             context="booking"
           />
+        </div>
+
+        <!-- QnA Tab Content -->
+        <div v-show="activeIndex === 2" class="w-full min-w-0">
+          <QnaKnowledgeSources :data="data" context="booking" />
         </div>
       </div>
     </div>
