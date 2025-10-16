@@ -54,7 +54,7 @@ const getCardClasses = index => {
 
 <template>
   <div class="overflow-hidden">
-    <div class="hidden relative grid-cols-1 pt-8 pb-2 lg:grid">
+    <div class="relative grid grid-cols-1 pt-8 pb-1 px-2">
       <div
         v-for="(post, index) in stackedPosts"
         :key="post.slug || index"
@@ -62,7 +62,7 @@ const getCardClasses = index => {
       >
         <StackedChangelogCard
           :card="post"
-          :is-actions-visible="index === currentIndex"
+          :is-active="index === currentIndex"
           :is-dismissing="isPostDismissing(post)"
           @read-more="handleReadMore(post)"
           @dismiss="handleDismiss(post)"

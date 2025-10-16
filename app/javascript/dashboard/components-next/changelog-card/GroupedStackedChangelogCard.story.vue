@@ -6,65 +6,50 @@ const sampleCards = [
   {
     id: 'chatwoot-captain',
     title: 'Chatwoot Captain',
-    slug: 'chatwoot-captain',
-    description:
+    meta_title: 'Chatwoot Captain',
+    meta_description:
       'Watch how our latest feature can transform your workflow with powerful automation tools.',
-    media: {
-      type: 'image',
-      src: 'https://www.chatwoot.com/images/captain/captain_thumbnail.jpg',
-      alt: 'Chatwoot Captain demo image',
-    },
+    slug: 'chatwoot-captain',
+    feature_image:
+      'https://www.chatwoot.com/images/captain/captain_thumbnail.jpg',
   },
   {
     id: 'smart-routing',
     title: 'Smart Routing Forms',
-    slug: 'smart-routing',
-    description:
+    meta_title: 'Smart Routing Forms',
+    meta_description:
       'Screen bookers with intelligent forms and route them to the right team member.',
-    media: {
-      type: 'video',
-      src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-      poster:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg',
-      alt: 'Routing forms demo video',
-    },
+    slug: 'smart-routing',
+    feature_image: 'https://www.chatwoot.com/images/dashboard-dark.webp',
   },
   {
     id: 'instant-meetings',
     title: 'Instant Meetings',
+    meta_title: 'Instant Meetings',
+    meta_description: 'Start instant meetings directly from shared links.',
     slug: 'instant-meetings',
-    description: 'Start instant meetings directly from shared links.',
-    media: {
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=600',
-      alt: 'Instant meetings UI preview',
-    },
+    feature_image:
+      'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=600',
   },
   {
     id: 'analytics',
     title: 'Advanced Analytics',
-    slug: 'analytics',
-    description:
+    meta_title: 'Advanced Analytics',
+    meta_description:
       'Track meeting performance, conversion, and response rates in one place.',
-    media: {
-      type: 'video',
-      src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-      poster:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg',
-      alt: 'Analytics dashboard video preview',
-    },
+    slug: 'analytics',
+    feature_image:
+      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500',
   },
   {
     id: 'team-collaboration',
     title: 'Team Collaboration',
-    slug: 'team-collaboration',
-    description:
+    meta_title: 'Team Collaboration',
+    meta_description:
       'Coordinate with your team seamlessly using shared availability.',
-    media: {
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600',
-      alt: 'Team collaboration meeting view',
-    },
+    slug: 'team-collaboration',
+    feature_image:
+      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400',
   },
 ];
 
@@ -72,12 +57,11 @@ const visibleCards = ref([...sampleCards]);
 const currentIndex = ref(0);
 const dismissingCards = ref([]);
 
-const handlePrimaryAction = slug => {
-  const card = visibleCards.value.find(c => c.slug === slug);
-  console.log(`Primary action: ${card?.title}`);
+const handleReadMore = slug => {
+  console.log(`Read more: ${slug}`);
 };
 
-const handleSecondaryAction = slug => {
+const handleDismiss = slug => {
   dismissingCards.value.push(slug);
   setTimeout(() => {
     const idx = visibleCards.value.findIndex(c => c.slug === slug);
@@ -87,9 +71,9 @@ const handleSecondaryAction = slug => {
   }, 200);
 };
 
-const handleCardClick = index => {
-  currentIndex.value = index;
-  console.log(`Card clicked: ${visibleCards.value[index].title}`);
+const handleCardClick = data => {
+  currentIndex.value = data.index;
+  console.log(`Card clicked: ${visibleCards.value[data.index].title}`);
 };
 
 const resetDemo = () => {
@@ -107,12 +91,13 @@ const resetDemo = () => {
     <Variant title="Interactive Demo">
       <div class="p-4 bg-n-solid-2 rounded-md mx-auto w-64 h-[400px]">
         <GroupedStackedChangelogCard
-          :cards="visibleCards"
+          :posts="visibleCards"
           :current-index="currentIndex"
-          :dismissing-cards="dismissingCards"
-          class="min-h-[200px]"
-          @primary-action="handlePrimaryAction"
-          @secondary-action="handleSecondaryAction"
+          :is-active="currentIndex === 0"
+          :dismissing-slugs="dismissingCards"
+          class="min-h-[270px]"
+          @read-more="handleReadMore"
+          @dismiss="handleDismiss"
           @card-click="handleCardClick"
         />
 

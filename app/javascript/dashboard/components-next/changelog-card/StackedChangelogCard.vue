@@ -1,14 +1,14 @@
 <script setup>
 import Button from 'dashboard/components-next/button/Button.vue';
 
-const props = defineProps({
+defineProps({
   card: {
     type: Object,
     required: true,
   },
-  isActionsVisible: {
+  isActive: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   isDismissing: {
     type: Boolean,
@@ -19,23 +19,26 @@ const props = defineProps({
 const emit = defineEmits(['readMore', 'dismiss', 'cardClick']);
 
 const handleReadMore = () => {
-  emit('readMore', { card: props.card });
+  emit('readMore');
 };
 
 const handleDismiss = () => {
-  emit('dismiss', { card: props.card });
+  emit('dismiss');
 };
 
 const handleCardClick = () => {
-  emit('cardClick', { card: props.card });
+  emit('cardClick');
 };
 </script>
 
 <template>
   <div
     data-testid="changelog-card"
-    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 cursor-pointer border-n-weak hover:shadow-md bg-n-background text-n-slate-12"
-    :class="{ 'animate-fade-out pointer-events-none': isDismissing }"
+    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 cursor-pointer border-n-weak bg-n-background text-n-slate-12"
+    :class="{
+      'animate-fade-out pointer-events-none': isDismissing,
+      'hover:shadow': isActive,
+    }"
     @click="handleCardClick"
   >
     <div>
@@ -76,7 +79,7 @@ const handleCardClick = () => {
       />
     </div>
 
-    <div v-if="isActionsVisible" class="flex justify-between items-center mt-2">
+    <div class="flex justify-between items-center mt-1">
       <Button
         label="Read more"
         color="slate"

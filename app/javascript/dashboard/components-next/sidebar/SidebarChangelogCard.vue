@@ -100,7 +100,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="unDismissedPosts.length > 0" class="px-2 pt-1">
+  <div v-if="unDismissedPosts.length > 0" class="pt-1">
     <GroupedStackedChangelogCard
       :posts="unDismissedPosts"
       :current-index="currentIndex"
