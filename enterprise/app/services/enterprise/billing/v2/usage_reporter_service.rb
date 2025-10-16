@@ -16,19 +16,27 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
   private
 
   def valid_configuration?
-    custom_attribute('stripe_customer_id').present? &&
-      custom_attribute('stripe_meter_event_name').present?
+    custom_attribute('stripe_customer_id').present? && meter_event_name.present?
   end
 
   def meter_event_params(credits_used)
     {
-      event_name: custom_attribute('stripe_meter_event_name'),
+      event_name: meter_event_name,
       payload: {
         value: credits_used.to_s,
         stripe_customer_id: custom_attribute('stripe_customer_id')
       },
       identifier: "#{account.id}_#{Time.current.to_i}_#{SecureRandom.hex(4)}"
     }
+  end
+
+  def meter_event_name
+    # Use shared meter event name from ENV/InstallationConfig (preferred)
+    # Falls back to account-specific event name for backward compatibility
+    shared_event_name = InstallationConfig.find_by(name: 'STRIPE_METER_EVENT_NAME')&.value ||
+                        ENV.fetch('STRIPE_METER_EVENT_NAME', nil)
+
+    shared_event_name || custom_attribute('stripe_meter_event_name')
   end
 
   def stripe_api_options

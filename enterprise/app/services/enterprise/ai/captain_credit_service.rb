@@ -18,6 +18,6 @@ class Enterprise::Ai::CaptainCreditService
   private
 
   def v2_enabled?
-    account.custom_attributes&.[]('stripe_billing_version').to_i == 2
+    ENV.fetch('STRIPE_BILLING_V2_ENABLED', 'false') == 'true'
   end
 end

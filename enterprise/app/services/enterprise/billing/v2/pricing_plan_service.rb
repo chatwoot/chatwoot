@@ -35,15 +35,9 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
   end
 
   def create_complete_pricing_plan(config)
-    cpu = create_custom_pricing_unit(
-      display_name: config[:cpu_display_name],
-      lookup_key: config[:cpu_lookup_key]
-    )
-
-    meter = create_meter(
-      display_name: config[:meter_display_name],
-      event_name: config[:meter_event_name]
-    )
+    # Use shared CPU and meter if available, otherwise create new ones
+    cpu = get_or_create_cpu(config)
+    meter = get_or_create_meter(config)
 
     plan = create_pricing_plan(display_name: config[:plan_display_name])
 
@@ -53,9 +47,45 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
     service_action = builder.add_service_action_component(plan, config, cpu)
     rate_card = builder.add_rate_card_component(plan, config, meter, cpu)
 
-    build_plan_result(plan, cpu, meter, rate_card, service_action)
+    result = build_plan_result(plan, cpu, meter, rate_card, service_action)
+    Enterprise::Billing::V2::PricingPlanCache.invalidate
+    result
   rescue StandardError => e
     { success: false, message: e.message }
+  end
+
+  def get_or_create_cpu(config)
+    # Check for shared CPU first
+    shared_cpu_id = InstallationConfig.find_by(name: 'STRIPE_CUSTOM_PRICING_UNIT_ID')&.value ||
+                    ENV.fetch('STRIPE_CUSTOM_PRICING_UNIT_ID', nil)
+
+    if shared_cpu_id
+      # Return existing CPU as OpenStruct to match create response
+      OpenStruct.new(id: shared_cpu_id)
+    else
+      # Create new CPU if not using shared
+      create_custom_pricing_unit(
+        display_name: config[:cpu_display_name],
+        lookup_key: config[:cpu_lookup_key]
+      )
+    end
+  end
+
+  def get_or_create_meter(config)
+    # Check for shared meter first
+    shared_meter_id = InstallationConfig.find_by(name: 'STRIPE_METER_ID')&.value ||
+                      ENV.fetch('STRIPE_METER_ID', nil)
+
+    if shared_meter_id
+      # Return existing meter as OpenStruct to match create response
+      OpenStruct.new(id: shared_meter_id)
+    else
+      # Create new meter if not using shared
+      create_meter(
+        display_name: config[:meter_display_name],
+        event_name: config[:meter_event_name]
+      )
+    end
   end
 
   private

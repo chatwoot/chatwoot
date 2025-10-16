@@ -6,7 +6,7 @@
 #  amount           :integer          not null
 #  credit_type      :string           not null
 #  description      :string
-#  metadata         :jsonb
+#  metadata         :json
 #  transaction_type :string           not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

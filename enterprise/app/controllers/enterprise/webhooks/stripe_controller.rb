@@ -57,7 +57,7 @@ class Enterprise::Webhooks::StripeController < ActionController::API
     end
   end
 
-  def account_v2_enabled?(account)
-    account.custom_attributes&.[]('stripe_billing_version').to_i == 2
+  def account_v2_enabled?(_account)
+    ENV.fetch('STRIPE_BILLING_V2_ENABLED', 'false') == 'true'
   end
 end
