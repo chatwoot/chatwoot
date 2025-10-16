@@ -7,10 +7,6 @@ import MessageList from '../../../ui/MessageList.vue';
 </template>
 
 <style>
-@import '../../../dashboard/assets/scss/app.scss';
-@import 'vue-multiselect/dist/vue-multiselect.css';
-@import 'floating-vue/dist/style.css';
-
 .file-uploads {
   overflow: hidden;
   position: relative;

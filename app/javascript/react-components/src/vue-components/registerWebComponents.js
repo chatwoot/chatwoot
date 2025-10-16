@@ -1,6 +1,8 @@
 import { defineCustomElement } from 'vue';
 import ChatwootMessageListWebComponent from './ChatwootMessageListWebComponent.vue';
-import '../../../dashboard/assets/scss/app.scss';
+import chatwootStyles from '../../../dashboard/assets/scss/app.scss?inline';
+import multiselectStyles from 'vue-multiselect/dist/vue-multiselect.css?inline';
+import floatingVueStyles from 'floating-vue/dist/style.css?inline';
 import en from '../../../dashboard/i18n/locale/en';
 import store from '../../../dashboard/store';
 import vueActionCable from '../../../dashboard/helper/actionCable';
@@ -31,6 +33,7 @@ const ceOptions = {
     // eslint-disable-next-line no-underscore-dangle
     vueActionCable.init(store, window.__PUBSUB_TOKEN__);
   },
+  styles: [chatwootStyles, multiselectStyles, floatingVueStyles],
 };
 
 // Convert Vue components to Web Components
