@@ -17,7 +17,7 @@ export const getHeadingsfromTheArticle = () => {
     const slug = slugifyWithCounter(element.innerText);
     element.id = slug;
     element.className = 'scroll-mt-24 heading';
-    element.innerHTML += `<a class="permalink text-slate-600 ml-3" href="#${slug}" title="${element.innerText}" data-turbolinks="false">#</a>`;
+    element.innerHTML += `<a class="permalink text-slate-600 ml-3" href="#${slug}" title="${element.innerText}" data-turbo="false">#</a>`;
     rows.push({
       slug,
       title: element.innerText,
@@ -146,7 +146,7 @@ export const InitializationHelpers = {
 
       const a = document.createElement('a');
       a.href = window.location.hash;
-      a['data-turbolinks'] = false;
+      a['data-turbo'] = false;
       a.click();
     }
   },
