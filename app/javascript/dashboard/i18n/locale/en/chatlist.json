@@ -18,6 +18,7 @@
       "me": "Mine",
       "unassigned": "Unassigned",
       "all": "All",
+      "all-operators": "All",
       "resolved": "Archived"
     },
     "CHAT_STATUS_FILTER_ITEMS": {

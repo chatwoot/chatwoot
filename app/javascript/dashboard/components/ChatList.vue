@@ -283,8 +283,18 @@ const assigneeTabItems = computed(() => {
 
 // Simplified tabs for operators - Block 1 requirement
 // Only showing "Dialogs" (me), "Unanswered" (unassigned), "All dialogs" (all), "Mentions", and "Categories"
+// Admins also get "All" (all-operators) tab
 const simplifiedAssigneeTabItems = computed(() => {
   const operatorEssentialTabs = ['me', 'unassigned', 'resolved'];
+
+  // Check if current user is administrator
+  const isAdmin = currentUser.value?.role === 'administrator';
+
+  // Add all-operators tab for admins
+  if (isAdmin) {
+    operatorEssentialTabs.splice(2, 0, 'all-operators'); // Insert before 'resolved'
+  }
+
   const filteredTabs = assigneeTabItems.value.filter(item =>
     operatorEssentialTabs.includes(item.key)
   );
@@ -296,7 +306,8 @@ const simplifiedAssigneeTabItems = computed(() => {
 const showAssigneeInConversationCard = computed(() => {
   return (
     hasAppliedFiltersOrActiveFolders.value ||
-    activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ALL
+    activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ALL ||
+    activeAssigneeTab.value === 'all-operators'
   );
 });
 
@@ -416,6 +427,9 @@ const conversationList = computed(() => {
     } else if (activeAssigneeTab.value === 'resolved') {
       // Use dedicated resolved chats list
       localConversationList = [...resolvedChatsList.value(filters)];
+    } else if (activeAssigneeTab.value === 'all-operators') {
+      // Show all conversations for admin's All tab
+      localConversationList = [...allChatList.value(filters)];
     } else {
       localConversationList = [...allChatList.value(filters)];
     }
