@@ -141,7 +141,8 @@ export const actions = {
       const response = await EnterpriseAccountAPI.getLimits();
       commit(types.default.SET_ACCOUNT_LIMITS, response.data);
     } catch (error) {
-      // silent error
+      // Silent error - 404 is expected for non-enterprise installations
+      // Do nothing
     }
   },
 

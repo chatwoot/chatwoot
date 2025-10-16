@@ -5,6 +5,7 @@
 #  id            :bigint           not null, primary key
 #  content       :text
 #  external_link :string           not null
+#  metadata      :jsonb
 #  name          :string
 #  status        :integer          default("in_progress"), not null
 #  created_at    :datetime         not null

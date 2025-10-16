@@ -3,6 +3,7 @@
 # Table name: channel_web_widgets
 #
 #  id                    :integer          not null, primary key
+#  allowed_domains       :text             default("")
 #  continuity_via_email  :boolean          default(TRUE), not null
 #  feature_flags         :integer          default(7), not null
 #  hmac_mandatory        :boolean          default(FALSE)

@@ -55,6 +55,7 @@ import copilotThreads from './captain/copilotThreads';
 import copilotMessages from './captain/copilotMessages';
 import captainScenarios from './captain/scenarios';
 import captainTools from './captain/tools';
+import vapiAgents from './modules/vapiAgents';
 
 const plugins = [];
 
@@ -115,6 +116,7 @@ export default createStore({
     copilotMessages,
     captainScenarios,
     captainTools,
+    vapiAgents,
   },
   plugins,
 });

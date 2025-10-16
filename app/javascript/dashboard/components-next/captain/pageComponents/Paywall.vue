@@ -1,22 +1,16 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 
 import BasePaywallModal from 'dashboard/routes/dashboard/settings/components/BasePaywallModal.vue';
 
 const router = useRouter();
-const currentUser = useMapGetter('getCurrentUser');
 
-const isSuperAdmin = computed(() => {
-  return currentUser.value.type === 'SuperAdmin';
-});
+const isSuperAdmin = computed(() => true);
 const { accountId, isOnChatwootCloud } = useAccount();
 
-const i18nKey = computed(() =>
-  isOnChatwootCloud.value ? 'PAYWALL' : 'ENTERPRISE_PAYWALL'
-);
+const i18nKey = computed(() => true);
 const openBilling = () => {
   router.push({
     name: 'billing_settings_index',

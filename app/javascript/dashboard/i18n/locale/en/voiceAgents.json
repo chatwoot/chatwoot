@@ -1,0 +1,87 @@
+{
+  "VOICE_AGENTS": {
+    "HEADER": "Voice Agents",
+    "LIST": {
+      "TITLE": "Voice Agents",
+      "DESCRIPTION": "Manage Vapi.ai voice agents for your inboxes",
+      "EMPTY_STATE": "No voice agents configured",
+      "EMPTY_STATE_DESCRIPTION": "Create your first voice agent to start handling incoming calls with AI",
+      "SYNC_BUTTON": "Sync from Vapi",
+      "NEW_BUTTON": "New Voice Agent"
+    },
+    "FORM": {
+      "TITLE_NEW": "Create Voice Agent",
+      "TITLE_EDIT": "Edit Voice Agent",
+      "NEW_DESCRIPTION": "Create a new AI voice agent to handle calls automatically",
+      "EDIT_DESCRIPTION": "Update voice agent configuration",
+      "IMPORT_FROM_VAPI": "Import Existing Agent from Vapi",
+      "IMPORT_DESCRIPTION": "Already have an agent in Vapi? Enter its ID to import the configuration automatically.",
+      "IMPORT_PLACEHOLDER": "Enter Vapi Agent ID (e.g., 82175a5a-...)",
+      "IMPORT_BUTTON": "Load Configuration",
+      "NAME": "Agent Name",
+      "NAME_PLACEHOLDER": "Customer Support Agent",
+      "INBOX": "Inbox",
+      "SELECT_INBOX": "Select an inbox",
+      "FIRST_MESSAGE": "First Message",
+      "FIRST_MESSAGE_PLACEHOLDER": "Hello! How can I help you today?",
+      "FIRST_MESSAGE_HELP": "The greeting message when the agent answers the call",
+      "VAPI_AGENT_ID": "Vapi Agent ID",
+      "SYSTEM_PROMPT": "System Prompt",
+      "SYSTEM_PROMPT_PLACEHOLDER": "You are a helpful customer support assistant. Be concise and friendly.",
+      "SYSTEM_PROMPT_HELP": "Instructions that define the agent's behavior and personality",
+      "VOICE_PROVIDER": "Voice Provider",
+      "USE_PRESET_VOICE": "Use preset voice",
+      "SELECT_VOICE": "Select Voice",
+      "CHOOSE_VOICE": "Choose a voice...",
+      "VOICE_ID": "Custom Voice ID",
+      "VOICE_ID_PLACEHOLDER": "Enter voice ID from provider",
+      "VOICE_ID_HELP": "Get voice IDs from your provider's dashboard (ElevenLabs, Azure, etc.)",
+      "MODEL_PROVIDER": "AI Model Provider",
+      "MODEL_NAME": "Model",
+      "TRANSCRIBER_PROVIDER": "Speech-to-Text Provider",
+      "LANGUAGE": "Language",
+      "TRANSCRIBER_HELP": "Select the language for speech recognition - important for accuracy",
+      "PHONE_NUMBER": "Phone Number",
+      "PHONE_NUMBER_PLACEHOLDER": "+1234567890",
+      "PHONE_NUMBER_HELP": "Optional: dedicated phone number for this agent",
+      "ACTIVE": "Active",
+      "CREATE": "Create Agent",
+      "UPDATE": "Update Agent",
+      "CANCEL": "Cancel"
+    },
+    "STATUS": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "ACTIONS": {
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "ACTIVATE": "Activate",
+      "DEACTIVATE": "Deactivate"
+    },
+    "MESSAGES": {
+      "CREATED": "Voice agent created successfully",
+      "UPDATED": "Voice agent updated successfully",
+      "DELETED": "Voice agent deleted successfully",
+      "ACTIVATED": "Voice agent activated",
+      "DEACTIVATED": "Voice agent deactivated",
+      "CREATE_ERROR": "Failed to create voice agent",
+      "UPDATE_ERROR": "Failed to update voice agent",
+      "DELETE_ERROR": "Failed to delete voice agent",
+      "DELETE_CONFIRM": "Are you sure you want to delete \"{name}\"?",
+      "LOAD_ERROR": "Failed to load voice agent",
+      "IMPORT_SUCCESS": "Agent configuration imported successfully",
+      "IMPORT_ERROR": "Failed to import agent from Vapi. Check the ID and try again.",
+      "IMPORT_ID_REQUIRED": "Please enter a Vapi Agent ID",
+      "IMPORT_SELECT_INBOX": "Please select an inbox before importing"
+    },
+    "VALIDATION": {
+      "NAME_REQUIRED": "Agent name is required",
+      "INBOX_REQUIRED": "Please select an inbox",
+      "SYSTEM_PROMPT_REQUIRED": "System prompt is required",
+      "VOICE_ID_REQUIRED": "Voice ID is required"
+    }
+  }
+}
+
+

@@ -344,6 +344,7 @@
       "LOCALES": "Locales",
       "SETTINGS": "Settings"
     },
+    "VOICE_AGENTS": "Voice Agents",
     "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
