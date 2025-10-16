@@ -15,6 +15,8 @@ rsync -avz --delete \
     --exclude='storage' \
     --exclude='*.tar.gz' \
     --exclude='public/vite' \
+    --exclude='.env' \
+    --exclude='.env.*' \
     --include='app/***' \
     --include='config/***' \
     --include='db/migrate/***' \
