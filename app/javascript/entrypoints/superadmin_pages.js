@@ -5,6 +5,8 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 import PlaygroundIndex from '../superadmin_pages/views/playground/Index.vue';
 import DashboardIndex from '../superadmin_pages/views/dashboard/Index.vue';
 
+import * as Sentry from '@sentry/vue';
+
 const ComponentMapping = {
   PlaygroundIndex: PlaygroundIndex,
   DashboardIndex: DashboardIndex,
@@ -18,6 +20,12 @@ const renderComponent = (componentName, props) => {
     render() {
       return h(ComponentMapping[componentName], { componentData: this.props });
     },
+  });
+
+  Sentry.init({
+    app,
+    dsn: 'https://db65c8821fe1ce0f7315a1d36895cc5d@o4509088540262400.ingest.de.sentry.io/4510198682615888',
+    sendDefaultPii: true,
   });
 
   app.use(VueDOMPurifyHTML);
