@@ -82,6 +82,19 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_UPDATED, conversation.push_event_data)
   end
 
+  def conversation_deleted(event)
+    # capturing the data before the data is destroyed
+    conversation_data = event.data[:conversation]
+    account = event.data[:account]
+    inbox_id = conversation_data[:inbox_id]
+
+    inbox = Inbox.find(inbox_id)
+    return unless inbox
+
+    tokens = user_tokens(account, inbox.members)
+    broadcast(account, tokens, CONVERSATION_DELETED, conversation_data)
+  end
+
   def conversation_typing_on(event)
     conversation = event.data[:conversation]
     account = conversation.account
@@ -151,8 +164,10 @@ class ActionCableListener < BaseListener
   end
 
   def contact_deleted(event)
-    contact, account = extract_contact_and_account(event)
-    broadcast(account, [account_token(account)], CONTACT_DELETED, contact.push_event_data)
+    # capturing the data before the data is destroyed
+    contact_data = event.data[:contact]
+    account_data = event.data[:account]
+    broadcast(account_data, [account_token(account_data)], CONTACT_DELETED, contact_data)
   end
 
   def conversation_mentioned(event)

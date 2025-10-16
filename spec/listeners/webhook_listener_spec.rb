@@ -220,6 +220,27 @@ describe WebhookListener do
     end
   end
 
+  describe '#contact_deleted' do
+    let(:event_name) { :'contact.deleted' }
+    let!(:contact_deleted_event) { Events::Base.new(event_name, Time.zone.now, contact: contact.webhook_data, account: account) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.contact_deleted(contact_deleted_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account)
+        expected_payload = contact.webhook_data.merge(event: 'contact_deleted')
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, expected_payload).once
+        listener.contact_deleted(contact_deleted_event)
+      end
+    end
+  end
+
   describe '#inbox_created' do
     let(:event_name) { :'inbox.created' }
     let!(:inbox_created_event) { Events::Base.new(event_name, Time.zone.now, inbox: inbox) }
@@ -351,6 +372,26 @@ describe WebhookListener do
 
         expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
         listener.conversation_typing_off(typing_event)
+      end
+    end
+  end
+
+  describe '#conversation_deleted' do
+    let(:event_name) { :'conversation.deleted' }
+    let!(:conversation_deleted_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation.webhook_data, account: account) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_deleted(conversation_deleted_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, inbox: inbox, account: account)
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, conversation.webhook_data.merge(event: 'conversation_deleted')).once
+        listener.conversation_deleted(conversation_deleted_event)
       end
     end
   end

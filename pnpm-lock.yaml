@@ -86,7 +86,7 @@ importers:
         specifier: ^12.0.0
         version: 12.0.0(typescript@5.6.2)
       activestorage:
-        specifier: ^5.2.6
+        specifier: ^5.2.8
         version: 5.2.8
       axios:
         specifier: ^1.8.2
@@ -98,7 +98,7 @@ importers:
         specifier: ~4.4.4
         version: 4.4.4
       color2k:
-        specifier: ^2.0.2
+        specifier: ^2.0.3
         version: 2.0.3
       company-email-validator:
         specifier: ^1.1.0
@@ -113,7 +113,7 @@ importers:
         specifier: 2.21.1
         version: 2.21.1
       date-fns-tz:
-        specifier: ^1.3.3
+        specifier: ^1.3.8
         version: 1.3.8(date-fns@2.21.1)
       dompurify:
         specifier: 3.2.4
@@ -158,7 +158,7 @@ importers:
         specifier: ^8.0.5
         version: 8.0.5
       posthog-js:
-        specifier: ^1.260.2
+        specifier: ^1.260.3
         version: 1.260.3
       qrcode:
         specifier: ^1.5.4
@@ -218,7 +218,7 @@ importers:
         specifier: ^3.1.17
         version: 3.1.17
       vue-virtual-scroller:
-        specifier: ^2.0.0-beta.8
+        specifier: 2.0.0-beta.8
         version: 2.0.0-beta.8(vue@3.5.12(typescript@5.6.2))
       vue3-click-away:
         specifier: ^1.2.4
@@ -261,7 +261,7 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0(eslint@8.57.0)
       '@size-limit/file':
-        specifier: ^8.2.4
+        specifier: ^8.2.6
         version: 8.2.6(size-limit@8.2.6)
       '@vitest/coverage-v8':
         specifier: 3.0.5
@@ -306,7 +306,7 @@ importers:
         specifier: 0.17.15
         version: 0.17.15(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0)(vite@5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0))
       husky:
-        specifier: ^7.0.0
+        specifier: ^7.0.4
         version: 7.0.4
       jsdom:
         specifier: ^24.1.3
@@ -327,7 +327,7 @@ importers:
         specifier: ^1.22.3
         version: 1.22.3
       size-limit:
-        specifier: ^8.2.4
+        specifier: ^8.2.6
         version: 8.2.6
       tailwindcss:
         specifier: ^3.4.13
@@ -978,8 +978,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@jridgewell/trace-mapping@0.3.30':
-    resolution: {integrity: sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q==}
+  '@jridgewell/trace-mapping@0.3.31':
+    resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
   '@kurkle/color@0.3.2':
     resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
@@ -1690,8 +1690,8 @@ packages:
     resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
     engines: {node: '>=16'}
 
-  caniuse-lite@1.0.30001651:
-    resolution: {integrity: sha512-9Cf+Xv1jJNe1xPZLGuUXLNkE1BoDkqRqYyFJ9TDYSqhduqA4hu4oR9HluGoWYQC/aj8WHjsGVV+bwkh0+tegRg==}
+  caniuse-lite@1.0.30001741:
+    resolution: {integrity: sha512-QGUGitqsc8ARjLdgAfxETDhRbJ0REsP6O3I96TAth/mVjh2cYzN2u+3AzPP3aVSm2FehEItaJw1xd+IGBXWeSw==}
 
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
@@ -5362,7 +5362,7 @@ snapshots:
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
-      '@jridgewell/trace-mapping': 0.3.30
+      '@jridgewell/trace-mapping': 0.3.31
     optional: true
 
   '@jridgewell/gen-mapping@0.3.5':
@@ -5387,7 +5387,7 @@ snapshots:
   '@jridgewell/source-map@0.3.11':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
-      '@jridgewell/trace-mapping': 0.3.30
+      '@jridgewell/trace-mapping': 0.3.31
     optional: true
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
@@ -5400,7 +5400,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@jridgewell/trace-mapping@0.3.30':
+  '@jridgewell/trace-mapping@0.3.31':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -6102,7 +6102,7 @@ snapshots:
   autoprefixer@10.4.20(postcss@8.4.47):
     dependencies:
       browserslist: 4.23.3
-      caniuse-lite: 1.0.30001651
+      caniuse-lite: 1.0.30001741
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.1
@@ -6157,14 +6157,14 @@ snapshots:
 
   browserslist@4.23.0:
     dependencies:
-      caniuse-lite: 1.0.30001651
+      caniuse-lite: 1.0.30001741
       electron-to-chromium: 1.4.783
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
 
   browserslist@4.23.3:
     dependencies:
-      caniuse-lite: 1.0.30001651
+      caniuse-lite: 1.0.30001741
       electron-to-chromium: 1.5.13
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
@@ -6214,7 +6214,7 @@ snapshots:
 
   camelcase@8.0.0: {}
 
-  caniuse-lite@1.0.30001651: {}
+  caniuse-lite@1.0.30001741: {}
 
   capital-case@1.0.4:
     dependencies:
