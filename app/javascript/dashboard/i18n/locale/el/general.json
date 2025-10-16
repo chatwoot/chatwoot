@@ -5,6 +5,8 @@
       "PLACEHOLDER": "Αναζήτηση",
       "EMPTY_STATE": "Δεν βρέθηκαν αποτελέσματα"
     },
-    "CLOSE": "Κλείσιμο"
+    "CLOSE": "Κλείσιμο",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }
