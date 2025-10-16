@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_22_000002) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_13_074048) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1187,6 +1187,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_22_000002) do
     t.jsonb "features", default: [], null: false
     t.text "description"
     t.integer "max_channels", default: 0
+    t.boolean "is_custom", default: false
+    t.bigint "owner_account_id"
+    t.index ["owner_account_id"], name: "index_subscription_plans_on_owner_account_id"
   end
 
   create_table "subscription_plans_vouchers", id: false, force: :cascade do |t|
@@ -1458,6 +1461,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_22_000002) do
   add_foreign_key "otps", "users"
   add_foreign_key "quick_replies", "accounts"
   add_foreign_key "subscription_payments", "subscriptions"
+  add_foreign_key "subscription_plans", "accounts", column: "owner_account_id"
   add_foreign_key "subscription_topups", "subscriptions"
   add_foreign_key "subscription_usage", "subscriptions"
   add_foreign_key "subscriptions", "accounts"

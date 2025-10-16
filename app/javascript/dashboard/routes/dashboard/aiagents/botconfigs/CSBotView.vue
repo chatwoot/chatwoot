@@ -140,6 +140,12 @@ const tabs = computed(() => [
   //   name: 'Catalog',
   //   icon: 'i-lucide-shopping-cart',
   // },
+  {
+    key: '6',
+    index: 6,
+    name: 'Penomoran Otomatis',
+    icon: 'i-lucide-notebook-tabs',
+  },
 ])
 
 const activeIndex = ref(0)
