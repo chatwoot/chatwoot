@@ -219,7 +219,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     end
 
     # Validate supported types
-    supported_types = %w[tickets booking restaurant sales]
+    supported_types = %w[tickets booking restaurant sales lead_generation]
     unless supported_types.include?(payload[:type])
       return render json: { error: "Unsupported spreadsheet type '#{payload[:type]}'. Supported types: #{supported_types.join(', ')}", payload: payload },
                     status: :bad_request
