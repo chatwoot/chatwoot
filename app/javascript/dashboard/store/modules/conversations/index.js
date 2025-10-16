@@ -248,18 +248,8 @@ export const mutations = {
 
   [types.ADD_CONVERSATION](_state, conversation) {
     _state.allConversations.push(conversation);
-    // Also add to sidebar counts if needed
-    if (!_state.sidebarCountsData.find(c => c.id === conversation.id)) {
-      _state.sidebarCountsData.push({
-        id: conversation.id,
-        unread_count: conversation.unread_count || 0,
-        labels: conversation.labels || [],
-        inbox_id: conversation.inbox_id,
-        team_id: conversation.meta?.team?.id,
-        status: conversation.status,
-        assignee_id: conversation.meta?.assignee?.id,
-      });
-    }
+    // Don't add to sidebar counts - only fetchAllConversationsForCounts should populate that
+    // This prevents all-operators tab conversations from polluting sidebar counts
   },
 
   [types.DELETE_CONVERSATION](_state, conversationId) {
@@ -287,7 +277,8 @@ export const mutations = {
       const { messages, ...updates } = conversation;
       allConversations[index] = { ...selectedConversation, ...updates };
 
-      // Update sidebar counts data
+      // Update sidebar counts data only if conversation already exists there
+      // Don't add new conversations - only fetchAllConversationsForCounts should populate that
       const sidebarItem = _state.sidebarCountsData.find(
         c => c.id === conversation.id
       );
@@ -297,14 +288,6 @@ export const mutations = {
         sidebarItem.team_id = conversation.meta?.team?.id;
         sidebarItem.status = conversation.status;
         sidebarItem.assignee_id = conversation.meta?.assignee?.id;
-      } else {
-        _state.sidebarCountsData.push({
-          id: conversation.id,
-          unread_count: conversation.unread_count || 0,
-          labels: conversation.labels || [],
-          inbox_id: conversation.inbox_id,
-          team_id: conversation.meta?.team?.id,
-        });
       }
       if (_state.selectedChatId === conversation.id) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
@@ -312,16 +295,7 @@ export const mutations = {
       }
     } else {
       _state.allConversations.push(conversation);
-      // Also add to sidebar counts if new
-      if (!_state.sidebarCountsData.find(c => c.id === conversation.id)) {
-        _state.sidebarCountsData.push({
-          id: conversation.id,
-          unread_count: conversation.unread_count || 0,
-          labels: conversation.labels || [],
-          inbox_id: conversation.inbox_id,
-          team_id: conversation.meta?.team?.id,
-        });
-      }
+      // Don't add to sidebar counts - only fetchAllConversationsForCounts should populate that
     }
   },
 

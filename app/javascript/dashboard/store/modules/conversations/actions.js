@@ -373,8 +373,8 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch }, conversation) {
-    const { currentInbox, appliedFilters } = state;
+  addConversation({ commit, state, dispatch, rootState }, conversation) {
+    const { currentInbox, appliedFilters, sidebarCountsData } = state;
     const {
       inbox_id: inboxId,
       meta: { sender },
@@ -394,6 +394,30 @@ const actions = {
     if (isMatchingInboxFilter) {
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
+
+      // Also add to sidebarCountsData if it's assigned to current user or unassigned
+      const currentUserId = rootState.auth?.currentUser?.user?.id;
+      const assigneeId = conversation.meta?.assignee?.id;
+      const isAssignedToMe = assigneeId === currentUserId;
+      const isUnassigned = !assigneeId;
+
+      if (
+        (isAssignedToMe || isUnassigned) &&
+        !sidebarCountsData.find(c => c.id === conversation.id)
+      ) {
+        commit(types.UPDATE_CONVERSATIONS_FOR_COUNTS, [
+          ...sidebarCountsData,
+          {
+            id: conversation.id,
+            unread_count: conversation.unread_count || 0,
+            labels: conversation.labels || [],
+            inbox_id: conversation.inbox_id,
+            team_id: conversation.meta?.team?.id,
+            status: conversation.status,
+            assignee_id: conversation.meta?.assignee?.id,
+          },
+        ]);
+      }
     }
   },
 
