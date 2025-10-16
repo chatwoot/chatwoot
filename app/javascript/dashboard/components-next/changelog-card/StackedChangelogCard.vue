@@ -40,16 +40,16 @@ const handleCardClick = () => {
   >
     <div>
       <h5
-        :title="card.title"
+        :title="card.meta_title"
         class="mb-1 text-sm font-semibold line-clamp-1 text-n-slate-12"
       >
-        {{ card.title }}
+        {{ card.meta_title }}
       </h5>
       <p
-        :title="card.excerpt"
+        :title="card.meta_description"
         class="mb-0 text-xs leading-relaxed text-n-slate-11 line-clamp-2"
       >
-        {{ card.excerpt }}
+        {{ card.meta_description }}
       </p>
     </div>
 
