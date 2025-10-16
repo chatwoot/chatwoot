@@ -240,6 +240,8 @@ const actions = {
         agentId,
       });
       dispatch('setCurrentChatAssignee', response.data);
+      // Refresh conversation stats to update unread counts after reassignment
+      dispatch('conversationStats/get', {}, { root: true });
     } catch (error) {
       // Handle error
     }
