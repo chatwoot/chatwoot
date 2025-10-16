@@ -2,6 +2,7 @@
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
@@ -16,6 +17,7 @@ import LimitBanner from 'dashboard/components-next/captain/pageComponents/docume
 
 const store = useStore();
 
+const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
 const documents = useMapGetter('captainDocuments/getRecords');
 const assistants = useMapGetter('captainAssistants/getRecords');
@@ -121,6 +123,7 @@ onMounted(() => {
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
         :title="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
         :note="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        :hide-actions="!isOnChatwootCloud"
         fallback-thumbnail="/assets/images/dashboard/captain/document-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/document-popover-dark.svg"
         learn-more-url="https://chwt.app/captain-document"
