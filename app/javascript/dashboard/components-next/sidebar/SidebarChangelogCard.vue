@@ -11,22 +11,20 @@ const posts = ref([]);
 const currentIndex = ref(0);
 const dismissingCards = ref([]);
 const isLoading = ref(false);
-const error = ref(null);
 
 // Get current dismissed slugs from ui_settings
 const dismissedSlugs = computed(() => {
   return uiSettings.value.changelog_dismissed_slugs || [];
 });
 
-// Get undismissed posts - these are the changelog posts that should be shown
-const undismissedPosts = computed(() => {
+// Get un dismissed posts - these are the changelog posts that should be shown
+const unDismissedPosts = computed(() => {
   return posts.value.filter(post => !dismissedSlugs.value.includes(post.slug));
 });
 
 // Fetch changelog posts from API
 const fetchChangelog = async () => {
   isLoading.value = true;
-  error.value = null;
 
   try {
     const response = await changelogAPI.fetchFromHub();
@@ -44,8 +42,8 @@ const fetchChangelog = async () => {
         changelog_dismissed_slugs: cleanedDismissedSlugs,
       });
     }
+    // eslint-disable-next-line no-empty
   } catch (err) {
-    error.value = err;
   } finally {
     isLoading.value = false;
   }
@@ -75,13 +73,13 @@ const handleDismiss = slug => {
   setTimeout(() => {
     dismissPost(slug);
     dismissingCards.value = dismissingCards.value.filter(s => s !== slug);
-    if (currentIndex.value >= undismissedPosts.value.length)
+    if (currentIndex.value >= unDismissedPosts.value.length)
       currentIndex.value = 0;
   }, 200);
 };
 
 const handleReadMore = () => {
-  const currentPost = undismissedPosts.value[currentIndex.value];
+  const currentPost = unDismissedPosts.value[currentIndex.value];
   if (currentPost?.url) {
     window.open(currentPost.url, '_blank');
     // Also dismiss the card when user clicks read more
@@ -90,7 +88,7 @@ const handleReadMore = () => {
 };
 
 const handleCardClick = () => {
-  const currentPost = undismissedPosts.value[currentIndex.value];
+  const currentPost = unDismissedPosts.value[currentIndex.value];
   if (currentPost?.url) {
     window.open(currentPost.url, '_blank');
   }
@@ -102,9 +100,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="undismissedPosts.length > 0" class="px-2 pt-1">
+  <div v-if="unDismissedPosts.length > 0" class="px-2 pt-1">
     <GroupedStackedChangelogCard
-      :posts="undismissedPosts"
+      :posts="unDismissedPosts"
       :current-index="currentIndex"
       :dismissing-slugs="dismissingCards"
       class="min-h-[240px]"
