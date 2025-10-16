@@ -100,16 +100,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="unDismissedPosts.length > 0" class="pt-1">
-    <GroupedStackedChangelogCard
-      :posts="unDismissedPosts"
-      :current-index="currentIndex"
-      :dismissing-slugs="dismissingCards"
-      class="min-h-[240px]"
-      @read-more="handleReadMore"
-      @dismiss="handleDismiss"
-      @card-click="handleCardClick"
-    />
-  </div>
+  <GroupedStackedChangelogCard
+    v-if="unDismissedPosts.length > 0"
+    :posts="unDismissedPosts"
+    :current-index="currentIndex"
+    :dismissing-slugs="dismissingCards"
+    class="min-h-[240px]"
+    @read-more="handleReadMore"
+    @dismiss="handleDismiss"
+    @card-click="handleCardClick"
+  />
   <template v-else />
 </template>

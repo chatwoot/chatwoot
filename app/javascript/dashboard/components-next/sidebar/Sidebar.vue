@@ -581,11 +581,14 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="flex flex-col flex-shrink-0 gap-2 justify-between items-center"
+      class="flex flex-col flex-shrink-0 relative gap-1 justify-between items-center"
     >
+      <div
+        class="pointer-events-none absolute inset-x-0 -top-[31px] h-8 bg-gradient-to-t from-n-solid-2 to-transparent"
+      />
       <SidebarChangelogCard />
       <div
-        class="p-1 flex-shrink-0 flex w-full justify-between gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+        class="p-1 flex-shrink-0 flex w-full justify-between z-10 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
       >
         <SidebarProfileMenu
           @open-key-shortcut-modal="emit('openKeyShortcutModal')"
