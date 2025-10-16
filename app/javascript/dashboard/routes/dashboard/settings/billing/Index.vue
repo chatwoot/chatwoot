@@ -7,6 +7,7 @@ import {
   useMapGetter,
   useStore,
 } from 'dashboard/composables/store';
+import billingAPI from 'dashboard/api/billing'
 
 import Payment from './components/Payment.vue';
 import Topup from './components/Topup.vue';
@@ -101,9 +102,9 @@ onMounted(async () => {
   }
 
   try {
-    const response = await fetch('/api/v1/subscriptions/plans');
-    const data = await response.json();
-    plans.value = data;
+    const response = await billingAPI.myPricingPlans();
+    plans.value = response.data;
+    console.log('Data plans berhasil diambil:', plans.value);
   } catch (error) {
     console.error('Gagal mengambil data pricing:', error);
   }

@@ -44,7 +44,8 @@
       "premium": "Paket Premium",
       "pertamax": "Paket Pertamax",
       "pertamax turbo": "Paket Pertamax Turbo",
-      "pertalite": "Paket Pertalite"
+      "pertalite": "Paket Pertalite",
+      "custom": "Paket Custom" 
     },
     "FEATURE": {
       "starter": "Fitur Paket Pemula",
@@ -53,12 +54,14 @@
       "premium": "Fitur Paket Premium",
       "pertalite": "Fitur Paket Pertalite",
       "pertamax": "Fitur Paket Pertamax",
-      "pertamax turbo": "Fitur Paket Pertamax Turbo"
+      "pertamax turbo": "Fitur Paket Pertamax Turbo",
+      "custom": "Fitur Paket Custom" 
     },
     "Unlimited Inboxes": "Inbox Tanpa Batas",
     "Complete Documentation": "Dokumentasi Lengkap",
     "Standard Support": "Dukungan Standar",
     "Dedicated Support": "Dukungan Khusus",
+    "20 Maximum Active Users": "20 Pengguna Aktif",
     "1000 Maximum Active Users": "1.000 Pengguna Aktif",
     "5000 Maximum Active Users": "5.000 Pengguna Aktif",
     "Unlimited Maximum Active Users": "Pengguna Aktif Tanpa Batas",
@@ -77,6 +80,7 @@
     "20 Human Agents": "20 Admin Manusia",
     "50 Human Agents": "50 Admin Manusia",
     "Unlimited Human Agents": "Admin Manusia Tanpa Batas",
+    "500 AI Responses": "500 Balasan AI",
     "1000 AI Responses": "1.000 Balasan AI",
     "5000 AI Responses": "5.000 Balasan AI",
     "20000 AI Responses": "20.000 Balasan AI",
