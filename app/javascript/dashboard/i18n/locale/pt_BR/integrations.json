@@ -780,16 +780,16 @@
       },
       "DELETE": {
         "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "DESCRIPTION": "Tem certeza que deseja excluir está ferramenta customizável? Está ação não pode ser desfeita.",
         "CONFIRM": "Sim, excluir",
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
+          "LABEL": "Nome da Ferramenta",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Nome da ferramente obrigatória"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
