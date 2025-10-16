@@ -80,17 +80,15 @@ const handleDismiss = slug => {
 
 const handleReadMore = () => {
   const currentPost = unDismissedPosts.value[currentIndex.value];
-  if (currentPost?.url) {
-    window.open(currentPost.url, '_blank');
-    // Also dismiss the card when user clicks read more
-    handleDismiss(currentPost.slug);
+  if (currentPost?.slug) {
+    window.open(`https://www.chatwoot.com/blog/${currentPost.slug}`, '_blank');
   }
 };
 
 const handleCardClick = () => {
   const currentPost = unDismissedPosts.value[currentIndex.value];
-  if (currentPost?.url) {
-    window.open(currentPost.url, '_blank');
+  if (currentPost?.slug) {
+    window.open(`https://www.chatwoot.com/blog/${currentPost.slug}`, '_blank');
   }
 };
 
