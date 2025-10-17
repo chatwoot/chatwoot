@@ -298,7 +298,7 @@
           "SIGNUP_ERROR": "Ocorreu um erro no cadastro",
           "AUTH_NOT_COMPLETED": "Autenticação não concluída. Por favor, reinicie o processo.",
           "SUCCESS_FALLBACK": "A conta do WhatsApp Business foi configurada com sucesso",
-          "MANUAL_FALLBACK": "Se o seu número já estiver conectado à Plataforma WhatsApp Business (API) ou se você for um provedor de tecnologia integrando o seu próprio número, use o fluxo de {link}.",
+          "MANUAL_FALLBACK": "Se o seu número já estiver conectado à Plataforma WhatsApp Business (API) ou se você for um provedor de tecnologia integrando o seu próprio número, use o fluxo de {link}",
           "MANUAL_LINK_TEXT": "fluxo de configuração manual"
         },
         "API": {
@@ -646,18 +646,18 @@
           "TIER_250": "250 clientes por 24 h",
           "TIER_1000": "1 mil clientes por 24 h",
           "TIER_1K": "1 mil clientes por 24 h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "TIER_10K": "10K clientes a cada 24h",
+          "TIER_100K": "100K clientes a cada 24h",
+          "TIER_UNLIMITED": "Clientes ilimitados a cada 24h",
+          "UNKNOWN": "Classificação não disponível"
         },
         "STATUSES": {
           "APPROVED": "Aceito",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "PENDING_REVIEW": "Revisão pendente",
+          "AVAILABLE_WITHOUT_REVIEW": "Disponível sem revisão",
+          "REJECTED": "Rejeitado",
+          "DECLINED": "Sandbox",
+          "NON_EXISTS": "Não existe"
         },
         "MODES": {
           "SANDBOX": "Sandbox",
@@ -677,9 +677,9 @@
       "MESSENGER_HEADING": "Código Menssageiro <scripit>",
       "MESSENGER_SUB_HEAD": "Favor, insira essse código <script> dentro da tag Body de sua página html",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "TITLE": "Domínios permitidos",
+        "SUBTITLE": "Adicione coringa ou domínios separados por vírgula (deixe em branco para permitir todos), ex: *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Insira domínios separados por vírgula (ex: *.chatwoot.dev, chatwoot.com)"
       },
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",
@@ -981,15 +981,15 @@
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "Conectar com Microsoft"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "Conectar com Google"
       },
       "OTHER_PROVIDERS": {
         "TITLE": "Outros Provedores",
-        "DESCRIPTION": "Connect with Other Providers"
+        "DESCRIPTION": "Conectar com outros provedores"
       }
     },
     "CHANNELS": {
