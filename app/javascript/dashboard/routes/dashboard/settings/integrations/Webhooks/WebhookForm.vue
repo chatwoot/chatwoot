@@ -1,9 +1,10 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, url, minLength } from '@vuelidate/validators';
+import { required, url, minLength, or } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { isLocalhostUrl } from 'shared/helpers/Validators';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -46,7 +47,7 @@ export default {
     url: {
       required,
       minLength: minLength(7),
-      url,
+      url: or(isLocalhostUrl, url),
     },
     subscriptions: {
       required,
