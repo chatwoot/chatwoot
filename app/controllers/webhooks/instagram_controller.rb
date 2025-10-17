@@ -2,7 +2,7 @@ class Webhooks::InstagramController < ActionController::API
   include MetaTokenVerifyConcern
 
   def events
-    Rails.logger.info('📩 [FB Webhook] Received events')
+    Rails.logger.info('📩 [IG Webhook] Received events')
 
     # Webhook verification
     challenge = params['hub.challenge']
