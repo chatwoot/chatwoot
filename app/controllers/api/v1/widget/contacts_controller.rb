@@ -86,8 +86,9 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     render json: response
   end
 
-  def get_checkout_url # rubocop:disable Naming/AccessorMethodName
+  def get_checkout_url # rubocop:disable Naming/AccessorMethodName, Metrics/AbcSize
     inbox_id = conversation.inbox.id
+    account_id = conversation.inbox.account.id
 
     return render json: { error: 'Inbox ID not found' }, status: :bad_request if inbox_id.blank?
 
@@ -96,10 +97,17 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     source_id = contact_inbox.source_id
 
     Rails.logger.info("source_id, #{source_id}")
-
+    Rails.logger.info("account_id, #{account_id}")
     Rails.logger.info("get_checkout_url_called_Params, #{permitted_params[:line_items]}")
 
-    response = fetch_checkout_url(shop_url, source_id, permitted_params[:line_items])
+    # For account IDs 1904 and 939, redirect directly to cart page instead of creating checkout
+    if [1904].include?(account_id)
+      Rails.logger.info("Account ID #{account_id} detected, returning direct cart URL")
+      response = { 'checkoutUrl' => "https://#{shop_url}/cart" }
+    else
+      response = fetch_checkout_url(shop_url, source_id, permitted_params[:line_items])
+    end
+
     Rails.logger.info("response, #{response.inspect}")
     render json: response
   end
