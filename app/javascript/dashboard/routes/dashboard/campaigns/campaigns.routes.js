@@ -1,4 +1,5 @@
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
+import { requiresSubscriptionFeature } from 'dashboard/helper/subscriptionGuard';
 
 import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
 import LiveChatCampaignsPage from './pages/LiveChatCampaignsPage.vue';
@@ -7,8 +8,7 @@ import WhatsAppCampaignsPage from './pages/WhatsAppCampaignsPage.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const meta = {
-  featureFlag: FEATURE_FLAGS.CAMPAIGNS,
-  permissions: ['administrator'],
+  permissions: ['administrator', 'agent'],
 };
 
 const campaignsRoutes = {
@@ -16,6 +16,7 @@ const campaignsRoutes = {
     {
       path: frontendURL('accounts/:accountId/campaigns'),
       component: CampaignsPageRouteView,
+      beforeEnter: requiresSubscriptionFeature('campaigns'),
       children: [
         {
           path: '',

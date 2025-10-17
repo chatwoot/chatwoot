@@ -1,0 +1,28 @@
+{
+  "SUBSCRIPTION": {
+    "PAYWALL": {
+      "DEFAULT_TITLE": "Unlock Premium Features",
+      "DEFAULT_DESCRIPTION": "This feature requires a higher subscription plan. Upgrade now to unlock powerful tools and take your customer support to the next level.",
+      "CURRENT_PLAN": "Current Plan",
+      "REQUIRED_PLAN": "Required Plan",
+      "FEATURES_TITLE": "What you'll get:",
+      "FEATURE_1": "Unlimited access to all premium features and integrations",
+      "FEATURE_2": "Advanced analytics and detailed reporting capabilities",
+      "FEATURE_3": "Priority support with faster response times",
+      "UPGRADE_BUTTON": "Upgrade to {tier}",
+      "CONTACT_SUPPORT": "Questions? Contact our sales team to learn more"
+    },
+    "TIERS": {
+      "BASIC": "Basic (Free)",
+      "PROFESSIONAL": "Professional",
+      "PREMIUM": "Premium"
+    },
+    "FEATURES": {
+      "VOICE_AGENTS": "Voice Agents",
+      "REPORTS": "Reports",
+      "CAMPAIGNS": "Campaigns",
+      "ADVANCED_REPORTS": "Advanced Reports",
+      "CUSTOM_ATTRIBUTES": "Custom Attributes"
+    }
+  }
+}

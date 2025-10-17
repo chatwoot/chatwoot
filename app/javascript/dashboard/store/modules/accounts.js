@@ -46,6 +46,117 @@ export const getters = {
     const { features = {} } = findRecordById($state, id);
     return features[featureName] || false;
   },
+  // Subscription tier getters
+  subscriptionTier: $state => id => {
+    const account = findRecordById($state, id);
+    return account.custom_attributes?.subscription_tier || 'basic';
+  },
+  hasSubscriptionFeature: $state => (id, featureName) => {
+    const account = findRecordById($state, id);
+    const tier = account.custom_attributes?.subscription_tier || 'basic';
+
+    const SUBSCRIPTION_TIERS = {
+      basic: [
+        'conversations',
+        'contacts',
+        'inboxes',
+        'labels',
+        'teams',
+        'canned_responses',
+        'automation',
+        'integrations',
+        'webhooks',
+        'basic_settings',
+      ],
+      professional: [
+        'conversations',
+        'contacts',
+        'inboxes',
+        'labels',
+        'teams',
+        'canned_responses',
+        'automation',
+        'integrations',
+        'webhooks',
+        'basic_settings',
+        'reports',
+        'advanced_reports',
+        'custom_attributes',
+      ],
+      premium: [
+        'conversations',
+        'contacts',
+        'inboxes',
+        'labels',
+        'teams',
+        'canned_responses',
+        'automation',
+        'integrations',
+        'webhooks',
+        'basic_settings',
+        'reports',
+        'advanced_reports',
+        'custom_attributes',
+        'campaigns',
+        'voice_agents',
+      ],
+    };
+
+    return SUBSCRIPTION_TIERS[tier]?.includes(featureName) || false;
+  },
+  subscriptionFeatures: $state => id => {
+    const account = findRecordById($state, id);
+    const tier = account.custom_attributes?.subscription_tier || 'basic';
+
+    const SUBSCRIPTION_TIERS = {
+      basic: [
+        'conversations',
+        'contacts',
+        'inboxes',
+        'labels',
+        'teams',
+        'canned_responses',
+        'automation',
+        'integrations',
+        'webhooks',
+        'basic_settings',
+      ],
+      professional: [
+        'conversations',
+        'contacts',
+        'inboxes',
+        'labels',
+        'teams',
+        'canned_responses',
+        'automation',
+        'integrations',
+        'webhooks',
+        'basic_settings',
+        'reports',
+        'advanced_reports',
+        'custom_attributes',
+      ],
+      premium: [
+        'conversations',
+        'contacts',
+        'inboxes',
+        'labels',
+        'teams',
+        'canned_responses',
+        'automation',
+        'integrations',
+        'webhooks',
+        'basic_settings',
+        'reports',
+        'advanced_reports',
+        'custom_attributes',
+        'campaigns',
+        'voice_agents',
+      ],
+    };
+
+    return SUBSCRIPTION_TIERS[tier] || SUBSCRIPTION_TIERS.basic;
+  },
 };
 
 export const actions = {
