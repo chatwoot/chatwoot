@@ -1,4 +1,16 @@
 export const MESSAGE_EDITOR_MENU_OPTIONS = [
+  'copilot',
+  'strong',
+  'em',
+  'link',
+  'undo',
+  'redo',
+  'bulletList',
+  'orderedList',
+  'code',
+];
+
+export const MESSAGE_EDITOR_MENU_OPTIONS_WITHOUT_COPILLOT = [
   'strong',
   'em',
   'link',

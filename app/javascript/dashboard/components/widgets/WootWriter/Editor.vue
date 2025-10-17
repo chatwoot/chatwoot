@@ -16,6 +16,7 @@ import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
 import VariableList from '../conversation/VariableList.vue';
 import TagTools from '../conversation/TagTools.vue';
+import CopilotMenuBar from './CopilotMenuBar.vue';
 
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useI18n } from 'vue-i18n';
@@ -23,11 +24,12 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
+import { vOnClickOutside } from '@vueuse/components';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
-  MESSAGE_EDITOR_MENU_OPTIONS,
+  MESSAGE_EDITOR_MENU_OPTIONS_WITHOUT_COPILLOT,
   MESSAGE_EDITOR_IMAGE_RESIZES,
 } from 'dashboard/constants/editor';
 
@@ -97,6 +99,7 @@ const emit = defineEmits([
   'focus',
   'input',
   'update:modelValue',
+  'executeCopilotAction',
 ]);
 
 const { t } = useI18n();
@@ -153,12 +156,29 @@ const range = ref(null);
 const isImageNodeSelected = ref(false);
 const toolbarPosition = ref({ top: 0, left: 0 });
 const selectedImageNode = ref(null);
+const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
+const showSelectionMenu = ref(false);
 const sizes = MESSAGE_EDITOR_IMAGE_RESIZES;
 
 // element ref
 const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
+
+const handleCopilotAction = actionKey => {
+  if (actionKey === 'rephrase_selection' && editorView?.state) {
+    const { from, to } = editorView.state.selection;
+    const selectedText = editorView.state.doc.textBetween(from, to).trim();
+
+    if (from !== to && selectedText) {
+      emit('executeCopilotAction', 'rephrase', selectedText);
+    }
+  } else {
+    emit('executeCopilotAction', actionKey);
+  }
+
+  showSelectionMenu.value = false;
+};
 
 const contentFromEditor = () => {
   return MessageMarkdownSerializer.serialize(editorView.state.doc);
@@ -177,7 +197,7 @@ const shouldShowCannedResponses = computed(() => {
 const editorMenuOptions = computed(() => {
   return props.enabledMenuOptions.length
     ? props.enabledMenuOptions
-    : MESSAGE_EDITOR_MENU_OPTIONS;
+    : MESSAGE_EDITOR_MENU_OPTIONS_WITHOUT_COPILLOT;
 });
 
 function createSuggestionPlugin({
@@ -334,13 +354,23 @@ function openFileBrowser() {
   imageUpload.value.click();
 }
 
+function handleCopilotClick() {
+  showSelectionMenu.value = !showSelectionMenu.value;
+}
+
+function handleClickOutside(event) {
+  // Check if the clicked element or its parents have the ignored class
+  if (event.target.closest('.ProseMirror-copilot')) return;
+  showSelectionMenu.value = false;
+}
+
 function reloadState(content = props.modelValue) {
   const unrefContent = unref(content);
   state = createState(
     unrefContent,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -389,6 +419,56 @@ function setToolbarPosition() {
     top: `${rect.top - editorRect.top - 30}px`,
     left: `${rect.left - editorRect.left - 4}px`,
   };
+}
+
+function setMenubarPosition(editorState) {
+  if (!editorState?.selection) return;
+
+  const { from, to } = editorState.selection;
+  const wrapper = editorRoot.value;
+  if (!wrapper) return;
+
+  const {
+    left: editorLeft,
+    top: editorTop,
+    width: editorWidth,
+  } = wrapper.getBoundingClientRect();
+  const start = editorView.coordsAtPos(from);
+  const end = editorView.coordsAtPos(to);
+
+  // Calculate selection center and top
+  const selCenterX =
+    (Math.min(start.left, end.left) + Math.max(start.right, end.right)) / 2;
+  const selTop = Math.min(start.top, end.top);
+
+  // Clamp center position to keep menubar within editor bounds (with translateX(-50%))
+  const menubarWidth = 560;
+  const clampedCenterX = Math.max(
+    editorLeft + menubarWidth / 4,
+    Math.min(selCenterX, editorLeft + editorWidth - menubarWidth / 4)
+  );
+
+  // Calculate position from both left and right edges for RTL support
+  const leftPosition = clampedCenterX - editorLeft;
+  const rightPosition = editorLeft + editorWidth - clampedCenterX;
+
+  // Set CSS custom properties for editor menubar (CSS will choose based on dir attribute)
+  wrapper.style.setProperty('--selection-left', `${leftPosition}px`);
+  wrapper.style.setProperty('--selection-right', `${rightPosition}px`);
+  wrapper.style.setProperty('--selection-top', `${selTop - editorTop - 50}px`);
+}
+
+function checkSelection(editorState) {
+  showSelectionMenu.value = false;
+  const hasSelection = editorState.selection.from !== editorState.selection.to;
+  if (hasSelection === isTextSelected.value) return;
+
+  isTextSelected.value = hasSelection;
+  const wrapper = editorRoot.value;
+  if (!wrapper) return;
+
+  wrapper.classList.toggle('has-selection', hasSelection);
+  if (hasSelection) setMenubarPosition(editorState);
 }
 
 function setURLWithQueryAndImageSize(size) {
@@ -587,6 +667,7 @@ function createEditorView() {
       if (tx.docChanged) {
         emitOnChange();
       }
+      checkSelection(state);
     },
     handleDOMEvents: {
       keyup: () => {
@@ -674,7 +755,7 @@ onMounted(() => {
     props.modelValue,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -718,6 +799,14 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-if="showToolsMenu"
       :search-key="toolSearchKey"
       @select-tool="content => insertSpecialContent('tool', content)"
+    />
+    <CopilotMenuBar
+      v-if="showSelectionMenu"
+      v-on-click-outside="handleClickOutside"
+      :has-selection="isTextSelected"
+      :show-selection-menu="showSelectionMenu"
+      :show-general-menu="false"
+      @execute-copilot-action="handleCopilotAction"
     />
     <input
       ref="imageUpload"
@@ -850,5 +939,59 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
 .editor-warning__message {
   @apply text-n-ruby-9 dark:text-n-ruby-9 font-normal text-sm pt-1 pb-0 px-0;
+}
+
+// Float editor menu
+.popover-prosemirror-menu {
+  position: relative;
+
+  .ProseMirror p:last-child {
+    margin-bottom: 10px !important;
+  }
+
+  // Editor Menu
+  .ProseMirror-menubar {
+    display: none; // Hide by default
+  }
+
+  &.has-selection {
+    .ProseMirror-menubar {
+      @apply rounded-lg !px-3 !py-2 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+      display: flex;
+      left: var(--selection-left);
+      top: var(--selection-top);
+      transform: translateX(-50%);
+      width: fit-content !important;
+      position: absolute !important;
+
+      // RTL support: use right positioning and flip transform
+      [dir='rtl'] & {
+        left: unset;
+        right: var(--selection-right);
+        transform: translateX(50%);
+      }
+
+      .ProseMirror-menuitem {
+        @apply mr-0 size-3.5 flex items-center;
+
+        .ProseMirror-icon {
+          @apply p-0 flex-shrink-0;
+
+          svg {
+            width: 14px !important;
+            height: 14px !important;
+          }
+        }
+
+        .ProseMirror-copilot svg {
+          @apply text-n-violet-9;
+        }
+      }
+
+      .ProseMirror-menu-active {
+        @apply bg-n-slate-3;
+      }
+    }
+  }
 }
 </style>

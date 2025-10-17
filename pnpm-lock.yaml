@@ -20,8 +20,8 @@ importers:
         specifier: 1.2.3
         version: 1.2.3
       '@chatwoot/prosemirror-schema':
-        specifier: 1.2.1
-        version: 1.2.1
+        specifier: 1.2.2
+        version: 1.2.2
       '@chatwoot/utils':
         specifier: ^0.0.51
         version: 0.0.51
@@ -242,6 +242,9 @@ importers:
       '@histoire/plugin-vue':
         specifier: 0.17.15
         version: 0.17.15(histoire@0.17.15(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0)(vite@5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0)))(vite@5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0))(vue@3.5.12(typescript@5.6.2))
+      '@iconify-json/fluent':
+        specifier: ^1.2.32
+        version: 1.2.32
       '@iconify-json/logos':
         specifier: ^1.2.3
         version: 1.2.3
@@ -406,8 +409,8 @@ packages:
   '@chatwoot/ninja-keys@1.2.3':
     resolution: {integrity: sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==}
 
-  '@chatwoot/prosemirror-schema@1.2.1':
-    resolution: {integrity: sha512-UbiEvG5tgi1d0lMbkaqxgTh7vHfywEYKLQo1sxqp4Q7aLZh4QFtbLzJ2zyBtu4Nhipe+guFfEJdic7i43MP/XQ==}
+  '@chatwoot/prosemirror-schema@1.2.2':
+    resolution: {integrity: sha512-9knTH6OgZJ5qhJjS70Qiy0VsQwDAte6+gz+2PO1BM3RE+wUknkVS5YAcjqs1IZ4dSZyPrvNOOZh9mXoHdmtgnA==}
 
   '@chatwoot/utils@0.0.51':
     resolution: {integrity: sha512-WlEmWfOTzR7YZRUWzn5Wpm15/BRudpwqoNckph8TohyDbiim1CP4UZGa+qjajxTbNGLLhtKlm0Xl+X16+5Wceg==}
@@ -880,6 +883,9 @@ packages:
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
+
+  '@iconify-json/fluent@1.2.32':
+    resolution: {integrity: sha512-YQFHsRrBhgrfvuVWJTg+EsVDA3pN4QwrFApZ2Di7J6YQIsNVNnBiEpGdT5qX4KxXFre3Yd4D7zm6EsWfKj4QBw==}
 
   '@iconify-json/logos@1.2.3':
     resolution: {integrity: sha512-JLHS5hgZP1b55EONAWNeqBUuriRfRNKWXK4cqYx0PpVaJfIIMiiMxFfvoQiX/bkE9XgkLhcKmDUqL3LXPdXPwQ==}
@@ -4763,7 +4769,7 @@ snapshots:
       hotkeys-js: 3.8.7
       lit: 2.2.6
 
-  '@chatwoot/prosemirror-schema@1.2.1':
+  '@chatwoot/prosemirror-schema@1.2.2':
     dependencies:
       markdown-it-sup: 2.0.0
       prosemirror-commands: 1.6.0
@@ -5260,6 +5266,10 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/object-schema@2.0.3': {}
+
+  '@iconify-json/fluent@1.2.32':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify-json/logos@1.2.3':
     dependencies:

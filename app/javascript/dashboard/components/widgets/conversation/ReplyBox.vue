@@ -14,7 +14,9 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.v
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/CopilotReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
+import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
 import QuotedEmailPreview from './QuotedEmailPreview.vue';
@@ -48,7 +50,8 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
-
+import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import { useAI } from 'dashboard/composables/useAI';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
@@ -74,6 +77,8 @@ export default {
     WhatsappTemplates,
     WootMessageEditor,
     QuotedEmailPreview,
+    CopilotEditorSection,
+    CopilotReplyBottomPanel,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
@@ -95,6 +100,8 @@ export default {
 
     const replyEditor = useTemplateRef('replyEditor');
 
+    const { processEvent } = useAI();
+
     return {
       uiSettings,
       updateUISettings,
@@ -103,6 +110,7 @@ export default {
       setQuotedReplyFlagForInbox,
       fetchQuotedReplyFlagFromUISettings,
       replyEditor,
+      processEvent,
     };
   },
   data() {
@@ -134,6 +142,11 @@ export default {
       newConversationModalActive: false,
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
+      editorMenuOptions: MESSAGE_EDITOR_MENU_OPTIONS,
+      showCopilotEditor: false,
+      isGeneratingContent: false,
+      generatedContent: '',
+      copilotAbortController: null,
     };
   },
   computed: {
@@ -436,6 +449,8 @@ export default {
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
         // like self-assign or other updates that do not actually change the conversation context
         this.setCCAndToEmailsFromLastChat();
+        // Reset Copilot editor state (includes cancelling ongoing generation)
+        this.resetCopilotEditorState();
       }
 
       if (this.isOnPrivateNote) {
@@ -891,6 +906,38 @@ export default {
         this.insertIntoTextEditor(content, selectionStart, selectionEnd);
       }
     },
+    async executeCopilotAction(action, data) {
+      if (action === 'ask_copilot') {
+        this.updateUISettings({
+          is_contact_sidebar_open: false,
+          is_copilot_panel_open: true,
+        });
+      } else {
+        // Reset state and cancel any previous generation
+        this.resetCopilotEditorState();
+
+        // Create new AbortController for this generation
+        this.copilotAbortController = new AbortController();
+        this.isGeneratingContent = true;
+
+        try {
+          const content = await this.processEvent(action, data, {
+            signal: this.copilotAbortController.signal,
+          });
+
+          // Only apply result if not aborted
+          if (!this.copilotAbortController.signal.aborted) {
+            this.generatedContent = content;
+            if (content) this.toggleCopilotEditor();
+            this.isGeneratingContent = false;
+          }
+        } catch (error) {
+          if (!this.copilotAbortController?.signal.aborted) {
+            this.isGeneratingContent = false;
+          }
+        }
+      }
+    },
     clearMessage() {
       this.message = '';
       if (this.sendWithSignature && !this.isPrivate) {
@@ -1155,6 +1202,24 @@ export default {
     togglePopout() {
       this.$emit('update:popOutReplyBox', !this.popOutReplyBox);
     },
+    onSubmitCopilotReply() {
+      this.message = this.generatedContent;
+      this.showCopilotEditor = false;
+    },
+    toggleCopilotEditor() {
+      this.showCopilotEditor = !this.showCopilotEditor;
+    },
+    resetCopilotEditorState() {
+      // Cancel any ongoing generation
+      if (this.copilotAbortController) {
+        this.copilotAbortController.abort();
+        this.copilotAbortController = null;
+      }
+      // Reset all editor state
+      this.showCopilotEditor = false;
+      this.isGeneratingContent = false;
+      this.generatedContent = '';
+    },
   },
 };
 </script>
@@ -1170,6 +1235,8 @@ export default {
       :popout-reply-box="popOutReplyBox"
       @set-reply-mode="setReplyMode"
       @toggle-popout="togglePopout"
+      @toggle-copilot="toggleCopilotEditor"
+      @execute-copilot-action="executeCopilotAction"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"
@@ -1228,11 +1295,21 @@ export default {
         @focus="onFocus"
         @blur="onBlur"
       />
+      <CopilotEditorSection
+        v-else-if="showCopilotEditor || isGeneratingContent"
+        :show-copilot-editor="showCopilotEditor"
+        :is-generating-content="isGeneratingContent"
+        :generated-content="generatedContent"
+        :is-popout="popOutReplyBox"
+        @focus="onFocus"
+        @blur="onBlur"
+        @clear-selection="clearEditorSelection"
+      />
       <WootMessageEditor
         v-else
         v-model="message"
         :editor-id="editorStateId"
-        class="input"
+        class="input popover-prosemirror-menu"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
@@ -1242,6 +1319,7 @@ export default {
         :signature="signatureToApply"
         allow-signature
         :channel-type="channelType"
+        :enabled-menu-options="editorMenuOptions"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -1250,6 +1328,7 @@ export default {
         @toggle-canned-menu="toggleCannedMenu"
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
+        @execute-copilot-action="executeCopilotAction"
       />
       <QuotedEmailPreview
         v-if="shouldShowQuotedPreview"
@@ -1272,7 +1351,15 @@ export default {
     <MessageSignatureMissingAlert
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
     />
+    <CopilotReplyBottomPanel
+      v-if="showCopilotEditor || isGeneratingContent"
+      :is-private="isOnPrivateNote"
+      :is-generating-content="isGeneratingContent"
+      @submit="onSubmitCopilotReply"
+      @cancel="toggleCopilotEditor"
+    />
     <ReplyBottomPanel
+      v-else
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :enable-whats-app-templates="showWhatsappTemplates"
