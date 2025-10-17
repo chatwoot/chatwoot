@@ -41,6 +41,37 @@ RSpec.describe Inbox do
     it_behaves_like 'avatarable'
   end
 
+  describe '#lock_to_single_conversation' do
+    let(:email_channel) { create(:channel_email) }
+    let(:email_inbox) { create(:inbox, channel: email_channel) }
+    let(:web_widget_inbox) { create(:inbox) }
+
+    context 'when inbox is an email inbox' do
+      it 'returns false regardless of the database value' do
+        email_inbox.update(lock_to_single_conversation: true)
+        expect(email_inbox.reload.lock_to_single_conversation).to be(false)
+      end
+
+      it 'preserves the actual value in the database' do
+        email_inbox.update(lock_to_single_conversation: true)
+        # Access the raw attribute value using self[]
+        expect(email_inbox.reload[:lock_to_single_conversation]).to be(true)
+      end
+    end
+
+    context 'when inbox is not an email inbox' do
+      it 'returns the actual database value when true' do
+        web_widget_inbox.update(lock_to_single_conversation: true)
+        expect(web_widget_inbox.reload.lock_to_single_conversation).to be(true)
+      end
+
+      it 'returns the actual database value when false' do
+        web_widget_inbox.update(lock_to_single_conversation: false)
+        expect(web_widget_inbox.reload.lock_to_single_conversation).to be(false)
+      end
+    end
+  end
+
   describe '#add_members' do
     let(:inbox) { FactoryBot.create(:inbox) }
 
