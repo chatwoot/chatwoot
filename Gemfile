@@ -194,6 +194,8 @@ gem 'ruby_llm-schema'
 
 gem 'shopify_api'
 
+gem 'resend'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
