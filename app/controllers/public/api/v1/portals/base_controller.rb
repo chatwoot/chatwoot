@@ -4,6 +4,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   before_action :show_plain_layout
   before_action :set_color_scheme
   before_action :set_global_config
+  before_action :check_portal_plan_access
   around_action :set_locale
   after_action :allow_iframe_requests
 
