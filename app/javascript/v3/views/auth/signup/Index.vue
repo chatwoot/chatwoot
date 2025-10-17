@@ -34,7 +34,6 @@ export default {
 
 <template>
   <div class="w-full min-h-screen bg-background">
-    <img src="v3/assets/images/Mascot-Laptop.png" alt="Mascot" class="hidden md:block z-50 absolute items-center top-1/3 right-2/3 h-[500px]"/>
     <div v-show="!isLoading" class="flex w-full">
       <div
         class="flex flex-col w-full p-5 md:p-8 overflow-x-hidden items-center justify-center"

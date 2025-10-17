@@ -159,9 +159,8 @@ export default {
 </script>
 
 <template>
-  <main class="bg-background flex items-center justify-center p-4">
-    <img src="v3/assets/images/Mascot-Laptop.png" alt="Mascot" class="hidden md:block z-50 absolute bottom-0 right-2/3 h-[500px]"/>
-    <div class="w-full max-w-md">
+  <div class="w-full min-h-screen bg-background flex items-center justify-center">
+      <div class="p-5 md:p-8 w-full max-w-md">
       <div class="text-center mb-4">
         <div class="inline-flex items-center justify-center w-16 h-16">
           <img
@@ -299,7 +298,7 @@ export default {
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <style scoped>

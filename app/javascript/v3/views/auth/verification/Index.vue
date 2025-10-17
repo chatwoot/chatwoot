@@ -4,7 +4,6 @@ import { required, minLength, maxLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import FormInput from '../../../components/Form/Input.vue';
 import SubmitButton from '../../../components/Button/SubmitButton.vue';
-import AuthBackround from '../../../components/AuthBackground/AuthBackground.vue';
 import { generateOTP, verifyOTP, resendOTP, checkOTPStatus } from '../../../api/auth';
 
 export default {
@@ -12,7 +11,6 @@ export default {
   components: {
     FormInput,
     SubmitButton,
-    AuthBackround,
   },
   setup() {
     return { v$: useVuelidate() };
@@ -281,12 +279,15 @@ export default {
 </script>
 
 <template>
-  <div class="w-full h-full dark:bg-slate-900">
-    <div class="flex h-full min-h-screen">
-      <div class="flex flex-col md:flex-row *:md:flex-1 w-full">
-        <AuthBackround />
+   <div class="w-full min-h-screen bg-background flex items-center justify-center">
+      <div class="p-5 md:p-8 w-full max-w-md">
         <div class="p-5 md:p-8 w-full overflow-auto flex items-center">
           <div class="w-full mx-auto max-w-md">
+            <img
+              src="v3/assets/images/logo.svg"
+              alt="logo"
+              class="block w-auto h-16 mx-auto mb-6"
+            />
             <div class="mb-8">
               <h2 class="mt-6 text-3xl font-medium text-center text-slate-900 dark:text-woot-50">
                 {{ $t('OTP_VERIFICATION.TITLE') }}
@@ -425,10 +426,28 @@ export default {
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
 <style scoped>
-/* Custom styles for OTP input */
+.bg-background {
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 250, 199, 0.4),       
+    rgba(217, 255, 228, 0.3),      
+    rgba(34, 197, 94, 0.1)  
+  );
+  min-height: 100vh;
+  height: auto;
+}
+
+.dark .bg-background {
+  background: linear-gradient(
+    to bottom right,
+    rgba(15, 23, 42, 0.95),
+    rgba(30, 41, 59, 0.9)
+  );
+  min-height: 100vh;
+  height: auto;
+}
 </style>
