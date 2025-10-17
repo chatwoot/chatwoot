@@ -479,6 +479,73 @@
         "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
         "NOT_FOUND": "Could not find the assistant. Please try again."
       },
+      "ONBOARDING": {
+        "HEADER": {
+          "TITLE": "Create an assistant",
+          "BUTTON_LABEL": "Save and proceed",
+          "GO_SETTINGS": "Go to settings",
+          "BUTTON_SAVE": "Save"
+        },
+        "CREATE": {
+          "NAME": "What would you call your assistant?",
+          "NAME_PLACEHOLDER": "Type your assistant name...",
+          "URL": "What is your brand website?",
+          "URL_PLACEHOLDER": "Type your brand website...",
+          "CREATE_BUTTON": "Let’s go!"
+        },
+        "CREATING": "Creating your assistant...",
+        "BASE_SETTINGS": {
+          "TITLE": "Basic settings",
+          "SUBTITLE": "Meet {assistantName}",
+          "DESCRIPTION": "{assistantName} works for your product {productName}, and helps you reliably answer customer queries. Let’s go through your assistant kit.",
+          "RESPONSE_TEMPERATURE": {
+            "TITLE": "Response temperature",
+            "DESCRIPTION": "Your assistant is quite creative with the responses keeping in mind the friendly voice of your brand.",
+            "HELP": "You can adjust this; lower = focused and predictable, higher = creative and varied."
+          },
+          "FEATURES": {
+            "TITLE": "Features",
+            "DESCRIPTION": "The work does not always end when the conversation does.",
+            "OPTIONS": {
+              "ALLOW_CONVERSATION_FAQS": "Assistant should generate FAQs from resolved conversations",
+              "ALLOW_MEMORIES": "Assistant should capture key details as memories from customer interactions"
+            }
+          }
+        },
+        "GUARDRAILS": {
+          "TITLE": "Guardrails",
+          "SUBTITLE": "Stay focused on what is relevant",
+          "DESCRIPTION": "Guardrails help you to keep only the questions you want your assistant to answer, and filter out anything that is off-limits or off-topic.",
+          "BULK_ACTION": {
+            "SELECTED": "{count} item selected | {count} items selected",
+            "SELECT_ALL": "Select all ({count})",
+            "UNSELECT_ALL": "Unselect all ({count})",
+            "BULK_DELETE_BUTTON": "Delete"
+          }
+        },
+        "SCENARIOS": {
+          "TITLE": "Scenarios",
+          "SUBTITLE": "Have a playbook ready for common situations",
+          "DESCRIPTION": "Scenarios help your assistant respond smartly based on the situation. You can set tone, tools, or even actions to take. It’s like giving it a playbook to follow.",
+          "BULK_ACTION": {
+            "SELECTED": "{count} item selected | {count} items selected",
+            "SELECT_ALL": "Select all ({count})",
+            "UNSELECT_ALL": "Unselect all ({count})",
+            "BULK_DELETE_BUTTON": "Delete"
+          }
+        },
+        "GUIDELINES": {
+          "TITLE": "Response guidelines",
+          "SUBTITLE": "Serve the right answers",
+          "DESCRIPTION": "Response guidelines help you to decide how the assistant presents the final response. This makes sure answers feel right for your brand, your team, or your users.",
+          "BULK_ACTION": {
+            "SELECTED": "{count} item selected | {count} items selected",
+            "SELECT_ALL": "Select all ({count})",
+            "UNSELECT_ALL": "Unselect all ({count})",
+            "BULK_DELETE_BUTTON": "Delete"
+          }
+        }
+      },
       "SETTINGS": {
         "BREADCRUMB": {
           "ASSISTANT": "Assistant"
