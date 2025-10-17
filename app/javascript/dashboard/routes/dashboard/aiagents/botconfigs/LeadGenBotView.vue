@@ -363,15 +363,26 @@ const props = defineProps({
 const defaultLeadPriorities = [
   { 
     name: 'Tidak Tertarik', 
-    condition: '' 
+    condition: `- Pelanggan menolak produk setelah penjelasan
+- Budget tidak cocok dan tidak bisa dinego
+- Tidak responsif atau ingin mengakhiri percakapan
+- Sudah punya produk serupa dan puas
+- **Closing**: "Baik kak, terima kasih atas waktunya. Kalau ada yang berubah pikiran, jangan ragu kontak kami ya!"` 
   },
   { 
     name: 'Tertarik dan Butuh Follow Up', 
-    condition: '' 
+    condition: `- Pelanggan tertarik tapi bilang "pikir dulu", "diskusi sama yang lain"
+- Belum ada budget/timeline yang jelas
+- Minta dihubungi lagi nanti, butuh approval atasan/keluarga
+- Tertarik tapi belum siap commit
+- **Closing**: "Oke kak, kami catat dulu datanya ya. Tim admin kami akan follow up dalam 1x24 jam untuk update info terbaru!"`
   },
   { 
     name: 'Tertarik dan Mau Buat Janji', 
-    condition: '' 
+    condition: `- Pelanggan antusias dan mau langsung diskusi harga/detail
+- Siap set jadwal meeting/konsultasi/demo
+- Sudah qualified (budget, timeline, decision maker jelas)
+- Menunjukkan urgency tinggi untuk segera action`
   }
 ];
 
@@ -663,7 +674,7 @@ async function submitClassificationConfig() {
     }
     
     // Update cart configuration
-    flowData.agents_config[agentIndex].configurations.classificationEnabled = classificationEnabled.value;
+    flowData.agents_config[agentIndex].configurations.classification_enabled = classificationEnabled.value;
 
     const payload = {
       flow_data: flowData,
@@ -672,7 +683,7 @@ async function submitClassificationConfig() {
     await aiAgents.updateAgent(props.data.id, payload);
 
     // Update local props data to maintain state after update
-    updateLocalPropsData('cart_enabled', classificationEnabled.value);
+    updateLocalPropsData('classification_enabled', classificationEnabled.value);
 
     useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_SUCCESS'));
   } catch (error) {
@@ -722,11 +733,11 @@ function loadSavedConfiguration() {
     }
 
     // Load Classification Configuration
-    if (config.classificationEnabled !== undefined) {
-      classificationEnabled.value = config.classificationEnabled;
-      console.log('Loaded classificationEnabled:', classificationEnabled.value);
+    if (config.classification_enabled !== undefined) {
+      classificationEnabled.value = config.classification_enabled;
+      console.log('Loaded classification_enabled:', classificationEnabled.value);
     } else {
-      console.log('classificationEnabled not found in config');
+      console.log('classification_enabled not found in config');
     }
     
   } catch (error) {
