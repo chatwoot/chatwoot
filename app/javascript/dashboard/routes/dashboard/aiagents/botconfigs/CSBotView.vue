@@ -49,7 +49,7 @@
           />
         </div>
         <div v-show="activeIndex === 2" class="w-full">
-          <QnaKnowledgeSources :data="data" />
+          <QnaKnowledgeSources :data="data" context="cs" />
         </div>
         <div v-show="activeIndex === 3" class="w-full">
           <CategoryTab :data="data" />

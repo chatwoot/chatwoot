@@ -1377,6 +1377,14 @@
               </div>
             </div>
           </div>
+
+          <!-- QnA Tab Content -->
+          <div v-show="activeTabIndex === 4" class="w-full min-w-0">
+            <QnaKnowledgeSources
+              :data="data"
+              context="sales"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -1387,7 +1395,7 @@
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import provinsiJson from '../wilayah/provinsi/provinsi.json';
-
+import QnaKnowledgeSources from '../knowledge-sources/QnaKnowledgeSources.vue';
 import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n'
 
@@ -1721,6 +1729,12 @@ const tabs = computed(() => [
     index: 3,
     name: t('AGENT_MGMT.SALESBOT.CART.HEADER'),
     icon: 'i-lucide-shopping-cart',
+  },
+  {
+    key: '4',
+    index: 4,
+    name: 'QnA',
+    icon: 'i-lucide-help-circle',
   },
 ])
 const activeTabIndex = ref(0);
