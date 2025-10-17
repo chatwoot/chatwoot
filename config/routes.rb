@@ -431,6 +431,8 @@ Rails.application.routes.draw do
               post :subscription
               get :limits
               post :toggle_deletion
+              # V2 Billing endpoints
+              get :credits_balance
             end
           end
         end

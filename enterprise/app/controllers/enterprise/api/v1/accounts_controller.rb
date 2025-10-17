@@ -55,6 +55,19 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     end
   end
 
+  # V2 Billing Endpoints
+  def credits_balance
+    service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
+    balance = service.credit_balance
+
+    render json: {
+      id: @account.id,
+      monthly_credits: balance[:monthly],
+      topup_credits: balance[:topup],
+      total_credits: balance[:total]
+    }
+  end
+
   private
 
   def check_cloud_env
