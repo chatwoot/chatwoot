@@ -121,6 +121,20 @@ export default {
       };
       return statusMap[this.playerStatus] || this.playerStatus;
     },
+    behaviorStatus() {
+      return this.additionalAttributes.behavior_status || null;
+    },
+    behaviorStatusLabel() {
+      const statusMap = {
+        toxic: this.$t('CONTACT_FORM.BEHAVIOR_STATUS.TOXIC'),
+        manipulator: this.$t('CONTACT_FORM.BEHAVIOR_STATUS.MANIPULATOR'),
+        loyal: this.$t('CONTACT_FORM.BEHAVIOR_STATUS.LOYAL'),
+        tilt: this.$t('CONTACT_FORM.BEHAVIOR_STATUS.TILT'),
+        artist: this.$t('CONTACT_FORM.BEHAVIOR_STATUS.ARTIST'),
+        teapot: this.$t('CONTACT_FORM.BEHAVIOR_STATUS.TEAPOT'),
+      };
+      return statusMap[this.behaviorStatus] || this.behaviorStatus;
+    },
   },
   watch: {
     'contact.id': {
@@ -270,13 +284,23 @@ export default {
         </p>
 
         <!-- Player status display -->
-        <div
-          v-if="playerStatus"
-          class="flex items-center text-n-slate-11 text-xs"
-        >
-          <span class="font-medium">
-            {{ playerStatusLabel }}
-          </span>
+        <div v-if="playerStatus" class="flex flex-col gap-1 text-xs">
+          <div class="flex items-center text-n-slate-11">
+            <span class="font-medium text-n-slate-10 mr-1.5">
+              {{ $t('CONTACT_FORM.PLAYER_STATUS.LABEL') }}:
+            </span>
+            <span class="font-medium">
+              {{ playerStatusLabel }}
+            </span>
+          </div>
+          <div v-if="behaviorStatus" class="flex items-center text-n-slate-11">
+            <span class="font-medium text-n-slate-10 mr-1.5">
+              {{ $t('CONTACT_FORM.BEHAVIOR_STATUS.LABEL') }}:
+            </span>
+            <span class="font-medium">
+              {{ behaviorStatusLabel }}
+            </span>
+          </div>
         </div>
 
         <!-- Block 4: Agent selector for operators -->
