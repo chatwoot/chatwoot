@@ -7,6 +7,7 @@ class ConversationReplyMailer < ApplicationMailer
   include ReferencesHeaderBuilder
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
+  RECAP_LIMIT = (ENV['EMAIL_RECAP_LIMIT'] || 50).to_i
 
   def reply_with_summary(conversation, last_queued_id)
     return unless smtp_config_set_or_development?
@@ -14,10 +15,18 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    recap_messages = @conversation.messages.chat.where('id < ?', last_queued_id).last(10)
-    new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
-    @messages = recap_messages + new_messages
-    @messages = @messages.select(&:email_reply_summarizable?)
+    recap_messages = @conversation.messages
+                                  .where('id < ?', last_queued_id)
+                                  .order(id: :desc)
+                                  .limit(RECAP_LIMIT)
+                                  .to_a
+    recap_messages.reverse!
+
+    new_messages   = @conversation.messages
+                                  .where('id >= ?', last_queued_id)
+                                  .order(:id)
+
+    @messages = (recap_messages + new_messages).select(&:email_reply_summarizable?)
     prepare_mail(true)
   end
 
