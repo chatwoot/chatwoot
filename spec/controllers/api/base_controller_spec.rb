@@ -5,10 +5,10 @@ RSpec.describe 'API Base', type: :request do
   let!(:user) { create(:user, account: account) }
 
   describe 'request with api_access_token for user' do
-    context 'accessing an account scoped resource' do
+    context 'when accessing an account scoped resource' do
       let!(:admin) { create(:user, :administrator, account: account) }
       let!(:conversation) { create(:conversation, account: account) }
-      
+
       it 'sets Current attributes for the request and then returns the response' do
         # expect Current.account_user is set to the admin's account_user
         allow(Current).to receive(:user=).and_call_original
@@ -17,7 +17,7 @@ RSpec.describe 'API Base', type: :request do
 
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
             headers: { api_access_token: admin.access_token.token },
-          as: :json
+            as: :json
 
         expect(Current).to have_received(:user=).with(admin).at_least(:once)
         expect(Current).to have_received(:account=).with(account).at_least(:once)
