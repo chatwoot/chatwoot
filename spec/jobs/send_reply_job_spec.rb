@@ -108,5 +108,32 @@ RSpec.describe SendReplyJob do
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
+
+    it 'calls ::Email::SendOnEmailService when its email message' do
+      email_channel = create(:channel_email)
+      message = create(:message, conversation: create(:conversation, inbox: email_channel.inbox))
+      allow(Email::SendOnEmailService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Email::SendOnEmailService).to receive(:new).with(message: message)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(message.id)
+    end
+
+    it 'calls ::Messages::SendEmailNotificationService when its webwidget message' do
+      webwidget_channel = create(:channel_widget)
+      message = create(:message, conversation: create(:conversation, inbox: webwidget_channel.inbox))
+      allow(Messages::SendEmailNotificationService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Messages::SendEmailNotificationService).to receive(:new).with(message: message)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(message.id)
+    end
+
+    it 'calls ::Messages::SendEmailNotificationService when its api channel message' do
+      api_channel = create(:channel_api)
+      message = create(:message, conversation: create(:conversation, inbox: api_channel.inbox))
+      allow(Messages::SendEmailNotificationService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Messages::SendEmailNotificationService).to receive(:new).with(message: message)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(message.id)
+    end
   end
 end
