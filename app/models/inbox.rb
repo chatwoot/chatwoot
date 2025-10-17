@@ -83,6 +83,11 @@ class Inbox < ApplicationRecord
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
+  # Helper method to check if pending conversations should reopen on incoming messages
+  def reopen_pending_conversations?
+    (auto_assignment_config['reopen_pending_conversations'].presence || false)
+  end
+
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event

@@ -168,10 +168,18 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
   end
 
   def update_auto_assignment_config
-    return if params[:assign_even_if_offline].blank?
+    return if params[:assign_even_if_offline].blank? && params[:reopen_pending_conversations].blank?
 
     current_config = @inbox.auto_assignment_config || {}
-    current_config['assign_even_if_offline'] = ActiveModel::Type::Boolean.new.cast(params[:assign_even_if_offline])
+
+    if params[:assign_even_if_offline].present?
+      current_config['assign_even_if_offline'] = ActiveModel::Type::Boolean.new.cast(params[:assign_even_if_offline])
+    end
+
+    if params[:reopen_pending_conversations].present?
+      current_config['reopen_pending_conversations'] = ActiveModel::Type::Boolean.new.cast(params[:reopen_pending_conversations])
+    end
+
     @inbox.auto_assignment_config = current_config
     @inbox.save!
   end

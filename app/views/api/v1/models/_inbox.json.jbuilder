@@ -12,6 +12,7 @@ json.csat_expiry_hours resource.csat_expiry_hours
 json.csat_allow_resend_after_expiry resource.csat_allow_resend_after_expiry
 json.enable_auto_assignment resource.enable_auto_assignment
 json.auto_assignment_config resource.auto_assignment_config
+json.reopen_pending_conversations resource.reopen_pending_conversations?
 json.out_of_office_message resource.out_of_office_message
 json.working_hours resource.weekly_schedule
 json.timezone resource.timezone

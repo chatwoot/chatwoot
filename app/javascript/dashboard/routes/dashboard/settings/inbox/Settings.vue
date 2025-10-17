@@ -335,6 +335,31 @@
           </p>
         </label>
 
+        <label class="w-3/4 pb-4">
+          {{ 'Reopen Pending Conversations' }}
+          <select v-model="reopenPendingConversations">
+            <option :value="true">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.ENABLED'
+                )
+              }}
+            </option>
+            <option :value="false">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.DISABLED'
+                )
+              }}
+            </option>
+          </select>
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+            {{
+              'When enabled, conversations in pending state will automatically reopen when customer sends a new message'
+            }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
@@ -560,6 +585,7 @@ export default {
       channelType: '',
       enableCSATOnWhatsapp: false,
       additionalAttributes: null,
+      reopenPendingConversations: false,
     };
   },
   computed: {
@@ -772,6 +798,8 @@ export default {
         this.addLabelToResolveConversation =
           this.inbox.add_label_to_resolve_conversation;
         this.additionalAttributes = this.inbox.additional_attributes;
+        this.reopenPendingConversations =
+          this.inbox.reopen_pending_conversations || false;
       });
     },
     async updateInbox() {
@@ -793,6 +821,7 @@ export default {
               ).id
             : null,
           lock_to_single_conversation: this.locktoSingleConversation,
+          reopen_pending_conversations: this.reopenPendingConversations,
           sender_name_type: this.senderNameType,
           business_name: this.businessName || null,
           channel: {

@@ -383,6 +383,7 @@ class Message < ApplicationRecord
     conversation.open! if conversation.snoozed?
 
     reopen_resolved_conversation if conversation.resolved?
+    reopen_pending_conversation if conversation.pending?
   end
 
   def reopen_resolved_conversation
@@ -395,6 +396,14 @@ class Message < ApplicationRecord
     else
       conversation.open!
     end
+  end
+
+  def reopen_pending_conversation
+    # only reopen pending conversations if the inbox has the setting enabled
+    return unless conversation.inbox.reopen_pending_conversations?
+
+    Current.executed_by = sender if reopened_by_contact?
+    conversation.open!
   end
 
   def reopened_by_contact?
