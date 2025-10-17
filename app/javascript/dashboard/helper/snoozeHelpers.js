@@ -12,6 +12,7 @@ import {
   setSeconds,
 } from 'date-fns';
 import wootConstants from 'dashboard/constants/globals';
+import { getLastCustomSnoozeTime } from './customSnoozeStorage';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
@@ -51,6 +52,9 @@ export const findSnoozeTime = (snoozeType, currentDate = new Date()) => {
     parsedDate = setHoursToNine(findStartOfNextWeek(currentDate));
   } else if (snoozeType === SNOOZE_OPTIONS.UNTIL_NEXT_MONTH) {
     parsedDate = setHoursToNine(findStartOfNextMonth(currentDate));
+  } else if (snoozeType === SNOOZE_OPTIONS.UNTIL_LAST_CUSTOM_TIME) {
+    // Return the stored timestamp directly (already in Unix format)
+    return getLastCustomSnoozeTime();
   }
 
   return parsedDate ? getUnixTime(parsedDate) : null;
