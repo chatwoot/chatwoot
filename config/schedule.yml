@@ -53,3 +53,9 @@ bulk_auto_assignment_job:
   cron: '*/15 * * * *'
   class: 'Inboxes::BulkAutoAssignmentJob'
   queue: scheduled_jobs
+
+# executed every 30 minutes for assignment_v2
+periodic_assignment_job:
+  cron: '*/30 * * * *'
+  class: 'AutoAssignment::PeriodicAssignmentJob'
+  queue: scheduled_jobs
