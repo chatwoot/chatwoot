@@ -699,10 +699,54 @@ function updateLocalPropsData(configType, configData) {
   } catch (error) {
   }
 }
+function loadSavedConfiguration() {
+  try {
+    const flowData = props.data?.display_flow_data;
+    if (!flowData) {
+      console.log('No flow data available');
+      return;
+    }
+    
+    const agentIndex = flowData.enabled_agents?.indexOf('lead_generation');
+    
+    if (agentIndex === -1) {
+      console.log('Lead generation agent not found');
+      return;
+    }
+    
+    const config = flowData.agents_config?.[agentIndex]?.configurations;
+    
+    if (!config) {
+      console.log('No configuration found');
+      return;
+    }
 
-onMounted(() => {
-  // Initialize if needed
+    // Load Classification Configuration
+    if (config.classificationEnabled !== undefined) {
+      classificationEnabled.value = config.classificationEnabled;
+      console.log('Loaded classificationEnabled:', classificationEnabled.value);
+    } else {
+      console.log('classificationEnabled not found in config');
+    }
+    
+  } catch (error) {
+    console.error('Error loading configuration:', error);
+  }
+}
+
+onMounted(async() => {
+  loadSavedConfiguration();
 });
+
+watch(
+  () => props.data,
+  (newData) => {
+    if (newData && newData.display_flow_data) {
+      loadSavedConfiguration();
+    }
+  },
+  { immediate: true, deep: true }
+);
 </script>
 
 <style scoped>
