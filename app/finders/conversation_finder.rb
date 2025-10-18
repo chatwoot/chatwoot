@@ -156,7 +156,8 @@ class ConversationFinder
   def filter_by_labels
     return unless params[:labels]
 
-    @conversations = @conversations.tagged_with(params[:labels], any: true)
+    pattern = params[:labels].map { |label| Regexp.escape(label) }.join('|')
+    @conversations = @conversations.where('cached_label_list ~ ?', "\\y(#{pattern})\\y")
   end
 
   def filter_by_source_id
