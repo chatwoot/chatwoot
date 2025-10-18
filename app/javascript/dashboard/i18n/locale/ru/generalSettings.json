@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "Вы превысили лимит диалогов. План \"Хакер\" позволяет только 500 диалогов.",
+      "INBOXES": "Вы превысили лимит входящих сообщений. План \"Хакер\" поддерживает только live-чат на сайте. Дополнительные почтовые ящики, такие как электронная почта, WhatsApp и т.д. требуют платного плана.",
+      "AGENTS": "Вы превысили лимит агентов. Ваш план разрешает только {allowedAgents} агентов.",
+      "NON_ADMIN": "Пожалуйста, свяжитесь с вашим администратором, чтобы обновить план и продолжить использовать все функции."
     },
     "TITLE": "Настройки аккаунта",
     "SUBMIT": "Изменить настройки",
@@ -15,23 +15,23 @@
       "SUCCESS": "Настройки аккаунта обновлены"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "Удалить ваш аккаунт",
+      "NOTE": "После удаления учетной записи, все данные будут удалены.",
+      "BUTTON_TEXT": "Удалить ваш аккаунт",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "Удалить аккаунт",
+        "MESSAGE": "Удаление учетной записи необратимо. Введите имя вашей учетной записи ниже, чтобы подтвердить ее удаление.",
         "BUTTON_TEXT": "Удалить",
         "DISMISS": "Отменить",
         "PLACE_HOLDER": "Пожалуйста, введите {accountName} для подтверждения"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Учетная запись отмечена как удаленная",
+      "FAILURE": "Не удалось удалить аккаунт, попробуйте еще раз!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Учетная запись запланирована к удалению",
+        "MESSAGE_MANUAL": "Эта учетная запись запланирована к удалению {deletionDate}. Это было запрошено администратором. Вы можете отменить удаление до этой даты.",
+        "MESSAGE_INACTIVITY": "Эта учетная запись запланирована к удалению {deletionDate} из-за отсутствия активности. Вы можете отменить удаление до этой даты.",
+        "CLEAR_BUTTON": "Отменить запланированное удаление"
       }
     },
     "FORM": {
@@ -53,8 +53,8 @@
           "PLACEHOLDER": "30",
           "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
           "API": {
-            "SUCCESS": "Auto resolve settings updated successfully",
-            "ERROR": "Failed to update auto resolve settings"
+            "SUCCESS": "Настройки автозавершения успешно обновлены",
+            "ERROR": "Не удалось обновить настройки автозавершения"
           }
         },
         "MESSAGE": {
@@ -93,30 +93,30 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+        "LABEL": "Исключить неотвеченные диалоги",
+        "HELP": "Если включено, система пропускает разрешение диалогов, которые все еще ждут ответа агента."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
-        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "TITLE": "Расшифровать аудио сообщения",
+        "NOTE": "Автоматически расшифровывать аудио сообщения в диалогах. Генерировать текстовые субтитры при отправке или получении звукового сообщения и отображать их вместе с сообщением.",
         "API": {
-          "SUCCESS": "Audio transcription setting updated successfully",
-          "ERROR": "Failed to update audio transcription setting"
+          "SUCCESS": "Настройки расшифровки аудио сообщений успешно обновлены",
+          "ERROR": "Не удалось обновить настройки расшифровки аудио сообщений"
         }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Inactivity duration for resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "LABEL": "Длительность бездействия для автозавершения",
+        "HELP": "Длительность бездействия для автозавершения, если не было активности",
         "PLACEHOLDER": "30",
         "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
         "API": {
           "SUCCESS": "Настройки автозавершения сохранены",
-          "ERROR": "Failed to update auto resolve settings"
+          "ERROR": "Не удалось обновить настройки автозавершения"
         },
         "UPDATE_BUTTON": "Обновить",
-        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_LABEL": "Сообщение при автозавершении",
         "MESSAGE_PLACEHOLDER": "Диалог помечен завершенным автоматически из-за бездействия в течение 15 дней",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+        "MESSAGE_HELP": "Это сообщение отправляется клиенту, когда разговор автоматически решен системой из-за бездействия."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Для вашего аккаунта включено продолжение диалогов по электронной почте.",
@@ -126,7 +126,7 @@
     "UPDATE_CHATWOOT": "Доступно обновление {latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
     "LEARN_MORE": "Узнайте больше",
     "PAYMENT_PENDING": "Ваш платеж в ожидании. Пожалуйста, обновите платежную информацию, чтобы продолжить использовать Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "UPGRADE": "Обновитесь, чтобы продолжить использовать Chatwoot",
     "LIMITS_UPGRADE": "Превышен лимит использования вашего тарифного плана, пожалуйста, обновите тарифный план, чтобы продолжить использовать Chatwoot",
     "OPEN_BILLING": "Открыть платеж"
   },
@@ -134,7 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Нажмите Enter для выбора",
       "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
-      "NO_OPTIONS": "List is empty",
+      "NO_OPTIONS": "Список пуст",
       "SELECT_ONE": "Выберите один",
       "SELECT": "Выбрать"
     }

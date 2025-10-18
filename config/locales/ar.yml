@@ -62,6 +62,9 @@ ar:
         invalid: إيميل غير صالح
       phone_number:
         invalid: يجب أن يكون بصيغة e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
@@ -185,6 +188,8 @@ ar:
       captain:
         resolved: 'تم تحديد هذه المحادثة كمحلولة بواسطة %{user_name} بسبب عدم النشاط'
         open: 'تم تحديد هذه المحادثة كمفتوحة بواسطة %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'تم تحديث حالة المحادثة لـ"مغلقة" بواسطة %{user_name}'
         contact_resolved: 'تم حل المحادثة بواسطة %{contact_name}'
