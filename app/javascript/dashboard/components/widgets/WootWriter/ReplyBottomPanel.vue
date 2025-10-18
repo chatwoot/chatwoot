@@ -118,6 +118,12 @@ export default {
       type: String,
       default: '',
     },
+    allowSignature: { type: Boolean, default: false },
+    allowEmoji: { type: Boolean, default: false },
+    allowAiAssist: { type: Boolean, default: false },
+    allowVideoCall: { type: Boolean, default: false },
+    allowFileUpload: { type: Boolean, default: false },
+    allowAudioRecorder: { type: Boolean, default: false },
     showQuotedReplyToggle: {
       type: Boolean,
       default: false,
@@ -285,6 +291,7 @@ export default {
   <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
       <NextButton
+        v-if="allowEmoji"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="i-ph-smiley-sticker"
         slate
@@ -293,6 +300,7 @@ export default {
         @click="toggleEmojiPicker"
       />
       <FileUpload
+        v-if="allowFileUpload"
         ref="uploadRef"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         input-id="conversationAttachment"
@@ -316,36 +324,40 @@ export default {
           sm
         />
       </FileUpload>
+      <template v-if="allowAudioRecorder">
+        <NextButton
+          v-if="showAudioRecorderButton"
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+          :icon="
+            !isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'
+          "
+          slate
+          faded
+          sm
+          @click="toggleAudioRecorder"
+        />
+        <NextButton
+          v-if="showEditorToggle"
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
+          icon="i-ph-quotes"
+          slate
+          faded
+          sm
+          @click="$emit('toggleEditor')"
+        />
+        <NextButton
+          v-if="showAudioPlayStopButton"
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
+          :icon="audioRecorderPlayStopIcon"
+          slate
+          faded
+          sm
+          :label="recordingAudioDurationText"
+          @click="toggleAudioRecorderPlayPause"
+        />
+      </template>
       <NextButton
-        v-if="showAudioRecorderButton"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
-        slate
-        faded
-        sm
-        @click="toggleAudioRecorder"
-      />
-      <NextButton
-        v-if="showEditorToggle"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        icon="i-ph-quotes"
-        slate
-        faded
-        sm
-        @click="$emit('toggleEditor')"
-      />
-      <NextButton
-        v-if="showAudioPlayStopButton"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        :icon="audioRecorderPlayStopIcon"
-        slate
-        faded
-        sm
-        :label="recordingAudioDurationText"
-        @click="toggleAudioRecorderPlayPause"
-      />
-      <NextButton
-        v-if="showMessageSignatureButton"
+        v-if="allowSignature && showMessageSignatureButton"
         v-tooltip.top-end="signatureToggleTooltip"
         icon="i-ph-signature"
         slate
@@ -382,11 +394,15 @@ export default {
         @click="$emit('selectContentTemplate')"
       />
       <VideoCallButton
-        v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
+        v-if="
+          allowVideoCall &&
+          (isAWebWidgetInbox || isAPIInbox) &&
+          !isOnPrivateNote
+        "
         :conversation-id="conversationId"
       />
       <AIAssistanceButton
-        v-if="!isFetchingAppIntegrations"
+        v-if="allowAiAssist && !isFetchingAppIntegrations"
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"

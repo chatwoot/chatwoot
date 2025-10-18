@@ -15,6 +15,12 @@ class ApiClient {
 
   // eslint-disable-next-line class-methods-use-this
   get accountIdFromRoute() {
+    // eslint-disable-next-line no-underscore-dangle
+    if (window.__WOOT_ACCOUNT_ID__) {
+      // eslint-disable-next-line no-underscore-dangle
+      return window.__WOOT_ACCOUNT_ID__;
+    }
+
     const isInsideAccountScopedURLs =
       window.location.pathname.includes('/app/accounts');
 

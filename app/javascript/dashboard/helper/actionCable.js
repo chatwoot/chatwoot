@@ -10,7 +10,10 @@ const { isImpersonating } = useImpersonation();
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
     const { websocketURL = '' } = window.chatwootConfig || {};
-    super(app, pubsubToken, websocketURL);
+
+    // eslint-disable-next-line no-underscore-dangle
+    const wsURL = websocketURL || window.__WEBSOCKET_URL__ || '';
+    super(app, pubsubToken, wsURL);
     this.CancelTyping = [];
     this.events = {
       'message.created': this.onMessageCreated,
@@ -48,7 +51,9 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   isAValidEvent = data => {
-    return this.app.$store.getters.getCurrentAccountId === data.account_id;
+    // eslint-disable-next-line no-underscore-dangle
+    const currentAccountId = this.app.$store.getters.getCurrentAccountId;
+    return currentAccountId === data.account_id;
   };
 
   onMessageUpdated = data => {
@@ -98,7 +103,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       conversation: { last_activity_at: lastActivityAt },
       conversation_id: conversationId,
     } = data;
-    DashboardAudioNotificationHelper.onNewMessage(data);
+    // eslint-disable-next-line no-underscore-dangle
+    if (!window.__WOOT_ISOLATED_SHELL__) {
+      DashboardAudioNotificationHelper.onNewMessage(data);
+    }
     this.app.$store.dispatch('addMessage', data);
     this.app.$store.dispatch('updateConversationLastActivity', {
       lastActivityAt,

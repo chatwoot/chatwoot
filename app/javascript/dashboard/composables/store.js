@@ -2,6 +2,12 @@ import { computed, unref } from 'vue';
 import { getCurrentInstance } from 'vue';
 
 export const useStore = () => {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__CHATWOOT_STORE__) {
+    // eslint-disable-next-line no-underscore-dangle
+    return window.__CHATWOOT_STORE__;
+  }
+
   const vm = getCurrentInstance();
   if (!vm) throw new Error('must be called in setup');
   return vm.proxy.$store;

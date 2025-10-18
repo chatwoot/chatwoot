@@ -448,7 +448,7 @@ const avatarTooltip = computed(() => {
 });
 
 const setupHighlightTimer = () => {
-  if (Number(route.query.messageId) !== Number(props.id)) {
+  if (Number(route?.query?.messageId) !== Number(props.id)) {
     return;
   }
 
