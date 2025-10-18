@@ -31,6 +31,8 @@
 #  index_message_templates_on_updated_by_id                 (updated_by_id)
 #
 class MessageTemplate < ApplicationRecord
+  attr_accessor :skip_provider_sync
+
   SUPPORTED_LANGUAGES = LANGUAGES_CONFIG.values.pluck(:iso_639_1_code).freeze
 
   validates :account_id, presence: true
@@ -120,6 +122,7 @@ class MessageTemplate < ApplicationRecord
   end
 
   def sync_templates_from_provider
+    return if skip_provider_sync
     return unless inbox&.channel
 
     inbox.channel.sync_templates

@@ -20,10 +20,13 @@ class Whatsapp::TemplateSyncService
 
   def sync_individual_template(template_data)
     message_template = find_or_initialize_template(template_data)
+    message_template.skip_provider_sync = true
     update_template_attributes(message_template, template_data)
     message_template.save!
   rescue StandardError => e
     Rails.logger.error "Failed to sync template #{template_data['id']}: #{e.message}"
+  ensure
+    message_template&.skip_provider_sync = false
   end
 
   def find_or_initialize_template(template_data)

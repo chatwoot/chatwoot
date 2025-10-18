@@ -71,6 +71,15 @@ describe Whatsapp::TemplateSyncService do
         expect(MessageTemplate.count).to eq(3)
       end
 
+      it 'does not trigger provider sync callbacks during import' do
+        provider_double = instance_double(Whatsapp::Providers::WhatsappCloudService)
+        allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new).and_return(provider_double)
+        expect(provider_double).not_to receive(:sync_templates)
+
+        service = described_class.new(channel: whatsapp_channel, templates: [template_data_approved])
+        service.call
+      end
+
       it 'creates new templates with correct attributes' do
         freeze_time do
           service = described_class.new(channel: whatsapp_channel, templates: templates)
@@ -226,10 +235,9 @@ describe Whatsapp::TemplateSyncService do
 
   describe 'private methods' do
     let(:service) { described_class.new(channel: whatsapp_channel, templates: templates) }
+    let(:template) { build(:message_template, account: account, inbox: inbox) }
 
     describe '#update_template_attributes' do
-      let(:template) { build(:message_template, account: account, inbox: inbox) }
-
       it 'assigns all template attributes correctly' do
         freeze_time do
           service.send(:update_template_attributes, template, template_data_approved)
@@ -258,6 +266,30 @@ describe Whatsapp::TemplateSyncService do
         expect(Whatsapp::TemplateFormatterService).to have_received(:format_status_from_meta).with('APPROVED')
         expect(Whatsapp::TemplateFormatterService).to have_received(:format_category_from_meta).with('MARKETING')
         expect(Whatsapp::TemplateFormatterService).to have_received(:format_parameter_format_from_meta).with('POSITIONAL')
+      end
+    end
+
+    describe '#sync_individual_template' do
+      before do
+        allow(service).to receive(:find_or_initialize_template).and_return(template)
+        allow(service).to receive(:update_template_attributes)
+        allow(Rails.logger).to receive(:error)
+      end
+
+      it 'resets skip_provider_sync flag after successful save' do
+        allow(template).to receive(:save!).and_return(true)
+
+        service.send(:sync_individual_template, template_data_approved)
+
+        expect(template.skip_provider_sync).to be(false)
+      end
+
+      it 'resets skip_provider_sync flag even when save raises error' do
+        allow(template).to receive(:save!).and_raise(StandardError, 'boom')
+
+        service.send(:sync_individual_template, template_data_approved)
+
+        expect(template.skip_provider_sync).to be(false)
       end
     end
   end
