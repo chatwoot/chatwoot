@@ -53,15 +53,13 @@ RSpec.describe 'Conversations API', type: :request do
       let(:conversation) { create(:conversation, account: account) }
 
       before do
-        create(:inbox_member, user: agent, inbox: conversation.inbox)
         create(:conversation_participant, conversation: conversation, account: account, user: agent)
       end
 
-      it 'allows accessing the conversation via participation' do
+      it 'returns unauthorized for participation without additional permissions' do
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: agent.create_new_auth_token
 
-        expect(response).to have_http_status(:ok)
-        expect(response.parsed_body['id']).to eq(conversation.display_id)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 

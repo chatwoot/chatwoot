@@ -23,8 +23,9 @@ module Enterprise::ConversationPolicy
   end
 
   def permits_participating?(permissions)
-    (assigned_to_user? || participant?) &&
-      (permissions.include?('conversation_participating_manage') || permissions.include?('conversation_unassigned_manage'))
+    return false unless permissions.include?('conversation_participating_manage')
+
+    assigned_to_user? || participant?
   end
 
   def unassigned_conversation?
