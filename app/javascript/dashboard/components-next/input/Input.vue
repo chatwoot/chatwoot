@@ -22,6 +22,8 @@ const props = defineProps({
   min: { type: String, default: '' },
   max: { type: String, default: '' },
   autofocus: { type: Boolean, default: false },
+  showCharacterCount: { type: Boolean, default: false },
+  maxLength: { type: Number, default: null },
 });
 
 const emit = defineEmits([
@@ -58,6 +60,8 @@ const inputOutlineClass = computed(() => {
       return 'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak focus:outline-n-brand dark:focus:outline-n-brand';
   }
 });
+
+const characterCount = computed(() => String(props.modelValue).length);
 
 const handleInput = event => {
   let value = event.target.value;
@@ -114,35 +118,50 @@ onMounted(() => {
     </label>
     <!-- Added prefix slot to allow adding icons to the input -->
     <slot name="prefix" />
-    <input
-      :id="uniqueId"
-      v-bind="$attrs"
-      ref="inputRef"
-      :value="modelValue"
-      :class="[
-        customInputClass,
-        inputOutlineClass,
-        sizeClass,
-        {
-          error: messageType === 'error',
-          focus: isFocused,
-        },
-      ]"
-      :type="type"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :min="['date', 'datetime-local', 'time'].includes(type) ? min : undefined"
-      :max="
-        ['date', 'datetime-local', 'time', 'number'].includes(type)
-          ? max
-          : undefined
-      "
-      class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-      @input="handleInput"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @keyup.enter="handleEnter"
-    />
+    <div class="relative">
+      <input
+        :id="uniqueId"
+        v-bind="$attrs"
+        ref="inputRef"
+        :value="modelValue"
+        :class="[
+          customInputClass,
+          inputOutlineClass,
+          sizeClass,
+          {
+            error: messageType === 'error',
+            focus: isFocused,
+          },
+          showCharacterCount ? 'pr-16' : '',
+        ]"
+        :type="type"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :min="
+          ['date', 'datetime-local', 'time'].includes(type) ? min : undefined
+        "
+        :maxlength="showCharacterCount && maxLength ? maxLength : undefined"
+        :max="
+          ['date', 'datetime-local', 'time', 'number'].includes(type)
+            ? max
+            : undefined
+        "
+        class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @keyup.enter="handleEnter"
+      />
+      <!-- Character Count Display -->
+      <div
+        v-if="showCharacterCount"
+        class="absolute top-1/2 transform -translate-y-1/2 right-3 pointer-events-none"
+      >
+        <span class="text-xs tabular-nums text-n-slate-10">
+          {{ characterCount }}<span v-if="maxLength"> / {{ maxLength }}</span>
+        </span>
+      </div>
+    </div>
     <p
       v-if="message"
       class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
