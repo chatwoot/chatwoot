@@ -779,7 +779,7 @@
             "COPY": "CNAME copiado com sucesso",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Enviar instruções",
-              "DESCRIPTION": "Se você preferir ter alguém da sua equipe de desenvolvimento para lidar com essa etapa, você pode digitar o endereço de e-mail abaixo e nós enviaremos as instruções necessárias.",
+              "DESCRIPTION": "Se você preferir que alguém da sua equipe de desenvolvimento lide com essa etapa, você pode digitar o endereço de e-mail abaixo e nós enviaremos as instruções necessárias.",
               "PLACEHOLDER": "Insira o e-mail dele",
               "ERROR": "Insira um endereço de e-mail válido",
               "SEND_BUTTON": "Enviar"
