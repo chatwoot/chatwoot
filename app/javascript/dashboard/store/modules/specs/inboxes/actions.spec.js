@@ -62,6 +62,28 @@ describe('#actions', () => {
     });
   });
 
+  describe('#createVoiceChannel', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({ data: inboxList[0] });
+      await actions.createVoiceChannel({ commit }, inboxList[0]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
+        [types.default.ADD_INBOXES, inboxList[0]],
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(actions.createVoiceChannel({ commit })).rejects.toThrow(
+        Error
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+  });
+
   describe('#createFBChannel', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: inboxList[0] });
@@ -207,6 +229,30 @@ describe('#actions', () => {
       await expect(
         actions.deleteInboxAvatar({}, inboxList[0].id)
       ).rejects.toThrow(Error);
+    });
+  });
+
+  describe('#syncTemplates', () => {
+    it('sends correct API call when sync is successful', async () => {
+      axios.post.mockResolvedValue({
+        data: { message: 'Template sync initiated successfully' },
+      });
+
+      await actions.syncTemplates({ commit }, 123);
+
+      expect(axios.post).toHaveBeenCalledWith(
+        '/api/v1/inboxes/123/sync_templates'
+      );
+    });
+
+    it('throws error when API call fails', async () => {
+      const errorMessage =
+        'Template sync is only available for WhatsApp channels';
+      axios.post.mockRejectedValue(new Error(errorMessage));
+
+      await expect(actions.syncTemplates({ commit }, 123)).rejects.toThrow(
+        errorMessage
+      );
     });
   });
 });

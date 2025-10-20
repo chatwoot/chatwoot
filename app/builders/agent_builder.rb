@@ -42,8 +42,7 @@ class AgentBuilder
       # Prepare data for ALOOSTUDIO webhook
       first_name, last_name = (name || '').split(' ', 2)
       payload = {
-        firstName: first_name, .
-        
+        firstName: first_name,
         lastName: last_name,
         email: email,
         password: temp_password,
@@ -126,3 +125,5 @@ class AgentBuilder
     }.compact))
   end
 end
+
+AgentBuilder.prepend_mod_with('AgentBuilder')

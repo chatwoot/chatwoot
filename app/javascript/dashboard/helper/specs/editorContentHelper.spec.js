@@ -48,6 +48,7 @@ describe('getContentNode', () => {
         {
           userId: content.id,
           userFullName: content.name,
+          mentionType: 'user',
         }
       );
     });

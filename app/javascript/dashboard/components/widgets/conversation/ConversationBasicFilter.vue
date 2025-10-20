@@ -38,7 +38,7 @@ const currentSortBy = computed(() => {
   );
 });
 
-const chatStatusOptions = [
+const chatStatusOptions = computed(() => [
   {
     label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
     value: 'open',
@@ -59,9 +59,9 @@ const chatStatusOptions = [
     label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
     value: 'all',
   },
-];
+]);
 
-const chatSortOptions = [
+const chatSortOptions = computed(() => [
   {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_activity_at_asc.TEXT'),
     value: 'last_activity_at_asc',
@@ -94,15 +94,18 @@ const chatSortOptions = [
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_desc.TEXT'),
     value: 'waiting_since_desc',
   },
-];
+]);
 
 const activeChatStatusLabel = computed(
   () =>
-    chatStatusOptions.find(m => m.value === chatStatusFilter.value)?.label || ''
+    chatStatusOptions.value.find(m => m.value === chatStatusFilter.value)
+      ?.label || ''
 );
 
 const activeChatSortLabel = computed(
-  () => chatSortOptions.find(m => m.value === chatSortFilter.value)?.label || ''
+  () =>
+    chatSortOptions.value.find(m => m.value === chatSortFilter.value)?.label ||
+    ''
 );
 
 const saveSelectedFilter = (type, value) => {

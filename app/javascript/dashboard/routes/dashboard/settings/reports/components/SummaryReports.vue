@@ -59,7 +59,7 @@ const defaulSpanRender = cellProps =>
     cellProps.getValue()
   );
 
-const columns = [
+const columns = computed(() => [
   columnHelper.accessor('name', {
     header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
     width: 300,
@@ -90,7 +90,7 @@ const columns = [
     width: 200,
     cell: defaulSpanRender,
   }),
-];
+]);
 
 const renderAvgTime = value => (value ? formatTime(value) : '--');
 
@@ -108,7 +108,8 @@ const tableData = computed(() =>
     } = rowMetrics;
     return {
       id: row.id,
-      name: row.name,
+      // we fallback on title, label for instance does not have a name property
+      name: row.name ?? row.title,
       type: props.type,
       conversationsCount: renderCount(conversationsCount),
       avgFirstResponseTime: renderAvgTime(avgFirstResponseTime),
@@ -141,7 +142,9 @@ const table = useVueTable({
   get data() {
     return tableData.value;
   },
-  columns,
+  get columns() {
+    return columns.value;
+  },
   enableSorting: false,
   getCoreRowModel: getCoreRowModel(),
 });
@@ -177,7 +180,7 @@ defineExpose({ downloadReports });
 <template>
   <ReportFilterSelector @filter-change="onFilterChange" />
   <div
-    class="flex-1 overflow-auto px-5 py-6 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
+    class="flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
     <Table :table="table" />
   </div>

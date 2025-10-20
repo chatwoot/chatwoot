@@ -7,12 +7,12 @@ metadata:
     # This annotation will help force pulls of the latest image
     container.apparmor.security.beta.kubernetes.io/rails: runtime/default
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: chatwoot-rails
@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: rails
-        image: wavai/chatwoot-rails:v1.0.20
+        image: wavai/chatwoot-rails:v1.0.22
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "docker/entrypoints/rails.sh && bundle exec rails server -b 0.0.0.0"]

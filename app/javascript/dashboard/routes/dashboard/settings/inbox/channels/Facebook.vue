@@ -6,11 +6,12 @@ import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
-import { mapGetters } from 'vuex';
+import Multiselect from 'vue-multiselect';
+
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
@@ -21,12 +22,14 @@ export default {
     LoadingState,
     PageHeader,
     NextButton,
+    Multiselect,
   },
-  mixins: [globalConfigMixin],
   setup() {
     const { accountId } = useAccount();
+    const { replaceInstallationName } = useBranding();
     return {
       accountId,
+      replaceInstallationName,
       v$: useVuelidate(),
     };
   },
@@ -66,10 +69,6 @@ export default {
     getSelectablePages() {
       return this.pageList.filter(item => !item.exists);
     },
-    ...mapGetters({
-      // eslint-disable-next-line vue/no-unused-properties
-      globalConfig: 'globalConfig/get',
-    }),
   },
 
   mounted() {
@@ -109,6 +108,12 @@ export default {
     },
 
     runFBInit() {
+      if (!window.chatwootConfig.fbAppId) {
+        this.hasError = true;
+        this.errorStateMessage = 'Facebook App ID is not configured';
+        return;
+      }
+
       FB.init({
         appId: window.chatwootConfig.fbAppId,
         xfbml: true,
@@ -209,22 +214,20 @@ export default {
 </script>
 
 <template>
-  <div
-    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
-  >
+  <div class="w-full h-full col-span-6 p-6 overflow-auto">
     <div
       v-if="!hasLoginStarted"
       class="flex flex-col items-center justify-center h-full text-center"
     >
       <a href="#" @click="startLogin()">
         <img
-          class="w-auto h-10"
+          class="w-auto h-10 rounded-md"
           src="~dashboard/assets/images/channels/facebook_login.png"
           alt="Facebook-logo"
         />
       </a>
       <p class="py-6">
-        {{ useInstallationName($t('INBOX_MGMT.ADD.FB.HELP'), 'AlooChat') }}
+        {{ replaceInstallationName($t('INBOX_MGMT.ADD.FB.HELP')) }}
       </p>
     </div>
     <div v-else>
@@ -245,7 +248,7 @@ export default {
           <PageHeader
             :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
             :header-content="
-              useInstallationName($t('INBOX_MGMT.ADD.DETAILS.DESC'), 'AlooChat')
+              replaceInstallationName($t('INBOX_MGMT.ADD.DETAILS.DESC'))
             "
           />
         </div>
@@ -253,7 +256,7 @@ export default {
           <div class="w-full">
             <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
-              <multiselect
+              <Multiselect
                 v-model="selectedPage"
                 close-on-select
                 allow-empty

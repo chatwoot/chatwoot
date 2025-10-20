@@ -6,7 +6,6 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
 import { FormKit, createInput } from '@formkit/vue';
 import PhoneInput from 'widget/components/Form/PhoneInput.vue';
@@ -17,7 +16,7 @@ export default {
     Spinner,
     FormKit,
   },
-  mixins: [routerMixin, configMixin],
+  mixins: [configMixin],
   props: {
     options: {
       type: Object,

@@ -6,12 +6,13 @@ metadata:
     kubernetes.io/change-cause: "Staging deployment"
     container.apparmor.security.beta.kubernetes.io/rails: runtime/default
 spec:
-  replicas: 2
+  replicas: 1
+  progressDeadlineSeconds: 900
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: chatwoot-rails-staging
@@ -24,7 +25,7 @@ spec:
     spec:
       containers:
       - name: rails
-        image: wavai/chatwoot-rails-staging:v1.0.20
+        image: wavai/chatwoot-rails-staging:v1.0.22
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "docker/entrypoints/rails.sh && bundle exec rails server -b 0.0.0.0"]
@@ -62,20 +63,33 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "500m"
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
         readinessProbe:
           httpGet:
             path: /healthz
             port: 3000
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 120
           periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 6
         livenessProbe:
           httpGet:
             path: /healthz
             port: 3000
             scheme: HTTP
-          initialDelaySeconds: 90
+          initialDelaySeconds: 180
           periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service

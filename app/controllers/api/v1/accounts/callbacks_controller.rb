@@ -30,33 +30,14 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   end
 
   def facebook_pages
-    Rails.logger.info "Facebook pages request with token: #{params[:omniauth_token].present? ? 'present' : 'missing'}"
-
-    fb_api = fb_object
-    Rails.logger.info 'Facebook API object created successfully'
-
-    pages_data = fb_api.get_connections('me', 'accounts')
-    Rails.logger.info "Facebook pages data retrieved: #{pages_data.length} pages found"
-
-    @page_details = mark_already_existing_facebook_pages(pages_data)
-    Rails.logger.info 'Page details processed successfully'
-  rescue Koala::Facebook::AuthenticationError => e
-    Rails.logger.error "Facebook authentication error: #{e.message}"
-    render json: {
-      success: false,
-      error: 'Facebook authentication failed. Please try reconnecting your Facebook account.',
-      details: e.message
-    }, status: :unauthorized
-    nil
-  rescue StandardError => e
-    Rails.logger.error "Error in facebook_pages: #{e.message}"
-    Rails.logger.error "Backtrace: #{e.backtrace.join('\n')}"
-    render json: {
-      success: false,
-      error: 'Failed to retrieve Facebook pages',
-      details: e.message
-    }, status: :internal_server_error
-    nil
+    pages = []
+    fb_pages = fb_object.get_connections('me', 'accounts')
+    pages.concat(fb_pages)
+    while fb_pages.respond_to?(:next_page) && (next_page = fb_pages.next_page)
+      fb_pages = next_page
+      pages.concat(fb_pages)
+    end
+    @page_details = mark_already_existing_facebook_pages(pages)
   end
 
   def set_instagram_id(page_access_token, facebook_channel)

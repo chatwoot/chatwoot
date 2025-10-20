@@ -1,53 +1,18 @@
 class AutomationRuleListener < BaseListener
   def conversation_updated(event)
-    return if performed_by_automation?(event)
-
-    conversation = event.data[:conversation]
-    account = conversation.account
-    changed_attributes = event.data[:changed_attributes]
-
-    return unless rule_present?('conversation_updated', account)
-
-    rules = current_account_rules('conversation_updated', account)
-
-    rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
-      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
-    end
+    process_conversation_event(event, 'conversation_updated')
   end
 
   def conversation_created(event)
-    return if performed_by_automation?(event)
-
-    conversation = event.data[:conversation]
-    account = conversation.account
-    changed_attributes = event.data[:changed_attributes]
-
-    return unless rule_present?('conversation_created', account)
-
-    rules = current_account_rules('conversation_created', account)
-
-    rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
-      ::AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
-    end
+    process_conversation_event(event, 'conversation_created')
   end
 
   def conversation_opened(event)
-    return if performed_by_automation?(event)
+    process_conversation_event(event, 'conversation_opened')
+  end
 
-    conversation = event.data[:conversation]
-    account = conversation.account
-    changed_attributes = event.data[:changed_attributes]
-
-    return unless rule_present?('conversation_opened', account)
-
-    rules = current_account_rules('conversation_opened', account)
-
-    rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
-      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
-    end
+  def conversation_resolved(event)
+    process_conversation_event(event, 'conversation_resolved')
   end
 
   def message_created(event)
@@ -69,6 +34,28 @@ class AutomationRuleListener < BaseListener
     end
   end
 
+  private
+
+  def process_conversation_event(event, event_name)
+    return if performed_by_automation?(event)
+
+    auto_reply_skip_events = %w[conversation_created conversation_opened]
+    return if auto_reply_skip_events.include?(event_name) && ignore_auto_reply_event?(event)
+
+    conversation = event.data[:conversation]
+    account = conversation.account
+    changed_attributes = event.data[:changed_attributes]
+
+    return unless rule_present?(event_name, account)
+
+    rules = current_account_rules(event_name, account)
+
+    rules.each do |rule|
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
+      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
+    end
+  end
+
   def rule_present?(event_name, account)
     return if account.blank?
 
@@ -87,8 +74,13 @@ class AutomationRuleListener < BaseListener
     event.data[:performed_by].present? && event.data[:performed_by].instance_of?(AutomationRule)
   end
 
+  def ignore_auto_reply_event?(event)
+    conversation = event.data[:conversation]
+    conversation.additional_attributes['auto_reply'].present?
+  end
+
   def ignore_message_created_event?(event)
     message = event.data[:message]
-    performed_by_automation?(event) || message.activity?
+    performed_by_automation?(event) || message.activity? || message.auto_reply_email?
   end
 end

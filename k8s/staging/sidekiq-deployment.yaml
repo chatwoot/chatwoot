@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: chatwoot-sidekiq-staging
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: chatwoot-sidekiq-staging
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: sidekiq
-        image: wavai/chatwoot-rails-staging:v1.0.20
+        image: wavai/chatwoot-rails-staging:v1.0.22
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "bundle exec sidekiq -C config/sidekiq.yml"]

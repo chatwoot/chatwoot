@@ -59,6 +59,13 @@
         "ERROR_MESSAGE": "Nepavyko atnaujinti boto. Bandykite dar kartą vėliau."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Prieeigos raktas",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"

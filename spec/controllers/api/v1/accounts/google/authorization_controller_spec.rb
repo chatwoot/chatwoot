@@ -32,19 +32,20 @@ RSpec.describe 'Google Authorization API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        google_service = Class.new { extend GoogleConcern }
-        response_url = google_service.google_client.auth_code.authorize_url(
-          {
-            redirect_uri: "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback",
-            scope: 'email profile https://mail.google.com/',
-            response_type: 'code',
-            prompt: 'consent',
-            access_type: 'offline',
-            client_id: GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', nil)
-          }
-        )
-        expect(response.parsed_body['url']).to eq response_url
-        expect(Redis::Alfred.get("google::#{administrator.email}")).to eq(account.id.to_s)
+
+        # Validate URL components
+        url = response.parsed_body['url']
+        uri = URI.parse(url)
+        params = CGI.parse(uri.query)
+
+        expect(url).to start_with('https://accounts.google.com/o/oauth2/auth')
+        expect(params['scope']).to eq(['email profile https://mail.google.com/'])
+        expect(params['redirect_uri']).to eq(["#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback"])
+
+        # Validate state parameter exists and can be decoded back to the account
+        expect(params['state']).to be_present
+        decoded_account = GlobalID::Locator.locate_signed(params['state'].first, for: 'default')
+        expect(decoded_account).to eq(account)
       end
     end
   end

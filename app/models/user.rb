@@ -8,6 +8,7 @@
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
 #  confirmed_at           :datetime
+#  consumed_timestep      :integer
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  custom_attributes      :jsonb
@@ -19,6 +20,9 @@
 #  last_sign_in_ip        :string
 #  message_signature      :text
 #  name                   :string           not null
+#  otp_backup_codes       :text
+#  otp_required_for_login :boolean          default(FALSE), not null
+#  otp_secret             :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -37,12 +41,14 @@
 #
 # Indexes
 #
-#  index_users_on_clerk_user_id         (clerk_user_id) UNIQUE WHERE (clerk_user_id IS NOT NULL)
-#  index_users_on_email                 (email)
-#  index_users_on_human_agent_id        (human_agent_id)
-#  index_users_on_pubsub_token          (pubsub_token) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
+#  index_users_on_clerk_user_id           (clerk_user_id) UNIQUE WHERE (clerk_user_id IS NOT NULL)
+#  index_users_on_email                   (email)
+#  index_users_on_human_agent_id          (human_agent_id)
+#  index_users_on_otp_required_for_login  (otp_required_for_login)
+#  index_users_on_otp_secret              (otp_secret) UNIQUE
+#  index_users_on_pubsub_token            (pubsub_token) UNIQUE
+#  index_users_on_reset_password_token    (reset_password_token) UNIQUE
+#  index_users_on_uid_and_provider        (uid,provider) UNIQUE
 #
 # Foreign Keys
 #
@@ -68,7 +74,8 @@ class User < ApplicationRecord
          :validatable,
          :confirmable,
          :password_has_required_content,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+         :two_factor_authenticatable,
+         :omniauthable, omniauth_providers: [:google_oauth2, :saml]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
@@ -79,6 +86,12 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, presence: true
+
+  serialize :otp_backup_codes, type: Array
+
+  # Encrypt sensitive MFA fields
+  encrypts :otp_secret, deterministic: true
+  encrypts :otp_backup_codes
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
@@ -126,8 +139,8 @@ class User < ApplicationRecord
     self.email = email.try(:downcase)
   end
 
-  def send_devise_notification(notification, *args)
-    devise_mailer.with(account: Current.account).send(notification, self, *args).deliver_later
+  def send_devise_notification(notification, *)
+    devise_mailer.with(account: Current.account).send(notification, self, *).deliver_later
   end
 
   def set_password_and_uid
@@ -171,6 +184,27 @@ class User < ApplicationRecord
 
   def self.from_email(email)
     find_by(email: email&.downcase)
+  end
+
+  # 2FA/MFA Methods
+  # Delegated to Mfa::ManagementService for better separation of concerns
+  def mfa_service
+    @mfa_service ||= Mfa::ManagementService.new(user: self)
+  end
+
+  delegate :two_factor_provisioning_uri, to: :mfa_service
+  delegate :backup_codes_generated?, to: :mfa_service
+  delegate :enable_two_factor!, to: :mfa_service
+  delegate :disable_two_factor!, to: :mfa_service
+  delegate :generate_backup_codes!, to: :mfa_service
+  delegate :validate_backup_code!, to: :mfa_service
+
+  def mfa_enabled?
+    otp_required_for_login?
+  end
+
+  def mfa_feature_available?
+    Chatwoot.mfa_enabled?
   end
 
   private

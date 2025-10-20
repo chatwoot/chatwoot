@@ -71,6 +71,7 @@ class Telegram::SendAttachmentsService
     HTTParty.post("#{channel.telegram_api_url}/sendMediaGroup",
                   body: {
                     chat_id: chat_id,
+                    **business_connection_body,
                     media: attachments.map { |hash| hash.except(:attachment) }.to_json,
                     reply_to_message_id: reply_to_message_id
                   })
@@ -108,6 +109,7 @@ class Telegram::SendAttachmentsService
       HTTParty.post("#{channel.telegram_api_url}/sendDocument",
                     body: {
                       chat_id: chat_id,
+                      **business_connection_body,
                       document: file,
                       reply_to_message_id: reply_to_message_id
                     },
@@ -134,5 +136,15 @@ class Telegram::SendAttachmentsService
 
   def channel
     @channel ||= message.inbox.channel
+  end
+
+  def business_connection_id
+    @business_connection_id ||= channel.business_connection_id(message)
+  end
+
+  def business_connection_body
+    body = {}
+    body[:business_connection_id] = business_connection_id if business_connection_id
+    body
   end
 end

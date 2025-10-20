@@ -48,7 +48,8 @@
       "CREATED_AT": "Dicipta Pada",
       "LAST_ACTIVITY": "Last Activity",
       "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Labels"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Penapis Standard",
