@@ -14,13 +14,13 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Non disponibile"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Siamo online",
     "OFFLINE": "Siamo offline in questo momento",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "Torneremo il prima possibile"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
