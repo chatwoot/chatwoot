@@ -3,6 +3,7 @@ import conversation from './conversation/conversation.routes';
 import { routes as searchRoutes } from '../../modules/search/search.routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as companyRoutes } from './companies/routes';
+import { routes as customerRoutes } from './customers/routes';
 import { routes as notificationRoutes } from './notifications/routes';
 import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
@@ -25,6 +26,7 @@ export default {
         ...settings.routes,
         ...contactRoutes,
         ...companyRoutes,
+        ...customerRoutes,
         ...searchRoutes,
         ...notificationRoutes,
         ...helpcenterRoutes.routes,

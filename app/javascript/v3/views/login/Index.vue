@@ -43,6 +43,7 @@ export default {
     ssoConversationId: { type: String, default: '' },
     email: { type: String, default: '' },
     authError: { type: String, default: '' },
+    redirect: { type: String, default: '' },
   },
   setup() {
     const { replaceInstallationName } = useBranding();
@@ -183,6 +184,11 @@ export default {
 
           this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
+          // Redirect to the original URL if available
+          const redirectUrl = this.redirect
+            ? decodeURIComponent(this.redirect)
+            : '/app';
+          window.location = redirectUrl;
         })
         .catch(response => {
           // Reset URL Params if the authentication is invalid
@@ -206,7 +212,10 @@ export default {
     handleMfaVerified() {
       // MFA verification successful, continue with login
       this.handleImpersonation();
-      window.location = '/app';
+      const redirectUrl = this.redirect
+        ? decodeURIComponent(this.redirect)
+        : '/app';
+      window.location = redirectUrl;
     },
     handleMfaCancel() {
       // User cancelled MFA, reset state
