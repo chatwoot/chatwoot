@@ -91,7 +91,7 @@ const menuItems = computed(() => {
       showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.CHANGELOG'),
       icon: 'i-lucide-scroll-text',
-      link: 'https://www.cx.aloochat.com/changelog/',
+      link: 'https://www.cx.aloochat.ai/changelog/',
       nativeLink: true,
       target: '_blank',
     },
