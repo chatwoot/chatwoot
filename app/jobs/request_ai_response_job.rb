@@ -120,28 +120,52 @@ class RequestAiResponseJob < ApplicationJob
 
           Rails.logger.info "[AI_JOB] 🎵 Created temp file: #{temp_file.path}, size: #{temp_file.size} bytes"
 
-          # Create multipart request with audio file
-          multipart_body = {
-            agent_key: form_data[:agent_key],
-            messages: form_data[:messages],
-            conversation_id: form_data[:conversation_id],
-            audio_file: File.new(temp_file.path, 'rb')
-          }
-
-          Rails.logger.info "[AI_JOB] 🎵 Sending multipart request with fields: #{multipart_body.keys}"
+          Rails.logger.info '[AI_JOB] 🎵 Sending multipart request with fields: [:agent_key, :messages, :conversation_id, :audio_file]'
           Rails.logger.info "[AI_JOB] 🎵 Audio file path: #{temp_file.path}"
+          Rails.logger.info "[AI_JOB] 🎵 Audio file exists: #{File.exist?(temp_file.path)}"
+          Rails.logger.info "[AI_JOB] 🎵 Audio file size: #{File.size(temp_file.path)} bytes"
 
-          response = HTTParty.post(
+          # Use RestClient for better multipart handling
+          require 'rest-client'
+
+          Rails.logger.info "[AI_JOB] 🎵 Sending request to: #{deployment_url}"
+          Rails.logger.info "[AI_JOB] 🎵 Form data keys: #{form_data.keys}"
+          Rails.logger.info "[AI_JOB] 🎵 Original filename: #{audio_attachment.file.filename}"
+          Rails.logger.info "[AI_JOB] 🎵 Agent key: #{form_data[:agent_key]}"
+          Rails.logger.info "[AI_JOB] 🎵 Messages: #{form_data[:messages]}"
+          Rails.logger.info "[AI_JOB] 🎵 Conversation ID: #{form_data[:conversation_id]}"
+
+          # Create the audio file with proper multipart format that matches your AI engine expectation
+          audio_file = File.new(temp_file.path, 'rb')
+
+          rest_response = RestClient.post(
             deployment_url,
-            body: multipart_body,
-            headers: headers.except('Content-Type') # Let HTTParty set multipart content type automatically
+            {
+              agent_key: form_data[:agent_key],
+              messages: form_data[:messages],
+              conversation_id: form_data[:conversation_id],
+              audio_file: audio_file
+            },
+            {
+              'x-api-token' => api_token,
+              'clerk-id' => clerk_id
+            }
+          )
+
+          Rails.logger.info "[AI_JOB] 🎵 RestClient response received: #{rest_response.code}"
+
+          # Create a response object that matches HTTParty format
+          response = OpenStruct.new(
+            code: rest_response.code,
+            body: rest_response.body
           )
         rescue StandardError => e
           Rails.logger.error "[AI_JOB] ❌ Error handling audio file: #{e.message}"
           Rails.logger.error "[AI_JOB] ❌ Backtrace: #{e.backtrace.first(5).join('\n')}"
           raise e
         ensure
-          # Clean up temp file
+          # Clean up files
+          audio_file&.close if defined?(audio_file)
           if temp_file
             temp_file.close
             temp_file.unlink
@@ -171,8 +195,11 @@ class RequestAiResponseJob < ApplicationJob
 
         Rails.logger.info "[AI_JOB] 📝 AI Response - Text: #{ai_reply_content.present?}, Audio: #{audio_response.present?}, Transcribed: #{transcribed_text}"
 
-        # Determine if original message was audio
-        original_was_audio = message.attachments.any? { |att| att.file_type == 'audio' }
+        # Update original message with transcribed text if it was an audio message and we got transcription
+        if audio_attachment.present? && transcribed_text.present? && message.content.blank?
+          Rails.logger.info "[AI_JOB] 🎵 Updating original message with transcribed text: #{transcribed_text}"
+          message.update!(content: transcribed_text)
+        end
 
         # Create AI message with appropriate content
         message_content = ai_reply_content || transcribed_text || 'Audio response generated'

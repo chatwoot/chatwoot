@@ -59,6 +59,10 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  def self.find_by_phone_number_id(phone_number_id)
+    where("provider_config->>'phone_number_id' = ?", phone_number_id).first
+  end
+
   def setup_webhooks
     perform_webhook_setup
   rescue StandardError => e

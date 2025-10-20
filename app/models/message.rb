@@ -343,6 +343,11 @@ class Message < ApplicationRecord
   end
 
   def send_reply
+    if sender.nil?
+      Rails.logger.warn "[MESSAGE] ⚠️ send_reply called for message #{id} with nil sender - skipping"
+      return
+    end
+
     Rails.logger.info "[MESSAGE] 🔍 send_reply called for message #{id}, sender: #{sender.class.name} #{sender.id}, sender.is_ai: #{sender.is_a?(User) ? sender.is_ai? : 'N/A'}"
 
     # Skip sending reply for AI-generated messages since they're handled by RequestAiResponseJob
