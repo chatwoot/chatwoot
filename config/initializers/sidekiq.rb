@@ -6,8 +6,24 @@ Sidekiq.configure_client do |config|
   config.redis = Redis::Config.app
 end
 
+module Chatwoot
+  module SidekiqMiddleware
+    # Logs whenever a job is pulled off Redis for execution.
+    class DequeuedLogger
+      def call(_worker, job, queue)
+        Sidekiq.logger.info("Dequeued #{job['class']} #{job['jid']} from #{queue}")
+        yield
+      end
+    end
+  end
+end
+
 Sidekiq.configure_server do |config|
   config.redis = Redis::Config.app
+
+  config.server_middleware do |chain|
+    chain.add Chatwoot::SidekiqMiddleware::DequeuedLogger
+  end
 
   # skip the default start stop logging
   if Rails.env.production?
