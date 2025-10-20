@@ -1,0 +1,31 @@
+{
+  "CUSTOMER_MGMT": {
+    "EDIT": {
+      "TITLE": "Edit Customer",
+      "WELCOME_TITLE": "Welcome!",
+      "WELCOME_MESSAGE": "Please fill in the missing customer information to continue",
+      "NO_CONVERSATION_ERROR": "No conversation found for this contact",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Please enter the customer name"
+        },
+        "EMAIL_ADDRESS": {
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter the email address"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone Number",
+          "PLACEHOLDER": "Please enter the phone number"
+        },
+        "SUBMIT": "Save Changes",
+        "UPDATE_BUTTON": "Update",
+        "CONTINUE_BUTTON": "Continue"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Customer updated successfully",
+        "ERROR_MESSAGE": "Could not update customer, Please try again later"
+      }
+    }
+  }
+}

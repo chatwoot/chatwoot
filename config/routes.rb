@@ -110,6 +110,11 @@ Rails.application.routes.draw do
             end
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
+          resources :appointments, only: [:index, :create, :show, :update, :destroy] do
+            collection do
+              post :validate_appointment_token
+            end
+          end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]

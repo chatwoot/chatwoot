@@ -14,7 +14,8 @@ export const validateAuthenticateRoutePermission = (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
 
   if (!isLoggedIn) {
-    window.location.assign('/app/login');
+    const redirectUrl = encodeURIComponent(to.fullPath);
+    window.location.assign(`/app/login?redirect=${redirectUrl}`);
     return '';
   }
 
