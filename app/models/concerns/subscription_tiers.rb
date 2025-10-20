@@ -8,6 +8,8 @@ module SubscriptionTiers
     basic: {
       name: 'Basic',
       display_name: 'Basic (Free)',
+      stripe_price_id: nil,
+      price: 0,
       features: %w[
         conversations
         contacts
@@ -24,6 +26,8 @@ module SubscriptionTiers
     professional: {
       name: 'Professional',
       display_name: 'Professional',
+      stripe_price_id: 'price_1SJFZADAergAr76jPimoHbnS',
+      price: 29,
       features: %w[
         conversations
         contacts
@@ -43,6 +47,8 @@ module SubscriptionTiers
     premium: {
       name: 'Premium',
       display_name: 'Premium',
+      stripe_price_id: 'price_1SJFcwDAergAr76jLuE2WgmT',
+      price: 99,
       features: %w[
         conversations
         contacts
@@ -86,5 +92,13 @@ module SubscriptionTiers
 
   def subscription_features
     SUBSCRIPTION_TIERS.dig(subscription_tier, :features) || SUBSCRIPTION_TIERS[:basic][:features]
+  end
+
+  def stripe_price_id_for_tier(tier)
+    SUBSCRIPTION_TIERS.dig(tier.to_sym, :stripe_price_id)
+  end
+
+  def price_for_tier(tier)
+    SUBSCRIPTION_TIERS.dig(tier.to_sym, :price) || 0
   end
 end

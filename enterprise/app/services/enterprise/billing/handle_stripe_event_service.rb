@@ -31,6 +31,8 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
+    when 'checkout.session.completed'
+      process_checkout_completed
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -51,24 +53,55 @@ class Enterprise::Billing::HandleStripeEventService
 
   def update_account_attributes(subscription, plan)
     # https://stripe.com/docs/api/subscriptions/object
-    account.update(
-      custom_attributes: {
-        stripe_customer_id: subscription.customer,
-        stripe_price_id: subscription['plan']['id'],
-        stripe_product_id: subscription['plan']['product'],
-        plan_name: plan['name'],
-        subscribed_quantity: subscription['quantity'],
-        subscription_status: subscription['status'],
-        subscription_ends_on: Time.zone.at(subscription['current_period_end'])
-      }
-    )
+    attributes = {
+      stripe_customer_id: subscription.customer,
+      stripe_price_id: subscription['plan']['id'],
+      stripe_product_id: subscription['plan']['product'],
+      plan_name: plan['name'],
+      subscribed_quantity: subscription['quantity'],
+      subscription_status: subscription['status'],
+      subscription_ends_on: Time.zone.at(subscription['current_period_end'])
+    }
+
+    # Also set subscription_tier from metadata if present (for non-cloud plans)
+    attributes[:subscription_tier] = subscription.metadata['tier'] if subscription.metadata && subscription.metadata['tier'].present?
+
+    account.update(custom_attributes: attributes)
   end
 
   def process_subscription_deleted
     # skipping self hosted plan events
     return if account.blank?
 
+    # Reset subscription tier to basic when subscription is deleted
+    if account.custom_attributes&.dig('subscription_tier').present?
+      account.update(
+        custom_attributes: account.custom_attributes.merge(
+          subscription_tier: 'basic'
+        )
+      )
+    end
+
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+  end
+
+  def process_checkout_completed
+    session = @event.data.object
+    tier = session.metadata['tier']
+    account_id = session.metadata['account_id']
+
+    return unless tier.present? && account_id.present?
+
+    account = Account.find_by(id: account_id)
+    return unless account
+
+    # Update the subscription tier
+    account.update(
+      custom_attributes: account.custom_attributes.merge(
+        subscription_tier: tier,
+        stripe_customer_id: session.customer
+      )
+    )
   end
 
   def update_plan_features

@@ -1,7 +1,9 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useSubscription } from 'dashboard/composables/useSubscription';
 import { useI18n } from 'vue-i18n';
+import subscriptionAPI from 'dashboard/api/subscription';
+import { useAlert } from 'dashboard/composables';
 
 const props = defineProps({
   featureName: {
@@ -24,6 +26,7 @@ const { currentTierDisplayName, requiredTierFor, getTierDisplayName } =
 
 const requiredTier = computed(() => requiredTierFor(props.featureName));
 const requiredTierName = computed(() => getTierDisplayName(requiredTier.value));
+const isUpgrading = ref(false);
 
 const displayTitle = computed(() => {
   return props.title || t('SUBSCRIPTION.PAYWALL.DEFAULT_TITLE');
@@ -32,12 +35,32 @@ const displayTitle = computed(() => {
 const displayDescription = computed(() => {
   return props.description || t('SUBSCRIPTION.PAYWALL.DEFAULT_DESCRIPTION');
 });
+
+const handleUpgrade = async () => {
+  isUpgrading.value = true;
+  try {
+    const response = await subscriptionAPI.createCheckoutSession(
+      requiredTier.value
+    );
+    if (response.data.checkout_url) {
+      window.location.href = response.data.checkout_url;
+    }
+  } catch (error) {
+    useAlert(
+      error.response?.data?.error || t('SUBSCRIPTION.PAYWALL.UPGRADE_ERROR')
+    );
+  } finally {
+    isUpgrading.value = false;
+  }
+};
 </script>
 
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-n-solid-1 p-4">
+  <div
+    class="min-h-screen bg-n-solid-1 p-4 overflow-y-auto flex items-center justify-center"
+  >
     <div
-      class="max-w-md w-full bg-n-solid-2 rounded-lg shadow-lg p-8 border border-n-weak"
+      class="max-w-md w-full bg-n-solid-2 rounded-lg shadow-lg p-8 border border-n-weak my-8"
     >
       <!-- Icon -->
       <div class="flex justify-center mb-6">
@@ -107,12 +130,18 @@ const displayDescription = computed(() => {
 
       <!-- CTA Button -->
       <button
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-        @click="() => {}"
+        class="w-full bg-woot-500 hover:bg-woot-600 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        :disabled="isUpgrading"
+        @click="handleUpgrade"
       >
-        {{
-          t('SUBSCRIPTION.PAYWALL.UPGRADE_BUTTON', { tier: requiredTierName })
-        }}
+        <span v-if="isUpgrading">
+          {{ t('SUBSCRIPTION.PAYWALL.UPGRADING') }}
+        </span>
+        <span v-else>
+          {{
+            t('SUBSCRIPTION.PAYWALL.UPGRADE_BUTTON', { tier: requiredTierName })
+          }}
+        </span>
       </button>
 
       <!-- Contact Support Link -->

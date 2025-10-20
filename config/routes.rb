@@ -315,6 +315,9 @@ Rails.application.routes.draw do
               get 'import_from_vapi/:vapi_agent_id', to: 'vapi_agents#import_from_vapi', as: :import_from_vapi
             end
           end
+
+          post 'subscription/create_checkout_session', to: 'subscription#create_checkout_session'
+          post 'subscription/create_portal_session', to: 'subscription#create_portal_session'
         end
       end
       # end of account scoped api routes

@@ -10,7 +10,21 @@
       "FEATURE_2": "Advanced analytics and detailed reporting capabilities",
       "FEATURE_3": "Priority support with faster response times",
       "UPGRADE_BUTTON": "Upgrade to {tier}",
+      "UPGRADING": "Redirecting to checkout...",
+      "UPGRADE_ERROR": "Failed to create checkout session. Please try again.",
       "CONTACT_SUPPORT": "Questions? Contact our sales team to learn more"
+    },
+    "BILLING": {
+      "TITLE": "Your Subscription",
+      "DESCRIPTION": "Manage your subscription, update payment methods, view invoices, or cancel your plan.",
+      "CURRENT_TIER": "Current Plan",
+      "MANAGE_BUTTON": "Manage Subscription",
+      "MANAGING": "Opening portal..."
+    },
+    "UPGRADE": {
+      "TITLE": "Upgrade Your Plan",
+      "DESCRIPTION": "You're currently on the free plan. Upgrade to unlock premium features like advanced reports, campaigns, and voice agents.",
+      "VIEW_PLANS": "View Plans"
     },
     "TIERS": {
       "BASIC": "Basic (Free)",
