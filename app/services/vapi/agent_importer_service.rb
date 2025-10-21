@@ -54,6 +54,10 @@ class Vapi::AgentImporterService
     )
 
     Rails.logger.info "Created agent: #{agent.inspect}"
+
+    # Configure webhook on VAPI agent if webhook URL is available
+    configure_webhook_on_vapi(api_client) if webhook_url.present?
+
     { success: true, agent: agent }
   rescue StandardError => e
     Rails.logger.error "Failed to import Vapi agent: #{e.message}"
@@ -109,5 +113,33 @@ class Vapi::AgentImporterService
       return vapi_data.dig('model', 'messages', 0, 'content')
     end
     vapi_data.dig('model', 'systemPrompt') || vapi_data.dig('model', 'system_prompt')
+  end
+
+  def configure_webhook_on_vapi(api_client)
+    update_params = {
+      server: {
+        url: webhook_url,
+        timeoutSeconds: 20
+      },
+      serverMessages: ['end-of-call-report']
+    }
+
+    Rails.logger.info "Configuring webhook on VAPI agent: #{webhook_url}"
+    api_client.update_agent(vapi_agent_id, update_params)
+    Rails.logger.info 'Webhook configured successfully'
+  rescue StandardError => e
+    Rails.logger.error "Failed to configure webhook: #{e.message}"
+    # Don't fail the import if webhook configuration fails
+  end
+
+  def webhook_url
+    # Get from ENV or use provided URL
+    base_url = ENV.fetch('VAPI_WEBHOOK_URL', nil) || ENV.fetch('FRONTEND_URL', nil)
+    return nil if base_url.blank?
+
+    # Ensure it's a proper URL
+    base_url = "https://#{base_url}" unless base_url.start_with?('http://', 'https://')
+    # Only return if it's HTTPS
+    base_url.start_with?('https://') ? "#{base_url}/webhooks/vapi" : nil
   end
 end

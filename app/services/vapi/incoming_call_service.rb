@@ -159,16 +159,23 @@ class Vapi::IncomingCallService
     contact_inbox = contact.contact_inboxes.find_by(inbox: inbox)
     return nil unless contact_inbox
 
-    # Find existing conversation based on inbox settings
-    existing_conversation = if inbox.lock_to_single_conversation
-                              contact_inbox.conversations.last
-                            else
-                              contact_inbox.conversations.where.not(status: :resolved).last
-                            end
+    # For voice calls, always reuse the same conversation per contact
+    # First, try to find an open conversation
+    existing_conversation = contact_inbox.conversations.where.not(status: :resolved).last
+
+    # If no open conversation, reopen the last resolved conversation
+    if existing_conversation.nil?
+      last_conversation = contact_inbox.conversations.last
+      if last_conversation.present?
+        Rails.logger.info "Reopening conversation #{last_conversation.id} for new call"
+        last_conversation.update!(status: :open)
+        return last_conversation
+      end
+    end
 
     return existing_conversation if existing_conversation
 
-    # Create new conversation
+    # Create new conversation only if none exists
     Conversation.create!(
       account_id: inbox.account_id,
       inbox_id: inbox.id,

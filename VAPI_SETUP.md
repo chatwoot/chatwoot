@@ -17,11 +17,11 @@ VAPI_WEBHOOK_URL=your-chatwoot-domain.com  # e.g., your-ngrok-url.ngrok.io or ch
 FRONTEND_URL=https://your-chatwoot-domain.com
 ```
 
-**Important**: When creating a Voice Agent in Chatwoot, the system will automatically configure:
+**Important**: When creating **or importing** a Voice Agent in Chatwoot, the system will automatically configure:
 - Server URL: `https://your-webhook-url/webhooks/vapi`
 - Server Messages: `["end-of-call-report"]`
 
-This means you **don't need to manually configure webhooks in VAPI** - it's done automatically!
+This means you **don't need to manually configure webhooks in VAPI** - it's done automatically for both new and imported agents!
 
 ## Webhook Configuration
 

@@ -1,6 +1,11 @@
 class Webhooks::VapiController < ActionController::API
   def process_payload
-    Rails.logger.info "Received Vapi webhook: #{params[:type]}"
+    Rails.logger.info '=' * 80
+    Rails.logger.info '🎯 VAPI WEBHOOK RECEIVED!'
+    Rails.logger.info "Type: #{params[:type]}"
+    Rails.logger.info "Message Type: #{params.dig(:message, :type)}"
+    Rails.logger.info "Full payload: #{params.to_unsafe_hash.inspect}"
+    Rails.logger.info '=' * 80
 
     # Validate webhook signature if configured
     if ENV['VAPI_WEBHOOK_SECRET'].present? && !valid_signature?
