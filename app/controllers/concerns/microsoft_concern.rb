@@ -15,11 +15,7 @@ module MicrosoftConcern
 
   private
 
-  def parsed_body
-    @parsed_body ||= Rack::Utils.parse_nested_query(@response.raw_response.body)
-  end
-
-  def base_url
-    ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+  def scope
+    'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid profile email'
   end
 end

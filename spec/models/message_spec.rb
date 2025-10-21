@@ -4,6 +4,12 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/liquidable_shared.rb'
 
 RSpec.describe Message do
+  before do
+    # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(described_class).to receive(:reindex_for_search).and_return(true)
+    # rubocop:enable RSpec/AnyInstance
+  end
+
   context 'with validations' do
     it { is_expected.to validate_presence_of(:inbox_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }
@@ -267,6 +273,23 @@ RSpec.describe Message do
       message = create(:message)
       expect(message.webhook_data.key?(:attachments)).to be false
     end
+
+    it 'uses outgoing_content for webhook content' do
+      message = create(:message, content: 'Test content')
+      expect(message).to receive(:outgoing_content).and_return('Outgoing test content')
+
+      webhook_data = message.webhook_data
+      expect(webhook_data[:content]).to eq('Outgoing test content')
+    end
+
+    it 'includes CSAT survey link in webhook content for input_csat messages' do
+      inbox = create(:inbox, channel: create(:channel_api))
+      conversation = create(:conversation, inbox: inbox)
+      message = create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience')
+
+      expect(message.outgoing_content).to include('survey/responses/')
+      expect(message.webhook_data[:content]).to include('survey/responses/')
+    end
   end
 
   context 'when message is created' do
@@ -293,43 +316,69 @@ RSpec.describe Message do
     end
 
     context 'with conversation continuity' do
-      it 'calls notify email method on after save for outgoing messages in website channel' do
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
-        message.message_type = 'outgoing'
-        message.save!
-        expect(ConversationReplyEmailWorker).to have_received(:perform_in)
+      let(:inbox_with_continuity) do
+        create(:inbox, account: message.account,
+                       channel: build(:channel_widget, account: message.account, continuity_via_email: true))
       end
 
-      it 'does not call notify email for website channel if continuity is disabled' do
-        message.inbox = create(:inbox, account: message.account,
-                                       channel: build(:channel_widget, account: message.account, continuity_via_email: false))
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+      it 'schedules email notification for outgoing messages in website channel' do
+        message.inbox = inbox_with_continuity
+        message.conversation.update!(inbox: inbox_with_continuity)
+        message.conversation.contact.update!(email: 'test@example.com')
         message.message_type = 'outgoing'
-        message.save!
-        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+
+        # Perform jobs inline to test full integration
+        perform_enqueued_jobs do
+          message.save!
+        end
+
+        # Verify the email worker is eventually scheduled through the service
+        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+        expect(jobs_for_conversation_count).to eq(1)
       end
 
-      it 'wont call notify email method for private notes' do
+      it 'does not schedule email for website channel if continuity is disabled' do
+        inbox_without_continuity = create(:inbox, account: message.account,
+                                                  channel: build(:channel_widget, account: message.account, continuity_via_email: false))
+        message.inbox = inbox_without_continuity
+        message.conversation.update!(inbox: inbox_without_continuity)
+        message.conversation.contact.update!(email: 'test@example.com')
+        message.message_type = 'outgoing'
+
+        initial_job_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+
+        perform_enqueued_jobs do
+          message.save!
+        end
+
+        # No new jobs should be scheduled for this conversation
+        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+        expect(jobs_for_conversation_count).to eq(initial_job_count)
+      end
+
+      it 'does not schedule email for private notes' do
+        message.inbox = inbox_with_continuity
+        message.conversation.update!(inbox: inbox_with_continuity)
+        message.conversation.contact.update!(email: 'test@example.com')
         message.private = true
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
-        message.save!
-        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
-      end
-
-      it 'calls EmailReply worker if the channel is email' do
-        message.inbox = create(:inbox, account: message.account, channel: build(:channel_email, account: message.account))
-        allow(EmailReplyWorker).to receive(:perform_in).and_return(true)
         message.message_type = 'outgoing'
-        message.content_attributes = { email: { text_content: { quoted: 'quoted text' } } }
-        message.save!
-        expect(EmailReplyWorker).to have_received(:perform_in).with(1.second, message.id)
+
+        initial_job_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+
+        perform_enqueued_jobs do
+          message.save!
+        end
+
+        # No new jobs should be scheduled for this conversation
+        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+        expect(jobs_for_conversation_count).to eq(initial_job_count)
       end
 
-      it 'wont call notify email method unless its website or email channel' do
-        message.inbox = create(:inbox, account: message.account, channel: build(:channel_api, account: message.account))
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+      it 'calls SendReplyJob for all channels' do
+        allow(SendReplyJob).to receive(:perform_later).and_return(true)
+        message.message_type = 'outgoing'
         message.save!
-        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+        expect(SendReplyJob).to have_received(:perform_later).with(message.id)
       end
     end
   end
@@ -472,6 +521,242 @@ RSpec.describe Message do
       it 'does not set in_reply_to' do
         new_message.send(:ensure_in_reply_to)
         expect(new_message.content_attributes[:in_reply_to]).to be_nil
+      end
+    end
+  end
+
+  describe '#content' do
+    let(:conversation) { create(:conversation) }
+
+    context 'when message is not input_csat' do
+      let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+
+      it 'returns original content' do
+        expect(message.content).to eq('Regular message')
+      end
+    end
+
+    context 'when message is input_csat' do
+      let(:message) { create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience') }
+
+      context 'when inbox is web widget' do
+        before do
+          allow(message.inbox).to receive(:web_widget?).and_return(true)
+        end
+
+        it 'returns original content without survey URL' do
+          expect(message.content).to eq('Rate your experience')
+        end
+      end
+
+      context 'when inbox is not web widget' do
+        before do
+          allow(message.inbox).to receive(:web_widget?).and_return(false)
+        end
+
+        it 'returns only the stored content (clean for dashboard)' do
+          expect(message.content).to eq('Rate your experience')
+        end
+
+        it 'returns only the base content without URL when survey_url stored separately' do
+          message.content_attributes = { 'survey_url' => 'https://app.chatwoot.com/survey/responses/12345' }
+          expect(message.content).to eq('Rate your experience')
+        end
+      end
+    end
+  end
+
+  describe '#outgoing_content' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+
+    it 'delegates to MessageContentPresenter' do
+      presenter = instance_double(MessageContentPresenter)
+      allow(MessageContentPresenter).to receive(:new).with(message).and_return(presenter)
+      allow(presenter).to receive(:outgoing_content).and_return('Presented content')
+
+      expect(message.outgoing_content).to eq('Presented content')
+      expect(MessageContentPresenter).to have_received(:new).with(message)
+      expect(presenter).to have_received(:outgoing_content)
+    end
+  end
+
+  describe '#auto_reply_email?' do
+    context 'when message is not an incoming email and inbox is not email' do
+      let(:conversation) { create(:conversation) }
+      let(:message) { create(:message, conversation: conversation, message_type: :outgoing) }
+
+      it 'returns false' do
+        expect(message.auto_reply_email?).to be false
+      end
+    end
+
+    context 'when message is an incoming email' do
+      let(:email_channel) { create(:channel_email) }
+      let(:email_inbox) { create(:inbox, channel: email_channel) }
+      let(:conversation) { create(:conversation, inbox: email_inbox) }
+
+      it 'returns false when auto_reply is not set to true' do
+        message = create(
+          :message,
+          conversation: conversation,
+          message_type: :incoming,
+          content_type: 'incoming_email',
+          content_attributes: {}
+        )
+        expect(message.auto_reply_email?).to be false
+      end
+
+      it 'returns true when auto_reply is set to true' do
+        message = create(
+          :message,
+          conversation: conversation,
+          message_type: :incoming,
+          content_type: 'incoming_email',
+          content_attributes: { email: { auto_reply: true } }
+        )
+        expect(message.auto_reply_email?).to be true
+      end
+    end
+
+    context 'when inbox is email' do
+      let(:email_channel) { create(:channel_email) }
+      let(:email_inbox) { create(:inbox, channel: email_channel) }
+      let(:conversation) { create(:conversation, inbox: email_inbox) }
+
+      it 'returns false when auto_reply is not set to true' do
+        message = create(
+          :message,
+          conversation: conversation,
+          message_type: :outgoing,
+          content_attributes: {}
+        )
+        expect(message.auto_reply_email?).to be false
+      end
+
+      it 'returns true when auto_reply is set to true' do
+        message = create(
+          :message,
+          conversation: conversation,
+          message_type: :outgoing,
+          content_attributes: { email: { auto_reply: true } }
+        )
+        expect(message.auto_reply_email?).to be true
+      end
+    end
+  end
+
+  describe '#should_index?' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:message) { create(:message, conversation: conversation, account: account) }
+
+    before do
+      allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+      account.enable_features('advanced_search_indexing')
+    end
+
+    context 'when advanced search is not allowed globally' do
+      before do
+        allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when advanced search feature is not enabled for account on chatwoot cloud' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features('advanced_search_indexing')
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when advanced search feature is not enabled for account on self-hosted' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        account.disable_features('advanced_search_indexing')
+      end
+
+      it 'returns true' do
+        expect(message.should_index?).to be true
+      end
+    end
+
+    context 'when message type is not incoming or outgoing' do
+      before do
+        message.message_type = 'activity'
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when all conditions are met' do
+      it 'returns true for incoming message' do
+        message.message_type = 'incoming'
+        expect(message.should_index?).to be true
+      end
+
+      it 'returns true for outgoing message' do
+        message.message_type = 'outgoing'
+        expect(message.should_index?).to be true
+      end
+    end
+  end
+
+  describe '#reindex_for_search callback' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+
+    before do
+      allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+      account.enable_features('advanced_search_indexing')
+    end
+
+    context 'when message should be indexed' do
+      it 'calls reindex_for_search for incoming message on create' do
+        message = build(:message, conversation: conversation, account: account, message_type: :incoming)
+        expect(message).to receive(:reindex_for_search)
+        message.save!
+      end
+
+      it 'calls reindex_for_search for outgoing message on update' do
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(described_class).to receive(:reindex_for_search).and_return(true)
+        # rubocop:enable RSpec/AnyInstance
+        message = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+        expect(message).to receive(:reindex_for_search).and_return(true)
+        message.update!(content: 'Updated content')
+      end
+    end
+
+    context 'when message should not be indexed' do
+      it 'does not call reindex_for_search for activity message' do
+        message = build(:message, conversation: conversation, account: account, message_type: :activity)
+        expect(message).not_to receive(:reindex_for_search)
+        message.save!
+      end
+
+      it 'does not call reindex_for_search for unpaid account on cloud' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features('advanced_search_indexing')
+        message = build(:message, conversation: conversation, account: account, message_type: :incoming)
+        expect(message).not_to receive(:reindex_for_search)
+        message.save!
+      end
+
+      it 'does not call reindex_for_search when advanced search is not allowed' do
+        allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
+        message = build(:message, conversation: conversation, account: account, message_type: :incoming)
+        expect(message).not_to receive(:reindex_for_search)
+        message.save!
       end
     end
   end

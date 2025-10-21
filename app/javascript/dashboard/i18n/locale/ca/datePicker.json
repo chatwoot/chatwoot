@@ -1,19 +1,19 @@
 {
   "DATE_PICKER": {
-    "APPLY_BUTTON": "Apply",
-    "CLEAR_BUTTON": "Clear",
+    "APPLY_BUTTON": "Aplica",
+    "CLEAR_BUTTON": "Neteja",
     "DATE_RANGE_INPUT": {
-      "START": "Start Date",
-      "END": "End Date"
+      "START": "Data d'inici",
+      "END": "Data de finalització"
     },
     "DATE_RANGE_OPTIONS": {
-      "TITLE": "DATE RANGE",
+      "TITLE": "RANG DE DATES",
       "LAST_7_DAYS": "Últims 7 dies",
       "LAST_30_DAYS": "Últims 30 dies",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_RANGE": "Custom date range"
+      "LAST_3_MONTHS": "Últims tres mesos",
+      "LAST_6_MONTHS": "Últims sis mesos",
+      "LAST_YEAR": "Darrer any",
+      "CUSTOM_RANGE": "Interval de dates personalitzat"
     }
   }
 }

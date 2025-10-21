@@ -7,12 +7,16 @@ class DashboardController < ActionController::Base
   around_action :switch_locale
   before_action :ensure_installation_onboarding, only: [:index]
   before_action :render_hc_if_custom_domain, only: [:index]
-
+  before_action :ensure_html_format
   layout 'vueapp'
 
   def index; end
 
   private
+
+  def ensure_html_format
+    render json: { error: 'Please use API routes instead of dashboard routes for JSON requests' }, status: :not_acceptable if request.format.json?
+  end
 
   def set_global_config
     @global_config = GlobalConfig.get(
@@ -32,12 +36,12 @@ class DashboardController < ActionController::Base
       'LOGOUT_REDIRECT_LINK',
       'DISABLE_USER_PROFILE_UPDATE',
       'DEPLOYMENT_ENV',
-      'CSML_EDITOR_HOST'
+      'INSTALLATION_PRICING_PLAN'
     ).merge(app_config)
   end
 
   def set_dashboard_scripts
-    @dashboard_scripts = GlobalConfig.get_value('DASHBOARD_SCRIPTS')
+    @dashboard_scripts = sensitive_path? ? nil : GlobalConfig.get_value('DASHBOARD_SCRIPTS')
   end
 
   def ensure_installation_onboarding
@@ -61,7 +65,10 @@ class DashboardController < ActionController::Base
       VAPID_PUBLIC_KEY: VapidService.public_key,
       ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
-      FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v17.0'),
+      INSTAGRAM_APP_ID: GlobalConfigService.load('INSTAGRAM_APP_ID', ''),
+      FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v18.0'),
+      WHATSAPP_APP_ID: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
+      WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH
@@ -72,7 +79,17 @@ class DashboardController < ActionController::Base
     @application_pack = if request.path.include?('/auth') || request.path.include?('/login')
                           'v3app'
                         else
-                          'application'
+                          'dashboard'
                         end
+  end
+
+  def sensitive_path?
+    # dont load dashboard scripts on sensitive paths like password reset
+    sensitive_paths = [edit_user_password_path].freeze
+
+    # remove app prefix
+    current_path = request.path.gsub(%r{^/app}, '')
+
+    sensitive_paths.include?(current_path)
   end
 end

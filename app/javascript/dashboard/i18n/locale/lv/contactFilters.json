@@ -30,6 +30,9 @@
       "is_lesser_than": "Ir mazāks par",
       "days_before": "Ir x dienas pirms"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nepieciešama vērtība"
+    },
     "ATTRIBUTES": {
       "NAME": "Nosaukums",
       "EMAIL": "E-pasts",
@@ -45,7 +48,8 @@
       "CREATED_AT": "Izveidots",
       "LAST_ACTIVITY": "Pēdējās Darbības",
       "REFERER_LINK": "Atsauces sniedzēja saite",
-      "BLOCKED": "Bloķēts"
+      "BLOCKED": "Bloķēts",
+      "LABELS": "Etiķetes"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standarta Filtri",

@@ -1,9 +1,11 @@
 export const FEATURE_FLAGS = {
   AGENT_BOTS: 'agent_bots',
   AGENT_MANAGEMENT: 'agent_management',
+  ASSIGNMENT_V2: 'assignment_v2',
   AUTO_RESOLVE_CONVERSATIONS: 'auto_resolve_conversations',
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
+  WHATSAPP_CAMPAIGNS: 'whatsapp_campaign',
   CANNED_RESPONSES: 'canned_responses',
   CRM: 'crm',
   CUSTOM_ATTRIBUTES: 'custom_attributes',
@@ -16,7 +18,6 @@ export const FEATURE_FLAGS = {
   TEAM_MANAGEMENT: 'team_management',
   VOICE_RECORDER: 'voice_recorder',
   AUDIT_LOGS: 'audit_logs',
-  INSERT_ARTICLE_IN_REPLY: 'insert_article_in_reply',
   INBOX_VIEW: 'inbox_view',
   SLA: 'sla',
   RESPONSE_BOT: 'response_bot',
@@ -31,4 +32,22 @@ export const FEATURE_FLAGS = {
   INBOUND_EMAILS: 'inbound_emails',
   IP_LOOKUP: 'ip_lookup',
   LINEAR: 'linear_integration',
+  CAPTAIN: 'captain_integration',
+  CUSTOM_ROLES: 'custom_roles',
+  CHATWOOT_V4: 'chatwoot_v4',
+  REPORT_V4: 'report_v4',
+  CHANNEL_INSTAGRAM: 'channel_instagram',
+  CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
+  CAPTAIN_V2: 'captain_integration_v2',
+  SAML: 'saml',
+  QUOTED_EMAIL_REPLY: 'quoted_email_reply',
 };
+
+export const PREMIUM_FEATURES = [
+  FEATURE_FLAGS.SLA,
+  FEATURE_FLAGS.CAPTAIN,
+  FEATURE_FLAGS.CUSTOM_ROLES,
+  FEATURE_FLAGS.AUDIT_LOGS,
+  FEATURE_FLAGS.HELP_CENTER,
+  FEATURE_FLAGS.SAML,
+];

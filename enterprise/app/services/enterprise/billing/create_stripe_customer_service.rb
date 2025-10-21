@@ -4,6 +4,8 @@ class Enterprise::Billing::CreateStripeCustomerService
   DEFAULT_QUANTITY = 2
 
   def perform
+    return if existing_subscription?
+
     customer_id = prepare_customer_id
     subscription = Stripe::Subscription.create(
       {
@@ -49,5 +51,19 @@ class Enterprise::Billing::CreateStripeCustomerService
   def price_id
     price_ids = default_plan['price_ids']
     price_ids.first
+  end
+
+  def existing_subscription?
+    stripe_customer_id = account.custom_attributes['stripe_customer_id']
+    return false if stripe_customer_id.blank?
+
+    subscriptions = Stripe::Subscription.list(
+      {
+        customer: stripe_customer_id,
+        status: 'active',
+        limit: 1
+      }
+    )
+    subscriptions.data.present?
   end
 end

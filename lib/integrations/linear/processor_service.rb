@@ -22,18 +22,19 @@ class Integrations::Linear::ProcessorService
     }
   end
 
-  def create_issue(params)
-    response = linear_client.create_issue(params)
+  def create_issue(params, user = nil)
+    response = linear_client.create_issue(params, user)
     return response if response[:error]
 
     {
       data: { id: response['issueCreate']['issue']['id'],
-              title: response['issueCreate']['issue']['title'] }
+              title: response['issueCreate']['issue']['title'],
+              identifier: response['issueCreate']['issue']['identifier'] }
     }
   end
 
-  def link_issue(link, issue_id, title)
-    response = linear_client.link_issue(link, issue_id, title)
+  def link_issue(link, issue_id, title, user = nil)
+    response = linear_client.link_issue(link, issue_id, title, user)
     return response if response[:error]
 
     {
@@ -76,7 +77,6 @@ class Integrations::Linear::ProcessorService
   end
 
   def linear_client
-    credentials = linear_hook.settings
-    @linear_client ||= Linear.new(credentials['api_key'])
+    @linear_client ||= Linear.new(linear_hook.access_token)
   end
 end

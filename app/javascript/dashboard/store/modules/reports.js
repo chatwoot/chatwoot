@@ -1,16 +1,17 @@
 /* eslint no-console: 0 */
 import * as types from '../mutation-types';
+import { STATUS } from '../constants';
 import Report from '../../api/reports';
 import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
-import {
-  reconcileHeatmapData,
-  clampDataBetweenTimeline,
-} from 'shared/helpers/ReportsDataHelper';
+import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
+import liveReports from '../../api/liveReports';
 
 const state = {
   fetchingStatus: false,
+  accountSummaryFetchingStatus: STATUS.FINISHED,
+  botSummaryFetchingStatus: STATUS.FINISHED,
   accountReport: {
     isFetching: {
       conversations_count: false,
@@ -56,11 +57,15 @@ const state = {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
+      isFetchingAccountResolutionsHeatmap: false,
       isFetchingAgentConversationMetric: false,
+      isFetchingTeamConversationMetric: false,
     },
     accountConversationMetric: {},
     accountConversationHeatmap: [],
+    accountResolutionHeatmap: [],
     agentConversationMetric: [],
+    teamConversationMetric: [],
   },
 };
 
@@ -74,14 +79,26 @@ const getters = {
   getBotSummary(_state) {
     return _state.botSummary;
   },
+  getAccountSummaryFetchingStatus(_state) {
+    return _state.accountSummaryFetchingStatus;
+  },
+  getBotSummaryFetchingStatus(_state) {
+    return _state.botSummaryFetchingStatus;
+  },
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
   },
   getAccountConversationHeatmapData(_state) {
     return _state.overview.accountConversationHeatmap;
   },
+  getAccountResolutionHeatmapData(_state) {
+    return _state.overview.accountResolutionHeatmap;
+  },
   getAgentConversationMetric(_state) {
     return _state.overview.agentConversationMetric;
+  },
+  getTeamConversationMetric(_state) {
+    return _state.overview.teamConversationMetric;
   },
   getOverviewUIFlags($state) {
     return $state.overview.uiFlags;
@@ -114,16 +131,22 @@ export const actions = {
       let { data } = heatmapData;
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
 
-      data = reconcileHeatmapData(
-        data,
-        state.overview.accountConversationHeatmap
-      );
-
       commit(types.default.SET_HEATMAP_DATA, data);
       commit(types.default.TOGGLE_HEATMAP_LOADING, false);
     });
   },
+  fetchAccountResolutionHeatmap({ commit }, reportObj) {
+    commit(types.default.TOGGLE_RESOLUTION_HEATMAP_LOADING, true);
+    Report.getReports({ ...reportObj, groupBy: 'hour' }).then(heatmapData => {
+      let { data } = heatmapData;
+      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
+
+      commit(types.default.SET_RESOLUTION_HEATMAP_DATA, data);
+      commit(types.default.TOGGLE_RESOLUTION_HEATMAP_LOADING, false);
+    });
+  },
   fetchAccountSummary({ commit }, reportObj) {
+    commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FETCHING);
     Report.getSummary(
       reportObj.from,
       reportObj.to,
@@ -134,12 +157,14 @@ export const actions = {
     )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
+        commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FINISHED);
       })
       .catch(() => {
-        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+        commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FAILED);
       });
   },
   fetchBotSummary({ commit }, reportObj) {
+    commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FETCHING);
     Report.getBotSummary({
       from: reportObj.from,
       to: reportObj.to,
@@ -148,14 +173,16 @@ export const actions = {
     })
       .then(botSummary => {
         commit(types.default.SET_BOT_SUMMARY, botSummary.data);
+        commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FINISHED);
       })
       .catch(() => {
-        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+        commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FAILED);
       });
   },
-  fetchAccountConversationMetric({ commit }, reportObj) {
+  fetchAccountConversationMetric({ commit }, params = {}) {
     commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type)
+    liveReports
+      .getConversationMetric(params)
       .then(accountConversationMetric => {
         commit(
           types.default.SET_ACCOUNT_CONVERSATION_METRIC,
@@ -167,9 +194,10 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
       });
   },
-  fetchAgentConversationMetric({ commit }, reportObj) {
+  fetchAgentConversationMetric({ commit }) {
     commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type, reportObj.page)
+    liveReports
+      .getGroupedConversations({ groupBy: 'assignee_id' })
       .then(agentConversationMetric => {
         commit(
           types.default.SET_AGENT_CONVERSATION_METRIC,
@@ -179,6 +207,18 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  fetchTeamConversationMetric({ commit }) {
+    commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, true);
+    liveReports
+      .getGroupedConversations({ groupBy: 'team_id' })
+      .then(teamMetric => {
+        commit(types.default.SET_TEAM_CONVERSATION_METRIC, teamMetric.data);
+        commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, false);
       });
   },
   downloadAgentReports(_, reportObj) {
@@ -234,7 +274,7 @@ export const actions = {
       });
   },
   downloadAccountConversationHeatmap(_, reportObj) {
-    Report.getConversationTrafficCSV()
+    Report.getConversationTrafficCSV({ daysBefore: reportObj.daysBefore })
       .then(response => {
         downloadCsvFile(
           generateFileName({
@@ -262,11 +302,23 @@ const mutations = {
   [types.default.SET_HEATMAP_DATA](_state, heatmapData) {
     _state.overview.accountConversationHeatmap = heatmapData;
   },
+  [types.default.SET_RESOLUTION_HEATMAP_DATA](_state, heatmapData) {
+    _state.overview.accountResolutionHeatmap = heatmapData;
+  },
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, { metric, value }) {
     _state.accountReport.isFetching[metric] = value;
   },
+  [types.default.SET_BOT_SUMMARY_STATUS](_state, status) {
+    _state.botSummaryFetchingStatus = status;
+  },
+  [types.default.SET_ACCOUNT_SUMMARY_STATUS](_state, status) {
+    _state.accountSummaryFetchingStatus = status;
+  },
   [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;
+  },
+  [types.default.TOGGLE_RESOLUTION_HEATMAP_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingAccountResolutionsHeatmap = flag;
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;
@@ -285,6 +337,12 @@ const mutations = {
   },
   [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
+  },
+  [types.default.SET_TEAM_CONVERSATION_METRIC](_state, metricData) {
+    _state.overview.teamConversationMetric = metricData;
+  },
+  [types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingTeamConversationMetric = flag;
   },
 };
 

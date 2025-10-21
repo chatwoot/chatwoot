@@ -1,0 +1,34 @@
+<div class="w-full">
+  <% regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.partition_features(field.data) %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <% regular_features.each do |key_array, val| %>
+      <% feature_key, display_name = key_array %>
+      <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
+        <span class="text-sm text-n-slate-12"><%= display_name %></span>
+        <span class="<%= val.present? ? 'bg-green-400 text-white': 'bg-slate-50 text-slate-800' %> rounded-full p-1 inline-flex right-4 top-5">
+          <svg width="12" height="12"><use xlink:href="#icon-tick-line" /></svg>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <hr class="my-8 border-t border-n-weak">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <% premium_features.each do |key_array, val| %>
+      <% feature_key, display_name = key_array %>
+      <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
+        <div class="flex items-center gap-2">
+          <span class="bg-n-amber-3 text-n-amber-12 rounded-full p-1 inline-flex right-4 top-5">
+            <svg width="12" height="12"><use xlink:href="#icon-lock-line" /></svg>
+          </span>
+          <span class="text-sm text-n-slate-12"><%= display_name %></span>
+        </div>
+        <span class="<%= val.present? ? 'bg-green-400 text-white': 'bg-slate-50 text-slate-800' %> rounded-full p-1 inline-flex right-4 top-5">
+          <svg width="12" height="12"><use xlink:href="#icon-tick-line" /></svg>
+        </span>
+      </div>
+    <% end %>
+  </div>
+</div>

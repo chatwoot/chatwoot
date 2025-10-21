@@ -39,10 +39,10 @@ RSpec.describe 'Dyte Integration API', type: :request do
 
     context 'when it is an agent with inbox access and the Dyte API is a success' do
       before do
-        stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meeting')
+        stub_request(:post, 'https://api.dyte.io/v2/meetings')
           .to_return(
             status: 200,
-            body: { success: true, data: { meeting: { id: 'meeting_id', roomName: 'room_name' } } }.to_json,
+            body: { success: true, data: { id: 'meeting_id' } }.to_json,
             headers: headers
           )
       end
@@ -62,7 +62,7 @@ RSpec.describe 'Dyte Integration API', type: :request do
 
     context 'when it is an agent with inbox access and the Dyte API is errored' do
       before do
-        stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meeting')
+        stub_request(:post, 'https://api.dyte.io/v2/meetings')
           .to_return(
             status: 422,
             body: { success: false, data: { message: 'Title is required' } }.to_json,
@@ -112,24 +112,24 @@ RSpec.describe 'Dyte Integration API', type: :request do
 
     context 'when it is an agent with inbox access and message_type is integrations' do
       before do
-        stub_request(:post, 'https://api.cluster.dyte.in/v1/organizations/org_id/meetings/m_id/participant')
+        stub_request(:post, 'https://api.dyte.io/v2/meetings/m_id/participants')
           .to_return(
             status: 200,
-            body: { success: true, data: { authResponse: { userAdded: true, id: 'random_uuid', auth_token: 'json-web-token' } } }.to_json,
+            body: { success: true, data: { id: 'random_uuid', auth_token: 'json-web-token' } }.to_json,
             headers: headers
           )
       end
 
-      it 'returns authResponse' do
+      it 'returns auth_token' do
         post add_participant_to_meeting_api_v1_account_integrations_dyte_url(account),
              params: { message_id: integration_message.id },
              headers: agent.create_new_auth_token,
              as: :json
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['authResponse']).to eq(
+        expect(response_body).to eq(
           {
-            'userAdded' => true, 'id' => 'random_uuid', 'auth_token' => 'json-web-token'
+            'id' => 'random_uuid', 'auth_token' => 'json-web-token'
           }
         )
       end

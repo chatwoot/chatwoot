@@ -3,8 +3,8 @@
     "APPLY_BUTTON": "Confirmar",
     "CLEAR_BUTTON": "Limpar",
     "DATE_RANGE_INPUT": {
-      "START": "Data Inicial",
-      "END": "Data Final"
+      "START": "Data inicial",
+      "END": "Data final"
     },
     "DATE_RANGE_OPTIONS": {
       "TITLE": "Intervalo de datas",

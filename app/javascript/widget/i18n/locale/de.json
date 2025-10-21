@@ -12,29 +12,40 @@
       "ERROR_MESSAGE": "Senden nicht möglich, versuchen Sie es noch einmal"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Wir sind online",
-    "OFFLINE": "Wir sind momentan abwesend"
+    "OFFLINE": "Wir sind momentan abwesend",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
     "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages",
-    "BACK_IN": "Wir werden wieder online sein"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
-  "DAY_NAMES": [
-    "Sonntag",
-    "Montag",
-    "Dienstag",
-    "Mittwoch",
-    "Donnerstag",
-    "Freitag",
-    "Samstag"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Sonntag",
+    "MONDAY": "Montag",
+    "TUESDAY": "Dienstag",
+    "WEDNESDAY": "Mittwoch",
+    "THURSDAY": "Donnerstag",
+    "FRIDAY": "Freitag",
+    "SATURDAY": "Samstag"
+  },
   "START_CONVERSATION": "Unterhaltung beginnen",
   "END_CONVERSATION": "Konversation beenden",
   "CONTINUE_CONVERSATION": "Konversation fortsetzen",
-  "YOU": "You",
+  "YOU": "Sie",
   "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
   "VIEW_UNREAD_MESSAGES": "Sie haben ungelesene Nachrichten",
   "UNREAD_VIEW": {
@@ -70,7 +81,8 @@
         "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
         "DIAL_CODE_VALID_ERROR": "Bitte wählen Sie eine Landesvorwahl",
         "VALID_ERROR": "Bitte geben Sie eine gültige Telefonnummer ein",
-        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden"
+        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
@@ -91,7 +103,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Emojis durchsuchen",
-    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche"
+    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Bewerten Sie Ihre Konversation",
@@ -133,5 +146,8 @@
     "fallback": {
       "CONTENT": "hat eine URL geteilt"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Antwort auf:"
   }
 }

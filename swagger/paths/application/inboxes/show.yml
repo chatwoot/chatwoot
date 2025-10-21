@@ -3,20 +3,33 @@ get:
     - Inboxes
   operationId: GetInbox
   summary: Get an inbox
+  security:
+    - userApiKey: []
   description: Get an inbox available in the current account
   parameters:
-    - $ref: '#/parameters/account_id'
+    - $ref: '#/components/parameters/account_id'
     - name: id
       in: path
-      type: number
+      schema:
+        type: number
       description: ID of the inbox
       required: true
   responses:
-    200:
+    '200':
       description: Success
-      schema:
-          $ref: '#/definitions/inbox'
-    404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inbox'
+    '404':
       description: Inbox not found
-    403:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
       description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

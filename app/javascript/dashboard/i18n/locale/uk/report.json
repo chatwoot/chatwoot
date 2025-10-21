@@ -23,13 +23,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -45,43 +45,19 @@
       },
       "REPLY_TIME": {
         "NAME": "Час очікування клієнта",
-        "TOOLTIP_TEXT": "Час очікування становить %{metricValue} (на основі відповідей %{conversationCount})"
+        "TOOLTIP_TEXT": "Час очікування становить {metricValue} (на основі відповідей {conversationCount})",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Останні 7 днів",
+      "LAST_14_DAYS": "Останні 14 днів",
       "LAST_30_DAYS": "Останні 30 днів",
       "LAST_3_MONTHS": "Останні 3 місяці",
       "LAST_6_MONTHS": "Останні 6 місяців",
       "LAST_YEAR": "Минулий рік",
       "CUSTOM_DATE_RANGE": "Довільний діапазон дат"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Останні 7 днів"
-      },
-      {
-        "id": 1,
-        "name": "Останні 30 днів"
-      },
-      {
-        "id": 2,
-        "name": "Останні 3 місяці"
-      },
-      {
-        "id": 3,
-        "name": "Останні 6 місяців"
-      },
-      {
-        "id": 4,
-        "name": "Минулий рік"
-      },
-      {
-        "id": 5,
-        "name": "Довільний діапазон дат"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Підтвердити",
       "PLACEHOLDER": "Виберіть діапазон дат"
@@ -142,10 +118,15 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Очистити фільтр",
       "EMPTY_LIST": "Результатів не знайдено"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Огляд Агентів",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
@@ -167,13 +148,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -213,6 +194,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Огляд міток",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_LABEL_REPORTS": "Завантажити звіти по міткам",
@@ -234,13 +216,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість розмов, що використовуються для обчислень:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -280,10 +262,13 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Огляд вхідних повідомлень",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_INBOX_REPORTS": "Завантажити звіти вхідних повідомлень",
     "FILTER_DROPDOWN_LABEL": "Вибрати \"Вхідний\" канал",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -301,13 +286,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -347,6 +332,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Огляд команди",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_TEAM_REPORTS": "Завантажити звіти команд",
@@ -368,13 +354,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -480,8 +466,16 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Бесіди",
       "NO_CONVERSATIONS": "Немає бесід",
-      "CONVERSATION": "%{count} бесід",
-      "CONVERSATIONS": "%{count} бесід"
+      "CONVERSATION": "{count} бесід",
+      "CONVERSATIONS": "{count} бесід",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Немає бесід",
+      "CONVERSATION": "{count} бесід",
+      "CONVERSATIONS": "{count} бесід",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Розмови агентів",
@@ -489,7 +483,19 @@
       "NO_AGENTS": "Немає розмов, пов'язаних з агентом",
       "TABLE_HEADER": {
         "AGENT": "Агент",
-        "OPEN": "ВІДКРИТИ",
+        "OPEN": "Відкриті",
+        "UNATTENDED": "Не зв'язаний",
+        "STATUS": "Статус"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Команда",
+        "OPEN": "Відкриті",
         "UNATTENDED": "Не зв'язаний",
         "STATUS": "Статус"
       }
@@ -536,6 +542,7 @@
       "LABELS": "Мітка",
       "TEAMS": "Команда"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Рейтинг попадань",
@@ -558,5 +565,16 @@
       },
       "VIEW_DETAILS": "Переглянути деталі"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Вхідні",
+    "AGENT": "Агент",
+    "TEAM": "Команда",
+    "LABEL": "Мітка",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Кількість вирішень",
+    "CONVERSATIONS": "№ розмов"
   }
 }

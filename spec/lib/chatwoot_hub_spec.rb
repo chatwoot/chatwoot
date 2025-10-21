@@ -69,4 +69,24 @@ describe ChatwootHub do
       end
     end
   end
+
+  context 'when fetching captain settings' do
+    it 'returns the captain settings' do
+      account = create(:account)
+      stub_request(:post, ChatwootHub::CAPTAIN_ACCOUNTS_URL).with(
+        body: { installation_identifier: described_class.installation_identifier, chatwoot_account_id: account.id, account_name: account.name }
+      ).to_return(
+        body: { account_email: 'test@test.com', account_id: '123', access_token: '123', assistant_id: '123' }.to_json
+      )
+
+      expect(described_class.get_captain_settings(account).body).to eq(
+        {
+          account_email: 'test@test.com',
+          account_id: '123',
+          access_token: '123',
+          assistant_id: '123'
+        }.to_json
+      )
+    end
+  end
 end

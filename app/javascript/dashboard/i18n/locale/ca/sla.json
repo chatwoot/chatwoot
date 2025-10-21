@@ -1,37 +1,37 @@
 {
   "SLA": {
-    "HEADER": "SLA",
+    "HEADER": "Service Level Agreements",
     "ADD_ACTION": "Afegeix SLA",
     "ADD_ACTION_LONG": "Crea una nova política de SLA",
     "DESCRIPTION": "Els acords de nivell de servei (SLA) són contractes que defineixen expectatives clares entre el vostre equip i els clients. Estableixen estàndards de temps de resposta i resolució, creen un marc de responsabilitat i garanteixen una experiència coherent i d'alta qualitat.",
     "LEARN_MORE": "Més informació sobre SLA",
-    "LOADING": "Fetching SLAs",
+    "LOADING": "S'estan obtenint SLAs",
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Actualitza per crear SLA",
+      "AVAILABLE_ON": "La funció SLA només està disponible als plans Business i Enterprise.",
+      "UPGRADE_PROMPT": "Actualitza el teu pla per accedir a funcions avançades com ara gestió d'equips, automatitzacions, atributs personalitzats i molt més.",
+      "UPGRADE_NOW": "Actualitza ara",
+      "CANCEL_ANYTIME": "Pots canviar o cancel·lar el teu pla en qualsevol moment"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "La funció SLA només està disponible als plans de pagament.",
+      "UPGRADE_PROMPT": "Actualitza a un pla de pagament per accedir a funcions avançades com els registres d'auditoria, la capacitat de l'agent i molt més.",
+      "ASK_ADMIN": "Posa't en contacte amb el vostre administrador per obtenir l'actualització."
     },
     "LIST": {
-      "404": "There are no SLAs available in this account.",
+      "404": "No hi ha cap SLA disponible en aquest compte.",
       "EMPTY": {
         "TITLE_1": "Empresa P0",
         "DESC_1": "Problemes plantejats pels clients empresarials, que requereixen atenció immediata.",
         "TITLE_2": "Empresa P1",
         "DESC_2": "Problemes plantejats pels clients empresarials, que cal reconèixer ràpidament."
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "Horari comercial activat",
+      "BUSINESS_HOURS_OFF": "Horari comercial desactivat",
       "RESPONSE_TYPES": {
-        "FRT": "First response time threshold",
-        "NRT": "Next response time threshold",
-        "RT": "Resolution time threshold",
+        "FRT": "Primer llindar de temps de resposta",
+        "NRT": "Següent llindar de temps de resposta",
+        "RT": "Llindar de temps de resolució",
         "SHORT_HAND": {
           "FRT": "FRT",
           "NRT": "NRT",
@@ -41,22 +41,22 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "SLA Name",
-        "PLACEHOLDER": "SLA Name",
-        "REQUIRED_ERROR": "SLA name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "Nom del SLA",
+        "PLACEHOLDER": "Nom del SLA",
+        "REQUIRED_ERROR": "El nom del SLA és obligatori",
+        "MINIMUM_LENGTH_ERROR": "Es requereix una longitud mínima de 2",
+        "VALID_ERROR": "Només es permeten alfabets, números, guionet i guió baix"
       },
       "DESCRIPTION": {
         "LABEL": "Descripció",
-        "PLACEHOLDER": "SLA for premium customers"
+        "PLACEHOLDER": "SLA per a clients premium"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "First Response Time",
+        "LABEL": "Primer Temps de Resposta",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "Pròxim temps de resposta",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
@@ -64,11 +64,11 @@
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
-        "LABEL": "Business Hours",
-        "PLACEHOLDER": "Only during business hours"
+        "LABEL": "Horari comercial",
+        "PLACEHOLDER": "Només durant l'horari comercial"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": "El llindar ha de ser un nombre i més gran que zero"
       },
       "EDIT": "Edita",
       "CREATE": "Crear",
@@ -76,22 +76,22 @@
       "CANCEL": "Cancel·la"
     },
     "ADD": {
-      "TITLE": "Add SLA",
+      "TITLE": "Afegeix SLA",
       "DESC": "Promeses amistoses per a un gran servei!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA added successfully",
+        "SUCCESS_MESSAGE": "SLA afegit correctament",
         "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "Suprimeix el SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "SUCCESS_MESSAGE": "S'ha esborrat el SLA correctament",
         "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
       },
       "CONFIRM": {
         "TITLE": "Confirma l'esborrat",
-        "MESSAGE": "Are you sure you want to delete ",
+        "MESSAGE": "Estàs segur que vols suprimir ",
         "YES": "Si, esborra ",
         "NO": "No, segueix "
       }

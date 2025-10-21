@@ -6,10 +6,27 @@ Sidekiq.configure_client do |config|
   config.redis = Redis::Config.app
 end
 
+# Logs whenever a job is pulled off Redis for execution.
+class ChatwootDequeuedLogger
+  def call(_worker, job, queue)
+    Sidekiq.logger.info("Dequeued #{job['class']} #{job['jid']} from #{queue}")
+    yield
+  end
+end
+
 Sidekiq.configure_server do |config|
-  config.logger.formatter = Sidekiq::Logger::Formatters::JSON.new
   config.redis = Redis::Config.app
-  config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase.to_s)
+
+  config.server_middleware do |chain|
+    chain.add ChatwootDequeuedLogger
+  end
+
+  # skip the default start stop logging
+  if Rails.env.production?
+    config.logger.formatter = Sidekiq::Logger::Formatters::JSON.new
+    config[:skip_default_job_logging] = true
+    config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase.to_s)
+  end
 end
 
 # https://github.com/ondrejbartas/sidekiq-cron

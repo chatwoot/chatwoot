@@ -3,8 +3,7 @@ import {
   removeQueryParamsFromUrl,
   updateThemeInHeader,
   switchTheme,
-  initializeThemeSwitchButtons,
-  initializeToggleButton,
+  initializeThemeHandlers,
   initializeMediaQueryListener,
   initializeTheme,
 } from '../portalThemeHelper.js';
@@ -21,19 +20,20 @@ describe('portalThemeHelper', () => {
 
     appearanceDropdown = document.createElement('div');
     appearanceDropdown.id = 'appearance-dropdown';
+    appearanceDropdown.classList.add('appearance-menu');
     document.body.appendChild(appearanceDropdown);
 
-    window.matchMedia = jest.fn().mockImplementation(query => ({
+    window.matchMedia = vi.fn().mockImplementation(query => ({
       matches: query === '(prefers-color-scheme: dark)',
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
     }));
 
     window.portalConfig = { portalColor: '#ff5733' };
-    document.documentElement.style.setProperty = jest.fn();
+    document.documentElement.style.setProperty = vi.fn();
     document.documentElement.classList.remove('dark', 'light');
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterEach(() => {
@@ -72,7 +72,7 @@ describe('portalThemeHelper', () => {
       originalLocation = window.location;
       delete window.location;
       window.location = new URL('http://localhost:3000/');
-      window.history.replaceState = jest.fn();
+      window.history.replaceState = vi.fn();
     });
 
     afterEach(() => {
@@ -123,7 +123,7 @@ describe('portalThemeHelper', () => {
 
   describe('#switchTheme', () => {
     it('should set theme to system theme and update classes', () => {
-      window.matchMedia = jest.fn().mockReturnValue({ matches: true });
+      window.matchMedia = vi.fn().mockReturnValue({ matches: true });
       switchTheme('system');
       expect(localStorage.theme).toBeUndefined();
       expect(document.documentElement.classList).toContain('dark');
@@ -142,7 +142,7 @@ describe('portalThemeHelper', () => {
     });
   });
 
-  describe('#initializeThemeSwitchButtons', () => {
+  describe('#initializeThemeHandlers', () => {
     beforeEach(() => {
       appearanceDropdown.innerHTML = `
         <button data-theme="light"><span class="check-mark-icon light-theme"></span></button>
@@ -153,43 +153,58 @@ describe('portalThemeHelper', () => {
 
     it('does nothing if the appearance dropdown is not found', () => {
       appearanceDropdown.remove();
-      expect(appearanceDropdown.dataset.currentTheme).toBeUndefined();
-    });
-    it('should set current theme to system if no theme in localStorage', () => {
-      localStorage.removeItem('theme');
-      initializeThemeSwitchButtons();
-      expect(appearanceDropdown.dataset.currentTheme).toBe('system');
+      expect(() => initializeThemeHandlers()).not.toThrow();
     });
 
-    it('sets the current theme to the light theme', () => {
-      localStorage.theme = 'light';
-      appearanceDropdown.dataset.currentTheme = 'light';
-      initializeThemeSwitchButtons();
+    it('should handle theme button clicks', () => {
+      initializeThemeHandlers();
+
+      // Simulate clicking a theme button
+      const lightButton = appearanceDropdown.querySelector(
+        'button[data-theme="light"]'
+      );
+      const clickEvent = new Event('click', { bubbles: true });
+      Object.defineProperty(clickEvent, 'target', {
+        value: lightButton,
+        enumerable: true,
+      });
+
+      document.dispatchEvent(clickEvent);
+
+      expect(localStorage.theme).toBe('light');
       expect(appearanceDropdown.dataset.currentTheme).toBe('light');
     });
 
-    it('sets the current theme to the dark theme', () => {
-      localStorage.theme = 'dark';
-      appearanceDropdown.dataset.currentTheme = 'dark';
-      initializeThemeSwitchButtons();
-      expect(appearanceDropdown.dataset.currentTheme).toBe('dark');
-    });
-  });
+    it('should toggle dropdown visibility on toggle button click', () => {
+      initializeThemeHandlers();
 
-  describe('#initializeToggleButton', () => {
-    it('does nothing if the theme toggle button is not found', () => {
-      themeToggleButton.remove();
-      initializeToggleButton();
-      expect(appearanceDropdown.style.display).toBe('');
+      // Initially closed
+      expect(appearanceDropdown.dataset.dropdownOpen).toBeUndefined();
+
+      // Click to open
+      themeToggleButton.click();
+      expect(appearanceDropdown.dataset.dropdownOpen).toBe('true');
+
+      // Click to close
+      themeToggleButton.click();
+      expect(appearanceDropdown.dataset.dropdownOpen).toBe('false');
     });
 
-    it('toggles the appearance dropdown show/hide', () => {
-      themeToggleButton.click();
-      appearanceDropdown.style.display = 'flex';
-      expect(appearanceDropdown.style.display).toBe('flex');
-      themeToggleButton.click();
-      appearanceDropdown.style.display = 'none';
-      expect(appearanceDropdown.style.display).toBe('none');
+    it('should close dropdown when clicking outside', () => {
+      initializeThemeHandlers();
+
+      // Open dropdown
+      appearanceDropdown.dataset.dropdownOpen = 'true';
+
+      // Click outside
+      const outsideClick = new Event('click', { bubbles: true });
+      Object.defineProperty(outsideClick, 'target', {
+        value: document.body,
+        enumerable: true,
+      });
+      document.dispatchEvent(outsideClick);
+
+      expect(appearanceDropdown.dataset.dropdownOpen).toBe('false');
     });
   });
 
@@ -198,10 +213,10 @@ describe('portalThemeHelper', () => {
 
     beforeEach(() => {
       mediaQuery = {
-        addEventListener: jest.fn(),
+        addEventListener: vi.fn(),
         matches: false,
       };
-      window.matchMedia = jest.fn().mockReturnValue(mediaQuery);
+      window.matchMedia = vi.fn().mockReturnValue(mediaQuery);
     });
 
     it('adds a listener to the media query', () => {

@@ -1,27 +1,21 @@
-<template>
-  <banner
-    v-if="shouldShowBanner"
-    color-scheme="primary"
-    :banner-message="bannerMessage"
-    href-link="https://github.com/chatwoot/chatwoot/releases"
-    :href-link-text="$t('GENERAL_SETTINGS.LEARN_MORE')"
-    has-close-button
-    @close="dismissUpdateBanner"
-  />
-</template>
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { mapGetters } from 'vuex';
-import adminMixin from 'dashboard/mixins/isAdmin';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import { hasAnUpdateAvailable } from './versionCheckHelper';
 
 export default {
   components: { Banner },
-  mixins: [adminMixin],
   props: {
     latestChatwootVersion: { type: String, default: '' },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
   },
   data() {
     return { userDismissedBanner: false };
@@ -72,3 +66,16 @@ export default {
   },
 };
 </script>
+
+<!-- eslint-disable-next-line vue/no-root-v-if -->
+<template>
+  <Banner
+    v-if="shouldShowBanner"
+    color-scheme="primary"
+    :banner-message="bannerMessage"
+    href-link="https://github.com/chatwoot/chatwoot/releases"
+    :href-link-text="$t('GENERAL_SETTINGS.LEARN_MORE')"
+    has-close-button
+    @close="dismissUpdateBanner"
+  />
+</template>

@@ -14,7 +14,6 @@ import {
   chatBubble,
   closeBubble,
   bubbleHolder,
-  createNotificationBubble,
   onClickChatBubble,
   onBubbleClick,
   setBubbleText,
@@ -23,7 +22,11 @@ import {
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
+import {
+  CHATWOOT_ERROR,
+  CHATWOOT_POSTBACK,
+  CHATWOOT_READY,
+} from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
@@ -79,6 +82,7 @@ export const IFrameHelper = {
 
     addClasses(widgetHolder, holderClassName);
     widgetHolder.id = 'cw-widget-holder';
+    widgetHolder.dataset.turboPermanent = true;
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -160,7 +164,15 @@ export const IFrameHelper = {
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
         darkMode: window.$chatwoot.darkMode,
+        showUnreadMessagesDialog: window.$chatwoot.showUnreadMessagesDialog,
         campaignsSnoozedTill,
+        welcomeTitle: window.$chatwoot.welcomeTitle,
+        welcomeDescription: window.$chatwoot.welcomeDescription,
+        availableMessage: window.$chatwoot.availableMessage,
+        unavailableMessage: window.$chatwoot.unavailableMessage,
+        enableFileUpload: window.$chatwoot.enableFileUpload,
+        enableEmojiPicker: window.$chatwoot.enableEmojiPicker,
+        enableEndConversation: window.$chatwoot.enableEndConversation,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
@@ -201,6 +213,13 @@ export const IFrameHelper = {
 
     setCampaignReadOn() {
       updateCampaignReadStatus(window.$chatwoot.baseDomain);
+    },
+
+    postback(data) {
+      dispatchWindowEvent({
+        eventName: CHATWOOT_POSTBACK,
+        data,
+      });
     },
 
     toggleBubble: state => {
@@ -314,7 +333,6 @@ export const IFrameHelper = {
 
     bubbleHolder.appendChild(chatIcon);
     bubbleHolder.appendChild(closeBubble);
-    bubbleHolder.appendChild(createNotificationBubble());
     onClickChatBubble();
   },
   toggleCloseButton: () => {

@@ -1,82 +1,246 @@
+<script setup>
+import { ref, computed, watch, useTemplateRef, nextTick, unref } from 'vue';
+import countriesList from 'shared/constants/countries.js';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import {
+  getActiveCountryCode,
+  getActiveDialCode,
+} from 'shared/components/PhoneInput/helper';
+
+const { context } = defineProps({
+  context: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
+const localValue = ref(context.value || '');
+
+const selectedIndex = ref(-1);
+const showDropdown = ref(false);
+const searchCountry = ref('');
+const activeCountryCode = ref(getActiveCountryCode());
+const activeDialCode = ref(getActiveDialCode());
+const phoneNumber = ref('');
+
+const dropdownRef = useTemplateRef('dropdownRef');
+const searchbarRef = useTemplateRef('searchbarRef');
+
+const placeholder = computed(() => context?.attrs?.placeholder || '');
+const hasErrorInPhoneInput = computed(() => context?.state?.invalid);
+const dropdownFirstItemName = computed(() =>
+  activeCountryCode.value ? 'Clear selection' : 'Select Country'
+);
+const countries = computed(() => [
+  {
+    name: dropdownFirstItemName.value,
+    dial_code: '',
+    emoji: '',
+    id: '',
+  },
+  ...countriesList,
+]);
+
+const items = computed(() => {
+  return countries.value.filter(country => {
+    const { name, dial_code, id } = country;
+    const search = searchCountry.value.toLowerCase();
+    return (
+      name.toLowerCase().includes(search) ||
+      dial_code.toLowerCase().includes(search) ||
+      id.toLowerCase().includes(search)
+    );
+  });
+});
+
+const activeCountry = computed(() => {
+  return countries.value.find(
+    country => country.id === activeCountryCode.value
+  );
+});
+
+watch(items, newItems => {
+  if (newItems.length < selectedIndex.value + 1) {
+    // Reset the selected index to 0 if the new items length is less than the selected index.
+    selectedIndex.value = 0;
+  }
+});
+
+function setContextValue(code) {
+  const safeCode = unref(code);
+  // This function is used to set the context value.
+  // The context value is used to set the value of the phone number field in the pre-chat form.
+  localValue.value = `${safeCode}${phoneNumber.value}`;
+  context.node.input(localValue.value);
+}
+
+function onChange(e) {
+  phoneNumber.value = e.target.value;
+  // This function is used to set the context value when the user types in the phone number field.
+  setContextValue(activeDialCode.value);
+}
+
+function focusedOrActiveItem(className) {
+  // This function is used to get the focused or active item in the dropdown.
+  if (!showDropdown.value) return [];
+  return Array.from(
+    dropdownRef.value?.querySelectorAll(
+      `div.country-dropdown div.country-dropdown--item.${className}`
+    )
+  );
+}
+
+function scrollToFocusedOrActiveItem(item) {
+  // This function is used to scroll the dropdown to the focused or active item.
+  const focusedOrActiveItemLocal = item;
+  if (focusedOrActiveItemLocal.length > 0) {
+    const dropdown = dropdownRef.value;
+    const dropdownHeight = dropdown.clientHeight;
+    const itemTop = focusedOrActiveItemLocal[0]?.offsetTop;
+    const itemHeight = focusedOrActiveItemLocal[0]?.offsetHeight;
+    const scrollPosition = itemTop - dropdownHeight / 2 + itemHeight / 2;
+    dropdown.scrollTo({
+      top: scrollPosition,
+      behavior: 'auto',
+    });
+  }
+}
+
+function adjustScroll() {
+  nextTick(() => {
+    scrollToFocusedOrActiveItem(focusedOrActiveItem('focus'));
+  });
+}
+
+function adjustSelection(direction) {
+  if (!showDropdown.value) return;
+  const maxIndex = items.value.length - 1;
+  if (direction === 'up') {
+    selectedIndex.value =
+      selectedIndex.value <= 0 ? maxIndex : selectedIndex.value - 1;
+  } else if (direction === 'down') {
+    selectedIndex.value =
+      selectedIndex.value >= maxIndex ? 0 : selectedIndex.value + 1;
+  }
+  adjustScroll();
+}
+
+function moveSelectionUp() {
+  adjustSelection('up');
+}
+function moveSelectionDown() {
+  adjustSelection('down');
+}
+
+function closeDropdown() {
+  selectedIndex.value = -1;
+  showDropdown.value = false;
+}
+
+function onSelectCountry(country) {
+  activeCountryCode.value = country.id;
+  searchCountry.value = '';
+  activeDialCode.value = country.dial_code ? country.dial_code : '';
+  setContextValue(country.dial_code);
+  closeDropdown();
+}
+
+function toggleCountryDropdown() {
+  showDropdown.value = !showDropdown.value;
+  selectedIndex.value = -1;
+  if (showDropdown.value) {
+    nextTick(() => {
+      searchbarRef.value.focus();
+      // This is used to scroll the dropdown to the active item.
+      scrollToFocusedOrActiveItem(focusedOrActiveItem('active'));
+    });
+  }
+}
+
+function onSelect() {
+  if (!showDropdown.value || selectedIndex.value === -1) return;
+  onSelectCountry(items.value[selectedIndex.value]);
+}
+</script>
+
 <template>
-  <div class="phone-input--wrap relative mt-2">
+  <div class="relative mt-2 phone-input--wrap">
     <div
-      class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
-      :class="inputHasError"
+      class="flex items-center justify-start outline-none phone-input rounded-lg box-border bg-n-background dark:bg-n-alpha-2 border-none outline outline-1 outline-offset-[-1px] text-sm w-full text-n-slate-12 focus-within:outline-n-brand focus-within:ring-1 focus-within:ring-n-brand"
+      :class="{
+        'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9':
+          hasErrorInPhoneInput,
+        'outline-n-weak': !hasErrorInPhoneInput,
+      }"
     >
       <div
-        class="country-emoji--wrap h-full cursor-pointer flex items-center justify-between px-2 py-2"
-        :class="dropdownClass"
+        class="flex items-center justify-between h-[2.625rem] px-2 py-2 cursor-pointer bg-n-alpha-1 dark:bg-n-solid-1 ltr:rounded-bl-lg rtl:rounded-br-lg ltr:rounded-tl-lg rtl:rounded-tr-lg min-w-[3.6rem] w-[3.6rem]"
         @click="toggleCountryDropdown"
       >
-        <h5 v-if="activeCountry.emoji" class="text-xl mb-0">
+        <h5 v-if="activeCountry.emoji" class="mb-0 text-xl">
           {{ activeCountry.emoji }}
         </h5>
-        <fluent-icon v-else icon="globe" class="fluent-icon" size="20" />
-        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
+        <FluentIcon v-else icon="globe" class="fluent-icon" size="20" />
+        <FluentIcon icon="chevron-down" class="fluent-icon" size="12" />
       </div>
       <span
         v-if="activeDialCode"
-        class="py-2 pr-0 pl-2 text-base"
-        :class="$dm('text-slate-700', 'dark:text-slate-50')"
+        class="py-2 ltr:pl-2 rtl:pr-2 text-base text-n-slate-11"
       >
         {{ activeDialCode }}
       </span>
       <input
         :value="phoneNumber"
         type="phoneInput"
-        class="border-0 w-full py-2 pl-2 pr-3 leading-tight outline-none h-full rounded-r"
+        class="w-full h-full !py-3 pl-2 pr-3 leading-tight rounded-r !outline-none focus:!ring-0 !bg-transparent dark:!bg-transparent"
         name="phoneNumber"
         :placeholder="placeholder"
-        :class="inputLightAndDarkModeColor"
         @input="onChange"
         @blur="context.blurHandler"
       />
     </div>
     <div
       v-if="showDropdown"
-      ref="dropdown"
+      ref="dropdownRef"
       v-on-clickaway="closeDropdown"
-      :class="dropdownBackgroundClass"
-      class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg"
+      class="country-dropdown absolute bg-n-background text-n-slate-12 dark:bg-n-solid-3 z-10 h-48 px-0 pt-0 pb-1 pl-1 pr-1 overflow-y-auto rounded-lg shadow-lg top-12 w-full min-w-24 max-w-[14.8rem]"
       @keydown.up="moveSelectionUp"
       @keydown.down="moveSelectionDown"
       @keydown.enter="onSelect"
     >
-      <div class="sticky top-0" :class="dropdownBackgroundClass">
+      <div
+        class="sticky top-0 bg-n-background text-n-slate-12 dark:bg-n-solid-3"
+      >
         <input
-          ref="searchbar"
+          ref="searchbarRef"
           v-model="searchCountry"
           type="text"
-          placeholder="Search country"
-          class="dropdown-search h-8 text-sm mb-1 mt-1 w-full rounded py-2 px-3 outline-none border border-solid"
-          :class="[$dm('bg-slate-50', 'dark:bg-slate-600'), inputBorderColor]"
+          :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_SEARCH')"
+          class="w-full h-8 !ring-0 px-3 py-2 mt-1 mb-1 text-sm rounded bg-n-alpha-black2"
         />
       </div>
       <div
         v-for="(country, index) in items"
-        ref="dropdownItem"
         :key="index"
-        class="country-dropdown--item h-8 flex items-center cursor-pointer rounded py-2 px-2"
+        class="flex items-center h-8 px-2 py-2 rounded cursor-pointer country-dropdown--item text-n-slate-12 dark:hover:bg-n-solid-2 hover:bg-n-alpha-2"
         :class="[
-          dropdownItemClass,
-          country.id === activeCountryCode ? activeDropdownItemClass : '',
-          index === selectedIndex ? focusedDropdownItemClass : '',
+          country.id === activeCountryCode &&
+            'active bg-n-alpha-1 dark:bg-n-solid-1',
+          index === selectedIndex && 'focus dark:bg-n-solid-2 bg-n-alpha-2',
         ]"
         @click="onSelectCountry(country)"
       >
         <span v-if="country.emoji" class="mr-2 text-xl">{{
           country.emoji
         }}</span>
-        <span class="truncate text-sm leading-5">
+        <span class="text-sm leading-5 truncate">
           {{ country.name }}
         </span>
         <span class="ml-2 text-xs">{{ country.dial_code }}</span>
       </div>
       <div v-if="items.length === 0">
         <span
-          class="text-sm mt-4 justify-center text-center flex"
-          :class="$dm('text-slate-700', 'dark:text-slate-50')"
+          class="flex justify-center mt-4 text-sm text-center text-n-slate-11"
         >
           {{ $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_EMPTY') }}
         </span>
@@ -84,251 +248,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import countries from 'shared/constants/countries.js';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
-
-export default {
-  components: {
-    FluentIcon,
-  },
-  mixins: [FormulateInputMixin, darkModeMixin],
-  props: {
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    hasErrorInPhoneInput: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      selectedIndex: -1,
-      showDropdown: false,
-      searchCountry: '',
-      activeCountryCode: '',
-      activeDialCode: '',
-      phoneNumber: '',
-    };
-  },
-  computed: {
-    countries() {
-      return [
-        {
-          name: this.dropdownFirstItemName,
-          dial_code: '',
-          emoji: '',
-          id: '',
-        },
-        ...countries,
-      ];
-    },
-    dropdownFirstItemName() {
-      return this.activeCountryCode ? 'Clear selection' : 'Select Country';
-    },
-    dropdownClass() {
-      return `${this.$dm('bg-slate-100', 'dark:bg-slate-700')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
-    },
-    dropdownBackgroundClass() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-700')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
-    },
-    dropdownItemClass() {
-      return `${this.$dm('text-slate-700', 'dark:text-slate-50')} ${this.$dm(
-        'hover:bg-slate-50',
-        'dark:hover:bg-slate-600'
-      )}`;
-    },
-    activeDropdownItemClass() {
-      return `active ${this.$dm('bg-slate-100', 'dark:bg-slate-800')}`;
-    },
-    focusedDropdownItemClass() {
-      return `focus ${this.$dm('bg-slate-50', 'dark:bg-slate-600')}`;
-    },
-    inputHasError() {
-      return this.hasErrorInPhoneInput
-        ? `border-red-200 hover:border-red-300 focus:border-red-300 ${this.inputLightAndDarkModeColor}`
-        : `hover:border-black-300 focus:border-black-300 ${this.inputLightAndDarkModeColor} ${this.inputBorderColor}`;
-    },
-    inputBorderColor() {
-      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
-    },
-    inputLightAndDarkModeColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
-    },
-    items() {
-      return this.countries.filter(country => {
-        const { name, dial_code, id } = country;
-        const search = this.searchCountry.toLowerCase();
-        return (
-          name.toLowerCase().includes(search) ||
-          dial_code.toLowerCase().includes(search) ||
-          id.toLowerCase().includes(search)
-        );
-      });
-    },
-    activeCountry() {
-      return (
-        this.countries.find(country => country.id === this.activeCountryCode) ||
-        ''
-      );
-    },
-  },
-  watch: {
-    items(newItems) {
-      if (newItems.length < this.selectedIndex + 1) {
-        // Reset the selected index to 0 if the new items length is less than the selected index.
-        this.selectedIndex = 0;
-      }
-    },
-  },
-  methods: {
-    setContextValue(code) {
-      // This function is used to set the context value.
-      // The context value is used to set the value of the phone number field in the pre-chat form.
-      this.context.model = `${code}${this.phoneNumber}`;
-    },
-    dynamicallySetCountryCode(value) {
-      // This function is used to set the country code dynamically.
-      // The country and dial code is used to set from the value of the phone number field in the pre-chat form.
-      if (!value) return;
-
-      // check the number first four digit and check weather it is available in the countries array or not.
-      const country = countries.find(code => value.startsWith(code.dial_code));
-      if (country) {
-        // if it is available then set the country code and dial code.
-        this.activeCountryCode = country.id;
-        this.activeDialCode = country.dial_code;
-        // set the phone number without dial code.
-        this.phoneNumber = value.replace(country.dial_code, '');
-      }
-    },
-    onChange(e) {
-      this.phoneNumber = e.target.value;
-      this.dynamicallySetCountryCode(this.phoneNumber);
-      // This function is used to set the context value when the user types in the phone number field.
-      this.setContextValue(this.activeDialCode);
-    },
-    dropdownItem() {
-      // This function is used to get all the items in the dropdown.
-      if (!this.showDropdown) return [];
-      return Array.from(
-        this.$refs.dropdown?.querySelectorAll(
-          'div.country-dropdown div.country-dropdown--item'
-        )
-      );
-    },
-    focusedOrActiveItem(className) {
-      // This function is used to get the focused or active item in the dropdown.
-      if (!this.showDropdown) return [];
-      return Array.from(
-        this.$refs.dropdown?.querySelectorAll(
-          `div.country-dropdown div.country-dropdown--item.${className}`
-        )
-      );
-    },
-    adjustScroll() {
-      this.$nextTick(() => {
-        this.scrollToFocusedOrActiveItem(this.focusedOrActiveItem('focus'));
-      });
-    },
-    adjustSelection(direction) {
-      if (!this.showDropdown) return;
-      const maxIndex = this.items.length - 1;
-      if (direction === 'up') {
-        this.selectedIndex =
-          this.selectedIndex <= 0 ? maxIndex : this.selectedIndex - 1;
-      } else if (direction === 'down') {
-        this.selectedIndex =
-          this.selectedIndex >= maxIndex ? 0 : this.selectedIndex + 1;
-      }
-      this.adjustScroll();
-    },
-    moveSelectionUp() {
-      this.adjustSelection('up');
-    },
-    moveSelectionDown() {
-      this.adjustSelection('down');
-    },
-    onSelect() {
-      if (!this.showDropdown || this.selectedIndex === -1) return;
-      this.onSelectCountry(this.items[this.selectedIndex]);
-    },
-    scrollToFocusedOrActiveItem(item) {
-      // This function is used to scroll the dropdown to the focused or active item.
-      const focusedOrActiveItem = item;
-      if (focusedOrActiveItem.length > 0) {
-        const dropdown = this.$refs.dropdown;
-        const dropdownHeight = dropdown.clientHeight;
-        const itemTop = focusedOrActiveItem[0].offsetTop;
-        const itemHeight = focusedOrActiveItem[0].offsetHeight;
-        const scrollPosition = itemTop - dropdownHeight / 2 + itemHeight / 2;
-        dropdown.scrollTo({
-          top: scrollPosition,
-          behavior: 'auto',
-        });
-      }
-    },
-    onSelectCountry(country) {
-      this.activeCountryCode = country.id;
-      this.searchCountry = '';
-      this.activeDialCode = country.dial_code ? country.dial_code : '';
-      this.setContextValue(country.dial_code);
-      this.closeDropdown();
-    },
-    toggleCountryDropdown() {
-      this.showDropdown = !this.showDropdown;
-      this.selectedIndex = -1;
-      if (this.showDropdown) {
-        this.$nextTick(() => {
-          this.$refs.searchbar.focus();
-          // This is used to scroll the dropdown to the active item.
-          this.scrollToFocusedOrActiveItem(this.focusedOrActiveItem('active'));
-        });
-      }
-    },
-    closeDropdown() {
-      this.selectedIndex = -1;
-      this.showDropdown = false;
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
-.phone-input--wrap {
-  .phone-input {
-    height: 2.8rem;
-
-    input:placeholder-shown {
-      text-overflow: ellipsis;
-    }
-  }
-
-  .country-emoji--wrap {
-    border-bottom-left-radius: 0.18rem;
-    border-top-left-radius: 0.18rem;
-    min-width: 3.6rem;
-    width: 3.6rem;
-  }
-
-  .country-dropdown {
-    min-width: 6rem;
-    max-width: 14.8rem;
-    width: 100%;
-  }
-}
-</style>

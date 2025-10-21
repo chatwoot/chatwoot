@@ -1,31 +1,3 @@
-<template>
-  <div
-    class="flex justify-end gap-1 py-4 bg-white dark:bg-slate-900 h-full overflow-y-auto"
-  >
-    <div class="flex flex-col gap-1 w-full">
-      <div v-if="isLoading" class="empty-state-message">
-        {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
-      </div>
-      <div v-else-if="showNoResults" class="empty-state-message">
-        {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.NO_RESULT') }}
-      </div>
-      <search-result-item
-        v-for="article in articles"
-        v-else
-        :id="article.id"
-        :key="article.id"
-        :title="article.title"
-        :body="article.content"
-        :url="article.url"
-        :category="article.category.name"
-        :locale="article.localeName"
-        @preview="handlePreview"
-        @insert="handleInsert"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import SearchResultItem from './ArticleSearchResultItem.vue';
 
@@ -47,11 +19,8 @@ export default {
       type: String,
       default: '',
     },
-    portalSlug: {
-      type: String,
-      required: true,
-    },
   },
+  emits: ['preview', 'insert'],
   computed: {
     showNoResults() {
       return this.searchQuery && this.articles.length === 0;
@@ -67,8 +36,38 @@ export default {
   },
 };
 </script>
-<style scoped>
-.empty-state-message {
-  @apply text-center flex items-center justify-center px-4 py-8 text-slate-500 text-sm;
-}
-</style>
+
+<template>
+  <div
+    class="flex justify-end h-full gap-1 py-4 overflow-y-auto bg-n-background"
+  >
+    <div class="flex flex-col w-full gap-1">
+      <div
+        v-if="isLoading"
+        class="text-center flex items-center justify-center px-4 py-8 text-n-slate-10 text-sm"
+      >
+        {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
+      </div>
+      <div
+        v-else-if="showNoResults"
+        class="text-center flex items-center justify-center px-4 py-8 text-n-slate-10 text-sm"
+      >
+        {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.NO_RESULT') }}
+      </div>
+      <template v-else>
+        <SearchResultItem
+          v-for="article in articles"
+          :id="article.id"
+          :key="article.id"
+          :title="article.title"
+          :body="article.content"
+          :url="article.url"
+          :category="article.category.name"
+          :locale="article.localeName"
+          @preview="handlePreview"
+          @insert="handleInsert"
+        />
+      </template>
+    </div>
+  </div>
+</template>

@@ -1,102 +1,87 @@
+<script setup>
+import { ref, useTemplateRef, onMounted, onUnmounted } from 'vue';
+import { debounce } from '@chatwoot/utils';
+
+const emit = defineEmits(['search']);
+
+const searchQuery = ref('');
+const isInputFocused = ref(false);
+
+const searchInput = useTemplateRef('searchInput');
+
+const handler = e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    searchInput.value.focus();
+  } else if (e.key === 'Escape' && document.activeElement.tagName === 'INPUT') {
+    e.preventDefault();
+    searchInput.value.blur();
+  }
+};
+
+const debouncedEmit = debounce(
+  value =>
+    emit('search', value.length > 1 || value.match(/^[0-9]+$/) ? value : ''),
+  500
+);
+
+const onInput = e => {
+  searchQuery.value = e.target.value;
+  debouncedEmit(searchQuery.value);
+};
+
+const onFocus = () => {
+  isInputFocused.value = true;
+};
+
+const onBlur = () => {
+  isInputFocused.value = false;
+};
+
+onMounted(() => {
+  searchInput.value.focus();
+  document.addEventListener('keydown', handler);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handler);
+});
+</script>
+
 <template>
-  <div class="input-container" :class="{ 'is-focused': isInputFocused }">
-    <div class="icon-container">
-      <fluent-icon icon="search" class="icon" aria-hidden="true" />
+  <div
+    class="input-container rounded-xl transition-[border-bottom] duration-[0.2s] ease-[ease-in-out] relative flex items-center py-2 px-4 h-14 gap-2 border border-solid bg-n-alpha-black2"
+    :class="{
+      'border-n-brand': isInputFocused,
+      'border-n-weak': !isInputFocused,
+    }"
+  >
+    <div class="flex items-center">
+      <fluent-icon
+        icon="search"
+        class="icon"
+        aria-hidden="true"
+        :class="{
+          'text-n-blue-text': isInputFocused,
+          'text-n-slate-10': !isInputFocused,
+        }"
+      />
     </div>
     <input
       ref="searchInput"
       type="search"
-      class="dark:bg-slate-900"
+      class="reset-base outline-none w-full m-0 bg-transparent border-transparent shadow-none text-n-slate-12 dark:text-n-slate-12 active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none"
       :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
       :value="searchQuery"
       @focus="onFocus"
       @blur="onBlur"
-      @input="debounceSearch"
+      @input="onInput"
     />
     <woot-label
       :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
       :show-close="false"
       small
-      class="helper-label"
+      class="!m-0 whitespace-nowrap !bg-n-slate-3 dark:!bg-n-solid-3 !border-n-weak dark:!border-n-strong"
     />
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      searchQuery: '',
-      isInputFocused: false,
-    };
-  },
-  mounted() {
-    this.$refs.searchInput.focus();
-    document.addEventListener('keydown', this.handler);
-  },
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.handler);
-  },
-  methods: {
-    handler(e) {
-      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
-        e.preventDefault();
-        this.$refs.searchInput.focus();
-      } else if (
-        e.key === 'Escape' &&
-        document.activeElement.tagName === 'INPUT'
-      ) {
-        e.preventDefault();
-        this.$refs.searchInput.blur();
-      }
-    },
-    debounceSearch(e) {
-      this.searchQuery = e.target.value;
-      clearTimeout(this.debounce);
-      this.debounce = setTimeout(async () => {
-        if (this.searchQuery.length > 2 || this.searchQuery.match(/^[0-9]+$/)) {
-          this.$emit('search', this.searchQuery);
-        } else {
-          this.$emit('search', '');
-        }
-      }, 500);
-    },
-    onFocus() {
-      this.isInputFocused = true;
-    },
-    onBlur() {
-      this.isInputFocused = false;
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-.input-container {
-  transition: border-bottom 0.2s ease-in-out;
-  @apply relative flex items-center py-2 px-4 h-14 gap-2 rounded-sm border border-solid border-slate-100 dark:border-slate-800;
-
-  input[type='search'] {
-    @apply w-full m-0 shadow-none border-transparent active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none;
-  }
-
-  &.is-focused {
-    @apply border-woot-100 dark:border-woot-600;
-
-    .icon {
-      color: var(--w-400);
-      @apply text-woot-400 dark:text-woot-500;
-    }
-  }
-}
-.icon-container {
-  @apply flex items-center;
-  .icon {
-    @apply text-slate-400;
-  }
-}
-
-.helper-label {
-  @apply m-0 whitespace-nowrap;
-}
-</style>

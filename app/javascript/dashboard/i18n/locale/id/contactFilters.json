@@ -30,6 +30,9 @@
       "is_lesser_than": "Lebih kecil dari",
       "days_before": "X hari sebelum"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai dibutuhkan"
+    },
     "ATTRIBUTES": {
       "NAME": "Nama",
       "EMAIL": "Email",
@@ -45,7 +48,8 @@
       "CREATED_AT": "Dibuat pada",
       "LAST_ACTIVITY": "Aktivitas Terakhir",
       "REFERER_LINK": "Tautan Referrer",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Label"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filter Standar",

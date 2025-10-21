@@ -1,3 +1,19 @@
+<script>
+export default {
+  props: {
+    url: { type: String, default: '' },
+    thumb: { type: String, default: '' },
+    readableTime: { type: String, default: '' },
+  },
+  emits: ['error'],
+  methods: {
+    onImgError() {
+      this.$emit('error');
+    },
+  },
+};
+</script>
+
 <template>
   <a
     :href="url"
@@ -6,37 +22,13 @@
     class="image"
   >
     <div class="wrap">
-      <img
-        :src="thumb"
-        alt="Picture message"
-        @click="onClick"
-        @error="onImgError"
-      />
+      <img :src="thumb" alt="Picture message" @error="onImgError" />
       <span class="time">{{ readableTime }}</span>
     </div>
   </a>
 </template>
 
-<script>
-export default {
-  props: {
-    url: { type: String, default: '' },
-    thumb: { type: String, default: '' },
-    readableTime: { type: String, default: '' },
-  },
-  methods: {
-    onImgError() {
-      this.$emit('error');
-    },
-    onClick() {
-      this.$emit('click');
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
-
 .image {
   display: block;
 
@@ -46,11 +38,7 @@ export default {
     max-width: 100%;
 
     &::before {
-      background-image: linear-gradient(
-        -180deg,
-        transparent 3%,
-        $color-heading 130%
-      );
+      background-image: linear-gradient(-180deg, transparent 3%, #1f2d3d 130%);
       bottom: 0;
       content: '';
       height: 20%;
@@ -67,12 +55,7 @@ export default {
   }
 
   .time {
-    font-size: $font-size-small;
-    bottom: $space-smaller;
-    color: $color-white;
-    position: absolute;
-    right: $space-slab;
-    white-space: nowrap;
+    @apply text-xs bottom-1 text-white ltr:right-3 rtl:left-3 whitespace-nowrap absolute;
   }
 }
 </style>

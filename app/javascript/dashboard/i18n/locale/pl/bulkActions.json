@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} wybranych rozmów",
+    "CONVERSATIONS_SELECTED": "{conversationCount} wybranych rozmów",
     "AGENT_SELECT_LABEL": "Wybierz konsultanta",
-    "ASSIGN_CONFIRMATION_LABEL": "Czy na pewno chcesz przypisać %{conversationCount} %{conversationLabel} do",
-    "UNASSIGN_CONFIRMATION_LABEL": "Czy na pewno chcesz odwołać przypisanie %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Czy na pewno chcesz przypisać {conversationCount} {conversationLabel} do",
+    "UNASSIGN_CONFIRMATION_LABEL": "Czy na pewno chcesz odwołać przypisanie {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Powróć",
     "ASSIGN_LABEL": "Przypisz",
     "YES": "Tak",
+    "SEARCH_INPUT_PLACEHOLDER": "Szukaj",
     "ASSIGN_AGENT_TOOLTIP": "Przypisz Agenta",
     "ASSIGN_TEAM_TOOLTIP": "Przypisz zespół",
     "ASSIGN_SUCCESFUL": "Rozmowy zostały pomyślnie przypisane.",
@@ -33,7 +34,7 @@
       "NONE": "Brak",
       "NO_TEAMS_AVAILABLE": "Na tym koncie nie dodano jeszcze żadnych zespołów.",
       "ASSIGN_SELECTED_TEAMS": "Przypisz wybrany zespół.",
-      "ASSIGN_SUCCESFUL": "Zespoły zostały pomyślnie przypisane.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }
   }

@@ -66,4 +66,110 @@ RSpec.describe HookJob do
       described_class.perform_now(hook, event_name, event_data)
     end
   end
+
+  context 'when processing leadsquared integration' do
+    let(:contact) { create(:contact, account: account) }
+    let(:conversation) { create(:conversation, account: account, contact: contact) }
+    let(:processor_service) { instance_double(Crm::Leadsquared::ProcessorService) }
+    let(:leadsquared_hook) { instance_double(Integrations::Hook, id: 123, app_id: 'leadsquared', account: account) }
+
+    before do
+      allow(Crm::Leadsquared::ProcessorService).to receive(:new).with(leadsquared_hook).and_return(processor_service)
+    end
+
+    context 'when processing contact.updated event' do
+      let(:event_name) { 'contact.updated' }
+      let(:event_data) { { contact: contact } }
+
+      it 'uses a lock when processing' do
+        allow(leadsquared_hook).to receive(:disabled?).and_return(false)
+        allow(leadsquared_hook).to receive(:feature_allowed?).and_return(true)
+        allow(processor_service).to receive(:handle_contact).with(contact)
+
+        # Mock the with_lock method directly on the job instance
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock).and_yield
+        allow(described_class).to receive(:new).and_return(job_instance)
+
+        expect(job_instance).to receive(:with_lock).with(
+          format(Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: leadsquared_hook.id)
+        )
+
+        job_instance.perform(leadsquared_hook, event_name, event_data)
+      end
+
+      it 'does not process when feature is not allowed' do
+        allow(leadsquared_hook).to receive(:disabled?).and_return(false)
+        allow(leadsquared_hook).to receive(:feature_allowed?).and_return(false)
+
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock)
+
+        expect(job_instance).not_to receive(:with_lock)
+        expect(processor_service).not_to receive(:handle_contact)
+
+        job_instance.perform(leadsquared_hook, event_name, event_data)
+      end
+    end
+
+    context 'when processing conversation.created event' do
+      let(:event_name) { 'conversation.created' }
+      let(:event_data) { { conversation: conversation } }
+
+      it 'uses a lock when processing' do
+        allow(leadsquared_hook).to receive(:disabled?).and_return(false)
+        allow(leadsquared_hook).to receive(:feature_allowed?).and_return(true)
+        allow(processor_service).to receive(:handle_conversation_created).with(conversation)
+
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock).and_yield
+        allow(described_class).to receive(:new).and_return(job_instance)
+
+        expect(job_instance).to receive(:with_lock).with(
+          format(Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: leadsquared_hook.id)
+        )
+
+        job_instance.perform(leadsquared_hook, event_name, event_data)
+      end
+    end
+
+    context 'when processing conversation.resolved event' do
+      let(:event_name) { 'conversation.resolved' }
+      let(:event_data) { { conversation: conversation } }
+
+      it 'uses a lock when processing' do
+        allow(leadsquared_hook).to receive(:disabled?).and_return(false)
+        allow(leadsquared_hook).to receive(:feature_allowed?).and_return(true)
+        allow(processor_service).to receive(:handle_conversation_resolved).with(conversation)
+
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock).and_yield
+        allow(described_class).to receive(:new).and_return(job_instance)
+
+        expect(job_instance).to receive(:with_lock).with(
+          format(Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: leadsquared_hook.id)
+        )
+
+        job_instance.perform(leadsquared_hook, event_name, event_data)
+      end
+    end
+
+    context 'when processing invalid event' do
+      let(:event_name) { 'invalid.event' }
+      let(:event_data) { { contact: contact } }
+
+      it 'does not process for invalid event names' do
+        allow(leadsquared_hook).to receive(:disabled?).and_return(false)
+        allow(leadsquared_hook).to receive(:feature_allowed?).and_return(true)
+
+        job_instance = described_class.new
+        allow(job_instance).to receive(:with_lock)
+
+        expect(job_instance).not_to receive(:with_lock)
+        expect(processor_service).not_to receive(:handle_contact)
+
+        job_instance.perform(leadsquared_hook, event_name, event_data)
+      end
+    end
+  end
 end

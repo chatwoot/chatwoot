@@ -21,6 +21,12 @@ class Channel::FacebookPage < ApplicationRecord
   include Channelable
   include Reauthorizable
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  if Chatwoot.encryption_configured?
+    encrypts :page_access_token
+    encrypts :user_access_token
+  end
+
   self.table_name = 'channel_facebook_pages'
 
   validates :page_id, uniqueness: { scope: :account_id }
@@ -30,10 +36,6 @@ class Channel::FacebookPage < ApplicationRecord
 
   def name
     'Facebook'
-  end
-
-  def messaging_window_enabled?
-    false
   end
 
   def create_contact_inbox(instagram_id, name)
@@ -62,23 +64,5 @@ class Channel::FacebookPage < ApplicationRecord
   rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
-  end
-
-  # TODO: We will be removing this code after instagram_manage_insights is implemented
-  def fetch_instagram_story_link(message)
-    k = Koala::Facebook::API.new(page_access_token)
-    result = k.get_object(message.source_id, fields: %w[story]) || {}
-    story_link = result['story']['mention']['link']
-    # If the story is expired then it raises the ClientError and if the story is deleted with valid story-id it responses with nil
-    delete_instagram_story(message) if story_link.blank?
-    story_link
-  rescue Koala::Facebook::ClientError => e
-    Rails.logger.debug { "Instagram Story Expired: #{e.inspect}" }
-    delete_instagram_story(message)
-  end
-
-  def delete_instagram_story(message)
-    message.attachments.destroy_all
-    message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'), content_attributes: {})
   end
 end

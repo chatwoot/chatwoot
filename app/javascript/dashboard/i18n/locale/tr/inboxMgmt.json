@@ -1,32 +1,33 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Gelen kutuları",
-    "SIDEBAR_TXT": "<p><b>Gelen Kutusu</b></p> <p> Chatwoot'a bir web sitesi veya Facebook Sayfası bağladığınızda, buna <b> Gelen Kutusu </b> denir. Chatwoot hesabınızda sınırsız gelen kutunuz olabilir. </p> <p> Bir web sitesine veya Facebook Sayfasına bağlanmak için <b> Gelen Kutusu Ekle </b> 'yi tıklayın. </p> <p> Gösterge Panosunda, tüm gelen kutularınızdaki tüm konuşmaları tek bir yerde görebilir ve bunlara 'Görüşmeler' sekmesi altında yanıt verebilirsiniz. </p> <p> Ayrıca, kontrol panelinin sol bölmesindeki gelen kutusu adını tıklayarak bir gelen kutusuna özel görüşmeleri de görebilirsiniz. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
       "404": "Bu hesaba bağlı gelen kutusu yok."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Kanal Seçin",
-        "route": "settings_inbox_new",
-        "body": "Chatwoot ile entegre etmek istediğiniz sağlayıcıyı seçin."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Kanal Seçin",
+        "BODY": "Chatwoot ile entegre etmek istediğiniz sağlayıcıyı seçin."
       },
-      {
-        "title": "Gelen Kutusu Oluştur",
-        "route": "settings_inboxes_page_channel",
-        "body": "Hesabınızın kimliğini doğrulayın ve bir gelen kutusu oluşturun."
+      "INBOX": {
+        "TITLE": "Gelen Kutusu Oluştur",
+        "BODY": "Hesabınızın kimliğini doğrulayın ve bir gelen kutusu oluşturun."
       },
-      {
-        "title": "Kullanıcı Ekle",
-        "route": "settings_inboxes_add_agents",
-        "body": "Temsilcileri oluşturulan gelen kutusuna ekleyin."
+      "AGENT": {
+        "TITLE": "Kullanıcı Ekle",
+        "BODY": "Temsilcileri oluşturulan gelen kutusuna ekleyin."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Hepiniz gitmeye hazırsınız!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Hepiniz gitmeye hazırsınız!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Gelen Kutusu Adı",
@@ -44,7 +45,17 @@
         "INBOX_NAME": "Gelen Kutusu Adı",
         "ADD_NAME": "Gelen kutunuza bir isim ekleyin",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Bir değer seçin"
+        "PICK_A_VALUE": "Bir değer seçin",
+        "CREATE_INBOX": "Gelen Kutusu Oluştur"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Instagram ile devam et",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Instagram profilinizi bağlayın",
+        "HELP": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız ",
+        "ERROR_MESSAGE": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
+        "ERROR_AUTH": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
+        "NEW_INBOX_SUGGESTION": "Bu Instagram hesabı daha önce farklı bir gelen kutusuna bağlıydı ve şimdi buraya taşındı. Tüm yeni mesajlar burada görünecek. Eski gelen kutusu artık bu hesap için mesaj gönderip alamayacak.",
+        "DUPLICATE_INBOX_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız."
       },
       "TWITTER": {
         "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
@@ -213,9 +224,16 @@
         "DESC": "Müşterilerinizi WhatsApp ile desteklemeye başlayın.",
         "PROVIDERS": {
           "LABEL": "API Sağlayıcı",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Bulut",
+          "WHATSAPP_CLOUD_DESC": "Meta üzerinden hızlı kurulum",
+          "TWILIO_DESC": "Twilio kimlik bilgileriyle bağlanın",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "API sağlayıcınızı seçin",
+          "DESCRIPTION": "WhatsApp sağlayıcınızı seçin. Kurulum gerektirmeyen Meta üzerinden doğrudan bağlanabilir veya hesap bilgilerinizi kullanarak Twilio üzerinden bağlanabilirsiniz."
         },
         "INBOX_NAME": {
           "LABEL": "Gelen Kutusu Adı",
@@ -255,8 +273,77 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Onay Anahtarı"
         },
         "SUBMIT_BUTTON": "WhatsApp Kanalı Oluştur",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Meta ile hızlı kurulum",
+          "DESC": "Yeni numaraları hızlı bir şekilde bağlamak için WhatsApp Embedded Signup akışını kullanın. WhatsApp Business hesabınıza giriş yapmak için Meta'ya yönlendirileceksiniz. Yönetici erişimi, kurulumu sorunsuz ve kolay hale getirmeye yardımcı olacaktır.",
+          "BENEFITS": {
+            "TITLE": "Gömülü Kaydın Faydaları:",
+            "EASY_SETUP": "Manuel yapılandırma gerekmez",
+            "SECURE_AUTH": "Güvenli OAuth tabanlı kimlik doğrulama",
+            "AUTO_CONFIG": "Otomatik webhook ve telefon numarası yapılandırması"
+          },
+          "LEARN_MORE": {
+            "TEXT": "Entegre kayıt, fiyatlandırma ve sınırlamalar hakkında daha fazla bilgi için {link} adresini ziyaret edin.",
+            "LINK_TEXT": "bu bağlantı"
+          },
+          "SUBMIT_BUTTON": "WhatsApp Business ile bağlantı kurun",
+          "AUTH_PROCESSING": "Meta ile kimlik doğrulama",
+          "WAITING_FOR_BUSINESS_INFO": "Lütfen Meta penceresinde işletme kurulumunu tamamlayın...",
+          "PROCESSING": "WhatsApp Business Hesabınızı kurma",
+          "LOADING_SDK": "Facebook SDK yükleniyor...",
+          "CANCELLED": "WhatsApp Kaydı iptal edildi",
+          "SUCCESS_TITLE": "WhatsApp Business Hesabı Bağlandı!",
+          "WAITING_FOR_AUTH": "Kimlik doğrulaması bekleniyor...",
+          "INVALID_BUSINESS_DATA": "Facebook’tan geçersiz işletme verisi alındı. Lütfen tekrar deneyin.",
+          "SIGNUP_ERROR": "Kayıt hatası oluştu",
+          "AUTH_NOT_COMPLETED": "Kimlik doğrulama tamamlanmadı. Lütfen işlemi yeniden başlatın.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Hesabı başarıyla yapılandırıldı",
+          "MANUAL_FALLBACK": "Numaranız zaten WhatsApp Business Platformuna (API) bağlıysa veya kendi numaranızı ekleyen bir teknoloji sağlayıcısıysanız, lütfen {link} akışını kullanın",
+          "MANUAL_LINK_TEXT": "manuel kurulum akışı"
+        },
         "API": {
           "ERROR_MESSAGE": "WhatsApp kanalını kaydedemedik"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Ses Kanalı",
+        "DESC": "Twilio Voice’u entegre edin ve müşterilerinize telefon aramalarıyla destek vermeye başlayın.",
+        "PHONE_NUMBER": {
+          "LABEL": "Telefon Numarası",
+          "PLACEHOLDER": "Telefon numaranızı girin (örn. +901234567890)",
+          "ERROR": "Lütfen E.164 formatında geçerli bir telefon numarası girin (örn. +901234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "Hesap SID'si",
+            "PLACEHOLDER": "Twilio Account SID’inizi girin",
+            "REQUIRED": "Account SID gereklidir"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Yetkilendirme Jetonu",
+            "PLACEHOLDER": "Twilio Auth Token’inizi girin",
+            "REQUIRED": "Auth Token gereklidir"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Anahtar SID",
+            "PLACEHOLDER": "Twilio API Key SID’inizi girin",
+            "REQUIRED": "API Key SID gereklidir"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API Anahtar Sırrı",
+            "PLACEHOLDER": "Twilio API Key Secret’ınızı girin",
+            "REQUIRED": "API Key Secret gereklidir"
+          }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Ses URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -340,7 +427,51 @@
       },
       "AUTH": {
         "TITLE": "Bir Kanal Seçin",
-        "DESC": "Chatwoot, canlı sohbet widget'ları, Facebook Messenger, Twitter profilleri, WhatsApp, E-postalar vb. olarak kanalları destekler. Özel bir kanal oluşturmak istiyorsanız, API kanalını kullanarak bunu oluşturabilirsiniz. Başlamak için aşağıdaki kanallardan birini seçin."
+        "DESC": "Chatwoot, canlı sohbet widget'ları, Facebook Messenger, Twitter profilleri, WhatsApp, E-postalar vb. olarak kanalları destekler. Özel bir kanal oluşturmak istiyorsanız, API kanalını kullanarak bunu oluşturabilirsiniz. Başlamak için aşağıdaki kanallardan birini seçin.",
+        "TITLE_NEXT": "Kurulumu tamamlayın",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Website",
+            "DESCRIPTION": "Canlı sohbet widget'ı oluşturun"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook\n",
+            "DESCRIPTION": "Connect your Facebook page"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "E-Posta",
+            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Make a custom channel using our API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integrate your Line channel"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connect your instagram account"
+          },
+          "VOICE": {
+            "TITLE": "Ses",
+            "DESCRIPTION": "Integrate with Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "Kullanıcılar",
@@ -364,12 +495,20 @@
         "TITLE": "Microsoft E-posta",
         "DESCRIPTION": "Başlamak için Microsoft ile giriş yapın düğmesine tıklayın. E-posta giriş sayfasına yönlendirileceksiniz. İstenen izinleri kabul ettiğinizde, giriş sayfasına geri yönlendirileceksiniz.",
         "EMAIL_PLACEHOLDER": "E-posta adresini girin",
-        "HELP": "Microsoft hesabınızı bir kanal olarak eklemek için, Microsoft hesabınızı 'Microsoft ile Giriş Yap' seçeneğine tıklayarak kimlik doğrulamanız gerekiyor.",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "Microsoft ile bağlantı kurulurken bir hata oluştu, lütfen tekrar deneyin"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "E-posta adresini girin",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Facebook kimliğinizi doğruluyoruz...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Bir şeyler ters gitti, lütfen sayfayı yenileyin...",
       "ERROR_FB_UNAUTHORIZED": "Bu işlemi gerçekleştirmek için yetkiniz yok.",
       "ERROR_FB_UNAUTHORIZED_HELP": "Lütfen Facebook sayfanıza tam kontrolle erişiminiz olduğundan emin olun. Facebook rolleri hakkında daha fazla bilgiyi <a href=\" https://www.facebook.com/help/187316341316631\">buradan</a> okuyabilirsiniz.",
@@ -386,7 +525,10 @@
       "MESSAGE": "Artık yeni kanalınız aracılığıyla müşterilerinizle iletişim kurabilirsiniz. Mutlu destekleme!",
       "BUTTON_TEXT": "Beni oraya götür",
       "MORE_SETTINGS": "Daha fazla ayar",
-      "WEBSITE_SUCCESS": "Bir web sitesi kanalı oluşturmayı başarıyla tamamladınız. Aşağıda gösterilen kodu kopyalayın ve web sitenize yapıştırın. Bir müşteri canlı sohbeti bir dahaki sefere kullandığında, konuşma otomatik olarak gelen kutunuzda görünecektir."
+      "WEBSITE_SUCCESS": "Bir web sitesi kanalı oluşturmayı başarıyla tamamladınız. Aşağıda gösterilen kodu kopyalayın ve web sitenize yapıştırın. Bir müşteri canlı sohbeti bir dahaki sefere kullandığında, konuşma otomatik olarak gelen kutunuzda görünecektir.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Yeniden yetkilendir",
     "VIEW": "Görünüm",
@@ -464,7 +606,64 @@
       "PRE_CHAT_FORM": "Sohbet Öncesi Form",
       "BUSINESS_HOURS": "İş Saatleri",
       "WIDGET_BUILDER": "Widget Oluşturucu",
-      "BOT_CONFIGURATION": "Bot Yapılandırma"
+      "BOT_CONFIGURATION": "Bot Yapılandırma",
+      "ACCOUNT_HEALTH": "Account Health",
+      "CSAT": "CSAT"
+    },
+    "ACCOUNT_HEALTH": {
+      "TITLE": "Manage your WhatsApp account",
+      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "GO_TO_SETTINGS": "Go to Meta Business Manager",
+      "NO_DATA": "Health data is not available",
+      "FIELDS": {
+        "DISPLAY_PHONE_NUMBER": {
+          "LABEL": "Display phone number",
+          "TOOLTIP": "Phone number displayed to customers"
+        },
+        "VERIFIED_NAME": {
+          "LABEL": "Business name",
+          "TOOLTIP": "Business name verified by WhatsApp"
+        },
+        "DISPLAY_NAME_STATUS": {
+          "LABEL": "Display name status",
+          "TOOLTIP": "Status of your business name verification"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "WhatsApp quality rating for your account"
+        },
+        "MESSAGING_LIMIT_TIER": {
+          "LABEL": "Messaging limit tier",
+          "TOOLTIP": "Daily messaging limit for your account"
+        },
+        "ACCOUNT_MODE": {
+          "LABEL": "Account mode",
+          "TOOLTIP": "Current operating mode of your WhatsApp account"
+        }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 customers per 24h",
+          "TIER_1000": "1K customers per 24h",
+          "TIER_1K": "1K customers per 24h",
+          "TIER_10K": "10K customers per 24h",
+          "TIER_100K": "100K customers per 24h",
+          "TIER_UNLIMITED": "Unlimited customers per 24h",
+          "UNKNOWN": "Değerlendirme mevcut değil"
+        },
+        "STATUSES": {
+          "APPROVED": "Approved",
+          "PENDING_REVIEW": "Pending Review",
+          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
+          "REJECTED": "Rejected",
+          "DECLINED": "Declined",
+          "NON_EXISTS": "Mevcut değil"
+        },
+        "MODES": {
+          "SANDBOX": "Sandbox",
+          "LIVE": "Canlı"
+        }
+      }
     },
     "SETTINGS": "Ayarlar",
     "FEATURES": {
@@ -477,6 +676,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Komut Dosyası",
       "MESSENGER_SUB_HEAD": "Bu düğmeyi gövde etiketinizin içine yerleştirin",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "İzin Verilen Alan Adları",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",
       "AGENT_ASSIGNMENT": "Görüşme Atama",
@@ -485,9 +689,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "E-posta toplama kutusunu etkinleştir",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Yeni konuşmalarda e-posta toplama kutusunu etkinleştir veya devre dışı bırak",
       "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
-      "ENABLE_CSAT": "CSAT'yi etkinleştir",
       "SENDER_NAME_SECTION": "E-postada Ajan Adını Etkinleştir",
-      "ENABLE_CSAT_SUB_TEXT": "Bir konuşma çözüldükten sonra Müşteri Memnuniyeti Anketi (CSAT) etkinleştir/devre dışı bırak",
       "SENDER_NAME_SECTION_TEXT": "E-postada Ajanın adını göstermeyi/Devre dışı bırakmayı etkinleştirin, devre dışı bırakıldığında iş adını gösterir",
       "ENABLE_CONTINUITY_VIA_EMAIL": "E-posta aracılığıyla konuşma sürekliliğini etkinleştir",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "E-posta adresi mevcut ise konuşmalar e-posta aracılığıyla devam eder.",
@@ -513,8 +715,27 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "API Anahtarını Güncelle",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Yeni API Anahtarını buraya girin",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Güncelleme",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Yeniden yapılandır",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Bağlan",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp Uygulama Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Yapılandırma Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Onay Anahtarı",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Bu belirteç, webhook uç noktasının gerçekliğini doğrulamak için kullanılır.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Şablonları Senkronize Et",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "WhatsApp'tan mesaj şablonlarını manuel olarak senkronize ederek mevcut şablonlarınızı güncelleyin.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Şablonları Senkronize Et",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Sohbet Öncesi Form Ayarlarını Güncelleme"
     },
     "HELP_CENTER": {
@@ -559,6 +780,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Ziyaretçilerin sohbeti başlamadan önce ad ve e-posta adresi sağlaması gerekmektedir"
+      }
+    },
+    "CSAT": {
+      "TITLE": "CSAT'yi etkinleştir",
+      "SUBTITLE": "Müşterilerin destek deneyimleri hakkında ne hissettiklerini anlamak için sohbetlerin sonunda otomatik olarak CSAT anketleri başlatın. Memnuniyet eğilimlerini takip edin ve zaman içinde iyileştirme alanlarını belirleyin.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Görüntüleme türü"
+      },
+      "MESSAGE": {
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Form ile kullanıcılara göstermek için bir mesaj girin"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Anket kuralı",
+        "DESCRIPTION_PREFIX": "Sohbet olursa anketi gönder",
+        "DESCRIPTION_SUFFIX": "etiketlerden herhangi biri",
+        "OPERATOR": {
+          "CONTAINS": "i̇çerir",
+          "DOES_NOT_CONTAINS": "i̇çermez"
+        },
+        "SELECT_PLACEHOLDER": "etiketleri seç"
+      },
+      "NOTE": "Not: CSAT anketleri her sohbet için yalnızca bir kez gönderilir",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT ayarları başarıyla güncellendi",
+        "ERROR_MESSAGE": "CSAT ayarları güncellenemedi. Lütfen daha sonra tekrar deneyin."
       }
     },
     "BUSINESS_HOURS": {
@@ -732,8 +979,32 @@
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Diğer Sağlayıcılar"
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "Connect with Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connect with Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "Diğer Sağlayıcılar",
+        "DESCRIPTION": "Connect with Other Providers"
+      }
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-Posta",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Kanalı",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Ses"
     }
   }
 }

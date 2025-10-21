@@ -76,6 +76,23 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         }
       end
 
+      it 'processes invalid query operator' do
+        expect(account.automation_rules.count).to eq(0)
+        params[:conditions] << {
+          'attribute_key': 'browser_language',
+          'filter_operator': 'equal_to',
+          'values': ['en'],
+          'query_operator': 'invalid'
+        }
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.count).to eq(0)
+      end
+
       it 'throws an error for unknown attributes in condtions' do
         expect(account.automation_rules.count).to eq(0)
         params[:conditions] << {

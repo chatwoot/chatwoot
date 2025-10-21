@@ -1,8 +1,3 @@
-<template>
-  <kbd class="hotkey p-0.5 min-w-[1rem] uppercase" :class="customClass">
-    <slot />
-  </kbd>
-</template>
 <script>
 export default {
   props: {
@@ -13,6 +8,12 @@ export default {
   },
 };
 </script>
+
+<template>
+  <kbd class="hotkey p-0.5 min-w-[1rem] uppercase" :class="customClass">
+    <slot />
+  </kbd>
+</template>
 
 <style lang="scss">
 kbd.hotkey {

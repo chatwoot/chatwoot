@@ -6,7 +6,7 @@ hr:
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
-      already_authenticated: "You are already signed in."
+      already_authenticated: "Već ste prijavljeni."
       inactive: "Your account is not activated yet."
       invalid: "Invalid %{authentication_keys}/password or account is not verified yet."
       locked: "Your account is locked."
@@ -23,7 +23,7 @@ hr:
       unlock_instructions:
         subject: "Unlock instructions"
       password_change:
-        subject: "Password Changed"
+        subject: "Lozinka promijenjena"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."

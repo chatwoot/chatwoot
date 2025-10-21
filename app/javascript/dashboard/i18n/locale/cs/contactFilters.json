@@ -30,6 +30,9 @@
       "is_lesser_than": "Je menší než",
       "days_before": "Je o x dnů dříve"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Hodnota je povinná"
+    },
     "ATTRIBUTES": {
       "NAME": "Název",
       "EMAIL": "E-mailová adresa",
@@ -45,7 +48,8 @@
       "CREATED_AT": "Vytvořeno",
       "LAST_ACTIVITY": "Poslední aktivita",
       "REFERER_LINK": "Odkazující odkaz",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Štítky"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardní filtry",

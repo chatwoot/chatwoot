@@ -1,6 +1,6 @@
 import types from '../mutation-types';
-import Vue from 'vue';
 import ContactNotesAPI from '../../api/contactNotes';
+import camelcaseKeys from 'camelcase-keys';
 
 export const state = {
   records: {},
@@ -18,6 +18,11 @@ export const getters = {
   },
   getUIFlags(_state) {
     return _state.uiFlags;
+  },
+  getAllNotesByContactId: _state => contactId => {
+    const records = _state.records[contactId] || [];
+    const contactNotes = records.sort((r1, r2) => r2.id - r1.id);
+    return camelcaseKeys(contactNotes);
   },
 };
 
@@ -68,7 +73,10 @@ export const mutations = {
   },
 
   [types.SET_CONTACT_NOTES]($state, { data, contactId }) {
-    Vue.set($state.records, contactId, data);
+    $state.records = {
+      ...$state.records,
+      [contactId]: data,
+    };
   },
   [types.ADD_CONTACT_NOTE]($state, { data, contactId }) {
     const contactNotes = $state.records[contactId] || [];

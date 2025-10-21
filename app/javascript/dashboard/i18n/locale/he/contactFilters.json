@@ -30,6 +30,9 @@
       "is_lesser_than": "הוא פחות מ",
       "days_before": "זה x ימים לפני"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "חובה ערך"
+    },
     "ATTRIBUTES": {
       "NAME": "שם",
       "EMAIL": "אימייל",
@@ -45,7 +48,8 @@
       "CREATED_AT": "הוקם ב",
       "LAST_ACTIVITY": "פעילות אחרונה",
       "REFERER_LINK": "קישור מפנה",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "תוויות"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "סננים סטנדרטיים",

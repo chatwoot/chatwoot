@@ -31,10 +31,13 @@ export default {
     CONDENSED: 'condensed',
     EXPANDED: 'expanded',
   },
-  DOCS_URL: '//www.chatwoot.com/docs/product/',
-  HELP_CENTER_DOCS_URL: '//www.chatwoot.com/docs/product/others/help-center',
+  DOCS_URL: 'https://www.chatwoot.com/docs/product/',
+  HELP_CENTER_DOCS_URL:
+    'https://www.chatwoot.com/docs/product/others/help-center',
   TESTIMONIAL_URL: 'https://testimonials.cdn.chatwoot.com/content.json',
-  SMALL_SCREEN_BREAKPOINT: 1024,
+  WHATSAPP_EMBEDDED_SIGNUP_DOCS_URL:
+    'https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations',
+  SMALL_SCREEN_BREAKPOINT: 768,
   AVAILABILITY_STATUS_KEYS: ['online', 'busy', 'offline'],
   SNOOZE_OPTIONS: {
     UNTIL_NEXT_REPLY: 'until_next_reply',
@@ -44,7 +47,7 @@ export default {
     UNTIL_NEXT_MONTH: 'until_next_month',
     UNTIL_CUSTOM_TIME: 'until_custom_time',
   },
-  EXAMPLE_URL: 'https://example.com',
+  EXAMPLE_URL: 'example.com',
   EXAMPLE_WEBHOOK_URL: 'https://example/api/webhook',
   INBOX_SORT_BY: {
     NEWEST: 'desc',

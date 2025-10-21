@@ -1,5 +1,5 @@
 parameters:
-  - $ref: '#/parameters/account_id'
+  - $ref: '#/components/parameters/account_id'
 
 get:
   tags:
@@ -7,47 +7,58 @@ get:
   operationId: conversationListMeta
   description: Get open, unassigned and all Conversation counts
   summary: Get Conversation Counts
+  security:
+    - userApiKey: []
   parameters:
     - name: status
       in: query
-      type: string
-      enum: ['all', 'open', 'resolved', 'pending', 'snoozed']
-      default: 'open'
+      schema:
+        type: string
+        enum: ['all', 'open', 'resolved', 'pending', 'snoozed']
+        default: 'open'
       description: Filter by conversation status.
     - name: q
       in: query
-      type: string
+      schema:
+        type: string
       description: Filters conversations with messages containing the search term
     - name: inbox_id
       in: query
-      type: integer
+      schema:
+        type: integer
     - name: team_id
       in: query
-      type: integer
+      schema:
+        type: integer
     - name: labels
       in: query
-      type: array
-      items:
-        type: string
+      schema:
+        type: array
+        items:
+          type: string
 
   responses:
-    200:
+    '200':
       description: Success
-      schema:
-        type: object
-        properties:
-          meta:
+      content:
+        application/json:
+          schema:
             type: object
             properties:
-              mine_count:
-                type: number
-              unassigned_count:
-                type: number
-              assigned_count:
-                type: number
-              all_count:
-                type: number
-    400:
+              meta:
+                type: object
+                properties:
+                  mine_count:
+                    type: number
+                  unassigned_count:
+                    type: number
+                  assigned_count:
+                    type: number
+                  all_count:
+                    type: number
+    '400':
       description: Bad Request Error
-      schema:
-        $ref: '#/definitions/bad_request_error'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

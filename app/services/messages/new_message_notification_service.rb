@@ -4,32 +4,17 @@ class Messages::NewMessageNotificationService
   def perform
     return unless message.notifiable?
 
-    notify_participating_users
     notify_conversation_assignee
+    notify_participating_users
   end
 
   private
 
   delegate :conversation, :sender, :account, to: :message
 
-  def notify_participating_users
-    participating_users = conversation.conversation_participants.map(&:user)
-    participating_users -= [sender] if sender.is_a?(User)
-
-    participating_users.uniq.each do |participant|
-      NotificationBuilder.new(
-        notification_type: 'participating_conversation_new_message',
-        user: participant,
-        account: account,
-        primary_actor: message.conversation,
-        secondary_actor: message
-      ).perform
-    end
-  end
-
   def notify_conversation_assignee
     return if conversation.assignee.blank?
-    return if assignee_already_notified_via_participation?
+    return if already_notified?(conversation.assignee)
     return if conversation.assignee == sender
 
     NotificationBuilder.new(
@@ -41,12 +26,26 @@ class Messages::NewMessageNotificationService
     ).perform
   end
 
-  def assignee_already_notified_via_participation?
-    return unless conversation.conversation_participants.map(&:user).include?(conversation.assignee)
+  def notify_participating_users
+    participating_users = conversation.conversation_participants.map(&:user)
+    participating_users -= [sender] if sender.is_a?(User)
 
-    # check whether participation notifcation is disabled for assignee
-    notification_setting = conversation.assignee.notification_settings.find_by(account_id: account.id)
-    notification_setting.public_send(:email_participating_conversation_new_message?) || notification_setting
-      .public_send(:push_participating_conversation_new_message?)
+    participating_users.uniq.each do |participant|
+      next if already_notified?(participant)
+
+      NotificationBuilder.new(
+        notification_type: 'participating_conversation_new_message',
+        user: participant,
+        account: account,
+        primary_actor: message.conversation,
+        secondary_actor: message
+      ).perform
+    end
+  end
+
+  # The user could already have been notified via a mention or via assignment
+  # So we don't need to notify them again
+  def already_notified?(user)
+    conversation.notifications.exists?(user: user, secondary_actor: message)
   end
 end

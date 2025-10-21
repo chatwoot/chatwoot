@@ -1,7 +1,7 @@
 import { setColorTheme } from 'dashboard/helper/themeHelper.js';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
-jest.mock('shared/helpers/localStorage');
+vi.mock('shared/helpers/localStorage');
 
 describe('setColorTheme', () => {
   it('should set body class to dark if selectedColorScheme is dark', () => {

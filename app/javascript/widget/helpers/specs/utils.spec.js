@@ -1,6 +1,6 @@
 import { IFrameHelper } from '../utils';
 
-jest.mock('vue', () => ({
+vi.mock('vue', () => ({
   config: {
     lang: 'el',
   },

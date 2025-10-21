@@ -2,9 +2,9 @@ import axios from 'axios';
 import { actions, types } from '../../inboxAssignableAgents';
 import agentsData from './fixtures';
 
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#fetch', () => {

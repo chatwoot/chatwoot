@@ -11,6 +11,12 @@ module CustomExceptions::CustomFilter
     end
   end
 
+  class InvalidQueryOperator < CustomExceptions::Base
+    def message
+      I18n.t('errors.custom_filters.invalid_query_operator')
+    end
+  end
+
   class InvalidValue < CustomExceptions::Base
     def message
       I18n.t('errors.custom_filters.invalid_value', attribute_name: @data[:attribute_name])

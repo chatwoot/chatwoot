@@ -1,98 +1,49 @@
+<script setup>
+import { IFrameHelper } from 'widget/helpers/utils';
+import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
+import { useMapGetter } from 'dashboard/composables/store.js';
+
+const props = defineProps({
+  availableAgents: { type: Array, default: () => [] },
+  hasConversation: { type: Boolean, default: false },
+});
+
+const emit = defineEmits(['startConversation']);
+
+const widgetColor = useMapGetter('appConfig/getWidgetColor');
+
+const startConversation = () => {
+  emit('startConversation');
+  if (!props.hasConversation) {
+    IFrameHelper.sendMessage({
+      event: 'onEvent',
+      eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+      data: { hasConversation: false },
+    });
+  }
+};
+</script>
+
 <template>
-  <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
-    <div class="flex items-center justify-between">
-      <div class="  ">
-        <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
-          {{
-            isOnline
-              ? $t('TEAM_AVAILABILITY.ONLINE')
-              : $t('TEAM_AVAILABILITY.OFFLINE')
-          }}
-        </div>
-        <div class="text-sm mt-1 text-slate-500 dark:text-slate-100">
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-      <available-agents v-if="isOnline" :agents="availableAgents" />
-    </div>
+  <div
+    class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
+  >
+    <AvailabilityContainer :agents="availableAgents" show-header show-avatars />
+
     <button
-      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 px-2 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="inline-flex items-center gap-1 font-medium text-n-slate-12"
       :style="{ color: widgetColor }"
       @click="startConversation"
     >
-      <span class="pr-2 text-sm">
+      <span>
         {{
           hasConversation
             ? $t('CONTINUE_CONVERSATION')
             : $t('START_CONVERSATION')
         }}
       </span>
-      <fluent-icon icon="arrow-right" size="14" />
+      <i class="i-lucide-chevron-right size-5 mt-px" />
     </button>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import { getContrastingTextColor } from '@chatwoot/utils';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import configMixin from 'widget/mixins/configMixin';
-import availabilityMixin from 'widget/mixins/availability';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import { IFrameHelper } from 'widget/helpers/utils';
-import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
-
-export default {
-  name: 'TeamAvailability',
-  components: {
-    AvailableAgents,
-    FluentIcon,
-  },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
-  props: {
-    availableAgents: {
-      type: Array,
-      default: () => {},
-    },
-    hasConversation: {
-      type: Boolean,
-      default: false,
-    },
-    unreadCount: {
-      type: Number,
-      default: 0,
-    },
-  },
-
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    textColor() {
-      return getContrastingTextColor(this.widgetColor);
-    },
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
-  },
-  methods: {
-    startConversation() {
-      this.$emit('start-conversation');
-      if (!this.hasConversation) {
-        IFrameHelper.sendMessage({
-          event: 'onEvent',
-          eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
-          data: { hasConversation: false },
-        });
-      }
-    },
-  },
-};
-</script>

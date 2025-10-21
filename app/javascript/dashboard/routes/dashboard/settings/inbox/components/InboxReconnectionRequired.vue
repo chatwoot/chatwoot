@@ -1,19 +1,26 @@
 <script setup>
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+
 defineProps({
-  actionUrl: {
+  actionLabel: {
     type: String,
-    required: true,
+    default: null,
+  },
+  description: {
+    type: String,
+    default: null,
   },
 });
+
+const emit = defineEmits(['reauthorize']);
 </script>
 
 <template>
-  <div
-    class="flex items-center gap-2 px-4 py-3 text-sm text-white bg-red-500 rounded-md dark:bg-red-800/30 dark:text-red-50 min-h-10"
+  <Banner
+    color="ruby"
+    :action-label="actionLabel || $t('INBOX_MGMT.CLICK_TO_RECONNECT')"
+    @action="emit('reauthorize')"
   >
-    <fluent-icon icon="error-circle" class="text-white dark:text-red-50" />
-    <slot>
-      <span v-html="$t('INBOX_MGMT.RECONNECTION_REQUIRED', { actionUrl })" />
-    </slot>
-  </div>
+    {{ description || $t('INBOX_MGMT.RECONNECTION_REQUIRED') }}
+  </Banner>
 </template>

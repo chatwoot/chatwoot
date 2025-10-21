@@ -1,75 +1,99 @@
+import { shallowMount } from '@vue/test-utils';
+import { useAlert } from 'dashboard/composables';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
-import Vue from 'vue';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { reactive } from 'vue';
 
-jest.mock('shared/helpers/FileHelper', () => ({
-  checkFileSizeLimit: jest.fn(),
+vi.mock('shared/helpers/FileHelper', () => ({
+  checkFileSizeLimit: vi.fn(),
 }));
 
-jest.mock('activestorage', () => ({
-  DirectUpload: jest.fn().mockImplementation(() => ({
-    create: jest.fn(),
+vi.mock('activestorage', () => ({
+  DirectUpload: vi.fn().mockImplementation(() => ({
+    create: vi.fn(),
   })),
 }));
 
+vi.mock('dashboard/composables', () => ({
+  useAlert: vi.fn(),
+}));
+
 describe('FileUploadMixin', () => {
-  let vm;
+  let wrapper;
+  let mockGlobalConfig;
+  let mockCurrentChat;
+  let mockCurrentUser;
 
   beforeEach(() => {
-    vm = new Vue(fileUploadMixin);
-    vm.isATwilioSMSChannel = false;
-    vm.globalConfig = {
+    mockGlobalConfig = reactive({
       directUploadsEnabled: true,
-    };
-    vm.accountId = 123;
-    vm.currentChat = {
+    });
+
+    mockCurrentChat = reactive({
       id: 456,
-    };
-    vm.currentUser = {
+    });
+
+    mockCurrentUser = reactive({
       access_token: 'token',
-    };
-    vm.$t = jest.fn(message => message);
-    vm.showAlert = jest.fn();
-    vm.attachFile = jest.fn();
+    });
+
+    wrapper = shallowMount({
+      mixins: [fileUploadMixin],
+      data() {
+        return {
+          globalConfig: mockGlobalConfig,
+          currentChat: mockCurrentChat,
+          currentUser: mockCurrentUser,
+          isATwilioSMSChannel: false,
+        };
+      },
+      methods: {
+        attachFile: vi.fn(),
+        showAlert: vi.fn(),
+        $t: msg => msg,
+      },
+      template: '<div />',
+    });
   });
 
   it('should call onDirectFileUpload when direct uploads are enabled', () => {
-    vm.onDirectFileUpload = jest.fn();
-    vm.onFileUpload({});
-    expect(vm.onDirectFileUpload).toHaveBeenCalledWith({});
+    wrapper.vm.onDirectFileUpload = vi.fn();
+    wrapper.vm.onFileUpload({});
+    expect(wrapper.vm.onDirectFileUpload).toHaveBeenCalledWith({});
   });
 
   it('should call onIndirectFileUpload when direct uploads are disabled', () => {
-    vm.globalConfig.directUploadsEnabled = false;
-    vm.onIndirectFileUpload = jest.fn();
-    vm.onFileUpload({});
-    expect(vm.onIndirectFileUpload).toHaveBeenCalledWith({});
+    wrapper.vm.globalConfig.directUploadsEnabled = false;
+    wrapper.vm.onIndirectFileUpload = vi.fn();
+    wrapper.vm.onFileUpload({});
+    expect(wrapper.vm.onIndirectFileUpload).toHaveBeenCalledWith({});
   });
 
   describe('onDirectFileUpload', () => {
     it('returns early if no file is provided', () => {
-      const returnValue = vm.onDirectFileUpload(null);
+      const returnValue = wrapper.vm.onDirectFileUpload(null);
       expect(returnValue).toBeUndefined();
     });
 
     it('shows an alert if the file size exceeds the maximum limit', () => {
       const fakeFile = { size: 999999999 };
-      vm.showAlert = jest.fn();
-      vm.onDirectFileUpload(fakeFile);
-      expect(vm.showAlert).toHaveBeenCalledWith(expect.any(String));
+      checkFileSizeLimit.mockReturnValue(false); // Mock exceeding file size
+      wrapper.vm.onDirectFileUpload(fakeFile);
+      expect(useAlert).toHaveBeenCalledWith(expect.any(String));
     });
   });
 
   describe('onIndirectFileUpload', () => {
     it('returns early if no file is provided', () => {
-      const returnValue = vm.onIndirectFileUpload(null);
+      const returnValue = wrapper.vm.onIndirectFileUpload(null);
       expect(returnValue).toBeUndefined();
     });
 
     it('shows an alert if the file size exceeds the maximum limit', () => {
       const fakeFile = { size: 999999999 };
-      vm.showAlert = jest.fn();
-      vm.onIndirectFileUpload(fakeFile);
-      expect(vm.showAlert).toHaveBeenCalledWith(expect.any(String));
+      checkFileSizeLimit.mockReturnValue(false); // Mock exceeding file size
+      wrapper.vm.onIndirectFileUpload(fakeFile);
+      expect(useAlert).toHaveBeenCalledWith(expect.any(String));
     });
   });
 });

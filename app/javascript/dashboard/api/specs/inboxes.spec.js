@@ -12,15 +12,16 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('getCampaigns');
     expect(inboxesAPI).toHaveProperty('getAgentBot');
     expect(inboxesAPI).toHaveProperty('setAgentBot');
+    expect(inboxesAPI).toHaveProperty('syncTemplates');
   });
 
   describe('API calls', () => {
     const originalAxios = window.axios;
     const axiosMock = {
-      post: jest.fn(() => Promise.resolve()),
-      get: jest.fn(() => Promise.resolve()),
-      patch: jest.fn(() => Promise.resolve()),
-      delete: jest.fn(() => Promise.resolve()),
+      post: vi.fn(() => Promise.resolve()),
+      get: vi.fn(() => Promise.resolve()),
+      patch: vi.fn(() => Promise.resolve()),
+      delete: vi.fn(() => Promise.resolve()),
     };
 
     beforeEach(() => {
@@ -39,6 +40,13 @@ describe('#InboxesAPI', () => {
     it('#deleteInboxAvatar', () => {
       inboxesAPI.deleteInboxAvatar(2);
       expect(axiosMock.delete).toHaveBeenCalledWith('/api/v1/inboxes/2/avatar');
+    });
+
+    it('#syncTemplates', () => {
+      inboxesAPI.syncTemplates(2);
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/sync_templates'
+      );
     });
   });
 });

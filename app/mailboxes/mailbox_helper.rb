@@ -26,14 +26,23 @@ module MailboxHelper
 
     # ensure we don't add more than the permitted number of attachments
     all_attachments = processed_mail.attachments.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+    grouped_attachments = group_attachments(all_attachments)
 
-    inline_attachments = all_attachments.select { |attachment| attachment[:original].inline? }
-    regular_attachments = all_attachments - inline_attachments
-
-    process_inline_attachments(inline_attachments) if inline_attachments.present?
-    process_regular_attachments(regular_attachments) if regular_attachments.present?
+    process_inline_attachments(grouped_attachments[:inline]) if grouped_attachments[:inline].present?
+    process_regular_attachments(grouped_attachments[:regular]) if grouped_attachments[:regular].present?
 
     @message.save!
+  end
+
+  def group_attachments(attachments)
+    # If the email lacks a text body or if inline attachments aren't images,
+    # treat them as standard attachments for processing.
+    inline_attachments = attachments.select do |attachment|
+      mail_content.present? && attachment[:original].inline? && attachment[:original].content_type.to_s.start_with?('image/')
+    end
+
+    regular_attachments = attachments - inline_attachments
+    { inline: inline_attachments, regular: regular_attachments }
   end
 
   def process_regular_attachments(attachments)
@@ -102,19 +111,12 @@ module MailboxHelper
       contact_attributes: {
         name: identify_contact_name,
         email: processed_mail.original_sender,
-        additional_attributes: {
-          source_id: "email:#{processed_mail.message_id}"
-        }
+        additional_attributes: { source_id: "email:#{processed_mail.message_id}" }
       }
     ).perform
 
     @contact = @contact_inbox.contact
     Rails.logger.info "[MailboxHelper] Contact created with ID: #{@contact.id} for inbox with ID: #{@inbox.id}"
-  end
-
-  def notification_email_from_chatwoot?
-    # notification emails are send via mailer sender email address. so it should match
-    @processed_mail.original_sender == Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
   end
 
   def mail_content

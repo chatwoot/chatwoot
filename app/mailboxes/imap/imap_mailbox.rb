@@ -1,5 +1,6 @@
 class Imap::ImapMailbox
   include MailboxHelper
+  include IncomingEmailValidityHelper
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   def process(mail, channel)
@@ -9,11 +10,10 @@ class Imap::ImapMailbox
     load_inbox
     decorate_mail
 
-    # prevent loop from chatwoot notification emails
-    return if notification_email_from_chatwoot?
+    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} : message_id #{@processed_mail.message_id}")
 
-    # Stop processing if email format doesn't match Chatwoot supported mail format
-    return unless email_from_valid_email?
+    # Skip processing email if it belongs to any of the edge cases
+    return unless incoming_email_from_valid_email?
 
     ActiveRecord::Base.transaction do
       find_or_create_contact
@@ -37,24 +37,12 @@ class Imap::ImapMailbox
     @processed_mail = MailPresenter.new(@inbound_mail, @account)
   end
 
-  def email_from_valid_email?
-    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id}")
-
-    # validate email with  Devise.email_regexp
-    if Devise.email_regexp.match?(@processed_mail.original_sender)
-      true
-    else
-      Rails.logger.error("Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} is invalid")
-      false
-    end
-  end
-
   def find_conversation_by_in_reply_to
     return if in_reply_to.blank?
 
     message = @inbox.messages.find_by(source_id: in_reply_to)
     if message.nil?
-      @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
+      @inbox.conversations.find_by("additional_attributes->>'in_reply_to' = ?", in_reply_to)
     else
       @inbox.conversations.find(message.conversation_id)
     end
@@ -96,6 +84,7 @@ class Imap::ImapMailbox
         additional_attributes: {
           source: 'email',
           in_reply_to: in_reply_to,
+          auto_reply: @processed_mail.auto_reply?,
           mail_subject: @processed_mail.subject,
           initiated_at: {
             timestamp: Time.now.utc

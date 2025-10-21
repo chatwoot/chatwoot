@@ -1,5 +1,10 @@
 class ConversationReplyMailer < ApplicationMailer
+  # We needs to expose large attachments to the view as links
+  # Small attachments are linked as mail attachments directly
+  attr_reader :large_attachments
+
   include ConversationReplyMailerHelper
+  include ReferencesHeaderBuilder
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
 
@@ -34,8 +39,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(message.conversation)
     @message = message
-    reply_mail_object = prepare_mail(true)
-    message.update(source_id: reply_mail_object.message_id)
+    prepare_mail(true)
   end
 
   def conversation_transcript(conversation, to_email)
@@ -96,11 +100,11 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_sender_name
-    current_message&.sender&.available_name || @agent&.available_name || 'Notifications'
+    current_message&.sender&.available_name || @agent&.available_name || I18n.t('conversations.reply.email.header.notifications')
   end
 
   def business_name
-    @inbox.business_name || @inbox.name
+    @inbox.business_name || @inbox.sanitized_name
   end
 
   def from_email
@@ -156,6 +160,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def conversation_reply_email_id
+    # Find the last incoming message's message_id to reply to
     content_attributes = @conversation.messages.incoming.last&.content_attributes
 
     if content_attributes && content_attributes['email'] && content_attributes['email']['message_id']
@@ -163,6 +168,10 @@ class ConversationReplyMailer < ApplicationMailer
     end
 
     nil
+  end
+
+  def references_header
+    build_references_header(@conversation, in_reply_to_email)
   end
 
   def cc_bcc_emails

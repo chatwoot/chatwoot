@@ -15,7 +15,8 @@ RSpec.describe 'Campaigns API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
-      let!(:campaign) { create(:campaign, account: account, trigger_rules: { url: 'https://test.com' }) }
+      let(:inbox) { create(:inbox, account: account) }
+      let!(:campaign) { create(:campaign, account: account, inbox: inbox, trigger_rules: { url: 'https://test.com' }) }
 
       it 'returns unauthorized for agents' do
         get "/api/v1/accounts/#{account.id}/campaigns",
@@ -128,7 +129,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
       it 'creates a new oneoff campaign' do
         twilio_sms = create(:channel_twilio_sms, account: account)
-        twilio_inbox = create(:inbox, channel: twilio_sms)
+        twilio_inbox = create(:inbox, channel: twilio_sms, account: account)
         label1 = create(:label, account: account)
         label2 = create(:label, account: account)
         scheduled_at = 2.days.from_now

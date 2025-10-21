@@ -22,3 +22,5 @@ class AsyncDispatcher < BaseDispatcher
     ]
   end
 end
+
+AsyncDispatcher.prepend_mod_with('AsyncDispatcher')

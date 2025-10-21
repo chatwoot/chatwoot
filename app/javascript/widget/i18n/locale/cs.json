@@ -12,25 +12,36 @@
       "ERROR_MESSAGE": "Odeslání se nezdařilo, zkuste to znovu"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Jsme online",
-    "OFFLINE": "V současné době jsme pryč"
+    "OFFLINE": "V současné době jsme pryč",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Většinou odpovíme během pár minut",
     "IN_A_FEW_HOURS": "Většinou odpovíme během pár hodin",
     "IN_A_DAY": "Obvykle odpoví za den",
-    "BACK_IN": "Budem online zase"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
-  "DAY_NAMES": [
-    "Neděle",
-    "Pondělí",
-    "Úterý",
-    "Středa",
-    "Čtvrtek",
-    "Pátek",
-    "Sobota"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Neděle",
+    "MONDAY": "Pondělí",
+    "TUESDAY": "Úterý",
+    "WEDNESDAY": "Středa",
+    "THURSDAY": "Čtvrtek",
+    "FRIDAY": "Pátek",
+    "SATURDAY": "Sobota"
+  },
   "START_CONVERSATION": "Zahájit konverzaci",
   "END_CONVERSATION": "Ukončit konverzaci",
   "CONTINUE_CONVERSATION": "Pokračovat v konverzaci",
@@ -70,7 +81,8 @@
         "REQUIRED_ERROR": "Telefonní číslo je vyžadováno",
         "DIAL_CODE_VALID_ERROR": "Vyberte prosím kód země",
         "VALID_ERROR": "Zadejte prosím platné telefonní číslo",
-        "DROPDOWN_EMPTY": "Žádné výsledky"
+        "DROPDOWN_EMPTY": "Žádné výsledky",
+        "DROPDOWN_SEARCH": "Vyhledat zemi"
       },
       "MESSAGE": {
         "LABEL": "Zpráva",
@@ -91,7 +103,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Hledat emoji",
-    "NOT_FOUND": "Žádné emoji neodpovídají vašemu hledání"
+    "NOT_FOUND": "Žádné emoji neodpovídají vašemu hledání",
+    "ARIA_LABEL": "Výběr emoji"
   },
   "CSAT": {
     "TITLE": "Ohodnoťte svou konverzaci",
@@ -133,5 +146,8 @@
     "fallback": {
       "CONTENT": "sdílel URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Odpověď na:"
   }
 }

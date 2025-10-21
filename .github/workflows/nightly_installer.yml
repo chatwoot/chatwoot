@@ -2,7 +2,7 @@
 # #
 # # Linux nightly installer action
 # # This action will try to install and setup
-# # chatwoot on an Ubuntu 20.04 machine using
+# # chatwoot on an Ubuntu 22.04 machine using
 # # the linux installer script.
 # #
 # # This is set to run daily at midnight.
@@ -16,7 +16,7 @@ on:
 
 jobs:
   nightly:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
 
     - name: get installer

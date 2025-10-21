@@ -1,19 +1,20 @@
+import {
+  ANALYTICS_IDENTITY,
+  CHATWOOT_RESET,
+  CHATWOOT_SET_USER,
+} from '../constants/appEvents';
 import AnalyticsHelper from './AnalyticsHelper';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
-
-export const CHATWOOT_SET_USER = 'CHATWOOT_SET_USER';
-export const CHATWOOT_RESET = 'CHATWOOT_RESET';
-
-export const ANALYTICS_IDENTITY = 'ANALYTICS_IDENTITY';
-export const ANALYTICS_RESET = 'ANALYTICS_RESET';
+import { emitter } from 'shared/helpers/mitt';
 
 export const initializeAnalyticsEvents = () => {
-  window.bus.$on(ANALYTICS_IDENTITY, ({ user }) => {
+  AnalyticsHelper.init();
+  emitter.on(ANALYTICS_IDENTITY, ({ user }) => {
     AnalyticsHelper.identify(user);
   });
 };
 
-const initializeAudioAlerts = user => {
+export const initializeAudioAlerts = user => {
   const { ui_settings: uiSettings } = user || {};
   const {
     always_play_audio_alert: alwaysPlayAudioAlert,
@@ -24,8 +25,8 @@ const initializeAudioAlerts = user => {
     // entire payload for the user during the signup process.
   } = uiSettings || {};
 
-  DashboardAudioNotificationHelper.setInstanceValues({
-    currentUserId: user.id,
+  DashboardAudioNotificationHelper.set({
+    currentUser: user,
     audioAlertType: audioAlertType || 'none',
     audioAlertTone: audioAlertTone || 'ding',
     alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
@@ -34,12 +35,12 @@ const initializeAudioAlerts = user => {
 };
 
 export const initializeChatwootEvents = () => {
-  window.bus.$on(CHATWOOT_RESET, () => {
+  emitter.on(CHATWOOT_RESET, () => {
     if (window.$chatwoot) {
       window.$chatwoot.reset();
     }
   });
-  window.bus.$on(CHATWOOT_SET_USER, ({ user }) => {
+  emitter.on(CHATWOOT_SET_USER, ({ user }) => {
     if (window.$chatwoot) {
       window.$chatwoot.setUser(user.email, {
         avatar_url: user.avatar_url,

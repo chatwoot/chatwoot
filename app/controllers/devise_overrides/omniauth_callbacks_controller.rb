@@ -19,9 +19,22 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
   end
 
+  def sign_in_user_on_mobile
+    @resource.skip_confirmation! if confirmable_enabled?
+
+    # once the resource is found and verified
+    # we can just send them to the login page again with the SSO params
+    # that will log them in
+    encoded_email = ERB::Util.url_encode(@resource.email)
+    params = { email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token }.to_query
+
+    mobile_deep_link_base = GlobalConfigService.load('MOBILE_DEEP_LINK_BASE', 'chatwootapp')
+    redirect_to "#{mobile_deep_link_base}://auth/saml?#{params}", allow_other_host: true
+  end
+
   def sign_up_user
     return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
-    return redirect_to login_page_url(error: 'business-account-only') unless validate_business_account?
+    return redirect_to login_page_url(error: 'business-account-only') unless validate_signup_email_is_business_domain?
 
     create_account_for_user
     token = @resource.send(:set_reset_password_token)
@@ -47,15 +60,15 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
-    # find the user with their email instead of UID and token
-    @resource = resource_class.where(
-      email: auth_hash['info']['email']
-    ).first
+    email = auth_hash.dig('info', 'email')
+    @resource = resource_class.from_email(email)
   end
 
-  def validate_business_account?
-    # return true if the user is a business account, false if it is a gmail account
-    auth_hash['info']['email'].exclude?('@gmail.com')
+  def validate_signup_email_is_business_domain?
+    # return true if the user is a business account, false if it is a blocked domain account
+    Account::SignUpEmailValidationService.new(auth_hash['info']['email']).perform
+  rescue CustomExceptions::Account::InvalidEmail
+    false
   end
 
   def create_account_for_user
@@ -73,3 +86,5 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     'user'
   end
 end
+
+DeviseOverrides::OmniauthCallbacksController.prepend_mod_with('DeviseOverrides::OmniauthCallbacksController')

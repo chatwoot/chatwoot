@@ -1,13 +1,17 @@
-import Vue from 'vue';
 import { getCampaigns, triggerCampaign } from 'widget/api/campaign';
 import campaignTimer from 'widget/helpers/campaignTimer';
 import {
   formatCampaigns,
   filterCampaigns,
 } from 'widget/helpers/campaignHelper';
+import { getFromCache, setCache } from 'shared/helpers/cache';
+
+const CACHE_KEY_PREFIX = 'chatwoot_campaigns_';
+
 const state = {
   records: [],
   uiFlags: {
+    hasFetched: false,
     isError: false,
   },
   activeCampaign: {},
@@ -31,6 +35,7 @@ const resetCampaignTimers = (
 
 export const getters = {
   getCampaigns: $state => $state.records,
+  getUIFlags: $state => $state.uiFlags,
   getActiveCampaign: $state => $state.activeCampaign,
 };
 
@@ -40,7 +45,26 @@ export const actions = {
     { websiteToken, currentURL, isInBusinessHours }
   ) => {
     try {
+      // Cache for 1 hour
+      const CACHE_EXPIRY = 60 * 60 * 1000;
+      const cachedData = getFromCache(
+        `${CACHE_KEY_PREFIX}${websiteToken}`,
+        CACHE_EXPIRY
+      );
+      if (cachedData) {
+        commit('setCampaigns', cachedData);
+        commit('setError', false);
+        resetCampaignTimers(
+          cachedData,
+          currentURL,
+          websiteToken,
+          isInBusinessHours
+        );
+        return;
+      }
+
       const { data: campaigns } = await getCampaigns(websiteToken);
+      setCache(`${CACHE_KEY_PREFIX}${websiteToken}`, campaigns);
       commit('setCampaigns', campaigns);
       commit('setError', false);
       resetCampaignTimers(
@@ -54,15 +78,21 @@ export const actions = {
     }
   },
   initCampaigns: async (
-    { getters: { getCampaigns: campaigns }, dispatch },
+    { getters: { getCampaigns: campaigns, getUIFlags: uiFlags }, dispatch },
     { currentURL, websiteToken, isInBusinessHours }
   ) => {
     if (!campaigns.length) {
-      dispatch('fetchCampaigns', {
-        websiteToken,
-        currentURL,
-        isInBusinessHours,
-      });
+      // This check is added to ensure that the campaigns are fetched once
+      // On high traffic sites, if the campaigns are empty, the API is called
+      // every time the user changes the URL (in case of the SPA)
+      // So, we need to ensure that the campaigns are fetched only once
+      if (!uiFlags.hasFetched) {
+        dispatch('fetchCampaigns', {
+          websiteToken,
+          currentURL,
+          isInBusinessHours,
+        });
+      }
     } else {
       resetCampaignTimers(
         campaigns,
@@ -127,19 +157,20 @@ export const actions = {
 
 export const mutations = {
   setCampaigns($state, data) {
-    Vue.set($state, 'records', data);
+    $state.records = data;
+    $state.uiFlags.hasFetched = true;
   },
   setActiveCampaign($state, data) {
-    Vue.set($state, 'activeCampaign', data);
+    $state.activeCampaign = data;
   },
   setError($state, value) {
-    Vue.set($state.uiFlags, 'isError', value);
+    $state.uiFlags.isError = value;
   },
   setHasFetched($state, value) {
-    Vue.set($state.uiFlags, 'hasFetched', value);
+    $state.uiFlags.hasFetched = value;
   },
   setCampaignExecuted($state, data) {
-    Vue.set($state, 'campaignHasExecuted', data);
+    $state.campaignHasExecuted = data;
   },
 };
 

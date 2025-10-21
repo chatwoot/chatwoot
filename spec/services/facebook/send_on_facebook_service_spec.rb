@@ -117,5 +117,82 @@ describe Facebook::SendOnFacebookService do
         expect(message.reload.status).to eq('failed')
       end
     end
+
+    context 'when deliver_message fails' do
+      let(:message) { create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation) }
+
+      it 'handles JSON parse errors' do
+        allow(bot).to receive(:deliver).and_return('invalid_json')
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('Facebook was unable to process this request')
+      end
+
+      it 'handles timeout errors' do
+        allow(bot).to receive(:deliver).and_raise(Net::OpenTimeout)
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('Request timed out, please try again later')
+      end
+
+      it 'handles facebook error with code' do
+        error_response = {
+          error: {
+            message: 'Invalid OAuth access token.',
+            type: 'OAuthException',
+            code: 190,
+            fbtrace_id: 'BLBz/WZt8dN'
+          }
+        }.to_json
+        allow(bot).to receive(:deliver).and_return(error_response)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('190 - Invalid OAuth access token.')
+      end
+
+      it 'handles successful delivery with message_id' do
+        success_response = {
+          message_id: 'mid.1456970487936:c34767dfe57ee6e339'
+        }.to_json
+        allow(bot).to receive(:deliver).and_return(success_response)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.source_id).to eq('mid.1456970487936:c34767dfe57ee6e339')
+        expect(message.status).not_to eq('failed')
+      end
+    end
+
+    context 'with input_select' do
+      it 'if message with input_select is sent from chatwoot and is outgoing' do
+        message = build(
+          :message,
+          message_type: 'outgoing',
+          inbox: facebook_inbox,
+          account: account,
+          conversation: conversation,
+          content_type: 'input_select',
+          content_attributes: { 'items' => [{ 'title' => 'text 1', 'value' => 'value 1' }, { 'title' => 'text 2', 'value' => 'value 2' }] }
+        )
+
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).with({
+                                                      recipient: { id: contact_inbox.source_id },
+                                                      message: {
+                                                        text: message.content,
+                                                        quick_replies: [
+                                                          { content_type: 'text', payload: 'text 1', title: 'text 1' },
+                                                          { content_type: 'text', payload: 'text 2', title: 'text 2' }
+                                                        ]
+                                                      },
+                                                      messaging_type: 'MESSAGE_TAG',
+                                                      tag: 'ACCOUNT_UPDATE'
+                                                    }, { page_id: facebook_channel.page_id })
+      end
+    end
   end
 end

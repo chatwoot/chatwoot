@@ -1,48 +1,14 @@
-<template>
-  <div
-    class="fixed flex items-center justify-center w-screen h-screen bg-modal-backdrop-light dark:bg-modal-backdrop-dark top-0 left-0 z-50"
-  >
-    <div
-      v-on-clickaway="onClose"
-      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem]"
-    >
-      <search-header
-        :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"
-        class="w-full sticky top-0 bg-[inherit]"
-        @close="onClose"
-        @search="onSearch"
-      />
-
-      <article-view
-        v-if="activeId"
-        :url="articleViewerUrl"
-        @back="onBack"
-        @insert="onInsert"
-      />
-      <search-results
-        v-else
-        :search-query="searchQuery"
-        :is-loading="isLoading"
-        :portal-slug="selectedPortalSlug"
-        :articles="searchResultsWithUrl"
-        @preview="handlePreview"
-        @insert="onInsert"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { debounce } from '@chatwoot/utils';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
+import { useAlert } from 'dashboard/composables';
+import { mapGetters } from 'vuex';
+import allLocales from 'shared/constants/locales.js';
 
 import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
-import portalMixin from '../../mixins/portalMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'ArticleSearchPopover',
@@ -51,13 +17,13 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [portalMixin, alertMixin, keyboardEventListenerMixins],
   props: {
     selectedPortalSlug: {
       type: String,
       required: true,
     },
   },
+  emits: ['close', 'insert'],
   data() {
     return {
       searchQuery: '',
@@ -68,6 +34,15 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      portalBySlug: 'portals/portalBySlug',
+    }),
+    portal() {
+      return this.portalBySlug(this.selectedPortalSlug);
+    },
+    portalCustomDomain() {
+      return this.portal?.custom_domain;
+    },
     articleViewerUrl() {
       const article = this.activeArticle(this.activeId);
       if (!article) return '';
@@ -82,6 +57,7 @@ export default {
 
       return `${url}`;
     },
+
     searchResultsWithUrl() {
       return this.searchResults.map(article => ({
         ...article,
@@ -100,8 +76,12 @@ export default {
         this.selectedPortalSlug,
         '',
         '',
-        article.slug
+        article.slug,
+        this.portalCustomDomain
       );
+    },
+    localeName(code) {
+      return allLocales[code];
     },
     activeArticle(id) {
       return this.searchResultsWithUrl.find(article => article.id === id);
@@ -143,23 +123,44 @@ export default {
     },
     onInsert(id) {
       const article = this.activeArticle(id || this.activeId);
-
       this.$emit('insert', article);
-      this.showAlert(
-        this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED')
-      );
+      useAlert(this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED'));
       this.onClose();
-    },
-    getKeyboardEvents() {
-      return {
-        Escape: {
-          action: () => {
-            this.onClose();
-          },
-          allowOnFocusedInput: true,
-        },
-      };
     },
   },
 };
 </script>
+
+<template>
+  <div
+    class="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
+  >
+    <div
+      v-on-clickaway="onClose"
+      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-n-weak bg-n-background z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem]"
+    >
+      <SearchHeader
+        :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"
+        class="w-full sticky top-0 bg-[inherit]"
+        @close="onClose"
+        @search="onSearch"
+      />
+
+      <ArticleView
+        v-if="activeId"
+        :url="articleViewerUrl"
+        @back="onBack"
+        @insert="onInsert"
+      />
+      <SearchResults
+        v-else
+        :search-query="searchQuery"
+        :is-loading="isLoading"
+        :portal-slug="selectedPortalSlug"
+        :articles="searchResultsWithUrl"
+        @preview="handlePreview"
+        @insert="onInsert"
+      />
+    </div>
+  </div>
+</template>

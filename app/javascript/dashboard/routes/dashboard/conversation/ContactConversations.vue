@@ -1,30 +1,7 @@
-<template>
-  <div class="contact-conversation--panel">
-    <div v-if="!uiFlags.isFetching" class="contact-conversation__wrap">
-      <div v-if="!previousConversations.length" class="no-label-message">
-        <span>
-          {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
-        </span>
-      </div>
-      <div v-else class="contact-conversation--list">
-        <conversation-card
-          v-for="conversation in previousConversations"
-          :key="conversation.id"
-          :chat="conversation"
-          :hide-inbox-name="false"
-          :hide-thumbnail="true"
-          class="compact"
-        />
-      </div>
-    </div>
-    <spinner v-else />
-  </div>
-</template>
-
 <script>
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 export default {
   components: {
@@ -69,15 +46,33 @@ export default {
 };
 </script>
 
+<template>
+  <div v-if="!uiFlags.isFetching" class="">
+    <div v-if="!previousConversations.length" class="no-label-message px-4 p-3">
+      <span>
+        {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
+      </span>
+    </div>
+    <div v-else class="contact-conversation--list">
+      <ConversationCard
+        v-for="conversation in previousConversations"
+        :key="conversation.id"
+        :chat="conversation"
+        :hide-inbox-name="false"
+        hide-thumbnail
+        enable-context-menu
+        compact
+        :allowed-context-menu-options="['open-new-tab', 'copy-link']"
+      />
+    </div>
+  </div>
+  <div v-else class="flex items-center justify-center py-5">
+    <Spinner />
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .no-label-message {
-  @apply text-slate-500 dark:text-slate-400 mb-4;
-}
-
-::v-deep .conversation {
-  @apply pr-0;
-  .conversation--details {
-    @apply pl-2;
-  }
+  @apply text-n-slate-11 mb-4;
 }
 </style>
