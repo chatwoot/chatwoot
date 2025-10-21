@@ -429,5 +429,16 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "No se pudo descargar el archivo adjunto. Por favor, inténtelo de nuevo"
+  },
+  "PIPELINE_STATUS": {
+    "DELETE_CONFIRMATION": {
+      "TITLE": "Eliminar columna de estado",
+      "MESSAGE": "¿Estás seguro de que quieres eliminar esta columna de estado? Esta acción no se puede deshacer.",
+      "DELETE": "Eliminar",
+      "CANCEL": "Cancelar"
+    },
+    "DELETE_WITH_CONVERSATIONS": "Por favor, cambia el estado de las conversaciones asignadas antes de eliminar esta columna.",
+    "DELETE_SUCCESS": "Columna de estado eliminada correctamente",
+    "DELETE_FAILED": "No se pudo eliminar la columna de estado. Por favor, inténtalo de nuevo."
   }
 }

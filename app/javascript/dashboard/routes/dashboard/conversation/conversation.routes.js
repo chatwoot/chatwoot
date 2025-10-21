@@ -177,6 +177,15 @@ export default {
       }),
     },
     {
+      path: frontendURL('accounts/:accountId/board/conversations'),
+      name: 'conversation_board',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: () => ({ conversationType: 'board' }),
+    },
+    {
       path: frontendURL('accounts/:accountId/participating/conversations'),
       name: 'conversation_participating',
       meta: {

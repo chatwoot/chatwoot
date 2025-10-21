@@ -131,6 +131,19 @@ export const mutations = {
     conversation.status = status;
   },
 
+  [types.CHANGE_CONVERSATION_PIPELINE_STATUS](_state, conversation) {
+    const index = _state.allConversations.findIndex(
+      c => c.id === conversation.id
+    );
+    if (index > -1) {
+      const selectedConversation = _state.allConversations[index];
+      _state.allConversations[index] = {
+        ...selectedConversation,
+        pipeline_status_id: conversation.pipeline_status_id,
+      };
+    }
+  },
+
   [types.MUTE_CONVERSATION](_state) {
     const [chat] = getSelectedChatConversation(_state);
     chat.muted = true;

@@ -5,6 +5,7 @@ import agentBots from './modules/agentBots';
 import agentCapacityPolicies from './modules/agentCapacityPolicies';
 import agents from './modules/agents';
 import appointments from './modules/appointments';
+import pipelineStatuses from './modules/pipelineStatuses';
 import assignmentPolicies from './modules/assignmentPolicies';
 import articles from './modules/helpCenterArticles';
 import attributes from './modules/attributes';
@@ -71,6 +72,7 @@ export default createStore({
     agentCapacityPolicies,
     agents,
     appointments,
+    pipelineStatuses,
     assignmentPolicies,
     articles,
     attributes,
