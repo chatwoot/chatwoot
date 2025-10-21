@@ -27,73 +27,63 @@ const DATE_FILTER_TYPES = {
 
 const DATE_FILTER_ACTION = 'select_date_range';
 
-const dayMenuItemConfigs = [
+const selectedDateRangeValue = ref('');
+
+const dayMenuItemConfigs = computed(() => [
   {
-    labelKey: 'LAST_7_DAYS',
+    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
     value: 'last_7_days',
     action: DATE_FILTER_ACTION,
     type: DATE_FILTER_TYPES.DAY,
     daysBefore: 6,
   },
   {
-    labelKey: 'LAST_14_DAYS',
+    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_14_DAYS'),
     value: 'last_14_days',
     action: DATE_FILTER_ACTION,
     type: DATE_FILTER_TYPES.DAY,
     daysBefore: 13,
   },
   {
-    labelKey: 'LAST_30_DAYS',
+    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS'),
     value: 'last_30_days',
     action: DATE_FILTER_ACTION,
     type: DATE_FILTER_TYPES.DAY,
     daysBefore: 29,
   },
-];
+]);
 
-const monthMenuItemConfigs = [
+const monthMenuItemConfigs = computed(() => [
   {
-    labelKey: 'THIS_MONTH',
+    label: t('REPORT.DATE_RANGE_OPTIONS.THIS_MONTH'),
     value: 'this_month',
     action: DATE_FILTER_ACTION,
     type: DATE_FILTER_TYPES.MONTH,
     monthOffset: 0,
   },
   {
-    labelKey: 'LAST_MONTH',
+    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_MONTH'),
     value: 'last_month',
     action: DATE_FILTER_ACTION,
     type: DATE_FILTER_TYPES.MONTH,
     monthOffset: -1,
   },
-];
-
-const menuItemConfigs = [...dayMenuItemConfigs, ...monthMenuItemConfigs];
-
-const labelResolvers = {
-  LAST_7_DAYS: () => t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
-  LAST_14_DAYS: () => t('REPORT.DATE_RANGE_OPTIONS.LAST_14_DAYS'),
-  LAST_30_DAYS: () => t('REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS'),
-  THIS_MONTH: () => t('REPORT.DATE_RANGE_OPTIONS.THIS_MONTH'),
-  LAST_MONTH: () => t('REPORT.DATE_RANGE_OPTIONS.LAST_MONTH'),
-};
+]);
 
 const [showDropdown, toggleDropdown] = useToggle();
-const selectedDateRangeValue = ref(menuItemConfigs[0]?.value || '');
-const monthOffset = ref(
-  menuItemConfigs.find(item => item.value === selectedDateRangeValue.value)
-    ?.monthOffset || 0
-);
+const monthOffset = ref(0);
 
-const menuItems = computed(() =>
-  menuItemConfigs.map(config => ({
-    ...config,
-    label: labelResolvers[config.labelKey]
-      ? labelResolvers[config.labelKey]()
-      : config.labelKey,
-    isSelected: selectedDateRangeValue.value === config.value,
-  }))
-);
+const menuItems = computed(() => {
+  const selectedValue = selectedDateRangeValue.value;
+  return [...dayMenuItemConfigs.value, ...monthMenuItemConfigs.value].map(
+    config => ({
+      ...config,
+      isSelected: selectedValue === config.value,
+    })
+  );
+});
+
+selectedDateRangeValue.value = menuItems.value[0]?.value || '';
 
 const menuSections = computed(() => {
   const dayItems = menuItems.value.filter(
@@ -110,9 +100,9 @@ const menuSections = computed(() => {
 
 const selectedConfig = computed(
   () =>
-    menuItemConfigs.find(
+    menuItems.value.find(
       menuItem => menuItem.value === selectedDateRangeValue.value
-    ) || menuItemConfigs[0]
+    ) || menuItems.value[0]
 );
 
 const selectedLabel = computed(() => {
