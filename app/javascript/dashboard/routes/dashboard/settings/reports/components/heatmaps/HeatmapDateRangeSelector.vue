@@ -175,6 +175,25 @@ watch(
 
 <template>
   <div
+    v-if="selectedConfig.type === DATE_FILTER_TYPES.MONTH"
+    class="flex gap-0.5"
+  >
+    <Button
+      sm
+      slate
+      faded
+      icon="i-lucide-chevron-left"
+      @click="monthOffset.value -= 1"
+    />
+    <Button
+      sm
+      slate
+      faded
+      icon="i-lucide-chevron-right"
+      @click="monthOffset.value += 1"
+    />
+  </div>
+  <div
     v-on-clickaway="() => toggleDropdown(false)"
     class="relative flex items-center group"
   >
