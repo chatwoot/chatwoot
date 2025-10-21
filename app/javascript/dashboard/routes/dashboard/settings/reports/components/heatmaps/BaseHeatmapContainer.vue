@@ -60,6 +60,8 @@ const selectedFrom = ref(null);
 const selectedTo = ref(null);
 const selectedDaysBefore = ref(null);
 const selectedInbox = ref(null);
+const isMonthFilter = ref(false);
+const currentMonthOffset = ref(0);
 
 const selectedRange = computed(() => {
   if (!selectedFrom.value || !selectedTo.value) {
@@ -114,9 +116,11 @@ const downloadHeatmapData = () => {
   }
 
   const { to } = selectedRange.value;
+  const shouldUseBackendDownload =
+    !isMonthFilter.value && !selectedInbox.value && props.downloadAction;
 
   // If no inbox is selected and download action exists, use backend endpoint
-  if (!selectedInbox.value && props.downloadAction) {
+  if (shouldUseBackendDownload) {
     store.dispatch(props.downloadAction, {
       daysBefore: selectedDaysBefore.value,
       to: getUnixTime(to),
@@ -195,9 +199,6 @@ const handleInboxAction = ({ value }) => {
 };
 
 const { startRefetching } = useLiveRefresh(fetchHeatmapData);
-
-const isMonthFilter = ref(false);
-const currentMonthOffset = ref(0);
 
 const handleRangeTypeChange = type => {
   isMonthFilter.value = type === 'month';
