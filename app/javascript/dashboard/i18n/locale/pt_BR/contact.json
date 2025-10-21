@@ -18,9 +18,9 @@
     "CREATED_AT_LABEL": "Criado",
     "NEW_MESSAGE": "Nova Mensagem",
     "CALL": "Chamada",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL_UNDER_DEVELOPMENT": "Chamada em desenvolvimento",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "Escolha uma caixa de entrada de voz"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
@@ -617,7 +617,7 @@
         "SEARCH_PLACEHOLDER": "Pesquisar modelos",
         "EMPTY_STATE": "Nenhum modelo encontrado",
         "TEMPLATE_PARSER": {
-          "BACK": "Voltar atrás",
+          "BACK": "Voltar",
           "SEND_MESSAGE": "Enviar mensagem"
         }
       },
