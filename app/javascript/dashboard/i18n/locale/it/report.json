@@ -194,7 +194,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Panoramica etichette",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "DESCRIPTION": "Monitora la performance delle etichette con metriche chiave, tra cui conversazioni, tempi di risposta, tempi di risoluzione e casi risolti. Fai clic sul nome di un'etichetta per approfondimenti dettagliati.",
     "LOADING_CHART": "Caricamento dati del grafico...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_LABEL_REPORTS": "Scarica report etichette",
@@ -267,8 +267,8 @@
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_INBOX_REPORTS": "Scarica report casella",
     "FILTER_DROPDOWN_LABEL": "Seleziona Casella",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "ALL_INBOXES": "Tutte le caselle",
+    "SEARCH_INBOX": "Ricerca nella casella",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -471,11 +471,11 @@
       "DOWNLOAD_REPORT": "Download report"
     },
     "RESOLUTION_HEATMAP": {
-      "HEADER": "Resolutions",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "HEADER": "Risoluzioni",
+      "NO_CONVERSATIONS": "Nessuna conversazione",
+      "CONVERSATION": "{count} conversazione",
+      "CONVERSATIONS": "{count} conversazioni",
+      "DOWNLOAD_REPORT": "Scarica report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversazioni degli agenti",
