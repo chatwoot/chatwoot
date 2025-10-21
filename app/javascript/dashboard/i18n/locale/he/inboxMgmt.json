@@ -648,14 +648,16 @@
           "TIER_1K": "1K customers per 24h",
           "TIER_10K": "10K customers per 24h",
           "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h"
+          "TIER_UNLIMITED": "Unlimited customers per 24h",
+          "UNKNOWN": "Rating not available"
         },
         "STATUSES": {
           "APPROVED": "Approved",
           "PENDING_REVIEW": "Pending Review",
           "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
           "REJECTED": "Rejected",
-          "DECLINED": "Declined"
+          "DECLINED": "Declined",
+          "NON_EXISTS": "Non exists"
         },
         "MODES": {
           "SANDBOX": "Sandbox",

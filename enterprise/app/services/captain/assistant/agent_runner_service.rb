@@ -23,7 +23,7 @@ class Captain::Assistant::AgentRunnerService
     message_to_process = extract_last_user_message(message_history)
     runner = Agents::Runner.with_agents(*agents)
     runner = add_callbacks_to_runner(runner) if @callbacks.any?
-    result = runner.run(message_to_process, context: context)
+    result = runner.run(message_to_process, context: context, max_turns: 100)
 
     process_agent_result(result)
   rescue StandardError => e
@@ -74,7 +74,12 @@ class Captain::Assistant::AgentRunnerService
   # Response formatting methods
   def process_agent_result(result)
     Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
-    format_response(result.output)
+    response = format_response(result.output)
+
+    # Extract agent name from context
+    response['agent_name'] = result.context&.dig(:current_agent)
+
+    response
   end
 
   def format_response(output)
