@@ -23,20 +23,20 @@ class Vapi::AgentImporterService
     vapi_data = api_client.get_agent(vapi_agent_id)
 
     # Debug logging to see what Vapi returns
-    Rails.logger.info "=" * 80
+    Rails.logger.info '=' * 80
     Rails.logger.info "Vapi API Response for agent #{vapi_agent_id}:"
     Rails.logger.info vapi_data.inspect
-    Rails.logger.info "=" * 80
-    Rails.logger.info "Extracted fields:"
+    Rails.logger.info '=' * 80
+    Rails.logger.info 'Extracted fields:'
     Rails.logger.info "  name: #{vapi_data['name'].inspect}"
     Rails.logger.info "  phoneNumber: #{vapi_data['phoneNumber'].inspect}"
     Rails.logger.info "  firstMessage: #{vapi_data['firstMessage'].inspect}"
     Rails.logger.info "  model: #{vapi_data['model'].inspect}"
     Rails.logger.info "  voice: #{vapi_data['voice'].inspect}"
     Rails.logger.info "  transcriber: #{vapi_data['transcriber'].inspect}"
-    Rails.logger.info "=" * 80
+    Rails.logger.info '=' * 80
 
-    # Check if agent already exists
+    # Check if agent already exists in this account
     existing_agent = account.vapi_agents.find_by(vapi_agent_id: vapi_agent_id)
     return { error: 'Agent already exists in this account', agent: existing_agent } if existing_agent.present?
 
@@ -80,7 +80,7 @@ class Vapi::AgentImporterService
     transcriber_provider = vapi_data.dig('transcriber', 'provider')
     transcriber_language = vapi_data.dig('transcriber', 'language')
 
-    Rails.logger.info "Extracted settings values:"
+    Rails.logger.info 'Extracted settings values:'
     Rails.logger.info "  first_message: #{first_message.inspect}"
     Rails.logger.info "  system_prompt: #{system_prompt.inspect}"
     Rails.logger.info "  voice_provider: #{voice_provider.inspect}, voice_id: #{voice_id.inspect}"
@@ -104,6 +104,7 @@ class Vapi::AgentImporterService
     if vapi_data.dig('model', 'messages').is_a?(Array)
       system_msg = vapi_data.dig('model', 'messages').find { |m| m['role'] == 'system' }
       return system_msg['content'] if system_msg
+
       # Fallback to first message
       return vapi_data.dig('model', 'messages', 0, 'content')
     end

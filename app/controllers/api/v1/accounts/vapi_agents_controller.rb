@@ -50,25 +50,21 @@ class Api::V1::Accounts::VapiAgentsController < Api::V1::Accounts::BaseControlle
     inbox_id = params[:inbox_id]
 
     # Check inputs
-    if vapi_agent_id.blank?
-      return render json: { error: 'Vapi Agent ID is required' }, status: :unprocessable_entity
-    end
+    return render json: { error: 'Vapi Agent ID is required' }, status: :unprocessable_entity if vapi_agent_id.blank?
 
-    if inbox_id.blank?
-      return render json: { error: 'Inbox ID is required' }, status: :unprocessable_entity
-    end
+    return render json: { error: 'Inbox ID is required' }, status: :unprocessable_entity if inbox_id.blank?
 
     # Fetch agent data from Vapi (without creating)
     api_client = Vapi::ApiClient.new
     vapi_data = api_client.get_agent(vapi_agent_id)
 
     # Log the response
-    Rails.logger.info "=" * 80
+    Rails.logger.info '=' * 80
     Rails.logger.info "Fetch from Vapi - Agent ID: #{vapi_agent_id}"
     Rails.logger.info "Vapi Response: #{vapi_data.inspect}"
-    Rails.logger.info "=" * 80
+    Rails.logger.info '=' * 80
 
-    # Check if agent already exists
+    # Check if agent already exists in this account
     existing_agent = current_account.vapi_agents.find_by(vapi_agent_id: vapi_agent_id)
     if existing_agent.present?
       return render json: {
@@ -213,10 +209,10 @@ class Api::V1::Accounts::VapiAgentsController < Api::V1::Accounts::BaseControlle
     if vapi_data.dig('model', 'messages').is_a?(Array)
       system_msg = vapi_data.dig('model', 'messages').find { |m| m['role'] == 'system' }
       return system_msg['content'] if system_msg
+
       # Fallback to first message
       return vapi_data.dig('model', 'messages', 0, 'content')
     end
     vapi_data.dig('model', 'systemPrompt') || vapi_data.dig('model', 'system_prompt')
   end
 end
-

@@ -15,9 +15,9 @@
 #
 # Indexes
 #
-#  index_vapi_agents_on_account_id     (account_id)
-#  index_vapi_agents_on_inbox_id       (inbox_id)
-#  index_vapi_agents_on_vapi_agent_id  (vapi_agent_id) UNIQUE
+#  index_vapi_agents_on_account_id                    (account_id)
+#  index_vapi_agents_on_inbox_id                      (inbox_id)
+#  index_vapi_agents_on_vapi_agent_id_and_account_id  (vapi_agent_id,account_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -31,7 +31,7 @@ class VapiAgent < ApplicationRecord
 
   validates :inbox_id, presence: true
   validates :account_id, presence: true
-  validates :vapi_agent_id, presence: true, uniqueness: true
+  validates :vapi_agent_id, presence: true, uniqueness: { scope: :account_id }
   validates :name, presence: true
 
   # Validate that inbox belongs to account
@@ -47,4 +47,3 @@ class VapiAgent < ApplicationRecord
     errors.add(:inbox, 'must belong to the account') unless inbox.account_id == account_id
   end
 end
-
