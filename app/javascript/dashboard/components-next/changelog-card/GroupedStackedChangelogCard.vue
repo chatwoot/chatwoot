@@ -17,7 +17,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['readMore', 'dismiss', 'cardClick']);
+const emit = defineEmits(['readMore', 'dismiss', 'imgClick']);
 
 const stackedPosts = computed(() => props.posts?.slice(0, 5));
 
@@ -26,8 +26,8 @@ const isPostDismissing = post => props.dismissingSlugs.includes(post.slug);
 const handleReadMore = post => emit('readMore', post.slug);
 const handleDismiss = post => emit('dismiss', post.slug);
 const handlePostClick = (post, index) => {
-  if (index !== props.currentIndex && !isPostDismissing(post)) {
-    emit('cardClick', { slug: post.slug, index });
+  if (index === props.currentIndex && !isPostDismissing(post)) {
+    emit('imgClick', { slug: post.slug, index });
   }
 };
 
@@ -66,7 +66,7 @@ const getCardClasses = index => {
           :is-dismissing="isPostDismissing(post)"
           @read-more="handleReadMore(post)"
           @dismiss="handleDismiss(post)"
-          @card-click="handlePostClick(post, index)"
+          @img-click="handlePostClick(post, index)"
         />
       </div>
     </div>

@@ -16,7 +16,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['readMore', 'dismiss', 'cardClick']);
+const emit = defineEmits(['readMore', 'dismiss', 'imgClick']);
 
 const handleReadMore = () => {
   emit('readMore');
@@ -26,20 +26,19 @@ const handleDismiss = () => {
   emit('dismiss');
 };
 
-const handleCardClick = () => {
-  emit('cardClick');
+const handleImgClick = () => {
+  emit('imgClick');
 };
 </script>
 
 <template>
   <div
     data-testid="changelog-card"
-    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 cursor-pointer border-n-weak bg-n-background text-n-slate-12"
+    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 border-n-weak bg-n-background text-n-slate-12"
     :class="{
       'animate-fade-out pointer-events-none': isDismissing,
       'hover:shadow': isActive,
     }"
-    @click="handleCardClick"
   >
     <div>
       <h5
@@ -63,8 +62,9 @@ const handleCardClick = () => {
       <img
         :src="card.feature_image"
         :alt="`${card.title} preview image`"
-        class="object-cover w-full h-24 rounded-md"
+        class="object-cover w-full h-24 rounded-md cursor-pointer"
         loading="lazy"
+        @click.stop="handleImgClick"
       />
     </div>
     <div
@@ -74,8 +74,9 @@ const handleCardClick = () => {
       <img
         src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600"
         :alt="`${card.title} preview image`"
-        class="object-cover w-full h-24 rounded-md"
+        class="object-cover w-full h-24 rounded-md cursor-pointer"
         loading="lazy"
+        @click.stop="handleImgClick"
       />
     </div>
 

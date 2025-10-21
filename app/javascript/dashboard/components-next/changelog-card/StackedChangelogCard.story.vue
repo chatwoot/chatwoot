@@ -20,7 +20,7 @@ const handleDismiss = () => {
   console.log(`Dismissed: ${imageCards.title}`);
 };
 
-const handleCardClick = () => {
+const handleImgClick = () => {
   console.log(`Card clicked: ${imageCards.title}`);
 };
 </script>
@@ -38,7 +38,7 @@ const handleCardClick = () => {
           :is-dismissing="false"
           @read-more="handleReadMore(imageCards)"
           @dismiss="handleDismiss(imageCards)"
-          @card-click="handleCardClick(imageCards)"
+          @img-click="handleImgClick(imageCards)"
         />
       </div>
     </Variant>

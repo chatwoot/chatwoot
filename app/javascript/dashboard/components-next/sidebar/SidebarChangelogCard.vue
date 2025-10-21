@@ -85,11 +85,9 @@ const handleReadMore = () => {
   }
 };
 
-const handleCardClick = () => {
-  const currentPost = unDismissedPosts.value[currentIndex.value];
-  if (currentPost?.slug) {
-    window.open(`https://www.chatwoot.com/blog/${currentPost.slug}`, '_blank');
-  }
+const handleImgClick = ({ index }) => {
+  currentIndex.value = index;
+  handleReadMore();
 };
 
 onMounted(() => {
@@ -106,7 +104,7 @@ onMounted(() => {
     class="min-h-[240px] z-10"
     @read-more="handleReadMore"
     @dismiss="handleDismiss"
-    @card-click="handleCardClick"
+    @img-click="handleImgClick"
   />
   <template v-else />
 </template>

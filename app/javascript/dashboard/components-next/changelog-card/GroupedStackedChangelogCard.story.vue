@@ -71,7 +71,7 @@ const handleDismiss = slug => {
   }, 200);
 };
 
-const handleCardClick = data => {
+const handleImgClick = data => {
   currentIndex.value = data.index;
   console.log(`Card clicked: ${visibleCards.value[data.index].title}`);
 };
@@ -98,7 +98,7 @@ const resetDemo = () => {
           class="min-h-[270px]"
           @read-more="handleReadMore"
           @dismiss="handleDismiss"
-          @card-click="handleCardClick"
+          @img-click="handleImgClick"
         />
 
         <button
