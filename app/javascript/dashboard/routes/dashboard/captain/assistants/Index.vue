@@ -2,6 +2,8 @@
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useRouter } from 'vue-router';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import AssistantCard from 'dashboard/components-next/captain/assistant/AssistantCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
@@ -12,7 +14,8 @@ import CreateNewAssistantDialog from 'dashboard/components-next/captain/pageComp
 import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
-import { useRouter } from 'vue-router';
+
+const { isOnChatwootCloud } = useAccount();
 
 const router = useRouter();
 
@@ -113,6 +116,7 @@ onMounted(() => store.dispatch('captainAssistants/get'));
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
         :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
         :note="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        :hide-actions="!isOnChatwootCloud"
         fallback-thumbnail="/assets/images/dashboard/captain/assistant-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-popover-dark.svg"
         learn-more-url="https://chwt.app/captain-assistant"
