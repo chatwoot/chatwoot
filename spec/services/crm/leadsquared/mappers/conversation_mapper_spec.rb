@@ -6,15 +6,39 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:user) { create(:user, name: 'John Doe') }
   let(:contact) { create(:contact, name: 'Jane Smith') }
+  let(:hook) do
+    create(:integrations_hook, :leadsquared, account: account, settings: {
+             'access_key' => 'test_access_key',
+             'secret_key' => 'test_secret_key',
+             'endpoint_url' => 'https://api.leadsquared.com/v2',
+             'timezone' => 'UTC'
+           })
+  end
+  let(:hook_with_pst) do
+    create(:integrations_hook, :leadsquared, account: account, settings: {
+             'access_key' => 'test_access_key',
+             'secret_key' => 'test_secret_key',
+             'endpoint_url' => 'https://api.leadsquared.com/v2',
+             'timezone' => 'America/Los_Angeles'
+           })
+  end
+  let(:hook_without_timezone) do
+    create(:integrations_hook, :leadsquared, account: account, settings: {
+             'access_key' => 'test_access_key',
+             'secret_key' => 'test_secret_key',
+             'endpoint_url' => 'https://api.leadsquared.com/v2'
+           })
+  end
 
   before do
+    account.enable_features('crm_integration')
     allow(GlobalConfig).to receive(:get).with('BRAND_NAME').and_return({ 'BRAND_NAME' => 'TestBrand' })
   end
 
   describe '.map_conversation_activity' do
-    it 'generates conversation activity note' do
-      travel_to(Time.zone.parse('2024-01-01 10:00:00')) do
-        result = described_class.map_conversation_activity(conversation)
+    it 'generates conversation activity note with UTC timezone' do
+      travel_to(Time.zone.parse('2024-01-01 10:00:00 UTC')) do
+        result = described_class.map_conversation_activity(hook, conversation)
 
         expect(result).to include('New conversation started on TestBrand')
         expect(result).to include('Channel: Test Inbox')
@@ -23,12 +47,29 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         expect(result).to include('View in TestBrand: http://')
       end
     end
+
+    it 'formats time according to hook timezone setting' do
+      travel_to(Time.zone.parse('2024-01-01 18:00:00 UTC')) do
+        result = described_class.map_conversation_activity(hook_with_pst, conversation)
+
+        # PST is UTC-8, so 18:00 UTC becomes 10:00:00 PST
+        expect(result).to include('Created: 2024-01-01 10:00:00')
+      end
+    end
+
+    it 'falls back to system timezone when hook has no timezone setting' do
+      travel_to(Time.zone.parse('2024-01-01 10:00:00')) do
+        result = described_class.map_conversation_activity(hook_without_timezone, conversation)
+
+        expect(result).to include('Created: 2024-01-01 10:00:00')
+      end
+    end
   end
 
   describe '.map_transcript_activity' do
     context 'when conversation has no messages' do
       it 'returns no messages message' do
-        result = described_class.map_transcript_activity(conversation)
+        result = described_class.map_transcript_activity(hook, conversation)
         expect(result).to eq('No messages in conversation')
       end
     end
@@ -68,7 +109,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
       end
 
       it 'generates transcript with messages in reverse chronological order' do
-        result = described_class.map_transcript_activity(conversation)
+        result = described_class.map_transcript_activity(hook, conversation)
 
         expect(result).to include('Conversation Transcript from TestBrand')
         expect(result).to include('Channel: Test Inbox')
@@ -81,6 +122,22 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
 
         # Latest message (10:01) should come before older message (10:00)
         expect(message_positions['[2024-01-01 10:01] Jane Smith: Hi there']).to be < message_positions['[2024-01-01 10:00] John Doe: Hello']
+      end
+
+      it 'formats message times according to hook timezone setting' do
+        travel_to(Time.zone.parse('2024-01-01 18:00:00 UTC')) do
+          create(:message,
+                 conversation: conversation,
+                 sender: user,
+                 content: 'Test message',
+                 message_type: :outgoing,
+                 created_at: Time.zone.parse('2024-01-01 18:00:00 UTC'))
+
+          result = described_class.map_transcript_activity(hook_with_pst, conversation)
+
+          # PST is UTC-8, so 18:00 UTC becomes 10:00 PST
+          expect(result).to include('[2024-01-01 10:00] John Doe: Test message')
+        end
       end
 
       context 'when message has attachments' do
@@ -96,7 +153,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         before { message_with_attachment }
 
         it 'includes attachment information' do
-          result = described_class.map_transcript_activity(conversation)
+          result = described_class.map_transcript_activity(hook, conversation)
 
           expect(result).to include('See attachment')
           expect(result).to include('[Attachment: image]')
@@ -116,7 +173,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         before { empty_message }
 
         it 'shows no content placeholder' do
-          result = described_class.map_transcript_activity(conversation)
+          result = described_class.map_transcript_activity(hook, conversation)
           expect(result).to include('[No content]')
         end
       end
@@ -134,22 +191,9 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         before { unnamed_sender_message }
 
         it 'uses sender type and id' do
-          result = described_class.map_transcript_activity(conversation)
+          result = described_class.map_transcript_activity(hook, conversation)
           expect(result).to include("User #{unnamed_sender_message.sender_id}")
         end
-      end
-    end
-
-    context 'when specific messages are provided' do
-      let(:message1) { create(:message, conversation: conversation, content: 'Message 1', message_type: :outgoing) }
-      let(:message2) { create(:message, conversation: conversation, content: 'Message 2', message_type: :outgoing) }
-      let(:specific_messages) { [message1] }
-
-      it 'only includes provided messages' do
-        result = described_class.map_transcript_activity(conversation, specific_messages)
-
-        expect(result).to include('Message 1')
-        expect(result).not_to include('Message 2')
       end
     end
 
@@ -169,7 +213,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
                              created_at: Time.zone.parse("2024-01-01 #{10 + i}:00:00"))
         end
 
-        result = described_class.map_transcript_activity(conversation, messages)
+        result = described_class.map_transcript_activity(hook, conversation)
 
         # Verify latest message is included (message 14)
         expect(result).to include("[2024-01-02 00:00] John Doe: #{long_message_content} 14")
@@ -183,19 +227,19 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         expect(result.length).to be <= described_class::ACTIVITY_NOTE_MAX_SIZE + 100
 
         # Verify that not all messages are included (some were truncated)
-        expect(messages.count).to be > result.scan(/John Doe:/).count
+        expect(messages.count).to be > result.scan('John Doe:').count
       end
 
       it 'respects the ACTIVITY_NOTE_MAX_SIZE constant' do
         # Create a single message that would exceed the limit by itself
         giant_content = 'A' * 2000
-        message = create(:message,
-                         conversation: conversation,
-                         sender: user,
-                         content: giant_content,
-                         message_type: :outgoing)
+        create(:message,
+               conversation: conversation,
+               sender: user,
+               content: giant_content,
+               message_type: :outgoing)
 
-        result = described_class.map_transcript_activity(conversation, [message])
+        result = described_class.map_transcript_activity(hook, conversation)
 
         # Extract just the formatted messages part
         id = conversation.display_id

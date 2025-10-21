@@ -48,7 +48,8 @@
       "CREATED_AT": "Oluşturma",
       "LAST_ACTIVITY": "Son aktivite",
       "REFERER_LINK": "Yönlendiren bağlantısı",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Etiketler"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standart Filtreler",

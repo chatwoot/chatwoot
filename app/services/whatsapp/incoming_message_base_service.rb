@@ -7,27 +7,47 @@ class Whatsapp::IncomingMessageBaseService
   pattr_initialize [:inbox!, :params!]
 
   def perform
+    Rails.logger.info "[WHATSAPP_DEBUG] 🚀 WhatsApp service started with params: #{params.inspect}"
     processed_params
 
     if processed_params.try(:[], :statuses).present?
+      Rails.logger.info '[WHATSAPP_DEBUG] Processing statuses'
       process_statuses
     elsif processed_params.try(:[], :messages).present?
+      Rails.logger.info "[WHATSAPP_DEBUG] Processing messages: #{processed_params[:messages].inspect}"
       process_messages
     end
+    Rails.logger.info '[WHATSAPP_DEBUG] ✅ WhatsApp service completed'
   end
 
   private
 
   def process_messages
+    message_id = @processed_params[:messages].first[:id]
+    Rails.logger.info "[WHATSAPP_DEBUG] 📨 Processing message ID: #{message_id}, type: #{message_type}"
+
     # We don't support reactions & ephemeral message now, we need to skip processing the message
     # if the webhook event is a reaction or an ephermal message or an unsupported message.
-    return if unprocessable_message_type?(message_type)
+    if unprocessable_message_type?(message_type)
+      Rails.logger.info "[WHATSAPP_DEBUG] ❌ Skipping unprocessable message type: #{message_type}"
+      return
+    end
 
     # Multiple webhook event can be received against the same message due to misconfigurations in the Meta
     # business manager account. While we have not found the core reason yet, the following line ensure that
     # there are no duplicate messages created.
-    return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
+    existing_message = find_message_by_source_id(message_id)
+    if existing_message
+      Rails.logger.info "[WHATSAPP_DEBUG] ❌ Message already exists with source_id #{message_id}, skipping"
+      return
+    end
 
+    if message_under_process?
+      Rails.logger.info "[WHATSAPP_DEBUG] ❌ Message #{message_id} already under process, skipping"
+      return
+    end
+
+    Rails.logger.info "[WHATSAPP_DEBUG] ✅ Processing new message #{message_id}"
     cache_message_source_id_in_redis
     set_contact
     return unless @contact
@@ -56,11 +76,23 @@ class Whatsapp::IncomingMessageBaseService
 
   def create_messages
     message = @processed_params[:messages].first
+    Rails.logger.info "[WHATSAPP_DEBUG] 🏗️ Creating messages for type: #{message_type}"
+
     log_error(message) && return if error_webhook_event?(message)
 
     process_in_reply_to(message)
 
-    message_type == 'contacts' ? create_contact_messages(message) : create_regular_message(message)
+    if message_type == 'contacts'
+      Rails.logger.info '[WHATSAPP_DEBUG] Creating contact messages'
+      create_contact_messages(message)
+    else
+      Rails.logger.info '[WHATSAPP_DEBUG] Creating regular message'
+      create_regular_message(message)
+    end
+
+    Rails.logger.info "[WHATSAPP_DEBUG] 🤖 Triggering AI response for message: #{@message&.id}"
+    # Trigger AI response once per WhatsApp message, regardless of type
+    trigger_ai_response_if_needed
   end
 
   def create_contact_messages(message)
@@ -78,6 +110,14 @@ class Whatsapp::IncomingMessageBaseService
     @message.save!
   end
 
+  def trigger_ai_response_if_needed
+    # Trigger AI response once per WhatsApp message using the last created message
+    # This ensures we only trigger once regardless of message type (contacts, regular, etc.)
+    return unless @message
+
+    Messages::AiResponseTriggerService.new(message: @message).perform
+  end
+
   def set_contact
     contact_params = @processed_params[:contacts]&.first
     return if contact_params.blank?
@@ -92,6 +132,9 @@ class Whatsapp::IncomingMessageBaseService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+
+    # Update existing contact name if ProfileName is available and current name is just phone number
+    update_contact_with_profile_name(contact_params)
   end
 
   def set_conversation
@@ -156,12 +199,36 @@ class Whatsapp::IncomingMessageBaseService
     phones = contact[:phones]
     phones = [{ phone: 'Phone number is not available' }] if phones.blank?
 
+    name_info = contact['name'] || {}
+    contact_meta = {
+      firstName: name_info['first_name'],
+      lastName: name_info['last_name']
+    }.compact
+
     phones.each do |phone|
       @message.attachments.new(
         account_id: @message.account_id,
         file_type: file_content_type(message_type),
-        fallback_title: phone[:phone].to_s
+        fallback_title: phone[:phone].to_s,
+        meta: contact_meta
       )
     end
+  end
+
+  def update_contact_with_profile_name(contact_params)
+    profile_name = contact_params.dig(:profile, :name)
+    return if profile_name.blank?
+    return if @contact.name == profile_name
+
+    # Only update if current name exactly matches the phone number or formatted phone number
+    return unless contact_name_matches_phone_number?
+
+    @contact.update!(name: profile_name)
+  end
+
+  def contact_name_matches_phone_number?
+    phone_number = "+#{@processed_params[:messages].first[:from]}"
+    formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
+    @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end

@@ -96,6 +96,7 @@ defineExpose({
         />
       </div>
       <Avatar
+        v-if="assignee.name"
         :name="assignee.name"
         :src="assignee.thumbnail"
         :size="20"

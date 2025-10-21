@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+// import { mapGetters } from 'vuex';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -26,9 +26,9 @@ export default {
     return { integration, isHookTypeInbox, hasConnectedHooks };
   },
   computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
+    // ...mapGetters({
+    //   globalConfig: 'globalConfig/get',
+    // }),
     hookHeaders() {
       return this.integration.visible_properties;
     },
@@ -62,7 +62,7 @@ export default {
       :description="
         $t(
           `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
-          { installationName: globalConfig.installationName }
+          { installationName: 'AlooChat' }
         )
       "
       :feature-name="integrationId"
@@ -78,8 +78,10 @@ export default {
       </template>
     </BaseSettingsHeader>
     <div class="w-full">
-      <table v-if="hasConnectedHooks" class="woot-table">
-        <thead>
+      <table v-if="hasConnectedHooks">
+        <thead
+          class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
+        >
           <th
             v-for="hookHeader in hookHeaders"
             :key="hookHeader"
@@ -92,7 +94,11 @@ export default {
           </th>
         </thead>
         <tbody>
-          <tr v-for="hook in hooks" :key="hook.id">
+          <tr
+            v-for="hook in hooks"
+            :key="hook.id"
+            class="border-b border-n-weak [&>td]:p-2.5 [&>td]:text-n-slate-12"
+          >
             <td
               v-for="property in hook.properties"
               :key="property"

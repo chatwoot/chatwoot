@@ -40,6 +40,15 @@ class SearchAPI extends ApiClient {
       },
     });
   }
+
+  articles({ q, page = 1 }) {
+    return axios.get(`${this.url}/articles`, {
+      params: {
+        q,
+        page: page,
+      },
+    });
+  }
 }
 
 export default new SearchAPI();

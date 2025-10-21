@@ -67,7 +67,7 @@ function getDayOfTheWeek(date) {
   return days[dayIndex];
 }
 function getHeatmapLevelClass(value) {
-  if (!value) return 'outline-n-container dark:bg-slate-700/40 bg-slate-50/50';
+  if (!value) return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
 
   let level = [...quantileRange.value, Infinity].findIndex(
     range => value <= range && value > 0
@@ -76,16 +76,16 @@ function getHeatmapLevelClass(value) {
   if (level > 6) level = 5;
 
   if (level === 0) {
-    return 'outline-n-container dark:bg-slate-700/40 bg-slate-50/50';
+    return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
   }
 
   const classes = [
-    'bg-woot-50 dark:bg-woot-800/40 dark:outline-woot-800/80',
-    'bg-woot-100 dark:bg-woot-800/30 dark:outline-woot-800/80',
-    'bg-woot-200 dark:bg-woot-500/40 dark:outline-woot-700/80',
-    'bg-woot-300 dark:bg-woot-500/60 dark:outline-woot-600/80',
-    'bg-woot-600 dark:bg-woot-500/80 dark:outline-woot-500/80',
-    'bg-woot-800 dark:bg-woot-500 dark:outline-woot-400/80',
+    'bg-n-blue-3 dark:outline-n-blue-4',
+    'bg-n-blue-5 dark:outline-n-blue-6',
+    'bg-n-blue-7 dark:outline-n-blue-8',
+    'bg-n-blue-8 dark:outline-n-blue-9',
+    'bg-n-blue-10 dark:outline-n-blue-8',
+    'bg-n-blue-11 dark:outline-n-blue-10',
   ];
 
   return classes[level - 1];
@@ -101,7 +101,7 @@ function getHeatmapLevelClass(value) {
         <div
           v-for="ii in numberOfRows"
           :key="ii"
-          class="w-full rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse h-8 min-w-[70px]"
+          class="w-full rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse h-8 min-w-[70px]"
         />
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
@@ -113,13 +113,13 @@ function getHeatmapLevelClass(value) {
           <div
             v-for="jj in 24"
             :key="jj"
-            class="w-full h-8 rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse"
+            class="w-full h-8 rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse"
           />
         </div>
       </div>
       <div />
       <div
-        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-n-slate-11"
       >
         <div
           v-for="ii in 24"
@@ -135,10 +135,10 @@ function getHeatmapLevelClass(value) {
         <div
           v-for="dateKey in processedData.keys()"
           :key="dateKey"
-          class="h-8 min-w-[70px] text-slate-800 dark:text-slate-200 text-[10px] font-semibold flex flex-col items-end justify-center"
+          class="h-8 min-w-[70px] text-n-slate-12 text-[10px] font-semibold flex flex-col items-end justify-center"
         >
           {{ getDayOfTheWeek(new Date(dateKey)) }}
-          <time class="font-normal text-slate-700 dark:text-slate-200">
+          <time class="font-normal text-n-slate-11">
             {{ formatDate(dateKey) }}
           </time>
         </div>
@@ -153,14 +153,14 @@ function getHeatmapLevelClass(value) {
             v-for="data in processedData.get(dateKey)"
             :key="data.timestamp"
             v-tooltip.top="getCountTooltip(data.value)"
-            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 shadow-black"
+            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1"
             :class="getHeatmapLevelClass(data.value)"
           />
         </div>
       </div>
       <div />
       <div
-        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-n-slate-12"
       >
         <div
           v-for="ii in 24"

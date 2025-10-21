@@ -69,7 +69,7 @@ export default {
     },
   },
   watch: {
-    value() {
+    modelValue() {
       this.resizeTextarea();
       // 🚨 watch triggers every time the value is changed, we cannot set this to focus then
       // when this runs, it sets the cursor to the end of the body, ignoring the signature

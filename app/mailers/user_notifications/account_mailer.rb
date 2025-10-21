@@ -6,7 +6,7 @@ module UserNotifications
       @user = user
       @password = password
       subject = 'Welcome to AlooChat - Your Account Details'
-      @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/login"
+      @action_url = "#{ENV.fetch('FRONTEND_URL', "https://cx.aloochat.ai")}/app/login"
 
       send_mail_with_liquid(to: @user.email, subject: subject)
     end

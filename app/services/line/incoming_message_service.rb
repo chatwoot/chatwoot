@@ -26,6 +26,9 @@ class Line::IncomingMessageService
 
       attach_files event['message']
       @message.save!
+
+      # Trigger AI response if conditions are met
+      Messages::AiResponseTriggerService.new(message: @message).perform
     end
   end
 

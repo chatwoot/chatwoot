@@ -1,4 +1,4 @@
-FROM ruby:3.3.3
+FROM ruby:3.4.4
 
 # Set Node and PNPM versions
 ARG NODE_VERSION="23.7.0"

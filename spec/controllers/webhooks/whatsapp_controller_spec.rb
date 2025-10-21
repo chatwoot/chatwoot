@@ -59,4 +59,123 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
       end
     end
   end
+
+  describe 'POST /webhooks/whatsapp (new format)' do
+    let(:facebook_payload) do
+      {
+        object: 'whatsapp_business_account',
+        entry: [
+          {
+            id: 'WHATSAPP_BUSINESS_ACCOUNT_ID',
+            changes: [
+              {
+                value: {
+                  messaging_product: 'whatsapp',
+                  metadata: {
+                    display_phone_number: '15551234567',
+                    phone_number_id: '812071281985019'
+                  },
+                  messages: [
+                    {
+                      from: '1234567890',
+                      id: 'wamid.ABC123',
+                      timestamp: '1234567890',
+                      text: { body: 'Hello World' },
+                      type: 'text'
+                    }
+                  ]
+                },
+                field: 'messages'
+              }
+            ]
+          }
+        ]
+      }
+    end
+
+    context 'when using Facebook WhatsApp Business API format' do
+      before do
+        # Create channel with phone_number_id in provider_config
+        channel.provider_config['phone_number_id'] = '812071281985019'
+        channel.save!
+      end
+
+      it 'extracts phone_number_id from payload and processes webhook' do
+        allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
+        expect(Webhooks::WhatsappEventsJob).to receive(:perform_later) do |params|
+          expect(params[:phone_number_id]).to eq('812071281985019')
+        end
+
+        post '/webhooks/whatsapp', params: facebook_payload
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'verifies using FB_VERIFY_TOKEN for Facebook webhooks' do
+        allow(ENV).to receive(:[]).with('FB_VERIFY_TOKEN').and_return('facebook_verify_token_123')
+
+        get '/webhooks/whatsapp',
+            params: {
+              'hub.challenge' => '123456',
+              'hub.mode' => 'subscribe',
+              'hub.verify_token' => 'facebook_verify_token_123'
+            }
+        expect(response.body).to include '123456'
+      end
+
+      it 'falls back to channel-specific verification when FB_VERIFY_TOKEN not set' do
+        allow(ENV).to receive(:[]).with('FB_VERIFY_TOKEN').and_return(nil)
+
+        get '/webhooks/whatsapp',
+            params: {
+              'hub.challenge' => '123456',
+              'hub.mode' => 'subscribe',
+              'hub.verify_token' => channel.provider_config['webhook_verify_token'],
+              :object => 'whatsapp_business_account',
+              :entry => [
+                {
+                  changes: [
+                    {
+                      value: {
+                        metadata: {
+                          phone_number_id: '812071281985019'
+                        }
+                      },
+                      field: 'messages'
+                    }
+                  ]
+                }
+              ]
+            }
+        expect(response.body).to include '123456'
+      end
+
+      it 'returns unauthorized when FB_VERIFY_TOKEN does not match' do
+        allow(ENV).to receive(:[]).with('FB_VERIFY_TOKEN').and_return('facebook_verify_token_123')
+
+        get '/webhooks/whatsapp',
+            params: {
+              'hub.challenge' => '123456',
+              'hub.mode' => 'subscribe',
+              'hub.verify_token' => 'wrong_token'
+            }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when phone_number_id is not found' do
+      let(:unknown_payload) do
+        facebook_payload.tap do |payload|
+          payload[:entry][0][:changes][0][:value][:metadata][:phone_number_id] = 'unknown_id'
+        end
+      end
+
+      it 'still processes webhook for backward compatibility' do
+        allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
+        expect(Webhooks::WhatsappEventsJob).to receive(:perform_later)
+
+        post '/webhooks/whatsapp', params: unknown_payload
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end

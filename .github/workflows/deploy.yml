@@ -1,4 +1,4 @@
-name: Deploy to Kubernetes
+name: Deploy to Kubernetes (Production)
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base:v1.0.9
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base:v1.0.23
       
       - name: Build and push Rails image
         uses: docker/build-push-action@v4
@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/rails.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails:v1.0.9
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails:v1.0.23
       
       - name: Build and push Vite image
         uses: docker/build-push-action@v4
@@ -48,7 +48,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/vite.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite:v1.0.9
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite:v1.0.23
 
   deploy:
     needs: build-and-push
@@ -109,32 +109,28 @@ jobs:
           sleep 60
           doctl kubernetes cluster kubeconfig save chatwoot-cluster
       
-      - name: Update Kubernetes ConfigMap
+      - name: Create Kubernetes ConfigMap
         run: |
-          kubectl apply -f k8s/configmap.yaml
-      
-      - name: Create Kubernetes Secrets
-        run: |
-          kubectl delete secret chatwoot-secrets --ignore-not-found=true
-          cat > secret.yaml << EOF
+          kubectl delete configmap chatwoot-config --ignore-not-found=true -n default
+          cat > k8s/production/configmap.yaml << EOF
           apiVersion: v1
-          kind: Secret
+          kind: ConfigMap
           metadata:
-            name: chatwoot-secrets
-          type: Opaque
-          stringData:
-            DATABASE_URL: "postgresql://${{ secrets.POSTGRES_USERNAME }}:${{ secrets.POSTGRES_PASSWORD }}@${{ secrets.POSTGRES_HOST }}:${{ secrets.POSTGRES_PORT }}/${{ secrets.POSTGRES_DATABASE }}?sslmode=require"
-            POSTGRES_HOST: "${{ secrets.POSTGRES_HOST }}"
-            POSTGRES_PORT: "${{ secrets.POSTGRES_PORT }}"
-            POSTGRES_DATABASE: "${{ secrets.POSTGRES_DATABASE }}"
-            POSTGRES_USERNAME: "${{ secrets.POSTGRES_USERNAME }}"
-            POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
-            REDIS_URL: "${{ secrets.REDIS_URL }}"
-            REDIS_PASSWORD: "${{ secrets.REDIS_PASSWORD }}"
-            REDIS_HOST: "${{ secrets.REDIS_HOST }}"
-            REDIS_PORT: "${{ secrets.REDIS_PORT }}"
+            name: chatwoot-config
+            namespace: default
+          data:
+            DATABASE_URL: "postgresql://${{ secrets.PRODUCTION_POSTGRES_USERNAME }}:${{ secrets.PRODUCTION_POSTGRES_PASSWORD }}@${{ secrets.PRODUCTION_POSTGRES_HOST }}:${{ secrets.PRODUCTION_POSTGRES_PORT }}/${{ secrets.PRODUCTION_POSTGRES_DATABASE }}?sslmode=require"
+            POSTGRES_HOST: "${{ secrets.PRODUCTION_POSTGRES_HOST }}"
+            POSTGRES_PORT: "${{ secrets.PRODUCTION_POSTGRES_PORT }}"
+            POSTGRES_DATABASE: "${{ secrets.PRODUCTION_POSTGRES_DATABASE }}"
+            POSTGRES_USERNAME: "${{ secrets.PRODUCTION_POSTGRES_USERNAME }}"
+            POSTGRES_PASSWORD: "${{ secrets.PRODUCTION_POSTGRES_PASSWORD }}"
+            REDIS_URL: "${{ secrets.PRODUCTION_REDIS_URL }}"
+            REDIS_PASSWORD: "${{ secrets.PRODUCTION_REDIS_PASSWORD }}"
+            REDIS_HOST: "${{ secrets.PRODUCTION_REDIS_HOST }}"
+            REDIS_PORT: "${{ secrets.PRODUCTION_REDIS_PORT }}"
             SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
-            DOMAIN: "${{ secrets.DOMAIN || 'cx.aloochat.ai' }}"
+            DOMAIN: "cx.aloochat.ai"
             ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
             S3_BUCKET_NAME: "${{ secrets.S3_BUCKET_NAME }}"
             AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
@@ -142,9 +138,9 @@ jobs:
             AWS_REGION: "${{ secrets.AWS_REGION }}"
             OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
             FORCE_SSL: "${{ secrets.FORCE_SSL }}"
-            CLERK_WEBHOOK_SECRET: "${{ secrets.CLERK_WEBHOOK_SECRET }}"
+            CLERK_WEBHOOK_SECRET: "${{ secrets.PRODUCTION_CLERK_WEBHOOK_SECRET }}"
             ALOOSTUDIO_API_TOKEN: "${{ secrets.ALOOSTUDIO_API_TOKEN }}"
-            ALOOSTUDIO_WEBHOOK_URL: "${{ secrets.ALOOSTUDIO_WEBHOOK_URL }}"
+            ALOOSTUDIO_WEBHOOK_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_WEBHOOK_URL }}"
             SMTP_PASSWORD: "${{ secrets.SMTP_PASSWORD }}"
             SMTP_USERNAME: "${{ secrets.SMTP_USERNAME }}"
             SMTP_ADDRESS: "${{ secrets.SMTP_ADDRESS }}"
@@ -156,29 +152,92 @@ jobs:
             MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
             RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
             MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"   
-            ALOOSTUDIO_BACKEND_URL: "${{ secrets.ALOOSTUDIO_BACKEND_URL }}"
-            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.ALOOSTUDIO_FRONTEND_URL }}"      
+            ALOOSTUDIO_BACKEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_BACKEND_URL }}"
+            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_FRONTEND_URL }}"      
+            FRONTEND_URL: "https://cx.aloochat.ai"
             SMTP_OPEN_TIMEOUT: "60"
             SMTP_READ_TIMEOUT: "60"
-
+            FB_VERIFY_TOKEN: "${{ secrets.FB_VERIFY_TOKEN }}"
+            FB_APP_SECRET: "${{ secrets.FB_APP_SECRET }}"
+            FB_APP_ID: "${{ secrets.FB_APP_ID }}"
+            IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
+            INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
           EOF
-          kubectl create -f secret.yaml
-          rm secret.yaml
+          kubectl apply -f k8s/production/configmap.yaml
       
+      - name: Create Kubernetes Secrets
+        run: |
+          kubectl delete secret chatwoot-secrets --ignore-not-found=true -n default
+          cat > k8s/production/secret.yaml << EOF
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: chatwoot-secrets
+          type: Opaque
+          stringData:
+            DATABASE_URL: "postgresql://${{ secrets.PRODUCTION_POSTGRES_USERNAME }}:${{ secrets.PRODUCTION_POSTGRES_PASSWORD }}@${{ secrets.PRODUCTION_POSTGRES_HOST }}:${{ secrets.PRODUCTION_POSTGRES_PORT }}/${{ secrets.PRODUCTION_POSTGRES_DATABASE }}?sslmode=require"
+            POSTGRES_HOST: "${{ secrets.PRODUCTION_POSTGRES_HOST }}"
+            POSTGRES_PORT: "${{ secrets.PRODUCTION_POSTGRES_PORT }}"
+            POSTGRES_DATABASE: "${{ secrets.PRODUCTION_POSTGRES_DATABASE }}"
+            POSTGRES_USERNAME: "${{ secrets.PRODUCTION_POSTGRES_USERNAME }}"
+            POSTGRES_PASSWORD: "${{ secrets.PRODUCTION_POSTGRES_PASSWORD }}"
+            REDIS_URL: "${{ secrets.PRODUCTION_REDIS_URL }}"
+            REDIS_PASSWORD: "${{ secrets.PRODUCTION_REDIS_PASSWORD }}"
+            REDIS_HOST: "${{ secrets.PRODUCTION_REDIS_HOST }}"
+            REDIS_PORT: "${{ secrets.PRODUCTION_REDIS_PORT }}"
+            SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
+            DOMAIN: "cx.aloochat.ai"
+            ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
+            S3_BUCKET_NAME: "${{ secrets.S3_BUCKET_NAME }}"
+            AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+            AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            AWS_REGION: "${{ secrets.AWS_REGION }}"
+            OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
+            FORCE_SSL: "${{ secrets.FORCE_SSL }}"
+            CLERK_WEBHOOK_SECRET: "${{ secrets.PRODUCTION_CLERK_WEBHOOK_SECRET }}"
+            ALOOSTUDIO_API_TOKEN: "${{ secrets.ALOOSTUDIO_API_TOKEN }}"
+            ALOOSTUDIO_WEBHOOK_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_WEBHOOK_URL }}"
+            SMTP_PASSWORD: "${{ secrets.SMTP_PASSWORD }}"
+            SMTP_USERNAME: "${{ secrets.SMTP_USERNAME }}"
+            SMTP_ADDRESS: "${{ secrets.SMTP_ADDRESS }}"
+            SMTP_PORT: "${{ secrets.SMTP_PORT }}"
+            SMTP_DOMAIN: "${{ secrets.SMTP_DOMAIN }}"
+            SMTP_AUTHENTICATION: "${{ secrets.SMTP_AUTHENTICATION }}"
+            SMTP_ENABLE_STARTTLS_AUTO: "${{ secrets.SMTP_ENABLE_STARTTLS_AUTO }}"
+            SMTP_OPENSSL_VERIFY_MODE: "${{ secrets.SMTP_OPENSSL_VERIFY_MODE }}"
+            MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
+            RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
+            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"   
+            ALOOSTUDIO_BACKEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_BACKEND_URL }}"
+            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_FRONTEND_URL }}"      
+            FRONTEND_URL: "https://cx.aloochat.ai"
+            SMTP_OPEN_TIMEOUT: "60"
+            SMTP_READ_TIMEOUT: "60"
+            FB_VERIFY_TOKEN: "${{ secrets.FB_VERIFY_TOKEN }}"
+            FB_APP_SECRET: "${{ secrets.FB_APP_SECRET }}"
+            FB_APP_ID: "${{ secrets.FB_APP_ID }}"
+            IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
+            INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
+          EOF
+          kubectl apply -f k8s/production/secret.yaml -n default
+          rm k8s/production/secret.yaml
+
       - name: Deploy AlooChat to Kubernetes in ingress-nginx namespace
         run: |
-          # Set namespace
-          NAMESPACE=ingress-nginx
 
           # Apply deployments & services
           echo "Applying deployments and services in namespace default..."
-          kubectl apply -n default -f k8s/rails-deployment.yaml
-          kubectl apply -n default -f k8s/vite-deployment.yaml
-          kubectl apply -n default -f k8s/sidekiq-deployment.yaml
-          kubectl apply -n default -f k8s/mailhog-deployment.yaml
+          kubectl apply -n default -f k8s/production/redis-deployment.yaml
+          kubectl apply -n default -f k8s/production/rails-deployment.yaml
+          kubectl apply -n default -f k8s/production/vite-deployment.yaml
+          kubectl apply -n default -f k8s/production/sidekiq-deployment.yaml
+          kubectl apply -n default -f k8s/production/mailhog-deployment.yaml
 
 
           # Wait for all deployments to be ready
+          # echo "Waiting for Redis deployment..."
+          kubectl rollout status deployment/redis -n default --timeout=300s
+          
           echo "Waiting for Rails deployment..."
           kubectl rollout status deployment/chatwoot-rails -n default --timeout=300s
           

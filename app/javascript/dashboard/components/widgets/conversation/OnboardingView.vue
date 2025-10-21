@@ -6,7 +6,7 @@ import { useStoreGetters } from 'dashboard/composables/store';
 
 const getters = useStoreGetters();
 const { t } = useI18n();
-const globalConfig = computed(() => getters['globalConfig/get'].value);
+// const globalConfig = computed(() => getters['globalConfig/get'].value);
 const currentUser = computed(() => getters.getCurrentUser.value);
 
 const greetingMessage = computed(() => {
@@ -21,7 +21,7 @@ const greetingMessage = computed(() => {
   }
   return t(translationKey, {
     name: currentUser.value.name,
-    installationName: globalConfig.value.installationName,
+    installationName: 'AlooChat',
   });
 });
 </script>
@@ -32,14 +32,14 @@ const greetingMessage = computed(() => {
   >
     <div class="col-span-full self-start">
       <p
-        class="text-xl font-semibold text-slate-900 dark:text-white font-interDisplay tracking-[0.3px]"
+        class="text-xl font-semibold text-n-slate-12 font-interDisplay tracking-[0.3px]"
       >
         {{ greetingMessage }}
       </p>
-      <p class="text-slate-600 dark:text-slate-400 max-w-2xl text-base">
+      <p class="text-n-slate-11 max-w-2xl text-base">
         {{
           $t('ONBOARDING.DESCRIPTION', {
-            installationName: globalConfig.installationName,
+            installationName: 'AlooChat',
           })
         }}
       </p>

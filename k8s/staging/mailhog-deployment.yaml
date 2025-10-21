@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatwoot-mailhog-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatwoot-mailhog-staging
+  template:
+    metadata:
+      labels:
+        app: chatwoot-mailhog-staging
+    spec:
+      containers:
+      - name: mailhog
+        image: mailhog/mailhog
+        ports:
+        - containerPort: 1025
+        - containerPort: 8025
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatwoot-mailhog-staging
+spec:
+  selector:
+    app: chatwoot-mailhog-staging
+  ports:
+  - name: smtp
+    port: 1025
+    targetPort: 1025
+  - name: web
+    port: 8025
+    targetPort: 8025
+  type: ClusterIP

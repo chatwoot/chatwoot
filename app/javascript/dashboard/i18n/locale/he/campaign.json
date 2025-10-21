@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "הושלם",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "ביטול",
+        "CREATE_BUTTON_TEXT": "צור",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "כותרת",
+            "PLACEHOLDER": "אנא הכנס כותרת לקמפיין",
+            "ERROR": "כותרת שדה חובה"
+          },
+          "INBOX": {
+            "LABEL": "בחר תיבת דואר",
+            "PLACEHOLDER": "בחר תיבת דואר",
+            "ERROR": "נדרשת תיבת דואר נכנס"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "עיבוד {templateName}",
+            "LANGUAGE": "שפה",
+            "CATEGORY": "קטגוריה",
+            "VARIABLES_LABEL": "משתנים",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "קהל",
+            "PLACEHOLDER": "בחר את תוויות הלקוחות",
+            "ERROR": "נדרש קהל"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "זמן מתוכנן",
+            "PLACEHOLDER": "אנא בחר את הזמן",
+            "ERROR": "נדרש זמן מתוכנן"
+          },
+          "BUTTONS": {
+            "CREATE": "צור",
+            "CANCEL": "ביטול"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "האם אתה בטוח שברצונך למחוק?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",

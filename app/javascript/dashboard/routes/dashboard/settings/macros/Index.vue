@@ -83,7 +83,7 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"

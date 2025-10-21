@@ -25,7 +25,7 @@ export const generateLabelForContactableInboxesList = ({
     channelType === INBOX_TYPES.TWILIO ||
     channelType === INBOX_TYPES.WHATSAPP
   ) {
-    return `${name} (${phoneNumber})`;
+    return phoneNumber ? `${name} (${phoneNumber})` : name;
   }
   return name;
 };
@@ -36,10 +36,11 @@ const transformInbox = ({
   email,
   channelType,
   phoneNumber,
+  medium,
   ...rest
 }) => ({
   id,
-  icon: getInboxIconByType(channelType, phoneNumber, 'line'),
+  icon: getInboxIconByType(channelType, medium, 'line'),
   label: generateLabelForContactableInboxesList({
     name,
     email,
@@ -52,6 +53,7 @@ const transformInbox = ({
   email,
   phoneNumber,
   channelType,
+  medium,
   ...rest,
 });
 

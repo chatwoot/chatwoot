@@ -11,9 +11,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     build_attachment
     @message.save!
 
-    return unless conversation.assignee&.is_ai?
-
-    RequestAiResponseJob.perform_later(@message)
+    # Trigger AI response using centralized service
+    Messages::AiResponseTriggerService.new(message: @message).perform
   end
 
   def update

@@ -10,7 +10,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
 
-    RequestAiResponseJob.perform_later(@message) if @message.persisted? && @conversation.assignee&.is_ai? && @message.incoming?
+    # Trigger AI response using centralized service
+    Messages::AiResponseTriggerService.new(message: @message).perform
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end

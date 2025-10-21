@@ -9,4 +9,6 @@ pnpm install --force
 
 echo "Ready to run Vite development server."
 
-exec "$@"
+# Change to app directory and start Vite dev server
+cd /app
+exec pnpm exec vite --host 0.0.0.0 --port 3036

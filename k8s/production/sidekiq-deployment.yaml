@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatwoot-sidekiq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatwoot-sidekiq
+  template:
+    metadata:
+      labels:
+        app: chatwoot-sidekiq
+    spec:
+      containers:
+      - name: sidekiq
+        image: wavai/chatwoot-rails:v1.0.23
+        imagePullPolicy: Always
+        command: ["/bin/sh"]
+        args: ["-c", "bundle exec sidekiq -C config/sidekiq.yml"]
+        envFrom:
+        - configMapRef:
+            name: chatwoot-config
+        - secretRef:
+            name: chatwoot-secrets
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m" 

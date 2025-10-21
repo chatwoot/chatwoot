@@ -1,3 +1,4 @@
+// scss-lint:disable SpaceAfterPropertyColon
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -8,52 +9,40 @@
 // Next Colors
 @import 'next-colors';
 
-@import 'shared/assets/stylesheets/animations';
-@import 'shared/assets/stylesheets/colors';
-@import 'shared/assets/stylesheets/spacing';
-@import 'shared/assets/stylesheets/font-size';
-@import 'shared/assets/stylesheets/font-weights';
-@import 'shared/assets/stylesheets/shadows';
-@import 'shared/assets/stylesheets/border-radius';
-@import 'shared/assets/stylesheets/z-index';
+// Base styles for elements
+@import 'base';
 
-@import 'variables';
-
-@import 'mixins';
-@import 'helper-classes';
-@import 'formulate';
-@import 'date-picker';
-
-@import 'layout';
-@import 'animations';
-@import 'rtl';
-
-@import 'widgets/base';
-@import 'widgets/conversation-view';
-@import 'widgets/tabs';
-@import 'widgets/woot-tables';
-
+// Plugins
 @import 'plugins/multiselect';
-@import 'plugins/dropdown';
+@import 'plugins/date-picker';
+
+html,
+body {
+  font-family:
+    'Inter',
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Tahoma,
+    Arial,
+    sans-serif !important;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
 
 .tooltip {
-  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900 max-w-96;
+  @apply bg-n-solid-2 text-n-slate-12 py-1 px-2 z-40 text-xs rounded-md max-w-96;
 }
 
 #app {
   @apply h-full w-full;
-}
-
-.hide {
-  @apply hidden;
-}
-
-.n-blue-border {
-  @apply border-n-blue-border;
-}
-
-.n-blue-text {
-  @apply text-n-blue-text;
 }
 
 .custom-dashed-border {

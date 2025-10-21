@@ -113,7 +113,7 @@ class Messages::MessageBuilder
   end
 
   def sender
-    message_type == 'outgoing' ? (message_sender || @user) : @conversation.contact
+    message_type.to_s == 'outgoing' ? (message_sender || @user) : @conversation.contact
   end
 
   def external_created_at

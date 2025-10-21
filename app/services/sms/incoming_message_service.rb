@@ -16,6 +16,9 @@ class Sms::IncomingMessageService
     )
     attach_files
     @message.save!
+
+    # Trigger AI response if conditions are met
+    Messages::AiResponseTriggerService.new(message: @message).perform
   end
 
   private

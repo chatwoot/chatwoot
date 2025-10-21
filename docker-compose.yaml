@@ -81,18 +81,21 @@ services:
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/vite.sh
     command: bin/vite dev
-
   postgres:
     image: pgvector/pgvector:pg16
+    container_name: aloochat-postgres-1
     restart: always
     ports:
-      - '5432:5432'
+      - "5433:5433"   # host:container
     volumes:
       - postgres:/data/postgres
+      - ./pg2conf/postgresql.conf:/etc/postgresql/postgresql.conf
     environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_DB: aloochat_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+
 
   redis:
     image: redis:alpine

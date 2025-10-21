@@ -1,0 +1,255 @@
+name: Deploy to Kubernetes (Staging)
+
+on:
+  push:
+    branches: [ staging ]
+  workflow_dispatch:
+
+env:
+  DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
+
+      - name: Build and push base image (staging)
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base-staging:v1.0.23
+
+      - name: Build and push Rails image (staging)
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/dockerfiles/rails.Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-staging:v1.0.23
+
+      - name: Build and push Vite image (staging)
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/dockerfiles/vite.Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-staging:v1.0.23
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "1.5.0"
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Check for existing cluster
+        id: check-cluster
+        run: |
+          if doctl kubernetes cluster list --format Name | grep -q "chatwoot-cluster"; then
+            echo "cluster_exists=true" >> $GITHUB_OUTPUT
+            echo "Using existing cluster..."
+            doctl kubernetes cluster kubeconfig save chatwoot-cluster
+          else
+            echo "cluster_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create terraform.tfvars (staging)
+        run: |
+          cat > terraform/terraform.tfvars << EOL
+          do_token = "${{ secrets.DO_TOKEN }}"
+          region = "${{ secrets.REGION }}"
+          environment = "staging"
+          EOL
+
+      - name: Terraform Init
+        run: |
+          cd terraform
+          terraform init
+
+      - name: Configure kubectl if cluster was just created
+        if: steps.check-cluster.outputs.cluster_exists == 'false'
+        run: |
+          echo "Waiting for cluster to be ready after Terraform apply..."
+          sleep 60
+          doctl kubernetes cluster kubeconfig save chatwoot-cluster
+
+      - name: Create Kubernetes ConfigMap (staging)
+        run: |
+          # Ensure namespace exists
+          kubectl apply -f k8s/staging/namespace.yaml
+          
+          kubectl delete configmap chatwoot-config-staging --ignore-not-found=true -n chatwoot-staging
+          cat > k8s/staging/configmap.yaml << EOF
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: chatwoot-config-staging
+            namespace: chatwoot-staging
+          data:
+            DATABASE_URL: "postgresql://${{ secrets.POSTGRES_USERNAME }}:${{ secrets.POSTGRES_PASSWORD }}@${{ secrets.POSTGRES_HOST }}:${{ secrets.POSTGRES_PORT }}/${{ secrets.POSTGRES_DATABASE }}?sslmode=require"
+            POSTGRES_HOST: "${{ secrets.POSTGRES_HOST }}"
+            POSTGRES_PORT: "${{ secrets.POSTGRES_PORT }}"
+            POSTGRES_DATABASE: "${{ secrets.POSTGRES_DATABASE }}"
+            POSTGRES_USERNAME: "${{ secrets.POSTGRES_USERNAME }}"
+            POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
+            REDIS_URL: "${{ secrets.REDIS_URL }}"
+            REDIS_PASSWORD: "${{ secrets.REDIS_PASSWORD }}"
+            REDIS_HOST: "${{ secrets.REDIS_HOST }}"
+            REDIS_PORT: "${{ secrets.REDIS_PORT }}"
+            SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
+            DOMAIN: "staging.cx.aloochat.ai"
+            ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
+            S3_BUCKET_NAME: "${{ secrets.S3_BUCKET_NAME }}"
+            AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+            AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            AWS_REGION: "${{ secrets.AWS_REGION }}"
+            OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
+            FORCE_SSL: "${{ secrets.FORCE_SSL }}"
+            CLERK_WEBHOOK_SECRET: "${{ secrets.CLERK_WEBHOOK_SECRET }}"
+            ALOOSTUDIO_API_TOKEN: "${{ secrets.ALOOSTUDIO_API_TOKEN }}"
+            ALOOSTUDIO_WEBHOOK_URL: "${{ secrets.ALOOSTUDIO_WEBHOOK_URL }}"
+            SMTP_PASSWORD: "${{ secrets.SMTP_PASSWORD }}"
+            SMTP_USERNAME: "${{ secrets.SMTP_USERNAME }}"
+            SMTP_ADDRESS: "${{ secrets.SMTP_ADDRESS }}"
+            SMTP_PORT: "${{ secrets.SMTP_PORT }}"
+            SMTP_DOMAIN: "${{ secrets.SMTP_DOMAIN }}"
+            SMTP_AUTHENTICATION: "${{ secrets.SMTP_AUTHENTICATION }}"
+            SMTP_ENABLE_STARTTLS_AUTO: "${{ secrets.SMTP_ENABLE_STARTTLS_AUTO }}"
+            SMTP_OPENSSL_VERIFY_MODE: "${{ secrets.SMTP_OPENSSL_VERIFY_MODE }}"
+            MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
+            RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
+            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
+            ALOOSTUDIO_BACKEND_URL: "${{ secrets.ALOOSTUDIO_BACKEND_URL }}"
+            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.ALOOSTUDIO_FRONTEND_URL }}"
+            FRONTEND_URL: "https://staging.cx.aloochat.ai"
+            SMTP_OPEN_TIMEOUT: "60"
+            SMTP_READ_TIMEOUT: "60"
+            FB_VERIFY_TOKEN: "${{ secrets.FB_VERIFY_TOKEN }}"
+            FB_APP_SECRET: "${{ secrets.FB_APP_SECRET }}"
+            FB_APP_ID: "${{ secrets.FB_APP_ID }}"
+            IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
+            INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
+          EOF
+          kubectl apply -f k8s/staging/configmap.yaml
+          
+
+      - name: Create Kubernetes Secrets (staging)
+        run: |
+          # Create/replace secret in staging namespace
+          kubectl delete secret chatwoot-secrets-staging -n chatwoot-staging --ignore-not-found=true
+          cat > k8s/staging/secret.yaml << EOF
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: chatwoot-secrets-staging
+            namespace: chatwoot-staging
+          type: Opaque
+          stringData:
+            DATABASE_URL: "postgresql://${{ secrets.POSTGRES_USERNAME }}:${{ secrets.POSTGRES_PASSWORD }}@${{ secrets.POSTGRES_HOST }}:${{ secrets.POSTGRES_PORT }}/${{ secrets.POSTGRES_DATABASE }}?sslmode=require"
+            POSTGRES_HOST: "${{ secrets.POSTGRES_HOST }}"
+            POSTGRES_PORT: "${{ secrets.POSTGRES_PORT }}"
+            POSTGRES_DATABASE: "${{ secrets.POSTGRES_DATABASE }}"
+            POSTGRES_USERNAME: "${{ secrets.POSTGRES_USERNAME }}"
+            POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
+            REDIS_URL: "${{ secrets.REDIS_URL }}"
+            REDIS_PASSWORD: "${{ secrets.REDIS_PASSWORD }}"
+            REDIS_HOST: "${{ secrets.REDIS_HOST }}"
+            REDIS_PORT: "${{ secrets.REDIS_PORT }}"
+            SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
+            DOMAIN: "staging.cx.aloochat.ai"
+            ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
+            S3_BUCKET_NAME: "${{ secrets.S3_BUCKET_NAME }}"
+            AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+            AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            AWS_REGION: "${{ secrets.AWS_REGION }}"
+            OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
+            FORCE_SSL: "${{ secrets.FORCE_SSL }}"
+            CLERK_WEBHOOK_SECRET: "${{ secrets.CLERK_WEBHOOK_SECRET }}"
+            ALOOSTUDIO_API_TOKEN: "${{ secrets.ALOOSTUDIO_API_TOKEN }}"
+            ALOOSTUDIO_WEBHOOK_URL: "${{ secrets.ALOOSTUDIO_WEBHOOK_URL }}"
+            SMTP_PASSWORD: "${{ secrets.SMTP_PASSWORD }}"
+            SMTP_USERNAME: "${{ secrets.SMTP_USERNAME }}"
+            SMTP_ADDRESS: "${{ secrets.SMTP_ADDRESS }}"
+            SMTP_PORT: "${{ secrets.SMTP_PORT }}"
+            SMTP_DOMAIN: "${{ secrets.SMTP_DOMAIN }}"
+            SMTP_AUTHENTICATION: "${{ secrets.SMTP_AUTHENTICATION }}"
+            SMTP_ENABLE_STARTTLS_AUTO: "${{ secrets.SMTP_ENABLE_STARTTLS_AUTO }}"
+            SMTP_OPENSSL_VERIFY_MODE: "${{ secrets.SMTP_OPENSSL_VERIFY_MODE }}"
+            MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
+            RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
+            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
+            ALOOSTUDIO_BACKEND_URL: "${{ secrets.ALOOSTUDIO_BACKEND_URL }}"
+            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.ALOOSTUDIO_FRONTEND_URL }}"
+            FRONTEND_URL: "https://staging.cx.aloochat.ai"
+            SMTP_OPEN_TIMEOUT: "60"
+            SMTP_READ_TIMEOUT: "60"
+            FB_VERIFY_TOKEN: "${{ secrets.FB_VERIFY_TOKEN }}"
+            FB_APP_SECRET: "${{ secrets.FB_APP_SECRET }}"
+            FB_APP_ID: "${{ secrets.FB_APP_ID }}"
+            IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
+            INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
+          EOF
+          kubectl create -f k8s/staging/secret.yaml -n chatwoot-staging
+          rm k8s/staging/secret.yaml
+
+      - name: Deploy AlooChat to Kubernetes (staging)
+        run: |
+          # Apply staging deployments & services to chatwoot-staging namespace
+          kubectl apply -n chatwoot-staging -f k8s/staging/rails-deployment.yaml
+          kubectl apply -n chatwoot-staging -f k8s/staging/vite-deployment.yaml
+          kubectl apply -n chatwoot-staging -f k8s/staging/sidekiq-deployment.yaml
+          kubectl apply -n chatwoot-staging -f k8s/staging/mailhog-deployment.yaml
+          kubectl apply -n chatwoot-staging -f k8s/staging/ingress.yaml
+
+          # Wait for all deployments to be ready
+          echo "Waiting for Rails deployment (staging)..."
+          kubectl rollout status deployment/chatwoot-rails-staging -n chatwoot-staging --timeout=900s
+
+          echo "Waiting for Vite deployment (staging)..."
+          kubectl rollout status deployment/chatwoot-vite-staging -n chatwoot-staging --timeout=600s
+
+          echo "Waiting for Sidekiq deployment (staging)..."
+          kubectl rollout status deployment/chatwoot-sidekiq-staging -n chatwoot-staging --timeout=600s
+
+          echo "Waiting for Mailhog deployment (staging)..."
+          kubectl rollout status deployment/chatwoot-mailhog-staging -n chatwoot-staging --timeout=300s
+
+          # Final status checks
+          echo "Pods status (staging):"
+          kubectl get pods -n chatwoot-staging
+
+          echo "Services status (staging):"
+          kubectl get svc -n chatwoot-staging
+
+          echo "Ingress status (staging):"
+          kubectl get ingress -n chatwoot-staging

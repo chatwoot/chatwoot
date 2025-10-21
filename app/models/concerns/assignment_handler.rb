@@ -43,8 +43,10 @@ module AssignmentHandler
   def process_assignment_activities
     user_name = Current.user.name if Current.user.present?
     if saved_change_to_team_id?
+      Rails.logger.info "[ASSIGNMENT] 🔄 Team changed for conversation #{id}: #{saved_changes['team_id']}"
       create_team_change_activity(user_name)
     elsif saved_change_to_assignee_id?
+      Rails.logger.info "[ASSIGNMENT] 👤 Assignee changed for conversation #{id}: #{saved_changes['assignee_id']}, user: #{user_name || 'SYSTEM'}"
       create_assignee_change_activity(user_name)
     end
   end
