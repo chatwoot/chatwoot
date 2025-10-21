@@ -1,29 +1,24 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useCaptain } from 'dashboard/composables/useCaptain';
+import { useSubscription } from 'dashboard/composables/useSubscription';
+import { useAlert } from 'dashboard/composables';
 import { format } from 'date-fns';
+import subscriptionAPI from 'dashboard/api/subscription';
 
-import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
-import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
-const { currentAccount } = useAccount();
-const {
-  captainEnabled,
-  captainLimits,
-  documentLimits,
-  responseLimits,
-  fetchLimits,
-} = useCaptain();
+const { currentAccount, accountScopedRoute } = useAccount();
+const { currentTier, currentTierDisplayName, isBasicTier } = useSubscription();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
+const isManagingSubscription = ref(false);
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
 });
@@ -53,16 +48,18 @@ const subscriptionRenewsOn = computed(() => {
 
 /**
  * Computed property indicating if user has a billing plan
+ * Checks for both Enterprise billing (plan_name) and new subscription system (subscription_tier)
  * @returns {boolean}
  */
 const hasABillingPlan = computed(() => {
-  return !!planName.value;
+  // Check for Enterprise billing (plan_name) or new subscription system (always has a tier)
+  return !!planName.value || !!currentTier.value;
 });
 
 const fetchAccountDetails = async () => {
-  if (!hasABillingPlan.value) {
+  // Only fetch Enterprise billing if using Enterprise system (has plan_name)
+  if (planName.value && !hasABillingPlan.value) {
     store.dispatch('accounts/subscription');
-    fetchLimits();
   }
 };
 
@@ -70,9 +67,19 @@ const onClickBillingPortal = () => {
   store.dispatch('accounts/checkout');
 };
 
-const onToggleChatWindow = () => {
-  if (window.$chatwoot) {
-    window.$chatwoot.toggle();
+const onManageSubscription = async () => {
+  isManagingSubscription.value = true;
+  try {
+    const response = await subscriptionAPI.createPortalSession();
+    if (response.data.portal_url) {
+      window.location.href = response.data.portal_url;
+    }
+  } catch (error) {
+    useAlert(
+      error.response?.data?.error || 'Failed to open subscription portal'
+    );
+  } finally {
+    isManagingSubscription.value = false;
   }
 };
 
@@ -96,7 +103,66 @@ onMounted(fetchAccountDetails);
     </template>
     <template #body>
       <section class="grid gap-4">
+        <!-- Upgrade Card for Basic Tier Users -->
         <BillingCard
+          v-if="isBasicTier"
+          :title="$t('SUBSCRIPTION.UPGRADE.TITLE')"
+          :description="$t('SUBSCRIPTION.UPGRADE.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4
+              sm
+              solid
+              blue
+              @click="$router.push(accountScopedRoute('home'))"
+            >
+              {{ $t('SUBSCRIPTION.UPGRADE.VIEW_PLANS') }}
+            </ButtonV4>
+          </template>
+          <div
+            class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 divide-x divide-n-weak"
+          >
+            <DetailItem
+              :label="$t('SUBSCRIPTION.BILLING.CURRENT_TIER')"
+              :value="currentTierDisplayName"
+            />
+          </div>
+        </BillingCard>
+
+        <!-- User Subscription Management -->
+        <BillingCard
+          v-if="!isBasicTier"
+          :title="$t('SUBSCRIPTION.BILLING.TITLE')"
+          :description="$t('SUBSCRIPTION.BILLING.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4
+              sm
+              solid
+              blue
+              :disabled="isManagingSubscription"
+              @click="onManageSubscription"
+            >
+              {{
+                isManagingSubscription
+                  ? $t('SUBSCRIPTION.BILLING.MANAGING')
+                  : $t('SUBSCRIPTION.BILLING.MANAGE_BUTTON')
+              }}
+            </ButtonV4>
+          </template>
+          <div
+            class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 divide-x divide-n-weak"
+          >
+            <DetailItem
+              :label="$t('SUBSCRIPTION.BILLING.CURRENT_TIER')"
+              :value="currentTierDisplayName"
+            />
+          </div>
+        </BillingCard>
+
+        <!-- Enterprise Billing (only for Chatwoot Cloud Enterprise customers) -->
+        <BillingCard
+          v-if="planName"
           :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
           :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
         >
@@ -125,56 +191,6 @@ onMounted(fetchAccountDetails);
             />
           </div>
         </BillingCard>
-        <BillingCard
-          v-if="captainEnabled"
-          :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
-          :description="$t('BILLING_SETTINGS.CAPTAIN.DESCRIPTION')"
-        >
-          <template #action>
-            <ButtonV4 sm faded slate disabled>
-              {{ $t('BILLING_SETTINGS.CAPTAIN.BUTTON_TXT') }}
-            </ButtonV4>
-          </template>
-          <div v-if="captainLimits && responseLimits" class="px-5">
-            <BillingMeter
-              :title="$t('BILLING_SETTINGS.CAPTAIN.RESPONSES')"
-              v-bind="responseLimits"
-            />
-          </div>
-          <div v-if="captainLimits && documentLimits" class="px-5">
-            <BillingMeter
-              :title="$t('BILLING_SETTINGS.CAPTAIN.DOCUMENTS')"
-              v-bind="documentLimits"
-            />
-          </div>
-        </BillingCard>
-        <BillingCard
-          v-else
-          :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
-          :description="$t('BILLING_SETTINGS.CAPTAIN.UPGRADE')"
-        >
-          <template #action>
-            <ButtonV4 sm solid slate @click="onClickBillingPortal">
-              {{ $t('CAPTAIN.PAYWALL.UPGRADE_NOW') }}
-            </ButtonV4>
-          </template>
-        </BillingCard>
-
-        <BillingHeader
-          class="px-1 mt-5"
-          :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
-          :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
-        >
-          <ButtonV4
-            sm
-            solid
-            slate
-            icon="i-lucide-life-buoy"
-            @open="onToggleChatWindow"
-          >
-            {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
-          </ButtonV4>
-        </BillingHeader>
       </section>
     </template>
   </SettingsLayout>

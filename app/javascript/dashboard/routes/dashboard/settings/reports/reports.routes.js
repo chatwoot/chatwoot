@@ -1,5 +1,5 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { requiresSubscriptionFeature } from '../../../../helper/subscriptionGuard';
 
 import ReportsWrapper from './components/ReportsWrapper.vue';
 import Index from './Index.vue';
@@ -25,8 +25,7 @@ import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
 
 const meta = {
-  featureFlag: FEATURE_FLAGS.REPORTS,
-  permissions: ['administrator', 'report_manage'],
+  permissions: ['administrator', 'agent', 'report_manage'],
 };
 
 const oldReportRoutes = [
@@ -61,7 +60,7 @@ const revisedReportRoutes = [
     path: 'agents_overview',
     name: 'agent_reports_index',
     meta: {
-      permissions: ['administrator', 'report_manage'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
     component: AgentReportsIndex,
   },
@@ -69,7 +68,7 @@ const revisedReportRoutes = [
     path: 'agents/:id',
     name: 'agent_reports_show',
     meta: {
-      permissions: ['administrator', 'report_manage'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
     component: AgentReportsShow,
   },
@@ -78,7 +77,7 @@ const revisedReportRoutes = [
     path: 'inboxes_overview',
     name: 'inbox_reports_index',
     meta: {
-      permissions: ['administrator', 'report_manage'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
     component: InboxReportsIndex,
   },
@@ -86,7 +85,7 @@ const revisedReportRoutes = [
     path: 'inboxes/:id',
     name: 'inbox_reports_show',
     meta: {
-      permissions: ['administrator', 'report_manage'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
     component: InboxReportsShow,
   },
@@ -94,7 +93,7 @@ const revisedReportRoutes = [
     path: 'teams_overview',
     name: 'team_reports_index',
     meta: {
-      permissions: ['administrator', 'report_manage'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
     component: TeamReportsIndex,
   },
@@ -102,7 +101,7 @@ const revisedReportRoutes = [
     path: 'teams/:id',
     name: 'team_reports_show',
     meta: {
-      permissions: ['administrator', 'report_manage'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
     component: TeamReportsShow,
   },
@@ -110,7 +109,7 @@ const revisedReportRoutes = [
     path: 'labels_overview',
     name: 'label_reports_index',
     meta: {
-      permissions: ['administrator', 'report_manage'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
     component: LabelReportsIndex,
   },
@@ -118,7 +117,7 @@ const revisedReportRoutes = [
     path: 'labels/:id',
     name: 'label_reports_show',
     meta: {
-      permissions: ['administrator', 'report_manage'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
     component: LabelReportsShow,
   },
@@ -129,6 +128,7 @@ export default {
     {
       path: frontendURL('accounts/:accountId/reports'),
       component: ReportsWrapper,
+      beforeEnter: requiresSubscriptionFeature('reports'),
       children: [
         {
           path: '',

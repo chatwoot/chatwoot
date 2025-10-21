@@ -319,6 +319,15 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+          resources :vapi_agents, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              get 'fetch_from_vapi/:vapi_agent_id', to: 'vapi_agents#fetch_from_vapi', as: :fetch_from_vapi
+              get 'import_from_vapi/:vapi_agent_id', to: 'vapi_agents#import_from_vapi', as: :import_from_vapi
+            end
+          end
+
+          post 'subscription/create_checkout_session', to: 'subscription#create_checkout_session'
+          post 'subscription/create_portal_session', to: 'subscription#create_portal_session'
         end
       end
       # end of account scoped api routes
@@ -522,6 +531,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+  post 'webhooks/vapi', to: 'webhooks/vapi#process_payload'
 
   namespace :twitter do
     resource :callback, only: [:show]

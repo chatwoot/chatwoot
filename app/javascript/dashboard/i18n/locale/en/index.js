@@ -33,7 +33,9 @@ import setNewPassword from './setNewPassword.json';
 import settings from './settings.json';
 import signup from './signup.json';
 import sla from './sla.json';
+import subscription from './subscription.json';
 import teamsSettings from './teamsSettings.json';
+import voiceAgents from './voiceAgents.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import contentTemplates from './contentTemplates.json';
 import mfa from './mfa.json';
@@ -74,7 +76,9 @@ export default {
   ...settings,
   ...signup,
   ...sla,
+  ...subscription,
   ...teamsSettings,
+  ...voiceAgents,
   ...whatsappTemplates,
   ...contentTemplates,
   ...mfa,

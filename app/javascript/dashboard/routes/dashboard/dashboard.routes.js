@@ -8,8 +8,10 @@ import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 import campaignsRoutes from './campaigns/campaigns.routes';
 import { routes as captainRoutes } from './captain/captain.routes';
+import voiceAgentsRoutes from './voiceAgents/voiceAgents.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
+import SubscriptionPaywallPage from './subscription/SubscriptionPaywallPage.vue';
 
 export default {
   routes: [
@@ -17,6 +19,14 @@ export default {
       path: frontendURL('accounts/:accountId'),
       component: AppContainer,
       children: [
+        {
+          path: frontendURL('accounts/:accountId/subscription-paywall'),
+          name: 'subscription_paywall',
+          component: SubscriptionPaywallPage,
+          meta: {
+            permissions: ['administrator', 'agent'],
+          },
+        },
         ...captainRoutes,
         ...inboxRoutes,
         ...conversation.routes,
@@ -26,6 +36,7 @@ export default {
         ...notificationRoutes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
+        ...voiceAgentsRoutes.routes,
       ],
     },
     {

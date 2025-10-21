@@ -358,6 +358,12 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'VoiceAgents',
+      label: t('SIDEBAR.VOICE_AGENTS'),
+      icon: 'i-lucide-phone-call',
+      to: accountScopedRoute('vapi_agents_index'),
+    },
+    {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',
