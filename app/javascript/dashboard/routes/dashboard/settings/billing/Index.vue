@@ -29,7 +29,7 @@ import {
 } from '@tanstack/vue-table';
 
 import { getPlanIcon } from './billing-icon-utils'
-import { calculatePackagePrice, durationMap } from './pricing-utils'
+import { packagePrice, durationMap } from './pricing-utils'
 import { useAccount } from 'dashboard/composables/useAccount';
 
 const { pageIndex } = defineProps({
@@ -52,6 +52,7 @@ const topupType = ref(null);
 
 const currentPackage = ref({});
 const plans = ref([]);
+const custom_plans = ref([]);
 const activeSubscription = computed(() => store.state.billing.billing.latestSubscription)
 const isSubscriptionActive = computed(() => activeSubscription.value ? activeSubscription.value.status === 'active' : undefined)
 const subscriptionHistories = ref([]);
@@ -102,8 +103,16 @@ onMounted(async () => {
   }
 
   try {
-    const response = await billingAPI.myPricingPlans();
+    const response = await billingAPI.pricingPlans();
     plans.value = response.data;
+    console.log('Data plans berhasil diambil:', plans.value);
+  } catch (error) {
+    console.error('Gagal mengambil data pricing:', error);
+  }
+
+  try {
+    const response = await billingAPI.customPlans();
+    custom_plans.value = response.data;
     console.log('Data plans berhasil diambil:', plans.value);
   } catch (error) {
     console.error('Gagal mengambil data pricing:', error);
@@ -199,11 +208,6 @@ const columns = [
     width: 100,
     cell: defaultSpanRender,
   }),
-  // columnHelper.accessor('transactionDate', {
-  //  header: () => renderTableHeader('BILLING.TABLE.HEADER.TRANSACTION_DATE'),
-  //  width: 150,
-  //  cell: defaultSpanRender,
-  // }),
   columnHelper.accessor('status', {
     header: () => renderTableHeader('BILLING.TABLE.HEADER.STATUS'),
     width: 100,
@@ -322,65 +326,10 @@ const menuTabs = computed(() => {
   return [
     { id: 'billing', name: t('BILLING.TAB_PAYMENT') },
     { id: 'history', name: t('BILLING.TAB_HISTORY_PAYMENT') },
+    { id: 'custom', name: t('BILLING.TAB_CUSTOM_PRICING')}
   ]
 });
 const selectedMenuTab = ref(menuTabs.value[0].id)
-
-// Pricing plans data
-const plansMock = [
-  {
-    id: 'pro',
-    title: 'Pro',
-    price: '2.895.000',
-    features: [
-      '1000 Monthly Active Users',
-      '2 Human Agents',
-      'Unlimited AI Agents',
-      'Unlimited Connected Platforms',
-      '5.000 AI Responses',
-      'Cekat.AI Advanced AI Models',
-    ],
-  },
-  {
-    id: 'business',
-    title: 'Business',
-    price: '7.495.000',
-    features: [
-      '5.000 Monthly Active Users',
-      '5 Human Agents',
-      'Unlimited AI Agents',
-      'Unlimited Connected Platforms',
-      '25.000 AI Responses',
-      'Cekat.AI Advanced AI Models',
-    ],
-  },
-  {
-    id: 'enterprise',
-    title: 'Enterprise',
-    price: '28.995.000',
-    features: [
-      '30.000 Monthly Active Users',
-      '10 Human Agents',
-      'Unlimited AI Agents',
-      'Unlimited Connected Platforms',
-      '150.000 AI Responses',
-      'Cekat.AI Advanced AI Models',
-    ],
-  },
-  {
-    id: 'unlimited',
-    title: 'Unlimited',
-    price: '78.995.000',
-    features: [
-      'Unlimited Monthly Active Users',
-      'Unlimited Human Agents',
-      'Unlimited AI Agents',
-      'Unlimited Connected Platforms',
-      '500.000 AI Responses',
-      'Cekat.AI Advanced AI Models + Exclusive AI Models',
-    ],
-  },
-];
 // END TAB PRICING & PACKAGES
 
 const selectedTabDisplay = computed(() => {
@@ -639,6 +588,7 @@ function scrollToPackage() {
         :class="[{
           'border-[#52964D]': selectedMenuTab === 'billing',
           'border-[#D78D30]': selectedMenuTab === 'history',
+          'border-[#D78D30]': selectedMenuTab === 'custom',
         }]">
         <div class="flex flex-row justify-center">
           <button v-for="tab in menuTabs" :key="tab.id"
@@ -647,6 +597,7 @@ function scrollToPackage() {
               '!font-bold text-[#FDFDFD]': selectedMenuTab === tab.id,
               '!bg-[#52964D]': selectedMenuTab === tab.id && selectedMenuTab == 'billing',
               '!bg-[#D78D30]': selectedMenuTab === tab.id && selectedMenuTab == 'history',
+              '!bg-[#D78D30]': selectedMenuTab === tab.id && selectedMenuTab == 'custom',
              }]" @click="selectedMenuTab = tab.id">
             {{ tab.name }}
           </button>
@@ -681,7 +632,7 @@ function scrollToPackage() {
 
               <div class="plan-price text-[#475569] dark:text-[#E0E1E6]">
                 <div class="price">
-                  {{ formatPrice(calculatePackagePrice(plan.monthly_price, plan.name, selectedTab)) }}
+                  {{ formatPrice(packagePrice(plan, selectedTab)) }}
                 </div>
                 <div class="price-period">
                   IDR /{{ durationMap[selectedTab] == 1 ? t('BILLING.TAB_DISPLAY.qty_month') : `${durationMap[selectedTab]} ${t('BILLING.TAB_DISPLAY.qty_month')}` }}
@@ -719,11 +670,55 @@ function scrollToPackage() {
                   <!-- <chatwoot-icon name="currency-dollar" size="medium" class="mb-2 text-slate-400"></chatwoot-icon> -->
                   <p>{{ $t('BILLING.NO_TRANSACTIONS') }}</p>
                 </div>
-
-                <!-- <div v-if="metrics?.totalTransactionCount" class="table-pagination">
-                  <Pagination class="mt-2" :table="table" />
-                </div> -->
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Pricing Section -->
+        <div v-else-if="selectedMenuTab === 'custom'" class="pricing-container">
+          <div
+            v-if="custom_plans.length === 0"
+            class="text-center py-10"
+          >
+            <p>{{ $t('BILLING.NO_CUSTOM_PLANS') }}</p>
+          </div>
+          <div v-else class="custom-plans mt-4">
+            <div v-for="plan in custom_plans" :key="plan.id" class="pricing-card bg-[#fff] dark:bg-[#23252d]">
+              <div class="plan-header flex flex-row">
+                <div class="flex-1">
+                  <!-- Judul paket custom -->
+                  <h3 class="plan-title text-[#475569] dark:text-[#E0E1E6] min-h-[100px]">{{ plan.name }}</h3>
+                </div>
+                <div class="h-16 w-16 rounded-lg bg-[#D9EFC4] flex justify-center items-center mt-[-44px] p-1">
+                  <!-- Gunakan ikon default atau custom -->
+                  <img :src="getPlanIcon('Custom')">
+                </div>
+              </div>
+
+              <div class="plan-price text-[#475569] dark:text-[#E0E1E6]">
+                <div class="price">
+                  {{ formatPrice(Math.round(plan.annual_price)) }}
+                </div>
+                <div class="price-period">
+                  IDR
+                </div>
+                <!-- <div class="package-type">Paket Bulanan</div> -->
+              </div>
+
+              <div class="plan-features text-[#475569] dark:text-[#E0E1E6]">
+                <h4 class="text-[#475569] dark:text-[#E0E1E6]">{{ $t(`BILLING.FEATURE.custom`) }}</h4>
+                <ul class="feature-list">
+                  <li v-for="(feature, index) in plan.features" :key="index" class="feature-item">
+                    <span class="icon-check" />
+                    <span class="feature-text text-[#475569] dark:text-[#E0E1E6]">{{ feature }}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <button class="button-primary buy-button" @click="openPaymentPopup(plan)">
+                {{ t('BILLING.BTN_BUY') }}
+              </button>
             </div>
           </div>
         </div>
@@ -1169,6 +1164,12 @@ export default {
 .pricing-plans {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.custom-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
   gap: 1.5rem;
 }
 

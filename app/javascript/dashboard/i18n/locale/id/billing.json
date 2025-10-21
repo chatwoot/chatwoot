@@ -2,6 +2,7 @@
   "BILLING": {
     "SUBSCRIPTION_EXPIRED": "Subscription Anda telah berakhir",
     "NO_TRANSACTIONS": "Tidak ada transaksi ditemukan",
+    "NO_CUSTOM_PLANS": "Belum tersedia paket pilihan untuk anda",
     "PAY": "Bayar",
     "TABLE": {
       "HEADER": {
@@ -25,6 +26,7 @@
     },
     "TAB_PAYMENT": "PAKET PEMBELIAN",
     "TAB_HISTORY_PAYMENT": "RIWAYAT PEMBELIAN",
+    "TAB_CUSTOM_PRICING": "PAKET UNTUK ANDA",
     "MONTHLY": "Bulanan",
     "3_MONTHS": "3 Bulan",
     "6_MONTHS": "Setengah Tahun",

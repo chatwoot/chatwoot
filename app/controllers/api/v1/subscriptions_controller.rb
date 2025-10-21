@@ -229,11 +229,13 @@ class Api::V1::SubscriptionsController < Api::BaseController
 
   def plans
     standard_plans = SubscriptionPlan.where(is_custom: false, is_active: true).where.not(name: 'Free Trial')
-    custom_plans = SubscriptionPlan.where(is_custom: true, owner_account_id: @account.id)
-    @plans = standard_plans
-             .or(custom_plans)
-             .order(monthly_price: :asc)
+    @plans = standard_plans.order(monthly_price: :asc)
     render json: @plans
+  end
+
+  def custom_plans
+    @custom_plans = SubscriptionPlan.where(is_custom: true, owner_account_id: @account.id)
+    render json: @custom_plans
   end
 
   def active

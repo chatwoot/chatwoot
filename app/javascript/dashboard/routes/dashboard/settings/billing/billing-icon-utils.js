@@ -15,8 +15,7 @@ export function getPlanIcon(planName) {
         return package3
     } else if (planName === 'ENTERPRISE') {
         return package4
-    }
-    else if (planName === 'PREMIUM') {
+    } else if (planName === 'PREMIUM') {
         return package5
     } else if (planName === 'PERTALITE') {
         return package3
@@ -24,6 +23,8 @@ export function getPlanIcon(planName) {
         return package6
     } else if (planName === 'PERTAMAX TURBO') {
         return package2
+    } else if (planName === 'CUSTOM') {
+        return package4
     }
     return undefined
 }

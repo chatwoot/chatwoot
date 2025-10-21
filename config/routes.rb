@@ -94,6 +94,10 @@ Rails.application.routes.draw do
             get :plans
           end
 
+          collection do
+            get :custom_plans
+          end
+
           member do
             put :cancel
           end
