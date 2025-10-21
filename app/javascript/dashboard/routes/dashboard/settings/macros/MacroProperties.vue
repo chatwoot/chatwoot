@@ -1,4 +1,5 @@
 <script>
+import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
@@ -15,8 +16,28 @@ export default {
       type: String,
       default: 'global',
     },
+    sourceChannels: {
+      type: Array,
+      default: () => [],
+    },
   },
-  emits: ['update:name', 'update:visibility', 'submit'],
+  emits: [
+    'update:name',
+    'update:visibility',
+    'update:sourceChannels',
+    'submit',
+  ],
+  computed: {
+    ...mapGetters({
+      inboxes: 'inboxes/getInboxes',
+    }),
+    inboxOptions() {
+      return this.inboxes.map(inbox => ({
+        id: inbox.channel_id,
+        name: inbox.name,
+      }));
+    },
+  },
   methods: {
     isActive(key) {
       return this.macroVisibility === key
@@ -28,6 +49,9 @@ export default {
     },
     onUpdateVisibility(value) {
       this.$emit('update:visibility', value);
+    },
+    onUpdateSourceChannels(value) {
+      this.$emit('update:sourceChannels', value);
     },
   },
 };
@@ -101,6 +125,29 @@ export default {
           {{ $t('MACROS.ORDER_INFO') }}
         </p>
       </div>
+    </div>
+    <div class="mt-4">
+      <p class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12">
+        {{ $t('MACROS.EDITOR.SOURCE_CHANNELS.LABEL') }}
+      </p>
+      <multiselect
+        :model-value="sourceChannels"
+        :options="inboxOptions"
+        track-by="id"
+        label="name"
+        multiple
+        :close-on-select="false"
+        :clear-on-select="false"
+        :hide-selected="false"
+        :placeholder="$t('MACROS.EDITOR.SOURCE_CHANNELS.PLACEHOLDER')"
+        selected-label=""
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+        @update:model-value="onUpdateSourceChannels"
+      />
+      <p class="mt-1 text-xs text-n-slate-11">
+        {{ $t('MACROS.EDITOR.SOURCE_CHANNELS.DESCRIPTION') }}
+      </p>
     </div>
     <div class="mt-auto w-full">
       <NextButton

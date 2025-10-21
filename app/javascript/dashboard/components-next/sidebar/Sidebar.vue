@@ -85,6 +85,7 @@ onMounted(async () => {
     store.dispatch('attributes/get'),
     store.dispatch('customViews/get', 'conversation'),
     store.dispatch('customViews/get', 'contact'),
+    store.dispatch('macros/get'),
     // Load all conversations for sidebar counts
     store.dispatch('fetchAllConversationsForCounts'),
   ]);

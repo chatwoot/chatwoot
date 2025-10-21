@@ -68,6 +68,11 @@
           "LABEL": "Private",
           "DESCRIPTION": "This macro will be private to you and not be available to others."
         }
+      },
+      "SOURCE_CHANNELS": {
+        "LABEL": "Source Channels",
+        "PLACEHOLDER": "Select channels where this macro will be available",
+        "DESCRIPTION": "Leave empty to make this macro available across all channels, or select specific channels to restrict availability."
       }
     },
     "EXECUTE": {

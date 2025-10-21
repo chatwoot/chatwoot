@@ -3,10 +3,11 @@ import { useAlert } from 'dashboard/composables';
 import MacrosTableRow from './MacrosTableRow.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ChatwootExtraAPI from 'dashboard/api/chatwootExtra';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -20,13 +21,23 @@ const uiFlags = computed(() => getters['macros/getUIFlags'].value);
 
 const deleteMessage = computed(() => ` ${selectedMacro.value.name}?`);
 
-onMounted(() => {
-  store.dispatch('macros/get');
-});
-
 const deleteMacro = async id => {
   try {
+    // Get UUID from cache instead of making API call
+    const uuid = getters['macros/getMacroExtraUUID'].value(id);
+
+    // Delete from chatwoot-extra using cached UUID
+    if (uuid) {
+      try {
+        await ChatwootExtraAPI.deleteMacro(uuid);
+      } catch (extraError) {
+        // Ignore error - macro might not have been synced
+      }
+    }
+
+    // Delete from main Chatwoot
     await store.dispatch('macros/delete', id);
+
     useAlert(t('MACROS.DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(t('MACROS.DELETE.API.ERROR_MESSAGE'));
