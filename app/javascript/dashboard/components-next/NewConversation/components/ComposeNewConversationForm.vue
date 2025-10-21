@@ -216,6 +216,7 @@ const removeTargetInbox = value => {
 const clearSelectedContact = () => {
   emit('clearSelectedContact');
   state.attachedFiles = [];
+  state.message = '';
 };
 
 const onClickInsertEmoji = emoji => {
