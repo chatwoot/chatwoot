@@ -8,6 +8,7 @@ import { MACRO_ACTION_TYPES } from './constants';
 import { useAlert } from 'dashboard/composables';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import { useMacros } from 'dashboard/composables/useMacros';
+import ChatwootExtraAPI from 'dashboard/api/chatwootExtra';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -72,9 +73,28 @@ const formatMacro = macroData => {
 };
 
 const manifestMacro = async () => {
+  // Ensure inboxes are loaded first
+  await store.dispatch('inboxes/get');
   await store.dispatch('macros/getSingleMacro', macroId.value);
+
   const singleMacro = store.getters['macros/getMacro'](macroId.value);
-  macro.value = formatMacro(singleMacro);
+  const formattedMacro = formatMacro(singleMacro);
+
+  // Load source channels from Vuex cache
+  const sourceChannelIds = getters['macros/getMacroSourceChannels'].value(
+    macroId.value
+  );
+  const inboxes = getters['inboxes/getInboxes'].value;
+
+  formattedMacro.sourceChannels = sourceChannelIds.map(channelId => {
+    const inbox = inboxes.find(i => i.channel_id === channelId);
+    return {
+      id: channelId,
+      name: inbox?.name || `Channel ${channelId}`,
+    };
+  });
+
+  macro.value = formattedMacro;
 };
 
 const fetchMacro = () => {
@@ -117,8 +137,52 @@ const saveMacro = async macroData => {
         ? t('MACROS.EDIT.API.SUCCESS_MESSAGE')
         : t('MACROS.ADD.API.SUCCESS_MESSAGE');
     let serializedMacro = JSON.parse(JSON.stringify(macroData));
+    const sourceChannels = serializedMacro.sourceChannels || [];
+    delete serializedMacro.sourceChannels;
     serializedMacro.actions = actionQueryGenerator(serializedMacro.actions);
-    await store.dispatch(action, serializedMacro);
+
+    const result = await store.dispatch(action, serializedMacro);
+    const currentUser = getters.getCurrentUser.value;
+    const createdMacroId = result?.id || macroId.value;
+    const sourceChannelIds = sourceChannels.map(channel => channel.id);
+
+    // ALWAYS sync with chatwoot-extra (even with empty sources)
+    try {
+      let extraResponse;
+      if (mode.value === 'EDIT') {
+        // Use update endpoint which handles create-or-update
+        extraResponse = await ChatwootExtraAPI.updateMacroSources({
+          chatwootUserId: currentUser.id,
+          chatwootMacrosId: createdMacroId,
+          sourceChannelIds,
+        });
+      } else {
+        // Create new macro in extra
+        extraResponse = await ChatwootExtraAPI.createMacro({
+          chatwootUserId: currentUser.id,
+          chatwootMacrosId: createdMacroId,
+          sourceChannelIds:
+            sourceChannelIds.length > 0 ? sourceChannelIds : undefined,
+        });
+      }
+
+      // Update Vuex cache with sources
+      store.commit('macros/UPDATE_MACRO_SOURCES', {
+        macroId: createdMacroId,
+        sourceChannelIds,
+      });
+
+      // Update Vuex cache with UUID from response
+      if (extraResponse?.data?.id) {
+        store.commit('macros/UPDATE_MACRO_EXTRA_UUID', {
+          macroId: createdMacroId,
+          uuid: extraResponse.data.id,
+        });
+      }
+    } catch (extraError) {
+      // Ignore extra sync error
+    }
+
     useAlert(successMessage);
     router.push({ name: 'macros_wrapper' });
   } catch (error) {

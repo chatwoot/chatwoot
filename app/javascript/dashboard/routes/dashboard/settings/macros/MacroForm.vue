@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       macro: this.macroData,
+      sourceChannels: this.macroData.sourceChannels || [],
       errors: {},
     };
   },
@@ -44,10 +45,12 @@ export default {
       immediate: true,
     },
     macroData: {
-      handler() {
-        this.macro = this.macroData;
+      handler(newData) {
+        this.macro = newData;
+        this.sourceChannels = newData?.sourceChannels || [];
       },
       immediate: true,
+      deep: true,
     },
   },
   validations: {
@@ -72,6 +75,9 @@ export default {
     updateVisibility(value) {
       this.macro.visibility = value;
     },
+    updateSourceChannels(value) {
+      this.sourceChannels = value;
+    },
     appendNode() {
       this.macro.actions.push({
         action_name: 'assign_team',
@@ -91,7 +97,10 @@ export default {
       this.v$.$touch();
       if (this.v$.$invalid) return;
 
-      this.$emit('submit', this.macro);
+      this.$emit('submit', {
+        ...this.macro,
+        sourceChannels: this.sourceChannels,
+      });
     },
     resetNode(index) {
       // remove that index specifically
@@ -125,8 +134,10 @@ export default {
       <MacroProperties
         :macro-name="macro.name"
         :macro-visibility="macro.visibility"
+        :source-channels="sourceChannels"
         @update:name="updateName"
         @update:visibility="updateVisibility"
+        @update:source-channels="updateSourceChannels"
         @submit="submit"
       />
     </div>

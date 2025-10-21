@@ -53,7 +53,9 @@
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         helpUrls: <%= feature_help_urls.to_json.html_safe %>,
         selectedLocale: '<%= I18n.locale %>',
-        todoAppUrl: '<%= ENV.fetch('TODO_APP_URL', 'http://localhost:3002') %>'
+        todoAppUrl: '<%= ENV.fetch('TODO_APP_URL', 'http://localhost:3002') %>',
+        chatwootExtraApiUrl: '<%= ENV.fetch('CHATWOOT_EXTRA_API_URL', 'http://localhost:3001') %>',
+        chatwootExtraApiKey: '<%= ENV.fetch('CHATWOOT_EXTRA_API_KEY', '') %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {
