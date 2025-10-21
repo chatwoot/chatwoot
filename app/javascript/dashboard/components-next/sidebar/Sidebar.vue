@@ -148,6 +148,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('home'),
         },
         {
+          name: 'Board',
+          label: 'Board',
+          activeOn: ['conversation_through_board'],
+          to: accountScopedRoute('conversation_board'),
+        },
+        {
           name: 'Mentions',
           label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
           activeOn: ['conversation_through_mentions'],

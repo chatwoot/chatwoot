@@ -428,5 +428,16 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "PIPELINE_STATUS": {
+    "DELETE_CONFIRMATION": {
+      "TITLE": "Delete status column",
+      "MESSAGE": "Are you sure you want to delete this status column? This action cannot be undone.",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel"
+    },
+    "DELETE_WITH_CONVERSATIONS": "Please change the status of assigned conversations before deleting this column.",
+    "DELETE_SUCCESS": "Status column deleted successfully",
+    "DELETE_FAILED": "Couldn't delete status column. Please try again"
   }
 }

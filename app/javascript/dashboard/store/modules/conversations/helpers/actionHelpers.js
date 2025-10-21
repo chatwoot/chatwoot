@@ -30,6 +30,11 @@ export const isOnUnattendedView = ({ route: { name: routeName } }) => {
   return UNATTENDED_ROUTES.includes(routeName);
 };
 
+export const isOnBoardView = ({ route: { name: routeName } }) => {
+  const BOARD_ROUTES = ['conversation_board', 'conversation_through_board'];
+  return BOARD_ROUTES.includes(routeName);
+};
+
 export const isOnFoldersView = ({ route: { name: routeName } }) => {
   const FOLDER_ROUTES = [
     'folder_conversations',

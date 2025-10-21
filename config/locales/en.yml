@@ -447,3 +447,9 @@ en:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  pipeline_status:
+    default_statuses:
+      new: new
+      contacted: contacted
+      proposal_sent: proposal sent
+      closed: closed

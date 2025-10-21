@@ -32,6 +32,7 @@ import ConversationBulkActions from './widgets/conversation/conversationBulkActi
 import IntersectionObserver from './IntersectionObserver.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Board from '../routes/dashboard/conversation/StatusBoard/Board.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -78,6 +79,7 @@ const props = defineProps({
   foldersId: { type: [String, Number], default: 0 },
   showConversationList: { default: true, type: Boolean },
   isOnExpandedLayout: { default: false, type: Boolean },
+  isOnBoard: { default: false, type: Boolean },
 });
 
 const emit = defineEmits(['conversationLoad']);
@@ -289,6 +291,9 @@ const activeTeam = computed(() => {
 });
 
 const pageTitle = computed(() => {
+  if (props.isOnBoard) {
+    return t('CHAT_LIST.BOARD');
+  }
   if (hasAppliedFilters.value) {
     return t('CHAT_LIST.TAB_HEADING');
   }
@@ -857,6 +862,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :is-on-expanded-layout="isOnExpandedLayout"
       :conversation-stats="conversationStats"
       :is-list-loading="chatListLoading && !conversationList.length"
+      :is-on-board="isOnBoard"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
@@ -914,6 +920,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       @assign-team="onAssignTeamsForBulk"
     />
     <div
+      v-if="!isOnBoard"
       ref="conversationListRef"
       class="flex-1 overflow-hidden conversations-list hover:overflow-y-auto"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
@@ -971,6 +978,10 @@ watch(conversationFilters, (newVal, oldVal) => {
         </template>
       </DynamicScroller>
     </div>
+    <div v-else class="flex-1 p-4 overflow-auto">
+      <Board v-model="conversationList" />
+    </div>
+
     <Dialog
       ref="deleteConversationDialogRef"
       type="alert"

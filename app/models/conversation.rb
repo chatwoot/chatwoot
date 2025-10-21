@@ -28,6 +28,7 @@
 #  contact_inbox_id       :bigint
 #  display_id             :integer          not null
 #  inbox_id               :integer          not null
+#  pipeline_status_id     :bigint
 #  sla_policy_id          :bigint
 #  team_id                :bigint
 #
@@ -44,12 +45,17 @@
 #  index_conversations_on_id_and_account_id           (account_id,id)
 #  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
+#  index_conversations_on_pipeline_status_id          (pipeline_status_id)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
 #  index_conversations_on_uuid                        (uuid) UNIQUE
 #  index_conversations_on_waiting_since               (waiting_since)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (pipeline_status_id => pipeline_statuses.id)
 #
 
 class Conversation < ApplicationRecord
@@ -106,6 +112,7 @@ class Conversation < ApplicationRecord
   belongs_to :contact_inbox
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
+  belongs_to :pipeline_status, optional: true
 
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
@@ -118,6 +125,7 @@ class Conversation < ApplicationRecord
   before_save :ensure_snooze_until_reset
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  before_create :assign_pipeline_status
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
@@ -331,6 +339,16 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def assign_pipeline_status
+    first_status = account.pipeline_statuses.order(:created_at).first
+    self.pipeline_status = first_status if first_status.present?
+  end
+
+  def assign_pipeline_status!
+    first_status = account.pipeline_statuses.order(:created_at).first
+    update!(pipeline_status: first_status) if first_status.present?
   end
 
   # creating db triggers
