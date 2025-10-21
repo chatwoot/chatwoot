@@ -5,9 +5,13 @@ import MetricCard from '../overview/MetricCard.vue';
 import BaseHeatmap from './BaseHeatmap.vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
+import addMonths from 'date-fns/addMonths';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import endOfDay from 'date-fns/endOfDay';
+import endOfMonth from 'date-fns/endOfMonth';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
+import startOfMonth from 'date-fns/startOfMonth';
 import subDays from 'date-fns/subDays';
 import format from 'date-fns/format';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -57,27 +61,88 @@ const uiFlags = useMapGetter('getOverviewUIFlags');
 const heatmapData = useMapGetter(props.storeGetter);
 const inboxes = useMapGetter('inboxes/getInboxes');
 
+const DATE_FILTER_TYPES = {
+  DAY: 'day',
+  MONTH: 'month',
+};
+
 const menuItems = [
   {
     label: t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
-    value: 6,
+    value: 'last_7_days',
+    type: DATE_FILTER_TYPES.DAY,
+    daysBefore: 6,
   },
   {
     label: t('REPORT.DATE_RANGE_OPTIONS.LAST_14_DAYS'),
-    value: 13,
+    value: 'last_14_days',
+    type: DATE_FILTER_TYPES.DAY,
+    daysBefore: 13,
   },
   {
     label: t('REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS'),
-    value: 29,
+    value: 'last_30_days',
+    type: DATE_FILTER_TYPES.DAY,
+    daysBefore: 29,
+  },
+  {
+    label: t('REPORT.DATE_RANGE_OPTIONS.THIS_MONTH'),
+    value: 'this_month',
+    type: DATE_FILTER_TYPES.MONTH,
+    monthOffset: 0,
+  },
+  {
+    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_MONTH'),
+    value: 'last_month',
+    type: DATE_FILTER_TYPES.MONTH,
+    monthOffset: -1,
   },
 ];
 
-const selectedDays = ref(6);
+const selectedDateRangeValue = ref(menuItems[0].value);
+const monthOffset = ref(0);
 const selectedInbox = ref(null);
 
-const selectedDayFilter = computed(() =>
-  menuItems.find(menuItem => menuItem.value === selectedDays.value)
+const selectedDateFilter = computed(
+  () =>
+    menuItems.find(
+      menuItem => menuItem.value === selectedDateRangeValue.value
+    ) || menuItems[0]
 );
+
+const selectedRange = computed(() => {
+  const filter = selectedDateFilter.value;
+  if (!filter) {
+    return null;
+  }
+
+  if (filter.type === DATE_FILTER_TYPES.MONTH) {
+    const now = new Date();
+    const baseMonthStart = startOfMonth(addMonths(now, monthOffset.value));
+    const from = startOfDay(baseMonthStart);
+    const isCurrentMonth =
+      filter.value === 'this_month' && monthOffset.value === 0;
+    const to = isCurrentMonth
+      ? endOfDay(now)
+      : endOfDay(endOfMonth(baseMonthStart));
+    return { from, to };
+  }
+
+  const to = endOfDay(new Date());
+  const from = startOfDay(subDays(to, Number(filter.daysBefore)));
+  return { from, to };
+});
+
+const numberOfRows = computed(() => {
+  if (!selectedRange.value) {
+    return 0;
+  }
+  const dateDifference = differenceInCalendarDays(
+    selectedRange.value.to,
+    selectedRange.value.from
+  );
+  return dateDifference + 1;
+});
 
 const inboxMenuItems = computed(() => {
   return [
@@ -106,12 +171,17 @@ const selectedInboxFilter = computed(() => {
 const isLoading = computed(() => uiFlags.value[props.uiFlagKey]);
 
 const downloadHeatmapData = () => {
-  const to = endOfDay(new Date());
+  if (!selectedRange.value) {
+    return;
+  }
+
+  const { from, to } = selectedRange.value;
 
   // If no inbox is selected and download action exists, use backend endpoint
   if (!selectedInbox.value && props.downloadAction) {
+    const daysBefore = differenceInCalendarDays(endOfDay(to), startOfDay(from));
     store.dispatch(props.downloadAction, {
-      daysBefore: selectedDays.value,
+      daysBefore,
       to: getUnixTime(to),
     });
     return;
@@ -158,8 +228,11 @@ const fetchHeatmapData = () => {
     return;
   }
 
-  let to = endOfDay(new Date());
-  let from = startOfDay(subDays(to, Number(selectedDays.value)));
+  if (!selectedRange.value) {
+    return;
+  }
+
+  const { from, to } = selectedRange.value;
 
   const params = {
     metric: props.metric,
@@ -180,7 +253,10 @@ const fetchHeatmapData = () => {
 
 const handleAction = ({ value }) => {
   toggleDropdown(false);
-  selectedDays.value = value;
+  selectedDateRangeValue.value = value;
+  const filter = menuItems.find(menuItem => menuItem.value === value);
+  monthOffset.value =
+    filter?.type === DATE_FILTER_TYPES.MONTH ? filter.monthOffset || 0 : 0;
   fetchHeatmapData();
 };
 
@@ -213,7 +289,7 @@ onMounted(() => {
             sm
             slate
             faded
-            :label="selectedDayFilter.label"
+            :label="selectedDateFilter.label"
             class="rounded-md group-hover:bg-n-alpha-2"
             @click="toggleDropdown()"
           />
@@ -256,7 +332,7 @@ onMounted(() => {
       </template>
       <BaseHeatmap
         :heatmap-data="heatmapData"
-        :number-of-rows="selectedDays + 1"
+        :number-of-rows="numberOfRows"
         :is-loading="isLoading"
         :color-scheme="colorScheme"
       />
