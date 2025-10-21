@@ -11,6 +11,7 @@ describe Email::SendOnEmailService do
   describe '#perform' do
     let(:mailer_context) { instance_double(ConversationReplyMailer) }
     let(:delivery) { instance_double(ActionMailer::MessageDelivery) }
+    let(:email_message) { instance_double(Mail::Message) }
 
     before do
       allow(ConversationReplyMailer).to receive(:with).with(account: message.account).and_return(mailer_context)
@@ -19,7 +20,8 @@ describe Email::SendOnEmailService do
     context 'when message is email notifiable' do
       before do
         allow(mailer_context).to receive(:email_reply).with(message).and_return(delivery)
-        allow(delivery).to receive(:deliver_now)
+        allow(delivery).to receive(:deliver_now).and_return(email_message)
+        allow(email_message).to receive(:message_id).and_return("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
       end
 
       it 'sends email via ConversationReplyMailer' do
@@ -28,6 +30,12 @@ describe Email::SendOnEmailService do
         expect(ConversationReplyMailer).to have_received(:with).with(account: message.account)
         expect(mailer_context).to have_received(:email_reply).with(message)
         expect(delivery).to have_received(:deliver_now)
+      end
+
+      it 'updates message source id on success' do
+        service.perform
+
+        expect(message.reload.source_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
       end
     end
 
@@ -56,7 +64,6 @@ describe Email::SendOnEmailService do
         allow(mailer_context).to receive(:email_reply).with(message).and_return(delivery)
         allow(delivery).to receive(:deliver_now).and_raise(error)
         allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
-        allow(Messages::StatusUpdateService).to receive(:new).and_return(status_service)
       end
 
       it 'captures the exception' do
@@ -66,22 +73,11 @@ describe Email::SendOnEmailService do
       end
 
       it 'updates message status to failed' do
-        expect(Messages::StatusUpdateService).to receive(:new).with(message, 'failed', error_message)
-
         service.perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq(error_message)
       end
-    end
-  end
-
-  describe '#channel_class' do
-    it 'returns Channel::Email' do
-      expect(service.send(:channel_class)).to eq(Channel::Email)
-    end
-  end
-
-  describe 'inheritance' do
-    it 'inherits from Base::SendOnChannelService' do
-      expect(described_class.superclass).to eq(Base::SendOnChannelService)
     end
   end
 end
