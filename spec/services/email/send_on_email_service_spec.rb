@@ -21,7 +21,10 @@ describe Email::SendOnEmailService do
       before do
         allow(mailer_context).to receive(:email_reply).with(message).and_return(delivery)
         allow(delivery).to receive(:deliver_now).and_return(email_message)
-        allow(email_message).to receive(:message_id).and_return("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
+        allow(email_message).to receive(:message_id).and_return(
+          "conversation/#{conversation.uuid}/messages/" \
+          "#{message.id}@#{conversation.account.domain}"
+        )
       end
 
       it 'sends email via ConversationReplyMailer' do
