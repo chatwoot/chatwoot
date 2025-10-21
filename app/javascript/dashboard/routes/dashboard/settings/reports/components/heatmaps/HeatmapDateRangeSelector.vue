@@ -18,7 +18,7 @@ const fromModel = defineModel('from', { type: Date, default: null });
 const toModel = defineModel('to', { type: Date, default: null });
 const daysNumModel = defineModel('daysNum', { type: Number, default: null });
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const DATE_FILTER_TYPES = {
   DAY: 'day',
@@ -26,8 +26,6 @@ const DATE_FILTER_TYPES = {
 };
 
 const DATE_FILTER_ACTION = 'select_date_range';
-
-const selectedDateRangeValue = ref('');
 
 const dayMenuItemConfigs = computed(() => [
   {
@@ -53,22 +51,37 @@ const dayMenuItemConfigs = computed(() => [
   },
 ]);
 
-const monthMenuItemConfigs = computed(() => [
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.THIS_MONTH'),
-    value: 'this_month',
+const resolvedLocale = computed(
+  () =>
+    locale.value ||
+    (typeof navigator !== 'undefined' ? navigator.language : 'en')
+);
+
+const monthFormatter = computed(
+  () =>
+    new Intl.DateTimeFormat(resolvedLocale.value, {
+      month: 'long',
+      year: 'numeric',
+    })
+);
+
+const monthMenuItemConfigs = computed(() => {
+  const now = new Date();
+  const offsets = [0, -1, -2];
+
+  return offsets.map(offset => ({
+    label:
+      offset === 0
+        ? t('REPORT.DATE_RANGE_OPTIONS.THIS_MONTH')
+        : monthFormatter.value.format(addMonths(now, offset)),
+    value: offset === 0 ? 'this_month' : `month_${offset}`,
     action: DATE_FILTER_ACTION,
     type: DATE_FILTER_TYPES.MONTH,
-    monthOffset: 0,
-  },
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_MONTH'),
-    value: 'last_month',
-    action: DATE_FILTER_ACTION,
-    type: DATE_FILTER_TYPES.MONTH,
-    monthOffset: -1,
-  },
-]);
+    monthOffset: offset,
+  }));
+});
+
+const selectedDateRangeValue = ref('');
 
 const [showDropdown, toggleDropdown] = useToggle();
 const monthOffset = ref(0);
@@ -174,25 +187,6 @@ watch(
 </script>
 
 <template>
-  <div
-    v-if="selectedConfig.type === DATE_FILTER_TYPES.MONTH"
-    class="flex gap-0.5"
-  >
-    <Button
-      sm
-      slate
-      faded
-      icon="i-lucide-chevron-left"
-      @click="monthOffset.value -= 1"
-    />
-    <Button
-      sm
-      slate
-      faded
-      icon="i-lucide-chevron-right"
-      @click="monthOffset.value += 1"
-    />
-  </div>
   <div
     v-on-clickaway="() => toggleDropdown(false)"
     class="relative flex items-center group"
