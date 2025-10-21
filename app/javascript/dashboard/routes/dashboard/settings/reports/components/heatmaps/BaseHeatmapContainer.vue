@@ -264,10 +264,11 @@ onMounted(() => {
           />
         </div>
         <Button
+          v-tooltip="t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.DOWNLOAD_REPORT')"
           sm
           slate
           faded
-          :label="t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.DOWNLOAD_REPORT')"
+          icon="i-lucide-download"
           class="rounded-md group-hover:bg-n-alpha-2"
           @click="downloadHeatmapData"
         />
