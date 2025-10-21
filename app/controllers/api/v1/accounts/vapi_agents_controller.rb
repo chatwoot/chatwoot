@@ -64,7 +64,7 @@ class Api::V1::Accounts::VapiAgentsController < Api::V1::Accounts::BaseControlle
     Rails.logger.info "Vapi Response: #{vapi_data.inspect}"
     Rails.logger.info '=' * 80
 
-    # Check if agent already exists
+    # Check if agent already exists in this account
     existing_agent = current_account.vapi_agents.find_by(vapi_agent_id: vapi_agent_id)
     if existing_agent.present?
       return render json: {

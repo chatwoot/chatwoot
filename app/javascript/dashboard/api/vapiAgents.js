@@ -1,3 +1,4 @@
+/* global axios */
 import ApiClient from './ApiClient';
 
 class VapiAgentsAPI extends ApiClient {
@@ -6,12 +7,15 @@ class VapiAgentsAPI extends ApiClient {
   }
 
   fetchFromVapi(vapiAgentId, inboxId) {
-    return this.get(`fetch_from_vapi/${vapiAgentId}?inbox_id=${inboxId}`);
+    return axios.get(
+      `${this.url}/fetch_from_vapi/${vapiAgentId}?inbox_id=${inboxId}`
+    );
   }
 
   importFromVapi(vapiAgentId, inboxId) {
-    const url = `import_from_vapi/${vapiAgentId}?inbox_id=${inboxId}`;
-    return this.get(url);
+    return axios.get(
+      `${this.url}/import_from_vapi/${vapiAgentId}?inbox_id=${inboxId}`
+    );
   }
 }
 

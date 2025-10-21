@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_13_160049) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_21_134900) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1233,7 +1233,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_13_160049) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_vapi_agents_on_account_id"
     t.index ["inbox_id"], name: "index_vapi_agents_on_inbox_id"
-    t.index ["vapi_agent_id"], name: "index_vapi_agents_on_vapi_agent_id", unique: true
+    t.index ["vapi_agent_id", "account_id"], name: "index_vapi_agents_on_vapi_agent_id_and_account_id", unique: true
   end
 
   create_table "webhooks", force: :cascade do |t|

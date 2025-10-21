@@ -36,7 +36,7 @@ class Vapi::AgentImporterService
     Rails.logger.info "  transcriber: #{vapi_data['transcriber'].inspect}"
     Rails.logger.info '=' * 80
 
-    # Check if agent already exists
+    # Check if agent already exists in this account
     existing_agent = account.vapi_agents.find_by(vapi_agent_id: vapi_agent_id)
     return { error: 'Agent already exists in this account', agent: existing_agent } if existing_agent.present?
 
