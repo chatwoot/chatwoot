@@ -200,7 +200,7 @@ const handleInboxAction = ({ value, action, ...rest }) => {
 };
 
 const removeSignatureFromMessage = () => {
-  // Always remove the signature from message content when inbox is removed
+  // Always remove the signature from message content when inbox/contact is removed
   // to ensure no leftover signature content remains
   const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
     ? props.messageSignature
