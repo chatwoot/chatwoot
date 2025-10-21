@@ -698,12 +698,11 @@ function scrollToPackage() {
 
               <div class="plan-price text-[#475569] dark:text-[#E0E1E6]">
                 <div class="price">
-                  {{ formatPrice(Math.round(plan.annual_price)) }}
+                  {{ formatPrice(Math.round(plan.price)) }}
                 </div>
                 <div class="price-period">
                   IDR
                 </div>
-                <!-- <div class="package-type">Paket Bulanan</div> -->
               </div>
 
               <div class="plan-features text-[#475569] dark:text-[#E0E1E6]">

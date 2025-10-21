@@ -73,13 +73,13 @@ const isDropdownOpen = ref(false);
 const dropdownRef = ref(null);
 const selectedBillingCycle = ref(null); // Default ke opsi pertama
 
-watch(() => props.duration, duration => {
+watch(() => props.plan, (newPlan) => {
   if(isCustomPlan.value){
-    let annualCycle = props.billingCycleTabs.find(e => e.id === 'yearly');
-    if(!annualCycle) {
-      annualCycle = { id: 'yearly', name: 'Tahunan', qty: 12 };
-    }
-    selectedBillingCycle.value = annualCycle;   
+    selectedBillingCycle.value = {
+      id: 'custom_' + newPlan.duration_qty, 
+      name: newPlan.duration_name,           
+      qty: newPlan.duration_qty          
+    };  
   } else {
       selectedBillingCycle.value = props.billingCycleTabs.find(e => e.id === duration) || props.billingCycleTabs[0];
   }
@@ -88,7 +88,7 @@ watch(() => props.duration, duration => {
 // Kalkulasi total harga berdasarkan siklus penagihan
 const totalPrice = computed(() => {
   if (isCustomPlan.value) {
-    return Math.round(props.plan.annual_price || 0);
+    return Math.round(props.plan.price || 0);
   }
   if (!selectedBillingCycle.value) return 0;
   return packagePrice(
