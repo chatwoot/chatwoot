@@ -62,6 +62,9 @@ es:
         invalid: Email inválido
       phone_number:
         invalid: debe estar en formato e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: debe ser único en la categoría y el portal
@@ -185,6 +188,8 @@ es:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
         open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'La conversación fue marcada por %{user_name}'
         contact_resolved: 'Conversación fue resuelta por %{contact_name}'
