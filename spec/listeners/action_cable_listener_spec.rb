@@ -117,13 +117,14 @@ describe ActionCableListener do
   describe '#contact_deleted' do
     let(:event_name) { :'contact.deleted' }
     let!(:contact) { create(:contact, account: account) }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
+    let!(:contact_data) { contact.webhook_data }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, contact: contact_data, account: account) }
 
     it 'sends message to account admins, inbox agents' do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         ["account_#{account.id}"],
         'contact.deleted',
-        contact.push_event_data.merge(account_id: account.id)
+        contact_data.merge(account_id: account.id)
       )
       listener.contact_deleted(event)
     end
@@ -201,6 +202,36 @@ describe ActionCableListener do
         conversation.push_event_data.merge(account_id: account.id)
       )
       listener.conversation_updated(event)
+    end
+  end
+
+  describe '#conversation_deleted' do
+    let(:event_name) { :'conversation.deleted' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation.push_event_data, account: account) }
+
+    it 'sends delete event to inbox members' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token, admin.pubsub_token],
+        'conversation.deleted',
+        conversation.push_event_data.merge(account_id: account.id)
+      )
+      listener.conversation_deleted(event)
+    end
+
+    context 'when contact_inbox is nil' do
+      it 'handles nil contact_inbox gracefully' do
+        # Create conversation data with nil contact_inbox
+        conversation_data = conversation.push_event_data
+        conversation_data[:contact_inbox] = nil
+        event_with_nil_contact = Events::Base.new(event_name, Time.zone.now, conversation: conversation_data, account: account)
+
+        expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+          [agent.pubsub_token, admin.pubsub_token],
+          'conversation.deleted',
+          conversation_data.merge(account_id: account.id)
+        )
+        listener.conversation_deleted(event_with_nil_contact)
+      end
     end
   end
 end

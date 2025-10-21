@@ -164,7 +164,7 @@ class Contact < ApplicationRecord
 
   def webhook_data
     {
-      account: account.webhook_data,
+      account: account&.webhook_data,
       additional_attributes: additional_attributes,
       avatar: avatar_url,
       custom_attributes: custom_attributes,
@@ -243,7 +243,7 @@ class Contact < ApplicationRecord
   end
 
   def dispatch_destroy_event
-    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
+    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: webhook_data, account: account)
   end
 end
 Contact.include_mod_with('Concerns::Contact')

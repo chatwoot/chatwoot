@@ -11,11 +11,13 @@ const SUPPORTED_WEBHOOK_EVENTS = [
   'conversation_created',
   'conversation_status_changed',
   'conversation_updated',
+  'conversation_deleted',
   'message_created',
   'message_updated',
   'webwidget_triggered',
   'contact_created',
   'contact_updated',
+  'contact_deleted',
   'conversation_typing_on',
   'conversation_typing_off',
 ];

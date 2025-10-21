@@ -8,8 +8,10 @@ FactoryBot.define do
         conversation_status_changed
         conversation_updated
         conversation_created
+        conversation_deleted
         contact_created
         contact_updated
+        contact_deleted
         message_created
         message_updated
         webwidget_triggered

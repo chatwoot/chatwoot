@@ -196,4 +196,22 @@ RSpec.describe Contact do
       end
     end
   end
+
+  context 'when broadcasting webhook_data' do
+    describe '#webhook_data' do
+      let!(:account) { create(:account, name: 'Test Account') }
+      let!(:contact) { create(:contact, account: account, name: 'Test Contact', email: 'test@example.com') }
+
+      it 'returns correct webhook data structure' do
+        webhook_data = contact.webhook_data
+
+        expect(webhook_data[:id]).to eq(contact.id)
+        expect(webhook_data[:name]).to eq('Test Contact')
+        expect(webhook_data[:email]).to eq('test@example.com')
+        expect(webhook_data[:account][:id]).to eq(account.id)
+        expect(webhook_data[:account][:name]).to eq('Test Account')
+        expect(webhook_data).to include(:additional_attributes, :custom_attributes, :avatar, :thumbnail, :blocked)
+      end
+    end
+  end
 end
