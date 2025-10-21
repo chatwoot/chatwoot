@@ -2,12 +2,12 @@
 import { mapGetters, mapActions } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
-import Button from 'dashboard/components-next/button/Button.vue';
+import WButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'VoiceAgentForm',
   components: {
-    Button,
+    WButton,
   },
   setup() {
     const router = useRouter();
@@ -49,7 +49,10 @@ export default {
         azure: [
           { id: 'en-US-JennyNeural', name: 'Jenny (US English)' },
           { id: 'en-US-GuyNeural', name: 'Guy (US English)' },
-          { id: 'pt-BR-FranciscaNeural', name: 'Francisca (Brazilian Portuguese)' },
+          {
+            id: 'pt-BR-FranciscaNeural',
+            name: 'Francisca (Brazilian Portuguese)',
+          },
           { id: 'pt-BR-AntonioNeural', name: 'Antonio (Brazilian Portuguese)' },
           { id: 'es-ES-ElviraNeural', name: 'Elvira (Spanish)' },
         ],
@@ -90,17 +93,17 @@ export default {
   },
   methods: {
     ...mapActions('inboxes', ['get']),
-    ...mapActions('vapiAgents', ['show', 'create', 'update', 'fetchFromVapi', 'importFromVapi']),
+    ...mapActions('vapiAgents', [
+      'show',
+      'create',
+      'update',
+      'fetchFromVapi',
+      'importFromVapi',
+    ]),
     async fetchInboxes() {
       await this.get();
     },
     async handleImportFromVapi() {
-      console.log('handleImportFromVapi called');
-      console.log('importVapiAgentId:', this.importVapiAgentId);
-      console.log('inbox_id:', this.form.inbox_id);
-      console.log('inbox_id type:', typeof this.form.inbox_id);
-      console.log('availableInboxes:', this.availableInboxes);
-
       if (!this.importVapiAgentId.trim()) {
         this.showAlert(this.$t('VOICE_AGENTS.MESSAGES.IMPORT_ID_REQUIRED'));
         return;
@@ -112,24 +115,14 @@ export default {
         return;
       }
 
-      console.log('Starting import...');
-      console.log('Mode:', this.mode);
       this.isImporting = true;
       try {
         // In import mode, use importFromVapi which creates directly in DB
         if (this.mode === 'import') {
-          console.log('Calling importFromVapi with:', {
-            vapiAgentId: this.importVapiAgentId.trim(),
-            inboxId: this.form.inbox_id,
-          });
           const result = await this.importFromVapi({
             vapiAgentId: this.importVapiAgentId.trim(),
             inboxId: this.form.inbox_id,
           });
-
-          console.log('Import result:', result);
-          console.log('Import result.data:', result.data);
-          console.log('Import result.data length:', result.data?.length);
 
           if (result && result.data) {
             this.showAlert(this.$t('VOICE_AGENTS.MESSAGES.CREATED'));
@@ -144,13 +137,11 @@ export default {
             inboxId: this.form.inbox_id,
           });
 
-          console.log('Fetch result:', result);
-
           if (result && result.data) {
-            console.log('Imported data:', result.data);
             // Handle both array and object responses
-            const importedData = Array.isArray(result.data) ? result.data[0] : result.data;
-            console.log('Processed importedData:', importedData);
+            const importedData = Array.isArray(result.data)
+              ? result.data[0]
+              : result.data;
 
             if (!importedData) {
               this.showAlert(this.$t('VOICE_AGENTS.MESSAGES.IMPORT_ERROR'));
@@ -162,19 +153,29 @@ export default {
               ...this.form,
               name: importedData.name || this.form.name,
               phone_number: importedData.phone_number || this.form.phone_number,
-              first_message: importedData.first_message || this.form.first_message,
-              system_prompt: importedData.system_prompt || this.form.system_prompt,
-              voice_provider: importedData.voice_provider || this.form.voice_provider,
+              first_message:
+                importedData.first_message || this.form.first_message,
+              system_prompt:
+                importedData.system_prompt || this.form.system_prompt,
+              voice_provider:
+                importedData.voice_provider || this.form.voice_provider,
               voice_id: importedData.voice_id || this.form.voice_id,
-              model_provider: importedData.model_provider || this.form.model_provider,
+              model_provider:
+                importedData.model_provider || this.form.model_provider,
               model_name: importedData.model_name || this.form.model_name,
-              transcriber_provider: importedData.transcriber_provider || this.form.transcriber_provider,
-              transcriber_language: importedData.transcriber_language || this.form.transcriber_language,
+              transcriber_provider:
+                importedData.transcriber_provider ||
+                this.form.transcriber_provider,
+              transcriber_language:
+                importedData.transcriber_language ||
+                this.form.transcriber_language,
             };
 
             // Check if voice_id is in presets
             const presets = this.presetVoices[this.form.voice_provider] || [];
-            this.form.use_preset_voice = presets.some(v => v.id === this.form.voice_id);
+            this.form.use_preset_voice = presets.some(
+              v => v.id === this.form.voice_id
+            );
 
             this.showAlert(this.$t('VOICE_AGENTS.MESSAGES.IMPORT_SUCCESS'));
             // Clear the import field
@@ -185,7 +186,6 @@ export default {
         }
       } catch (error) {
         // Error message is shown by throwErrorMessage in store
-        console.error('Import error:', error);
       } finally {
         this.isImporting = false;
       }
@@ -212,7 +212,8 @@ export default {
           use_preset_voice: isPreset,
           model_provider: agent.settings?.model_provider || 'openai',
           model_name: agent.settings?.model_name || 'gpt-4o-mini',
-          transcriber_provider: agent.settings?.transcriber_provider || 'deepgram',
+          transcriber_provider:
+            agent.settings?.transcriber_provider || 'deepgram',
           transcriber_language: agent.settings?.transcriber_language || 'en',
         };
       } catch (error) {
@@ -307,7 +308,9 @@ export default {
 
       <!-- Mode Selector (only when creating new agent) -->
       <div v-if="!isEditing" class="mb-6">
-        <div class="flex gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700">
+        <div
+          class="flex gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700"
+        >
           <label class="flex items-center gap-2 cursor-pointer">
             <input
               v-model="mode"
@@ -315,8 +318,10 @@ export default {
               value="create"
               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-600"
             />
-            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Create New Agent Manually
+            <span
+              class="text-sm font-medium text-slate-700 dark:text-slate-300"
+            >
+              {{ $t('VOICE_AGENTS.FORM.CREATE_MANUALLY') }}
             </span>
           </label>
           <label class="flex items-center gap-2 cursor-pointer">
@@ -326,18 +331,17 @@ export default {
               value="import"
               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-600"
             />
-            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Import from Vapi
+            <span
+              class="text-sm font-medium text-slate-700 dark:text-slate-300"
+            >
+              {{ $t('VOICE_AGENTS.FORM.IMPORT_FROM_VAPI_LABEL') }}
             </span>
           </label>
         </div>
       </div>
 
       <!-- Import from Vapi Section -->
-      <div
-        v-if="!isEditing && mode === 'import'"
-        class="space-y-4"
-      >
+      <div v-if="!isEditing && mode === 'import'" class="space-y-4">
         <!-- Inbox Selection for Import -->
         <div>
           <label
@@ -360,17 +364,19 @@ export default {
             </option>
           </select>
           <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Select the inbox where this agent will be assigned
+            {{ $t('VOICE_AGENTS.FORM.INBOX_HELP') }}
           </p>
         </div>
 
         <!-- Import Section -->
-        <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <div
+          class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg"
+        >
           <h3 class="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">
             {{ $t('VOICE_AGENTS.FORM.IMPORT_FROM_VAPI') }}
           </h3>
           <p class="text-xs text-blue-700 dark:text-blue-300 mb-3">
-            Enter the Vapi Agent ID to import configuration automatically
+            {{ $t('VOICE_AGENTS.FORM.IMPORT_VAPI_HELP') }}
           </p>
           <div class="flex gap-2">
             <input
@@ -379,23 +385,27 @@ export default {
               class="flex-1 px-3 py-2 border border-blue-300 dark:border-blue-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-slate-100 text-sm"
               :placeholder="$t('VOICE_AGENTS.FORM.IMPORT_PLACEHOLDER')"
             />
-            <Button
+            <WButton
               variant="solid"
               size="sm"
               :loading="isImporting"
               @click="handleImportFromVapi"
             >
               {{ $t('VOICE_AGENTS.FORM.IMPORT_BUTTON') }}
-            </Button>
+            </WButton>
           </div>
           <p class="mt-2 text-xs text-blue-700 dark:text-blue-300">
-            This will automatically create the agent with Vapi configuration
+            {{ $t('VOICE_AGENTS.FORM.IMPORT_AUTO_CREATE_HELP') }}
           </p>
         </div>
       </div>
 
       <!-- Manual Form (only in create mode or when editing) -->
-      <form v-if="isEditing || mode === 'create'" class="space-y-6" @submit.prevent="handleSubmit">
+      <form
+        v-if="isEditing || mode === 'create'"
+        class="space-y-6"
+        @submit.prevent="handleSubmit"
+      >
         <!-- Name -->
         <div>
           <label
@@ -493,11 +503,21 @@ export default {
             required
             class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-slate-100"
           >
-            <option value="11labs">ElevenLabs</option>
-            <option value="azure">Azure</option>
-            <option value="playht">PlayHT</option>
-            <option value="rime">Rime</option>
-            <option value="deepgram">Deepgram</option>
+            <option value="11labs">
+              {{ $t('VOICE_AGENTS.FORM.PROVIDER_11LABS') }}
+            </option>
+            <option value="azure">
+              {{ $t('VOICE_AGENTS.FORM.PROVIDER_AZURE') }}
+            </option>
+            <option value="playht">
+              {{ $t('VOICE_AGENTS.FORM.PROVIDER_PLAYHT') }}
+            </option>
+            <option value="rime">
+              {{ $t('VOICE_AGENTS.FORM.PROVIDER_RIME') }}
+            </option>
+            <option value="deepgram">
+              {{ $t('VOICE_AGENTS.FORM.PROVIDER_DEEPGRAM') }}
+            </option>
           </select>
         </div>
 
@@ -578,10 +598,18 @@ export default {
               required
               class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-slate-100"
             >
-              <option value="openai">OpenAI</option>
-              <option value="anthropic">Anthropic</option>
-              <option value="groq">Groq</option>
-              <option value="together-ai">Together AI</option>
+              <option value="openai">
+                {{ $t('VOICE_AGENTS.FORM.PROVIDER_OPENAI') }}
+              </option>
+              <option value="anthropic">
+                {{ $t('VOICE_AGENTS.FORM.PROVIDER_ANTHROPIC') }}
+              </option>
+              <option value="groq">
+                {{ $t('VOICE_AGENTS.FORM.PROVIDER_GROQ') }}
+              </option>
+              <option value="together-ai">
+                {{ $t('VOICE_AGENTS.FORM.PROVIDER_TOGETHER_AI') }}
+              </option>
             </select>
           </div>
           <div>
@@ -597,40 +625,64 @@ export default {
             >
               <optgroup
                 v-if="form.model_provider === 'openai'"
-                label="OpenAI Models"
+                :label="$t('VOICE_AGENTS.FORM.MODEL_GROUP_OPENAI')"
               >
-                <option value="gpt-4.1">GPT-4.1 (Best)</option>
-                <option value="gpt-4.1-mini">GPT-4.1 Mini</option>
-                <option value="gpt-4o">GPT-4o</option>
-                <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
-                <option value="o4-mini">o4-mini (Reasoning)</option>
+                <option value="gpt-4.1">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_GPT_41_BEST') }}
+                </option>
+                <option value="gpt-4.1-mini">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_GPT_41_MINI') }}
+                </option>
+                <option value="gpt-4o">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_GPT_4O') }}
+                </option>
+                <option value="gpt-4o-mini">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_GPT_4O_MINI') }}
+                </option>
+                <option value="o4-mini">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_O4_MINI') }}
+                </option>
               </optgroup>
               <optgroup
                 v-if="form.model_provider === 'anthropic'"
-                label="Anthropic Models"
+                :label="$t('VOICE_AGENTS.FORM.MODEL_GROUP_ANTHROPIC')"
               >
-                <option value="claude-3-5-sonnet">Claude 3.5 Sonnet (Best)</option>
-                <option value="claude-3-opus">Claude 3 Opus</option>
-                <option value="claude-3-sonnet">Claude 3 Sonnet</option>
-                <option value="claude-3-haiku">Claude 3 Haiku (Fast)</option>
+                <option value="claude-3-5-sonnet">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_CLAUDE_35_SONNET') }}
+                </option>
+                <option value="claude-3-opus">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_CLAUDE_3_OPUS') }}
+                </option>
+                <option value="claude-3-sonnet">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_CLAUDE_3_SONNET') }}
+                </option>
+                <option value="claude-3-haiku">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_CLAUDE_3_HAIKU') }}
+                </option>
               </optgroup>
               <optgroup
                 v-if="form.model_provider === 'groq'"
-                label="Groq Models"
+                :label="$t('VOICE_AGENTS.FORM.MODEL_GROUP_GROQ')"
               >
-                <option value="llama-3.3-70b">Llama 3.3 70B</option>
-                <option value="llama-3.1-70b">Llama 3.1 70B</option>
-                <option value="mixtral-8x7b">Mixtral 8x7B</option>
+                <option value="llama-3.3-70b">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_LLAMA_33_70B') }}
+                </option>
+                <option value="llama-3.1-70b">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_LLAMA_31_70B') }}
+                </option>
+                <option value="mixtral-8x7b">
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_MIXTRAL_8X7B') }}
+                </option>
               </optgroup>
               <optgroup
                 v-if="form.model_provider === 'together-ai'"
-                label="Together AI Models"
+                :label="$t('VOICE_AGENTS.FORM.MODEL_GROUP_TOGETHER_AI')"
               >
                 <option value="meta-llama/Llama-3.3-70B-Instruct-Turbo">
-                  Llama 3.3 70B Turbo
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_LLAMA_33_70B_TURBO') }}
                 </option>
                 <option value="meta-llama/Llama-3.1-70B-Instruct-Turbo">
-                  Llama 3.1 70B Turbo
+                  {{ $t('VOICE_AGENTS.FORM.MODEL_LLAMA_31_70B_TURBO') }}
                 </option>
               </optgroup>
             </select>
@@ -650,9 +702,15 @@ export default {
               required
               class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-slate-100"
             >
-              <option value="deepgram">Deepgram</option>
-              <option value="assemblyai">AssemblyAI</option>
-              <option value="azure">Azure</option>
+              <option value="deepgram">
+                {{ $t('VOICE_AGENTS.FORM.PROVIDER_DEEPGRAM') }}
+              </option>
+              <option value="assemblyai">
+                {{ $t('VOICE_AGENTS.FORM.PROVIDER_ASSEMBLYAI') }}
+              </option>
+              <option value="azure">
+                {{ $t('VOICE_AGENTS.FORM.PROVIDER_AZURE') }}
+              </option>
             </select>
           </div>
           <div>
@@ -666,36 +724,60 @@ export default {
               required
               class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-slate-100"
             >
-              <option value="pt-BR">Portuguese (Brazil)</option>
-              <option value="pt">Portuguese</option>
-              <option value="en">English</option>
-              <option value="en-US">English (US)</option>
-              <option value="en-GB">English (UK)</option>
-              <option value="en-AU">English (Australia)</option>
-              <option value="en-NZ">English (New Zealand)</option>
-              <option value="en-IN">English (India)</option>
-              <option value="es">Spanish</option>
-              <option value="es-419">Spanish (Latin America)</option>
-              <option value="fr">French</option>
-              <option value="fr-CA">French (Canada)</option>
-              <option value="de">German</option>
-              <option value="de-CH">German (Switzerland)</option>
-              <option value="it">Italian</option>
-              <option value="ja">Japanese</option>
-              <option value="ko">Korean</option>
-              <option value="zh">Chinese</option>
-              <option value="zh-CN">Chinese (Simplified)</option>
-              <option value="zh-TW">Chinese (Traditional)</option>
-              <option value="ru">Russian</option>
-              <option value="nl">Dutch</option>
-              <option value="pl">Polish</option>
-              <option value="tr">Turkish</option>
-              <option value="sv">Swedish</option>
-              <option value="da">Danish</option>
-              <option value="no">Norwegian</option>
-              <option value="fi">Finnish</option>
-              <option value="cs">Czech</option>
-              <option value="multi">Multi-language (Auto-detect)</option>
+              <option value="pt-BR">
+                {{ $t('VOICE_AGENTS.FORM.LANG_PT_BR') }}
+              </option>
+              <option value="pt">{{ $t('VOICE_AGENTS.FORM.LANG_PT') }}</option>
+              <option value="en">{{ $t('VOICE_AGENTS.FORM.LANG_EN') }}</option>
+              <option value="en-US">
+                {{ $t('VOICE_AGENTS.FORM.LANG_EN_US') }}
+              </option>
+              <option value="en-GB">
+                {{ $t('VOICE_AGENTS.FORM.LANG_EN_GB') }}
+              </option>
+              <option value="en-AU">
+                {{ $t('VOICE_AGENTS.FORM.LANG_EN_AU') }}
+              </option>
+              <option value="en-NZ">
+                {{ $t('VOICE_AGENTS.FORM.LANG_EN_NZ') }}
+              </option>
+              <option value="en-IN">
+                {{ $t('VOICE_AGENTS.FORM.LANG_EN_IN') }}
+              </option>
+              <option value="es">{{ $t('VOICE_AGENTS.FORM.LANG_ES') }}</option>
+              <option value="es-419">
+                {{ $t('VOICE_AGENTS.FORM.LANG_ES_419') }}
+              </option>
+              <option value="fr">{{ $t('VOICE_AGENTS.FORM.LANG_FR') }}</option>
+              <option value="fr-CA">
+                {{ $t('VOICE_AGENTS.FORM.LANG_FR_CA') }}
+              </option>
+              <option value="de">{{ $t('VOICE_AGENTS.FORM.LANG_DE') }}</option>
+              <option value="de-CH">
+                {{ $t('VOICE_AGENTS.FORM.LANG_DE_CH') }}
+              </option>
+              <option value="it">{{ $t('VOICE_AGENTS.FORM.LANG_IT') }}</option>
+              <option value="ja">{{ $t('VOICE_AGENTS.FORM.LANG_JA') }}</option>
+              <option value="ko">{{ $t('VOICE_AGENTS.FORM.LANG_KO') }}</option>
+              <option value="zh">{{ $t('VOICE_AGENTS.FORM.LANG_ZH') }}</option>
+              <option value="zh-CN">
+                {{ $t('VOICE_AGENTS.FORM.LANG_ZH_CN') }}
+              </option>
+              <option value="zh-TW">
+                {{ $t('VOICE_AGENTS.FORM.LANG_ZH_TW') }}
+              </option>
+              <option value="ru">{{ $t('VOICE_AGENTS.FORM.LANG_RU') }}</option>
+              <option value="nl">{{ $t('VOICE_AGENTS.FORM.LANG_NL') }}</option>
+              <option value="pl">{{ $t('VOICE_AGENTS.FORM.LANG_PL') }}</option>
+              <option value="tr">{{ $t('VOICE_AGENTS.FORM.LANG_TR') }}</option>
+              <option value="sv">{{ $t('VOICE_AGENTS.FORM.LANG_SV') }}</option>
+              <option value="da">{{ $t('VOICE_AGENTS.FORM.LANG_DA') }}</option>
+              <option value="no">{{ $t('VOICE_AGENTS.FORM.LANG_NO') }}</option>
+              <option value="fi">{{ $t('VOICE_AGENTS.FORM.LANG_FI') }}</option>
+              <option value="cs">{{ $t('VOICE_AGENTS.FORM.LANG_CS') }}</option>
+              <option value="multi">
+                {{ $t('VOICE_AGENTS.FORM.LANG_MULTI') }}
+              </option>
             </select>
           </div>
         </div>
@@ -741,16 +823,16 @@ export default {
         <div
           class="flex justify-end gap-3 pt-6 border-t border-slate-200 dark:border-slate-700"
         >
-          <Button variant="ghost" @click="handleCancel">
+          <WButton variant="ghost" @click="handleCancel">
             {{ $t('VOICE_AGENTS.FORM.CANCEL') }}
-          </Button>
-          <Button variant="solid" type="submit" :loading="isSubmitting">
+          </WButton>
+          <WButton variant="solid" type="submit" :loading="isSubmitting">
             {{
               isEditing
                 ? $t('VOICE_AGENTS.FORM.UPDATE')
                 : $t('VOICE_AGENTS.FORM.CREATE')
             }}
-          </Button>
+          </WButton>
         </div>
       </form>
     </div>
