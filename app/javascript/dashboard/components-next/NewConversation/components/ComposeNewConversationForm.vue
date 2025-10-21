@@ -354,6 +354,7 @@ const shouldShowMessageEditor = computed(() => {
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
       :has-attachments="state.attachedFiles.length > 0"
+      :channel-type="inboxChannelType"
     />
 
     <AttachmentPreviews

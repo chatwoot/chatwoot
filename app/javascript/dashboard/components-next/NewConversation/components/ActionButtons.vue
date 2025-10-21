@@ -92,7 +92,8 @@ const setSignature = () => {
 
 const toggleMessageSignature = () => {
   setSignatureFlagForInbox(props.channelType, !sendWithSignature.value);
-  setSignature();
+  // Trigger setSignature on toggle only for plain editor; rich text editors handle it automatically
+  if (!props.isEmailOrWebWidgetInbox) setSignature();
 };
 
 // Added this watch to dynamically set signature on target inbox change.
