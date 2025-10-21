@@ -1,18 +1,13 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useToggle } from '@vueuse/core';
 import MetricCard from '../overview/MetricCard.vue';
 import BaseHeatmap from './BaseHeatmap.vue';
+import HeatmapDateRangeSelector from './HeatmapDateRangeSelector.vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
-import addMonths from 'date-fns/addMonths';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import endOfDay from 'date-fns/endOfDay';
-import endOfMonth from 'date-fns/endOfMonth';
 import getUnixTime from 'date-fns/getUnixTime';
-import startOfDay from 'date-fns/startOfDay';
-import startOfMonth from 'date-fns/startOfMonth';
-import subDays from 'date-fns/subDays';
 import format from 'date-fns/format';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -61,76 +56,19 @@ const uiFlags = useMapGetter('getOverviewUIFlags');
 const heatmapData = useMapGetter(props.storeGetter);
 const inboxes = useMapGetter('inboxes/getInboxes');
 
-const DATE_FILTER_TYPES = {
-  DAY: 'day',
-  MONTH: 'month',
-};
-
-const menuItems = [
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
-    value: 'last_7_days',
-    type: DATE_FILTER_TYPES.DAY,
-    daysBefore: 6,
-  },
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_14_DAYS'),
-    value: 'last_14_days',
-    type: DATE_FILTER_TYPES.DAY,
-    daysBefore: 13,
-  },
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS'),
-    value: 'last_30_days',
-    type: DATE_FILTER_TYPES.DAY,
-    daysBefore: 29,
-  },
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.THIS_MONTH'),
-    value: 'this_month',
-    type: DATE_FILTER_TYPES.MONTH,
-    monthOffset: 0,
-  },
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_MONTH'),
-    value: 'last_month',
-    type: DATE_FILTER_TYPES.MONTH,
-    monthOffset: -1,
-  },
-];
-
-const selectedDateRangeValue = ref(menuItems[0].value);
-const monthOffset = ref(0);
+const selectedFrom = ref(null);
+const selectedTo = ref(null);
+const selectedDaysBefore = ref(null);
 const selectedInbox = ref(null);
 
-const selectedDateFilter = computed(
-  () =>
-    menuItems.find(
-      menuItem => menuItem.value === selectedDateRangeValue.value
-    ) || menuItems[0]
-);
-
 const selectedRange = computed(() => {
-  const filter = selectedDateFilter.value;
-  if (!filter) {
+  if (!selectedFrom.value || !selectedTo.value) {
     return null;
   }
-
-  if (filter.type === DATE_FILTER_TYPES.MONTH) {
-    const now = new Date();
-    const baseMonthStart = startOfMonth(addMonths(now, monthOffset.value));
-    const from = startOfDay(baseMonthStart);
-    const isCurrentMonth =
-      filter.value === 'this_month' && monthOffset.value === 0;
-    const to = isCurrentMonth
-      ? endOfDay(now)
-      : endOfDay(endOfMonth(baseMonthStart));
-    return { from, to };
-  }
-
-  const to = endOfDay(new Date());
-  const from = startOfDay(subDays(to, Number(filter.daysBefore)));
-  return { from, to };
+  return {
+    from: selectedFrom.value,
+    to: selectedTo.value,
+  };
 });
 
 const numberOfRows = computed(() => {
@@ -175,13 +113,12 @@ const downloadHeatmapData = () => {
     return;
   }
 
-  const { from, to } = selectedRange.value;
+  const { to } = selectedRange.value;
 
   // If no inbox is selected and download action exists, use backend endpoint
   if (!selectedInbox.value && props.downloadAction) {
-    const daysBefore = differenceInCalendarDays(endOfDay(to), startOfDay(from));
     store.dispatch(props.downloadAction, {
-      daysBefore,
+      daysBefore: selectedDaysBefore.value,
       to: getUnixTime(to),
     });
     return;
@@ -220,7 +157,6 @@ const downloadHeatmapData = () => {
   downloadCsvFile(fileName, csvContent);
 };
 
-const [showDropdown, toggleDropdown] = useToggle();
 const [showInboxDropdown, toggleInboxDropdown] = useToggle();
 
 const fetchHeatmapData = () => {
@@ -251,28 +187,46 @@ const fetchHeatmapData = () => {
   store.dispatch(props.storeAction, params);
 };
 
-const handleAction = ({ value }) => {
-  toggleDropdown(false);
-  selectedDateRangeValue.value = value;
-  const filter = menuItems.find(menuItem => menuItem.value === value);
-  monthOffset.value =
-    filter?.type === DATE_FILTER_TYPES.MONTH ? filter.monthOffset || 0 : 0;
-  fetchHeatmapData();
-};
-
 const handleInboxAction = ({ value }) => {
   toggleInboxDropdown(false);
   selectedInbox.value = value
     ? inboxes.value.find(inbox => inbox.id === value)
     : null;
-  fetchHeatmapData();
 };
 
 const { startRefetching } = useLiveRefresh(fetchHeatmapData);
 
+const isMonthFilter = ref(false);
+const currentMonthOffset = ref(0);
+
+const handleRangeTypeChange = type => {
+  isMonthFilter.value = type === 'month';
+};
+
+const handleMonthOffsetChange = offset => {
+  currentMonthOffset.value = offset;
+};
+
+watch(
+  () => [selectedFrom.value, selectedTo.value],
+  ([from, to]) => {
+    if (from && to) {
+      fetchHeatmapData();
+    }
+  }
+);
+
+watch(
+  () => selectedInbox.value,
+  () => {
+    if (selectedRange.value) {
+      fetchHeatmapData();
+    }
+  }
+);
+
 onMounted(() => {
   store.dispatch('inboxes/get');
-  fetchHeatmapData();
   startRefetching();
 });
 </script>
@@ -281,25 +235,13 @@ onMounted(() => {
   <div class="flex flex-row flex-wrap max-w-full">
     <MetricCard :header="title">
       <template #control>
-        <div
-          v-on-clickaway="() => toggleDropdown(false)"
-          class="relative flex items-center group"
-        >
-          <Button
-            sm
-            slate
-            faded
-            :label="selectedDateFilter.label"
-            class="rounded-md group-hover:bg-n-alpha-2"
-            @click="toggleDropdown()"
-          />
-          <DropdownMenu
-            v-if="showDropdown"
-            :menu-items="menuItems"
-            class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0 top-full"
-            @action="handleAction($event)"
-          />
-        </div>
+        <HeatmapDateRangeSelector
+          v-model:from="selectedFrom"
+          v-model:to="selectedTo"
+          v-model:days-num="selectedDaysBefore"
+          @range-type-change="handleRangeTypeChange"
+          @month-offset-change="handleMonthOffsetChange"
+        />
         <div
           v-on-clickaway="() => toggleInboxDropdown(false)"
           class="relative flex items-center group"
