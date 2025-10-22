@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_20_094420) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_21_083150) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -994,19 +994,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_094420) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
-  create_table "operational_hours", force: :cascade do |t|
-    t.bigint "agent_bot_id", null: false
-    t.integer "day_of_week", null: false
-    t.integer "open_hour"
-    t.integer "open_minute"
-    t.integer "close_hour"
-    t.integer "close_minute"
-    t.boolean "open_allday", default: false
-    t.boolean "close_allday", default: false
+  create_table "number_format_configs", force: :cascade do |t|
+    t.string "format", default: "INV/"
+    t.integer "current_number", default: 1
+    t.string "reset_every", default: "never"
+    t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["agent_bot_id"], name: "index_operational_hours_on_agent_bot_id"
-    t.index ["day_of_week", "agent_bot_id"], name: "index_operational_hours_on_day_of_week_and_agent_bot_id", unique: true
+    t.index ["account_id"], name: "index_number_format_configs_on_account_id", unique: true
   end
 
   create_table "otps", force: :cascade do |t|
@@ -1475,7 +1470,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_094420) do
   add_foreign_key "knowledge_source_texts", "knowledge_sources"
   add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"
-  add_foreign_key "operational_hours", "agent_bots"
+  add_foreign_key "number_format_configs", "accounts"
   add_foreign_key "otps", "users"
   add_foreign_key "quick_replies", "accounts"
   add_foreign_key "subscription_payments", "subscriptions"
