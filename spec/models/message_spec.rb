@@ -316,43 +316,69 @@ RSpec.describe Message do
     end
 
     context 'with conversation continuity' do
-      it 'calls notify email method on after save for outgoing messages in website channel' do
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
-        message.message_type = 'outgoing'
-        message.save!
-        expect(ConversationReplyEmailWorker).to have_received(:perform_in)
+      let(:inbox_with_continuity) do
+        create(:inbox, account: message.account,
+                       channel: build(:channel_widget, account: message.account, continuity_via_email: true))
       end
 
-      it 'does not call notify email for website channel if continuity is disabled' do
-        message.inbox = create(:inbox, account: message.account,
-                                       channel: build(:channel_widget, account: message.account, continuity_via_email: false))
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+      it 'schedules email notification for outgoing messages in website channel' do
+        message.inbox = inbox_with_continuity
+        message.conversation.update!(inbox: inbox_with_continuity)
+        message.conversation.contact.update!(email: 'test@example.com')
         message.message_type = 'outgoing'
-        message.save!
-        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+
+        # Perform jobs inline to test full integration
+        perform_enqueued_jobs do
+          message.save!
+        end
+
+        # Verify the email worker is eventually scheduled through the service
+        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+        expect(jobs_for_conversation_count).to eq(1)
       end
 
-      it 'wont call notify email method for private notes' do
+      it 'does not schedule email for website channel if continuity is disabled' do
+        inbox_without_continuity = create(:inbox, account: message.account,
+                                                  channel: build(:channel_widget, account: message.account, continuity_via_email: false))
+        message.inbox = inbox_without_continuity
+        message.conversation.update!(inbox: inbox_without_continuity)
+        message.conversation.contact.update!(email: 'test@example.com')
+        message.message_type = 'outgoing'
+
+        initial_job_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+
+        perform_enqueued_jobs do
+          message.save!
+        end
+
+        # No new jobs should be scheduled for this conversation
+        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+        expect(jobs_for_conversation_count).to eq(initial_job_count)
+      end
+
+      it 'does not schedule email for private notes' do
+        message.inbox = inbox_with_continuity
+        message.conversation.update!(inbox: inbox_with_continuity)
+        message.conversation.contact.update!(email: 'test@example.com')
         message.private = true
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
-        message.save!
-        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
-      end
-
-      it 'calls EmailReply worker if the channel is email' do
-        message.inbox = create(:inbox, account: message.account, channel: build(:channel_email, account: message.account))
-        allow(EmailReplyWorker).to receive(:perform_in).and_return(true)
         message.message_type = 'outgoing'
-        message.content_attributes = { email: { text_content: { quoted: 'quoted text' } } }
-        message.save!
-        expect(EmailReplyWorker).to have_received(:perform_in).with(1.second, message.id)
+
+        initial_job_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+
+        perform_enqueued_jobs do
+          message.save!
+        end
+
+        # No new jobs should be scheduled for this conversation
+        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
+        expect(jobs_for_conversation_count).to eq(initial_job_count)
       end
 
-      it 'wont call notify email method unless its website or email channel' do
-        message.inbox = create(:inbox, account: message.account, channel: build(:channel_api, account: message.account))
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+      it 'calls SendReplyJob for all channels' do
+        allow(SendReplyJob).to receive(:perform_later).and_return(true)
+        message.message_type = 'outgoing'
         message.save!
-        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+        expect(SendReplyJob).to have_received(:perform_later).with(message.id)
       end
     end
   end
