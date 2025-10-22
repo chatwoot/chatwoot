@@ -65,9 +65,11 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'returns the conversation when permission allows managing unassigned conversations' do
+      it 'returns the conversation when permission allows managing unassigned conversations, including when assigned to agent' do
         custom_role = create(:custom_role, account: account, permissions: ['conversation_unassigned_manage'])
-        account.account_users.find_by(user_id: agent.id).update!(custom_role: custom_role)
+        account_user = account.account_users.find_by(user_id: agent.id)
+        account_user.update!(custom_role: custom_role)
+        conversation.update!(assignee: agent)
 
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: agent.create_new_auth_token
 

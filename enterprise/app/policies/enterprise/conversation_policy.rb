@@ -5,7 +5,7 @@ module Enterprise::ConversationPolicy
 
     permissions = custom_role_permissions
     return true if manage_all_conversations?(permissions)
-    return permits_unassigned_or_participating?(permissions) if unassigned_conversation?
+    return true if permits_unassigned_manage?(permissions)
 
     permits_participating?(permissions)
   end
@@ -16,10 +16,10 @@ module Enterprise::ConversationPolicy
     permissions.include?('conversation_manage')
   end
 
-  def permits_unassigned_or_participating?(permissions)
-    return true if permissions.include?('conversation_unassigned_manage')
+  def permits_unassigned_manage?(permissions)
+    return false unless permissions.include?('conversation_unassigned_manage')
 
-    permits_participating?(permissions)
+    unassigned_conversation? || assigned_to_user?
   end
 
   def permits_participating?(permissions)
