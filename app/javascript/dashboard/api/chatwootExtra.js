@@ -100,6 +100,23 @@ class ChatwootExtraAPI {
     });
     return response.data;
   }
+
+  async getSourceChannel(chatwootChannelId) {
+    const response = await axios.get(
+      `${this.baseURL}/api/source-channels/${chatwootChannelId}`,
+      { headers: this.headers }
+    );
+    return response.data;
+  }
+
+  async updateSourceChannel(chatwootChannelId, data) {
+    const response = await axios.patch(
+      `${this.baseURL}/api/source-channels/${chatwootChannelId}`,
+      data,
+      { headers: this.headers }
+    );
+    return response.data;
+  }
 }
 
 export default new ChatwootExtraAPI();

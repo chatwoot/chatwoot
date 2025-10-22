@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
@@ -12,6 +12,7 @@ import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import { useSourceChannelColors } from 'dashboard/composables/useSourceChannelColors';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -51,6 +52,8 @@ const contextMenu = ref({
   x: null,
   y: null,
 });
+
+const { getSourceBgColor, getInboxBackgroundStyle } = useSourceChannelColors();
 
 const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
@@ -111,6 +114,16 @@ const messagePreviewClass = computed(() => {
     !props.compact && hasUnread.value ? 'ltr:pr-4 rtl:pl-4' : '',
     props.compact && hasUnread.value ? 'ltr:pr-6 rtl:pl-6' : '',
   ];
+});
+
+const sourceBgStyle = computed(() => {
+  return getInboxBackgroundStyle(inboxId.value);
+});
+
+onMounted(() => {
+  if (inboxId.value) {
+    getSourceBgColor(inboxId.value);
+  }
 });
 
 const conversationPath = computed(() => {
@@ -231,6 +244,7 @@ const deleteConversation = () => {
       'px-0': compact,
       'px-3': !compact,
     }"
+    :style="sourceBgStyle"
     @click="onCardClick"
     @contextmenu="openContextMenu($event)"
   >

@@ -5,6 +5,7 @@ import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useSourceChannelColors } from 'dashboard/composables/useSourceChannelColors';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -68,6 +69,9 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
+    const { getSourceBgColor, getInboxBackgroundStyle } =
+      useSourceChannelColors();
+
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
@@ -78,6 +82,8 @@ export default {
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
       conversationPanelRef,
+      getSourceBgColor,
+      getInboxBackgroundStyle,
     };
   },
   data() {
@@ -128,6 +134,10 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
+    },
+    messagesPanelBgStyle() {
+      if (!this.inboxId) return {};
+      return this.getInboxBackgroundStyle(this.inboxId);
     },
     typingUsersList() {
       const userList = this.$store.getters[
@@ -266,6 +276,14 @@ export default {
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
+    },
+    inboxId: {
+      immediate: true,
+      handler(inboxId) {
+        if (inboxId) {
+          this.getSourceBgColor(inboxId);
+        }
+      },
     },
   },
 
@@ -479,6 +497,7 @@ export default {
     <MessageList
       ref="conversationPanelRef"
       class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
+      :style="messagesPanelBgStyle"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"

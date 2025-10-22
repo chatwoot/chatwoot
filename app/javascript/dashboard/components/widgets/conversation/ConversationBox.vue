@@ -4,6 +4,7 @@ import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
+import { useSourceChannelColors } from 'dashboard/composables/useSourceChannelColors';
 
 export default {
   components: {
@@ -31,6 +32,14 @@ export default {
       default: true,
     },
   },
+  setup() {
+    const { getSourceBgColor, getInboxBackgroundStyle } =
+      useSourceChannelColors();
+    return {
+      getSourceBgColor,
+      getInboxBackgroundStyle,
+    };
+  },
   data() {
     return { activeIndex: 0 };
   },
@@ -39,6 +48,11 @@ export default {
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
+    conversationBgStyle() {
+      const inboxId = this.currentChat?.inbox_id;
+      if (!inboxId) return {};
+      return this.getInboxBackgroundStyle(inboxId);
+    },
     dashboardAppTabs() {
       return [
         {
@@ -63,6 +77,7 @@ export default {
       handler(inboxId) {
         if (inboxId) {
           this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+          this.getSourceBgColor(inboxId);
         }
       },
     },
@@ -95,6 +110,7 @@ export default {
     :class="{
       'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
     }"
+    :style="conversationBgStyle"
   >
     <ConversationHeader
       v-if="currentChat.id"

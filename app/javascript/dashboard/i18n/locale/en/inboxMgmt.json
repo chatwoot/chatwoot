@@ -625,6 +625,10 @@
       "UPDATE": "Update",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "SOURCE_BG_COLOR": {
+        "LABEL": "Source Background Color",
+        "HELP_TEXT": "Set a custom background color for this source to help visually identify conversations from different channels."
+      },
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
