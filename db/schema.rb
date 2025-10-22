@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_13_074048) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_21_083150) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -994,6 +994,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_13_074048) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "number_format_configs", force: :cascade do |t|
+    t.string "format", default: "INV/"
+    t.integer "current_number", default: 1
+    t.string "reset_every", default: "never"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_number_format_configs_on_account_id", unique: true
+  end
+
   create_table "otps", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "code", limit: 6, null: false
@@ -1179,8 +1189,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_13_074048) do
     t.text "available_channels", default: [], array: true
     t.string "support_level"
     t.integer "duration_days"
-    t.decimal "monthly_price", precision: 16, scale: 2, null: false
-    t.decimal "annual_price", precision: 16, scale: 2, null: false
+    t.decimal "monthly_price", precision: 16, scale: 2
+    t.decimal "annual_price", precision: 16, scale: 2
     t.boolean "is_active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -1189,6 +1199,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_13_074048) do
     t.integer "max_channels", default: 0
     t.boolean "is_custom", default: false
     t.bigint "owner_account_id"
+    t.decimal "quarterly_price"
+    t.decimal "semi_annual_price"
     t.index ["owner_account_id"], name: "index_subscription_plans_on_owner_account_id"
   end
 
@@ -1458,6 +1470,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_13_074048) do
   add_foreign_key "knowledge_source_texts", "knowledge_sources"
   add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"
+  add_foreign_key "number_format_configs", "accounts"
   add_foreign_key "otps", "users"
   add_foreign_key "quick_replies", "accounts"
   add_foreign_key "subscription_payments", "subscriptions"

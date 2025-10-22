@@ -9,7 +9,7 @@ import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue'
 import wootConstants from 'dashboard/constants/globals';
 import PaymentVoucherInput from './PaymentVoucherInput.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import { calculatePackagePrice } from '../pricing-utils';
+import { packagePrice } from '../pricing-utils';
 
 const props = defineProps({
   id: {
@@ -48,6 +48,7 @@ const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
 const store = useStore();
 const { t } = useI18n();
+const isCustomPlan = computed(() => props.plan.is_custom);
 
 const packageId = ref(props.id);
 const packageName = ref(props.name);
@@ -70,27 +71,35 @@ const isValidatingVoucher = ref(false);
 // Tambahan untuk custom dropdown
 const isDropdownOpen = ref(false);
 const dropdownRef = ref(null);
-const selectedBillingCycle = ref(props.billingCycleTabs[0]); // Default ke opsi pertama
+const selectedBillingCycle = ref(null); // Default ke opsi pertama
 
-watch(() => props.duration, duration => {
-  selectedBillingCycle.value = props.billingCycleTabs.find(e => e.id === duration)
-}, {
-  immediate: true,
-})
-
-const selectedPlanMonthlyPrice = computed(() => selectedPlan.value.monthly_price)
+watch(() => props.plan, (newPlan) => {
+  if(isCustomPlan.value){
+    selectedBillingCycle.value = {
+      id: 'custom_' + newPlan.duration_qty, 
+      name: newPlan.duration_name,           
+      qty: newPlan.duration_qty          
+    };  
+  } else {
+      selectedBillingCycle.value = props.billingCycleTabs.find(e => e.id === duration) || props.billingCycleTabs[0];
+  }
+}, { immediate: true, deep: true });
 
 // Kalkulasi total harga berdasarkan siklus penagihan
 const totalPrice = computed(() => {
-  return calculatePackagePrice(
-    selectedPlanMonthlyPrice.value,
-    selectedPlan.value.name,
-    selectedBillingCycle.value.qty
+  if (isCustomPlan.value) {
+    return Math.round(props.plan.price || 0);
+  }
+  if (!selectedBillingCycle.value) return 0;
+  return packagePrice(
+    selectedPlan.value,
+    selectedBillingCycle.value.id
   );
 });
 
 // Fungsi untuk handle klik di luar dropdown
 const handleClickOutside = event => {
+  if (isCustomPlan.value) return;
   if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
     isDropdownOpen.value = false;
   }
@@ -213,7 +222,7 @@ const submit = async () => {
       </div>
 
       <!-- Custom Dropdown Paket -->
-      <div ref="dropdownRef" class="w-full mt-4 relative">
+      <div v-if="!isCustomPlan" ref="dropdownRef" class="w-full mt-4 relative">
         <div
           class="border rounded p-3 flex justify-between items-center cursor-pointer"
           @click="() => {
@@ -223,7 +232,7 @@ const submit = async () => {
             isDropdownOpen = !isDropdownOpen
           }"
         >
-          <div>{{ selectedBillingCycle.name }}</div>
+          <div v-if="selectedBillingCycle">{{ selectedBillingCycle.name }}</div>
           <div class="font-medium mr-8">{{ totalPrice.toLocaleString() }} IDR</div>
 
           <!-- Dropdown arrow -->
@@ -268,10 +277,19 @@ const submit = async () => {
               </span>
             </div>
             <div class="font-medium">
-              {{ calculatePackagePrice(selectedPlanMonthlyPrice, selectedPlan.name, cycle.qty).toLocaleString() }}
+              {{ packagePrice(selectedPlan, cycle.id).toLocaleString() }}
               IDR
             </div>
           </div>
+        </div>
+      </div>
+
+      <div v-else class="w-full mt-4">
+        <div class="border rounded p-3 flex justify-between items-center bg-white dark:bg-n-slate-2">
+          <div>
+            <span class="font-medium">{{ props.plan.name }}</span>
+          </div>
+          <div class="font-medium mr-4">{{ totalPrice.toLocaleString() }} IDR</div>
         </div>
       </div>
 
@@ -304,9 +322,10 @@ const submit = async () => {
             qty: selectedBillingCycle.qty,
           }) }}
           <strong>{{
-            new Date(
-              Date.now() + selectedBillingCycle.qty * 30 * 24 * 60 * 60 * 1000
-            ).toLocaleDateString()
+            ((today) => {
+              today.setMonth(today.getMonth() + selectedBillingCycle.qty);
+              return today.toLocaleDateString();
+            })(new Date())
           }}</strong>
         </div>
       </div>

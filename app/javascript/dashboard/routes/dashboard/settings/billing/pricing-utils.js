@@ -23,17 +23,24 @@ export const durationMap = {
   yearly: 12,
 };
 
-export const calculatePackagePrice = (price, plan_name, duration) => {
-  duration = durationMap[duration] || duration;
-  let total = price * duration;
-
-  if (duration === 3) {
-    total = roundPriceByRange(price * 3 * 0.98);   // diskon 2%
-  } else if (duration === 6) {
-    total = roundPriceByRange(price * 6 * 0.95);   // diskon 5%
-  } else if (duration === 12) {
-    total = roundPriceByRange(price * 12 * 0.90);  // diskon 10%
+export const packagePrice = (plan, durationKey) => {
+  if (!plan) {
+    return 0;
   }
-
-  return total;
+  let price;
+  switch (durationKey) {
+    case 'quarterly':
+      price = plan.quarterly_price || 0;
+      break;
+    case 'halfyear':
+      price = plan.semi_annual_price || 0;
+      break;
+    case 'yearly':
+      price = plan.annual_price || 0;
+      break;
+    case 'monthly':
+    default:
+      price = plan.monthly_price || 0;
+  }
+  return Math.round(Number(price));
 };

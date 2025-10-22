@@ -3,7 +3,7 @@
 # Table name: subscription_plans
 #
 #  id                 :bigint           not null, primary key
-#  annual_price       :decimal(16, 2)   not null
+#  annual_price       :decimal(16, 2)
 #  available_channels :text             default([]), is an Array
 #  description        :text
 #  duration_days      :integer
@@ -15,8 +15,10 @@
 #  max_channels       :integer          default(0)
 #  max_human_agents   :integer          default(0), not null
 #  max_mau            :integer          default(0), not null
-#  monthly_price      :decimal(16, 2)   not null
+#  monthly_price      :decimal(16, 2)
 #  name               :string           not null
+#  quarterly_price    :decimal(, )
+#  semi_annual_price  :decimal(, )
 #  support_level      :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null

@@ -229,11 +229,27 @@ class Api::V1::SubscriptionsController < Api::BaseController
 
   def plans
     standard_plans = SubscriptionPlan.where(is_custom: false, is_active: true).where.not(name: 'Free Trial')
-    custom_plans = SubscriptionPlan.where(is_custom: true, owner_account_id: @account.id)
-    @plans = standard_plans
-             .or(custom_plans)
-             .order(monthly_price: :asc)
+    @plans = standard_plans.order(monthly_price: :asc)
     render json: @plans
+  end
+
+  def custom_plans
+    raw_plans = SubscriptionPlan.where(is_custom: true, owner_account_id: @account.id)
+    @custom_plans = raw_plans.map do |plan|
+      price_data = find_active_price(plan)
+      {
+        id: plan.id,
+        name: plan.name,
+        is_custom: plan.is_custom,
+        features: plan.features,
+        # Atribut baru yang "rapi" untuk frontend
+        price: price_data[:price],
+        duration_qty: price_data[:qty],
+        duration_name: price_data[:name]
+        # (Anda bisa tambahkan atribut lain dari 'plan' jika perlu)
+      }
+    end
+    render json: @custom_plans
   end
 
   def active
@@ -304,22 +320,19 @@ class Api::V1::SubscriptionsController < Api::BaseController
     end
   end
 
-  def calculate_package_price(price, _plan_name, duration)
-    # Hitung harga dasar sesuai durasi
-    total = price * duration
-
-    # Diskon berdasarkan durasi
-    case duration
-    when 3
-      total = round_price_by_range(price * 3 * 0.98)  # diskon 2%
-    when 6
-      total = round_price_by_range(price * 6 * 0.95)  # diskon 5%
-    when 12
-      total = round_price_by_range(price * 12 * 0.90) # diskon 10%
+  def find_active_price(plan)
+    if plan.monthly_price&.positive?
+      { price: plan.monthly_price, qty: 1, name: 'Bulanan' }
+    elsif plan.quarterly_price&.positive?
+      { price: plan.quarterly_price, qty: 3, name: '3 Bulan' }
+    elsif plan.semi_annual_price&.positive?
+      { price: plan.semi_annual_price, qty: 6, name: 'Setengah Tahun' }
+    elsif plan.annual_price&.positive?
+      { price: plan.annual_price, qty: 12, name: 'Tahunan' }
+    else
+      # Fallback jika semua 0 atau null
+      { price: 0, qty: 1, name: 'Bulanan' }
     end
-
-    # Bulatkan sesuai aturan range
-    total
   end
 
   def set_account
