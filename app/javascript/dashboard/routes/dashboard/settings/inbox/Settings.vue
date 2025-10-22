@@ -28,6 +28,8 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import chatwootExtraAPI from '../../../../api/chatwootExtra';
+import { useSourceChannelColors } from '../../../../composables/useSourceChannelColors';
 
 export default {
   components: {
@@ -54,7 +56,11 @@ export default {
   },
   mixins: [inboxMixin],
   setup() {
-    return { v$: useVuelidate() };
+    const { setSourceBgColor } = useSourceChannelColors();
+    return {
+      v$: useVuelidate(),
+      setSourceBgColor,
+    };
   },
   data() {
     return {
@@ -79,6 +85,9 @@ export default {
       selectedPortalSlug: '',
       showBusinessNameInput: false,
       welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
+      sourceBgColor: '#000000',
+      enableSourceBgColor: false,
+      originalSourceBgColor: null,
     };
   },
   computed: {
@@ -308,13 +317,13 @@ export default {
       this.selectedTabIndex = selectedTabIndex;
       this.refreshAvatarUrlOnTabChange(selectedTabIndex);
     },
-    fetchInboxSettings() {
+    async fetchInboxSettings() {
       this.selectedTabIndex = 0;
       this.selectedAgents = [];
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
       this.$store.dispatch('labels/get');
-      this.$store.dispatch('inboxes/get').then(() => {
+      await this.$store.dispatch('inboxes/get').then(() => {
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
@@ -336,6 +345,28 @@ export default {
           ? this.inbox.help_center.slug
           : '';
       });
+
+      await this.loadSourceBgColor();
+    },
+    async loadSourceBgColor() {
+      try {
+        const response = await chatwootExtraAPI.getSourceChannel(
+          this.currentInboxId
+        );
+        if (response.success && response.data && response.data.bgColor) {
+          this.sourceBgColor = response.data.bgColor;
+          this.enableSourceBgColor = true;
+          this.originalSourceBgColor = response.data.bgColor;
+        } else {
+          this.sourceBgColor = '#000000';
+          this.enableSourceBgColor = false;
+          this.originalSourceBgColor = null;
+        }
+      } catch (error) {
+        this.sourceBgColor = '#000000';
+        this.enableSourceBgColor = false;
+        this.originalSourceBgColor = null;
+      }
     },
     async updateInbox() {
       try {
@@ -369,6 +400,23 @@ export default {
           payload.avatar = this.avatarFile;
         }
         await this.$store.dispatch('inboxes/updateInbox', payload);
+
+        if (this.enableSourceBgColor) {
+          if (this.sourceBgColor !== this.originalSourceBgColor) {
+            await chatwootExtraAPI.updateSourceChannel(this.currentInboxId, {
+              bgColor: this.sourceBgColor,
+            });
+            this.originalSourceBgColor = this.sourceBgColor;
+            this.setSourceBgColor(this.currentInboxId, this.sourceBgColor);
+          }
+        } else if (this.originalSourceBgColor !== null) {
+          await chatwootExtraAPI.updateSourceChannel(this.currentInboxId, {
+            bgColor: null,
+          });
+          this.originalSourceBgColor = null;
+          this.setSourceBgColor(this.currentInboxId, null);
+        }
+
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
@@ -548,6 +596,29 @@ export default {
             {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
             <woot-color-picker v-model="inbox.widget_color" />
           </label>
+
+          <div class="pb-4">
+            <div class="flex items-center gap-2 pb-2">
+              <input
+                v-model="enableSourceBgColor"
+                type="checkbox"
+                class="cursor-pointer"
+              />
+              <label
+                class="!mb-0 cursor-pointer"
+                @click="enableSourceBgColor = !enableSourceBgColor"
+              >
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.SOURCE_BG_COLOR.LABEL') }}
+              </label>
+            </div>
+            <woot-color-picker
+              v-if="enableSourceBgColor"
+              v-model="sourceBgColor"
+            />
+            <p class="pb-1 text-sm not-italic text-n-slate-11">
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.SOURCE_BG_COLOR.HELP_TEXT') }}
+            </p>
+          </div>
 
           <label v-if="isAWhatsAppChannel" class="pb-4">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
