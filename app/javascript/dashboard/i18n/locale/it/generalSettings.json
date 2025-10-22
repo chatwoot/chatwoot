@@ -2,8 +2,8 @@
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
       "CONVERSATION": "Hai superato il limite di conversazione. Il piano Hacker consente solo 500 conversazioni.",
-      "INBOXES": "Hai superato il limite della posta in arrivo. Il piano Hacker supporta solo la chat dal vivo del sito web. Ulteriori caselle di posta come e-mail, WhatsApp ecc. richiedono un piano a pagamento.",
-      "AGENTS": "Hai superato il limite dell'agente. Il tuo piano consente solo {allowedAgents} agenti.",
+      "INBOXES": "Hai superato il limite di caselle. Il piano Hacker supporta solo la live-chat sul sito web. Ulteriori caselle di posta come e-mail, WhatsApp ecc. richiedono un piano a pagamento.",
+      "AGENTS": "Hai superato il limite di agenti. Il tuo piano consente solo {allowedAgents} agenti.",
       "NON_ADMIN": "Contatta l'amministratore per aggiornare il piano e continuare a utilizzare tutte le funzionalità."
     },
     "TITLE": "Impostazioni account",

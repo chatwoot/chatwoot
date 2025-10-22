@@ -3,23 +3,23 @@
     "MODAL": {
       "TITLE": "Twilio Templates",
       "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TEMPLATE_SELECTED_SUBTITLE": "Configura template: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Cerca modelli",
       "NO_TEMPLATES_FOUND": "Nessun modello trovato per",
       "NO_CONTENT": "No content",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "Intestazione",
+      "BODY": "Corpo",
+      "FOOTER": "Piè",
+      "BUTTONS": "Pulsanti",
       "CATEGORY": "Categoria",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
+      "MEDIA_CONTENT": "Contenuto Multimediale",
+      "MEDIA_CONTENT_FALLBACK": "contenuto multimediale",
       "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "REFRESH_BUTTON": "Aggiorna modelli",
+      "REFRESH_SUCCESS": "Aggiornamento modelli iniziato. Potrebbe volerci qualche minuto per aggiornare.",
+      "REFRESH_ERROR": "Impossibile aggiornare i modelli. Per favore riprova.",
       "LABELS": {
         "LANGUAGE": "Lingua",
         "TEMPLATE_BODY": "Corpo modello",
