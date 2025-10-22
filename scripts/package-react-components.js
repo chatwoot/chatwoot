@@ -35,17 +35,18 @@ function generatePackageJson(packageDir) {
   // Read version from main package.json
   const mainPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
-  // Get current git commit hash for development builds
+  // Get current timestamp and git commit hash for development builds
   function getVersionSuffix() {
     try {
+      const timestamp = Math.floor(Date.now() / 1000);
       const gitHash = execSync('git rev-parse --short HEAD', {
         encoding: 'utf8',
         stdio: 'pipe',
       }).trim();
 
-      return `dev.${gitHash}`;
+      return `${timestamp}.${gitHash}`;
     } catch (error) {
-      console.warn('   ⚠️  Could not get git hash, using beta.1');
+      console.warn('   ⚠️  Could not get timestamp/git hash, using beta.1');
       return 'beta.1';
     }
   }
