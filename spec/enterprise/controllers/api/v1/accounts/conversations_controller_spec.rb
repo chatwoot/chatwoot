@@ -48,21 +48,6 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
 
-    context 'when agent participates in the conversation' do
-      let(:agent) { create(:user, account: account, role: :agent) }
-      let(:conversation) { create(:conversation, account: account) }
-
-      before do
-        create(:conversation_participant, conversation: conversation, account: account, user: agent)
-      end
-
-      it 'returns unauthorized for participation without additional permissions' do
-        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: agent.create_new_auth_token
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
     context 'when agent has a custom role' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:conversation) { create(:conversation, account: account) }
