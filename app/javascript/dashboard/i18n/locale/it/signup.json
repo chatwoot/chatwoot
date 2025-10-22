@@ -28,11 +28,11 @@
       "PLACEHOLDER": "Password",
       "ERROR": "Password troppo corta.",
       "IS_INVALID_PASSWORD": "La password dovrebbe contenere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 numero e 1 carattere speciale.",
-      "REQUIREMENTS_LENGTH": "At least 6 characters long",
-      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
-      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
-      "REQUIREMENTS_NUMBER": "At least one number",
-      "REQUIREMENTS_SPECIAL": "At least one special character"
+      "REQUIREMENTS_LENGTH": "Almeno 6 caratteri",
+      "REQUIREMENTS_UPPERCASE": "Almeno una lettera maiuscola",
+      "REQUIREMENTS_LOWERCASE": "Almeno una lettera minuscola",
+      "REQUIREMENTS_NUMBER": "Almeno un numero",
+      "REQUIREMENTS_SPECIAL": "Almeno un carattere speciale"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Conferma password",
@@ -40,7 +40,7 @@
       "ERROR": "Le password non corrispondono."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successful",
+      "SUCCESS_MESSAGE": "Registrazione riuscita",
       "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi."
     },
     "SUBMIT": "Create account",
