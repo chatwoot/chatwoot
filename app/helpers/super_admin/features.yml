@@ -31,7 +31,7 @@ audit_logs:
 disable_branding:
   name: 'Disable Branding'
   description: 'Disable branding on live-chat widget and external emails.'
-  enabled: <%= (AlooChatHub.pricing_plan != 'community') %>
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-sailbot-fill'
   enterprise: true
 
