@@ -9,6 +9,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
@@ -17,6 +18,7 @@ export default {
     InputRadioGroup,
     NextButton,
     Editor,
+    Avatar,
   },
   props: {
     inbox: {
@@ -276,15 +278,23 @@ export default {
       <div class="w-100 lg:w-[40%]">
         <div class="min-h-full py-4 overflow-y-scroll px-px">
           <form @submit.prevent="updateWidget">
-            <woot-avatar-uploader
-              :label="
-                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
-              "
-              :src="avatarUrl"
-              delete-avatar
-              @on-avatar-select="handleImageUpload"
-              @on-avatar-delete="handleAvatarDelete"
-            />
+            <div class="flex flex-col mb-4 items-start gap-1 w-full">
+              <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+                {{
+                  $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
+                }}
+              </label>
+              <Avatar
+                :src="avatarUrl"
+                :size="72"
+                icon-name="i-ri-global-fill"
+                name=""
+                allow-upload
+                rounded-full
+                @upload="handleImageUpload"
+                @delete="handleAvatarDelete"
+              />
+            </div>
             <woot-input
               v-model="websiteName"
               :class="{ error: v$.websiteName.$error }"

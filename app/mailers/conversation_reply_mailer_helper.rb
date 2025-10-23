@@ -118,10 +118,14 @@ module ConversationReplyMailerHelper
   end
 
   def email_from
+    return Email::FromBuilder.new(inbox: @inbox, message: current_message).build if @account.feature_enabled?(:reply_mailer_migration)
+
     email_oauth_enabled || email_smtp_enabled ? channel_email_with_name : from_email_with_name
   end
 
   def email_reply_to
+    return Email::ReplyToBuilder.new(inbox: @inbox, message: current_message).build if @account.feature_enabled?(:reply_mailer_migration)
+
     email_imap_enabled ? @channel.email : reply_email
   end
 

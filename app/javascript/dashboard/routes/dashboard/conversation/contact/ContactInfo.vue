@@ -4,7 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
@@ -12,6 +12,7 @@ import ComposeConversation from 'dashboard/components-next/NewConversation/Compo
 import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 
 import {
   isAConversationRoute,
@@ -25,11 +26,12 @@ export default {
     NextButton,
     ContactInfoRow,
     EditContact,
-    Thumbnail,
+    Avatar,
     ComposeConversation,
     SocialIcons,
     ContactMergeModal,
     ContactLabels,
+    VoiceCallButton,
   },
   props: {
     contact: {
@@ -181,12 +183,14 @@ export default {
   <div class="relative items-center w-full p-4">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
       <div class="flex flex-row justify-between">
-        <Thumbnail
+        <Avatar
           v-if="showAvatar"
           :src="contact.thumbnail"
-          size="48px"
-          :username="contact.name"
+          :name="contact.name"
           :status="contact.availability_status"
+          :size="48"
+          hide-offline-status
+          rounded-full
         />
       </div>
 
@@ -282,6 +286,14 @@ export default {
             />
           </template>
         </ComposeConversation>
+        <VoiceCallButton
+          :phone="contact.phone_number"
+          icon="i-ri-phone-fill"
+          size="sm"
+          :tooltip-label="$t('CONTACT_PANEL.CALL')"
+          slate
+          faded
+        />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"

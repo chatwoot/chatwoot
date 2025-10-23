@@ -94,12 +94,7 @@ const loadMoreNotifications = () => {
 const markNotificationAsRead = async notificationItem => {
   useTrack(INBOX_EVENTS.MARK_NOTIFICATION_AS_READ);
 
-  const {
-    id,
-    primary_actor_id: primaryActorId,
-    primary_actor_type: primaryActorType,
-  } = notificationItem;
-
+  const { id, primaryActorId, primaryActorType } = notificationItem;
   try {
     await store.dispatch('notifications/read', {
       id,
@@ -246,7 +241,7 @@ onMounted(() => {
           :key="notificationItem.id"
           :inbox-item="notificationItem"
           :state-inbox="stateInbox(notificationItem.primaryActor?.inboxId)"
-          class="inbox-card rounded-lg hover:rounded-lg hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
+          class="inbox-card rounded-none hover:rounded-lg hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
           :class="
             currentConversationId === notificationItem.primaryActor?.id
               ? 'bg-n-alpha-1 dark:bg-n-alpha-3 rounded-lg active'

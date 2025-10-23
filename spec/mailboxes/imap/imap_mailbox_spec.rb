@@ -111,7 +111,8 @@ RSpec.describe Imap::ImapMailbox do
       let(:auto_reply_mail) { create_inbound_email_from_fixture('auto_reply.eml') }
 
       it 'does not create a new conversation' do
-        expect { class_instance.process(auto_reply_mail.mail, channel) }.not_to change(Conversation, :count)
+        expect { class_instance.process(auto_reply_mail.mail, channel) }.to change(Conversation, :count)
+        expect(Conversation.last.additional_attributes['auto_reply']).to be true
       end
     end
 
@@ -120,6 +121,8 @@ RSpec.describe Imap::ImapMailbox do
 
       it 'processes the bounced email' do
         expect { class_instance.process(bounced_mail.mail, channel) }.to change(Message, :count)
+        expect(Message.last.content_attributes['email']['auto_reply']).to be true
+        expect(Conversation.last.additional_attributes['auto_reply']).to be true
       end
     end
 

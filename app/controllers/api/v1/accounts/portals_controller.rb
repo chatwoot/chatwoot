@@ -26,9 +26,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
       @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
-    rescue StandardError => e
-      Rails.logger.error e
-      render json: { error: @portal.errors.messages }.to_json, status: :unprocessable_entity
+    rescue ActiveRecord::RecordInvalid => e
+      render_record_invalid(e)
     end
   end
 
@@ -86,7 +85,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def live_chat_widget_params
     permitted_params = params.permit(:inbox_id)
-    return {} if permitted_params[:inbox_id].blank?
+    return {} unless permitted_params.key?(:inbox_id)
+    return { channel_web_widget_id: nil } if permitted_params[:inbox_id].blank?
 
     inbox = Inbox.find(permitted_params[:inbox_id])
     return {} unless inbox.web_widget?

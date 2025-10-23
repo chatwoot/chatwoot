@@ -26,9 +26,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      message_history: collect_previous_messages
-    )
+    @response = if captain_v2_enabled?
+                  Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
+                    message_history: collect_previous_messages
+                  )
+                else
+                  Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+                    message_history: collect_previous_messages
+                  )
+                end
 
     return process_action('handoff') if handoff_requested?
 
@@ -43,10 +49,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       .where(message_type: [:incoming, :outgoing])
       .where(private: false)
       .map do |message|
-      {
+      message_hash = {
         content: prepare_multimodal_message_content(message),
         role: determine_role(message)
       }
+
+      # Include agent_name if present in additional_attributes
+      message_hash[:agent_name] = message.additional_attributes['agent_name'] if message.additional_attributes&.dig('agent_name').present?
+
+      message_hash
     end
   end
 
@@ -73,25 +84,31 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message
-    create_outgoing_message(@assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'))
+    create_outgoing_message(
+      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff')
+    )
   end
 
   def create_messages
     validate_message_content!(@response['response'])
-    create_outgoing_message(@response['response'])
+    create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
   end
 
   def validate_message_content!(content)
     raise ArgumentError, 'Message content cannot be blank' if content.blank?
   end
 
-  def create_outgoing_message(message_content)
+  def create_outgoing_message(message_content, agent_name: nil)
+    additional_attrs = {}
+    additional_attrs[:agent_name] = agent_name if agent_name.present?
+
     @conversation.messages.create!(
       message_type: :outgoing,
       account_id: account.id,
       inbox_id: inbox.id,
       sender: @assistant,
-      content: message_content
+      content: message_content,
+      additional_attributes: additional_attrs
     )
   end
 
@@ -103,5 +120,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def log_error(error)
     ChatwootExceptionTracker.new(error, account: account).capture_exception
+  end
+
+  def captain_v2_enabled?
+    return account.feature_enabled?('captain_integration_v2')
   end
 end

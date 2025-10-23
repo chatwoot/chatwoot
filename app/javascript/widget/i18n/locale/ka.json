@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Couldn't send, try again"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "მიუწვდომელია"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "We are away at the moment",
+    "BACK_AS_SOON_AS_POSSIBLE": "ჩვენ დავბრუნდებით რაც შეიძლება მალე"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
     "IN_A_FEW_HOURS": "Typically replies in a few hours",
     "IN_A_DAY": "Typically replies in a day",
-    "BACK_IN": "We will be back online"
+    "BACK_IN_HOURS": "ჩვენ ონლაინ დავბრუნდებით {n} საათში | ჩვენ ონლაინ დავბრუნდებით {n} საათში",
+    "BACK_IN_MINUTES": "ჩვენ ონლაინ დავბრუნდებით {time} წუთში",
+    "BACK_AT_TIME": "ჩვენ ონლაინ დავბრუნდებით {time}-ზე",
+    "BACK_ON_DAY": "ჩვენ ონლაინ დავბრუნდებით {day}-ს",
+    "BACK_TOMORROW": "ჩვენ ონლაინ დავბრუნდებით ხვალ",
+    "BACK_IN_SOME_TIME": "ჩვენ მალე დავბრუნდებით ონლაინ"
   },
   "DAY_NAMES": {
     "SUNDAY": "Sunday",

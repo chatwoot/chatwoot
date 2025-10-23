@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "Você excedeu o limite de conversas. O plano Hacker permite apenas 500 conversas.",
       "INBOXES": "Você excedeu o limite da caixa de entrada. O plano Hacker só suporta chat ao vivo do site. Caixas adicionais como e-mail, WhatsApp etc. requerem um plano pago.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "AGENTS": "Você excedeu o limite do agente. Seu plano permite apenas {allowedAgents} agentes.",
       "NON_ADMIN": "Entre em contato com o administrador para atualizar o plano e continuar usando todos os recursos."
     },
     "TITLE": "Conta",
@@ -134,7 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Digite enter para selecionar",
       "ENTER_TO_REMOVE": "Digite enter para remover",
-      "NO_OPTIONS": "List is empty",
+      "NO_OPTIONS": "Lista vazia",
       "SELECT_ONE": "Selecione um",
       "SELECT": "Selecionar"
     }
