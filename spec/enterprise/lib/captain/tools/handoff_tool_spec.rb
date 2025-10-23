@@ -29,6 +29,8 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   describe '#perform' do
     context 'when conversation exists' do
       context 'with reason provided' do
+        before { conversation.update!(status: :pending) }
+
         it 'creates a private note with reason and hands off conversation' do
           reason = 'Customer needs specialized support'
 
@@ -63,6 +65,35 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           tool.perform(tool_context, reason: 'Test reason')
         end
 
+        it 'creates an activity message for the handoff' do
+          expect do
+            perform_enqueued_jobs do
+              tool.perform(tool_context, reason: 'Customer needs specialized support')
+            end
+          end.to change { conversation.messages.activity.count }.by(1)
+
+          activity_message = conversation.messages.activity.last
+          expect(activity_message.content).to include(assistant.name)
+          expect(activity_message.message_type).to eq('activity')
+          expect(activity_message.private).to be false
+        end
+
+        it 'sets conversation status to open for handoff' do
+          conversation.update(status: :pending)
+          expect(conversation.pending?).to be true
+
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
+
+          conversation.reload
+          expect(conversation.open?).to be true
+        end
+
+        it 'cleans up Current.executed_by after handoff' do
+          tool.perform(tool_context, reason: 'Test reason')
+
+          expect(Current.executed_by).to be_nil
+        end
+
         it 'logs tool usage with reason' do
           reason = 'Customer needs help'
           expect(tool).to receive(:log_tool_usage).with(
@@ -75,6 +106,8 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       end
 
       context 'without reason provided' do
+        before { conversation.update!(status: :pending) }
+
         it 'creates a private note with nil content and hands off conversation' do
           expect do
             result = tool.perform(tool_context)
@@ -92,6 +125,18 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           )
 
           tool.perform(tool_context)
+        end
+
+        it 'creates an activity message without explicit reason' do
+          expect do
+            perform_enqueued_jobs do
+              tool.perform(tool_context)
+            end
+          end.to change { conversation.messages.activity.count }.by(1)
+
+          activity_message = conversation.messages.activity.last
+          expect(activity_message.content).to include(assistant.name)
+          expect(activity_message.message_type).to eq('activity')
         end
       end
 
@@ -120,6 +165,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           expect(exception_tracker).to receive(:capture_exception)
 
           tool.perform(tool_context, reason: 'Test')
+        end
+
+        it 'cleans up Current.executed_by even on error' do
+          tool.perform(tool_context, reason: 'Test')
+
+          expect(Current.executed_by).to be_nil
         end
       end
     end

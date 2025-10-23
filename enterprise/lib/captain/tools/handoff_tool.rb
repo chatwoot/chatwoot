@@ -24,6 +24,8 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   private
 
   def trigger_handoff(conversation, reason)
+    Current.executed_by = @assistant
+
     # post the reason as a private note
     conversation.messages.create!(
       message_type: :outgoing,
@@ -36,6 +38,8 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     # Trigger the bot handoff (sets status to open + dispatches events)
     conversation.bot_handoff!
+  ensure
+    Current.executed_by = nil
   end
 
   # TODO: Future enhancement - Add team assignment capability
