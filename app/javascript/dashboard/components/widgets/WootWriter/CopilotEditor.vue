@@ -195,7 +195,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="space-y-2">
+  <div class="space-y-2 mb-4">
+    <div
+      class="overflow-y-auto generated-content-enter"
+      :class="{ 'max-h-96': isPopout, 'max-h-56': !isPopout }"
+    >
+      <p
+        v-dompurify-html="formatMessage(generatedContent, false)"
+        class="text-n-iris-12 text-sm prose-sm font-normal !mb-4 underline decoration-n-iris-8 underline-offset-auto decoration-solid decoration-[10%]"
+      />
+    </div>
     <div class="editor-root relative editor--copilot space-x-2">
       <div ref="editor" />
       <div class="flex items-center justify-end absolute right-2 bottom-2">
@@ -207,15 +216,6 @@ onMounted(() => {
           @click="handleSubmit"
         />
       </div>
-    </div>
-    <div
-      class="overflow-y-auto"
-      :class="{ 'max-h-96': isPopout, 'max-h-56': !isPopout }"
-    >
-      <p
-        v-dompurify-html="formatMessage(generatedContent, false)"
-        class="text-n-iris-12 text-sm prose-sm font-normal !mb-4 underline decoration-n-iris-8 underline-offset-auto decoration-solid decoration-[10%]"
-      />
     </div>
   </div>
 </template>

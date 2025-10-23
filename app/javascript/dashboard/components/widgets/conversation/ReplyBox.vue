@@ -1280,56 +1280,77 @@ export default {
         @play="recordingAudioState = 'playing'"
         @pause="recordingAudioState = 'paused'"
       />
-      <ResizableTextArea
-        v-else-if="!showRichContentEditor"
-        ref="messageInput"
-        v-model="message"
-        class="rounded-none input"
-        :placeholder="messagePlaceHolder"
-        :min-height="4"
-        :signature="signatureToApply"
-        allow-signature
-        :send-with-signature="sendWithSignature"
-        @typing-off="onTypingOff"
-        @typing-on="onTypingOn"
-        @focus="onFocus"
-        @blur="onBlur"
-      />
-      <CopilotEditorSection
-        v-else-if="showCopilotEditor || isGeneratingContent"
-        :show-copilot-editor="showCopilotEditor"
-        :is-generating-content="isGeneratingContent"
-        :generated-content="generatedContent"
-        :is-popout="popOutReplyBox"
-        @focus="onFocus"
-        @blur="onBlur"
-        @clear-selection="clearEditorSelection"
-      />
-      <WootMessageEditor
-        v-else
-        v-model="message"
-        :editor-id="editorStateId"
-        class="input popover-prosemirror-menu"
-        :is-private="isOnPrivateNote"
-        :placeholder="messagePlaceHolder"
-        :update-selection-with="updateEditorSelectionWith"
-        :min-height="4"
-        enable-variables
-        :variables="messageVariables"
-        :signature="signatureToApply"
-        allow-signature
-        :channel-type="channelType"
-        :enabled-menu-options="editorMenuOptions"
-        @typing-off="onTypingOff"
-        @typing-on="onTypingOn"
-        @focus="onFocus"
-        @blur="onBlur"
-        @toggle-user-mention="toggleUserMention"
-        @toggle-canned-menu="toggleCannedMenu"
-        @toggle-variables-menu="toggleVariablesMenu"
-        @clear-selection="clearEditorSelection"
-        @execute-copilot-action="executeCopilotAction"
-      />
+      <Transition
+        appear
+        mode="out-in"
+        enter-active-class="copilot-content-enter"
+        leave-active-class="copilot-content-leave"
+        enter-from-class="copilot-content-enter-from"
+        enter-to-class="copilot-content-enter-to"
+        leave-from-class="copilot-content-leave-from"
+        leave-to-class="copilot-content-leave-to"
+      >
+        <template v-if="!showRichContentEditor">
+          <ResizableTextArea
+            key="textarea-editor"
+            ref="messageInput"
+            v-model="message"
+            class="rounded-none input"
+            :placeholder="messagePlaceHolder"
+            :min-height="4"
+            :signature="signatureToApply"
+            allow-signature
+            :send-with-signature="sendWithSignature"
+            @typing-off="onTypingOff"
+            @typing-on="onTypingOn"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+        </template>
+
+        <template v-else-if="showCopilotEditor || isGeneratingContent">
+          <CopilotEditorSection
+            key="copilot"
+            :show-copilot-editor="showCopilotEditor"
+            :is-generating-content="isGeneratingContent"
+            :generated-content="generatedContent"
+            :is-popout="popOutReplyBox"
+            @focus="onFocus"
+            @blur="onBlur"
+            @clear-selection="clearEditorSelection"
+            @close="showCopilotEditor = false"
+          />
+        </template>
+
+        <template v-else>
+          <WootMessageEditor
+            key="woot-editor"
+            v-model="message"
+            :editor-id="editorStateId"
+            class="input popover-prosemirror-menu"
+            :is-private="isOnPrivateNote"
+            :placeholder="messagePlaceHolder"
+            :update-selection-with="updateEditorSelectionWith"
+            :min-height="4"
+            enable-variables
+            :variables="messageVariables"
+            :signature="signatureToApply"
+            allow-signature
+            :channel-type="channelType"
+            :enabled-menu-options="editorMenuOptions"
+            @typing-off="onTypingOff"
+            @typing-on="onTypingOn"
+            @focus="onFocus"
+            @blur="onBlur"
+            @toggle-user-mention="toggleUserMention"
+            @toggle-canned-menu="toggleCannedMenu"
+            @toggle-variables-menu="toggleVariablesMenu"
+            @clear-selection="clearEditorSelection"
+            @execute-copilot-action="executeCopilotAction"
+          />
+        </template>
+      </Transition>
+
       <QuotedEmailPreview
         v-if="shouldShowQuotedPreview"
         :quoted-email-text="quotedEmailText"
@@ -1435,6 +1456,67 @@ export default {
   &.is-private {
     @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
   }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  60% {
+    opacity: 0.9;
+    transform: translateY(-1px) scale(1.005);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    opacity: 0.85;
+    transform: translateY(4px) scale(0.997);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+.copilot-content-enter-from {
+  opacity: 0;
+  transform: translateY(12px) scale(0.99);
+}
+.copilot-content-enter {
+  animation: slideInUp 340ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-fill-mode: both;
+}
+.copilot-content-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.copilot-content-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.copilot-content-leave {
+  animation: slideOutDown 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+.copilot-content-leave-to {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+}
+
+.reply-box__top > * {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 .send-button {

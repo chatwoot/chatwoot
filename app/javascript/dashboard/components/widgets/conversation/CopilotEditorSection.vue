@@ -54,7 +54,7 @@ const clearEditorSelection = () => {
   />
   <div
     v-else-if="isGeneratingContent"
-    class="bg-n-iris-5 rounded min-h-16 w-full mb-4 p-4 flex items-start"
+    class="bg-n-iris-5 rounded min-h-16 w-full mb-4 p-4 flex items-start animate-pulse-scale"
   >
     <div class="flex items-center gap-2">
       <Icon
@@ -73,5 +73,21 @@ const clearEditorSelection = () => {
   .ProseMirror-menubar {
     display: none;
   }
+}
+
+@keyframes pulse-scale {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.005);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 1.5s ease-in-out infinite;
 }
 </style>
