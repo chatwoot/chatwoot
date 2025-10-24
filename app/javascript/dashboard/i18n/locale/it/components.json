@@ -45,10 +45,10 @@
     "WATCH_VIDEO": "Watch video"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "Minuti",
+    "HOURS": "Ore",
+    "DAYS": "Giorni",
+    "PLACEHOLDER": "Inserisci durata"
   },
   "CHANNEL_SELECTOR": {
     "COMING_SOON": "Coming Soon!"
