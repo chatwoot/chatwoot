@@ -546,7 +546,7 @@
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Aktifkan atau nonaktifkan beberapa percakapan untuk kontak yang sama di kotak masuk ini",
       "INBOX_UPDATE_TITLE": "Pengaturan Kotak Masuk",
       "INBOX_UPDATE_SUB_TEXT": "Perbarui pengaturan kotak masuk Anda",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Mengaktifkan atau menonaktifkan penugasan otomatis percakapan baru ke agen yang ditambahkan ke kotak masuk ini.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Jika diaktifkan, percakapan baru dari pelanggan akan otomatis dialihkan ke agen (manusia) agar dapat ditangani secara langsung — bukan oleh bot AI.",
       "HMAC_VERIFICATION": "Validasi Identitas Pengguna",
       "HMAC_DESCRIPTION": "Untuk memvalidasi identitas pengguna, Anda dapat mengirimkan `identifier_hash` untuk setiap pengguna. Anda bisa menghasilkan HMAC sha256 hash menggunakan identifier dengan kunci yang ditunjukkan di sini",
       "HMAC_LINK_TO_DOCS": "Anda dapat membaca lebih lanjut di sini.",
@@ -578,7 +578,7 @@
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Batas penugasan otomatis",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Harap masukkan nilai yang lebih besar dari 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Batasi jumlah maksimum percakapan dari kotak masuk ini yang dapat ditetapkan secara otomatis ke agen"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Masukkan jumlah maksimum percakapan yang dapat ditugaskan secara otomatis ke setiap agen dari kotak masuk ini"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Otorisasi ulang",
