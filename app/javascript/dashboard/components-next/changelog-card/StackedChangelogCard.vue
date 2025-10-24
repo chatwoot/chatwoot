@@ -72,7 +72,7 @@ const handleImgClick = () => {
       class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
     >
       <img
-        src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600"
+        :src="card.feature_image"
         :alt="`${card.title} preview image`"
         class="object-cover w-full h-24 rounded-md cursor-pointer"
         loading="lazy"
