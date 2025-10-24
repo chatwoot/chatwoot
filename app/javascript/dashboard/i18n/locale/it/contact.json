@@ -18,9 +18,9 @@
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nuovo messaggio",
     "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL_UNDER_DEVELOPMENT": "Le chiamate sono in fase di sviluppo",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "Scegli una inbox vocale"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Non ci sono precedenti conversazioni associate a questo contatto.",
@@ -554,12 +554,12 @@
         "WROTE": "wrote",
         "YOU": "You",
         "SAVE": "Save note",
-        "ADD_NOTE": "Add contact note",
-        "EXPAND": "Expand",
+        "ADD_NOTE": "Aggiungi nota contatto",
+        "EXPAND": "Espandi",
         "COLLAPSE": "Comprimi",
         "NO_NOTES": "Nessuna nota, puoi aggiungere note dalla pagina dei dettagli del contatto.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "Non ci sono ancora note. Usa il pulsante Aggiungi nota per crearne una."
       }
     },
     "EMPTY_STATE": {
@@ -613,9 +613,9 @@
         }
       },
       "TWILIO_OPTIONS": {
-        "LABEL": "Select template",
-        "SEARCH_PLACEHOLDER": "Search templates",
-        "EMPTY_STATE": "No templates found",
+        "LABEL": "Seleziona modello",
+        "SEARCH_PLACEHOLDER": "Cerca modelli",
+        "EMPTY_STATE": "Nessun modello trovato",
         "TEMPLATE_PARSER": {
           "BACK": "Torna indietro",
           "SEND_MESSAGE": "Invia messaggio"
