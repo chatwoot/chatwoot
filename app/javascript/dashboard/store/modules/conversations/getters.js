@@ -161,6 +161,10 @@ const getters = {
   getCopilotAssistant: _state => {
     return _state.copilotAssistant;
   },
+
+  getListLoadingStatusPipelineFlag: _state => {
+    return _state.listLoadingStatusPipeline;
+  },
 };
 
 export default getters;

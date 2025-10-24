@@ -11,6 +11,7 @@ const state = {
   allConversations: [],
   attachments: {},
   listLoadingStatus: true,
+  listLoadingStatusPipeline: false,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
   currentInbox: null,
@@ -142,6 +143,10 @@ export const mutations = {
         pipeline_status_id: conversation.pipeline_status_id,
       };
     }
+  },
+
+  [types.TOGGLE_SINGLE_PIPELINE_STATUS](_state, status) {
+    _state.listLoadingStatusPipeline = status;
   },
 
   [types.MUTE_CONVERSATION](_state) {

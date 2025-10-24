@@ -203,7 +203,10 @@ export default {
 </script>
 
 <template>
-  <section class="flex w-full h-full min-w-0">
+  <section
+    class="flex w-full h-full min-w-0"
+    :class="[isOnBoard ? 'overflow-x-scroll' : '']"
+  >
     <ChatList
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"

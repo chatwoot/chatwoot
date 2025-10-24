@@ -265,16 +265,18 @@ const actions = {
     { commit },
     { conversationId, pipelineStatusId }
   ) => {
+    commit(types.TOGGLE_SINGLE_PIPELINE_STATUS, true);
+
     commit(types.CHANGE_CONVERSATION_PIPELINE_STATUS, {
       id: parseInt(conversationId, 10),
       pipeline_status_id: parseInt(pipelineStatusId, 10),
     });
 
-    const response = await ConversationApi.update(conversationId, {
+    await ConversationApi.update(conversationId, {
       pipeline_status_id: pipelineStatusId,
     });
 
-    commit(types.CHANGE_CONVERSATION_PIPELINE_STATUS, response.data);
+    commit(types.TOGGLE_SINGLE_PIPELINE_STATUS, false);
   },
 
   createPendingMessageAndSend: async ({ dispatch }, data) => {
