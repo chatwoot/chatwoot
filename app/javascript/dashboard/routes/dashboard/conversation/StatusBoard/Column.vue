@@ -60,11 +60,6 @@ const saveName = async () => {
 };
 
 const openDeleteModal = () => {
-  if (!props.column.id) {
-    emit('deleted', props.column);
-    return;
-  }
-
   if (localConversations.value.length > 0) {
     useAlert(t('PIPELINE_STATUS.DELETE_WITH_CONVERSATIONS'));
     return;
@@ -77,7 +72,6 @@ const confirmDeletion = async () => {
   try {
     await store.dispatch('pipelineStatuses/delete', props.column.id);
     useAlert(t('PIPELINE_STATUS.DELETE_SUCCESS'));
-    emit('deleted', props.column);
   } catch {
     useAlert(t('PIPELINE_STATUS.DELETE_FAILED'));
   }
@@ -99,13 +93,15 @@ const startEditing = async () => {
 };
 
 const onDragEnd = async event => {
-  const toColumnId = event.to.parentElement.dataset.columnId;
-  const conversationId = event.item.dataset.conversationId;
+  if (!store.getters.getListLoadingStatusPipelineFlag) {
+    const toColumnId = event.to.parentElement.dataset.columnId;
+    const conversationId = event.item.dataset.conversationId;
 
-  store.dispatch('togglePipelineStatus', {
-    pipelineStatusId: toColumnId,
-    conversationId: conversationId,
-  });
+    store.dispatch('togglePipelineStatus', {
+      pipelineStatusId: toColumnId,
+      conversationId: conversationId,
+    });
+  }
 };
 </script>
 

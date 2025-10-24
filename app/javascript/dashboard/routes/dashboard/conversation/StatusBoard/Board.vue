@@ -1,8 +1,10 @@
 <script setup>
-import { onMounted, ref, watchEffect } from 'vue';
+import { computed, onMounted } from 'vue';
 import Column from './Column.vue';
 import { useStore } from 'vuex';
 import AddColumn from './AddColumn.vue';
+import Spinner from '../../../../components-next/spinner/Spinner.vue';
+import { useMapGetter } from 'dashboard/composables/store.js';
 
 const props = defineProps({
   modelValue: {
@@ -12,22 +14,27 @@ const props = defineProps({
 });
 
 const store = useStore();
-const columns = ref([]);
+const chatListLoading = useMapGetter('getChatListLoadingStatus');
 
 // =================== CALLBACKS =================== //
 
 onMounted(() => {
-  store.dispatch('pipelineStatuses/get');
+  const alreadyLoaded =
+    store.getters['pipelineStatuses/getPipelineStatuses']?.length > 0;
+
+  if (!alreadyLoaded) {
+    store.dispatch('pipelineStatuses/get');
+  }
 });
 
-watchEffect(() => {
+const columns = computed(() => {
   const pipelineStatuses =
     store.getters['pipelineStatuses/getPipelineStatuses'] || [];
   const conversations = props.modelValue || [];
 
-  if (pipelineStatuses.length === 0) return;
+  if (pipelineStatuses.length === 0) return [];
 
-  columns.value = pipelineStatuses.map(status => {
+  return pipelineStatuses.map(status => {
     const conversationsByCol = conversations.filter(
       conversation => conversation.pipeline_status_id === status.id
     );
@@ -36,7 +43,6 @@ watchEffect(() => {
       id: status.id,
       name: status.name,
       conversations: conversationsByCol,
-      conversation_number: conversationsByCol.length,
       is_new: false,
     };
   });
@@ -48,7 +54,6 @@ const addColumn = () => {
   columns.value.push({
     id: null,
     name: '',
-    conversation_number: 0,
     is_new: true,
   });
 };
@@ -62,7 +67,11 @@ const deleteColumn = column => {
   <div
     class="flex flex-col w-full h-full overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200"
   >
-    <div class="flex flex-grow px-10 mt-4 space-x-6 overflow-auto">
+    <div v-if="chatListLoading" class="flex justify-center my-4">
+      <Spinner class="text-n-brand" />
+    </div>
+
+    <div v-else class="flex flex-grow px-10 mt-4 space-x-6 overflow-auto">
       <Column
         v-for="(column, index) in columns"
         :key="index"
