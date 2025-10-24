@@ -978,11 +978,12 @@ watch(conversationFilters, (newVal, oldVal) => {
         </template>
       </DynamicScroller>
     </div>
-    <div
-      v-if="isOnBoard && conversationList.length"
-      class="flex-1 p-4 overflow-auto"
-    >
-      <Board v-model="conversationList" />
+    <div v-if="isOnBoard" class="flex-1 p-4 overflow-auto">
+      <div v-if="chatListLoading" class="flex justify-center my-4">
+        <Spinner class="text-n-brand" />
+      </div>
+
+      <Board v-else v-model="conversationList" />
     </div>
 
     <Dialog
