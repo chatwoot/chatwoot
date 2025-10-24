@@ -138,11 +138,11 @@
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "Campagne WhatsApp",
+      "NEW_CAMPAIGN": "Crea campagna",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "Nessuna campagna WhatsApp disponibile",
+        "SUBTITLE": "Avvia una campagna WhatsApp per raggiungere direttamente i tuoi clienti. Invia offerte o fai annunci con facilità. Clicca su 'Crea campagna' per iniziare."
       },
       "CARD": {
         "STATUS": {
@@ -155,8 +155,8 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
-        "CANCEL_BUTTON_TEXT": "annulla",
+        "TITLE": "Crea campagna WhatsApp",
+        "CANCEL_BUTTON_TEXT": "Annulla",
         "CREATE_BUTTON_TEXT": "Crea",
         "FORM": {
           "TITLE": {
@@ -165,20 +165,20 @@
             "ERROR": "Il titolo è obbligatorio"
           },
           "INBOX": {
-            "LABEL": "Seleziona casella",
-            "PLACEHOLDER": "Seleziona casella",
+            "LABEL": "Seleziona Inbox",
+            "PLACEHOLDER": "Seleziona Inbox",
             "ERROR": "La casella è obbligatoria"
           },
           "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
+            "LABEL": "Modello WhatsApp",
+            "PLACEHOLDER": "Seleziona un modello",
+            "INFO": "Seleziona un modello da utilizzare per questa campagna.",
+            "ERROR": "Modello obbligatorio",
             "PREVIEW_TITLE": "Elabora {templateName}",
             "LANGUAGE": "Lingua",
             "CATEGORY": "Categoria",
             "VARIABLES_LABEL": "Variabili",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "VARIABLE_PLACEHOLDER": "Inserisci il valore per {variable}"
           },
           "AUDIENCE": {
             "LABEL": "Pubblico",
@@ -192,10 +192,10 @@
           },
           "BUTTONS": {
             "CREATE": "Crea",
-            "CANCEL": "annulla"
+            "CANCEL": "Annulla"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "SUCCESS_MESSAGE": "Campagna WhatsApp creata con successo",
             "ERROR_MESSAGE": "Si è verificato un errore, riprova."
           }
         }
