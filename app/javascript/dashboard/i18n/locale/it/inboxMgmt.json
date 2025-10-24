@@ -786,25 +786,25 @@
       "TITLE": "Abilita CSAT",
       "SUBTITLE": "Invia automaticamente i sondaggi CSAT alla fine delle conversazioni per capire cosa pensano i clienti della loro esperienza di supporto. Segui le tendenze e individua le aree di miglioramento nel tempo.",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "Tipo di visualizzazione"
       },
       "MESSAGE": {
         "LABEL": "Messaggio",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "PLACEHOLDER": "Inserisci un messaggio per mostrare gli utenti con il modulo"
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "Regola sondaggio",
+        "DESCRIPTION_PREFIX": "Invia il sondaggio se la conversazione",
+        "DESCRIPTION_SUFFIX": "una qualsiasi delle etichette",
         "OPERATOR": {
           "CONTAINS": "contiene",
           "DOES_NOT_CONTAINS": "non contiene"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "seleziona etichette"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "NOTE": "Nota: I sondaggi CSAT vengono inviati solo una volta per conversazione",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "SUCCESS_MESSAGE": "Impostazioni CSAT aggiornate correttamente",
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni CSAT. Riprova più tardi."
       }
     },
