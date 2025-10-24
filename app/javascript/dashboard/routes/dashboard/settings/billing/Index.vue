@@ -325,8 +325,8 @@ const billingCycleTabs = computed(() => {
 const menuTabs = computed(() => {
   return [
     { id: 'billing', name: t('BILLING.TAB_PAYMENT') },
-    { id: 'history', name: t('BILLING.TAB_HISTORY_PAYMENT') },
-    { id: 'custom', name: t('BILLING.TAB_CUSTOM_PRICING')}
+    { id: 'custom', name: t('BILLING.TAB_CUSTOM_PRICING') },
+    { id: 'history', name: t('BILLING.TAB_HISTORY_PAYMENT') }
   ]
 });
 const selectedMenuTab = ref(menuTabs.value[0].id)
@@ -586,18 +586,18 @@ function scrollToPackage() {
     <div ref="packageSection">
       <div class="border-b-4"
         :class="[{
-          'border-[#52964D]': selectedMenuTab === 'billing',
+          'border-[#32763F]': selectedMenuTab === 'billing',
+          'border-[#52964D]': selectedMenuTab === 'custom',
           'border-[#D78D30]': selectedMenuTab === 'history',
-          'border-[#D78D30]': selectedMenuTab === 'custom',
         }]">
         <div class="flex flex-row justify-center">
           <button v-for="tab in menuTabs" :key="tab.id"
             class="px-5 py-3 rounded-b-none rounded-t-xl font-normal dark:bg-[#1D1E24]"
             :class="[{
               '!font-bold text-[#FDFDFD]': selectedMenuTab === tab.id,
-              '!bg-[#52964D]': selectedMenuTab === tab.id && selectedMenuTab == 'billing',
+              '!bg-[#32763F]': selectedMenuTab === tab.id && selectedMenuTab == 'billing',
+              '!bg-[#52964D]': selectedMenuTab === tab.id && selectedMenuTab == 'custom',
               '!bg-[#D78D30]': selectedMenuTab === tab.id && selectedMenuTab == 'history',
-              '!bg-[#D78D30]': selectedMenuTab === tab.id && selectedMenuTab == 'custom',
              }]" @click="selectedMenuTab = tab.id">
             {{ tab.name }}
           </button>
@@ -683,7 +683,7 @@ function scrollToPackage() {
           >
             <p>{{ $t('BILLING.NO_CUSTOM_PLANS') }}</p>
           </div>
-          <div v-else class="custom-plans mt-4">
+          <div v-else class="pricing-plans mt-4">
             <div v-for="plan in custom_plans" :key="plan.id" class="pricing-card bg-[#fff] dark:bg-[#23252d]">
               <div class="plan-header flex flex-row">
                 <div class="flex-1">

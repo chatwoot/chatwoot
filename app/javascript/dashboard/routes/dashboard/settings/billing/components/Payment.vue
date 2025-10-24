@@ -73,15 +73,15 @@ const isDropdownOpen = ref(false);
 const dropdownRef = ref(null);
 const selectedBillingCycle = ref(null); // Default ke opsi pertama
 
-watch(() => props.plan, (newPlan) => {
-  if(isCustomPlan.value){
-    selectedBillingCycle.value = {
-      id: 'custom_' + newPlan.duration_qty, 
-      name: newPlan.duration_name,           
-      qty: newPlan.duration_qty          
-    };  
+watch(() => [props.plan, props.duration], ([newPlan, newDuration]) => {
+  if (isCustomPlan.value) {
+    let annualCycle = props.billingCycleTabs.find(e => e.id === 'yearly');
+    if (!annualCycle) {
+      annualCycle = { id: 'yearly', name: 'Tahunan', qty: 12 };
+    }
+    selectedBillingCycle.value = annualCycle;
   } else {
-      selectedBillingCycle.value = props.billingCycleTabs.find(e => e.id === duration) || props.billingCycleTabs[0];
+    selectedBillingCycle.value = props.billingCycleTabs.find(e => e.id === newDuration) || props.billingCycleTabs[0];
   }
 }, { immediate: true, deep: true });
 
