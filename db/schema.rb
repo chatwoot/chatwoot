@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_25_033349) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -784,6 +784,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
     t.integer "processed_records"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "non_identifiable_records", default: 0, null: false
     t.index ["account_id"], name: "index_data_imports_on_account_id"
   end
 

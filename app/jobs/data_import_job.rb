@@ -20,15 +20,18 @@ class DataImportJob < ApplicationJob
 
   def process_import_file
     @data_import.update!(status: :processing)
-    contacts, rejected_contacts = parse_csv_and_build_contacts
+    identifiable_contacts, non_identifiable_contacts, rejected_contacts = parse_csv_and_build_contacts
 
-    import_contacts(contacts)
-    update_data_import_status(contacts.length, rejected_contacts.length)
+    all_valid_contacts = identifiable_contacts + non_identifiable_contacts
+    import_contacts(all_valid_contacts)
+    update_data_import_status(identifiable_contacts.length, non_identifiable_contacts.length, rejected_contacts.length)
     save_failed_records_csv(rejected_contacts)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def parse_csv_and_build_contacts
-    contacts = []
+    identifiable_contacts = []
+    non_identifiable_contacts = []
     rejected_contacts = []
     # Ensuring that importing non utf-8 characters will not throw error
     data = @data_import.import_file.download
@@ -42,14 +45,21 @@ class DataImportJob < ApplicationJob
     csv.each do |row|
       current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)
       if current_contact.valid?
-        contacts << current_contact
+        is_identifiable = @contact_manager.contact_identifiable?(current_contact)
+
+        if is_identifiable
+          identifiable_contacts << current_contact
+        else
+          non_identifiable_contacts << current_contact
+        end
       else
         append_rejected_contact(row, current_contact, rejected_contacts)
       end
     end
 
-    [contacts, rejected_contacts]
+    [identifiable_contacts, non_identifiable_contacts, rejected_contacts]
   end
+  # rubocop:enable Metrics/MethodLength
 
   def append_rejected_contact(row, contact, rejected_contacts)
     row['errors'] = contact.errors.full_messages.join(', ')
@@ -61,8 +71,15 @@ class DataImportJob < ApplicationJob
     Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
   end
 
-  def update_data_import_status(processed_records, rejected_records)
-    @data_import.update!(status: :completed, processed_records: processed_records, total_records: processed_records + rejected_records)
+  def update_data_import_status(identifiable_records, non_identifiable_records, rejected_records)
+    total_records = identifiable_records + non_identifiable_records + rejected_records
+    processed_records = identifiable_records + non_identifiable_records
+    @data_import.update!(
+      status: :completed,
+      processed_records: processed_records,
+      non_identifiable_records: non_identifiable_records,
+      total_records: total_records
+    )
   end
 
   def save_failed_records_csv(rejected_contacts)

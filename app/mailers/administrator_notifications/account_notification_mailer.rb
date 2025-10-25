@@ -32,9 +32,16 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
                    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{resource.account.id}/contacts"
                  end
 
+    # Calculate metrics with backward compatibility
+    non_identifiable_count = resource.respond_to?(:non_identifiable_records) ? resource.non_identifiable_records : 0
+    identifiable_count = resource.processed_records - non_identifiable_count
+    failed_count = resource.total_records - resource.processed_records
+
     meta = {
-      'failed_contacts' => resource.total_records - resource.processed_records,
-      'imported_contacts' => resource.processed_records
+      'identifiable_contacts' => identifiable_count,
+      'non_identifiable_contacts' => non_identifiable_count,
+      'failed_contacts' => failed_count,
+      'total_contacts' => resource.total_records
     }
 
     send_notification(subject, action_url: action_url, meta: meta)

@@ -9,6 +9,10 @@ class DataImport::ContactManager
     contact
   end
 
+  def contact_identifiable?(contact)
+    contact.email.present? || contact.phone_number.present? || contact.identifier.present?
+  end
+
   def find_or_initialize_contact(params)
     contact = find_existing_contact(params)
     contact_params = params.slice(:email, :identifier, :phone_number)

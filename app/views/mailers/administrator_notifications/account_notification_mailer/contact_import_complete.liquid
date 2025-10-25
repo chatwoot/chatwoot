@@ -1,10 +1,21 @@
 <p>Hello,</p>
 
-<p>Your contact import has been completed. Please check the contacts tab to view the imported contacts.</p>
+<p>Your contact import has been completed. Here's a summary of the results:</p>
 
-<p>Number of records imported: {{meta['imported_contacts']}}</p>
+<p><strong>Contacts imported successfully:</strong> {{meta['identifiable_contacts']}}</p>
+<p><em>These contacts are visible in your contacts list and can be used for conversations.</em></p>
 
-<p>Number of records failed: {{meta['failed_contacts']}}</p>
+{% if meta['non_identifiable_contacts'] > 0 %}
+<p><strong>Contacts created but not visible:</strong> {{meta['non_identifiable_contacts']}}</p>
+<p><em>These contacts were created successfully but don't have email, phone number, or identifier, so they won't appear in your contacts list until you add this information.</em></p>
+{% endif %}
+
+{% if meta['failed_contacts'] > 0 %}
+<p><strong>Contacts that failed to import:</strong> {{meta['failed_contacts']}}</p>
+<p><em>These contacts had validation errors and could not be imported.</em></p>
+{% endif %}
+
+<p><strong>Total contacts processed:</strong> {{meta['total_contacts']}}</p>
 
 {% if meta['failed_contacts'] == 0 %}
   <p>
@@ -12,6 +23,6 @@
   </p>
 {% else %}
   <p>
-  Click <a href="{{ action_url }}" target="_blank">here</a> to view failed records.
+    Click <a href="{{ action_url }}" target="_blank">here</a> to download the failed records and see specific error messages.
   </p>
 {% endif %}
