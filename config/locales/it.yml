@@ -175,7 +175,7 @@ it:
     no_content: 'No content'
   conversations:
     captain:
-      handoff: 'Trasferimento ad un altro agente per ulteriore assistenza.'
+      handoff: 'Trasferendo ad un altro operatore per ulteriore assistenza.'
     messages:
       instagram_story_content: '%{story_sender} ti ha menzionato nella storia: '
       instagram_deleted_story_content: Questa storia non è più disponibile.
@@ -410,7 +410,7 @@ it:
       Trascrizione:
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'La casella è già stata assegnata a questa policy'
+    inbox_already_assigned: 'La Inbox è già stata assegnata a questa policy'
   portals:
     send_instructions:
       email_required: 'L''email è obbligatoria'
