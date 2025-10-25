@@ -160,8 +160,8 @@
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "Istruzioni CNAME inviate correttamente",
+            "ERROR_MESSAGE": "Errore nell'invio delle istruzioni CNAME"
           }
         }
       },
@@ -703,7 +703,7 @@
         "LABEL": "Slug",
         "PLACEHOLDER": "user-guide",
         "ERROR": "Slug è obbligatorio",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "FORMAT_ERROR": "Inserisci uno slug valido, ad esempio: guida-utente"
       }
     },
     "PORTAL_SETTINGS": {
@@ -732,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Home page link",
           "PLACEHOLDER": "Link della pagina iniziale del portale",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "ERROR": "Inserisci un URL valido. Il link della Home page deve iniziare con 'http://' o 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -742,7 +742,7 @@
           "LABEL": "Live chat widget",
           "PLACEHOLDER": "Select live chat widget",
           "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
+          "NONE_OPTION": "Nessun widget"
         },
         "BRAND_COLOR": {
           "LABEL": "Brand color"
@@ -754,14 +754,14 @@
           "HEADER": "Dominio personalizzato",
           "LABEL": "Dominio personalizzato:",
           "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "STATUS_DESCRIPTION": "Il tuo portale personalizzato inizierà a funzionare non appena verrà verificato.",
           "PLACEHOLDER": "Dominio personalizzato del portale",
           "EDIT_BUTTON": "Modifica",
           "ADD_BUTTON": "Add custom domain",
           "STATUS": {
             "LIVE": "Live",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "PENDING": "In attesa di verifica",
+            "ERROR": "Verifica non riuscita"
           },
           "DIALOG": {
             "ADD_HEADER": "Add custom domain",
@@ -771,17 +771,17 @@
             "LABEL": "Dominio personalizzato",
             "PLACEHOLDER": "Dominio personalizzato del portale",
             "ERROR": "Custom domain is required",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "FORMAT_ERROR": "Inserisci un URL di dominio valido, ad esempio: docs.tuodominio.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
             "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "COPY": "CNAME copiato",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
+              "HEADER": "Invia istruzioni",
+              "DESCRIPTION": "Se preferisci avere qualcuno dal tuo team di sviluppo per gestire questo passaggio, puoi inserire l'indirizzo email qui sotto, e invieremo loro le istruzioni richieste.",
+              "PLACEHOLDER": "Inserisci il loro indirizzo email",
+              "ERROR": "Inserisci un indirizzo email valido",
               "SEND_BUTTON": "Invia"
             }
           }
@@ -810,56 +810,56 @@
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "TITLE": "Carica Documento PDF",
+      "DESCRIPTION": "Carica un documento PDF per generare automaticamente FAQ utilizzando AI",
+      "DRAG_DROP_TEXT": "Trascina il tuo file PDF qui, o fai clic per selezionare",
+      "SELECT_FILE": "Seleziona File PDF",
+      "ADDITIONAL_CONTEXT_LABEL": "Contesto Aggiuntivo (Opzionale)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Fornisci contesto o istruzioni aggiuntive per la generazione delle FAQ...",
       "UPLOADING": "Caricamento...",
-      "UPLOAD": "Upload & Process",
-      "CANCEL": "annulla",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "UPLOAD": "Carica ed elabora",
+      "CANCEL": "Annulla",
+      "ERROR_INVALID_TYPE": "Seleziona un file PDF valido",
+      "ERROR_FILE_TOO_LARGE": "La dimensione del file deve essere inferiore a 512MB",
+      "ERROR_UPLOAD_FAILED": "Impossibile caricare il PDF. Riprova."
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
-      "GENERATING": "Generating...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "TITLE": "Documenti PDF",
+      "DESCRIPTION": "Gestisci i documenti PDF caricati e genera FAQ da essi",
+      "UPLOAD_PDF": "Carica PDF",
+      "UPLOAD_FIRST_PDF": "Carica il tuo primo PDF",
+      "UPLOADED_BY": "Caricato da",
+      "GENERATE_FAQS": "Genera FAQ",
+      "GENERATING": "Generazione...",
+      "CONFIRM_DELETE": "Sei sicuro di voler eliminare {filename}?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "Nessun documento PDF",
+        "DESCRIPTION": "Carica documenti PDF per generare automaticamente FAQ utilizzando AI"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
+        "UPLOADED": "Pronto",
+        "PROCESSING": "Elaborazione",
         "PROCESSED": "Completato",
-        "FAILED": "Failed"
+        "FAILED": "Non Riuscito"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "Generazione Contenuti",
+      "DESCRIPTION": "Carica documenti PDF per generare automaticamente contenuti FAQ utilizzando AI",
+      "UPLOAD_TITLE": "Carica Documento PDF",
+      "DRAG_DROP": "Trascina il tuo file PDF qui, o fai clic per selezionare",
+      "SELECT_FILE": "Seleziona File PDF",
+      "UPLOADING": "Elaborazione documento...",
+      "UPLOAD_SUCCESS": "Documento elaborato con successo!",
+      "UPLOAD_ERROR": "Impossibile caricare il documento. Riprova.",
+      "INVALID_FILE_TYPE": "Seleziona un file PDF valido",
+      "FILE_TOO_LARGE": "La dimensione del file deve essere inferiore a 512MB",
+      "GENERATED_CONTENT": "Contenuti FAQ Generati",
+      "PUBLISH_SELECTED": "Pubblica Selezionati",
+      "PUBLISHING": "Pubblicazione...",
+      "FROM_DOCUMENT": "Dal documento",
+      "NO_CONTENT": "Nessun contenuto generato disponibile. Carica un documento PDF per iniziare.",
+      "LOADING": "Caricamento contenuti generati..."
     }
   }
 }
