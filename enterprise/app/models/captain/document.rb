@@ -47,7 +47,7 @@ class Captain::Document < ApplicationRecord
   after_create_commit :enqueue_crawl_job
   after_create_commit :update_document_usage
   after_destroy :update_document_usage
-  after_commit :enqueue_response_builder_job, on: :update, if: :should_enqueue_response_builder?
+  after_commit :enqueue_response_builder_job, if: :should_enqueue_response_builder?
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }

@@ -82,4 +82,41 @@ RSpec.describe Captain::Document, type: :model do
       end
     end
   end
+
+  describe 'response builder job callback' do
+    before do
+      clear_enqueued_jobs
+    end
+
+    it 'enqueues response builder job when status transitions to available' do
+      document = create(:captain_document, assistant: assistant, account: account, status: :in_progress)
+
+      expect do
+        document.update!(status: :available)
+      end.to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+    end
+
+    it 'enqueues response builder job when created with available status' do
+      expect do
+        create(:captain_document, assistant: assistant, account: account, status: :available)
+      end.to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+    end
+
+    it 'does not enqueue response builder job when document remains in progress' do
+      document = create(:captain_document, assistant: assistant, account: account, status: :in_progress)
+
+      expect do
+        document.update!(metadata: { 'title' => 'Updated' })
+      end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+    end
+
+    it 'does not enqueue response builder job for metadata updates on available documents' do
+      document = create(:captain_document, assistant: assistant, account: account, status: :available)
+      clear_enqueued_jobs
+
+      expect do
+        document.update!(metadata: { 'title' => 'Updated Again' })
+      end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+    end
+  end
 end
