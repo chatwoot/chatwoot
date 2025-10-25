@@ -20,11 +20,25 @@ class DataImportJob < ApplicationJob
 
   def process_import_file
     @data_import.update!(status: :processing)
-    identifiable_contacts, non_identifiable_contacts, rejected_contacts = parse_csv_and_build_contacts
+    identifiable_contacts, non_identifiable_contacts, rejected_contacts, total_csv_records = parse_csv_and_build_contacts
 
     all_valid_contacts = identifiable_contacts + non_identifiable_contacts
+
+    # Count contacts before import
+    contacts_before = @data_import.account.contacts.count
+
     import_contacts(all_valid_contacts)
-    update_data_import_status(identifiable_contacts.length, non_identifiable_contacts.length, rejected_contacts.length)
+
+    # Count contacts after import to get actual imported count
+    contacts_after = @data_import.account.contacts.count
+    actual_imported_count = contacts_after - contacts_before
+
+    # Calculate actual imported counts based on what we built vs what was imported
+    actual_identifiable_count, actual_non_identifiable_count = calculate_actual_import_counts(
+      identifiable_contacts, non_identifiable_contacts, actual_imported_count
+    )
+
+    update_data_import_status(actual_identifiable_count, actual_non_identifiable_count, rejected_contacts.length, total_csv_records)
     save_failed_records_csv(rejected_contacts)
   end
 
@@ -41,6 +55,7 @@ class DataImportJob < ApplicationJob
     clean_data = utf8_data.valid_encoding? ? utf8_data : utf8_data.encode('UTF-16le', invalid: :replace, replace: '').encode('UTF-8')
 
     csv = CSV.parse(clean_data, headers: true)
+    total_csv_records = csv.length
 
     csv.each do |row|
       current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)
@@ -57,7 +72,7 @@ class DataImportJob < ApplicationJob
       end
     end
 
-    [identifiable_contacts, non_identifiable_contacts, rejected_contacts]
+    [identifiable_contacts, non_identifiable_contacts, rejected_contacts, total_csv_records]
   end
   # rubocop:enable Metrics/MethodLength
 
@@ -67,18 +82,38 @@ class DataImportJob < ApplicationJob
   end
 
   def import_contacts(contacts)
-    # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
+    # Returns ActiveRecord::Import::Result with info about what was actually imported
     Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
   end
 
-  def update_data_import_status(identifiable_records, non_identifiable_records, rejected_records)
-    total_records = identifiable_records + non_identifiable_records + rejected_records
+  def calculate_actual_import_counts(identifiable_contacts, non_identifiable_contacts, actual_imported_count)
+    Rails.logger.info "Actual imported: #{actual_imported_count}, expected identifiable: #{identifiable_contacts.length}, " \
+                      "expected non-identifiable: #{non_identifiable_contacts.length}"
+
+    expected_count = identifiable_contacts.length + non_identifiable_contacts.length
+
+    if actual_imported_count <= expected_count
+      # Prioritize identifiable contacts in the count since they're more important
+      actual_identifiable_count = [actual_imported_count, identifiable_contacts.length].min
+      actual_non_identifiable_count = actual_imported_count - actual_identifiable_count
+    else
+      # This shouldn't happen, but fallback to expected counts
+      actual_identifiable_count = identifiable_contacts.length
+      actual_non_identifiable_count = non_identifiable_contacts.length
+    end
+
+    Rails.logger.info "Final counts: identifiable=#{actual_identifiable_count}, non-identifiable=#{actual_non_identifiable_count}"
+
+    [actual_identifiable_count, actual_non_identifiable_count]
+  end
+
+  def update_data_import_status(identifiable_records, non_identifiable_records, _rejected_records, total_csv_records)
     processed_records = identifiable_records + non_identifiable_records
     @data_import.update!(
       status: :completed,
       processed_records: processed_records,
       non_identifiable_records: non_identifiable_records,
-      total_records: total_records
+      total_records: total_csv_records
     )
   end
 

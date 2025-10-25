@@ -59,7 +59,8 @@ RSpec.describe DataImportJob do
         described_class.perform_now(invalid_data_import)
         expect(invalid_data_import.account.contacts.count).to eq(csv_length - 1)
         expect(invalid_data_import.reload.total_records).to eq(csv_length)
-        expect(invalid_data_import.reload.processed_records).to eq(csv_length)
+        # Only 2 contacts actually imported (duplicate email fails for the 3rd)
+        expect(invalid_data_import.reload.processed_records).to eq(csv_length - 1)
       end
 
       it 'will preserve emojis' do
@@ -147,8 +148,45 @@ RSpec.describe DataImportJob do
           expect(phone_contact.reload.email).to be_nil
           expect(email_contact.reload.phone_number).to be_nil
           expect(existing_data_import.total_records).to eq(csv_length)
+          # Only 2 contacts imported (1 has conflicting phone/email so fails)
           expect(existing_data_import.processed_records).to eq(csv_length - 1)
         end
+      end
+    end
+
+    context 'with non_identifiable_records tracking' do
+      it 'tracks non-identifiable records correctly' do
+        # Test that the new non_identifiable_records field is properly tracked
+        described_class.perform_now(data_import)
+
+        data_import.reload
+        expect(data_import.non_identifiable_records).to eq(0) # Default CSV has all identifiable contacts
+      end
+    end
+
+    context 'when all contacts have duplicate identifiers' do
+      it 'imports only the first contact and reports failures accurately' do
+        duplicate_data = [
+          %w[id name email identifier phone_number],
+          ['1', 'First Contact', '', 'DUPLICATE-ID', '+918484848484'], # Will succeed
+          ['2', 'Second Contact', '', 'DUPLICATE-ID', '+918484848485'], # Will fail (duplicate identifier)
+          ['3', 'Third Contact', '', 'DUPLICATE-ID', '+918484848486'] # Will fail (duplicate identifier)
+        ]
+
+        duplicate_data_import = create(:data_import, import_file: generate_csv_file(duplicate_data))
+        CSV.parse(duplicate_data_import.import_file.download, headers: true)
+
+        described_class.perform_now(duplicate_data_import)
+
+        # Only first contact should be imported
+        expect(duplicate_data_import.account.contacts.count).to eq(1)
+        expect(duplicate_data_import.account.contacts.first.name).to eq('First Contact')
+
+        # Check metrics
+        duplicate_data_import.reload
+        expect(duplicate_data_import.total_records).to eq(3)
+        expect(duplicate_data_import.processed_records).to eq(1) # Only first contact imported
+        expect(duplicate_data_import.non_identifiable_records).to eq(0) # First contact is identifiable
       end
     end
 

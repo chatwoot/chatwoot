@@ -11,6 +11,19 @@ RSpec.describe DataImport do
     end
   end
 
+  describe 'fields' do
+    let(:data_import) { create(:data_import) }
+
+    it 'has non_identifiable_records field with default value' do
+      expect(data_import.non_identifiable_records).to eq(0)
+    end
+
+    it 'allows setting non_identifiable_records' do
+      data_import.update!(non_identifiable_records: 5)
+      expect(data_import.reload.non_identifiable_records).to eq(5)
+    end
+  end
+
   describe 'callbacks' do
     let(:data_import) { build(:data_import) }
 
