@@ -1,0 +1,121 @@
+version: '3.8'
+
+# CommMate Production - USA SUA IMAGEM CUSTOMIZADA
+services:
+  rails:
+    image: commmate/commmate:latest
+    container_name: commmate-rails
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      # CommMate Branding (já integrado na imagem)
+      - APP_NAME=CommMate
+      - BRAND_NAME=CommMate
+      - INSTALLATION_NAME=CommMate
+      - BRAND_URL=https://commmate.com
+      - HIDE_BRANDING=true
+      - DEFAULT_LOCALE=pt_BR
+      
+      # Environment
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - INSTALLATION_ENV=docker
+      
+      # Database
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      
+      # Redis
+      - REDIS_URL=redis://redis:6379
+      
+      # Rails
+      - SECRET_KEY_BASE=b7d7dd3fb6ed4f1829dcb2f7d21c6efbeca45762f97480c5ae74c98fab5f8225df2572693173c5dd6a6cae58c9389c57638cdcc8cb9438f8ebf955d9950f3e4a
+      - RAILS_MAX_THREADS=5
+      
+      # Frontend
+      - FRONTEND_URL=http://localhost:3000
+      
+      # Email
+      - SMTP_ADDRESS=mailhog
+      - SMTP_PORT=1025
+      - MAILER_SENDER_EMAIL=CommMate <support@commmate.com>
+      
+      # Features
+      - ENABLE_ACCOUNT_SIGNUP=true
+      - ACTIVE_STORAGE_SERVICE=local
+      - RAILS_LOG_TO_STDOUT=true
+    volumes:
+      - commmate-storage:/app/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+
+  sidekiq:
+    image: commmate/commmate:latest
+    container_name: commmate-sidekiq
+    restart: unless-stopped
+    environment:
+      - RAILS_ENV=production
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY_BASE=b7d7dd3fb6ed4f1829dcb2f7d21c6efbeca45762f97480c5ae74c98fab5f8225df2572693173c5dd6a6cae58c9389c57638cdcc8cb9438f8ebf955d9950f3e4a
+    depends_on:
+      - postgres
+      - redis
+      - rails
+    volumes:
+      - commmate-storage:/app/storage
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+
+  postgres:
+    image: postgres:16
+    container_name: commmate-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: commmate-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: commmate-mailhog
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+
+volumes:
+  postgres-data:
+  redis-data:
+  commmate-storage:

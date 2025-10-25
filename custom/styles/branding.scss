@@ -1,0 +1,203 @@
+@import './variables';
+
+// CommMate Green Branding
+
+// Override sidebar logo
+.sidebar-logo {
+  background-image: url('/images/logo-full.png') !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: var(--logo-width);
+  height: var(--logo-height);
+}
+
+// Login page branding
+.login-page {
+  .logo-container {
+    background-image: url('/images/logo-full.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  
+  .button--primary {
+    background-color: var(--color-primary) !important;
+    
+    &:hover {
+      background-color: var(--color-primary-dark) !important;
+    }
+  }
+}
+
+// Sidebar with green branding
+.sidebar {
+  .menu-item {
+    &.is-active {
+      background-color: var(--color-primary) !important;
+      border-left: 4px solid var(--color-quaternary) !important;
+    }
+    
+    &:hover {
+      background-color: rgba(16, 126, 68, 0.1) !important;
+    }
+  }
+}
+
+// Primary buttons - Green
+.button--primary,
+.button--success {
+  background-color: var(--color-primary) !important;
+  
+  &:hover {
+    background-color: var(--color-secondary) !important;
+  }
+  
+  &:active {
+    background-color: var(--color-primary-dark) !important;
+  }
+}
+
+// Secondary buttons - Lighter green
+.button--secondary {
+  background-color: var(--color-tertiary) !important;
+  
+  &:hover {
+    background-color: var(--color-quaternary) !important;
+  }
+}
+
+// Widget branding
+.woot-widget {
+  .branding {
+    display: none; // Hide "Powered by Chatwoot"
+  }
+  
+  .widget-header {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%) !important;
+  }
+  
+  .button--primary {
+    background-color: var(--color-primary) !important;
+  }
+}
+
+// Email templates
+.email-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%) !important;
+  
+  .logo {
+    content: url('/images/logo-full.png');
+    max-width: 140px;
+  }
+}
+
+// Badge colors
+.badge--success {
+  background-color: var(--color-tertiary) !important;
+}
+
+// Link colors
+a {
+  color: var(--color-primary) !important;
+  
+  &:hover {
+    color: var(--color-secondary) !important;
+  }
+}
+
+// Input focus states
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(16, 126, 68, 0.1) !important;
+}
+
+// Checkbox and radio - Green
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+// Progress bars
+.progress-bar {
+  background-color: var(--color-primary) !important;
+}
+
+// Loader/Spinner
+.spinner {
+  border-color: var(--color-tertiary) !important;
+  border-top-color: var(--color-primary) !important;
+}
+
+// Tabs
+.tabs {
+  .tab-item {
+    &.is-active {
+      border-bottom-color: var(--color-primary) !important;
+      color: var(--color-primary) !important;
+    }
+  }
+}
+
+// Dark mode specific
+.dark {
+  .sidebar-logo {
+    background-image: url('/images/logo-dark.png') !important;
+  }
+  
+  .login-page .logo-container {
+    background-image: url('/images/logo-dark.png') !important;
+  }
+  
+  .email-header .logo {
+    content: url('/images/logo-dark.png');
+  }
+}
+
+// Notification badge
+.notification-badge {
+  background-color: var(--color-quaternary) !important;
+}
+
+// Avatar borders
+.avatar {
+  border: 2px solid var(--color-tertiary) !important;
+}
+
+// Card hover effects
+.card:hover {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 4px 12px rgba(16, 126, 68, 0.15) !important;
+}
+
+// Conversation list item active
+.conversation-item.is-active {
+  background: linear-gradient(90deg, 
+    rgba(16, 126, 68, 0.1) 0%, 
+    rgba(39, 149, 76, 0.05) 100%) !important;
+  border-left: 4px solid var(--color-primary) !important;
+}
+
+// Status indicators - Use green palette
+.status--online {
+  background-color: var(--color-tertiary) !important;
+}
+
+.status--busy {
+  background-color: var(--color-warning) !important;
+}
+
+.status--offline {
+  background-color: #94a3b8 !important;
+}
+
+// Gradient backgrounds for special sections
+.hero-section,
+.feature-banner {
+  background: linear-gradient(135deg, 
+    var(--color-primary) 0%, 
+    var(--color-secondary) 50%, 
+    var(--color-tertiary) 100%) !important;
+}
+

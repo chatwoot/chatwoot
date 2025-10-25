@@ -1,0 +1,82 @@
+// CommMate Brand Colors - Green Identity
+:root {
+  // Primary green palette
+  --color-primary: #107e44;
+  --color-primary-dark: #0d6636;
+  --color-primary-light: #13954f;
+  
+  // Secondary green palette
+  --color-secondary: #27954c;
+  --color-secondary-dark: #1f7a3e;
+  --color-secondary-light: #31a956;
+  
+  // Tertiary green palette
+  --color-tertiary: #59b44b;
+  --color-tertiary-dark: #489a3c;
+  --color-tertiary-light: #6bc75c;
+  
+  // Quaternary green palette
+  --color-quaternary: #8cc540;
+  --color-quaternary-dark: #76ab34;
+  --color-quaternary-light: #9dd34f;
+  
+  // State colors
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+  
+  // Logo dimensions
+  --logo-width: 140px;
+  --logo-height: 40px;
+  
+  // Branding
+  --brand-primary: var(--color-primary);
+  --brand-secondary: var(--color-secondary);
+}
+
+// Dark mode overrides
+.dark {
+  --color-primary: #13954f;
+  --color-secondary: #31a956;
+  --color-tertiary: #6bc75c;
+  --color-quaternary: #9dd34f;
+}
+
+// Tailwind integration
+@layer base {
+  // Override Chatwoot's default primary color
+  .bg-woot-primary {
+    background-color: var(--color-primary) !important;
+  }
+  
+  .text-woot-primary {
+    color: var(--color-primary) !important;
+  }
+  
+  .border-woot-primary {
+    border-color: var(--color-primary) !important;
+  }
+  
+  // Buttons
+  .button--primary {
+    background-color: var(--color-primary) !important;
+    
+    &:hover {
+      background-color: var(--color-primary-dark) !important;
+    }
+  }
+  
+  // Links
+  a {
+    &:hover {
+      color: var(--color-primary) !important;
+    }
+  }
+  
+  // Active states
+  .is-active {
+    background-color: var(--color-primary) !important;
+  }
+}
+

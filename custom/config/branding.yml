@@ -1,0 +1,35 @@
+# CommMate Branding Configuration
+app_name: "CommMate"
+tagline: "Your Communication Mate"
+company_name: "CommMate Inc."
+website: "https://commmate.com"
+support_email: "support@commmate.com"
+documentation_url: "https://docs.commmate.com"
+
+# Brand Colors - Green Identity
+colors:
+  primary: "#107e44"     # Primary green
+  secondary: "#27954c"   # Secondary green
+  tertiary: "#59b44b"    # Third green
+  quaternary: "#8cc540"  # Fourth green
+  success: "#10b981"     # Success state
+  warning: "#f59e0b"     # Warning state
+  danger: "#ef4444"      # Error state
+
+# Social Links
+social:
+  twitter: "https://twitter.com/commmate"
+  linkedin: "https://linkedin.com/company/commmate"
+  github: "https://github.com/commmate"
+
+# Features
+features:
+  show_powered_by: false
+  custom_domain_support: true
+  white_label: true
+
+# Legal
+legal:
+  privacy_policy_url: "https://commmate.com/privacy"
+  terms_of_service_url: "https://commmate.com/terms"
+

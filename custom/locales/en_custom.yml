@@ -1,0 +1,110 @@
+en:
+  # =========================================
+  # CommMate Complete Translation Override
+  # Removes all "Chatwoot" references
+  # =========================================
+
+  # Application Name
+  application_name: "CommMate"
+  brand_name: "CommMate"
+  product_name: "CommMate"
+  
+  # Global
+  global:
+    powered_by: "Powered by CommMate"
+    learn_more: "Learn more about CommMate"
+    get_started: "Get started with CommMate"
+  
+  # Authentication
+  devise:
+    sessions:
+      signed_in: "Welcome to CommMate!"
+      signed_out: "You have been signed out of CommMate."
+      new:
+        title: "Sign in to CommMate"
+        subtitle: "Access your CommMate account"
+    registrations:
+      signed_up: "Welcome! You have signed up for CommMate successfully."
+      new:
+        title: "Create your CommMate account"
+        subtitle: "Start your communication journey"
+  
+  # Common Phrases - Remove "Chatwoot"
+  powered_by_html: "Powered by <strong>CommMate</strong>"
+  powered_by: "Powered by CommMate"
+  branding: "CommMate"
+  
+  # Widget
+  widget:
+    launcher:
+      greeting: "Hi! How can we help you today?"
+    powered_by: ""  # Remove "Powered by" text completely
+    branding_text: ""  # Remove branding text
+    footer_company_link: ""  # Remove company link
+  
+  # Mailer
+  mailer:
+    subject_prefix: "[CommMate]"
+    footer:
+      text: "You're receiving this email because you are using CommMate"
+      company: "CommMate"
+    greeting: "Hello from CommMate!"
+  
+  # Dashboard
+  dashboard:
+    header:
+      title: "CommMate Dashboard"
+    welcome: "Welcome to CommMate"
+  
+  # Settings
+  settings:
+    app_name: "CommMate"
+    app_title: "CommMate Settings"
+    
+  # Installation
+  installation:
+    title: "Welcome to CommMate"
+    description: "Set up your CommMate instance"
+  
+  # Onboarding
+  onboarding:
+    title: "Welcome to CommMate"
+    finish: "Start using CommMate"
+  
+  # Help/Documentation Links - Point to your docs
+  help:
+    documentation_url: "https://docs.commmate.com"
+    support_url: "https://commmate.com/support"
+    api_docs_url: "https://docs.commmate.com/api"
+  
+  # Footer
+  footer:
+    company: "CommMate"
+    copyright: "© %{year} CommMate. All rights reserved."
+    terms: "https://commmate.com/terms"
+    privacy: "https://commmate.com/privacy"
+  
+  # API
+  api:
+    documentation: "CommMate API Documentation"
+    
+  # Errors
+  errors:
+    title: "Oops! Something went wrong in CommMate"
+  
+  # Account
+  account:
+    create_new: "Create new CommMate account"
+    
+  # Installation Config
+  installation_config:
+    app_name: "CommMate"
+    
+  # Agent Dashboard
+  agent_dashboard:
+    title: "CommMate Agent Dashboard"
+  
+  # Super Admin
+  super_admin:
+    title: "CommMate Super Admin"
+

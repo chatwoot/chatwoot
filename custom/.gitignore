@@ -1,0 +1,29 @@
+# Ignore actual asset files (keep structure, ignore content)
+# This allows you to keep your branding private
+
+# Ignore all images (add yours locally)
+assets/images/*
+assets/logos/*
+assets/favicons/*
+
+# Keep the directory structure
+!assets/images/.gitkeep
+!assets/logos/.gitkeep
+!assets/favicons/.gitkeep
+
+# Keep README files
+!assets/README.md
+!**/README.md
+
+# Ignore environment files with sensitive data
+*.env
+*.env.local
+*.env.production
+
+# Keep templates
+!*.template
+
+# Ignore build artifacts
+*.log
+*.tmp
+

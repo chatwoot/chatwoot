@@ -1,0 +1,319 @@
+pt_BR:
+  # =========================================
+  # CommMate - Traduções Completas em Português
+  # Remove todas as referências ao "Chatwoot"
+  # =========================================
+
+  # Nome da Aplicação
+  application_name: "CommMate"
+  brand_name: "CommMate"
+  product_name: "CommMate"
+  
+  # Global
+  global:
+    powered_by: "Desenvolvido por CommMate"
+    learn_more: "Saiba mais sobre o CommMate"
+    get_started: "Comece a usar o CommMate"
+  
+  # Autenticação
+  devise:
+    sessions:
+      signed_in: "Bem-vindo ao CommMate!"
+      signed_out: "Você saiu do CommMate."
+      new:
+        title: "Entrar no CommMate"
+        subtitle: "Acesse sua conta CommMate"
+    registrations:
+      signed_up: "Bem-vindo! Você se cadastrou no CommMate com sucesso."
+      new:
+        title: "Criar sua conta CommMate"
+        subtitle: "Comece sua jornada de comunicação"
+    passwords:
+      new:
+        title: "Recuperar senha do CommMate"
+      edit:
+        title: "Alterar sua senha do CommMate"
+  
+  # Frases Comuns - Remover "Chatwoot"
+  powered_by_html: "Desenvolvido por <strong>CommMate</strong>"
+  powered_by: "Desenvolvido por CommMate"
+  branding: "CommMate"
+  
+  # Widget
+  widget:
+    launcher:
+      greeting: "Olá! Como podemos ajudar você hoje?"
+    powered_by: ""  # Remove texto "Desenvolvido por"
+    branding_text: ""  # Remove texto de branding
+    footer_company_link: ""  # Remove link da empresa
+    title: "Chat CommMate"
+  
+  # E-mails
+  mailer:
+    subject_prefix: "[CommMate]"
+    footer:
+      text: "Você está recebendo este e-mail porque está usando o CommMate"
+      company: "CommMate"
+    greeting: "Olá do CommMate!"
+  
+  # Dashboard
+  dashboard:
+    header:
+      title: "Painel CommMate"
+    welcome: "Bem-vindo ao CommMate"
+    greeting: "Olá! Bem-vindo ao CommMate"
+  
+  # Configurações
+  settings:
+    app_name: "CommMate"
+    app_title: "Configurações do CommMate"
+    title: "Configurações CommMate"
+    
+  # Instalação
+  installation:
+    title: "Bem-vindo ao CommMate"
+    description: "Configure sua instância do CommMate"
+    welcome: "Bem-vindo ao CommMate"
+  
+  # Onboarding
+  onboarding:
+    title: "Bem-vindo ao CommMate"
+    finish: "Começar a usar o CommMate"
+    welcome_message: "Bem-vindo ao CommMate! Estamos felizes em tê-lo aqui."
+  
+  # Ajuda/Links de Documentação - Apontar para seus docs
+  help:
+    documentation_url: "https://docs.commmate.com"
+    support_url: "https://commmate.com/suporte"
+    api_docs_url: "https://docs.commmate.com/api"
+  
+  # Rodapé
+  footer:
+    company: "CommMate"
+    copyright: "© %{year} CommMate. Todos os direitos reservados."
+    terms: "https://commmate.com/termos"
+    privacy: "https://commmate.com/privacidade"
+  
+  # API
+  api:
+    documentation: "Documentação da API CommMate"
+    title: "API CommMate"
+    
+  # Erros
+  errors:
+    title: "Ops! Algo deu errado no CommMate"
+    not_found: "Página não encontrada no CommMate"
+  
+  # Conta
+  account:
+    create_new: "Criar nova conta CommMate"
+    welcome: "Bem-vindo à sua conta CommMate"
+    
+  # Configuração de Instalação
+  installation_config:
+    app_name: "CommMate"
+    
+  # Painel do Agente
+  agent_dashboard:
+    title: "Painel do Agente CommMate"
+  
+  # Super Admin
+  super_admin:
+    title: "Super Admin CommMate"
+  
+  # Conversas
+  conversations:
+    header: "Conversas no CommMate"
+    
+  # Contatos
+  contacts:
+    header: "Contatos do CommMate"
+    
+  # Relatórios
+  reports:
+    title: "Relatórios CommMate"
+    
+  # Inbox
+  inbox:
+    title: "Caixa de Entrada CommMate"
+    
+  # Notificações
+  notifications:
+    title: "Notificações do CommMate"
+    
+  # Equipe
+  team:
+    title: "Equipe CommMate"
+    
+  # Integrações
+  integrations:
+    title: "Integrações CommMate"
+    header: "Integrações do CommMate"
+    
+  # Campanhas
+  campaigns:
+    title: "Campanhas CommMate"
+    
+  # Automação
+  automation:
+    title: "Automação CommMate"
+    
+  # Macros
+  macros:
+    title: "Macros do CommMate"
+    
+  # Respostas Salvas
+  canned_responses:
+    title: "Respostas Salvas do CommMate"
+    
+  # Etiquetas
+  labels:
+    title: "Etiquetas do CommMate"
+    
+  # Atributos Personalizados
+  custom_attributes:
+    title: "Atributos Personalizados do CommMate"
+    
+  # Portal de Ajuda
+  help_center:
+    title: "Central de Ajuda CommMate"
+    header: "Central de Ajuda do CommMate"
+    
+  # Aplicativos
+  apps:
+    title: "Aplicativos CommMate"
+    
+  # Webhooks
+  webhooks:
+    title: "Webhooks do CommMate"
+    
+  # Mensagens
+  messages:
+    powered_by: ""  # Remove "Powered by"
+    
+  # Login
+  login:
+    title: "Entrar no CommMate"
+    welcome: "Bem-vindo de volta ao CommMate"
+    
+  # Registro
+  register:
+    title: "Criar conta CommMate"
+    welcome: "Junte-se ao CommMate"
+    
+  # Perfil
+  profile:
+    title: "Perfil CommMate"
+    
+  # Canais
+  channels:
+    title: "Canais CommMate"
+    
+  # Agentes
+  agents:
+    title: "Agentes CommMate"
+    
+  # Equipes
+  teams:
+    title: "Equipes CommMate"
+    
+  # Configurações da Conta
+  account_settings:
+    title: "Configurações da Conta CommMate"
+    
+  # Configurações do Perfil
+  profile_settings:
+    title: "Configurações do Perfil CommMate"
+    
+  # Preferências de Notificação
+  notification_settings:
+    title: "Preferências de Notificação CommMate"
+    
+  # Aparência
+  appearance:
+    title: "Aparência CommMate"
+    
+  # Atalhos de Teclado
+  keyboard_shortcuts:
+    title: "Atalhos de Teclado do CommMate"
+    
+  # Pesquisa
+  search:
+    placeholder: "Pesquisar no CommMate..."
+    
+  # Filtros
+  filters:
+    title: "Filtros do CommMate"
+    
+  # Ordenação
+  sort:
+    title: "Ordenação CommMate"
+    
+  # Paginação
+  pagination:
+    powered_by: ""
+    
+  # Cabeçalho
+  header:
+    title: "CommMate"
+    
+  # Navegação
+  navigation:
+    home: "Início"
+    conversations: "Conversas"
+    contacts: "Contatos"
+    reports: "Relatórios"
+    settings: "Configurações"
+    
+  # Status
+  status:
+    online: "Online no CommMate"
+    offline: "Offline do CommMate"
+    busy: "Ocupado no CommMate"
+    
+  # Atualizações
+  updates:
+    title: "Atualizações do CommMate"
+    
+  # Ajuda e Suporte
+  support:
+    title: "Suporte CommMate"
+    contact: "Entre em contato com o suporte CommMate"
+    documentation: "Documentação CommMate"
+    
+  # Sobre
+  about:
+    title: "Sobre o CommMate"
+    version: "Versão do CommMate"
+    
+  # Termos e Privacidade
+  legal:
+    terms: "Termos de Uso do CommMate"
+    privacy: "Política de Privacidade do CommMate"
+    
+  # Boas-vindas
+  welcome:
+    title: "Bem-vindo ao CommMate!"
+    subtitle: "Sua plataforma de comunicação"
+    message: "Obrigado por escolher o CommMate"
+    
+  # Despedida
+  goodbye:
+    message: "Obrigado por usar o CommMate!"
+    
+  # Confirmações
+  confirmations:
+    title: "Confirmação CommMate"
+    
+  # Sucessos
+  success:
+    message: "Operação realizada com sucesso no CommMate"
+    
+  # Avisos
+  warnings:
+    message: "Aviso do CommMate"
+    
+  # Informações
+  info:
+    message: "Informação do CommMate"
+
