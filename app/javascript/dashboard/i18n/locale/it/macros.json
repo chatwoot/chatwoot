@@ -86,7 +86,7 @@
     },
     "ACTIONS": {
       "ASSIGN_TEAM": "Assegna Team",
-      "ASSIGN_AGENT": "Assegna Agente",
+      "ASSIGN_AGENT": "Assegna un Operatore",
       "ADD_LABEL": "Aggiungi Etichetta",
       "REMOVE_LABEL": "Rimuovi Etichetta",
       "REMOVE_ASSIGNED_TEAM": "Rimuovi Team Assegnato",
