@@ -1,0 +1,84 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SWAGGER_GEN: "true"
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  CLUSTER_NAME: "integrisoft"
+  CONFIG_ENVIRONMENT: "Production"
+  GH_USERNAME: "jvaraujos"
+  GH_PAT: ${{ secrets.GH_PAT }}
+  # Chatwoot Rails
+  CHATWOOT_RAILS_SERVICE: "chatwoot-rails"
+  CHATWOOT_RAILS_IMAGE: "${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{secrets.AWS_DEFAULT_REGION}}.amazonaws.com/chatwoot-rails"
+  # Chatwoot Sidekiq
+  CHATWOOT_SIDEKIQ_SERVICE: "chatwoot-sidekiq"
+  CHATWOOT_SIDEKIQ_IMAGE: "${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{secrets.AWS_DEFAULT_REGION}}.amazonaws.com/chatwoot-sidekiq"
+jobs:
+  deploy-production:
+    if: github.ref == 'refs/heads/main'
+    name: Deploy - Production
+    runs-on: ubuntu-22.04
+    environment: Production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_SECRET_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      - name: Set version variables
+        run: |
+          echo "COMMIT_HASH=$(echo ${{ github.sha }} | cut -c 1-7)" >> $GITHUB_ENV
+          echo "VERSION=1.0.${{ github.run_number }}" >> $GITHUB_ENV
+          # Chatwoot Rails
+          echo "CHATWOOT_RAILS_REPOSITORY_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_DEFAULT_REGION }}.amazonaws.com/${{ env.CHATWOOT_RAILS_SERVICE }}" >> $GITHUB_ENV
+          echo "CHATWOOT_RAILS_REPOSITORY_URI_VERSION=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_DEFAULT_REGION }}.amazonaws.com/${{ env.CHATWOOT_RAILS_SERVICE }}:1.0.${{ github.run_number }}" >> $GITHUB_ENV
+          # Chatwoot Sidekiq
+          echo "CHATWOOT_SIDEKIQ_REPOSITORY_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_DEFAULT_REGION }}.amazonaws.com/${{ env.CHATWOOT_SIDEKIQ_SERVICE }}" >> $GITHUB_ENV
+          echo "CHATWOOT_SIDEKIQ_REPOSITORY_URI_VERSION=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_DEFAULT_REGION }}.amazonaws.com/${{ env.CHATWOOT_SIDEKIQ_SERVICE }}:1.0.${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Authenticate Docker to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{secrets.AWS_DEFAULT_REGION}} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{secrets.AWS_DEFAULT_REGION}}.amazonaws.com
+
+      - name: Build and push Chatwoot Rails Docker image
+        run: |
+          docker build -f Dockerfile.rails -t chatwoot-rails .
+          docker tag chatwoot-rails ${{ env.CHATWOOT_RAILS_IMAGE }}:${{ env.VERSION }}
+          docker tag chatwoot-rails ${{ env.CHATWOOT_RAILS_IMAGE }}:latest
+          docker push ${{ env.CHATWOOT_RAILS_IMAGE }}:${{ env.VERSION }}
+          docker push ${{ env.CHATWOOT_RAILS_IMAGE }}:latest
+
+      - name: Build and push Chatwoot Sidekiq Docker image
+        run: |
+          docker build -f Dockerfile.sidekiq -t chatwoot-sidekiq .
+          docker tag chatwoot-sidekiq ${{ env.CHATWOOT_SIDEKIQ_IMAGE }}:${{ env.VERSION }}
+          docker tag chatwoot-sidekiq ${{ env.CHATWOOT_SIDEKIQ_IMAGE }}:latest
+          docker push ${{ env.CHATWOOT_SIDEKIQ_IMAGE }}:${{ env.VERSION }}
+          docker push ${{ env.CHATWOOT_SIDEKIQ_IMAGE }}:latest
+
+      - name: Deploy Chatwoot Rails to ECS
+        run: |
+          chmod +x ecs.sh
+          SERVICE_NAME=${{ env.CHATWOOT_RAILS_SERVICE }} REPOSITORY_URI_VERSION=${{ env.CHATWOOT_RAILS_REPOSITORY_URI_VERSION }} ./ecs.sh
+
+      - name: Deploy Chatwoot Sidekiq to ECS
+        run: |
+          chmod +x ecs.sh
+          SERVICE_NAME=${{ env.CHATWOOT_SIDEKIQ_SERVICE }} REPOSITORY_URI_VERSION=${{ env.CHATWOOT_SIDEKIQ_REPOSITORY_URI_VERSION }} ./ecs.sh

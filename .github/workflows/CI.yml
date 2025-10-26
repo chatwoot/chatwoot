@@ -1,0 +1,121 @@
+# name: CI
+
+# on: pull_request
+
+# env:
+#   NUGET_APIKEY: ${{ secrets.NPM_TOKEN }}
+#   CLUSTER_NAME: ApiVxCadastro
+#   PROJECT_NAME: apivxcadastro
+#   PREFIX_SERVICE: SVC
+#   ENV_STG: stg
+#   CERT_INTERNAL: ${{ secrets.CERT_INTERNAL_PEM }}
+#   CERT_EXTENSION: pfx
+
+# jobs:
+#   pr-labeler:
+#     name: PR Labeler
+#     runs-on: ubuntu-22.04
+#     steps:
+#       - uses: TimonVS/pr-labeler-action@v3
+#         with:
+#           configuration-path: .github/plugins/pr-labeler.yml
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#   tests:
+#     runs-on: ubuntu-22.04
+#     strategy:
+#       matrix:
+#         dotnet: ["2.1.x"]
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-dotnet@v3
+#         with:
+#           dotnet-version: ${{ matrix.dotnet }}
+
+#       - name: Authenticate to AWS Shared Account
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.CICDS3_SHAREDSERVICES_ACCESSKEY }}
+#           aws-secret-access-key: ${{ secrets.CICDS3_SHAREDSERVICES_SECRETKEY }}
+#           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+#       - name: Pull CA Certificate
+#         run: |
+#           aws s3 cp s3://vortx-internal-certificate/${{ env.CERT_INTERNAL }} certificate.${{ env.CERT_EXTENSION }}
+#           ls
+
+#       - name: Run tests
+#         run: dotnet test VxCadastro.UnitTests --verbosity minimal
+#         env:
+#           NugetApiKey: ${{ secrets.NPM_TOKEN }}
+
+#       - name: Build Docker image
+#         run: |
+#           docker build -t ${{ secrets.AWS_DEVELOPER_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/${{ env.PROJECT_NAME }}-stg:latest \
+#           --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg ENV_FILE=Development \
+#           --build-arg NEWRELIC_LICENSEKEY=${{ secrets.NEWRELIC_LICENSEKEY }} --build-arg NEWRELIC_APPNAME=${{ env.PREFIX_SERVICE }}-${{ env.PROJECT_NAME }}-${{ env.ENV_STG}} \
+#           --build-arg NugetApiKey=${{ env.NUGET_APIKEY }} \
+#           --build-arg CERT_INTERNAL_PFX_PASS=${{ secrets.CERT_INTERNAL_PFX_PASS }} .
+
+#   Sonaquebe:
+#     name: Sonaquebe
+#     runs-on: ubuntu-22.04
+#     strategy:
+#       matrix:
+#         dotnet: ["2.1.x"]
+#     env:
+#       NugetApiKey: ${{ secrets.NPM_TOKEN }}
+
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-dotnet@v3
+#         with:
+#           dotnet-version: ${{ matrix.dotnet }}
+#           fetch-depth: 0
+
+#       - name: Set up JDK 11
+#         uses: actions/setup-java@v1
+#         with:
+#           java-version: ${{ secrets.JAVA_SONAR_VERSION }}
+
+#       - name: Cache SonarQube packages
+#         uses: actions/cache@v1
+#         with:
+#           path: ~\sonar\cache
+#           key: ${{ runner.os }}-sonar
+#           restore-keys: ${{ runner.os }}-sonar
+
+#       - name: Cache SonarQube scanner
+#         id: cache-sonar-scanner
+#         uses: actions/cache@v1
+#         with:
+#           path: .\.sonar\scanner
+#           key: ${{ runner.os }}-sonar-scanner
+#           restore-keys: ${{ runner.os }}-sonar-scanner
+
+#       - name: Install SonarQube scanner
+#         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+#         shell: bash
+#         run: |
+#           mkdir -p .sonar/scanner
+#           dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
+
+#       - name: SonarQube Build, Coverage and Analyze
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.NPM_TOKEN }} # Needed to get PR information, if any
+#         shell: bash
+#         run: |
+#           dotnet tool install --global dotnet-coverage
+#           ./.sonar/scanner/dotnet-sonarscanner begin /k:"vortx-dtvm_VxCadastro.API_AYiWuNC35uvgq_EKD36L" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+#           dotnet build
+#           dotnet-coverage collect "dotnet test VxCadastro.UnitTests --verbosity minimal" -f xml -o "coverage.xml"
+#           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+#       - name: SonarQube Quality Gate check
+#         uses: sonarsource/sonarqube-quality-gate-action@master
+#         env:
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#         with:
+#           scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt

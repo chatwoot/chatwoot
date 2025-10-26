@@ -16,7 +16,7 @@ services:
   rails:
     <<: *base
     depends_on:
-      # - postgres
+      - postgres
       - redis-chatwoot
     ports:
       - '127.0.0.1:3000:3000'
@@ -33,7 +33,7 @@ services:
   sidekiq:
     <<: *base
     depends_on:
-      # - postgres
+      - postgres
       - redis-chatwoot
     environment:
       - NODE_ENV=production
@@ -44,19 +44,19 @@ services:
     networks:
       - integrisoft-network
 
-  # postgres:
-  #   image: pgvector/pgvector:pg16
-  #   restart: always
-  #   ports:
-  #     - '127.0.0.1:5433:5432'
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   environment:
-  #     - POSTGRES_DB=chatwoot
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=development@dev
-  #   networks:
-  #     - integrisoft-network
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    ports:
+      - '127.0.0.1:5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=development@dev
+    networks:
+      - integrisoft-network
 
   redis-chatwoot:
     image: redis:alpine
