@@ -15,6 +15,10 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
     transcriptions = transcribe_audio
     Rails.logger.info "Audio transcription successful: #{transcriptions}"
     { success: true, transcriptions: transcriptions }
+  rescue StandardError => e
+    # Refund credit if transcription failed
+    refund_credit
+    raise e
   end
 
   private
@@ -24,6 +28,20 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
     return false if account.audio_transcriptions.blank?
 
     account.usage_limits[:captain][:responses][:current_available].positive?
+  end
+
+  def refund_credit
+    credit_service = Enterprise::Ai::CaptainCreditService.new(account: account)
+    credit_service.check_and_use_credits(
+      feature: 'ai_audio_transcription',
+      amount: -1, # Negative to refund
+      metadata: {
+        'message_id' => message.id,
+        'attachment_id' => attachment.id,
+        'conversation_id' => message.conversation_id,
+        'refund' => true
+      }
+    )
   end
 
   def fetch_audio_file

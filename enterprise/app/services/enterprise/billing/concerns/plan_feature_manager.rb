@@ -82,14 +82,10 @@ module Enterprise::Billing::Concerns::PlanFeatureManager
 
   def enable_account_manually_managed_features
     # Get manually managed features from internal attributes using the service
-    return unless defined?(Internal::Accounts::InternalAttributesService)
-
     service = Internal::Accounts::InternalAttributesService.new(account)
     features = service.manually_managed_features
 
     # Enable each feature
     account.enable_features(*features) if features.present?
-  rescue StandardError
-    # Silently handle errors - account will continue with plan-specific features
   end
 end

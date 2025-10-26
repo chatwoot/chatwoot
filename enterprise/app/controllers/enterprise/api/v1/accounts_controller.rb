@@ -3,6 +3,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   before_action :fetch_account
   before_action :check_authorization
   before_action :check_cloud_env, only: [:limits, :toggle_deletion]
+  before_action :validate_topup_amount, only: [:v2_topup]
 
   def subscription
     if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
@@ -72,7 +73,6 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def v2_pricing_plans
     plans = Enterprise::Billing::V2::PlanCatalog.plans
-
     render json: { pricing_plans: plans }
   end
 
@@ -82,11 +82,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def v2_topup
-    amount = params[:credits].to_i
-    return render json: { error: 'Topup amount must be greater than 0' }, status: :unprocessable_entity if amount <= 0
-
     service = Enterprise::Billing::V2::TopupService.new(account: @account)
-    result = service.create_topup(credits: amount)
+    result = service.create_topup(credits: params[:credits].to_i)
 
     if result[:success]
       render json: { success: true, message: result[:message] }
@@ -114,12 +111,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     result = service.cancel_subscription
 
     if result[:success]
-      render json: {
-        success: true,
-        message: result[:message],
-        cancel_at_period_end: result[:cancel_at_period_end],
-        period_end: result[:period_end]
-      }
+      render json: result
     else
       render json: { error: result[:message] }, status: :unprocessable_entity
     end
@@ -197,6 +189,13 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   def subscription_quantity
     quantity = params[:quantity].to_i
     quantity.positive? ? quantity : 1
+  end
+
+  def validate_topup_amount
+    amount = params[:credits].to_i
+    return if amount.positive?
+
+    render json: { error: 'Topup amount must be greater than 0' }, status: :unprocessable_entity
   end
 
   def pundit_user

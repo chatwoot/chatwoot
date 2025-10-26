@@ -1,21 +1,5 @@
 class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Billing::V2::BaseService
-  # Features for each plan tier (matching the plan hierarchy)
-  STARTUP_FEATURES = %w[
-    inbound_emails
-    help_center
-    campaigns
-    team_management
-    channel_twitter
-    channel_facebook
-    channel_email
-    channel_instagram
-    captain_integration
-    advanced_search_indexing
-  ].freeze
-
-  BUSINESS_FEATURES = (STARTUP_FEATURES + %w[sla custom_roles]).freeze
-
-  ENTERPRISE_FEATURES = (BUSINESS_FEATURES + %w[audit_logs disable_branding saml]).freeze
+  include Enterprise::Billing::Concerns::PlanFeatureManager
 
   def provision(subscription_id:)
     # Retrieve pricing plan subscription details from Stripe V2 API
@@ -102,8 +86,15 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
     # Sync monthly credits based on plan
     sync_plan_credits(pricing_plan_id)
 
-    # Enable plan features based on plan
-    enable_plan_features(pricing_plan_id)
+    # Extract plan name and enable features using PlanFeatureManager
+    plan_definition = Enterprise::Billing::V2::PlanCatalog.definition_for(pricing_plan_id)
+    if plan_definition
+      plan_name = extract_plan_name(plan_definition)
+      enable_plan_specific_features(plan_name) if plan_name.present?
+    end
+
+    # Reset captain usage after provisioning
+    reset_captain_usage
   end
 
   def sync_plan_credits(pricing_plan_id)
@@ -115,35 +106,10 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
       .sync_monthly_credits(plan_credits.to_i)
   end
 
-  def enable_plan_features(pricing_plan_id)
-    plan_definition = Enterprise::Billing::V2::PlanCatalog.definition_for(pricing_plan_id)
-    return unless plan_definition
-
-    plan_tier = extract_plan_tier(plan_definition)
-    return unless plan_tier
-
-    features_to_enable = features_for_plan_tier(plan_tier)
-    return if features_to_enable.empty?
-
-    # Enable each feature using the account method
-    account.enable_features(*features_to_enable)
-  end
-
-  def extract_plan_tier(plan_definition)
-    plan_definition[:display_name].split.find { |word| %w[Startup Business Enterprise].include?(word) }
-  end
-
-  def features_for_plan_tier(plan_tier)
-    case plan_tier
-    when 'Startup'
-      STARTUP_FEATURES
-    when 'Business'
-      BUSINESS_FEATURES
-    when 'Enterprise'
-      ENTERPRISE_FEATURES
-    else
-      []
-    end
+  def extract_plan_name(plan_definition)
+    # Extract plan name like "Startup", "Business", or "Enterprise" from display_name
+    # e.g., "Chatwoot Startup" -> "Startup"
+    plan_definition[:display_name].split.find { |word| %w[Startup Startups Business Enterprise].include?(word) }
   end
 
   def stripe_api_options

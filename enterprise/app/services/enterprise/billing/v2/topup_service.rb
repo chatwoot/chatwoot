@@ -12,8 +12,6 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
     end
   rescue Stripe::StripeError => e
     { success: false, message: "Stripe error: #{e.message}" }
-  rescue StandardError => e
-    { success: false, message: "Topup error: #{e.message}" }
   end
 
   private

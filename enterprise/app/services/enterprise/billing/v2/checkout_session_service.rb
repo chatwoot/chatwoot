@@ -28,15 +28,11 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
     create_checkout_session
   rescue Stripe::StripeError => e
     { success: false, message: "Stripe API error: #{e.message}", error: e }
-  rescue StandardError => e
-    { success: false, message: "Checkout error: #{e.message}", error: e }
   end
 
   private
 
   def validate_params
-    raise StandardError, 'Pricing Plan ID required' if @pricing_plan_id.blank?
-
     customer_id = custom_attribute('stripe_customer_id')
     raise StandardError, 'Customer ID required. Please create a Stripe customer first.' if customer_id.blank?
   end

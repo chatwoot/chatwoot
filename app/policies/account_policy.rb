@@ -47,10 +47,6 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def v2_buy?
-    @account_user.administrator?
-  end
-
   def v2_subscribe?
     @account_user.administrator?
   end

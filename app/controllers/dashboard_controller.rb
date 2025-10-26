@@ -35,6 +35,7 @@ class DashboardController < ActionController::Base
       'HCAPTCHA_SITE_KEY',
       'LOGOUT_REDIRECT_LINK',
       'DISABLE_USER_PROFILE_UPDATE',
+      'DEPLOYMENT_ENV',
       'INSTALLATION_PRICING_PLAN'
     ).merge(app_config)
   end
@@ -70,7 +71,6 @@ class DashboardController < ActionController::Base
       WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
-      DEPLOYMENT_ENV: GlobalConfigService.load('DEPLOYMENT_ENV', 'self-hosted'),
       GIT_SHA: GIT_HASH
     }
   end

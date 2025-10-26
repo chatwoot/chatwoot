@@ -15,6 +15,8 @@ class Enterprise::Billing::HandleStripeEventService
       process_credit_grant_created
     when 'billing.credit_grant.updated'
       process_credit_grant_updated
+    else
+      Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
   end
 

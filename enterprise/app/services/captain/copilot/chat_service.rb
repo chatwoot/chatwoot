@@ -25,7 +25,6 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
 
     unless credit_result[:success]
       error_message = credit_result[:message] || 'Insufficient credits'
-      Rails.logger.warn("#{self.class.name} Credit check failed for account #{@account.id}: #{error_message}")
       return { error: error_message, error_code: 402 }
     end
 
