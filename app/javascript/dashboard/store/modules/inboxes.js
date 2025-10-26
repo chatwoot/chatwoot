@@ -29,6 +29,9 @@ export const getters = {
   getInboxes($state) {
     return $state.records;
   },
+  getAllInboxes($state) {
+    return camelcaseKeys($state.records, { deep: true });
+  },
   getWhatsAppTemplates: $state => inboxId => {
     const [inbox] = $state.records.filter(
       record => record.id === Number(inboxId)
