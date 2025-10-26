@@ -299,7 +299,7 @@
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
-    "ACTIVE": "Attivo",
+    "ACTIVE": "Attiva",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -539,7 +539,7 @@
         "CARD": {
           "ORDER": "Ordina",
           "PRIORITY": "Priorità",
-          "ACTIVE": "Attivo",
+          "ACTIVE": "Attiva",
           "INACTIVE": "Inattive",
           "POPOVER": "Inbox aggiunte",
           "EDIT": "Modifica"
