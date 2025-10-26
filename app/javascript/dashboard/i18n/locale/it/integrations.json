@@ -336,8 +336,8 @@
       "DELETE": {
         "TITLE": "Sei sicuro di voler eliminare l'integrazione di Notion?",
         "MESSAGE": "L'eliminazione di questa integrazione rimuoverà l'accesso al tuo workspace Notion e interromperà tutte le funzionalità correlate.",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "annulla"
+        "CONFIRM": "Sì, elimina",
+        "CANCEL": "Annulla"
       }
     }
   },
@@ -549,13 +549,13 @@
           "NEW": {
             "TITLE": "Aggiungi un guardrail",
             "CREATE": "Crea",
-            "CANCEL": "annulla",
+            "CANCEL": "Annulla",
             "PLACEHOLDER": "Digita un altro guardrail...",
             "TEST_ALL": "Testa tutto"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Cerca..."
         },
         "EMPTY_MESSAGE": "Nessun guardrail trovato. Crea o aggiungi esempi per iniziare.",
         "SEARCH_EMPTY_MESSAGE": "Nessun guardrail trovato per questa ricerca.",
@@ -597,13 +597,13 @@
           "NEW": {
             "TITLE": "Aggiungi una linea guida per le risposte",
             "CREATE": "Crea",
-            "CANCEL": "annulla",
+            "CANCEL": "Annulla",
             "PLACEHOLDER": "Digita un'altra linea guida di risposta...",
             "TEST_ALL": "Testa tutto"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Cerca..."
         },
         "EMPTY_MESSAGE": "Nessuna linea guida per le risposte trovata. Crea o aggiungi esempi per iniziare.",
         "SEARCH_EMPTY_MESSAGE": "Nessuna linea guida per le risposte trovata per questa ricerca.",
@@ -661,16 +661,16 @@
                 "ERROR": "Il contenuto dello scenario è richiesto"
               },
               "CREATE": "Crea",
-              "CANCEL": "annulla"
+              "CANCEL": "Annulla"
             }
           }
         },
         "UPDATE": {
-          "CANCEL": "annulla",
+          "CANCEL": "Annulla",
           "UPDATE": "Aggiorna le modifiche"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Cerca..."
         },
         "EMPTY_MESSAGE": "Nessun scenario trovato. Crea o aggiungi esempi per iniziare.",
         "SEARCH_EMPTY_MESSAGE": "Nessun scenario trovato per questa ricerca.",
@@ -781,7 +781,7 @@
       "DELETE": {
         "TITLE": "Elimina Strumento Personalizzato",
         "DESCRIPTION": "Sei sicuro di voler eliminare questo strumento personalizzato? Questa azione non può essere annullata.",
-        "CONFIRM": "Yes, delete",
+        "CONFIRM": "Sì, elimina",
         "SUCCESS_MESSAGE": "Strumento personalizzato eliminato correttamente",
         "ERROR_MESSAGE": "Impossibile eliminare lo strumento personalizzato"
       },
