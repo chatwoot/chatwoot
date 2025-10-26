@@ -73,8 +73,8 @@
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Chiamata in arrivo",
-      "OUTGOING_CALL": "Chiamate in uscita",
-      "CALL_IN_PROGRESS": "Chiama in corso",
+      "OUTGOING_CALL": "Chiamata in uscita",
+      "CALL_IN_PROGRESS": "Chiamata in corso",
       "NO_ANSWER": "Nessuna risposta",
       "MISSED_CALL": "Chiamata persa",
       "CALL_ENDED": "Chiamata terminata",
@@ -113,7 +113,7 @@
       }
     },
     "MENTION": {
-      "AGENTS": "Agenti",
+      "AGENTS": "Operatori",
       "TEAMS": "Teams"
     },
     "CUSTOM_SNOOZE": {
