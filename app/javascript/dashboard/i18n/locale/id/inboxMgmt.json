@@ -71,7 +71,7 @@
         "CHOOSE_PLACEHOLDER": "Pilih halaman dari daftar",
         "INBOX_NAME": "Nama Kotak Masuk",
         "ADD_NAME": "Tambahkan nama untuk kotak masuk Anda",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "Pilih Nama untuk Kotak Masuk Anda",
         "PICK_A_VALUE": "Pilih"
       },
       "TWITTER": {
@@ -144,14 +144,14 @@
           "ERROR": "Bagian ini diperlukan"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
+          "USE_API_KEY": "Gunakan Autentikasi API Key",
           "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "PLACEHOLDER": "Silakan masukkan API Key SID Anda",
           "ERROR": "Bagian ini diperlukan"
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "PLACEHOLDER": "Silakan masukkan API Key Secret Anda",
           "ERROR": "Bagian ini diperlukan"
         },
         "MESSAGING_SERVICE_SID": {
@@ -212,7 +212,7 @@
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "Silakan masukkan API Key Secret Anda",
             "ERROR": "Bagian ini diperlukan"
           },
           "APPLICATION_ID": {
@@ -271,7 +271,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token Verifikasi Webhook",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "PLACEHOLDER": "Silakan masukkan token verifikasi yang ingin Anda konfigurasikan untuk webhook Facebook.",
           "ERROR": "Harap masukkan nilai yang valid."
         },
         "API_KEY": {
@@ -301,7 +301,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL Webhook",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Konfigurasikan URL tempat Anda ingin menerima panggilan balik pada peristiwa.",
           "PLACEHOLDER": "URL Webhook"
         },
         "SUBMIT_BUTTON": "Buat Channel API",
@@ -311,7 +311,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Channel Email",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Integrasikan kotak masuk email Anda.",
         "CHANNEL_NAME": {
           "LABEL": "Nama Channel",
           "PLACEHOLDER": "Harap masukkan nama channel",
@@ -404,18 +404,18 @@
       },
       "GOOGLE": {
         "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "DESCRIPTION": "Klik tombol Sign in dengan Google untuk memulai. Anda akan diarahkan ke halaman masuk email. Setelah Anda menerima izin yang diminta, Anda akan diarahkan kembali ke langkah pembuatan kotak masuk.",
+        "SIGN_IN": "Sign in dengan Google",
         "EMAIL_PLACEHOLDER": "Masukkan alamat email",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Google, harap coba lagi"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Mengautentikasi Anda dengan Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_LOADING": "Kesalahan memuat SDK Facebook. Harap nonaktifkan pemblokir iklan dan coba lagi dari browser yang berbeda.",
       "ERROR_FB_AUTH": "Ada yang tidak beres, Harap refresh halaman...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "ERROR_FB_UNAUTHORIZED": "Anda tidak berwenang untuk melakukan tindakan ini.",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Harap pastikan Anda memiliki akses ke halaman Facebook dengan kontrol penuh. Anda dapat membaca lebih lanjut tentang peran Facebook <a href=\" https://www.facebook.com/help/187316341316631\">di sini</a>.",
       "CREATING_CHANNEL": "Membuat channel Anda...",
       "TITLE": "Konfigurasi Detail Kotak Masuk",
       "DESC": ""
@@ -433,6 +433,55 @@
     },
     "REAUTH": "Otorisasi ulang",
     "VIEW": "Lihat",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Pengaturan kotak masuk berhasil diperbarui",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Penugasan otomatis berhasil diperbarui",
+        "ERROR_MESSAGE": "Kami tidak dapat memperbarui pengaturan kotak masuk. Silakan coba lagi nanti."
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Dinonaktifkan"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Dinonaktifkan"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Nama Pengirim",
+        "SUB_TEXT": "Pilih nama yang akan terlihat oleh pelanggan saat menerima email dari agen Anda.",
+        "FOR_EG": "Contoh:",
+        "FRIENDLY": {
+          "TITLE": "Ramah",
+          "FROM": "dari",
+          "SUBTITLE": "Tambahkan nama agen yang mengirim balasan dalam nama pengirim untuk membuatnya lebih ramah."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesional",
+          "SUBTITLE": "Gunakan hanya nama bisnis yang dikonfigurasi sebagai nama pengirim di header email."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Atur nama bisnis Anda",
+          "PLACEHOLDER": "Masukkan nama bisnis Anda",
+          "SAVE_BUTTON_TEXT": "Simpan"
+        }
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Dinonaktifkan"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Dinonaktifkan"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Dinonaktifkan"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Aktifkan"
+      }
+    },
     "GET": {
       "API": {
         "ERROR_MESSAGE": "Kami tidak dapat mengambil pengaturan kotak masuk. Silakan coba lagi nanti."
@@ -459,15 +508,15 @@
         "FRIENDLY": {
           "TITLE": "Ramah",
           "FROM": "dari",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "Tambahkan nama agen yang mengirim balasan dalam nama pengirim untuk membuatnya lebih ramah."
         },
         "PROFESSIONAL": {
           "TITLE": "Profesional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "SUBTITLE": "Gunakan hanya nama bisnis yang dikonfigurasi sebagai nama pengirim di header email."
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "+ Atur nama bisnis Anda",
-          "PLACEHOLDER": "Enter your business name",
+          "PLACEHOLDER": "Masukkan nama bisnis Anda",
           "SAVE_BUTTON_TEXT": "Simpan"
         }
       },
@@ -636,7 +685,7 @@
       "NOTE_TEXT": "Untuk mengaktifkan SMTP, konfigurasikan IMAP.",
       "UPDATE": "Perbarui setelan IMAP",
       "TOGGLE_AVAILABILITY": "Aktifkan konfigurasi IMAP untuk kotak masuk ini",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "TOGGLE_HELP": "Mengaktifkan IMAP akan membantu pengguna menerima email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Setelan IMAP berhasil diperbarui",
         "ERROR_MESSAGE": "Tidak dapat memperbarui setelan IMAP"

@@ -4,7 +4,7 @@
     <!-- Main content -->
     <div class="content">
       <div class="title-section">
-        <h1>Quick Replies</h1>
+        <h1>Balasan Cepat</h1>
         <div class="actions">
           <woot-button
             class="rounded-md button nice"
@@ -47,7 +47,7 @@
               <td>{{ reply.content }}</td>
               <td class="actions-cell">
                 <button class="edit-button" @click="editReply(reply)">Edit</button>
-                <button class="delete-button" @click="confirmDelete(reply)">Delete</button>
+                <button class="delete-button" @click="confirmDelete(reply)">Hapus</button>
               </td>
             </tr>
             <tr v-if="filteredReplies.length === 0">
