@@ -341,6 +341,58 @@ describe Whatsapp::IncomingMessageService do
       end
     end
 
+    describe 'When the incoming waid is an Argentine number with 9 after country code' do
+      let(:wa_id) { '5491123456789' }
+
+      it 'creates appropriate conversations, message and contacts if contact does not exist' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+        expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(wa_id)
+      end
+
+      it 'appends to existing contact if contact inbox exists with normalized format' do
+        # Normalized format removes the 9 after country code
+        normalized_wa_id = '541123456789'
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: normalized_wa_id)
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # no new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        # message appended to the last conversation
+        expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+        # should use the normalized wa_id from existing contact
+        expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(normalized_wa_id)
+      end
+    end
+
+    describe 'When incoming waid is an Argentine number without 9 after country code' do
+      let(:wa_id) { '541123456789' }
+
+      context 'when a contact inbox exists with the same format' do
+        it 'appends to existing contact' do
+          contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: wa_id)
+          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+          # no new conversation should be created
+          expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+          # message appended to the last conversation
+          expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+        end
+      end
+
+      context 'when a contact inbox does not exist' do
+        it 'creates contact inbox with the incoming waid' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+          expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+          expect(Contact.all.first.name).to eq('Sojan Jose')
+          expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+          expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(wa_id)
+        end
+      end
+    end
+
     describe 'when message processing is in progress' do
       it 'ignores the current message creation request' do
         params = { 'contacts' => [{ 'profile' => { 'name' => 'Kedar' }, 'wa_id' => '919746334593' }],
