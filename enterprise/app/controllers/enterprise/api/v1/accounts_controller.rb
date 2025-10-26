@@ -64,8 +64,76 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
       id: @account.id,
       monthly_credits: balance[:monthly],
       topup_credits: balance[:topup],
-      total_credits: balance[:total]
+      total_credits: balance[:total],
+      usage_this_month: balance[:usage_this_month],
+      usage_total: balance[:usage_total]
     }
+  end
+
+  def v2_pricing_plans
+    plans = Enterprise::Billing::V2::PlanCatalog.plans
+
+    render json: { pricing_plans: plans }
+  end
+
+  def v2_topup_options
+    options = Enterprise::Billing::V2::TopupCatalog.options
+    render json: { topup_options: options }
+  end
+
+  def v2_topup
+    amount = params[:credits].to_i
+    return render json: { error: 'Topup amount must be greater than 0' }, status: :unprocessable_entity if amount <= 0
+
+    service = Enterprise::Billing::V2::TopupService.new(account: @account)
+    result = service.create_topup(credits: amount)
+
+    if result[:success]
+      render json: { success: true, message: result[:message] }
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
+  def v2_subscribe
+    service = Enterprise::Billing::V2::CheckoutSessionService.new(account: @account)
+    result = service.create_subscription_checkout(
+      pricing_plan_id: params[:pricing_plan_id],
+      quantity: subscription_quantity
+    )
+
+    if result[:success]
+      render json: { success: true, redirect_url: result[:redirect_url], checkout_session_id: result[:checkout_session_id] }
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
+  def cancel_subscription
+    service = Enterprise::Billing::V2::CancelSubscriptionService.new(account: @account)
+    result = service.cancel_subscription
+
+    if result[:success]
+      render json: {
+        success: true,
+        message: result[:message],
+        cancel_at_period_end: result[:cancel_at_period_end],
+        period_end: result[:period_end]
+      }
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
+  def update_subscription
+    service = Enterprise::Billing::V2::UpdateSubscriptionService.new(account: @account)
+    result = service.update_subscription(pricing_plan_id: params[:pricing_plan_id], quantity: params[:quantity])
+
+    if result[:success]
+      render json: result
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
   end
 
   private
@@ -124,6 +192,11 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def render_redirect_url(redirect_url)
     render json: { redirect_url: redirect_url }
+  end
+
+  def subscription_quantity
+    quantity = params[:quantity].to_i
+    quantity.positive? ? quantity : 1
   end
 
   def pundit_user

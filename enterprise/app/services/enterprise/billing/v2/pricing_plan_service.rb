@@ -25,11 +25,11 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
     )
   end
 
-  def create_pricing_plan(display_name:, currency: 'usd', tax_behavior: 'exclusive')
+  def create_pricing_plan(display_name:, lookup_key:, currency: 'usd', tax_behavior: 'exclusive')
     StripeV2Client.request(
       :post,
       '/v2/billing/pricing_plans',
-      { display_name: display_name, currency: currency, tax_behavior: tax_behavior },
+      { display_name: display_name, currency: currency, tax_behavior: tax_behavior, lookup_key: lookup_key },
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
   end
@@ -39,35 +39,37 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
     cpu = get_or_create_cpu(config)
     meter = get_or_create_meter(config)
 
-    plan = create_pricing_plan(display_name: config[:plan_display_name])
+    plan = create_pricing_plan(display_name: config[:plan_display_name], lookup_key: config[:plan_lookup_key])
 
     builder = component_builder
-
-    builder.add_license_fee_component(plan, config) if config[:include_license_fee]
+    builder.add_license_fee_component(plan, config)
     service_action = builder.add_service_action_component(plan, config, cpu)
     rate_card = builder.add_rate_card_component(plan, config, meter, cpu)
 
-    result = build_plan_result(plan, cpu, meter, rate_card, service_action)
-    Enterprise::Billing::V2::PricingPlanCache.invalidate
-    result
-  rescue StandardError => e
-    { success: false, message: e.message }
+    # Make the latest version live
+    make_plan_version_live(plan.id)
+
+    build_plan_result(plan, cpu, meter, rate_card, service_action)
   end
 
   def get_or_create_cpu(config)
-    # Check for shared CPU first
-    shared_cpu_id = InstallationConfig.find_by(name: 'STRIPE_CUSTOM_PRICING_UNIT_ID')&.value ||
-                    ENV.fetch('STRIPE_CUSTOM_PRICING_UNIT_ID', nil)
+    shared_cpu_id = InstallationConfig.find_by(name: 'STRIPE_CUSTOM_PRICING_UNIT_ID')&.value
 
     if shared_cpu_id
       # Return existing CPU as OpenStruct to match create response
       OpenStruct.new(id: shared_cpu_id)
     else
       # Create new CPU if not using shared
-      create_custom_pricing_unit(
+      cpu = create_custom_pricing_unit(
         display_name: config[:cpu_display_name],
         lookup_key: config[:cpu_lookup_key]
       )
+
+      installation_config = InstallationConfig.find_or_initialize_by(name: 'STRIPE_CUSTOM_PRICING_UNIT_ID')
+      installation_config.value = cpu.id
+      installation_config.save!
+
+      cpu
     end
   end
 
@@ -81,10 +83,16 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
       OpenStruct.new(id: shared_meter_id)
     else
       # Create new meter if not using shared
-      create_meter(
+      meter = create_meter(
         display_name: config[:meter_display_name],
         event_name: config[:meter_event_name]
       )
+
+      installation_config = InstallationConfig.find_or_initialize_by(name: 'STRIPE_METER_ID')
+      installation_config.value = meter.id
+      installation_config.save!
+
+      meter
     end
   end
 
@@ -92,6 +100,15 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
 
   def component_builder
     @component_builder ||= Enterprise::Billing::V2::PricingPlanComponentBuilder.new(account: account)
+  end
+
+  def make_plan_version_live(plan_id)
+    StripeV2Client.request(
+      :post,
+      "/v2/billing/pricing_plans/#{plan_id}",
+      { live_version: 'latest' },
+      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
+    )
   end
 
   def build_plan_result(plan, cpu, meter, rate_card, service_action)

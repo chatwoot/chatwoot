@@ -26,10 +26,13 @@ module StripeV2Client
       when :post
         req = Net::HTTP::Post.new(uri)
         if v2_endpoint?(path)
+          # V2 endpoints use JSON
           req.body = params.to_json unless params.empty?
           req['Content-Type'] = 'application/json'
         else
-          req.set_form_data(params) unless params.empty?
+          # V1 endpoints (including checkout sessions) use form data
+          # even with preview API versions
+          req.body = encode_nested_params(params) unless params.empty?
           req['Content-Type'] = 'application/x-www-form-urlencoded'
         end
         req
@@ -40,6 +43,32 @@ module StripeV2Client
 
     def v2_endpoint?(path)
       path.start_with?('/v2/')
+    end
+
+    # Encode nested parameters for form submission
+    # Stripe expects nested params like: checkout_items[0][type]=value
+    def encode_nested_params(params, prefix = nil)
+      pairs = []
+      params.each do |key, value|
+        full_key = prefix ? "#{prefix}[#{key}]" : key.to_s
+        pairs.concat(encode_param_value(full_key, value))
+      end
+      pairs.join('&')
+    end
+
+    def encode_param_value(key, value)
+      case value
+      when Hash
+        [encode_nested_params(value, key)]
+      when Array
+        value.each_with_index.map { |item, index| encode_nested_params(item, "#{key}[#{index}]") }
+      when true, false
+        ["#{CGI.escape(key)}=#{value}"]
+      when nil
+        []
+      else
+        ["#{CGI.escape(key)}=#{CGI.escape(value.to_s)}"]
+      end
     end
 
     def parse_response(response)

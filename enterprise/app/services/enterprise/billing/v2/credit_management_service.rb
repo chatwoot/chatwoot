@@ -25,7 +25,7 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
     end
   end
 
-  def sync_monthly_credits(amount)
+  def sync_monthly_credits(amount, metadata: {})
     with_locked_account do
       update_credits(monthly: amount)
       if amount.positive?
@@ -33,20 +33,22 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
           type: 'grant',
           amount: amount,
           credit_type: 'monthly',
-          description: 'Monthly credits from Stripe'
+          description: 'Monthly credits from Stripe',
+          metadata: metadata
         )
       end
     end
   end
 
-  def add_topup_credits(amount)
+  def add_topup_credits(amount, metadata: {})
     with_locked_account do
       update_credits(topup: topup_credits + amount)
       log_credit_transaction(
         type: 'topup',
         amount: amount,
         credit_type: 'topup',
-        description: 'Topup credits added'
+        description: 'Topup credits added',
+        metadata: metadata
       )
     end
   end
@@ -60,10 +62,33 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
   end
 
   def credit_balance
+    usage_stats = calculate_usage_stats
+
     {
       monthly: monthly_credits,
       topup: topup_credits,
-      total: total_credits
+      total: total_credits,
+      usage_this_month: usage_stats[:this_month],
+      usage_total: usage_stats[:total]
+    }
+  end
+
+  def calculate_usage_stats
+    month_start = Time.current.beginning_of_month
+
+    this_month_usage = account.credit_transactions
+                              .where(transaction_type: 'use', created_at: month_start..Time.current)
+                              .sum(:amount)
+                              .abs
+
+    total_usage = account.credit_transactions
+                         .where(transaction_type: 'use')
+                         .sum(:amount)
+                         .abs
+
+    {
+      this_month: this_month_usage,
+      total: total_usage
     }
   end
 

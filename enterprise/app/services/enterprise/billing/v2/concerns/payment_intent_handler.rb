@@ -25,7 +25,6 @@ module Enterprise::Billing::V2::Concerns::PaymentIntentHandler
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
 
-    Rails.logger.info("Created payment intent: #{payment_intent.id} for amount: #{amount_due}")
     payment_intent.id
   end
 

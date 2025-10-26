@@ -108,6 +108,7 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  after_create :initialize_v2_billing
   after_destroy :remove_account_sequences
 
   def agents
@@ -163,6 +164,16 @@ class Account < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  def initialize_v2_billing
+    # Initialize V2 billing for Chatwoot Cloud accounts
+    return unless ChatwootApp.chatwoot_cloud?
+
+    # Set stripe_billing_version to 2 for all new accounts
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(custom_attributes: (custom_attributes || {}).merge('stripe_billing_version' => 2))
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   trigger.after(:insert).for_each(:row) do

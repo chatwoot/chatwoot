@@ -2,20 +2,22 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
   def add_license_fee_component(plan, config)
     licensed_item = create_licensed_item(
       display_name: config[:licensed_item_display_name],
-      lookup_key: config[:licensed_item_lookup_key],
+      lookup_key: config[:lookup_key],
       unit_label: config[:licensed_item_unit_label]
     )
 
     license_fee = create_license_fee(
       display_name: config[:license_fee_display_name],
       unit_amount: config[:license_fee_amount],
-      licensed_item_id: licensed_item.id
+      licensed_item_id: licensed_item.id,
+      lookup_key: config[:lookup_key]
     )
 
     add_component(
       plan_id: plan.id,
       type: 'license_fee',
-      data: { id: license_fee.id, version: license_fee.latest_version }
+      data: { id: license_fee.id, version: license_fee.latest_version },
+      lookup_key: config[:lookup_key]
     )
   end
 
@@ -29,7 +31,8 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
     add_component(
       plan_id: plan.id,
       type: 'service_action',
-      data: { id: action.id }
+      data: { id: action.id },
+      lookup_key: config[:service_action_lookup_key]
     )
 
     action
@@ -49,7 +52,8 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
     add_component(
       plan_id: plan.id,
       type: 'rate_card',
-      data: { id: card.id, version: card.latest_version }
+      data: { id: card.id, version: card.latest_version },
+      lookup_key: config[:metered_item_lookup_key]
     )
 
     card
@@ -66,7 +70,7 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
     )
   end
 
-  def create_license_fee(display_name:, unit_amount:, licensed_item_id:)
+  def create_license_fee(display_name:, unit_amount:, licensed_item_id:, lookup_key:)
     StripeV2Client.request(
       :post,
       '/v2/billing/license_fees',
@@ -76,8 +80,9 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
         service_interval: 'month',
         service_interval_count: 1,
         tax_behavior: 'exclusive',
-        unit_amount: unit_amount,
-        licensed_item: licensed_item_id
+        unit_amount: unit_amount.to_s,
+        licensed_item: licensed_item_id,
+        lookup_key: lookup_key
       },
       { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
     )
@@ -154,14 +159,14 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
     )
   end
 
-  def add_component(plan_id:, type:, data:)
+  def add_component(plan_id:, type:, data:, lookup_key:)
     params = case type
              when 'license_fee'
-               { type: 'license_fee', license_fee: data }
+               { type: 'license_fee', license_fee: data, lookup_key: lookup_key }
              when 'service_action'
-               { type: 'service_action', service_action: data }
+               { type: 'service_action', service_action: data, lookup_key: lookup_key }
              when 'rate_card'
-               { type: 'rate_card', rate_card: data }
+               { type: 'rate_card', rate_card: data, lookup_key: lookup_key }
              end
 
     StripeV2Client.request(

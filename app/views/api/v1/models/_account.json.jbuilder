@@ -15,6 +15,11 @@ if resource.custom_attributes.present?
     if resource.custom_attributes['marked_for_deletion_reason'].present?
       json.marked_for_deletion_reason resource.custom_attributes['marked_for_deletion_reason']
     end
+    # V2 Billing attributes
+    json.stripe_billing_version resource.custom_attributes['stripe_billing_version'] if resource.custom_attributes['stripe_billing_version'].present?
+    json.stripe_customer_id resource.custom_attributes['stripe_customer_id'] if resource.custom_attributes['stripe_customer_id'].present?
+    json.stripe_pricing_plan_id resource.custom_attributes['stripe_pricing_plan_id'] if resource.custom_attributes['stripe_pricing_plan_id'].present?
+    json.stripe_cadence_id resource.custom_attributes['stripe_cadence_id'] if resource.custom_attributes['stripe_cadence_id'].present?
   end
 end
 json.domain @account.domain

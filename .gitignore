@@ -99,3 +99,8 @@ CLAUDE.local.md
 # Histoire deployment
 .netlify
 .histoire
+
+.pnpm-store/
+
+# External documentation
+\[External\]*

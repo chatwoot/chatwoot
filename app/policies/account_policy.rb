@@ -32,6 +32,34 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def credits_balance?
-    @account_user.administrator? || @account_user.agent?
+    @account_user.administrator?
+  end
+
+  def v2_pricing_plans?
+    @account_user.administrator?
+  end
+
+  def v2_topup_options?
+    @account_user.administrator?
+  end
+
+  def v2_topup?
+    @account_user.administrator?
+  end
+
+  def v2_buy?
+    @account_user.administrator?
+  end
+
+  def v2_subscribe?
+    @account_user.administrator?
+  end
+
+  def cancel_subscription?
+    @account_user.administrator?
+  end
+
+  def update_subscription?
+    @account_user.administrator?
   end
 end

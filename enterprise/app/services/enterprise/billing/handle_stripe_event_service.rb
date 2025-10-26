@@ -1,28 +1,7 @@
 class Enterprise::Billing::HandleStripeEventService
+  include Enterprise::Billing::Concerns::PlanFeatureManager
+
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
-
-  # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
-  # Each higher tier includes all features from the lower tiers
-
-  # Basic features available starting with the Startups plan
-  STARTUP_PLAN_FEATURES = %w[
-    inbound_emails
-    help_center
-    campaigns
-    team_management
-    channel_twitter
-    channel_facebook
-    channel_email
-    channel_instagram
-    captain_integration
-    advanced_search_indexing
-  ].freeze
-
-  # Additional features available starting with the Business plan
-  BUSINESS_PLAN_FEATURES = %w[sla custom_roles].freeze
-
-  # Additional features available only in the Enterprise plan
-  ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
 
   def perform(event:)
     @event = event
@@ -32,8 +11,10 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
-    else
-      Rails.logger.debug { "Unhandled event type: #{event.type}" }
+    when 'billing.credit_grant.created'
+      process_credit_grant_created
+    when 'billing.credit_grant.updated'
+      process_credit_grant_updated
     end
   end
 
@@ -46,7 +27,8 @@ class Enterprise::Billing::HandleStripeEventService
     return if plan.blank? || account.blank?
 
     update_account_attributes(subscription, plan)
-    update_plan_features
+    plan_name = account.custom_attributes['plan_name']
+    update_plan_features(plan_name)
     reset_captain_usage
   end
 
@@ -72,65 +54,22 @@ class Enterprise::Billing::HandleStripeEventService
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
   end
 
-  def update_plan_features
-    if default_plan?
-      disable_all_premium_features
-    else
-      enable_features_for_current_plan
-    end
-
-    # Enable any manually managed features configured in internal_attributes
-    enable_account_manually_managed_features
-
-    account.save!
-  end
-
-  def disable_all_premium_features
-    # Disable all features (for default Hacker plan)
-    account.disable_features(*STARTUP_PLAN_FEATURES)
-    account.disable_features(*BUSINESS_PLAN_FEATURES)
-    account.disable_features(*ENTERPRISE_PLAN_FEATURES)
-  end
-
-  def enable_features_for_current_plan
-    # First disable all premium features to handle downgrades
-    disable_all_premium_features
-
-    # Then enable features based on the current plan
-    enable_plan_specific_features
-  end
-
-  def reset_captain_usage
-    account.reset_response_usage
-  end
-
-  def enable_plan_specific_features
-    plan_name = account.custom_attributes['plan_name']
-    return if plan_name.blank?
-
-    # Enable features based on plan hierarchy
-    case plan_name
-    when 'Startups'
-      # Startups plan gets the basic features
-      account.enable_features(*STARTUP_PLAN_FEATURES)
-    when 'Business'
-      # Business plan gets Startups features + Business features
-      account.enable_features(*STARTUP_PLAN_FEATURES)
-      account.enable_features(*BUSINESS_PLAN_FEATURES)
-    when 'Enterprise'
-      # Enterprise plan gets all features
-      account.enable_features(*STARTUP_PLAN_FEATURES)
-      account.enable_features(*BUSINESS_PLAN_FEATURES)
-      account.enable_features(*ENTERPRISE_PLAN_FEATURES)
-    end
-  end
-
   def subscription
     @subscription ||= @event.data.object
   end
 
   def account
-    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
+    @account ||= begin
+      customer_id = if @event.type.start_with?('billing.credit_grant')
+                      # Credit grant events have customer directly on the object
+                      @event.data.object.respond_to?(:customer) ? @event.data.object.customer : @event.data.object['customer']
+                    else
+                      # Subscription events have customer on subscription
+                      subscription.customer
+                    end
+
+      Account.where("custom_attributes->>'stripe_customer_id' = ?", customer_id).first
+    end
   end
 
   def find_plan(plan_id)
@@ -144,12 +83,82 @@ class Enterprise::Billing::HandleStripeEventService
     account.custom_attributes['plan_name'] == default_plan['name']
   end
 
-  def enable_account_manually_managed_features
-    # Get manually managed features from internal attributes using the service
-    service = Internal::Accounts::InternalAttributesService.new(account)
-    features = service.manually_managed_features
+  def process_credit_grant_created
+    grant_id = extract_credit_grant_id(@event.data.object)
+    return if grant_id.blank?
 
-    # Enable each feature
-    account.enable_features(*features) if features.present?
+    # Retrieve the full credit grant object from Stripe API
+    grant = retrieve_credit_grant(grant_id)
+    return if grant.blank?
+
+    amount = extract_credit_amount(grant)
+    return if amount.zero?
+
+    service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
+
+    if grant.expires_at.present?
+      service.sync_monthly_credits(amount)
+    else
+      service.add_topup_credits(amount)
+    end
+  end
+
+  def process_credit_grant_updated
+    grant = @event.data.object
+    # Check if grant has expired
+    return unless grant.respond_to?(:expired_at) && grant.expired_at
+
+    # Grant has expired
+    handle_credit_grant_expired
+
+    # Other updates (voided, amount changes, etc) - do nothing
+  end
+
+  def handle_credit_grant_expired
+    Enterprise::Billing::V2::CreditManagementService.new(account: account).expire_monthly_credits
+  end
+
+  def extract_credit_grant_id(grant_object)
+    grant_object.respond_to?(:id) ? grant_object.id : grant_object['id']
+  end
+
+  def retrieve_credit_grant(grant_id)
+    StripeV2Client.request(:get, "/v1/billing/credit_grants/#{grant_id}")
+  end
+
+  def extract_credit_amount(grant)
+    # First, try to get credits from metadata
+    metadata = extract_attribute(grant, :metadata)
+    if metadata
+      credits = extract_attribute(metadata, :credits)
+      return credits.to_i if credits.present? && credits.to_i.positive?
+    end
+
+    # Fallback: extract from amount object
+    amount_data = extract_attribute(grant, :amount)
+    return 0 unless amount_data
+
+    amount_type = extract_attribute(amount_data, :type)
+
+    case amount_type
+    when 'monetary'
+      extract_amount_value(amount_data, :monetary)
+    when 'custom_pricing_unit'
+      extract_amount_value(amount_data, :custom_pricing_unit)
+    else
+      0
+    end
+  end
+
+  def extract_attribute(object, attribute)
+    object.respond_to?(attribute) ? object.public_send(attribute) : object[attribute.to_s]
+  end
+
+  def extract_amount_value(amount_data, unit_type)
+    unit = extract_attribute(amount_data, unit_type)
+    return 0 unless unit
+
+    value = extract_attribute(unit, :value)
+    value.to_i
   end
 end
