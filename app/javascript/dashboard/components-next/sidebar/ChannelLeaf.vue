@@ -31,11 +31,4 @@ const reauthorizationRequired = computed(() => {
     <ChannelIcon :inbox="inbox" class="size-3" />
   </span>
   <div class="flex-1 truncate min-w-0">{{ label }}</div>
-  <div
-    v-if="reauthorizationRequired"
-    v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"
-    class="grid place-content-center size-5 bg-n-ruby-5/60 rounded-full"
-  >
-    <Icon icon="i-woot-alert" class="size-3 text-n-ruby-9" />
-  </div>
 </template>

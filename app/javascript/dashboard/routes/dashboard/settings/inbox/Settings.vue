@@ -499,15 +499,7 @@ export default {
       </woot-tabs>
     </SettingIntroBanner>
     <section class="mx-auto w-full max-w-6xl">
-      <MicrosoftReauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
-      <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
-      <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
-      <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
-      <WhatsappReauthorize
-        v-if="whatsappUnauthorized"
-        :whatsapp-registration-incomplete="whatsappRegistrationIncomplete"
-        :inbox="inbox"
-      />
+      <!-- Disabled reauthorization warning banners -->
       <DuplicateInboxBanner
         v-if="hasDuplicateInstagramInbox"
         :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"

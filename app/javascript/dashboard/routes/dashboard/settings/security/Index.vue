@@ -17,7 +17,7 @@ const shouldShowSaml = computed(() =>
     [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE]
   )
 );
-const showPaywall = computed(() => shouldShowPaywall('saml'));
+const showPaywall = false;
 </script>
 
 <template>

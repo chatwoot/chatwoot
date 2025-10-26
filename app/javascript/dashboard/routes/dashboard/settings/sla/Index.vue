@@ -48,7 +48,7 @@ export default {
       return ` ${this.selectedResponse.name}`;
     },
     isBehindAPaywall() {
-      return !this.isFeatureEnabledonAccount(this.accountId, 'sla');
+      return false;
     },
     isSuperAdmin() {
       return this.currentUser.type === 'SuperAdmin';
