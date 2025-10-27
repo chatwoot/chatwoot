@@ -47,6 +47,14 @@
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
+      },
+      "BOOKINGS": {
+        "NAME": "Bookings",
+        "DESC": "( Total )"
+      },
+      "LEADS": {
+        "NAME": "Leads",
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -555,6 +563,9 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "BOOKINGS_REPORTS": {
+    "HEADER": "Bookings & Leads"
   },
   "SUMMARY_REPORTS": {
     "INBOX": "Inbox",

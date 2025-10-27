@@ -455,3 +455,16 @@
   locked: false
   description: 'The endpoint path for Stark follow-up API'
 ## ------ End of Configs added for Stark ------ ##
+
+## ------ Configs added for Dealership API ------ ##
+- name: DEALERSHIP_API_BASE_URL
+  display_title: 'Dealership API Base URL'
+  value: ''
+  locked: false
+  description: 'The base URL for the dealership stats API'
+- name: DEALERSHIP_API_KEY
+  display_title: 'Dealership API Key'
+  value: ''
+  locked: false
+  description: 'The API key/token for authenticating with the dealership API'
+## ------ End of Configs added for Dealership API ------ ##

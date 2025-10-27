@@ -23,6 +23,8 @@ const state = {
       bot_resolutions_count: false,
       bot_handoffs_count: false,
       reply_time: false,
+      bookings_count: false,
+      leads_count: false,
     },
     data: {
       conversations_count: [],
@@ -34,7 +36,15 @@ const state = {
       bot_resolutions_count: [],
       bot_handoffs_count: [],
       reply_time: [],
+      bookings_count: [],
+      leads_count: [],
     },
+  },
+  // Cache for booking stats to avoid duplicate API calls
+  bookingStatsCache: {
+    data: null,
+    params: null,
+    timestamp: null,
   },
   accountSummary: {
     avg_first_response_time: 0,
@@ -46,6 +56,7 @@ const state = {
     resolutions_count: 0,
     bot_resolutions_count: 0,
     bot_handoffs_count: 0,
+    bookings_count: 0,
     previous: {},
   },
   botSummary: {
@@ -53,6 +64,12 @@ const state = {
     bot_handoffs_count: 0,
     previous: {},
   },
+  bookingSummary: {
+    bookings_count: 0,
+    leads_count: 0,
+    previous: {},
+  },
+  bookingSummaryFetchingStatus: STATUS.FINISHED,
   overview: {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
@@ -83,6 +100,12 @@ const getters = {
   getBotSummaryFetchingStatus(_state) {
     return _state.botSummaryFetchingStatus;
   },
+  getBookingSummary(_state) {
+    return _state.bookingSummary;
+  },
+  getBookingSummaryFetchingStatus(_state) {
+    return _state.bookingSummaryFetchingStatus;
+  },
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
   },
@@ -101,24 +124,72 @@ const getters = {
 };
 
 export const actions = {
-  fetchAccountReport({ commit }, reportObj) {
+  fetchAccountReport({ commit, state: currentState }, reportObj) {
     const { metric } = reportObj;
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, {
       metric,
       value: true,
     });
-    Report.getReports(reportObj).then(accountReport => {
-      let { data } = accountReport;
-      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
-      commit(types.default.SET_ACCOUNT_REPORTS, {
-        metric,
-        data,
+    
+    // Use booking stats endpoint for bookings_count and leads_count metrics
+    if (metric === 'bookings_count' || metric === 'leads_count') {
+      // Check if data already exists (already fetched by the other metric)
+      const cacheKey = JSON.stringify({ from: reportObj.from, to: reportObj.to, groupBy: reportObj.groupBy });
+      const cachedKey = currentState.bookingStatsCache.params;
+      const isCached = cachedKey === cacheKey && currentState.bookingStatsCache.data !== null;
+      
+      if (isCached) {
+        const rawData = currentState.bookingStatsCache.data;
+        const data = metric === 'bookings_count' 
+          ? rawData 
+          : rawData.map(item => ({ ...item, value: item.count }));
+        
+        commit(types.default.SET_ACCOUNT_REPORTS, { metric, data });
+        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, { metric, value: false });
+        return;
+      }
+      
+      // Make single API call and populate BOTH metrics at once
+      Report.getBookingStats(reportObj).then(response => {
+        const rawData = response.data;
+        
+        // Cache the data
+        commit(types.default.SET_BOOKING_STATS_CACHE, {
+          data: rawData,
+          params: cacheKey,
+          timestamp: Date.now(),
+        });
+        
+        // Prepare data for BOTH bookings and leads from single response
+        const bookingsData = rawData;
+        const leadsData = rawData.map(item => ({ ...item, value: item.count }));
+        
+        // Store both metrics
+        commit(types.default.SET_ACCOUNT_REPORTS, { metric: 'bookings_count', data: bookingsData });
+        commit(types.default.SET_ACCOUNT_REPORTS, { metric: 'leads_count', data: leadsData });
+        
+        // Turn off loading for both
+        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, { metric: 'bookings_count', value: false });
+        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, { metric: 'leads_count', value: false });
+      }).catch(() => {
+        // Turn off loading for both on error
+        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, { metric: 'bookings_count', value: false });
+        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, { metric: 'leads_count', value: false });
       });
-      commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, {
-        metric,
-        value: false,
+    } else {
+      Report.getReports(reportObj).then(accountReport => {
+        let { data } = accountReport;
+        data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
+        commit(types.default.SET_ACCOUNT_REPORTS, {
+          metric,
+          data,
+        });
+        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, {
+          metric,
+          value: false,
+        });
       });
-    });
+    }
   },
   fetchAccountConversationHeatmap({ commit }, reportObj) {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
@@ -162,6 +233,17 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FAILED);
+      });
+  },
+  fetchBookingSummary({ commit }, reportObj) {
+    commit(types.default.SET_BOOKING_SUMMARY_STATUS, STATUS.FETCHING);
+    Report.getBookingSummary(reportObj)
+      .then(bookingSummary => {
+        commit(types.default.SET_BOOKING_SUMMARY, bookingSummary.data);
+        commit(types.default.SET_BOOKING_SUMMARY_STATUS, STATUS.FINISHED);
+      })
+      .catch(() => {
+        commit(types.default.SET_BOOKING_SUMMARY_STATUS, STATUS.FAILED);
       });
   },
   fetchAccountConversationMetric({ commit }, params = {}) {
@@ -305,6 +387,12 @@ const mutations = {
   [types.default.SET_BOT_SUMMARY](_state, summaryData) {
     _state.botSummary = summaryData;
   },
+  [types.default.SET_BOOKING_SUMMARY](_state, summaryData) {
+    _state.bookingSummary = summaryData;
+  },
+  [types.default.SET_BOOKING_SUMMARY_STATUS](_state, status) {
+    _state.bookingSummaryFetchingStatus = status;
+  },
   [types.default.SET_ACCOUNT_CONVERSATION_METRIC](_state, metricData) {
     _state.overview.accountConversationMetric = metricData;
   },
@@ -322,6 +410,11 @@ const mutations = {
   },
   [types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingTeamConversationMetric = flag;
+  },
+  [types.default.SET_BOOKING_STATS_CACHE](_state, { data, params, timestamp }) {
+    _state.bookingStatsCache.data = data;
+    _state.bookingStatsCache.params = params;
+    _state.bookingStatsCache.timestamp = timestamp;
   },
 };
 
