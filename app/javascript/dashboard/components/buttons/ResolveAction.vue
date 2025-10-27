@@ -134,7 +134,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
     <div
-      class="rounded-lg shadow outline-1 outline flex-shrink-0 transition-transform duration-150 ease-out active:scale-[0.95]"
+      class="rounded-lg shadow outline-1 outline flex-shrink-0 transition-transform duration-150 ease-out active:scale-[0.97]"
       :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
     >
       <Button

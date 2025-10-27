@@ -63,10 +63,9 @@ useKeyboardEvents(keyboardEvents);
       ghost
       slate
       sm
-      class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-90 active:!brightness-95 active:duration-75"
+      class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-95 active:!brightness-105 active:duration-75"
       :class="{
-        'bg-n-alpha-2 active:!brightness-105 active:shadow-sm':
-          isContactSidebarOpen,
+        'bg-n-alpha-2 active:shadow-sm': isContactSidebarOpen,
       }"
       icon="i-ph-user-bold"
       @click="handleConversationSidebarToggle"
@@ -76,7 +75,7 @@ useKeyboardEvents(keyboardEvents);
       v-tooltip.bottom="$t('CONVERSATION.SIDEBAR.COPILOT')"
       ghost
       slate
-      class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-90 active:!brightness-95 active:duration-75"
+      class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-95 active:duration-75"
       :class="{
         'bg-n-alpha-2 !text-n-iris-9 active:!brightness-105 active:shadow-sm':
           isCopilotPanelOpen,
