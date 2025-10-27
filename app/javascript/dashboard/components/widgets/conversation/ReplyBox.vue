@@ -195,6 +195,13 @@ export default {
       }
       return 'plain';
     },
+    isDefaultEditorMode() {
+      return (
+        !this.showAudioRecorderEditor &&
+        !this.showCopilotEditor &&
+        !this.isGeneratingContent
+      );
+    },
     showWhatsappTemplates() {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
     },
@@ -1239,7 +1246,7 @@ export default {
     <ReplyTopPanel
       :mode="replyType"
       :is-reply-restricted="isReplyRestricted"
-      :disabled="isGeneratingContent"
+      :disabled="isGeneratingContent || showAudioRecorderEditor"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popOutReplyBox"
@@ -1285,12 +1292,7 @@ export default {
           :on-click="addIntoEditor"
         />
         <ReplyEmailHead
-          v-if="
-            showReplyHead &&
-            !showAudioRecorderEditor &&
-            !showCopilotEditor &&
-            !isGeneratingContent
-          "
+          v-if="showReplyHead && isDefaultEditorMode"
           v-model:cc-emails="ccEmails"
           v-model:bcc-emails="bccEmails"
           v-model:to-emails="toEmails"
@@ -1365,22 +1367,24 @@ export default {
           :preview-text="quotedEmailPreviewText"
           @toggle="toggleQuotedReply"
         />
+
+        <div
+          v-if="hasAttachments && isDefaultEditorMode"
+          class="bg-transparent py-0 mb-2"
+          @paste="onPaste"
+        >
+          <AttachmentPreview
+            class="mt-2"
+            :attachments="attachedFiles"
+            @remove-attachment="removeAttachment"
+          />
+        </div>
+        <MessageSignatureMissingAlert
+          v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
+        />
       </div>
     </Transition>
-    <div
-      v-if="hasAttachments && !showAudioRecorderEditor"
-      class="attachment-preview-box"
-      @paste="onPaste"
-    >
-      <AttachmentPreview
-        class="flex-col mt-4"
-        :attachments="attachedFiles"
-        @remove-attachment="removeAttachment"
-      />
-    </div>
-    <MessageSignatureMissingAlert
-      v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
-    />
+
     <Transition
       mode="out-in"
       enter-active-class="transition-all duration-300 ease-out"
@@ -1463,10 +1467,6 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   @apply mb-0;
-}
-
-.attachment-preview-box {
-  @apply bg-transparent py-0 px-4;
 }
 
 .reply-box {
