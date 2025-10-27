@@ -58,6 +58,75 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     response.success?
   end
 
+  def create_csat_template(template_config)
+    request_body = {
+      name: 'customer_satisfaction_survey',
+      language: template_config[:language] || 'en',
+      category: 'UTILITY',
+      components: [
+        {
+          type: 'BODY',
+          text: template_config[:message]
+        },
+        {
+          type: 'BUTTONS',
+          buttons: [
+            {
+              type: 'URL',
+              text: template_config[:button_text] || 'Please rate us',
+              url: "#{template_config[:base_url]}/survey/responses/{{1}}",
+              example: ['12345']
+            }
+          ]
+        }
+      ]
+    }
+
+    response = HTTParty.post(
+      "#{business_account_path}/message_templates",
+      headers: api_headers,
+      body: request_body.to_json
+    )
+
+    if response.success?
+      {
+        success: true,
+        template_id: response['id'],
+        template_name: 'customer_satisfaction_survey',
+        status: 'PENDING'
+      }
+    else
+      {
+        success: false,
+        error: error_message(response) || 'Failed to create template'
+      }
+    end
+  end
+
+  def get_template_status(template_name)
+    url = "#{business_account_path}/message_templates?name=#{template_name}&access_token=#{whatsapp_channel.provider_config['api_key']}"
+    response = HTTParty.get(url)
+
+    return { success: false, error: 'API request failed' } unless response.success?
+
+    templates = response['data'] || []
+    template = templates.find { |t| t['name'] == template_name }
+
+    if template
+      {
+        success: true,
+        template: {
+          id: template['id'],
+          name: template['name'],
+          status: template['status'],
+          language: template['language']
+        }
+      }
+    else
+      { success: false, error: 'Template not found' }
+    end
+  end
+
   def api_headers
     { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end

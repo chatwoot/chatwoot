@@ -44,7 +44,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def update
     inbox_params = permitted_params.except(:channel, :csat_config)
-    inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
+
+    if permitted_params[:csat_config].present?
+      inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config])
+      handle_whatsapp_csat_template_update(inbox_params[:csat_config]) if @inbox.whatsapp?
+    end
+
     @inbox.update!(inbox_params)
     update_inbox_working_hours
     update_channel if channel_update_required?
@@ -85,6 +90,30 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   rescue StandardError => e
     Rails.logger.error "[INBOX HEALTH] Error fetching health data: #{e.message}"
     render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  def csat_template_status
+    return render json: { error: 'CSAT template status only available for WhatsApp channels' }, status: :bad_request unless @inbox.whatsapp?
+
+    template_config = @inbox.csat_config&.dig('template')
+    return render json: { template_exists: false } unless template_config
+
+    template_name = template_config['name'] || 'customer_satisfaction_survey'
+    status_result = @inbox.channel.provider_service.get_template_status(template_name)
+
+    if status_result[:success]
+      render json: {
+        template_exists: true,
+        template_name: template_name,
+        status: status_result[:template][:status],
+        template_id: status_result[:template][:id]
+      }
+    else
+      render json: { template_exists: false, error: status_result[:error] }
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error fetching CSAT template status: #{e.message}"
+    render json: { error: e.message }, status: :internal_server_error
   end
 
   private
@@ -151,8 +180,46 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inbox.channel.save!
   end
 
+  def handle_whatsapp_csat_template_update(csat_config)
+    return unless @inbox.channel.is_a?(Channel::Whatsapp)
+    return if csat_config[:message].blank?
+
+    # Check if message has changed or template doesn't exist
+    existing_message = @inbox.csat_config&.dig('message')
+    template_exists = @inbox.csat_config&.dig('template').present?
+
+    create_whatsapp_csat_template(csat_config) if !template_exists || existing_message != csat_config[:message]
+  rescue StandardError => e
+    Rails.logger.error "Error handling WhatsApp CSAT template update: #{e.message}"
+    # Don't fail the entire update if template creation fails
+  end
+
+  def create_whatsapp_csat_template(csat_config)
+    template_config = {
+      message: csat_config[:message],
+      button_text: 'Please rate us',
+      base_url: ENV.fetch('FRONTEND_URL', 'http://localhost:3000'),
+      language: 'en'
+    }
+
+    result = @inbox.channel.provider_service.create_csat_template(template_config)
+
+    if result[:success]
+      # Add template info to csat_config
+      csat_config[:template] = {
+        name: 'customer_satisfaction_survey',
+        template_id: result[:template_id],
+        created_at: Time.current.iso8601,
+        language: 'en'
+      }
+      Rails.logger.info "WhatsApp CSAT template created successfully for inbox #{@inbox.id}"
+    else
+      Rails.logger.error "Failed to create WhatsApp CSAT template: #{result[:error]}"
+    end
+  end
+
   def format_csat_config(config)
-    {
+    formatted = {
       display_type: config['display_type'] || 'emoji',
       message: config['message'] || '',
       survey_rules: {
@@ -160,13 +227,20 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
         values: config.dig('survey_rules', 'values') || []
       }
     }
+
+    # Preserve existing template config if present
+    formatted[:template] = config['template'] if config['template'].present?
+
+    formatted
   end
 
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name,
-     { csat_config: [:display_type, :message, { survey_rules: [:operator, { values: [] }] }] }]
+     { csat_config: [:display_type, :message,
+                     { survey_rules: [:operator, { values: [] }],
+                       template: [:name, :template_id, :created_at, :language] }] }]
   end
 
   def permitted_params(channel_attributes = [])
