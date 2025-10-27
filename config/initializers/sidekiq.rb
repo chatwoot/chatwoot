@@ -9,7 +9,8 @@ end
 # Logs whenever a job is pulled off Redis for execution.
 class ChatwootDequeuedLogger
   def call(_worker, job, queue)
-    Sidekiq.logger.info("Dequeued #{job['class']} #{job['jid']} from #{queue}")
+    payload = job['args'].first
+    Sidekiq.logger.info("Dequeued #{job['wrapped']} #{payload['job_id']} from #{queue}")
     yield
   end
 end

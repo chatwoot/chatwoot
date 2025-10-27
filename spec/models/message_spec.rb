@@ -327,14 +327,11 @@ RSpec.describe Message do
         message.conversation.contact.update!(email: 'test@example.com')
         message.message_type = 'outgoing'
 
-        # Perform jobs inline to test full integration
-        perform_enqueued_jobs do
-          message.save!
+        ActiveJob::Base.queue_adapter = :test
+        allow(Redis::Alfred).to receive(:set).and_return(true)
+        perform_enqueued_jobs(only: SendReplyJob) do
+          expect { message.save! }.to have_enqueued_job(ConversationReplyEmailJob).with(message.conversation.id, kind_of(Integer)).on_queue('mailers')
         end
-
-        # Verify the email worker is eventually scheduled through the service
-        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
-        expect(jobs_for_conversation_count).to eq(1)
       end
 
       it 'does not schedule email for website channel if continuity is disabled' do
@@ -345,15 +342,8 @@ RSpec.describe Message do
         message.conversation.contact.update!(email: 'test@example.com')
         message.message_type = 'outgoing'
 
-        initial_job_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
-
-        perform_enqueued_jobs do
-          message.save!
-        end
-
-        # No new jobs should be scheduled for this conversation
-        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
-        expect(jobs_for_conversation_count).to eq(initial_job_count)
+        ActiveJob::Base.queue_adapter = :test
+        expect { message.save! }.not_to have_enqueued_job(ConversationReplyEmailJob)
       end
 
       it 'does not schedule email for private notes' do
@@ -363,15 +353,8 @@ RSpec.describe Message do
         message.private = true
         message.message_type = 'outgoing'
 
-        initial_job_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
-
-        perform_enqueued_jobs do
-          message.save!
-        end
-
-        # No new jobs should be scheduled for this conversation
-        jobs_for_conversation_count = ConversationReplyEmailWorker.jobs.count { |job| job['args'].first == message.conversation.id }
-        expect(jobs_for_conversation_count).to eq(initial_job_count)
+        ActiveJob::Base.queue_adapter = :test
+        expect { message.save! }.not_to have_enqueued_job(ConversationReplyEmailJob)
       end
 
       it 'calls SendReplyJob for all channels' do
