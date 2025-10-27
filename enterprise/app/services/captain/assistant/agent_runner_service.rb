@@ -51,7 +51,7 @@ class Captain::Assistant::AgentRunnerService
 
     {
       conversation_history: conversation_history,
-      state: build_state
+      state: build_state,
     }
   end
 

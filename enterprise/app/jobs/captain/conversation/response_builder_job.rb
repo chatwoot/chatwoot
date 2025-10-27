@@ -8,17 +8,67 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @inbox = conversation.inbox
     @assistant = assistant
 
+    debug_file = "tmp/conversation-#{conversation.id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n\n" + ('='*100)
+      f.puts '='*100
+      f.puts '[RESPONSE BUILDER] ========== JOB PERFORM START =========='
+      f.puts "[RESPONSE BUILDER] Time: #{Time.current}"
+      f.puts "[RESPONSE BUILDER] Conversation ID: #{conversation.id}"
+      f.puts "[RESPONSE BUILDER] Assistant: #{assistant&.class&.name} - #{assistant&.id}"
+      f.puts "[RESPONSE BUILDER] Current.executed_by BEFORE setting: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+    end
+
     Current.executed_by = @assistant
 
+    File.open(debug_file, 'a') do |f|
+      f.puts "[RESPONSE BUILDER] Current.executed_by AFTER setting: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts '[RESPONSE BUILDER] About to start transaction'
+    end
+
     ActiveRecord::Base.transaction do
+      File.open(debug_file, 'a') { |f| f.puts '[RESPONSE BUILDER] Inside transaction' }
       generate_and_process_response
+      File.open(debug_file, 'a') { |f| f.puts '[RESPONSE BUILDER] Transaction completed successfully' }
+    end
+
+    File.open(debug_file, 'a') do |f|
+      f.puts '[RESPONSE BUILDER] After transaction block'
+      f.puts "[RESPONSE BUILDER] Checking if handoff was requested: #{@handoff_requested.inspect}"
+    end
+
+    # Process handoff OUTSIDE the transaction so after_commit callbacks work properly
+    if @handoff_requested
+      File.open(debug_file, 'a') do |f|
+        f.puts '[RESPONSE BUILDER] Processing deferred handoff OUTSIDE transaction'
+        f.puts "[RESPONSE BUILDER] Transaction open?: #{ActiveRecord::Base.connection.transaction_open?}"
+      end
+      process_handoff
     end
   rescue StandardError => e
+    File.open(debug_file, 'a') do |f|
+      f.puts "[RESPONSE BUILDER] ERROR occurred: #{e.class} - #{e.message}"
+      f.puts "[RESPONSE BUILDER] Backtrace (first 5): #{e.backtrace.first(5).join("\n")}"
+    end
     raise e if e.is_a?(ActiveStorage::FileNotFoundError) || e.is_a?(Faraday::BadRequestError)
 
     handle_error(e)
   ensure
+    File.open(debug_file, 'a') do |f|
+      f.puts '[RESPONSE BUILDER] In ensure block'
+      f.puts "[RESPONSE BUILDER] Current.executed_by BEFORE clearing: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "[RESPONSE BUILDER] Current.handoff_requested BEFORE clearing: #{Current.handoff_requested.inspect}"
+    end
     Current.executed_by = nil
+    Current.handoff_requested = nil
+    File.open(debug_file, 'a') do |f|
+      f.puts "[RESPONSE BUILDER] Current.executed_by AFTER clearing: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "[RESPONSE BUILDER] Current.handoff_requested AFTER clearing: #{Current.handoff_requested.inspect}"
+      f.puts '[RESPONSE BUILDER] ========== JOB PERFORM END =========='
+      f.puts '='*100
+      f.puts ('='*100) + "\n\n"
+    end
   end
 
   private
@@ -26,21 +76,47 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
+    debug_file = "tmp/conversation-#{@conversation.id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n[RESPONSE BUILDER] generate_and_process_response START"
+      f.puts "[RESPONSE BUILDER] captain_v2_enabled?: #{captain_v2_enabled?}"
+    end
+
     @response = if captain_v2_enabled?
+                  File.open(debug_file, 'a') { |f| f.puts '[RESPONSE BUILDER] Using AgentRunnerService (V2)' }
                   Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
                     message_history: collect_previous_messages
                   )
                 else
+                  File.open(debug_file, 'a') { |f| f.puts '[RESPONSE BUILDER] Using AssistantChatService (V1)' }
                   Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
                     message_history: collect_previous_messages
                   )
                 end
 
-    return process_action('handoff') if handoff_requested?
+    File.open(debug_file, 'a') do |f|
+      f.puts "[RESPONSE BUILDER] Response received: #{@response.inspect}"
+      f.puts "[RESPONSE BUILDER] handoff_requested? (from response): #{handoff_requested?}"
+      f.puts "[RESPONSE BUILDER] Current.handoff_requested (from tool): #{Current.handoff_requested.inspect}"
+      f.puts "[RESPONSE BUILDER] Will process handoff?: #{handoff_requested? || Current.handoff_requested}"
+    end
+
+    if handoff_requested? || Current.handoff_requested
+      File.open(debug_file, 'a') do |f|
+        f.puts '[RESPONSE BUILDER] Handoff requested - deferring until AFTER transaction commits'
+        f.puts '[RESPONSE BUILDER] Setting @handoff_requested = true'
+      end
+      @handoff_requested = true
+      create_handoff_message
+      return
+    end
 
     create_messages
     Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
     account.increment_response_usage
+
+    File.open(debug_file, 'a') { |f| f.puts '[RESPONSE BUILDER] generate_and_process_response END' }
   end
 
   def collect_previous_messages
@@ -73,14 +149,31 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response['response'] == 'conversation_handoff'
   end
 
-  def process_action(action)
-    case action
-    when 'handoff'
-      I18n.with_locale(@assistant.account.locale) do
-        create_handoff_message
-        @conversation.bot_handoff!
+  def process_handoff
+    debug_file = "tmp/conversation-#{@conversation.id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n[RESPONSE BUILDER] process_handoff START (OUTSIDE TRANSACTION)"
+      f.puts "[RESPONSE BUILDER] Current.executed_by: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "[RESPONSE BUILDER] Current.handoff_requested: #{Current.handoff_requested.inspect}"
+      f.puts "[RESPONSE BUILDER] Triggered by: #{Current.handoff_requested ? 'HandoffTool (Current flag)' : 'LLM response'}"
+      f.puts "[RESPONSE BUILDER] Transaction open?: #{ActiveRecord::Base.connection.transaction_open?}"
+    end
+
+    I18n.with_locale(@assistant.account.locale) do
+      File.open(debug_file, 'a') do |f|
+        f.puts "[RESPONSE BUILDER] Locale set to: #{@assistant.account.locale}"
+        f.puts "[RESPONSE BUILDER] Conversation status BEFORE bot_handoff!: #{@conversation.reload.status}"
+      end
+      File.open(debug_file, 'a') { |f| f.puts '[RESPONSE BUILDER] Calling bot_handoff!' }
+      @conversation.bot_handoff!
+      File.open(debug_file, 'a') do |f|
+        f.puts '[RESPONSE BUILDER] bot_handoff! completed'
+        f.puts "[RESPONSE BUILDER] Conversation status AFTER bot_handoff!: #{@conversation.reload.status}"
       end
     end
+
+    File.open(debug_file, 'a') { |f| f.puts '[RESPONSE BUILDER] process_handoff END' }
   end
 
   def create_handoff_message
@@ -113,8 +206,24 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def handle_error(error)
+    debug_file = "tmp/conversation-#{@conversation.id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n[RESPONSE BUILDER] handle_error called"
+      f.puts "[RESPONSE BUILDER] Error: #{error.class} - #{error.message}"
+      f.puts '[RESPONSE BUILDER] Will handoff due to error'
+    end
+
     log_error(error)
-    process_action('handoff')
+
+    # Create handoff message and set flag so handoff happens outside transaction
+    @handoff_requested = true
+    create_handoff_message if @conversation.messages.where(content: @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff')).where(
+      'created_at > ?', 1.minute.ago
+    ).empty?
+
+    File.open(debug_file, 'a') { |f| f.puts '[RESPONSE BUILDER] @handoff_requested set to true due to error' }
+
     true
   end
 

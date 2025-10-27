@@ -24,17 +24,40 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   private
 
   def trigger_handoff(conversation, reason)
-    # post the reason as a private note
-    conversation.messages.create!(
-      message_type: :outgoing,
-      private: true,
-      sender: @assistant,
-      account: conversation.account,
-      inbox: conversation.inbox,
-      content: reason
-    )
+    debug_file = "tmp/conversation-#{conversation.id}.txt"
 
-    conversation.bot_handoff!
+    File.open(debug_file, "a") do |f|
+      f.puts "\n\n" + "-"*80
+      f.puts "========== HANDOFF TOOL TRIGGER START =========="
+      f.puts "Time: #{Time.current}"
+      f.puts "Conversation ID: #{conversation.id}"
+      f.puts "Conversation Status BEFORE: #{conversation.status}"
+      f.puts "Conversation persisted?: #{conversation.persisted?}"
+      f.puts "Current.executed_by BEFORE: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "Current.executed_by object_id: #{Current.executed_by&.object_id}"
+      f.puts "Current.handoff_requested BEFORE: #{Current.handoff_requested.inspect}"
+      f.puts "Reason: #{reason}"
+      f.puts "Assistant: #{@assistant&.class&.name} - #{@assistant&.id}"
+      f.puts "ActiveRecord transaction open?: #{conversation.class.connection.transaction_open?}"
+      f.puts "Thread ID: #{Thread.current.object_id}"
+      f.puts "Caller stack (first 10):"
+      caller.first(10).each { |line| f.puts "  #{line}" }
+    end
+
+    File.open(debug_file, "a") do |f|
+      f.puts "\nSetting Current.handoff_requested = true"
+      f.puts "NOT calling bot_handoff! - letting ResponseBuilderJob handle it"
+    end
+
+    # Signal to ResponseBuilderJob that handoff is requested
+    Current.handoff_requested = true
+
+    File.open(debug_file, "a") do |f|
+      f.puts "Current.handoff_requested set to: #{Current.handoff_requested.inspect}"
+      f.puts "Current.executed_by AFTER: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "Conversation Status (unchanged): #{conversation.status}"
+      f.puts "========== HANDOFF TOOL TRIGGER END ==========\n\n"
+    end
   end
 
   # TODO: Future enhancement - Add team assignment capability

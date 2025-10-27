@@ -155,8 +155,37 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!
+    debug_file = "tmp/conversation-#{id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n========== BOT_HANDOFF! START =========="
+      f.puts "Time: #{Time.current}"
+      f.puts "Conversation ID: #{id}"
+      f.puts "Status BEFORE open!: #{status}"
+      f.puts "Current.executed_by: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "Transaction open?: #{self.class.connection.transaction_open?}"
+      f.puts "Thread ID: #{Thread.current.object_id}"
+    end
+
     open!
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\nAfter open! called:"
+      f.puts "Status AFTER open!: #{status}"
+      f.puts "Changed?: #{changed?}"
+      f.puts "Changes: #{changes.inspect}"
+      f.puts "Previous changes: #{previous_changes.inspect}"
+      f.puts "Saved changes to status?: #{saved_change_to_status?}"
+      f.puts "Will callbacks fire?: #{saved_change_to_status? ? 'YES' : 'NO'}"
+      f.puts 'About to dispatch CONVERSATION_BOT_HANDOFF'
+    end
+
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
+
+    File.open(debug_file, 'a') do |f|
+      f.puts 'Dispatcher dispatch completed'
+      f.puts "========== BOT_HANDOFF! END ==========\n"
+    end
   end
 
   def unread_messages
@@ -198,10 +227,39 @@ class Conversation < ApplicationRecord
   private
 
   def execute_after_update_commit_callbacks
+    debug_file = "tmp/conversation-#{id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n========== AFTER_UPDATE_COMMIT CALLBACKS START =========="
+      f.puts "Time: #{Time.current}"
+      f.puts "Conversation ID: #{id}"
+      f.puts "Current.executed_by: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "Transaction open?: #{self.class.connection.transaction_open?}"
+      f.puts "Thread ID: #{Thread.current.object_id}"
+      f.puts "Previous changes: #{previous_changes.inspect}"
+      f.puts "Saved change to status?: #{saved_change_to_status?}"
+      f.puts "Status: #{status}"
+    end
+
     handle_resolved_status_change
     notify_status_change
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\nAbout to call create_activity"
+      f.puts "Will create_activity run?: #{saved_change_to_status? ? 'YES' : 'NO (no status change)'}"
+    end
+
     create_activity
+
+    File.open(debug_file, 'a') do |f|
+      f.puts 'create_activity completed'
+    end
+
     notify_conversation_updation
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "========== AFTER_UPDATE_COMMIT CALLBACKS END ==========\n"
+    end
   end
 
   def handle_resolved_status_change

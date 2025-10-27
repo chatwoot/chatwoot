@@ -9,12 +9,36 @@ module ActivityMessageHandler
   private
 
   def create_activity
+    debug_file = "tmp/conversation-#{id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n========== CREATE_ACTIVITY START =========="
+      f.puts "Time: #{Time.current}"
+      f.puts "Conversation ID: #{id}"
+      f.puts "Current.executed_by: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "Current.user: #{Current.user&.class&.name} - #{Current.user&.id}"
+      f.puts "saved_change_to_status?: #{saved_change_to_status?}"
+      f.puts "saved_change_to_priority?: #{saved_change_to_priority?}"
+      f.puts "saved_change_to_label_list?: #{saved_change_to_label_list?}"
+      f.puts "saved_change_to_sla_policy_id?: #{saved_change_to_sla_policy_id?}"
+      f.puts "Status: #{status}"
+      f.puts "Previous changes: #{previous_changes.inspect}"
+    end
+
     user_name = determine_user_name
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\nDetermined user_name: #{user_name.inspect}"
+    end
 
     handle_status_change(user_name)
     handle_priority_change(user_name)
     handle_label_change(user_name)
     handle_sla_policy_change(user_name)
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "========== CREATE_ACTIVITY END ==========\n"
+    end
   end
 
   def determine_user_name
@@ -22,9 +46,22 @@ module ActivityMessageHandler
   end
 
   def handle_status_change(user_name)
+    debug_file = "tmp/conversation-#{id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n----- handle_status_change START -----"
+      f.puts "saved_change_to_status?: #{saved_change_to_status?}"
+      f.puts "user_name: #{user_name.inspect}"
+      f.puts "Current.executed_by: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+    end
+
     return unless saved_change_to_status?
 
     status_change_activity(user_name)
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "----- handle_status_change END -----\n"
+    end
   end
 
   def handle_priority_change(user_name)
@@ -47,11 +84,31 @@ module ActivityMessageHandler
   end
 
   def status_change_activity(user_name)
+    debug_file = "tmp/conversation-#{id}.txt"
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "\n----- status_change_activity START -----"
+      f.puts "Time: #{Time.current}"
+      f.puts "user_name: #{user_name.inspect}"
+      f.puts "Current.executed_by: #{Current.executed_by&.class&.name} - #{Current.executed_by&.id}"
+      f.puts "Current.executed_by present?: #{Current.executed_by.present?}"
+      f.puts "Will call automation_status_change_activity_content?: #{Current.executed_by.present?}"
+    end
+
     content = if Current.executed_by.present?
+                File.open(debug_file, 'a') { |f| f.puts 'Calling automation_status_change_activity_content' }
                 automation_status_change_activity_content
               else
+                File.open(debug_file, 'a') { |f| f.puts 'Calling user_status_change_activity_content' }
                 user_status_change_activity_content(user_name)
               end
+
+    File.open(debug_file, 'a') do |f|
+      f.puts "Content generated: #{content.inspect}"
+      f.puts "Will enqueue ActivityMessageJob?: #{content.present?}"
+      f.puts "Enqueueing ActivityMessageJob with params: #{activity_message_params(content).inspect}" if content
+      f.puts "----- status_change_activity END -----\n"
+    end
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
