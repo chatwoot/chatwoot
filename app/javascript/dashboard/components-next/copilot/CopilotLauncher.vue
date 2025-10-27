@@ -53,10 +53,12 @@ const toggleSidebar = () => {
     v-if="showCopilotLauncher"
     class="fixed bottom-4 ltr:right-4 rtl:left-4 z-50"
   >
-    <div class="rounded-full bg-n-alpha-2 p-1">
+    <div
+      class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow transition-all duration-200 has-[button:active]:scale-95 has-[button:active]:shadow-md"
+    >
       <Button
         icon="i-woot-captain"
-        class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl"
+        class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl active:!scale-100 transition-all duration-200 ease-out hover:brightness-110"
         lg
         @click="toggleSidebar"
       />
