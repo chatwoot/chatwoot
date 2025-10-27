@@ -68,7 +68,7 @@ class Tiktok::TokenService
   end
 
   def lock_key
-    format(Redis::Keys::TIKTOK_REFRESH_TOKEN_MUTEX, channel_id: channel.id)
+    format(::Redis::Alfred::TIKTOK_REFRESH_TOKEN_MUTEX, channel_id: channel.id)
   end
 
   def attempt_refresh_token
