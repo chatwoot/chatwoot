@@ -124,9 +124,19 @@ isEnabled: !!window.chatwootConfig?.googleOAuthClientId,
    - Bound `:disabled="disabled || isComingSoon"` to button element
 
 2. **app/javascript/dashboard/routes/dashboard/settings/inbox/channels/Email.vue**
-   - Fixed `window.chatwootConfig` access with optional chaining
+   - Fixed `window.chatwootConfig` access with optional chaining (removed)
+   - Updated to use `globalConfig.value.googleOAuthClientId` instead
    - Wrapped template in root div with proper structure
    - Fixed grid layout from `grid-cols-4` to `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`
+
+3. **app/controllers/dashboard_controller.rb**
+   - Added `GOOGLE_OAUTH_CLIENT_ID` to `app_config` method
+   - Now passes Google OAuth credentials to frontend
+
+4. **app/javascript/shared/store/globalConfig.js**
+   - Added `googleOAuthClientId` to config destructuring
+   - Added `googleOAuthClientId` to state object
+   - Makes Google OAuth config available throughout the app
 
 ## Testing Steps
 
