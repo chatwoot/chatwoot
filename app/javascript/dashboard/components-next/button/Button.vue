@@ -174,17 +174,17 @@ const STYLE_CONFIG = {
     },
   },
   fontSize: {
-    xs: 'text-xs',
-    sm: 'text-sm',
-    md: 'text-sm font-medium',
-    lg: 'text-base',
+    xs: 'text-xs active:enabled:scale-[0.97]',
+    sm: 'text-sm active:enabled:scale-[0.97]',
+    md: 'text-sm font-medium active:enabled:scale-[0.98]',
+    lg: 'text-base active:enabled:scale-[0.98]',
   },
   justify: {
     start: 'justify-start',
     center: 'justify-center',
     end: 'justify-end',
   },
-  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-150 ease-out border-0 rounded-lg outline-1 outline disabled:opacity-50 active:enabled:scale-[0.95]',
+  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-150 ease-out border-0 rounded-lg outline-1 outline disabled:opacity-50',
 };
 
 const variantClasses = computed(() => {

@@ -65,7 +65,7 @@ useKeyboardEvents(keyboardEvents);
       sm
       class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-90 active:!brightness-95 active:duration-75"
       :class="{
-        'bg-n-alpha-2 scale-[1.08] brightness-105 shadow-sm':
+        'bg-n-alpha-2 active:!brightness-105 active:shadow-sm':
           isContactSidebarOpen,
       }"
       icon="i-ph-user-bold"
@@ -78,7 +78,7 @@ useKeyboardEvents(keyboardEvents);
       slate
       class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-90 active:!brightness-95 active:duration-75"
       :class="{
-        'bg-n-alpha-2 !text-n-iris-9 scale-[1.08] brightness-105 shadow-sm':
+        'bg-n-alpha-2 !text-n-iris-9 active:!brightness-105 active:shadow-sm':
           isCopilotPanelOpen,
       }"
       sm
