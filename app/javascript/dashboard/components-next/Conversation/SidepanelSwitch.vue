@@ -56,16 +56,18 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <div
-    class="flex flex-col justify-center items-center absolute top-36 xl:top-24 ltr:right-2 rtl:left-2 bg-n-solid-2 border border-n-weak rounded-full gap-2 p-1"
+    class="flex flex-col justify-center items-center absolute top-36 xl:top-24 ltr:right-2 rtl:left-2 bg-n-solid-2/90 backdrop-blur-lg border border-n-weak/50 rounded-full gap-1.5 p-1.5 shadow-md transition-shadow duration-200 hover:shadow-lg has-[button:active]:scale-[0.98]"
   >
     <Button
       v-tooltip.top="$t('CONVERSATION.SIDEBAR.CONTACT')"
       ghost
       slate
       sm
-      class="!rounded-full"
+      class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-90 active:!brightness-95 active:duration-75"
       :class="{
-        'bg-n-alpha-2': isContactSidebarOpen,
+        'bg-n-alpha-3 scale-[1.08] brightness-105 shadow-sm':
+          isContactSidebarOpen,
+        'hover:bg-n-alpha-1': !isContactSidebarOpen,
       }"
       icon="i-ph-user-bold"
       @click="handleConversationSidebarToggle"
@@ -75,9 +77,11 @@ useKeyboardEvents(keyboardEvents);
       v-tooltip.bottom="$t('CONVERSATION.SIDEBAR.COPILOT')"
       ghost
       slate
-      class="!rounded-full"
+      class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-90 active:!brightness-95 active:duration-75"
       :class="{
-        'bg-n-alpha-2 !text-n-iris-9': isCopilotPanelOpen,
+        'bg-n-alpha-3 !text-n-iris-9 scale-[1.08] brightness-105 shadow-sm':
+          isCopilotPanelOpen,
+        'hover:bg-n-alpha-1': !isCopilotPanelOpen,
       }"
       sm
       icon="i-woot-captain"

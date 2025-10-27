@@ -134,7 +134,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
     <div
-      class="rounded-lg shadow outline-1 outline flex-shrink-0"
+      class="rounded-lg shadow outline-1 outline flex-shrink-0 transition-transform duration-150 ease-out active:scale-[0.95]"
       :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
     >
       <Button
@@ -142,7 +142,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
         size="sm"
         color="slate"
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0 active:!scale-100"
         :is-loading="isLoading"
         @click="onCmdResolveConversation"
       />
@@ -151,7 +151,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
         size="sm"
         color="slate"
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0 active:!scale-100"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
@@ -160,6 +160,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
+        class="active:!scale-100"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
@@ -169,7 +170,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         icon="i-lucide-chevron-down"
         :disabled="isLoading"
         size="sm"
-        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
+        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0 active:!scale-100"
         color="slate"
         trailing-icon
         @click="openDropdown"
