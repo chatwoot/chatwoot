@@ -85,8 +85,12 @@ async function deleteData() {
     if (dataId) {
       await aiAgents.deleteKnowledgeQna(props.data.id, dataId);
     }
-    // Remove from main qnas array
-    qnas.value = qnas.value.filter(v => v.id !== dataId || v !== dataToDelete);
+    qnas.value = qnas.value.filter(v => {
+      if (v.id && dataId) {
+        return v.id !== dataId;
+      }
+      return v !== dataToDelete;
+    });
     fetchKnowledge();
     useAlert(t('AGENT_MGMT.QNA.SAVE_SUCCESS'));
   } catch (e) {

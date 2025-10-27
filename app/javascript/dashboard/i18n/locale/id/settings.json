@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Kata sandi Anda berhasil diubah",
     "AFTER_EMAIL_CHANGED": "Profil Anda telah berhasil diperbarui, silakan masuk lagi dengan data akun yang baru diubah",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Foto Profil",
       "AVATAR": "Foto Profil",
       "ERROR": "Perbaiki kesalahan formulir",
       "REMOVE_IMAGE": "Hapus",
@@ -37,12 +37,12 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Tanda tangan pesan pribadi",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "Buat tanda tangan pesan yang unik untuk muncul di akhir setiap pesan yang Anda kirim dari kotak masuk mana pun. Anda juga dapat menyertakan gambar inline, yang didukung di live-chat, email, dan API inbox.",
         "BTN_TEXT": "Simpan tanda tangan pesan",
         "API_ERROR": "Tidak dapat menyimpan tanda tangan! Coba lagi",
         "API_SUCCESS": "Tanda tangan berhasil disimpan",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_ERROR": "Tidak dapat mengunggah gambar! Coba lagi",
+        "IMAGE_UPLOAD_SUCCESS": "Gambar berhasil ditambahkan. Silakan klik simpan untuk menyimpan tanda tangan",
         "IMAGE_UPLOAD_SIZE_ERROR": "Ukuran gambar harus kurang dari {size}MB"
       },
       "MESSAGE_SIGNATURE": {
@@ -61,29 +61,29 @@
         "COPY": "Salin"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "Pemberitahuan Audio",
+        "NOTE": "Aktifkan pemberitahuan audio di dasbor untuk pesan dan percakapan baru.",
+        "PLAY": "Putar suara",
         "ALERT_TYPES": {
           "NONE": "Tidak ada",
-          "MINE": "Assigned",
+          "MINE": "Ditugaskan",
           "ALL": "Semua",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "ASSIGNED": "Percakapan yang ditugaskan kepada saya",
+          "UNASSIGNED": "Percakapan yang tidak ditugaskan",
+          "NOTME": "Percakapan terbuka yang ditugaskan kepada orang lain"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "Anda belum memilih opsi apa pun, Anda tidak akan menerima pemberitahuan audio.",
+          "ASSIGNED": "Anda akan menerima pemberitahuan untuk percakapan yang ditugaskan kepada Anda.",
+          "UNASSIGNED": "Anda akan menerima pemberitahuan untuk percakapan yang tidak ditugaskan.",
+          "NOTME": "Anda akan menerima pemberitahuan untuk percakapan yang ditugaskan kepada orang lain.",
+          "ASSIGNED+UNASSIGNED": "Anda akan menerima pemberitahuan untuk percakapan yang ditugaskan kepada Anda dan yang tidak ditugaskan.",
+          "ASSIGNED+NOTME": "Anda akan menerima pemberitahuan untuk percakapan yang ditugaskan kepada Anda dan kepada orang lain, tetapi tidak untuk yang tidak ditugaskan.",
+          "NOTME+UNASSIGNED": "Anda akan menerima pemberitahuan untuk percakapan yang tidak ditugaskan dan yang ditugaskan kepada orang lain.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Anda akan menerima pemberitahuan untuk semua percakapan."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
+          "TITLE": "Event pemberitahuan untuk percakapan",
           "NONE": "Tidak ada",
           "ASSIGNED": "Percakapan yang ditetapkan",
           "ALL_CONVERSATIONS": "Semua Percakapan"
@@ -96,7 +96,7 @@
           "CONDITION_ONE": "Kirim pemberitahuan audio hanya jika jendela browser tidak aktif",
           "CONDITION_TWO": "Kirim pemberitahuan setiap 30 detik hingga semua percakapan yang ditetapkan dibaca"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "SOUND_PERMISSION_ERROR": "Autoplay dinonaktifkan di browser Anda. Untuk mendengar pemberitahuan secara otomatis, aktifkan izin suara di pengaturan browser Anda atau interaksi dengan halaman.",
         "READ_MORE": "Baca lebih lanjut"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -107,26 +107,26 @@
         "CONVERSATION_MENTION": "Kirim notifikasi email saat Anda disebut dalam percakapan",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi email ketika pesan baru dibuat dalam percakapan yang Anda ikuti",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Kirim notifikasi email ketika percakapan melewatkan SLA respons pertama",
+        "SLA_MISSED_NEXT_RESPONSE": "Kirim notifikasi email ketika percakapan melewatkan SLA respons berikutnya",
+        "SLA_MISSED_RESOLUTION": "Kirim notifikasi email ketika percakapan melewatkan SLA resolusi"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Preferensi notifikasi",
+        "TYPE_TITLE": "Jenis notifikasi",
         "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "PUSH": "Notifikasi push",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "Percakapan baru dibuat",
+          "CONVERSATION_ASSIGNED": "Percakapan ditugaskan kepada Anda",
+          "CONVERSATION_MENTION": "Anda disebut dalam percakapan",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pesan baru dibuat dalam percakapan yang ditugaskan",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Pesan baru dibuat dalam percakapan yang Anda ikuti",
+          "SLA_MISSED_FIRST_RESPONSE": "Percakapan melewatkan SLA respons pertama",
+          "SLA_MISSED_NEXT_RESPONSE": "Percakapan melewatkan SLA respons berikutnya",
+          "SLA_MISSED_RESOLUTION": "Percakapan melewatkan SLA resolusi"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Aktifkan notifikasi push untuk browser Anda agar Anda dapat menerimanya"
       },
       "API": {
         "UPDATE_SUCCESS": "Preferensi notifikasi Anda berhasil diperbarui",
@@ -193,16 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ubah",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
-    "CONTACT_SUPPORT": "Contact support",
+    "CHANGE_ACCOUNTS": "Ganti Akun",
+    "SWITCH_WORKSPACE": "Ganti Workspace",
+    "CONTACT_SUPPORT": "Hubungi CS",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
-    "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "LOGOUT": "Log out"
+    "PROFILE_SETTINGS": "Pengaturan Profil",
+    "KEYBOARD_SHORTCUTS": "Pintasan Keyboard",
+    "APPEARANCE": "Ubah Tampilan",
+    "SUPER_ADMIN_CONSOLE": "Konsol SuperAdmin",
+    "DOCS": "Baca dokumentasi",
+    "LOGOUT": "Keluar"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "hari percobaan tersisa.",
@@ -238,8 +238,8 @@
       "SUBMIT": "Kirim"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "Gambar ini tidak lagi tersedia.",
+      "LOADING_FAILED": "Gagal memuat"
     }
   },
   "CONFIRM_EMAIL": "Memverifikasi...",
@@ -249,7 +249,7 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
+    "NO_ITEMS": "Tidak ada item untuk ditampilkan",
     "CURRENTLY_VIEWING_ACCOUNT": "Saat ini dilihat:",
     "SWITCH": "Ganti",
     "INBOX_VIEW": "Inbox View",
@@ -311,7 +311,7 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Pusat Bantuan",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Artikel",
       "CATEGORIES": "Kategori",
       "LOCALES": "Bahasa",
       "SETTINGS": "Pengaturan"
@@ -320,7 +320,7 @@
     "SET_AUTO_OFFLINE": {
       "TEXT": "Tandai offline secara otomatis",
       "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_SHORT": "Secara otomatis menandai offline saat Anda tidak menggunakan aplikasi."
     },
     "DOCS": "Baca dokumen",
     "AI_AGENTS": "Bot AI",
