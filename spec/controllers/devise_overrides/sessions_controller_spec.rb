@@ -40,6 +40,26 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         expect(json_response['mfa_token']).to be_present
       end
 
+      it 'does not return authentication tokens before MFA verification' do
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(response).to have_http_status(:partial_content)
+
+        # Check that no authentication headers are present
+        expect(response.headers['access-token']).to be_nil
+        expect(response.headers['uid']).to be_nil
+        expect(response.headers['client']).to be_nil
+        expect(response.headers['Authorization']).to be_nil
+
+        # Check that no bearer token is present in any form
+        response.headers.each do |key, value|
+          expect(value.to_s).not_to include('Bearer') if key.downcase.include?('auth')
+        end
+
+        json_response = response.parsed_body
+        expect(json_response['data']).to be_nil
+      end
+
       context 'when verifying MFA' do
         let(:mfa_token) { Mfa::TokenService.new(user: user).generate_token }
 
