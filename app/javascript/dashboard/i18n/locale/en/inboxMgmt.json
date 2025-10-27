@@ -62,9 +62,7 @@
         "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
         "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
         "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again",
-        "NEW_INBOX_SUGGESTION": "This TikTok account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This TikTok account was migrated to the new TikTok channel inbox. You won’t be able to send/receive TikTok messages from this inbox anymore."
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
