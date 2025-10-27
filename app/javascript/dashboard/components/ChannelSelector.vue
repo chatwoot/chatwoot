@@ -18,6 +18,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
@@ -29,6 +33,7 @@ defineProps({
         !isComingSoon,
       'cursor-not-allowed disabled:opacity-80': isComingSoon,
     }"
+    :disabled="disabled || isComingSoon"
   >
     <div
       class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"

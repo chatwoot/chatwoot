@@ -42,7 +42,7 @@ export default {
         const emailChannel = await this.$store.dispatch(
           'inboxes/createChannel',
           {
-            name: this.channelName,
+            name: this.channelName?.trim(),
             channel: {
               type: 'email',
               email: this.email,
