@@ -186,6 +186,15 @@ export default {
 
       return false;
     },
+    editorTransitionKey() {
+      if (this.showCopilotEditor || this.isGeneratingContent) {
+        return 'copilot';
+      }
+      if (this.showRichContentEditor) {
+        return 'rich';
+      }
+      return 'plain';
+    },
     showWhatsappTemplates() {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
     },
@@ -1254,16 +1263,7 @@ export default {
       leave-from-class="opacity-100 translate-y-0 scale-100"
       leave-to-class="opacity-0 translate-y-2 scale-[0.98]"
     >
-      <div
-        :key="
-          showCopilotEditor || isGeneratingContent
-            ? 'copilot'
-            : showRichContentEditor
-              ? 'rich'
-              : 'plain'
-        "
-        class="reply-box__top"
-      >
+      <div :key="editorTransitionKey" class="reply-box__top">
         <ReplyToMessage
           v-if="shouldShowReplyToMessage"
           :message="inReplyTo"
@@ -1285,7 +1285,12 @@ export default {
           :on-click="addIntoEditor"
         />
         <ReplyEmailHead
-          v-if="showReplyHead && !showAudioRecorderEditor"
+          v-if="
+            showReplyHead &&
+            !showAudioRecorderEditor &&
+            !showCopilotEditor &&
+            !isGeneratingContent
+          "
           v-model:cc-emails="ccEmails"
           v-model:bcc-emails="bccEmails"
           v-model:to-emails="toEmails"
