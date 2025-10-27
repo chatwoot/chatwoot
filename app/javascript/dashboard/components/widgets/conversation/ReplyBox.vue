@@ -1365,6 +1365,7 @@ export default {
           v-if="shouldShowQuotedPreview && isDefaultEditorMode"
           :quoted-email-text="quotedEmailText"
           :preview-text="quotedEmailPreviewText"
+          class="mb-2"
           @toggle="toggleQuotedReply"
         />
 
@@ -1385,6 +1386,7 @@ export default {
             !isSignatureAvailable &&
             isDefaultEditorMode
           "
+          class="mb-2"
         />
       </div>
     </Transition>
