@@ -1362,7 +1362,7 @@ export default {
         />
 
         <QuotedEmailPreview
-          v-if="shouldShowQuotedPreview"
+          v-if="shouldShowQuotedPreview && isDefaultEditorMode"
           :quoted-email-text="quotedEmailText"
           :preview-text="quotedEmailPreviewText"
           @toggle="toggleQuotedReply"
@@ -1380,7 +1380,11 @@ export default {
           />
         </div>
         <MessageSignatureMissingAlert
-          v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
+          v-if="
+            isSignatureEnabledForInbox &&
+            !isSignatureAvailable &&
+            isDefaultEditorMode
+          "
         />
       </div>
     </Transition>
