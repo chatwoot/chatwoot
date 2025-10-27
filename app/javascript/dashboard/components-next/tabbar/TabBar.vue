@@ -37,20 +37,20 @@ const showDivider = index => {
 </script>
 
 <template>
-  <div class="relative flex items-center h-8 rounded-lg bg-n-alpha-1 w-fit">
+  <div
+    class="flex items-center h-8 rounded-lg bg-n-alpha-1 w-fit transition-all duration-200 ease-out has-[button:active]:scale-[1.01] has-[button:active]:-px-1"
+  >
     <template v-for="(tab, index) in tabs" :key="index">
       <button
-        class="relative px-4 truncate py-1.5 text-sm border-0 outline-1 outline-transparent rounded-[6px] transition-all duration-300 ease-out hover:text-n-brand active:scale-95 active:duration-75 before:absolute before:inset-0 before:m-0.5 before:rounded-[6px] before:bg-n-solid-active before:shadow-sm before:transition-all before:duration-300 before:ease-out before:scale-0 before:opacity-0"
+        class="relative px-4 truncate py-1.5 text-sm border-0 outline-1 outline rounded-lg transition-all duration-200 ease-out hover:text-n-brand active:scale-[1.02]"
         :class="[
           activeTab === index
-            ? 'text-n-blue-text scale-100 before:scale-100 before:opacity-100'
-            : 'text-n-slate-10 h-8 scale-[0.98] hover:scale-100',
+            ? 'text-n-blue-text bg-n-solid-active outline-n-container dark:outline-transparent scale-100'
+            : 'text-n-slate-10 outline-transparent h-8 scale-[0.98]',
         ]"
         @click="selectTab(index)"
       >
-        <span class="relative z-10">
-          {{ tab.label }} {{ tab.count ? `(${tab.count})` : '' }}
-        </span>
+        {{ tab.label }} {{ tab.count ? `(${tab.count})` : '' }}
       </button>
       <div
         v-if="index < tabs.length - 1"
