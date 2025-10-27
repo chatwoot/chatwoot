@@ -149,6 +149,53 @@ export const actions = {
     }
   },
 
+  getCreditBalance: async () => {
+    const response = await EnterpriseAccountAPI.getCreditBalance();
+    return response.data;
+  },
+
+  getV2PricingPlans: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
+    try {
+      const response = await EnterpriseAccountAPI.getV2PricingPlans();
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: false });
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: false });
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
+  subscribeToV2Plan: async ({ commit }, { pricing_plan_id, quantity = 1 }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await EnterpriseAccountAPI.subscribeToV2Plan(
+        pricing_plan_id,
+        quantity
+      );
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
+  cancelSubscription: async ({ commit }, options = {}) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await EnterpriseAccountAPI.cancelSubscription(options);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
   getCacheKeys: async () => {
     return AccountAPI.getCacheKeys();
   },

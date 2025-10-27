@@ -395,7 +395,92 @@
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "V2_BILLING": {
+      "TITLE": "Usage-based billing",
+      "DESCRIPTION": "Choose the credit package that fits your team, manage usage-based billing, and keep an eye on your credit balance.",
+      "MANAGE_PAYMENT_METHOD": "Manage payment method",
+      "MANAGE_BILLING": "Manage billing",
+      "MANAGE_SUBSCRIPTION": "Manage subscription",
+      "CONTACT_SUPPORT": "Contact support",
+      "BACK_TO_BILLING": "Back to Billing",
+      "CURRENT_PLAN": "Current Plan",
+      "NO_PLANS_AVAILABLE": "Pricing plans are not available right now. Please try again in a moment or contact support.",
+      "PLAN_SECTION": {
+        "TITLE": "Pick the right usage plan",
+        "DESCRIPTION": "Switch plans anytime - changes take effect immediately and your credits update right away.",
+        "HELP_TEXT": "Usage beyond the monthly credits is billed at the same overage rate across all plans."
+      },
+      "PLAN_CARD": {
+        "DEFAULT_UNIT": "credits",
+        "SUMMARY_WITH_BASE": "{credits} {creditUnit} included per month, {baseFee} base fee, {overage} per additional {creditUnit}.",
+        "SUMMARY_FREE": "{credits} {creditUnit} included per month with no base fee. Pay {overage} per additional {creditUnit}.",
+        "HIGHLIGHT_INCLUDED": "{credits} {unit} included every month",
+        "HIGHLIGHT_OVERAGE": "{rate} per additional {unit}",
+        "HIGHLIGHT_BASE_FEE": "{amount} monthly base fee",
+        "HIGHLIGHT_NO_BASE_FEE": "No monthly base fee",
+        "PRICE_FREE": "Free",
+        "PER_MONTH": "per month",
+        "BASE_FEE_LABEL": "Base fee",
+        "BASE_FEE_VALUE": "{amount} / month",
+        "BASE_FEE_VALUE_FREE": "No base fee",
+        "MONTHLY_CREDITS_LABEL": "Monthly credits",
+        "OVERAGE_RATE_LABEL": "Overage rate",
+        "OVERAGE_RATE_VALUE": "{rate} / {unit}",
+        "CTA_SELECT": "Select plan",
+        "CTA_SWITCH": "Switch plan",
+        "CTA_CURRENT": "Current plan"
+      },
+      "PLAN_UPDATE": {
+        "SUCCESS": "You're now on the {plan} plan.",
+        "ERROR": "We couldn't update the plan to {plan}. Please try again."
+      },
+      "CHECKOUT_SUCCESS": "Subscription successful! Your plan has been updated.",
+      "CHECKOUT_CANCELLED": "Subscription cancelled. You can try again anytime.",
+      "ERRORS": {
+        "FETCH_PLANS": "Failed to load pricing plans. Please refresh and try again.",
+        "PORTAL": "Failed to open the payment portal. Please try again.",
+        "SUBSCRIPTION": "We couldn't update your plan. Please try again.",
+        "TOPUP_OPTIONS": "We couldn't load top-up options. Please try again later.",
+        "TOPUP": "Top-up failed. Please try again."
+      },
+      "CREDIT_BALANCE": {
+        "TITLE": "Credit balance",
+        "DESCRIPTION": "Track monthly and top-up credits available to your account.",
+        "PLAN_NAME": "Current plan",
+        "SUBSCRIBED_SEATS": "Subscribed seats",
+        "MONTHLY_CREDITS": "Monthly credits",
+        "TOPUP_CREDITS": "Top-up credits",
+        "TOTAL_AVAILABLE": "Total available",
+        "USAGE_THIS_MONTH": "Used this month",
+        "USAGE_TOTAL": "Total usage"
+      },
+      "TOPUP": {
+        "BUTTON": "Add credits",
+        "TITLE": "Add top-up credits",
+        "DESCRIPTION": "Choose a credit pack to increase your available balance immediately.",
+        "CREDITS_LABEL": "credits",
+        "INCLUDES": "{amount} billed immediately",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Buy credits",
+        "SUCCESS": "{credits} credits added successfully.",
+        "ERROR": "We couldn't add {credits} credits. Please try again."
+      },
+      "CANCEL_SUBSCRIPTION": {
+        "BUTTON_TXT": "Cancel subscription",
+        "CONFIRM_TITLE": "Cancel subscription",
+        "CONFIRM_DESCRIPTION": "Are you sure you want to cancel your subscription? Your subscription will remain active until the end of the current billing period.",
+        "CONFIRM_LABEL": "Yes, cancel subscription",
+        "CANCEL_LABEL": "No, keep subscription",
+        "CONFIRM_MESSAGE": "Are you sure you want to cancel your subscription? Your subscription will remain active until the end of the current billing period.",
+        "CONFIRM_IMMEDIATE_MESSAGE": "Are you sure you want to cancel your subscription immediately? You will lose access to all features immediately.",
+        "CANCEL_AT_PERIOD_END": "Cancel at period end",
+        "CANCEL_IMMEDIATELY": "Cancel immediately",
+        "SUCCESS": "Subscription cancelled successfully. Your subscription will remain active until the end of the current billing period.",
+        "SUCCESS_WITH_DATE": "Subscription cancelled. You'll retain access until {date}.",
+        "ERROR": "Failed to cancel subscription"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
