@@ -10,6 +10,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact) }
   let(:tool_context) { Struct.new(:state).new({ conversation: { id: conversation.id } }) }
 
+  after do
+    # Clean up Current values after each test
+    Current.executed_by = nil
+    Current.handoff_requested = nil
+  end
+
   describe '#description' do
     it 'returns the correct description' do
       expect(tool.description).to eq('Hand off the conversation to a human agent when unable to assist further')
@@ -31,67 +37,34 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       context 'with reason provided' do
         before { conversation.update!(status: :pending) }
 
-        it 'creates a private note with reason and hands off conversation' do
+        it 'returns success message with reason' do
           reason = 'Customer needs specialized support'
+          result = tool.perform(tool_context, reason: reason)
+          expect(result).to eq("Conversation handed off to human support team (Reason: #{reason})")
+        end
 
+        it 'does not create any messages immediately' do
+          # Messages are created by ResponseBuilderJob, not the tool
           expect do
-            result = tool.perform(tool_context, reason: reason)
-            expect(result).to eq("Conversation handed off to human support team (Reason: #{reason})")
-          end.to change(Message, :count).by(1)
+            tool.perform(tool_context, reason: 'Test reason')
+          end.not_to change(Message, :count)
         end
 
-        it 'creates message with correct attributes' do
-          reason = 'Customer needs specialized support'
-          tool.perform(tool_context, reason: reason)
-
-          created_message = Message.last
-          expect(created_message.content).to eq(reason)
-          expect(created_message.message_type).to eq('outgoing')
-          expect(created_message.private).to be true
-          expect(created_message.sender).to eq(assistant)
-          expect(created_message.account).to eq(account)
-          expect(created_message.inbox).to eq(inbox)
-          expect(created_message.conversation).to eq(conversation)
-        end
-
-        it 'triggers bot handoff on conversation' do
-          # The tool finds the conversation by ID, so we need to mock the found conversation
-          found_conversation = Conversation.find(conversation.id)
-          scoped_conversations = Conversation.where(account_id: assistant.account_id)
-          allow(Conversation).to receive(:where).with(account_id: assistant.account_id).and_return(scoped_conversations)
-          allow(scoped_conversations).to receive(:find_by).with(id: conversation.id).and_return(found_conversation)
-          expect(found_conversation).to receive(:bot_handoff!)
-
+        it 'sets Current.handoff_requested flag' do
           tool.perform(tool_context, reason: 'Test reason')
+
+          expect(Current.handoff_requested).to be true
         end
 
-        it 'creates an activity message for the handoff' do
-          expect do
-            perform_enqueued_jobs do
-              tool.perform(tool_context, reason: 'Customer needs specialized support')
-            end
-          end.to change { conversation.messages.activity.count }.by(1)
-
-          activity_message = conversation.messages.activity.last
-          expect(activity_message.content).to include(assistant.name)
-          expect(activity_message.message_type).to eq('activity')
-          expect(activity_message.private).to be false
-        end
-
-        it 'sets conversation status to open for handoff' do
+        it 'does not change conversation status immediately' do
           conversation.update(status: :pending)
           expect(conversation.pending?).to be true
 
           tool.perform(tool_context, reason: 'Customer needs specialized support')
 
           conversation.reload
-          expect(conversation.open?).to be true
-        end
-
-        it 'cleans up Current.executed_by after handoff' do
-          tool.perform(tool_context, reason: 'Test reason')
-
-          expect(Current.executed_by).to be_nil
+          # Status should remain pending until ResponseBuilderJob processes the handoff
+          expect(conversation.pending?).to be true
         end
 
         it 'logs tool usage with reason' do
@@ -108,14 +81,22 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       context 'without reason provided' do
         before { conversation.update!(status: :pending) }
 
-        it 'creates a private note with nil content and hands off conversation' do
-          expect do
-            result = tool.perform(tool_context)
-            expect(result).to eq('Conversation handed off to human support team')
-          end.to change(Message, :count).by(1)
+        it 'returns success message without reason' do
+          result = tool.perform(tool_context)
+          expect(result).to eq('Conversation handed off to human support team')
+        end
 
-          created_message = Message.last
-          expect(created_message.content).to be_nil
+        it 'does not create any messages immediately' do
+          # Messages are created by ResponseBuilderJob, not the tool
+          expect do
+            tool.perform(tool_context)
+          end.not_to change(Message, :count)
+        end
+
+        it 'sets Current.handoff_requested flag' do
+          tool.perform(tool_context)
+
+          expect(Current.handoff_requested).to be true
         end
 
         it 'logs tool usage with default reason' do
@@ -126,51 +107,35 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           tool.perform(tool_context)
         end
-
-        it 'creates an activity message without explicit reason' do
-          expect do
-            perform_enqueued_jobs do
-              tool.perform(tool_context)
-            end
-          end.to change { conversation.messages.activity.count }.by(1)
-
-          activity_message = conversation.messages.activity.last
-          expect(activity_message.content).to include(assistant.name)
-          expect(activity_message.message_type).to eq('activity')
-        end
       end
 
-      context 'when handoff fails' do
-        before do
-          # Mock the conversation lookup and handoff failure
-          found_conversation = Conversation.find(conversation.id)
-          scoped_conversations = Conversation.where(account_id: assistant.account_id)
-          allow(Conversation).to receive(:where).with(account_id: assistant.account_id).and_return(scoped_conversations)
-          allow(scoped_conversations).to receive(:find_by).with(id: conversation.id).and_return(found_conversation)
-          allow(found_conversation).to receive(:bot_handoff!).and_raise(StandardError, 'Handoff error')
+      context 'when an error occurs' do
+        it 'returns error message' do
+          # Mock an error in trigger_handoff
+          allow(Current).to receive(:handoff_requested=).and_raise(StandardError, 'Unexpected error')
 
           exception_tracker = instance_double(ChatwootExceptionTracker)
           allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
           allow(exception_tracker).to receive(:capture_exception)
-        end
 
-        it 'returns error message' do
           result = tool.perform(tool_context, reason: 'Test')
           expect(result).to eq('Failed to handoff conversation')
+
+          # Unstub to allow cleanup
+          allow(Current).to receive(:handoff_requested=).and_call_original
         end
 
         it 'captures exception' do
           exception_tracker = instance_double(ChatwootExceptionTracker)
+          allow(Current).to receive(:handoff_requested=).and_raise(StandardError, 'Unexpected error')
+
           expect(ChatwootExceptionTracker).to receive(:new).with(instance_of(StandardError)).and_return(exception_tracker)
           expect(exception_tracker).to receive(:capture_exception)
 
           tool.perform(tool_context, reason: 'Test')
-        end
 
-        it 'cleans up Current.executed_by even on error' do
-          tool.perform(tool_context, reason: 'Test')
-
-          expect(Current.executed_by).to be_nil
+          # Unstub to allow cleanup
+          allow(Current).to receive(:handoff_requested=).and_call_original
         end
       end
     end
