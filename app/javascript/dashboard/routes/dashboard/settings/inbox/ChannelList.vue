@@ -74,6 +74,12 @@ const channelList = computed(() => {
       icon: 'i-woot-instagram',
     },
     {
+      key: 'tiktok',
+      title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.TITLE'),
+      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.DESCRIPTION'),
+      icon: 'i-woot-tiktok',
+    },
+    {
       key: 'voice',
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.TITLE'),
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.DESCRIPTION'),

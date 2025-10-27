@@ -223,3 +223,6 @@
 - name: quoted_email_reply
   display_name: Quoted Email Reply
   enabled: false
+- name: channel_tiktok
+  display_name: TikTok Channel
+  enabled: true
