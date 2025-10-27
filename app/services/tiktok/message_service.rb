@@ -60,8 +60,7 @@ class Tiktok::MessageService
   def create_image_message_attachment(message)
     return unless image_message?
 
-    file_download_url = fetch_attachment(channel, tt_conversation_id, tt_message_id, tt_image_media_id)
-    attachment_file = Down.download(file_download_url)
+    attachment_file = fetch_attachment(channel, tt_conversation_id, tt_message_id, tt_image_media_id)
 
     message.attachments.new(
       account_id: message.account_id,

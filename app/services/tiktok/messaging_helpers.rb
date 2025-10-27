@@ -59,11 +59,6 @@ module Tiktok::MessagingHelpers
 
   def fetch_attachment(channel, tt_conversation_id, tt_message_id, tt_image_media_id)
     file_download_url = tiktok_client(channel).file_download_url(tt_conversation_id, tt_message_id, tt_image_media_id)
-    if file_download_url.blank?
-      Rails.logger.info "TikTok file download path is blank for #{tt_image_media_id} : inbox_id: #{channel.inbox.id}"
-      return
-    end
-
     Down.download(file_download_url)
   end
 
