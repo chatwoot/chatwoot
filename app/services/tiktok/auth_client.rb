@@ -133,9 +133,7 @@ class Tiktok::AuthClient
     end
 
     def redirect_uri
-      return 'https://webhook.site/dc21a324-97e4-40a3-acf1-1d8023722094'
-      # TODO: For Dev only
-      # "#{base_url}/tiktok/callback"
+      "#{base_url}/tiktok/callback"
     end
 
     def base_url
