@@ -27,15 +27,20 @@
       "LABEL": "비밀번호",
       "PLACEHOLDER": "비밀번호",
       "ERROR": "비밀번호가 너무 짧음",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "비밀번호 확인",
       "PLACEHOLDER": "비밀번호 확인",
-      "ERROR": "비밀번호가 일치하지 않음"
+      "ERROR": "비밀번호가 일치하지 않음."
     },
     "API": {
-      "SUCCESS_MESSAGE": "등록 성공",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Woot Server에 연결할 수 없음. 나중에 다시 시도하십시오."
     },
     "SUBMIT": "Create account",

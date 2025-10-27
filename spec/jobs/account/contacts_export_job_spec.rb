@@ -103,13 +103,11 @@ RSpec.describe Account::ContactsExportJob do
       expect(csv_data.length).to eq(1)
     end
 
-    # TODO: This returns unresolved contacts as well since filter service returns the same
-    # Change this when we make changes to filter service and ensure only resolved contacts are returned
-    it 'returns filtered data which inclues unresolved contacts when filter is provided' do
+    it 'returns filtered data limited to resolved contacts when filter is provided' do
       create(:contact, account: account, email: nil, phone_number: nil, additional_attributes: { :country_code => 'India' })
       described_class.perform_now(account.id, user.id, [], { :payload => [city_filter.merge(:query_operator => nil)] }.with_indifferent_access)
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      expect(csv_data.length).to eq(5)
+      expect(csv_data.length).to eq(4)
     end
 
     it 'returns filtered data when multiple filters are provided' do

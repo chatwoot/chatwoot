@@ -17,8 +17,7 @@ RSpec.describe AdministratorNotifications::BaseMailer do
       # Call the private method
       admin_emails = mailer.send(:admin_emails)
 
-      expect(admin_emails).to include(admin1.email)
-      expect(admin_emails).to include(admin2.email)
+      expect(admin_emails).to contain_exactly(admin1.email, admin2.email)
       expect(admin_emails).not_to include(agent.email)
     end
   end
@@ -49,7 +48,7 @@ RSpec.describe AdministratorNotifications::BaseMailer do
 
       # Mock the send_mail_with_liquid method
       expect(mailer).to receive(:send_mail_with_liquid).with(
-        to: [admin1.email, admin2.email],
+        to: contain_exactly(admin1.email, admin2.email),
         subject: subject
       ).and_return(true)
 

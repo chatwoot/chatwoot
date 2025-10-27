@@ -23,6 +23,10 @@ ja:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: '正しいメールアドレスを入力してください'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: やりましたね! パスワードのリセットリクエストが成功しました。手順についてはメールを確認してください。
     reset_password_failure: メールアドレスが見つかりませんでした。
@@ -82,13 +86,27 @@ ja:
       validations:
         name: 記号で開始または終了しないでください。< > / \ @ を使用しないでください。
     custom_filters:
-      number_of_records: 制限に達しました。1つのアカウントにつき、ユーザーごとに許可されるカスタムフィルターの最大数は 50 です。
+      number_of_records: 制限に達しました。1つのアカウントにつき、ユーザーごとに許可されるカスタムフィルターの最大数は 1000 です。
       invalid_attribute: 無効な属性キー - [%{key}]。キーは[%{allowed_keys}]のいずれかである必要があります。または、アカウント内で定義されたカスタム属性でなければなりません。
       invalid_operator: 無効な演算子です。%{attribute_name} に許可されている演算子は [%{allowed_keys}] です。
       invalid_query_operator: クエリ演算子は "AND" または "OR" でなければなりません。
       invalid_value: 無効な値です。%{attribute_name} に提供された値は無効です。
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: レポート期間 %{since} から %{until} まで
     utc_warning: 生成されたレポートはUTCタイムゾーンです
@@ -304,6 +322,8 @@ ja:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: タイトルまたは本文で記事を検索...

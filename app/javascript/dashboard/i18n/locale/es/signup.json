@@ -27,15 +27,20 @@
       "LABEL": "Contraseña",
       "PLACEHOLDER": "Contraseña",
       "ERROR": "La contraseña es demasiado corta",
-      "IS_INVALID_PASSWORD": "La contraseña debe contener al menos 1 letra mayúscula, 1 letra minúscula, 1 número y 1 carácter especial"
+      "IS_INVALID_PASSWORD": "La contraseña debe contener al menos 1 letra mayúscula, 1 letra minúscula, 1 número y 1 carácter especial",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmar contraseña",
       "PLACEHOLDER": "Confirmar contraseña",
-      "ERROR": "La contraseña no coincide"
+      "ERROR": "Las contraseñas no coinciden."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registro Exitoso",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
     },
     "SUBMIT": "Crear una cuenta",

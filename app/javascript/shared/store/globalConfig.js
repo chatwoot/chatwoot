@@ -1,3 +1,5 @@
+import { parseBoolean } from '@chatwoot/utils';
+
 const {
   API_CHANNEL_NAME: apiChannelName,
   API_CHANNEL_THUMBNAIL: apiChannelThumbnail,
@@ -16,6 +18,7 @@ const {
   MAIN_LOGO: mainLogo,
   LOGO_DARK: logoDark,
   PRIVACY_URL: privacyURL,
+  IS_ENTERPRISE: isEnterprise,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
@@ -31,8 +34,8 @@ const state = {
   chatwootInboxToken,
   deploymentEnv,
   createNewAccountFromDashboard,
-  directUploadsEnabled: directUploadsEnabled === 'true',
-  disableUserProfileUpdate: disableUserProfileUpdate === 'true',
+  directUploadsEnabled: parseBoolean(directUploadsEnabled),
+  disableUserProfileUpdate: parseBoolean(disableUserProfileUpdate),
   displayManifest,
   gitSha,
   hCaptchaSiteKey,
@@ -44,6 +47,7 @@ const state = {
   privacyURL,
   termsURL,
   widgetBrandURL,
+  isEnterprise: parseBoolean(isEnterprise),
 };
 
 export const getters = {
