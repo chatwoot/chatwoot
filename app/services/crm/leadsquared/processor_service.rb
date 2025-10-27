@@ -45,13 +45,22 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     return unless @allow_transcript
     return unless conversation.status == 'resolved'
 
-    create_conversation_activity(
-      conversation: conversation,
-      activity_type: 'transcript',
-      activity_code_key: 'transcript_activity_code',
-      metadata_key: 'transcript_activity_id',
-      activity_note: Crm::Leadsquared::Mappers::ConversationMapper.map_transcript_activity(@hook, conversation)
-    )
+    mapper = Crm::Leadsquared::Mappers::ConversationMapper.new(@hook, conversation)
+    full_transcript = mapper.full_transcript_text
+    activity_note = mapper.transcript_activity
+
+    # Check if full transcript exceeds the limit
+    if full_transcript.length > Crm::Leadsquared::Mappers::ConversationMapper::ACTIVITY_NOTE_MAX_SIZE
+      create_transcript_with_attachment(conversation, activity_note, full_transcript)
+    else
+      create_conversation_activity(
+        conversation: conversation,
+        activity_type: 'transcript',
+        activity_code_key: 'transcript_activity_code',
+        metadata_key: 'transcript_activity_id',
+        activity_note: activity_note
+      )
+    end
   end
 
   private
@@ -118,4 +127,45 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
     lead_id
   end
+
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def create_transcript_with_attachment(conversation, activity_note, full_transcript)
+    lead_id = get_lead_id(conversation.contact)
+    return if lead_id.blank?
+
+    activity_code = get_activity_code('transcript_activity_code')
+
+    # Add note about attached file to the activity note
+    note_with_attachment_info = "#{activity_note}\n\n[Full transcript attached as file due to length]"
+
+    # Create the activity first
+    activity_id = @activity_client.post_activity(lead_id, activity_code, note_with_attachment_info)
+    return if activity_id.blank?
+
+    # Upload the full transcript as a text file
+    file_name = "conversation_#{conversation.display_id}_transcript.txt"
+    upload_response = @activity_client.upload_file(activity_code, file_name, full_transcript)
+
+    # Attach the file to the activity using the S3 URL
+    if upload_response['s3FilePath'].present?
+      @activity_client.attach_file_to_activity(
+        activity_id,
+        upload_response['s3FilePath'],
+        file_name,
+        "Full transcript for conversation ##{conversation.display_id}"
+      )
+      Rails.logger.info("Attached full transcript file to LeadSquared activity #{activity_id} for conversation #{conversation.id}")
+    end
+
+    # Store the activity ID
+    metadata = { 'transcript_activity_id' => activity_id }
+    store_conversation_metadata(conversation, metadata)
+  rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
+    Rails.logger.error "LeadSquared API error uploading transcript: #{e.message}"
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
+    Rails.logger.error "Error uploading transcript to LeadSquared: #{e.message}"
+  end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

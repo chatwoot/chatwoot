@@ -251,4 +251,95 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
       end
     end
   end
+
+  describe '#full_transcript_text' do
+    let(:mapper) { described_class.new(hook, conversation) }
+    let(:user) { create(:user, name: 'Agent Smith') }
+    let(:contact) { create(:contact, name: 'Customer Jones') }
+
+    before do
+      create(:message,
+             conversation: conversation,
+             sender: user,
+             content: 'First message',
+             message_type: :outgoing,
+             created_at: Time.zone.parse('2024-01-01 10:00:00'))
+      create(:message,
+             conversation: conversation,
+             sender: contact,
+             content: 'Second message',
+             message_type: :incoming,
+             created_at: Time.zone.parse('2024-01-01 10:01:00'))
+    end
+
+    it 'generates a complete transcript without truncation' do
+      result = mapper.send(:full_transcript_text)
+
+      expect(result).to include('Conversation Transcript from TestBrand')
+      expect(result).to include('Channel: Test Inbox')
+      expect(result).to include("Conversation ID: #{conversation.display_id}")
+      expect(result).to include('View in TestBrand:')
+      expect(result).to include('Transcript:')
+      expect(result).to include('=' * 50)
+      expect(result).to include('[2024-01-01 10:01] Customer Jones: Second message')
+      expect(result).to include('[2024-01-01 10:00] Agent Smith: First message')
+    end
+
+    it 'includes all messages without length restriction' do
+      # Create many messages
+      20.times do |i|
+        create(:message,
+               conversation: conversation,
+               sender: user,
+               content: "Message number #{i}" * 50, # Long content
+               message_type: :outgoing,
+               created_at: Time.zone.parse('2024-01-01 10:00:00') + i.hours)
+      end
+
+      result = mapper.send(:full_transcript_text)
+
+      # Verify all messages are included (no truncation)
+      20.times do |i|
+        expect(result).to include("Message number #{i}")
+      end
+
+      # The full transcript can exceed ACTIVITY_NOTE_MAX_SIZE
+      expect(result.length).to be > described_class::ACTIVITY_NOTE_MAX_SIZE
+    end
+
+    context 'with email messages' do
+      let(:email_channel) { create(:channel_email) }
+      let(:email_inbox) { create(:inbox, channel: email_channel, account: account, name: 'Email Inbox') }
+      let(:email_conversation) { create(:conversation, account: account, inbox: email_inbox) }
+      let(:email_mapper) { described_class.new(hook, email_conversation) }
+
+      it 'uses plain_text_content for email messages' do
+        email_message = create(
+          :message,
+          conversation: email_conversation,
+          sender: contact,
+          message_type: :incoming,
+          content_type: 'incoming_email',
+          content: 'Email body',
+          content_attributes: {
+            email: {
+              html_content: {
+                reply: '<p>This is <strong>HTML</strong> content</p>'
+              }
+            }
+          },
+          created_at: Time.zone.parse('2024-01-01 10:00:00')
+        )
+
+        # Mock plain_text_content to return stripped content
+        allow(email_message).to receive(:plain_text_content).and_return('This is HTML content')
+        allow(email_conversation.messages).to receive(:chat).and_return([email_message])
+
+        result = email_mapper.send(:full_transcript_text)
+
+        expect(result).to include('This is HTML content')
+        expect(result).not_to include('<strong>')
+      end
+    end
+  end
 end

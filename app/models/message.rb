@@ -259,6 +259,30 @@ class Message < ApplicationRecord
     true
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def plain_text_content
+    # For email messages, extract clean plain text from HTML or text content
+    if incoming_email? && content_attributes.present? && content_attributes[:email].present?
+      email_content = content_attributes[:email]
+
+      # Try text content first
+      if email_content[:text_content].present?
+        text_content = email_content[:text_content][:reply] || email_content[:text_content][:full]
+        return text_content if text_content.present?
+      end
+
+      # Fall back to HTML content, strip HTML tags
+      if email_content[:html_content].present?
+        html_content = email_content[:html_content][:reply] || email_content[:html_content][:full]
+        return ActionView::Base.full_sanitizer.sanitize(html_content) if html_content.present?
+      end
+    end
+
+    # For non-email messages, return content as-is
+    content
+  end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
   private
 
   def prevent_message_flooding

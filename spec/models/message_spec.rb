@@ -694,6 +694,154 @@ RSpec.describe Message do
     end
   end
 
+  describe '#plain_text_content' do
+    let(:email_channel) { create(:channel_email) }
+    let(:email_inbox) { create(:inbox, channel: email_channel) }
+    let(:conversation) { create(:conversation, inbox: email_inbox) }
+
+    context 'when message is not an email' do
+      let(:message) { create(:message, conversation: conversation, content: 'Regular text message') }
+
+      it 'returns the content as-is' do
+        expect(message.plain_text_content).to eq('Regular text message')
+      end
+    end
+
+    context 'when message is an incoming email' do
+      context 'with text content' do
+        let(:message) do
+          create(
+            :message,
+            conversation: conversation,
+            message_type: :incoming,
+            content_type: 'incoming_email',
+            content: 'Email body',
+            content_attributes: {
+              email: {
+                text_content: {
+                  reply: 'This is the reply text',
+                  full: 'This is the full text'
+                }
+              }
+            }
+          )
+        end
+
+        it 'returns the reply text content' do
+          expect(message.plain_text_content).to eq('This is the reply text')
+        end
+      end
+
+      context 'with text content full only' do
+        let(:message) do
+          create(
+            :message,
+            conversation: conversation,
+            message_type: :incoming,
+            content_type: 'incoming_email',
+            content: 'Email body',
+            content_attributes: {
+              email: {
+                text_content: {
+                  full: 'This is the full text only'
+                }
+              }
+            }
+          )
+        end
+
+        it 'returns the full text content' do
+          expect(message.plain_text_content).to eq('This is the full text only')
+        end
+      end
+
+      context 'with HTML content only' do
+        let(:message) do
+          create(
+            :message,
+            conversation: conversation,
+            message_type: :incoming,
+            content_type: 'incoming_email',
+            content: 'Email body',
+            content_attributes: {
+              email: {
+                html_content: {
+                  reply: '<p>This is <strong>HTML</strong> content</p>',
+                  full: '<div>Full HTML</div>'
+                }
+              }
+            }
+          )
+        end
+
+        it 'strips HTML tags and returns plain text' do
+          expect(message.plain_text_content).to eq('This is HTML content')
+        end
+      end
+
+      context 'with HTML content full only' do
+        let(:message) do
+          create(
+            :message,
+            conversation: conversation,
+            message_type: :incoming,
+            content_type: 'incoming_email',
+            content: 'Email body',
+            content_attributes: {
+              email: {
+                html_content: {
+                  full: '<div><p>Full <em>HTML</em> only</p></div>'
+                }
+              }
+            }
+          )
+        end
+
+        it 'strips HTML tags from full content' do
+          expect(message.plain_text_content).to eq('Full HTML only')
+        end
+      end
+
+      context 'with no email content attributes' do
+        let(:message) do
+          create(
+            :message,
+            conversation: conversation,
+            message_type: :incoming,
+            content_type: 'incoming_email',
+            content: 'Fallback content'
+          )
+        end
+
+        it 'returns the regular content' do
+          expect(message.plain_text_content).to eq('Fallback content')
+        end
+      end
+
+      context 'with empty email content' do
+        let(:message) do
+          create(
+            :message,
+            conversation: conversation,
+            message_type: :incoming,
+            content_type: 'incoming_email',
+            content: 'Fallback content',
+            content_attributes: {
+              email: {
+                text_content: { reply: '', full: '' },
+                html_content: { reply: '', full: '' }
+              }
+            }
+          )
+        end
+
+        it 'returns the regular content as fallback' do
+          expect(message.plain_text_content).to eq('Fallback content')
+        end
+      end
+    end
+  end
+
   describe '#reindex_for_search callback' do
     let(:account) { create(:account) }
     let(:conversation) { create(:conversation, account: account) }

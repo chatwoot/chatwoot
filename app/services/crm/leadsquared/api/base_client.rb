@@ -43,6 +43,26 @@ class Crm::Leadsquared::Api::BaseClient
     handle_response(response)
   end
 
+  def multipart_post(full_url, file_name, file_content, form_data = {})
+    # Create temp file for upload
+    temp_file = Tempfile.new([File.basename(file_name, '.*'), File.extname(file_name)])
+    temp_file.binmode
+    temp_file.write(file_content)
+    temp_file.rewind
+
+    options = {
+      body: form_data.merge({
+                              uploadFiles: temp_file
+                            })
+    }
+
+    response = self.class.post(full_url, options)
+    handle_response(response)
+  ensure
+    temp_file&.close
+    temp_file&.unlink
+  end
+
   private
 
   def headers

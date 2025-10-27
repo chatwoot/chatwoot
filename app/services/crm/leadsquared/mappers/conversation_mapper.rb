@@ -88,7 +88,24 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def message_content(message)
-    message.content.presence || I18n.t('crm.no_content')
+    # Use plain_text_content for email messages to get clean text
+    content = message.incoming_email? ? message.plain_text_content : message.content
+    content.presence || I18n.t('crm.no_content')
+  end
+
+  def full_transcript_text
+    # Generate complete transcript without truncation for file upload
+    separator = "\n\n"
+    header = "Conversation Transcript from #{brand_name}\n\n"
+    header += "Channel: #{conversation.inbox.name}\n"
+    header += "Conversation ID: #{conversation.display_id}\n"
+    header += "View in #{brand_name}: #{conversation_url}\n\n"
+    header += "Transcript:\n"
+    header += "#{('=' * 50)}\n\n"
+
+    messages_text = transcript_messages.reverse.map { |message| format_message(message) }.join(separator)
+
+    header + messages_text
   end
 
   def attachment_info(message)
