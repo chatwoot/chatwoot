@@ -72,6 +72,6 @@ class Tiktok::TokenService
   end
 
   def attempt_refresh_token
-    Tiketok::AuthClient.renew_short_term_access_token(refresh_token)
+    Tiktok::AuthClient.renew_short_term_access_token(refresh_token)
   end
 end
