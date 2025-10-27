@@ -29,7 +29,7 @@ const emailProviderList = computed(() => {
     {
       title: t('INBOX_MGMT.EMAIL_PROVIDERS.GOOGLE.TITLE'),
       description: t('INBOX_MGMT.EMAIL_PROVIDERS.GOOGLE.DESCRIPTION'),
-      isEnabled: !!window.chatwootConfig.googleOAuthClientId,
+      isEnabled: !!window.chatwootConfig?.googleOAuthClientId,
       key: 'google',
       icon: 'i-woot-gmail',
     },
@@ -56,25 +56,29 @@ function onClick(emailProvider) {
 </script>
 
 <template>
-  <div v-if="!provider" class="h-full w-full p-6 col-span-6">
-    <PageHeader
-      class="max-w-4xl"
-      :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
-    />
-    <div class="grid max-w-3xl grid-cols-4 gap-6 mx-0 mt-6">
-      <ChannelSelector
-        v-for="emailProvider in emailProviderList"
-        :key="emailProvider.key"
-        :title="emailProvider.title"
-        :description="emailProvider.description"
-        :icon="emailProvider.icon"
-        :disabled="!emailProvider.isEnabled"
-        @click="() => onClick(emailProvider)"
+  <div class="h-full w-full overflow-auto col-span-6">
+    <div v-if="!provider" class="p-6">
+      <PageHeader
+        class="max-w-4xl"
+        :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
+        :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
       />
+      <div
+        class="grid max-w-3xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-0 mt-6"
+      >
+        <ChannelSelector
+          v-for="emailProvider in emailProviderList"
+          :key="emailProvider.key"
+          :title="emailProvider.title"
+          :description="emailProvider.description"
+          :icon="emailProvider.icon"
+          :disabled="!emailProvider.isEnabled"
+          @click="() => onClick(emailProvider)"
+        />
+      </div>
     </div>
+    <Microsoft v-else-if="provider === 'microsoft'" />
+    <Google v-else-if="provider === 'google'" />
+    <ForwardToOption v-else-if="provider === 'other_provider'" />
   </div>
-  <Microsoft v-else-if="provider === 'microsoft'" />
-  <Google v-else-if="provider === 'google'" />
-  <ForwardToOption v-else-if="provider === 'other_provider'" />
 </template>

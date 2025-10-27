@@ -54,6 +54,7 @@ const isActive = computed(() => {
     'line',
     'instagram',
     'voice',
+    'email',
   ].includes(key);
 });
 
