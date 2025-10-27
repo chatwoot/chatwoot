@@ -197,13 +197,24 @@ onMounted(() => {
 <template>
   <div class="space-y-2 mb-4">
     <div
-      class="overflow-y-auto generated-content-enter"
-      :class="{ 'max-h-96': isPopout, 'max-h-56': !isPopout }"
+      class="transition-all duration-300 ease-out grid overflow-hidden"
+      :class="[
+        generatedContent
+          ? 'grid-rows-[1fr] opacity-100'
+          : 'grid-rows-[0fr] opacity-0',
+      ]"
     >
-      <p
-        v-dompurify-html="formatMessage(generatedContent, false)"
-        class="text-n-iris-12 text-sm prose-sm font-normal !mb-4 underline decoration-n-iris-8 underline-offset-auto decoration-solid decoration-[10%]"
-      />
+      <div class="overflow-hidden">
+        <div
+          class="overflow-y-auto"
+          :class="{ 'max-h-96': isPopout, 'max-h-56': !isPopout }"
+        >
+          <p
+            v-dompurify-html="formatMessage(generatedContent, false)"
+            class="text-n-iris-12 text-sm prose-sm font-normal !mb-4 underline decoration-n-iris-8 underline-offset-auto decoration-solid decoration-[10%]"
+          />
+        </div>
+      </div>
     </div>
     <div class="editor-root relative editor--copilot space-x-2">
       <div ref="editor" />
