@@ -394,6 +394,8 @@ Rails.application.routes.draw do
               get :conversations
               get :conversation_traffic
               get :bot_metrics
+              get :booking_stats
+              get :booking_summary
             end
           end
           resources :live_reports, only: [] do
