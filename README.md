@@ -101,6 +101,12 @@ If you are looking for a stable version, please use the `master` or tags labelle
 
 ## Deployment
 
+### Hostinger one-click deploy
+
+Deploying Chatwoot to Hostinger is super easy with this 1-click button:
+
+[![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/vps/docker-hosting?compose_url=https://github.com/chatwoot/chatwoot/)
+
 ### Heroku one-click deploy
 
 Deploying Chatwoot to Heroku is a breeze. It's as simple as clicking this button:
