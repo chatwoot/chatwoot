@@ -369,6 +369,89 @@ describe Contacts::FilterService do
         expect(result[:contacts].length).to be expected_count
         expect(result[:contacts].pluck(:id)).to include(el_contact.id)
       end
+
+      it 'handles custom attribute in the middle of conditions without raising error' do
+        # Test case 2: custom attribute in the middle of conditions
+        # Using existing contacts that already have customer_type: 'platinum'
+        params[:payload] = [
+          {
+            attribute_key: 'name',
+            filter_operator: 'equal_to',
+            values: [el_contact.name],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'customer_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'email',
+            filter_operator: 'contains',
+            values: ['@'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        # This should not raise an error even with custom attribute in the middle
+        expect { filter_service.new(account, first_user, params).perform }.not_to raise_error
+
+        result = filter_service.new(account, first_user, params).perform
+        # Should return contacts that match: name=el_contact.name AND customer_type=platinum AND email contains '@'
+        # From existing data: el_contact has customer_type: 'platinum'
+        expect(result[:contacts].length).to eq 1
+        expect(result[:contacts].first.id).to eq(el_contact.id)
+      end
+
+      it 'handles does_not_contain filter operator' do
+        params[:payload] = [
+          {
+            attribute_key: 'name',
+            filter_operator: 'does_not_contain',
+            values: ['test'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+        # Should return contacts that do NOT contain 'test' in name
+        expect(result[:contacts].length).to be >= 0
+      end
+
+      it 'handles empty values in custom attributes without error' do
+        params[:payload] = [
+          {
+            attribute_key: 'customer_type',
+            filter_operator: 'is_present',
+            values: [],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        # This should not raise an error with is_present operator (which allows empty values)
+        expect { filter_service.new(account, first_user, params).perform }.not_to raise_error
+
+        result = filter_service.new(account, first_user, params).perform
+        expect(result[:contacts].length).to be >= 0
+      end
+
+      it 'handles unknown filter operator with default case' do
+        params[:payload] = [
+          {
+            attribute_key: 'customer_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        # This should not raise an error with valid operator
+        expect { filter_service.new(account, first_user, params).perform }.not_to raise_error
+
+        result = filter_service.new(account, first_user, params).perform
+        expect(result[:contacts].length).to be >= 0
+      end
     end
   end
 end

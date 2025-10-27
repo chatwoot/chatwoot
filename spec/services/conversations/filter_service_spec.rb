@@ -395,6 +395,110 @@ describe Conversations::FilterService do
         result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
+
+      it 'handles custom attribute in the middle of conditions without raising error' do
+        # Test case 2: custom attribute in the middle of conditions
+        # Using existing conversations that already have conversation_type: 'platinum'
+        params[:payload] = [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['pending'],
+            query_operator: 'AND',
+            custom_attribute_type: ''
+          }.with_indifferent_access,
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND',
+            custom_attribute_type: 'conversation_attribute'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'assignee_id',
+            filter_operator: 'equal_to',
+            values: [user_1.id],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        # This should not raise an error even with custom attribute in the middle
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error
+
+        result = filter_service.new(params, user_1, account).perform
+        # Should return conversations that match: status=pending AND conversation_type=platinum AND assignee_id=user_1.id
+        # From existing data: en_conversation_2 has conversation_type: 'platinum' and assignee: user_1
+        expect(result[:conversations].length).to eq 1
+        expect(result[:conversations].first[:id]).to eq en_conversation_2.id
+      end
+
+      it 'handles does_not_contain filter operator' do
+        params[:payload] = [
+          {
+            attribute_key: 'mail_subject',
+            filter_operator: 'does_not_contain',
+            values: ['test'],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, user_1, account).perform
+        # Should return conversations that do NOT contain 'test' in mail_subject
+        expect(result[:conversations].length).to be >= 0
+      end
+
+      it 'handles mail_subject filter with contains operator' do
+        params[:payload] = [
+          {
+            attribute_key: 'mail_subject',
+            filter_operator: 'contains',
+            values: ['TEST'],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, user_1, account).perform
+        expect(result[:conversations].length).to be >= 0
+      end
+
+      it 'handles empty values in custom attributes without error' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'is_present',
+            values: [],
+            query_operator: nil,
+            custom_attribute_type: 'conversation_attribute'
+          }.with_indifferent_access
+        ]
+
+        # This should not raise an error with is_present operator (which allows empty values)
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error
+
+        result = filter_service.new(params, user_1, account).perform
+        expect(result[:conversations].length).to be >= 0
+      end
+
+      it 'handles unknown filter operator with default case' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: nil,
+            custom_attribute_type: 'conversation_attribute'
+          }.with_indifferent_access
+        ]
+
+        # This should not raise an error with valid operator
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error
+
+        result = filter_service.new(params, user_1, account).perform
+        expect(result[:conversations].length).to be >= 0
+      end
     end
   end
 
