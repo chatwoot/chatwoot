@@ -26,6 +26,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     isMessageLengthReachingThreshold: {
       type: Boolean,
       default: () => false,
@@ -122,7 +126,8 @@ export default {
   >
     <EditorModeToggle
       :mode="mode"
-      :disabled="isReplyRestricted"
+      :disabled="disabled"
+      :is-reply-restricted="isReplyRestricted"
       @toggle-mode="handleModeToggle"
     />
     <div class="flex items-center mx-4 my-0">
@@ -136,8 +141,9 @@ export default {
       <div class="relative">
         <NextButton
           ghost
+          :disabled="disabled"
           :class="{
-            'text-n-violet-9 hover:!bg-n-violet-3': !showCopilotMenu,
+            'text-n-violet-9 hover:enabled:!bg-n-violet-3': !showCopilotMenu,
             'text-n-violet-9 bg-n-violet-3': showCopilotMenu,
           }"
           sm

@@ -1230,6 +1230,7 @@ export default {
     <ReplyTopPanel
       :mode="replyType"
       :is-reply-restricted="isReplyRestricted"
+      :disabled="isGeneratingContent"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popOutReplyBox"
