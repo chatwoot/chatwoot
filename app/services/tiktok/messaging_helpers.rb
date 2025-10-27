@@ -18,7 +18,7 @@ module Tiktok::MessagingHelpers
 
   def contact_additional_attributes(from, from_id)
     {
-      # TODO: Remove this once we show the social_telegram_user_name in the UI instead of the username
+      # TODO: Remove this once we show the social_tiktok_user_name in the UI instead of the username
       username: from,
       social_tiktok_user_id: from_id,
       social_tiktok_user_name: from

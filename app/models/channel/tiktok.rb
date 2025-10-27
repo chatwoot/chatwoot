@@ -29,60 +29,8 @@ class Channel::Tiktok < ApplicationRecord
   validates :expires_at, presence: true
   validates :refresh_token_expires_at, presence: true
 
-  # after_create_commit :subscribe
-  # before_destroy :unsubscribe
-
   def name
     'Tiktok'
-  end
-
-  # def create_contact_inbox(tiktok_id, name)
-  #   @contact_inbox = ::ContactInboxWithContactBuilder.new({
-  #                                                           source_id: tiktok_id,
-  #                                                           inbox: inbox,
-  #                                                           contact_attributes: { name: name }
-  #                                                         }).perform
-  # end
-
-  # def subscribe
-  #   # ref https://developers.facebook.com/docs/instagram-platform/webhooks#enable-subscriptions
-  #   HTTParty.post(
-  #     "https://graph.instagram.com/v22.0/#{instagram_id}/subscribed_apps",
-  #     query: {
-  #       subscribed_fields: %w[messages message_reactions messaging_seen],
-  #       access_token: access_token
-  #     }
-  #   )
-  # rescue StandardError => e
-  #   Rails.logger.debug { "Rescued: #{e.inspect}" }
-  #   true
-  # end
-
-  # def unsubscribe
-  #   HTTParty.delete(
-  #     "https://graph.instagram.com/v22.0/#{instagram_id}/subscribed_apps",
-  #     query: {
-  #       access_token: access_token
-  #     }
-  #   )
-  #   true
-  # rescue StandardError => e
-  #   Rails.logger.debug { "Rescued: #{e.inspect}" }
-  #   true
-  # end
-  #
-  #
-  #
-  def find_message(tt_conversation_id, tt_message_id)
-    message = Message.find_by(source_id: tt_message_id)
-    message_conversation_id = message&.conversation&.[](:additional_attributes)&.[]('conversation_id')
-    return nil if message_conversation_id != tt_conversation_id
-
-    message
-  end
-
-  def find_conversation(tt_conversation_id)
-    inbox.contact_inboxes.find_by(source_id: tt_conversation_id).conversations.first
   end
 
   def validated_access_token

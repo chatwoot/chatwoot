@@ -1,6 +1,5 @@
 class Tiktok::Client
   # Always use Tiktok::TokenService to get a valid access token
-  # @param access_token [String] The access token for API requests
   pattr_initialize [:business_id!, :access_token!]
 
   def business_account_details

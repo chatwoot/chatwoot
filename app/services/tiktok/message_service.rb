@@ -47,8 +47,6 @@ class Tiktok::MessageService
   end
 
   def message_content
-    return 'Unsupported message type' unless supported_message?
-
     return unless text_message?
 
     tt_text_body

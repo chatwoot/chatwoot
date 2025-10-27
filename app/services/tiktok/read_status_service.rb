@@ -1,4 +1,6 @@
 class Tiktok::ReadStatusService
+  include Tiktok::MessagingHelpers
+
   pattr_initialize [:channel!, :content!]
 
   def perform
@@ -8,7 +10,7 @@ class Tiktok::ReadStatusService
   end
 
   def conversation
-    @conversation ||= channel.find_conversation(tt_conversation_id)
+    @conversation ||= find_conversation(channel, tt_conversation_id)
   end
 
   def tt_conversation_id

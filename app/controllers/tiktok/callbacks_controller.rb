@@ -84,7 +84,6 @@ class Tiktok::CallbacksController < ApplicationController
       channel_tiktok = create_channel_with_inbox(business_details)
     end
 
-    # reauthorize channel, this code path only triggers when instagram auth is successful
     # reauthorized will also update cache keys for the associated inbox
     channel_tiktok.reauthorized!
 
