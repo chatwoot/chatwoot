@@ -7,6 +7,7 @@ import { OnClickOutside } from '@vueuse/components';
 import { useRouter } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
@@ -25,6 +26,7 @@ import LimitBanner from 'dashboard/components-next/captain/pageComponents/respon
 
 const router = useRouter();
 const store = useStore();
+const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const assistants = useMapGetter('captainAssistants/getRecords');
 const responseMeta = useMapGetter('captainResponses/getMeta');
@@ -285,6 +287,7 @@ onMounted(() => {
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
         :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
         :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        :hide-actions="!isOnChatwootCloud"
         fallback-thumbnail="/assets/images/dashboard/captain/faqs-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-popover-dark.svg"
         learn-more-url="https://chwt.app/captain-faq"
