@@ -16,7 +16,7 @@ class Tiktok::MessageService
   private
 
   def contact_inbox
-    @contact_inbox ||= create_contact_inbox(channel, tt_conversation_id, from, from_id)
+    @contact_inbox ||= create_contact_inbox(channel, tt_conversation_id, incoming_message? ? from : to, incoming_message? ? from_id : to_id)
   end
 
   def contact

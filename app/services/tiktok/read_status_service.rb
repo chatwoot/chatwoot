@@ -26,11 +26,11 @@ class Tiktok::ReadStatusService
     channel.business_id
   end
 
-  def sender_id
+  def from_user_id
     content[:from_user][:id]
   end
 
   def outbound_event?
-    business_id.to_s == sender_id.to_s
+    business_id.to_s == from_user_id.to_s
   end
 end
