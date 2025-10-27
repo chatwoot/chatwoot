@@ -211,17 +211,17 @@ describe('useInbox', () => {
       });
       expect(wrapper.vm.isAnInstagramChannel).toBe(true);
 
-      // Test Tiktok
-      wrapper = mount(createTestComponent(13), {
-        global: { plugins: [mockStore] },
-      });
-      expect(wrapper.vm.isATiktokChannel).toBe(true);
-
       // Test Voice
       wrapper = mount(createTestComponent(14), {
         global: { plugins: [mockStore] },
       });
       expect(wrapper.vm.isAVoiceChannel).toBe(true);
+
+      // Test Tiktok
+      wrapper = mount(createTestComponent(15), {
+        global: { plugins: [mockStore] },
+      });
+      expect(wrapper.vm.isATiktokChannel).toBe(true);
     });
   });
 
