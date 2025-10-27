@@ -220,6 +220,189 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     end
   end
 
+  describe 'handoff flow' do
+    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
+    let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
+
+    before do
+      create(:message, conversation: conversation, content: 'I need human help', message_type: :incoming)
+      allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
+      allow(inbox).to receive(:captain_active?).and_return(true)
+    end
+
+    context 'when response requests handoff' do
+      before do
+        allow(mock_llm_chat_service).to receive(:generate_response)
+          .and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'triggers handoff and changes conversation status' do
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'creates handoff message' do
+        described_class.perform_now(conversation, assistant)
+
+        handoff_message = conversation.messages.outgoing.last
+        expect(handoff_message).not_to be_nil
+        expect(handoff_message.content).to include(I18n.t('conversations.captain.handoff'))
+      end
+
+      it 'does not increment response usage' do
+        described_class.perform_now(conversation, assistant)
+        account.reload
+        expect(account.usage_limits[:captain][:responses][:consumed]).to eq(0)
+      end
+    end
+
+    context 'when tool requests handoff via Current.handoff_requested' do
+      before do
+        allow(mock_llm_chat_service).to receive(:generate_response) do
+          # Simulate tool setting the flag during response generation
+          Current.handoff_requested = true
+          { 'response' => 'Processing your request...' }
+        end
+      end
+
+      it 'triggers handoff after transaction completes' do
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'creates handoff message' do
+        described_class.perform_now(conversation, assistant)
+
+        handoff_message = conversation.messages.outgoing.last
+        expect(handoff_message).not_to be_nil
+        expect(handoff_message.content).to include(I18n.t('conversations.captain.handoff'))
+      end
+
+      it 'does not create regular response message' do
+        described_class.perform_now(conversation, assistant)
+
+        # Should only have the handoff message, not the regular response
+        outgoing_messages = conversation.messages.outgoing
+        expect(outgoing_messages.count).to eq(1)
+        expect(outgoing_messages.last.content).not_to include('Processing your request...')
+      end
+
+      it 'does not increment response usage' do
+        described_class.perform_now(conversation, assistant)
+        account.reload
+        expect(account.usage_limits[:captain][:responses][:consumed]).to eq(0)
+      end
+    end
+
+    context 'when error occurs' do
+      let(:error) { StandardError.new('Something went wrong') }
+
+      before do
+        allow(mock_llm_chat_service).to receive(:generate_response).and_raise(error)
+        allow(ChatwootExceptionTracker).to receive(:new).and_call_original
+      end
+
+      it 'triggers handoff in ensure block' do
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'creates handoff message' do
+        described_class.perform_now(conversation, assistant)
+
+        handoff_message = conversation.messages.outgoing.last
+        expect(handoff_message).not_to be_nil
+        expect(handoff_message.content).to include(I18n.t('conversations.captain.handoff'))
+      end
+
+      it 'logs the error' do
+        expect(ChatwootExceptionTracker).to receive(:new)
+          .with(error, account: account)
+          .and_call_original
+
+        described_class.perform_now(conversation, assistant)
+      end
+    end
+
+    context 'when custom handoff message is configured' do
+      let(:custom_message) { 'Custom handoff message from config' }
+
+      before do
+        assistant.config = { 'handoff_message' => custom_message }
+        assistant.save!
+
+        allow(mock_llm_chat_service).to receive(:generate_response)
+          .and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'uses custom handoff message' do
+        described_class.perform_now(conversation, assistant)
+
+        handoff_message = conversation.messages.outgoing.last
+        expect(handoff_message.content).to eq(custom_message)
+      end
+    end
+
+    context 'when handoff happens outside transaction' do
+      before do
+        allow(mock_llm_chat_service).to receive(:generate_response)
+          .and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'ensures bot_handoff! is called outside transaction' do
+        # This verifies that bot_handoff! is called outside the transaction
+        # so that after_commit callbacks can see the status change correctly
+        expect_any_instance_of(Conversation).to receive(:bot_handoff!).and_call_original
+
+        described_class.perform_now(conversation, assistant)
+
+        # Verify status changed
+        expect(conversation.reload.status).to eq('open')
+      end
+
+      it 'maintains Current.executed_by during handoff' do
+        # Capture the executed_by value during bot_handoff! call
+        captured_executed_by = nil
+        allow_any_instance_of(Conversation).to receive(:bot_handoff!) do |instance|
+          captured_executed_by = Current.executed_by
+          instance.status = :open
+          instance.save!
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(captured_executed_by).to eq(assistant)
+      end
+    end
+
+    context 'when Current values are cleaned up' do
+      before do
+        allow(mock_llm_chat_service).to receive(:generate_response)
+          .and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'resets Current.executed_by after job completes' do
+        described_class.perform_now(conversation, assistant)
+
+        expect(Current.executed_by).to be_nil
+      end
+
+      it 'resets Current.handoff_requested after job completes' do
+        Current.handoff_requested = true
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(Current.handoff_requested).to be_nil
+      end
+    end
+  end
+
   describe 'job configuration' do
     it 'has retry_on configuration for retryable errors' do
       expect(described_class).to respond_to(:retry_on)
