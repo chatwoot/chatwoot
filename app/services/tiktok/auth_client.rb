@@ -26,7 +26,7 @@ class Tiktok::AuthClient
     end
 
     # https://business-api.tiktok.com/portal/docs?id=1832184159540418
-    def obtain_short_term_access_token(auth_code)
+    def obtain_short_term_access_token(auth_code) # rubocop:disable Metrics/MethodLength
       endpoint = 'https://business-api.tiktok.com/open_api/v1.3/tt_user/oauth2/token/'
       headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
       body = {
@@ -55,7 +55,7 @@ class Tiktok::AuthClient
       }.with_indifferent_access
     end
 
-    def renew_short_term_access_token(refresh_token)
+    def renew_short_term_access_token(refresh_token) # rubocop:disable Metrics/MethodLength
       endpoint = 'https://business-api.tiktok.com/open_api/v1.3/tt_user/oauth2/refresh_token/'
       headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
       body = {
@@ -121,14 +121,12 @@ class Tiktok::AuthClient
     def process_json_response(response, error_prefix)
       unless response.success?
         Rails.logger.error "#{error_prefix}. Status: #{response.code}, Body: #{response.body}"
-        raise "#{error_prefix}: #{response.body}"
+        raise "#{response.code}: #{response.body}"
       end
 
       res = JSON.parse(response.body)
-      if res['code'] != 0
-        Rails.logger.error "#{error_prefix}. Response: #{response.body}"
-        raise "#{error_prefix}: #{response.body}"
-      end
+      raise "#{res['code']}: #{res['message']}" if res['code'] != 0
+
       res
     end
 
