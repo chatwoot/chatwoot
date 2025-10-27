@@ -53,11 +53,11 @@
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "Lingua Preferita",
+          "NOTE": "Scegli la lingua che vuoi utilizzare.",
+          "UPDATE_SUCCESS": "Le impostazioni della lingua sono state aggiornate con successo",
+          "UPDATE_ERROR": "C'è stato un errore durante l'aggiornamento della lingua, si prega di riprovare",
+          "USE_ACCOUNT_DEFAULT": "Predefinita"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -81,19 +81,19 @@
         "BTN_TEXT": "Cambia password"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "Sicurezza",
+        "NOTE": "Gestisci funzionalità di sicurezza aggiuntive per il tuo account.",
+        "MFA_BUTTON": "Gestisci Autenticazione A Due Fattori"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API",
         "COPY": "Copia",
         "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "CONFIRM_RESET": "Sei sicuro?",
+        "CONFIRM_HINT": "Clicca di nuovo per confermare",
+        "RESET_SUCCESS": "Token di accesso rigenerato correttamente",
+        "RESET_ERROR": "Impossibile rigenerare il token di accesso. Riprova"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -203,7 +203,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "IMPERSONATING_ERROR": "Impossibile modificare la disponibilità durante l'impersonazione di un utente"
       },
       "EMAIL": {
         "LABEL": "Il tuo indirizzo email",
@@ -304,7 +304,7 @@
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
-    "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_TOOLS": "Strumenti",
     "HOME": "Home",
     "AGENTS": "Agenti",
     "AGENT_BOTS": "Bots",
@@ -343,7 +343,7 @@
     "REPORTS_LABEL": "Etichette",
     "REPORTS_INBOX": "Posta",
     "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "AGENT_ASSIGNMENT": "Assegnazione Agenti",
     "SET_AVAILABILITY_TITLE": "Imposta te stesso come",
     "SET_YOUR_AVAILABILITY": "Imposta la tua disponibilità",
     "SLA": "SLA",
@@ -365,7 +365,7 @@
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Leggi i documenti",
-    "SECURITY": "Security"
+    "SECURITY": "Sicurezza"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatturazione",
@@ -398,24 +398,24 @@
     "NO_BILLING_USER": "Il tuo account di fatturazione è in fase di configurazione. Per favore aggiorna la pagina e riprova."
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
+    "TITLE": "Sicurezza",
+    "DESCRIPTION": "Gestisci le impostazioni di sicurezza del tuo account.",
+    "LINK_TEXT": "Ulteriori informazioni su SAML SSO",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "Configura SAML single sign-on per il tuo account. Gli utenti si autenticeranno tramite il tuo provider di identità invece di utilizzare email/password.",
       "ACS_URL": {
-        "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "LABEL": "URL ACS",
+        "TOOLTIP": "URL Assertion Consumer Service - Configura questo URL nel tuo IdP come destinazione per le risposte SAML"
       },
       "SSO_URL": {
-        "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "LABEL": "URL SSO",
+        "HELP": "L'URL dove verranno inviate le richieste di autenticazione SAML",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "Certificato di firma in formato PEM",
+        "HELP": "Il certificato pubblico del provider di identità utilizzato per verificare le risposte SAML",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
@@ -449,14 +449,14 @@
       "ENTERPRISE_PAYWALL": {
         "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
         "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "ASK_ADMIN": "Si prega di contattare l'amministratore per l'aggiornamento."
       },
       "PAYWALL": {
         "TITLE": "Upgrade to enable SAML SSO",
         "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
         "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "UPGRADE_NOW": "Aggiorna ora",
+        "CANCEL_ANYTIME": "È possibile modificare o annullare il piano in qualsiasi momento"
       },
       "ATTRIBUTE_MAPPING": {
         "TITLE": "SAML Attribute Setup",
@@ -483,7 +483,7 @@
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Invia",
-      "CANCEL": "annulla"
+      "CANCEL": "Annulla"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -562,18 +562,18 @@
         },
         "EDIT_BUTTON": "Update policy",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
+          "TITLE": "Aggiungi casella",
           "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "annulla"
+          "CONFIRM_BUTTON_LABEL": "Continua",
+          "CANCEL_BUTTON_LABEL": "Annulla"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "Policy di assegnazione aggiornata con successo",
+          "ERROR_MESSAGE": "Aggiornamento della policy di assegnazione non riuscito"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "SUCCESS_MESSAGE": "Casella aggiunta con successo alla policy",
             "ERROR_MESSAGE": "Failed to add inbox to policy"
           },
           "REMOVE": {
@@ -589,11 +589,11 @@
         },
         "DESCRIPTION": {
           "LABEL": "Descrizione:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Inserisci descrizione"
         },
         "STATUS": {
           "LABEL": "Stato:",
-          "PLACEHOLDER": "Select status",
+          "PLACEHOLDER": "Seleziona status",
           "ACTIVE": "Policy is active",
           "INACTIVE": "Policy is inactive"
         },
@@ -628,7 +628,7 @@
         "INBOXES": {
           "LABEL": "Added inboxes",
           "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "ADD_BUTTON": "Aggiungi casella",
           "DROPDOWN": {
             "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
             "ADD_BUTTON": "Aggiungi"
@@ -675,8 +675,8 @@
         "CONFIRM_ADD_AGENT_DIALOG": {
           "TITLE": "Add agent",
           "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "annulla"
+          "CONFIRM_BUTTON_LABEL": "Continua",
+          "CANCEL_BUTTON_LABEL": "Annulla"
         },
         "API": {
           "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
@@ -700,11 +700,11 @@
         },
         "DESCRIPTION": {
           "LABEL": "Descrizione:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Inserisci descrizione"
         },
         "INBOX_CAPACITY_LIMIT": {
           "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "ADD_BUTTON": "Aggiungi casella",
           "FIELD": {
             "SELECT_INBOX": "Select inbox",
             "MAX_CONVERSATIONS": "Max conversations",
@@ -749,10 +749,10 @@
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "Elimina policy",
+      "DESCRIPTION": "Sei sicuro di voler eliminare questa policy? Questa azione non può essere annullata.",
       "CONFIRM_BUTTON_LABEL": "Elimina",
-      "CANCEL_BUTTON_LABEL": "annulla"
+      "CANCEL_BUTTON_LABEL": "Annulla"
     }
   }
 }
