@@ -1,8 +1,8 @@
 class Enterprise::Billing::V2::WebhookHandlerService
   def perform(event:)
-    return { success: false, message: 'Account not found' } if account.blank?
-
     @event = event
+
+    return { success: false, message: 'Account not found' } if account.blank?
 
     case @event.type
     when 'v2.billing.pricing_plan_subscription.servicing_activated'

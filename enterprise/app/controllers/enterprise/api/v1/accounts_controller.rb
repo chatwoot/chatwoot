@@ -117,17 +117,6 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     end
   end
 
-  def update_subscription
-    service = Enterprise::Billing::V2::UpdateSubscriptionService.new(account: @account)
-    result = service.update_subscription(pricing_plan_id: params[:pricing_plan_id], quantity: params[:quantity])
-
-    if result[:success]
-      render json: result
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
-  end
-
   private
 
   def check_cloud_env
