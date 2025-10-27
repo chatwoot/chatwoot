@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Recupero degli hook di integrazione",
-      "INBOX": "Casella",
+      "INBOX": "Inbox",
       "DELETE": {
         "BUTTON_TEXT": "Elimina"
       }
