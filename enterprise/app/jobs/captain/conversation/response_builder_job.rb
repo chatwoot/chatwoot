@@ -13,15 +13,18 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     ActiveRecord::Base.transaction do
       generate_and_process_response
     end
-
-    # Process handoff OUTSIDE the transaction so after_commit callbacks work properly
-    # This ensures Rails' dirty tracking (previous_changes, saved_change_to_*?) works correctly
-    process_handoff if @handoff_requested
   rescue StandardError => e
     raise e if e.is_a?(ActiveStorage::FileNotFoundError) || e.is_a?(Faraday::BadRequestError)
 
     handle_error(e)
   ensure
+    # Process handoff OUTSIDE the transaction so after_commit callbacks work properly
+    # This is because within a transaction, each save operation overrides previous_changes
+    # There's a separate gem to handle this: https://github.com/Shopify/ar_transaction_changes/
+    # But for us, moving the handoff outside the transaction works well enough
+    # This ensures Rails' dirty tracking (previous_changes, saved_change_to_*?) works correctly
+    process_handoff if @handoff_requested
+
     Current.executed_by = nil
     Current.handoff_requested = nil
   end
@@ -43,7 +46,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
     if handoff_requested? || Current.handoff_requested
       @handoff_requested = true
-      create_handoff_message
       return
     end
 
@@ -84,6 +86,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def process_handoff
     I18n.with_locale(@assistant.account.locale) do
+      create_handoff_message
       @conversation.bot_handoff!
     end
   end
@@ -120,7 +123,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def handle_error(error)
     log_error(error)
     @handoff_requested = true
-    create_handoff_message
     true
   end
 
