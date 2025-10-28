@@ -19,6 +19,21 @@ const state = {
     isUpdating: false,
     isCheckoutInProcess: false,
   },
+  v2Billing: {
+    creditsBalance: null,
+    creditGrants: [],
+    pricingPlans: [],
+    topupOptions: [],
+    uiFlags: {
+      isFetchingBalance: false,
+      isFetchingGrants: false,
+      isFetchingPlans: false,
+      isFetchingTopupOptions: false,
+      isTopupInProcess: false,
+      isSubscribeInProcess: false,
+      isCancelInProcess: false,
+    },
+  },
 };
 
 export const getters = {
@@ -27,6 +42,12 @@ export const getters = {
   },
   getUIFlags($state) {
     return $state.uiFlags;
+  },
+  getV2BillingData($state) {
+    return $state.v2Billing;
+  },
+  getV2BillingUIFlags($state) {
+    return $state.v2Billing.uiFlags;
   },
   isRTL: ($state, _getters, rootState, rootGetters) => {
     const accountId = Number(rootState.route?.params?.accountId);
@@ -152,6 +173,186 @@ export const actions = {
   getCacheKeys: async () => {
     return AccountAPI.getCacheKeys();
   },
+
+  // V2 Billing actions
+  fetchCreditsBalance: async ({ commit }) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, { isFetchingBalance: true });
+    try {
+      const response = await EnterpriseAccountAPI.creditsBalance();
+      commit(types.default.SET_CREDITS_BALANCE, response.data);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, {
+        isFetchingBalance: false,
+      });
+    }
+  },
+
+  fetchCreditGrants: async ({ commit }) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, { isFetchingGrants: true });
+    try {
+      const response = await EnterpriseAccountAPI.creditGrants();
+      commit(types.default.SET_CREDIT_GRANTS, response.data.credit_grants);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, {
+        isFetchingGrants: false,
+      });
+    }
+  },
+
+  fetchV2PricingPlans: async ({ commit }) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, { isFetchingPlans: true });
+    try {
+      const response = await EnterpriseAccountAPI.v2PricingPlans();
+      commit(types.default.SET_V2_PRICING_PLANS, response.data.pricing_plans);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, { isFetchingPlans: false });
+    }
+  },
+
+  fetchV2TopupOptions: async ({ commit }) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, {
+      isFetchingTopupOptions: true,
+    });
+    try {
+      const response = await EnterpriseAccountAPI.v2TopupOptions();
+      // Transform backend structure: rename 'amount' to 'price'
+      const transformedOptions = response.data.topup_options.map(option => ({
+        ...option,
+        price: option.amount,
+        id: `topup-${option.credits}`,
+      }));
+      commit(types.default.SET_V2_TOPUP_OPTIONS, transformedOptions);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, {
+        isFetchingTopupOptions: false,
+      });
+    }
+  },
+
+  v2Topup: async ({ commit, dispatch }, data) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, { isTopupInProcess: true });
+    try {
+      await EnterpriseAccountAPI.v2Topup(data);
+      // Refresh balance and ledger after successful topup
+      await dispatch('fetchCreditsBalance');
+      return { success: true };
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || error.message;
+      return { success: false, error: errorMessage };
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, { isTopupInProcess: false });
+    }
+  },
+
+  v2Subscribe: async ({ commit, dispatch }, data) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, {
+      isSubscribeInProcess: true,
+    });
+    try {
+      const response = await EnterpriseAccountAPI.v2Subscribe(data);
+      // If backend returns redirect_url, redirect to Stripe checkout
+      if (response.data.redirect_url) {
+        window.location.href = response.data.redirect_url;
+        return { success: true, redirecting: true };
+      }
+      // Otherwise refresh data (for non-Stripe flows)
+      await Promise.all([
+        dispatch('fetchCreditsBalance'),
+        dispatch('fetchV2PricingPlans'),
+        dispatch('subscription'),
+      ]);
+      return { success: true };
+    } catch (error) {
+      throwErrorMessage(error);
+      return { success: false };
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, {
+        isSubscribeInProcess: false,
+      });
+    }
+  },
+
+  v2CancelSubscription: async ({ commit, dispatch }, data) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, { isCancelInProcess: true });
+    try {
+      const response = await EnterpriseAccountAPI.cancelSubscription(data);
+      // Update account with new subscription status
+      if (response.data.id && response.data.custom_attributes) {
+        commit(types.default.SET_ACCOUNT_LIMITS, response.data);
+      }
+      // Refresh balance and plans after cancellation
+      await Promise.all([
+        dispatch('fetchCreditsBalance'),
+        dispatch('fetchV2PricingPlans'),
+      ]);
+      return { success: true };
+    } catch (error) {
+      throwErrorMessage(error);
+      return { success: false };
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, {
+        isCancelInProcess: false,
+      });
+    }
+  },
+
+  v2UpdateQuantity: async ({ commit, dispatch }, { quantity }) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, {
+      isSubscribeInProcess: true,
+    });
+    try {
+      const response =
+        await EnterpriseAccountAPI.updateSubscriptionQuantity(quantity);
+      // Update account with new quantity
+      if (response.data.id && response.data.custom_attributes) {
+        commit(types.default.SET_ACCOUNT_LIMITS, response.data);
+      }
+      // Refresh balance after quantity update
+      await dispatch('fetchCreditsBalance');
+      return { success: true };
+    } catch (error) {
+      throwErrorMessage(error);
+      return { success: false };
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, {
+        isSubscribeInProcess: false,
+      });
+    }
+  },
+
+  v2ChangePlan: async ({ commit, dispatch }, data) => {
+    commit(types.default.SET_V2_BILLING_UI_FLAG, {
+      isSubscribeInProcess: true,
+    });
+    try {
+      const response = await EnterpriseAccountAPI.changePricingPlan(data);
+      // Update account with new plan
+      if (response.data.id && response.data.custom_attributes) {
+        commit(types.default.SET_ACCOUNT_LIMITS, response.data);
+      }
+      // Refresh balance and plans after change
+      await Promise.all([
+        dispatch('fetchCreditsBalance'),
+        dispatch('fetchV2PricingPlans'),
+      ]);
+      return { success: true };
+    } catch (error) {
+      throwErrorMessage(error);
+      return { success: false };
+    } finally {
+      commit(types.default.SET_V2_BILLING_UI_FLAG, {
+        isSubscribeInProcess: false,
+      });
+    }
+  },
 };
 
 export const mutations = {
@@ -164,6 +365,26 @@ export const mutations = {
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
   [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
+
+  // V2 Billing mutations
+  [types.default.SET_V2_BILLING_UI_FLAG]($state, data) {
+    $state.v2Billing.uiFlags = {
+      ...$state.v2Billing.uiFlags,
+      ...data,
+    };
+  },
+  [types.default.SET_CREDITS_BALANCE]($state, data) {
+    $state.v2Billing.creditsBalance = data;
+  },
+  [types.default.SET_CREDIT_GRANTS]($state, data) {
+    $state.v2Billing.creditGrants = data;
+  },
+  [types.default.SET_V2_PRICING_PLANS]($state, data) {
+    $state.v2Billing.pricingPlans = data;
+  },
+  [types.default.SET_V2_TOPUP_OPTIONS]($state, data) {
+    $state.v2Billing.topupOptions = data;
+  },
 };
 
 export default {
