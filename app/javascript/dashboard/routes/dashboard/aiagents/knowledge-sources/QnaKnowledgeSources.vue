@@ -69,29 +69,38 @@ watch(
 
 const showDeleteModal = ref();
 const deleteModalData = ref();
+const deleteModalIndex = ref();
 function deleteQna(data, index) {
-  // Find the actual QnA from contextQnas
-  deleteModalData.value = contextQnas.value[index];
+  const contextQna = contextQnas.value[index];
+  const actualIndex = qnas.value.findIndex(qna => qna === contextQna);
+  
+  deleteModalData.value = contextQna;
+  deleteModalIndex.value = actualIndex;
   showDeleteModal.value = true;
 }
 const deleteLoadingIds = ref({});
 async function deleteData() {
   const dataToDelete = deleteModalData.value;
   const dataId = dataToDelete?.id;
+  const indexToDelete = deleteModalIndex.value;
   
   try {
     showDeleteModal.value = false;
     deleteLoadingIds.value[dataId] = true;
+    
+    // If it has an ID, delete from server
     if (dataId) {
       await aiAgents.deleteKnowledgeQna(props.data.id, dataId);
-    }
-    qnas.value = qnas.value.filter(v => {
-      if (v.id && dataId) {
-        return v.id !== dataId;
+      if (indexToDelete !== -1) {
+        qnas.value.splice(indexToDelete, 1);
       }
-      return v !== dataToDelete;
-    });
-    fetchKnowledge();
+    } else {
+      // If no ID (newly created
+      if (indexToDelete !== -1) {
+        qnas.value.splice(indexToDelete, 1);
+      }
+    }
+    
     useAlert(t('AGENT_MGMT.QNA.SAVE_SUCCESS'));
   } catch (e) {
     useAlert(t('AGENT_MGMT.QNA.SAVE_ERROR'));
