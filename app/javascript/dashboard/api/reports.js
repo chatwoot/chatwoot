@@ -113,12 +113,13 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getBookingSummary({ from, to, groupBy }) {
+  getBookingSummary({ from, to, groupBy, metricType }) {
     return axios.get(`${this.url}/booking_summary`, {
       params: {
         since: from,
         until: to,
         group_by: groupBy,
+        metric_type: metricType,
       },
     });
   }
