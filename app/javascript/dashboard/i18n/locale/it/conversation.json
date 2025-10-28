@@ -35,14 +35,14 @@
     "API_HOURS_WINDOW": "Puoi rispondere a questa conversazione solo entro {hours} ore",
     "NOT_ASSIGNED_TO_YOU": "Questa conversazione non è assegnata. Vuoi assegnare questa conversazione a te stesso?",
     "ASSIGN_TO_ME": "Assegna a me",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "Si sta rispondendo a una conversazione che è attualmente gestita da un assistente o un bot.",
+    "BOT_HANDOFF_ACTION": "Segna aperta e assegna a te",
+    "BOT_HANDOFF_REOPEN_ACTION": "Segna conversazione aperta",
+    "BOT_HANDOFF_SUCCESS": "La conversazione ti è stata assegnata",
+    "BOT_HANDOFF_ERROR": "Impossibile prendere la conversazione. Riprova.",
     "TWILIO_WHATSAPP_CAN_REPLY": "È possibile rispondere a questa conversazione solo utilizzando un messaggio modello a causa di",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrizione della finestra del messaggio a 24 ore",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Questo account Instagram è stato migrato alla nuova casella di posta del canale Instagram. Tutti i nuovi messaggi verranno visualizzati lì. Non sarà più possibile inviare messaggi da questa conversazione.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Tutti i nuovi messaggi verranno visualizzati lì. Non sarà più possibile inviare messaggi da questa conversazione.",
     "REPLYING_TO": "Stai rispondendo a:",
     "REMOVE_SELECTION": "Rimuovi selezione",
     "DOWNLOAD": "Scarica",
@@ -72,15 +72,15 @@
       "HIDE_LABELS": "Hide labels"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "Chiamata in arrivo",
+      "OUTGOING_CALL": "Chiamata in uscita",
+      "CALL_IN_PROGRESS": "Chiamata in corso",
+      "NO_ANSWER": "Nessuna risposta",
+      "MISSED_CALL": "Chiamata persa",
+      "CALL_ENDED": "Chiamata terminata",
+      "NOT_ANSWERED_YET": "Non ancora risposta",
+      "THEY_ANSWERED": "Hanno risposto",
+      "YOU_ANSWERED": "Hai risposto"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Risolvi",
@@ -113,7 +113,7 @@
       }
     },
     "MENTION": {
-      "AGENTS": "Agenti",
+      "AGENTS": "Operatori",
       "TEAMS": "Teams"
     },
     "CUSTOM_SNOOZE": {
@@ -160,9 +160,9 @@
       "AGENTS_LOADING": "Caricamento agenti...",
       "ASSIGN_TEAM": "Assegna team",
       "DELETE": "Elimina conversazione",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "OPEN_IN_NEW_TAB": "Apri in una nuova scheda",
+      "COPY_LINK": "Copia link conversazione",
+      "COPY_LINK_SUCCESS": "Link conversazione copiato negli appunti",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID conversazione {conversationId} assegnato a \"{agentName}\"",
@@ -227,6 +227,13 @@
           "YES": "Invia",
           "CANCEL": "annulla"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Includi discussione email citata",
+        "DISABLE_TOOLTIP": "Non includere discussione email citata",
+        "REMOVE_PREVIEW": "Rimuovi discussione email citata",
+        "COLLAPSE": "Comprimi anteprima",
+        "EXPAND": "Espandi anteprima"
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
@@ -331,7 +338,7 @@
       "CONTACT_ATTRIBUTES": "Attributi contatti",
       "PREVIOUS_CONVERSATION": "Conversazioni precedenti",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Collega con issue Linear",
+      "LINEAR_ISSUES": "Linear Issues collegati",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
