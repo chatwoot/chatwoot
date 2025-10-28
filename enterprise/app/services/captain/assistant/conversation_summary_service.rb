@@ -17,6 +17,7 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
     Captain::PromptRenderer.render('summary', {})
   end
 
+  # rubocop:disable Metrics/MethodLength
   def response_schema
     {
       type: 'object',
@@ -48,6 +49,7 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
       additionalProperties: false
     }
   end
+  # rubocop:enable Metrics/MethodLength
 
   def build_success_response(output)
     {
@@ -74,7 +76,7 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
                  .reorder('id desc')
                  .each do |message|
       break if character_count + message.content.length > TOKEN_LIMIT
-      next unless message.content.present?
+      next if message.content.blank?
 
       messages.prepend(format_message(message))
       character_count += message.content.length
@@ -95,6 +97,7 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
     output[field_name.to_sym] || output[field_name.to_s] || []
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def build_summary_markdown(output)
     return '' unless output.is_a?(Hash)
 
@@ -126,4 +129,5 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
 
     sections.join("\n\n")
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
