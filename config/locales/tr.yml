@@ -62,6 +62,9 @@ tr:
         invalid: Hatalı e-posta
       phone_number:
         invalid: e164 formatında olmalı
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: kategori ve portalde tekil olmalı
@@ -185,6 +188,8 @@ tr:
       captain:
         resolved: 'Sohbet, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
         open: 'Sohbet, %{user_name} tarafından açık olarak işaretlendi'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Konuşma %{user_name} tarafından çözümlendi olarak işaretlendi'
         contact_resolved: 'Konuşma %{contact_name} tarafından çözümlendi olarak işaretlendi'

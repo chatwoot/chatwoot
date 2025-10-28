@@ -53,11 +53,11 @@
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "Lingua Preferita",
+          "NOTE": "Scegli la lingua che vuoi utilizzare.",
+          "UPDATE_SUCCESS": "Le impostazioni della lingua sono state aggiornate con successo",
+          "UPDATE_ERROR": "C'è stato un errore durante l'aggiornamento della lingua, si prega di riprovare",
+          "USE_ACCOUNT_DEFAULT": "Predefinita"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -81,19 +81,19 @@
         "BTN_TEXT": "Cambia password"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "Sicurezza",
+        "NOTE": "Gestisci funzionalità di sicurezza aggiuntive per il tuo account.",
+        "MFA_BUTTON": "Gestisci Autenticazione A Due Fattori"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API",
         "COPY": "Copia",
         "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "CONFIRM_RESET": "Sei sicuro?",
+        "CONFIRM_HINT": "Clicca di nuovo per confermare",
+        "RESET_SUCCESS": "Token di accesso rigenerato correttamente",
+        "RESET_ERROR": "Impossibile rigenerare il token di accesso. Riprova"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -203,7 +203,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "IMPERSONATING_ERROR": "Impossibile modificare la disponibilità durante l'impersonazione di un utente"
       },
       "EMAIL": {
         "LABEL": "Il tuo indirizzo email",
@@ -299,12 +299,12 @@
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
-    "ACTIVE": "Attivo",
+    "ACTIVE": "Attiva",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
-    "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_TOOLS": "Strumenti",
     "HOME": "Home",
     "AGENTS": "Agenti",
     "AGENT_BOTS": "Bots",
@@ -343,7 +343,7 @@
     "REPORTS_LABEL": "Etichette",
     "REPORTS_INBOX": "Posta",
     "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "AGENT_ASSIGNMENT": "Assegnazione Agenti",
     "SET_AVAILABILITY_TITLE": "Imposta te stesso come",
     "SET_YOUR_AVAILABILITY": "Imposta la tua disponibilità",
     "SLA": "SLA",
@@ -365,7 +365,7 @@
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Leggi i documenti",
-    "SECURITY": "Security"
+    "SECURITY": "Sicurezza"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatturazione",
@@ -398,73 +398,73 @@
     "NO_BILLING_USER": "Il tuo account di fatturazione è in fase di configurazione. Per favore aggiorna la pagina e riprova."
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
+    "TITLE": "Sicurezza",
+    "DESCRIPTION": "Gestisci le impostazioni di sicurezza del tuo account.",
+    "LINK_TEXT": "Ulteriori informazioni su SAML SSO",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "Configura SAML single sign-on per il tuo account. Gli utenti si autenticeranno tramite il tuo provider di identità invece di utilizzare email/password.",
       "ACS_URL": {
-        "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "LABEL": "URL ACS",
+        "TOOLTIP": "URL Assertion Consumer Service - Configura questo URL nel tuo IdP come destinazione per le risposte SAML"
       },
       "SSO_URL": {
-        "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "LABEL": "URL SSO",
+        "HELP": "L'URL dove verranno inviate le richieste di autenticazione SAML",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "Certificato di firma in formato PEM",
+        "HELP": "Il certificato pubblico del provider di identità utilizzato per verificare le risposte SAML",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
         "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "TOOLTIP": "Fingerprint SHA-1 del certificato — utilizzala per verificare il certificato nella configurazione del tuo IdP"
       },
       "COPY_SUCCESS": "Codice copiato negli appunti correttamente",
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "HELP": "Identificatore univoco per questa applicazione come Service Provider (generato automaticamente).",
+        "TOOLTIP": "Identificatore univoco di Chatwoot come Service Provider — configuralo nelle impostazioni del tuo IdP"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "HELP": "Identificatore univoco del tuo Identity Provider (di solito presente nella configurazione dell’IdP)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "Aggiorna Impostazioni SAML",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "Impostazioni SAML aggiornate correttamente",
+        "ERROR": "Impossibile aggiornare le impostazioni SAML",
+        "ERROR_LOADING": "Impossibile caricare le impostazioni SAML",
+        "DISABLED": "Impostazioni SAML disabilitate correttamente"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID e Certificate sono campi obbligatori",
+        "SSO_URL_ERROR": "Inserisci un URL SSO valido",
+        "CERTIFICATE_ERROR": "Certificato richiesto",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID è richiesto"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "La funzionalità SAML SSO è disponibile solo nei piani Enterprise.",
+        "UPGRADE_PROMPT": "Passa a un piano Enterprise per accedere a SAML single sign-on e ad altre funzionalità di sicurezza avanzate.",
+        "ASK_ADMIN": "Si prega di contattare l'amministratore per l'aggiornamento."
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "Aggiorna per abilitare SAML SSO",
+        "AVAILABLE_ON": "La funzionalità SAML SSO è disponibile solo nei piani Enterprise.",
+        "UPGRADE_PROMPT": "Aggiorna il tuo piano per ottenere l'accesso a SAML single sign-on e altre funzionalità avanzate.",
+        "UPGRADE_NOW": "Aggiorna ora",
+        "CANCEL_ANYTIME": "È possibile modificare o annullare il piano in qualsiasi momento"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "Impostazioni Attributi SAML",
+        "DESCRIPTION": "I seguenti mapping degli attributi devono essere configurati nel tuo Identity Provider"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "Informazioni sul Service Provider",
+        "TOOLTIP": "Copia questi valori e configurali nel tuo Identity Provider per stabilire la connessione SAML"
       }
     }
   },
@@ -483,7 +483,7 @@
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Invia",
-      "CANCEL": "annulla"
+      "CANCEL": "Annulla"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -508,251 +508,251 @@
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "Assegnazione operatori",
+        "DESCRIPTION": "Definisci delle policy per gestire al meglio il carico di lavoro e indirizzare le conversazioni in base alle esigenze delle Inbox e degli operatori. Scopri di più qui"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "Policy di assegnazione",
+        "DESCRIPTION": "Gestisci come vengono assegnate le conversazioni nelle Inbox.",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "Assegna le conversazioni in modo uniforme o in base al limite di conversazioni per operatore",
+          "Aggiungi regole di distribuzione equa per evitare di sovraccaricare gli operatori",
+          "Aggiungi le inbox a una policy — una policy per ogni inbox"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "Policy sul limite di conversazioni per operatore",
+        "DESCRIPTION": "Gestisci il carico di lavoro degli operatori.",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "Definisci il numero massimo di conversazioni per inbox",
+          "Crea eccezioni basate su etichette e tempo",
+          "Aggiungi gli operatori a una policy — una policy per ogni operatore"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "Policy di assegnazione",
+          "CREATE_POLICY": "Nuova policy"
         },
         "CARD": {
-          "ORDER": "Order",
+          "ORDER": "Ordina",
           "PRIORITY": "Priorità",
-          "ACTIVE": "Attivo",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
+          "ACTIVE": "Attiva",
+          "INACTIVE": "Inattive",
+          "POPOVER": "Inbox aggiunte",
           "EDIT": "Modifica"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "Nessuna policy di assegnazione trovata"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "Crea policy di assegnazione"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "Crea policy",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "SUCCESS_MESSAGE": "Policy di assegnazione creata con successo",
+          "ERROR_MESSAGE": "Impossibile creare la policy di assegnazione"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "Modifica policy di assegnazione"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "Aggiorna policy",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "annulla"
+          "TITLE": "Aggiungi Inbox",
+          "DESCRIPTION": "La Inbox {inboxName} è già collegata ad un'altra policy. Sei sicuro di volerla collegare a questa policy? Sarà scollegata dall'altra policy.",
+          "CONFIRM_BUTTON_LABEL": "Continua",
+          "CANCEL_BUTTON_LABEL": "Annulla"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "Policy di assegnazione aggiornata con successo",
+          "ERROR_MESSAGE": "Aggiornamento della policy di assegnazione non riuscito"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "Inbox aggiunta con successo alla policy",
+            "ERROR_MESSAGE": "Impossibile aggiungere la Inbox alla policy"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "Inbox rimossa dalla policy correttamente",
+            "ERROR_MESSAGE": "Impossibile rimuovere la Inbox dalla policy"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "Nome policy:",
+          "PLACEHOLDER": "Inserisci il nome della policy"
         },
         "DESCRIPTION": {
           "LABEL": "Descrizione:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Inserisci descrizione"
         },
         "STATUS": {
           "LABEL": "Stato:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "PLACEHOLDER": "Seleziona status",
+          "ACTIVE": "Policy attiva",
+          "INACTIVE": "Policy inattiva"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "Ordine di assegnazione",
           "ROUND_ROBIN": {
             "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "DESCRIPTION": "Assegna le conversazioni in modo uniforme tra gli operatori."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "Bilanciato",
+            "DESCRIPTION": "Assegna le conversazioni in base alla capacità disponibile."
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "Priorità di assegnazione",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "Creata prima",
+            "DESCRIPTION": "La conversazione che è stata creata per prima viene assegnata per prima."
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "Attesa più lunga",
+            "DESCRIPTION": "La conversazione con il tempo di attesa più lungo viene assegnata per prima."
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "Policy di distribuzione equa",
+          "DESCRIPTION": "Imposta il numero massimo di conversazioni che possono essere assegnate per operatore in una finestra temporale per evitare di sovraccaricarlo. Questo campo obbligatorio è impostato di default a 100 conversazioni l'ora.",
+          "INPUT_MAX": "Assegna max",
+          "DURATION": "Conversazioni per operatore ogni"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "Inbox aggiunte",
+          "DESCRIPTION": "Aggiungi le inbox a cui applicare questa policy.",
+          "ADD_BUTTON": "Aggiungi Inbox",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "SEARCH_PLACEHOLDER": "Cerca e seleziona le inbox da aggiungere",
             "ADD_BUTTON": "Aggiungi"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "Nessuna inbox aggiunta a questa policy, aggiungine una per iniziare",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "Inbox aggiunta correttamente alla policy",
+            "ERROR_MESSAGE": "Impossibile aggiungere la Inbox alla policy"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "Policy di assegnazione eliminata correttamente",
+        "ERROR_MESSAGE": "Impossibile eliminare la policy di assegnazione"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "Limite di conversazioni per operatore",
+          "CREATE_POLICY": "Nuova policy"
         },
         "CARD": {
-          "POPOVER": "Added agents",
+          "POPOVER": "Operatori aggiunti",
           "EDIT": "Modifica"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "Nessuna policy sul limite di conversazioni per operatore trovata"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "Crea una policy sul limite di conversazioni per operatore"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "Crea policy",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "Policy sul limite di conversazioni per operatore creata correttamente",
+          "ERROR_MESSAGE": "Impossibile eliminare la policy di assegnazione"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "Modifica la policy sul limite di conversazioni per operatore"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "Aggiorna policy",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
-          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "annulla"
+          "TITLE": "Aggiungi operatore",
+          "DESCRIPTION": "{agentName} è già collegato a un’altra policy. Vuoi davvero collegarlo a questa policy? Verrà scollegato dall’altra.",
+          "CONFIRM_BUTTON_LABEL": "Continua",
+          "CANCEL_BUTTON_LABEL": "Annulla"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "Policy sul limite conversazioni per operatore aggiornata correttamente",
+          "ERROR_MESSAGE": "Impossibile aggiornare la policy sul limite conversazioni per operatore"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "Operatore aggiunto correttamente alla policy",
+            "ERROR_MESSAGE": "Impossibile aggiungere l’operatore alla policy"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "Operatore rimosso correttamente dalla policy",
+            "ERROR_MESSAGE": "Impossibile rimuovere l’operatore dalla policy"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "Nome policy:",
+          "PLACEHOLDER": "Inserisci il nome della policy"
         },
         "DESCRIPTION": {
           "LABEL": "Descrizione:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Inserisci descrizione"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "Limiti di conversazioni per inbox",
+          "ADD_BUTTON": "Aggiungi Inbox",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "Seleziona Inbox",
+            "MAX_CONVERSATIONS": "Max conversazioni",
+            "SET_LIMIT": "Imposta limite"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "Nessun limite Inbox impostato"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "Regole di esclusione",
+          "DESCRIPTION": "Le conversazioni che soddisfano le seguenti condizioni non verranno conteggiate nel limite di conversazioni per operatore",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "Escludi conversazioni taggate con etichette specifiche",
+            "ADD_TAG": "aggiungi tag",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "Cerca e seleziona i tag da aggiungere"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "Nessun tag aggiunto a questa policy."
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "Escludi conversazioni più vecchie di una durata specificata",
+            "PLACEHOLDER": "Imposta tempo"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "Operatori assegnati",
+          "DESCRIPTION": "Aggiungi operatori per i quali questa policy verrà applicata.",
+          "ADD_BUTTON": "Aggiungi operatore",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "SEARCH_PLACEHOLDER": "Cerca e seleziona operatori da aggiungere",
             "ADD_BUTTON": "Aggiungi"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "Nessun operatore aggiunto",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "Operatore aggiunto correttamente alla policy",
+            "ERROR_MESSAGE": "Impossibile aggiungere l'operatore alla policy"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "La policy sul limite di conversazioni per operatore è stata eliminata correttamente",
+        "ERROR_MESSAGE": "Impossibile eliminare la policy sul limite di conversazioni per operatore"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "Elimina policy",
+      "DESCRIPTION": "Sei sicuro di voler eliminare questa policy? Questa azione non può essere annullata.",
       "CONFIRM_BUTTON_LABEL": "Elimina",
-      "CANCEL_BUTTON_LABEL": "annulla"
+      "CANCEL_BUTTON_LABEL": "Annulla"
     }
   }
 }
