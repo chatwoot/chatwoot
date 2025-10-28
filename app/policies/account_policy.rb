@@ -55,7 +55,19 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def update_subscription?
+  def credit_grants?
+    @account_user.administrator?
+  end
+
+  def resume_subscription?
+    @account_user.administrator?
+  end
+
+  def update_subscription_quantity?
+    @account_user.administrator?
+  end
+
+  def change_pricing_plan?
     @account_user.administrator?
   end
 end

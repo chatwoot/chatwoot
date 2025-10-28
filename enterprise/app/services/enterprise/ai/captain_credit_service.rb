@@ -12,7 +12,9 @@ class Enterprise::Ai::CaptainCreditService
 
     # V2 accounts use credit-based billing
     service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
-    service.use_credit(feature: feature, amount: amount, metadata: metadata)
+    result = service.use_credit(feature: feature, amount: amount, metadata: metadata)
+    Rails.logger.info "Credit result: #{result.inspect}"
+    result
   end
 
   private

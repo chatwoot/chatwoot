@@ -16,8 +16,6 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
     build_success_response(subscription_id, pricing_plan_id, quantity)
   rescue Stripe::StripeError => e
     { success: false, message: "Stripe error: #{e.message}" }
-  rescue StandardError => e
-    { success: false, message: "Provisioning error: #{e.message}" }
   end
 
   private
@@ -43,8 +41,7 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
 
   def extract_pricing_plan_id(subscription)
     # Extract pricing_plan from the subscription object
-    pricing_plan = subscription.respond_to?(:pricing_plan) ? subscription.pricing_plan : subscription['pricing_plan']
-    pricing_plan.is_a?(String) ? pricing_plan : pricing_plan&.[]('id') || pricing_plan&.dig(:id)
+    subscription.respond_to?(:pricing_plan) ? subscription.pricing_plan : subscription['pricing_plan']
   end
 
   def extract_subscription_quantity(_subscription)
@@ -54,8 +51,11 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
       Rails.logger.info "[V2 Billing] Using quantity from custom_attributes: #{pending_quantity}"
       return pending_quantity.to_i
     end
-
-    Rails.logger.warn '[V2 Billing] No pending_subscription_quantity found in custom_attributes, defaulting to quantity=1'
+    subscribed_quantity = account.custom_attributes['subscribed_quantity']
+    if subscribed_quantity.present? && subscribed_quantity.to_i.positive?
+      Rails.logger.info "[V2 Billing] Using quantity from custom_attributes: #{subscribed_quantity}"
+      return subscribed_quantity.to_i
+    end
     1
   end
 

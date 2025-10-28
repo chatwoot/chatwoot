@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
   before_action :fetch_account
@@ -71,6 +72,13 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     }
   end
 
+  def credit_grants
+    service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
+    grants = service.fetch_credit_grants
+
+    render json: { credit_grants: grants }
+  end
+
   def v2_pricing_plans
     plans = Enterprise::Billing::V2::PlanCatalog.plans
     render json: { pricing_plans: plans }
@@ -111,7 +119,63 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     result = service.cancel_subscription
 
     if result[:success]
-      render json: result
+      # Include account ID and updated attributes for frontend store update
+      @account.reload
+      render json: result.merge(
+        id: @account.id,
+        custom_attributes: @account.custom_attributes
+      )
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
+  def resume_subscription
+    service = Enterprise::Billing::V2::ResumeSubscriptionService.new(account: @account)
+    result = service.resume_subscription
+
+    if result[:success]
+      # Include account ID and updated attributes for frontend store update
+      @account.reload
+      render json: result.merge(
+        id: @account.id,
+        custom_attributes: @account.custom_attributes
+      )
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
+  def update_subscription_quantity
+    service = Enterprise::Billing::V2::UpdateSubscriptionService.new(account: @account)
+    result = service.update_quantity(quantity: params[:quantity].to_i)
+
+    if result[:success]
+      # Include account ID and updated attributes for frontend store update
+      @account.reload
+      render json: result.merge(
+        id: @account.id,
+        custom_attributes: @account.custom_attributes
+      )
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
+  def change_pricing_plan
+    service = Enterprise::Billing::V2::ChangePlanService.new(account: @account)
+    result = service.change_plan(
+      new_pricing_plan_id: params[:pricing_plan_id],
+      quantity: params[:quantity].to_i
+    )
+
+    if result[:success]
+      # Include account ID and updated attributes for frontend store update
+      @account.reload
+      render json: result.merge(
+        id: @account.id,
+        custom_attributes: @account.custom_attributes
+      )
     else
       render json: { error: result[:message] }, status: :unprocessable_entity
     end
@@ -195,3 +259,4 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     }
   end
 end
+# rubocop:enable Metrics/ClassLength

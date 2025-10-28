@@ -23,7 +23,21 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
     return { valid: false, success: false, message: 'Unsupported topup amount' } unless topup_definition
     return { valid: false, success: false, message: 'Stripe customer not configured' } if stripe_customer_id.blank?
 
+    # Check if customer has a default payment method
+    unless customer_has_payment_method?
+      return { valid: false, success: false, message: 'No payment method found. Please add a payment method before making a purchase.' }
+    end
+
     { valid: true, topup_definition: topup_definition }
+  end
+
+  def customer_has_payment_method?
+    customer = Stripe::Customer.retrieve(stripe_customer_id, stripe_api_options)
+    # Check if customer has a default payment method or any payment methods attached
+    customer.invoice_settings&.default_payment_method.present? || customer.default_source.present?
+  rescue Stripe::StripeError => e
+    Rails.logger.error("Failed to check payment method: #{e.message}")
+    false
   end
 
   def process_topup_transaction(credits, amount_cents, currency, amount)

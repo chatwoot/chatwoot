@@ -20,8 +20,8 @@
 class CreditTransaction < ApplicationRecord
   belongs_to :account
 
-  validates :amount, presence: true, numericality: { greater_than: 0 }
-  validates :transaction_type, presence: true, inclusion: { in: %w[grant expire use topup] }
+  validates :amount, presence: true, numericality: true
+  validates :transaction_type, presence: true, inclusion: { in: %w[grant expire use topup refund] }
   validates :credit_type, presence: true, inclusion: { in: %w[monthly topup mixed] }
 
   scope :recent, -> { order(created_at: :desc) }

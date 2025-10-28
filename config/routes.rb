@@ -433,11 +433,15 @@ Rails.application.routes.draw do
               post :toggle_deletion
               # V2 Billing endpoints
               get :credits_balance
+              get :credit_grants
               get :v2_pricing_plans
               get :v2_topup_options
               post :v2_topup
               post :v2_subscribe
               post :cancel_subscription
+              post :resume_subscription
+              post :update_subscription_quantity
+              post :change_pricing_plan
             end
           end
         end
