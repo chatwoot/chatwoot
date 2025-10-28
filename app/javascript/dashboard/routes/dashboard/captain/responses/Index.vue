@@ -7,6 +7,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -55,6 +56,11 @@ const isPendingRoute = computed(
 );
 
 const pendingCount = useMapGetter('captainResponses/getPendingCount');
+
+const backUrl = computed(() => {
+  if (!isPendingRoute.value) return undefined;
+  return frontendURL(`accounts/${route.params.accountId}/captain/responses`);
+});
 
 // Filter out approved responses in pending view
 const filteredResponses = computed(() => {
@@ -288,7 +294,7 @@ onMounted(() => {
     :is-empty="!filteredResponses.length"
     :show-pagination-footer="!isFetching && !!filteredResponses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
-    :back-url="isPendingRoute ? '/captain/responses' : undefined"
+    :back-url="backUrl"
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
