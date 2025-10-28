@@ -10,12 +10,15 @@ class Enterprise::Billing::CreateStripeCustomerService
 
     customer_id = prepare_customer_id
 
-    if billing_v2_enabled?
+    if billing_v2_enabled? && v2_configs_present?
       update_account_for_v2_billing(customer_id)
       enable_plan_specific_features(default_plan['name'])
-    else
+    elsif default_plan.present?
       subscription = create_subscription(customer_id)
       update_account_with_subscription(customer_id, subscription)
+    else
+      # Minimal setup when configs are missing
+      account.update!(custom_attributes: { stripe_customer_id: customer_id })
     end
   end
 
@@ -40,7 +43,7 @@ class Enterprise::Billing::CreateStripeCustomerService
 
   def default_plan
     installation_config = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')
-    @default_plan ||= installation_config.value.first
+    @default_plan ||= installation_config&.value&.first
   end
 
   def price_id
@@ -50,6 +53,11 @@ class Enterprise::Billing::CreateStripeCustomerService
 
   def billing_v2_enabled?
     ENV.fetch('STRIPE_BILLING_V2_ENABLED', 'false') == 'true'
+  end
+
+  def v2_configs_present?
+    InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID').present? &&
+      default_plan.present?
   end
 
   def existing_subscription?
@@ -74,14 +82,19 @@ class Enterprise::Billing::CreateStripeCustomerService
   end
 
   def update_account_for_v2_billing(customer_id)
-    account.update!(
-      custom_attributes: {
-        stripe_customer_id: customer_id,
-        stripe_pricing_plan_id: InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID').value,
+    hacker_plan_config = InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID')
+
+    attributes = { stripe_customer_id: customer_id }
+
+    if hacker_plan_config&.value.present?
+      attributes.merge!(
+        stripe_pricing_plan_id: hacker_plan_config.value,
         plan_name: 'Hacker',
         subscribed_quantity: DEFAULT_QUANTITY
-      }
-    )
+      )
+    end
+
+    account.update!(custom_attributes: attributes)
   end
 
   def update_account_with_subscription(customer_id, subscription)

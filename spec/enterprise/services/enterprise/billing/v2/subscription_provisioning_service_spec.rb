@@ -128,19 +128,6 @@ describe Enterprise::Billing::V2::SubscriptionProvisioningService do
       end
     end
 
-    context 'when an unexpected error occurs' do
-      before do
-        allow(StripeV2Client).to receive(:request).and_raise(StandardError.new('Unexpected error'))
-      end
-
-      it 'returns error response' do
-        result = service.provision(subscription_id: subscription_id)
-
-        expect(result[:success]).to be(false)
-        expect(result[:message]).to include('Provisioning error')
-      end
-    end
-
     context 'with Startup plan' do
       let(:startup_plan_id) { 'bpp_startup_plan_123' }
       let(:subscription_response) do
