@@ -14,8 +14,10 @@ services:
         SECRET_KEY_BASE: ${SECRET_KEY_BASE}
         SOURCE_TOKEN: ${SOURCE_TOKEN}
         INGESTING_HOST: ${INGESTING_HOST}
-        STORAGE_ACCESS_KEY_ID: ${STORAGE_ACCESS_KEY_ID}
-        STORAGE_SECRET_ACCESS_KEY: ${STORAGE_SECRET_ACCESS_KEY}
+        CDN_ACCESS_KEY: ${CDN_ACCESS_KEY}
+        CDN_ACCESS_SECRET: ${CDN_ACCESS_SECRET}
+        CDN_REGION: ${CDN_REGION}
+        CDN_BUCKET: ${CDN_BUCKET}
     tty: true
     stdin_open: true
     image: courier-production-v1:latest
@@ -31,8 +33,10 @@ services:
         POSTMARK_API_TOKEN: ${POSTMARK_API_TOKEN}
         SOURCE_TOKEN: ${SOURCE_TOKEN}
         INGESTING_HOST: ${INGESTING_HOST}
-        STORAGE_ACCESS_KEY_ID: ${STORAGE_ACCESS_KEY_ID}
-        STORAGE_SECRET_ACCESS_KEY: ${STORAGE_SECRET_ACCESS_KEY}
+        CDN_ACCESS_KEY: ${CDN_ACCESS_KEY}
+        CDN_ACCESS_SECRET: ${CDN_ACCESS_SECRET}
+        CDN_REGION: ${CDN_REGION}
+        CDN_BUCKET: ${CDN_BUCKET}
     image: courier-production-v1:latest
     volumes:
       - ./:/app:delegated
