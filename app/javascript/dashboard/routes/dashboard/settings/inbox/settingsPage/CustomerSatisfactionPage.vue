@@ -8,10 +8,12 @@ import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import SectionLayout from 'dashboard/routes/dashboard/settings/account/components/SectionLayout.vue';
 import CSATDisplayTypeSelector from './components/CSATDisplayTypeSelector.vue';
+import CSATTemplate from './components/CSATTemplate.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Switch from 'next/switch/Switch.vue';
+import Input from 'v3/components/Form/Input.vue';
 
 const props = defineProps({
   inbox: { type: Object, required: true },
@@ -29,8 +31,13 @@ const state = reactive({
   csatSurveyEnabled: false,
   displayType: 'emoji',
   message: '',
+  buttonText: 'Please rate us',
   surveyRuleOperator: 'contains',
 });
+
+// WhatsApp template status
+const templateStatus = ref(null);
+const templateLoading = ref(false);
 
 const filterTypes = [
   {
@@ -51,6 +58,45 @@ const labelOptions = computed(() =>
     : []
 );
 
+const isWhatsAppChannel = computed(
+  () => props.inbox?.channel_type === 'Channel::Whatsapp'
+);
+
+const messagePreviewData = computed(() => ({
+  content: state.message || t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER'),
+}));
+
+const templateApprovalStatus = computed(() => {
+  if (!templateStatus.value) return null;
+
+  switch (templateStatus.value.status) {
+    case 'APPROVED':
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
+        icon: 'i-lucide-check-circle',
+        color: 'text-green-600',
+      };
+    case 'PENDING':
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
+        icon: 'i-lucide-clock',
+        color: 'text-yellow-600',
+      };
+    case 'REJECTED':
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
+        icon: 'i-lucide-x-circle',
+        color: 'text-red-600',
+      };
+    default:
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
+        icon: 'i-lucide-clock',
+        color: 'text-yellow-600',
+      };
+  }
+});
+
 const initializeState = () => {
   if (!props.inbox) return;
 
@@ -63,11 +109,13 @@ const initializeState = () => {
   const {
     display_type: displayType = CSAT_DISPLAY_TYPES.EMOJI,
     message = '',
+    button_text: buttonText = 'Please rate us',
     survey_rules: surveyRules = {},
   } = csat_config;
 
   state.displayType = displayType;
   state.message = message;
+  state.buttonText = buttonText;
   state.surveyRuleOperator = surveyRules.operator || 'contains';
 
   selectedLabelValues.value = Array.isArray(surveyRules.values)
@@ -75,9 +123,26 @@ const initializeState = () => {
     : [];
 };
 
+const checkTemplateStatus = async () => {
+  if (!isWhatsAppChannel.value) return;
+
+  try {
+    templateLoading.value = true;
+    const response = await store.dispatch('inboxes/getCSATTemplateStatus', {
+      inboxId: props.inbox.id,
+    });
+    templateStatus.value = response.data;
+  } catch (error) {
+    // console.error('Error fetching template status:', error);
+  } finally {
+    templateLoading.value = false;
+  }
+};
+
 onMounted(() => {
   initializeState();
   if (!labels.value?.length) store.dispatch('labels/get');
+  if (isWhatsAppChannel.value) checkTemplateStatus();
 });
 
 watch(() => props.inbox, initializeState, { immediate: true });
@@ -115,13 +180,45 @@ const updateInbox = async attributes => {
   return store.dispatch('inboxes/updateInbox', payload);
 };
 
+const createTemplate = async () => {
+  if (!isWhatsAppChannel.value) return;
+
+  try {
+    isUpdating.value = true;
+    await store.dispatch('inboxes/createCSATTemplate', {
+      inboxId: props.inbox.id,
+      template: {
+        message: state.message,
+        button_text: state.buttonText,
+      },
+    });
+
+    // Check status after creation
+    await checkTemplateStatus();
+    useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.SUCCESS_MESSAGE'));
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.error ||
+      t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE');
+    useAlert(errorMessage);
+  } finally {
+    isUpdating.value = false;
+  }
+};
+
 const saveSettings = async () => {
   try {
     isUpdating.value = true;
 
+    // For WhatsApp channels, create template first if needed
+    if (isWhatsAppChannel.value && state.csatSurveyEnabled) {
+      await createTemplate();
+    }
+
     const csatConfig = {
       display_type: state.displayType,
       message: state.message,
+      button_text: state.buttonText,
       survey_rules: {
         operator: state.surveyRuleOperator,
         values: selectedLabelValues.value,
@@ -155,7 +252,9 @@ const saveSettings = async () => {
       </template>
 
       <div class="grid gap-5">
+        <!-- Show display type only for non-WhatsApp channels -->
         <WithLabel
+          v-if="!isWhatsAppChannel"
           :label="$t('INBOX_MGMT.CSAT.DISPLAY_TYPE.LABEL')"
           name="display_type"
         >
@@ -165,14 +264,86 @@ const saveSettings = async () => {
           />
         </WithLabel>
 
-        <WithLabel :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')" name="message">
-          <Editor
-            v-model="state.message"
-            :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
-            :max-length="200"
-            class="w-full"
-          />
-        </WithLabel>
+        <!-- WhatsApp specific layout -->
+        <template v-if="isWhatsAppChannel">
+          <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div>
+              <WithLabel
+                :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
+                name="message"
+              >
+                <Editor
+                  v-model="state.message"
+                  :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
+                  :max-length="200"
+                  class="w-full"
+                />
+              </WithLabel>
+              <WithLabel
+                :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
+                name="button_text"
+              >
+                <Input
+                  v-model="state.buttonText"
+                  :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
+                  class="w-full"
+                />
+              </WithLabel>
+
+              <div
+                v-if="templateApprovalStatus"
+                class="flex gap-2 items-center mt-4"
+              >
+                <i
+                  :class="[
+                    templateApprovalStatus.icon,
+                    templateApprovalStatus.color,
+                  ]"
+                  class="w-4 h-4"
+                />
+                <span
+                  :class="templateApprovalStatus.color"
+                  class="text-sm font-medium"
+                >
+                  {{ templateApprovalStatus.text }}
+                </span>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-lg bg-n-slate-2">
+              <p
+                class="flex gap-1 items-center mb-1 text-sm font-medium text-n-slate-12"
+              >
+                {{ $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.LABEL') }}
+                <span
+                  class="text-xs cursor-help text-n-slate-11"
+                  :title="$t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.TOOLTIP')"
+                >
+                  <i class="w-3 h-3 i-lucide-info" />
+                </span>
+              </p>
+              <CSATTemplate
+                :message="messagePreviewData"
+                :button-text="state.buttonText"
+              />
+            </div>
+          </div>
+        </template>
+
+        <!-- Non-WhatsApp channels layout -->
+        <template v-else>
+          <WithLabel
+            :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
+            name="message"
+          >
+            <Editor
+              v-model="state.message"
+              :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
+              :max-length="200"
+              class="w-full"
+            />
+          </WithLabel>
+        </template>
 
         <WithLabel
           :label="$t('INBOX_MGMT.CSAT.SURVEY_RULE.LABEL')"
@@ -180,7 +351,7 @@ const saveSettings = async () => {
         >
           <div class="mb-4">
             <span
-              class="inline-flex flex-wrap items-center gap-1.5 text-sm text-n-slate-12"
+              class="inline-flex flex-wrap gap-1.5 items-center text-sm text-n-slate-12"
             >
               {{ $t('INBOX_MGMT.CSAT.SURVEY_RULE.DESCRIPTION_PREFIX') }}
               <FilterSelect
