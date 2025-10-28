@@ -126,6 +126,19 @@ export const routes = [
     },
   },
   {
+    path: frontendURL('accounts/:accountId/captain/responses/pending'),
+    component: ResponsesIndex,
+    name: 'captain_responses_pending',
+    meta: {
+      permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
+      installationTypes: [
+        INSTALLATION_TYPES.CLOUD,
+        INSTALLATION_TYPES.ENTERPRISE,
+      ],
+    },
+  },
+  {
     path: frontendURL('accounts/:accountId/captain/tools'),
     component: CustomToolsIndex,
     name: 'captain_tools_index',

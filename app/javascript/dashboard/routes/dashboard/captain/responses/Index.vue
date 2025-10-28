@@ -1,17 +1,16 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onMounted, ref, nextTick, watch } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import { OnClickOutside } from '@vueuse/components';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
 
+import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
-import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
@@ -25,6 +24,7 @@ import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
@@ -37,7 +37,6 @@ const selectedResponse = ref(null);
 const deleteDialog = ref(null);
 const bulkDeleteDialog = ref(null);
 
-const selectedStatus = ref('all');
 const selectedAssistant = ref('all');
 const dialogType = ref('');
 const searchQuery = ref('');
@@ -45,34 +44,24 @@ const { t } = useI18n();
 
 const createDialog = ref(null);
 
-const isStatusFilterOpen = ref(false);
 const shouldShowDropdown = computed(() => {
   if (assistants.value.length === 0) return false;
 
   return !isFetching.value;
 });
 
-const statusOptions = computed(() =>
-  ['all', 'pending', 'approved'].map(key => ({
-    label: t(`CAPTAIN.RESPONSES.STATUS.${key.toUpperCase()}`),
-    value: key,
-    action: 'filter',
-  }))
+const isPendingRoute = computed(
+  () => route.name === 'captain_responses_pending'
 );
 
-const filteredResponses = computed(() => {
-  return selectedStatus.value === 'pending'
-    ? responses.value.filter(r => r.status === 'pending')
-    : responses.value;
-});
+const pendingCount = useMapGetter('captainResponses/getPendingCount');
 
-const selectedStatusLabel = computed(() => {
-  const status = statusOptions.value.find(
-    option => option.value === selectedStatus.value
-  );
-  return t('CAPTAIN.RESPONSES.FILTER.STATUS', {
-    selected: status ? status.label : '',
-  });
+// Filter out approved responses in pending view
+const filteredResponses = computed(() => {
+  if (isPendingRoute.value) {
+    return responses.value.filter(response => response.status !== 'approved');
+  }
+  return responses.value;
 });
 
 const handleDelete = () => {
@@ -137,9 +126,9 @@ const handleCreateClose = () => {
 
 const fetchResponses = (page = 1) => {
   const filterParams = { page };
-  if (selectedStatus.value !== 'all') {
-    filterParams.status = selectedStatus.value;
-  }
+  const status = isPendingRoute.value ? 'pending' : 'approved';
+  filterParams.status = status;
+
   if (selectedAssistant.value !== 'all') {
     filterParams.assistantId = selectedAssistant.value;
   }
@@ -247,12 +236,6 @@ const onBulkDeleteSuccess = () => {
   fetchResponseAfterBulkAction();
 };
 
-const handleStatusFilterChange = ({ value }) => {
-  selectedStatus.value = value;
-  isStatusFilterOpen.value = false;
-  fetchResponses();
-};
-
 const handleAssistantFilterChange = assistant => {
   selectedAssistant.value = assistant;
   fetchResponses();
@@ -261,6 +244,28 @@ const handleAssistantFilterChange = assistant => {
 const debouncedSearch = debounce(async () => {
   fetchResponses();
 }, 500);
+
+const navigateToPendingFAQs = () => {
+  router.push({ name: 'captain_responses_pending' });
+};
+
+// Watch route and assistant changes - fetch responses and update pending count
+watch(
+  [isPendingRoute, selectedAssistant],
+  async ([isPending, assistant], [oldIsPending]) => {
+    // Fetch responses only when route changes (not on assistant filter change)
+    if (isPending !== oldIsPending) fetchResponses();
+
+    // Update pending count only when on main route
+    if (!isPending) {
+      await store.dispatch(
+        'captainResponses/fetchPendingCount',
+        assistant !== 'all' ? assistant : undefined
+      );
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(() => {
   store.dispatch('captainAssistants/get');
@@ -273,12 +278,17 @@ onMounted(() => {
     :total-count="responseMeta.totalCount"
     :current-page="responseMeta.page"
     :button-policy="['administrator']"
-    :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
+    :header-title="
+      isPendingRoute
+        ? $t('CAPTAIN.RESPONSES.PENDING_FAQS')
+        : $t('CAPTAIN.RESPONSES.HEADER')
+    "
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"
     :is-empty="!filteredResponses.length"
     :show-pagination-footer="!isFetching && !!filteredResponses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
+    :back-url="isPendingRoute ? '/captain/responses' : undefined"
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
@@ -315,25 +325,7 @@ onMounted(() => {
           v-if="!bulkSelectionState.hasSelected"
           class="flex gap-3 justify-between w-full items-center"
         >
-          <div class="flex gap-3">
-            <OnClickOutside @trigger="isStatusFilterOpen = false">
-              <Button
-                :label="selectedStatusLabel"
-                icon="i-lucide-chevron-down"
-                size="sm"
-                color="slate"
-                trailing-icon
-                class="max-w-48"
-                @click="isStatusFilterOpen = !isStatusFilterOpen"
-              />
-
-              <DropdownMenu
-                v-if="isStatusFilterOpen"
-                :menu-items="statusOptions"
-                class="mt-2"
-                @action="handleStatusFilterChange"
-              />
-            </OnClickOutside>
+          <div class="flex items-center gap-3">
             <AssistantSelector
               :assistant-id="selectedAssistant"
               @update="handleAssistantFilterChange"
@@ -344,6 +336,7 @@ onMounted(() => {
             :placeholder="$t('CAPTAIN.RESPONSES.SEARCH_PLACEHOLDER')"
             class="w-64"
             size="sm"
+            type="search"
             autofocus
             @input="debouncedSearch"
           />
@@ -381,6 +374,7 @@ onMounted(() => {
             <div class="h-4 w-px bg-n-strong" />
             <div class="flex gap-3 items-center">
               <Button
+                v-if="isPendingRoute"
                 :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
                 sm
                 ghost
@@ -388,7 +382,7 @@ onMounted(() => {
                 class="!px-1.5"
                 @click="handleBulkApprove"
               />
-              <div class="h-4 w-px bg-n-strong" />
+              <div v-if="isPendingRoute" class="h-4 w-px bg-n-strong" />
               <Button
                 :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
                 sm
@@ -406,6 +400,15 @@ onMounted(() => {
 
     <template #body>
       <LimitBanner class="mb-5" />
+      <Banner
+        v-if="!isPendingRoute && pendingCount > 0"
+        color="blue"
+        class="mb-4"
+        :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
+        @action="navigateToPendingFAQs"
+      >
+        {{ $t('CAPTAIN.RESPONSES.PENDING_BANNER.TITLE') }}
+      </Banner>
 
       <div class="flex flex-col gap-4">
         <ResponseCard
@@ -421,7 +424,8 @@ onMounted(() => {
           :updated-at="response.updated_at"
           :is-selected="bulkSelectedIds.has(response.id)"
           :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
-          :show-menu="!bulkSelectedIds.has(response.id)"
+          :show-menu="!isPendingRoute && !bulkSelectedIds.has(response.id)"
+          :show-actions="isPendingRoute && !bulkSelectedIds.has(response.id)"
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"

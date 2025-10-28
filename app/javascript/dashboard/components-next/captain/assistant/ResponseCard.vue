@@ -59,6 +59,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showActions: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['action', 'navigate', 'select', 'hover']);
@@ -226,6 +230,34 @@ const handleDocumentableClick = () => {
         <i class="i-ph-calendar-dot" />
         {{ timestamp }}
       </div>
+    </div>
+    <div v-if="showActions" class="flex gap-2 mt-2">
+      <Button
+        v-if="status === 'pending'"
+        :label="$t('CAPTAIN.RESPONSES.OPTIONS.APPROVE')"
+        icon="i-lucide-circle-check-big"
+        sm
+        link
+        class="hover:!no-underline"
+        @click="handleAssistantAction({ action: 'approve', value: 'approve' })"
+      />
+      <Button
+        :label="$t('CAPTAIN.RESPONSES.OPTIONS.EDIT_RESPONSE')"
+        icon="i-lucide-pencil-line"
+        sm
+        link
+        class="hover:!no-underline"
+        @click="handleAssistantAction({ action: 'edit', value: 'edit' })"
+      />
+      <Button
+        :label="$t('CAPTAIN.RESPONSES.OPTIONS.DELETE_RESPONSE')"
+        icon="i-lucide-trash"
+        sm
+        ruby
+        link
+        class="hover:!no-underline"
+        @click="handleAssistantAction({ action: 'delete', value: 'delete' })"
+      />
     </div>
   </CardLayout>
 </template>

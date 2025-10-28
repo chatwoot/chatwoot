@@ -861,6 +861,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -899,6 +900,10 @@
         "PENDING": "Pending",
         "APPROVED": "Approved",
         "ALL": "All"
+      },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has identified new FAQs.",
+        "ACTION": "Click here to review"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
