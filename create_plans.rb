@@ -64,7 +64,7 @@ configs = [
     meter_event_name: 'chatwoot.usage',
     plan_display_name: 'Chatwoot Business',
     plan_lookup_key: 'chatwoot_business_v2',
-    lookup_key: 'chatwoot_business_plan_license_fee_v2',
+    lookup_key: 'chatwoot_business_license_fee_v2',
     service_action_lookup_key: 'chatwoot_business_plan_v2_credits',
     metered_item_lookup_key: 'chatwoot_business_plan_v2_usage',
     licensed_item_display_name: 'Seat',

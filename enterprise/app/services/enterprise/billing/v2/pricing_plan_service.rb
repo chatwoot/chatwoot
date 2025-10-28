@@ -42,14 +42,14 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
     plan = create_pricing_plan(display_name: config[:plan_display_name], lookup_key: config[:plan_lookup_key])
 
     builder = component_builder
-    builder.add_license_fee_component(plan, config)
-    service_action = builder.add_service_action_component(plan, config, cpu)
-    rate_card = builder.add_rate_card_component(plan, config, meter, cpu)
+    builder.add_license_fee_component(plan, config) if config[:license_fee_amount].to_i.positive?
+    builder.add_service_action_component(plan, config, cpu) if config[:monthly_credit_amount].to_i.positive?
+    builder.add_rate_card_component(plan, config, meter, cpu)
 
     # Make the latest version live
     make_plan_version_live(plan.id)
 
-    build_plan_result(plan, cpu, meter, rate_card, service_action)
+    build_plan_result(plan, cpu, meter)
   end
 
   def get_or_create_cpu(config)
@@ -111,14 +111,12 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
     )
   end
 
-  def build_plan_result(plan, cpu, meter, rate_card, service_action)
+  def build_plan_result(plan, cpu, meter)
     {
       success: true,
       pricing_plan: plan,
       custom_pricing_unit: cpu,
-      meter: meter,
-      rate_card: rate_card,
-      service_action: service_action
+      meter: meter
     }
   end
 end

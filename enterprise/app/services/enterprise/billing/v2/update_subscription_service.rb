@@ -8,8 +8,6 @@ class Enterprise::Billing::V2::UpdateSubscriptionService < Enterprise::Billing::
   # @return [Hash] { success:, message: }
   #
   def update_quantity(quantity:)
-    return { success: false, message: 'Not a V2 billing account' } unless v2_enabled?
-    return { success: false, message: 'No active subscription' } unless active_subscription?
     return { success: false, message: 'Invalid quantity' } unless quantity.positive?
 
     with_locked_account do
@@ -127,14 +125,6 @@ class Enterprise::Billing::V2::UpdateSubscriptionService < Enterprise::Billing::
       quantity: quantity,
       message: "Subscription quantity updated to #{quantity}"
     }
-  end
-
-  def v2_enabled?
-    custom_attribute('stripe_billing_version')&.to_i == 2
-  end
-
-  def active_subscription?
-    custom_attribute('subscription_status') == 'active'
   end
 
   def stripe_api_options

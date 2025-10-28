@@ -19,16 +19,36 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
   def validate_topup_request(credits)
     return { valid: false, success: false, message: 'Invalid topup amount' } unless credits.to_i.positive?
 
+    # Check if account has a valid subscription plan
+    plan_validation = validate_subscription_plan
+    return plan_validation unless plan_validation[:valid]
+
     topup_definition = Enterprise::Billing::V2::TopupCatalog.find_option(credits)
     return { valid: false, success: false, message: 'Unsupported topup amount' } unless topup_definition
     return { valid: false, success: false, message: 'Stripe customer not configured' } if stripe_customer_id.blank?
 
     # Check if customer has a default payment method
     unless customer_has_payment_method?
-      return { valid: false, success: false, message: 'No payment method found. Please add a payment method before making a purchase.' }
+      return { valid: false, success: false,
+               message: 'No default payment method found. Please add a default payment method before making a purchase.' }
     end
 
     { valid: true, topup_definition: topup_definition }
+  end
+
+  def validate_subscription_plan
+    plan_name = custom_attribute('plan_name')
+
+    # Block topup if no plan or on Hacker plan
+    if plan_name.blank? || plan_name.downcase == 'hacker'
+      return {
+        valid: false,
+        success: false,
+        message: 'Top-ups are only available for Startup, Business, and Enterprise plans. Please upgrade your plan to purchase credits.'
+      }
+    end
+
+    { valid: true }
   end
 
   def customer_has_payment_method?

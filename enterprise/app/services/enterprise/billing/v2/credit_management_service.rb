@@ -99,9 +99,10 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
       stripe_api_options
     )
 
-    response.data.map do |grant|
+    grants = response.data.map do |grant|
       transform_credit_grant(grant)
     end
+    grants.reject { |grant| grant[:credits].zero? }
   rescue Stripe::StripeError => e
     Rails.logger.error("Failed to fetch credit grants: #{e.message}")
     []
@@ -132,55 +133,37 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
 
   private
 
-  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
   def transform_credit_grant(grant)
-    # Stripe objects have symbol keys when converted to hash, or access via methods
-    # Use the grant object directly for most reliable access
-    category = grant[:category] || grant.category
-    metadata = grant[:metadata] || grant.metadata || {}
-
-    # Determine credits amount based on grant type
-    credits = if category == 'paid' && metadata['credits']
-                metadata['credits'].to_i
-              elsif category == 'promotional'
-                grant_id = grant[:id] || grant.id
-                fetch_monthly_credit_amount(grant_id)
-              else
-                0
-              end
+    category = grant_attribute(grant, :category)
+    metadata = grant_attribute(grant, :metadata) || {}
 
     {
-      id: grant[:id] || grant.id,
-      name: grant[:name] || grant.name,
-      credits: credits,
+      id: grant_attribute(grant, :id),
+      name: grant_attribute(grant, :name),
+      credits: calculate_grant_credits(category, metadata),
       category: category,
       source: metadata['source'] || category,
-      effective_at: parse_timestamp(grant[:effective_at] || grant.effective_at),
-      expires_at: parse_timestamp(grant[:expires_at] || grant.expires_at),
-      voided_at: parse_timestamp(grant[:voided_at] || grant.voided_at),
-      created_at: parse_timestamp(grant[:created] || grant.created)
+      effective_at: parse_timestamp(grant_attribute(grant, :effective_at)),
+      expires_at: parse_timestamp(grant_attribute(grant, :expires_at)),
+      voided_at: parse_timestamp(grant_attribute(grant, :voided_at)),
+      created_at: parse_timestamp(grant_attribute(grant, :created))
     }
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+
+  def grant_attribute(grant, key)
+    grant[key] || grant.public_send(key)
+  end
+
+  def calculate_grant_credits(category, metadata)
+    return metadata['credits'].to_i if category == 'paid' && metadata['credits']
+
+    0
+  end
 
   def parse_timestamp(timestamp)
     return nil unless timestamp
 
     Time.zone.at(timestamp)
-  end
-
-  def fetch_monthly_credit_amount(grant_id)
-    # Try to get from credit transactions with matching grant_id in metadata
-    transaction = account.credit_transactions
-                         .where(transaction_type: 'grant', credit_type: 'monthly')
-                         .where("metadata->>'grant_id' = ?", grant_id)
-                         .order(created_at: :desc)
-                         .first
-
-    return transaction.amount if transaction
-
-    # Fallback: return the current monthly_credits from account
-    monthly_credits
   end
 
   def stripe_customer_id
