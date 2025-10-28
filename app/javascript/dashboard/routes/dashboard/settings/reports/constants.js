@@ -165,6 +165,10 @@ export const METRIC_CHART = {
   resolutions_count: DEFAULT_CHART,
   bot_resolutions_count: DEFAULT_CHART,
   bot_handoffs_count: DEFAULT_CHART,
+  booking_links_sent: DEFAULT_CHART,
+  booking_forms_completed: DEFAULT_CHART,
+  handoff_links_sent: DEFAULT_CHART,
+  handoff_forms_completed: DEFAULT_CHART,
 };
 
 export const OVERVIEW_METRICS = {

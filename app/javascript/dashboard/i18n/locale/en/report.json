@@ -47,6 +47,14 @@
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
+      },
+      "LINKS_SENT": {
+        "NAME": "Links Sent",
+        "DESC": "( Total )"
+      },
+      "FORMS_COMPLETED": {
+        "NAME": "Forms Completed",
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -555,6 +563,12 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "BOOKINGS_REPORTS": {
+    "HEADER": "Bookings"
+  },
+  "HANDOFF_REPORTS": {
+    "HEADER": "Handoff"
   },
   "SUMMARY_REPORTS": {
     "INBOX": "Inbox",

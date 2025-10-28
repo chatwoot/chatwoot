@@ -23,6 +23,10 @@ const state = {
       bot_resolutions_count: false,
       bot_handoffs_count: false,
       reply_time: false,
+      booking_links_sent: false,
+      booking_forms_completed: false,
+      handoff_links_sent: false,
+      handoff_forms_completed: false,
     },
     data: {
       conversations_count: [],
@@ -34,7 +38,17 @@ const state = {
       bot_resolutions_count: [],
       bot_handoffs_count: [],
       reply_time: [],
+      booking_links_sent: [],
+      booking_forms_completed: [],
+      handoff_links_sent: [],
+      handoff_forms_completed: [],
     },
+  },
+  // Cache for booking stats to avoid duplicate API calls
+  bookingStatsCache: {
+    data: null,
+    params: null,
+    timestamp: null,
   },
   accountSummary: {
     avg_first_response_time: 0,
@@ -53,6 +67,18 @@ const state = {
     bot_handoffs_count: 0,
     previous: {},
   },
+  bookingSummary: {
+    booking_links_sent: 0,
+    booking_forms_completed: 0,
+    previous: {},
+  },
+  handoffSummary: {
+    handoff_links_sent: 0,
+    handoff_forms_completed: 0,
+    previous: {},
+  },
+  bookingSummaryFetchingStatus: STATUS.FINISHED,
+  handoffSummaryFetchingStatus: STATUS.FINISHED,
   overview: {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
@@ -83,6 +109,18 @@ const getters = {
   getBotSummaryFetchingStatus(_state) {
     return _state.botSummaryFetchingStatus;
   },
+  getBookingSummary(_state) {
+    return _state.bookingSummary;
+  },
+  getBookingSummaryFetchingStatus(_state) {
+    return _state.bookingSummaryFetchingStatus;
+  },
+  getHandoffSummary(_state) {
+    return _state.handoffSummary;
+  },
+  getHandoffSummaryFetchingStatus(_state) {
+    return _state.handoffSummaryFetchingStatus;
+  },
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
   },
@@ -101,24 +139,90 @@ const getters = {
 };
 
 export const actions = {
-  fetchAccountReport({ commit }, reportObj) {
+  fetchAccountReport({ commit, state: currentState }, reportObj) {
     const { metric } = reportObj;
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, {
       metric,
       value: true,
     });
-    Report.getReports(reportObj).then(accountReport => {
-      let { data } = accountReport;
-      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
-      commit(types.default.SET_ACCOUNT_REPORTS, {
-        metric,
-        data,
+    
+    // Map metric to its type and field
+    const metricConfig = {
+      booking_links_sent: { type: 'booking', field: 'links_sent', group: 'booking' },
+      booking_forms_completed: { type: 'booking', field: 'forms_completed', group: 'booking' },
+      handoff_links_sent: { type: 'handoff', field: 'links_sent', group: 'handoff' },
+      handoff_forms_completed: { type: 'handoff', field: 'forms_completed', group: 'handoff' },
+    };
+    
+    const config = metricConfig[metric];
+    
+    // Use booking stats endpoint for new metrics
+    if (config) {
+      // Check if data already exists (already fetched for any metric)
+      const cacheKey = JSON.stringify({ 
+        from: reportObj.from, 
+        to: reportObj.to, 
+        groupBy: reportObj.groupBy
       });
-      commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, {
-        metric,
-        value: false,
+      const cachedKey = currentState.bookingStatsCache.params;
+      const isCached = cachedKey === cacheKey && currentState.bookingStatsCache.data !== null;
+      
+      if (isCached) {
+        // Extract the specific field for this metric from cached breakdown data
+        const rawBreakdownData = currentState.bookingStatsCache.data;
+        const metricData = rawBreakdownData.map(item => ({
+          timestamp: item.timestamp,
+          value: item[metric] || 0,
+          count: 0
+        }));
+        
+        commit(types.default.SET_ACCOUNT_REPORTS, { metric, data: metricData });
+        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, { metric, value: false });
+        return;
+      }
+      
+      // Make single API call that returns ALL fields in breakdown
+      Report.getBookingStats(reportObj).then(response => {
+        const rawBreakdownData = response.data; // Contains all 4 fields per data point
+        
+        // Cache the full breakdown data
+        commit(types.default.SET_BOOKING_STATS_CACHE, {
+          data: rawBreakdownData,
+          params: cacheKey,
+          timestamp: Date.now(),
+        });
+        
+        // Populate ALL 4 metrics from the single response
+        Object.keys(metricConfig).forEach(metricKey => {
+          const metricData = rawBreakdownData.map(item => ({
+            timestamp: item.timestamp,
+            value: item[metricKey] || 0,
+            count: 0
+          }));
+          
+          commit(types.default.SET_ACCOUNT_REPORTS, { metric: metricKey, data: metricData });
+          commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, { metric: metricKey, value: false });
+        });
+      }).catch(() => {
+        // Turn off loading for all metrics
+        Object.keys(metricConfig).forEach(metricKey => {
+          commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, { metric: metricKey, value: false });
+        });
       });
-    });
+    } else {
+      Report.getReports(reportObj).then(accountReport => {
+        let { data } = accountReport;
+        data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
+        commit(types.default.SET_ACCOUNT_REPORTS, {
+          metric,
+          data,
+        });
+        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, {
+          metric,
+          value: false,
+        });
+      });
+    }
   },
   fetchAccountConversationHeatmap({ commit }, reportObj) {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
@@ -162,6 +266,28 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FAILED);
+      });
+  },
+  fetchBookingSummary({ commit }, reportObj) {
+    commit(types.default.SET_BOOKING_SUMMARY_STATUS, STATUS.FETCHING);
+    Report.getBookingSummary({ ...reportObj, metricType: 'booking' })
+      .then(bookingSummary => {
+        commit(types.default.SET_BOOKING_SUMMARY, bookingSummary.data);
+        commit(types.default.SET_BOOKING_SUMMARY_STATUS, STATUS.FINISHED);
+      })
+      .catch(() => {
+        commit(types.default.SET_BOOKING_SUMMARY_STATUS, STATUS.FAILED);
+      });
+  },
+  fetchHandoffSummary({ commit }, reportObj) {
+    commit(types.default.SET_HANDOFF_SUMMARY_STATUS, STATUS.FETCHING);
+    Report.getBookingSummary({ ...reportObj, metricType: 'handoff' })
+      .then(handoffSummary => {
+        commit(types.default.SET_HANDOFF_SUMMARY, handoffSummary.data);
+        commit(types.default.SET_HANDOFF_SUMMARY_STATUS, STATUS.FINISHED);
+      })
+      .catch(() => {
+        commit(types.default.SET_HANDOFF_SUMMARY_STATUS, STATUS.FAILED);
       });
   },
   fetchAccountConversationMetric({ commit }, params = {}) {
@@ -305,6 +431,18 @@ const mutations = {
   [types.default.SET_BOT_SUMMARY](_state, summaryData) {
     _state.botSummary = summaryData;
   },
+  [types.default.SET_BOOKING_SUMMARY](_state, summaryData) {
+    _state.bookingSummary = summaryData;
+  },
+  [types.default.SET_BOOKING_SUMMARY_STATUS](_state, status) {
+    _state.bookingSummaryFetchingStatus = status;
+  },
+  [types.default.SET_HANDOFF_SUMMARY](_state, summaryData) {
+    _state.handoffSummary = summaryData;
+  },
+  [types.default.SET_HANDOFF_SUMMARY_STATUS](_state, status) {
+    _state.handoffSummaryFetchingStatus = status;
+  },
   [types.default.SET_ACCOUNT_CONVERSATION_METRIC](_state, metricData) {
     _state.overview.accountConversationMetric = metricData;
   },
@@ -322,6 +460,11 @@ const mutations = {
   },
   [types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingTeamConversationMetric = flag;
+  },
+  [types.default.SET_BOOKING_STATS_CACHE](_state, { data, params, timestamp }) {
+    _state.bookingStatsCache.data = data;
+    _state.bookingStatsCache.params = params;
+    _state.bookingStatsCache.timestamp = timestamp;
   },
 };
 

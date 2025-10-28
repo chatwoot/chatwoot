@@ -102,6 +102,27 @@ class ReportsAPI extends ApiClient {
       },
     });
   }
+
+  getBookingStats({ from, to, groupBy }) {
+    return axios.get(`${this.url}/booking_stats`, {
+      params: {
+        since: from,
+        until: to,
+        group_by: groupBy,
+      },
+    });
+  }
+
+  getBookingSummary({ from, to, groupBy, metricType }) {
+    return axios.get(`${this.url}/booking_summary`, {
+      params: {
+        since: from,
+        until: to,
+        group_by: groupBy,
+        metric_type: metricType,
+      },
+    });
+  }
 }
 
 export default new ReportsAPI();
