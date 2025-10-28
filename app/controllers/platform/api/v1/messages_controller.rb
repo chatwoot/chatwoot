@@ -4,17 +4,17 @@ class Platform::Api::V1::MessagesController < PlatformController
     return render_error('Conversation not found', :not_found) unless conversation
 
     account = conversation.account
-    agents = account.agents
+    users = get_notification_recipients(account)
 
-    if agents.blank?
-      Rails.logger.error("No agents assigned to account ##{account.id}")
-      return render_error('No agents assigned', :unprocessable_entity)
+    if users.blank?
+      Rails.logger.error("No users to notify for account ##{account.id}")
+      return render_error('No agents or administrators found', :unprocessable_entity)
     end
 
     if params[:booking_date].present?
-      send_booking_notifications(conversation, agents)
+      send_booking_notifications(conversation, users)
     elsif params[:template_slug].present?
-      send_template_notifications(conversation, agents)
+      send_template_notifications(conversation, users)
     else
       Rails.logger.error("Required parameters missing for email notification")
       render_error('Either booking_date or template_slug must be provided', :bad_request)
@@ -28,30 +28,48 @@ class Platform::Api::V1::MessagesController < PlatformController
 
   private
 
-  def send_booking_notifications(conversation, agents)
-    email_sent = false
+  def get_notification_recipients(account)
+    # Get all agents and administrators, then deduplicate by user
+    agents = account.agents
+    administrators = account.users.where(account_users: { role: :administrator })
+    
+    # Combine and deduplicate by user ID to avoid sending duplicate emails
+    (agents + administrators).uniq
+  end
 
-    agents.each do |agent|
+  def send_booking_notifications(conversation, users)
+    email_sent = false
+    failed_count = 0
+    successful_recipients = []
+
+    users.each do |user|
       begin
         AgentNotifications::BookingMailer.booking_notification(
-          agent: agent,
+          agent: user,
           conversation: conversation,
           booking_date: params[:booking_date],
           phone: params[:phone],
           email: params[:email]
         ).deliver_now
 
-        Rails.logger.info("Booking email sent to agent ##{agent.id} for conversation ##{conversation.id}")
+        Rails.logger.info("Booking email sent to user ##{user.id} (#{user.email}) for conversation ##{conversation.id}")
         email_sent = true
+        successful_recipients << user.email
       rescue => e
-        Rails.logger.error("Failed to send booking email to agent ##{agent.id}: #{e.message}")
+        Rails.logger.error("Failed to send booking email to user ##{user.id} (#{user.email}): #{e.message}")
+        failed_count += 1
       end
     end
 
     if email_sent
-      render json: { success: true }, status: :ok
+      render json: { 
+        success: true, 
+        recipients: successful_recipients,
+        total_sent: successful_recipients.size,
+        total_failed: failed_count
+      }, status: :ok
     else
-      render_error('Failed to send email to any agent', :internal_server_error)
+      render_error('Failed to send email to any user', :internal_server_error)
     end
   end
 

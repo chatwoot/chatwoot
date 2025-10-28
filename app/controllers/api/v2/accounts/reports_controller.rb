@@ -69,10 +69,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     booking_data = service.fetch_stats
     
     filtered_data = filter_by_date_range(booking_data, params[:since], params[:until])
-    formatted_data = format_booking_data(filtered_data, period)
+    formatted_data = format_booking_breakdown_data(filtered_data, period)
     
-    # Generate placeholder data with zeros if no data available
-    formatted_data = generate_placeholder_data(params[:since], params[:until], period) if formatted_data.empty? && params[:since] && params[:until]
+    # Fill in missing dates with zeros to show complete timeline
+    formatted_data = fill_missing_dates_with_zeros(formatted_data, params[:since], params[:until], period)
     
     render json: formatted_data
   end
@@ -123,14 +123,20 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     end
   end
 
-  def format_booking_data(booking_data, period)
+  def format_booking_breakdown_data(booking_data, period)
     data_array = booking_data[:data] || booking_data['data'] || []
     
     data_array.map do |item|
+      breakdown = item['booking_type_breakdown'] || {}
+      booking_data = breakdown['booking'] || {}
+      handoff_data = breakdown['handoff'] || {}
+      
       {
         timestamp: parse_timestamp(item, period),
-        value: item['total_bookings'] || 0,
-        count: item['total_leads'] || 0
+        booking_links_sent: booking_data['links_sent'] || 0,
+        booking_forms_completed: booking_data['forms_completed'] || 0,
+        handoff_links_sent: handoff_data['links_sent'] || 0,
+        handoff_forms_completed: handoff_data['forms_completed'] || 0
       }
     end
   end
@@ -169,30 +175,120 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     end
   end
 
-  def generate_daily_placeholders(since_date, until_date)
-    (since_date..until_date).map do |date|
-      { timestamp: date.to_time.to_i, value: 0, count: 0 }
+  def generate_placeholder_breakdown_data(since_timestamp, until_timestamp, period)
+    since_date = Time.at(since_timestamp.to_i).to_date
+    until_date = Time.at(until_timestamp.to_i).to_date
+    
+    case period
+    when 'weekly'
+      generate_weekly_breakdown_placeholders(since_date, until_date)
+    when 'monthly'
+      generate_monthly_breakdown_placeholders(since_date, until_date)
+    else
+      generate_daily_breakdown_placeholders(since_date, until_date)
     end
   end
 
-  def generate_weekly_placeholders(since_date, until_date)
+  def generate_daily_breakdown_placeholders(since_date, until_date)
+    (since_date..until_date).map do |date|
+      {
+        timestamp: date.to_time.to_i,
+        booking_links_sent: 0,
+        booking_forms_completed: 0,
+        handoff_links_sent: 0,
+        handoff_forms_completed: 0
+      }
+    end
+  end
+
+  def generate_weekly_breakdown_placeholders(since_date, until_date)
     current = since_date.beginning_of_week
     placeholders = []
     while current <= until_date
-      placeholders << { timestamp: current.to_time.to_i, value: 0, count: 0 }
+      placeholders << {
+        timestamp: current.to_time.to_i,
+        booking_links_sent: 0,
+        booking_forms_completed: 0,
+        handoff_links_sent: 0,
+        handoff_forms_completed: 0
+      }
       current += 1.week
     end
     placeholders
   end
 
-  def generate_monthly_placeholders(since_date, until_date)
+  def generate_monthly_breakdown_placeholders(since_date, until_date)
     current = since_date.beginning_of_month
     placeholders = []
     while current <= until_date
-      placeholders << { timestamp: current.to_time.to_i, value: 0, count: 0 }
+      placeholders << {
+        timestamp: current.to_time.to_i,
+        booking_links_sent: 0,
+        booking_forms_completed: 0,
+        handoff_links_sent: 0,
+        handoff_forms_completed: 0
+      }
       current += 1.month
     end
     placeholders
+  end
+
+  def fill_missing_dates_with_zeros(formatted_data, since_timestamp, until_timestamp, period)
+    return formatted_data if formatted_data.empty? || since_timestamp.blank? || until_timestamp.blank?
+
+    # Create hash map of existing data by timestamp
+    data_map = formatted_data.index_by { |item| item[:timestamp] }
+    
+    # Generate all expected timestamps for the range
+    expected_timestamps = case period
+                         when 'weekly'
+                           generate_weekly_timestamps(since_timestamp, until_timestamp)
+                         when 'monthly'
+                           generate_monthly_timestamps(since_timestamp, until_timestamp)
+                         else
+                           generate_daily_timestamps(since_timestamp, until_timestamp)
+                         end
+    
+    # Fill in missing dates with zeros
+    expected_timestamps.map do |timestamp|
+      data_map[timestamp] || {
+        timestamp: timestamp,
+        booking_links_sent: 0,
+        booking_forms_completed: 0,
+        handoff_links_sent: 0,
+        handoff_forms_completed: 0
+      }
+    end
+  end
+
+  def generate_daily_timestamps(since_timestamp, until_timestamp)
+    since_date = Time.at(since_timestamp.to_i).to_date
+    until_date = Time.at(until_timestamp.to_i).to_date
+    (since_date..until_date).map { |date| date.to_time.to_i }
+  end
+
+  def generate_weekly_timestamps(since_timestamp, until_timestamp)
+    since_date = Time.at(since_timestamp.to_i).to_date.beginning_of_week
+    until_date = Time.at(until_timestamp.to_i).to_date
+    timestamps = []
+    current = since_date
+    while current <= until_date
+      timestamps << current.to_time.to_i
+      current += 1.week
+    end
+    timestamps
+  end
+
+  def generate_monthly_timestamps(since_timestamp, until_timestamp)
+    since_date = Time.at(since_timestamp.to_i).to_date.beginning_of_month
+    until_date = Time.at(until_timestamp.to_i).to_date
+    timestamps = []
+    current = since_date
+    while current <= until_date
+      timestamps << current.to_time.to_i
+      current += 1.month
+    end
+    timestamps
   end
 
   def generate_csv(filename, template)
@@ -273,6 +369,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def build_booking_summary
     period = determine_period_from_params
+    metric_type = params[:metric_type] || 'booking'
     
     # Get current period data
     current_service = Dealership::BookingStatsService.new(
@@ -282,8 +379,6 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       until_time: params[:until]
     )
     current_data = current_service.fetch_stats
-    
-    # IMPORTANT: Filter by date range before summing
     current_filtered = filter_by_date_range(current_data, params[:since], params[:until])
     
     # Get previous period data
@@ -294,33 +389,30 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       until_time: range[:previous][:until]
     )
     previous_data = previous_service.fetch_stats
-    
-    # IMPORTANT: Filter by date range before summing
     previous_filtered = filter_by_date_range(previous_data, range[:previous][:since], range[:previous][:until])
     
-    # Calculate totals from FILTERED data
-    current_bookings = sum_bookings(current_filtered)
-    current_leads = sum_leads(current_filtered)
-    previous_bookings = sum_bookings(previous_filtered)
-    previous_leads = sum_leads(previous_filtered)
+    # Calculate totals for links_sent and forms_completed
+    current_links = sum_metric(current_filtered, metric_type, 'links_sent')
+    current_forms = sum_metric(current_filtered, metric_type, 'forms_completed')
+    previous_links = sum_metric(previous_filtered, metric_type, 'links_sent')
+    previous_forms = sum_metric(previous_filtered, metric_type, 'forms_completed')
     
     {
-      bookings_count: current_bookings,
-      leads_count: current_leads,
+      "#{metric_type}_links_sent".to_sym => current_links,
+      "#{metric_type}_forms_completed".to_sym => current_forms,
       previous: {
-        bookings_count: previous_bookings,
-        leads_count: previous_leads
+        "#{metric_type}_links_sent".to_sym => previous_links,
+        "#{metric_type}_forms_completed".to_sym => previous_forms
       }
     }
   end
 
-  def sum_bookings(booking_data)
+  def sum_metric(booking_data, metric_type, metric_field)
     data_array = booking_data[:data] || booking_data['data'] || []
-    data_array.sum { |item| item['total_bookings'] || 0 }
-  end
-
-  def sum_leads(booking_data)
-    data_array = booking_data[:data] || booking_data['data'] || []
-    data_array.sum { |item| item['total_leads'] || 0 }
+    data_array.sum do |item|
+      breakdown = item['booking_type_breakdown'] || {}
+      type_data = breakdown[metric_type] || {}
+      type_data[metric_field] || 0
+    end
   end
 end

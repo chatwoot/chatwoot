@@ -7,12 +7,12 @@ import ReportContainer from './ReportContainer.vue';
 import ReportHeader from './components/ReportHeader.vue';
 
 const REPORTS_KEYS = {
-  LINKS_SENT: 'booking_links_sent',
-  FORMS_COMPLETED: 'booking_forms_completed',
+  LINKS_SENT: 'handoff_links_sent',
+  FORMS_COMPLETED: 'handoff_forms_completed',
 };
 
 export default {
-  name: 'BookingsReports',
+  name: 'HandoffReports',
   components: {
     ReportHeader,
     ReportFilterSelector,
@@ -28,12 +28,12 @@ export default {
   },
   methods: {
     fetchAllData() {
-      this.fetchBookingSummary();
+      this.fetchHandoffSummary();
       this.fetchChartData();
     },
-    fetchBookingSummary() {
+    fetchHandoffSummary() {
       try {
-        this.$store.dispatch('fetchBookingSummary', this.getRequestPayload());
+        this.$store.dispatch('fetchHandoffSummary', this.getRequestPayload());
       } catch {
         useAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
       }
@@ -68,7 +68,7 @@ export default {
 
       useTrack(REPORTS_EVENTS.FILTER_REPORT, {
         filterValue: { from, to, groupBy, businessHours },
-        reportType: 'bookings',
+        reportType: 'handoff',
       });
     },
   },
@@ -76,7 +76,7 @@ export default {
 </script>
 
 <template>
-  <ReportHeader :header-title="$t('BOOKINGS_REPORTS.HEADER')" />
+  <ReportHeader :header-title="$t('HANDOFF_REPORTS.HEADER')" />
   <div class="flex flex-col gap-3">
     <ReportFilterSelector
       :show-agents-filter="false"
@@ -86,9 +86,9 @@ export default {
     />
     <ReportContainer 
       :group-by="groupBy" 
-      :report-keys="{ LINKS_SENT: 'booking_links_sent', FORMS_COMPLETED: 'booking_forms_completed' }" 
-      account-summary-key="getBookingSummary"
-      summary-fetching-key="getBookingSummaryFetchingStatus"
+      :report-keys="{ LINKS_SENT: 'handoff_links_sent', FORMS_COMPLETED: 'handoff_forms_completed' }" 
+      account-summary-key="getHandoffSummary"
+      summary-fetching-key="getHandoffSummaryFetchingStatus"
     />
   </div>
 </template>

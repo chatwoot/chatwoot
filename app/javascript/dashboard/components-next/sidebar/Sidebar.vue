@@ -317,22 +317,28 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_BOOKINGS'),
           to: accountScopedRoute('bookings_reports'),
         },
-        ...reportRoutes.value,
         {
-          name: 'Reports CSAT',
-          label: t('SIDEBAR.CSAT'),
-          to: accountScopedRoute('csat_reports'),
+          name: 'Reports Handoff',
+          label: t('SIDEBAR.REPORTS_HANDOFF'),
+          to: accountScopedRoute('handoff_reports'),
         },
-        {
-          name: 'Reports SLA',
-          label: t('SIDEBAR.REPORTS_SLA'),
-          to: accountScopedRoute('sla_reports'),
-        },
-        {
-          name: 'Reports Bot',
-          label: t('SIDEBAR.REPORTS_BOT'),
-          to: accountScopedRoute('bot_reports'),
-        },
+        // Temporarily commented out - keeping for future use
+        // ...reportRoutes.value,  // Contains: Agents, Labels, Inbox, Team
+        // {
+        //   name: 'Reports CSAT',
+        //   label: t('SIDEBAR.CSAT'),
+        //   to: accountScopedRoute('csat_reports'),
+        // },
+        // {
+        //   name: 'Reports SLA',
+        //   label: t('SIDEBAR.REPORTS_SLA'),
+        //   to: accountScopedRoute('sla_reports'),
+        // },
+        // {
+        //   name: 'Reports Bot',
+        //   label: t('SIDEBAR.REPORTS_BOT'),
+        //   to: accountScopedRoute('bot_reports'),
+        // },
       ],
     },
     {

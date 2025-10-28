@@ -24,6 +24,7 @@ import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
 import BookingsReports from './BookingsReports.vue';
+import HandoffReports from './HandoffReports.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
@@ -174,6 +175,12 @@ export default {
           name: 'bookings_reports',
           meta,
           component: BookingsReports,
+        },
+        {
+          path: 'handoff',
+          name: 'handoff_reports',
+          meta,
+          component: HandoffReports,
         },
       ],
     },

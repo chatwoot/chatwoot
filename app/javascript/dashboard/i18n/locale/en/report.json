@@ -48,12 +48,12 @@
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       },
-      "BOOKINGS": {
-        "NAME": "Bookings",
+      "LINKS_SENT": {
+        "NAME": "Links Sent",
         "DESC": "( Total )"
       },
-      "LEADS": {
-        "NAME": "Leads",
+      "FORMS_COMPLETED": {
+        "NAME": "Forms Completed",
         "DESC": "( Total )"
       }
     },
@@ -565,7 +565,10 @@
     }
   },
   "BOOKINGS_REPORTS": {
-    "HEADER": "Bookings & Leads"
+    "HEADER": "Bookings"
+  },
+  "HANDOFF_REPORTS": {
+    "HEADER": "Handoff"
   },
   "SUMMARY_REPORTS": {
     "INBOX": "Inbox",
