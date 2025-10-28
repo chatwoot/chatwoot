@@ -94,21 +94,18 @@ class Captain::Document < ApplicationRecord
   end
 
   def enqueue_response_builder_job
-    return if destroyed?
-    return unless status == 'available'
+    return unless should_enqueue_response_builder?
 
-    status_became_available = saved_change_to_status?
-    content_now_present = content.present?
-    content_became_present = saved_change_to_content? && content_now_present
+    Captain::Documents::ResponseBuilderJob.perform_later(self)
+  end
 
-    should_enqueue =
-      if pdf_document?
-        status_became_available
-      else
-        (status_became_available && content_now_present) || content_became_present
-      end
+  def should_enqueue_response_builder?
+    return false if destroyed?
+    return false unless available?
 
-    Captain::Documents::ResponseBuilderJob.perform_later(self) if should_enqueue
+    return saved_change_to_status? if pdf_document?
+
+    (saved_change_to_content? || saved_change_to_status?) && content.present?
   end
 
   def update_document_usage
