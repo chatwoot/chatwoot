@@ -9,7 +9,7 @@ class Captain::Assistant::BaseRewriteService
     agent = build_agent
     runner = Agents::Runner.with_agents(agent)
 
-    result = runner.run(@text)
+    result = runner.run(@text, context: {})
 
     # Check if result has an error field
     return error_response(result.error) if result.respond_to?(:error) && result.error
