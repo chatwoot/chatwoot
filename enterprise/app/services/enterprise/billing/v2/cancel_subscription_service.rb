@@ -8,9 +8,6 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
   # @return [Hash] { success:, cancel_at_period_end:, period_end:, message: }
   #
   def cancel_subscription
-    return { success: false, message: 'Not a V2 billing account' } unless v2_enabled?
-    return { success: false, message: 'No active subscription' } unless active_subscription?
-
     with_locked_account do
       billing_intent = create_deactivate_intent
       reserve_billing_intent(billing_intent)
@@ -55,6 +52,7 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
 
   def store_next_billing_date(cadence_id)
     cadence = retrieve_billing_cadence(cadence_id)
+    Rails.logger.info("Cadence: #{cadence}")
     @next_billing_date = extract_attribute(cadence, :next_billing_date)
   end
 
@@ -124,14 +122,6 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
       cancel_at_period_end: true,
       message: 'Subscription cancellation initiated. It will be deactivated at the end of the current billing period.'
     }
-  end
-
-  def v2_enabled?
-    custom_attribute('stripe_billing_version')&.to_i == 2
-  end
-
-  def active_subscription?
-    custom_attribute('subscription_status') == 'active'
   end
 
   def stripe_api_options

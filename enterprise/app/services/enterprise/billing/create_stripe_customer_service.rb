@@ -1,4 +1,6 @@
 class Enterprise::Billing::CreateStripeCustomerService
+  include Enterprise::Billing::Concerns::PlanFeatureManager
+
   pattr_initialize [:account!]
 
   DEFAULT_QUANTITY = 2
@@ -7,21 +9,14 @@ class Enterprise::Billing::CreateStripeCustomerService
     return if existing_subscription?
 
     customer_id = prepare_customer_id
-    subscription = Stripe::Subscription.create(
-      {
-        customer: customer_id,
-        items: [{ price: price_id, quantity: default_quantity }]
-      }
-    )
-    account.update!(
-      custom_attributes: {
-        stripe_customer_id: customer_id,
-        stripe_price_id: subscription['plan']['id'],
-        stripe_product_id: subscription['plan']['product'],
-        plan_name: default_plan['name'],
-        subscribed_quantity: subscription['quantity']
-      }
-    )
+
+    if billing_v2_enabled?
+      update_account_for_v2_billing(customer_id)
+      enable_plan_specific_features(default_plan['name'])
+    else
+      subscription = create_subscription(customer_id)
+      update_account_with_subscription(customer_id, subscription)
+    end
   end
 
   private
@@ -53,6 +48,10 @@ class Enterprise::Billing::CreateStripeCustomerService
     price_ids.first
   end
 
+  def billing_v2_enabled?
+    ENV.fetch('STRIPE_BILLING_V2_ENABLED', 'false') == 'true'
+  end
+
   def existing_subscription?
     stripe_customer_id = account.custom_attributes['stripe_customer_id']
     return false if stripe_customer_id.blank?
@@ -65,5 +64,35 @@ class Enterprise::Billing::CreateStripeCustomerService
       }
     )
     subscriptions.data.present?
+  end
+
+  def create_subscription(customer_id)
+    Stripe::Subscription.create(
+      customer: customer_id,
+      items: [{ price: price_id, quantity: default_quantity }]
+    )
+  end
+
+  def update_account_for_v2_billing(customer_id)
+    account.update!(
+      custom_attributes: {
+        stripe_customer_id: customer_id,
+        stripe_pricing_plan_id: InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID').value,
+        plan_name: 'Hacker',
+        subscribed_quantity: DEFAULT_QUANTITY
+      }
+    )
+  end
+
+  def update_account_with_subscription(customer_id, subscription)
+    account.update!(
+      custom_attributes: {
+        stripe_customer_id: customer_id,
+        stripe_price_id: subscription['plan']['id'],
+        stripe_product_id: subscription['plan']['product'],
+        plan_name: default_plan['name'],
+        subscribed_quantity: subscription['quantity']
+      }
+    )
   end
 end

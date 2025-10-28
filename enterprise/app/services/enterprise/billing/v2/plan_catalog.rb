@@ -25,7 +25,7 @@ module Enterprise::Billing::V2::PlanCatalog
       base_fee: 39.0,
       monthly_credits: 50_000,
       config_key: 'STRIPE_BUSINESS_PLAN_ID',
-      licensed_item_lookup_key: 'chatwoot_business_plan_license_fee_v2'
+      licensed_item_lookup_key: 'chatwoot_business_license_fee_v2'
     },
     {
       key: :enterprise,
