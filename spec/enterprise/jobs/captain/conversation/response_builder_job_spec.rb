@@ -358,7 +358,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       it 'ensures bot_handoff! is called outside transaction' do
         # This verifies that bot_handoff! is called outside the transaction
         # so that after_commit callbacks can see the status change correctly
-        expect_any_instance_of(Conversation).to receive(:bot_handoff!).and_call_original
+        allow(conversation).to receive(:bot_handoff!).and_call_original
 
         described_class.perform_now(conversation, assistant)
 
@@ -369,10 +369,10 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       it 'maintains Current.executed_by during handoff' do
         # Capture the executed_by value during bot_handoff! call
         captured_executed_by = nil
-        allow_any_instance_of(Conversation).to receive(:bot_handoff!) do |instance|
+        allow(conversation).to receive(:bot_handoff!) do
           captured_executed_by = Current.executed_by
-          instance.status = :open
-          instance.save!
+          conversation.status = :open
+          conversation.save!
         end
 
         described_class.perform_now(conversation, assistant)
