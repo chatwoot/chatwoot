@@ -54,7 +54,7 @@ const toggleSidebar = () => {
     class="fixed bottom-4 ltr:right-4 rtl:left-4 z-50"
   >
     <div
-      class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow transition-all duration-200 has-[button:active]:scale-95 has-[button:active]:shadow-md"
+      class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow transition-all duration-100 has-[button:active]:scale-95 has-[button:active]:shadow-md"
     >
       <Button
         icon="i-woot-captain"
