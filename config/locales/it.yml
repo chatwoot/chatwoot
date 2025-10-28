@@ -175,7 +175,7 @@ it:
     no_content: 'No content'
   conversations:
     captain:
-      handoff: 'Trasferimento ad un altro agente per ulteriore assistenza.'
+      handoff: 'Trasferendo ad un altro operatore per ulteriore assistenza.'
     messages:
       instagram_story_content: '%{story_sender} ti ha menzionato nella storia: '
       instagram_deleted_story_content: Questa storia non è più disponibile.
@@ -299,7 +299,7 @@ it:
       short_description: 'Sincronizza contatti e conversazioni con LeadSquared CRM.'
       description: 'Sincronizza i contatti e conversazioni con il CRM LeadSquared. Questa integrazione crea automaticamente i lead in LeadSquared quando vengono aggiunti nuovi contatti e registra l''attività di conversazione per fornire al team di vendita un contesto completo.'
   captain:
-    copilot_message_required: Il messaggio è obbligatorio
+    copilot_message_required: Messaggio richiesto
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
     copilot:
@@ -410,7 +410,7 @@ it:
       Trascrizione:
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'La casella è già stata assegnata a questa policy'
+    inbox_already_assigned: 'La Inbox è già stata assegnata a questa policy'
   portals:
     send_instructions:
       email_required: 'L''email è obbligatoria'
