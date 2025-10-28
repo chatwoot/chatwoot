@@ -44,6 +44,7 @@ useResizeObserver(activeElement, () => {
 });
 
 onMounted(() => {
+  updateIndicator();
   nextTick(() => {
     enableTransition.value = true;
   });
