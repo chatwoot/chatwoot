@@ -12,6 +12,7 @@ import CreditGrants from './components/CreditGrants.vue';
 import PricingPlans from './components/PricingPlans.vue';
 import TopupOptions from './components/TopupOptions.vue';
 import BillingHeader from '../billing/components/BillingHeader.vue';
+import BillingCard from '../billing/components/BillingCard.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
 const router = useRouter();
@@ -31,6 +32,15 @@ const isLoading = computed(() => {
     v2BillingUIFlags.value.isFetchingPlans ||
     v2BillingUIFlags.value.isFetchingTopupOptions
   );
+});
+
+const canUseTopup = computed(() => {
+  const planName = currentAccount.value?.custom_attributes?.plan_name;
+  // Block topup if no plan or on Hacker plan
+  if (!planName || planName.toLowerCase() === 'hacker') {
+    return false;
+  }
+  return true;
 });
 
 const handleInitialLoad = async () => {
@@ -112,10 +122,24 @@ onMounted(handleInitialLoad);
 
         <!-- Top-up Options -->
         <TopupOptions
+          v-if="canUseTopup"
           :options="v2BillingData.topupOptions"
           :is-loading="v2BillingUIFlags.isFetchingTopupOptions"
           :is-processing="v2BillingUIFlags.isTopupInProcess"
         />
+
+        <!-- Upgrade Notice for Hacker Plan -->
+        <BillingCard
+          v-else
+          :title="$t('BILLING_SETTINGS_V2.TOPUP_OPTIONS.TITLE')"
+          :description="$t('BILLING_SETTINGS_V2.TOPUP_OPTIONS.UPGRADE_REQUIRED')"
+        >
+          <div class="px-5 pb-5">
+            <p class="text-sm text-n-600">
+              {{ $t('BILLING_SETTINGS_V2.TOPUP_OPTIONS.UPGRADE_MESSAGE') }}
+            </p>
+          </div>
+        </BillingCard>
 
         <!-- Credit History -->
         <CreditGrants

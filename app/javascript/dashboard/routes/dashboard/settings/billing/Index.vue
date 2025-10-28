@@ -26,6 +26,7 @@ const {
 } = useCaptain();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
+const isStripeBillingV2Enabled = useMapGetter('globalConfig/isStripeBillingV2Enabled');
 const store = useStore();
 
 const BILLING_REFRESH_ATTEMPTED = 'billing_refresh_attempted';
@@ -113,6 +114,10 @@ const onClickBillingPortal = () => {
   store.dispatch('accounts/checkout');
 };
 
+const onClickV2BillingPortal = () => {
+  router.push({ name: 'billing_settings_v2_index' });
+};
+
 const onToggleChatWindow = () => {
   if (window.$chatwoot) {
     window.$chatwoot.toggle();
@@ -144,6 +149,18 @@ onMounted(handleBillingPageLogic);
     <template #body>
       <section class="grid gap-4">
         <BillingCard
+          v-if="isStripeBillingV2Enabled"
+          :title="$t('BILLING_SETTINGS.V2_BILLING_PORTAL.TITLE')"
+          :description="$t('BILLING_SETTINGS.V2_BILLING_PORTAL.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4 sm solid blue @click="onClickV2BillingPortal">
+              {{ $t('BILLING_SETTINGS.V2_BILLING_PORTAL.BUTTON_TXT') }}
+            </ButtonV4>
+          </template>
+        </BillingCard>
+        <BillingCard
+          v-else
           :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
           :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
         >

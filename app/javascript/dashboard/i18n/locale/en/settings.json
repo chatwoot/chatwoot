@@ -382,6 +382,11 @@
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },
+    "V2_BILLING_PORTAL": {
+      "TITLE": "Manage your billing",
+      "DESCRIPTION": "View your credits balance, top up, manage subscriptions, and view transactions.",
+      "BUTTON_TXT": "Go to billing dashboard"
+    },
     "CAPTAIN": {
       "TITLE": "Captain",
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
@@ -431,6 +436,7 @@
       "BLOCKED": "Blocked",
       "CANCELLING_TITLE": "Subscription Ending",
       "CANCELLING_MESSAGE": "Your subscription will be cancelled at the end of the current billing period. You can continue using your current plan until then.",
+      "CANCELLING_BLOCKED_INFO": "You cannot change plans or subscribe to new plans while your subscription is ending.",
       "ENDS_ON": "Subscription ends on",
       "NO_PLANS": "No pricing plans available.",
       "SUBSCRIBE_SUCCESS": "Successfully subscribed to the plan! Your credits have been updated.",
@@ -447,7 +453,9 @@
       "BUY_NOW": "Buy Now",
       "NO_OPTIONS": "No top-up options available.",
       "TOPUP_SUCCESS": "Credits added successfully! Your new balance is available now.",
-      "NO_PAYMENT_METHOD_ERROR": "No payment method found. Please add a payment method in your Stripe dashboard before making a purchase. Click the 'Open Stripe Dashboard' button above to add one."
+      "NO_PAYMENT_METHOD_ERROR": "No payment method found. Please add a payment method in your Stripe dashboard before making a purchase. Click the 'Open Stripe Dashboard' button above to add one.",
+      "UPGRADE_REQUIRED": "Upgrade your plan to purchase top-up credits.",
+      "UPGRADE_MESSAGE": "Top-ups are only available for Startup, Business, and Enterprise plans. Please upgrade your plan to purchase additional credits."
     },
     "CREDIT_GRANTS": {
       "TITLE": "Credit History",
