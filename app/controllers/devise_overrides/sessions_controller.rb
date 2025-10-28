@@ -9,6 +9,9 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def create
+    # Check for critical migration issues that might prevent login
+    return render_migration_warning if MigrationCheckService.critical_migration_needed?
+
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
 
@@ -61,7 +64,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     @resource.save!
 
     sign_in(:user, @resource, store: false, bypass: false)
-    # invalidate the token after the user is signed in
+    # invalidate token after user is signed in
     @resource.invalidate_sso_auth_token(params[:sso_auth_token])
   end
 
@@ -105,6 +108,20 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def render_mfa_error(message_key, status = :bad_request)
     render json: { error: I18n.t(message_key) }, status: status
+  end
+
+  def render_migration_warning
+    instructions = MigrationCheckService.migration_instructions
+    render json: {
+      error: 'migration_required',
+      migration_warning: true,
+      title: instructions[:title],
+      message: instructions[:message],
+      details: instructions[:details],
+      backup_command: instructions[:backup_command],
+      migrate_command: instructions[:migrate_command],
+      restart_command: instructions[:restart_command]
+    }, status: :service_unavailable
   end
 end
 
