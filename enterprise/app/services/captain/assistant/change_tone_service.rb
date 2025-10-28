@@ -1,4 +1,4 @@
-class Captain::Assistant::ChangeToneService < Captain::Assistant::BaseRewriteService
+class Captain::Assistant::ChangeToneService < Captain::Assistant::BaseAssistantService
   SUPPORTED_TONES = %w[professional casual straightforward confident friendly].freeze
 
   def initialize(text:, tone:)

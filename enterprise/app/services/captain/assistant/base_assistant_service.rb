@@ -1,6 +1,6 @@
 require 'agents'
 
-class Captain::Assistant::BaseRewriteService
+class Captain::Assistant::BaseAssistantService
   def initialize(text:)
     @text = text
   end

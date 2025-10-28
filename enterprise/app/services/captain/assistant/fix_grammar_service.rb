@@ -1,4 +1,4 @@
-class Captain::Assistant::FixGrammarService < Captain::Assistant::BaseRewriteService
+class Captain::Assistant::FixGrammarService < Captain::Assistant::BaseAssistantService
   protected
 
   def agent_name
