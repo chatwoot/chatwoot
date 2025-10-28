@@ -439,7 +439,6 @@ Rails.application.routes.draw do
               post :v2_topup
               post :v2_subscribe
               post :cancel_subscription
-              post :resume_subscription
               post :update_subscription_quantity
               post :change_pricing_plan
             end
