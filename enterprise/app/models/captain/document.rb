@@ -47,7 +47,7 @@ class Captain::Document < ApplicationRecord
   after_create_commit :enqueue_crawl_job
   after_create_commit :update_document_usage
   after_destroy :update_document_usage
-  after_commit :enqueue_response_builder_job, on: :update, if: :should_enqueue_response_builder?
+  after_commit :enqueue_response_builder_job
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
@@ -94,15 +94,21 @@ class Captain::Document < ApplicationRecord
   end
 
   def enqueue_response_builder_job
-    return if status != 'available'
+    return if destroyed?
+    return unless status == 'available'
 
-    Captain::Documents::ResponseBuilderJob.perform_later(self)
-  end
+    status_became_available = saved_change_to_status?
+    content_now_present = content.present?
+    content_became_present = saved_change_to_content? && content_now_present
 
-  def should_enqueue_response_builder?
-    # Only enqueue when status changes to available
-    # Avoid re-enqueueing when metadata is updated by the job itself
-    saved_change_to_status? && status == 'available'
+    should_enqueue =
+      if pdf_document?
+        status_became_available
+      else
+        (status_became_available && content_now_present) || content_became_present
+      end
+
+    Captain::Documents::ResponseBuilderJob.perform_later(self) if should_enqueue
   end
 
   def update_document_usage
