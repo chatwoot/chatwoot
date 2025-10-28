@@ -295,8 +295,8 @@ export const actions = {
       ]);
       return { success: true };
     } catch (error) {
-      throwErrorMessage(error);
-      return { success: false };
+      const errorMessage = error.response?.data?.error || error.message;
+      return { success: false, error: errorMessage };
     } finally {
       commit(types.default.SET_V2_BILLING_UI_FLAG, {
         isCancelInProcess: false,
@@ -319,8 +319,8 @@ export const actions = {
       await dispatch('fetchCreditsBalance');
       return { success: true };
     } catch (error) {
-      throwErrorMessage(error);
-      return { success: false };
+      const errorMessage = error.response?.data?.error || error.message;
+      return { success: false, error: errorMessage };
     } finally {
       commit(types.default.SET_V2_BILLING_UI_FLAG, {
         isSubscribeInProcess: false,
@@ -345,8 +345,8 @@ export const actions = {
       ]);
       return { success: true };
     } catch (error) {
-      throwErrorMessage(error);
-      return { success: false };
+      const errorMessage = error.response?.data?.error || error.message;
+      return { success: false, error: errorMessage };
     } finally {
       commit(types.default.SET_V2_BILLING_UI_FLAG, {
         isSubscribeInProcess: false,

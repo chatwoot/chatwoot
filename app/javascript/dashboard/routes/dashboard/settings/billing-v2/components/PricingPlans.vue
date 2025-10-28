@@ -60,8 +60,16 @@ const subscriptionEndsAt = computed(() => {
   return customAttributes.value.subscription_ends_at;
 });
 
+const stripeSubscriptionId = computed(() => {
+  return customAttributes.value.stripe_subscription_id;
+});
+
 const hasActiveSubscription = computed(() => {
   return !!currentPlanId.value;
+});
+
+const hasStripeSubscription = computed(() => {
+  return !!stripeSubscriptionId.value;
 });
 
 const isCancellingAtPeriodEnd = computed(() => {
@@ -125,18 +133,23 @@ const openSubscribeModal = plan => {
 };
 
 const handleSubscribe = async data => {
-  // If there's an active subscription, use change plan API instead
-  if (hasActiveSubscription.value) {
+  // Use change plan API only if stripe_subscription_id exists
+  // Otherwise, always use subscribe API
+  if (hasStripeSubscription.value) {
     const result = await store.dispatch('accounts/v2ChangePlan', data);
     if (result.success) {
       useAlert(t('BILLING_SETTINGS_V2.PRICING_PLANS.CHANGE_PLAN_SUCCESS'));
       showSubscribeModal.value = false;
+    } else if (result.error) {
+      useAlert(result.error);
     }
   } else {
     const result = await store.dispatch('accounts/v2Subscribe', data);
     if (result.success) {
       useAlert(t('BILLING_SETTINGS_V2.PRICING_PLANS.SUBSCRIBE_SUCCESS'));
       showSubscribeModal.value = false;
+    } else if (result.error) {
+      useAlert(result.error);
     }
   }
 };
@@ -152,6 +165,8 @@ const handleCancelSubscription = async reason => {
   if (result.success) {
     useAlert(t('BILLING_SETTINGS_V2.PRICING_PLANS.CANCEL_SUCCESS'));
     showCancelModal.value = false;
+  } else if (result.error) {
+    useAlert(result.error);
   }
 };
 
@@ -201,6 +216,8 @@ const handleUpdateQuantity = async () => {
     });
     if (result.success) {
       useAlert(t('BILLING_SETTINGS_V2.PRICING_PLANS.UPDATE_QUANTITY_SUCCESS'));
+    } else if (result.error) {
+      useAlert(result.error);
     }
   } finally {
     isUpdatingQuantity.value = false;
@@ -218,14 +235,11 @@ const isCurrentPlan = plan => {
       :title="$t('BILLING_SETTINGS_V2.PRICING_PLANS.TITLE')"
       :description="$t('BILLING_SETTINGS_V2.PRICING_PLANS.DESCRIPTION')"
     >
-      <template v-if="hasActiveSubscription && !isCancellingAtPeriodEnd" #action>
-        <ButtonV4
-          sm
-          faded
-          red
-          :loading="isCanceling"
-          @click="openCancelModal"
-        >
+      <template
+        v-if="hasActiveSubscription && !isCancellingAtPeriodEnd"
+        #action
+      >
+        <ButtonV4 sm faded red :loading="isCanceling" @click="openCancelModal">
           {{ $t('BILLING_SETTINGS_V2.PRICING_PLANS.CANCEL_SUBSCRIPTION') }}
         </ButtonV4>
       </template>
@@ -310,7 +324,9 @@ const isCurrentPlan = plan => {
                 >
                   <span class="i-lucide-minus text-white text-sm" />
                 </button>
-                <span class="min-w-8 text-center text-base font-bold text-n-800">
+                <span
+                  class="min-w-8 text-center text-base font-bold text-n-800"
+                >
                   {{ newQuantity }}
                 </span>
                 <button
