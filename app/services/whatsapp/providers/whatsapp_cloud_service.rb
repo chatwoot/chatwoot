@@ -75,7 +75,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
               type: 'URL',
               text: template_config[:button_text] || 'Please rate us',
               url: "#{template_config[:base_url]}/survey/responses/{{1}}",
-              example: ['12345']
+              example: ["#{template_config[:base_url]}/survey/responses/12345"]
             }
           ]
         }
@@ -96,9 +96,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         status: 'PENDING'
       }
     else
+      Rails.logger.error "WhatsApp template creation failed: #{response.code} - #{response.body}"
       {
         success: false,
-        error: error_message(response) || 'Failed to create template'
+        error: error_message(response) || "Failed to create template: #{response.code}",
+        response_body: response.body
       }
     end
   end
