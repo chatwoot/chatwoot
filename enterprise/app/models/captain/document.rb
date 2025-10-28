@@ -37,6 +37,7 @@ class Captain::Document < ApplicationRecord
   validate :validate_file_attachment, if: -> { pdf_file.attached? }
   before_validation :ensure_account_id
   before_validation :set_external_link_for_pdf
+  before_validation :normalize_external_link
 
   enum status: {
     in_progress: 0,
@@ -142,5 +143,12 @@ class Captain::Document < ApplicationRecord
     # Format: PDF: filename_timestamp (without extension)
     timestamp = Time.current.strftime('%Y%m%d%H%M%S')
     self.external_link = "PDF: #{pdf_file.filename.base}_#{timestamp}"
+  end
+
+  def normalize_external_link
+    return if external_link.blank?
+    return if pdf_document?
+
+    self.external_link = external_link.delete_suffix('/')
   end
 end

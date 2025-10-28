@@ -4,6 +4,17 @@ RSpec.describe Captain::Document, type: :model do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
 
+  describe 'URL normalization' do
+    it 'removes a trailing slash before validation' do
+      document = create(:captain_document,
+                        assistant: assistant,
+                        account: account,
+                        external_link: 'https://example.com/path/')
+
+      expect(document.external_link).to eq('https://example.com/path')
+    end
+  end
+
   describe 'PDF support' do
     let(:pdf_document) do
       doc = build(:captain_document, assistant: assistant, account: account)
