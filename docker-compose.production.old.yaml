@@ -18,6 +18,7 @@ services:
         CDN_ACCESS_SECRET: ${CDN_ACCESS_SECRET}
         CDN_REGION: ${CDN_REGION}
         CDN_BUCKET: ${CDN_BUCKET}
+        ASSET_CDN_HOST: ${ASSET_CDN_HOST}
     tty: true
     stdin_open: true
     image: courier-production-v1:latest
@@ -37,6 +38,7 @@ services:
         CDN_ACCESS_SECRET: ${CDN_ACCESS_SECRET}
         CDN_REGION: ${CDN_REGION}
         CDN_BUCKET: ${CDN_BUCKET}
+        ASSET_CDN_HOST: ${ASSET_CDN_HOST}
     image: courier-production-v1:latest
     volumes:
       - ./:/app:delegated
