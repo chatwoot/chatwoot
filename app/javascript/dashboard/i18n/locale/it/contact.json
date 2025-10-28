@@ -470,7 +470,7 @@
       }
     },
     "DETAILS": {
-      "CREATED_AT": "Creato il {date}",
+      "CREATED_AT": "Creato {date}",
       "LAST_ACTIVITY": "Ultima attività {date}",
       "DELETE_CONTACT_DESCRIPTION": "Elimina definitivamente questo contatto. Questa azione è irreversibile",
       "DELETE_CONTACT": "Elimina contatto",
