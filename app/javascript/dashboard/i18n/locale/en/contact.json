@@ -375,6 +375,11 @@
         }
       }
     },
+    "TABLE": {
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Phone number"
+    },
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
@@ -571,6 +576,17 @@
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} contacts selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all {count} contacts",
+    "SELECTED_CONTACTS_COUNT": "{count} contacts will be updated"
   },
 
   "COMPOSE_NEW_CONVERSATION": {
