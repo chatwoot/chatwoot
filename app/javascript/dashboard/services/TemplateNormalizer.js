@@ -35,7 +35,10 @@ export class TemplateNormalizer {
    * @returns {Object} - Normalized template
    */
   static normalizeTwilio(template) {
-    const typeData = template.types?.[`twilio/${template.template_type}`] || {};
+    // Convert template_type to match the keys used in the types object
+    const normalizedType = template.template_type.replace('_', '-');
+    const lookupKey = `twilio/${normalizedType}`;
+    const typeData = template.types?.[lookupKey] || {};
 
     return {
       contentSid: template.content_sid,

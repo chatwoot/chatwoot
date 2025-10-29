@@ -3,11 +3,11 @@ import { computed } from 'vue';
 import { TemplateNormalizer } from 'dashboard/services/TemplateNormalizer';
 
 import TextTemplate from 'dashboard/components-next/message/bubbles/Template/Text.vue';
-import QuickReplyTemplate from 'dashboard/components-next/message/bubbles/Template/QuickReply.vue';
 import CardTemplate from 'dashboard/components-next/message/bubbles/Template/Card.vue';
 import DynamicCallToActionTemplate from './DynamicCallToActionTemplate.vue';
 import DynamicMediaTemplate from './DynamicMediaTemplate.vue';
 import WhatsAppTextTemplate from './WhatsAppTextTemplate.vue';
+import DynamicQuickReplyTemplate from './DynamicQuickReplyTemplate.vue';
 
 const props = defineProps({
   template: {
@@ -84,6 +84,7 @@ const processedTemplate = computed(() => {
     footer: processText(footer),
     image_url: imageUrl,
     buttons: normalized.buttons || [],
+    actions: normalized.actions || [],
   };
 });
 
@@ -104,7 +105,7 @@ const previewComponent = computed(() => {
     // Twilio components
     'twilio-text': TextTemplate,
     'twilio-media': DynamicMediaTemplate,
-    'twilio-quick-reply': QuickReplyTemplate,
+    'twilio-quick-reply': DynamicQuickReplyTemplate,
     'twilio-card': CardTemplate,
   };
 

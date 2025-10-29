@@ -428,7 +428,6 @@ const twilioTemplates = [
     variables: {
       1: 'Jordan',
       2: '400$',
-      3: 'jordan-shoes.jpg',
     },
     content_sid: 'HXd5c1f8f8d68976f841c440d5e4b46c2e',
     friendly_name: 'product_launch_custom_price',
@@ -445,9 +444,7 @@ const twilioTemplates = [
     status: 'approved',
     category: 'utility',
     language: 'en',
-    variables: {
-      3: 'jordan-shoes.jpg',
-    },
+    variables: {},
     content_sid: 'HX25f6e823f2416ca4b34254d98e916fae',
     friendly_name: 'product_launch',
     template_type: 'media',
