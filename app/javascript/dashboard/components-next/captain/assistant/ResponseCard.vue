@@ -164,109 +164,105 @@ const handleDocumentableClick = () => {
       {{ answer }}
     </span>
     <div v-if="!compact" class="items-center justify-between hidden lg:flex">
-      <div class="inline-flex items-center">
-        <span
-          class="text-sm shrink-0 truncate text-n-slate-11 inline-flex items-center gap-1"
-        >
-          <i class="i-woot-captain" />
-          {{ assistant?.name || '' }}
-        </span>
-        <div
-          v-if="documentable"
-          class="shrink-0 text-sm text-n-slate-11 inline-flex line-clamp-1 gap-1 ml-3"
-        >
-          <span
-            v-if="documentable.type === 'Captain::Document'"
-            class="inline-flex items-center gap-1 truncate over"
-          >
-            <i class="i-ph-files-light text-base" />
-            <span class="max-w-96 truncate" :title="documentable.name">
-              {{ documentable.name }}
-            </span>
-          </span>
-          <span
-            v-if="documentable.type === 'User'"
-            class="inline-flex items-center gap-1"
-          >
-            <i class="i-ph-user-circle-plus text-base" />
-            <span
-              class="max-w-96 truncate"
-              :title="documentable.available_name"
-            >
-              {{ documentable.available_name }}
-            </span>
-          </span>
-          <span
-            v-else-if="documentable.type === 'Conversation'"
-            class="inline-flex items-center gap-1 group cursor-pointer"
-            role="button"
-            @click="handleDocumentableClick"
-          >
-            <i class="i-ph-chat-circle-dots text-base" />
-            <span class="group-hover:underline">
-              {{
-                t(`CAPTAIN.RESPONSES.DOCUMENTABLE.CONVERSATION`, {
-                  id: documentable.display_id,
-                })
-              }}
-            </span>
-          </span>
-          <span v-else />
-        </div>
-        <div
-          v-if="status !== 'approved'"
-          class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1 ml-3"
-        >
-          <i
-            class="i-ph-stack text-base"
-            :title="t('CAPTAIN.RESPONSES.STATUS.TITLE')"
+      <Policy v-if="showActions" :permissions="['administrator']">
+        <div class="flex gap-5 flex-1">
+          <Button
+            v-if="status === 'pending'"
+            :label="$t('CAPTAIN.RESPONSES.OPTIONS.APPROVE')"
+            icon="i-lucide-circle-check-big"
+            sm
+            link
+            class="hover:!no-underline"
+            @click="
+              handleAssistantAction({ action: 'approve', value: 'approve' })
+            "
           />
-          {{ t(`CAPTAIN.RESPONSES.STATUS.${status.toUpperCase()}`) }}
+          <Button
+            :label="$t('CAPTAIN.RESPONSES.OPTIONS.EDIT_RESPONSE')"
+            icon="i-lucide-pencil-line"
+            sm
+            slate
+            link
+            class="hover:!no-underline"
+            @click="
+              handleAssistantAction({
+                action: 'edit',
+                value: 'edit',
+              })
+            "
+          />
+          <Button
+            :label="$t('CAPTAIN.RESPONSES.OPTIONS.DELETE_RESPONSE')"
+            icon="i-lucide-trash"
+            sm
+            ruby
+            link
+            class="hover:!no-underline"
+            @click="
+              handleAssistantAction({ action: 'delete', value: 'delete' })
+            "
+          />
         </div>
-      </div>
-      <div
-        class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1 ml-3"
-      >
-        <i class="i-ph-calendar-dot" />
-        {{ timestamp }}
+      </Policy>
+      <div class="flex items-center gap-3">
+        <div class="inline-flex items-center gap-3">
+          <span
+            v-if="status === 'approved'"
+            class="text-sm shrink-0 truncate text-n-slate-11 inline-flex items-center gap-1"
+          >
+            <i class="i-woot-captain" />
+            {{ assistant?.name || '' }}
+          </span>
+          <div
+            v-if="documentable"
+            class="shrink-0 text-sm text-n-slate-11 inline-flex line-clamp-1 gap-1"
+          >
+            <span
+              v-if="documentable.type === 'Captain::Document'"
+              class="inline-flex items-center gap-1 truncate over"
+            >
+              <i class="i-ph-files-light text-base" />
+              <span class="max-w-96 truncate" :title="documentable.name">
+                {{ documentable.name }}
+              </span>
+            </span>
+            <span
+              v-if="documentable.type === 'User'"
+              class="inline-flex items-center gap-1"
+            >
+              <i class="i-ph-user-circle-plus text-base" />
+              <span
+                class="max-w-96 truncate"
+                :title="documentable.available_name"
+              >
+                {{ documentable.available_name }}
+              </span>
+            </span>
+            <span
+              v-else-if="documentable.type === 'Conversation'"
+              class="inline-flex items-center gap-1 group cursor-pointer"
+              role="button"
+              @click="handleDocumentableClick"
+            >
+              <i class="i-ph-chat-circle-dots text-base" />
+              <span class="group-hover:underline">
+                {{
+                  t(`CAPTAIN.RESPONSES.DOCUMENTABLE.CONVERSATION`, {
+                    id: documentable.display_id,
+                  })
+                }}
+              </span>
+            </span>
+            <span v-else />
+          </div>
+        </div>
+        <div
+          class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1"
+        >
+          <i class="i-ph-calendar-dot" />
+          {{ timestamp }}
+        </div>
       </div>
     </div>
-    <Policy v-if="showActions" :permissions="['administrator']">
-      <div class="flex gap-2 mt-2">
-        <Button
-          v-if="status === 'pending'"
-          :label="$t('CAPTAIN.RESPONSES.OPTIONS.APPROVE')"
-          icon="i-lucide-circle-check-big"
-          sm
-          link
-          class="hover:!no-underline"
-          @click="
-            handleAssistantAction({ action: 'approve', value: 'approve' })
-          "
-        />
-        <Button
-          :label="$t('CAPTAIN.RESPONSES.OPTIONS.EDIT_RESPONSE')"
-          icon="i-lucide-pencil-line"
-          sm
-          link
-          class="hover:!no-underline"
-          @click="
-            handleAssistantAction({
-              action: 'edit',
-              value: 'edit',
-            })
-          "
-        />
-        <Button
-          :label="$t('CAPTAIN.RESPONSES.OPTIONS.DELETE_RESPONSE')"
-          icon="i-lucide-trash"
-          sm
-          ruby
-          link
-          class="hover:!no-underline"
-          @click="handleAssistantAction({ action: 'delete', value: 'delete' })"
-        />
-      </div>
-    </Policy>
   </CardLayout>
 </template>
