@@ -6,22 +6,13 @@ import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCa
 import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/FeatureSpotlight.vue';
 import { responsesList } from 'dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js';
 
-defineProps({
-  showFeatureSpotlight: {
-    type: Boolean,
-    default: true,
-  },
-  showCreateButton: {
-    type: Boolean,
-    default: true,
-  },
-  showBackdropCard: {
-    type: Boolean,
-    default: true,
-  },
-  showSubTitle: {
-    type: Boolean,
-    default: true,
+import { computed } from 'vue';
+
+const props = defineProps({
+  variant: {
+    type: String,
+    default: 'approved',
+    validator: value => ['approved', 'pending'].includes(value),
   },
   hasActiveFilters: {
     type: Boolean,
@@ -30,6 +21,10 @@ defineProps({
 });
 
 const emit = defineEmits(['click', 'clearFilters']);
+
+const isApproved = computed(() => props.variant === 'approved');
+const isPending = computed(() => props.variant === 'pending');
+
 const { isOnChatwootCloud } = useAccount();
 
 const onClick = () => {
@@ -43,7 +38,7 @@ const onClearFilters = () => {
 
 <template>
   <FeatureSpotlight
-    v-if="showFeatureSpotlight"
+    v-if="isApproved"
     :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
     :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
     fallback-thumbnail="/assets/images/dashboard/captain/faqs-light.svg"
@@ -54,15 +49,15 @@ const onClearFilters = () => {
   />
   <EmptyStateLayout
     :title="
-      hasActiveFilters
+      isPending
         ? $t('CAPTAIN.RESPONSES.EMPTY_STATE.NO_PENDING_TITLE')
         : $t('CAPTAIN.RESPONSES.EMPTY_STATE.TITLE')
     "
-    :subtitle="showSubTitle ? $t('CAPTAIN.RESPONSES.EMPTY_STATE.SUBTITLE') : ''"
+    :subtitle="isApproved ? $t('CAPTAIN.RESPONSES.EMPTY_STATE.SUBTITLE') : ''"
     :action-perms="['administrator']"
-    :show-backdrop="showBackdropCard"
+    :show-backdrop="isApproved"
   >
-    <template v-if="showBackdropCard" #empty-state-item>
+    <template v-if="isApproved" #empty-state-item>
       <div class="grid grid-cols-1 gap-4 p-px overflow-hidden">
         <ResponseCard
           v-for="(response, index) in responsesList.slice(0, 5)"
@@ -80,13 +75,13 @@ const onClearFilters = () => {
     <template #actions>
       <div class="flex flex-col items-center gap-3">
         <Button
-          v-if="showCreateButton"
+          v-if="isApproved"
           :label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
           icon="i-lucide-plus"
           @click="onClick"
         />
         <Button
-          v-else-if="hasActiveFilters"
+          v-else-if="isPending && hasActiveFilters"
           :label="$t('CAPTAIN.RESPONSES.EMPTY_STATE.CLEAR_SEARCH')"
           variant="link"
           size="sm"

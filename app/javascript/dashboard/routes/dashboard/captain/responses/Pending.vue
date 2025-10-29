@@ -249,7 +249,7 @@ const debouncedSearch = debounce(async () => {
 }, 500);
 
 const hasActiveFilters = computed(() => {
-  return searchQuery.value || selectedAssistant.value !== 'all';
+  return Boolean(searchQuery.value || selectedAssistant.value !== 'all');
 });
 
 const clearFilters = () => {
@@ -389,10 +389,7 @@ onMounted(() => {
 
     <template #emptyState>
       <ResponsePageEmptyState
-        :show-feature-spotlight="false"
-        :show-backdrop-card="false"
-        :show-create-button="false"
-        :show-sub-title="false"
+        variant="pending"
         :has-active-filters="hasActiveFilters"
         @click="handleCreate"
         @clear-filters="clearFilters"
