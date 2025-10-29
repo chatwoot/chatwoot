@@ -122,19 +122,19 @@ const handleCreateAssistant = () => {
             <slot name="headerTitle">
               <div v-if="showAssistantSwitcher" class="flex items-center gap-2">
                 <div class="flex items-center gap-1">
-                  <span class="text-xl font-medium text-n-slate-11">
-                    {{ headerTitle }}
+                  <span
+                    v-if="activeAssistantName"
+                    class="text-xl font-medium truncate text-n-slate-12"
+                  >
+                    {{ activeAssistantName }}
                   </span>
                   <Icon
                     v-if="activeAssistantName"
                     icon="i-lucide-chevron-right"
                     class="size-6 text-n-slate-11"
                   />
-                  <span
-                    v-if="activeAssistantName"
-                    class="text-xl font-medium truncate text-n-slate-12"
-                  >
-                    {{ activeAssistantName }}
+                  <span class="text-xl font-medium text-n-slate-11">
+                    {{ headerTitle }}
                   </span>
                 </div>
                 <div v-if="activeAssistantName" class="relative group">

@@ -74,11 +74,6 @@ const handleAccept = async () => {
   }
 };
 
-const handleCreate = () => {
-  dialogType.value = 'create';
-  nextTick(() => createDialog.value.dialogRef.open());
-};
-
 const handleEdit = () => {
   dialogType.value = 'edit';
   nextTick(() => createDialog.value.dialogRef.open());
@@ -265,9 +260,7 @@ onMounted(() => {
   <PageLayout
     :total-count="responseMeta.totalCount"
     :current-page="responseMeta.page"
-    :button-policy="['administrator']"
     :header-title="$t('CAPTAIN.RESPONSES.PENDING_FAQS')"
-    :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"
     :is-empty="!filteredResponses.length"
     :show-pagination-footer="!isFetching && !!filteredResponses.length"
@@ -275,7 +268,6 @@ onMounted(() => {
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :back-url="backUrl"
     @update:current-page="onPageChange"
-    @click="handleCreate"
   >
     <template #knowMore>
       <FeatureSpotlightPopover
@@ -373,7 +365,6 @@ onMounted(() => {
       <ResponsePageEmptyState
         variant="pending"
         :has-active-filters="hasActiveFilters"
-        @click="handleCreate"
         @clear-filters="clearFilters"
       />
     </template>

@@ -84,7 +84,7 @@ const sendMessage = async () => {
         </h3>
         <NextButton
           ghost
-          size="small"
+          sm
           icon="i-lucide-rotate-ccw"
           @click="resetConversation"
         />
@@ -107,7 +107,7 @@ const sendMessage = async () => {
       />
       <NextButton
         ghost
-        size="small"
+        sm
         :disabled="!newMessage.trim()"
         icon="i-lucide-send"
         @click="sendMessage"

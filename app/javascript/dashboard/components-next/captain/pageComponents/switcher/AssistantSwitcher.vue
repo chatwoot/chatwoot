@@ -27,6 +27,7 @@ const fetchDataForRoute = async (routeName, assistantId) => {
   const dataFetchMap = {
     captain_assistants_responses_index: async () => {
       await store.dispatch('captainResponses/get', { assistantId });
+      await store.dispatch('captainResponses/fetchPendingCount', assistantId);
     },
     captain_assistants_responses_pending: async () => {
       await store.dispatch('captainResponses/get', {
@@ -47,7 +48,7 @@ const fetchDataForRoute = async (routeName, assistantId) => {
       await store.dispatch('captainInboxes/get', { assistantId });
     },
     captain_tools_index: async () => {
-      await store.dispatch('captainTools/get');
+      await store.dispatch('captainCustomTools/get', { page: 1 });
     },
     captain_assistants_settings_index: async () => {
       await store.dispatch('captainAssistants/show', assistantId);

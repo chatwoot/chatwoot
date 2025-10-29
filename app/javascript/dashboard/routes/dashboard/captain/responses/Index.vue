@@ -212,7 +212,7 @@ const navigateToPendingFAQs = () => {
 
 onMounted(() => {
   initializeFromURL();
-  store.dispatch('captainResponses/fetchPendingCount');
+  store.dispatch('captainResponses/fetchPendingCount', selectedAssistantId);
 });
 </script>
 

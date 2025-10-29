@@ -87,7 +87,6 @@ onMounted(() => {
     :is-fetching="isFetching"
     :is-empty="!customTools.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN_V2"
-    :show-assistant-switcher="false"
     :show-know-more="false"
     @update:current-page="onPageChange"
     @click="openCreateDialog"

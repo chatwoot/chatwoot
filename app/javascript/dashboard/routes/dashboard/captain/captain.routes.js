@@ -23,6 +23,12 @@ const meta = {
   installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
 };
 
+const metaV2 = {
+  permissions: ['administrator', 'agent'],
+  featureFlag: FEATURE_FLAGS.CAPTAIN_V2,
+  installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
+};
+
 const assistantRoutes = [
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/faqs'),
@@ -37,10 +43,16 @@ const assistantRoutes = [
     meta,
   },
   {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/tools'),
+    component: CustomToolsIndex,
+    name: 'captain_tools_index',
+    meta: metaV2,
+  },
+  {
     path: frontendURL('accounts/:accountId/captain/:assistantId/scenarios'),
     component: AssistantScenariosIndex,
     name: 'captain_assistants_scenarios_index',
-    meta,
+    meta: metaV2,
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/playground'),
@@ -73,7 +85,7 @@ const assistantRoutes = [
     ),
     component: AssistantGuardrailsIndex,
     name: 'captain_assistants_guardrails_index',
-    meta,
+    meta: metaV2,
   },
   {
     path: frontendURL(
@@ -81,7 +93,7 @@ const assistantRoutes = [
     ),
     component: AssistantGuidelinesIndex,
     name: 'captain_assistants_guidelines_index',
-    meta,
+    meta: metaV2,
   },
   {
     path: frontendURL('accounts/:accountId/captain/assistants'),
@@ -117,18 +129,5 @@ export const routes = [
       };
     },
     children: [...assistantRoutes],
-  },
-  {
-    path: frontendURL('accounts/:accountId/captain/tools'),
-    component: CustomToolsIndex,
-    name: 'captain_tools_index',
-    meta: {
-      permissions: ['administrator', 'agent'],
-      featureFlag: FEATURE_FLAGS.CAPTAIN_V2,
-      installationTypes: [
-        INSTALLATION_TYPES.CLOUD,
-        INSTALLATION_TYPES.ENTERPRISE,
-      ],
-    },
   },
 ];

@@ -5,6 +5,8 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import SettingsHeader from 'dashboard/components-next/captain/pageComponents/settings/SettingsHeader.vue';
@@ -14,6 +16,11 @@ import AssistantControlItems from 'dashboard/components-next/captain/pageCompone
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 
 const { t } = useI18n();
+const { isCloudFeatureEnabled } = useAccount();
+
+const isCaptainV2Enabled = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_V2)
+);
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
@@ -101,10 +108,16 @@ const handleDeleteSuccess = () => {
     :is-fetching="isFetching"
     :show-pagination-footer="false"
     :show-know-more="false"
-    class="[&>header>div]:max-w-[80rem] [&>main>div]:max-w-[80rem]"
+    :class="{
+      '[&>header>div]:max-w-[80rem] [&>main>div]:max-w-[80rem]':
+        isCaptainV2Enabled,
+    }"
   >
     <template #body>
-      <div class="grid grid-cols-2 gap-6 lg:gap-16 pb-8">
+      <div
+        class="gap-6 lg:gap-16 pb-8"
+        :class="{ 'grid grid-cols-2': isCaptainV2Enabled }"
+      >
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-6">
             <SettingsHeader
@@ -155,7 +168,7 @@ const handleDeleteSuccess = () => {
             </div>
           </div>
         </div>
-        <div class="flex flex-col gap-6">
+        <div v-if="isCaptainV2Enabled" class="flex flex-col gap-6">
           <SettingsHeader
             :heading="t('CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.TITLE')"
             :description="
