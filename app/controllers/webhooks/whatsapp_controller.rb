@@ -28,36 +28,28 @@ class Webhooks::WhatsappController < ActionController::API
   private
 
   def valid_token?(token)
-    # Global FB_VERIFY_TOKEN verification disabled - using channel-specific tokens only
-    # fb_verify_token = GlobalConfig.get_value('FB_VERIFY_TOKEN')
-    # return token == fb_verify_token if fb_verify_token.present?
+    # For Facebook WhatsApp Business API webhook verification, use FB_VERIFY_TOKEN
+    fb_verify_token = GlobalConfig.get_value('FB_VERIFY_TOKEN')
+    return token == fb_verify_token if fb_verify_token.present?
 
-    # Channel-specific verification
-    # Try to find channel by phone_number_id (new format) or phone_number (old format)
-    channel = find_channel_for_verification
-    return false if channel.blank?
+    # Fallback to channel-specific verification for backward compatibility
+    # Try to find channel by phone_number_id first (new format), then by phone_number (old format)
+    phone_number_id = extract_phone_number_id_from_payload
 
-    whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token']
-    return false if whatsapp_webhook_verify_token.blank?
+    channel = if phone_number_id.present?
+                find_channel_by_phone_number_id(phone_number_id)
+              else
+                Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+              end
 
-    token == whatsapp_webhook_verify_token
+    whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
+    token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
   end
 
-  def find_channel_for_verification
-    # Try phone_number_id first (Facebook WhatsApp Business API)
-    phone_number_id = extract_phone_number_id_from_payload
-    if phone_number_id.present?
-      channel = find_channel_by_phone_number_id(phone_number_id)
-      return channel if channel.present?
-    end
-
-    # Fallback to phone_number from URL params (360Dialog and old format)
-    if params[:phone_number].present?
-      channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
-      return channel if channel.present?
-    end
-
-    nil
+  def valid_token?(token)
+    channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+    whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
+    token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
   end
 
   def inactive_whatsapp_number?(phone_number = nil)
@@ -74,11 +66,11 @@ class Webhooks::WhatsappController < ActionController::API
   # Extract phone_number_id from Facebook WhatsApp Business API webhook payload
   def extract_phone_number_id_from_payload
     return nil unless params[:object] == 'whatsapp_business_account'
-    return nil if params[:entry].blank?
+    return nil unless params[:entry].present?
 
     # Navigate through the Facebook webhook payload structure
     entry = params[:entry].first
-    return nil if entry[:changes].blank?
+    return nil unless entry[:changes].present?
 
     change = entry[:changes].first
     return nil unless change[:field] == 'messages'
@@ -91,7 +83,6 @@ class Webhooks::WhatsappController < ActionController::API
   end
 
   # Find WhatsApp channel by phone_number_id in provider_config
-  # Uses custom model method that queries JSON column
   def find_channel_by_phone_number_id(phone_number_id)
     Channel::Whatsapp.find_by_phone_number_id(phone_number_id)
   end
