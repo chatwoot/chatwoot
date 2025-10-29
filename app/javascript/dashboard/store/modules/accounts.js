@@ -304,13 +304,18 @@ export const actions = {
     }
   },
 
-  v2UpdateQuantity: async ({ commit, dispatch }, { quantity }) => {
+  v2UpdateQuantity: async (
+    { commit, dispatch },
+    { pricingPlanId, quantity }
+  ) => {
     commit(types.default.SET_V2_BILLING_UI_FLAG, {
       isSubscribeInProcess: true,
     });
     try {
-      const response =
-        await EnterpriseAccountAPI.updateSubscriptionQuantity(quantity);
+      const response = await EnterpriseAccountAPI.changePricingPlan({
+        pricing_plan_id: pricingPlanId,
+        quantity,
+      });
       // Update account with new quantity
       if (response.data.id && response.data.custom_attributes) {
         commit(types.default.SET_ACCOUNT_LIMITS, response.data);

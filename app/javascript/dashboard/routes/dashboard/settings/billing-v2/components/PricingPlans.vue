@@ -243,6 +243,7 @@ const handleUpdateQuantity = async () => {
   isUpdatingQuantity.value = true;
   try {
     const result = await store.dispatch('accounts/v2UpdateQuantity', {
+      pricingPlanId: currentPlanId.value,
       quantity: newQuantity.value,
     });
     if (result.success) {
@@ -270,7 +271,13 @@ const isCurrentPlan = plan => {
         v-if="hasActiveSubscription && !isCancellingAtPeriodEnd"
         #action
       >
-        <ButtonV4 sm faded red :is-loading="isCanceling" @click="openCancelModal">
+        <ButtonV4
+          sm
+          faded
+          red
+          :is-loading="isCanceling"
+          @click="openCancelModal"
+        >
           {{ $t('BILLING_SETTINGS_V2.PRICING_PLANS.CANCEL_SUBSCRIPTION') }}
         </ButtonV4>
       </template>

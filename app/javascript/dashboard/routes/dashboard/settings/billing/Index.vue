@@ -26,7 +26,9 @@ const {
 } = useCaptain();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
-const isStripeBillingV2Enabled = useMapGetter('globalConfig/isStripeBillingV2Enabled');
+const isStripeBillingV2Enabled = useMapGetter(
+  'globalConfig/isStripeBillingV2Enabled'
+);
 const store = useStore();
 
 const BILLING_REFRESH_ATTEMPTED = 'billing_refresh_attempted';

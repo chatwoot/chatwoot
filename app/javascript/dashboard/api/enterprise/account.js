@@ -53,12 +53,6 @@ class EnterpriseAccountAPI extends ApiClient {
     return axios.post(`${this.url}cancel_subscription`, data);
   }
 
-  updateSubscriptionQuantity(quantity) {
-    return axios.post(`${this.url}update_subscription_quantity`, {
-      quantity,
-    });
-  }
-
   changePricingPlan(data) {
     return axios.post(`${this.url}change_pricing_plan`, data);
   }

@@ -132,7 +132,9 @@ onMounted(handleInitialLoad);
         <BillingCard
           v-else
           :title="$t('BILLING_SETTINGS_V2.TOPUP_OPTIONS.TITLE')"
-          :description="$t('BILLING_SETTINGS_V2.TOPUP_OPTIONS.UPGRADE_REQUIRED')"
+          :description="
+            $t('BILLING_SETTINGS_V2.TOPUP_OPTIONS.UPGRADE_REQUIRED')
+          "
         >
           <div class="px-5 pb-5">
             <p class="text-sm text-n-600">
