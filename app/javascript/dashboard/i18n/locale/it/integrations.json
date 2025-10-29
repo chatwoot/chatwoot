@@ -863,6 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Crea nuova FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversazione #{id}"
@@ -902,6 +903,10 @@
         "APPROVED": "Approvate",
         "ALL": "Tutte"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Aggiungi una domanda e la sua risposta corrispondente alla knowledge base e seleziona l'assistente con cui dovrebbe essere associata.",
       "CREATE": {
         "TITLE": "Aggiungi una FAQ",
@@ -932,9 +937,9 @@
         "APPROVE_SUCCESS_MESSAGE": "La FAQ è stata contrassegnata come approvata"
       },
       "OPTIONS": {
-        "APPROVE": "Segna come approvata",
-        "EDIT_RESPONSE": "Modifica FAQ",
-        "DELETE_RESPONSE": "Elimina FAQ"
+        "APPROVE": "Approva",
+        "EDIT_RESPONSE": "Modifica",
+        "DELETE_RESPONSE": "Elimina"
       },
       "EMPTY_STATE": {
         "TITLE": "Nessuna FAQ Trovata",
