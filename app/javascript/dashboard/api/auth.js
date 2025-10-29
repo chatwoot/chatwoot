@@ -3,47 +3,11 @@
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
 import {
-  setAuthCredentials,
   clearCookiesOnLogout,
   deleteIndexedDBOnLogout,
 } from '../store/utils/api';
 
 export default {
-  login(creds) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post('auth/sign_in', creds)
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response.data);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
-  },
-
-  register(creds) {
-    const urlData = endPoints('register');
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, {
-          account_name: creds.accountName.trim(),
-          user_full_name: creds.fullName.trim(),
-          email: creds.email,
-          password: creds.password,
-          h_captcha_client_response: creds.hCaptchaClientResponse,
-        })
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-    return fetchPromise;
-  },
   validityCheck() {
     const urlData = endPoints('validityCheck');
     return axios.get(urlData.url);
@@ -65,60 +29,16 @@ export default {
     return fetchPromise;
   },
   hasAuthCookie() {
-    return !!Cookies.getJSON('cw_d_session_info');
+    return !!Cookies.get('cw_d_session_info');
   },
   getAuthData() {
     if (this.hasAuthCookie()) {
-      return Cookies.getJSON('cw_d_session_info');
+      const savedAuthInfo = Cookies.get('cw_d_session_info');
+      return JSON.parse(savedAuthInfo || '{}');
     }
     return false;
   },
-  verifyPasswordToken({ confirmationToken }) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post('auth/confirmation', {
-          confirmation_token: confirmationToken,
-        })
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
-  },
-
-  setNewPassword({ resetPasswordToken, password, confirmPassword }) {
-    return new Promise((resolve, reject) => {
-      axios
-        .put('auth/password', {
-          reset_password_token: resetPasswordToken,
-          password_confirmation: confirmPassword,
-          password,
-        })
-        .then(response => {
-          setAuthCredentials(response);
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
-  },
-
-  resetPassword({ email }) {
-    const urlData = endPoints('resetPassword');
-    return axios.post(urlData.url, { email });
-  },
-
-  profileUpdate({
-    password,
-    password_confirmation,
-    displayName,
-    avatar,
-    ...profileAttributes
-  }) {
+  profileUpdate({ displayName, avatar, ...profileAttributes }) {
     const formData = new FormData();
     Object.keys(profileAttributes).forEach(key => {
       const hasValue = profileAttributes[key] === undefined;
@@ -127,14 +47,20 @@ export default {
       }
     });
     formData.append('profile[display_name]', displayName || '');
-    if (password && password_confirmation) {
-      formData.append('profile[password]', password);
-      formData.append('profile[password_confirmation]', password_confirmation);
-    }
     if (avatar) {
       formData.append('profile[avatar]', avatar);
     }
     return axios.put(endPoints('profileUpdate').url, formData);
+  },
+
+  profilePasswordUpdate({ currentPassword, password, passwordConfirmation }) {
+    return axios.put(endPoints('profileUpdate').url, {
+      profile: {
+        current_password: currentPassword,
+        password,
+        password_confirmation: passwordConfirmation,
+      },
+    });
   },
 
   updateUISettings({ uiSettings }) {
@@ -159,6 +85,11 @@ export default {
     return axios.delete(endPoints('deleteAvatar').url);
   },
 
+  resetPassword({ email }) {
+    const urlData = endPoints('resetPassword');
+    return axios.post(urlData.url, { email });
+  },
+
   setActiveAccount({ accountId }) {
     const urlData = endPoints('setActiveAccount');
     return axios.put(urlData.url, {
@@ -166,5 +97,13 @@ export default {
         account_id: accountId,
       },
     });
+  },
+  resendConfirmation() {
+    const urlData = endPoints('resendConfirmation');
+    return axios.post(urlData.url);
+  },
+  resetAccessToken() {
+    const urlData = endPoints('resetAccessToken');
+    return axios.post(urlData.url);
   },
 };

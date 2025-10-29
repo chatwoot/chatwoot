@@ -1,126 +1,150 @@
 {
   "CAMPAIGN": {
-    "HEADER": "קמפיין",
-    "SIDEBAR_TXT": "הודעות פרואקטיביות מאפשרות ללקוח לשלוח הודעות יוצאות לאנשי הקשר שלו, מה שיפעיל יותר שיחות. לחץ על <b>הוסף מסע פרסום</b> כדי ליצור מסע פרסום חדש. ניתן גם לערוך או למחוק מסע פרסום קיים על ידי לחיצה על הלחצן ערוך או מחק.",
-    "HEADER_BTN_TXT": {
-      "ONE_OFF": "צור קמפיין חד פעמי",
-      "ONGOING": "צור קמפיין מתמשך"
-    },
-    "ADD": {
-      "TITLE": "צור קמפיין",
-      "DESC": "הודעות יזומות מאפשרות ללקוח לשלוח הודעות לאנשי הקשר שלהם דבר אשר יגרום לשיחות נוספות.",
-      "CANCEL_BUTTON_TEXT": "ביטול",
-      "CREATE_BUTTON_TEXT": "צור",
-      "FORM": {
-        "TITLE": {
-          "LABEL": "כותרת",
-          "PLACEHOLDER": "אנא הכנס כותרת לקמפיין",
-          "ERROR": "כותרת שדה חובה"
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "מופעל",
+          "DISABLED": "כבוי"
         },
-        "SCHEDULED_AT": {
-          "LABEL": "זמן מתוכנן",
-          "PLACEHOLDER": "אנא בחר את הזמן",
-          "CONFIRM": "אמת",
-          "ERROR": "נדרש זמן מתוכנן"
-        },
-        "AUDIENCE": {
-          "LABEL": "קהל",
-          "PLACEHOLDER": "בחר את תוויות הלקוחות",
-          "ERROR": "נדרש קהל"
-        },
-        "INBOX": {
-          "LABEL": "בחר תיבת דואר",
-          "PLACEHOLDER": "בחר תיבת דואר",
-          "ERROR": "נדרשת תיבת דואר נכנס"
-        },
-        "MESSAGE": {
-          "LABEL": "הודעה",
-          "PLACEHOLDER": "אנא הכנס הודעה לקמפיין",
-          "ERROR": "הודעה שדה חובה"
-        },
-        "SENT_BY": {
-          "LABEL": "נשלח על ידי",
-          "PLACEHOLDER": "אנא בחר תוכן לקמפיין",
-          "ERROR": "שולח שדה חובה"
-        },
-        "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "אנא הכנס כתובת URL",
-          "ERROR": "אנא הכנס כתובת URL חוקית"
-        },
-        "TIME_ON_PAGE": {
-          "LABEL": "זמן על הדף (שניות)",
-          "PLACEHOLDER": "אנא הכנס זמן",
-          "ERROR": "זמן על הדף שדה חובה"
-        },
-        "ENABLED": "הפעל קמפיין",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "הפעל רק בשעות העבודה",
-        "SUBMIT": "הוסף קמפיין"
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "נשלח על ידי",
+          "BOT": "בוט",
+          "FROM": "מ",
+          "URL": "URL:"
+        }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "קמפיין נוצר בהצלחה",
-        "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "ביטול",
+        "CREATE_BUTTON_TEXT": "צור",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "כותרת",
+            "PLACEHOLDER": "אנא הכנס כותרת לקמפיין",
+            "ERROR": "כותרת שדה חובה"
+          },
+          "MESSAGE": {
+            "LABEL": "הודעה",
+            "PLACEHOLDER": "אנא הכנס הודעה לקמפיין",
+            "ERROR": "הודעה שדה חובה"
+          },
+          "INBOX": {
+            "LABEL": "בחר תיבת דואר",
+            "PLACEHOLDER": "בחר תיבת דואר",
+            "ERROR": "נדרשת תיבת דואר נכנס"
+          },
+          "SENT_BY": {
+            "LABEL": "נשלח על ידי",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "שולח שדה חובה"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "אנא הכנס כתובת URL",
+            "ERROR": "אנא הכנס כתובת URL חוקית"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "זמן על הדף (שניות)",
+            "PLACEHOLDER": "אנא הכנס זמן",
+            "ERROR": "זמן על הדף שדה חובה"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "הפעל קמפיין",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "הפעל רק בשעות העבודה"
+          },
+          "BUTTONS": {
+            "CREATE": "צור",
+            "CANCEL": "ביטול"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
+          }
+        }
       }
     },
-    "DELETE": {
-      "BUTTON_TEXT": "מחק",
-      "CONFIRM": {
-        "TITLE": "אשר מחיקה",
-        "MESSAGE": "האם אתה בטוח שברצונך למחוק?",
-        "YES": "כן, מחק ",
-        "NO": "לא, השאר "
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
       },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "הושלם",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "ביטול",
+        "CREATE_BUTTON_TEXT": "צור",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "כותרת",
+            "PLACEHOLDER": "אנא הכנס כותרת לקמפיין",
+            "ERROR": "כותרת שדה חובה"
+          },
+          "MESSAGE": {
+            "LABEL": "הודעה",
+            "PLACEHOLDER": "אנא הכנס הודעה לקמפיין",
+            "ERROR": "הודעה שדה חובה"
+          },
+          "INBOX": {
+            "LABEL": "בחר תיבת דואר",
+            "PLACEHOLDER": "בחר תיבת דואר",
+            "ERROR": "נדרשת תיבת דואר נכנס"
+          },
+          "AUDIENCE": {
+            "LABEL": "קהל",
+            "PLACEHOLDER": "בחר את תוויות הלקוחות",
+            "ERROR": "נדרש קהל"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "זמן מתוכנן",
+            "PLACEHOLDER": "אנא בחר את הזמן",
+            "ERROR": "נדרש זמן מתוכנן"
+          },
+          "BUTTONS": {
+            "CREATE": "צור",
+            "CANCEL": "ביטול"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "האם אתה בטוח שברצונך למחוק?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "מסע הפרסום נמחק בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן למחוק את מסע הפרסום. בבקשה נסה שוב מאוחר יותר."
+        "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
       }
-    },
-    "EDIT": {
-      "TITLE": "ערוך קמפיין",
-      "UPDATE_BUTTON_TEXT": "עדכן",
-      "API": {
-        "SUCCESS_MESSAGE": "קמפיין עודכן בהצלחה",
-        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
-      }
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "טוען קמפיינים...",
-      "404": "אין קמפיינים שנוצרו עבור תיבה זו.",
-      "TABLE_HEADER": {
-        "TITLE": "כותרת",
-        "MESSAGE": "הודעה",
-        "INBOX": "תיבת הדואר הנכנס",
-        "STATUS": "מצב",
-        "SENDER": "שולח",
-        "URL": "URL",
-        "SCHEDULED_AT": "זמן מתוכנן",
-        "TIME_ON_PAGE": "זמן(שניות)",
-        "CREATED_AT": "נוצר בזמן"
-      },
-      "BUTTONS": {
-        "ADD": "הוסף",
-        "EDIT": "ערוך",
-        "DELETE": "מחק"
-      },
-      "STATUS": {
-        "ENABLED": "מופעל",
-        "DISABLED": "כבוי",
-        "COMPLETED": "הושלם",
-        "ACTIVE": "פעיל"
-      },
-      "SENDER": {
-        "BOT": "בוט"
-      }
-    },
-    "ONE_OFF": {
-      "HEADER": "קמפיינים חד פעמיים",
-      "404": "לא נוצרו מסעות פרסום חד פעמיים",
-      "INBOXES_NOT_FOUND": "נא ליצור תיבת SMS ולהתחיל להוסיף קמפיינים"
-    },
-    "ONGOING": {
-      "HEADER": "קמפיינים מתמשכים",
-      "404": "לא נוצרו קמפיינים מתמשכים",
-      "INBOXES_NOT_FOUND": "אנא צור תיבת דואר נכנס באתר והתחל להוסיף קמפיינים"
     }
   }
 }

@@ -41,6 +41,17 @@ RSpec.describe 'Session', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(user_with_new_pwd.email)
       end
+
+      it 'returns the permission of the user' do
+        params = { email: user.email, password: 'Password1!' }
+
+        post new_user_session_url,
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['data']['accounts'].first['permissions']).to eq(['agent'])
+      end
     end
 
     context 'when it is invalid sso auth token' do
@@ -72,6 +83,14 @@ RSpec.describe 'Session', type: :request do
         post new_user_session_url, params: params, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
+    end
+  end
+
+  describe 'GET /auth/sign_in' do
+    it 'redirects to the frontend login page with error' do
+      get new_user_session_url
+
+      expect(response).to redirect_to(%r{/app/login\?error=access-denied$})
     end
   end
 end

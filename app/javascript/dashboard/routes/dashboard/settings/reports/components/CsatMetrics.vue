@@ -1,54 +1,11 @@
-<template>
-  <div class="row csat--metrics-container">
-    <csat-metric-card
-      :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
-      :info-text="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP')"
-      :value="responseCount"
-    />
-    <csat-metric-card
-      :disabled="ratingFilterEnabled"
-      :label="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL')"
-      :info-text="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.TOOLTIP')"
-      :value="ratingFilterEnabled ? '--' : formatToPercent(satisfactionScore)"
-    />
-    <csat-metric-card
-      :label="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL')"
-      :info-text="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP')"
-      :value="formatToPercent(responseRate)"
-    />
-    <div
-      v-if="metrics.totalResponseCount && !ratingFilterEnabled"
-      class="medium-6 report-card"
-    >
-      <h3 class="heading">
-        <div class="emoji--distribution">
-          <div
-            v-for="(rating, key, index) in ratingPercentage"
-            :key="rating + key + index"
-            class="emoji--distribution-item"
-          >
-            <span class="emoji--distribution-key">{{
-              ratingToEmoji(key)
-            }}</span>
-            <span>{{ formatToPercent(rating) }}</span>
-          </div>
-        </div>
-      </h3>
-      <div class="emoji--distribution-chart">
-        <woot-horizontal-bar :collection="chartData" :height="24" />
-      </div>
-    </div>
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
-import CsatMetricCard from './CsatMetricCard';
+import CsatMetricCard from './ReportMetricCard.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
+import BarChart from 'shared/components/charts/BarChart.vue';
 
 export default {
-  components: {
-    CsatMetricCard,
-  },
+  components: { BarChart, CsatMetricCard },
   props: {
     filters: {
       type: Object,
@@ -71,9 +28,10 @@ export default {
       return Boolean(this.filters.rating);
     },
     chartData() {
+      const sortedRatings = [...CSAT_RATINGS].sort((a, b) => b.value - a.value);
       return {
         labels: ['Rating'],
-        datasets: CSAT_RATINGS.map(rating => ({
+        datasets: sortedRatings.map(rating => ({
           label: rating.emoji,
           data: [this.ratingPercentage[rating.value]],
           backgroundColor: rating.color,
@@ -84,6 +42,33 @@ export default {
       return this.metrics.totalResponseCount
         ? this.metrics.totalResponseCount.toLocaleString()
         : '--';
+    },
+    chartOptions() {
+      return {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: false,
+          },
+          tooltip: {
+            enabled: false,
+          },
+        },
+        scales: {
+          x: {
+            display: false,
+            stacked: true,
+          },
+          y: {
+            display: false,
+            stacked: true,
+          },
+        },
+      };
     },
   },
   methods: {
@@ -96,29 +81,55 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.csat--metrics-container {
-  background: var(--white);
-  margin-bottom: var(--space-two);
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
-  padding: var(--space-normal);
-}
 
-.emoji--distribution {
-  display: flex;
-  justify-content: flex-end;
+<!-- eslint-disable vue/no-unused-refs -->
+<!-- Added ref for writing specs -->
+<template>
+  <div
+    class="flex-col lg:flex-row flex flex-wrap mx-0 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-8 gap-4"
+  >
+    <CsatMetricCard
+      :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
+      :info-text="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP')"
+      :value="responseCount"
+      class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"
+    />
+    <CsatMetricCard
+      :disabled="ratingFilterEnabled"
+      :label="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL')"
+      :info-text="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.TOOLTIP')"
+      :value="ratingFilterEnabled ? '--' : formatToPercent(satisfactionScore)"
+      class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"
+    />
+    <CsatMetricCard
+      :label="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL')"
+      :info-text="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP')"
+      :value="formatToPercent(responseRate)"
+      class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"
+    />
 
-  .emoji--distribution-item {
-    padding-left: var(--space-normal);
-  }
-}
-
-.emoji--distribution-chart {
-  margin-top: var(--space-small);
-}
-
-.emoji--distribution-key {
-  margin: 0 var(--space-micro);
-}
-</style>
+    <div
+      v-if="metrics.totalResponseCount && !ratingFilterEnabled"
+      ref="csatBarChart"
+      class="w-full md:w-1/2 md:max-w-[50%] flex-1 rtl:[direction:initial]"
+    >
+      <h3
+        class="flex items-center m-0 text-xs font-medium md:text-sm text-n-slate-12"
+      >
+        <div class="flex flex-row-reverse justify-end">
+          <div
+            v-for="(rating, key, index) in ratingPercentage"
+            :key="rating + key + index"
+            class="ltr:pr-4 rtl:pl-4"
+          >
+            <span class="my-0 mx-0.5">{{ ratingToEmoji(key) }}</span>
+            <span>{{ formatToPercent(rating) }}</span>
+          </div>
+        </div>
+      </h3>
+      <div class="mt-2 h-6">
+        <BarChart :collection="chartData" :chart-options="chartOptions" />
+      </div>
+    </div>
+  </div>
+</template>

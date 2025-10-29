@@ -4,8 +4,8 @@ describe Sms::OneoffSmsCampaignService do
   subject(:sms_campaign_service) { described_class.new(campaign: campaign) }
 
   let(:account) { create(:account) }
-  let!(:sms_channel) { create(:channel_sms) }
-  let!(:sms_inbox) { create(:inbox, channel: sms_channel) }
+  let!(:sms_channel) { create(:channel_sms, account: account) }
+  let!(:sms_inbox) { create(:inbox, channel: sms_channel, account: account) }
   let(:label1) { create(:label, account: account) }
   let(:label2) { create(:label, account: account) }
   let!(:campaign) do
@@ -42,6 +42,15 @@ describe Sms::OneoffSmsCampaignService do
       sms_campaign_service.perform
       assert_requested(:post, 'https://messaging.bandwidth.com/api/v2/users/1/messages', times: 3)
       expect(campaign.reload.completed?).to be true
+    end
+
+    it 'uses liquid template service to process campaign message' do
+      contact = create(:contact, :with_phone_number, account: account)
+      contact.update_labels([label1.title])
+
+      expect(Liquid::CampaignTemplateService).to receive(:new).with(campaign: campaign, contact: contact).and_call_original
+
+      sms_campaign_service.perform
     end
   end
 end

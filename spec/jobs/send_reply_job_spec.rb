@@ -84,5 +84,29 @@ RSpec.describe SendReplyJob do
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
+
+    it 'calls ::Instagram::Direct::SendOnInstagramService when its instagram message' do
+      instagram_channel = create(:channel_instagram)
+      message = create(:message, conversation: create(:conversation, inbox: instagram_channel.inbox))
+      allow(Instagram::SendOnInstagramService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Instagram::SendOnInstagramService).to receive(:new).with(message: message)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(message.id)
+    end
+
+    it 'calls ::Instagram::Messenger::SendOnInstagramService when its an instagram_direct_message from facebook channel' do
+      stub_request(:post, /graph.facebook.com/)
+      facebook_channel = create(:channel_facebook_page)
+      facebook_inbox = create(:inbox, channel: facebook_channel)
+      conversation = create(:conversation,
+                            inbox: facebook_inbox,
+                            additional_attributes: { 'type' => 'instagram_direct_message' })
+      message = create(:message, conversation: conversation)
+
+      allow(Instagram::Messenger::SendOnInstagramService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Instagram::Messenger::SendOnInstagramService).to receive(:new).with(message: message)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(message.id)
+    end
   end
 end

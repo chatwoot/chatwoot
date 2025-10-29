@@ -63,47 +63,4 @@ shared_examples_for 'assignment_handler' do
       end
     end
   end
-
-  describe '#update_assignee' do
-    subject(:update_assignee) { conversation.update_assignee(agent) }
-
-    let(:conversation) { create(:conversation, assignee: nil) }
-    let(:agent) do
-      create(:user, email: 'agent@example.com', account: conversation.account, role: :agent)
-    end
-    let(:assignment_mailer) { instance_double(AgentNotifications::ConversationNotificationsMailer, deliver: true) }
-
-    before do
-      create(:inbox_member, user: agent, inbox: conversation.inbox)
-    end
-
-    it 'assigns the agent to conversation' do
-      expect(update_assignee).to be(true)
-      expect(conversation.reload.assignee).to eq(agent)
-    end
-
-    it 'dispaches assignee changed event' do
-      # TODO: FIX me
-      # expect(EventDispatcherJob).to(have_been_enqueued.at_least(:once).with('assignee.changed', anything, anything, anything, anything))
-      expect(EventDispatcherJob).to(have_been_enqueued.at_least(:once))
-      expect(update_assignee).to be(true)
-    end
-
-    it 'adds assignee to conversation participants' do
-      expect { update_assignee }.to change { conversation.conversation_participants.count }.by(1)
-    end
-
-    context 'when agent is current user' do
-      before do
-        Current.user = agent
-      end
-
-      it 'creates self-assigned message activity' do
-        expect(update_assignee).to be(true)
-        expect(Conversations::ActivityMessageJob).to(have_been_enqueued.at_least(:once)
-          .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
-                                message_type: :activity, content: "#{agent.name} self-assigned this conversation" }))
-      end
-    end
-  end
 end

@@ -1,12 +1,25 @@
-/* eslint-disable storybook/default-exports */
-import SearchView from './components/SearchView.vue';
 import { frontendURL } from '../../helper/URLHelper';
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+  CONTACT_PERMISSIONS,
+  PORTAL_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
+
+import SearchView from './components/SearchView.vue';
 
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/search'),
     name: 'search',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: [
+        ...ROLES,
+        ...CONVERSATION_PERMISSIONS,
+        CONTACT_PERMISSIONS,
+        PORTAL_PERMISSIONS,
+      ],
+    },
     component: SearchView,
   },
 ];

@@ -1,22 +1,3 @@
-<template>
-  <span
-    v-if="priority"
-    v-tooltip="{
-      content: tooltipText,
-      delay: { show: 1500, hide: 0 },
-      hideOnClick: true,
-    }"
-    class="conversation-priority-mark"
-    :class="{ urgent: priority === CONVERSATION_PRIORITY.URGENT }"
-  >
-    <fluent-icon
-      :icon="`priority-${priority.toLowerCase()}`"
-      size="14"
-      view-box="0 0 14 14"
-    />
-  </span>
-</template>
-
 <script>
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 
@@ -41,24 +22,33 @@ export default {
         `CONVERSATION.PRIORITY.OPTIONS.${this.priority.toUpperCase()}`
       );
     },
+    isUrgent() {
+      return this.priority === CONVERSATION_PRIORITY.URGENT;
+    },
   },
 };
 </script>
 
-<style scoped lang="scss">
-.conversation-priority-mark {
-  align-items: center;
-  flex-shrink: 0;
-  background: var(--s-50);
-  border-radius: var(--border-radius-small);
-  color: var(--s-600);
-  display: inline-flex;
-  width: var(--space-snug);
-  height: var(--space-snug);
-
-  &.urgent {
-    background: var(--r-50);
-    color: var(--r-500);
-  }
-}
-</style>
+<!-- eslint-disable-next-line vue/no-root-v-if -->
+<template>
+  <span
+    v-if="priority"
+    v-tooltip="{
+      content: tooltipText,
+      delay: { show: 1500, hide: 0 },
+      hideOnClick: true,
+    }"
+    class="shrink-0 rounded-sm inline-flex items-center justify-center w-3.5 h-3.5"
+    :class="{
+      'bg-n-ruby-4 text-n-ruby-10': isUrgent,
+      'bg-n-slate-4 text-n-slate-11': !isUrgent,
+    }"
+  >
+    <fluent-icon
+      :icon="`priority-${priority.toLowerCase()}`"
+      :size="isUrgent ? 12 : 14"
+      class="flex-shrink-0"
+      view-box="0 0 14 14"
+    />
+  </span>
+</template>

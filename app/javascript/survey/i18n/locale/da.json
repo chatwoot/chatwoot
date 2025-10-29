@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Kære kunde 👋, tag et øjeblik på at dele feedback om den samtale, du havde med %{inboxName}.",
+    "DESCRIPTION": "Kære kunde 👋, tag et øjeblik på at dele feedback om den samtale, du havde med {inboxName}.",
     "RATING": {
       "LABEL": "Bedøm din samtale",
       "SUCCESS_MESSAGE": "Tak for din bedømmelse"

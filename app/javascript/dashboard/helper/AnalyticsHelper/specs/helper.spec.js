@@ -1,13 +1,13 @@
 import helperObject, { AnalyticsHelper } from '../';
 
-jest.mock('@june-so/analytics-next', () => ({
+vi.mock('@june-so/analytics-next', () => ({
   AnalyticsBrowser: {
     load: () => [
       {
-        identify: jest.fn(),
-        track: jest.fn(),
-        page: jest.fn(),
-        group: jest.fn(),
+        identify: vi.fn(),
+        track: vi.fn(),
+        page: vi.fn(),
+        group: vi.fn(),
       },
     ],
   },
@@ -40,7 +40,7 @@ describe('AnalyticsHelper', () => {
 
   describe('identify', () => {
     beforeEach(() => {
-      analyticsHelper.analytics = { identify: jest.fn(), group: jest.fn() };
+      analyticsHelper.analytics = { identify: vi.fn(), group: vi.fn() };
     });
 
     it('should call identify on analytics browser with correct arguments', () => {
@@ -87,7 +87,7 @@ describe('AnalyticsHelper', () => {
 
   describe('track', () => {
     beforeEach(() => {
-      analyticsHelper.analytics = { track: jest.fn() };
+      analyticsHelper.analytics = { track: vi.fn() };
       analyticsHelper.user = { id: '123' };
     });
 
@@ -118,7 +118,7 @@ describe('AnalyticsHelper', () => {
 
   describe('page', () => {
     beforeEach(() => {
-      analyticsHelper.analytics = { page: jest.fn() };
+      analyticsHelper.analytics = { page: vi.fn() };
     });
 
     it('should call the analytics.page method with the correct arguments', () => {

@@ -5,7 +5,7 @@ export default {
     ...mapGetters({ darkMode: 'appConfig/darkMode' }),
   },
   methods: {
-    $dm(light, dark) {
+    dm(light, dark) {
       if (this.darkMode === 'light') {
         return light;
       }

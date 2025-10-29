@@ -1,6 +1,5 @@
 import conversationAPI from '../../inbox/conversation';
 import ApiClient from '../../ApiClient';
-import describeWithAPIMock from '../apiSpecHelper';
 
 describe('#ConversationAPI', () => {
   it('creates correct instance', () => {
@@ -22,7 +21,23 @@ describe('#ConversationAPI', () => {
     expect(conversationAPI).toHaveProperty('filter');
   });
 
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: vi.fn(() => Promise.resolve()),
+      get: vi.fn(() => Promise.resolve()),
+      patch: vi.fn(() => Promise.resolve()),
+      delete: vi.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#get conversations', () => {
       conversationAPI.get({
         inboxId: 1,
@@ -31,20 +46,19 @@ describe('#ConversationAPI', () => {
         page: 1,
         labels: [],
         teamId: 1,
+        updatedWithin: 20,
       });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/conversations',
-        {
-          params: {
-            inbox_id: 1,
-            team_id: 1,
-            status: 'open',
-            assignee_type: 'me',
-            page: 1,
-            labels: [],
-          },
-        }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/conversations', {
+        params: {
+          inbox_id: 1,
+          team_id: 1,
+          status: 'open',
+          assignee_type: 'me',
+          page: 1,
+          labels: [],
+          updated_within: 20,
+        },
+      });
     });
 
     it('#search', () => {
@@ -53,7 +67,7 @@ describe('#ConversationAPI', () => {
         page: 1,
       });
 
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
+      expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/conversations/search',
         {
           params: {
@@ -66,7 +80,7 @@ describe('#ConversationAPI', () => {
 
     it('#toggleStatus', () => {
       conversationAPI.toggleStatus({ conversationId: 12, status: 'online' });
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         `/api/v1/conversations/12/toggle_status`,
         {
           status: 'online',
@@ -77,7 +91,7 @@ describe('#ConversationAPI', () => {
 
     it('#assignAgent', () => {
       conversationAPI.assignAgent({ conversationId: 12, agentId: 34 });
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         `/api/v1/conversations/12/assignments?assignee_id=34`,
         {}
       );
@@ -85,7 +99,7 @@ describe('#ConversationAPI', () => {
 
     it('#assignTeam', () => {
       conversationAPI.assignTeam({ conversationId: 12, teamId: 1 });
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         `/api/v1/conversations/12/assignments`,
         {
           team_id: 1,
@@ -95,7 +109,7 @@ describe('#ConversationAPI', () => {
 
     it('#markMessageRead', () => {
       conversationAPI.markMessageRead({ id: 12 });
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         `/api/v1/conversations/12/update_last_seen`
       );
     });
@@ -105,7 +119,7 @@ describe('#ConversationAPI', () => {
         conversationId: 12,
         status: 'typing_on',
       });
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         `/api/v1/conversations/12/toggle_typing_status`,
         {
           typing_status: 'typing_on',
@@ -115,14 +129,14 @@ describe('#ConversationAPI', () => {
 
     it('#mute', () => {
       conversationAPI.mute(45);
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/45/mute'
       );
     });
 
     it('#unmute', () => {
       conversationAPI.unmute(45);
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/45/unmute'
       );
     });
@@ -135,18 +149,15 @@ describe('#ConversationAPI', () => {
         labels: [],
         teamId: 1,
       });
-      expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/conversations/meta',
-        {
-          params: {
-            inbox_id: 1,
-            team_id: 1,
-            status: 'open',
-            assignee_type: 'me',
-            labels: [],
-          },
-        }
-      );
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/conversations/meta', {
+        params: {
+          inbox_id: 1,
+          team_id: 1,
+          status: 'open',
+          assignee_type: 'me',
+          labels: [],
+        },
+      });
     });
 
     it('#sendEmailTranscript', () => {
@@ -154,7 +165,7 @@ describe('#ConversationAPI', () => {
         conversationId: 45,
         email: 'john@acme.inc',
       });
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/45/transcript',
         {
           email: 'john@acme.inc',
@@ -167,7 +178,7 @@ describe('#ConversationAPI', () => {
         conversationId: 45,
         customAttributes: { order_d: '1001' },
       });
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/45/custom_attributes',
         {
           custom_attributes: { order_d: '1001' },
@@ -202,12 +213,17 @@ describe('#ConversationAPI', () => {
         },
       };
       conversationAPI.filter(payload);
-      expect(
-        context.axiosMock.post
-      ).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/filter',
         payload.queryData,
         { params: { page: payload.page } }
+      );
+    });
+
+    it('#getAllAttachments', () => {
+      conversationAPI.getAllAttachments(1);
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/conversations/1/attachments'
       );
     });
   });

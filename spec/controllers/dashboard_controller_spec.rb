@@ -18,6 +18,14 @@ describe '/app/login', type: :request do
     end
   end
 
+  context 'with non-HTML format' do
+    it 'returns not acceptable for JSON with error message' do
+      get '/app/login', headers: { 'Accept' => 'application/json' }
+      expect(response).to have_http_status(:not_acceptable)
+      expect(response.parsed_body).to eq({ 'error' => 'Please use API routes instead of dashboard routes for JSON requests' })
+    end
+  end
+
   # Routes are loaded once on app start
   # hence Rails.application.reload_routes! is used in this spec
   # ref : https://stackoverflow.com/a/63584877/939299

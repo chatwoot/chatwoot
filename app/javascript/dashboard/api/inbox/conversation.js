@@ -15,6 +15,7 @@ class ConversationApi extends ApiClient {
     teamId,
     conversationType,
     sortBy,
+    updatedWithin,
   }) {
     return axios.get(this.url, {
       params: {
@@ -26,6 +27,7 @@ class ConversationApi extends ApiClient {
         labels,
         conversation_type: conversationType,
         sort_by: sortBy,
+        updated_within: updatedWithin,
       },
     });
   }
@@ -126,6 +128,18 @@ class ConversationApi extends ApiClient {
     return axios.patch(`${this.url}/${conversationId}/participants`, {
       user_ids: userIds,
     });
+  }
+
+  getAllAttachments(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/attachments`);
+  }
+
+  getInboxAssistant(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/inbox_assistant`);
+  }
+
+  delete(conversationId) {
+    return axios.delete(`${this.url}/${conversationId}`);
   }
 }
 

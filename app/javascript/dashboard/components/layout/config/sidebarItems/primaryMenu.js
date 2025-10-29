@@ -3,12 +3,27 @@ import { frontendURL } from '../../../../helper/URLHelper';
 
 const primaryMenuItems = accountId => [
   {
+    icon: 'mail-inbox',
+    key: 'inboxView',
+    label: 'INBOX_VIEW',
+    featureFlag: FEATURE_FLAGS.INBOX_VIEW,
+    toState: frontendURL(`accounts/${accountId}/inbox-view`),
+    toStateName: 'inbox_view',
+  },
+  {
     icon: 'chat',
     key: 'conversations',
     label: 'CONVERSATIONS',
     toState: frontendURL(`accounts/${accountId}/dashboard`),
     toStateName: 'home',
-    roles: ['administrator', 'agent'],
+  },
+  {
+    icon: 'captain',
+    key: 'captain',
+    label: 'CAPTAIN',
+    featureFlag: FEATURE_FLAGS.CAPTAIN,
+    toState: frontendURL(`accounts/${accountId}/captain/documents`),
+    toStateName: 'captain',
   },
   {
     icon: 'book-contacts',
@@ -16,8 +31,7 @@ const primaryMenuItems = accountId => [
     label: 'CONTACTS',
     featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/contacts`),
-    toStateName: 'contacts_dashboard',
-    roles: ['administrator', 'agent'],
+    toStateName: 'contacts_dashboard_index',
   },
   {
     icon: 'arrow-trending-lines',
@@ -25,8 +39,7 @@ const primaryMenuItems = accountId => [
     label: 'REPORTS',
     featureFlag: FEATURE_FLAGS.REPORTS,
     toState: frontendURL(`accounts/${accountId}/reports`),
-    toStateName: 'settings_account_reports',
-    roles: ['administrator'],
+    toStateName: 'account_overview_reports',
   },
   {
     icon: 'megaphone',
@@ -34,17 +47,16 @@ const primaryMenuItems = accountId => [
     label: 'CAMPAIGNS',
     featureFlag: FEATURE_FLAGS.CAMPAIGNS,
     toState: frontendURL(`accounts/${accountId}/campaigns`),
-    toStateName: 'settings_account_campaigns',
-    roles: ['administrator'],
+    toStateName: 'campaigns_ongoing_index',
   },
   {
     icon: 'library',
     key: 'helpcenter',
     label: 'HELP_CENTER.TITLE',
     featureFlag: FEATURE_FLAGS.HELP_CENTER,
-    toState: frontendURL(`accounts/${accountId}/portals`),
-    toStateName: 'default_portal_articles',
-    roles: ['administrator'],
+    alwaysVisibleOnChatwootInstances: true,
+    toState: frontendURL(`accounts/${accountId}/portals/portal_articles_index`),
+    toStateName: 'portals_index',
   },
   {
     icon: 'settings',
@@ -52,7 +64,6 @@ const primaryMenuItems = accountId => [
     label: 'SETTINGS',
     toState: frontendURL(`accounts/${accountId}/settings`),
     toStateName: 'settings_home',
-    roles: ['administrator', 'agent'],
   },
 ];
 

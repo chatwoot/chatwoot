@@ -1,0 +1,53 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "Prikaz {startItem} - {endItem} od {totalItems} elementov",
+    "CURRENT_PAGE_INFO": "{currentPage} od {totalPages} strani"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Izberite možnost ...",
+    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "EMPTY_STATE": "Ni rezultatov.",
+    "SEARCH_PLACEHOLDER": "Iskanje ...",
+    "MORE": "+{count} more"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Iskanje ...",
+    "EMPTY_STATE": "Ni rezultatov.",
+    "SEARCHING": "Iskanje ..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "Prekliči",
+      "CONFIRM": "Potrdi"
+    }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Poišči državo",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Please select a dial code from the list"
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Avtor ni na voljo"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Drobtina"
+  },
+  "SWITCH": {
+    "TOGGLE": "Toggle switch"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "tag"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "Learn more",
+    "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
+  }
+}

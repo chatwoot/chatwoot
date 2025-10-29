@@ -1,0 +1,44 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Ustvari račun",
+    "TITLE": "Registrirajte se",
+    "TESTIMONIAL_HEADER": "Le še en korak, da napredujete",
+    "TESTIMONIAL_CONTENT": "Ste le korak stran od tega, da pritegnete svoje stranke, jih obdržite in najdete nove.",
+    "TERMS_ACCEPT": "Z ustvarjanjem računa se strinjate z našimi <a href=\"https://www.chatwoot.com/terms\">Pogoji uporabe</a> in z <a href=\"https://www.chatwoot.com/privacy-policy\">Politiko zasebnosti</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Prijavite se z Googlom"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Ime podjetja",
+      "PLACEHOLDER": "Vnesite ime vašega podjetja. Npr. Wayne Enterprises",
+      "ERROR": "Ime podjetja je prekratko."
+    },
+    "FULL_NAME": {
+      "LABEL": "Polno ime",
+      "PLACEHOLDER": "Vnesite svoje polno ime. Npr. Bruce Wayne",
+      "ERROR": "Polno ime je prekratko."
+    },
+    "EMAIL": {
+      "LABEL": "Službena e-pošta",
+      "PLACEHOLDER": "Vnesite svoj službeni e-poštni naslov. Npr. bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Vnesite veljaven službeni e-poštni naslov."
+    },
+    "PASSWORD": {
+      "LABEL": "Geslo",
+      "PLACEHOLDER": "Geslo",
+      "ERROR": "Geslo je prekratko.",
+      "IS_INVALID_PASSWORD": "Geslo mora vsebovati vsaj 1 veliko črko, 1 malo črko, 1 številko in 1 poseben znak."
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Potrdite geslo",
+      "PLACEHOLDER": "Potrdite geslo",
+      "ERROR": "Geslo se ne ujema."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registracija uspešna",
+      "ERROR_MESSAGE": "Ni bilo mogoče vzpostaviti povezave s strežnikom. Prosimo poskusite ponovno."
+    },
+    "SUBMIT": "Ustvari račun",
+    "HAVE_AN_ACCOUNT": "Že imate račun?"
+  }
+}

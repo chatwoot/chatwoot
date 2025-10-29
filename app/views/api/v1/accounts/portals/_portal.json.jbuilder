@@ -17,15 +17,13 @@ json.config do
   end
 end
 
-json.logo portal.file_base_data if portal.logo.present?
-
-json.portal_members do
-  if portal.members.any?
-    json.array! portal.members.each do |member|
-      json.partial! 'api/v1/models/agent', formats: [:json], resource: member
-    end
+if portal.channel_web_widget
+  json.inbox do
+    json.partial! 'api/v1/models/inbox', formats: [:json], resource: portal.channel_web_widget.inbox
   end
 end
+
+json.logo portal.file_base_data if portal.logo.present?
 
 json.meta do
   json.all_articles_count articles.try(:size)

@@ -3,25 +3,26 @@
     "HEADER": "ラベル",
     "HEADER_BTN_TXT": "ラベルを追加",
     "LOADING": "ラベルを取得中",
+    "DESCRIPTION": "ラベルは会話やリードを分類し、優先順位をつけるのに役立ちます。サイドパネルを使用して会話や連絡先にラベルを割り当てることができます。",
+    "LEARN_MORE": "ラベルについて詳しく知る",
     "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
-    "SIDEBAR_TXT": "<p><b>ラベル</b> <p>ラベルは会話のカテゴリー分けや優先順位づけに便利です。サイドパネルから、会話に対してラベルを設定することができます。<br /><br />ラベルはアカウントと関連付けられ、組織内のカスタムワークフローにも利用できます。ラベルには個別の色を設定できるので、認識が容易になります。サイドバーにラベルを表示させることによって、会話を絞り込むことが簡単にできます。</p>",
     "LIST": {
       "404": "このアカウントには利用可能なラベルがありません。",
       "TITLE": "ラベルの管理",
       "DESC": "ラベルを使用すると、会話をグループ化できます。",
-      "TABLE_HEADER": [
-        "名前",
-        "説明",
-        "色"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "名前",
+        "DESCRIPTION": "説明",
+        "COLOR": "色"
+      }
     },
     "FORM": {
       "NAME": {
         "LABEL": "ラベル名",
         "PLACEHOLDER": "ラベル名",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "ラベル名は必須です",
+        "MINIMUM_LENGTH_ERROR": "最小2文字が必要です",
+        "VALID_ERROR": "アルファベット、数字、ハイフン、アンダースコアのみ使用可能です"
       },
       "DESCRIPTION": {
         "LABEL": "説明",
@@ -37,6 +38,20 @@
       "CREATE": "作成",
       "DELETE": "削除",
       "CANCEL": "キャンセル"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "会話にラベルを追加",
+        "MULTIPLE_SUGGESTION": "このラベルを選択",
+        "DESELECT": "ラベルの選択を解除",
+        "DISMISS": "提案を無視"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "提案を無視",
+      "ADD_SELECTED_LABELS": "選択したラベルを追加",
+      "ADD_SELECTED_LABEL": "選択したラベルを追加",
+      "ADD_ALL_LABELS": "すべてのラベルを追加",
+      "SUGGESTED_LABELS": "提案されたラベル"
     },
     "ADD": {
       "TITLE": "ラベルを追加",

@@ -18,6 +18,10 @@ class CacheEnabledApiClient extends ApiClient {
       return this.getFromCache();
     }
 
+    return this.getFromNetwork();
+  }
+
+  getFromNetwork() {
     return axios.get(this.url);
   }
 
@@ -32,7 +36,12 @@ class CacheEnabledApiClient extends ApiClient {
   }
 
   async getFromCache() {
-    await this.dataManager.initDb();
+    try {
+      // IDB is not supported in Firefox private mode: https://bugzilla.mozilla.org/show_bug.cgi?id=781982
+      await this.dataManager.initDb();
+    } catch {
+      return this.getFromNetwork();
+    }
 
     const { data } = await axios.get(
       `/api/v1/accounts/${this.accountIdFromRoute}/cache_keys`
@@ -55,16 +64,22 @@ class CacheEnabledApiClient extends ApiClient {
   }
 
   async refetchAndCommit(newKey = null) {
-    await this.dataManager.initDb();
-    const response = await axios.get(this.url);
-    this.dataManager.replace({
-      modelName: this.cacheModelName,
-      data: this.extractDataFromResponse(response),
-    });
+    const response = await this.getFromNetwork();
 
-    await this.dataManager.setCacheKeys({
-      [this.cacheModelName]: newKey,
-    });
+    try {
+      await this.dataManager.initDb();
+
+      this.dataManager.replace({
+        modelName: this.cacheModelName,
+        data: this.extractDataFromResponse(response),
+      });
+
+      await this.dataManager.setCacheKeys({
+        [this.cacheModelName]: newKey,
+      });
+    } catch {
+      // Ignore error
+    }
 
     return response;
   }

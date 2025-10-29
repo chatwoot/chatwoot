@@ -1,0 +1,53 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "Показаны {startItem}-{endItem} из {totalItems} элементов",
+    "CURRENT_PAGE_INFO": "{currentPage} из {totalPages} страниц"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Выберите параметр...",
+    "EMPTY_SEARCH_RESULTS": "Не найдено элементов для поиска `{searchTerm}`",
+    "EMPTY_STATE": "Результаты не найдены.",
+    "SEARCH_PLACEHOLDER": "Поиск...",
+    "MORE": "+{count} еще"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Поиск...",
+    "EMPTY_STATE": "Результаты не найдены.",
+    "SEARCHING": "Идёт поиск..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "Отменить",
+      "CONFIRM": "Подтвердить"
+    }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Поиск по стране",
+    "ERROR": "Номер телефона должен быть пустым или в формате E.164",
+    "DIAL_CODE_ERROR": "Пожалуйста, выберите код набора из списка"
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Автор недоступен"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Навигация"
+  },
+  "SWITCH": {
+    "TOGGLE": "Переключить"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "тег"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "Узнайте больше",
+    "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
+  }
+}

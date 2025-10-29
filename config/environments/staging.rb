@@ -53,13 +53,15 @@ Rails.application.configure do
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
   config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
 
+  Rails.application.config.action_cable.allowed_request_origins = [ 'https://birde.dev', 'https://birde.chat', /https:\/\/.*\.birde\.dev/ ]
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = [I18n.default_locale]
-  
+
    # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
-  
+
   config.active_job.queue_adapter = :sidekiq
 
   # Send deprecation notices to registered listeners.

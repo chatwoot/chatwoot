@@ -35,6 +35,15 @@ describe('#createTemporaryMessage', () => {
     expect(message.content).toBe('hello');
     expect(message.status).toBe('in_progress');
   });
+  it('returns message object with reply to', () => {
+    const message = createTemporaryMessage({
+      content: 'hello',
+      replyTo: 124,
+    });
+    expect(message.content).toBe('hello');
+    expect(message.status).toBe('in_progress');
+    expect(message.replyTo).toBe(124);
+  });
 });
 
 describe('#getNonDeletedMessages', () => {

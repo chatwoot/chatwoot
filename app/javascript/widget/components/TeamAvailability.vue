@@ -1,50 +1,20 @@
-<template>
-  <div class="px-5 pb-5 responsive-container">
-    <div class="flex items-center justify-between mb-4">
-      <div
-        class="max-w-xs"
-        :class="$dm('text-black-700', 'dark:text-slate-50')"
-      >
-        <div class="text-base leading-5 font-medium mb-1">
-          {{ $t('TEAM_AVAILABILITY.ONLINE') }}
-        </div>
-        <div class="text-xs leading-4 mt-1">
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-      <available-agents v-if="isOnline" :agents="availableAgents" />
-    </div>
-    <custom-button
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startConversation"
-    >
-      {{
-        hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
-      }}
-    </custom-button>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
+import { IFrameHelper } from 'widget/helpers/utils';
+import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import CustomButton from 'shared/components/Button.vue';
+import darkModeMixin from '../mixins/darkModeMixin';
 
 export default {
   name: 'TeamAvailability',
   components: {
-    AvailableAgents,
     CustomButton,
   },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkMixin],
+  mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkModeMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -55,6 +25,7 @@ export default {
       default: false,
     },
   },
+  emits: ['startConversation'],
 
   computed: {
     ...mapGetters({
@@ -62,6 +33,13 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    agentAvatars() {
+      return this.availableAgents.map(agent => ({
+        name: agent.name,
+        avatar: agent.avatar_url,
+        id: agent.id,
+      }));
     },
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
@@ -75,14 +53,47 @@ export default {
   },
   methods: {
     startConversation() {
-      this.$emit('start-conversation');
+      this.$emit('startConversation');
+      if (!this.hasConversation) {
+        IFrameHelper.sendMessage({
+          event: 'onEvent',
+          eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+          data: { hasConversation: false },
+        });
+      }
     },
   },
 };
 </script>
 
+<template>
+  <div class="px-5 pb-5 responsive-container">
+    <div class="flex items-center justify-between mb-4">
+      <div class="max-w-xs" :class="dm('text-black-700', 'dark:text-slate-50')">
+        <div class="text-base leading-5 font-medium mb-1">
+          {{ $t('TEAM_AVAILABILITY.ONLINE') }}
+        </div>
+        <div class="text-xs leading-4 mt-1">
+          {{ replyWaitMessage }}
+        </div>
+      </div>
+    </div>
+    <CustomButton
+      class="font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startConversation"
+    >
+      {{
+        hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
+      }}
+    </CustomButton>
+  </div>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables';
 
 .responsive-container {
   max-width: $break-point-tablet;

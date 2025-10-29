@@ -2,6 +2,7 @@ import PortalAPI from 'dashboard/api/helpCenter/portals';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
 const portalAPIs = new PortalAPI();
+
 export const actions = {
   index: async ({ commit }) => {
     try {
@@ -89,7 +90,30 @@ export const actions = {
     }
   },
 
+  deleteLogo: async ({ commit }, { portalSlug }) => {
+    commit(types.SET_HELP_PORTAL_UI_FLAG, {
+      uiFlags: { isUpdating: true },
+      portalSlug,
+    });
+    try {
+      await portalAPIs.deleteLogo(portalSlug);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_HELP_PORTAL_UI_FLAG, {
+        uiFlags: { isUpdating: false },
+        portalSlug,
+      });
+    }
+  },
+
   updatePortal: async ({ commit }, portal) => {
     commit(types.UPDATE_PORTAL_ENTRY, portal);
+  },
+
+  switchPortal: async ({ commit }, isSwitching) => {
+    commit(types.SET_PORTAL_SWITCHING_FLAG, {
+      isSwitching,
+    });
   },
 };

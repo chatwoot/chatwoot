@@ -3,26 +3,16 @@ module ConversationMuteHelpers
 
   def mute!
     resolved!
-    Redis::Alfred.setex(mute_key, 1, mute_period)
+    contact.update(blocked: true)
     create_muted_message
   end
 
   def unmute!
-    Redis::Alfred.delete(mute_key)
+    contact.update(blocked: false)
     create_unmuted_message
   end
 
   def muted?
-    Redis::Alfred.get(mute_key).present?
-  end
-
-  private
-
-  def mute_key
-    format(Redis::RedisKeys::CONVERSATION_MUTE_KEY, id: id)
-  end
-
-  def mute_period
-    6.hours
+    contact.blocked?
   end
 end

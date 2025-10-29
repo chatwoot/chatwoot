@@ -54,6 +54,10 @@ else
         resource '*', headers: :any, methods: :any, expose: %w[access-token client uid expiry]
       end
     end
+
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_API_CORS', false))
+      resource '/api/*', headers: :any, methods: :any, expose: %w[access-token client uid expiry]
+    end
   end
 end
 
@@ -64,7 +68,7 @@ end
 # Mount Action Cable outside main process or domain
 # Rails.application.config.action_cable.mount_path = nil
 # Rails.application.config.action_cable.url = 'wss://example.com/cable'
-# Rails.application.config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
+Rails.application.config.action_cable.allowed_request_origins = [ 'https://birde.dev', 'https://birde.chat', /https:\/\/.*\.birde\.dev/ ]
 
 # To Enable connecting to the API channel public APIs
 # ref : https://medium.com/@emikaijuin/connecting-to-action-cable-without-rails-d39a8aaa52d5

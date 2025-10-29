@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Predloge za WhatsApp",
+            "SUBTITLE": "Izberite predlogo WhatsApp, ki jo želite poslati",
+            "TEMPLATE_SELECTED_SUBTITLE": "Obdelaj {templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Išči predloge",
+            "NO_TEMPLATES_FOUND": "Ni najdenih predlog za",
+            "LABELS": {
+                "LANGUAGE": "Jezik",
+                "TEMPLATE_BODY": "Telo predloge",
+                "CATEGORY": "Kategorija"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Spremenljivke",
+            "VARIABLE_PLACEHOLDER": "Vnesi vrednost {variable}",
+            "GO_BACK_LABEL": "Pojdi nazaj",
+            "SEND_MESSAGE_LABEL": "Pošlji sporočilo",
+            "FORM_ERROR_MESSAGE": "Prosimo, izpolnite vse spremenljivke pred pošiljanjem"
+        }
+    }
+}

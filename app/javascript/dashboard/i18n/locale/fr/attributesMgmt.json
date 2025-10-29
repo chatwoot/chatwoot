@@ -1,27 +1,28 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Attributs personnalisés",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER_BTN_TXT": "Ajouter un attribut personnalisé",
+    "LOADING": "Récupération des attributs personnalisés",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Ajouter un attribut personnalisé",
       "SUBMIT": "Créer",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "FORM": {
         "NAME": {
           "LABEL": "Nom affiché",
-          "PLACEHOLDER": "Enter custom attribute display name",
+          "PLACEHOLDER": "Entrez le nom de l'attribut personnalisé",
           "ERROR": "Le nom est requis"
         },
         "DESC": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter custom attribute description",
+          "PLACEHOLDER": "Entrez la description de l'attribut personnalisé",
           "ERROR": "La description est requise"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "LABEL": "S'applique à",
+          "PLACEHOLDER": "Veuillez en sélectionner un",
           "ERROR": "Le modèle est requis"
         },
         "TYPE": {
@@ -29,49 +30,60 @@
           "PLACEHOLDER": "Veuillez sélectionner un type",
           "ERROR": "Le type est requis",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Lister les valeurs",
+            "PLACEHOLDER": "Veuillez entrer la valeur et appuyer sur la touche Entrée",
+            "ERROR": "Doit avoir au moins une valeur"
           }
         },
         "KEY": {
           "LABEL": "Clé",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "PLACEHOLDER": "Entrez une clé d'attribut personnalisée",
+          "ERROR": "La clé est requise",
+          "IN_VALID": "Clé invalide"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Schéma Regex",
+          "PLACEHOLDER": "Veuillez indiquer un attribut personnalisé pour le schéma Regex (facultatif)."
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Veuillez entrer l'indice du schéma Regex (facultatif)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Activer la validation Regex"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "L'attribut personnalisé a été ajouté",
+        "ERROR_MESSAGE": "Impossible de créer un attribut personnalisé. Veuillez réessayer plus tard."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Supprimer",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Attribut personnalisé supprimé avec succès.",
+        "ERROR_MESSAGE": "Impossible de supprimer l'attribut personnalisé. Veuillez réessayer."
       },
       "CONFIRM": {
-        "TITLE": "Voulez-vous vraiment supprimer - %{attributeName}",
+        "TITLE": "Voulez-vous vraiment supprimer - {attributeName}",
         "PLACE_HOLDER": "Veuillez taper {attributeName} pour confirmer",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "MESSAGE": "La suppression supprimera l'attribut personnalisé",
         "YES": "Supprimer ",
         "NO": "Annuler"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Modifier l'attribut personnalisé",
       "UPDATE_BUTTON_TEXT": "Mettre à jour",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Lister les valeurs",
+          "PLACEHOLDER": "Veuillez entrer des valeurs et appuyer sur la touche Entrée"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Attribut personnalisé mis à jour avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour de l'attribut personnalisé, veuillez réessayer"
       }
     },
     "TABS": {
@@ -80,19 +92,30 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nom",
-        "Description",
-        "Type",
-        "Clé"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Description",
+        "TYPE": "Type",
+        "KEY": "Clé"
+      },
       "BUTTONS": {
         "EDIT": "Modifier",
         "DELETE": "Supprimer"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Aucun attribut personnalisé créé",
+        "NOT_FOUND": "Il n’y a aucun attribut personnalisé configuré"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Schéma Regex",
+        "PLACEHOLDER": "Veuillez indiquer un attribut personnalisé pour le schéma Regex (facultatif)."
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Veuillez entrer l'indice du schéma Regex (facultatif)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Activer la validation Regex"
       }
     }
   }

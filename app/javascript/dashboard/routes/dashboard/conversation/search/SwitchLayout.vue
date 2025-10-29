@@ -1,24 +1,17 @@
-<template>
-  <woot-button
-    v-tooltip.left="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
-    icon="arrow-right-import"
-    size="tiny"
-    variant="smooth"
-    color-scheme="secondary"
-    class="layout-switch__container"
-    :class="{ expanded: isOnExpandedLayout }"
-    @click="toggle"
-  />
-</template>
-
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     isOnExpandedLayout: {
       type: Boolean,
       default: false,
     },
   },
+  emits: ['toggle'],
   methods: {
     toggle() {
       this.$emit('toggle');
@@ -27,10 +20,18 @@ export default {
 };
 </script>
 
-<style lang="scss" soped>
-.layout-switch__container {
-  &.expanded .icon {
-    transform: rotate(180deg);
-  }
-}
-</style>
+<template>
+  <NextButton
+    v-tooltip.left="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
+    :icon="
+      isOnExpandedLayout
+        ? 'i-lucide-arrow-left-to-line'
+        : 'i-lucide-arrow-right-to-line'
+    "
+    slate
+    xs
+    faded
+    class="flex-shrink-0 rtl:rotate-180 ltr:rotate-0"
+    @click="toggle"
+  />
+</template>

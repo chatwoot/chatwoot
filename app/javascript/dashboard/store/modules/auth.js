@@ -1,13 +1,9 @@
-import Vue from 'vue';
 import types from '../mutation-types';
 import authAPI from '../../api/auth';
 
-import {
-  setUser,
-  clearCookiesOnLogout,
-  clearLocalStorageOnLogout,
-} from '../utils/api';
-import { getLoginRedirectURL } from '../../helper/URLHelper';
+import { setUser, clearCookiesOnLogout } from '../utils/api';
+import SessionStorage from 'shared/helpers/sessionStorage';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 
 const initialState = {
   currentUser: {
@@ -71,6 +67,14 @@ export const getters = {
     return currentAccount.role;
   },
 
+  getCurrentCustomRoleId($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
+    );
+    return currentAccount.custom_role_id;
+  },
+
   getCurrentUser($state) {
     return $state.currentUser;
   },
@@ -97,24 +101,6 @@ export const getters = {
 
 // actions
 export const actions = {
-  login(_, { ssoAccountId, ssoConversationId, ...credentials }) {
-    return new Promise((resolve, reject) => {
-      authAPI
-        .login(credentials)
-        .then(response => {
-          clearLocalStorageOnLogout();
-          window.location = getLoginRedirectURL({
-            ssoAccountId,
-            ssoConversationId,
-            user: response.data,
-          });
-          resolve();
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  },
   async validityCheck(context) {
     try {
       const response = await authAPI.validityCheck();
@@ -149,9 +135,20 @@ export const actions = {
     }
   },
 
-  deleteAvatar: async () => {
+  updatePassword: async ({ commit }, params) => {
+    // eslint-disable-next-line no-useless-catch
     try {
-      await authAPI.deleteAvatar();
+      const response = await authAPI.profilePasswordUpdate(params);
+      commit(types.SET_CURRENT_USER, response.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  deleteAvatar: async ({ commit }) => {
+    try {
+      const response = await authAPI.deleteAvatar();
+      commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
       // Ignore error
     }
@@ -160,15 +157,29 @@ export const actions = {
   updateUISettings: async ({ commit }, params) => {
     try {
       commit(types.SET_CURRENT_USER_UI_SETTINGS, params);
-      const response = await authAPI.updateUISettings(params);
-      commit(types.SET_CURRENT_USER, response.data);
+
+      const isImpersonating = SessionStorage.get(
+        SESSION_STORAGE_KEYS.IMPERSONATION_USER
+      );
+
+      if (!isImpersonating) {
+        const response = await authAPI.updateUISettings(params);
+        commit(types.SET_CURRENT_USER, response.data);
+      }
     } catch (error) {
       // Ignore error
     }
   },
 
-  updateAvailability: async ({ commit, dispatch }, params) => {
+  updateAvailability: async (
+    { commit, dispatch, getters: _getters },
+    params
+  ) => {
+    const previousStatus = _getters.getCurrentUserAvailability;
+
     try {
+      // optimisticly update current status
+      commit(types.SET_CURRENT_USER_AVAILABILITY, params.availability);
       const response = await authAPI.updateAvailability(params);
       const userData = response.data;
       const { id } = userData;
@@ -178,16 +189,23 @@ export const actions = {
         availabilityStatus: params.availability,
       });
     } catch (error) {
-      // Ignore error
+      // revert back to previous status if update fails
+      commit(types.SET_CURRENT_USER_AVAILABILITY, previousStatus);
     }
   },
 
-  updateAutoOffline: async ({ commit }, { accountId, autoOffline }) => {
+  updateAutoOffline: async (
+    { commit, getters: _getters },
+    { accountId, autoOffline }
+  ) => {
+    const previousAutoOffline = _getters.getCurrentUserAutoOffline;
+
     try {
+      commit(types.SET_CURRENT_USER_AUTO_OFFLINE, autoOffline);
       const response = await authAPI.updateAutoOffline(accountId, autoOffline);
       commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
-      // Ignore error
+      commit(types.SET_CURRENT_USER_AUTO_OFFLINE, previousAutoOffline);
     }
   },
 
@@ -204,6 +222,24 @@ export const actions = {
       // Ignore error
     }
   },
+
+  resetAccessToken: async ({ commit }) => {
+    try {
+      const response = await authAPI.resetAccessToken();
+      commit(types.SET_CURRENT_USER, response.data);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
+
+  resendConfirmation: async () => {
+    try {
+      await authAPI.resendConfirmation();
+    } catch (error) {
+      // Ignore error
+    }
+  },
 };
 
 // mutations
@@ -215,29 +251,42 @@ export const mutations = {
       }
       return account;
     });
-    Vue.set(_state, 'currentUser', {
+    _state.currentUser = {
       ..._state.currentUser,
       accounts,
+    };
+  },
+  [types.SET_CURRENT_USER_AUTO_OFFLINE](_state, autoOffline) {
+    const accounts = _state.currentUser.accounts.map(account => {
+      if (account.id === _state.currentUser.account_id) {
+        return { ...account, autoOffline: autoOffline };
+      }
+      return account;
     });
+
+    _state.currentUser = {
+      ..._state.currentUser,
+      accounts,
+    };
   },
   [types.CLEAR_USER](_state) {
     _state.currentUser = initialState.currentUser;
   },
   [types.SET_CURRENT_USER](_state, currentUser) {
-    Vue.set(_state, 'currentUser', currentUser);
+    _state.currentUser = currentUser;
   },
   [types.SET_CURRENT_USER_UI_SETTINGS](_state, { uiSettings }) {
-    Vue.set(_state, 'currentUser', {
+    _state.currentUser = {
       ..._state.currentUser,
       ui_settings: {
         ..._state.currentUser.ui_settings,
         ...uiSettings,
       },
-    });
+    };
   },
 
   [types.SET_CURRENT_USER_UI_FLAGS](_state, { isFetching }) {
-    Vue.set(_state, 'uiFlags', { isFetching });
+    _state.uiFlags = { isFetching };
   },
 };
 

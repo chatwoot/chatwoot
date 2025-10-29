@@ -47,6 +47,14 @@ const endPoints = {
   setActiveAccount: {
     url: '/api/v1/profile/set_active_account',
   },
+
+  resendConfirmation: {
+    url: '/api/v1/profile/resend_confirmation',
+  },
+
+  resetAccessToken: {
+    url: '/api/v1/profile/reset_access_token',
+  },
 };
 
 export default page => {

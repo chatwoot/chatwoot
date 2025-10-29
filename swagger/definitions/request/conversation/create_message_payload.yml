@@ -1,0 +1,51 @@
+type: object
+required:
+  - content
+properties:
+  content:
+    type: string
+    description: The content of the message
+    example: 'Hello, how can I help you?'
+  message_type:
+    type: string
+    enum: ['outgoing', 'incoming']
+    description: The type of the message
+    example: 'outgoing'
+  private:
+    type: boolean
+    description: Flag to identify if it is a private note
+    example: false
+  content_type:
+    type: string
+    enum: ['text', 'input_email', 'cards', 'input_select', 'form', 'article']
+    description: Content type of the message
+    example: 'text'
+  content_attributes:
+    type: object
+    description: Attributes based on the content type
+    example: {}
+  campaign_id:
+    type: integer
+    description: The campaign id to which the message belongs
+    example: 1
+  template_params:
+    type: object
+    description: The template params for the message in case of whatsapp Channel
+    properties:
+      name:
+        type: string
+        description: Name of the template
+        example: 'sample_issue_resolution'
+      category:
+        type: string
+        description: Category of the template
+        example: UTILITY
+      language:
+        type: string
+        description: Language of the template
+        example: en_US
+      processed_params:
+        type: object
+        description: The processed param values for template variables in template
+        example:
+          1: 'Chatwoot'

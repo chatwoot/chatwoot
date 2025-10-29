@@ -1,6 +1,13 @@
 {
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Beri Nilai Percakapan Anda",
+    "PLACEHOLDER": "Ceritakan lebih lanjut...",
+    "RATINGS": {
+      "POOR": "😞 Buruk",
+      "FAIR": "😑 Cukup Baik",
+      "AVERAGE": "😐 Rata-rata",
+      "GOOD": "😀 Baik",
+      "EXCELLENT": "😍 Luar Biasa"
+    }
   }
 }

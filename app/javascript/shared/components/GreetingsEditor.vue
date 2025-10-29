@@ -1,79 +1,46 @@
+<script setup>
+import { computed } from 'vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
+
+const props = defineProps({
+  modelValue: { type: String, default: '' },
+  richtext: { type: Boolean, default: false },
+  label: { type: String, default: '' },
+  placeholder: { type: String, default: '' },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const greetingsMessage = computed({
+  get: () => props.modelValue,
+  set: value => emit('update:modelValue', value),
+});
+</script>
+
 <template>
   <section>
-    <label v-if="richtext" class="greetings--richtext">
-      <woot-message-editor
+    <div
+      v-if="richtext"
+      class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2"
+    >
+      <WootMessageEditor
         v-model="greetingsMessage"
-        :is-format-mode="true"
-        :enable-variables="true"
-        class="input"
+        is-format-mode
+        enable-variables
         :placeholder="placeholder"
         :min-height="4"
-        @input="handleInput"
       />
-    </label>
-    <resizable-text-area
+    </div>
+    <ResizableTextArea
       v-else
       v-model="greetingsMessage"
-      rows="4"
+      :rows="4"
       type="text"
-      class="medium-9 greetings--textarea"
+      class="greetings--textarea"
       :label="label"
       :placeholder="placeholder"
       @input="handleInput"
     />
   </section>
 </template>
-
-<script>
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
-
-export default {
-  components: {
-    WootMessageEditor,
-    ResizableTextArea,
-  },
-  props: {
-    value: {
-      type: String,
-      default: '',
-    },
-    richtext: {
-      type: Boolean,
-      default: false,
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      greetingsMessage: this.value,
-    };
-  },
-  watch: {
-    value(newValue) {
-      this.greetingsMessage = newValue;
-    },
-  },
-  methods: {
-    handleInput() {
-      this.$emit('input', this.greetingsMessage);
-    },
-  },
-};
-</script>
-
-<style scoped>
-.greetings--richtext {
-  padding: 0 var(--space-normal);
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
-  margin: 0 0 var(--space-normal);
-}
-</style>

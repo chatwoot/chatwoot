@@ -1,73 +1,103 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Editor wird geladen...",
-    "HEADER_BTN_TXT": "Bot-Konfiguration hinzufügen",
-    "SIDEBAR_TXT": "<p><b>Agenten Bots</b> <p>Agenten Bots erlauben es Ihnen, die Unterhaltungen zu automatisieren</p>",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "Bot Name",
-        "PLACEHOLDER": "Geben Sie Ihrem Bot einen Namen",
-        "ERROR": "Bot Name ist erforderlich"
-      },
-      "DESCRIPTION": {
-        "LABEL": "Bot Beschreibung",
-        "PLACEHOLDER": "Was macht dieser Bot?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "Bitte geben Sie Ihre CSML Bot-Konfiguration oben ein",
-        "API_ERROR": "Ihre CSML-Konfiguration ist ungültig, bitte korrigieren Sie sie und versuchen es erneut."
-      },
-      "SUBMIT": "Validieren und speichern"
+    "LOADING_EDITOR": "Lade Editor...",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "System",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Agenten-Bot auswählen",
-      "DESC": "Sie können einen Agenten-Bot aus der Liste in diesen Posteingang setzen. Der Bot kann die Unterhaltung anfangs bearbeiten und bei Bedarf an einen Agenten übertragen.",
+      "DESC": "Weise deinem Posteingang einen Agent Bot zu. Er kann die ersten Konversationen bearbeiten und sie bei Bedarf an einen echten Agenten übertragen.",
       "SUBMIT": "Aktualisieren",
-      "DISCONNECT": "Bot trennen",
-      "SUCCESS_MESSAGE": "Agenten-Bot erfolgreich aktualisiert",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Agent-Bot erfolgreich getrennt",
-      "ERROR_MESSAGE": "Konnte den Agenten-Bot nicht aktualisieren, bitte versuchen Sie es später erneut",
-      "DISCONNECTED_ERROR_MESSAGE": "Konnte den Agenten-Bot nicht trennen, bitte versuchen Sie es später erneut",
+      "DISCONNECT": "Bot-Verbindung trennen",
+      "SUCCESS_MESSAGE": "Agenten-Bot erfolgreich aktualisiert.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Agent-Bot erfolgreich getrennt.",
+      "ERROR_MESSAGE": "Der Agent Bot konnte nicht aktualisiert werden, bitte versuche es später erneut.",
+      "DISCONNECTED_ERROR_MESSAGE": "Der Agent Bot konnte nicht entfernt werden, bitte versuchen Sie es später erneut.",
       "SELECT_PLACEHOLDER": "Bot auswählen"
     },
     "ADD": {
-      "TITLE": "Neuen Bot konfigurieren",
+      "TITLE": "Add Bot",
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "API": {
-        "SUCCESS_MESSAGE": "Bot erfolgreich hinzugefügt",
-        "ERROR_MESSAGE": "Bot konnte nicht hinzugefügt werden, bitte versuchen Sie es später erneut"
+        "SUCCESS_MESSAGE": "Bot erfolgreich hinzugefügt.",
+        "ERROR_MESSAGE": "Bot konnte nicht hinzugefügt werden, bitte versuchen Sie es später erneut."
       }
     },
     "LIST": {
-      "404": "Keine Bots gefunden, Sie können einen Bot erstellen, indem Sie auf den 'Neuen Bot konfigurieren' Button klicken ↗",
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
       "LOADING": "Bots werden geladen...",
-      "TYPE": "Bot-Typ"
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "Webhook-URL"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
       "TITLE": "Bot löschen",
-      "SUBMIT": "Löschen",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
-      "DESCRIPTION": "Sind Sie sicher, dass Sie diesen Bot löschen wollen? Diese Aktion kann nicht rückgängig gemacht werden",
+      "CONFIRM": {
+        "TITLE": "Löschung bestätigen",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Ja, löschen",
+        "NO": "Nein, behalten"
+      },
       "API": {
-        "SUCCESS_MESSAGE": "Bot erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Konnte den Bot nicht löschen, bitte versuche es später erneut"
+        "SUCCESS_MESSAGE": "Bot erfolgreich gelöscht.",
+        "ERROR_MESSAGE": "Der Bot konnte nicht gelöscht werden, bitte versuche es später erneut."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Bearbeiten",
-      "LOADING": "Bots werden geladen...",
       "TITLE": "Bot bearbeiten",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
       "API": {
-        "SUCCESS_MESSAGE": "Bot erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Bot konnte nicht aktualisiert werden, bitte versuchen Sie es später erneut"
+        "SUCCESS_MESSAGE": "Bot erfolgreich aktualisiert.",
+        "ERROR_MESSAGE": "Der Bot konnte nicht aktualisiert werden, bitte versuche es später erneut."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Zugangstoken",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Bot Name",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "Bot Name ist erforderlich"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Beschreibung",
+        "PLACEHOLDER": "Was macht dieser Bot?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook-URL",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "Bot Name ist erforderlich",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Stornieren",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "Webhook Bot"
     }
   }
 }

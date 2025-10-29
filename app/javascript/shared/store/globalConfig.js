@@ -5,7 +5,6 @@ const {
   AZURE_APP_ID: azureAppId,
   BRAND_NAME: brandName,
   CHATWOOT_INBOX_TOKEN: chatwootInboxToken,
-  CSML_EDITOR_HOST: csmlEditorHost,
   CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
   DIRECT_UPLOADS_ENABLED: directUploadsEnabled,
   DISPLAY_MANIFEST: displayManifest,
@@ -14,6 +13,7 @@ const {
   INSTALLATION_NAME: installationName,
   LOGO_THUMBNAIL: logoThumbnail,
   LOGO: logo,
+  LOGO_DARK: logoDark,
   PRIVACY_URL: privacyURL,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
@@ -28,7 +28,6 @@ const state = {
   azureAppId,
   brandName,
   chatwootInboxToken,
-  csmlEditorHost,
   deploymentEnv,
   createNewAccountFromDashboard,
   directUploadsEnabled: directUploadsEnabled === 'true',
@@ -38,6 +37,7 @@ const state = {
   hCaptchaSiteKey,
   installationName,
   logo,
+  logoDark,
   logoThumbnail,
   privacyURL,
   termsURL,
@@ -48,6 +48,7 @@ export const getters = {
   get: $state => $state,
   isOnChatwootCloud: $state => $state.deploymentEnv === 'cloud',
   isACustomBrandedInstance: $state => $state.installationName !== 'Chatwoot',
+  isAChatwootInstance: $state => $state.installationName === 'Chatwoot',
 };
 
 export const actions = {};

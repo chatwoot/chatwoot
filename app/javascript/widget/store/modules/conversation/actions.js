@@ -24,7 +24,7 @@ export const actions = {
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({"ref": ref});
+        await setCustomAttributes({ ref: ref });
       }
     } catch (error) {
       captureSentryException(error);
@@ -106,7 +106,7 @@ export const actions = {
       commit('setConversationListLoading', false);
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        await setCustomAttributes({"ref": ref});
+        await setCustomAttributes({ ref: ref });
       }
     } catch (error) {
       captureSentryException(error);
@@ -151,8 +151,11 @@ export const actions = {
   addOrUpdateMessage: async ({ commit, state }, data) => {
     const { id, content_attributes } = data;
     const { quickReplies } = state;
-    // If there are quick replies active, remove them before showing the new message
-    if (quickReplies.options.length > 0) {
+    // Only clear quick replies if the new message is not a quick reply message itself
+    if (
+      quickReplies.options.length > 0 &&
+      data.content_type !== 'input_select'
+    ) {
       commit('setQuickRepliesOptions', []);
     }
     if (content_attributes && content_attributes.deleted) {

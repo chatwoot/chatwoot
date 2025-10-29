@@ -1,8 +1,3 @@
-<template>
-  <UserMessage v-if="isUserMessage" :message="message" />
-  <AgentMessage v-else :message="message" />
-</template>
-
 <script>
 import AgentMessage from 'widget/components/AgentMessage.vue';
 import UserMessage from 'widget/components/UserMessage.vue';
@@ -27,6 +22,11 @@ export default {
 };
 </script>
 
+<template>
+  <UserMessage v-if="isUserMessage" :message="message" />
+  <AgentMessage v-else :message="message" />
+</template>
+
 <style scoped lang="scss">
 .message-wrap {
   display: flex;
@@ -37,7 +37,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables';
 
 .chat-bubble .message-content,
 .chat-bubble.user {

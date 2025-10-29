@@ -1,51 +1,10 @@
-<template>
-  <header
-    class="header-wrap flex justify-between p-5 w-full"
-    :class="$dm('bg-white', 'dark:bg-slate-900')"
-  >
-    <div class="flex items-center">
-      <button v-if="showBackButton" @click="onBackButtonClick">
-        <fluent-icon
-          icon="chevron-left"
-          size="24"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
-        />
-      </button>
-      <img
-        v-if="avatarUrl"
-        class="h-8 w-8 rounded-full mr-3"
-        :src="avatarUrl"
-        alt="avatar"
-      />
-      <div>
-        <div
-          class="font-medium text-base flex items-center"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
-        >
-          <span v-dompurify-html="title" class="mr-1" />
-          <div class="h-2 w-2 rounded-full leading-4 bg-green-500" />
-        </div>
-        <div
-          class="text-xs mt-1"
-          :class="$dm('text-black-700', 'dark:text-slate-400')"
-        >
-          {{ $t('TEAM_AVAILABILITY.ONLINE') }}
-        </div>
-      </div>
-    </div>
-    <header-actions :show-popout-button="showPopoutButton" />
-  </header>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
-
 import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
+import darkModeMixin from '../mixins/darkModeMixin';
 
 export default {
   name: 'ChatHeader',
@@ -53,7 +12,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
+  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkModeMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -77,9 +36,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
       const anyAgentOnline = this.availableAgents.length > 0;
@@ -97,6 +53,45 @@ export default {
   },
 };
 </script>
+
+<template>
+  <header
+    class="header-wrap flex justify-between p-5 w-full"
+    :class="dm('bg-white', 'dark:bg-slate-900')"
+  >
+    <div class="flex items-center">
+      <button v-if="showBackButton" @click="onBackButtonClick">
+        <FluentIcon
+          icon="chevron-left"
+          size="24"
+          :class="dm('text-black-900', 'dark:text-slate-50')"
+        />
+      </button>
+      <img
+        v-if="avatarUrl"
+        class="h-8 w-8 rounded-full mr-3"
+        :src="avatarUrl"
+        alt="avatar"
+      />
+      <div>
+        <div
+          class="font-medium text-base flex items-center"
+          :class="dm('text-black-900', 'dark:text-slate-50')"
+        >
+          <span v-dompurify-html="title" class="mr-1" />
+          <div class="h-2 w-2 rounded-full leading-4 bg-green-500" />
+        </div>
+        <div
+          class="text-xs mt-1"
+          :class="dm('text-black-700', 'dark:text-slate-400')"
+        >
+          {{ $t('TEAM_AVAILABILITY.ONLINE') }}
+        </div>
+      </div>
+    </div>
+    <HeaderActions :show-popout-button="showPopoutButton" />
+  </header>
+</template>
 
 <style scoped lang="scss">
 @import 'widget/assets/scss/variables';

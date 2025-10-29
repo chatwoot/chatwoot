@@ -6,6 +6,7 @@
     "LIST": {
       "404": "In dieser Gruppe existieren keine aktiven Gespräche."
     },
+    "FAILED_TO_SEND": "Fehler beim Senden",
     "TAB_HEADING": "Gespräche",
     "MENTION_HEADING": "Erwähnungen",
     "UNATTENDED_HEADING": "Unbeaufsichtigt",
@@ -35,18 +36,46 @@
         "TEXT": "Alle"
       }
     },
-    "VIEW_FILTER": "Aussicht",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "VIEW_FILTER": "Anzeigen",
+    "SORT_TOOLTIP_LABEL": "Konversationen sortieren",
     "CHAT_SORT": {
       "STATUS": "Status",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Sortieren nach"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Erstellt",
+        "OLDEST": "Erstellt am:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Erstellt am"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Letzte Aktivität:",
+        "ACTIVE": "Letzte Aktivität"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Letzte Aktivität: Älteste zuerst"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Letzte Aktivität: Neueste zuerst"
+      },
+      "created_at_desc": {
+        "TEXT": "Erstellt am: Neueste zuerst"
+      },
+      "created_at_asc": {
+        "TEXT": "Erstellt am: Älteste zuerst"
+      },
+      "priority_desc": {
+        "TEXT": "Priorität: Höchste zuerst"
+      },
+      "priority_asc": {
+        "TEXT": "Priorität: Niedrigste zuerst"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Ausstehende Antwort: Längste zuerst"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Ausstehende Antwort: Kürzeste zuerst"
       }
     },
     "ATTACHMENTS": {
@@ -65,25 +94,31 @@
       "location": {
         "CONTENT": "Ort"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "hat eine URL geteilt"
+      },
+      "contact": {
+        "CONTENT": "Geteilter Kontakt"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "Konversationen sortieren",
       "DROPDOWN_TITLE": "Sortieren nach",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Letzte Aktivität am",
+          "LABEL": "Letzte Aktivität"
         },
         "CREATED_AT": {
           "NAME": "Erstellt am",
           "LABEL": "Erstellt am"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Letzte Benutzernachricht am",
+          "LABEL": "Letzte Nachricht"
         }
       }
     },
@@ -98,6 +133,7 @@
     "NO_CONTENT": "Kein Inhalt verfügbar",
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
     "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen",
-    "MESSAGE_READ": "Lesen"
+    "MESSAGE_READ": "Lesen",
+    "SENDING": "Sende"
   }
 }

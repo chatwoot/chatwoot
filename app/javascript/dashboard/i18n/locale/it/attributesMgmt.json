@@ -3,7 +3,8 @@
     "HEADER": "Attributi personalizzati",
     "HEADER_BTN_TXT": "Aggiungi attributo personalizzato",
     "LOADING": "Recupero degli attributi personalizzati",
-    "SIDEBAR_TXT": "<p><b>Attributi personalizzati</b> <p>Un attributo personalizzato tiene traccia dei dati relativi ai tuoi contatti/conversazioni — come il piano di abbonamento, o quando hanno ordinato il primo oggetto, ecc. <br /><br />Per creare un attributo personalizzato, basta cliccare sul pulsante <b>Aggiungi attributo personalizzato.</b> Puoi anche modificare o eliminare un attributo personalizzato esistente facendo clic sul pulsante Modifica o Elimina.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Aggiungi attributo personalizzato",
       "SUBMIT": "Crea",
@@ -39,6 +40,17 @@
           "PLACEHOLDER": "Inserisci la chiave dell'attributo personalizzato",
           "ERROR": "La chiave è obbligatoria",
           "IN_VALID": "Chiave non valida"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
         }
       },
       "API": {
@@ -53,7 +65,7 @@
         "ERROR_MESSAGE": "Impossibile eliminare l'attributo personalizzato. Riprova."
       },
       "CONFIRM": {
-        "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
+        "TITLE": "Sei sicuro di voler eliminare - {attributeName}",
         "PLACE_HOLDER": "Digita {attributeName} per confermare",
         "MESSAGE": "L'eliminazione rimuoverà l'attributo personalizzato",
         "YES": "Elimina ",
@@ -80,12 +92,12 @@
       "CONTACT": "Contatto"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nome",
-        "Descrizione",
-        "Tipo",
-        "Chiave"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrizione",
+        "TYPE": "Tipo",
+        "KEY": "Chiave"
+      },
       "BUTTONS": {
         "EDIT": "Modifica",
         "DELETE": "Elimina"
@@ -93,6 +105,17 @@
       "EMPTY_RESULT": {
         "404": "Non ci sono attributi personalizzati creati",
         "NOT_FOUND": "Non ci sono attributi personalizzati configurati"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
       }
     }
   }

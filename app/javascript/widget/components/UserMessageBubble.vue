@@ -1,24 +1,11 @@
-<template>
-  <div
-    v-dompurify-html="formatMessage(message, false)"
-    class="chat-bubble user"
-    :style="{ background: widgetColor, color: textColor }"
-  />
-</template>
-
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   name: 'UserMessageBubble',
-  mixins: [messageFormatterMixin],
   props: {
     message: {
-      type: String,
-      default: '',
-    },
-    status: {
       type: String,
       default: '',
     },
@@ -26,6 +13,12 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   computed: {
     textColor() {
@@ -35,33 +28,33 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+<template>
+  <div
+    v-dompurify-html="formatMessage(message, false)"
+    class="chat-bubble user"
+    :style="{ background: widgetColor, color: textColor }"
+  />
+</template>
 
+<style lang="scss" scoped>
 .chat-bubble.user::v-deep {
   p code {
-    background-color: var(--w-600);
-    color: var(--white);
+    @apply bg-n-alpha-2 dark:bg-n-alpha-1 text-white;
   }
 
   pre {
-    background-color: var(--w-800);
-    border-color: var(--w-700);
-    color: var(--white);
+    @apply text-white bg-n-alpha-2 dark:bg-n-alpha-1;
 
     code {
-      background-color: transparent;
-      color: var(--white);
+      @apply bg-transparent text-white;
     }
   }
 
   blockquote {
-    border-left: $space-micro solid var(--w-400);
-    background: var(--s-25);
-    border-color: var(--s-200);
+    @apply bg-transparent border-n-slate-7 ltr:border-l-2 rtl:border-r-2 border-solid;
 
     p {
-      color: var(--s-800);
+      @apply text-n-slate-5 dark:text-n-slate-12/90;
     }
   }
 }

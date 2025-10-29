@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Aplica",
+    "CLEAR_BUTTON": "Neteja",
+    "DATE_RANGE_INPUT": {
+      "START": "Data d'inici",
+      "END": "Data de finalització"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "RANG DE DATES",
+      "LAST_7_DAYS": "Últims 7 dies",
+      "LAST_30_DAYS": "Últims 30 dies",
+      "LAST_3_MONTHS": "Últims tres mesos",
+      "LAST_6_MONTHS": "Últims sis mesos",
+      "LAST_YEAR": "Darrer any",
+      "CUSTOM_RANGE": "Interval de dates personalitzat"
+    }
+  }
+}

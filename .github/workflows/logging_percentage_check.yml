@@ -1,0 +1,55 @@
+name: Log Lines Percentage Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  log_lines_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for log lines and calculate percentage
+        run: |
+          # Define the log line pattern
+          LOG_LINE_PATTERN="Rails\.logger"
+
+          # Get the list of changed files in the pull request
+          CHANGED_FILES=$(git diff --name-only)
+
+          # Initialize a flag to track if any files have insufficient log lines
+          INSUFFICIENT_LOGS=0
+
+          for file in $CHANGED_FILES; do
+            if [[ $file =~ \.rb$ && ! $file =~ _spec\.rb$ ]]; then
+              # Count the total number of lines in the file
+              total_lines=$(wc -l < "$file")
+
+              # Count the number of log lines in the file
+              log_lines=$(grep -c "$LOG_LINE_PATTERN" "$file")
+
+              # Calculate the percentage of log lines
+              if [ "$total_lines" -gt 0 ]; then
+                percentage=$(awk "BEGIN { pc=100*${log_lines}/${total_lines}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
+              else
+                percentage=0
+              fi
+
+              # Check if the percentage is less than 5%
+              if [ "$percentage" -lt 5 ]; then
+                echo "Error: Log lines percentage is less than 5% ($percentage%) in $file. Please add more log lines using Rails.logger statements."
+                INSUFFICIENT_LOGS=1
+              else
+                echo "Log lines percentage is $percentage% in $file. Code looks good!"
+              fi
+            fi
+          done
+
+          # If any files have insufficient log lines, fail the action
+          if [ "$INSUFFICIENT_LOGS" -eq 1 ]; then
+            exit 1
+          fi

@@ -1,0 +1,53 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "Tiek rādīts {startItem} - {endItem} no {totalItems} vienumiem",
+    "CURRENT_PAGE_INFO": "{currentPage} no {totalPages} lapām"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Izvēlieties opciju...",
+    "EMPTY_SEARCH_RESULTS": "Meklēšanas vienumam `{searchTerm}` netika atrasts neviens vienums",
+    "EMPTY_STATE": "Nav atrasts.",
+    "SEARCH_PLACEHOLDER": "Meklēt...",
+    "MORE": "+{count} vairāk"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Meklēt...",
+    "EMPTY_STATE": "Nav atrasts.",
+    "SEARCHING": "Meklēšana..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "Atcelt",
+      "CONFIRM": "Apstiprināt"
+    }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Meklēt valsti",
+    "ERROR": "Tālruņa numuram ir jābūt tukšam vai E.164 formātā",
+    "DIAL_CODE_ERROR": "Lūdzu, izvēlieties sastādīšanas kodu no saraksta"
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Autors nav pieejams"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Rīvmaize"
+  },
+  "SWITCH": {
+    "TOGGLE": "Pārslēgšanas slēdzis"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "marķēt"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "Uzzināt vairāk",
+    "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
+  }
+}

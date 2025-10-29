@@ -1,7 +1,7 @@
 import { actions } from '../../conversationTypingStatus';
 import * as types from '../../../mutation-types';
 
-const commit = jest.fn();
+const commit = vi.fn();
 
 describe('#actions', () => {
   describe('#create', () => {

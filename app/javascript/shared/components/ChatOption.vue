@@ -1,16 +1,3 @@
-<template>
-  <div
-    class="option"
-    :class="optionClass"
-    :style="{ borderColor: widgetColor, color: widgetColor }"
-  >
-    <button class="option-button button" @click="onClick">
-      <span v-if="action.image_url" class="icon"><img :src="action.image_url" alt="icon" /></span>
-      <span :style="{ color: widgetColor }">{{ action.title }}</span>
-    </button>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -29,6 +16,7 @@ export default {
       default: false,
     },
   },
+  emits: ['optionSelect'],
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
@@ -37,22 +25,37 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     optionClass() {
-      let optionClass = `${this.$dm('bg-white', 'dark:bg-slate-700')}`;
+      let optionClass = `${this.dm('bg-white', 'dark:bg-slate-700')}`;
       if (this.isSelected) optionClass = 'is-selected ' + optionClass;
       return optionClass;
     },
   },
   methods: {
     onClick() {
-      this.$emit('click', this.action);
+      this.$emit('optionSelect', this.action);
     },
   },
 };
 </script>
 
+<template>
+  <div
+    class="option"
+    :class="optionClass"
+    :style="{ borderColor: widgetColor, color: widgetColor }"
+  >
+    <button class="option-button button" @click="onClick">
+      <span v-if="action.image_url" class="icon">
+        <img :src="action.image_url" alt="icon" />
+      </span>
+      <span :style="{ color: widgetColor }">{{ action.title }}</span>
+    </button>
+  </div>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables';
+@import 'widget/assets/scss/mixins';
 
 .option {
   @include light-shadow;

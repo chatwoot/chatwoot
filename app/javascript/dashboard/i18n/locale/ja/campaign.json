@@ -1,126 +1,150 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
-    },
-    "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
-      "CANCEL_BUTTON_TEXT": "キャンセル",
-      "CREATE_BUTTON_TEXT": "作成",
-      "FORM": {
-        "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "ライブチャットキャンペーン",
+      "NEW_CAMPAIGN": "キャンペーンを作成",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "有効です",
+          "DISABLED": "無効です"
         },
-        "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
-        },
-        "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
-        },
-        "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
-          "ERROR": "Inbox is required"
-        },
-        "MESSAGE": {
-          "LABEL": "メッセージ",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
-        },
-        "SENT_BY": {
-          "LABEL": "Sent by",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
-        },
-        "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
-          "ERROR": "有効な URL を入力してください"
-        },
-        "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
-        },
-        "ENABLED": "Enable campaign",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
-        "SUBMIT": "Add Campaign"
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "送信者",
+          "BOT": "ボット",
+          "FROM": "差出人:",
+          "URL": "URL:"
+        }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+      "EMPTY_STATE": {
+        "TITLE": "利用可能なライブチャットキャンペーンがありません",
+        "SUBTITLE": "積極的なメッセージでお客様とつながりましょう。「キャンペーンを作成」をクリックして開始してください。"
+      },
+      "CREATE": {
+        "TITLE": "ライブチャットキャンペーンを作成",
+        "CANCEL_BUTTON_TEXT": "キャンセル",
+        "CREATE_BUTTON_TEXT": "作成",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "タイトル",
+            "PLACEHOLDER": "キャンペーンのタイトルを入力してください",
+            "ERROR": "タイトルは必須です"
+          },
+          "MESSAGE": {
+            "LABEL": "メッセージ",
+            "PLACEHOLDER": "キャンペーンのメッセージを入力してください",
+            "ERROR": "メッセージは必須です"
+          },
+          "INBOX": {
+            "LABEL": "受信トレイを選択",
+            "PLACEHOLDER": "受信トレイを選択",
+            "ERROR": "受信トレイは必須です"
+          },
+          "SENT_BY": {
+            "LABEL": "送信者",
+            "PLACEHOLDER": "送信者を選択してください",
+            "ERROR": "送信者は必須です"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "URLを入力してください",
+            "ERROR": "有効な URL を入力してください"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "ページ滞在時間（秒）",
+            "PLACEHOLDER": "時間を入力してください",
+            "ERROR": "ページ滞在時間は必須です"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "その他の設定",
+            "ENABLED": "キャンペーンを有効化",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "営業時間中のみトリガー"
+          },
+          "BUTTONS": {
+            "CREATE": "作成",
+            "CANCEL": "キャンセル"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "ライブチャットキャンペーンが正常に作成されました",
+            "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "ライブチャットキャンペーンを編集",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "ライブチャットキャンペーンが正常に更新されました",
+            "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+          }
+        }
       }
     },
-    "DELETE": {
-      "BUTTON_TEXT": "削除",
-      "CONFIRM": {
-        "TITLE": "削除の確認",
-        "MESSAGE": "Are you sure to delete?",
-        "YES": "削除する ",
-        "NO": "いいえ "
+    "SMS": {
+      "HEADER_TITLE": "SMSキャンペーン",
+      "NEW_CAMPAIGN": "キャンペーンを作成",
+      "EMPTY_STATE": {
+        "TITLE": "利用可能なSMSキャンペーンがありません",
+        "SUBTITLE": "SMSキャンペーンを開始してお客様に直接連絡しましょう。オファーを送信したり、お知らせを簡単に行うことができます。「キャンペーンを作成」をクリックして開始してください。"
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "完了",
+          "SCHEDULED": "スケジュール済み"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "送信元",
+          "ON": "送信日"
+        }
+      },
+      "CREATE": {
+        "TITLE": "SMSキャンペーンを作成",
+        "CANCEL_BUTTON_TEXT": "キャンセル",
+        "CREATE_BUTTON_TEXT": "作成",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "タイトル",
+            "PLACEHOLDER": "キャンペーンのタイトルを入力してください",
+            "ERROR": "タイトルは必須です"
+          },
+          "MESSAGE": {
+            "LABEL": "メッセージ",
+            "PLACEHOLDER": "キャンペーンのメッセージを入力してください",
+            "ERROR": "メッセージは必須です"
+          },
+          "INBOX": {
+            "LABEL": "受信トレイを選択",
+            "PLACEHOLDER": "受信トレイを選択",
+            "ERROR": "受信トレイは必須です"
+          },
+          "AUDIENCE": {
+            "LABEL": "対象者",
+            "PLACEHOLDER": "顧客ラベルを選択",
+            "ERROR": "対象者は必須です"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "スケジュール時間",
+            "PLACEHOLDER": "時間を選択してください",
+            "ERROR": "スケジュール時間は必須です"
+          },
+          "BUTTONS": {
+            "CREATE": "作成",
+            "CANCEL": "キャンセル"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMSキャンペーンが正常に作成されました",
+            "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+          }
+        }
       }
     },
-    "EDIT": {
-      "TITLE": "Edit campaign",
-      "UPDATE_BUTTON_TEXT": "更新",
+    "CONFIRM_DELETE": {
+      "TITLE": "削除の確認",
+      "DESCRIPTION": "削除操作は永久的で、元に戻すことはできません。",
+      "CONFIRM": "削除",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "キャンペーンが正常に削除されました",
         "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
       }
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
-      "TABLE_HEADER": {
-        "TITLE": "Title",
-        "MESSAGE": "メッセージ",
-        "INBOX": "Inbox",
-        "STATUS": "状況",
-        "SENDER": "Sender",
-        "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
-      },
-      "BUTTONS": {
-        "ADD": "Add",
-        "EDIT": "編集",
-        "DELETE": "削除"
-      },
-      "STATUS": {
-        "ENABLED": "有効です",
-        "DISABLED": "無効です",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
-      },
-      "SENDER": {
-        "BOT": "Bot"
-      }
-    },
-    "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
-    },
-    "ONGOING": {
-      "HEADER": "Ongoing campaigns",
-      "404": "There are no ongoing campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
     }
   }
 }

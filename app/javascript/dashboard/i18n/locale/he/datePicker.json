@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "להגיש מועמדות",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "7 הימים האחרונים",
+      "LAST_30_DAYS": "30 הימים האחרונים",
+      "LAST_3_MONTHS": "3 החודשים האחרונים",
+      "LAST_6_MONTHS": "6 החודשים האחרונים",
+      "LAST_YEAR": "שנה שעברה",
+      "CUSTOM_RANGE": "טווח תאריכים מותאם אישית"
+    }
+  }
+}

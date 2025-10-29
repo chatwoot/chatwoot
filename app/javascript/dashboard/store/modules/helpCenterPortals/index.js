@@ -31,6 +31,7 @@ const state = {
   uiFlags: {
     allFetched: false,
     isFetching: false,
+    isSwitching: false,
   },
 };
 

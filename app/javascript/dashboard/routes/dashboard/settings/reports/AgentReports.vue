@@ -1,19 +1,14 @@
+<script setup>
+import WootReports from './components/WootReports.vue';
+</script>
+
 <template>
-  <woot-reports
+  <WootReports
     key="agent-reports"
     type="agent"
     getter-key="agents/getAgents"
     action-key="agents/get"
     :download-button-label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
+    :report-title="$t('AGENT_REPORTS.HEADER')"
   />
 </template>
-
-<script>
-import WootReports from './components/WootReports';
-
-export default {
-  components: {
-    WootReports,
-  },
-};
-</script>

@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const reports = accountId => ({
@@ -6,10 +7,13 @@ const reports = accountId => ({
     'account_overview_reports',
     'conversation_reports',
     'csat_reports',
+    'bot_reports',
     'agent_reports',
     'label_reports',
     'inbox_reports',
+    'inbox_reports_show',
     'team_reports',
+    'sla_reports',
   ],
   menuItems: [
     {
@@ -32,6 +36,14 @@ const reports = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/csat`),
       toStateName: 'csat_reports',
+    },
+    {
+      icon: 'bot',
+      label: 'REPORTS_BOT',
+      hasSubMenu: false,
+      featureFlag: FEATURE_FLAGS.RESPONSE_BOT,
+      toState: frontendURL(`accounts/${accountId}/reports/bot`),
+      toStateName: 'bot_reports',
     },
     {
       icon: 'people',
@@ -60,6 +72,14 @@ const reports = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/teams`),
       toStateName: 'team_reports',
+    },
+    {
+      icon: 'document-list-clock',
+      label: 'REPORTS_SLA',
+      hasSubMenu: false,
+      featureFlag: FEATURE_FLAGS.SLA,
+      toState: frontendURL(`accounts/${accountId}/reports/sla`),
+      toStateName: 'sla_reports',
     },
   ],
 });

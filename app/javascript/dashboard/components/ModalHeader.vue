@@ -1,19 +1,3 @@
-<template>
-  <div class="column page-top-bar">
-    <img v-if="headerImage" :src="headerImage" alt="No image" />
-    <h2 class="page-sub-title">
-      {{ headerTitle }}
-    </h2>
-    <p v-if="headerContent" class="small-12 column wrap-content">
-      {{ headerContent }}
-      <span v-if="headerContentValue" class="content-value">
-        {{ headerContentValue }}
-      </span>
-    </p>
-    <slot />
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -36,13 +20,31 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.wrap-content {
-  word-wrap: break-word;
-  margin-top: var(--space-small);
 
-  .content-value {
-    font-weight: var(--font-weight-bold);
-  }
-}
-</style>
+<!-- eslint-disable vue/no-unused-refs -->
+<!-- Added ref for writing specs -->
+<template>
+  <div class="flex flex-col items-start px-8 pt-8 pb-0">
+    <img v-if="headerImage" :src="headerImage" alt="No image" />
+    <h2
+      data-test-id="modal-header-title"
+      class="text-base font-semibold leading-6 text-slate-800 dark:text-slate-50"
+    >
+      {{ headerTitle }}
+    </h2>
+    <p
+      v-if="headerContent"
+      data-test-id="modal-header-content"
+      class="w-full mt-2 text-sm leading-5 break-words text-slate-600 dark:text-slate-300"
+    >
+      {{ headerContent }}
+      <span
+        v-if="headerContentValue"
+        class="text-sm font-semibold text-slate-600 dark:text-slate-300"
+      >
+        {{ headerContentValue }}
+      </span>
+    </p>
+    <slot />
+  </div>
+</template>

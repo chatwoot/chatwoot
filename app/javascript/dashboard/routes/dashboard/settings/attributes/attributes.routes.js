@@ -1,28 +1,28 @@
-import SettingsContent from '../Wrapper';
-import AttributesHome from './Index';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
+import SettingsWrapper from '../SettingsWrapper.vue';
+import AttributesHome from './Index.vue';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/custom-attributes'),
-      component: SettingsContent,
-      props: {
-        headerTitle: 'ATTRIBUTES_MGMT.HEADER',
-        icon: 'code',
-        showNewButton: false,
-      },
+      component: SettingsWrapper,
       children: [
         {
           path: '',
-          name: 'attributes_wrapper',
-          redirect: 'list',
+          redirect: to => {
+            return { name: 'attributes_list', params: to.params };
+          },
         },
         {
           path: 'list',
           name: 'attributes_list',
           component: AttributesHome,
-          roles: ['administrator'],
+          meta: {
+            featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
+            permissions: ['administrator'],
+          },
         },
       ],
     },

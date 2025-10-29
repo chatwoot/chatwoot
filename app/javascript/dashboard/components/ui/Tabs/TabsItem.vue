@@ -1,61 +1,57 @@
+<script setup>
+import { computed, inject } from 'vue';
+
+const props = defineProps({
+  index: {
+    type: Number,
+    default: 0,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  count: {
+    type: Number,
+    default: 0,
+  },
+  showBadge: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const activeIndex = inject('activeIndex');
+const updateActiveIndex = inject('updateActiveIndex');
+
+const active = computed(() => props.index === activeIndex.value);
+const getItemCount = computed(() => props.count);
+
+const onTabClick = event => {
+  event.preventDefault();
+  if (!props.disabled) {
+    updateActiveIndex(props.index);
+  }
+};
+</script>
+
 <template>
   <li
+    class="tabs-title"
     :class="{
-      'tabs-title': true,
       'is-active': active,
     }"
   >
     <a @click="onTabClick">
       {{ name }}
-      <span v-if="showBadge" class="badge">
-        {{ getItemCount }}
-      </span>
+      <div v-if="showBadge" class="badge min-w-[20px]">
+        <span>
+          {{ getItemCount }}
+        </span>
+      </div>
     </a>
   </li>
 </template>
-<script>
-export default {
-  name: 'WootTabsItem',
-  props: {
-    index: {
-      type: Number,
-      default: 0,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    count: {
-      type: Number,
-      default: 0,
-    },
-    showBadge: {
-      type: Boolean,
-      default: true,
-    },
-  },
-
-  computed: {
-    active() {
-      return this.index === this.$parent.index;
-    },
-
-    getItemCount() {
-      return this.count;
-    },
-  },
-
-  methods: {
-    onTabClick(event) {
-      event.preventDefault();
-      if (!this.disabled) {
-        this.$parent.$emit('change', this.index);
-      }
-    },
-  },
-};
-</script>

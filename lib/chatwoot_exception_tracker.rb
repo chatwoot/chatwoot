@@ -12,11 +12,8 @@ class ChatwootExceptionTracker
   end
 
   def capture_exception
-    if ENV['SENTRY_DSN'].present?
-      capture_exception_with_sentry
-    else
-      Rails.logger.error @exception
-    end
+    capture_exception_with_sentry if ENV['SENTRY_DSN'].present?
+    Rails.logger.error @exception
   end
 
   private

@@ -1,108 +1,267 @@
-const { colors } = require('tailwindcss/defaultTheme');
+const { slateDark } = require('@radix-ui/colors');
+import { colors } from './theme/colors';
+import { icons } from './theme/icons';
+const defaultTheme = require('tailwindcss/defaultTheme');
+const {
+  iconsPlugin,
+  getIconCollections,
+} = require('@egoist/tailwindcss-icons');
 
-module.exports = {
-  dark: 'class',
-  purge: [
+const defaultSansFonts = [
+  '-apple-system',
+  'system-ui',
+  'BlinkMacSystemFont',
+  '"Segoe UI"',
+  'Roboto',
+  '"Helvetica Neue"',
+  'Tahoma',
+  'Arial',
+  'sans-serif !important',
+];
+
+const tailwindConfig = {
+  darkMode: 'class',
+  content: [
+    './enterprise/app/views/**/*.html.erb',
     './app/javascript/widget/**/*.vue',
+    './app/javascript/v3/**/*.vue',
+    './app/javascript/dashboard/**/*.vue',
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
+    './app/javascript/dashboard/components-next/**/*.vue',
+    './app/javascript/dashboard/helper/**/*.js',
+    './app/javascript/dashboard/components-next/**/*.js',
+    './app/javascript/dashboard/routes/dashboard/**/**/*.js',
     './app/views/**/*.html.erb',
   ],
-  future: {
-    removeDeprecatedGapUtilities: true,
-  },
-  experimental: {
-    darkModeVariant: true,
-  },
   theme: {
-    colors: {
-      white: colors.white,
-      woot: {
-        25: '#F5FAFF',
-        50: '#EBF5FF',
-        75: '#D6EBFF',
-        100: '#C2E1FF',
-        200: '#99CEFF',
-        300: '#70BAFF',
-        400: '#47A6FF',
-        500: '#1F93FF',
-        600: '#1976CC',
-        700: '#135899',
-        800: '#0C3B66',
-        900: '#061D33',
+    extend: {
+      fontFamily: {
+        sans: defaultSansFonts,
+        inter: ['Inter', ...defaultSansFonts],
+        interDisplay: ['Inter Display', ...defaultSansFonts],
       },
-      green: {
-        50: '#E6F8E6',
-        100: '#C4EEC2',
-        200: '#9DE29A',
-        300: '#6FD86F',
-        400: '#44CE4B',
-        500: '#00C41D',
-        600: '#00B412',
-        700: '#00A200',
-        800: '#009000',
-        900: '#007000',
-      },
-      yellow: {
-        50: '#FEFDE8',
-        100: '#FDFCC4',
-        200: '#FCF68C',
-        300: '#F9E736',
-        400: '#F6D819',
-        500: '#E6C00C',
-        600: '#C69608',
-        700: '#9E6b0A',
-        800: '#835510',
-        900: '#6F4514',
-      },
-      slate: {
-        25: '#F8FAFC',
-        50: '#F1F5F8',
-        75: '#EBF0F5',
-        100: ' #E4EBF1',
-        200: ' #C9D7E3',
-        300: ' #AEC3D5',
-        400: ' #93AFC8',
-        500: ' #779BBB',
-        600: ' #446888',
-        700: ' #37546D',
-        800: ' #293F51',
-        900: ' #1B2836',
-      },
-      black: {
-        50: '#F7F7F7',
-        100: '#ECECED',
-        200: '#DDDDE0',
-        300: '#C6C7CA',
-        400: '#ABACAF',
-        500: '#96979C',
-        600: '#6E6F73',
-        700: '#5A5B5F',
-        800: '#3C3D40',
-        900: '#1B1C1F',
-      },
-      red: {
-        50: '#FFEBEE',
-        100: '#FFCCD1',
-        200: '#F69898',
-        300: '#EF6F6F',
-        400: '#F94B4A',
-        500: '#FF382D',
-        600: '#F02B2D',
-        700: '#DE1E27',
-        800: '#D11320',
-        900: '#C30011',
+      typography: {
+        bubble: {
+          css: {
+            color: 'rgb(var(--slate-12))',
+            lineHeight: '1.6',
+            fontSize: '14px',
+            '*': {
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
+            overflowWrap: 'anywhere',
+
+            strong: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+            },
+
+            b: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+            },
+
+            h1: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+              fontSize: '1.25rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
+            h2: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+              fontSize: '1rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
+            h3: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+              fontSize: '1rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
+            hr: {
+              marginTop: '1.5em',
+              marginBottom: '1.5em',
+            },
+            a: {
+              color: 'rgb(var(--slate-12))',
+              textDecoration: 'underline',
+            },
+            ul: {
+              paddingInlineStart: '0.625em',
+            },
+            ol: {
+              paddingInlineStart: '0.625em',
+            },
+            'ul li': {
+              margin: '0 0 0.5em 1em',
+              listStyleType: 'disc',
+              '[dir="rtl"] &': {
+                margin: '0 1em 0.5em 0',
+              },
+            },
+            'ol li': {
+              margin: '0 0 0.5em 1em',
+              listStyleType: 'decimal',
+              '[dir="rtl"] &': {
+                margin: '0 1em 0.5em 0',
+              },
+            },
+            blockquote: {
+              color: 'rgb(var(--slate-11))',
+              borderLeft: `4px solid rgb(var(--black-alpha-1))`,
+              paddingLeft: '1em',
+              '[dir="rtl"] &': {
+                borderLeft: 'none',
+                paddingLeft: '0',
+                borderRight: `4px solid rgb(var(--black-alpha-1))`,
+                paddingRight: '1em',
+              },
+              '[dir="ltr"] &': {
+                borderRight: 'none',
+                paddingRight: '0',
+              },
+            },
+            code: {
+              backgroundColor: 'rgb(var(--alpha-3))',
+              color: 'rgb(var(--slate-11))',
+              padding: '0.2em 0.4em',
+              borderRadius: '4px',
+              fontSize: '0.95em',
+              '&::before': {
+                content: `none`,
+              },
+              '&::after': {
+                content: `none`,
+              },
+            },
+            pre: {
+              backgroundColor: 'rgb(var(--alpha-3))',
+              padding: '1em',
+              borderRadius: '6px',
+              overflowX: 'auto',
+            },
+            table: {
+              width: '100%',
+              borderCollapse: 'collapse',
+            },
+            th: {
+              padding: '0.75em',
+              color: 'rgb(var(--slate-12))',
+              border: `none`,
+              textAlign: 'start',
+              fontWeight: '600',
+            },
+            tr: {
+              border: `none`,
+            },
+            td: {
+              padding: '0.75em',
+              border: `none`,
+            },
+            img: {
+              maxWidth: '100%',
+              height: 'auto',
+              marginTop: 'unset',
+              marginBottom: 'unset',
+            },
+          },
+        },
       },
     },
-    extend: {
-      screens: {
-        dark: { raw: '(prefers-color-scheme: dark)' },
+    screens: {
+      xs: '480px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
+    fontSize: {
+      ...defaultTheme.fontSize,
+      xxs: '0.625rem',
+    },
+    colors: {
+      transparent: 'transparent',
+      white: '#fff',
+      'modal-backdrop-light': 'rgba(0, 0, 0, 0.4)',
+      'modal-backdrop-dark': 'rgba(0, 0, 0, 0.6)',
+      current: 'currentColor',
+      ...colors,
+      body: slateDark.slate7,
+    },
+    keyframes: {
+      ...defaultTheme.keyframes,
+      wiggle: {
+        '0%': { transform: 'translateX(0)' },
+        '15%': { transform: 'translateX(0.375rem)' },
+        '30%': { transform: 'translateX(-0.375rem)' },
+        '45%': { transform: 'translateX(0.375rem)' },
+        '60%': { transform: 'translateX(-0.375rem)' },
+        '75%': { transform: 'translateX(0.375rem)' },
+        '90%': { transform: 'translateX(-0.375rem)' },
+        '100%': { transform: 'translateX(0)' },
       },
+      'fade-in-up': {
+        '0%': { opacity: 0, transform: 'translateY(0.5rem)' },
+        '100%': { opacity: 1, transform: 'translateY(0)' },
+      },
+      'loader-pulse': {
+        '0%': { opacity: 0.4 },
+        '50%': { opacity: 1 },
+        '100%': { opacity: 0.4 },
+      },
+      'card-select': {
+        '0%, 100%': {
+          transform: 'translateX(0)',
+        },
+        '50%': {
+          transform: 'translateX(1px)',
+        },
+      },
+      shake: {
+        '0%, 100%': { transform: 'translateX(0)' },
+        '25%': { transform: 'translateX(0.234375rem)' },
+        '50%': { transform: 'translateX(-0.234375rem)' },
+        '75%': { transform: 'translateX(0.234375rem)' },
+      },
+    },
+    animation: {
+      ...defaultTheme.animation,
+      wiggle: 'wiggle 0.5s ease-in-out',
+      'fade-in-up': 'fade-in-up 0.3s ease-out',
+      'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      'card-select': 'card-select 0.25s ease-in-out',
+      shake: 'shake 0.3s ease-in-out 0s 2',
     },
   },
   plugins: [
     // eslint-disable-next-line
     require('@tailwindcss/typography'),
+    iconsPlugin({
+      collections: {
+        woot: { icons },
+        ...getIconCollections([
+          'lucide',
+          'logos',
+          'ri',
+          'ph',
+          'material-symbols',
+          'teenyicons',
+        ]),
+      },
+    }),
   ],
 };
+
+module.exports = tailwindConfig;

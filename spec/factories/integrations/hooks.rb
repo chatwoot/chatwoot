@@ -9,7 +9,7 @@ FactoryBot.define do
 
     trait :dialogflow do
       app_id { 'dialogflow' }
-      settings { { project_id: 'test', credentials: {} } }
+      settings { { project_id: 'test', credentials: {}, region: 'global' } }
     end
 
     trait :dyte do
@@ -25,6 +25,28 @@ FactoryBot.define do
     trait :openai do
       app_id { 'openai' }
       settings { { api_key: 'api_key' } }
+    end
+
+    trait :linear do
+      app_id { 'linear' }
+      access_token { SecureRandom.hex }
+    end
+
+    trait :shopify do
+      app_id { 'shopify' }
+      access_token { SecureRandom.hex }
+      reference_id { 'test-store.myshopify.com' }
+    end
+
+    trait :leadsquared do
+      app_id { 'leadsquared' }
+      settings do
+        {
+          'access_key' => SecureRandom.hex,
+          'secret_key' => SecureRandom.hex,
+          'endpoint_url' => 'https://api.leadsquared.com/'
+        }
+      end
     end
   end
 end

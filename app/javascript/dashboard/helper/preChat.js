@@ -47,6 +47,8 @@ export const getCustomFields = ({ standardFields, customAttributes }) => {
         type: attribute.attribute_display_type,
         values: attribute.attribute_values,
         field_type: attribute.attribute_model,
+        regex_pattern: attribute.regex_pattern,
+        regex_cue: attribute.regex_cue,
         required: false,
         enabled: false,
       });

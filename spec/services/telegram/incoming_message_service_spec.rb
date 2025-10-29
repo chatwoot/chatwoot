@@ -65,6 +65,8 @@ describe Telegram::IncomingMessageService do
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(23)
+        expect(Contact.all.first.additional_attributes['social_telegram_user_name']).to eq('sojan')
         expect(telegram_channel.inbox.messages.first.content).to eq('test')
       end
     end
@@ -87,6 +89,61 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when business connection messages' do
+      subject do
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+      end
+
+      let(:business_message_params) { message_params.merge('business_connection_id' => 'eooW3KF5WB5HxTD7T826') }
+      let(:params) do
+        {
+          'update_id' => 2_342_342_343_242,
+          'business_message' => { 'text' => 'test' }.deep_merge(business_message_params)
+        }.with_indifferent_access
+      end
+
+      it 'creates appropriate conversations, message and contacts' do
+        subject
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(telegram_channel.inbox.conversations.last.additional_attributes).to include({ 'chat_id' => 23,
+                                                                                             'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
+        contact = Contact.all.first
+        expect(contact.name).to eq('Sojan Jose')
+        expect(contact.additional_attributes['language_code']).to eq('en')
+        message = telegram_channel.inbox.messages.first
+        expect(message.content).to eq('test')
+        expect(message.message_type).to eq('incoming')
+        expect(message.sender).to eq(contact)
+      end
+
+      context 'when sender is your business account' do
+        let(:business_message_params) do
+          message_params.merge(
+            'business_connection_id' => 'eooW3KF5WB5HxTD7T826',
+            'from' => {
+              'id' => 42, 'is_bot' => false, 'first_name' => 'John', 'last_name' => 'Doe', 'username' => 'johndoe', 'language_code' => 'en'
+            }
+          )
+        end
+
+        it 'creates appropriate conversations, message and contacts' do
+          subject
+          expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+          expect(telegram_channel.inbox.conversations.last.additional_attributes).to include({ 'chat_id' => 23,
+                                                                                               'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
+          contact = Contact.all.first
+          expect(contact.name).to eq('Sojan Jose')
+          # TODO: The language code is not present when we send the first message to the client.
+          # Should we update it when the user replies?
+          expect(contact.additional_attributes['language_code']).to be_nil
+          message = telegram_channel.inbox.messages.first
+          expect(message.content).to eq('test')
+          expect(message.message_type).to eq('outgoing')
+          expect(message.sender).to be_nil
+        end
+      end
+    end
+
     context 'when valid audio messages params' do
       it 'creates appropriate conversations, message and contacts' do
         allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mp3')
@@ -105,6 +162,8 @@ describe Telegram::IncomingMessageService do
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(23)
+        expect(Contact.all.first.additional_attributes['social_telegram_user_name']).to eq('sojan')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('audio')
       end
     end
@@ -175,6 +234,35 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when valid video_note messages params' do
+      it 'creates appropriate conversations, message and contacts' do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mov')
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'video_note' => {
+              'duration' => 3,
+              'length' => 240,
+              'thumb' => {
+                'file_id' => 'AAMCBQADGQEAA4ZhXd78Xz6_c6gCzbdIkgGiXJcwwwACqwMAAp3x8Fbhf3EWamgCWAEAB20AAyEE',
+                'file_unique_id' => 'AQADqwMAAp3x8FZy',
+                'file_size' => 11_462,
+                'width' => 240,
+                'height' => 240
+              },
+              'file_id' => 'DQACAgUAAxkBAAIBY2FdJlhf8PC2E3IalXSvXWO5m8GBAALJAwACwqHgVhb0truM0uhwIQQ',
+              'file_unique_id' => 'AgADyQMAAsKh4FY',
+              'file_size' => 132_446
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('video')
+      end
+    end
+
     context 'when valid voice attachment params' do
       it 'creates appropriate conversations, message and contacts' do
         allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.ogg')
@@ -215,6 +303,26 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when the API call to get the download path returns an error' do
+      it 'does not process the attachment' do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return(nil)
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'document' => {
+              'file_id' => 'AwADBAADbXXXXXXXXXXXGBdhD2l6_XX',
+              'file_name' => 'Screenshot 2021-09-27 at 2.01.14 PM.png',
+              'mime_type' => 'application/png',
+              'file_size' => 536_392
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.messages.first.attachments.count).to eq(0)
+      end
+    end
+
     context 'when valid location message params' do
       it 'creates appropriate conversations, message and contacts' do
         params = {
@@ -230,6 +338,30 @@ describe Telegram::IncomingMessageService do
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('location')
+      end
+
+      it 'creates appropriate conversations, message and contacts if venue is present' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'location': {
+              'latitude': 37.7893768,
+              'longitude': -122.3895553
+            },
+            venue: {
+              title: 'San Francisco'
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+
+        attachment = telegram_channel.inbox.messages.first.attachments.first
+        expect(attachment.file_type).to eq('location')
+        expect(attachment.coordinates_lat).to eq(37.7893768)
+        expect(attachment.coordinates_long).to eq(-122.3895553)
+        expect(attachment.fallback_title).to eq('San Francisco')
       end
     end
 
@@ -257,7 +389,25 @@ describe Telegram::IncomingMessageService do
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(5_171_248)
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
+      end
+    end
+
+    context 'when valid contact message params' do
+      it 'creates appropriate conversations, message and contacts' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'contact': {
+              'phone_number': '+918660944581'
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('contact')
       end
     end
   end

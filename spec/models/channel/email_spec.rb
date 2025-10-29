@@ -35,4 +35,15 @@ RSpec.describe Channel::Email do
       expect(channel.microsoft?).to be(true)
     end
   end
+
+  context 'when google?' do
+    it 'returns false' do
+      expect(channel.google?).to be(false)
+    end
+
+    it 'returns true' do
+      channel.provider = 'google'
+      expect(channel.google?).to be(true)
+    end
+  end
 end

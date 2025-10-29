@@ -1,0 +1,77 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "My Inbox",
+      "DISPLAY_DROPDOWN": "Visualització",
+      "LOADING": "S'estan obtenint notificacions",
+      "404": "No hi ha notificacions actives en aquest grup.",
+      "NO_NOTIFICATIONS": "No hi ha notificacions",
+      "NOTE": "Notificacions de totes les safates d'entrada subscrites",
+      "NO_MESSAGES_AVAILABLE": "Ups! No es poden recuperar els missatges",
+      "SNOOZED_UNTIL": "Posposat fins a",
+      "SNOOZED_UNTIL_TOMORROW": "Posposat fins demà",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Posposat fins a la setmana vinent"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Posposa la notificació",
+      "DELETE": "Suprimeix la notificació",
+      "BACK": "Enrere"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "T'han mencionat a la conversa",
+      "CONVERSATION_CREATION": "S'ha creat una nova conversa",
+      "CONVERSATION_ASSIGNMENT": "Una conversa ha estat assignada a tu",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Missatge nou en una conversa assignada",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Missatge nou en una conversa en què participeu",
+      "SLA_MISSED_FIRST_RESPONSE": "S'ha perdut la primera resposta de l'objectiu de SLA per a la conversa",
+      "SLA_MISSED_NEXT_RESPONSE": "S'ha perdut la següent resposta de l'objectiu de SLA per a la conversa",
+      "SLA_MISSED_RESOLUTION": "S'ha perdut la resolució de l'objectiu de SLA per a la conversa"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nou missatge",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nou missatge",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "No hi ha contingut disponible",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Marca com a llegit",
+      "MARK_AS_UNREAD": "Marca com a no llegit",
+      "SNOOZE": "Posposat",
+      "DELETE": "Esborrar",
+      "MARK_ALL_READ": "Marcar tots com a llegits",
+      "DELETE_ALL": "Suprimeix tot",
+      "DELETE_ALL_READ": "Suprimeix tots els llegits"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Ordena",
+      "DISPLAY": "Visualització:",
+      "SORT_OPTIONS": {
+        "NEWEST": "Més nou",
+        "OLDEST": "Més antic",
+        "PRIORITY": "Prioritat"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Posposat",
+        "READ": "Llegir",
+        "LABELS": "Etiquetes",
+        "CONVERSATION_ID": "ID de la conversa"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notificació marcada com a llegida",
+      "MARK_AS_UNREAD": "Notificació marcada com a no llegida",
+      "SNOOZE": "La notificació s'ha posposat",
+      "DELETE": "S'ha suprimit la notificació",
+      "MARK_ALL_READ": "Totes les notificacions s'han marcat com a llegides",
+      "DELETE_ALL": "S'han suprimit totes les notificacions",
+      "DELETE_ALL_READ": "S'han suprimit totes les notificacions de lectura"
+    }
+  }
+}

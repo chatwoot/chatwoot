@@ -2,8 +2,11 @@ import {
   frontendURL,
   conversationUrl,
   isValidURL,
-  getLoginRedirectURL,
   conversationListPageURL,
+  getArticleSearchURL,
+  hasValidAvatarUrl,
+  timeStampAppendedURL,
+  getHostNameFromURL,
 } from '../URLHelper';
 
 describe('#URL Helpers', () => {
@@ -77,43 +80,187 @@ describe('#URL Helpers', () => {
     });
   });
 
-  describe('getLoginRedirectURL', () => {
-    it('should return correct Account URL if account id is present', () => {
-      expect(
-        getLoginRedirectURL({
-          ssoAccountId: '7500',
-          user: {
-            accounts: [{ id: 7500, name: 'Test Account 7500' }],
-          },
-        })
-      ).toBe('/app/accounts/7500/dashboard');
+  describe('getArticleSearchURL', () => {
+    it('should generate a basic URL without optional parameters', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        host: 'myurl.com',
+      });
+      expect(url).toBe('myurl.com/news/articles?page=1&locale=en');
     });
 
-    it('should return correct conversation URL if account id and conversationId is present', () => {
-      expect(
-        getLoginRedirectURL({
-          ssoAccountId: '7500',
-          ssoConversationId: '752',
-          user: {
-            accounts: [{ id: 7500, name: 'Test Account 7500' }],
-          },
-        })
-      ).toBe('/app/accounts/7500/conversations/752');
-    });
-
-    it('should return default URL if account id is not present', () => {
-      expect(getLoginRedirectURL({ ssoAccountId: '7500', user: {} })).toBe(
-        '/app/'
+    it('should include status parameter if provided', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        status: 'published',
+        host: 'myurl.com',
+      });
+      expect(url).toBe(
+        'myurl.com/news/articles?page=1&locale=en&status=published'
       );
-      expect(
-        getLoginRedirectURL({
-          ssoAccountId: '7500',
-          user: {
-            accounts: [{ id: '7501', name: 'Test Account 7501' }],
-          },
-        })
-      ).toBe('/app/accounts/7501/dashboard');
-      expect(getLoginRedirectURL('7500', null)).toBe('/app/');
+    });
+
+    it('should include author_id parameter if provided', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        authorId: 123,
+        host: 'myurl.com',
+      });
+      expect(url).toBe(
+        'myurl.com/news/articles?page=1&locale=en&author_id=123'
+      );
+    });
+
+    it('should include category_slug parameter if provided', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        categorySlug: 'technology',
+        host: 'myurl.com',
+      });
+      expect(url).toBe(
+        'myurl.com/news/articles?page=1&locale=en&category_slug=technology'
+      );
+    });
+
+    it('should include sort parameter if provided', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        sort: 'views',
+        host: 'myurl.com',
+      });
+      expect(url).toBe('myurl.com/news/articles?page=1&locale=en&sort=views');
+    });
+
+    it('should handle multiple optional parameters', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        status: 'draft',
+        authorId: 456,
+        categorySlug: 'science',
+        sort: 'views',
+        host: 'myurl.com',
+      });
+      expect(url).toBe(
+        'myurl.com/news/articles?page=1&locale=en&status=draft&author_id=456&category_slug=science&sort=views'
+      );
+    });
+
+    it('should handle missing optional parameters gracefully', () => {
+      const url = getArticleSearchURL({
+        portalSlug: 'news',
+        pageNumber: 1,
+        locale: 'en',
+        host: 'myurl.com',
+      });
+      expect(url).toBe('myurl.com/news/articles?page=1&locale=en');
+    });
+  });
+
+  describe('hasValidAvatarUrl', () => {
+    test('should return true for valid non-Gravatar URL', () => {
+      expect(hasValidAvatarUrl('https://chatwoot.com/avatar.jpg')).toBe(true);
+    });
+
+    test('should return false for a Gravatar URL (www.gravatar.com)', () => {
+      expect(hasValidAvatarUrl('https://www.gravatar.com/avatar.jpg')).toBe(
+        false
+      );
+    });
+
+    test('should return false for a Gravatar URL (gravatar)', () => {
+      expect(hasValidAvatarUrl('https://gravatar/avatar.jpg')).toBe(false);
+    });
+
+    test('should handle invalid URL', () => {
+      expect(hasValidAvatarUrl('invalid-url')).toBe(false); // or expect an error, depending on function design
+    });
+
+    test('should return false for empty or undefined URL', () => {
+      expect(hasValidAvatarUrl('')).toBe(false);
+      expect(hasValidAvatarUrl()).toBe(false);
+    });
+  });
+
+  describe('timeStampAppendedURL', () => {
+    const FIXED_TIMESTAMP = 1234567890000;
+
+    beforeEach(() => {
+      vi.spyOn(Date, 'now').mockImplementation(() => FIXED_TIMESTAMP);
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('should append timestamp to a URL without query parameters', () => {
+      const input = 'https://example.com/audio.mp3';
+      const expected = `https://example.com/audio.mp3?t=${FIXED_TIMESTAMP}`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should append timestamp to a URL with existing query parameters', () => {
+      const input = 'https://example.com/audio.mp3?volume=50';
+      const expected = `https://example.com/audio.mp3?volume=50&t=${FIXED_TIMESTAMP}`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should not append timestamp if it already exists', () => {
+      const input = 'https://example.com/audio.mp3?t=9876543210';
+      expect(timeStampAppendedURL(input)).toBe(input);
+    });
+
+    it('should handle URLs with hash fragments', () => {
+      const input = 'https://example.com/audio.mp3#section1';
+      const expected = `https://example.com/audio.mp3?t=${FIXED_TIMESTAMP}#section1`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should handle complex URLs', () => {
+      const input =
+        'https://example.com/path/to/audio.mp3?key1=value1&key2=value2#fragment';
+      const expected = `https://example.com/path/to/audio.mp3?key1=value1&key2=value2&t=${FIXED_TIMESTAMP}#fragment`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should throw an error for invalid URLs', () => {
+      const input = 'not a valid url';
+      expect(() => timeStampAppendedURL(input)).toThrow();
+    });
+  });
+
+  describe('getHostNameFromURL', () => {
+    it('should return the hostname from a valid URL', () => {
+      expect(getHostNameFromURL('https://example.com/path')).toBe(
+        'example.com'
+      );
+    });
+
+    it('should return null for an invalid URL', () => {
+      expect(getHostNameFromURL('not a valid url')).toBe(null);
+    });
+
+    it('should return null for an empty string', () => {
+      expect(getHostNameFromURL('')).toBe(null);
+    });
+
+    it('should return null for undefined input', () => {
+      expect(getHostNameFromURL(undefined)).toBe(null);
+    });
+
+    it('should correctly handle URLs with non-standard TLDs', () => {
+      expect(getHostNameFromURL('https://chatwoot.help')).toBe('chatwoot.help');
     });
   });
 });

@@ -1,18 +1,6 @@
-<template>
-  <div class="quick-replies" :style="showHideElement">
-    <chat-option
-      v-for="option in options"
-      :key="option.id"
-      :action="option"
-      :is-selected="isSelected(option)"
-      @click="onClick"
-    />
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import ChatOption from 'shared/components/ChatOption';
+import ChatOption from 'shared/components/ChatOption.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
@@ -56,8 +44,20 @@ export default {
 };
 </script>
 
+<template>
+  <div class="quick-replies" :style="showHideElement">
+    <ChatOption
+      v-for="option in options"
+      :key="option.id"
+      :action="option"
+      :is-selected="isSelected(option)"
+      @option-select="onClick"
+    />
+  </div>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables';
 
 .quick-replies {
   display: flex;

@@ -1,126 +1,150 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
-    },
-    "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
-      "CANCEL_BUTTON_TEXT": "Mégse",
-      "CREATE_BUTTON_TEXT": "Létrehozás",
-      "FORM": {
-        "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Engedélyezve",
+          "DISABLED": "Letiltva"
         },
-        "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
-        },
-        "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
-        },
-        "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
-          "ERROR": "Inbox is required"
-        },
-        "MESSAGE": {
-          "LABEL": "Üzenet",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
-        },
-        "SENT_BY": {
-          "LABEL": "Küldő",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
-        },
-        "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
-          "ERROR": "Kérjük helyes URL-t adj meg"
-        },
-        "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
-        },
-        "ENABLED": "Enable campaign",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
-        "SUBMIT": "Add Campaign"
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Küldő",
+          "BOT": "Bot",
+          "FROM": "innen",
+          "URL": "URL:"
+        }
       },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Mégse",
+        "CREATE_BUTTON_TEXT": "Létrehozás",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Cím",
+            "PLACEHOLDER": "Kérlek írd ide a kampány nevét",
+            "ERROR": "Cím megadása kötelező"
+          },
+          "MESSAGE": {
+            "LABEL": "Üzenet",
+            "PLACEHOLDER": "Kérlek írd ide a kampány üzenetét",
+            "ERROR": "Üzenet kötelező"
+          },
+          "INBOX": {
+            "LABEL": "Válassz fiókot",
+            "PLACEHOLDER": "Válassz fiókot",
+            "ERROR": "Fiók kötelező"
+          },
+          "SENT_BY": {
+            "LABEL": "Küldő",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Küldő megadása kötelező"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Kérjük adj meg egy URL-t",
+            "ERROR": "Kérjük helyes URL-t adj meg"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Az oldalon töltött idő (másodperc)",
+            "PLACEHOLDER": "Kérlek, add meg az időtartamot",
+            "ERROR": "Az oldalon töltött idő megadása kötelező"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Kampány engedélyezése",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Feloldás csak munkaidőben"
+          },
+          "BUTTONS": {
+            "CREATE": "Létrehozás",
+            "CANCEL": "Mégse"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Lezárt",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Mégse",
+        "CREATE_BUTTON_TEXT": "Létrehozás",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Cím",
+            "PLACEHOLDER": "Kérlek írd ide a kampány nevét",
+            "ERROR": "Cím megadása kötelező"
+          },
+          "MESSAGE": {
+            "LABEL": "Üzenet",
+            "PLACEHOLDER": "Kérlek írd ide a kampány üzenetét",
+            "ERROR": "Üzenet kötelező"
+          },
+          "INBOX": {
+            "LABEL": "Válassz fiókot",
+            "PLACEHOLDER": "Válassz fiókot",
+            "ERROR": "Fiók kötelező"
+          },
+          "AUDIENCE": {
+            "LABEL": "Közönség",
+            "PLACEHOLDER": "Ügyfél címke kiválasztása",
+            "ERROR": "Közönség megadása kötelező"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Tervezett idő",
+            "PLACEHOLDER": "Kérlek, válaszd ki az időtartamot",
+            "ERROR": "Tervezett idő megadása kötelező"
+          },
+          "BUTTONS": {
+            "CREATE": "Létrehozás",
+            "CANCEL": "Mégse"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Biztos abban, hogy törli?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Törlés",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "Kampány sikeresen törölve",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra."
       }
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Törlés",
-      "CONFIRM": {
-        "TITLE": "Törlés megerősítése",
-        "MESSAGE": "Biztos abban, hogy törli?",
-        "YES": "Igen, Törlés ",
-        "NO": "Nem, Mégse "
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
-      }
-    },
-    "EDIT": {
-      "TITLE": "Edit campaign",
-      "UPDATE_BUTTON_TEXT": "Frissítés",
-      "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
-        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
-      }
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
-      "TABLE_HEADER": {
-        "TITLE": "Title",
-        "MESSAGE": "Üzenet",
-        "INBOX": "Fiók",
-        "STATUS": "Státusz",
-        "SENDER": "Sender",
-        "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
-      },
-      "BUTTONS": {
-        "ADD": "Hozzáadás",
-        "EDIT": "Szerkesztés",
-        "DELETE": "Törlés"
-      },
-      "STATUS": {
-        "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
-      },
-      "SENDER": {
-        "BOT": "Bot"
-      }
-    },
-    "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
-    },
-    "ONGOING": {
-      "HEADER": "Ongoing campaigns",
-      "404": "There are no ongoing campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
     }
   }
 }
