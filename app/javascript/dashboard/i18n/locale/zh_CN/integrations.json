@@ -863,6 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "常见问题",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "创建新常见问题",
       "DOCUMENTABLE": {
         "CONVERSATION": "对话 #{id}"
@@ -902,6 +903,10 @@
         "APPROVED": "已批准",
         "ALL": "所有"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "将问题及其对应的答案添加到知识库，并选择应关联的助手。",
       "CREATE": {
         "TITLE": "添加常见问题",
@@ -932,9 +937,9 @@
         "APPROVE_SUCCESS_MESSAGE": "常见问题已标记为已批准"
       },
       "OPTIONS": {
-        "APPROVE": "标记为已批准",
-        "EDIT_RESPONSE": "编辑常见问题",
-        "DELETE_RESPONSE": "删除常见问题"
+        "APPROVE": "批准",
+        "EDIT_RESPONSE": "编辑",
+        "DELETE_RESPONSE": "删除"
       },
       "EMPTY_STATE": {
         "TITLE": "未找到常见问题",
