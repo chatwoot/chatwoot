@@ -17,7 +17,11 @@ class Whatsapp::EmbeddedSignupService
 
     channel = create_or_reauthorize_channel(access_token, phone_info)
     channel.setup_webhooks
-    check_channel_health_and_prompt_reauth(channel)
+
+    # Only check health for reauthorization, not for new channel creation
+    # New channels often have NOT_APPLICABLE status during initial setup
+    check_channel_health_and_prompt_reauth(channel) if @inbox_id.present?
+
     channel
 
   rescue StandardError => e
@@ -57,7 +61,10 @@ class Whatsapp::EmbeddedSignupService
     health_data = Whatsapp::HealthService.new(channel).fetch_health_status
     return unless health_data
 
-    if channel_in_pending_state?(health_data)
+    # Check for actual error conditions, not just pending states
+    # NOT_APPLICABLE is normal for newly onboarded accounts
+    if channel_has_critical_issues?(health_data)
+      Rails.logger.warn "[WHATSAPP] Channel #{channel.phone_number} has critical issues, prompting reauthorization"
       channel.prompt_reauthorization!
     else
       Rails.logger.info "[WHATSAPP] Channel #{channel.phone_number} health check passed"
@@ -66,9 +73,18 @@ class Whatsapp::EmbeddedSignupService
     Rails.logger.error "[WHATSAPP] Health check failed for channel #{channel.phone_number}: #{e.message}"
   end
 
-  def channel_in_pending_state?(health_data)
-    health_data[:platform_type] == 'NOT_APPLICABLE' ||
-      health_data.dig(:throughput, 'level') == 'NOT_APPLICABLE'
+  def channel_has_critical_issues?(health_data)
+    # Only prompt reauth for actual error conditions, not pending states
+    # quality_rating: RED or YELLOW indicates issues
+    # account_mode: SANDBOX might need attention
+    # code_verification_status: VERIFIED is good, anything else might be an issue
+
+    quality_rating = health_data[:quality_rating]
+    account_mode = health_data[:account_mode]
+
+    # Critical issues that require reauthorization
+    quality_rating == 'RED' ||
+      (account_mode && account_mode != 'LIVE' && account_mode != 'SANDBOX')
   end
 
   def validate_parameters!
