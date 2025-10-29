@@ -1,10 +1,10 @@
-# rubocop:disable Metrics/ClassLength
 class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
+  include Enterprise::Api::V1::Accounts::Concerns::BillingV2
+
   before_action :fetch_account
   before_action :check_authorization
   before_action :check_cloud_env, only: [:limits, :toggle_deletion]
-  before_action :validate_topup_amount, only: [:v2_topup]
 
   def subscription
     if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
@@ -54,114 +54,6 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
       unmark_for_deletion
     else
       render json: { error: 'Invalid action_type. Must be either "delete" or "undelete"' }, status: :unprocessable_entity
-    end
-  end
-
-  # V2 Billing Endpoints
-  def credits_balance
-    service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
-    balance = service.credit_balance
-
-    render json: {
-      id: @account.id,
-      monthly_credits: balance[:monthly],
-      topup_credits: balance[:topup],
-      total_credits: balance[:total],
-      usage_this_month: balance[:usage_this_month],
-      usage_total: balance[:usage_total]
-    }
-  end
-
-  def credit_grants
-    service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
-    grants = service.fetch_credit_grants
-
-    render json: { credit_grants: grants }
-  end
-
-  def v2_pricing_plans
-    plans = Enterprise::Billing::V2::PlanCatalog.plans
-    render json: { pricing_plans: plans }
-  end
-
-  def v2_topup_options
-    options = Enterprise::Billing::V2::TopupCatalog.options
-    render json: { topup_options: options }
-  end
-
-  def v2_topup
-    service = Enterprise::Billing::V2::TopupService.new(account: @account)
-    result = service.create_topup(credits: params[:credits].to_i)
-
-    if result[:success]
-      render json: { success: true, message: result[:message] }
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
-  end
-
-  def v2_subscribe
-    service = Enterprise::Billing::V2::CheckoutSessionService.new(account: @account)
-    result = service.create_subscription_checkout(
-      pricing_plan_id: params[:pricing_plan_id],
-      quantity: subscription_quantity
-    )
-
-    if result[:success]
-      render json: { success: true, redirect_url: result[:redirect_url], checkout_session_id: result[:checkout_session_id] }
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
-  end
-
-  def cancel_subscription
-    service = Enterprise::Billing::V2::CancelSubscriptionService.new(account: @account)
-    result = service.cancel_subscription
-
-    if result[:success]
-      # Include account ID and updated attributes for frontend store update
-      @account.reload
-      render json: result.merge(
-        id: @account.id,
-        custom_attributes: @account.custom_attributes
-      )
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
-  end
-
-  def update_subscription_quantity
-    service = Enterprise::Billing::V2::UpdateSubscriptionService.new(account: @account)
-    result = service.update_quantity(quantity: params[:quantity].to_i)
-
-    if result[:success]
-      # Include account ID and updated attributes for frontend store update
-      @account.reload
-      render json: result.merge(
-        id: @account.id,
-        custom_attributes: @account.custom_attributes
-      )
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
-  end
-
-  def change_pricing_plan
-    service = Enterprise::Billing::V2::ChangePlanService.new(account: @account)
-    result = service.change_plan(
-      new_pricing_plan_id: params[:pricing_plan_id],
-      quantity: params[:quantity].to_i
-    )
-
-    if result[:success]
-      # Include account ID and updated attributes for frontend store update
-      @account.reload
-      render json: result.merge(
-        id: @account.id,
-        custom_attributes: @account.custom_attributes
-      )
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
     end
   end
 
@@ -223,18 +115,6 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     render json: { redirect_url: redirect_url }
   end
 
-  def subscription_quantity
-    quantity = params[:quantity].to_i
-    quantity.positive? ? quantity : 1
-  end
-
-  def validate_topup_amount
-    amount = params[:credits].to_i
-    return if amount.positive?
-
-    render json: { error: 'Topup amount must be greater than 0' }, status: :unprocessable_entity
-  end
-
   def pundit_user
     {
       user: current_user,
@@ -243,4 +123,3 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     }
   end
 end
-# rubocop:enable Metrics/ClassLength

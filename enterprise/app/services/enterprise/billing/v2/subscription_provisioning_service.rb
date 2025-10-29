@@ -115,7 +115,6 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
                       "pricing_plan_id=#{pricing_plan_id}, quantity=#{quantity}"
 
     attributes = {
-      'stripe_billing_version' => 2,
       'stripe_subscription_id' => subscription_id,
       'subscribed_quantity' => quantity,
       'subscription_status' => 'active',

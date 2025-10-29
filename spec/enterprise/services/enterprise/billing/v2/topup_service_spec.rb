@@ -2,8 +2,14 @@ require 'rails_helper'
 require 'ostruct'
 
 describe Enterprise::Billing::V2::TopupService do
-  let(:account) { create(:account, custom_attributes: { 'stripe_customer_id' => 'cus_123' }) }
+  let(:account) { create(:account, custom_attributes: { 'stripe_customer_id' => 'cus_123', 'plan_name' => 'Startups' }) }
   let(:service) { described_class.new(account: account) }
+  let(:invoice_settings) { instance_double(Stripe::InvoiceSettings, default_payment_method: 'pm_123') }
+  let(:stripe_customer) do
+    instance_double(Stripe::Customer,
+                    invoice_settings: invoice_settings,
+                    default_source: nil)
+  end
   let(:invoice) { Stripe::Invoice.construct_from(id: 'in_123', customer: 'cus_123', currency: 'usd') }
   let(:invoice_item) do
     Stripe::InvoiceItem.construct_from(
@@ -29,6 +35,9 @@ describe Enterprise::Billing::V2::TopupService do
       amount: 50.0,
       currency: 'usd'
     )
+
+    # Mock Stripe Customer retrieval for payment method check
+    allow(Stripe::Customer).to receive(:retrieve).and_return(stripe_customer)
 
     # Mock Stripe Invoice creation
     allow(Stripe::Invoice).to receive(:create).and_return(invoice)
