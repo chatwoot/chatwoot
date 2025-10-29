@@ -3,10 +3,10 @@ import { computed } from 'vue';
 import { TemplateNormalizer } from 'dashboard/services/TemplateNormalizer';
 
 import TextTemplate from 'dashboard/components-next/message/bubbles/Template/Text.vue';
-import MediaTemplate from 'dashboard/components-next/message/bubbles/Template/Media.vue';
 import QuickReplyTemplate from 'dashboard/components-next/message/bubbles/Template/QuickReply.vue';
 import CardTemplate from 'dashboard/components-next/message/bubbles/Template/Card.vue';
 import DynamicCallToActionTemplate from './DynamicCallToActionTemplate.vue';
+import DynamicMediaTemplate from './DynamicMediaTemplate.vue';
 
 const props = defineProps({
   template: {
@@ -89,15 +89,15 @@ const previewComponent = computed(() => {
     // WhatsApp components
     'whatsapp-text': TextTemplate,
     'whatsapp-text-header': TextTemplate,
-    'whatsapp-media-image': MediaTemplate,
-    'whatsapp-media-video': MediaTemplate,
-    'whatsapp-media-document': MediaTemplate,
+    'whatsapp-media-image': DynamicMediaTemplate,
+    'whatsapp-media-video': DynamicMediaTemplate,
+    'whatsapp-media-document': DynamicMediaTemplate,
     'whatsapp-interactive': DynamicCallToActionTemplate,
     'whatsapp-copy-code': DynamicCallToActionTemplate,
 
     // Twilio components
     'twilio-text': TextTemplate,
-    'twilio-media': MediaTemplate,
+    'twilio-media': DynamicMediaTemplate,
     'twilio-quick-reply': QuickReplyTemplate,
     'twilio-card': CardTemplate,
   };
