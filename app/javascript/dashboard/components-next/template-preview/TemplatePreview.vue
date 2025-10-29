@@ -4,9 +4,9 @@ import { TemplateNormalizer } from 'dashboard/services/TemplateNormalizer';
 
 import TextTemplate from 'dashboard/components-next/message/bubbles/Template/Text.vue';
 import MediaTemplate from 'dashboard/components-next/message/bubbles/Template/Media.vue';
-import CallToActionTemplate from 'dashboard/components-next/message/bubbles/Template/CallToAction.vue';
 import QuickReplyTemplate from 'dashboard/components-next/message/bubbles/Template/QuickReply.vue';
 import CardTemplate from 'dashboard/components-next/message/bubbles/Template/Card.vue';
+import DynamicCallToActionTemplate from './DynamicCallToActionTemplate.vue';
 
 const props = defineProps({
   template: {
@@ -92,8 +92,8 @@ const previewComponent = computed(() => {
     'whatsapp-media-image': MediaTemplate,
     'whatsapp-media-video': MediaTemplate,
     'whatsapp-media-document': MediaTemplate,
-    'whatsapp-interactive': CallToActionTemplate,
-    'whatsapp-copy-code': CallToActionTemplate,
+    'whatsapp-interactive': DynamicCallToActionTemplate,
+    'whatsapp-copy-code': DynamicCallToActionTemplate,
 
     // Twilio components
     'twilio-text': TextTemplate,

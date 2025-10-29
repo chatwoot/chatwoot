@@ -57,7 +57,7 @@ const whatsAppTemplates = [
         format: 'DOCUMENT',
         example: {
           header_handle: [
-            'https://scontent.whatsapp.net/v/t61.29466-34/521502500_767076162670092_7371147273350347509_n.pdf',
+            'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
           ],
         },
       },
