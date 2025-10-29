@@ -863,6 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "新しいFAQを作成",
       "DOCUMENTABLE": {
         "CONVERSATION": "会話 #{id}"
@@ -902,6 +903,10 @@
         "APPROVED": "承認済み",
         "ALL": "すべて"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "質問とその対応する回答をナレッジベースに追加し、それに関連付けるアシスタントを選択してください。",
       "CREATE": {
         "TITLE": "FAQを追加",
@@ -932,9 +937,9 @@
         "APPROVE_SUCCESS_MESSAGE": "FAQが承認済みとしてマークされました"
       },
       "OPTIONS": {
-        "APPROVE": "承認済みとしてマーク",
-        "EDIT_RESPONSE": "FAQを編集",
-        "DELETE_RESPONSE": "FAQを削除"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "編集",
+        "DELETE_RESPONSE": "削除"
       },
       "EMPTY_STATE": {
         "TITLE": "FAQが見つかりません",
