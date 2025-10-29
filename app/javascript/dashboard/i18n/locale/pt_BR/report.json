@@ -483,7 +483,7 @@
       "NO_AGENTS": "Não há conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "Abrir",
+        "OPEN": "Abertas",
         "UNATTENDED": "Não atendidas",
         "STATUS": "Status"
       }
@@ -573,7 +573,7 @@
     "LABEL": "Nome do campo",
     "AVG_RESOLUTION_TIME": "Tempo Médio de Resolução",
     "AVG_FIRST_RESPONSE_TIME": "Tempo Médio de Primeira Resposta",
-    "AVG_REPLY_TIME": "Tempo Médio de Rspera do Cliente",
+    "AVG_REPLY_TIME": "Tempo Médio de Espera do Cliente",
     "RESOLUTION_COUNT": "Contagem de Resolução",
     "CONVERSATIONS": "Nº de Conversas"
   }

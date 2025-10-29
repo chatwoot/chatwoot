@@ -94,7 +94,7 @@ export default {
           ],
         },
         {
-          path: ':inboxId',
+          path: ':inboxId/:tab?',
           name: 'settings_inbox_show',
           component: Settings,
           meta: {

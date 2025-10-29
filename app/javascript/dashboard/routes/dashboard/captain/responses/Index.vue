@@ -1,17 +1,15 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
-import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import { OnClickOutside } from '@vueuse/components';
 import { useRouter } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
 
+import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
-import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
@@ -37,7 +35,6 @@ const selectedResponse = ref(null);
 const deleteDialog = ref(null);
 const bulkDeleteDialog = ref(null);
 
-const selectedStatus = ref('all');
 const selectedAssistant = ref('all');
 const dialogType = ref('');
 const searchQuery = ref('');
@@ -45,53 +42,16 @@ const { t } = useI18n();
 
 const createDialog = ref(null);
 
-const isStatusFilterOpen = ref(false);
 const shouldShowDropdown = computed(() => {
   if (assistants.value.length === 0) return false;
 
   return !isFetching.value;
 });
 
-const statusOptions = computed(() =>
-  ['all', 'pending', 'approved'].map(key => ({
-    label: t(`CAPTAIN.RESPONSES.STATUS.${key.toUpperCase()}`),
-    value: key,
-    action: 'filter',
-  }))
-);
-
-const filteredResponses = computed(() => {
-  return selectedStatus.value === 'pending'
-    ? responses.value.filter(r => r.status === 'pending')
-    : responses.value;
-});
-
-const selectedStatusLabel = computed(() => {
-  const status = statusOptions.value.find(
-    option => option.value === selectedStatus.value
-  );
-  return t('CAPTAIN.RESPONSES.FILTER.STATUS', {
-    selected: status ? status.label : '',
-  });
-});
+const pendingCount = useMapGetter('captainResponses/getPendingCount');
 
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
-};
-const handleAccept = async () => {
-  try {
-    await store.dispatch('captainResponses/update', {
-      id: selectedResponse.value.id,
-      status: 'approved',
-    });
-    useAlert(t(`CAPTAIN.RESPONSES.EDIT.APPROVE_SUCCESS_MESSAGE`));
-  } catch (error) {
-    const errorMessage =
-      error?.message || t(`CAPTAIN.RESPONSES.EDIT.ERROR_MESSAGE`);
-    useAlert(errorMessage);
-  } finally {
-    selectedResponse.value = null;
-  }
 };
 
 const handleCreate = () => {
@@ -105,18 +65,13 @@ const handleEdit = () => {
 };
 
 const handleAction = ({ action, id }) => {
-  selectedResponse.value = filteredResponses.value.find(
-    response => id === response.id
-  );
+  selectedResponse.value = responses.value.find(response => id === response.id);
   nextTick(() => {
     if (action === 'delete') {
       handleDelete();
     }
     if (action === 'edit') {
       handleEdit();
-    }
-    if (action === 'approve') {
-      handleAccept();
     }
   });
 };
@@ -136,10 +91,8 @@ const handleCreateClose = () => {
 };
 
 const fetchResponses = (page = 1) => {
-  const filterParams = { page };
-  if (selectedStatus.value !== 'all') {
-    filterParams.status = selectedStatus.value;
-  }
+  const filterParams = { page, status: 'approved' };
+
   if (selectedAssistant.value !== 'all') {
     filterParams.assistantId = selectedAssistant.value;
   }
@@ -155,7 +108,7 @@ const hoveredCard = ref(null);
 
 const bulkSelectionState = computed(() => {
   const selectedCount = bulkSelectedIds.value.size;
-  const totalCount = filteredResponses.value?.length || 0;
+  const totalCount = responses.value?.length || 0;
 
   return {
     hasSelected: selectedCount > 0,
@@ -168,13 +121,13 @@ const bulkCheckbox = computed({
   get: () => bulkSelectionState.value.allSelected,
   set: value => {
     bulkSelectedIds.value = value
-      ? new Set(filteredResponses.value.map(r => r.id))
+      ? new Set(responses.value.map(r => r.id))
       : new Set();
   },
 });
 
 const buildSelectedCountLabel = computed(() => {
-  const count = filteredResponses.value?.length || 0;
+  const count = responses.value?.length || 0;
   return bulkSelectionState.value.allSelected
     ? t('CAPTAIN.RESPONSES.UNSELECT_ALL', { count })
     : t('CAPTAIN.RESPONSES.SELECT_ALL', { count });
@@ -191,7 +144,7 @@ const handleCardSelect = id => {
 };
 
 const fetchResponseAfterBulkAction = () => {
-  const hasNoResponsesLeft = filteredResponses.value?.length === 0;
+  const hasNoResponsesLeft = responses.value?.length === 0;
   const currentPage = responseMeta.value?.page;
 
   if (hasNoResponsesLeft) {
@@ -208,22 +161,6 @@ const fetchResponseAfterBulkAction = () => {
   bulkSelectedIds.value = new Set();
 };
 
-const handleBulkApprove = async () => {
-  try {
-    await store.dispatch(
-      'captainBulkActions/handleBulkApprove',
-      Array.from(bulkSelectedIds.value)
-    );
-
-    fetchResponseAfterBulkAction();
-    useAlert(t('CAPTAIN.RESPONSES.BULK_APPROVE.SUCCESS_MESSAGE'));
-  } catch (error) {
-    useAlert(
-      error?.message || t('CAPTAIN.RESPONSES.BULK_APPROVE.ERROR_MESSAGE')
-    );
-  }
-};
-
 const onPageChange = page => {
   // Store current selection state before fetching new page
   const wasAllPageSelected = bulkSelectionState.value.allSelected;
@@ -238,19 +175,13 @@ const onPageChange = page => {
 };
 
 const onDeleteSuccess = () => {
-  if (filteredResponses.value?.length === 0 && responseMeta.value?.page > 1) {
+  if (responses.value?.length === 0 && responseMeta.value?.page > 1) {
     onPageChange(responseMeta.value.page - 1);
   }
 };
 
 const onBulkDeleteSuccess = () => {
   fetchResponseAfterBulkAction();
-};
-
-const handleStatusFilterChange = ({ value }) => {
-  selectedStatus.value = value;
-  isStatusFilterOpen.value = false;
-  fetchResponses();
 };
 
 const handleAssistantFilterChange = assistant => {
@@ -262,9 +193,14 @@ const debouncedSearch = debounce(async () => {
   fetchResponses();
 }, 500);
 
+const navigateToPendingFAQs = () => {
+  router.push({ name: 'captain_responses_pending' });
+};
+
 onMounted(() => {
   store.dispatch('captainAssistants/get');
   fetchResponses();
+  store.dispatch('captainResponses/fetchPendingCount');
 });
 </script>
 
@@ -276,8 +212,8 @@ onMounted(() => {
     :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"
-    :is-empty="!filteredResponses.length"
-    :show-pagination-footer="!isFetching && !!filteredResponses.length"
+    :is-empty="!responses.length"
+    :show-pagination-footer="!isFetching && !!responses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
     @click="handleCreate"
@@ -315,25 +251,7 @@ onMounted(() => {
           v-if="!bulkSelectionState.hasSelected"
           class="flex gap-3 justify-between w-full items-center"
         >
-          <div class="flex gap-3">
-            <OnClickOutside @trigger="isStatusFilterOpen = false">
-              <Button
-                :label="selectedStatusLabel"
-                icon="i-lucide-chevron-down"
-                size="sm"
-                color="slate"
-                trailing-icon
-                class="max-w-48"
-                @click="isStatusFilterOpen = !isStatusFilterOpen"
-              />
-
-              <DropdownMenu
-                v-if="isStatusFilterOpen"
-                :menu-items="statusOptions"
-                class="mt-2"
-                @action="handleStatusFilterChange"
-              />
-            </OnClickOutside>
+          <div class="flex items-center gap-3">
             <AssistantSelector
               :assistant-id="selectedAssistant"
               @update="handleAssistantFilterChange"
@@ -344,6 +262,7 @@ onMounted(() => {
             :placeholder="$t('CAPTAIN.RESPONSES.SEARCH_PLACEHOLDER')"
             class="w-64"
             size="sm"
+            type="search"
             autofocus
             @input="debouncedSearch"
           />
@@ -381,15 +300,6 @@ onMounted(() => {
             <div class="h-4 w-px bg-n-strong" />
             <div class="flex gap-3 items-center">
               <Button
-                :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
-                sm
-                ghost
-                icon="i-lucide-check"
-                class="!px-1.5"
-                @click="handleBulkApprove"
-              />
-              <div class="h-4 w-px bg-n-strong" />
-              <Button
                 :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
                 sm
                 ruby
@@ -406,10 +316,19 @@ onMounted(() => {
 
     <template #body>
       <LimitBanner class="mb-5" />
+      <Banner
+        v-if="pendingCount > 0"
+        color="blue"
+        class="mb-4"
+        :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
+        @action="navigateToPendingFAQs"
+      >
+        {{ $t('CAPTAIN.RESPONSES.PENDING_BANNER.TITLE') }}
+      </Banner>
 
       <div class="flex flex-col gap-4">
         <ResponseCard
-          v-for="response in filteredResponses"
+          v-for="response in responses"
           :id="response.id"
           :key="response.id"
           :question="response.question"
@@ -422,6 +341,7 @@ onMounted(() => {
           :is-selected="bulkSelectedIds.has(response.id)"
           :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
           :show-menu="!bulkSelectedIds.has(response.id)"
+          :show-actions="false"
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"
