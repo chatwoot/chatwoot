@@ -49,6 +49,7 @@ export const createMutations = mutationTypes => ({
   },
   [mutationTypes.SET_META](state, meta) {
     state.meta = {
+      ...state.meta,
       totalCount: Number(meta.total_count),
       page: Number(meta.page),
     };
@@ -69,7 +70,7 @@ export const createCrudActions = (API, mutationTypes) => ({
 });
 
 export const createStore = options => {
-  const { name, API, actions, getters } = options;
+  const { name, API, actions, getters, mutations } = options;
   const mutationTypes = generateMutationTypes(name);
 
   const customActions = actions ? actions(mutationTypes) : {};
@@ -81,7 +82,10 @@ export const createStore = options => {
       ...createGetters(),
       ...(getters || {}),
     },
-    mutations: createMutations(mutationTypes),
+    mutations: {
+      ...createMutations(mutationTypes),
+      ...(mutations || {}),
+    },
     actions: {
       ...createCrudActions(API, mutationTypes),
       ...customActions,
