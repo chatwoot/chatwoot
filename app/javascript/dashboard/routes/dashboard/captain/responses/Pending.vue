@@ -1,13 +1,14 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
-import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -23,6 +24,7 @@ import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
@@ -44,14 +46,36 @@ const createDialog = ref(null);
 
 const shouldShowDropdown = computed(() => {
   if (assistants.value.length === 0) return false;
-
   return !isFetching.value;
 });
 
-const pendingCount = useMapGetter('captainResponses/getPendingCount');
+const backUrl = computed(() =>
+  frontendURL(`accounts/${route.params.accountId}/captain/responses`)
+);
+
+// Filter out approved responses in pending view
+const filteredResponses = computed(() =>
+  responses.value.filter(response => response.status !== 'approved')
+);
 
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
+};
+
+const handleAccept = async () => {
+  try {
+    await store.dispatch('captainResponses/update', {
+      id: selectedResponse.value.id,
+      status: 'approved',
+    });
+    useAlert(t(`CAPTAIN.RESPONSES.EDIT.APPROVE_SUCCESS_MESSAGE`));
+  } catch (error) {
+    const errorMessage =
+      error?.message || t(`CAPTAIN.RESPONSES.EDIT.ERROR_MESSAGE`);
+    useAlert(errorMessage);
+  } finally {
+    selectedResponse.value = null;
+  }
 };
 
 const handleCreate = () => {
@@ -65,13 +89,18 @@ const handleEdit = () => {
 };
 
 const handleAction = ({ action, id }) => {
-  selectedResponse.value = responses.value.find(response => id === response.id);
+  selectedResponse.value = filteredResponses.value.find(
+    response => id === response.id
+  );
   nextTick(() => {
     if (action === 'delete') {
       handleDelete();
     }
     if (action === 'edit') {
       handleEdit();
+    }
+    if (action === 'approve') {
+      handleAccept();
     }
   });
 };
@@ -91,7 +120,7 @@ const handleCreateClose = () => {
 };
 
 const fetchResponses = (page = 1) => {
-  const filterParams = { page, status: 'approved' };
+  const filterParams = { page, status: 'pending' };
 
   if (selectedAssistant.value !== 'all') {
     filterParams.assistantId = selectedAssistant.value;
@@ -108,7 +137,7 @@ const hoveredCard = ref(null);
 
 const bulkSelectionState = computed(() => {
   const selectedCount = bulkSelectedIds.value.size;
-  const totalCount = responses.value?.length || 0;
+  const totalCount = filteredResponses.value?.length || 0;
 
   return {
     hasSelected: selectedCount > 0,
@@ -121,13 +150,13 @@ const bulkCheckbox = computed({
   get: () => bulkSelectionState.value.allSelected,
   set: value => {
     bulkSelectedIds.value = value
-      ? new Set(responses.value.map(r => r.id))
+      ? new Set(filteredResponses.value.map(r => r.id))
       : new Set();
   },
 });
 
 const buildSelectedCountLabel = computed(() => {
-  const count = responses.value?.length || 0;
+  const count = filteredResponses.value?.length || 0;
   return bulkSelectionState.value.allSelected
     ? t('CAPTAIN.RESPONSES.UNSELECT_ALL', { count })
     : t('CAPTAIN.RESPONSES.SELECT_ALL', { count });
@@ -144,38 +173,48 @@ const handleCardSelect = id => {
 };
 
 const fetchResponseAfterBulkAction = () => {
-  const hasNoResponsesLeft = responses.value?.length === 0;
+  const hasNoResponsesLeft = filteredResponses.value?.length === 0;
   const currentPage = responseMeta.value?.page;
 
   if (hasNoResponsesLeft) {
-    // Page is now empty after bulk action.
-    // Fetch the previous page if not already on the first page.
     const pageToFetch = currentPage > 1 ? currentPage - 1 : currentPage;
     fetchResponses(pageToFetch);
   } else {
-    // Page still has responses left, re-fetch the same page.
     fetchResponses(currentPage);
   }
 
-  // Clear selection
   bulkSelectedIds.value = new Set();
 };
 
+const handleBulkApprove = async () => {
+  try {
+    await store.dispatch(
+      'captainBulkActions/handleBulkApprove',
+      Array.from(bulkSelectedIds.value)
+    );
+
+    fetchResponseAfterBulkAction();
+    useAlert(t('CAPTAIN.RESPONSES.BULK_APPROVE.SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(
+      error?.message || t('CAPTAIN.RESPONSES.BULK_APPROVE.ERROR_MESSAGE')
+    );
+  }
+};
+
 const onPageChange = page => {
-  // Store current selection state before fetching new page
   const wasAllPageSelected = bulkSelectionState.value.allSelected;
   const hadPartialSelection = bulkSelectedIds.value.size > 0;
 
   fetchResponses(page);
 
-  // Reset selection if we had any selections on page change
   if (wasAllPageSelected || hadPartialSelection) {
     bulkSelectedIds.value = new Set();
   }
 };
 
 const onDeleteSuccess = () => {
-  if (responses.value?.length === 0 && responseMeta.value?.page > 1) {
+  if (filteredResponses.value?.length === 0 && responseMeta.value?.page > 1) {
     onPageChange(responseMeta.value.page - 1);
   }
 };
@@ -193,14 +232,9 @@ const debouncedSearch = debounce(async () => {
   fetchResponses();
 }, 500);
 
-const navigateToPendingFAQs = () => {
-  router.push({ name: 'captain_responses_pending' });
-};
-
 onMounted(() => {
   store.dispatch('captainAssistants/get');
   fetchResponses();
-  store.dispatch('captainResponses/fetchPendingCount');
 });
 </script>
 
@@ -209,12 +243,13 @@ onMounted(() => {
     :total-count="responseMeta.totalCount"
     :current-page="responseMeta.page"
     :button-policy="['administrator']"
-    :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
+    :header-title="$t('CAPTAIN.RESPONSES.PENDING_FAQS')"
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"
-    :is-empty="!responses.length"
-    :show-pagination-footer="!isFetching && !!responses.length"
+    :is-empty="!filteredResponses.length"
+    :show-pagination-footer="!isFetching && !!filteredResponses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
+    :back-url="backUrl"
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
@@ -300,6 +335,15 @@ onMounted(() => {
             <div class="h-4 w-px bg-n-strong" />
             <div class="flex gap-3 items-center">
               <Button
+                :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
+                sm
+                ghost
+                icon="i-lucide-check"
+                class="!px-1.5"
+                @click="handleBulkApprove"
+              />
+              <div class="h-4 w-px bg-n-strong" />
+              <Button
                 :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
                 sm
                 ruby
@@ -316,19 +360,10 @@ onMounted(() => {
 
     <template #body>
       <LimitBanner class="mb-5" />
-      <Banner
-        v-if="pendingCount > 0"
-        color="blue"
-        class="mb-4"
-        :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
-        @action="navigateToPendingFAQs"
-      >
-        {{ $t('CAPTAIN.RESPONSES.PENDING_BANNER.TITLE') }}
-      </Banner>
 
       <div class="flex flex-col gap-4">
         <ResponseCard
-          v-for="response in responses"
+          v-for="response in filteredResponses"
           :id="response.id"
           :key="response.id"
           :question="response.question"
@@ -340,8 +375,8 @@ onMounted(() => {
           :updated-at="response.updated_at"
           :is-selected="bulkSelectedIds.has(response.id)"
           :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
-          :show-menu="!bulkSelectedIds.has(response.id)"
-          :show-actions="false"
+          :show-menu="false"
+          :show-actions="!bulkSelectedIds.has(response.id)"
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"
