@@ -211,12 +211,9 @@ const debouncedSearch = debounce(async () => {
 }, 500);
 
 const initializeFromURL = () => {
-  // Initialize search query from URL
   if (route.query.search) {
     searchQuery.value = route.query.search;
   }
-
-  // Initialize page from URL
   const pageFromURL = parseInt(route.query.page, 10) || 1;
   fetchResponses(pageFromURL);
 };
