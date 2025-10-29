@@ -15,7 +15,6 @@ import DeleteDialog from 'dashboard/components-next/captain/pageComponents/Delet
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
-import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
@@ -27,7 +26,6 @@ const route = useRoute();
 const store = useStore();
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
-const assistants = useMapGetter('captainAssistants/getRecords');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
@@ -36,18 +34,13 @@ const selectedResponse = ref(null);
 const deleteDialog = ref(null);
 const bulkDeleteDialog = ref(null);
 
-const selectedAssistant = ref('all');
 const dialogType = ref('');
 const searchQuery = ref('');
 const { t } = useI18n();
 
 const createDialog = ref(null);
 
-const shouldShowDropdown = computed(() => {
-  if (assistants.value.length === 0) return false;
-
-  return !isFetching.value;
-});
+const selectedAssistantId = Number(route.params.assistantId);
 
 const pendingCount = useMapGetter('captainResponses/getPendingCount');
 
@@ -106,8 +99,8 @@ const updateURLWithFilters = (page, search) => {
 const fetchResponses = (page = 1) => {
   const filterParams = { page, status: 'approved' };
 
-  if (selectedAssistant.value !== 'all') {
-    filterParams.assistantId = selectedAssistant.value;
+  if (selectedAssistantId) {
+    filterParams.assistantId = selectedAssistantId;
   }
   if (searchQuery.value) {
     filterParams.search = searchQuery.value;
@@ -201,11 +194,6 @@ const onBulkDeleteSuccess = () => {
   fetchResponseAfterBulkAction();
 };
 
-const handleAssistantFilterChange = assistant => {
-  selectedAssistant.value = assistant;
-  fetchResponses(1);
-};
-
 const debouncedSearch = debounce(async () => {
   fetchResponses(1);
 }, 500);
@@ -219,11 +207,10 @@ const initializeFromURL = () => {
 };
 
 const navigateToPendingFAQs = () => {
-  router.push({ name: 'captain_responses_pending' });
+  router.push({ name: 'captain_assistants_responses_pending' });
 };
 
 onMounted(() => {
-  store.dispatch('captainAssistants/get');
   initializeFromURL();
   store.dispatch('captainResponses/fetchPendingCount');
 });
@@ -255,36 +242,31 @@ onMounted(() => {
       />
     </template>
 
+    <template #search>
+      <div
+        v-if="!bulkSelectionState.hasSelected"
+        class="flex gap-3 justify-between w-full items-center"
+      >
+        <Input
+          v-model="searchQuery"
+          :placeholder="$t('CAPTAIN.RESPONSES.SEARCH_PLACEHOLDER')"
+          class="w-64"
+          size="sm"
+          type="search"
+          autofocus
+          @input="debouncedSearch"
+        />
+      </div>
+    </template>
+
     <template #subHeader>
       <div
-        v-if="shouldShowDropdown"
-        class="mb-2 flex justify-between items-center py-1"
         :class="{
-          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 w-fit':
+          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 w-fit mb-2 flex justify-between items-center py-1 visible':
             bulkSelectionState.hasSelected,
+          invisible: !bulkSelectionState.hasSelected,
         }"
       >
-        <div
-          v-if="!bulkSelectionState.hasSelected"
-          class="flex gap-3 justify-between w-full items-center"
-        >
-          <div class="flex items-center gap-3">
-            <AssistantSelector
-              :assistant-id="selectedAssistant"
-              @update="handleAssistantFilterChange"
-            />
-          </div>
-          <Input
-            v-model="searchQuery"
-            :placeholder="$t('CAPTAIN.RESPONSES.SEARCH_PLACEHOLDER')"
-            class="w-64"
-            size="sm"
-            type="search"
-            autofocus
-            @input="debouncedSearch"
-          />
-        </div>
-
         <transition
           name="slide-fade"
           enter-active-class="transition-all duration-300 ease-out"
