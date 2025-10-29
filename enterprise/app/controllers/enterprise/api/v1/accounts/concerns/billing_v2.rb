@@ -77,22 +77,6 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
     end
   end
 
-  def update_subscription_quantity
-    service = Enterprise::Billing::V2::UpdateSubscriptionService.new(account: @account)
-    result = service.update_quantity(quantity: params[:quantity].to_i)
-
-    if result[:success]
-      # Include account ID and updated attributes for frontend store update
-      @account.reload
-      render json: result.merge(
-        id: @account.id,
-        custom_attributes: @account.custom_attributes
-      )
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
-  end
-
   def change_pricing_plan
     service = Enterprise::Billing::V2::ChangePlanService.new(account: @account)
     result = service.change_plan(

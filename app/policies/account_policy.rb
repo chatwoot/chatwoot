@@ -59,10 +59,6 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def update_subscription_quantity?
-    @account_user.administrator?
-  end
-
   def change_pricing_plan?
     @account_user.administrator?
   end
