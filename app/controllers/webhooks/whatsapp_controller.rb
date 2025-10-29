@@ -46,12 +46,6 @@ class Webhooks::WhatsappController < ActionController::API
     token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
   end
 
-  def valid_token?(token)
-    channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
-    whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
-    token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
-  end
-
   def inactive_whatsapp_number?(phone_number = nil)
     phone_number ||= params[:phone_number]
     return false if phone_number.blank?
