@@ -80,7 +80,9 @@ module InjectEnterpriseEditionModule
   end
 
   def const_get_maybe_false(mod, name)
-    mod&.const_defined?(name, false) && mod&.const_get(name, false)
+    return nil unless mod.is_a?(Module)
+
+    mod.const_defined?(name, false) ? mod.const_get(name, false) : nil
   end
 end
 

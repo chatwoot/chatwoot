@@ -2,7 +2,51 @@
 
 // CommMate Green Branding
 
-// Override sidebar logo
+// Override all blue CSS variables with CommMate green
+:root {
+  // Replace blue with green shades
+  --blue-1: 250 254 252;       // Very light green
+  --blue-2: 242 250 245;       // Lightest green
+  --blue-3: 230 245 237;       // Light green
+  --blue-4: 215 238 225;       // Pale green
+  --blue-5: 195 230 210;       // Soft green
+  --blue-6: 170 220 190;       // Medium light green
+  --blue-7: 140 205 170;       // Medium green
+  --blue-8: 89 180 75;         // Tertiary (#59b44b)
+  --blue-9: 16 126 68;         // Primary (#107e44)
+  --blue-10: 13 102 55;        // Primary dark
+  --blue-11: 10 77 42;         // Darker green
+  --blue-12: 5 40 22;          // Darkest green
+  
+  // Override iris (purple) with green too
+  --iris-9: 16 126 68;         // Primary green
+  --iris-10: 13 102 55;
+  --iris-11: 10 77 42;
+  
+  // Override text-blue and border-blue
+  --text-blue: 16 126 68;      // Primary green
+  --border-blue: 16, 126, 68, 0.5;
+  --solid-blue: 215 238 225;   // Light green
+  
+  // Global accent color for ALL native form controls
+  accent-color: #107e44;
+  color-scheme: light;
+}
+
+.dark {
+  // Dark mode green overrides
+  --blue-9: 19 149 79;         // Lighter for dark mode
+  --blue-10: 39 149 76;        // Secondary green
+  --blue-11: 59 180 75;        // Tertiary green
+  --text-blue: 89 180 75;      // Tertiary for dark mode
+  --solid-blue: 13 50 30;      // Dark green
+  
+  // Global accent color for dark mode
+  accent-color: #59b44b;
+  color-scheme: dark;
+}
+
+// Override sidebar logo - High-res PNG
 .sidebar-logo {
   background-image: url('/images/logo-full.png') !important;
   background-size: contain;
@@ -11,7 +55,7 @@
   height: var(--logo-height);
 }
 
-// Login page branding
+// Login page branding - High-res PNG
 .login-page {
   .logo-container {
     background-image: url('/images/logo-full.png');
@@ -28,16 +72,47 @@
   }
 }
 
-// Sidebar with green branding
+// SSO/OAuth disabled via configuration (IS_ENTERPRISE=false)
+// No CSS hiding needed - controlled by:
+// - GOOGLE_OAUTH_CLIENT_ID (empty = no Google OAuth)
+// - IS_ENTERPRISE (false = no SAML/SSO)
+
+// Sidebar with green branding - Only active items
 .sidebar {
   .menu-item {
-    &.is-active {
+    // Only active/selected items are green
+    &.is-active,
+    &.active,
+    &[data-active="true"],
+    &.router-link-active {
       background-color: var(--color-primary) !important;
       border-left: 4px solid var(--color-quaternary) !important;
     }
     
-    &:hover {
+    // Subtle green hover (not too strong)
+    &:hover:not(.is-active):not(.active) {
+      background-color: rgba(16, 126, 68, 0.05) !important;
+    }
+  }
+  
+  // Submenu items - keep grey, only highlight active
+  .sub-menu-item,
+  .submenu-item {
+    // Default: keep original grey colors (don't override)
+    
+    // Only selected submenu gets green
+    &.is-active,
+    &.active,
+    &.router-link-active {
       background-color: rgba(16, 126, 68, 0.1) !important;
+      color: var(--color-primary) !important;
+      font-weight: 500;
+      border-left: 3px solid var(--color-primary) !important;
+    }
+    
+    // Very subtle hover for non-active
+    &:hover:not(.is-active):not(.active) {
+      background-color: rgba(0, 0, 0, 0.03) !important;
     }
   }
 }
@@ -95,8 +170,27 @@
   background-color: var(--color-tertiary) !important;
 }
 
-// Link colors
+// Link colors - More selective
+// Only style primary action links, keep others grey
 a {
+  // Primary links and buttons get green
+  &.button,
+  &.button--link,
+  &.link--primary,
+  &[href]:hover {
+    color: var(--color-primary) !important;
+  }
+  
+  // Active router links
+  &.router-link-active {
+    color: var(--color-primary) !important;
+  }
+}
+
+// Primary text links in content
+.text-link,
+.content a,
+.message a {
   color: var(--color-primary) !important;
   
   &:hover {
@@ -104,17 +198,39 @@ a {
   }
 }
 
-// Input focus states
+// Input focus states - Green outline
 input:focus,
 textarea:focus,
 select:focus {
+  outline-color: rgb(16 126 68) !important;
   border-color: var(--color-primary) !important;
   box-shadow: 0 0 0 3px rgba(16, 126, 68, 0.1) !important;
 }
 
-// Checkbox and radio - Green
-input[type="checkbox"]:checked,
-input[type="radio"]:checked {
+// Checkbox and radio - Green when checked
+input[type="checkbox"],
+input[type="radio"] {
+  // Keep default grey when unchecked
+  
+  &:checked {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    background-image: none !important; // Remove default checkmark
+  }
+  
+  &:focus {
+    outline-color: rgb(16 126 68) !important;
+    box-shadow: 0 0 0 3px rgba(16, 126, 68, 0.1) !important;
+  }
+  
+  &:checked:hover {
+    background-color: var(--color-secondary) !important;
+  }
+}
+
+// FormKit checkboxes (if using FormKit)
+.formkit-input[type="checkbox"]:checked,
+.formkit-input[type="radio"]:checked {
   background-color: var(--color-primary) !important;
   border-color: var(--color-primary) !important;
 }
@@ -130,28 +246,54 @@ input[type="radio"]:checked {
   border-top-color: var(--color-primary) !important;
 }
 
-// Tabs
+// Tabs - Only active tab is green, others stay grey
 .tabs {
-  .tab-item {
-    &.is-active {
+  .tab-item,
+  .tab,
+  [role="tab"] {
+    // Default tabs keep grey color (don't override)
+    
+    // Only active/selected tab gets green
+    &.is-active,
+    &.active,
+    &[aria-selected="true"],
+    &.router-link-active {
+      border-bottom-color: var(--color-primary) !important;
+      color: var(--color-primary) !important;
+      font-weight: 500;
+    }
+    
+    // Hover on inactive tabs - subtle
+    &:hover:not(.is-active):not(.active) {
+      color: var(--color-secondary) !important;
+    }
+  }
+}
+
+// Tab panels and navigation tabs (v3 design)
+.tab-navigation {
+  button {
+    // Keep grey for inactive
+    &[data-active="true"],
+    &.active {
       border-bottom-color: var(--color-primary) !important;
       color: var(--color-primary) !important;
     }
   }
 }
 
-// Dark mode specific
+// Dark mode specific - High-res PNG
 .dark {
   .sidebar-logo {
-    background-image: url('/images/logo-dark.png') !important;
+    background-image: url('/images/logo-full-dark.png') !important;
   }
   
   .login-page .logo-container {
-    background-image: url('/images/logo-dark.png') !important;
+    background-image: url('/images/logo-full-dark.png') !important;
   }
   
   .email-header .logo {
-    content: url('/images/logo-dark.png');
+    content: url('/images/logo-full-dark.png');
   }
 }
 
@@ -160,23 +302,47 @@ input[type="radio"]:checked {
   background-color: var(--color-quaternary) !important;
 }
 
-// Avatar borders
+// Avatar borders - Only for active/special avatars
 .avatar {
-  border: 2px solid var(--color-tertiary) !important;
+  &.avatar--primary,
+  &.is-active {
+    border: 2px solid var(--color-tertiary) !important;
+  }
 }
 
-// Card hover effects
-.card:hover {
-  border-color: var(--color-primary) !important;
-  box-shadow: 0 4px 12px rgba(16, 126, 68, 0.15) !important;
+// Card hover effects - Subtle
+.card {
+  &.is-active,
+  &.active {
+    border-color: var(--color-primary) !important;
+  }
+  
+  // Only primary cards get green hover
+  &.card--primary:hover {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 4px 12px rgba(16, 126, 68, 0.15) !important;
+  }
 }
 
-// Conversation list item active
-.conversation-item.is-active {
-  background: linear-gradient(90deg, 
-    rgba(16, 126, 68, 0.1) 0%, 
-    rgba(39, 149, 76, 0.05) 100%) !important;
-  border-left: 4px solid var(--color-primary) !important;
+// Conversation list item - Only active/selected
+.conversation-item,
+.conversation-card {
+  // Default: keep grey (don't override)
+  
+  // Only active conversation gets green highlight
+  &.is-active,
+  &.active,
+  &[data-active="true"] {
+    background: linear-gradient(90deg, 
+      rgba(16, 126, 68, 0.08) 0%, 
+      rgba(39, 149, 76, 0.03) 100%) !important;
+    border-left: 3px solid var(--color-primary) !important;
+  }
+  
+  // Subtle hover for non-active
+  &:hover:not(.is-active):not(.active) {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+  }
 }
 
 // Status indicators - Use green palette
@@ -199,5 +365,261 @@ input[type="radio"]:checked {
     var(--color-primary) 0%, 
     var(--color-secondary) 50%, 
     var(--color-tertiary) 100%) !important;
+}
+
+// Tailwind utility class overrides - Only for primary actions
+// Keep most woot classes as-is, only override key colors
+.bg-woot-500,
+.bg-woot-600 { 
+  background-color: #107e44 !important; 
+}
+
+.text-woot-500,
+.text-woot-600 { 
+  color: #107e44 !important; 
+}
+
+.border-woot-500,
+.border-woot-600 { 
+  border-color: #107e44 !important; 
+}
+
+// Override n.blue (new design system)
+.bg-n-blue-9,
+.bg-n-blue-10,
+.bg-n-blue-11 { background-color: #107e44 !important; }
+
+.text-n-blue-9,
+.text-n-blue-10,
+.text-n-blue-11 { color: #107e44 !important; }
+
+.border-n-blue-9,
+.border-n-blue-10,
+.border-n-blue-11 { border-color: #107e44 !important; }
+
+// Override blue-text and blue-border utilities
+.text-blue-text { color: #107e44 !important; }
+.border-blue-border { border-color: rgba(16, 126, 68, 0.5) !important; }
+
+// Override brand color classes
+.bg-brand { background-color: #107e44 !important; }
+.text-brand { color: #107e44 !important; }
+.border-brand { border-color: #107e44 !important; }
+
+// Ring colors (for focus states)
+.ring-woot-500,
+.ring-woot-600 { 
+  --tw-ring-color: #107e44 !important;
+}
+
+// Hover states
+.hover\:bg-woot-500:hover,
+.hover\:bg-woot-600:hover { background-color: #27954c !important; }
+.hover\:text-woot-500:hover,
+.hover\:text-woot-600:hover { color: #27954c !important; }
+
+// Focus states
+.focus\:border-woot-500:focus,
+.focus\:border-woot-600:focus { border-color: #107e44 !important; }
+.focus\:ring-woot-500:focus,
+.focus\:ring-woot-600:focus { 
+  --tw-ring-color: #107e44 !important;
+}
+
+// Multiselect / Combobox / Dropdown - Green highlights
+.multiselect {
+  // Active state border
+  &.multiselect--active > .multiselect__tags {
+    outline-color: rgba(16, 126, 68, 0.5) !important;
+  }
+  
+  .multiselect__option {
+    // Hover highlight - Light green
+    &.multiselect__option--highlight {
+      background-color: rgba(16, 126, 68, 0.08) !important;
+    }
+    
+    &.multiselect__option--highlight:hover {
+      background-color: rgba(16, 126, 68, 0.12) !important;
+    }
+    
+    // Selected option - Green
+    &.multiselect__option--selected {
+      background-color: rgba(16, 126, 68, 0.2) !important;
+      color: var(--color-primary) !important;
+      font-weight: 500;
+    }
+  }
+  
+  // Tag icon hover
+  .multiselect__tag-icon {
+    &::after {
+      color: rgb(16, 126, 68) !important;
+    }
+    
+    &:hover::after {
+      color: rgb(16, 126, 68) !important;
+    }
+  }
+}
+
+// Select/Combobox active states
+.select {
+  &:focus,
+  &.is-active,
+  &[data-active="true"] {
+    outline-color: rgba(16, 126, 68, 0.5) !important;
+    border-color: var(--color-primary) !important;
+  }
+}
+
+// Dropdown menu items
+.dropdown-menu,
+.select-menu,
+.options-menu {
+  .option,
+  .menu-item {
+    // Hover - Light green
+    &:hover:not(.is-selected):not(.selected) {
+      background-color: rgba(16, 126, 68, 0.08) !important;
+    }
+    
+    // Selected - Green
+    &.is-selected,
+    &.selected,
+    &[aria-selected="true"] {
+      background-color: rgba(16, 126, 68, 0.15) !important;
+      color: var(--color-primary) !important;
+      font-weight: 500;
+    }
+  }
+}
+
+// Override Tailwind brand opacity utilities
+.bg-n-brand\/10 {
+  background-color: rgba(16, 126, 68, 0.1) !important;
+}
+
+.bg-n-brand\/20 {
+  background-color: rgba(16, 126, 68, 0.2) !important;
+}
+
+.text-n-brand {
+  color: rgb(16, 126, 68) !important;
+}
+
+.outline-n-blue-border {
+  outline-color: rgba(16, 126, 68, 0.5) !important;
+}
+
+.text-n-blue-text {
+  color: rgb(16, 126, 68) !important;
+}
+
+// Focus outline utility override
+.focus\:outline-n-brand:focus,
+.dark .focus\:outline-n-brand:focus {
+  outline-color: rgb(16, 126, 68) !important;
+}
+
+// Override any remaining brand color utilities
+[class*="bg-brand"] {
+  &:not(.bg-brand-warning):not(.bg-brand-danger):not(.bg-brand-success) {
+    background-color: #107e44 !important;
+  }
+}
+
+[class*="text-brand"] {
+  &:not(.text-brand-warning):not(.text-brand-danger) {
+    color: #107e44 !important;
+  }
+}
+
+[class*="border-brand"] {
+  &:not(.border-brand-warning):not(.border-brand-danger) {
+    border-color: #107e44 !important;
+  }
+}
+
+// Override accent color (used by native form controls)
+input[type="checkbox"],
+input[type="radio"],
+select,
+input[type="date"],
+input[type="time"],
+input[type="range"] {
+  accent-color: #107e44 !important;
+  color-scheme: light; // Prevent browser from using system blue
+}
+
+.dark {
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  input[type="date"],
+  input[type="time"],
+  input[type="range"] {
+    accent-color: #59b44b !important; // Lighter green for dark mode
+    color-scheme: dark;
+  }
+}
+
+// Native select dropdown options (when opened)
+select {
+  option {
+    &:checked,
+    &:hover,
+    &[selected] {
+      background-color: rgba(16, 126, 68, 0.2) !important;
+      color: var(--color-primary) !important;
+    }
+  }
+  
+  // Focus state for select
+  &:focus {
+    outline-color: rgb(16, 126, 68) !important;
+    border-color: var(--color-primary) !important;
+  }
+  
+  // Active/open state
+  &:focus-visible {
+    outline-color: rgb(16, 126, 68) !important;
+    outline-width: 2px;
+  }
+}
+
+// Override any hover:bg-brand utilities
+.hover\:bg-brand:hover,
+.hover\:bg-n-brand:hover {
+  background-color: #27954c !important;
+}
+
+.hover\:text-brand:hover,
+.hover\:text-n-brand:hover {
+  color: #27954c !important;
+}
+
+// Browser-specific select fixes
+// Webkit (Chrome, Safari, Edge)
+select::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary) !important;
+}
+
+// Firefox
+@-moz-document url-prefix() {
+  select {
+    accent-color: #107e44 !important;
+  }
+}
+
+// Force green for all browser select dropdowns
+*::-webkit-calendar-picker-indicator {
+  filter: invert(36%) sepia(89%) saturate(630%) hue-rotate(108deg) brightness(95%) contrast(92%);
+}
+
+// Date picker calendar icon
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(36%) sepia(89%) saturate(630%) hue-rotate(108deg) brightness(95%) contrast(92%);
 }
 

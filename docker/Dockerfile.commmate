@@ -87,12 +87,64 @@ COPY . /app
 RUN mkdir -p /app/public/images /app/config/commmate
 
 # Copy CommMate assets
-COPY custom/assets/images/*.png /app/public/images/
+COPY custom/assets/logos/*.png /app/public/images/
+COPY custom/assets/logos/*.png /app/public/brand-assets/
 COPY custom/assets/favicons/* /app/public/
 
 # Copy CommMate configurations
 COPY custom/config/branding.yml /app/config/commmate/
 COPY custom/locales/*.yml /app/config/locales/
+COPY custom/config/commmate_init.rb /app/custom/config/
+COPY custom/config/docker-entrypoint.sh /app/custom/config/
+
+# Copy CommMate initializers
+COPY custom/config/initializers/commmate_branding.rb /app/config/initializers/
+COPY custom/config/initializers/commmate_i18n.rb /app/config/initializers/
+
+# Copy CommMate styles (will be compiled during asset precompilation)
+COPY custom/styles /app/custom/styles
+
+# Apply branding to source files
+RUN sed -i 's/#1f93ff/#107e44/g' app/javascript/shared/components/emoji/EmojiInput.vue && \
+    sed -i 's/#1f93ff/#107e44/g' app/javascript/sdk/sdk.js && \
+    sed -i 's/#1f93ff/#107e44/g' app/javascript/dashboard/routes/dashboard/settings/inbox/WidgetBuilder.vue && \
+    sed -i 's/#1F93FF/#107e44/g' app/javascript/dashboard/components/widgets/WootWriter/AudioRecorder.vue && \
+    sed -i 's/#2781F6/#107e44/g' app/javascript/dashboard/components/widgets/conversation/conversation/LabelSuggestion.vue && \
+    sed -i 's/#2781F6/#107e44/g' app/javascript/dashboard/components-next/message/bubbles/Dyte.vue && \
+    sed -i 's/#2781F6/#107e44/g' app/javascript/dashboard/components-next/icon/Logo.vue && \
+    sed -i 's/#2781F6/#107e44/g' app/javascript/dashboard/components-next/HelpCenter/PortalSwitcher/CreatePortalDialog.vue && \
+    sed -i "s/#27264D', '#A19EFF/#0d6636', '#59b44b/g" app/javascript/dashboard/components-next/avatar/Avatar.vue && \
+    sed -i "s/#1D2E62', '#9EB1FF/#0a4d2a', '#8cc540/g" app/javascript/dashboard/components-next/avatar/Avatar.vue && \
+    sed -i "s/#EBEBFE', '#4747C2/#d7eee1', '#107e44/g" app/javascript/dashboard/components-next/avatar/Avatar.vue && \
+    sed -i "s/#E1E9FF', '#3A5BC7/#c3e6d2', '#0d6636/g" app/javascript/dashboard/components-next/avatar/Avatar.vue && \
+    sed -i 's/#47A7F6/#107e44/g' public/brand-assets/logo.svg && \
+    sed -i 's/#47A7F6/#107e44/g' public/brand-assets/logo_dark.svg && \
+    sed -i 's/#2781F6/#107e44/g' public/brand-assets/logo_thumbnail.svg && \
+    sed -i 's/#4B7DFB/#107e44/g' public/assets/images/dashboard/profile/hot-key-*.svg && \
+    sed -i 's/#1f93ff/#107e44/g' app/views/layouts/vueapp.html.erb && \
+    sed -i 's/"Chatwoot"/"CommMate"/g' public/manifest.json && \
+    sed -i 's/#1f93ff/#107e44/g' public/manifest.json
+
+# Update theme/colors.js
+RUN sed -i 's/25: blue\.blue2/25: green.green2/g' theme/colors.js && \
+    sed -i 's/50: blue\.blue3/50: green.green3/g' theme/colors.js && \
+    sed -i 's/75: blue\.blue4/75: green.green4/g' theme/colors.js && \
+    sed -i 's/100: blue\.blue5/100: green.green5/g' theme/colors.js && \
+    sed -i 's/200: blue\.blue7/200: green.green7/g' theme/colors.js && \
+    sed -i 's/300: blue\.blue8/300: green.green8/g' theme/colors.js && \
+    sed -i 's/400: blueDark\.blue11/400: greenDark.green11/g' theme/colors.js && \
+    sed -i 's/500: blueDark\.blue10/500: greenDark.green10/g' theme/colors.js && \
+    sed -i 's/600: blueDark\.blue9/600: greenDark.green9/g' theme/colors.js && \
+    sed -i 's/700: blueDark\.blue8/700: greenDark.green8/g' theme/colors.js && \
+    sed -i 's/800: blueDark\.blue6/800: greenDark.green6/g' theme/colors.js && \
+    sed -i 's/900: blueDark\.blue2/900: greenDark.green2/g' theme/colors.js && \
+    sed -i "s/brand: '#2781F6'/brand: '#107e44'/g" theme/colors.js
+
+# Add CSS imports to app.scss
+RUN echo "" >> app/javascript/dashboard/assets/scss/app.scss && \
+    echo "// CommMate Custom Branding" >> app/javascript/dashboard/assets/scss/app.scss && \
+    echo "@import '../../../../../custom/styles/variables';" >> app/javascript/dashboard/assets/scss/app.scss && \
+    echo "@import '../../../../../custom/styles/branding';" >> app/javascript/dashboard/assets/scss/app.scss
 
 # ============================================
 # COMMMATE CUSTOMIZATIONS END
@@ -102,9 +154,10 @@ COPY custom/locales/*.yml /app/config/locales/
 # https://github.com/chatwoot/chatwoot/issues/701
 RUN mkdir -p /app/log
 
-# Skip asset precompilation during build (will compile on first boot)
-# This avoids the v4.7.0 enterprise module bug during build
-# Assets will be compiled when container starts
+# Precompile assets (requires enterprise fix to be already in code)
+RUN SECRET_KEY_BASE=precompile_placeholder \
+    POSTGRES_DATABASE=none \
+    bundle exec rails assets:precompile
 
 # Generate .git_sha file with current commit hash
 RUN git rev-parse HEAD > /app/.git_sha
@@ -178,4 +231,10 @@ COPY --from=pre-builder /app/.git_sha /app/.git_sha
 
 WORKDIR /app
 
+# Make entrypoint executable
+RUN chmod +x /app/custom/config/docker-entrypoint.sh
+
 EXPOSE 3000
+
+# Use CommMate entrypoint (handles migrations and branding init)
+CMD ["/app/custom/config/docker-entrypoint.sh"]

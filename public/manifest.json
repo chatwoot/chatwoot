@@ -1,6 +1,6 @@
 {
-  "name": "Chatwoot",
-  "short_name": "Chatwoot",
+  "name": "CommMate",
+  "short_name": "CommMate",
   "icons": [{
     "src": "\/android-icon-36x36.png",
     "sizes": "36x36",
@@ -39,6 +39,6 @@
    }],
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1f93ff",
-  "theme_color": "#1f93ff"
+  "background_color": "#107e44",
+  "theme_color": "#107e44"
 }

@@ -199,6 +199,15 @@ const tailwindConfig = {
       current: 'currentColor',
       ...colors,
       body: slateDark.slate7,
+      // CommMate green palette
+      'commmate': {
+        'primary': '#107e44',
+        'primary-dark': '#0d6636',
+        'primary-light': '#13954f',
+        'secondary': '#27954c',
+        'tertiary': '#59b44b',
+        'quaternary': '#8cc540',
+      },
     },
     keyframes: {
       ...defaultTheme.keyframes,

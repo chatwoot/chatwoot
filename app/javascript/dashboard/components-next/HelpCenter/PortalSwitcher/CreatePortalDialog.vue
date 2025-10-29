@@ -109,7 +109,7 @@ const handleDialogConfirm = async () => {
     slug: state.slug,
     custom_domain: state.domain,
     blob_id: state.avatarBlobId || null,
-    color: '#2781F6', // The default color is set to Chatwoot brand color
+    color: '#107e44', // The default color is set to CommMate brand color
   };
   await createPortal(portal);
 };
