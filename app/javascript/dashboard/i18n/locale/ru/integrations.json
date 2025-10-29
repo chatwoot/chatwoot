@@ -863,6 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Создать новый FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Диалог #{id}"
@@ -902,6 +903,10 @@
         "APPROVED": "Одобрено",
         "ALL": "Все"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Добавьте вопрос и соответствующий ему ответ в базу знаний и выберите ассистента, с которым он должен связаться.",
       "CREATE": {
         "TITLE": "Добавить FAQ",
@@ -932,9 +937,9 @@
         "APPROVE_SUCCESS_MESSAGE": "FAQ был отмечен как одобренный"
       },
       "OPTIONS": {
-        "APPROVE": "Отметить как одобренный",
-        "EDIT_RESPONSE": "FAQ отмечен как одобренный",
-        "DELETE_RESPONSE": "Удалить FAQ"
+        "APPROVE": "Одобрить",
+        "EDIT_RESPONSE": "Редактировать",
+        "DELETE_RESPONSE": "Удалить"
       },
       "EMPTY_STATE": {
         "TITLE": "FAQ не найдены",
