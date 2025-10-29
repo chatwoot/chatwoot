@@ -13,8 +13,7 @@ class Enterprise::Billing::V2::ChangePlanService < Enterprise::Billing::V2::Base
 
     with_locked_account do
       billing_intent = create_change_plan_intent(new_pricing_plan_id, quantity)
-      reserved_intent = reserve_billing_intent(billing_intent)
-      handle_payment_if_needed(reserved_intent)
+      reserve_billing_intent(billing_intent)
       commit_billing_intent(billing_intent)
       update_account_plan(new_pricing_plan_id, quantity)
       success_response(new_pricing_plan_id, quantity)
@@ -92,35 +91,6 @@ class Enterprise::Billing::V2::ChangePlanService < Enterprise::Billing::V2::Base
       {},
       stripe_api_options
     )
-  end
-
-  def handle_payment_if_needed(reserved_intent)
-    # Check if there's a proration charge that needs to be paid
-    total_amount = extract_attribute(reserved_intent['amount_details'], 'total')
-    return if total_amount.nil? || total_amount.to_i <= 0
-
-    # Get customer's default payment method
-    stripe_customer_id = custom_attribute('stripe_customer_id')
-    raise StandardError, 'No Stripe customer ID found' if stripe_customer_id.blank?
-
-    customer = Stripe::Customer.retrieve(stripe_customer_id)
-    payment_method_id = customer.invoice_settings&.default_payment_method
-
-    raise StandardError, 'No default payment method found. Please add a payment method first.' if payment_method_id.blank?
-
-    # Create and confirm payment intent for proration charge
-    Stripe::PaymentIntent.create({
-                                   amount: total_amount.to_i,
-                                   currency: 'usd',
-                                   customer: stripe_customer_id,
-                                   payment_method: payment_method_id,
-                                   confirm: true,
-                                   automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
-                                   metadata: {
-                                     account_id: account.id,
-                                     type: 'plan_change_proration'
-                                   }
-                                 })
   end
 
   def commit_billing_intent(billing_intent)

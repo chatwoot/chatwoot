@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Enterprise::Billing::Concerns::PlanFeatureManager
   extend ActiveSupport::Concern
 
