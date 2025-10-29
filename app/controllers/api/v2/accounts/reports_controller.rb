@@ -234,11 +234,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def fill_missing_dates_with_zeros(formatted_data, since_timestamp, until_timestamp, period)
-    return formatted_data if formatted_data.empty? || since_timestamp.blank? || until_timestamp.blank?
+    return formatted_data if since_timestamp.blank? || until_timestamp.blank?
 
-    # Create hash map of existing data by timestamp
-    data_map = formatted_data.index_by { |item| item[:timestamp] }
-    
     # Generate all expected timestamps for the range
     expected_timestamps = case period
                          when 'weekly'
@@ -248,6 +245,22 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
                          else
                            generate_daily_timestamps(since_timestamp, until_timestamp)
                          end
+
+    # If no data exists, generate all zeros for the range
+    if formatted_data.empty?
+      return expected_timestamps.map do |timestamp|
+        {
+          timestamp: timestamp,
+          booking_links_sent: 0,
+          booking_forms_completed: 0,
+          handoff_links_sent: 0,
+          handoff_forms_completed: 0
+        }
+      end
+    end
+
+    # Create hash map of existing data by timestamp
+    data_map = formatted_data.index_by { |item| item[:timestamp] }
     
     # Fill in missing dates with zeros
     expected_timestamps.map do |timestamp|
