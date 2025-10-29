@@ -14,6 +14,9 @@ class ReplyMailbox < ApplicationMailbox
     decorate_mail
     create_message
     add_attachments_to_message
+
+    # Trigger AI response if conditions are met
+    Messages::AiResponseTriggerService.new(message: @message).perform
   end
 
   private
