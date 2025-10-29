@@ -33,19 +33,17 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
       message_history: collect_previous_messages
     )
-
-    return process_action('handoff') if handoff_requested?
-
-    create_messages
-    Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
-    account.increment_response_usage
+    process_response
   end
 
   def generate_response_with_v2
     @response = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
       message_history: collect_previous_messages
     )
+    process_response
+  end
 
+  def process_response
     return process_action('handoff') if handoff_requested?
 
     create_messages
@@ -133,6 +131,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def captain_v2_enabled?
-    return account.feature_enabled?('captain_integration_v2')
+    account.feature_enabled?('captain_integration_v2')
   end
 end
