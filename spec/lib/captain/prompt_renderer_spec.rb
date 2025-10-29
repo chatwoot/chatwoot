@@ -1,17 +1,24 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
 RSpec.describe Captain::PromptRenderer do
   let(:template_name) { 'test_template' }
   let(:template_content) { 'Hello {{name}}, your balance is {{balance}}' }
-  let(:template_path) { Rails.root.join('enterprise', 'lib', 'captain', 'prompts', "#{template_name}.liquid") }
+  let(:enterprise_template_path) { Rails.root.join('enterprise', 'lib', 'captain', 'prompts', "#{template_name}.liquid") }
+  let(:oss_template_path) { Rails.root.join('lib', 'captain', 'prompts', "#{template_name}.liquid") }
   let(:context) { { name: 'John', balance: 100 } }
 
   before do
+    if defined?(Enterprise::Captain::PromptRenderer) &&
+       !Captain::PromptRenderer.singleton_class.ancestors.include?(Enterprise::Captain::PromptRenderer)
+      Captain::PromptRenderer.singleton_class.prepend(Enterprise::Captain::PromptRenderer)
+    end
+
     allow(File).to receive(:exist?).and_return(false)
-    allow(File).to receive(:exist?).with(template_path).and_return(true)
-    allow(File).to receive(:read).with(template_path).and_return(template_content)
+    allow(File).to receive(:read)
+
+    allow(File).to receive(:exist?).with(enterprise_template_path).and_return(false)
+    allow(File).to receive(:exist?).with(oss_template_path).and_return(true)
+    allow(File).to receive(:read).with(oss_template_path).and_return(template_content)
   end
 
   describe '.render' do
@@ -39,7 +46,7 @@ RSpec.describe Captain::PromptRenderer do
       nested_template = 'User: {{user.name}}, Account: {{user.account.type}}'
       nested_context = { user: { name: 'Alice', account: { type: 'premium' } } }
 
-      allow(File).to receive(:read).with(template_path).and_return(nested_template)
+      allow(File).to receive(:read).with(oss_template_path).and_return(nested_template)
 
       result = described_class.render(template_name, nested_context)
 
@@ -48,7 +55,7 @@ RSpec.describe Captain::PromptRenderer do
 
     it 'handles empty context' do
       simple_template = 'Hello World'
-      allow(File).to receive(:read).with(template_path).and_return(simple_template)
+      allow(File).to receive(:read).with(oss_template_path).and_return(simple_template)
 
       result = described_class.render(template_name, {})
 
@@ -65,30 +72,41 @@ RSpec.describe Captain::PromptRenderer do
       expect(result).to eq('rendered')
       expect(Liquid::Template).to have_received(:parse).with(template_content)
     end
+
+    it 'prefers enterprise template when available' do
+      allow(File).to receive(:exist?).with(enterprise_template_path).and_return(true)
+      allow(File).to receive(:read).with(enterprise_template_path).and_return('Enterprise {{name}}')
+
+      result = described_class.render(template_name, context)
+
+      expect(result).to eq('Enterprise John')
+      expect(File).to have_received(:read).with(enterprise_template_path)
+      expect(File).not_to have_received(:read).with(oss_template_path)
+    end
   end
 
   describe '.load_template' do
-    it 'reads template file from correct path' do
+    it 'reads template file from OSS path when enterprise file absent' do
       described_class.send(:load_template, template_name)
 
-      expect(File).to have_received(:read).with(template_path)
+      expect(File).to have_received(:read).with(oss_template_path)
     end
 
-    it 'raises error when template does not exist' do
-      allow(File).to receive(:exist?).with(template_path).and_return(false)
+    it 'raises error when template does not exist in either location' do
+      allow(File).to receive(:exist?).with(oss_template_path).and_return(false)
 
       expect { described_class.send(:load_template, template_name) }
         .to raise_error("Template not found: #{template_name}")
     end
 
-    it 'constructs correct template path' do
-      expected_path = Rails.root.join('enterprise/lib/captain/prompts/my_template.liquid')
-      allow(File).to receive(:exist?).with(expected_path).and_return(true)
-      allow(File).to receive(:read).with(expected_path).and_return('test content')
+    it 'checks enterprise path before OSS path' do
+      allow(File).to receive(:exist?).with(enterprise_template_path).and_return(true)
+      allow(File).to receive(:read).with(enterprise_template_path).and_return('enterprise')
 
-      described_class.send(:load_template, 'my_template')
+      described_class.send(:load_template, template_name)
 
-      expect(File).to have_received(:exist?).with(expected_path)
+      expect(File).to have_received(:exist?).with(enterprise_template_path)
+      expect(File).not_to have_received(:read).with(oss_template_path)
     end
   end
 
