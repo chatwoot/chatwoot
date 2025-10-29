@@ -38,10 +38,84 @@ module Api::V2::Accounts::ReportsHelper # rubocop:disable Metrics/ModuleLength
     end
   end
 
-  def generate_labels_report
-    Current.account.labels.map do |label|
-      label_report = generate_report({ type: :label, id: label.id })
-      [label.title] + generate_readable_report_metrics(label_report)
+  def generate_labels_report # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+    current_range = range[:current]
+    range_start = DateTime.strptime(current_range[:since].to_s, '%s')
+    range_end = DateTime.strptime(current_range[:until].to_s, '%s')
+
+    use_business_hours = ActiveModel::Type::Boolean.new.cast(params[:business_hours])
+
+    # Get all labels for the account
+    labels = Current.account.labels.to_a
+
+    # Pre-fetch all conversation IDs grouped by label in a single query
+    conversations_by_label = {}
+    labels.each do |label|
+      conversation_ids = Current.account.conversations
+                                .tagged_with(label.title)
+                                .where(created_at: range_start..range_end)
+                                .pluck(:id)
+      conversations_by_label[label.id] = conversation_ids
+    end
+
+    # Bulk fetch all reporting events for all conversation IDs at once
+    all_conversation_ids = conversations_by_label.values.flatten.uniq
+
+    first_response_events = ReportingEvent.where(
+      name: 'first_response',
+      account_id: Current.account.id,
+      conversation_id: all_conversation_ids
+    ).select(:conversation_id, :value, :value_in_business_hours).to_a
+
+    resolution_events = ReportingEvent.where(
+      name: :conversation_resolved,
+      conversation_id: all_conversation_ids
+    ).select(:conversation_id, :value, :value_in_business_hours).to_a
+
+    # Get open conversations count for each label
+    open_conversations_by_label = {}
+    labels.each do |label|
+      open_count = Current.account.conversations
+                          .tagged_with(label.title)
+                          .where(account_id: Current.account.id)
+                          .open
+                          .count
+      open_conversations_by_label[label.id] = open_count
+    end
+
+    # Build the report for each label
+    labels.map do |label|
+      conversation_ids = conversations_by_label[label.id] || []
+
+      # Filter events for this label's conversations
+      label_first_response = first_response_events.select { |e| conversation_ids.include?(e.conversation_id) }
+      label_resolutions = resolution_events.select { |e| conversation_ids.include?(e.conversation_id) }
+
+      # Calculate averages
+      frt_values = if use_business_hours
+                     label_first_response.filter_map(&:value_in_business_hours)
+                   else
+                     label_first_response.filter_map(&:value)
+                   end
+      avg_frt = frt_values.any? ? frt_values.sum / frt_values.size.to_f : 0
+
+      rt_values = if use_business_hours
+                    label_resolutions.filter_map(&:value_in_business_hours)
+                  else
+                    label_resolutions.filter_map(&:value)
+                  end
+      avg_rt = rt_values.any? ? rt_values.sum / rt_values.size.to_f : 0
+
+      [
+        label.title,
+        conversation_ids.size,
+        Reports::TimeFormatPresenter.new(avg_frt).format,
+        Reports::TimeFormatPresenter.new(avg_rt).format,
+        '--', # online_time - not applicable for labels
+        '--', # busy_time - not applicable for labels
+        '--', # reply_time - not applicable for labels
+        label_resolutions.size
+      ]
     end
   end
 
