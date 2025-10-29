@@ -419,7 +419,7 @@ const twilioTemplates = [
     types: {
       'twilio/media': {
         body: '👟 Introducing our latest release — the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
-        media: ['https://vite-five-phi.vercel.app/{{3}}'],
+        media: ['https://vite-five-phi.vercel.app/jordan-shoes.jpg'],
       },
     },
     status: 'approved',
@@ -439,7 +439,7 @@ const twilioTemplates = [
     types: {
       'twilio/media': {
         body: '👟 Introducing our latest release — the Nike Air Force! Available now for just $129.99',
-        media: ['https://vite-five-phi.vercel.app/{{3}}'],
+        media: ['https://vite-five-phi.vercel.app/jordan-shoes.jpg'],
       },
     },
     status: 'approved',
