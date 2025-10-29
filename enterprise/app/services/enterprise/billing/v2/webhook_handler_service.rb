@@ -1,6 +1,7 @@
 class Enterprise::Billing::V2::WebhookHandlerService
   def perform(event:)
     @event = event
+    return { success: false, message: 'Event is required' } if @event.blank?
 
     return { success: false, message: 'Account not found' } if account.blank?
 
