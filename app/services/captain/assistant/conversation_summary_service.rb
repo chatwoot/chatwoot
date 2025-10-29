@@ -3,7 +3,6 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
 
   def initialize(conversation:)
     @conversation = conversation
-    # Format conversation messages as text
     super(text: format_conversation_messages)
   end
 
@@ -17,7 +16,6 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
     Captain::PromptRenderer.render('summary', {})
   end
 
-  # rubocop:disable Metrics/MethodLength
   def response_schema
     {
       type: 'object',
@@ -49,7 +47,6 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
       additionalProperties: false
     }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def build_success_response(output)
     {
@@ -97,30 +94,25 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
     output[field_name.to_sym] || output[field_name.to_s] || []
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def build_summary_markdown(output)
     return '' unless output.is_a?(Hash)
 
     sections = []
 
-    # Customer Intent
     if (intent = extract_field(output, 'customer_intent')).present?
       sections << "**Customer Intent**\n\n#{intent}"
     end
 
-    # Conversation Summary
     if (summary = extract_field(output, 'conversation_summary')).present?
       sections << "**Conversation Summary**\n\n#{summary}"
     end
 
-    # Action Items
     action_items = extract_array_field(output, 'action_items')
     if action_items&.any?
       items_list = action_items.map { |item| "- #{item}" }.join("\n")
       sections << "**Action Items**\n\n#{items_list}"
     end
 
-    # Follow-up Items
     follow_up_items = extract_array_field(output, 'follow_up_items')
     if follow_up_items&.any?
       items_list = follow_up_items.map { |item| "- #{item}" }.join("\n")
@@ -129,5 +121,4 @@ class Captain::Assistant::ConversationSummaryService < Captain::Assistant::BaseA
 
     sections.join("\n\n")
   end
-  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
