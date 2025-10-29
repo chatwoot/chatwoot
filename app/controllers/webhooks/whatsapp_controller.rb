@@ -29,7 +29,7 @@ class Webhooks::WhatsappController < ActionController::API
 
   def valid_token?(token)
     # For Facebook WhatsApp Business API webhook verification, use FB_VERIFY_TOKEN
-    fb_verify_token = ENV.fetch('FB_VERIFY_TOKEN', nil)
+    fb_verify_token = GlobalConfig.get_value('FB_VERIFY_TOKEN')
     return token == fb_verify_token if fb_verify_token.present?
 
     # Fallback to channel-specific verification for backward compatibility

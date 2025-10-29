@@ -27,10 +27,14 @@ const { t } = useI18n();
 const isRequestingAuthorization = ref(false);
 const isLoadingFacebook = ref(true);
 
-const whatsappAppId = computed(() => window.chatwootConfig.whatsappAppId);
-const whatsappConfigurationId = computed(
-  () => window.chatwootConfig.whatsappConfigurationId
-);
+const whatsappAppId = computed(() => {
+  const value = window.chatwootConfig?.whatsappAppId;
+  return value && value !== 'null' && value !== 'undefined' ? value : '';
+});
+const whatsappConfigurationId = computed(() => {
+  const value = window.chatwootConfig?.whatsappConfigurationId;
+  return value && value !== 'null' && value !== 'undefined' ? value : '';
+});
 
 const actionLabel = computed(() => {
   if (props.whatsappRegistrationIncomplete) {
@@ -57,11 +61,23 @@ const reauthorizeWhatsApp = async params => {
 
     if (response.data.success) {
       useAlert(t('INBOX.REAUTHORIZE.SUCCESS'));
+      // Reload page to reflect updated channel status
+      window.location.reload();
     } else {
-      useAlert(response.data.message || t('INBOX.REAUTHORIZE.ERROR'));
+      const errorMsg =
+        response.data.error ||
+        response.data.message ||
+        t('INBOX.REAUTHORIZE.ERROR');
+      useAlert(errorMsg);
     }
   } catch (error) {
-    useAlert(error.message || t('INBOX.REAUTHORIZE.ERROR'));
+    // Extract detailed error message from response
+    const errorMsg =
+      error.response?.data?.error ||
+      error.response?.data?.message ||
+      error.message ||
+      t('INBOX.REAUTHORIZE.ERROR');
+    useAlert(errorMsg);
   } finally {
     isRequestingAuthorization.value = false;
   }
