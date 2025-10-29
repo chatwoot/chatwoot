@@ -8,6 +8,9 @@ class Enterprise::Billing::V2::WebhookHandlerService
     when 'v2.billing.pricing_plan_subscription.servicing_activated'
       Rails.logger.info "Handling subscription servicing activated event: #{@event.related_object.id}"
       handle_subscription_servicing_activated(@event.related_object.id)
+    when 'v2.billing.cadence.billed'
+      Rails.logger.info "Handling cadence billed event: #{@event.related_object.id}"
+      refresh_account_subscription_details(@event.related_object.id)
     else
       { success: true }
     end
@@ -54,6 +57,12 @@ class Enterprise::Billing::V2::WebhookHandlerService
     Enterprise::Billing::V2::SubscriptionProvisioningService
       .new(account: account)
       .provision(subscription_id: subscription_id)
+  end
+
+  def refresh_account_subscription_details(_cadence_id)
+    Enterprise::Billing::V2::SubscriptionProvisioningService
+      .new(account: account)
+      .refresh
   end
 
   def stripe_api_options
