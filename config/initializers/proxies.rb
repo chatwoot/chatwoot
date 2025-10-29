@@ -3,5 +3,10 @@ Rails.application.configure do
                                               .split(',')
                                               .map(&:strip)
                                               .reject(&:empty?)
-                                              .map { |proxy| IPAddr.new(proxy) }
+.filter_map do |proxy|
+    IPAddr.new(proxy)
+  rescue IPAddr::InvalidAddressError => e
+    Rails.logger.warn "Invalid IP: #{proxy}"
+    nil # return nil for invalid entries
+  end
 end
