@@ -188,9 +188,7 @@ const whatsAppTemplates = [
         type: 'HEADER',
         format: 'IMAGE',
         example: {
-          header_handle: [
-            'https://scontent.whatsapp.net/v/t61.29466-34/518466505_1106685198073318_3569250580697484416_n.jpg',
-          ],
+          header_handle: ['https://vite-five-phi.vercel.app/vaporfly.png'],
         },
       },
       {
@@ -215,9 +213,7 @@ const whatsAppTemplates = [
         type: 'HEADER',
         format: 'IMAGE',
         example: {
-          header_handle: [
-            'https://scontent.whatsapp.net/v/t61.29466-34/510408113_1242180014586336_1564209110680717071_n.jpg',
-          ],
+          header_handle: ['https://vite-five-phi.vercel.app/coat.png'],
         },
       },
       {
