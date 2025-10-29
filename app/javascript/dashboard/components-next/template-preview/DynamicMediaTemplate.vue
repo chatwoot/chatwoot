@@ -1,5 +1,6 @@
 <script setup>
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import { computed } from 'vue';
+import FileIcon from 'dashboard/components-next/icon/FileIcon.vue';
 
 const props = defineProps({
   message: {
@@ -24,6 +25,16 @@ const getMediaType = () => {
 };
 
 const mediaType = getMediaType();
+
+// Get file type from URL for proper icon
+const fileType = computed(() => {
+  const url = props.message.image_url;
+  if (!url) return 'pdf';
+
+  if (url.includes('.pdf') || url.includes('pdf')) return 'pdf';
+  if (url.includes('.doc')) return 'doc';
+  return 'pdf'; // Default to PDF for documents
+});
 </script>
 
 <template>
@@ -53,7 +64,7 @@ const mediaType = getMediaType();
 
     <!-- Document Media -->
     <div v-else-if="mediaType === 'document'" class="flex items-center">
-      <FluentIcon icon="document" size="24" class="text-n-slate-12" />
+      <FileIcon :file-type="fileType" class="text-2xl text-n-slate-12" />
     </div>
 
     <!-- Content Text -->
