@@ -269,7 +269,7 @@ it:
       description: "Integra Slack per mantenere il tuo team sempre aggiornato. Questa integrazione ti consente di ricevere notifiche per le nuove conversazioni e di rispondere direttamente dall'interfaccia di Slack."
     webhooks:
       name: 'Webhook'
-      description: 'Gli eventi webhook forniscono aggiornamenti in tempo reale sulle attività del tuo account. Puoi registrare i tuoi eventi preferiti e l''app ti invierà callback HTTP con gli aggiornamenti.'
+      description: 'Gli eventi Webhook forniscono aggiornamenti in tempo reale sulle attività nel tuo account Chatwoot. Puoi iscriverti ai tuoi eventi preferiti, e Chatwoot ti invierà i callback HTTP con gli aggiornamenti.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Configura chatbot per gestire le richieste iniziali prima di trasferire agli operatori.'
