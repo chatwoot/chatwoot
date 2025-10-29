@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -23,6 +23,7 @@ import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
@@ -90,6 +91,18 @@ const handleCreateClose = () => {
   selectedResponse.value = null;
 };
 
+const updateURLWithFilters = (page, search) => {
+  const query = {
+    page: page || 1,
+  };
+
+  if (search) {
+    query.search = search;
+  }
+
+  router.replace({ query });
+};
+
 const fetchResponses = (page = 1) => {
   const filterParams = { page, status: 'approved' };
 
@@ -99,6 +112,10 @@ const fetchResponses = (page = 1) => {
   if (searchQuery.value) {
     filterParams.search = searchQuery.value;
   }
+
+  // Update URL with current filters
+  updateURLWithFilters(page, searchQuery.value);
+
   store.dispatch('captainResponses/get', filterParams);
 };
 
@@ -186,12 +203,23 @@ const onBulkDeleteSuccess = () => {
 
 const handleAssistantFilterChange = assistant => {
   selectedAssistant.value = assistant;
-  fetchResponses();
+  fetchResponses(1);
 };
 
 const debouncedSearch = debounce(async () => {
-  fetchResponses();
+  fetchResponses(1);
 }, 500);
+
+const initializeFromURL = () => {
+  // Initialize search query from URL
+  if (route.query.search) {
+    searchQuery.value = route.query.search;
+  }
+
+  // Initialize page from URL
+  const pageFromURL = parseInt(route.query.page, 10) || 1;
+  fetchResponses(pageFromURL);
+};
 
 const navigateToPendingFAQs = () => {
   router.push({ name: 'captain_responses_pending' });
@@ -199,7 +227,7 @@ const navigateToPendingFAQs = () => {
 
 onMounted(() => {
   store.dispatch('captainAssistants/get');
-  fetchResponses();
+  initializeFromURL();
   store.dispatch('captainResponses/fetchPendingCount');
 });
 </script>
@@ -230,18 +258,10 @@ onMounted(() => {
       />
     </template>
 
-    <template #emptyState>
-      <ResponsePageEmptyState @click="handleCreate" />
-    </template>
-
-    <template #paywall>
-      <CaptainPaywall />
-    </template>
-
-    <template #controls>
+    <template #subHeader>
       <div
         v-if="shouldShowDropdown"
-        class="mb-4 -mt-3 flex justify-between items-center py-1"
+        class="mb-2 flex justify-between items-center py-1"
         :class="{
           'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 w-fit':
             bulkSelectionState.hasSelected,
@@ -314,12 +334,20 @@ onMounted(() => {
       </div>
     </template>
 
+    <template #emptyState>
+      <ResponsePageEmptyState @click="handleCreate" />
+    </template>
+
+    <template #paywall>
+      <CaptainPaywall />
+    </template>
+
     <template #body>
       <LimitBanner class="mb-5" />
       <Banner
         v-if="pendingCount > 0"
         color="blue"
-        class="mb-4"
+        class="mb-4 -mt-3"
         :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
         @action="navigateToPendingFAQs"
       >

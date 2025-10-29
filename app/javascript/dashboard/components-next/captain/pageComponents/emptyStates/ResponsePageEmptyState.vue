@@ -6,16 +6,44 @@ import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCa
 import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/FeatureSpotlight.vue';
 import { responsesList } from 'dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js';
 
-const emit = defineEmits(['click']);
+defineProps({
+  showFeatureSpotlight: {
+    type: Boolean,
+    default: true,
+  },
+  showCreateButton: {
+    type: Boolean,
+    default: true,
+  },
+  showBackdropCard: {
+    type: Boolean,
+    default: true,
+  },
+  showSubTitle: {
+    type: Boolean,
+    default: true,
+  },
+  hasActiveFilters: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(['click', 'clearFilters']);
 const { isOnChatwootCloud } = useAccount();
 
 const onClick = () => {
   emit('click');
 };
+
+const onClearFilters = () => {
+  emit('clearFilters');
+};
 </script>
 
 <template>
   <FeatureSpotlight
+    v-if="showFeatureSpotlight"
     :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
     :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
     fallback-thumbnail="/assets/images/dashboard/captain/faqs-light.svg"
@@ -25,11 +53,16 @@ const onClick = () => {
     class="mb-8"
   />
   <EmptyStateLayout
-    :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.TITLE')"
-    :subtitle="$t('CAPTAIN.RESPONSES.EMPTY_STATE.SUBTITLE')"
+    :title="
+      hasActiveFilters
+        ? $t('CAPTAIN.RESPONSES.EMPTY_STATE.NO_PENDING_TITLE')
+        : $t('CAPTAIN.RESPONSES.EMPTY_STATE.TITLE')
+    "
+    :subtitle="showSubTitle ? $t('CAPTAIN.RESPONSES.EMPTY_STATE.SUBTITLE') : ''"
     :action-perms="['administrator']"
+    :show-backdrop="showBackdropCard"
   >
-    <template #empty-state-item>
+    <template v-if="showBackdropCard" #empty-state-item>
       <div class="grid grid-cols-1 gap-4 p-px overflow-hidden">
         <ResponseCard
           v-for="(response, index) in responsesList.slice(0, 5)"
@@ -45,11 +78,21 @@ const onClick = () => {
       </div>
     </template>
     <template #actions>
-      <Button
-        :label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
-        icon="i-lucide-plus"
-        @click="onClick"
-      />
+      <div class="flex flex-col items-center gap-3">
+        <Button
+          v-if="showCreateButton"
+          :label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
+          icon="i-lucide-plus"
+          @click="onClick"
+        />
+        <Button
+          v-else-if="hasActiveFilters"
+          :label="$t('CAPTAIN.RESPONSES.EMPTY_STATE.CLEAR_SEARCH')"
+          variant="link"
+          size="sm"
+          @click="onClearFilters"
+        />
+      </div>
     </template>
   </EmptyStateLayout>
 </template>
