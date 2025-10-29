@@ -14,6 +14,9 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     ActiveRecord::Base.transaction do
       build_message
     end
+
+    # Trigger AI response after transaction commits to ensure message exists in DB
+    trigger_ai_response_if_needed
   rescue StandardError => e
     handle_error(e)
   end
@@ -106,9 +109,6 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     attachments.each do |attachment|
       process_attachment(attachment)
     end
-
-    # Trigger AI response if conditions are met
-    Messages::AiResponseTriggerService.new(message: @message).perform
   end
 
   def save_story_id
@@ -174,6 +174,12 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   def handle_error(error)
     ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
     true
+  end
+
+  def trigger_ai_response_if_needed
+    return unless @message
+
+    Messages::AiResponseTriggerService.new(message: @message).perform
   end
 
   # Abstract methods to be implemented by subclasses

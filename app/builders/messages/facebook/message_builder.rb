@@ -25,6 +25,9 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       build_contact_inbox
       build_message
     end
+
+    # Trigger AI response after transaction commits to ensure message exists in DB
+    trigger_ai_response_if_needed
   rescue Koala::Facebook::AuthenticationError => e
     Rails.logger.warn("Facebook authentication error for inbox: #{@inbox.id} with error: #{e.message}")
     Rails.logger.error e
@@ -50,9 +53,6 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     @attachments.each do |attachment|
       process_attachment(attachment)
     end
-
-    # Trigger AI response if conditions are met
-    Messages::AiResponseTriggerService.new(message: @message).perform
   end
 
   def conversation
@@ -157,4 +157,10 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
+
+  def trigger_ai_response_if_needed
+    return unless @message
+
+    Messages::AiResponseTriggerService.new(message: @message).perform
+  end
 end

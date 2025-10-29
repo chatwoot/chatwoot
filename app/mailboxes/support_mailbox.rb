@@ -19,6 +19,9 @@ class SupportMailbox < ApplicationMailbox
       create_message
       add_attachments_to_message
     end
+
+    # Trigger AI response after transaction commits to ensure message exists in DB
+    Messages::AiResponseTriggerService.new(message: @message).perform
   end
 
   private
