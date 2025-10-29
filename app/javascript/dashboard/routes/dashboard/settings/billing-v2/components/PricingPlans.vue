@@ -64,6 +64,18 @@ const stripeSubscriptionId = computed(() => {
   return customAttributes.value.stripe_subscription_id;
 });
 
+const pendingPlanId = computed(() => {
+  return customAttributes.value.pending_stripe_pricing_plan_id;
+});
+
+const pendingQuantity = computed(() => {
+  return customAttributes.value.pending_subscription_quantity;
+});
+
+const nextBillingDate = computed(() => {
+  return customAttributes.value.next_billing_date;
+});
+
 const hasActiveSubscription = computed(() => {
   return !!currentPlanId.value;
 });
@@ -76,6 +88,10 @@ const isCancellingAtPeriodEnd = computed(() => {
   return subscriptionStatus.value === 'cancel_at_period_end';
 });
 
+const hasPendingChanges = computed(() => {
+  return !!pendingPlanId.value || !!pendingQuantity.value;
+});
+
 const formatEndDate = () => {
   if (!subscriptionEndsAt.value) return '';
   const date = new Date(subscriptionEndsAt.value);
@@ -86,9 +102,24 @@ const formatEndDate = () => {
   }).format(date);
 };
 
+const formatNextBillingDate = () => {
+  if (!nextBillingDate.value) return '';
+  const date = new Date(nextBillingDate.value); // Parse ISO 8601 string
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+};
+
 const currentPlan = computed(() => {
   if (!currentPlanId.value) return null;
   return transformedPlans.value.find(plan => plan.id === currentPlanId.value);
+});
+
+const pendingPlan = computed(() => {
+  if (!pendingPlanId.value) return null;
+  return transformedPlans.value.find(plan => plan.id === pendingPlanId.value);
 });
 
 // Transform backend component structure to flat structure
@@ -239,7 +270,7 @@ const isCurrentPlan = plan => {
         v-if="hasActiveSubscription && !isCancellingAtPeriodEnd"
         #action
       >
-        <ButtonV4 sm faded red :loading="isCanceling" @click="openCancelModal">
+        <ButtonV4 sm faded red :is-loading="isCanceling" @click="openCancelModal">
           {{ $t('BILLING_SETTINGS_V2.PRICING_PLANS.CANCEL_SUBSCRIPTION') }}
         </ButtonV4>
       </template>
@@ -270,6 +301,37 @@ const isCurrentPlan = plan => {
               {{
                 $t('BILLING_SETTINGS_V2.PRICING_PLANS.CANCELLING_BLOCKED_INFO')
               }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Changes Notice -->
+      <div
+        v-if="hasPendingChanges && !isCancellingAtPeriodEnd"
+        class="mx-5 mt-5 p-4 bg-b-50 border border-b-200 rounded-lg"
+      >
+        <div class="flex gap-3">
+          <span class="i-lucide-clock text-b-700 flex-shrink-0 mt-0.5" />
+          <div class="flex-1">
+            <h4 class="text-sm font-semibold text-b-800">
+              Pending Changes Scheduled
+            </h4>
+            <p class="mt-1 text-sm text-b-700">
+              Your subscription changes will take effect on your next billing
+              date.
+            </p>
+            <div v-if="pendingPlan" class="mt-2 text-sm">
+              <span class="font-semibold text-b-800">Next Plan: </span>
+              <span class="text-b-700">{{ pendingPlan.name }}</span>
+            </div>
+            <div v-if="pendingQuantity" class="mt-1 text-sm">
+              <span class="font-semibold text-b-800">Next Quantity: </span>
+              <span class="text-b-700">{{ pendingQuantity }} seats</span>
+            </div>
+            <p v-if="nextBillingDate" class="mt-2 text-sm text-b-800">
+              <span class="font-semibold">Effective Date: </span>
+              {{ formatNextBillingDate() }}
             </p>
           </div>
         </div>
@@ -342,7 +404,7 @@ const isCurrentPlan = plan => {
                   sm
                   solid
                   blue
-                  :loading="isUpdatingQuantity"
+                  :is-loading="isUpdatingQuantity"
                   @click="handleUpdateQuantity"
                 >
                   {{ $t('BILLING_SETTINGS_V2.PRICING_PLANS.UPDATE') }}
@@ -366,6 +428,14 @@ const isCurrentPlan = plan => {
                 <span class="text-n-600">
                   {{ $t('BILLING_SETTINGS_V2.PRICING_PLANS.CREDITS_INCLUDED') }}
                 </span>
+              </div>
+              <div
+                v-if="nextBillingDate && !hasPendingChanges"
+                class="flex items-center gap-1.5"
+              >
+                <span class="i-lucide-calendar text-b-500" />
+                <span class="text-n-600">Next billing: </span>
+                <span class="font-semibold">{{ formatNextBillingDate() }}</span>
               </div>
             </div>
           </div>

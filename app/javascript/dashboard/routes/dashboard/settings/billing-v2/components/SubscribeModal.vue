@@ -163,7 +163,7 @@ const close = () => {
           sm
           solid
           blue
-          :loading="isSubscribing"
+          :is-loading="isSubscribing"
           @click="handleSubscribe"
         >
           {{ $t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.CONFIRM') }}

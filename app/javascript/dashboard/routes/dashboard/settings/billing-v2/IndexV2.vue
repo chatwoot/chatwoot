@@ -96,7 +96,7 @@ onMounted(handleInitialLoad);
           solid
           blue
           icon="i-lucide-external-link"
-          :loading="uiFlags.isCheckoutInProcess"
+          :is-loading="uiFlags.isCheckoutInProcess"
           @click="handleOpenStripeDashboard"
         >
           {{ $t('BILLING_SETTINGS_V2.OPEN_STRIPE_DASHBOARD') }}

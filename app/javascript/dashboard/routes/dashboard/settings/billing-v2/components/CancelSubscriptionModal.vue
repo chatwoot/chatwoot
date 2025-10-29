@@ -85,7 +85,7 @@ const close = () => {
         <ButtonV4 sm faded slate :disabled="isCanceling" @click="close">
           {{ $t('BILLING_SETTINGS_V2.CANCEL_MODAL.KEEP_SUBSCRIPTION') }}
         </ButtonV4>
-        <ButtonV4 sm solid red :loading="isCanceling" @click="handleCancel">
+        <ButtonV4 sm solid red :is-loading="isCanceling" @click="handleCancel">
           {{ $t('BILLING_SETTINGS_V2.CANCEL_MODAL.CONFIRM_CANCEL') }}
         </ButtonV4>
       </div>

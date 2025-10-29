@@ -100,7 +100,7 @@ const getTransactionTypeLabel = type => {
         faded
         slate
         icon="i-lucide-refresh-cw"
-        :loading="isLoading"
+        :is-loading="isLoading"
         @click="emit('refresh')"
       >
         {{ $t('BILLING_SETTINGS_V2.CREDITS_BALANCE.REFRESH') }}

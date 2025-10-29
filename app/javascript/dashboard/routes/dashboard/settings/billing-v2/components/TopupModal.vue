@@ -102,7 +102,7 @@ const close = () => {
           sm
           solid
           blue
-          :loading="isProcessing"
+          :is-loading="isProcessing"
           :disabled="isProcessing"
           @click="handleTopup"
         >
