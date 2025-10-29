@@ -28,20 +28,17 @@ class Webhooks::WhatsappController < ActionController::API
   private
 
   def valid_token?(token)
-    # Priority 1: Try global FB_VERIFY_TOKEN (for Facebook WhatsApp Business API)
-    fb_verify_token = GlobalConfig.get_value('FB_VERIFY_TOKEN')
-    return token == fb_verify_token if fb_verify_token.present?
+    # Global FB_VERIFY_TOKEN verification disabled - using channel-specific tokens only
+    # fb_verify_token = GlobalConfig.get_value('FB_VERIFY_TOKEN')
+    # return token == fb_verify_token if fb_verify_token.present?
 
-    # Priority 2: Fallback to channel-specific verification for backward compatibility
-    # Try multiple methods to find the channel:
-    # 1. By phone_number_id from Facebook payload (new format)
-    # 2. By phone_number from URL params (old 360Dialog format)
+    # Channel-specific verification
+    # Try to find channel by phone_number_id (new format) or phone_number (old format)
     channel = find_channel_for_verification
-
-    return false unless channel.present?
+    return false if channel.blank?
 
     whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token']
-    return false unless whatsapp_webhook_verify_token.present?
+    return false if whatsapp_webhook_verify_token.blank?
 
     token == whatsapp_webhook_verify_token
   end
@@ -77,11 +74,11 @@ class Webhooks::WhatsappController < ActionController::API
   # Extract phone_number_id from Facebook WhatsApp Business API webhook payload
   def extract_phone_number_id_from_payload
     return nil unless params[:object] == 'whatsapp_business_account'
-    return nil unless params[:entry].present?
+    return nil if params[:entry].blank?
 
     # Navigate through the Facebook webhook payload structure
     entry = params[:entry].first
-    return nil unless entry[:changes].present?
+    return nil if entry[:changes].blank?
 
     change = entry[:changes].first
     return nil unless change[:field] == 'messages'
@@ -94,6 +91,7 @@ class Webhooks::WhatsappController < ActionController::API
   end
 
   # Find WhatsApp channel by phone_number_id in provider_config
+  # Uses custom model method that queries JSON column
   def find_channel_by_phone_number_id(phone_number_id)
     Channel::Whatsapp.find_by_phone_number_id(phone_number_id)
   end
