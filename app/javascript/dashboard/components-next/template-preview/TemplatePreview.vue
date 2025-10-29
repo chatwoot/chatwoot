@@ -7,6 +7,7 @@ import QuickReplyTemplate from 'dashboard/components-next/message/bubbles/Templa
 import CardTemplate from 'dashboard/components-next/message/bubbles/Template/Card.vue';
 import DynamicCallToActionTemplate from './DynamicCallToActionTemplate.vue';
 import DynamicMediaTemplate from './DynamicMediaTemplate.vue';
+import WhatsAppTextTemplate from './WhatsAppTextTemplate.vue';
 
 const props = defineProps({
   template: {
@@ -44,6 +45,7 @@ const processedTemplate = computed(() => {
   let content = '';
   let imageUrl = '';
   let title = '';
+  let footer = '';
 
   if (props.platform === 'whatsapp') {
     // WhatsApp: get text from body component
@@ -62,6 +64,9 @@ const processedTemplate = computed(() => {
         title = normalized.header.text || '';
       }
     }
+
+    // Get footer content
+    footer = normalized.footer?.text || '';
   } else {
     // Twilio: get body directly
     content = normalized.body || '';
@@ -76,6 +81,7 @@ const processedTemplate = computed(() => {
     ...normalized,
     content: processText(content),
     title: processText(title),
+    footer: processText(footer),
     image_url: imageUrl,
     buttons: normalized.buttons || [],
   };
@@ -87,8 +93,8 @@ const previewComponent = computed(() => {
 
   const componentMap = {
     // WhatsApp components
-    'whatsapp-text': TextTemplate,
-    'whatsapp-text-header': TextTemplate,
+    'whatsapp-text': WhatsAppTextTemplate,
+    'whatsapp-text-header': WhatsAppTextTemplate,
     'whatsapp-media-image': DynamicMediaTemplate,
     'whatsapp-media-video': DynamicMediaTemplate,
     'whatsapp-media-document': DynamicMediaTemplate,
