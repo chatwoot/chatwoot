@@ -11,7 +11,7 @@ class TestData::ContactsCleanupService
         return
       end
 
-      account_ids = File.read(DATA_FILE).split(',').map(&:to_i).compact
+      account_ids = File.read(DATA_FILE).split(',').filter_map(&:to_i)
       if account_ids.empty?
         Rails.logger.warn { 'No test data found to clean up' }
         return

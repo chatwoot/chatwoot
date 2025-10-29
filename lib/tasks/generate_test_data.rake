@@ -17,18 +17,20 @@ def check_production_environment
   exit
 end
 
+# Helper method to run block with database optimizations
+def with_database_optimizations
+  TestData::DatabaseOptimizer.setup
+  yield
+ensure
+  TestData::DatabaseOptimizer.restore
+end
+
 namespace :data do
   desc 'Generate large, distributed test data'
   task generate_distributed_data: :environment do
     check_production_environment
     configure_test_data_logger
-
-    begin
-      TestData::DatabaseOptimizer.setup
-      TestData.generate
-    ensure
-      TestData::DatabaseOptimizer.restore
-    end
+    with_database_optimizations { TestData.generate }
   end
 
   desc 'Clean up existing test data'
@@ -42,13 +44,7 @@ namespace :data do
   task generate_contacts: :environment do
     check_production_environment
     configure_test_data_logger
-
-    begin
-      TestData::DatabaseOptimizer.setup
-      TestData::ContactsOrchestrator.call
-    ensure
-      TestData::DatabaseOptimizer.restore
-    end
+    with_database_optimizations { TestData::ContactsOrchestrator.call }
   end
 
   desc 'Clean up contacts test data'
