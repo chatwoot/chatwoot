@@ -27,6 +27,7 @@ class Enterprise::Billing::V2::ChangePlanService < Enterprise::Billing::V2::Base
   def create_change_plan_intent(new_pricing_plan_id, quantity)
     subscription_id = fetch_subscription_id
     cadence_id = fetch_cadence_from_subscription(subscription_id)
+    store_next_billing_date(cadence_id)
     plan_version = fetch_new_plan_version(new_pricing_plan_id)
     lookup_key = fetch_plan_lookup_key(new_pricing_plan_id)
     component_config = { lookup_key: lookup_key, quantity: quantity }
@@ -120,10 +121,25 @@ class Enterprise::Billing::V2::ChangePlanService < Enterprise::Billing::V2::Base
     )
   end
 
+  def retrieve_billing_cadence(cadence_id)
+    StripeV2Client.request(
+      :get,
+      "/v2/billing/cadences/#{cadence_id}",
+      {},
+      stripe_api_options
+    )
+  end
+
+  def store_next_billing_date(cadence_id)
+    cadence = retrieve_billing_cadence(cadence_id)
+    @next_billing_date = extract_attribute(cadence, :next_billing_date)
+  end
+
   def update_account_plan(new_pricing_plan_id, quantity)
     attributes = {
       'pending_stripe_pricing_plan_id' => new_pricing_plan_id,
-      'pending_subscription_quantity' => quantity
+      'pending_subscription_quantity' => quantity,
+      'next_billing_date' => @next_billing_date
     }
 
     # Add plan name from catalog

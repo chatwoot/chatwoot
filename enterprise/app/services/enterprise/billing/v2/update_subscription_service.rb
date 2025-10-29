@@ -29,11 +29,11 @@ class Enterprise::Billing::V2::UpdateSubscriptionService < Enterprise::Billing::
     subscription_id = fetch_subscription_id
     subscription = retrieve_pricing_plan_subscription(subscription_id)
     cadence_id, plan_id, plan_version = extract_subscription_details(subscription)
+    store_next_billing_date(cadence_id)
     lookup_key = fetch_plan_lookup_key(plan_id)
     component_config = { lookup_key: lookup_key, quantity: quantity }
 
     params = build_modify_params(subscription_id, cadence_id, plan_id, plan_version, component_config)
-    log_modify_intent(params)
 
     StripeV2Client.request(:post, '/v2/billing/intents', params, stripe_api_options)
   end
@@ -81,11 +81,6 @@ class Enterprise::Billing::V2::UpdateSubscriptionService < Enterprise::Billing::
     }
   end
 
-  def log_modify_intent(params)
-    Rails.logger.info "Create modify intent params: #{params.inspect}"
-    Rails.logger.info "Stripe API options: #{stripe_api_options.inspect}"
-  end
-
   def reserve_billing_intent(billing_intent)
     StripeV2Client.request(
       :post,
@@ -113,9 +108,24 @@ class Enterprise::Billing::V2::UpdateSubscriptionService < Enterprise::Billing::
     )
   end
 
+  def retrieve_billing_cadence(cadence_id)
+    StripeV2Client.request(
+      :get,
+      "/v2/billing/cadences/#{cadence_id}",
+      {},
+      stripe_api_options
+    )
+  end
+
+  def store_next_billing_date(cadence_id)
+    cadence = retrieve_billing_cadence(cadence_id)
+    @next_billing_date = extract_attribute(cadence, :next_billing_date)
+  end
+
   def update_account_quantity(quantity)
     update_custom_attributes({
-                               'pending_subscription_quantity' => quantity
+                               'pending_subscription_quantity' => quantity,
+                               'next_billing_date' => @next_billing_date
                              })
   end
 
