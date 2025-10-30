@@ -37,7 +37,7 @@ class ApplicationMailbox < ActionMailbox::Base
     end
 
     def in_reply_to_matches?(in_reply_to)
-      Array.wrap(in_reply_to).any? { |id| id.match?(CONVERSATION_MESSAGE_ID_PATTERN) || id.match?(CONVERSATION_FALLBACK_ID_PATTERN) }
+      Array.wrap(in_reply_to).any? { |id| id.match?(CONVERSATION_MESSAGE_ID_PATTERN) }
     end
 
     def references_match?(references)
