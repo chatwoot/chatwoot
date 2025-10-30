@@ -121,7 +121,7 @@ const checkboxOverlayClasses = computed(() => {
       :key="id"
       layout="row"
       :class="{
-        'outline-n-weak !bg-n-slate-2 dark:bg-n-solid-3': isSelected,
+        'outline-n-weak !bg-n-slate-3 dark:!bg-n-solid-3': isSelected,
       }"
     >
       <div class="flex items-center justify-start flex-1 gap-4">
