@@ -943,7 +943,9 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhuma FAQ encontrada",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
