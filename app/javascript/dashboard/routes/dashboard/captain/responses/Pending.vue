@@ -119,6 +119,18 @@ const handleCreateClose = () => {
   selectedResponse.value = null;
 };
 
+const updateURLWithFilters = (page, search) => {
+  const query = {
+    page: page || 1,
+  };
+
+  if (search) {
+    query.search = search;
+  }
+
+  router.replace({ query });
+};
+
 const fetchResponses = (page = 1) => {
   const filterParams = { page, status: 'pending' };
 
@@ -128,6 +140,10 @@ const fetchResponses = (page = 1) => {
   if (searchQuery.value) {
     filterParams.search = searchQuery.value;
   }
+
+  // Update URL with current filters
+  updateURLWithFilters(page, searchQuery.value);
+
   store.dispatch('captainResponses/get', filterParams);
 };
 
@@ -225,16 +241,34 @@ const onBulkDeleteSuccess = () => {
 
 const handleAssistantFilterChange = assistant => {
   selectedAssistant.value = assistant;
-  fetchResponses();
+  fetchResponses(1);
 };
 
 const debouncedSearch = debounce(async () => {
-  fetchResponses();
+  fetchResponses(1);
 }, 500);
+
+const hasActiveFilters = computed(() => {
+  return Boolean(searchQuery.value || selectedAssistant.value !== 'all');
+});
+
+const clearFilters = () => {
+  searchQuery.value = '';
+  selectedAssistant.value = 'all';
+  fetchResponses(1);
+};
+
+const initializeFromURL = () => {
+  if (route.query.search) {
+    searchQuery.value = route.query.search;
+  }
+  const pageFromURL = parseInt(route.query.page, 10) || 1;
+  fetchResponses(pageFromURL);
+};
 
 onMounted(() => {
   store.dispatch('captainAssistants/get');
-  fetchResponses();
+  initializeFromURL();
 });
 </script>
 
@@ -265,18 +299,10 @@ onMounted(() => {
       />
     </template>
 
-    <template #emptyState>
-      <ResponsePageEmptyState @click="handleCreate" />
-    </template>
-
-    <template #paywall>
-      <CaptainPaywall />
-    </template>
-
-    <template #controls>
+    <template #subHeader>
       <div
         v-if="shouldShowDropdown"
-        class="mb-4 -mt-3 flex justify-between items-center py-1"
+        class="mb-2 flex justify-between items-center py-1"
         :class="{
           'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 w-fit':
             bulkSelectionState.hasSelected,
@@ -356,6 +382,19 @@ onMounted(() => {
           </div>
         </transition>
       </div>
+    </template>
+
+    <template #emptyState>
+      <ResponsePageEmptyState
+        variant="pending"
+        :has-active-filters="hasActiveFilters"
+        @click="handleCreate"
+        @clear-filters="clearFilters"
+      />
+    </template>
+
+    <template #paywall>
+      <CaptainPaywall />
     </template>
 
     <template #body>
