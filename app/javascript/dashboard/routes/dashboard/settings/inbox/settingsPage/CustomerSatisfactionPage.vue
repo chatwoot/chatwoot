@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import SectionLayout from 'dashboard/routes/dashboard/settings/account/components/SectionLayout.vue';
@@ -267,7 +268,7 @@ const saveSettings = async () => {
         <!-- WhatsApp specific layout -->
         <template v-if="isWhatsAppChannel">
           <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div>
+            <div class="gap-2 gap">
               <WithLabel
                 :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
                 name="message"
@@ -279,10 +280,7 @@ const saveSettings = async () => {
                   class="w-full"
                 />
               </WithLabel>
-              <WithLabel
-                :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
-                name="button_text"
-              >
+              <WithLabel :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')">
                 <Input
                   v-model="state.buttonText"
                   :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
@@ -310,16 +308,16 @@ const saveSettings = async () => {
               </div>
             </div>
 
-            <div class="p-4 rounded-lg bg-n-slate-2">
+            <div class="items-center p-6 rounded-lg bg-n-slate-2">
               <p
-                class="flex gap-1 items-center mb-1 text-sm font-medium text-n-slate-12"
+                class="flex gap-1 justify-center items-center mb-1 text-sm font-medium text-n-slate-11"
               >
                 {{ $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.LABEL') }}
                 <span
                   class="text-xs cursor-help text-n-slate-11"
                   :title="$t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.TOOLTIP')"
                 >
-                  <i class="w-3 h-3 i-lucide-info" />
+                  <Icon icon="i-lucide-info" class="flex-shrink-0 size-4" />
                 </span>
               </p>
               <CSATTemplate
