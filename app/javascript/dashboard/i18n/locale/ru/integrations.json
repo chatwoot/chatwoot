@@ -943,7 +943,9 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQ не найдены",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQ помогают вашему ассистенту быстро и точно отвечать на вопросы клиентов. Их можно генерировать автоматически из вашего контента или добавлять вручную.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
