@@ -59,7 +59,7 @@ const handleAssign = () => {
       }}</span>
       <NextButton ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
-    <div class="flex flex-col max-h-[15rem] min-h-[auto]">
+    <div class="flex flex-col max-h-60 min-h-0">
       <header class="py-2 px-2.5">
         <Input
           v-model="query"
@@ -73,7 +73,7 @@ const handleAssign = () => {
       </header>
       <ul
         v-if="hasLabels"
-        class="flex-1 overflow-y-auto mx-0 m-0 list-none"
+        class="flex-1 overflow-y-auto m-0 list-none"
         role="listbox"
         :aria-label="t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
       >
