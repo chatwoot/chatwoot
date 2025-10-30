@@ -342,6 +342,49 @@ RSpec.describe ReplyMailbox do
           expect(other_conversation.messages.count).to eq(0)
         end
       end
+
+      context 'when in_reply_to fails but references has valid conversation' do
+        before do
+          reply_mail_with_references.mail['In-Reply-To'] = '<non-existent-message-id@test.com>'
+          reply_mail_with_references.mail['References'] = "<account/#{account.id}/conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489@test.com>"
+        end
+
+        it 'falls back to references header when in_reply_to lookup fails' do
+          described_class.receive reply_mail_with_references
+          expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+        end
+      end
+
+      context 'when in_reply_to fails and references has message pattern' do
+        before do
+          reply_mail_with_references.mail['In-Reply-To'] = '<random-invalid-id@gmail.com>'
+          reply_mail_with_references.mail['References'] = '<conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/789@test.com>'
+        end
+
+        it 'falls back to references with message pattern when in_reply_to lookup fails' do
+          described_class.receive reply_mail_with_references
+          expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+        end
+      end
+
+      context 'when in_reply_to fails and references has message source_id' do
+        before do
+          conversation_1.messages.create!(
+            source_id: 'valid-message-id@test.com',
+            account_id: account.id,
+            message_type: 'outgoing',
+            inbox_id: email_channel.inbox.id,
+            content: 'Previous message'
+          )
+          reply_mail_with_references.mail['In-Reply-To'] = '<wrong-message-id@test.com>'
+          reply_mail_with_references.mail['References'] = '<valid-message-id@test.com>'
+        end
+
+        it 'falls back to references with source_id when in_reply_to lookup fails' do
+          described_class.receive reply_mail_with_references
+          expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+        end
+      end
     end
   end
 end
