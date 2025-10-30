@@ -98,7 +98,7 @@ watch(selectedCount, count => {
     :all-items="allItems"
     :select-all-label="selectAllLabel"
     :selected-count-label="selectedCountLabel"
-    class="py-2"
+    class="py-2 ltr:!pr-3 rtl:!pl-3"
   >
     <template #secondary-actions>
       <Button
@@ -106,7 +106,7 @@ watch(selectedCount, count => {
         ghost
         slate
         :label="t('CONTACTS_BULK_ACTIONS.CLEAR_SELECTION')"
-        class="!px-3"
+        class="!px-1.5"
         @click="emitClearSelection"
       />
     </template>

@@ -105,14 +105,6 @@ const toggleSelect = checked => {
 const handleAvatarHover = isHovered => {
   emit('avatarHover', isHovered);
 };
-
-const checkboxOverlayClasses = computed(() => {
-  if (props.isSelected) {
-    return 'opacity-100';
-  }
-
-  return 'opacity-0 group-hover:opacity-100';
-});
 </script>
 
 <template>
@@ -126,7 +118,7 @@ const checkboxOverlayClasses = computed(() => {
     >
       <div class="flex items-center justify-start flex-1 gap-4">
         <div
-          class="relative group flex items-center justify-center"
+          class="relative"
           @mouseenter="handleAvatarHover(true)"
           @mouseleave="handleAvatarHover(false)"
         >
@@ -140,8 +132,7 @@ const checkboxOverlayClasses = computed(() => {
           >
             <template v-if="selectable" #overlay="{ size }">
               <label
-                class="absolute inset-0 flex items-center justify-center rounded-full cursor-pointer border border-n-weak bg-n-slate-2/70 backdrop-blur-[2px] transition-opacity duration-150 ease-in-out"
-                :class="checkboxOverlayClasses"
+                class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px] border border-n-weak"
                 :style="{ width: `${size}px`, height: `${size}px` }"
                 @click.stop
               >
