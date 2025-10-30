@@ -81,7 +81,6 @@ const handleAssistantChange = async assistant => {
     },
   });
 
-  // Close dropdown after successful navigation
   emit('close');
 };
 
