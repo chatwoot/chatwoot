@@ -2,6 +2,8 @@
 # https://developers.line.biz/en/reference/messaging-api/#message-event
 
 class Line::IncomingMessageService
+  class LockAcquisitionError < StandardError; end
+
   include ::FileTypeHelper
   pattr_initialize [:inbox!, :params!]
   LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/android/sticker.png'.freeze
@@ -18,17 +20,21 @@ class Line::IncomingMessageService
   def parse_events
     params[:events].each do |event|
       next unless event_type_message?(event)
+      next if event['source']['userId'].blank?
 
       get_line_contact_info(event)
       next if @line_contact_info['userId'].blank?
 
-      set_contact
-      set_conversation
+      key = format(::Redis::Alfred::LINE_MESSAGE_MUTEX, sender_id: @line_contact_info['userId'], inbox_id: @inbox.id)
+      with_lock(key) do
+        set_contact
+        set_conversation
 
-      next unless message_created? event
+        next unless message_created? event
 
-      attach_files event['message']
-      @message.save!
+        attach_files event['message']
+        @message.save!
+      end
     end
   end
 
@@ -167,5 +173,31 @@ class Line::IncomingMessageService
 
   def file_content_type(file_content)
     file_type(file_content.content_type)
+  end
+
+  def with_lock(lock_key, timeout = Redis::LockManager::LOCK_TIMEOUT)
+    lock_manager = Redis::LockManager.new
+
+    begin
+      if lock_manager.lock(lock_key, timeout)
+        yield
+        # release the lock after the block has been executed
+        lock_manager.unlock(lock_key)
+      else
+        handle_failed_lock_acquisition(lock_key)
+      end
+    rescue StandardError => e
+      handle_error(e, lock_manager, lock_key)
+    end
+  end
+
+  def handle_error(err, lock_manager, lock_key)
+    lock_manager.unlock(lock_key) unless err.is_a?(LockAcquisitionError)
+    raise err
+  end
+
+  def handle_failed_lock_acquisition(lock_key)
+    Rails.logger.warn "[#{self.class.name}] Failed to acquire lock: #{lock_key}"
+    raise LockAcquisitionError, "Failed to acquire lock for key: #{lock_key}"
   end
 end
