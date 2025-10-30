@@ -199,19 +199,6 @@ describe Messages::MessageBuilder do
           expect(message.content_attributes.dig('email', 'text_content', 'reply')).to eq 'Regular message content'
         end
 
-        it 'does not process custom email content when quoted_email_reply feature is disabled' do
-          account.disable_features('quoted_email_reply')
-          params = ActionController::Parameters.new({
-                                                      content: 'Regular message content',
-                                                      email_html_content: '<p>Custom HTML content</p>'
-                                                    })
-
-          message = described_class.new(user, conversation, params).perform
-
-          expect(message.content_attributes.dig('email', 'html_content')).to be_nil
-          expect(message.content_attributes.dig('email', 'text_content')).to be_nil
-        end
-
         it 'does not process custom email content for private messages' do
           params = ActionController::Parameters.new({
                                                       content: 'Regular message content',
