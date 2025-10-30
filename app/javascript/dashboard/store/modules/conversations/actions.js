@@ -268,7 +268,7 @@ const actions = {
   },
 
   toggleStatus: async (
-    { commit },
+    { commit, dispatch },
     { conversationId, status, snoozedUntil = null, resolutionReason = null }
   ) => {
     try {
@@ -292,6 +292,11 @@ const actions = {
         snoozedUntil: updatedSnoozedUntil,
         resolutionReason: updatedResolutionReason,
       });
+
+      // Automatically unassign agent when conversation is resolved
+      if (updatedStatus === 'resolved') {
+        await dispatch('assignAgent', { conversationId, agentId: 0 });
+      }
     } catch (error) {
       // Handle error
     }
