@@ -18,4 +18,12 @@ class AppointmentPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def search?
+    true
+  end
+
+  def filter?
+    true
+  end
 end

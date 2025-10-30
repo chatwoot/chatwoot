@@ -149,7 +149,7 @@ const menuItems = computed(() => {
         },
         {
           name: 'Board',
-          label: 'Board',
+          label: t('SIDEBAR.CRM_LIST'),
           activeOn: ['conversation_through_board'],
           to: accountScopedRoute('conversation_board'),
         },
@@ -314,6 +314,12 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.ACTIVE'),
           to: accountScopedRoute('contacts_dashboard_active'),
           activeOn: ['contacts_dashboard_active'],
+        },
+        {
+          name: 'Appointments',
+          label: t('SIDEBAR.APPOINTMENTS'),
+          to: accountScopedRoute('contacts_dashboard_appointments'),
+          activeOn: ['contacts_dashboard_appointments'],
         },
         {
           name: 'Segments',

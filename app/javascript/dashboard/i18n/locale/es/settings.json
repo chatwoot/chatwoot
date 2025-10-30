@@ -387,7 +387,8 @@
       "INFO_SHORT": "Marcar automáticamente sin conexión cuando no está usando la aplicación."
     },
     "DOCS": "Leer documentos",
-    "SECURITY": "Security"
+    "SECURITY": "Security",
+    "CRM_LIST": "CRM List"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Facturación",

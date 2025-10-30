@@ -112,6 +112,8 @@ Rails.application.routes.draw do
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :appointments, only: [:index, :create, :show, :update, :destroy] do
             collection do
+              get :search
+              post :filter
               post :validate_appointment_token
             end
           end

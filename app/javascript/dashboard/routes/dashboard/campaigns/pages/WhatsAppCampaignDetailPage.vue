@@ -171,7 +171,9 @@ onUnmounted(() => {
 
     <!-- Statistics Cards -->
     <div v-if="!isLoading" class="grid grid-cols-5 gap-4 p-6">
-      <div class="p-4 rounded-lg bg-n-slate-2 border border-n-slate-6">
+      <div
+        class="p-4 border border-n-slate-6 shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2"
+      >
         <p class="text-sm text-n-slate-11">
           {{ t('CAMPAIGN.DETAIL.STATS.TOTAL') }}
         </p>
@@ -179,7 +181,9 @@ onUnmounted(() => {
           {{ statistics.total }}
         </p>
       </div>
-      <div class="p-4 rounded-lg bg-n-green-2 border border-n-green-6">
+      <div
+        class="p-4 border border-n-slate-6 shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2"
+      >
         <p class="text-sm text-n-green-11">
           {{ t('CAMPAIGN.DETAIL.STATS.SENT') }}
         </p>
@@ -187,7 +191,9 @@ onUnmounted(() => {
           {{ statistics.sent }}
         </p>
       </div>
-      <div class="p-4 rounded-lg bg-n-red-2 border border-n-red-6">
+      <div
+        class="p-4 border border-n-slate-6 shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2"
+      >
         <p class="text-sm text-n-red-11">
           {{ t('CAMPAIGN.DETAIL.STATS.FAILED') }}
         </p>
@@ -195,7 +201,9 @@ onUnmounted(() => {
           {{ statistics.failed }}
         </p>
       </div>
-      <div class="p-4 rounded-lg bg-n-yellow-2 border border-n-yellow-6">
+      <div
+        class="p-4 border border-n-slate-6 shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2"
+      >
         <p class="text-sm text-n-yellow-11">
           {{ t('CAMPAIGN.DETAIL.STATS.PENDING') }}
         </p>
@@ -203,7 +211,9 @@ onUnmounted(() => {
           {{ statistics.pending }}
         </p>
       </div>
-      <div class="p-4 rounded-lg bg-n-slate-2 border border-n-slate-6">
+      <div
+        class="p-4 border border-n-slate-6 shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2"
+      >
         <p class="text-sm text-n-slate-11">
           {{ t('CAMPAIGN.DETAIL.STATS.SKIPPED') }}
         </p>
@@ -224,7 +234,7 @@ onUnmounted(() => {
         class="bg-n-white dark:bg-n-slate-1 rounded-lg border border-n-slate-6 overflow-hidden"
       >
         <table class="w-full">
-          <thead class="bg-n-slate-2 border-b border-n-slate-6">
+          <thead class="bg-n-solid-2 border-b border-n-slate-6">
             <tr>
               <th class="text-left p-4 text-sm font-medium text-n-slate-12">
                 {{ t('CAMPAIGN.DETAIL.TABLE.CONTACT') }}

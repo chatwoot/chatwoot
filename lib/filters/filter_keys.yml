@@ -230,3 +230,60 @@ messages:
       - "does_not_contain"
 
 ### ----- End of Message Filters ----- ###
+
+### ----- Appointment Filters ----- ###
+appointments:
+  location:
+    attribute_type: "standard"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  description:
+    attribute_type: "standard"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  start_time:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
+  end_time:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
+  assisted:
+    attribute_type: "standard"
+    data_type: "boolean"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  contact_name:
+    attribute_type: "contact"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  contact_email:
+    attribute_type: "contact"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+
+### ----- End of Appointment Filters ----- ###

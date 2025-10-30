@@ -1,6 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 import ConversationView from './ConversationView.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',
@@ -181,6 +182,7 @@ export default {
       name: 'conversation_board',
       meta: {
         permissions: CONVERSATION_PERMISSIONS,
+        featureFlag: FEATURE_FLAGS.BOARD,
       },
       component: ConversationView,
       props: () => ({ conversationType: 'board' }),
