@@ -95,7 +95,7 @@ const handleAssignLabels = labels => {
       :all-items="allItems"
       :select-all-label="selectAllLabel"
       :selected-count-label="selectedCountLabel"
-      class="py-2 ltr:!pr-3 rtl:!pl-3"
+      class="py-2 ltr:!pr-3 rtl:!pl-3 justify-between"
     >
       <template #secondary-actions>
         <Button

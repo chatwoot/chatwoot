@@ -61,7 +61,7 @@ const bulkCheckboxState = computed({
   >
     <div
       v-if="hasSelected"
-      class="flex items-center justify-between gap-3 py-1 ltr:pl-3 rtl:pr-3 ltr:pr-4 rtl:pl-4 rounded-lg bg-n-solid-2 outline outline-1 outline-n-container shadow"
+      class="flex items-center gap-3 py-1 ltr:pl-3 rtl:pr-3 ltr:pr-4 rtl:pl-4 rounded-lg bg-n-solid-2 outline outline-1 outline-n-container shadow"
     >
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-1.5 min-w-0">
