@@ -118,10 +118,17 @@ watch(selectedCount, count => {
             class="min-w-[9rem]"
             @click="toggleLabelSelector"
           />
-          <transition name="popover-animation">
+          <transition
+            enter-active-class="transition ease-out duration-100"
+            enter-from-class="transform opacity-0 scale-95"
+            enter-to-class="transform opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-75"
+            leave-from-class="transform opacity-100 scale-100"
+            leave-to-class="transform opacity-0 scale-95"
+          >
             <LabelActions
               v-if="showLabelSelector"
-              class="label-actions-box"
+              style="--triangle-position: 5.3125rem"
               @assign="handleAssignLabels"
               @close="closeLabelSelector"
             />
@@ -131,34 +138,3 @@ watch(selectedCount, count => {
     </template>
   </BulkSelectBar>
 </template>
-
-<style scoped lang="scss">
-.popover-animation-enter-active,
-.popover-animation-leave-active {
-  transition: transform ease-out 0.1s;
-}
-
-.popover-animation-enter {
-  transform: scale(0.95);
-  @apply opacity-0;
-}
-
-.popover-animation-enter-to {
-  transform: scale(1);
-  @apply opacity-100;
-}
-
-.popover-animation-leave {
-  transform: scale(1);
-  @apply opacity-100;
-}
-
-.popover-animation-leave-to {
-  transform: scale(0.95);
-  @apply opacity-0;
-}
-
-.label-actions-box {
-  --triangle-position: 5.3125rem;
-}
-</style>

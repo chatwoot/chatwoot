@@ -375,11 +375,6 @@
         }
       }
     },
-    "TABLE": {
-      "NAME": "Name",
-      "EMAIL": "Email",
-      "PHONE_NUMBER": "Phone number"
-    },
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
