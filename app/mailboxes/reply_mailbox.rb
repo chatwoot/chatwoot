@@ -21,10 +21,10 @@ class ReplyMailbox < ApplicationMailbox
   def find_relative_conversation
     if @conversation_uuid
       find_conversation_with_uuid
-    elsif mail.in_reply_to.present?
-      find_conversation_with_in_reply_to
-    elsif mail.references.present?
-      find_conversation_with_references
+    elsif mail.in_reply_to.present? || mail.references.present?
+      find_conversation_with_in_reply_to if mail.in_reply_to.present?
+      # If still no conversation found and references exist, try references as fallback
+      find_conversation_with_references if @conversation.blank? && mail.references.present?
     end
   end
 
