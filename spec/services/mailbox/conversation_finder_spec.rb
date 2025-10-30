@@ -99,7 +99,7 @@ RSpec.describe Mailbox::ConversationFinder do
       end
     end
 
-    context 'strategy execution order' do
+    context 'with strategy execution order' do
       before do
         conversation.update!(uuid: '12345678-1234-1234-1234-123456789012')
 
