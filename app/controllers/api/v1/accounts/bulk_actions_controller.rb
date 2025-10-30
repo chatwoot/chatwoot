@@ -40,6 +40,8 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
 
   def contact_params
     params.require(:ids)
-    params.permit(:type, ids: [], labels: [add: []])
+    permitted = params.permit(:type, ids: [], labels: [add: []])
+    permitted[:ids] = permitted[:ids].map(&:to_i) if permitted[:ids].present?
+    permitted
   end
 end
