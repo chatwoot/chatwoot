@@ -3,14 +3,17 @@ import { onMounted, computed, ref, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { debounce } from '@chatwoot/utils';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 
 import ContactsListLayout from 'dashboard/components-next/Contacts/ContactsListLayout.vue';
-import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
 import ContactEmptyState from 'dashboard/components-next/Contacts/EmptyState/ContactEmptyState.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
+import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
+import BulkActionsAPI from 'dashboard/api/bulkActions';
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
 const DEBOUNCE_DELAY = 300;
@@ -58,6 +61,10 @@ const isFetchingList = computed(
 );
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
+
+const selectedContactIds = ref([]);
+const isBulkActionLoading = ref(false);
+const hasSelection = computed(() => selectedContactIds.value.length > 0);
 const activeSegment = computed(() => {
   if (!activeSegmentId.value) return undefined;
   return segments.value.find(view => view.id === Number(activeSegmentId.value));
@@ -105,6 +112,31 @@ const emptyStateMessage = computed(() => {
   return t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE');
 });
 
+const visibleContactIds = computed(() =>
+  contacts.value.map(contact => contact.id)
+);
+
+const clearSelection = () => {
+  selectedContactIds.value = [];
+};
+
+const toggleSelectAll = shouldSelect => {
+  selectedContactIds.value = shouldSelect ? [...visibleContactIds.value] : [];
+};
+
+const toggleContactSelection = ({ id, value }) => {
+  const isAlreadySelected = selectedContactIds.value.includes(id);
+  const shouldSelect = value ?? !isAlreadySelected;
+
+  if (shouldSelect && !isAlreadySelected) {
+    selectedContactIds.value = [...selectedContactIds.value, id];
+  } else if (!shouldSelect && isAlreadySelected) {
+    selectedContactIds.value = selectedContactIds.value.filter(
+      contactId => contactId !== id
+    );
+  }
+};
+
 const updatePageParam = (page, search = '') => {
   const query = {
     ...route.query,
@@ -129,6 +161,7 @@ const getCommonFetchParams = (page = 1) => ({
 });
 
 const fetchContacts = async (page = 1) => {
+  clearSelection();
   await store.dispatch('contacts/clearContactFilters');
   await store.dispatch('contacts/get', getCommonFetchParams(page));
   updatePageParam(page);
@@ -136,6 +169,7 @@ const fetchContacts = async (page = 1) => {
 
 const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
   if (!activeSegmentId.value && !hasAppliedFilters.value) return;
+  clearSelection();
   await store.dispatch('contacts/filter', {
     ...getCommonFetchParams(page),
     queryPayload: payload,
@@ -144,6 +178,7 @@ const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
 };
 
 const fetchActiveContacts = async (page = 1) => {
+  clearSelection();
   await store.dispatch('contacts/clearContactFilters');
   await store.dispatch('contacts/active', {
     page,
@@ -153,6 +188,7 @@ const fetchActiveContacts = async (page = 1) => {
 };
 
 const searchContacts = debounce(async (value, page = 1) => {
+  clearSelection();
   await store.dispatch('contacts/clearContactFilters');
   searchValue.value = value;
 
@@ -170,6 +206,7 @@ const searchContacts = debounce(async (value, page = 1) => {
 }, DEBOUNCE_DELAY);
 
 const fetchContactsBasedOnContext = async page => {
+  clearSelection();
   updatePageParam(page, searchValue.value);
   if (isFetchingList.value) return;
   if (searchQuery.value) {
@@ -195,6 +232,28 @@ const fetchContactsBasedOnContext = async page => {
   }
   // Default case: fetch regular contacts + label
   await fetchContacts(page);
+};
+
+const assignLabels = async labels => {
+  if (!labels.length || !selectedContactIds.value.length) {
+    return;
+  }
+
+  isBulkActionLoading.value = true;
+  try {
+    await BulkActionsAPI.create({
+      type: 'Contact',
+      ids: selectedContactIds.value,
+      labels: { add: labels },
+    });
+    useAlert(t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS_SUCCESS'));
+    clearSelection();
+    await fetchContactsBasedOnContext(pageNumber.value);
+  } catch (error) {
+    useAlert(t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS_FAILED'));
+  } finally {
+    isBulkActionLoading.value = false;
+  }
 };
 
 const handleSort = async ({ sort, order }) => {
@@ -226,6 +285,17 @@ const handleSort = async ({ sort, order }) => {
 const createContact = async contact => {
   await store.dispatch('contacts/create', contact);
 };
+
+watch(
+  contacts,
+  newContacts => {
+    const idsOnPage = newContacts.map(contact => contact.id);
+    selectedContactIds.value = selectedContactIds.value.filter(id =>
+      idsOnPage.includes(id)
+    );
+  },
+  { deep: true }
+);
 
 watch(
   () => uiSettings.value?.contacts_sort_by,
@@ -331,7 +401,23 @@ onMounted(async () => {
           </span>
         </div>
 
-        <ContactsList v-else :contacts="contacts" />
+        <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
+          <div v-if="hasSelection">
+            <ContactsBulkActionBar
+              :visible-contact-ids="visibleContactIds"
+              :selected-contact-ids="selectedContactIds"
+              :is-loading="isBulkActionLoading"
+              @toggle-all="toggleSelectAll"
+              @clear-selection="clearSelection"
+              @assign-labels="assignLabels"
+            />
+          </div>
+          <ContactsList
+            :contacts="contacts"
+            :selected-contact-ids="selectedContactIds"
+            @toggle-contact="toggleContactSelection"
+          />
+        </div>
       </template>
     </ContactsListLayout>
   </div>
