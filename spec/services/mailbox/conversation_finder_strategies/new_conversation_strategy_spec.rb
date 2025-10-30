@@ -48,7 +48,10 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
 
       context 'with existing contact' do
         let!(:existing_contact) { create(:contact, email: 'sender@example.com', account: account) }
-        let!(:contact_inbox) { create(:contact_inbox, contact: existing_contact, inbox: email_channel.inbox) }
+
+        before do
+          create(:contact_inbox, contact: existing_contact, inbox: email_channel.inbox)
+        end
 
         it 'creates conversation with existing contact' do
           strategy = described_class.new(mail)
@@ -120,7 +123,9 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
 
     context 'when contact creation fails' do
       before do
-        allow_any_instance_of(ContactInboxWithContactBuilder).to receive(:perform).and_raise(ActiveRecord::RecordInvalid)
+        builder = instance_double(ContactInboxWithContactBuilder)
+        allow(ContactInboxWithContactBuilder).to receive(:new).and_return(builder)
+        allow(builder).to receive(:perform).and_raise(ActiveRecord::RecordInvalid)
       end
 
       it 'rolls back the transaction' do
