@@ -25,7 +25,13 @@ const props = defineProps({
   isSelected: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['toggle', 'updateContact', 'showContact', 'select']);
+const emit = defineEmits([
+  'toggle',
+  'updateContact',
+  'showContact',
+  'select',
+  'avatarHover',
+]);
 
 const { t } = useI18n();
 
@@ -95,6 +101,18 @@ const onClickViewDetails = () => emit('showContact', props.id);
 const toggleSelect = checked => {
   emit('select', checked);
 };
+
+const handleAvatarHover = isHovered => {
+  emit('avatarHover', isHovered);
+};
+
+const checkboxOverlayClasses = computed(() => {
+  if (props.isSelected) {
+    return 'opacity-100';
+  }
+
+  return 'opacity-0 group-hover:opacity-100';
+});
 </script>
 
 <template>
@@ -105,27 +123,34 @@ const toggleSelect = checked => {
       :class="isSelected ? 'outline-2 outline-n-strong bg-n-solid-3' : ''"
     >
       <div class="flex items-center justify-start flex-1 gap-4">
-        <Avatar
-          :name="name"
-          :src="thumbnail"
-          :size="48"
-          :status="availabilityStatus"
-          hide-offline-status
-          rounded-full
+        <div
+          class="relative group flex items-center justify-center"
+          @mouseenter="handleAvatarHover(true)"
+          @mouseleave="handleAvatarHover(false)"
         >
-          <template v-if="selectable" #overlay="{ size }">
-            <label
-              class="absolute inset-0 flex items-center justify-center rounded-full cursor-pointer border border-n-strong bg-n-solid-1/80 dark:bg-n-solid-3/80 backdrop-blur-[4px] transition-opacity duration-200"
-              :style="{ width: `${size}px`, height: `${size}px` }"
-              @click.stop
-            >
-              <Checkbox
-                :model-value="isSelected"
-                @change="event => toggleSelect(event.target.checked)"
-              />
-            </label>
-          </template>
-        </Avatar>
+          <Avatar
+            :name="name"
+            :src="thumbnail"
+            :size="48"
+            :status="availabilityStatus"
+            hide-offline-status
+            rounded-full
+          >
+            <template v-if="selectable" #overlay="{ size }">
+              <label
+                class="absolute inset-0 flex items-center justify-center rounded-full cursor-pointer border border-n-strong bg-n-solid-1/80 dark:bg-n-solid-3/80 backdrop-blur-[4px] transition-opacity duration-200"
+                :class="checkboxOverlayClasses"
+                :style="{ width: `${size}px`, height: `${size}px` }"
+                @click.stop
+              >
+                <Checkbox
+                  :model-value="isSelected"
+                  @change="event => toggleSelect(event.target.checked)"
+                />
+              </label>
+            </template>
+          </Avatar>
+        </div>
         <div class="flex flex-col gap-0.5 flex-1">
           <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
             <span class="text-base font-medium truncate text-n-slate-12">

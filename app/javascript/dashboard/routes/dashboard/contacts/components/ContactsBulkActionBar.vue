@@ -128,7 +128,7 @@ watch(selectedCount, count => {
           >
             <LabelActions
               v-if="showLabelSelector"
-              style="--triangle-position: 5.3125rem"
+              class="[--triangle-position:5.3125rem]"
               @assign="handleAssignLabels"
               @close="closeLabelSelector"
             />

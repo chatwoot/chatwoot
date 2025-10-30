@@ -28,7 +28,7 @@ const route = useRoute();
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const isUpdating = computed(() => uiFlags.value.isUpdating);
 const expandedCardId = ref(null);
-const hoveredCardId = ref(null);
+const hoveredAvatarId = ref(null);
 
 const selectedIdsSet = computed(() => new Set(props.selectedContactIds || []));
 
@@ -73,27 +73,21 @@ const toggleExpanded = id => {
 const isSelected = id => selectedIdsSet.value.has(id);
 
 const shouldShowSelection = id => {
-  return hoveredCardId.value === id || isSelected(id);
+  return hoveredAvatarId.value === id || isSelected(id);
 };
 
 const handleSelect = (id, value) => {
   emit('toggleContact', { id, value });
 };
 
-const handleHover = (id, isHovered) => {
-  hoveredCardId.value = isHovered ? id : null;
+const handleAvatarHover = (id, isHovered) => {
+  hoveredAvatarId.value = isHovered ? id : null;
 };
 </script>
 
 <template>
   <div class="flex flex-col gap-4">
-    <div
-      v-for="contact in contacts"
-      :key="contact.id"
-      class="relative"
-      @mouseenter="handleHover(contact.id, true)"
-      @mouseleave="handleHover(contact.id, false)"
-    >
+    <div v-for="contact in contacts" :key="contact.id" class="relative">
       <ContactsCard
         :id="contact.id"
         :name="contact.name"
@@ -110,6 +104,7 @@ const handleHover = (id, isHovered) => {
         @update-contact="updateContact"
         @show-contact="onClickViewDetails"
         @select="value => handleSelect(contact.id, value)"
+        @avatar-hover="value => handleAvatarHover(contact.id, value)"
       />
     </div>
   </div>
