@@ -23,6 +23,8 @@ class ReplyMailbox < ApplicationMailbox
       find_conversation_with_uuid
     elsif mail.in_reply_to.present?
       find_conversation_with_in_reply_to
+    elsif mail.references.present?
+      find_conversation_with_references
     end
   end
 
@@ -77,6 +79,55 @@ class ReplyMailbox < ApplicationMailbox
   def find_by_in_reply_to_addresses(match_result, in_reply_to_addresses)
     find_conversation_by_uuid(match_result) if match_result
     find_conversation_by_message_id(in_reply_to_addresses) if @conversation.blank?
+  end
+
+  # Find conversation from References header as fallback
+  # Extract conversation UUID from any reference that matches our patterns
+  def find_conversation_with_references
+    references_addresses = mail.references
+    references_addresses = [references_addresses] if references_addresses.is_a?(String)
+
+    references_addresses.each do |reference|
+      conversation = find_conversation_from_reference(reference)
+      next unless conversation && conversation_belongs_to_channel?(conversation)
+
+      @conversation = conversation
+      @conversation_uuid = conversation.uuid
+      break
+    end
+  end
+
+  def find_conversation_from_reference(reference)
+    # Try message-specific pattern: conversation/{uuid}/messages/{id}@domain
+    message_match = reference.match(::ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN)
+    if message_match
+      uuid = message_match.captures[0]
+      conversation = Conversation.find_by(uuid: uuid)
+      return conversation if conversation.present?
+    end
+
+    # Try conversation fallback pattern: account/{id}/conversation/{uuid}@domain
+    fallback_match = reference.match(::ApplicationMailbox::CONVERSATION_FALLBACK_ID_PATTERN)
+    if fallback_match
+      uuid = fallback_match.captures[1]
+      conversation = Conversation.find_by(uuid: uuid)
+      return conversation if conversation.present?
+    end
+
+    # Try finding by message source_id
+    message = Message.find_by(source_id: reference)
+    message&.conversation
+  end
+
+  def conversation_belongs_to_channel?(conversation)
+    return true unless conversation
+
+    # Get the channel from the email's To/CC addresses
+    channel = EmailChannelFinder.new(mail).perform
+    return false unless channel
+
+    # Check if the conversation's inbox matches the channel
+    conversation.inbox.channel_id == channel.id
   end
 
   def validate_resource(resource)

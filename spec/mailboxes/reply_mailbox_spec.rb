@@ -248,5 +248,100 @@ RSpec.describe ReplyMailbox do
         )
       end
     end
+
+    context 'with references header' do
+      let(:reply_mail_with_references) { create_inbound_email_from_fixture('reply_mail_without_uuid.eml') }
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:conversation_1) do
+        create(
+          :conversation,
+          assignee: agent,
+          inbox: email_channel.inbox,
+          account: account,
+          additional_attributes: { mail_subject: "Discussion: Let's debate these attachments" }
+        )
+      end
+
+      before do
+        conversation_1.update!(uuid: '6bdc3f4d-0bec-4515-a284-5d916fdde489')
+      end
+
+      context 'with message-specific pattern in references' do
+        before do
+          reply_mail_with_references.mail['References'] = '<conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123@test.com>'
+        end
+
+        it 'finds conversation from references header with message pattern' do
+          described_class.receive reply_mail_with_references
+          expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+        end
+      end
+
+      context 'with conversation fallback pattern in references' do
+        before do
+          reply_mail_with_references.mail['References'] = "<account/#{account.id}/conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489@test.com>"
+        end
+
+        it 'finds conversation from references header with fallback pattern' do
+          described_class.receive reply_mail_with_references
+          expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+        end
+      end
+
+      context 'with multiple references including conversation pattern' do
+        before do
+          reply_mail_with_references.mail['References'] = [
+            '<some-random-message-id@gmail.com>',
+            "<account/#{account.id}/conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489@test.com>",
+            '<another-random-message-id@outlook.com>'
+          ].join("\r\n ")
+        end
+
+        it 'finds conversation from any reference in the chain' do
+          described_class.receive reply_mail_with_references
+          expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+        end
+      end
+
+      context 'with message source_id in references' do
+        before do
+          conversation_1.messages.create!(
+            source_id: 'original-message-id@test.com',
+            account_id: account.id,
+            message_type: 'outgoing',
+            inbox_id: email_channel.inbox.id,
+            content: 'Original message'
+          )
+          reply_mail_with_references.mail['References'] = '<original-message-id@test.com>'
+        end
+
+        it 'finds conversation from message source_id in references' do
+          described_class.receive reply_mail_with_references
+          expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+        end
+      end
+
+      context 'with conversation from different channel in references' do
+        let(:other_email_channel) { create(:channel_email, email: 'other@example.com', account: account) }
+        let(:other_conversation) do
+          create(
+            :conversation,
+            assignee: agent,
+            inbox: other_email_channel.inbox,
+            account: account
+          )
+        end
+
+        before do
+          other_conversation.update!(uuid: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee')
+          reply_mail_with_references.mail['References'] = '<conversation/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/messages/456@test.com>'
+        end
+
+        it 'does not use conversation from different channel' do
+          described_class.receive reply_mail_with_references
+          expect(other_conversation.messages.count).to eq(0)
+        end
+      end
+    end
   end
 end
