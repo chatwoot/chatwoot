@@ -1,6 +1,14 @@
 class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::ConversationFinderStrategies::BaseStrategy
   # Patterns from ApplicationMailbox
   MESSAGE_PATTERN = %r{conversation/([a-zA-Z0-9-]+)/messages/(\d+)@}
+
+  # FALLBACK_PATTERN is used when building In-Reply-To headers in ConversationReplyMailer
+  # when there's no actual message to reply to (see app/mailers/conversation_reply_mailer.rb#in_reply_to_email).
+  # This happens when:
+  # - A conversation is started by an agent (no incoming message yet)
+  # - The conversation originated from a non-email channel (widget, WhatsApp, etc.) but is now using email
+  # - The incoming message doesn't have email metadata with a message_id
+  # In these cases, we use a conversation-level identifier instead of a message-level one.
   FALLBACK_PATTERN = %r{account/(\d+)/conversation/([a-zA-Z0-9-]+)@}
 
   def find
