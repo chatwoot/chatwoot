@@ -216,7 +216,7 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
           account.id,
           agent.id,
           hash_including(
-            'ids' => [contact_one.id.to_s, contact_two.id.to_s],
+            'ids' => [contact_one.id, contact_two.id],
             'labels' => hash_including('add' => %w[vip support])
           )
         )
