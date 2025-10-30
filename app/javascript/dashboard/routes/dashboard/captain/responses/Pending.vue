@@ -9,8 +9,8 @@ import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
@@ -142,31 +142,18 @@ const fetchResponses = (page = 1) => {
 const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
 
-const bulkSelectionState = computed(() => {
-  const selectedCount = bulkSelectedIds.value.size;
-  const totalCount = filteredResponses.value?.length || 0;
-
-  return {
-    hasSelected: selectedCount > 0,
-    isIndeterminate: selectedCount > 0 && selectedCount < totalCount,
-    allSelected: totalCount > 0 && selectedCount === totalCount,
-  };
-});
-
-const bulkCheckbox = computed({
-  get: () => bulkSelectionState.value.allSelected,
-  set: value => {
-    bulkSelectedIds.value = value
-      ? new Set(filteredResponses.value.map(r => r.id))
-      : new Set();
-  },
-});
-
 const buildSelectedCountLabel = computed(() => {
   const count = filteredResponses.value?.length || 0;
-  return bulkSelectionState.value.allSelected
+  const isAllSelected = bulkSelectedIds.value.size === count && count > 0;
+  return isAllSelected
     ? t('CAPTAIN.RESPONSES.UNSELECT_ALL', { count })
     : t('CAPTAIN.RESPONSES.SELECT_ALL', { count });
+});
+
+const selectedCountLabel = computed(() => {
+  return t('CAPTAIN.RESPONSES.SELECTED', {
+    count: bulkSelectedIds.value.size,
+  });
 });
 
 const handleCardHover = (isHovered, id) => {
@@ -210,12 +197,11 @@ const handleBulkApprove = async () => {
 };
 
 const onPageChange = page => {
-  const wasAllPageSelected = bulkSelectionState.value.allSelected;
-  const hadPartialSelection = bulkSelectedIds.value.size > 0;
+  const hadSelection = bulkSelectedIds.value.size > 0;
 
   fetchResponses(page);
 
-  if (wasAllPageSelected || hadPartialSelection) {
+  if (hadSelection) {
     bulkSelectedIds.value = new Set();
   }
 };
@@ -283,7 +269,7 @@ onMounted(() => {
 
     <template #search>
       <div
-        v-if="!bulkSelectionState.hasSelected"
+        v-if="bulkSelectedIds.size === 0"
         class="flex gap-3 justify-between w-full items-center"
       >
         <Input
@@ -299,66 +285,29 @@ onMounted(() => {
     </template>
 
     <template #subHeader>
-      <div
+      <BulkSelectBar
+        v-model="bulkSelectedIds"
+        :all-items="filteredResponses"
+        :select-all-label="buildSelectedCountLabel"
+        :selected-count-label="selectedCountLabel"
+        :delete-label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
+        class="w-fit"
         :class="{
-          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 w-fit mb-2 flex justify-between items-center py-1 visible':
-            bulkSelectionState.hasSelected,
-          invisible: !bulkSelectionState.hasSelected,
+          'mb-2': bulkSelectedIds.size > 0,
         }"
+        @bulk-delete="bulkDeleteDialog.dialogRef.open()"
       >
-        <transition
-          name="slide-fade"
-          enter-active-class="transition-all duration-300 ease-out"
-          enter-from-class="opacity-0 transform ltr:-translate-x-4 rtl:translate-x-4"
-          enter-to-class="opacity-100 transform translate-x-0"
-          leave-active-class="hidden opacity-0"
-        >
-          <div
-            v-if="bulkSelectionState.hasSelected"
-            class="flex items-center gap-3"
-          >
-            <div class="flex items-center gap-3">
-              <div class="flex items-center gap-1.5">
-                <Checkbox
-                  v-model="bulkCheckbox"
-                  :indeterminate="bulkSelectionState.isIndeterminate"
-                />
-                <span class="text-sm text-n-slate-12 font-medium tabular-nums">
-                  {{ buildSelectedCountLabel }}
-                </span>
-              </div>
-              <span class="text-sm text-n-slate-10 tabular-nums">
-                {{
-                  $t('CAPTAIN.RESPONSES.SELECTED', {
-                    count: bulkSelectedIds.size,
-                  })
-                }}
-              </span>
-            </div>
-            <div class="h-4 w-px bg-n-strong" />
-            <div class="flex gap-3 items-center">
-              <Button
-                :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
-                sm
-                ghost
-                icon="i-lucide-check"
-                class="!px-1.5"
-                @click="handleBulkApprove"
-              />
-              <div class="h-4 w-px bg-n-strong" />
-              <Button
-                :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
-                sm
-                ruby
-                ghost
-                class="!px-1.5"
-                icon="i-lucide-trash"
-                @click="bulkDeleteDialog.dialogRef.open()"
-              />
-            </div>
-          </div>
-        </transition>
-      </div>
+        <template #secondary-actions>
+          <Button
+            :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
+            sm
+            ghost
+            icon="i-lucide-check"
+            class="!px-1.5"
+            @click="handleBulkApprove"
+          />
+        </template>
+      </BulkSelectBar>
     </template>
 
     <template #emptyState>
