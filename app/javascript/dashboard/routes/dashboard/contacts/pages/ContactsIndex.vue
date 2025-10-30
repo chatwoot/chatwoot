@@ -383,6 +383,15 @@ onMounted(async () => {
       </div>
 
       <template v-else>
+        <ContactsBulkActionBar
+          v-if="hasSelection"
+          :visible-contact-ids="visibleContactIds"
+          :selected-contact-ids="selectedContactIds"
+          :is-loading="isBulkActionLoading"
+          @toggle-all="toggleSelectAll"
+          @clear-selection="clearSelection"
+          @assign-labels="assignLabels"
+        />
         <ContactEmptyState
           v-if="showEmptyStateLayout"
           class="pt-14"
@@ -391,7 +400,6 @@ onMounted(async () => {
           :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
           @create="createContact"
         />
-
         <div
           v-else-if="showEmptyText"
           class="flex items-center justify-center py-10"
@@ -400,18 +408,7 @@ onMounted(async () => {
             {{ emptyStateMessage }}
           </span>
         </div>
-
-        <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
-          <div v-if="hasSelection">
-            <ContactsBulkActionBar
-              :visible-contact-ids="visibleContactIds"
-              :selected-contact-ids="selectedContactIds"
-              :is-loading="isBulkActionLoading"
-              @toggle-all="toggleSelectAll"
-              @clear-selection="clearSelection"
-              @assign-labels="assignLabels"
-            />
-          </div>
+        <div v-else class="flex flex-col gap-4 px-6 pt-2 pb-6">
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"
