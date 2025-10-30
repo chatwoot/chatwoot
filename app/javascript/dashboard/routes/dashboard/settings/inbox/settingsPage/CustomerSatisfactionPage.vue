@@ -4,8 +4,8 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import SectionLayout from 'dashboard/routes/dashboard/settings/account/components/SectionLayout.vue';
 import CSATDisplayTypeSelector from './components/CSATDisplayTypeSelector.vue';
@@ -14,7 +14,9 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Switch from 'next/switch/Switch.vue';
-import Input from 'v3/components/Form/Input.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
+import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
 const props = defineProps({
   inbox: { type: Object, required: true },
@@ -34,6 +36,7 @@ const state = reactive({
   message: '',
   buttonText: 'Please rate us',
   surveyRuleOperator: 'contains',
+  language: '',
 });
 
 // WhatsApp template status
@@ -59,6 +62,10 @@ const labelOptions = computed(() =>
     : []
 );
 
+const languageOptions = computed(() =>
+  languages.map(({ name, id }) => ({ label: name, value: id }))
+);
+
 const isWhatsAppChannel = computed(
   () => props.inbox?.channel_type === 'Channel::Whatsapp'
 );
@@ -67,36 +74,36 @@ const messagePreviewData = computed(() => ({
   content: state.message || t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER'),
 }));
 
-const templateApprovalStatus = computed(() => {
-  if (!templateStatus.value) return null;
+// const templateApprovalStatus = computed(() => {
+//   if (!templateStatus.value) return null;
 
-  switch (templateStatus.value.status) {
-    case 'APPROVED':
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
-        icon: 'i-lucide-check-circle',
-        color: 'text-green-600',
-      };
-    case 'PENDING':
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
-        icon: 'i-lucide-clock',
-        color: 'text-yellow-600',
-      };
-    case 'REJECTED':
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
-        icon: 'i-lucide-x-circle',
-        color: 'text-red-600',
-      };
-    default:
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
-        icon: 'i-lucide-clock',
-        color: 'text-yellow-600',
-      };
-  }
-});
+//   switch (templateStatus.value.status) {
+//     case 'APPROVED':
+//       return {
+//         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
+//         icon: 'i-lucide-check-circle',
+//         color: 'text-green-600',
+//       };
+//     case 'PENDING':
+//       return {
+//         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
+//         icon: 'i-lucide-clock',
+//         color: 'text-yellow-600',
+//       };
+//     case 'REJECTED':
+//       return {
+//         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
+//         icon: 'i-lucide-x-circle',
+//         color: 'text-red-600',
+//       };
+//     default:
+//       return {
+//         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
+//         icon: 'i-lucide-clock',
+//         color: 'text-yellow-600',
+//       };
+//   }
+// });
 
 const initializeState = () => {
   if (!props.inbox) return;
@@ -267,8 +274,10 @@ const saveSettings = async () => {
 
         <!-- WhatsApp specific layout -->
         <template v-if="isWhatsAppChannel">
-          <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div class="gap-2 gap">
+          <div
+            class="flex flex-col md:flex-row justify-between gap-4 md:gap-6 w-full"
+          >
+            <div class="flex-1 flex flex-col gap-3">
               <WithLabel
                 :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
                 name="message"
@@ -280,49 +289,54 @@ const saveSettings = async () => {
                   class="w-full"
                 />
               </WithLabel>
-              <WithLabel :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')">
-                <Input
-                  v-model="state.buttonText"
-                  :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
-                  class="w-full"
+              <Input
+                v-model="state.buttonText"
+                :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
+                :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
+                class="w-full"
+              />
+
+              <WithLabel
+                :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
+                name="message"
+              >
+                <ComboBox
+                  v-model="state.language"
+                  :options="languageOptions"
+                  :placeholder="$t('INBOX_MGMT.CSAT.LANGUAGE.PLACEHOLDER')"
                 />
               </WithLabel>
 
-              <div
-                v-if="templateApprovalStatus"
-                class="flex gap-2 items-center mt-4"
-              >
-                <i
-                  :class="[
-                    templateApprovalStatus.icon,
-                    templateApprovalStatus.color,
-                  ]"
-                  class="w-4 h-4"
+              <div class="flex gap-2 items-center mt-4">
+                <Icon
+                  icon="i-lucide-clock-fading"
+                  class="size-4 text-n-amber-11"
                 />
-                <span
-                  :class="templateApprovalStatus.color"
-                  class="text-sm font-medium"
-                >
-                  {{ templateApprovalStatus.text }}
+                <span class="text-sm font-medium text-n-amber-11">
+                  {{ 'Pending WhatsApp approval' }}
                 </span>
               </div>
             </div>
 
-            <div class="items-center p-6 rounded-lg bg-n-slate-2">
+            <div
+              class="flex flex-col items-center justify-start p-6 rounded-xl bg-n-slate-2 outline mt-1 outline-1 outline-n-weak"
+            >
               <p
-                class="flex gap-1 justify-center items-center mb-1 text-sm font-medium text-n-slate-11"
+                class="inline-flex items-center text-sm font-medium text-n-slate-11"
               >
                 {{ $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.LABEL') }}
-                <span
-                  class="text-xs cursor-help text-n-slate-11"
-                  :title="$t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.TOOLTIP')"
-                >
-                  <Icon icon="i-lucide-info" class="flex-shrink-0 size-4" />
-                </span>
+                <Icon
+                  v-tooltip.top-end="
+                    $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.TOOLTIP')
+                  "
+                  icon="i-lucide-info"
+                  class="flex-shrink-0 size-4 mx-1"
+                />
               </p>
               <CSATTemplate
                 :message="messagePreviewData"
                 :button-text="state.buttonText"
+                class="pt-12"
               />
             </div>
           </div>
