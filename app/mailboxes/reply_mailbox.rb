@@ -4,8 +4,7 @@ class ReplyMailbox < ApplicationMailbox
   before_processing :find_conversation
 
   def process
-    return if @conversation.blank?
-
+    # ConversationFinder with NewConversationStrategy ensures @conversation is always present
     decorate_mail
     create_message
     add_attachments_to_message
@@ -15,10 +14,6 @@ class ReplyMailbox < ApplicationMailbox
 
   def find_conversation
     @conversation = Mailbox::ConversationFinder.new(mail).find
-
-    return unless @conversation.nil?
-
-    Rails.logger.error "[ReplyMailbox] No conversation found for email #{mail.message_id}"
   end
 
   def decorate_mail

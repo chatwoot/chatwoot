@@ -2,7 +2,8 @@ class Mailbox::ConversationFinder
   DEFAULT_STRATEGIES = [
     Mailbox::ConversationFinderStrategies::ReceiverUuidStrategy,
     Mailbox::ConversationFinderStrategies::InReplyToStrategy,
-    Mailbox::ConversationFinderStrategies::ReferencesStrategy
+    Mailbox::ConversationFinderStrategies::ReferencesStrategy,
+    Mailbox::ConversationFinderStrategies::NewConversationStrategy
   ].freeze
 
   def initialize(mail, strategies: DEFAULT_STRATEGIES)
@@ -21,8 +22,8 @@ class Mailbox::ConversationFinder
       return conversation
     end
 
-    # No strategy matched
-    Rails.logger.info 'No conversation found via any strategy'
+    # Should not reach here if NewConversationStrategy is in the chain
+    Rails.logger.error 'No conversation found via any strategy (NewConversationStrategy missing?)'
     nil
   end
 end

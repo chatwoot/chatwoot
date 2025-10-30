@@ -69,17 +69,27 @@ RSpec.describe Mailbox::ConversationFinder do
     end
 
     context 'when no strategy finds conversation' do
+      # With NewConversationStrategy in default strategies, this scenario only happens
+      # when using custom strategies that exclude NewConversationStrategy
+      let(:finding_strategies) do
+        [
+          Mailbox::ConversationFinderStrategies::ReceiverUuidStrategy,
+          Mailbox::ConversationFinderStrategies::InReplyToStrategy,
+          Mailbox::ConversationFinderStrategies::ReferencesStrategy
+        ]
+      end
+
       it 'returns nil' do
-        finder = described_class.new(mail)
+        finder = described_class.new(mail, strategies: finding_strategies)
         expect(finder.find).to be_nil
       end
 
       it 'logs that no conversation was found' do
-        allow(Rails.logger).to receive(:info)
-        finder = described_class.new(mail)
+        allow(Rails.logger).to receive(:error)
+        finder = described_class.new(mail, strategies: finding_strategies)
         finder.find
 
-        expect(Rails.logger).to have_received(:info).with('No conversation found via any strategy')
+        expect(Rails.logger).to have_received(:error).with('No conversation found via any strategy (NewConversationStrategy missing?)')
       end
     end
 
