@@ -38,6 +38,32 @@ class Channel::Telegram < ApplicationRecord
     message_id
   end
 
+  def edit_message_on_telegram(chat_id:, message_id:, text:, business_connection_id: nil)
+    text_payload = convert_markdown_to_telegram_html(text)
+
+    business_body = {}
+    business_body[:business_connection_id] = business_connection_id if business_connection_id
+
+    HTTParty.post("#{telegram_api_url}/editMessageText",
+                  body: {
+                    chat_id: chat_id,
+                    message_id: message_id,
+                    text: text_payload,
+                    parse_mode: 'HTML'
+                  }.merge(business_body))
+  end
+
+  def delete_message_on_telegram(chat_id:, message_id:, business_connection_id: nil)
+    business_body = {}
+    business_body[:business_connection_id] = business_connection_id if business_connection_id
+
+    HTTParty.post("#{telegram_api_url}/deleteMessage",
+                  body: {
+                    chat_id: chat_id,
+                    message_id: message_id
+                  }.merge(business_body))
+  end
+
   def get_telegram_profile_image(user_id)
     # get profile image from telegram
     response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id })

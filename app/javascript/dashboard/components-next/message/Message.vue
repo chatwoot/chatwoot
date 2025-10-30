@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, computed, ref, toRefs } from 'vue';
+import { useStore } from 'vuex';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
@@ -133,9 +134,12 @@ const props = defineProps({
 
 const emit = defineEmits(['retry']);
 
+const store = useStore();
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
+const isEditing = ref(false);
+const editedContent = ref('');
 const { t } = useI18n();
 const route = useRoute();
 
@@ -364,6 +368,13 @@ const contextMenuEnabledOptions = computed(() => {
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
       !isFailedOrProcessing,
+    edit:
+      isOutgoing &&
+      hasText &&
+      !hasAttachments &&
+      !!props.sourceId &&
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value,
   };
 });
 
@@ -413,6 +424,34 @@ function handleReplyTo() {
 
   LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
   emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, props);
+}
+
+function handleEdit() {
+  isEditing.value = true;
+  editedContent.value = props.content;
+}
+
+function cancelEdit() {
+  isEditing.value = false;
+  editedContent.value = '';
+}
+
+async function saveEdit() {
+  if (!editedContent.value.trim()) {
+    return;
+  }
+
+  try {
+    await store.dispatch('editMessage', {
+      conversationId: props.conversationId,
+      messageId: props.id,
+      content: editedContent.value,
+    });
+    isEditing.value = false;
+    editedContent.value = '';
+  } catch (error) {
+    // Silently fail - error already handled by store action
+  }
 }
 
 const avatarInfo = computed(() => {
@@ -519,7 +558,30 @@ provideMessageContext({
         }"
         @contextmenu="openContextMenu($event)"
       >
-        <Component :is="componentToRender" />
+        <div v-if="isEditing" class="flex flex-col gap-2 w-full max-w-2xl">
+          <textarea
+            v-model="editedContent"
+            class="w-full p-3 border rounded-md resize-y min-h-[100px] bg-n-slate-1 border-n-slate-7 text-n-slate-12 focus:border-n-iris-9 focus:outline-none"
+            @keydown.esc="cancelEdit"
+            @keydown.meta.enter="saveEdit"
+            @keydown.ctrl.enter="saveEdit"
+          />
+          <div class="flex gap-2 justify-end">
+            <button
+              class="px-4 py-2 text-sm rounded-md bg-n-slate-3 hover:bg-n-slate-4 text-n-slate-12 border border-n-slate-7"
+              @click="cancelEdit"
+            >
+              {{ $t('CONVERSATION.EDIT_MESSAGE.CANCEL') }}
+            </button>
+            <button
+              class="px-4 py-2 text-sm rounded-md bg-woot-600 hover:bg-woot-700 text-white"
+              @click="saveEdit"
+            >
+              {{ $t('CONVERSATION.EDIT_MESSAGE.SAVE') }}
+            </button>
+          </div>
+        </div>
+        <Component :is="componentToRender" v-else />
       </div>
       <MessageError
         v-if="contentAttributes.externalError"
@@ -540,6 +602,7 @@ provideMessageContext({
         @open="openContextMenu"
         @close="closeContextMenu"
         @reply-to="handleReplyTo"
+        @edit="handleEdit"
       />
     </div>
   </div>

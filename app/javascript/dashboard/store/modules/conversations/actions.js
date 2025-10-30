@@ -355,6 +355,22 @@ const actions = {
     commit(types.ADD_MESSAGE, message);
   },
 
+  editMessage: async function editMessage(
+    { commit },
+    { conversationId, messageId, content }
+  ) {
+    try {
+      const { data } = await MessageApi.update(
+        conversationId,
+        messageId,
+        content
+      );
+      commit(types.ADD_MESSAGE, data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   deleteMessage: async function deleteLabels(
     { commit },
     { conversationId, messageId }

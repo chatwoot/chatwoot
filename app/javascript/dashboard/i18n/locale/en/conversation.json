@@ -255,6 +255,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copy",
       "REPLY_TO": "Reply to this message",
+      "EDIT": "Edit",
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
@@ -266,6 +267,10 @@
         "DELETE": "Delete",
         "CANCEL": "Cancel"
       }
+    },
+    "EDIT_MESSAGE": {
+      "CANCEL": "Cancel",
+      "SAVE": "Save"
     },
     "SIDEBAR": {
       "CONTACT": "Contact",

@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
-  before_action :ensure_api_inbox, only: :update
+  before_action :ensure_api_inbox, only: [:update], if: :status_update?
 
   def index
     @messages = message_finder.perform
@@ -14,8 +14,13 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def update
-    Messages::StatusUpdateService.new(message, permitted_params[:status], permitted_params[:external_error]).perform
-    @message = message
+    if permitted_params[:content].present?
+      update_message_content
+    elsif permitted_params[:status].present?
+      update_message_status
+    else
+      render json: { error: 'No content or status provided' }, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -65,11 +70,35 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language, :status, :external_error)
+    params.permit(:id, :target_language, :status, :external_error, :content)
   end
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
+  end
+
+  def status_update?
+    permitted_params[:status].present?
+  end
+
+  def update_message_content
+    unless message.outgoing?
+      render json: { error: 'Only outgoing messages can be edited' }, status: :forbidden
+      return
+    end
+
+    unless message.source_id.present?
+      render json: { error: 'Cannot edit messages without source_id' }, status: :forbidden
+      return
+    end
+
+    message.update!(content: permitted_params[:content])
+    @message = message
+  end
+
+  def update_message_status
+    Messages::StatusUpdateService.new(message, permitted_params[:status], permitted_params[:external_error]).perform
+    @message = message
   end
 
   # API inbox check
