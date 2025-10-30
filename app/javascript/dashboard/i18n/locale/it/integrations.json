@@ -863,7 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
-      "PENDING_FAQS": "Pending FAQs",
+      "PENDING_FAQS": "FAQ In Attesa",
       "ADD_NEW": "Crea nuova FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversazione #{id}"
@@ -904,8 +904,8 @@
         "ALL": "Tutte"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "Captain ha trovato delle FAQ tra le domande dei tuoi clienti.",
+        "ACTION": "Clicca qui per rivedere"
       },
       "FORM_DESCRIPTION": "Aggiungi una domanda e la sua risposta corrispondente alla knowledge base e seleziona l'assistente con cui dovrebbe essere associata.",
       "CREATE": {
@@ -943,7 +943,9 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nessuna FAQ Trovata",
+        "NO_PENDING_TITLE": "Non ci sono più FAQ in attesa da rivedere",
         "SUBTITLE": "Le FAQ aiutano il tuo assistente a fornire risposte rapide e accurate alle domande dei tuoi clienti. Possono essere generate automaticamente dai tuoi contenuti o possono essere aggiunte manualmente.",
+        "CLEAR_SEARCH": "Rimuovi filtri attivi",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQ rileva le domande più frequenti dei clienti, anche se mancano dalla tua knowledge base, e suggerisce delle FAQ per migliorare il supporto. È possibile rivedere ogni suggerimento e decidere se approvarlo o rifiutarlo."
