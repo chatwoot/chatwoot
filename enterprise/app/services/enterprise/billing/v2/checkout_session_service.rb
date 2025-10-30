@@ -5,6 +5,7 @@
 #
 class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2::BaseService
   include Enterprise::Billing::Concerns::PlanFeatureManager
+  include Enterprise::Billing::Concerns::StripeV2ClientHelper
 
   # Create a subscription checkout session
   #
@@ -53,14 +54,7 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
   #
   def create_checkout_session
     customer_id = custom_attribute('stripe_customer_id')
-
-    session = StripeV2Client.request(
-      :post,
-      '/v1/checkout/sessions',
-      checkout_session_params(customer_id),
-      stripe_api_options
-    )
-
+    session = super(checkout_session_params(customer_id), api_version: checkout_stripe_version)
     build_success_response(session)
   end
 
@@ -124,13 +118,6 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
       success: true,
       session_id: session_id,
       redirect_url: session_url
-    }
-  end
-
-  def stripe_api_options
-    {
-      api_key: ENV.fetch('STRIPE_SECRET_KEY', nil),
-      stripe_version: '2025-08-27.preview;checkout_product_catalog_preview=v1'
     }
   end
 end

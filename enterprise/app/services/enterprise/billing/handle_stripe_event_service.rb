@@ -1,5 +1,6 @@
 class Enterprise::Billing::HandleStripeEventService
   include Enterprise::Billing::Concerns::PlanFeatureManager
+  include Enterprise::Billing::Concerns::StripeV2ClientHelper
 
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
 
@@ -122,10 +123,6 @@ class Enterprise::Billing::HandleStripeEventService
 
   def extract_credit_grant_id(grant_object)
     grant_object.respond_to?(:id) ? grant_object.id : grant_object['id']
-  end
-
-  def retrieve_credit_grant(grant_id)
-    StripeV2Client.request(:get, "/v1/billing/credit_grants/#{grant_id}")
   end
 
   def extract_credit_amount(grant)

@@ -1,4 +1,6 @@
 class Enterprise::Billing::V2::WebhookHandlerService
+  include Enterprise::Billing::Concerns::StripeV2ClientHelper
+
   def perform(event:)
     @event = event
     return { success: false, message: 'Event is required' } if @event.blank?
@@ -37,20 +39,10 @@ class Enterprise::Billing::V2::WebhookHandlerService
   end
 
   def fetch_customer_id_from_subscription(subscription_id)
-    subscription = StripeV2Client.request(
-      :get,
-      "/v2/billing/pricing_plan_subscriptions/#{subscription_id}",
-      {},
-      stripe_api_options
-    )
+    subscription = retrieve_pricing_plan_subscription(subscription_id)
     return nil unless subscription&.billing_cadence
 
-    cadence = StripeV2Client.request(
-      :get,
-      "/v2/billing/cadences/#{subscription.billing_cadence}",
-      {},
-      stripe_api_options
-    )
+    cadence = retrieve_billing_cadence(subscription.billing_cadence)
     cadence.payer&.customer
   end
 
@@ -64,9 +56,5 @@ class Enterprise::Billing::V2::WebhookHandlerService
     Enterprise::Billing::V2::SubscriptionProvisioningService
       .new(account: account)
       .refresh
-  end
-
-  def stripe_api_options
-    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
   end
 end
