@@ -44,7 +44,7 @@ const handleAssign = () => {
 <template>
   <div
     v-on-click-outside="onClose"
-    class="absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 max-w-[15rem] min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md"
+    class="absolute ltr:right-2 rtl:left-2 top-12 origin-top-right z-20 w-60 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md"
     role="dialog"
     aria-labelledby="label-dialog-title"
   >
