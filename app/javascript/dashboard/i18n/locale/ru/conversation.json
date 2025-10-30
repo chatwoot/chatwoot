@@ -237,6 +237,7 @@
     "CONTEXT_MENU": {
       "COPY": "Копировать",
       "REPLY_TO": "Ответить на это сообщение",
+      "EDIT": "Редактировать",
       "DELETE": "Удалить",
       "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
       "TRANSLATE": "Перевести",
@@ -248,6 +249,10 @@
         "DELETE": "Удалить",
         "CANCEL": "Отменить"
       }
+    },
+    "EDIT_MESSAGE": {
+      "CANCEL": "Отменить",
+      "SAVE": "Сохранить"
     },
     "SIDEBAR": {
       "CONTACT": "Контакт",

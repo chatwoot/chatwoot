@@ -130,6 +130,7 @@ class Message < ApplicationRecord
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
+  after_update_commit :send_edit_to_telegram, if: :should_send_edit_to_telegram?
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -325,6 +326,20 @@ class Message < ApplicationRecord
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit
     attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
+  end
+
+  def should_send_edit_to_telegram?
+    return false unless saved_change_to_content?
+    return false unless outgoing?
+    return false unless source_id.present?
+    return false unless inbox.channel_type == 'Channel::Telegram'
+    return false if content_attributes['deleted'] == true
+
+    true
+  end
+
+  def send_edit_to_telegram
+    Telegram::EditMessageService.new(message: self).perform
   end
 
   def reopen_conversation
