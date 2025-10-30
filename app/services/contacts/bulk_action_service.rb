@@ -6,16 +6,27 @@ class Contacts::BulkActionService
   end
 
   def perform
-    case @params[:action]
-    when 'assign_labels'
-      Contacts::BulkAssignLabelsService.new(
-        account: @account,
-        contact_ids: @params[:contact_ids],
-        labels: @params[:labels]
-      ).perform
-    else
-      Rails.logger.warn("Unknown contact bulk action: #{@params[:action]}")
-      { success: false, error: 'unknown_action' }
-    end
+    return assign_labels if labels_to_add.any?
+
+    Rails.logger.warn("Unknown contact bulk operation payload: #{@params.keys}")
+    { success: false, error: 'unknown_operation' }
+  end
+
+  private
+
+  def assign_labels
+    Contacts::BulkAssignLabelsService.new(
+      account: @account,
+      contact_ids: ids,
+      labels: labels_to_add
+    ).perform
+  end
+
+  def ids
+    Array(@params[:ids]).compact
+  end
+
+  def labels_to_add
+    @labels_to_add ||= Array(@params.dig(:labels, :add)).reject(&:blank?)
   end
 end

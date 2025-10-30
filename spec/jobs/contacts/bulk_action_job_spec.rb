@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Contacts::BulkActionJob, type: :job do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
-  let(:params) { { 'action' => 'assign_labels', 'contact_ids' => [1], 'labels' => ['vip'] } }
+  let(:params) { { 'ids' => [1], 'labels' => { 'add' => ['vip'] } } }
 
   it 'invokes the bulk action service with account and user' do
     service_instance = instance_double(Contacts::BulkActionService, perform: true)

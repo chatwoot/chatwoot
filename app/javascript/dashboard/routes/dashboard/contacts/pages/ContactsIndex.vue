@@ -13,7 +13,7 @@ import ContactEmptyState from 'dashboard/components-next/Contacts/EmptyState/Con
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
 import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
-import ContactsBulkActionsAPI from 'dashboard/api/contactsBulkActions';
+import BulkActionsAPI from 'dashboard/api/bulkActions';
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
 const DEBOUNCE_DELAY = 300;
@@ -241,10 +241,10 @@ const assignLabels = async labels => {
 
   isBulkActionLoading.value = true;
   try {
-    await ContactsBulkActionsAPI.create({
-      action: 'assign_labels',
-      contact_ids: selectedContactIds.value,
-      labels,
+    await BulkActionsAPI.create({
+      type: 'Contact',
+      ids: selectedContactIds.value,
+      labels: { add: labels },
     });
     useAlert(t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS_SUCCESS'));
     clearSelection();

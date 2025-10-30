@@ -174,9 +174,6 @@ Rails.application.routes.draw do
               resources :notes
             end
           end
-          namespace :contacts do
-            resources :bulk_actions, only: [:create]
-          end
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics
