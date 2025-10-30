@@ -131,6 +131,7 @@ class Message < ApplicationRecord
 
   after_update_commit :dispatch_update_event
   after_update_commit :send_edit_to_telegram, if: :should_send_edit_to_telegram?
+  after_update_commit :delete_from_telegram, if: :should_delete_from_telegram?
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -340,6 +341,20 @@ class Message < ApplicationRecord
 
   def send_edit_to_telegram
     Telegram::EditMessageService.new(message: self).perform
+  end
+
+  def should_delete_from_telegram?
+    return false unless saved_change_to_content_attributes?
+    return false unless outgoing?
+    return false unless source_id.present?
+    return false unless inbox.channel_type == 'Channel::Telegram'
+    return false unless content_attributes['deleted'] == true
+
+    true
+  end
+
+  def delete_from_telegram
+    Telegram::DeleteMessageService.new(message: self).perform
   end
 
   def reopen_conversation

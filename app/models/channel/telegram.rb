@@ -53,6 +53,17 @@ class Channel::Telegram < ApplicationRecord
                   }.merge(business_body))
   end
 
+  def delete_message_on_telegram(chat_id:, message_id:, business_connection_id: nil)
+    business_body = {}
+    business_body[:business_connection_id] = business_connection_id if business_connection_id
+
+    HTTParty.post("#{telegram_api_url}/deleteMessage",
+                  body: {
+                    chat_id: chat_id,
+                    message_id: message_id
+                  }.merge(business_body))
+  end
+
   def get_telegram_profile_image(user_id)
     # get profile image from telegram
     response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id })

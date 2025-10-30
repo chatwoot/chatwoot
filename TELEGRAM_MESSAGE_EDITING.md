@@ -1,8 +1,8 @@
-# Telegram Message Editing Implementation
+# Telegram Message Editing and Deletion Implementation
 
 ## Overview
 
-This document provides comprehensive details about the implementation of message editing functionality for Telegram channels in Chatwoot. The feature allows users to edit their outgoing messages in Chatwoot, which automatically syncs the changes to Telegram.
+This document provides comprehensive details about the implementation of message editing and deletion functionality for Telegram channels in Chatwoot. The features allow users to edit and delete their outgoing messages in Chatwoot, which automatically syncs the changes to Telegram.
 
 ## Table of Contents
 
@@ -352,6 +352,244 @@ end
 **4. Response**
 - Returns HTTParty response object
 - Service handles success/failure
+
+---
+
+### 5. Telegram Delete Message Service
+
+**File:** `app/services/telegram/delete_message_service.rb` (NEW FILE)
+
+#### Full Implementation
+
+```ruby
+class Telegram::DeleteMessageService
+  pattr_initialize [:message!]
+
+  def perform
+    return unless should_delete_from_telegram?
+
+    delete_message_from_telegram
+  rescue StandardError => e
+    Rails.logger.error "Error while deleting telegram message: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+  end
+
+  private
+
+  def should_delete_from_telegram?
+    return false unless message.outgoing?
+    return false unless message.source_id.present?
+    return false unless message.inbox.channel_type == 'Channel::Telegram'
+    return false unless message.content_attributes['deleted'] == true
+
+    true
+  end
+
+  def delete_message_from_telegram
+    channel = message.inbox.channel
+    chat_id = message.conversation.additional_attributes['chat_id']
+    business_connection_id = message.conversation.additional_attributes['business_connection_id']
+
+    response = channel.delete_message_on_telegram(
+      chat_id: chat_id,
+      message_id: message.source_id,
+      business_connection_id: business_connection_id
+    )
+
+    handle_response(response)
+  end
+
+  def handle_response(response)
+    return if response.success?
+
+    error_message = response.parsed_response['description'] || 'Unknown error'
+    Rails.logger.error "Failed to delete Telegram message: #{error_message}"
+
+    message.update(
+      content_attributes: message.content_attributes.merge(
+        external_error: "Failed to delete on Telegram: #{error_message}"
+      )
+    )
+  end
+end
+```
+
+#### Key Features
+
+**1. Initialization**
+- Uses `pattr_initialize` gem for parameter initialization
+- Requires `message` object
+
+**2. Public Interface**
+- `perform` - Main entry point
+- Returns early if shouldn't delete
+- Catches all errors and logs them
+
+**3. Validation**
+- Checks if message is outgoing
+- Checks if `source_id` exists (Telegram message ID)
+- Verifies it's a Telegram channel
+- Ensures message is marked as deleted (`content_attributes['deleted'] == true`)
+
+**4. Data Extraction**
+- Gets `chat_id` from `conversation.additional_attributes`
+- Gets `business_connection_id` for Telegram Business support
+- Uses `source_id` as Telegram's `message_id`
+
+**5. Error Handling**
+- Logs errors to Rails logger
+- Stores error in message's `content_attributes`
+- Doesn't crash on failure
+
+**6. Telegram Business Support**
+- Checks for `business_connection_id`
+- Passes it to API if present
+
+---
+
+### 6. Delete Message Method in Channel::Telegram
+
+**File:** `app/models/channel/telegram.rb`
+
+#### New Method (Lines 56-65)
+
+```ruby
+def delete_message_on_telegram(chat_id:, message_id:, business_connection_id: nil)
+  business_body = {}
+  business_body[:business_connection_id] = business_connection_id if business_connection_id
+
+  HTTParty.post("#{telegram_api_url}/deleteMessage",
+                body: {
+                  chat_id: chat_id,
+                  message_id: message_id
+                }.merge(business_body))
+end
+```
+
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `chat_id` | String/Integer | Yes | Telegram chat ID |
+| `message_id` | String/Integer | Yes | Telegram message ID (from `source_id`) |
+| `business_connection_id` | String | No | For Telegram Business connections |
+
+#### Features
+
+**1. Business Support**
+- Conditionally includes `business_connection_id`
+- Only adds to payload if present
+
+**2. API Call**
+- Uses HTTParty for HTTP requests
+- Endpoint: `https://api.telegram.org/bot{token}/deleteMessage`
+- Simple payload with just chat_id and message_id
+
+**3. Response**
+- Returns HTTParty response object
+- Service handles success/failure
+
+---
+
+### 7. Message Model Deletion Callbacks
+
+**File:** `app/models/message.rb`
+
+#### New Callback (Line 134)
+
+```ruby
+after_update_commit :delete_from_telegram, if: :should_delete_from_telegram?
+```
+
+**Trigger:** Runs after message is successfully updated and committed to database
+
+**Conditional:** Only runs if `should_delete_from_telegram?` returns true
+
+#### New Method: `should_delete_from_telegram?` (Lines 346-354)
+
+```ruby
+def should_delete_from_telegram?
+  return false unless saved_change_to_content_attributes?
+  return false unless outgoing?
+  return false unless source_id.present?
+  return false unless inbox.channel_type == 'Channel::Telegram'
+  return false unless content_attributes['deleted'] == true
+
+  true
+end
+```
+
+**Conditions for deleting from Telegram:**
+1. `saved_change_to_content_attributes?` - Content attributes were changed
+2. `outgoing?` - Message is outgoing (from agent/bot)
+3. `source_id.present?` - Message has Telegram message ID
+4. `inbox.channel_type == 'Channel::Telegram'` - Inbox is Telegram channel
+5. `content_attributes['deleted'] == true` - Message is marked as deleted
+
+**Why these checks:**
+- Prevents unnecessary API calls
+- Ensures we only delete messages that exist on Telegram
+- Only triggers when delete flag is set
+- Channel-specific (won't trigger for WhatsApp, etc.)
+
+#### New Method: `delete_from_telegram` (Lines 356-358)
+
+```ruby
+def delete_from_telegram
+  Telegram::DeleteMessageService.new(message: self).perform
+end
+```
+
+**Purpose:** Delegates deletion operation to service object
+
+**Pattern:** Follows Chatwoot's service object pattern for business logic
+
+---
+
+### 8. Deletion Flow
+
+When a user deletes a message in Chatwoot:
+
+```
+1. USER ACTION
+   └─ Clicks Delete in context menu
+      └─ Confirms deletion
+
+2. FRONTEND API CALL
+   └─ DELETE /api/v1/accounts/{aid}/conversations/{cid}/messages/{mid}
+
+3. BACKEND SOFT DELETE
+   └─ MessagesController#destroy
+      ├─ Updates message content to "This message was deleted"
+      ├─ Sets content_attributes['deleted'] = true
+      └─ Destroys all attachments
+
+4. MODEL CALLBACK
+   └─ Message after_update_commit triggered
+      ├─ should_delete_from_telegram? → true
+      └─ delete_from_telegram called
+
+5. TELEGRAM SERVICE
+   └─ Telegram::DeleteMessageService.perform
+      ├─ Extracts chat_id, message_id
+      ├─ Calls channel.delete_message_on_telegram(...)
+      └─ Handles response
+
+6. TELEGRAM API
+   └─ Channel::Telegram#delete_message_on_telegram
+      ├─ POST https://api.telegram.org/bot{token}/deleteMessage
+      │   Body: {
+      │     chat_id: 123,
+      │     message_id: 456
+      │   }
+      └─ Returns response
+
+7. TELEGRAM UPDATE
+    └─ Message deleted on user's Telegram app
+
+8. FRONTEND UPDATE
+    └─ Message marked as deleted in UI
+```
 
 ---
 
@@ -887,35 +1125,101 @@ Authorization: Bearer {token}
 
 ---
 
+#### deleteMessage
+
+**Endpoint:** `https://api.telegram.org/bot{token}/deleteMessage`
+
+**Method:** POST
+
+**Request Body:**
+```json
+{
+  "chat_id": 123456789,
+  "message_id": 789,
+  "business_connection_id": "abc123"
+}
+```
+
+**Success Response:**
+```json
+{
+  "ok": true,
+  "result": true
+}
+```
+
+**Error Responses:**
+
+**Message not found:**
+```json
+{
+  "ok": false,
+  "error_code": 400,
+  "description": "Bad Request: message to delete not found"
+}
+```
+
+**Message too old:**
+```json
+{
+  "ok": false,
+  "error_code": 400,
+  "description": "Bad Request: message can't be deleted"
+}
+```
+
+**No delete rights:**
+```json
+{
+  "ok": false,
+  "error_code": 400,
+  "description": "Bad Request: message can't be deleted for everyone"
+}
+```
+
+**Limitations:**
+- Can only delete messages sent by the bot
+- Can delete messages in private chats, groups, and supergroups
+- Cannot delete messages older than 48 hours in groups
+- Cannot delete other users' messages (unless bot is admin with delete permissions)
+
+---
+
 ## Limitations
 
 ### Technical Limitations
 
-1. **Text Only**
+1. **Text Only (Edit)**
    - Can only edit text content
    - Cannot edit messages with attachments
    - Cannot add/remove attachments via edit
 
-2. **Telegram API Limits**
+2. **Telegram API Limits (Edit)**
    - Cannot edit messages older than 48 hours
    - Cannot edit to empty string
    - Cannot edit other bots' messages
    - Rate limits apply (30 messages per second)
 
-3. **Channel Specific**
+3. **Telegram API Limits (Delete)**
+   - Can only delete messages sent by the bot
+   - Cannot delete messages older than 48 hours in groups
+   - Cannot delete customer messages
+   - Rate limits apply (30 messages per second)
+
+4. **Channel Specific**
    - Only works for Telegram channels
    - Other channels (WhatsApp, FB) not supported
    - Code is Telegram-specific
 
-4. **Outgoing Only**
-   - Can only edit agent/bot messages
-   - Cannot edit customer messages
+5. **Outgoing Only**
+   - Can only edit/delete agent/bot messages
+   - Cannot edit/delete customer messages
    - Security restriction
 
-5. **Requires source_id**
+6. **Requires source_id**
    - Message must have been sent to Telegram
-   - Draft messages cannot be edited
-   - Failed messages cannot be edited
+   - Draft messages cannot be edited/deleted
+   - Failed messages cannot be edited/deleted
 
 ### UI/UX Limitations
 
@@ -1483,7 +1787,32 @@ Set up alerts for:
 
 ## Changelog
 
-### Version 1.0 (Current)
+### Version 1.1 (Current)
+
+**Release Date:** 2025-01-30
+
+**New Features:**
+- Message deletion for Telegram channels
+- Automatic deletion sync from Chatwoot to Telegram
+- Error handling for deletion failures
+- Business connection support for deletion
+
+**Technical Details:**
+- Backend: New service object for deletion
+- Integration: Telegram Bot API `deleteMessage`
+- Callback system for automatic sync
+
+**Files Added/Modified:**
+- Backend: 3 files (1 new service)
+- Documentation: Updated
+
+**Lines of Code:**
+- Backend: ~80 lines
+- Documentation: +300 lines
+
+---
+
+### Version 1.0
 
 **Release Date:** 2025-01-30
 
@@ -1493,7 +1822,7 @@ Set up alerts for:
 - Keyboard shortcuts
 - Telegram API synchronization
 - Error handling
-- Internationalization support
+- Internationalization support (English, Russian)
 
 **Technical Details:**
 - Backend: Rails controller, model callbacks, service objects
@@ -1504,7 +1833,7 @@ Set up alerts for:
 **Files Modified:**
 - Backend: 4 files (1 new)
 - Frontend: 4 files
-- Translations: 1 file
+- Translations: 2 files (en, ru)
 
 **Lines of Code:**
 - Backend: ~150 lines
