@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 
@@ -84,12 +84,6 @@ const handleAssignLabels = labels => {
   emit('assignLabels', labels);
   closeLabelSelector();
 };
-
-watch(selectedCount, count => {
-  if (!count) {
-    showLabelSelector.value = false;
-  }
-});
 </script>
 
 <template>
