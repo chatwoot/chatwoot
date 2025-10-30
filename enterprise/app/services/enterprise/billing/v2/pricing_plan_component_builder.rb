@@ -1,4 +1,6 @@
 class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing::V2::BaseService
+  include Enterprise::Billing::Concerns::StripeV2ClientHelper
+
   def add_license_fee_component(plan, config)
     licensed_item = create_licensed_item(
       display_name: config[:licensed_item_display_name],
@@ -62,39 +64,24 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
   private
 
   def create_licensed_item(display_name:, lookup_key:, unit_label:)
-    StripeV2Client.request(
-      :post,
-      '/v2/billing/licensed_items',
-      { display_name: display_name, lookup_key: lookup_key, unit_label: unit_label },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    super({ display_name: display_name, lookup_key: lookup_key, unit_label: unit_label })
   end
 
   def create_license_fee(display_name:, unit_amount:, licensed_item_id:, lookup_key:)
-    StripeV2Client.request(
-      :post,
-      '/v2/billing/license_fees',
-      {
-        display_name: display_name,
-        currency: 'usd',
-        service_interval: 'month',
-        service_interval_count: 1,
-        tax_behavior: 'exclusive',
-        unit_amount: unit_amount.to_s,
-        licensed_item: licensed_item_id,
-        lookup_key: lookup_key
-      },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    super({
+      display_name: display_name,
+      currency: 'usd',
+      service_interval: 'month',
+      service_interval_count: 1,
+      tax_behavior: 'exclusive',
+      unit_amount: unit_amount.to_s,
+      licensed_item: licensed_item_id,
+      lookup_key: lookup_key
+    })
   end
 
   def create_service_action(lookup_key:, credit_amount:, cpu_id:)
-    StripeV2Client.request(
-      :post,
-      '/v2/billing/service_actions',
-      service_action_params(lookup_key, credit_amount, cpu_id),
-      stripe_api_options
-    )
+    super(service_action_params(lookup_key, credit_amount, cpu_id))
   end
 
   def service_action_params(lookup_key, credit_amount, cpu_id)
@@ -119,44 +106,25 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
     }
   end
 
-  def stripe_api_options
-    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-  end
-
   def create_rate_card(display_name:)
-    StripeV2Client.request(
-      :post,
-      '/v2/billing/rate_cards',
-      {
-        display_name: display_name,
-        currency: 'usd',
-        service_interval: 'month',
-        service_interval_count: 1,
-        tax_behavior: 'exclusive'
-      },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    super({
+      display_name: display_name,
+      currency: 'usd',
+      service_interval: 'month',
+      service_interval_count: 1,
+      tax_behavior: 'exclusive'
+    })
   end
 
   def create_metered_item(display_name:, lookup_key:, meter_id:)
-    StripeV2Client.request(
-      :post,
-      '/v2/billing/metered_items',
-      { display_name: display_name, lookup_key: lookup_key, meter: meter_id },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    super({ display_name: display_name, lookup_key: lookup_key, meter: meter_id })
   end
 
   def add_rate(card_id:, item_id:, cpu_id:, value:)
-    StripeV2Client.request(
-      :post,
-      "/v2/billing/rate_cards/#{card_id}/rates",
-      {
-        metered_item: item_id,
-        custom_pricing_unit_amount: { id: cpu_id, value: value.to_s }
-      },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    add_rate_to_card(card_id, {
+                       metered_item: item_id,
+                       custom_pricing_unit_amount: { id: cpu_id, value: value.to_s }
+                     })
   end
 
   def add_component(plan_id:, type:, data:, lookup_key:)
@@ -169,11 +137,6 @@ class Enterprise::Billing::V2::PricingPlanComponentBuilder < Enterprise::Billing
                { type: 'rate_card', rate_card: data, lookup_key: lookup_key }
              end
 
-    StripeV2Client.request(
-      :post,
-      "/v2/billing/pricing_plans/#{plan_id}/components",
-      params,
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    add_pricing_plan_component(plan_id, params)
   end
 end

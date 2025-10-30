@@ -1,5 +1,6 @@
 class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::V2::BaseService
   include Enterprise::Billing::Concerns::PlanFeatureManager
+  include Enterprise::Billing::Concerns::StripeV2ClientHelper
 
   # Cancel subscription using Stripe's V2 Billing Intent API
   # Creates a deactivate billing intent for the pricing plan subscription
@@ -29,11 +30,8 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
     billing_cadence_id = fetch_billing_cadence_id(pricing_plan_subscription_id)
     store_next_billing_date(billing_cadence_id)
 
-    StripeV2Client.request(
-      :post,
-      '/v2/billing/intents',
-      build_deactivate_params(pricing_plan_subscription_id, billing_cadence_id),
-      stripe_api_options
+    create_billing_intent(
+      build_deactivate_params(pricing_plan_subscription_id, billing_cadence_id)
     )
   end
 
@@ -70,42 +68,6 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
     }
   end
 
-  def reserve_billing_intent(billing_intent)
-    StripeV2Client.request(
-      :post,
-      "/v2/billing/intents/#{billing_intent.id}/reserve",
-      {},
-      stripe_api_options
-    )
-  end
-
-  def commit_billing_intent(billing_intent)
-    StripeV2Client.request(
-      :post,
-      "/v2/billing/intents/#{billing_intent.id}/commit",
-      {},
-      stripe_api_options
-    )
-  end
-
-  def retrieve_pricing_plan_subscription(subscription_id)
-    StripeV2Client.request(
-      :get,
-      "/v2/billing/pricing_plan_subscriptions/#{subscription_id}",
-      {},
-      stripe_api_options
-    )
-  end
-
-  def retrieve_billing_cadence(cadence_id)
-    StripeV2Client.request(
-      :get,
-      "/v2/billing/cadences/#{cadence_id}",
-      {},
-      stripe_api_options
-    )
-  end
-
   def update_account_status(_billing_intent)
     # Mark subscription as cancelling (will be cancelled at period end)
     # Store next_billing_date so the UI can show when the subscription ends
@@ -122,13 +84,5 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
       cancel_at_period_end: true,
       message: 'Subscription cancellation initiated. It will be deactivated at the end of the current billing period.'
     }
-  end
-
-  def stripe_api_options
-    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-  end
-
-  def extract_attribute(object, key)
-    object.respond_to?(key) ? object.public_send(key) : object[key.to_s]
   end
 end

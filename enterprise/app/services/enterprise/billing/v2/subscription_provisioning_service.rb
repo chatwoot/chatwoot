@@ -1,5 +1,6 @@
 class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Billing::V2::BaseService
   include Enterprise::Billing::Concerns::PlanFeatureManager
+  include Enterprise::Billing::Concerns::StripeV2ClientHelper
 
   def provision(subscription_id:)
     # Retrieve pricing plan subscription details from Stripe V2 API
@@ -75,15 +76,6 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
 
     # Reset captain usage
     reset_captain_usage
-  end
-
-  def retrieve_pricing_plan_subscription(subscription_id)
-    StripeV2Client.request(
-      :get,
-      "/v2/billing/pricing_plan_subscriptions/#{subscription_id}",
-      {},
-      stripe_api_options
-    )
   end
 
   def extract_pricing_plan_id(subscription)
@@ -162,9 +154,5 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
     # Extract plan name like "Startup", "Business", or "Enterprise" from display_name
     # e.g., "Chatwoot Startup" -> "Startup"
     plan_definition[:display_name].split.find { |word| %w[Startup Startups Business Enterprise].include?(word) }
-  end
-
-  def stripe_api_options
-    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
   end
 end

@@ -1,11 +1,8 @@
 class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::BaseService
+  include Enterprise::Billing::Concerns::StripeV2ClientHelper
+
   def create_custom_pricing_unit(display_name:, lookup_key:)
-    StripeV2Client.request(
-      :post,
-      '/v2/billing/custom_pricing_units',
-      { display_name: display_name, lookup_key: lookup_key },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    super({ display_name: display_name, lookup_key: lookup_key })
   end
 
   def create_meter(display_name:, event_name:)
@@ -17,21 +14,11 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
       'customer_mapping[event_payload_key]' => 'stripe_customer_id',
       'value_settings[event_payload_key]' => 'value'
     }
-    StripeV2Client.request(
-      :post,
-      '/v1/billing/meters',
-      params,
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    super(params)
   end
 
   def create_pricing_plan(display_name:, lookup_key:, currency: 'usd', tax_behavior: 'exclusive')
-    StripeV2Client.request(
-      :post,
-      '/v2/billing/pricing_plans',
-      { display_name: display_name, currency: currency, tax_behavior: tax_behavior, lookup_key: lookup_key },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    super({ display_name: display_name, currency: currency, tax_behavior: tax_behavior, lookup_key: lookup_key })
   end
 
   def create_complete_pricing_plan(config)
@@ -103,12 +90,7 @@ class Enterprise::Billing::V2::PricingPlanService < Enterprise::Billing::V2::Bas
   end
 
   def make_plan_version_live(plan_id)
-    StripeV2Client.request(
-      :post,
-      "/v2/billing/pricing_plans/#{plan_id}",
-      { live_version: 'latest' },
-      { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
-    )
+    update_pricing_plan(plan_id, { live_version: 'latest' })
   end
 
   def build_plan_result(plan, cpu, meter)
