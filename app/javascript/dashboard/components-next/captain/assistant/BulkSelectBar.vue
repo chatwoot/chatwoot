@@ -64,16 +64,18 @@ const bulkCheckboxState = computed({
       class="flex items-center justify-between gap-3 py-1 ltr:pl-3 rtl:pr-3 ltr:pr-4 rtl:pl-4 rounded-lg bg-n-solid-2 outline outline-1 outline-n-container shadow"
     >
       <div class="flex items-center gap-3">
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-1.5 min-w-0">
           <Checkbox
             v-model="bulkCheckboxState"
             :indeterminate="isIndeterminate"
           />
-          <span class="text-sm font-medium text-n-slate-12 tabular-nums">
+          <span
+            class="text-sm font-medium truncate text-n-slate-12 tabular-nums"
+          >
             {{ selectAllLabel }}
           </span>
         </div>
-        <span class="text-sm text-n-slate-10 tabular-nums">
+        <span class="text-sm text-n-slate-10 truncate tabular-nums">
           {{ selectedCountLabel }}
         </span>
         <div class="h-4 w-px bg-n-strong" />

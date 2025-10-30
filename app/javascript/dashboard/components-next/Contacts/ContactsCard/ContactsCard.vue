@@ -120,7 +120,9 @@ const checkboxOverlayClasses = computed(() => {
     <CardLayout
       :key="id"
       layout="row"
-      :class="isSelected ? 'outline-2 outline-n-strong bg-n-solid-3' : ''"
+      :class="{
+        'outline-n-weak !bg-n-slate-2 dark:bg-n-solid-3': isSelected,
+      }"
     >
       <div class="flex items-center justify-start flex-1 gap-4">
         <div
@@ -138,7 +140,7 @@ const checkboxOverlayClasses = computed(() => {
           >
             <template v-if="selectable" #overlay="{ size }">
               <label
-                class="absolute inset-0 flex items-center justify-center rounded-full cursor-pointer border border-n-strong bg-n-solid-1/80 dark:bg-n-solid-3/80 backdrop-blur-[4px] transition-opacity duration-200"
+                class="absolute inset-0 flex items-center justify-center rounded-full cursor-pointer border border-n-weak bg-n-slate-2/70 backdrop-blur-[2px] transition-opacity duration-150 ease-in-out"
                 :class="checkboxOverlayClasses"
                 :style="{ width: `${size}px`, height: `${size}px` }"
                 @click.stop

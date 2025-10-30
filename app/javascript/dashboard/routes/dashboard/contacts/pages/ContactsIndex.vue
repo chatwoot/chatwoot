@@ -406,6 +406,7 @@ onMounted(async () => {
             <ContactsBulkActionBar
               :visible-contact-ids="visibleContactIds"
               :selected-contact-ids="selectedContactIds"
+              :is-loading="isBulkActionLoading"
               @toggle-all="toggleSelectAll"
               @clear-selection="clearSelection"
               @assign-labels="assignLabels"

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { vOnClickOutside } from '@vueuse/components';
 
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -14,6 +15,10 @@ const props = defineProps({
   selectedContactIds: {
     type: Array,
     default: () => [],
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -67,7 +72,7 @@ const emitClearSelection = () => {
 };
 
 const toggleLabelSelector = () => {
-  if (!selectedCount.value) return;
+  if (!selectedCount.value || props.isLoading) return;
   showLabelSelector.value = !showLabelSelector.value;
 };
 
@@ -93,13 +98,13 @@ watch(selectedCount, count => {
     :all-items="allItems"
     :select-all-label="selectAllLabel"
     :selected-count-label="selectedCountLabel"
-    class="w-full"
+    class="py-2"
   >
     <template #secondary-actions>
       <Button
-        size="sm"
-        variant="ghost"
-        color="slate"
+        sm
+        ghost
+        slate
         :label="t('CONTACTS_BULK_ACTIONS.CLEAR_SELECTION')"
         class="!px-3"
         @click="emitClearSelection"
@@ -107,15 +112,19 @@ watch(selectedCount, count => {
     </template>
     <template #actions>
       <div class="flex items-center gap-2 ml-auto">
-        <div class="relative flex items-center">
+        <div
+          v-on-click-outside="closeLabelSelector"
+          class="relative flex items-center"
+        >
           <Button
-            size="sm"
-            color="slate"
-            variant="faded"
+            sm
+            faded
+            slate
             icon="i-lucide-tags"
             :label="t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS')"
-            :disabled="!selectedCount"
-            class="min-w-[9rem]"
+            :disabled="!selectedCount || isLoading"
+            :is-loading="isLoading"
+            class="[&>span:nth-child(2)]:hidden sm:[&>span:nth-child(2)]:inline w-fit"
             @click="toggleLabelSelector"
           />
           <transition
@@ -128,9 +137,8 @@ watch(selectedCount, count => {
           >
             <LabelActions
               v-if="showLabelSelector"
-              class="[--triangle-position:5.3125rem]"
+              class="[&>.triangle]:!hidden [&>div>button]:!hidden ltr:!right-0 rtl:!left-0 top-8 mt-0.5"
               @assign="handleAssignLabels"
-              @close="closeLabelSelector"
             />
           </transition>
         </div>
