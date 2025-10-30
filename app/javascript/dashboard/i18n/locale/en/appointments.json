@@ -1,0 +1,40 @@
+{
+  "APPOINTMENTS": {
+    "HEADER": {
+      "TITLE": "Appointments"
+    },
+    "EMPTY_STATE": "No appointments found",
+    "TABLE": {
+      "CONTACT": "Contact",
+      "START_TIME": "Start Time",
+      "END_TIME": "End Time",
+      "LOCATION": "Location",
+      "ASSISTED": "Assisted",
+      "YES": "Yes",
+      "NO": "No",
+      "NO_CONTACT": "No contact"
+    },
+    "CARD": {
+      "ASSISTED": "Assisted",
+      "UPCOMING": "Upcoming",
+      "PAST": "Past",
+      "VIEW_CONTACT": "View contact"
+    },
+    "FILTER": {
+      "TITLE": "Filter Appointments",
+      "APPOINTMENT_FILTERS": "Appointment Filters",
+      "LOCATION": "Location",
+      "DESCRIPTION": "Description",
+      "START_TIME": "Start Time",
+      "END_TIME": "End Time",
+      "ASSISTED": "Assisted",
+      "CONTACT_NAME": "Contact Name",
+      "CONTACT_EMAIL": "Contact Email",
+      "BUTTONS": {
+        "ADD_FILTER": "Add Filter",
+        "CLEAR_FILTERS": "Clear Filters",
+        "APPLY_FILTERS": "Apply Filters"
+      }
+    }
+  }
+}

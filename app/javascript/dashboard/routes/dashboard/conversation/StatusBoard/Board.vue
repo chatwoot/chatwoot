@@ -31,8 +31,6 @@ watchEffect(() => {
     store.getters['pipelineStatuses/getPipelineStatuses'] || [];
   const conversations = props.modelValue || [];
 
-  if (pipelineStatuses.length === 0) return;
-
   columns.value = pipelineStatuses.map(status => {
     const conversationsByCol = conversations.filter(
       conversation => conversation.pipeline_status_id === status.id

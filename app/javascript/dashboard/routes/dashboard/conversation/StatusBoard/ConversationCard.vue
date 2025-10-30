@@ -53,7 +53,7 @@ const showAssignee = computed(() => assignee.value && assignee.value.name);
 <template>
   <div class="flex flex-col pb-2 overflow-auto">
     <div
-      class="relative flex flex-col items-start px-4 py-2 cursor-pointer group hover:bg-opacity-100 border shadow bg-n-solid-1 rounded-xl border-n-weak mt-3"
+      class="relative flex flex-col items-start px-4 py-2 cursor-pointer group hover:bg-opacity-50 border border-n-weak mt-3 shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
       draggable="true"
     >
       <div

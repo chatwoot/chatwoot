@@ -223,3 +223,6 @@
 - name: quoted_email_reply
   display_name: Quoted Email Reply
   enabled: false
+- name: board
+  display_name: Conversation CRM List
+  enabled: true

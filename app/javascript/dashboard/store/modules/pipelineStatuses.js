@@ -16,6 +16,9 @@ export const getters = {
   getPipelineStatuses($state) {
     return $state.records;
   },
+  getUiFlags($state) {
+    return $state.uiFlags;
+  },
 };
 
 export const actions = {

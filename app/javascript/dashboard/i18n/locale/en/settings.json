@@ -311,6 +311,7 @@
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
     "ACTIVE": "Active",
+    "APPOINTMENTS": "Appointments",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -378,7 +379,8 @@
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Read docs",
-    "SECURITY": "Security"
+    "SECURITY": "Security",
+    "CRM_LIST": "CRM List"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
