@@ -118,7 +118,7 @@ function addFile(file) {
     return;
   }
   
-  if (file.size > 5242880) {
+  if (file.size > 20971520) {
     useAlert(t('CONVERSATION.UPLOAD_MAX_REACHED'));
     return;
   }
