@@ -45,12 +45,12 @@
     "WATCH_VIDEO": "Watch video"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "Минут",
+    "HOURS": "Часов",
+    "DAYS": "Дней",
+    "PLACEHOLDER": "Введите длительность"
   },
   "CHANNEL_SELECTOR": {
-    "COMING_SOON": "Coming Soon!"
+    "COMING_SOON": "Скоро!"
   }
 }

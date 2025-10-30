@@ -7,11 +7,11 @@
     "PLACEHOLDER": "Select an option...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Sonuç bulunamadı.",
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Ara...",
     "MORE": "+{count} more"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Ara...",
     "EMPTY_STATE": "Sonuç bulunamadı.",
     "SEARCHING": "Aranıyor..."
   },
