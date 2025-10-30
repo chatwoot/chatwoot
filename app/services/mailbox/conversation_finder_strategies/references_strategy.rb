@@ -11,16 +11,21 @@ class Mailbox::ConversationFinderStrategies::ReferencesStrategy < Mailbox::Conve
   # In these cases, we use a conversation-level identifier instead of a message-level one.
   FALLBACK_PATTERN = %r{account/(\d+)/conversation/([a-zA-Z0-9-]+)@}
 
+  def initialize(mail)
+    super(mail)
+    # Get channel once upfront to use for scoped queries
+    @channel = EmailChannelFinder.new(mail).perform
+  end
+
   def find
     return nil if mail.references.blank?
+    return nil unless @channel # No valid channel found
 
     references = Array.wrap(mail.references)
 
     references.each do |reference|
       conversation = find_conversation_from_reference(reference)
-      next unless conversation && conversation_belongs_to_channel?(conversation)
-
-      return conversation
+      return conversation if conversation
     end
 
     nil
@@ -32,33 +37,23 @@ class Mailbox::ConversationFinderStrategies::ReferencesStrategy < Mailbox::Conve
     # Try extracting UUID from patterns
     uuid = extract_uuid_from_patterns(reference)
     if uuid
-      conversation = Conversation.find_by(uuid: uuid)
+      # Query scoped to inbox - prevents cross-account/cross-inbox matches at database level
+      conversation = Conversation.find_by(uuid: uuid, inbox_id: @channel.inbox.id)
       return conversation if conversation
     end
 
-    # Try finding by message source_id
-    message = Message.find_by(source_id: reference)
+    # We scope to the inbox, that way we filter out messages and conversations that don't belong to the channel
+    message = Message.find_by(source_id: reference, inbox_id: @channel.inbox.id)
     message&.conversation
   end
 
   def extract_uuid_from_patterns(message_id)
-    # Try message-specific pattern first
     match = MESSAGE_PATTERN.match(message_id)
     return match[1] if match
 
-    # Try conversation fallback pattern
     match = FALLBACK_PATTERN.match(message_id)
     return match[2] if match
 
     nil
-  end
-
-  def conversation_belongs_to_channel?(conversation)
-    # Get the channel from the email's To/CC addresses
-    channel = EmailChannelFinder.new(mail).perform
-    return false unless channel
-
-    # Check if the conversation's inbox matches the channel
-    conversation.inbox.channel_id == channel.id
   end
 end
