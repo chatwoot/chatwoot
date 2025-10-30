@@ -24,17 +24,17 @@
     "CREATE_NEW_ACCOUNT": "Crea un nuovo account",
     "SUBMIT": "Accedi",
     "SAML": {
-      "LABEL": "Log in via SSO",
-      "TITLE": "Initiate Single Sign-on (SSO)",
-      "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "LABEL": "Accedi tramite SSO",
+      "TITLE": "Avvia Single Sign-on (SSO)",
+      "SUBTITLE": "Inserisci la tua email di lavoro per accedere alla tua organizzazione",
+      "BACK_TO_LOGIN": "Accedi tramite Password",
       "WORK_EMAIL": {
-        "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "LABEL": "Email di Lavoro",
+        "PLACEHOLDER": "Inserisci la tua email di lavoro"
       },
-      "SUBMIT": "Continue with SSO",
+      "SUBMIT": "Prosegui con SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "Autenticazione SSO fallita. Verifica le credenziali e riprova."
       }
     }
   }

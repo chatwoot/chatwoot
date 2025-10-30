@@ -131,8 +131,8 @@
       "CONVERSATION_CREATED": "Диалог создан",
       "CONVERSATION_UPDATED": "Диалог обновлён",
       "MESSAGE_CREATED": "Сообщение создано",
-      "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "Conversation Opened"
+      "CONVERSATION_RESOLVED": "Диалог решён",
+      "CONVERSATION_OPENED": "Диалог открыт"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Назначить агента",
@@ -147,14 +147,14 @@
       "SEND_WEBHOOK_EVENT": "Отправить событие Webhook",
       "SEND_ATTACHMENT": "Отправить вложение",
       "SEND_MESSAGE": "Отправить сообщение",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "ADD_PRIVATE_NOTE": "Добавить личную заметку",
       "CHANGE_PRIORITY": "Изменить приоритет",
       "ADD_SLA": "Добавить SLA",
       "OPEN_CONVERSATION": "Открыть беседу"
     },
     "MESSAGE_TYPES": {
-      "INCOMING": "Incoming Message",
-      "OUTGOING": "Outgoing Message"
+      "INCOMING": "Входящее сообщение",
+      "OUTGOING": "Исходящее сообщение"
     },
     "PRIORITY_TYPES": {
       "NONE": "Ничего",
@@ -165,16 +165,16 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Тип сообщения",
-      "MESSAGE_CONTAINS": "Message Contains",
+      "MESSAGE_CONTAINS": "Сообщение содержит",
       "EMAIL": "Email",
       "INBOX": "Электронная почта",
       "CONVERSATION_LANGUAGE": "Язык сообщения",
       "PHONE_NUMBER": "Номер телефона",
       "STATUS": "Статус",
       "BROWSER_LANGUAGE": "Язык браузера",
-      "MAIL_SUBJECT": "Email Subject",
+      "MAIL_SUBJECT": "Тема письма",
       "COUNTRY_NAME": "Страна",
-      "REFERER_LINK": "Referrer Link",
+      "REFERER_LINK": "Реферальная ссылка",
       "ASSIGNEE_NAME": "Назначено",
       "TEAM_NAME": "Команда",
       "PRIORITY": "Приоритет",
