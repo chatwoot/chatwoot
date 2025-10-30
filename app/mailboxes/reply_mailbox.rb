@@ -14,7 +14,7 @@ class ReplyMailbox < ApplicationMailbox
   private
 
   def find_conversation
-    @conversation = Mailbox::ConversationFinderChain.new(mail).find
+    @conversation = Mailbox::ConversationFinder.new(mail).find
 
     return unless @conversation.nil?
 

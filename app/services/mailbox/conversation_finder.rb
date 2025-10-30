@@ -1,4 +1,4 @@
-class Mailbox::ConversationFinderChain
+class Mailbox::ConversationFinder
   DEFAULT_STRATEGIES = [
     Mailbox::ConversationFinderStrategies::ReceiverUuidStrategy,
     Mailbox::ConversationFinderStrategies::InReplyToStrategy,
