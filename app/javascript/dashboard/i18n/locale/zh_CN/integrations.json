@@ -943,7 +943,9 @@
       },
       "EMPTY_STATE": {
         "TITLE": "未找到常见问题",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 常见问题",
           "NOTE": "Captain FAQs 检测常见的客户问题——无论是知识库中缺失的问题还是经常被问到的问题——并生成相关的常见问题以改善支持。您可以查看每个建议，并决定是否批准或拒绝它。"
