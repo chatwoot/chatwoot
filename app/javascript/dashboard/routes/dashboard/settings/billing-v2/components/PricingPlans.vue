@@ -6,7 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import BillingCard from '../../billing/components/BillingCard.vue';
 import ButtonV4 from 'next/button/Button.vue';
 import SubscribeModal from './SubscribeModal.vue';
-import CancelSubscriptionModal from './CancelSubscriptionModal.vue';
+import CancelSubscriptionDialog from './CancelSubscriptionDialog.vue';
 
 const props = defineProps({
   plans: {
@@ -552,7 +552,7 @@ const isCurrentPlan = plan => {
     />
 
     <!-- Cancel Subscription Modal -->
-    <CancelSubscriptionModal
+    <CancelSubscriptionDialog
       ref="cancelModalRef"
       :is-canceling="isCanceling"
       @cancel="handleCancelSubscription"
