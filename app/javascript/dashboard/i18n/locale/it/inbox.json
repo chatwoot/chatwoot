@@ -74,21 +74,21 @@
       "DELETE_ALL_READ": "All read notifications deleted"
     },
     "REAUTHORIZE": {
-      "TITLE": "Reauthorization Required",
-      "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
-      "BUTTON_TEXT": "Reconnect WhatsApp",
+      "TITLE": "Riautorizzazione Necessaria",
+      "DESCRIPTION": "La tua connessione a WhatsApp è scaduta. Ti preghiamo di riconnetterti per continuare a ricevere e inviare messaggi.",
+      "BUTTON_TEXT": "Riconnetti WhatsApp",
       "LOADING_FACEBOOK": "Caricamento del Facebook SDK...",
-      "SUCCESS": "WhatsApp reconnected successfully",
-      "ERROR": "Failed to reconnect WhatsApp. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "CONFIGURATION_ERROR": "Configuration error occurred during reauthorization.",
-      "FACEBOOK_LOAD_ERROR": "Failed to load Facebook SDK. Please try again.",
+      "SUCCESS": "WhatsApp riconnesso correttamente",
+      "ERROR": "Impossibile riconnettere WhatsApp. Per favore riprova.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID non è configurato. Si prega di contattare l'amministratore.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID non è configurato. Si prega di contattare l'amministratore.",
+      "CONFIGURATION_ERROR": "Errore di configurazione durante la riautorizzazione.",
+      "FACEBOOK_LOAD_ERROR": "Impossibile caricare Facebook SDK. Per favore riprova.",
       "TROUBLESHOOTING": {
-        "TITLE": "Troubleshooting",
-        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
-        "COOKIES": "Third-party cookies must be enabled",
-        "ADMIN_ACCESS": "You need admin access to the WhatsApp Business Account"
+        "TITLE": "Risoluzione Problemi",
+        "POPUP_BLOCKED": "Assicurati che i pop-up siano permessi per questo sito",
+        "COOKIES": "I cookie di terze parti devono essere abilitati",
+        "ADMIN_ACCESS": "Hai bisogno di accesso amministratore all'account WhatsApp Business"
       }
     }
   }
