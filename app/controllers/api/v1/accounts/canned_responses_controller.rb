@@ -1,4 +1,5 @@
 class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseController
+  before_action :check_authorization, only: [:create, :update, :destroy]
   before_action :fetch_canned_response, only: [:update, :destroy]
 
   def index
