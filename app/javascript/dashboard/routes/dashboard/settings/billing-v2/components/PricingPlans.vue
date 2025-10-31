@@ -36,7 +36,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const showSubscribeModal = ref(false);
-const showCancelModal = ref(false);
+const cancelModalRef = ref(null);
 const selectedPlan = ref(null);
 const selectedQuantity = ref(1);
 
@@ -112,16 +112,6 @@ const formatNextBillingDate = () => {
   }).format(date);
 };
 
-const currentPlan = computed(() => {
-  if (!currentPlanId.value) return null;
-  return transformedPlans.value.find(plan => plan.id === currentPlanId.value);
-});
-
-const pendingPlan = computed(() => {
-  if (!pendingPlanId.value) return null;
-  return transformedPlans.value.find(plan => plan.id === pendingPlanId.value);
-});
-
 // Transform backend component structure to flat structure
 const transformedPlans = computed(() => {
   return props.plans.map(plan => {
@@ -143,6 +133,16 @@ const transformedPlans = computed(() => {
       recommended: plan.recommended || false,
     };
   });
+});
+
+const currentPlan = computed(() => {
+  if (!currentPlanId.value) return null;
+  return transformedPlans.value.find(plan => plan.id === currentPlanId.value);
+});
+
+const pendingPlan = computed(() => {
+  if (!pendingPlanId.value) return null;
+  return transformedPlans.value.find(plan => plan.id === pendingPlanId.value);
 });
 
 const formatPrice = price => {
@@ -186,7 +186,7 @@ const handleSubscribe = async data => {
 };
 
 const openCancelModal = () => {
-  showCancelModal.value = true;
+  cancelModalRef.value?.dialogRef?.open();
 };
 
 const handleCancelSubscription = async reason => {
@@ -195,7 +195,7 @@ const handleCancelSubscription = async reason => {
   });
   if (result.success) {
     useAlert(t('BILLING_SETTINGS_V2.PRICING_PLANS.CANCEL_SUCCESS'));
-    showCancelModal.value = false;
+    cancelModalRef.value?.dialogRef?.close();
   } else if (result.error) {
     useAlert(result.error);
   }
@@ -553,9 +553,8 @@ const isCurrentPlan = plan => {
 
     <!-- Cancel Subscription Modal -->
     <CancelSubscriptionModal
-      v-if="showCancelModal"
+      ref="cancelModalRef"
       :is-canceling="isCanceling"
-      @close="showCancelModal = false"
       @cancel="handleCancelSubscription"
     />
   </div>
