@@ -66,8 +66,16 @@ class Channel::Whatsapp < ApplicationRecord
   def setup_webhooks
     perform_webhook_setup
   rescue StandardError => e
-    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
-    prompt_reauthorization!
+    Rails.logger.error "[WHATSAPP_CHANNEL] Webhook setup failed for #{phone_number}: #{e.class.name} - #{e.message}"
+
+    # Only prompt reauthorization if it's an actual auth error
+    # Don't prompt for network issues, API downtime, or incomplete registration
+    if auth_error?(e)
+      Rails.logger.error '[WHATSAPP_CHANNEL] ⚠️  Auth error detected - marking channel for reauthorization'
+      prompt_reauthorization!
+    else
+      Rails.logger.warn '[WHATSAPP_CHANNEL] Non-auth error - channel remains active'
+    end
   end
 
   private
@@ -89,5 +97,25 @@ class Channel::Whatsapp < ApplicationRecord
 
   def teardown_webhooks
     Whatsapp::WebhookTeardownService.new(self).perform
+  end
+
+  def auth_error?(error)
+    # Check if the error is an authentication/authorization error
+    error_message = error.message.to_s.downcase
+
+    # Common auth error patterns from Facebook/WhatsApp API
+    auth_patterns = [
+      'invalid oauth access token',
+      'oauth',
+      'access token',
+      'expired',
+      'unauthorized',
+      '401',
+      '403',
+      'permission',
+      'invalid credentials'
+    ]
+
+    auth_patterns.any? { |pattern| error_message.include?(pattern) }
   end
 end

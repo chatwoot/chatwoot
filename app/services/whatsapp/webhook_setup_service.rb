@@ -7,14 +7,23 @@ class Whatsapp::WebhookSetupService
   end
 
   def perform
+    Rails.logger.info "[WHATSAPP_WEBHOOK] Starting webhook setup for phone_number_id: #{@channel.provider_config['phone_number_id']}"
+
     validate_parameters!
+    Rails.logger.info '[WHATSAPP_WEBHOOK] ✓ Parameters validated'
 
     # Register phone number if either condition is met:
     # 1. Phone number is not verified (code_verification_status != 'VERIFIED')
     # 2. Phone number needs registration (pending provisioning state)
-    register_phone_number if !phone_number_verified? || phone_number_needs_registration?
+    if !phone_number_verified? || phone_number_needs_registration?
+      Rails.logger.info '[WHATSAPP_WEBHOOK] Phone number needs registration, attempting to register...'
+      register_phone_number
+    else
+      Rails.logger.info '[WHATSAPP_WEBHOOK] Phone number already verified, skipping registration'
+    end
 
     setup_webhook
+    Rails.logger.info '[WHATSAPP_WEBHOOK] ✅ Webhook setup completed successfully'
   end
 
   private
@@ -56,10 +65,14 @@ class Whatsapp::WebhookSetupService
     callback_url = build_callback_url
     verify_token = @channel.provider_config['webhook_verify_token']
 
+    Rails.logger.info "[WHATSAPP_WEBHOOK] Subscribing webhook - URL: #{callback_url}"
     @api_client.subscribe_waba_webhook(@waba_id, callback_url, verify_token)
+    Rails.logger.info '[WHATSAPP_WEBHOOK] ✓ Webhook subscribed successfully'
 
   rescue StandardError => e
-    Rails.logger.error("[WHATSAPP] Webhook setup failed: #{e.message}")
+    Rails.logger.error "[WHATSAPP_WEBHOOK] ❌ Webhook subscription failed: #{e.class.name} - #{e.message}"
+    Rails.logger.error "[WHATSAPP_WEBHOOK] Callback URL: #{callback_url}"
+    Rails.logger.error "[WHATSAPP_WEBHOOK] WABA ID: #{@waba_id}"
     raise "Webhook setup failed: #{e.message}"
   end
 
