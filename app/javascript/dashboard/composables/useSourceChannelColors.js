@@ -43,7 +43,7 @@ export const useSourceChannelColors = () => {
     if (!color) return {};
 
     return {
-      backgroundColor: `${color}0A`,
+      backgroundColor: `${color}33`,
     };
   };
 
