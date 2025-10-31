@@ -14,9 +14,9 @@ defineProps({
 <template>
   <div class="grid grid-cols-[1fr_auto] gap-5">
     <div>
-      <span class="text-base font-medium text-n-slate-12">
+      <h6 class="text-base font-semibold text-n-slate-12">
         {{ title }}
-      </span>
+      </h6>
       <p class="text-sm mt-1 text-n-slate-11">
         {{ description }}
       </p>

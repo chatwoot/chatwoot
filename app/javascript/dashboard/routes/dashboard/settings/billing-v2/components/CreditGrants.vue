@@ -85,11 +85,8 @@ const getCategoryConfig = category =>
                 {{ grant.name }}
               </h4>
               <p class="mt-1 text-xs text-n-slate-11">
-                {{
-                  t('BILLING_SETTINGS_V2.CREDIT_GRANTS.CREDITS', {
-                    credits: formatNumber(grant.credits),
-                  })
-                }}
+                {{ formatNumber(grant.credits) }}
+                {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.CREDITS') }}
               </p>
             </div>
 

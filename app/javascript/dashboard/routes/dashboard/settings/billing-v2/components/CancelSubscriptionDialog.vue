@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import Notice from 'dashboard/components-next/notice/Notice.vue';
 
 defineProps({
   isCanceling: {
@@ -41,21 +42,12 @@ defineExpose({ dialogRef });
   >
     <div class="space-y-4">
       <!-- Warning -->
-      <div
-        class="p-4 rounded-xl outline outline-1 outline-n-ruby-4 bg-n-ruby-3 text-n-ruby-11"
-      >
-        <div class="flex gap-3 items-start">
-          <Icon icon="i-lucide-alert-triangle" class="flex-shrink-0 mt-0.5" />
-          <div>
-            <h4 class="text-sm font-semibold text-n-ruby-11">
-              {{ t('BILLING_SETTINGS_V2.CANCEL_MODAL.WARNING_TITLE') }}
-            </h4>
-            <p class="mt-1 text-sm">
-              {{ t('BILLING_SETTINGS_V2.CANCEL_MODAL.WARNING_MESSAGE') }}
-            </p>
-          </div>
-        </div>
-      </div>
+      <Notice
+        color="ruby"
+        icon="i-lucide-alert-triangle"
+        :title="t('BILLING_SETTINGS_V2.CANCEL_MODAL.WARNING_TITLE')"
+        :message="t('BILLING_SETTINGS_V2.CANCEL_MODAL.WARNING_MESSAGE')"
+      />
 
       <TextArea
         v-model="reason"
