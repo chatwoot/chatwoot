@@ -16,7 +16,7 @@ class Platform::Api::V1::MessagesController < PlatformController
     elsif params[:template_slug].present?
       send_template_notifications(conversation, users)
     else
-      Rails.logger.error("Required parameters missing for email notification")
+      Rails.logger.error('Required parameters missing for email notification')
       render_error('Either booking_date or template_slug must be provided', :bad_request)
     end
   rescue ActiveRecord::RecordNotFound => e
@@ -32,7 +32,7 @@ class Platform::Api::V1::MessagesController < PlatformController
     # Get all agents and administrators, then deduplicate by user
     agents = account.agents
     administrators = account.users.where(account_users: { role: :administrator })
-    
+
     # Combine and deduplicate by user ID to avoid sending duplicate emails
     (agents + administrators).uniq
   end
@@ -43,27 +43,33 @@ class Platform::Api::V1::MessagesController < PlatformController
     successful_recipients = []
 
     users.each do |user|
-      begin
-        AgentNotifications::BookingMailer.booking_notification(
-          agent: user,
-          conversation: conversation,
-          booking_date: params[:booking_date],
-          phone: params[:phone],
-          email: params[:email]
-        ).deliver_now
+      AgentNotifications::BookingMailer.booking_notification(
+        agent: user,
+        conversation: conversation,
+        booking_date: params[:booking_date],
+        phone: params[:phone],
+        email: params[:email]
+      ).deliver_now
 
-        Rails.logger.info("Booking email sent to user ##{user.id} (#{user.email}) for conversation ##{conversation.id}")
-        email_sent = true
-        successful_recipients << user.email
-      rescue => e
-        Rails.logger.error("Failed to send booking email to user ##{user.id} (#{user.email}): #{e.message}")
-        failed_count += 1
-      end
+      Rails.logger.info("Booking email sent to user ##{user.id} (#{user.email}) for conversation ##{conversation.id}")
+      email_sent = true
+      successful_recipients << user.email
+    rescue StandardError => e
+      Rails.logger.error("Failed to send booking email to user ##{user.id} (#{user.email}): #{e.message}")
+      failed_count += 1
     end
 
+    # Send SMS notifications
+    Sms::BookingNotificationService.new(
+      conversation: conversation,
+      booking_date: params[:booking_date],
+      phone: params[:phone],
+      email: params[:email]
+    ).perform
+
     if email_sent
-      render json: { 
-        success: true, 
+      render json: {
+        success: true,
         recipients: successful_recipients,
         total_sent: successful_recipients.size,
         total_failed: failed_count
@@ -79,17 +85,15 @@ class Platform::Api::V1::MessagesController < PlatformController
     return render_error('Template not found', :not_found) unless template
 
     agents.each do |agent|
-      begin
-        AgentNotifications::CustomMailer.notification_email(
-          conversation,
-          agent,
-          template
-        ).deliver_later
+      AgentNotifications::CustomMailer.notification_email(
+        conversation,
+        agent,
+        template
+      ).deliver_later
 
-        Rails.logger.info("Notification email queued for agent ##{agent.id} for conversation ##{conversation.id}")
-      rescue => e
-        Rails.logger.error("Failed to queue notification email to agent ##{agent.id}: #{e.message}")
-      end
+      Rails.logger.info("Notification email queued for agent ##{agent.id} for conversation ##{conversation.id}")
+    rescue StandardError => e
+      Rails.logger.error("Failed to queue notification email to agent ##{agent.id}: #{e.message}")
     end
 
     render json: {
