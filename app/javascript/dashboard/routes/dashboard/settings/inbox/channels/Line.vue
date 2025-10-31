@@ -45,7 +45,7 @@ export default {
         const lineChannel = await this.$store.dispatch(
           'inboxes/createChannel',
           {
-            name: this.channelName,
+            name: this.channelName?.trim(),
             channel: {
               type: 'line',
               line_channel_id: this.lineChannelId,
