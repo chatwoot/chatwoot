@@ -468,3 +468,23 @@
   locked: false
   description: 'The API key/token for authenticating with the dealership API'
 ## ------ End of Configs added for Dealership API ------ ##
+
+## ------ Configs added for Twilio SMS Notifications ------ ##
+- name: TWILIO_ACCOUNT_SID
+  display_title: 'Twilio Account SID'
+  value: ''
+  locked: false
+  description: 'The Account SID from your Twilio account for sending SMS notifications'
+  type: secret
+- name: TWILIO_AUTH_TOKEN
+  display_title: 'Twilio Auth Token'
+  value: ''
+  locked: false
+  description: 'The Auth Token from your Twilio account for sending SMS notifications'
+  type: secret
+- name: TWILIO_ORGANIZATION_PHONE_NUMBER
+  display_title: 'Organization Phone Number'
+  value: ''
+  locked: false
+  description: 'The phone number from which SMS notifications will be sent (must be a Twilio phone number)'
+## ------ End of Configs added for Twilio SMS Notifications ------ ##

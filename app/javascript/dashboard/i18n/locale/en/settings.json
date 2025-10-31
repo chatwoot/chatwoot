@@ -198,6 +198,11 @@
         "ERROR": "Please enter a valid email address",
         "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
       },
+      "PHONE_NUMBER": {
+        "LABEL": "Phone Number",
+        "ERROR": "Please enter a valid phone number",
+        "PLACEHOLDER": "Please enter your phone number (e.g., +1234567890)"
+      },
       "CURRENT_PASSWORD": {
         "LABEL": "Current password",
         "ERROR": "Please enter the current password",

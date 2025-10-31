@@ -17,6 +17,7 @@
 #  last_sign_in_ip        :string
 #  message_signature      :text
 #  name                   :string           not null
+#  phone_number           :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -69,6 +70,7 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, presence: true
+  validates :phone_number, uniqueness: true, allow_blank: true
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
