@@ -31,6 +31,7 @@ class UserDashboard < Administrate::BaseDashboard
     name: Field::String.with_options(searchable: true),
     display_name: Field::String,
     email: Field::String.with_options(searchable: true),
+    phone_number: Field::String,
     tokens: Field::String.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -64,6 +65,7 @@ class UserDashboard < Administrate::BaseDashboard
     type
     display_name
     email
+    phone_number
     created_at
     updated_at
     confirmed_at
@@ -79,6 +81,7 @@ class UserDashboard < Administrate::BaseDashboard
     avatar
     display_name
     email
+    phone_number
     password
     confirmed_at
     type
