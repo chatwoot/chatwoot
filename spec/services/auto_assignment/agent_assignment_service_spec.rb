@@ -29,11 +29,17 @@ RSpec.describe AutoAssignment::AgentAssignmentService do
   end
 
   describe '#find_assignee' do
-    it 'will return an online agent from the allowed agent ids in roud robin' do
-      expect(described_class.new(conversation: conversation,
-                                 allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).find_assignee).to eq(inbox_members[3].user)
-      expect(described_class.new(conversation: conversation,
-                                 allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).find_assignee).to eq(inbox_members[4].user)
+    it 'returns the online agent with the fewest active chats' do
+      create(:conversation, inbox: inbox, assignee: inbox_members[3].user, status: :open)
+      create(:conversation, inbox: inbox, assignee: inbox_members[3].user, status: :open)
+      create(:conversation, inbox: inbox, assignee: inbox_members[4].user, status: :open)
+
+      assignee = described_class.new(
+        conversation: conversation,
+        allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)
+      ).find_assignee
+
+      expect(assignee).to eq(inbox_members[4].user)
     end
   end
 end
