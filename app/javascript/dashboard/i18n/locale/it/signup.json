@@ -27,12 +27,17 @@
       "LABEL": "Password",
       "PLACEHOLDER": "Password",
       "ERROR": "Password troppo corta.",
-      "IS_INVALID_PASSWORD": "La password dovrebbe contenere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 numero e 1 carattere speciale."
+      "IS_INVALID_PASSWORD": "La password dovrebbe contenere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 numero e 1 carattere speciale.",
+      "REQUIREMENTS_LENGTH": "Almeno 6 caratteri",
+      "REQUIREMENTS_UPPERCASE": "Almeno una lettera maiuscola",
+      "REQUIREMENTS_LOWERCASE": "Almeno una lettera minuscola",
+      "REQUIREMENTS_NUMBER": "Almeno un numero",
+      "REQUIREMENTS_SPECIAL": "Almeno un carattere speciale"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Conferma password",
       "PLACEHOLDER": "Conferma password",
-      "ERROR": "La password non corrisponde."
+      "ERROR": "Le password non corrispondono."
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrazione riuscita",

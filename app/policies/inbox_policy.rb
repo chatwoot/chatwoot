@@ -62,6 +62,10 @@ class InboxPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def health?
+    @account_user.administrator?
+  end
+
   # Voice conference endpoints authorization
   def conference_token?
     show?
