@@ -19,7 +19,7 @@ module Voice
     private
 
     def find_existing_message
-      conversation.messages.voice_calls.first
+      conversation.messages.voice_calls.order(created_at: :desc).first
     end
 
     def update_existing_message(message, timestamp)
