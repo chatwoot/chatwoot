@@ -6,8 +6,8 @@ FROM ghcr.io/chatwoot/chatwoot_codespace:latest
 WORKDIR /workspace
 
 # Copy dependency files first for better caching
-COPY package.json pnpm-lock.yaml ./
-COPY Gemfile Gemfile.lock ./
+COPY --chown=vscode:vscode package.json pnpm-lock.yaml ./
+COPY --chown=vscode:vscode Gemfile Gemfile.lock ./
 
 # Install dependencies (will be cached if files don't change)
 RUN pnpm install --frozen-lockfile && \
@@ -15,4 +15,4 @@ RUN pnpm install --frozen-lockfile && \
     bundle install --jobs=$(nproc)
 
 # Copy source code after dependencies are installed
-COPY . /workspace
+COPY --chown=vscode:vscode . /workspace

@@ -1,4 +1,4 @@
-backend: bin/rails s -p 3000
+backend: bin/rails s -b 0.0.0.0 -p 3000
 # https://github.com/mperham/sidekiq/issues/3090#issuecomment-389748695
 worker: dotenv bundle exec sidekiq -C config/sidekiq.yml
 vite: bin/vite dev

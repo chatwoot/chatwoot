@@ -6,6 +6,7 @@ version: '3'
 
 services:
   app:
+    platform: linux/amd64
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
@@ -20,6 +21,14 @@ services:
     volumes:
       - ..:/workspace:cached
 
+    environment:
+      POSTGRES_HOST: 'localhost'
+      POSTGRES_DATABASE: 'chatwoot_dev'
+      POSTGRES_USERNAME: 'postgres'
+      POSTGRES_PASSWORD: 'password@123'
+      REDIS_URL: 'redis://localhost:6379'
+      RAILS_ENV: 'development'
+
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
 
@@ -29,12 +38,18 @@ services:
   db:
     image: pgvector/pgvector:pg16
     restart: unless-stopped
+    ports:
+      - "3000:3000"   # Rails server
+      - "3036:3036"   # Vite dev server
+      - "8025:8025"   # Mailhog UI
+      - "5432:5432"   # PostgreSQL
+      - "6379:6379"   # Redis
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: password@123
 
   redis:
     image: redis:latest
