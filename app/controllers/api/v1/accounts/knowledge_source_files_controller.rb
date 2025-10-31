@@ -2,7 +2,7 @@ class Api::V1::Accounts::KnowledgeSourceFilesController < Api::V1::Accounts::Bas
   before_action :set_ai_agent
   before_action :validate_file_size, only: [:create]
 
-  MAX_FILE_SIZE_MB = 5
+  MAX_FILE_SIZE_MB = 20
 
   def create
     knowledge_source = @ai_agent.knowledge_source
