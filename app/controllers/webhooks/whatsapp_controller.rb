@@ -28,10 +28,6 @@ class Webhooks::WhatsappController < ActionController::API
   private
 
   def valid_token?(token)
-    # For Facebook WhatsApp Business API webhook verification, use FB_VERIFY_TOKEN
-    fb_verify_token = GlobalConfig.get_value('FB_VERIFY_TOKEN')
-    return token == fb_verify_token if fb_verify_token.present?
-
     # Fallback to channel-specific verification for backward compatibility
     # Try to find channel by phone_number_id first (new format), then by phone_number (old format)
     phone_number_id = extract_phone_number_id_from_payload
@@ -42,12 +38,6 @@ class Webhooks::WhatsappController < ActionController::API
                 Channel::Whatsapp.find_by(phone_number: params[:phone_number])
               end
 
-    whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
-    token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
-  end
-
-  def valid_token?(token)
-    channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
     whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
     token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
   end
