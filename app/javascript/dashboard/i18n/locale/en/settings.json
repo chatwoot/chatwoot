@@ -460,11 +460,14 @@
     "CREDIT_GRANTS": {
       "TITLE": "Credit History",
       "DESCRIPTION": "View all your credit grants including topups and monthly credits.",
-      "CREDITS": "credits",
+      "CREDITS": "{credits} credits",
       "EXPIRES": "Expires",
       "NO_EXPIRY": "Never expires",
-      "ADDED": "Added",
-      "NO_GRANTS": "No credit grants yet."
+      "ADDED": "Added on {date}",
+      "VOIDED": "Voided",
+      "NO_GRANTS": "No credit grants yet.",
+      "TOPUPS": "Topups",
+      "MONTHLY": "Monthly"
     },
     "SUBSCRIBE_MODAL": {
       "TITLE": "Confirm Subscription",
