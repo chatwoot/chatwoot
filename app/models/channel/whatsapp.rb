@@ -66,16 +66,10 @@ class Channel::Whatsapp < ApplicationRecord
   def setup_webhooks
     perform_webhook_setup
   rescue StandardError => e
-    Rails.logger.error "[WHATSAPP_CHANNEL] Webhook setup failed for #{phone_number}: #{e.class.name} - #{e.message}"
-
+    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
     # Only prompt reauthorization if it's an actual auth error
     # Don't prompt for network issues, API downtime, or incomplete registration
-    if auth_error?(e)
-      Rails.logger.error '[WHATSAPP_CHANNEL] ⚠️  Auth error detected - marking channel for reauthorization'
-      prompt_reauthorization!
-    else
-      Rails.logger.warn '[WHATSAPP_CHANNEL] Non-auth error - channel remains active'
-    end
+    prompt_reauthorization! if auth_error?(e)
   end
 
   private
