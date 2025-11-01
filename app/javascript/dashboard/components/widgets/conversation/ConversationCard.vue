@@ -86,9 +86,29 @@ const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const callStatus = computed(
   () => props.chat.additional_attributes?.call_status
 );
-const callDirection = computed(
-  () => props.chat.additional_attributes?.call_direction
-);
+const callDirection = computed(() => {
+  const attrs = props.chat.additional_attributes || {};
+  const convDirection = attrs.call_direction || attrs.callDirection;
+  if (convDirection) {
+    return convDirection;
+  }
+
+  const lastMessage = lastMessageInChat.value;
+  if (!lastMessage) {
+    return undefined;
+  }
+
+  const lastMessageAttrs =
+    lastMessage.content_attributes?.data ||
+    lastMessage.contentAttributes?.data ||
+    {};
+
+  return (
+    lastMessageAttrs.call_direction ||
+    lastMessageAttrs.callDirection ||
+    undefined
+  );
+});
 
 const {
   labelKey: voiceLabelKey,

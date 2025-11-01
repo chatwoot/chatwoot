@@ -66,8 +66,19 @@ export default {
     // Get call direction for voice calls (authoritative: conversation-level)
     isIncomingCall() {
       if (!this.isVoiceChannel) return false;
-      const convDir = this.conversation?.additional_attributes?.call_direction;
-      return convDir === 'inbound';
+      const attrs = this.conversation?.additional_attributes || {};
+      const convDir = attrs.call_direction || attrs.callDirection;
+      if (convDir) {
+        return convDir === 'inbound';
+      }
+
+      const messageAttrs =
+        this.message?.content_attributes?.data ||
+        this.message?.contentAttributes?.data ||
+        {};
+      const msgDir = messageAttrs.call_direction || messageAttrs.callDirection;
+
+      return msgDir === 'inbound';
     },
     // Get call status (Twilio-native)
     callStatus() {

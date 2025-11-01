@@ -74,6 +74,7 @@ export default {
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
       hasActiveCall: 'calls/hasActiveCall',
+      incomingCall: 'calls/getIncomingCall',
       hasIncomingCall: 'calls/hasIncomingCall',
     }),
     hasAccounts() {
@@ -94,7 +95,13 @@ export default {
     hasIncomingCall(newVal) {
       // Drive ringtone globally based on incoming state; widget does not show for incoming per UX
       try {
-        if (newVal) {
+        const call = this.incomingCall;
+        const isOutboundCall =
+          call?.callDirection === 'outbound' ||
+          (call?.callDirection == null && call?.isOutbound);
+        const shouldRing = Boolean(newVal && !isOutboundCall);
+
+        if (shouldRing) {
           this.startRingTone();
         } else {
           this.stopRingTone();
@@ -139,7 +146,11 @@ export default {
     if (this.reconnectService) {
       this.reconnectService.disconnect();
     }
-    try { this.stopRingTone(); } catch (e) {}
+    try {
+      this.stopRingTone();
+    } catch (e) {
+      // ignore ringtone errors
+    }
   },
   methods: {
     initializeColorTheme() {
