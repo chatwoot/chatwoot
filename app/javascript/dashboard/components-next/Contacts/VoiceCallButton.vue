@@ -1,15 +1,18 @@
 <script setup>
 import { computed, ref, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useAlert } from 'dashboard/composables';
+import ContactsAPI from 'dashboard/api/contacts';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const props = defineProps({
   phone: { type: String, default: '' },
+  contactId: { type: [String, Number], default: null },
   label: { type: String, default: '' },
   icon: { type: [String, Object, Function], default: '' },
   size: { type: String, default: 'sm' },
@@ -18,6 +21,7 @@ const props = defineProps({
 
 defineOptions({ inheritAttrs: false });
 const attrs = useAttrs();
+const route = useRoute();
 
 const { t } = useI18n();
 
@@ -33,18 +37,46 @@ const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
 const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
 
 const dialogRef = ref(null);
+const isProcessing = ref(false);
 
-const onClick = () => {
+const showSuccess = () => useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
+const showFailure = message =>
+  useAlert(message || t('CONTACT_PANEL.CALL_FAILED'));
+
+const startCall = async inboxId => {
+  if (isProcessing.value) return;
+
+  const targetContactId = props.contactId ?? route.params.contactId;
+  if (!targetContactId) {
+    showFailure();
+    return;
+  }
+
+  try {
+    isProcessing.value = true;
+    await ContactsAPI.initiateCall(targetContactId, inboxId);
+    showSuccess();
+  } catch (error) {
+    const apiError =
+      error?.response?.data?.error || error?.response?.data?.message;
+    showFailure(apiError);
+  } finally {
+    isProcessing.value = false;
+  }
+};
+
+const onClick = async () => {
   if (voiceInboxes.value.length > 1) {
     dialogRef.value?.open();
     return;
   }
-  useAlert(t('CONTACT_PANEL.CALL_UNDER_DEVELOPMENT'));
+  const [inbox] = voiceInboxes.value;
+  if (!inbox) return;
+  await startCall(inbox.id);
 };
 
-const onPickInbox = () => {
-  // Placeholder until actual call wiring happens
-  useAlert(t('CONTACT_PANEL.CALL_UNDER_DEVELOPMENT'));
+const onPickInbox = async inbox => {
+  await startCall(inbox.id);
   dialogRef.value?.close();
 };
 </script>
@@ -55,6 +87,7 @@ const onPickInbox = () => {
       v-if="shouldRender"
       v-tooltip.top-end="tooltipLabel || null"
       v-bind="attrs"
+      :disabled="isProcessing"
       :label="label"
       :icon="icon"
       :size="size"

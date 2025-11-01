@@ -103,3 +103,6 @@ class ContactInboxBuilder
     @inbox.email? || @inbox.sms? || @inbox.twilio? || @inbox.whatsapp?
   end
 end
+
+# Enterprise can extend behavior
+ContactInboxBuilder.prepend_mod_with('ContactInboxBuilder')

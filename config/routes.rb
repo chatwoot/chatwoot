@@ -172,6 +172,9 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              if ChatwootApp.enterprise?
+                post :call, to: 'calls#create'
+              end
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -196,6 +199,12 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :sync_templates, on: :member
             get :health, on: :member
+            if ChatwootApp.enterprise?
+              # Conference operations
+              get :conference_token, on: :member, to: 'voice#conference_token'
+              post :conference, on: :member, to: 'voice#conference_join'
+              delete :conference, on: :member, to: 'voice#conference_leave'
+            end
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
@@ -544,6 +553,7 @@ Rails.application.routes.draw do
         collection do
           post 'call/:phone', action: :call_twiml
           post 'status/:phone', action: :status
+          post 'conference_status/:phone', action: :conference_status
         end
       end
     end

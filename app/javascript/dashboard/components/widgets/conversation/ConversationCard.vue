@@ -5,6 +5,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import Avatar from 'next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
 import InboxName from '../InboxName.vue';
@@ -86,9 +87,63 @@ const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const callStatus = computed(
   () => props.chat.additional_attributes?.call_status
 );
-const callDirection = computed(
-  () => props.chat.additional_attributes?.call_direction
-);
+
+const normalizeMessageType = messageTypeValue => {
+  if (typeof messageTypeValue === 'number') {
+    return messageTypeValue;
+  }
+  if (typeof messageTypeValue === 'string') {
+    const lowered = messageTypeValue.toLowerCase();
+    if (lowered === 'outgoing') {
+      return MESSAGE_TYPE.OUTGOING;
+    }
+    if (lowered === 'incoming') {
+      return MESSAGE_TYPE.INCOMING;
+    }
+  }
+  return null;
+};
+
+const callDirection = computed(() => {
+  const attrs = props.chat.additional_attributes || {};
+  const convDirection = attrs.call_direction || attrs.callDirection;
+  if (convDirection) {
+    return convDirection;
+  }
+
+  const messages = props.chat.messages || [];
+  const reversedMessages = [...messages].reverse();
+  const lastVoiceMessage = reversedMessages.find(message => {
+    const ct = message.content_type || message.contentType;
+    return ct === 'voice_call' || ct === 12;
+  });
+
+  const lastMessage = lastVoiceMessage || lastMessageInChat.value;
+  if (!lastMessage) {
+    return undefined;
+  }
+
+  const lastMessageAttrs =
+    lastMessage.content_attributes?.data ||
+    lastMessage.contentAttributes?.data ||
+    {};
+
+  const messageDirection =
+    lastMessageAttrs.call_direction || lastMessageAttrs.callDirection;
+  if (messageDirection) {
+    return messageDirection;
+  }
+
+  const normalizedType = normalizeMessageType(lastMessage.message_type);
+  if (normalizedType === MESSAGE_TYPE.OUTGOING) {
+    return 'outbound';
+  }
+  if (normalizedType === MESSAGE_TYPE.INCOMING) {
+    return 'inbound';
+  }
+
+  return undefined;
+});
 
 const { labelKey: voiceLabelKey, listIconColor: voiceIconColor } =
   useVoiceCallStatus(callStatus, callDirection);

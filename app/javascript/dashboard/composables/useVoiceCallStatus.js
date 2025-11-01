@@ -98,19 +98,15 @@ export function useVoiceCallStatus(statusRef, directionRef) {
     const s = status.value;
 
     if (s === CALL_STATUSES.IN_PROGRESS) {
-      return isOutbound.value
-        ? 'i-ph-phone-outgoing-fill'
-        : 'i-ph-phone-incoming-fill';
+      return 'i-ph-phone-call';
     }
 
     if (isFailedStatus.value) {
-      return 'i-ph-phone-x-fill';
+      return 'i-ph-phone-x';
     }
 
     // For ringing/completed/canceled show direction when possible
-    return isOutbound.value
-      ? 'i-ph-phone-outgoing-fill'
-      : 'i-ph-phone-incoming-fill';
+    return isOutbound.value ? 'i-ph-phone-outgoing' : 'i-ph-phone-incoming';
   });
 
   const bubbleIconBg = computed(() => {
