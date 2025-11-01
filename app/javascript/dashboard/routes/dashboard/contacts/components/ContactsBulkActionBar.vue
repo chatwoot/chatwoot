@@ -22,7 +22,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['clearSelection', 'assignLabels', 'toggleAll']);
+const emit = defineEmits([
+  'clearSelection',
+  'assignLabels',
+  'toggleAll',
+  'deleteSelected',
+]);
 
 const { t } = useI18n();
 
@@ -139,6 +144,19 @@ const handleAssignLabels = labels => {
               />
             </transition>
           </div>
+          <Button
+            v-tooltip.bottom="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+            sm
+            faded
+            ruby
+            icon="i-lucide-trash"
+            :label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+            :aria-label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+            :disabled="!selectedCount || isLoading"
+            :is-loading="isLoading"
+            class="!px-1.5 [&>span:nth-child(2)]:hidden"
+            @click="emit('deleteSelected')"
+          />
         </div>
       </template>
     </BulkSelectBar>

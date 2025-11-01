@@ -35,13 +35,25 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
   end
 
   def conversation_params
-    params.permit(:type, :snoozed_until, ids: [], fields: [:status, :assignee_id, :team_id], labels: [add: [], remove: []])
+    # TODO: Align conversation payloads with the `{ action_name, action_attributes }`
+    # and then remove this method in favor of a common params method.
+    base = params.permit(
+      :snoozed_until,
+      fields: [:status, :assignee_id, :team_id]
+    )
+    append_common_bulk_attributes(base)
   end
 
   def contact_params
-    params.require(:ids)
-    permitted = params.permit(:type, ids: [], labels: [add: []])
-    permitted[:ids] = permitted[:ids].map(&:to_i) if permitted[:ids].present?
-    permitted
+    # TODO: remove this method in favor of a common params method.
+    # once legacy conversation payloads are migrated.
+    append_common_bulk_attributes({})
+  end
+
+  def append_common_bulk_attributes(base_params)
+    # NOTE: Conversation payloads historically diverged per action. Going forward we
+    # want all objects to share a common contract: `{ action_name, action_attributes }`
+    common = params.permit(:type, :action_name, ids: [], labels: [add: [], remove: []])
+    base_params.merge(common)
   end
 end
