@@ -94,7 +94,6 @@ COPY custom/assets/favicons/* /app/public/
 # Copy CommMate configurations
 COPY custom/config/branding.yml /app/config/commmate/
 COPY custom/locales/*.yml /app/config/locales/
-COPY custom/config/commmate_init.rb /app/custom/config/
 COPY custom/config/docker-entrypoint.sh /app/custom/config/
 
 # Copy CommMate initializers

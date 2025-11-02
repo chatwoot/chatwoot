@@ -15,9 +15,8 @@ echo "✅ Database is ready"
 echo "📦 Running database migrations..."
 bundle exec rails db:migrate
 
-# Apply CommMate branding
-echo "🎨 Applying CommMate branding..."
-bundle exec rails runner /app/custom/config/commmate_init.rb
+# Apply CommMate branding (idempotent - safe to run on every installation)
+bundle exec rails commmate:branding
 
 # Start Rails
 echo "🎉 Starting Rails server..."
