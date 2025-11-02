@@ -74,13 +74,19 @@ const messagePreviewData = computed(() => ({
 }));
 
 const templateApprovalStatus = computed(() => {
-  if (!templateStatus.value) return null;
+  if (!templateStatus.value || !templateStatus.value.template_exists) {
+    return {
+      text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.DEFAULT'),
+      icon: 'i-lucide-stamp',
+      color: 'text-gray-600',
+    };
+  }
 
   switch (templateStatus.value.status) {
     case 'APPROVED':
       return {
         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
-        icon: 'i-lucide-check-circle',
+        icon: 'i-lucide-circle-check',
         color: 'text-green-600',
       };
     case 'PENDING':
@@ -92,14 +98,14 @@ const templateApprovalStatus = computed(() => {
     case 'REJECTED':
       return {
         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
-        icon: 'i-lucide-x-circle',
+        icon: 'i-lucide-circle-x',
         color: 'text-red-600',
       };
     default:
       return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
-        icon: 'i-lucide-clock',
-        color: 'text-yellow-600',
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.DEFAULT'),
+        icon: 'i-lucide-stamp',
+        color: 'text-gray-600',
       };
   }
 });
@@ -305,7 +311,10 @@ const saveSettings = async () => {
                 />
               </WithLabel>
 
-              <div v-if="templateStatus" class="flex gap-2 items-center mt-4">
+              <div
+                v-if="templateApprovalStatus"
+                class="flex gap-2 items-center mt-4"
+              >
                 <Icon
                   :icon="templateApprovalStatus.icon"
                   :class="templateApprovalStatus.color"
@@ -402,7 +411,11 @@ const saveSettings = async () => {
           </div>
         </WithLabel>
         <p class="text-sm italic text-n-slate-11">
-          {{ $t('INBOX_MGMT.CSAT.NOTE') }}
+          {{
+            isWhatsAppChannel
+              ? $t('INBOX_MGMT.CSAT.WHATSAPP_NOTE')
+              : $t('INBOX_MGMT.CSAT.NOTE')
+          }}
         </p>
         <div>
           <NextButton
