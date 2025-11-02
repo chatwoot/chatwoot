@@ -183,7 +183,16 @@ class User < ApplicationRecord
   delegate :validate_backup_code!, to: :mfa_service
 
   def mfa_enabled?
-    otp_required_for_login?
+    # Some runtime environments or loading orders may not define
+    # `otp_required_for_login?` (provided by `devise-two-factor`).
+    # Be defensive: if the method exists, call it, otherwise read the
+    # database column directly to avoid NoMethodError and keep behavior
+    # consistent.
+    if respond_to?(:otp_required_for_login?)
+      otp_required_for_login?
+    else
+      !!self[:otp_required_for_login]
+    end
   end
 
   def mfa_feature_available?
