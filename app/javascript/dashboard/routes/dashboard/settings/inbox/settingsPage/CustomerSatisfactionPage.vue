@@ -39,7 +39,6 @@ const state = reactive({
   language: '',
 });
 
-// WhatsApp template status
 const templateStatus = ref(null);
 const templateLoading = ref(false);
 
@@ -74,36 +73,36 @@ const messagePreviewData = computed(() => ({
   content: state.message || t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER'),
 }));
 
-// const templateApprovalStatus = computed(() => {
-//   if (!templateStatus.value) return null;
+const templateApprovalStatus = computed(() => {
+  if (!templateStatus.value) return null;
 
-//   switch (templateStatus.value.status) {
-//     case 'APPROVED':
-//       return {
-//         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
-//         icon: 'i-lucide-check-circle',
-//         color: 'text-green-600',
-//       };
-//     case 'PENDING':
-//       return {
-//         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
-//         icon: 'i-lucide-clock',
-//         color: 'text-yellow-600',
-//       };
-//     case 'REJECTED':
-//       return {
-//         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
-//         icon: 'i-lucide-x-circle',
-//         color: 'text-red-600',
-//       };
-//     default:
-//       return {
-//         text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
-//         icon: 'i-lucide-clock',
-//         color: 'text-yellow-600',
-//       };
-//   }
-// });
+  switch (templateStatus.value.status) {
+    case 'APPROVED':
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
+        icon: 'i-lucide-check-circle',
+        color: 'text-green-600',
+      };
+    case 'PENDING':
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
+        icon: 'i-lucide-clock',
+        color: 'text-yellow-600',
+      };
+    case 'REJECTED':
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
+        icon: 'i-lucide-x-circle',
+        color: 'text-red-600',
+      };
+    default:
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
+        icon: 'i-lucide-clock',
+        color: 'text-yellow-600',
+      };
+  }
+});
 
 const initializeState = () => {
   if (!props.inbox) return;
@@ -139,9 +138,9 @@ const checkTemplateStatus = async () => {
     const response = await store.dispatch('inboxes/getCSATTemplateStatus', {
       inboxId: props.inbox.id,
     });
-    templateStatus.value = response.data;
+    templateStatus.value = response;
+    // eslint-disable-next-line no-empty
   } catch (error) {
-    // console.error('Error fetching template status:', error);
   } finally {
     templateLoading.value = false;
   }
@@ -272,12 +271,11 @@ const saveSettings = async () => {
           />
         </WithLabel>
 
-        <!-- WhatsApp specific layout -->
         <template v-if="isWhatsAppChannel">
           <div
-            class="flex flex-col md:flex-row justify-between gap-4 md:gap-6 w-full"
+            class="flex flex-col gap-4 justify-between w-full md:flex-row md:gap-6"
           >
-            <div class="flex-1 flex flex-col gap-3">
+            <div class="flex flex-col flex-1 gap-3">
               <WithLabel
                 :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
                 name="message"
@@ -307,19 +305,23 @@ const saveSettings = async () => {
                 />
               </WithLabel>
 
-              <div class="flex gap-2 items-center mt-4">
+              <div v-if="templateStatus" class="flex gap-2 items-center mt-4">
                 <Icon
-                  icon="i-lucide-clock-fading"
-                  class="size-4 text-n-amber-11"
+                  :icon="templateApprovalStatus.icon"
+                  :class="templateApprovalStatus.color"
+                  class="size-4"
                 />
-                <span class="text-sm font-medium text-n-amber-11">
-                  {{ 'Pending WhatsApp approval' }}
+                <span
+                  :class="templateApprovalStatus.color"
+                  class="text-sm font-medium"
+                >
+                  {{ templateApprovalStatus.text }}
                 </span>
               </div>
             </div>
 
             <div
-              class="flex flex-col items-center justify-start p-6 rounded-xl bg-n-slate-2 outline mt-1 outline-1 outline-n-weak"
+              class="flex flex-col justify-start items-center p-6 mt-1 rounded-xl bg-n-slate-2 outline outline-1 outline-n-weak"
             >
               <p
                 class="inline-flex items-center text-sm font-medium text-n-slate-11"
@@ -330,7 +332,7 @@ const saveSettings = async () => {
                     $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.TOOLTIP')
                   "
                   icon="i-lucide-info"
-                  class="flex-shrink-0 size-4 mx-1"
+                  class="flex-shrink-0 mx-1 size-4"
                 />
               </p>
               <CSATTemplate
