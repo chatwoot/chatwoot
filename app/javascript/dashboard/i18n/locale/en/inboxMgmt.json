@@ -814,6 +814,12 @@
         "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
         "ERROR_MESSAGE": "Failed to create WhatsApp template"
       },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Edit survey details",
+        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
+        "CONFIRM": "Create new template",
+        "CANCEL": "Go back"
+      },
       "SURVEY_RULE": {
         "LABEL": "Survey rule",
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",

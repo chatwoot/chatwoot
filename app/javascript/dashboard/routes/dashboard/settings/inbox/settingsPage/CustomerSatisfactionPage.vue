@@ -17,6 +17,7 @@ import Switch from 'next/switch/Switch.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
+import ConfirmTemplateUpdateDialog from './components/ConfirmTemplateUpdateDialog.vue';
 
 const props = defineProps({
   inbox: { type: Object, required: true },
@@ -41,6 +42,14 @@ const state = reactive({
 
 const templateStatus = ref(null);
 const templateLoading = ref(false);
+const confirmDialog = ref(null);
+
+// Track original values to detect template changes
+const originalTemplateValues = ref({
+  message: '',
+  buttonText: '',
+  language: '',
+});
 
 const filterTypes = [
   {
@@ -136,6 +145,15 @@ const initializeState = () => {
   selectedLabelValues.value = Array.isArray(surveyRules.values)
     ? [...surveyRules.values]
     : [];
+
+  // Store original template values for change detection
+  if (isWhatsAppChannel.value) {
+    originalTemplateValues.value = {
+      message: state.message,
+      buttonText: state.buttonText,
+      language: state.language,
+    };
+  }
 };
 
 const checkTemplateStatus = async () => {
@@ -185,6 +203,47 @@ const removeLabel = label => {
   }
 };
 
+// Check if template-related fields have changed
+const hasTemplateChanges = () => {
+  if (!isWhatsAppChannel.value) return false;
+
+  return (
+    originalTemplateValues.value.message !== state.message ||
+    originalTemplateValues.value.buttonText !== state.buttonText ||
+    originalTemplateValues.value.language !== state.language
+  );
+};
+
+// Check if there's an existing template
+const hasExistingTemplate = () => {
+  return templateStatus.value && templateStatus.value.template_exists;
+};
+
+// Check if we should create a template
+const shouldCreateTemplate = () => {
+  // Create template if no existing template
+  if (!hasExistingTemplate()) {
+    return true;
+  }
+
+  // Create template if there are changes to template fields
+  return hasTemplateChanges();
+};
+
+// Build template config for saving
+const buildTemplateConfig = () => {
+  if (!hasExistingTemplate() || !templateStatus.value) {
+    return null;
+  }
+
+  return {
+    name: templateStatus.value.template_name || 'customer_satisfaction_survey',
+    template_id: templateStatus.value.template_id,
+    language: templateStatus.value.template?.language || state.language,
+    status: templateStatus.value.status,
+  };
+};
+
 const updateInbox = async attributes => {
   const payload = {
     id: props.inbox.id,
@@ -200,6 +259,9 @@ const createTemplate = async () => {
 
   try {
     isUpdating.value = true;
+    // This function is called only when:
+    // 1. No template exists yet, OR
+    // 2. Template fields (message, button_text, language) have changed
     await store.dispatch('inboxes/createCSATTemplate', {
       inboxId: props.inbox.id,
       template: {
@@ -222,12 +284,16 @@ const createTemplate = async () => {
   }
 };
 
-const saveSettings = async () => {
+const performSave = async () => {
   try {
     isUpdating.value = true;
 
-    // For WhatsApp channels, create template first if needed
-    if (isWhatsAppChannel.value && state.csatSurveyEnabled) {
+    // For WhatsApp channels, create template only if needed
+    if (
+      isWhatsAppChannel.value &&
+      state.csatSurveyEnabled &&
+      shouldCreateTemplate()
+    ) {
       await createTemplate();
     }
 
@@ -242,10 +308,25 @@ const saveSettings = async () => {
       },
     };
 
+    // Preserve existing template information if it exists
+    const templateConfig = buildTemplateConfig();
+    if (templateConfig) {
+      csatConfig.template = templateConfig;
+    }
+
     await updateInbox({
       csat_survey_enabled: state.csatSurveyEnabled,
       csat_config: csatConfig,
     });
+
+    // Update original values after successful save
+    if (isWhatsAppChannel.value) {
+      originalTemplateValues.value = {
+        message: state.message,
+        buttonText: state.buttonText,
+        language: state.language,
+      };
+    }
 
     useAlert(t('INBOX_MGMT.CSAT.API.SUCCESS_MESSAGE'));
   } catch (error) {
@@ -253,6 +334,26 @@ const saveSettings = async () => {
   } finally {
     isUpdating.value = false;
   }
+};
+
+const saveSettings = async () => {
+  // Check if we need to show confirmation dialog for WhatsApp template changes
+  if (
+    isWhatsAppChannel.value &&
+    state.csatSurveyEnabled &&
+    hasExistingTemplate() &&
+    hasTemplateChanges()
+  ) {
+    confirmDialog.value?.open();
+    return;
+  }
+
+  await performSave();
+};
+
+const handleConfirmTemplateUpdate = async () => {
+  // TODO: In future, add logic to delete existing template here
+  await performSave();
 };
 </script>
 
@@ -431,5 +532,11 @@ const saveSettings = async () => {
         </div>
       </div>
     </SectionLayout>
+
+    <!-- Template Update Confirmation Dialog -->
+    <ConfirmTemplateUpdateDialog
+      ref="confirmDialog"
+      @confirm="handleConfirmTemplateUpdate"
+    />
   </div>
 </template>
