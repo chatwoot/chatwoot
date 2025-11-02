@@ -84,6 +84,16 @@ const messagePreviewData = computed(() => ({
 
 const templateApprovalStatus = computed(() => {
   if (!templateStatus.value || !templateStatus.value.template_exists) {
+    // Handle deleted template case
+    if (templateStatus.value?.error === 'TEMPLATE_NOT_FOUND') {
+      return {
+        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.NOT_FOUND'),
+        icon: 'i-lucide-alert-triangle',
+        color: 'text-red-600',
+      };
+    }
+
+    // Default case - no template exists
     return {
       text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.DEFAULT'),
       icon: 'i-lucide-stamp',
@@ -164,9 +174,23 @@ const checkTemplateStatus = async () => {
     const response = await store.dispatch('inboxes/getCSATTemplateStatus', {
       inboxId: props.inbox.id,
     });
-    templateStatus.value = response;
+
+    // Handle case where template doesn't exist
+    if (!response.template_exists && response.error === 'Template not found') {
+      templateStatus.value = {
+        template_exists: false,
+        error: 'TEMPLATE_NOT_FOUND',
+      };
+    } else {
+      templateStatus.value = response;
+    }
     // eslint-disable-next-line no-empty
   } catch (error) {
+    // Handle API errors gracefully
+    templateStatus.value = {
+      template_exists: false,
+      error: 'API_ERROR',
+    };
   } finally {
     templateLoading.value = false;
   }
@@ -216,7 +240,11 @@ const hasTemplateChanges = () => {
 
 // Check if there's an existing template
 const hasExistingTemplate = () => {
-  return templateStatus.value && templateStatus.value.template_exists;
+  return (
+    templateStatus.value &&
+    templateStatus.value.template_exists &&
+    !templateStatus.value.error
+  );
 };
 
 // Check if we should create a template
@@ -232,7 +260,11 @@ const shouldCreateTemplate = () => {
 
 // Build template config for saving
 const buildTemplateConfig = () => {
-  if (!hasExistingTemplate() || !templateStatus.value) {
+  if (
+    !hasExistingTemplate() ||
+    !templateStatus.value ||
+    templateStatus.value.error
+  ) {
     return null;
   }
 

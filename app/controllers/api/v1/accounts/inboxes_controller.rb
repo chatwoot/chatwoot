@@ -104,7 +104,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
         template_id: status_result[:template][:id]
       }
     else
-      render json: { template_exists: false, error: status_result[:error] }
+      # Template doesn't exist (deleted externally or other issues)
+      render json: {
+        template_exists: false,
+        error: 'Template not found'
+      }
     end
   rescue StandardError => e
     Rails.logger.error "Error fetching CSAT template status: #{e.message}"
