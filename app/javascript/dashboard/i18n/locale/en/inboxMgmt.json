@@ -796,6 +796,10 @@
         "LABEL": "Button text",
         "PLACEHOLDER": "Please rate us"
       },
+      "LANGUAGE": {
+        "LABEL": "Language",
+        "PLACEHOLDER": "Select template language"
+      },
       "MESSAGE_PREVIEW": {
         "LABEL": "Message preview",
         "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."

@@ -62,7 +62,7 @@ const labelOptions = computed(() =>
 );
 
 const languageOptions = computed(() =>
-  languages.map(({ name, id }) => ({ label: name, value: id }))
+  languages.map(({ name, id }) => ({ label: `${name} (${id})`, value: id }))
 );
 
 const isWhatsAppChannel = computed(
@@ -123,12 +123,14 @@ const initializeState = () => {
     display_type: displayType = CSAT_DISPLAY_TYPES.EMOJI,
     message = '',
     button_text: buttonText = 'Please rate us',
+    language = 'en',
     survey_rules: surveyRules = {},
   } = csat_config;
 
   state.displayType = displayType;
   state.message = message;
   state.buttonText = buttonText;
+  state.language = language;
   state.surveyRuleOperator = surveyRules.operator || 'contains';
 
   selectedLabelValues.value = Array.isArray(surveyRules.values)
@@ -203,6 +205,7 @@ const createTemplate = async () => {
       template: {
         message: state.message,
         button_text: state.buttonText,
+        language: state.language,
       },
     });
 
@@ -232,6 +235,7 @@ const saveSettings = async () => {
       display_type: state.displayType,
       message: state.message,
       button_text: state.buttonText,
+      language: state.language,
       survey_rules: {
         operator: state.surveyRuleOperator,
         values: selectedLabelValues.value,
@@ -301,8 +305,8 @@ const saveSettings = async () => {
               />
 
               <WithLabel
-                :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
-                name="message"
+                :label="$t('INBOX_MGMT.CSAT.LANGUAGE.LABEL')"
+                name="language"
               >
                 <ComboBox
                   v-model="state.language"
