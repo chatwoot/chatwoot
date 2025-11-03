@@ -158,8 +158,8 @@ class Message < ApplicationRecord
       # Searchable content
       content: content,
       processed_message_content: processed_message_content,
-      attachment_transcribed_text: attachments.filter_map { |a| a.meta&.dig('transcribed_text') }.join(' '),
-      email_subject: content_attributes.dig(:email, :subject) || content_attributes.dig('email', 'subject'),
+      attachments: search_attachments_data,
+      content_attributes: search_content_attributes_data,
       # Message filters
       account_id: account_id,
       inbox_id: inbox_id,
@@ -287,6 +287,20 @@ class Message < ApplicationRecord
         value_type: value.class.name.downcase
       }
     end
+  end
+
+  def search_attachments_data
+    attachments.filter_map do |a|
+      { transcribed_text: a.meta&.dig('transcribed_text') }
+    end.presence
+  end
+
+  def search_content_attributes_data
+    {
+      email: {
+        subject: content_attributes.dig(:email, :subject) || content_attributes.dig('email', 'subject')
+      }.compact
+    }.compact
   end
 
   def search_conversation_data
