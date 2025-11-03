@@ -12,7 +12,6 @@ import attributes from './attributes/attributes.routes';
 import automation from './automation/automation.routes';
 import auditlogs from './auditlogs/audit.routes';
 import billing from './billing/billing.routes';
-import billingV2 from './billing-v2/billing-v2.routes';
 import canned from './canned/canned.routes';
 import inbox from './inbox/inbox.routes';
 import integrations from './integrations/integrations.routes';
@@ -53,7 +52,6 @@ export default {
     ...automation.routes,
     ...auditlogs.routes,
     ...billing.routes,
-    ...billingV2.routes,
     ...canned.routes,
     ...inbox.routes,
     ...integrations.routes,

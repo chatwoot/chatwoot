@@ -1,7 +1,7 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import SettingsWrapper from '../SettingsWrapper.vue';
-import Index from './Index.vue';
+import BillingWrapper from './BillingWrapper.vue';
 
 export default {
   routes: [
@@ -21,7 +21,7 @@ export default {
         {
           path: '',
           name: 'billing_settings_index',
-          component: Index,
+          component: BillingWrapper,
           meta: {
             installationTypes: [INSTALLATION_TYPES.CLOUD],
             permissions: ['administrator'],
