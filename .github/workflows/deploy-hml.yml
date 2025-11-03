@@ -1,0 +1,85 @@
+name: 🚀 Deploy Chatwoot Homologação
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - homolog
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: ghcr.io/eixo-x/eixochat
+  BASE_VERSION: v4.7.0
+  ENVIRONMENT: homolog
+
+jobs:
+  deploy-if-merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: 🧭 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: amd64,arm64
+
+      - name: 🔧 Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔑 Login GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: ♻️ Cache de layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: 🏗️ Build & Push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ env.BASE_VERSION }}-${{ github.run_number }}
+            ${{ env.IMAGE_NAME }}:${{ github.run_number }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: 🔁 Mover cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: 🚀 Deploy via SSH (Hetzner/Portainer Stack)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_SSH_USER }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          script: |
+            echo "📦 Atualizando imagem Chatwoot..."
+            docker pull ghcr.io/eixo-x/eixochat:latest
+
+            echo "♻️ Atualizando serviços Chatwoot no Swarm..."
+            docker service update --image ghcr.io/eixo-x/eixochat:latest chat-eixo-x_chatwoot_app || true
+            docker service update --image ghcr.io/eixo-x/eixochat:latest chat-eixo-x_chatwoot_sidekiq || true
+
+            echo "🧹 Limpando imagens antigas..."
+            docker image prune -f
+
+            echo "✅ Deploy concluído com sucesso!"
