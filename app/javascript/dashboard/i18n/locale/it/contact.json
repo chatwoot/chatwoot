@@ -470,7 +470,7 @@
       }
     },
     "DETAILS": {
-      "CREATED_AT": "Creato il {date}",
+      "CREATED_AT": "Creato {date}",
       "LAST_ACTIVITY": "Ultima attività {date}",
       "DELETE_CONTACT_DESCRIPTION": "Elimina definitivamente questo contatto. Questa azione è irreversibile",
       "DELETE_CONTACT": "Elimina contatto",
@@ -570,6 +570,16 @@
       "LIST_EMPTY_STATE_TITLE": "Nessun contatto disponibile in questa vista 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Nessun contatto attivo al momento 🌙"
     }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assegna Etichette",
+    "ASSIGN_LABELS_SUCCESS": "Etichette assegnate correttamente.",
+    "ASSIGN_LABELS_FAILED": "Assegnazione delle etichette non riuscita",
+    "DESCRIPTION": "Selezionare le etichette da aggiungere ai contatti selezionati.",
+    "NO_LABELS_FOUND": "Nessuna etichetta disponibile.",
+    "SELECTED_COUNT": "{count} selezionate",
+    "CLEAR_SELECTION": "Annulla selezione",
+    "SELECT_ALL": "Seleziona tutto ({count})"
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
