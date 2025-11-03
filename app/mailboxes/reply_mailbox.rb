@@ -4,7 +4,9 @@ class ReplyMailbox < ApplicationMailbox
   before_processing :find_conversation
 
   def process
-    # ConversationFinder with NewConversationStrategy ensures @conversation is always present
+    # Return early if no conversation was found (e.g., notification emails, suspended accounts)
+    return unless @conversation
+
     decorate_mail
     create_message
     add_attachments_to_message
@@ -14,6 +16,8 @@ class ReplyMailbox < ApplicationMailbox
 
   def find_conversation
     @conversation = Mailbox::ConversationFinder.new(mail).find
+    # Log when email is rejected
+    Rails.logger.info "Email #{mail.message_id} rejected - no conversation found" unless @conversation
   end
 
   def decorate_mail

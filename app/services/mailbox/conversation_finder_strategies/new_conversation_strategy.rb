@@ -1,5 +1,6 @@
 class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::ConversationFinderStrategies::BaseStrategy
   include MailboxHelper
+  include IncomingEmailValidityHelper
 
   attr_accessor :processed_mail, :account, :inbox, :contact, :contact_inbox, :conversation
 
@@ -7,11 +8,20 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   # It should be used as the last strategy in the chain to ensure emails are never dropped.
   def find
     channel = EmailChannelFinder.new(mail).perform
-    return nil unless channel # No valid channel found
+
+    # Match old SupportMailbox behavior - raise error when no channel found
+    raise 'Email channel/inbox not found' if channel.nil?
 
     @account = channel.account
     @inbox = channel.inbox
     @processed_mail = MailPresenter.new(mail, @account)
+
+    # Skip processing email if it belongs to any of the edge cases
+    return nil unless incoming_email_from_valid_email?
+
+    # Check if conversation already exists by in_reply_to
+    existing_conversation = find_conversation_by_in_reply_to
+    return existing_conversation if existing_conversation
 
     ActiveRecord::Base.transaction do
       find_or_create_contact
@@ -60,5 +70,11 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
 
   def in_reply_to
     mail['In-Reply-To'].try(:value)
+  end
+
+  def find_conversation_by_in_reply_to
+    return if in_reply_to.blank?
+
+    @account.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
   end
 end
