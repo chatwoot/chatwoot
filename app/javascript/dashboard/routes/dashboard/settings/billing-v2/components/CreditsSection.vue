@@ -108,7 +108,7 @@ const handleRefresh = () => {
     </div>
 
     <div
-      class="transition-all duration-300 ease-out grid overflow-hidden mx-5 !mt-0"
+      class="transition-all duration-300 ease-out grid overflow-hidden !mt-0"
       :class="
         showCreditHistory
           ? 'grid-rows-[1fr] opacity-100'

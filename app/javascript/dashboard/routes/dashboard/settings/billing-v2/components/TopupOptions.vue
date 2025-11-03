@@ -50,6 +50,9 @@ const handleTopup = async data => {
 
   if (result.success) {
     topupDialogRef.value?.close();
+    setTimeout(async () => {
+      await store.dispatch('accounts/fetchCreditsBalance');
+    }, 2000);
     useAlert(t('BILLING_SETTINGS_V2.TOPUP_OPTIONS.TOPUP_SUCCESS'));
   } else if (result.error) {
     topupDialogRef.value?.close();

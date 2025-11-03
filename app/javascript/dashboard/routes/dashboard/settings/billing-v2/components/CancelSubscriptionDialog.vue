@@ -56,8 +56,8 @@ defineExpose({ dialogRef });
         auto-height
       />
 
-      <div class="flex gap-1.5 items-center">
-        <Icon icon="i-lucide-info" class="flex-shrink-0" />
+      <div class="flex gap-1 items-center">
+        <Icon icon="i-lucide-info" class="flex-shrink-0 size-3.5" />
         <p class="text-xs text-n-slate-12">
           {{ t('BILLING_SETTINGS_V2.CANCEL_MODAL.INFO') }}
         </p>

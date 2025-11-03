@@ -51,7 +51,7 @@ const getCategoryConfig = category =>
 </script>
 
 <template>
-  <div class="mt-4 max-h-96 overflow-y-auto">
+  <div class="mt-4 max-h-60 overflow-y-auto px-3 mx-2">
     <h6 class="text-base font-semibold mb-2">
       {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.TITLE') }}
     </h6>

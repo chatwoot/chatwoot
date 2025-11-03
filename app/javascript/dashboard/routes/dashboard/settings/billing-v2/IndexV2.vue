@@ -22,7 +22,6 @@ const v2BillingUIFlags = useMapGetter('accounts/getV2BillingUIFlags');
 const isLoading = computed(() => {
   return (
     uiFlags.value.isFetchingItem ||
-    v2BillingUIFlags.value.isFetchingBalance ||
     v2BillingUIFlags.value.isFetchingGrants ||
     v2BillingUIFlags.value.isFetchingPlans ||
     v2BillingUIFlags.value.isFetchingTopupOptions
