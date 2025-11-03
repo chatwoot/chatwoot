@@ -571,6 +571,16 @@
       "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos por el momento 🌙"
     }
   },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Asignar etiquetas",
+    "ASSIGN_LABELS_SUCCESS": "Etiquetas asignadas correctamente.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})"
+  },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "No pudimos completar la búsqueda. Por favor, inténtalo de nuevo."

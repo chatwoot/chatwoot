@@ -571,6 +571,16 @@
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Gán nhãn",
+    "ASSIGN_LABELS_SUCCESS": "Các nhãn được gán thành công.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})"
+  },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
