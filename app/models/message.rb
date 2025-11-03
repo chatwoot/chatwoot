@@ -154,12 +154,27 @@ class Message < ApplicationRecord
   end
 
   def search_data
-    data = attributes.symbolize_keys
-    data[:conversation] = conversation.present? ? conversation_push_event_data : nil
-    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
-    data[:sender] = sender.push_event_data if sender
-    data[:inbox] = inbox
-    data
+    {
+      # Searchable content
+      content: content,
+      processed_message_content: processed_message_content,
+      attachment_transcribed_text: attachments.filter_map { |a| a.meta&.dig('transcribed_text') }.join(' '),
+      email_subject: content_attributes.dig(:email, :subject) || content_attributes.dig('email', 'subject'),
+      # Message filters
+      account_id: account_id,
+      inbox_id: inbox_id,
+      conversation_id: conversation_id,
+      message_type: message_type,
+      private: private,
+      created_at: created_at,
+      source_id: source_id,
+      # related data
+      conversation: search_conversation_data,
+      inbox: search_inbox_data,
+      sender_id: sender_id,
+      sender_type: sender_type,
+      sender: search_sender_data
+    }.merge(search_additional_data)
   end
 
   def conversation_push_event_data
@@ -260,6 +275,66 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def flatten_custom_attributes(attrs)
+    return [] if attrs.blank?
+
+    attrs.map do |key, value|
+      {
+        key: key.to_s,
+        value: value.to_s,
+
+        value_type: value.class.name.downcase
+      }
+    end
+  end
+
+  def search_conversation_data
+    return nil unless conversation
+
+    {
+      id: conversation.id,
+      display_id: conversation.display_id,
+      status: conversation.status,
+      assignee_id: conversation.assignee_id,
+      team_id: conversation.team_id,
+      contact_id: conversation.contact_id,
+      custom_attributes: flatten_custom_attributes(conversation.custom_attributes),
+      browser: conversation.additional_attributes&.dig('browser'),
+      referer: conversation.additional_attributes&.dig('referer'),
+      initated_at: conversation.additional_attributes&.dig('initated_at')
+    }
+  end
+
+  def search_inbox_data
+    return nil unless index
+
+    {
+      id: inbox.id,
+      name: inbox.name,
+      channel_type: inbox.channel_type
+    }
+  end
+
+  def search_sender_data
+    return nil unless sender
+
+    {
+      id: sender.id,
+      type: sender.class.name,
+      name: sender.try(:name),
+      email: sender.try(:email),
+      phone_number: sender.try(:phone_number),
+      custom_attributes: sender.respond_to?(:custom_attributes) ? flatten_custom_attributes(sender.custom_attributes) : []
+    }
+  end
+
+  def search_additional_data
+    {
+      campaign_id: additional_attributes&.dig('campaign_id'),
+      automation_rule_id: content_attributes&.dig('automation_rule_id')
+    }
+  end
 
   def prevent_message_flooding
     # Added this to cover the validation specs in messages
