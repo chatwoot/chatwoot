@@ -18,6 +18,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 import ConfirmTemplateUpdateDialog from './components/ConfirmTemplateUpdateDialog.vue';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   inbox: { type: Object, required: true },
@@ -35,9 +36,9 @@ const state = reactive({
   csatSurveyEnabled: false,
   displayType: 'emoji',
   message: '',
-  buttonText: 'Please rate us',
+  templateButtonText: 'Please rate us',
   surveyRuleOperator: 'contains',
-  language: '',
+  templateLanguage: '',
 });
 
 const templateStatus = ref(null);
@@ -47,8 +48,8 @@ const confirmDialog = ref(null);
 // Track original values to detect template changes
 const originalTemplateValues = ref({
   message: '',
-  buttonText: '',
-  language: '',
+  templateButtonText: '',
+  templateLanguage: '',
 });
 
 const filterTypes = [
@@ -75,7 +76,7 @@ const languageOptions = computed(() =>
 );
 
 const isWhatsAppChannel = computed(
-  () => props.inbox?.channel_type === 'Channel::Whatsapp'
+  () => props.inbox?.channel_type === INBOX_TYPES.WHATSAPP
 );
 
 const messagePreviewData = computed(() => ({
@@ -148,8 +149,8 @@ const initializeState = () => {
 
   state.displayType = displayType;
   state.message = message;
-  state.buttonText = buttonText;
-  state.language = language;
+  state.templateButtonText = buttonText;
+  state.templateLanguage = language;
   state.surveyRuleOperator = surveyRules.operator || 'contains';
 
   selectedLabelValues.value = Array.isArray(surveyRules.values)
@@ -160,8 +161,8 @@ const initializeState = () => {
   if (isWhatsAppChannel.value) {
     originalTemplateValues.value = {
       message: state.message,
-      buttonText: state.buttonText,
-      language: state.language,
+      templateButtonText: state.templateButtonText,
+      templateLanguage: state.templateLanguage,
     };
   }
 };
@@ -233,8 +234,9 @@ const hasTemplateChanges = () => {
 
   return (
     originalTemplateValues.value.message !== state.message ||
-    originalTemplateValues.value.buttonText !== state.buttonText ||
-    originalTemplateValues.value.language !== state.language
+    originalTemplateValues.value.templateButtonText !==
+      state.templateButtonText ||
+    originalTemplateValues.value.templateLanguage !== state.templateLanguage
   );
 };
 
@@ -271,7 +273,7 @@ const buildTemplateConfig = () => {
   return {
     name: templateStatus.value.template_name || 'customer_satisfaction_survey',
     template_id: templateStatus.value.template_id,
-    language: templateStatus.value.template?.language || state.language,
+    language: templateStatus.value.template?.language || state.templateLanguage,
     status: templateStatus.value.status,
   };
 };
@@ -298,8 +300,8 @@ const createTemplate = async () => {
       inboxId: props.inbox.id,
       template: {
         message: state.message,
-        button_text: state.buttonText,
-        language: state.language,
+        button_text: state.templateButtonText,
+        language: state.templateLanguage,
       },
     });
 
@@ -339,8 +341,8 @@ const performSave = async () => {
     const csatConfig = {
       display_type: state.displayType,
       message: state.message,
-      button_text: state.buttonText,
-      language: state.language,
+      button_text: state.templateButtonText,
+      language: state.templateLanguage,
       survey_rules: {
         operator: state.surveyRuleOperator,
         values: selectedLabelValues.value,
@@ -362,8 +364,8 @@ const performSave = async () => {
     if (isWhatsAppChannel.value) {
       originalTemplateValues.value = {
         message: state.message,
-        buttonText: state.buttonText,
-        language: state.language,
+        templateButtonText: state.templateButtonText,
+        templateLanguage: state.templateLanguage,
       };
     }
 
@@ -438,7 +440,7 @@ const handleConfirmTemplateUpdate = async () => {
                 />
               </WithLabel>
               <Input
-                v-model="state.buttonText"
+                v-model="state.templateButtonText"
                 :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
                 :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
                 class="w-full"
@@ -449,7 +451,7 @@ const handleConfirmTemplateUpdate = async () => {
                 name="language"
               >
                 <ComboBox
-                  v-model="state.language"
+                  v-model="state.templateLanguage"
                   :options="languageOptions"
                   :placeholder="$t('INBOX_MGMT.CSAT.LANGUAGE.PLACEHOLDER')"
                 />
@@ -490,7 +492,7 @@ const handleConfirmTemplateUpdate = async () => {
               </p>
               <CSATTemplate
                 :message="messagePreviewData"
-                :button-text="state.buttonText"
+                :button-text="state.templateButtonText"
                 class="pt-12"
               />
             </div>
