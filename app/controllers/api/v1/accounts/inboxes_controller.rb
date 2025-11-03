@@ -87,135 +87,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
-  def csat_template_status
-    return render json: { error: 'CSAT template status only available for WhatsApp channels' }, status: :bad_request unless @inbox.whatsapp?
-
-    template_config = @inbox.csat_config&.dig('template')
-    return render json: { template_exists: false } unless template_config
-
-    template_name = template_config['name'] || 'customer_satisfaction_survey'
-    status_result = @inbox.channel.provider_service.get_template_status(template_name)
-
-    if status_result[:success]
-      render json: {
-        template_exists: true,
-        template_name: template_name,
-        status: status_result[:template][:status],
-        template_id: status_result[:template][:id]
-      }
-    else
-      # Template doesn't exist (deleted externally or other issues)
-      render json: {
-        template_exists: false,
-        error: 'Template not found'
-      }
-    end
-  rescue StandardError => e
-    Rails.logger.error "Error fetching CSAT template status: #{e.message}"
-    render json: { error: e.message }, status: :internal_server_error
-  end
-
-  def create_csat_template
-    return render_channel_validation_error unless @inbox.whatsapp?
-
-    template_params = extract_template_params
-    return render_missing_message_error if template_params[:message].blank?
-
-    # Delete existing template if it exists
-    delete_existing_template_if_needed
-
-    result = create_template_via_provider(template_params)
-    render_template_creation_result(result)
-  rescue ActionController::ParameterMissing
-    render json: { error: 'Template parameters are required' }, status: :unprocessable_content
-  rescue StandardError => e
-    Rails.logger.error "Error creating CSAT template: #{e.message}"
-    render json: { error: 'Template creation failed' }, status: :internal_server_error
-  end
-
   private
-
-  def render_channel_validation_error
-    render json: { error: 'CSAT template creation only available for WhatsApp channels' },
-           status: :unprocessable_content
-  end
-
-  def extract_template_params
-    params.require(:template).permit(:message, :button_text)
-  end
-
-  def render_missing_message_error
-    render json: { error: 'Message is required' }, status: :unprocessable_content
-  end
-
-  def create_template_via_provider(template_params)
-    template_config = {
-      message: template_params[:message],
-      button_text: template_params[:button_text] || 'Please rate us',
-      base_url: ENV.fetch('FRONTEND_URL', 'http://localhost:3000'),
-      language: 'en'
-    }
-
-    @inbox.channel.provider_service.create_csat_template(template_config)
-  end
-
-  def render_template_creation_result(result)
-    if result[:success]
-      render_successful_template_creation(result)
-    else
-      render_failed_template_creation(result)
-    end
-  end
-
-  def render_successful_template_creation(result)
-    render json: {
-      template: {
-        name: 'customer_satisfaction_survey',
-        template_id: result[:template_id],
-        status: 'PENDING',
-        language: 'en'
-      }
-    }, status: :created
-  end
-
-  def render_failed_template_creation(result)
-    whatsapp_error = parse_whatsapp_error(result[:response_body])
-    render json: {
-      error: whatsapp_error[:user_message] || result[:error],
-      details: whatsapp_error[:technical_details]
-    }, status: :unprocessable_content
-  end
-
-  def delete_existing_template_if_needed
-    # Check if template exists first to avoid unnecessary deletion attempts
-    template_status = @inbox.channel.provider_service.get_csat_template_status
-    return unless template_status[:template_exists]
-
-    # Delete the existing template
-    @inbox.channel.provider_service.delete_csat_template
-    Rails.logger.info "Deleted existing CSAT template for inbox #{@inbox.id}"
-  end
-
-  def parse_whatsapp_error(response_body)
-    return { user_message: nil, technical_details: nil } if response_body.blank?
-
-    begin
-      error_data = JSON.parse(response_body)
-      whatsapp_error = error_data['error'] || {}
-
-      user_message = whatsapp_error['error_user_msg'] || whatsapp_error['message']
-      technical_details = {
-        code: whatsapp_error['code'],
-        subcode: whatsapp_error['error_subcode'],
-        type: whatsapp_error['type'],
-        title: whatsapp_error['error_user_title']
-      }.compact
-
-      { user_message: user_message, technical_details: technical_details }
-    rescue JSON::ParserError
-      { user_message: nil, technical_details: response_body }
-    end
-  end
 
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:id])
@@ -315,11 +187,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def permitted_params(channel_attributes = [])
     # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
     params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
-
-    params.permit(
-      *inbox_attributes,
-      channel: [:type, *channel_attributes]
-    )
+    params.permit(*inbox_attributes, channel: [:type, *channel_attributes])
   end
 
   def channel_type_from_params
@@ -335,11 +203,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def get_channel_attributes(channel_type)
-    if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
-      channel_type.constantize::EDITABLE_ATTRS.presence
-    else
-      []
-    end
+    channel_type.constantize.const_defined?(:EDITABLE_ATTRS) ? channel_type.constantize::EDITABLE_ATTRS.presence : []
   end
 
   def whatsapp_channel?

@@ -34,13 +34,13 @@ class Inboxes extends CacheEnabledApiClient {
   }
 
   createCSATTemplate(inboxId, template) {
-    return axios.post(`${this.url}/${inboxId}/create_csat_template`, {
+    return axios.post(`${this.url}/${inboxId}/csat_template`, {
       template,
     });
   }
 
   getCSATTemplateStatus(inboxId) {
-    return axios.get(`${this.url}/${inboxId}/csat_template_status`);
+    return axios.get(`${this.url}/${inboxId}/csat_template`);
   }
 }
 
