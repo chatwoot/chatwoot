@@ -124,8 +124,8 @@
         "SYNC_INFO": "Sinkronisasi kolom produk dari sheet...",
         "INPUT_SHEET_TITLE": "Input Sheet Katalog Produk",
         "INPUT_SHEET_DESC": "Tabel data produk utama Anda untuk mengelola inventaris, harga, dan detail produk.",
-        "OUTPUT_SHEET_TITLE": "Output Sheet Pelacakan Pesanan",
-        "OUTPUT_SHEET_DESC": "Lihat data pesanan pelanggan berdasarkan percakapan bot dan pelanggan."
+        "OUTPUT_SHEET_TITLE": "Output Sheet Pelacakan Ketertarikan",
+        "OUTPUT_SHEET_DESC": "Lihat data ketertarikan pelanggan berdasarkan percakapan bot dan pelanggan."
       },
       "COMMON": {
         "GOOGLE_SHEETS_OUTPUT": "Sheet Output Tiket",
