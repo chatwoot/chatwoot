@@ -59,116 +59,21 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def create_csat_template(template_config)
-    request_body = build_template_request_body(template_config)
-    response = send_template_creation_request(request_body)
-    process_template_creation_response(response)
+    csat_template_service.create_template(template_config)
   end
 
   def delete_csat_template
-    response = HTTParty.delete(
-      "#{business_account_path}/message_templates?name=customer_satisfaction_survey",
-      headers: api_headers
-    )
-    { success: response.success?, response_body: response.body }
+    csat_template_service.delete_template
   end
 
   private
 
-  def build_template_request_body(template_config)
-    {
-      name: 'customer_satisfaction_survey',
-      language: template_config[:language] || 'en',
-      category: 'UTILITY',
-      components: build_template_components(template_config)
-    }
+  def csat_template_service
+    @csat_template_service ||= Whatsapp::CsatTemplateService.new(whatsapp_channel)
   end
-
-  def build_template_components(template_config)
-    [
-      build_body_component(template_config[:message]),
-      build_buttons_component(template_config)
-    ]
-  end
-
-  def build_body_component(message)
-    {
-      type: 'BODY',
-      text: message
-    }
-  end
-
-  def build_buttons_component(template_config)
-    {
-      type: 'BUTTONS',
-      buttons: [
-        {
-          type: 'URL',
-          text: template_config[:button_text] || 'Please rate us',
-          url: "#{template_config[:base_url]}/survey/responses/{{1}}",
-          example: ["#{template_config[:base_url]}/survey/responses/12345"]
-        }
-      ]
-    }
-  end
-
-  def send_template_creation_request(request_body)
-    HTTParty.post(
-      "#{business_account_path}/message_templates",
-      headers: api_headers,
-      body: request_body.to_json
-    )
-  end
-
-  def process_template_creation_response(response)
-    if response.success?
-      build_success_response(response)
-    else
-      build_error_response(response)
-    end
-  end
-
-  def build_success_response(response)
-    {
-      success: true,
-      template_id: response['id'],
-      template_name: 'customer_satisfaction_survey',
-      status: 'PENDING'
-    }
-  end
-
-  def build_error_response(response)
-    Rails.logger.error "WhatsApp template creation failed: #{response.code} - #{response.body}"
-    {
-      success: false,
-      error: error_message(response) || "Failed to create template: #{response.code}",
-      response_body: response.body
-    }
-  end
-
-  public
 
   def get_template_status(template_name)
-    url = "#{business_account_path}/message_templates?name=#{template_name}&access_token=#{whatsapp_channel.provider_config['api_key']}"
-    response = HTTParty.get(url)
-
-    return { success: false, error: 'API request failed' } unless response.success?
-
-    templates = response['data'] || []
-    template = templates.find { |t| t['name'] == template_name }
-
-    if template
-      {
-        success: true,
-        template: {
-          id: template['id'],
-          name: template['name'],
-          status: template['status'],
-          language: template['language']
-        }
-      }
-    else
-      { success: false, error: 'Template not found' }
-    end
+    csat_template_service.get_template_status(template_name)
   end
 
   def api_headers
