@@ -311,6 +311,7 @@ const createTemplate = async () => {
       error.response?.data?.error ||
       t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE');
     useAlert(errorMessage);
+    throw error; // Re-throw to prevent inbox update
   } finally {
     isUpdating.value = false;
   }
@@ -320,13 +321,19 @@ const performSave = async () => {
   try {
     isUpdating.value = true;
 
-    // For WhatsApp channels, create template only if needed
+    // For WhatsApp channels, create template first if needed
     if (
       isWhatsAppChannel.value &&
       state.csatSurveyEnabled &&
       shouldCreateTemplate()
     ) {
-      await createTemplate();
+      try {
+        await createTemplate();
+      } catch (templateError) {
+        // If template creation fails, show the Meta error and don't update inbox
+        useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE'));
+        return; // Exit early - don't update inbox settings
+      }
     }
 
     const csatConfig = {
