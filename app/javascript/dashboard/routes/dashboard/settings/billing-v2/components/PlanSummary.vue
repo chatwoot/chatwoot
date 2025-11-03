@@ -44,11 +44,11 @@ const props = defineProps({
   },
   updatingDirection: {
     type: String,
-    default: null, // 'increase' or 'decrease'
+    default: null,
   },
 });
 
-const emit = defineEmits(['view-all-plans', 'cancel-plan', 'updateSeats']);
+const emit = defineEmits(['viewAllPlans', 'cancelPlan', 'updateSeats']);
 
 const { t } = useI18n();
 
@@ -203,7 +203,7 @@ const handleIncreaseSeats = () => {
         variant="faded"
         color="slate"
         size="sm"
-        @click="emit('view-all-plans')"
+        @click="emit('viewAllPlans')"
       >
         {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.VIEW_ALL_PLANS') }}
       </Button>
@@ -212,7 +212,7 @@ const handleIncreaseSeats = () => {
         variant="faded"
         color="ruby"
         size="sm"
-        @click="emit('cancel-plan')"
+        @click="emit('cancelPlan')"
       >
         {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.CANCEL_PLAN') }}
       </Button>

@@ -59,7 +59,7 @@ const getCategoryConfig = category =>
       <div
         v-for="grant in sortedGrants"
         :key="grant.id"
-        class="flex items-center justify-between gap-4 p-3 rounded-lg border border-n-weak"
+        class="flex items-center justify-between gap-4 p-3 rounded-lg -outline-offset-1 outline outline-1 outline-n-weak"
         :class="{ 'opacity-60': grant.voided_at }"
       >
         <div class="flex items-center gap-2.5 min-w-0 flex-1">

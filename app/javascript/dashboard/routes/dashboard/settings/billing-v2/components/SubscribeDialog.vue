@@ -153,9 +153,7 @@ defineExpose({
             {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.CREDITS') }}
           </span>
         </div>
-        <div
-          class="flex justify-between text-sm pt-2 border-t border-n-blue-4 dark:border-n-blue-5"
-        >
+        <div class="flex justify-between text-sm pt-2 border-t border-n-blue-4">
           <span class="font-semibold text-n-slate-12">
             {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.MONTHLY_TOTAL') }}
           </span>

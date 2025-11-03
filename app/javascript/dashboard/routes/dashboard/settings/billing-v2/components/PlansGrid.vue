@@ -55,16 +55,16 @@ const formatNumber = num => {
       <div
         v-for="plan in plans"
         :key="plan.id || plan.display_name"
-        class="relative p-4 rounded-xl border transition-all"
+        class="relative p-4 rounded-xl -outline-offset-1 outline outline-1 transition-all"
         :class="
           isCurrentPlan(plan)
-            ? 'border-n-blue-8 bg-n-blue-3'
-            : 'border-n-weak hover:border-n-slate-8 hover:shadow-sm'
+            ? 'outline-n-blue-8 bg-n-blue-3'
+            : 'outline-n-weak hover:outline-n-strong hover:shadow-sm'
         "
       >
         <div
           v-if="plan.recommended"
-          class="absolute -top-2 -right-2 px-2 py-0.5 bg-n-teal-9 text-white text-xs font-semibold rounded-md"
+          class="absolute -top-2 ltr:right-2 rtl:left-2 px-2 py-0.5 bg-n-teal-9 text-white text-xs font-semibold rounded-md"
         >
           {{ t('BILLING_SETTINGS_V2.PRICING_PLANS.RECOMMENDED') }}
         </div>

@@ -50,9 +50,6 @@ const formatAmount = amount => {
     class="p-5 rounded-xl outline outline-1 outline-n-weak bg-n-solid-1 mx-5 mt-5"
   >
     <div class="p-4 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 mb-4">
-      <p class="text-xs text-n-slate-11 mb-1">
-        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.CREDITS') }}
-      </p>
       <div class="flex items-baseline gap-2 mb-1">
         <span class="text-4xl font-bold text-n-slate-12">
           {{ formatAmount(currentBalance) }}

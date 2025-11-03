@@ -72,7 +72,7 @@ const handleTopup = async data => {
       <div
         v-for="option in options"
         :key="option.id"
-        class="p-4 border border-n-weak rounded-lg hover:border-b-500 hover:shadow-sm transition-all cursor-pointer"
+        class="p-4 -outline-offset-1 outline outline-1 outline-n-weak rounded-lg hover:outline-n-strong hover:shadow-sm transition-all cursor-pointer"
         @click="openTopupDialog(option)"
       >
         <div class="text-center">

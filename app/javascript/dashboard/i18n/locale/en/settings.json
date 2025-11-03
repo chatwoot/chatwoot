@@ -411,7 +411,6 @@
       "TITLE": "Credits Balance",
       "DESCRIPTION": "Your current credit balance and recent transactions.",
       "CREDITS": "credits",
-      "CREDITS_SHORT": "cr",
       "REFRESH": "Refresh",
       "BUY_CREDITS": "Buy Credits",
       "VIEW_HISTORY": "View History",
@@ -419,9 +418,7 @@
       "TOPUP_CREDITS": "Top-up Credits",
       "USED_THIS_MONTH": "Used This Month",
       "TOTAL_USED": "Total Used",
-      "USAGE_BASED_INFO": "Usage-based pricing: Credits are consumed as you use Chatwoot features.",
-      "LEDGER_TITLE": "Recent Transactions",
-      "NO_TRANSACTIONS": "No transactions yet. Start by topping up or subscribing to a plan."
+      "USAGE_BASED_INFO": "Usage-based pricing: Credits are consumed as you use Chatwoot features."
     },
     "PLAN_SUMMARY": {
       "TITLE": "Plan Summary",
@@ -438,7 +435,6 @@
       "TITLE": "Pricing Plans",
       "DESCRIPTION": "Choose a plan that fits your team. All plans include credits that reset monthly.",
       "CURRENT_PLAN": "Current Subscription",
-      "CURRENT": "Current Plan",
       "RECOMMENDED": "Recommended",
       "MONTH": "month",
       "SEATS": "seats",
@@ -464,7 +460,6 @@
     },
     "TOPUP_OPTIONS": {
       "TITLE": "Top-up Credits",
-      "DESCRIPTION": "Need more credits? Purchase additional credits anytime to keep your team running.",
       "CREDITS": "credits",
       "BUY_NOW": "Buy Now",
       "NO_OPTIONS": "No top-up options available.",
@@ -475,7 +470,6 @@
     },
     "CREDIT_GRANTS": {
       "TITLE": "Credit History",
-      "DESCRIPTION": "View all your credit grants including topups and monthly credits.",
       "CREDITS": "credits",
       "EXPIRES": "Expires",
       "NO_EXPIRY": "Never expires",
@@ -495,14 +489,11 @@
       "INCLUDED_CREDITS": "Included credits",
       "CREDITS": "credits",
       "MONTHLY_TOTAL": "Monthly Total",
-      "OVERAGE_RATE": "Overage rate",
-      "CREDIT": "credit",
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm Subscription"
     },
     "TOPUP_MODAL": {
       "TITLE": "Confirm Top-up",
-      "SELECTED_OPTION": "Selected Option",
       "CREDITS": "credits",
       "PRICE": "Price",
       "INFO": "Credits will be added to your account immediately and never expire.",
