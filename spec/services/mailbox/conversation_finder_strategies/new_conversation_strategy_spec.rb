@@ -24,9 +24,9 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
             expect(conversation.new_record?).to be(true) # Not persisted yet
             expect(conversation.inbox).to eq(email_channel.inbox)
             expect(conversation.account).to eq(account)
-          end.to change(Conversation, :count).by(0) # No conversation created yet
-                                             .and change(Contact, :count).by(1) # Contact is created
-                                                                         .and change(ContactInbox, :count).by(1)
+          end.to not_change(Conversation, :count) # No conversation created yet
+            .and change(Contact, :count).by(1) # Contact is created
+                                        .and change(ContactInbox, :count).by(1)
         end
 
         it 'sets conversation attributes correctly' do
@@ -62,8 +62,8 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
             expect(conversation).to be_a(Conversation)
             expect(conversation.new_record?).to be(true) # Not persisted yet
             expect(conversation.contact).to eq(existing_contact)
-          end.to change(Conversation, :count).by(0) # No conversation created yet
-                                             .and not_change(Contact, :count)
+          end.to not_change(Conversation, :count) # No conversation created yet
+            .and not_change(Contact, :count)
             .and not_change(ContactInbox, :count)
         end
       end
