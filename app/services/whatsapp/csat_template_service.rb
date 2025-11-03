@@ -18,8 +18,20 @@ class Whatsapp::CsatTemplateService
   end
 
   def get_template_status(template_name)
-    response = fetch_template_response(template_name)
-    process_template_status_response(response)
+    response = HTTParty.get("#{business_account_path}/message_templates?name=#{template_name}", headers: api_headers)
+
+    if response.success? && response['data']&.any?
+      template_data = response['data'].first
+      {
+        success: true,
+        template: {
+          id: template_data['id'], name: template_data['name'],
+          status: template_data['status'], language: template_data['language']
+        }
+      }
+    else
+      { success: false, error: 'Template not found' }
+    end
   rescue StandardError => e
     Rails.logger.error "Error fetching template status: #{e.message}"
     { success: false, error: e.message }
@@ -74,28 +86,20 @@ class Whatsapp::CsatTemplateService
 
   def process_template_creation_response(response)
     if response.success?
-      build_success_response(response)
+      {
+        success: true,
+        template_id: response['id'],
+        template_name: 'customer_satisfaction_survey',
+        status: 'PENDING'
+      }
     else
-      build_error_response(response)
+      Rails.logger.error "WhatsApp template creation failed: #{response.code} - #{response.body}"
+      {
+        success: false,
+        error: 'Template creation failed',
+        response_body: response.body
+      }
     end
-  end
-
-  def build_success_response(response)
-    {
-      success: true,
-      template_id: response['id'],
-      template_name: 'customer_satisfaction_survey',
-      status: 'PENDING'
-    }
-  end
-
-  def build_error_response(response)
-    Rails.logger.error "WhatsApp template creation failed: #{response.code} - #{response.body}"
-    {
-      success: false,
-      error: 'Template creation failed',
-      response_body: response.body
-    }
   end
 
   def business_account_path
@@ -111,32 +115,5 @@ class Whatsapp::CsatTemplateService
 
   def api_base_path
     ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
-  end
-
-  def fetch_template_response(template_name)
-    HTTParty.get(
-      "#{business_account_path}/message_templates?name=#{template_name}",
-      headers: api_headers
-    )
-  end
-
-  def process_template_status_response(response)
-    if response.success? && response['data']&.any?
-      build_template_status_success(response['data'].first)
-    else
-      { success: false, error: 'Template not found' }
-    end
-  end
-
-  def build_template_status_success(template_data)
-    {
-      success: true,
-      template: {
-        id: template_data['id'],
-        name: template_data['name'],
-        status: template_data['status'],
-        language: template_data['language']
-      }
-    }
   end
 end
