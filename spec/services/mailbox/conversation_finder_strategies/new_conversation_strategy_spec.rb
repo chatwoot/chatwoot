@@ -15,16 +15,17 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
   describe '#find' do
     context 'when channel is found' do
       context 'with new contact' do
-        it 'creates a new conversation with new contact' do
+        it 'builds a new conversation with new contact' do
           strategy = described_class.new(mail)
 
           expect do
             conversation = strategy.find
             expect(conversation).to be_a(Conversation)
+            expect(conversation.new_record?).to be(true) # Not persisted yet
             expect(conversation.inbox).to eq(email_channel.inbox)
             expect(conversation.account).to eq(account)
-          end.to change(Conversation, :count).by(1)
-                                             .and change(Contact, :count).by(1)
+          end.to change(Conversation, :count).by(0) # No conversation created yet
+                                             .and change(Contact, :count).by(1) # Contact is created
                                                                          .and change(ContactInbox, :count).by(1)
         end
 
@@ -53,14 +54,15 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
           create(:contact_inbox, contact: existing_contact, inbox: email_channel.inbox)
         end
 
-        it 'creates conversation with existing contact' do
+        it 'builds conversation with existing contact' do
           strategy = described_class.new(mail)
 
           expect do
             conversation = strategy.find
             expect(conversation).to be_a(Conversation)
+            expect(conversation.new_record?).to be(true) # Not persisted yet
             expect(conversation.contact).to eq(existing_contact)
-          end.to change(Conversation, :count).by(1)
+          end.to change(Conversation, :count).by(0) # No conversation created yet
                                              .and not_change(Contact, :count)
             .and not_change(ContactInbox, :count)
         end
@@ -142,19 +144,17 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
 
     context 'when conversation creation fails' do
       before do
-        # Make conversation creation fail
-        allow(Conversation).to receive(:create!).and_raise(ActiveRecord::RecordInvalid)
+        # Make conversation build fail with invalid attributes
+        allow(Conversation).to receive(:new).and_return(Conversation.new)
       end
 
-      it 'rolls back the transaction' do
+      it 'returns invalid conversation object' do
         strategy = described_class.new(mail)
 
-        expect do
-          strategy.find
-        end.to raise_error(ActiveRecord::RecordInvalid)
-          .and not_change(Conversation, :count)
-          .and not_change(Contact, :count)
-          .and not_change(ContactInbox, :count)
+        conversation = strategy.find
+        expect(conversation).to be_a(Conversation)
+        expect(conversation.new_record?).to be(true)
+        expect(conversation.valid?).to be(false)
       end
     end
   end

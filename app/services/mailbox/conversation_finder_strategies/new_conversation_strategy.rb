@@ -4,8 +4,12 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
 
   attr_accessor :processed_mail, :account, :inbox, :contact, :contact_inbox, :conversation
 
-  # This strategy always succeeds by creating a new conversation if none was found.
-  # It should be used as the last strategy in the chain to ensure emails are never dropped.
+  # This strategy prepares a new conversation but doesn't persist it yet.
+  # Why we don't use create! here:
+  # - Avoids orphan conversations if message/attachment creation fails later
+  # - Prevents duplicate conversations on job retry (no idempotency issue)
+  # - Follows the pattern from old SupportMailbox where everything was in one transaction
+  # The actual persistence happens in ReplyMailbox within a transaction that includes message creation.
   def find
     channel = EmailChannelFinder.new(mail).perform
     return nil unless channel # No valid channel found
@@ -21,12 +25,11 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
     existing_conversation = find_conversation_by_in_reply_to
     return existing_conversation if existing_conversation
 
-    ActiveRecord::Base.transaction do
-      find_or_create_contact
-      create_conversation
-    end
+    # Prepare contact (persisted) but not conversation
+    find_or_create_contact
 
-    @conversation
+    # Build conversation without saving - ReplyMailbox will handle persistence
+    build_conversation
   end
 
   private
@@ -48,8 +51,9 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
     @processed_mail.sender_name || @processed_mail.from.first.split('@').first
   end
 
-  def create_conversation
-    @conversation = ::Conversation.create!(
+  def build_conversation
+    # Build but don't persist - ReplyMailbox will save in transaction with message
+    @conversation = ::Conversation.new(
       account_id: @account.id,
       inbox_id: @inbox.id,
       contact_id: @contact.id,
