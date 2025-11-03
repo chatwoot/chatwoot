@@ -71,7 +71,7 @@ const handleTopup = async data => {
     <h6 class="text-base font-semibold mb-2">
       {{ t('BILLING_SETTINGS_V2.TOPUP_OPTIONS.TITLE') }}
     </h6>
-    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="grid gap-3 grid-cols-1 xs:grid-cols-2 xl:grid-cols-4">
       <div
         v-for="option in options"
         :key="option.id"
