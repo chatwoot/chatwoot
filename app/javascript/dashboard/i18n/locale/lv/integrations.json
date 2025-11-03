@@ -863,6 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "Bieži uzdotie jautājumi",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Izveidot jaunu sarakstu ar bieži uzdotiem jautājumiem",
       "DOCUMENTABLE": {
         "CONVERSATION": "Saruna #{id}"
@@ -902,6 +903,10 @@
         "APPROVED": "Apstiprināts",
         "ALL": "Visi"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Pievienot jautājumu un tā atbildi zināšanu bāzei, kā arī izvēlēties asistentu, ar kuru tas būs saistīts.",
       "CREATE": {
         "TITLE": "Pievienot bieži uzdotos jautājumus",
@@ -932,13 +937,15 @@
         "APPROVE_SUCCESS_MESSAGE": "Bieži uzdotie jautājumi tika atzīmēti kā apstiprināti"
       },
       "OPTIONS": {
-        "APPROVE": "Atzīmēt kā apstiprinātu",
-        "EDIT_RESPONSE": "Rediģēt bieži uzdotos jautājumus",
-        "DELETE_RESPONSE": "Dzēst bieži uzdotos jautājumus"
+        "APPROVE": "Apstiprināt",
+        "EDIT_RESPONSE": "Rediģēt",
+        "DELETE_RESPONSE": "Dzēst"
       },
       "EMPTY_STATE": {
         "TITLE": "Bieži uzdoto jautājumu saraksti nav atrasti",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "Bieži uzdotie jautājumi palīdz Jūsu asistentam sniegt ātras un precīzas atbildes uz Jūsu klientu jautājumiem. Tos var ģenerēt automātiski no jūsu satura vai pievienot manuāli.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
