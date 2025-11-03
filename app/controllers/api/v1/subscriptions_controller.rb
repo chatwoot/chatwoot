@@ -25,7 +25,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
     qty = params[:qty] || 1
     voucher_code = params[:voucher_code]
     voucher = nil
-    price = calculate_package_price(@subscription_plan.monthly_price, @subscription_plan.name, qty)
+    price = get_price_for_cycle(@subscription_plan, billing_cycle)
 
     # Apply voucher if present
     if voucher_code.present?
@@ -112,7 +112,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
                 voucher_code: voucher_code,
                 voucher_discount: voucher&.discount_value,
                 voucher_type: voucher&.discount_type,
-                original_price: calculate_package_price(@subscription_plan.monthly_price, @subscription_plan.name, qty)
+                original_price: get_price_for_cycle(@subscription_plan, billing_cycle)
               }
             )
 
@@ -332,6 +332,21 @@ class Api::V1::SubscriptionsController < Api::BaseController
     else
       # Fallback jika semua 0 atau null
       { price: 0, qty: 1, name: 'Bulanan' }
+    end
+  end
+
+  def get_price_for_cycle(plan, billing_cycle)
+    case billing_cycle
+    when 'quarterly'
+      plan.quarterly_price
+    when 'halfyear'
+      plan.semi_annual_price
+    when 'yearly'
+      plan.annual_price
+    when 'monthly'
+      plan.monthly_price
+    else
+      plan.monthly_price
     end
   end
 
