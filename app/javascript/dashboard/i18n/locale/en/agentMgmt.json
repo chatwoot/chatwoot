@@ -179,6 +179,8 @@
       "AI_AGENT_DESC": "Bot AI Description",
       "AI_AGENT_BUSINESS_INFO": "Your Business Information",
       "AI_AGENT_BUSINESS_INFO_PLACEHOLDER": "Shop is open Monday to Friday, from 9 AM to 5 PM",
+      "INSTRUCTION": "Instructions for the AI Bot",
+      "INSTRUCTION_PLACEHOLDER": "Answer all questions politely and friendly. If you don't know the answer, say 'Sorry, I don't know.' Do not make up answers.",
       "AI_AGENT_PERSONA_LANG_STYLE": "Bot AI Persona and Language Style",
       "AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER": "You are a friendly and helpful virtual assistant. Use casual and easy-to-understand language.",
       "HAS_WEBSITE_QUESTION": "Do you have a website?",

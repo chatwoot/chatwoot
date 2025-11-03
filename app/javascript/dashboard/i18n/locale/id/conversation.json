@@ -13,8 +13,8 @@
     "NO_INBOX_AGENT": "Aduh! Sepertinya Anda bukan bagian dari kotak masuk mana pun. Silakan hubungi administrator Anda",
     "SEARCH_MESSAGES": "Mencari pesan dalam percakapan",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "untuk membuka menu perintah",
+      "KEYBOARD_SHORTCUTS": "untuk melihat pintasan keyboard"
     },
     "SEARCH": {
       "TITLE": "Mencari pesan",
@@ -41,15 +41,15 @@
     "SAVE_CONTACT": "Simpan",
     "UPLOADING_ATTACHMENTS": "Mengunggah lampiran...",
     "REPLIED_TO_STORY": "Membalas cerita Anda",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Pesan ini tidak didukung.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Pesan ini tidak didukung. Anda dapat melihat pesan ini di aplikasi Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Pesan ini tidak didukung. Anda dapat melihat pesan ini di aplikasi Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Pesan berhasil dihapus",
     "FAIL_DELETE_MESSSAGE": "Tidak dapat menghapus pesan! Coba lagi",
     "NO_RESPONSE": "Tidak ada respon",
     "RATING_TITLE": "Penilaian",
     "FEEDBACK_TITLE": "Umpan Balik",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Pesan tidak tersedia",
     "CARD": {
       "SHOW_LABELS": "Tampilkan label",
       "HIDE_LABELS": "Sembunyikan label"
@@ -69,8 +69,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "terlewat",
+        "DUE": "jatuh tempo"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -223,13 +223,13 @@
       }
     },
     "PLACEHOLDER_UPLOAD": {
-      "PART_1": "Klik atau tarik dan lepas file di sini (Maksimal ukuran 5MB)",
+      "PART_1": "Klik atau tarik dan lepas file di sini (Maksimal ukuran 20MB)",
       "PART_2": "Mendukung file .pdf, .docx",
       "PART_3": "File yang telah ditambahkan:",
       "PART_4": "File yang akan ditambahkan:",
       "CHAR": "Karakter"
     },
-    "UPLOAD_MAX_REACHED": "File terlalu besar. Maksimal ukuran file adalah 5MB."
+    "UPLOAD_MAX_REACHED": "File terlalu besar. Maksimal ukuran file adalah 20MB."
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Kirim transkrip percakapan",

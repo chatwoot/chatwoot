@@ -74,6 +74,7 @@ watch(
 const state = reactive({
   name: '',
   description: '',
+  instruction: '',
   business_info: '',
   welcoming_message: '',
   routing_conditions: '',
@@ -83,6 +84,7 @@ const state = reactive({
 const rules = {
   name: { required },
   description: {},
+  instruction: {},
   business_info: { required },
   welcoming_message: {},
   routing_conditions: {},
@@ -315,6 +317,21 @@ function resetChat() {
               :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_DESC')"
             />
           </div> -->
+        </div>
+        
+        <!-- Instruction Field -->
+        <div>
+          <label for="instruction">{{ t('AGENT_MGMT.FORM_CREATE.INSTRUCTION') }}</label>
+          <TextArea
+            id="instruction"
+            v-model="state.instruction"
+            custom-text-area-wrapper-class=""
+            custom-text-area-class="!outline-none"
+            :placeholder="t('AGENT_MGMT.FORM_CREATE.INSTRUCTION_PLACEHOLDER')"
+            auto-height
+            min-height="80px"
+            max-height="200px"
+          />
         </div>
         
         <!-- Only show these fields if NOT a custom agent -->

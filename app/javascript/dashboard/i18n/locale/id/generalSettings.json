@@ -118,8 +118,8 @@
       "REMOVE_LABEL": "Hapus label dari percakapan",
       "SETTINGS": "Pengaturan",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "APPEARANCE": "Tampilan",
+      "SNOOZE_NOTIFICATION": "Tunda Notifikasi"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Menuju ke Dasbor Percakapan",
@@ -157,18 +157,18 @@
       "UNTIL_NEXT_MONTH": "Hingga bulan depan",
       "AN_HOUR_FROM_NOW": "Hingga satu jam dari sekarang",
       "UNTIL_CUSTOM_TIME": "Kustom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
+      "CHANGE_APPEARANCE": "Ubah Mode",
+      "LIGHT_MODE": "Terang",
+      "DARK_MODE": "Gelap",
       "SYSTEM_MODE": "Sistem",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Tunda Notifikasi"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Memuat Aplikasi Dasbor..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "Atau",
     "CLICK_HERE": "klik disini"
   }
 }

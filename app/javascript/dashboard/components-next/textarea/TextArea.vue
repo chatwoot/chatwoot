@@ -170,7 +170,6 @@ onMounted(() => {
         :class="[
           customTextAreaClass,
           {
-            'resize-none': !resize,
           },
         ]"
         :style="{
