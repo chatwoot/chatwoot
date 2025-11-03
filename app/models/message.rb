@@ -316,7 +316,7 @@ class Message < ApplicationRecord
       custom_attributes: flatten_custom_attributes(conversation.custom_attributes),
       browser: conversation.additional_attributes&.dig('browser'),
       referer: conversation.additional_attributes&.dig('referer'),
-      initated_at: conversation.additional_attributes&.dig('initated_at')
+      initated_at: conversation.additional_attributes&.dig('initiated_at')
     }
   end
 
