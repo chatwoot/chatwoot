@@ -321,7 +321,7 @@ class Message < ApplicationRecord
   end
 
   def search_inbox_data
-    return nil unless index
+    return nil unless inbox
 
     {
       id: inbox.id,
