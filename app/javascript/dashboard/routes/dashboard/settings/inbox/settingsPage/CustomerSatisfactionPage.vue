@@ -381,8 +381,8 @@ const saveSettings = async () => {
 };
 
 const handleConfirmTemplateUpdate = async () => {
-  // TODO: In future, add logic to delete existing template here
-  // await performSave();
+  // We will delete the template before creating the template
+  await performSave();
 };
 </script>
 
