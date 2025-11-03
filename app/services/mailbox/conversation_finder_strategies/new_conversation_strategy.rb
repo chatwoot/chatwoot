@@ -8,9 +8,7 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   # It should be used as the last strategy in the chain to ensure emails are never dropped.
   def find
     channel = EmailChannelFinder.new(mail).perform
-
-    # Match old SupportMailbox behavior - raise error when no channel found
-    raise 'Email channel/inbox not found' if channel.nil?
+    return nil unless channel # No valid channel found
 
     @account = channel.account
     @inbox = channel.inbox

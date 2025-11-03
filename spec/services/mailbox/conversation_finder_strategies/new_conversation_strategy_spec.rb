@@ -111,13 +111,13 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
         mail.to = ['nonexistent@example.com']
       end
 
-      it 'raises an error' do
+      it 'returns nil' do
         strategy = described_class.new(mail)
 
         expect do
-          strategy.find
-        end.to raise_error('Email channel/inbox not found')
-          .and not_change(Conversation, :count)
+          result = strategy.find
+          expect(result).to be_nil
+        end.not_to change(Conversation, :count)
       end
     end
 

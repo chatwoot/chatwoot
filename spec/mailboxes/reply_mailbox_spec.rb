@@ -687,7 +687,8 @@ RSpec.describe ReplyMailbox do
         bcc_mail.mail['to'] = nil
         bcc_mail.mail['bcc'] = 'care@example.com'
 
-        expect { described_class.receive bcc_mail }.to raise_error('Email channel/inbox not found')
+        described_class.receive bcc_mail
+        expect(conversation.present?).to be(false)
       end
     end
   end
