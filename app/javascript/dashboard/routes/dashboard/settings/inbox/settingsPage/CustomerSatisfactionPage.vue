@@ -45,7 +45,6 @@ const templateStatus = ref(null);
 const templateLoading = ref(false);
 const confirmDialog = ref(null);
 
-// Track original values to detect template changes
 const originalTemplateValues = ref({
   message: '',
   templateButtonText: '',
@@ -84,50 +83,44 @@ const messagePreviewData = computed(() => ({
 }));
 
 const templateApprovalStatus = computed(() => {
-  if (!templateStatus.value || !templateStatus.value.template_exists) {
-    // Handle deleted template case
-    if (templateStatus.value?.error === 'TEMPLATE_NOT_FOUND') {
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.NOT_FOUND'),
-        icon: 'i-lucide-alert-triangle',
-        color: 'text-red-600',
-      };
-    }
+  const statusMap = {
+    APPROVED: {
+      text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
+      icon: 'i-lucide-circle-check',
+      color: 'text-green-600',
+    },
+    PENDING: {
+      text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
+      icon: 'i-lucide-clock',
+      color: 'text-yellow-600',
+    },
+    REJECTED: {
+      text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
+      icon: 'i-lucide-circle-x',
+      color: 'text-red-600',
+    },
+  };
 
-    // Default case - no template exists
+  // Handle template not found case
+  if (templateStatus.value?.error === 'TEMPLATE_NOT_FOUND') {
     return {
-      text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.DEFAULT'),
-      icon: 'i-lucide-stamp',
-      color: 'text-gray-600',
+      text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.NOT_FOUND'),
+      icon: 'i-lucide-alert-triangle',
+      color: 'text-red-600',
     };
   }
 
-  switch (templateStatus.value.status) {
-    case 'APPROVED':
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
-        icon: 'i-lucide-circle-check',
-        color: 'text-green-600',
-      };
-    case 'PENDING':
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
-        icon: 'i-lucide-clock',
-        color: 'text-yellow-600',
-      };
-    case 'REJECTED':
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
-        icon: 'i-lucide-circle-x',
-        color: 'text-red-600',
-      };
-    default:
-      return {
-        text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.DEFAULT'),
-        icon: 'i-lucide-stamp',
-        color: 'text-gray-600',
-      };
+  // Handle existing template with status
+  if (templateStatus.value?.template_exists && templateStatus.value.status) {
+    return statusMap[templateStatus.value.status] || statusMap.DEFAULT;
   }
+
+  // Default case - no template exists
+  return {
+    text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.DEFAULT'),
+    icon: 'i-lucide-stamp',
+    color: 'text-gray-600',
+  };
 });
 
 const initializeState = () => {
