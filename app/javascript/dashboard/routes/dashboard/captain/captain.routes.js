@@ -10,6 +10,7 @@ import AssistantGuidelinesIndex from './assistants/guidelines/Index.vue';
 import AssistantScenariosIndex from './assistants/scenarios/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
+import ResponsesPendingIndex from './responses/Pending.vue';
 import CustomToolsIndex from './tools/Index.vue';
 
 // Onboarding flow components
@@ -196,6 +197,19 @@ export const routes = [
     path: frontendURL('accounts/:accountId/captain/responses'),
     component: ResponsesIndex,
     name: 'captain_responses_index',
+    meta: {
+      permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
+      installationTypes: [
+        INSTALLATION_TYPES.CLOUD,
+        INSTALLATION_TYPES.ENTERPRISE,
+      ],
+    },
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/responses/pending'),
+    component: ResponsesPendingIndex,
+    name: 'captain_responses_pending',
     meta: {
       permissions: ['administrator', 'agent'],
       featureFlag: FEATURE_FLAGS.CAPTAIN,

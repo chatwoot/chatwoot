@@ -23,7 +23,7 @@ class Messages::MessageBuilder
     process_emails
     # When the message has no quoted content, it will just be rendered as a regular message
     # The frontend is equipped to handle this case
-    process_email_content if @account.feature_enabled?(:quoted_email_reply)
+    process_email_content
     @message.save!
     @message
   end

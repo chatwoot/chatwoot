@@ -114,6 +114,7 @@ const handlePageChange = event => {
             <slot name="action" />
           </div>
         </div>
+        <slot name="subHeader" />
       </div>
     </header>
     <main class="flex-1 px-6 overflow-y-auto">

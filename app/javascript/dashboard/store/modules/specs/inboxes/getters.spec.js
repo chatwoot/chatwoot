@@ -265,6 +265,39 @@ describe('#getters', () => {
       expect(result[0].name).toBe('regular_template');
     });
 
+    it('filters out authentication templates', () => {
+      const authenticationTemplates = [
+        {
+          name: 'auth_template',
+          status: 'approved',
+          category: 'AUTHENTICATION',
+          components: [
+            { type: 'BODY', text: 'Your verification code is {{1}}' },
+          ],
+        },
+        {
+          name: 'regular_template',
+          status: 'approved',
+          category: 'MARKETING',
+          components: [{ type: 'BODY', text: 'Regular message' }],
+        },
+      ];
+
+      const state = {
+        records: [
+          {
+            id: 1,
+            channel_type: 'Channel::Whatsapp',
+            message_templates: authenticationTemplates,
+          },
+        ],
+      };
+
+      const result = getters.getFilteredWhatsAppTemplates(state)(1);
+      expect(result).toHaveLength(1);
+      expect(result[0].name).toBe('regular_template');
+    });
+
     it('returns valid templates from fixture data', () => {
       const state = {
         records: [
