@@ -121,6 +121,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     template_params = extract_template_params
     return render_missing_message_error if template_params[:message].blank?
 
+    # Delete existing template if it exists
+    delete_existing_template_if_needed
+
     result = create_template_via_provider(template_params)
     render_template_creation_result(result)
   rescue ActionController::ParameterMissing
@@ -181,6 +184,16 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       error: whatsapp_error[:user_message] || result[:error],
       details: whatsapp_error[:technical_details]
     }, status: :unprocessable_content
+  end
+
+  def delete_existing_template_if_needed
+    # Check if template exists first to avoid unnecessary deletion attempts
+    template_status = @inbox.channel.provider_service.get_csat_template_status
+    return unless template_status[:template_exists]
+
+    # Delete the existing template
+    @inbox.channel.provider_service.delete_csat_template
+    Rails.logger.info "Deleted existing CSAT template for inbox #{@inbox.id}"
   end
 
   def parse_whatsapp_error(response_body)

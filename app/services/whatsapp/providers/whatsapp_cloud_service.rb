@@ -64,6 +64,14 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_template_creation_response(response)
   end
 
+  def delete_csat_template
+    response = HTTParty.delete(
+      "#{business_account_path}/message_templates?name=customer_satisfaction_survey",
+      headers: api_headers
+    )
+    { success: response.success?, response_body: response.body }
+  end
+
   private
 
   def build_template_request_body(template_config)
