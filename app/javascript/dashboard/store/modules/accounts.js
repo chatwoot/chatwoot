@@ -241,7 +241,10 @@ export const actions = {
     commit(types.default.SET_V2_BILLING_UI_FLAG, { isTopupInProcess: true });
     try {
       await EnterpriseAccountAPI.v2Topup(data);
-      // Refresh balance and ledger after successful topup
+      // Wait for backend to process, then refresh balance
+      await new Promise(resolve => {
+        setTimeout(resolve, 2000);
+      });
       await dispatch('fetchCreditsBalance');
       return { success: true };
     } catch (error) {

@@ -50,19 +50,18 @@ const formatNumber = num => {
 </script>
 
 <template>
-  <div class="px-5 pb-5">
+  <div class="mt-5">
     <div class="grid gap-4 grid-cols-1 xs:grid-cols-2 xl:grid-cols-4">
       <div
         v-for="plan in plans"
         :key="plan.id || plan.display_name"
-        class="relative p-4 rounded-xl outline outline-1 transition-all"
+        class="relative p-4 rounded-xl border transition-all"
         :class="
           isCurrentPlan(plan)
-            ? 'outline-n-blue-8 bg-n-blue-3'
-            : 'outline-n-weak hover:outline-n-slate-8 hover:shadow-sm'
+            ? 'border-n-blue-8 bg-n-blue-3'
+            : 'border-n-weak hover:border-n-slate-8 hover:shadow-sm'
         "
       >
-        <!-- Recommended Badge -->
         <div
           v-if="plan.recommended"
           class="absolute -top-2 -right-2 px-2 py-0.5 bg-n-teal-9 text-white text-xs font-semibold rounded-md"
@@ -124,7 +123,6 @@ const formatNumber = num => {
       </div>
     </div>
 
-    <!-- Empty State -->
     <div v-if="plans.length === 0 && !isLoading" class="py-8 text-center">
       <p class="text-sm text-n-slate-11">
         {{ t('BILLING_SETTINGS_V2.PRICING_PLANS.NO_PLANS') }}

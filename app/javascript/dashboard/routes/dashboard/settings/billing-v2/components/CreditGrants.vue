@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import format from 'date-fns/format';
-import BillingCard from 'dashboard/routes/dashboard/settings/billing/components/BillingCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
@@ -52,75 +51,80 @@ const getCategoryConfig = category =>
 </script>
 
 <template>
-  <BillingCard
-    :title="$t('BILLING_SETTINGS_V2.CREDIT_GRANTS.TITLE')"
-    :description="$t('BILLING_SETTINGS_V2.CREDIT_GRANTS.DESCRIPTION')"
-  >
-    <div class="px-5 pb-5">
-      <div v-if="sortedGrants.length" class="space-y-3">
-        <div
-          v-for="grant in sortedGrants"
-          :key="grant.id"
-          class="p-4 rounded-xl outline outline-1 outline-n-weak transition-opacity"
-          :class="{ 'opacity-50': grant.voided_at }"
-        >
-          <div class="flex items-start justify-between gap-4">
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-2">
-                <span
-                  class="px-2 py-0.5 text-xs font-semibold rounded-md"
-                  :class="getCategoryConfig(grant.category).class"
-                >
-                  {{ getCategoryConfig(grant.category).label }}
-                </span>
-                <span
-                  v-if="grant.voided_at"
-                  class="px-2 py-0.5 text-xs font-semibold rounded-md bg-n-ruby-3 text-n-ruby-11 outline outline-1 outline-n-ruby-4"
-                >
-                  {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.VOIDED') }}
-                </span>
-              </div>
+  <div class="mt-4">
+    <h6 class="text-base font-semibold mb-2">
+      {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.TITLE') }}
+    </h6>
+    <div v-if="sortedGrants.length" class="space-y-2">
+      <div
+        v-for="grant in sortedGrants"
+        :key="grant.id"
+        class="flex items-center justify-between gap-4 p-3 rounded-lg border border-n-weak"
+        :class="{ 'opacity-60': grant.voided_at }"
+      >
+        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+          <span
+            class="px-2 py-0.5 text-xs font-semibold rounded whitespace-nowrap"
+            :class="getCategoryConfig(grant.category).class"
+          >
+            {{ getCategoryConfig(grant.category).label }}
+          </span>
+          <span class="text-sm font-medium text-n-slate-12 truncate">
+            {{ grant.name }}
+          </span>
+        </div>
 
-              <h4 class="text-sm font-semibold text-n-slate-12 truncate">
-                {{ grant.name }}
-              </h4>
-              <p class="mt-1 text-xs text-n-slate-11">
-                {{ formatNumber(grant.credits) }}
-                {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.CREDITS') }}
-              </p>
-            </div>
-
-            <div class="text-right flex-shrink-0">
-              <div v-if="grant.expires_at" class="text-xs text-n-slate-11">
-                <span class="font-medium">
-                  {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.EXPIRES') }}
-                </span>
-                <div class="mt-0.5">{{ formatDate(grant.expires_at) }}</div>
-              </div>
-
-              <div v-else class="text-xs text-n-teal-10 font-medium">
-                {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.NO_EXPIRY') }}
-              </div>
-
-              <div v-if="grant.created_at" class="mt-1 text-xs text-n-slate-10">
-                {{
-                  t('BILLING_SETTINGS_V2.CREDIT_GRANTS.ADDED', {
-                    date: formatDate(grant.created_at),
-                  })
-                }}
-              </div>
-            </div>
+        <div class="flex items-center gap-4 flex-shrink-0">
+          <div
+            class="text-sm font-semibold text-n-slate-12 whitespace-nowrap hidden sm:block"
+          >
+            {{ formatNumber(grant.credits) }}
+            <span class="text-xs font-normal text-n-slate-10 ml-1">
+              {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.CREDITS') }}
+            </span>
           </div>
+
+          <div class="text-sm text-right min-w-[110px]">
+            <span
+              v-if="grant.expires_at"
+              class="font-medium text-n-slate-11"
+              :title="t('BILLING_SETTINGS_V2.CREDIT_GRANTS.EXPIRES')"
+            >
+              {{ formatDate(grant.expires_at) }}
+            </span>
+            <span v-else class="font-medium text-n-teal-10">
+              {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.NO_EXPIRY') }}
+            </span>
+          </div>
+
+          <div
+            v-if="grant.created_at"
+            class="text-xs text-n-slate-10 whitespace-nowrap"
+            :title="
+              t('BILLING_SETTINGS_V2.CREDIT_GRANTS.ADDED', {
+                date: formatDate(grant.created_at),
+              })
+            "
+          >
+            {{ formatDate(grant.created_at) }}
+          </div>
+
+          <span
+            v-if="grant.voided_at"
+            class="px-2 py-0.5 text-xs font-semibold rounded bg-n-ruby-3 text-n-ruby-11 border border-n-ruby-6 whitespace-nowrap"
+          >
+            {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.VOIDED') }}
+          </span>
         </div>
       </div>
-      <div v-else-if="!isLoading" class="py-8 text-center">
-        <p class="text-sm text-n-slate-11">
-          {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.NO_GRANTS') }}
-        </p>
-      </div>
-      <div v-else class="py-8 flex justify-center items-center">
-        <Spinner class="text-n-brand" />
-      </div>
     </div>
-  </BillingCard>
+    <div v-else-if="!isLoading" class="py-8 text-center">
+      <p class="text-sm text-n-slate-11">
+        {{ t('BILLING_SETTINGS_V2.CREDIT_GRANTS.NO_GRANTS') }}
+      </p>
+    </div>
+    <div v-else class="py-8 flex justify-center items-center">
+      <Spinner class="text-n-brand" />
+    </div>
+  </div>
 </template>

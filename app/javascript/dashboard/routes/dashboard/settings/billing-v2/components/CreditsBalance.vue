@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue';
-import BillingCard from '../../billing/components/BillingCard.vue';
-import ButtonV4 from 'next/button/Button.vue';
+import { useI18n } from 'vue-i18n';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   balanceData: {
@@ -14,7 +15,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['refresh']);
+const emit = defineEmits(['refresh', 'viewTopup', 'viewHistory']);
+
+const { t } = useI18n();
 
 const currentBalance = computed(() => {
   return props.balanceData?.total_credits || 0;
@@ -36,169 +39,114 @@ const usageTotal = computed(() => {
   return props.balanceData?.usage_total || 0;
 });
 
-const currency = computed(() => {
-  return props.balanceData?.currency || 'USD';
-});
-
-const ledger = computed(() => {
-  return props.balanceData?.ledger || [];
-});
-
-const hasLedger = computed(() => {
-  return ledger.value.length > 0;
-});
-
-const formatDate = timestamp => {
-  if (!timestamp) return '';
-  const date = new Date(timestamp);
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-};
-
 const formatAmount = amount => {
   if (!amount) return '0';
   return new Intl.NumberFormat('en-US').format(amount);
 };
-
-const formatMoney = amount => {
-  if (!amount) return '$0.00';
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency.value,
-  }).format(amount);
-};
-
-const getTransactionTypeColor = type => {
-  const colorMap = {
-    topup: 'text-g-800',
-    subscription: 'text-b-800',
-    usage: 'text-y-800',
-    refund: 'text-p-800',
-  };
-  return colorMap[type?.toLowerCase()] || 'text-n-800';
-};
-
-const getTransactionTypeLabel = type => {
-  if (!type) return '';
-  return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
-};
 </script>
 
 <template>
-  <BillingCard
-    :title="$t('BILLING_SETTINGS_V2.CREDITS_BALANCE.TITLE')"
-    :description="$t('BILLING_SETTINGS_V2.CREDITS_BALANCE.DESCRIPTION')"
+  <div
+    class="p-5 rounded-xl outline outline-1 outline-n-weak bg-n-solid-1 mx-5 mt-5"
   >
-    <template #action>
-      <ButtonV4
-        sm
-        faded
-        slate
-        icon="i-lucide-refresh-cw"
-        :is-loading="isLoading"
-        @click="emit('refresh')"
-      >
-        {{ $t('BILLING_SETTINGS_V2.CREDITS_BALANCE.REFRESH') }}
-      </ButtonV4>
-    </template>
-
-    <!-- Current Balance -->
-    <div class="px-5 pb-4">
-      <div class="flex items-baseline gap-2">
-        <span class="text-4xl font-bold text-n-800">
+    <div class="p-4 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 mb-4">
+      <p class="text-xs text-n-slate-11 mb-1">
+        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.CREDITS') }}
+      </p>
+      <div class="flex items-baseline gap-2 mb-1">
+        <span class="text-4xl font-bold text-n-slate-12">
           {{ formatAmount(currentBalance) }}
         </span>
-        <span class="text-base text-n-600">
-          {{ $t('BILLING_SETTINGS_V2.CREDITS_BALANCE.CREDITS') }}
+        <span class="text-base text-n-slate-11">
+          {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.CREDITS') }}
         </span>
       </div>
-      <div class="mt-3 grid grid-cols-2 gap-4">
-        <div>
-          <p class="text-xs text-n-600 uppercase">Monthly Credits</p>
-          <p class="text-lg font-semibold text-b-800">
+      <p class="text-xs text-n-slate-11 mb-0">
+        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.USAGE_BASED_INFO') }}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6 mb-4">
+      <div>
+        <p class="text-xs text-n-slate-11 mb-1">
+          {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.MONTHLY_CREDITS') }}
+        </p>
+        <div class="flex items-center gap-1.5">
+          <Icon icon="i-lucide-calendar-check" class="text-n-blue-9" />
+          <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatAmount(monthlyCredits) }}
           </p>
         </div>
-        <div>
-          <p class="text-xs text-n-600 uppercase">Top-up Credits</p>
-          <p class="text-lg font-semibold text-g-800">
+      </div>
+
+      <div>
+        <p class="text-xs text-n-slate-11 mb-1">
+          {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.TOPUP_CREDITS') }}
+        </p>
+        <div class="flex items-center gap-1.5">
+          <Icon icon="i-lucide-plus-circle" class="text-n-teal-9" />
+          <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatAmount(topupCredits) }}
           </p>
         </div>
-        <div>
-          <p class="text-xs text-n-600 uppercase">Used This Month</p>
-          <p class="text-lg font-semibold text-y-800">
+      </div>
+
+      <div>
+        <p class="text-xs text-n-slate-11 mb-1">
+          {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.USED_THIS_MONTH') }}
+        </p>
+        <div class="flex items-center gap-1.5">
+          <Icon icon="i-lucide-trending-down" class="text-n-amber-9" />
+          <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatAmount(usageThisMonth) }}
           </p>
         </div>
-        <div>
-          <p class="text-xs text-n-600 uppercase">Total Used</p>
-          <p class="text-lg font-semibold text-n-700">
+      </div>
+
+      <div>
+        <p class="text-xs text-n-slate-11 mb-1">
+          {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.TOTAL_USED') }}
+        </p>
+        <div class="flex items-center gap-1.5">
+          <Icon icon="i-lucide-bar-chart-3" class="text-n-slate-9" />
+          <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatAmount(usageTotal) }}
           </p>
         </div>
       </div>
-      <p class="mt-3 text-sm text-n-600">
-        {{ $t('BILLING_SETTINGS_V2.CREDITS_BALANCE.USAGE_BASED_INFO') }}
-      </p>
     </div>
 
-    <!-- Credit Ledger -->
-    <div v-if="hasLedger" class="border-t border-n-weak">
-      <div class="px-5 py-3">
-        <h4 class="text-sm font-semibold text-n-800">
-          {{ $t('BILLING_SETTINGS_V2.CREDITS_BALANCE.LEDGER_TITLE') }}
-        </h4>
-      </div>
-      <div class="px-5 pb-4">
-        <div class="space-y-2">
-          <div
-            v-for="transaction in ledger.slice(0, 10)"
-            :key="transaction.id"
-            class="flex items-center justify-between py-2 border-b border-n-weak last:border-0"
-          >
-            <div class="flex-1">
-              <div class="flex items-center gap-2">
-                <span
-                  class="text-sm font-medium"
-                  :class="getTransactionTypeColor(transaction.type)"
-                >
-                  {{ getTransactionTypeLabel(transaction.type) }}
-                </span>
-                <span v-if="transaction.note" class="text-xs text-n-600">
-                  - {{ transaction.note }}
-                </span>
-              </div>
-              <div class="text-xs text-n-600 mt-0.5">
-                {{ formatDate(transaction.ts) }}
-              </div>
-            </div>
-            <div class="text-right">
-              <div
-                class="text-sm font-semibold"
-                :class="
-                  transaction.amount_credits > 0 ? 'text-g-800' : 'text-r-800'
-                "
-              >
-                {{ transaction.amount_credits > 0 ? '+' : ''
-                }}{{ formatAmount(transaction.amount_credits) }}
-                {{ $t('BILLING_SETTINGS_V2.CREDITS_BALANCE.CREDITS_SHORT') }}
-              </div>
-              <div
-                v-if="transaction.amount_money"
-                class="text-xs text-n-600 mt-0.5"
-              >
-                {{ formatMoney(transaction.amount_money) }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div
+      class="flex items-center justify-end gap-2 pt-4 border-t border-n-weak"
+    >
+      <Button
+        variant="faded"
+        color="blue"
+        size="sm"
+        icon="i-lucide-refresh-cw"
+        :is-loading="isLoading"
+        @click="emit('refresh')"
+      >
+        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.REFRESH') }}
+      </Button>
+      <Button
+        variant="faded"
+        color="teal"
+        size="sm"
+        icon="i-lucide-plus-circle"
+        @click="emit('viewTopup')"
+      >
+        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.BUY_CREDITS') }}
+      </Button>
+      <Button
+        variant="faded"
+        color="slate"
+        size="sm"
+        icon="i-lucide-history"
+        @click="emit('viewHistory')"
+      >
+        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.VIEW_HISTORY') }}
+      </Button>
     </div>
-  </BillingCard>
+  </div>
 </template>

@@ -190,7 +190,6 @@ const handleUpdateSeats = async ({ quantity, direction }) => {
       :title="$t('BILLING_SETTINGS_V2.PRICING_PLANS.TITLE')"
       :description="$t('BILLING_SETTINGS_V2.PRICING_PLANS.DESCRIPTION')"
     >
-      <!-- Cancellation Notice -->
       <Notice
         v-if="isCancellingAtPeriodEnd"
         color="amber"
@@ -210,7 +209,6 @@ const handleUpdateSeats = async ({ quantity, direction }) => {
         </p>
       </Notice>
 
-      <!-- Pending Changes Notice -->
       <Notice
         v-if="hasPendingChanges && !isCancellingAtPeriodEnd"
         color="blue"
@@ -242,7 +240,6 @@ const handleUpdateSeats = async ({ quantity, direction }) => {
         </p>
       </Notice>
 
-      <!-- Plan Summary -->
       <PlanSummary
         v-if="hasActiveSubscription && currentPlan"
         :plan-name="currentPlan.name"
@@ -260,28 +257,27 @@ const handleUpdateSeats = async ({ quantity, direction }) => {
         @update-seats="handleUpdateSeats"
       />
 
-      <!-- Plans Grid -->
-      <Transition
-        enter-active-class="transition-all duration-500 ease-out"
-        enter-from-class="opacity-0 -translate-y-2 scale-98"
-        enter-to-class="opacity-100 translate-y-0 scale-100"
-        leave-active-class="transition-all duration-400 ease-in-out"
-        leave-from-class="opacity-100 translate-y-0 scale-100"
-        leave-to-class="opacity-0 -translate-y-2 scale-98"
+      <div
+        class="transition-all duration-500 ease-in-out grid overflow-hidden mx-5 !mt-0"
+        :class="
+          !hasActiveSubscription || showAllPlans
+            ? 'grid-rows-[1fr] opacity-100'
+            : 'grid-rows-[0fr] opacity-0'
+        "
       >
-        <PlansGrid
-          v-if="!hasActiveSubscription || showAllPlans"
-          :plans="transformedPlans"
-          :current-plan-id="currentPlanId"
-          :has-active-subscription="hasActiveSubscription"
-          :is-cancelling-at-period-end="isCancellingAtPeriodEnd"
-          :is-loading="isLoading"
-          @select-plan="openSubscribeModal"
-        />
-      </Transition>
+        <div class="overflow-hidden">
+          <PlansGrid
+            :plans="transformedPlans"
+            :current-plan-id="currentPlanId"
+            :has-active-subscription="hasActiveSubscription"
+            :is-cancelling-at-period-end="isCancellingAtPeriodEnd"
+            :is-loading="isLoading"
+            @select-plan="openSubscribeModal"
+          />
+        </div>
+      </div>
     </BillingCard>
 
-    <!-- Subscribe Dialog -->
     <SubscribeDialog
       ref="subscribeDialogRef"
       :plan="selectedPlan"
@@ -289,7 +285,6 @@ const handleUpdateSeats = async ({ quantity, direction }) => {
       @subscribe="handleSubscribe"
     />
 
-    <!-- Cancel Subscription Modal -->
     <CancelSubscriptionDialog
       ref="cancelModalRef"
       :is-canceling="isCanceling"

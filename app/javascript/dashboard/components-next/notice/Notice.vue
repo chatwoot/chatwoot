@@ -37,10 +37,13 @@ const titleColorClasses = {
 </script>
 
 <template>
-  <div class="p-4 rounded-xl outline outline-1" :class="colorClasses[color]">
+  <div
+    class="p-4 rounded-xl outline outline-1 -outline-offset-1"
+    :class="colorClasses[color]"
+  >
     <div class="flex gap-3 items-start">
       <Icon :icon="icon" class="flex-shrink-0 mt-0.5" />
-      <div class="flex-1">
+      <div class="flex-1 space-y-1">
         <h4
           v-if="title"
           class="text-sm font-semibold"
@@ -48,7 +51,7 @@ const titleColorClasses = {
         >
           {{ title }}
         </h4>
-        <p v-if="message" class="mt-1 mb-0 text-sm">
+        <p v-if="message" class="mb-0 text-sm">
           {{ message }}
         </p>
         <slot />

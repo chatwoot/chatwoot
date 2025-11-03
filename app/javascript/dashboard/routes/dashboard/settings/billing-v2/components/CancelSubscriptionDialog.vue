@@ -41,7 +41,6 @@ defineExpose({ dialogRef });
     @confirm="handleCancel"
   >
     <div class="space-y-4">
-      <!-- Warning -->
       <Notice
         color="ruby"
         icon="i-lucide-alert-triangle"

@@ -102,7 +102,6 @@ const handleIncreaseSeats = () => {
   <div
     class="p-5 rounded-xl outline outline-1 outline-n-weak bg-n-solid-1 mx-5 mt-5"
   >
-    <!-- Header -->
     <div class="flex items-center gap-2 mb-4">
       <h3 class="text-base font-semibold text-n-slate-12">
         {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.TITLE') }}
@@ -114,24 +113,25 @@ const handleIncreaseSeats = () => {
       </span>
     </div>
 
-    <!-- Details Grid -->
     <div class="grid grid-cols-3 gap-6 mb-4">
-      <!-- Price/month -->
       <div>
         <p class="text-xs text-n-slate-11 mb-1">
-          {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.PRICE_PER_MONTH') }}
+          {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.PRICE') }}
         </p>
         <div class="flex items-center gap-1">
           <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatPrice(totalPrice) }}
           </p>
           <p class="text-xs text-n-slate-11 mb-0">
-            ({{ formatPrice(pricePerMonth) }})
+            {{
+              t('BILLING_SETTINGS_V2.PLAN_SUMMARY.PER_MONTH', {
+                price: formatPrice(pricePerMonth),
+              })
+            }}
           </p>
         </div>
       </div>
 
-      <!-- Renewal Date -->
       <div>
         <p class="text-xs text-n-slate-11 mb-1">
           {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.RENEWAL_DATE') }}
@@ -141,7 +141,6 @@ const handleIncreaseSeats = () => {
         </p>
       </div>
 
-      <!-- Credits Included -->
       <div>
         <p class="text-xs text-n-slate-11 mb-1">
           {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.CREDITS_INCLUDED') }}
@@ -155,17 +154,16 @@ const handleIncreaseSeats = () => {
       </div>
     </div>
 
-    <!-- Seats Management -->
     <div
       v-if="!isCancelling"
       class="flex items-center justify-between p-3 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 mb-4"
     >
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
         <Icon icon="i-lucide-users" class="text-n-slate-11" />
         <div>
-          <p class="text-sm font-semibold text-n-slate-12">
+          <h6 class="text-sm font-semibold text-n-slate-12">
             {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.NUMBER_OF_SEATS') }}
-          </p>
+          </h6>
           <p class="text-xs text-n-slate-11">
             {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.ADJUST_SEATS_HINT') }}
           </p>

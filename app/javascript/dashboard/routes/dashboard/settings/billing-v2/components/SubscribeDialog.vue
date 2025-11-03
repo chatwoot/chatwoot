@@ -82,74 +82,59 @@ defineExpose({
     @confirm="handleSubscribe"
   >
     <div v-if="plan" class="space-y-4">
-      <!-- Plan Info -->
-      <div class="p-4 rounded-lg bg-n-slate-2 dark:bg-n-solid-2">
-        <h4 class="font-semibold text-n-slate-12">{{ plan.name }}</h4>
+      <div class="px-4 py-3 rounded-lg bg-n-slate-2 dark:bg-n-solid-2">
+        <h4 class="font-medium text-n-slate-12">
+          {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.PLAN_NAME') }}
+          <span class="text-n-slate-12 font-semibold">{{ plan.name }}</span>
+        </h4>
         <p class="mt-1 text-sm text-n-slate-11">{{ plan.description }}</p>
       </div>
 
-      <!-- Quantity Selector -->
       <div
-        class="p-4 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 border border-n-slate-4 dark:border-n-solid-4"
+        class="p-4 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 border border-n-slate-4 dark:border-n-solid-4 flex items-center justify-between"
       >
-        <div class="flex items-center justify-between mb-3">
-          <div>
-            <label class="block text-sm font-semibold text-n-slate-12">
-              {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.NUMBER_OF_SEATS') }}
-            </label>
-            <p class="mt-0.5 text-xs text-n-slate-11">
-              {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.MIN') }}:
-              {{ minSeats }} •
-              {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.MAX') }}:
-              {{ maxSeats }}
-            </p>
-          </div>
-          <div class="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="faded"
-              color="slate"
-              size="sm"
-              icon="i-lucide-minus"
-              :disabled="quantity <= minSeats"
-              @click="decrementQuantity"
-            />
-            <div class="relative">
-              <Input
-                v-model="quantity"
-                type="number"
-                :min="String(minSeats)"
-                :max="String(maxSeats)"
-                custom-input-class="w-16 text-center font-semibold text-base"
-                size="sm"
-              />
-            </div>
-            <Button
-              type="button"
-              variant="faded"
-              color="slate"
-              size="sm"
-              icon="i-lucide-plus"
-              :disabled="quantity >= maxSeats"
-              @click="incrementQuantity"
-            />
-          </div>
+        <div>
+          <label class="block text-sm font-semibold text-n-slate-12">
+            {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.NUMBER_OF_SEATS') }}
+          </label>
+          <p class="mt-0.5 text-xs text-n-slate-11">
+            {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.MIN') }}: {{ minSeats }} •
+            {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.MAX') }}:
+            {{ maxSeats }}
+          </p>
         </div>
-        <div class="flex items-center gap-2 text-xs text-n-slate-11">
-          <span class="inline-flex items-center gap-1">
-            <span class="w-1 h-1 rounded-full bg-n-blue-9" />
-            {{ formatPrice(plan.base_price) }}
-            {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.PER_SEAT') }}
-          </span>
-          <span class="text-n-slate-8">•</span>
-          <span class="font-semibold text-n-slate-12">
-            {{ formatPrice(totalPrice) }}
-            {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.TOTAL') }}
-          </span>
+        <div class="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="faded"
+            color="slate"
+            size="sm"
+            icon="i-lucide-minus"
+            :disabled="quantity <= minSeats"
+            @click="decrementQuantity"
+          />
+          <div class="relative">
+            <Input
+              v-model="quantity"
+              type="number"
+              :min="String(minSeats)"
+              :max="String(maxSeats)"
+              custom-input-class="w-16 text-center font-semibold text-base"
+              size="sm"
+            />
+          </div>
+          <Button
+            type="button"
+            variant="faded"
+            color="slate"
+            size="sm"
+            icon="i-lucide-plus"
+            :disabled="quantity >= maxSeats"
+            @click="incrementQuantity"
+          />
         </div>
       </div>
 
-      <!-- Summary -->
       <div class="p-4 rounded-lg bg-n-blue-2 dark:bg-n-blue-3 space-y-2">
         <div class="flex justify-between text-sm">
           <span class="text-n-slate-11">
