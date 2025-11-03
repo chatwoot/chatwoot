@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Nije pronađena nijedna oznaka",
+      "NO_LABELS_FOUND": "Oznake nisu pronađene",
       "ASSIGN_SELECTED_LABELS": "Dodeli izabrane oznake",
       "ASSIGN_SUCCESFUL": "Oznake su uspešno dodeljene.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

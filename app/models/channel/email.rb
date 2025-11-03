@@ -40,6 +40,12 @@ class Channel::Email < ApplicationRecord
 
   AUTHORIZATION_ERROR_THRESHOLD = 10
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  if Chatwoot.encryption_configured?
+    encrypts :imap_password
+    encrypts :smtp_password
+  end
+
   self.table_name = 'channel_email'
   EDITABLE_ATTRS = [:email, :imap_enabled, :imap_login, :imap_password, :imap_address, :imap_port, :imap_enable_ssl,
                     :smtp_enabled, :smtp_login, :smtp_password, :smtp_address, :smtp_port, :smtp_domain, :smtp_enable_starttls_auto,

@@ -32,17 +32,17 @@
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
     "CANNOT_REPLY": "Вы не можете ответить из-за",
     "24_HOURS_WINDOW": "Ограничение на 24 часа",
-    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "API_HOURS_WINDOW": "Вы можете ответить на этот диалог только в течение {hours} часов",
     "NOT_ASSIGNED_TO_YOU": "Этот диалог вам не назначен. Вы хотите назначить этот диалог себе?",
     "ASSIGN_TO_ME": "Назначить мне",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "Вы отвечаете на диалог, который в настоящее время обрабатывается ассистентом или ботом.",
+    "BOT_HANDOFF_ACTION": "Отметить как открытый и назначить вам",
+    "BOT_HANDOFF_REOPEN_ACTION": "Отметить диалог как открытый",
+    "BOT_HANDOFF_SUCCESS": "Диалог был передан вам",
+    "BOT_HANDOFF_ERROR": "Не удалось принять диалог. Пожалуйста, попробуйте еще раз.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Вы можете ответить в этой беседе только с помощью шаблона сообщения",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ограничение на 24 часа",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Данный аккаунт Instagram был перенесен в новый канал Instagram. Все новые сообщения будут появляться там. Вы больше не сможете отправлять сообщения из этого диалога.",
     "REPLYING_TO": "Вы отвечаете на:",
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
@@ -72,15 +72,15 @@
       "HIDE_LABELS": "Скрыть метки"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "Входящий звонок",
+      "OUTGOING_CALL": "Исходящий звонок",
+      "CALL_IN_PROGRESS": "Идёт звонок",
+      "NO_ANSWER": "Нет ответа",
+      "MISSED_CALL": "Пропущенный звонок",
+      "CALL_ENDED": "Звонок завершен",
+      "NOT_ANSWERED_YET": "Пока нет ответа",
+      "THEY_ANSWERED": "Они ответили",
+      "YOU_ANSWERED": "Вы ответили"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
@@ -160,9 +160,9 @@
       "AGENTS_LOADING": "Загрузка агентов...",
       "ASSIGN_TEAM": "Назначить команду",
       "DELETE": "Удалить диалог",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "OPEN_IN_NEW_TAB": "Открыть в новой вкладке",
+      "COPY_LINK": "Скопировать ссылку на диалог",
+      "COPY_LINK_SUCCESS": "Ссылка на диалог скопирована в буфер обмена",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID разговора {conversationId} присвоен \"{agentName}\"",
@@ -229,11 +229,11 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "ENABLE_TOOLTIP": "Включить цитируемые сообщения email",
+        "DISABLE_TOOLTIP": "Не включать цитируемые сообщения электронной почты",
+        "REMOVE_PREVIEW": "Удалить цитируемые сообщения email",
+        "COLLAPSE": "Свернуть предпросмотр",
+        "EXPAND": "Развернуть предпросмотр"
       }
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
@@ -334,11 +334,11 @@
       "CONVERSATION_ACTIONS": "Действия в беседе",
       "CONVERSATION_LABELS": "Категории Диалога",
       "CONVERSATION_INFO": "Информация о беседе",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "Заметки контактов",
       "CONTACT_ATTRIBUTES": "Атрибуты контакта",
       "PREVIOUS_CONVERSATION": "Предыдущие диалоги",
       "MACROS": "Макросс",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "Связанные проблемы",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

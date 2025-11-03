@@ -195,6 +195,37 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         expect(Conversation.first.label_list).to contain_exactly('support', 'priority_customer')
         expect(Conversation.second.label_list).to contain_exactly('support', 'priority_customer')
       end
+
+      it 'enqueues contact bulk action job with permitted params' do
+        contact_one = create(:contact, account: account)
+        contact_two = create(:contact, account: account)
+
+        previous_adapter = ActiveJob::Base.queue_adapter
+        ActiveJob::Base.queue_adapter = :test
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: {
+                 type: 'Contact',
+                 ids: [contact_one.id, contact_two.id],
+                 labels: { add: %w[vip support] },
+                 extra: 'ignored'
+               }
+        end.to have_enqueued_job(Contacts::BulkActionJob).with(
+          account.id,
+          agent.id,
+          hash_including(
+            'ids' => [contact_one.id, contact_two.id],
+            'labels' => hash_including('add' => %w[vip support])
+          )
+        )
+
+        expect(response).to have_http_status(:success)
+      ensure
+        ActiveJob::Base.queue_adapter = previous_adapter
+        clear_enqueued_jobs
+      end
     end
   end
 

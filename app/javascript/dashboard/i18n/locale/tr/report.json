@@ -51,6 +51,7 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Son 7 gün",
+      "LAST_14_DAYS": "Son 14 gün",
       "LAST_30_DAYS": "Son 30 gün",
       "LAST_3_MONTHS": "Son 3 ay",
       "LAST_6_MONTHS": "Son 6 ay",
@@ -266,6 +267,8 @@
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "DOWNLOAD_INBOX_REPORTS": "Gelen Kutu Raporlarını İndir",
     "FILTER_DROPDOWN_LABEL": "Gelen kutusu seç",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konuşmalar",
@@ -462,6 +465,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Konuşma Trafik",
+      "NO_CONVERSATIONS": "Hiç konuşma yok",
+      "CONVERSATION": "{count} konuşma",
+      "CONVERSATIONS": "{count} konuşmalar",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "Hiç konuşma yok",
       "CONVERSATION": "{count} konuşma",
       "CONVERSATIONS": "{count} konuşmalar",

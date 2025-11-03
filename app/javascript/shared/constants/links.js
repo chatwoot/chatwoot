@@ -6,3 +6,5 @@ export const REPLY_POLICY = {
   WHATSAPP_CLOUD:
     'https://business.whatsapp.com/policy#:~:text=You%20may%20reply%20to%20a,messages%20via%20approved%20Message%20Templates.',
 };
+
+export const CHANGELOG_API_URL = 'https://hub.2.chatwoot.com/changelogs';

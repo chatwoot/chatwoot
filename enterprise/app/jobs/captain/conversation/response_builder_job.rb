@@ -10,8 +10,12 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
     Current.executed_by = @assistant
 
-    ActiveRecord::Base.transaction do
-      generate_and_process_response
+    if captain_v2_enabled?
+      generate_response_with_v2
+    else
+      ActiveRecord::Base.transaction do
+        generate_and_process_response
+      end
     end
   rescue StandardError => e
     raise e if e.is_a?(ActiveStorage::FileNotFoundError) || e.is_a?(Faraday::BadRequestError)
@@ -26,16 +30,20 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    @response = if captain_v2_enabled?
-                  Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
-                    message_history: collect_previous_messages
-                  )
-                else
-                  Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-                    message_history: collect_previous_messages
-                  )
-                end
+    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+      message_history: collect_previous_messages
+    )
+    process_response
+  end
 
+  def generate_response_with_v2
+    @response = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
+      message_history: collect_previous_messages
+    )
+    process_response
+  end
+
+  def process_response
     return process_action('handoff') if handoff_requested?
 
     create_messages
@@ -123,6 +131,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def captain_v2_enabled?
-    return account.feature_enabled?('captain_integration_v2')
+    account.feature_enabled?('captain_integration_v2')
   end
 end

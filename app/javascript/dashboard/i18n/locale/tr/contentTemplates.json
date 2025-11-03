@@ -1,8 +1,8 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
+      "TITLE": "Twilio Şablonları",
+      "SUBTITLE": "Göndermek istediğiniz Twilio şablonunu seçin",
       "TEMPLATE_SELECTED_SUBTITLE": "Şablonu yapılandır: {templateName}"
     },
     "PICKER": {
@@ -16,7 +16,7 @@
       "CATEGORY": "Kategori",
       "MEDIA_CONTENT": "Medya İçeriği",
       "MEDIA_CONTENT_FALLBACK": "medya içeriği",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "NO_TEMPLATES_AVAILABLE": "Twilio şablonu mevcut değil. Twilio'dan şablonları senkronize etmek için yenile düğmesine tıklayın.",
       "REFRESH_BUTTON": "Şablonları yenile",
       "REFRESH_SUCCESS": "Şablonların yenilenmesi başlatıldı. Güncelleme birkaç dakika sürebilir.",
       "REFRESH_ERROR": "Şablonları yenileme işlemi başarısız oldu. Lütfen tekrar deneyin.",
@@ -27,7 +27,7 @@
       },
       "TYPES": {
         "MEDIA": "Medya",
-        "QUICK_REPLY": "Quick Reply",
+        "QUICK_REPLY": "Hızlı Yanıt",
         "TEXT": "Metin"
       }
     },
@@ -40,7 +40,7 @@
       "SEND_MESSAGE_LABEL": "Mesaj Gönder",
       "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun",
       "MEDIA_HEADER_LABEL": "{type} Başlık",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_LABEL": "Tam medya URL'sini girin",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {

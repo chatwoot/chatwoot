@@ -779,7 +779,7 @@
             "COPY": "CNAME copiado com sucesso",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Enviar instruções",
-              "DESCRIPTION": "Se você preferir ter alguém da sua equipe de desenvolvimento para lidar com essa etapa, você pode digitar o endereço de e-mail abaixo e nós enviaremos as instruções necessárias.",
+              "DESCRIPTION": "Se você preferir que alguém da sua equipe de desenvolvimento lide com essa etapa, você pode digitar o endereço de e-mail abaixo e nós enviaremos as instruções necessárias.",
               "PLACEHOLDER": "Insira o e-mail dele",
               "ERROR": "Insira um endereço de e-mail válido",
               "SEND_BUTTON": "Enviar"
@@ -812,7 +812,7 @@
     "PDF_UPLOAD": {
       "TITLE": "Upload PDF Document",
       "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "DRAG_DROP_TEXT": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
       "SELECT_FILE": "Select PDF File",
       "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
       "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
@@ -821,7 +821,7 @@
       "CANCEL": "Cancelar",
       "ERROR_INVALID_TYPE": "Please select a valid PDF file",
       "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "ERROR_UPLOAD_FAILED": "Falha ao carregar o arquivo PDF. Por favor, tente novamente."
     },
     "PDF_DOCUMENTS": {
       "TITLE": "PDF Documents",
@@ -847,19 +847,19 @@
       "TITLE": "Content Generation",
       "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
       "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
+      "DRAG_DROP": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
+      "SELECT_FILE": "",
       "UPLOADING": "Processing document...",
       "UPLOAD_SUCCESS": "Document processed successfully!",
       "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "INVALID_FILE_TYPE": "Por favor, selecione um arquivo PDF válido",
       "FILE_TOO_LARGE": "File size must be less than 512MB",
       "GENERATED_CONTENT": "Generated FAQ Content",
       "PUBLISH_SELECTED": "Publish Selected",
       "PUBLISHING": "Publishing...",
       "FROM_DOCUMENT": "From document",
       "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "LOADING": "Carregando conteúdo gerado..."
     }
   }
 }

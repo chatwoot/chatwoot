@@ -96,11 +96,12 @@ export default {
       return parse(this.toTime, 'hh:mm a', new Date());
     },
     totalHours() {
-      if (this.timeSlot.openAllDay) {
-        return 24;
-      }
-      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
-      return totalHours;
+      if (this.timeSlot.openAllDay) return '24h';
+
+      const totalMinutes = differenceInMinutes(this.toDate, this.fromDate);
+      const [h, m] = [Math.floor(totalMinutes / 60), totalMinutes % 60];
+
+      return [h && `${h}h`, m && `${m}m`].filter(Boolean).join(' ') || '0m';
     },
     hasError() {
       return !this.timeSlot.valid;
@@ -211,7 +212,7 @@ export default {
         v-if="isDayEnabled && !hasError"
         class="label bg-n-brand/10 dark:bg-n-brand/30 text-n-blue-text text-xs inline-block px-2 py-1 rounded-lg cursor-default whitespace-nowrap"
       >
-        {{ totalHours }} {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
+        {{ totalHours }}
       </span>
     </div>
   </div>

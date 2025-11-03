@@ -863,6 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -902,6 +903,10 @@
         "APPROVED": "Approved",
         "ALL": "所有的"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
         "TITLE": "Add an FAQ",
@@ -932,13 +937,15 @@
         "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
       },
       "OPTIONS": {
-        "APPROVE": "Mark as approved",
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "編輯",
+        "DELETE_RESPONSE": "刪除"
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

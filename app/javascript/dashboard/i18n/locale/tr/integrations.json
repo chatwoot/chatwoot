@@ -759,37 +759,37 @@
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "Özel Araçlar",
+          "NOTE": "Özel araçlar, asistanınızın harici API'ler ve hizmetlerle etkileşim kurmasını sağlar. Asistanınızın yeteneklerini artırmak için veri çekme, eylemler gerçekleştirme veya mevcut sistemlerinizle entegrasyon sağlama amaçlı araçlar oluşturun."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "Harici API'lere bağlanmak için özel aracınızı yapılandırın",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "Aracı Düzenle",
+        "DELETE_TOOL": "Aracı Sil"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "Özel Araç Oluştur",
+        "SUCCESS_MESSAGE": "Özel araç başarıyla oluşturuldu",
+        "ERROR_MESSAGE": "Özel araç oluşturulamadı"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "Özel Aracı Düzenle",
+        "SUCCESS_MESSAGE": "Özel araç başarıyla güncellendi",
+        "ERROR_MESSAGE": "Özel araç güncellenemedi"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "TITLE": "Özel Aracı Sil",
+        "DESCRIPTION": "Bu özel aracı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
         "CONFIRM": "Evet, sil",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "SUCCESS_MESSAGE": "Özel araç başarıyla silindi",
+        "ERROR_MESSAGE": "Özel araç silinemedi"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
+          "LABEL": "Araç Adı",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Araç adı zorunludur"
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama",
@@ -863,6 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -902,6 +903,10 @@
         "APPROVED": "Approved",
         "ALL": "Hepsi"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
         "TITLE": "Add an FAQ",
@@ -932,13 +937,15 @@
         "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
       },
       "OPTIONS": {
-        "APPROVE": "Mark as approved",
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Düzenle",
+        "DELETE_RESPONSE": "Sil"
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

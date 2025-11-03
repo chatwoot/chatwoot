@@ -229,11 +229,11 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "ENABLE_TOOLTIP": "Incluir o encadeamento de e-mails citado",
+        "DISABLE_TOOLTIP": "Não incluir o encadeamento de e-mails citado",
+        "REMOVE_PREVIEW": "Remover o encadeamento de e-mails citado",
+        "COLLAPSE": "Recolher a prévia",
+        "EXPAND": "Expandir a prévia"
       }
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e seu time",
