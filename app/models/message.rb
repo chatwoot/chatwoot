@@ -43,7 +43,6 @@ class Message < ApplicationRecord
 
   include MessageFilterHelpers
   include Liquidable
-  include MessageSearchData
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   TEMPLATE_PARAMS_SCHEMA = {
@@ -249,6 +248,10 @@ class Message < ApplicationRecord
     return false if ChatwootApp.chatwoot_cloud? && !account.feature_enabled?('advanced_search_indexing')
 
     true
+  end
+
+  def search_data
+    Messages::SearchDataPresenter.new(self).search_data
   end
 
   private

@@ -1,6 +1,4 @@
-module MessageSearchData
-  extend ActiveSupport::Concern
-
+class Messages::SearchDataPresenter < SimpleDelegator
   def search_data
     {
       # Searchable content
@@ -65,7 +63,7 @@ module MessageSearchData
       custom_attributes: flatten_custom_attributes(conversation.custom_attributes),
       browser: conversation.additional_attributes&.dig('browser'),
       referer: conversation.additional_attributes&.dig('referer'),
-      initated_at: conversation.additional_attributes&.dig('initiated_at')
+      initiated_at: conversation.additional_attributes&.dig('initiated_at')
     }
   end
 
@@ -97,3 +95,5 @@ module MessageSearchData
     }
   end
 end
+
+Messages::SearchDataPresenter.prepend_mod_with('Messages::SearchDataPresenter')
