@@ -258,7 +258,7 @@ const handleUpdateSeats = async ({ quantity, direction }) => {
       />
 
       <div
-        class="transition-all duration-500 ease-in-out grid overflow-hidden mx-5 !mt-0"
+        class="transition-all duration-300 ease-out grid overflow-hidden mx-5 !mt-0"
         :class="
           !hasActiveSubscription || showAllPlans
             ? 'grid-rows-[1fr] opacity-100'
