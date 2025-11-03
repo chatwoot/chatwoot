@@ -103,12 +103,62 @@
         "CONNECT_SHEETS_DESC": "Connect to Google Sheets to automatically create spreadsheets containing ticket data from your CS Bot. After successful authentication, the system will immediately create a new spreadsheet in your Google account.",
         "REMOVE": "Remove"
       }
+    },
+    "LEADGENBOT": {
+      "HEADER": "Lead Gen Bot Configuration",
+      "HEADER_DESC": "This page contains configuration settings for your bot.",
+      "CATALOG": {
+        "HEADER": "Product Catalog",
+        "SHEETS_TITLE": "Google Sheets Product Catalog",
+        "SHEETS_PLACEHOLDER": "Google Sheets product catalog link",
+        "SHEETS_AUTH_DESC": "Please authenticate your Google account for automatic Google Sheets creation as product data.",
+        "DESC_TITLE": "Column Description (Optional)",
+        "DESC_PLACEHOLDER": "Name, Price, Stock, etc",
+        "PRODUCT_COLUMNS_TITLE": "Product Info Columns",
+        "PRODUCT_COLUMNS_PLACEHOLDER": "sku,name,unit_price,quantity,description",
+        "PRODUCT_COLUMNS_DESC": "Comma-separated columns for product info. Click \"Sync from Sheet\" to automatically get columns from your spreadsheet.",
+        "SYNC_BUTTON": "Sync from Sheet",
+        "SYNC_BUTTON_LOADING": "Syncing...",
+        "SYNC_SUCCESS": "Product columns synced successfully!",
+        "SYNC_ERROR": "Failed to sync product columns",
+        "SYNC_INFO": "Syncing product columns from sheet...",
+        "INPUT_SHEET_TITLE": "Input Product Catalog Sheet",
+        "INPUT_SHEET_DESC": "Your main product data table for managing inventory, pricing, and product details.",
+        "OUTPUT_SHEET_TITLE": "Output Lead Tracking Sheet",
+        "OUTPUT_SHEET_DESC": "View customer lead data based on bot and customer conversations."
       },
       "COMMON": {
-        "GOOGLE_SHEETS_TITLE": "Ticket Output Integration",
+        "GOOGLE_SHEETS_OUTPUT": "Ticket Output Sheet",
+        "GOOGLE_SHEETS_OUTPUT_DESC": "Tickets will be automatically saved here",
+        "GOOGLE_SHEETS_AUTH_TITLE": "Connect Google Sheets",
+        "GOOGLE_SHEETS_AUTH_DESC": "Grant access to create ticket output sheets",
+        "GOOGLE_SHEETS_TITLE": "Google Sheets Integration",
         "CONNECT_SHEETS_DESC": "Connect to Google Sheets to automatically create spreadsheets containing ticket data from your CS Bot. After successful authentication, the system will immediately create a new spreadsheet in your Google account.",
         "REMOVE": "Remove"
       },
+      "CLASSIFICATION": {
+        "HEADER": "LeadGen Classification",
+        "HEADER_DESC": "Configure classification for LeadGen Bot output",
+        "ENABLE_TITLE": "Enable Classification Tab",
+        "ENABLE_DESC": "Add automatic classification column to LeadGen Bot output sheet",
+        "ENABLED_STATUS": "Classification tab enabled",
+        "ENABLED_DESC_DETAIL": "LeadGen Bot output sheet will include additional columns for classification results of each lead",
+        "DISABLED_STATUS": "Classification tab disabled",
+        "DISABLED_DESC_DETAIL": "LeadGen Bot output sheet will not include classification columns, only main lead data will be displayed"
+      },
+      "PRIORITY": {
+        "PRIORITY_TITLE": "Priorities",
+        "PRIORITY_PLACEHOLDER": "Priority type (e.g. Not Interested)",
+        "PRIORITY_CONDITION": "Priority Condition",
+        "CONDITION_PLACEHOLDER": "Optional conditions or keywords...",
+        "ADD_PRIORITY": "Add Priority",
+        "SAVE_SUCCESS": "Successfully saved priorities",
+        "SAVE_ERROR": "Failed to save priorities"
+      }
+    },
+    "COMMON": {
+      "REMOVE": "Remove"
+    },
     "EDIT": {
       "TITLE": "Edit agent",
       "FORM": {
