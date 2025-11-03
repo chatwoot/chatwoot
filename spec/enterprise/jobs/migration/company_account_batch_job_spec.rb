@@ -19,6 +19,12 @@ RSpec.describe Migration::CompanyAccountBatchJob, type: :job do
       let!(:contact) { create(:contact, account: account, email: 'user@acme.com') }
 
       it 'creates a company and associates the contact' do
+        # Clean up companies created by Part 2's callback
+        Company.delete_all
+        # rubocop:disable Rails/SkipsModelValidations
+        contact.update_column(:company_id, nil)
+        # rubocop:enable Rails/SkipsModelValidations
+
         expect do
           described_class.perform_now(account)
         end.to change(Company, :count).by(1)
@@ -71,6 +77,13 @@ RSpec.describe Migration::CompanyAccountBatchJob, type: :job do
       let!(:contact2) { create(:contact, account: account, email: 'user2@acme.com') }
 
       it 'creates only one company for the domain' do
+        # Clean up companies created by Part 2's callback
+        Company.delete_all
+        # rubocop:disable Rails/SkipsModelValidations
+        contact1.update_column(:company_id, nil)
+        contact2.update_column(:company_id, nil)
+        # rubocop:enable Rails/SkipsModelValidations
+
         expect do
           described_class.perform_now(account)
         end.to change(Company, :count).by(1)
