@@ -55,8 +55,6 @@ module MessageSearchData
   end
 
   def search_conversation_data
-    return nil unless conversation
-
     {
       id: conversation.id,
       display_id: conversation.display_id,
@@ -72,8 +70,6 @@ module MessageSearchData
   end
 
   def search_inbox_data
-    return nil unless inbox
-
     {
       id: inbox.id,
       name: inbox.name,
