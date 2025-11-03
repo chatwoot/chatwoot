@@ -82,6 +82,10 @@ const messagePreviewData = computed(() => ({
   content: state.message || t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER'),
 }));
 
+const shouldShowTemplateStatus = computed(
+  () => templateStatus.value && !templateLoading.value
+);
+
 const templateApprovalStatus = computed(() => {
   const statusMap = {
     APPROVED: {
@@ -325,9 +329,9 @@ const performSave = async () => {
       try {
         await createTemplate();
       } catch (templateError) {
-        // If template creation fails, show the Meta error and don't update inbox
+        // If template creation fails, show the Meta error and no need to update inbox
         useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE'));
-        return; // Exit early - don't update inbox settings
+        return;
       }
     }
 
@@ -352,15 +356,6 @@ const performSave = async () => {
       csat_survey_enabled: state.csatSurveyEnabled,
       csat_config: csatConfig,
     });
-
-    // Update original values after successful save
-    if (isWhatsAppChannel.value) {
-      originalTemplateValues.value = {
-        message: state.message,
-        templateButtonText: state.templateButtonText,
-        templateLanguage: state.templateLanguage,
-      };
-    }
 
     useAlert(t('INBOX_MGMT.CSAT.API.SUCCESS_MESSAGE'));
   } catch (error) {
@@ -387,7 +382,7 @@ const saveSettings = async () => {
 
 const handleConfirmTemplateUpdate = async () => {
   // TODO: In future, add logic to delete existing template here
-  await performSave();
+  // await performSave();
 };
 </script>
 
@@ -451,7 +446,7 @@ const handleConfirmTemplateUpdate = async () => {
               </WithLabel>
 
               <div
-                v-if="templateApprovalStatus"
+                v-if="shouldShowTemplateStatus"
                 class="flex gap-2 items-center mt-4"
               >
                 <Icon
