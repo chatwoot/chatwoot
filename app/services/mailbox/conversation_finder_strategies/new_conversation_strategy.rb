@@ -2,7 +2,17 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   include MailboxHelper
   include IncomingEmailValidityHelper
 
-  attr_accessor :processed_mail, :account, :inbox, :contact, :contact_inbox, :conversation
+  attr_accessor :processed_mail, :account, :inbox, :contact, :contact_inbox, :conversation, :channel
+
+  def initialize(mail)
+    super(mail)
+    @channel = EmailChannelFinder.new(mail).perform
+    return unless @channel
+
+    @account = @channel.account
+    @inbox = @channel.inbox
+    @processed_mail = MailPresenter.new(mail, @account)
+  end
 
   # This strategy prepares a new conversation but doesn't persist it yet.
   # Why we don't use create! here:
@@ -11,24 +21,15 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   # - Follows the pattern from old SupportMailbox where everything was in one transaction
   # The actual persistence happens in ReplyMailbox within a transaction that includes message creation.
   def find
-    channel = EmailChannelFinder.new(mail).perform
-    return nil unless channel # No valid channel found
-
-    @account = channel.account
-    @inbox = channel.inbox
-    @processed_mail = MailPresenter.new(mail, @account)
-
-    # Skip processing email if it belongs to any of the edge cases
-    return nil unless incoming_email_from_valid_email?
+    return nil unless @channel # No valid channel found
+    return nil unless incoming_email_from_valid_email? # Skip edge cases
 
     # Check if conversation already exists by in_reply_to
     existing_conversation = find_conversation_by_in_reply_to
     return existing_conversation if existing_conversation
 
-    # Prepare contact (persisted) but not conversation
+    # Prepare contact (persisted) and build conversation (not persisted)
     find_or_create_contact
-
-    # Build conversation without saving - ReplyMailbox will handle persistence
     build_conversation
   end
 
