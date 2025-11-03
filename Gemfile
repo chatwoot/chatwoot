@@ -21,6 +21,7 @@ gem 'telephone_number'
 gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
+gem 'email-provider-info'
 # compress javascript config.assets.js_compressor
 gem 'uglifier'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
