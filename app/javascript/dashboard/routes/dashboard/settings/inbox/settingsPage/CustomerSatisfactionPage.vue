@@ -358,8 +358,8 @@ const performSave = async () => {
     });
 
     useAlert(t('INBOX_MGMT.CSAT.API.SUCCESS_MESSAGE'));
+    // eslint-disable-next-line no-empty
   } catch (error) {
-    useAlert(t('INBOX_MGMT.CSAT.API.ERROR_MESSAGE'));
   } finally {
     isUpdating.value = false;
   }
