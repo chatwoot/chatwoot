@@ -35,9 +35,9 @@ watch(
     if (!newData?.display_flow_data) return;
 
     const flowData = newData.display_flow_data;
-    const agentIndex = flowData.enabled_agents.indexOf('customer_service');
+    const agentIndex = flowData.enabled_agents.indexOf('event_organizer');
 
-    // If customer_service agent isn't in the flow, skip
+    // If event_organizer agent isn't in the flow, skip
     if (agentIndex === -1) {
       // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketSystemActive = false;
@@ -81,19 +81,20 @@ function getAgentIdByType(type) {
   if (!flowData?.agents_config) return null;
   
   const agent = flowData.agents_config.find(config => config.type === type);
-  return agent?.agent_id || null;
+  return agent?.agent_id || "232";
 }
 
 const agentId = computed(() => {
-  return getAgentIdByType('customer_service');
+  return getAgentIdByType('event_organizer');
 });
 
 // Computed properties based on parent's Google Sheets auth state
 const ticketStep = computed(() => props.googleSheetsAuth.step);
 const ticketLoading = computed(() => props.googleSheetsAuth.loading);
 const ticketAccount = computed(() => props.googleSheetsAuth.account);
-const ticketSheets = computed(() => ({
-  output: props.googleSheetsAuth.spreadsheetUrls.customer_service.output || ''
+const eventSheets = computed(() => ({
+  input: props.googleSheetsAuth.spreadsheetUrls.event_organizer.input || '',
+  output: props.googleSheetsAuth.spreadsheetUrls.event_organizer.output || '',
 }));
 const ticketAuthError = computed(() => props.googleSheetsAuth.error);
 
@@ -149,7 +150,8 @@ function disconnectGoogle() {
       // Clear parent's auth state
       props.googleSheetsAuth.account = null;
       props.googleSheetsAuth.step = 'auth';
-      props.googleSheetsAuth.spreadsheetUrls.customer_service.output = '';
+      props.googleSheetsAuth.spreadsheetUrls.event_organizer.input = '';
+      props.googleSheetsAuth.spreadsheetUrls.event_organizer.output = '';
       props.googleSheetsAuth.error = null;
       showNotification('Google account disconnected successfully.', 'success');
     })
@@ -171,13 +173,14 @@ async function createTicketSheet() {
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
       agent_id: agentId.value,
-      type: 'tickets',
+      type: 'event_organizer',
     };
     
     const response = await googleSheetsExportAPI.createSpreadsheet(payload);
     
     // Update parent's auth state
-    props.googleSheetsAuth.spreadsheetUrls.customer_service.output = response.data.spreadsheet_url;
+    props.googleSheetsAuth.spreadsheetUrls.event_organizer.input = response.data.input_spreadsheet_url;
+    props.googleSheetsAuth.spreadsheetUrls.event_organizer.output = response.data.output_spreadsheet_url;
     props.googleSheetsAuth.step = 'sheetConfig';
     
     showNotification('Ticket output sheet created successfully!', 'success')
@@ -207,7 +210,7 @@ async function save() {
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
     // console.log(flowData)
-    const agent_index = flowData.enabled_agents.indexOf('customer_service');
+    const agent_index = flowData.enabled_agents.indexOf('event_organizer');
     flowData.agents_config[agent_index].configurations.ticket_system =
       ticketSystem;
     // console.log(flowData);
@@ -340,9 +343,9 @@ console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError.
                       </div>
                     </div>
                   </div>
-                  <div v-if="ticketSheets.input && !salesAuthError" class="flex flex-col gap-2">
+                  <div v-if="eventSheets.input && !salesAuthError" class="flex flex-col gap-2">
                     <a 
-                      :href="ticketSheets.input" 
+                      :href="eventSheets.input" 
                       target="_blank" 
                       class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
                     >
@@ -356,7 +359,7 @@ console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError.
 
                 <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
                   <div class="flex justify-end">
-                    <div v-if="ticketSheets.input && !salesAuthError">
+                    <div v-if="eventSheets.input && !salesAuthError">
                       <button
                         @click="syncProductColumns"
                         :disabled="syncingColumns"
@@ -411,8 +414,8 @@ console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError.
                     </div>
                   </div>
                   <a 
-                    v-if="ticketSheets.output && !salesAuthError"
-                    :href="ticketSheets.output" 
+                    v-if="eventSheets.output && !salesAuthError"
+                    :href="eventSheets.output" 
                     target="_blank" 
                     class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
                   >

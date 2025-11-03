@@ -2,7 +2,7 @@
   <div class="w-full">
     <div class="pb-4">
       <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-1">
-        {{ $t('AGENT_MGMT.CSBOT.TICKET.HEADER') }}
+        {{ $t('AGENT_MGMT.EOBOT.HEADER') }}
       </h2>
       <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
         {{ $t('AGENT_MGMT.CSBOT.TICKET.HEADER_DESC') }}
