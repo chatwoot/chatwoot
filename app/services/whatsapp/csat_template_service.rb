@@ -9,9 +9,9 @@ class Whatsapp::CsatTemplateService
     process_template_creation_response(response)
   end
 
-  def delete_template
+  def delete_template(template_name = 'customer_satisfaction_survey')
     response = HTTParty.delete(
-      "#{business_account_path}/message_templates?name=customer_satisfaction_survey",
+      "#{business_account_path}/message_templates?name=#{template_name}",
       headers: api_headers
     )
     { success: response.success?, response_body: response.body }
@@ -41,7 +41,7 @@ class Whatsapp::CsatTemplateService
 
   def build_template_request_body(template_config)
     {
-      name: 'customer_satisfaction_survey',
+      name: template_config[:template_name] || 'customer_satisfaction_survey',
       language: template_config[:language] || 'en',
       category: 'UTILITY',
       components: build_template_components(template_config)
@@ -89,7 +89,7 @@ class Whatsapp::CsatTemplateService
       {
         success: true,
         template_id: response['id'],
-        template_name: 'customer_satisfaction_survey',
+        template_name: response['name'],
         status: 'PENDING'
       }
     else

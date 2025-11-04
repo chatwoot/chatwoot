@@ -39,6 +39,7 @@ const state = reactive({
   templateButtonText: 'Please rate us',
   surveyRuleOperator: 'contains',
   templateLanguage: '',
+  templateName: 'customer_satisfaction_survey',
 });
 
 const templateStatus = ref(null);
@@ -142,12 +143,14 @@ const initializeState = () => {
     button_text: buttonText = 'Please rate us',
     language = 'en',
     survey_rules: surveyRules = {},
+    template = {},
   } = csat_config;
 
   state.displayType = displayType;
   state.message = message;
   state.templateButtonText = buttonText;
   state.templateLanguage = language;
+  state.templateName = template.name || 'customer_satisfaction_survey';
   state.surveyRuleOperator = surveyRules.operator || 'contains';
 
   selectedLabelValues.value = Array.isArray(surveyRules.values)
@@ -299,6 +302,7 @@ const createTemplate = async () => {
         message: state.message,
         button_text: state.templateButtonText,
         language: state.templateLanguage,
+        template_name: state.templateName,
       },
     });
 

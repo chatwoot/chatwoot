@@ -62,8 +62,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     csat_template_service.create_template(template_config)
   end
 
-  def delete_csat_template
-    csat_template_service.delete_template
+  def delete_csat_template(template_name = 'customer_satisfaction_survey')
+    csat_template_service.delete_template(template_name)
   end
 
   def get_template_status(template_name)

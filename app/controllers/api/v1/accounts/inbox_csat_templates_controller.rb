@@ -46,7 +46,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   end
 
   def extract_template_params
-    params.require(:template).permit(:message, :button_text, :language)
+    params.require(:template).permit(:message, :button_text, :language, :template_name)
   end
 
   def render_missing_message_error
@@ -58,7 +58,8 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
       message: template_params[:message],
       button_text: template_params[:button_text] || 'Please rate us',
       base_url: ENV.fetch('FRONTEND_URL', 'http://localhost:3000'),
-      language: template_params[:language] || 'en'
+      language: template_params[:language] || 'en',
+      template_name: template_params[:template_name] || 'customer_satisfaction_survey'
     }
 
     @inbox.channel.provider_service.create_csat_template(template_config)
@@ -75,7 +76,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   def render_successful_template_creation(result)
     render json: {
       template: {
-        name: 'customer_satisfaction_survey',
+        name: result[:template_name] || 'customer_satisfaction_survey',
         template_id: result[:template_id],
         status: 'PENDING',
         language: 'en'
@@ -95,16 +96,18 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
 
   def delete_existing_template_if_needed
     # Check if template exists first to avoid unnecessary deletion attempts
-    template_name = 'customer_satisfaction_survey'
+    template_config = @inbox.csat_config&.dig('template')
+    template_name = template_config&.dig('name') || 'customer_satisfaction_survey'
+
     template_status = @inbox.channel.provider_service.get_template_status(template_name)
     return unless template_status[:success]
 
     # Delete the existing template
-    deletion_result = @inbox.channel.provider_service.delete_csat_template
+    deletion_result = @inbox.channel.provider_service.delete_csat_template(template_name)
     if deletion_result[:success]
-      Rails.logger.info "Deleted existing CSAT template for inbox #{@inbox.id}"
+      Rails.logger.info "Deleted existing CSAT template '#{template_name}' for inbox #{@inbox.id}"
     else
-      Rails.logger.warn "Failed to delete existing CSAT template for inbox #{@inbox.id}: #{deletion_result[:response_body]}"
+      Rails.logger.warn "Failed to delete existing CSAT template '#{template_name}' for inbox #{@inbox.id}: #{deletion_result[:response_body]}"
     end
   end
 
