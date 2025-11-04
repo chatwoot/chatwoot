@@ -498,7 +498,8 @@
     },
     "TOPUP_MODAL": {
       "TITLE": "Confirm Top-up",
-      "CREDITS": "credits",
+      "DESCRIPTION": "Top up your account with {credits} credits for {price}. Your card will be immediately charged.",
+      "CREDITS": "Credits",
       "PRICE": "Price",
       "INFO": "Credits will be added to your account immediately and never expire.",
       "CANCEL": "Cancel",
