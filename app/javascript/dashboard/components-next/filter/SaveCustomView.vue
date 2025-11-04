@@ -29,6 +29,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    isOnBoard: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['close'],
   setup() {
@@ -68,6 +72,7 @@ export default {
           name: this.name,
           filter_type: this.filterType,
           query: this.customViewsQuery,
+          is_board: this.isOnBoard,
         });
         this.alertMessage =
           this.filterType === 0

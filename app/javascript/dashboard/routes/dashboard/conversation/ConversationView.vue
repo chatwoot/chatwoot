@@ -215,7 +215,7 @@ export default {
       :conversation-type="conversationType"
       :folders-id="foldersId"
       :is-on-expanded-layout="isOnExpandedLayout"
-      :is-on-board="isOnBoard"
+      :is-on-board-section="isOnBoard"
       @conversation-load="onConversationLoad"
     />
     <ConversationBox
