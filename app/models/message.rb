@@ -265,7 +265,10 @@ class Message < ApplicationRecord
   def metadata_must_be_array_of_objects
     return if metadata.blank?
 
-    errors.add(:metadata, 'must be an array of JSON objects') unless metadata.is_a?(Array) && metadata.all? { |m| m.is_a?(Hash) }
+    is_valid_object = metadata.is_a?(Hash)
+    is_valid_array = metadata.is_a?(Array) && metadata.all? { |m| m.is_a?(Hash) }
+
+    errors.add(:metadata, 'must be a JSON object or array of JSON objects') unless is_valid_object || is_valid_array
   end
 
   def prevent_message_flooding

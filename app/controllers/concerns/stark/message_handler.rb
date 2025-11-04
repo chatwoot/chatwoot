@@ -13,7 +13,7 @@ module Stark
       process_action(event_data[:message], response['action']) if response['action'].present?
     end
 
-    def create_bot_response_message(conversation, content, attachments = nil, metadata = [])
+    def create_bot_response_message(conversation, content, attachments = nil, metadata = {})
       if instagram_channel?(conversation) && attachments.is_a?(Array) && attachments.any?
         puts '=================== Instagram with attachments ================='
 
@@ -86,7 +86,7 @@ module Stark
 
     private
 
-    def create_text_message(conversation, content, metadata = [])
+    def create_text_message(conversation, content, metadata = {})
       conversation.messages.create!(
         content: content,
         message_type: :outgoing,

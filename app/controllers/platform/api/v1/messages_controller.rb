@@ -4,17 +4,19 @@ class Platform::Api::V1::MessagesController < PlatformController
     return render_error('Conversation not found', :not_found) unless conversation
 
     account = conversation.account
-    users = get_notification_recipients(account)
-
-    if users.blank?
-      Rails.logger.error("No users to notify for account ##{account.id}")
-      return render_error('No agents or administrators found', :unprocessable_entity)
-    end
 
     if params[:booking_date].present?
-      send_booking_notifications(conversation, users)
+      emails = get_booking_emails(account)
+      return if validate_recipients_presence(emails, 'booking emails', account)
+
+      send_booking_notifications(conversation, emails)
+
     elsif params[:template_slug].present?
+      users = get_template_users(account)
+      return if validate_recipients_presence(users, 'agents or administrators', account)
+
       send_template_notifications(conversation, users)
+
     else
       Rails.logger.error('Required parameters missing for email notification')
       render_error('Either booking_date or template_slug must be provided', :bad_request)
@@ -28,32 +30,46 @@ class Platform::Api::V1::MessagesController < PlatformController
 
   private
 
-  def get_notification_recipients(account)
-    # Get all agents and administrators, then deduplicate by user
+  def validate_recipients_presence(recipients, recipient_type, account)
+    return false if recipients.present?
+
+    Rails.logger.error("No #{recipient_type} found for account ##{account.id}")
+    render_error("No #{recipient_type} configured", :unprocessable_entity)
+    true
+  end
+
+  def get_booking_emails(account)
+    account.booking_emails.presence || []
+  end
+
+  def get_template_users(account)
     agents = account.agents
     administrators = account.users.where(account_users: { role: :administrator })
-
-    # Combine and deduplicate by user ID to avoid sending duplicate emails
     (agents + administrators).uniq
   end
 
-  def send_booking_notifications(conversation, users)
-    # Send one email to all agents/administrators
+  def send_booking_notifications(conversation, emails)
     AgentNotifications::BookingMailer.booking_notification(
-      agents: users,
+      emails: emails,
       conversation: conversation,
       booking_date: params[:booking_date],
       phone: params[:phone],
       email: params[:email]
     ).deliver_now
 
-    recipient_emails = users.map(&:email)
-    Rails.logger.info("Booking email sent to #{users.size} recipients for conversation ##{conversation.id}")
+    Rails.logger.info("Booking email sent to #{emails.size} recipients for conversation ##{conversation.id}")
+
+    Sms::BookingNotificationService.new(
+      conversation: conversation,
+      booking_date: params[:booking_date],
+      phone: params[:phone],
+      email: params[:email]
+    ).deliver_now
 
     render json: {
       success: true,
-      recipients: recipient_emails,
-      total_sent: users.size
+      recipients: emails,
+      total_sent: emails.size
     }, status: :ok
   rescue StandardError => e
     Rails.logger.error("Failed to send booking notifications: #{e.message}")

@@ -1,6 +1,5 @@
 class AgentNotifications::BookingMailer < ApplicationMailer
-  def booking_notification(agents:, conversation:, booking_date:, phone:, email:)
-    @agents = agents
+  def booking_notification(emails:, conversation:, booking_date:, phone:, email:)
     @conversation = conversation
     @booking_date = booking_date
     @phone = phone
@@ -8,7 +7,6 @@ class AgentNotifications::BookingMailer < ApplicationMailer
     @platform_name = @conversation&.inbox&.platform_name
     subject = 'New booking scheduled 📆'
 
-    recipient_emails = @agents.map(&:email)
-    mail(to: recipient_emails, subject: subject)
+    mail(to: emails, subject: subject)
   end
 end
