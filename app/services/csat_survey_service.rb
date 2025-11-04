@@ -60,12 +60,13 @@ class CsatSurveyService
 
     phone_number = conversation.contact_inbox.source_id
     template_info = build_template_info(template_name, template_config)
-    message = create_csat_message
+    message = build_csat_message
 
-    inbox.channel.provider_service.send_template(phone_number, template_info, message)
+    message_id = inbox.channel.provider_service.send_template(phone_number, template_info, message)
+
+    message.update!(source_id: message_id) if message_id.present?
   rescue StandardError => e
-    Rails.logger.error "Error sending WhatsApp CSAT template: #{e.message}"
-    handle_template_send_failure
+    Rails.logger.error "Error sending WhatsApp CSAT template for conversation #{conversation.id}: #{e.message}"
   end
 
   def build_template_info(template_name, template_config)
@@ -83,24 +84,14 @@ class CsatSurveyService
     }
   end
 
-  def create_csat_message
-    message = conversation.messages.build(
+  def build_csat_message
+    conversation.messages.build(
       account: conversation.account,
       inbox: inbox,
       message_type: :outgoing,
       content: inbox.csat_config&.dig('message') || 'Please rate this conversation',
       content_type: :input_csat
     )
-    message.save!
-    message
-  end
-
-  def handle_template_send_failure
-    if within_messaging_window?
-      ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform
-    else
-      create_csat_not_sent_activity_message
-    end
   end
 
   def create_csat_not_sent_activity_message
