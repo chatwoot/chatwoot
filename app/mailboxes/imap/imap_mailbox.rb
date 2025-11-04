@@ -51,15 +51,17 @@ class Imap::ImapMailbox
   end
 
   def find_conversation_by_reference_ids
-    return if @inbound_mail.references.blank? && in_reply_to.present?
+    return if @inbound_mail.references.blank?
 
     message = find_message_by_references
-    conversation_from_message = @inbox.conversations.find(message.conversation_id) if message.present?
+    if message.present?
+      conversation = @inbox.conversations.find_by(id: message.conversation_id)
+      return conversation if conversation.present?
+    end
 
-    return conversation_from_message if conversation_from_message.present?
-
+    # FALLBACK_PATTERN use to find a conversation that is started by an agent (no incoming message yet)
     conversation_id = find_conversation_by_references
-    @inbox.conversations.find_by(uuid: conversation_id)
+    @inbox.conversations.find_by(uuid: conversation_id) if conversation_id.present?
   end
 
   def in_reply_to
