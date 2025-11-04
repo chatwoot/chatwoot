@@ -262,9 +262,15 @@
         },
         "API_KEY": {
           "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
+          "SUBTITLE": "Add your WhatsApp API key",
           "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "ERROR": "Please enter a valid value"
+        },
+        "ACCOUNT_CONFIG": {
+          "TITLE": "Using Organization WhatsApp Configuration",
+          "DESCRIPTION": "Your organization has configured WhatsApp Business API settings.",
+          "APP_ID_LABEL": "App ID",
+          "HELP_TEXT": "Make sure to use credentials from this Facebook App when filling the form below."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
