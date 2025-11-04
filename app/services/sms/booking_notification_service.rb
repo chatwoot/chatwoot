@@ -54,9 +54,7 @@ class Sms::BookingNotificationService
   end
 
   def build_message_body
-    inbox_name = @conversation.inbox.name
     account_name = @account.name
-    conversation_id = @conversation.display_id
     conversation_url = Rails.application.routes.url_helpers.app_account_conversation_url(
       account_id: @account.id,
       id: @conversation.id,
@@ -66,9 +64,7 @@ class Sms::BookingNotificationService
     <<~SMS
       📆 New Booking Scheduled
 
-      Account: #{account_name}
-      Platform: #{inbox_name}
-      Conversation ID: ##{conversation_id}
+      Dealership: #{account_name}
 
       Booking Date: #{@booking_date}
       Customer Phone: #{@customer_phone}
