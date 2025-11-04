@@ -1,9 +1,11 @@
 <script setup>
+/* eslint-disable no-console */
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import whatsappSettingsAPI from 'dashboard/api/whatsappSettings';
 import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
@@ -28,6 +30,11 @@ const authCodeReceived = ref(false);
 const authCode = ref(null);
 const businessData = ref(null);
 const isAuthenticating = ref(false);
+const whatsappConfig = ref({
+  appId: null,
+  configurationId: null,
+  apiVersion: null,
+});
 
 const benefits = computed(() => [
   {
@@ -162,23 +169,85 @@ const handleEmbeddedSignupData = async data => {
 
 const handleSignupMessage = createMessageHandler(handleEmbeddedSignupData);
 
+// Load WhatsApp configuration (account-specific or global fallback)
+const loadWhatsappConfig = async () => {
+  try {
+    console.log('🔍 Loading WhatsApp configuration...');
+    const response = await whatsappSettingsAPI.get();
+    const settings = response.data;
+
+    if (settings && settings.app_id) {
+      console.log('✅ Using account-level WhatsApp settings');
+      whatsappConfig.value = {
+        appId: settings.app_id,
+        configurationId: settings.configuration_id,
+        apiVersion: settings.api_version || 'v22.0',
+      };
+    } else {
+      console.log('⚠️  No account settings found, using global configuration');
+      whatsappConfig.value = {
+        appId: window.chatwootConfig?.whatsappAppId,
+        configurationId: window.chatwootConfig?.whatsappConfigurationId,
+        apiVersion: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
+      };
+    }
+
+    console.log('📱 Final Configuration:', whatsappConfig.value);
+  } catch (error) {
+    console.warn(
+      '⚠️  Failed to load account settings, using global config:',
+      error.message
+    );
+    whatsappConfig.value = {
+      appId: window.chatwootConfig?.whatsappAppId,
+      configurationId: window.chatwootConfig?.whatsappConfigurationId,
+      apiVersion: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
+    };
+  }
+};
+
 const launchEmbeddedSignup = async () => {
   try {
+    // Load account-specific configuration first
+    await loadWhatsappConfig();
+
+    // Log WhatsApp configuration when button is clicked
+    console.group('🚀 WhatsApp Embedded Signup - Configuration');
+    console.log('📱 WhatsApp App ID:', whatsappConfig.value.appId);
+    console.log('⚙️  Configuration ID:', whatsappConfig.value.configurationId);
+    console.log('📊 API Version:', whatsappConfig.value.apiVersion);
+    console.log('🌐 Frontend URL:', window.chatwootConfig?.frontendUrl);
+    console.log('🔧 Full Config:', {
+      whatsappAppId: whatsappConfig.value.appId,
+      whatsappConfigurationId: whatsappConfig.value.configurationId,
+      whatsappApiVersion: whatsappConfig.value.apiVersion,
+      frontendUrl: window.chatwootConfig?.frontendUrl,
+      hostUrl: window.chatwootConfig?.hostURL,
+    });
+    console.groupEnd();
+
     isAuthenticating.value = true;
     processingMessage.value = t(
       'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
     );
 
+    console.log('🔄 Setting up Facebook SDK...');
     await setupFacebookSdk(
-      window.chatwootConfig?.whatsappAppId,
-      window.chatwootConfig?.whatsappApiVersion
+      whatsappConfig.value.appId,
+      whatsappConfig.value.apiVersion
     );
     fbSdkLoaded.value = true;
+    console.log('✅ Facebook SDK loaded successfully');
 
+    console.log('🔐 Initiating WhatsApp embedded signup...');
     const code = await initWhatsAppEmbeddedSignup(
-      window.chatwootConfig?.whatsappConfigurationId
+      whatsappConfig.value.configurationId
     );
 
+    console.log(
+      '✅ Authorization code received:',
+      code ? '✓ (hidden)' : '✗ (missing)'
+    );
     authCode.value = code;
     authCodeReceived.value = true;
     processingMessage.value = t(
@@ -186,9 +255,18 @@ const launchEmbeddedSignup = async () => {
     );
 
     if (businessData.value) {
+      console.log('📦 Business data already available, completing signup...');
       completeSignupFlow(businessData.value);
+    } else {
+      console.log('⏳ Waiting for business data from Facebook...');
     }
   } catch (error) {
+    console.error('❌ WhatsApp Embedded Signup Error:', {
+      message: error.message,
+      stack: error.stack,
+      error,
+    });
+
     if (error.message === 'Login cancelled') {
       isProcessing.value = false;
       isAuthenticating.value = false;
