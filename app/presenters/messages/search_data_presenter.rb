@@ -3,8 +3,9 @@ class Messages::SearchDataPresenter < SimpleDelegator
     {
       **searchable_content,
       **message_attributes,
+      **search_additional_data,
       conversation: conversation_data
-    }.merge(search_additional_data)
+    }
   end
 
   private
