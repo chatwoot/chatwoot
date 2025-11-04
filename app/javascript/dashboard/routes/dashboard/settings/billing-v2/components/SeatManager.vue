@@ -126,13 +126,13 @@ const handleIncreaseSeats = () => {
 
 <template>
   <div
-    class="flex items-center justify-between p-4 rounded-lg bg-n-slate-2 dark:bg-n-solid-2"
+    class="flex items-center justify-between p-2.5 rounded-lg bg-n-slate-1 outline outline-1 outline-n-weak dark:bg-n-solid-1"
   >
     <div class="flex items-center gap-3">
       <div
-        class="flex items-center justify-center w-10 h-10 rounded-lg bg-n-blue-3 dark:bg-n-blue-4"
+        class="flex items-center justify-center size-9 rounded-md bg-n-slate-4"
       >
-        <Icon icon="i-lucide-users" class="text-n-blue-11" />
+        <Icon icon="i-lucide-users" class="text-n-slate-11" />
       </div>
       <div>
         <h6 class="text-sm font-semibold text-n-slate-12">

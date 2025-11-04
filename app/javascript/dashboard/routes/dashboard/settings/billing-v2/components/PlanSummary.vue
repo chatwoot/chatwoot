@@ -74,28 +74,15 @@ const formatNumber = num => {
 </script>
 
 <template>
-  <div
-    class="p-5 rounded-xl outline outline-1 outline-n-weak bg-n-solid-1 mx-5 mt-5"
-  >
-    <div class="flex items-center gap-2 mb-4">
-      <h3 class="text-base font-semibold text-n-slate-12">
-        {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.TITLE') }}
-      </h3>
-      <span
-        class="px-2 py-1 text-xs font-semibold rounded-md bg-n-blue-3 text-n-blue-11 outline outline-1 outline-n-blue-4"
-      >
-        {{ planName }}
-      </span>
-    </div>
-
-    <div class="grid grid-cols-3 gap-6 mb-4">
+  <div class="rounded-xl mx-5 mt-5">
+    <div class="grid grid-cols-4 gap-6 mb-4">
       <div>
         <p class="text-xs text-n-slate-11 mb-1">
-          {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.PRICE') }}
+          {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.NAME') }}
         </p>
-        <div class="flex items-center gap-1">
+        <div class="items-center gap-1">
           <p class="text-lg font-semibold text-n-slate-12 mb-0">
-            {{ formatPrice(totalPrice) }}
+            {{ planName }}
           </p>
           <p class="text-xs text-n-slate-11 mb-0">
             {{
@@ -103,6 +90,16 @@ const formatNumber = num => {
                 price: formatPrice(pricePerMonth),
               })
             }}
+          </p>
+        </div>
+      </div>
+      <div>
+        <p class="text-xs text-n-slate-11 mb-1">
+          {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.PRICE') }}
+        </p>
+        <div class="flex items-center gap-1">
+          <p class="text-lg font-semibold text-n-slate-12 mb-0">
+            {{ formatPrice(totalPrice) }}
           </p>
         </div>
       </div>
@@ -121,7 +118,7 @@ const formatNumber = num => {
           {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.CREDITS_INCLUDED') }}
         </p>
         <div class="flex items-center gap-1.5">
-          <Icon icon="i-lucide-zap" class="text-n-amber-9" />
+          <Icon icon="i-lucide-sparkles" class="text-n-amber-9" />
           <p class="text-lg font-semibold text-n-slate-12">
             {{ formatNumber(includedCredits) }}
           </p>
@@ -139,9 +136,7 @@ const formatNumber = num => {
       @update-seats="emit('updateSeats', $event)"
     />
 
-    <div
-      class="flex items-center justify-end gap-2 pt-4 border-t border-n-weak"
-    >
+    <div class="flex items-center justify-end gap-2">
       <Button
         variant="faded"
         color="slate"

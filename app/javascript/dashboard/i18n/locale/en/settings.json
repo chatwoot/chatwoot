@@ -421,11 +421,11 @@
       "USAGE_BASED_INFO": "Usage-based pricing: Credits are consumed as you use Chatwoot features."
     },
     "PLAN_SUMMARY": {
-      "TITLE": "Plan Summary",
+      "NAME": "Plan Name",
       "PRICE": "Price",
       "PER_MONTH": "{price}/month",
       "RENEWAL_DATE": "Renewal Date",
-      "CREDITS_INCLUDED": "Credits included/month",
+      "CREDITS_INCLUDED": "Captain AI Credits Included",
       "NUMBER_OF_SEATS": "Number of Seats",
       "ADJUST_SEATS_HINT": "Adjust seats to scale your plan",
       "UPDATE": "Update",
