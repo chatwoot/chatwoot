@@ -270,6 +270,7 @@ GEM
       concurrent-ruby (~> 1.0)
       http (>= 3.0)
       ruby2_keywords
+    email-provider-info (0.0.1)
     email_reply_trimmer (0.1.13)
     erubi (1.13.0)
     et-orbi (1.2.11)
@@ -1016,6 +1017,7 @@ DEPENDENCIES
   dotenv-rails (>= 3.0.0)
   down
   elastic-apm
+  email-provider-info
   email_reply_trimmer
   facebook-messenger
   factory_bot_rails (>= 6.4.3)
