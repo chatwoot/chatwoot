@@ -43,6 +43,7 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
     params.require(:custom_filter).permit(
       :name,
       :filter_type,
+      :is_board,
       query: {}
     )
   end

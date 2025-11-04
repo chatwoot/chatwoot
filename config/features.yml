@@ -224,5 +224,5 @@
   display_name: Quoted Email Reply
   enabled: false
 - name: board
-  display_name: Conversation CRM List
+  display_name: Conversation Pipelines
   enabled: true

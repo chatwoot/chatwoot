@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  filter_type :integer          default("conversation"), not null
+#  is_board    :boolean          default(FALSE), not null
 #  name        :string           not null
 #  query       :jsonb            not null
 #  created_at  :datetime         not null
