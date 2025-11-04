@@ -7,8 +7,12 @@ import HeatmapDateRangeSelector from './HeatmapDateRangeSelector.vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import getUnixTime from 'date-fns/getUnixTime';
+import endOfDay from 'date-fns/endOfDay';
 import format from 'date-fns/format';
+import getUnixTime from 'date-fns/getUnixTime';
+import startOfDay from 'date-fns/startOfDay';
+import startOfMonth from 'date-fns/startOfMonth';
+import subDays from 'date-fns/subDays';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
@@ -110,12 +114,35 @@ const selectedInboxFilter = computed(() => {
 
 const isLoading = computed(() => uiFlags.value[props.uiFlagKey]);
 
+// Keeps relative presets (last 7 days / this month) aligned with "now" during live refreshes.
+const resolveActiveRange = () => {
+  if (isMonthFilter.value && currentMonthOffset.value === 0) {
+    const now = new Date();
+    const monthStart = startOfMonth(now);
+    return {
+      from: startOfDay(monthStart),
+      to: endOfDay(now),
+    };
+  }
+
+  if (!isMonthFilter.value && selectedDaysBefore.value !== null) {
+    const to = endOfDay(new Date());
+    return {
+      from: startOfDay(subDays(to, Number(selectedDaysBefore.value))),
+      to,
+    };
+  }
+
+  return selectedRange.value;
+};
+
 const downloadHeatmapData = () => {
-  if (!selectedRange.value) {
+  const range = resolveActiveRange();
+  if (!range) {
     return;
   }
 
-  const { to } = selectedRange.value;
+  const { to } = range;
   const shouldUseBackendDownload =
     !isMonthFilter.value && !selectedInbox.value && props.downloadAction;
 
@@ -168,11 +195,12 @@ const fetchHeatmapData = () => {
     return;
   }
 
-  if (!selectedRange.value) {
+  const range = resolveActiveRange();
+  if (!range) {
     return;
   }
 
-  const { from, to } = selectedRange.value;
+  const { from, to } = range;
 
   const params = {
     metric: props.metric,
