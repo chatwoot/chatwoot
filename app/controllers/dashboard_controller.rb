@@ -67,8 +67,8 @@ class DashboardController < ActionController::Base
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
       INSTAGRAM_APP_ID: GlobalConfigService.load('INSTAGRAM_APP_ID', ''),
       FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v18.0'),
-      WHATSAPP_APP_ID: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
-      WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
+      WHATSAPP_APP_ID: whatsapp_app_id,
+      WHATSAPP_CONFIGURATION_ID: whatsapp_configuration_id,
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GOOGLE_OAUTH_CLIENT_ID: GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', ''),
@@ -92,5 +92,13 @@ class DashboardController < ActionController::Base
     current_path = request.path.gsub(%r{^/app}, '')
 
     sensitive_paths.include?(current_path)
+  end
+
+  def whatsapp_app_id
+    current_user&.account&.whatsapp_settings&.app_id.presence || GlobalConfigService.load('WHATSAPP_APP_ID', '')
+  end
+
+  def whatsapp_configuration_id
+    current_user&.account&.whatsapp_settings&.configuration_id.presence || GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', '')
   end
 end

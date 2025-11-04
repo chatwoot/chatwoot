@@ -45,15 +45,15 @@ class Whatsapp::EmbeddedSignupService
   private
 
   def exchange_code_for_token
-    Whatsapp::TokenExchangeService.new(@code).perform
+    Whatsapp::TokenExchangeService.new(@code, account: @account).perform
   end
 
   def fetch_phone_info(access_token)
-    Whatsapp::PhoneInfoService.new(@waba_id, @phone_number_id, access_token).perform
+    Whatsapp::PhoneInfoService.new(@waba_id, @phone_number_id, access_token, account: @account).perform
   end
 
   def validate_token_access(access_token)
-    Whatsapp::TokenValidationService.new(access_token, @waba_id).perform
+    Whatsapp::TokenValidationService.new(access_token, @waba_id, account: @account).perform
   end
 
   def create_or_reauthorize_channel(access_token, phone_info)

@@ -1,9 +1,10 @@
 class Whatsapp::PhoneInfoService
-  def initialize(waba_id, phone_number_id, access_token)
+  def initialize(waba_id, phone_number_id, access_token, account: nil)
     @waba_id = waba_id
     @phone_number_id = phone_number_id
     @access_token = access_token
-    @api_client = Whatsapp::FacebookApiClient.new(access_token)
+    @account = account
+    @api_client = Whatsapp::FacebookApiClient.new(access_token, account: @account)
   end
 
   def perform

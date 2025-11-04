@@ -78,9 +78,14 @@ class Channel::Whatsapp < ApplicationRecord
     return unless provider == 'whatsapp_cloud'
     return if provider_config['webhook_verify_token'].present?
 
-    # Use constant token from environment variable if available, otherwise generate random token
-    constant_token = ENV.fetch('FB_VERIFY_TOKEN', nil)
-    provider_config['webhook_verify_token'] = constant_token.presence || SecureRandom.hex(16)
+    # Priority order:
+    # 1. Account-specific verify token (from whatsapp_settings)
+    # 2. Global FB_VERIFY_TOKEN environment variable
+    # 3. Generate random token
+    account_token = inbox&.account&.whatsapp_settings&.verify_token
+    global_token = ENV.fetch('FB_VERIFY_TOKEN', nil)
+
+    provider_config['webhook_verify_token'] = account_token.presence || global_token.presence || SecureRandom.hex(16)
   end
 
   def validate_provider_config
