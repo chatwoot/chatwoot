@@ -52,7 +52,7 @@
       "NOTE": "Configure email addresses to receive booking notifications. Only these emails will receive booking alerts. If no emails are added, no booking notifications will be sent.",
       "LABEL": "Add email address",
       "HELP": "Enter an email address and click Add. You can add multiple email addresses.",
-      "PLACEHOLDER": "email@example.com",
+      "PLACEHOLDER": "email{'@'}example.com",
       "ADD_BUTTON": "Add",
       "CONFIGURED_EMAILS": "Configured Email Addresses",
       "EMPTY_STATE": "⚠️ No booking notification emails configured. Add at least one email address to receive booking notifications.",
