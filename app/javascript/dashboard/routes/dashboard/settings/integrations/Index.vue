@@ -1,7 +1,9 @@
 <script setup>
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useBranding } from 'shared/composables/useBranding';
+import { useI18n } from 'vue-i18n';
+import whatsappSettingsAPI from 'dashboard/api/whatsappSettings';
 import IntegrationItem from './IntegrationItem.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -11,9 +13,11 @@ import { frontendURL } from 'dashboard/helper/URLHelper';
 const store = useStore();
 const getters = useStoreGetters();
 const { replaceInstallationName } = useBranding();
+const { t } = useI18n();
 
 const uiFlags = getters['integrations/getUIFlags'];
 const accountId = getters.getCurrentAccountId;
+const whatsappConfigured = ref(false);
 
 const integrationList = computed(
   () => getters['integrations/getAppIntegrations'].value
@@ -23,8 +27,28 @@ const whatsappSettingsURL = computed(() =>
   frontendURL(`accounts/${accountId.value}/settings/integrations/whatsapp`)
 );
 
+const whatsappStatus = computed(() =>
+  whatsappConfigured.value
+    ? t('INTEGRATION_APPS.STATUS.ENABLED')
+    : t('INTEGRATION_APPS.STATUS.DISABLED')
+);
+
+const whatsappStatusColor = computed(() =>
+  whatsappConfigured.value ? 'bg-n-teal-9' : 'bg-n-slate-8'
+);
+
+const loadWhatsappSettings = async () => {
+  try {
+    const response = await whatsappSettingsAPI.get();
+    whatsappConfigured.value = !!response.data?.app_id;
+  } catch (error) {
+    whatsappConfigured.value = false;
+  }
+};
+
 onMounted(() => {
   store.dispatch('integrations/get');
+  loadWhatsappSettings();
 });
 </script>
 
@@ -56,6 +80,13 @@ onMounted(() => {
               >
                 <i class="i-lucide-message-circle text-3xl text-green-600" />
               </div>
+              <span
+                v-tooltip="whatsappStatus"
+                class="text-white p-0.5 rounded-full w-5 h-5 flex items-center justify-center"
+                :class="whatsappStatusColor"
+              >
+                <i class="i-ph-check-bold text-sm" />
+              </span>
             </div>
             <div class="flex flex-col m-0 flex-1">
               <div
