@@ -33,7 +33,9 @@ const validations = {
 const v$ = useVuelidate(validations, formState);
 
 const webhookUrl = computed(() => {
-  return `${window.location.origin}/webhooks/whatsapp`;
+  const frontendUrl =
+    window.chatwootConfig?.frontendUrl || window.location.origin;
+  return `${frontendUrl}/webhooks/whatsapp`;
 });
 
 const appIdError = computed(() =>
