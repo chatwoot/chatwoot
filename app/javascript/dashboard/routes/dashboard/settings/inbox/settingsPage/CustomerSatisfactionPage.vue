@@ -117,7 +117,7 @@ const templateApprovalStatus = computed(() => {
 
   // Handle existing template with status
   if (templateStatus.value?.template_exists && templateStatus.value.status) {
-    return statusMap[templateStatus.value.status] || statusMap.DEFAULT;
+    return statusMap[templateStatus.value.status] || statusMap.PENDING;
   }
 
   // Default case - no template exists
@@ -185,9 +185,7 @@ const checkTemplateStatus = async () => {
     } else {
       templateStatus.value = response;
     }
-    // eslint-disable-next-line no-empty
   } catch (error) {
-    // Handle API errors gracefully
     templateStatus.value = {
       template_exists: false,
       error: 'API_ERROR',
@@ -262,13 +260,7 @@ const shouldCreateTemplate = () => {
 
 // Build template config for saving
 const buildTemplateConfig = () => {
-  if (
-    !hasExistingTemplate() ||
-    !templateStatus.value ||
-    templateStatus.value.error
-  ) {
-    return null;
-  }
+  if (!hasExistingTemplate()) return null;
 
   return {
     name: templateStatus.value.template_name || 'customer_satisfaction_survey',
@@ -291,36 +283,19 @@ const updateInbox = async attributes => {
 const createTemplate = async () => {
   if (!isWhatsAppChannel.value) return null;
 
-  try {
-    isUpdating.value = true;
-    // This function is called only when:
-    // 1. No template exists yet, OR
-    // 2. Template fields (message, button_text, language) have changed
-    const response = await store.dispatch('inboxes/createCSATTemplate', {
-      inboxId: props.inbox.id,
-      template: {
-        message: state.message,
-        button_text: state.templateButtonText,
-        language: state.templateLanguage,
-        template_name: state.templateName,
-      },
-    });
+  const response = await store.dispatch('inboxes/createCSATTemplate', {
+    inboxId: props.inbox.id,
+    template: {
+      message: state.message,
+      button_text: state.templateButtonText,
+      language: state.templateLanguage,
+      template_name: state.templateName,
+    },
+  });
 
-    // Check status after creation
-    await checkTemplateStatus();
-    useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.SUCCESS_MESSAGE'));
-
-    // Return the template data from the response
-    return response.template;
-  } catch (error) {
-    const errorMessage =
-      error.response?.data?.error ||
-      t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE');
-    useAlert(errorMessage);
-    throw error; // Re-throw to prevent inbox update
-  } finally {
-    isUpdating.value = false;
-  }
+  await checkTemplateStatus();
+  useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.SUCCESS_MESSAGE'));
+  return response.template;
 };
 
 const performSave = async () => {
@@ -337,7 +312,6 @@ const performSave = async () => {
       try {
         newTemplateData = await createTemplate();
       } catch (templateError) {
-        // If template creation fails, show the Meta error and no need to update inbox
         useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE'));
         return;
       }
@@ -376,9 +350,8 @@ const performSave = async () => {
     });
 
     useAlert(t('INBOX_MGMT.CSAT.API.SUCCESS_MESSAGE'));
-    checkTemplateStatus();
-    // eslint-disable-next-line no-empty
   } catch (error) {
+    useAlert(t('INBOX_MGMT.CSAT.API.ERROR_MESSAGE'));
   } finally {
     isUpdating.value = false;
   }
