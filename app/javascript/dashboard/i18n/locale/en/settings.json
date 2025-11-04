@@ -462,7 +462,9 @@
     },
     "TOPUP_OPTIONS": {
       "TITLE": "Top-up Credits",
-      "CREDITS": "credits",
+      "DESCRIPTION": "Add more credits to your account, to ensure uninterrupted Captain usage.",
+      "CREDITS": "Credits",
+      "PRICE": "Price",
       "BUY_NOW": "Buy Now",
       "NO_OPTIONS": "No top-up options available.",
       "TOPUP_SUCCESS": "Credits added successfully! Your new balance is available now.",

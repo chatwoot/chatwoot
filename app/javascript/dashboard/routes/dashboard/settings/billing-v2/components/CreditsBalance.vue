@@ -48,7 +48,7 @@ const formatAmount = amount => {
 <template>
   <div class="rounded-xl mx-5 mt-5">
     <div
-      class="flex gap-6 mb-4 items-center justify-evenly rounded-xl bg-n-slate-2 px-4 py-3"
+      class="flex gap-6 mb-4 items-center justify-evenly rounded-xl dark:bg-n-solid-1 bg-n-slate-2 px-4 py-3"
     >
       <div>
         <p class="text-xs text-n-slate-11 mb-1">
