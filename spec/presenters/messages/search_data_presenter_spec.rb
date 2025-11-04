@@ -12,7 +12,6 @@ RSpec.describe Messages::SearchDataPresenter do
     let(:expected_data) do
       {
         content: message.content,
-        processed_message_content: message.processed_message_content,
         account_id: message.account_id,
         inbox_id: message.inbox_id,
         conversation_id: message.conversation_id,
@@ -21,53 +20,15 @@ RSpec.describe Messages::SearchDataPresenter do
         created_at: message.created_at,
         source_id: message.source_id,
         sender_id: message.sender_id,
-        sender_type: message.sender_type
+        sender_type: message.sender_type,
+        conversation: {
+          id: conversation.display_id
+        }
       }
     end
 
     it 'returns search index payload with core fields' do
       expect(presenter.search_data).to include(expected_data)
-    end
-
-    it 'includes inbox data' do
-      inbox_data = presenter.search_data[:inbox]
-      expect(inbox_data).to include(
-        id: inbox.id,
-        name: inbox.name,
-        channel_type: inbox.channel_type
-      )
-    end
-
-    it 'includes conversation data' do
-      conversation_data = presenter.search_data[:conversation]
-      expect(conversation_data).to include(
-        id: conversation.id,
-        display_id: conversation.display_id,
-        status: conversation.status,
-        assignee_id: conversation.assignee_id,
-        team_id: conversation.team_id,
-        contact_id: conversation.contact_id
-      )
-    end
-
-    it 'includes sender data' do
-      sender_data = presenter.search_data[:sender]
-      expect(sender_data).to include(
-        id: contact.id,
-        type: 'Contact',
-        name: contact.name,
-        email: contact.email
-      )
-    end
-
-    it 'includes flattened custom attributes for conversation' do
-      conversation.update(custom_attributes: { plan: 'enterprise', industry: 'tech' })
-      custom_attrs = presenter.search_data[:conversation][:custom_attributes]
-      expect(custom_attrs).to be_an(Array)
-      expect(custom_attrs).to include(
-        hash_including(key: 'plan', value: 'enterprise'),
-        hash_including(key: 'industry', value: 'tech')
-      )
     end
 
     context 'with attachments' do
@@ -87,11 +48,7 @@ RSpec.describe Messages::SearchDataPresenter do
     context 'with email content attributes' do
       before do
         message.update(
-          content_attributes: {
-            email: {
-              subject: 'Test Subject'
-            }
-          }
+          content_attributes: { email: { subject: 'Test Subject' } }
         )
       end
 
