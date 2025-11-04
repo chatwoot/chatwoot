@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineModel, h, watch, ref } from 'vue';
+import { computed, defineModel, h, watch, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -11,9 +11,10 @@ import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
-const { filterTypes } = defineProps({
+const { filterTypes, partnerFilter } = defineProps({
   showQueryOperator: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
+  partnerFilter: {type: Boolean, default: false}
 });
 
 const emit = defineEmits(['remove']);
@@ -138,9 +139,32 @@ const validate = () => {
   return !validationError.value;
 };
 
+const operatorOptionsPartnerTeam = computed(() => {
+  if (partnerFilter && attributeKey.value === 'team_id') {
+    return currentFilter.value.filterOperators.filter(op => op.value === 'equal_to')
+  }
+  return currentFilter.value.filterOperators
+})
+
+// Filter options to only show teams the user is a member of
+const filteredOptions = computed(() => {
+  if (attributeKey.value === 'team_id') {
+    return currentFilter.value.options.filter(team => team.is_member === true)
+  }
+  return currentFilter.value.options
+})
+
+const queryOperatorOptionsPartnerUser = [
+    {
+      label: t(`FILTER.QUERY_DROPDOWN_LABELS.AND`),
+      value: 'and',
+      icon: h('span', { class: 'i-lucide-ampersands !text-n-blue-text' }),
+    }
+  ];
+
+
 defineExpose({ validate });
 </script>
-
 <template>
   <li class="list-none">
     <div
@@ -153,9 +177,8 @@ defineExpose({ validate });
         v-if="showQueryOperator"
         v-model="queryOperator"
         variant="faded"
-        hide-icon
         class="text-sm"
-        :options="queryOperatorOptions"
+        :options="(partnerFilter && attributeKey === 'team_id') ? queryOperatorOptionsPartnerUser : queryOperatorOptions"
       />
       <FilterSelect
         v-model="attributeKey"
@@ -166,18 +189,18 @@ defineExpose({ validate });
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :options="currentFilter.filterOperators"
+        :options="operatorOptionsPartnerTeam"
       />
       <template v-if="currentOperator.hasInput">
         <MultiSelect
           v-if="inputType === 'multiSelect'"
           v-model="values"
-          :options="currentFilter.options"
+          :options="filteredOptions"
         />
         <SingleSelect
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
-          :options="currentFilter.options"
+          :options="filteredOptions"
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"
@@ -194,6 +217,7 @@ defineExpose({ validate });
         />
       </template>
       <Button
+        v-if="!partnerFilter"
         sm
         solid
         slate
@@ -206,4 +230,5 @@ defineExpose({ validate });
       {{ t(`FILTER.ERRORS.${validationError}`) }}
     </span>
   </li>
+
 </template>

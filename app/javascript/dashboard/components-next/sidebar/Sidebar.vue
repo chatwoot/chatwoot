@@ -1,5 +1,5 @@
 <script setup>
-import { h, computed, onMounted } from 'vue';
+import { h, computed, onMounted, ref } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -17,6 +17,8 @@ import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+
+import {watch} from 'vue'
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -72,6 +74,8 @@ const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
 
+let partnerUser = ref(false)
+
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
@@ -117,7 +121,54 @@ const newReportRoutes = () => [
   },
 ];
 
+const isUserPartner = (userTeams) => {
+  console.log("userTeams:")
+  console.log(userTeams)
+  const regexPrivado = /\bprivado\b/i;
+
+  return userTeams.some(t => {
+    return regexPrivado.test(t.name)
+  })
+  
+}
+
+watch(teams, (newValue) => {
+  partnerUser = isUserPartner(newValue)
+  localStorage.setItem('isPartnerUser', partnerUser)
+}, {deep: true})
+
+
 const reportRoutes = computed(() => newReportRoutes());
+
+const partnerMenuItems = computed(() => {
+  const userPrivateTeams = teams.value.filter(t => /\bprivado\b/i.test(t.name))
+  if (userPrivateTeams.length === 0) return []
+  return [
+    {
+          name: 'Teams',
+          label: t('SIDEBAR.TEAMS'),
+          icon: 'i-lucide-users',
+          activeOn: ['conversations_through_team'],
+          children: userPrivateTeams.map(team => ({
+            name: `${team.name}-${team.id}`,
+            label: team.name,
+            to: accountScopedRoute('team_conversations', { teamId: team.id }),
+          }))
+
+    },
+    {
+          name: 'Folders',
+          label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
+          icon: 'i-lucide-folder',
+          activeOn: ['conversations_through_folders'],
+          children: conversationCustomViews.value.map(view => ({
+            name: `${view.name}-${view.id}`,
+            label: view.name,
+            to: accountScopedRoute('folder_conversations', { id: view.id }),
+          })),
+    },
+  ]
+})
 
 const menuItems = computed(() => {
   return [
@@ -572,9 +623,16 @@ const menuItems = computed(() => {
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
-      <ul class="flex flex-col gap-1.5 m-0 list-none">
+      <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="!partnerUser">
         <SidebarGroup
           v-for="item in menuItems"
+          :key="item.name"
+          v-bind="item"
+        />
+      </ul>
+      <ul class="flex flex-col gap-1.5 m-0 list-none" v-else>
+        <SidebarGroup
+          v-for="item in partnerMenuItems"
           :key="item.name"
           v-bind="item"
         />

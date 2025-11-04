@@ -1,5 +1,5 @@
 <script setup>
-import { useTemplateRef, onBeforeUnmount, computed, ref } from 'vue';
+import { useTemplateRef, onBeforeUnmount, computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
@@ -7,6 +7,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useConversationFilterContext } from './provider.js';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -25,12 +26,14 @@ const props = defineProps({
 
 const emit = defineEmits(['applyFilter', 'updateFolder', 'close']);
 const { filterTypes } = useConversationFilterContext();
-
+const teams = useMapGetter('teams/getMyTeams')
 const filters = defineModel({
   type: Array,
   default: [],
 });
 const folderNameLocal = ref(props.folderName);
+
+const isPartnerFilter = ref(false)
 
 const DEFAULT_FILTER = {
   attributeKey: 'status',
@@ -43,10 +46,24 @@ const { t } = useI18n();
 const store = useStore();
 
 const resetFilter = () => {
-  filters.value = [{ ...DEFAULT_FILTER }];
+  if (isPartnerFilter.value) {
+    filters.value = [
+      {
+        attributeKey: 'team_id',
+        filterOperator: 'equal_to',
+        values: filters.value[0]?.values || {},
+        queryOperator: 'and'
+      }
+    ]
+  } else {
+    filters.value = [{ ...DEFAULT_FILTER }];
+  }
 };
 
 const removeFilter = index => {
+  if (isPartnerFilter.value && filters.value[index].attributeKey === 'team_id') {
+    return;
+  }
   if (filters.value.length === 1) {
     resetFilter();
   } else {
@@ -96,6 +113,35 @@ const filterModalHeaderTitle = computed(() => {
 });
 
 onBeforeUnmount(() => emit('close'));
+onMounted(() => {
+  // olha no localStorage se estamos num usuário admin
+  const partnerUserFromLocalStorage = localStorage.getItem('isPartnerUser')
+  isPartnerFilter.value = partnerUserFromLocalStorage === 'true'
+  // Se for usuário parceiro, garante que o primeiro filtro seja o team_id
+  if (isPartnerFilter.value) {
+    // Ve se já tem um filtro de team_id
+    const existingTeamFilter = filters.value.find(f => f.attributeKey === 'team_id')
+    
+    if (!existingTeamFilter) {
+      // Se não existe, adiciona com o primeiro time do usuario
+      const userTeams = teams.value
+      const defaultTeam = userTeams.length > 0 ? {id: userTeams[0].id, name: userTeams[0].name } : {}
+
+      filters.value = [{
+        attributeKey: 'team_id',
+        filterOperator: 'equal_to',
+        values: defaultTeam,
+        queryOperator: 'and',
+      }, ...filters.value]
+    } else if (existingTeamFilter && existingTeamFilter !== filters.value[0]) {
+      filters.value = [
+        existingTeamFilter,
+        ...filters.value.filter(f => f.attributeKey !== 'team_id')
+      ]
+    }
+  }
+
+})
 const outsideClickHandler = [
   () => emit('close'),
   { ignore: ['#toggleConversationFilterButton'] },
@@ -131,6 +177,7 @@ const outsideClickHandler = [
           :filter-types="filterTypes"
           :show-query-operator="false"
           @remove="removeFilter(index)"
+          :partner-filter="isPartnerFilter && filter.attributeKey === 'team_id'"
         />
         <ConditionRow
           v-else
@@ -143,6 +190,7 @@ const outsideClickHandler = [
           show-query-operator
           :filter-types="filterTypes"
           @remove="removeFilter(index)"
+          :partner-filter="isPartnerFilter && filter.attributeKey === 'team_id'"
         />
       </template>
     </ul>
