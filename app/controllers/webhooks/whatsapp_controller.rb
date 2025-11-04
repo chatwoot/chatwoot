@@ -29,7 +29,7 @@ class Webhooks::WhatsappController < ActionController::API
 
   def valid_token?(token)
     # For webhook verification, we need to check if the token matches any WhatsApp channel
-    # since Facebook doesn't send phone_number_id during verification
+    # or account-level settings since Facebook doesn't send phone_number_id during verification
 
     # First, try to find channel by phone_number if provided in URL (backward compatibility)
     if params[:phone_number].present?
@@ -37,6 +37,13 @@ class Webhooks::WhatsappController < ActionController::API
       if channel.present?
         whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token']
         return token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
+      end
+    end
+
+    # Check account-level WhatsApp settings (for multi-tenant setup)
+    if defined?(AccountWhatsappSettings)
+      AccountWhatsappSettings.find_each do |settings|
+        return true if settings.verify_token.present? && token == settings.verify_token
       end
     end
 
