@@ -24,6 +24,8 @@ const props = defineProps({
   inbox: { type: Object, required: true },
 });
 
+const TEMPLATE_NAME = 'customer_satisfaction_survey_new';
+
 const { t } = useI18n();
 const store = useStore();
 const labels = useMapGetter('labels/getLabels');
@@ -39,7 +41,6 @@ const state = reactive({
   templateButtonText: 'Please rate us',
   surveyRuleOperator: 'contains',
   templateLanguage: '',
-  templateName: 'customer_satisfaction_survey',
 });
 
 const templateStatus = ref(null);
@@ -150,7 +151,7 @@ const initializeState = () => {
   state.message = message;
   state.templateButtonText = buttonText;
   state.templateLanguage = language;
-  state.templateName = template.name || 'customer_satisfaction_survey';
+  state.templateName = template.name || TEMPLATE_NAME;
   state.surveyRuleOperator = surveyRules.operator || 'contains';
 
   selectedLabelValues.value = Array.isArray(surveyRules.values)
@@ -292,8 +293,6 @@ const createTemplate = async () => {
       template_name: state.templateName,
     },
   });
-
-  await checkTemplateStatus();
   useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.SUCCESS_MESSAGE'));
   return response.template;
 };
@@ -311,8 +310,11 @@ const performSave = async () => {
     ) {
       try {
         newTemplateData = await createTemplate();
-      } catch (templateError) {
-        useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE'));
+      } catch (error) {
+        const errorMessage =
+          error.response?.data?.error ||
+          t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE');
+        useAlert(errorMessage);
         return;
       }
     }
@@ -350,6 +352,7 @@ const performSave = async () => {
     });
 
     useAlert(t('INBOX_MGMT.CSAT.API.SUCCESS_MESSAGE'));
+    checkTemplateStatus();
   } catch (error) {
     useAlert(t('INBOX_MGMT.CSAT.API.ERROR_MESSAGE'));
   } finally {
