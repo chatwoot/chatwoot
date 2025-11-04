@@ -54,8 +54,7 @@ class Messages::SearchDataPresenter < SimpleDelegator
 
   def search_conversation_data
     {
-      id: conversation.id,
-      display_id: conversation.display_id,
+      id: conversation.display_id,
       status: conversation.status,
       assignee_id: conversation.assignee_id,
       team_id: conversation.team_id,
