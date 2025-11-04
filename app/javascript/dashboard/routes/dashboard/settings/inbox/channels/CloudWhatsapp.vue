@@ -1,5 +1,4 @@
 <script>
-/* eslint-disable no-console */
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
@@ -57,14 +56,7 @@ export default {
       try {
         const response = await whatsappSettingsAPI.get();
         this.accountWhatsappSettings = response.data;
-        console.log(
-          '📱 Account WhatsApp Settings loaded:',
-          this.accountWhatsappSettings
-        );
       } catch (error) {
-        console.warn(
-          '⚠️  No account WhatsApp settings found, using global config'
-        );
         this.accountWhatsappSettings = null;
       } finally {
         this.isLoadingSettings = false;

@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable no-console */
 import { computed, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
@@ -31,12 +30,7 @@ const loadAccountWhatsappSettings = async () => {
   try {
     const response = await whatsappSettingsAPI.get();
     accountWhatsappSettings.value = response.data;
-    console.log(
-      '📱 Account WhatsApp Settings loaded in Whatsapp.vue:',
-      accountWhatsappSettings.value
-    );
   } catch (error) {
-    console.warn('⚠️  No account WhatsApp settings found, using global config');
     accountWhatsappSettings.value = null;
   } finally {
     isLoadingSettings.value = false;
@@ -51,28 +45,14 @@ onMounted(() => {
 const hasWhatsappAppId = computed(() => {
   // Priority 1: Account-level settings
   if (accountWhatsappSettings.value?.app_id) {
-    console.log(
-      '✅ Using account-level App ID:',
-      accountWhatsappSettings.value.app_id
-    );
     return true;
   }
 
   // Priority 2: Global config
-  const hasGlobalConfig =
+  return (
     window.chatwootConfig?.whatsappAppId &&
-    window.chatwootConfig.whatsappAppId !== 'none';
-
-  if (hasGlobalConfig) {
-    console.log(
-      '⚠️  Using global App ID:',
-      window.chatwootConfig.whatsappAppId
-    );
-  } else {
-    console.log('❌ No WhatsApp App ID configured (account or global)');
-  }
-
-  return hasGlobalConfig;
+    window.chatwootConfig.whatsappAppId !== 'none'
+  );
 });
 
 const selectedProvider = computed(() => route.query.provider);
