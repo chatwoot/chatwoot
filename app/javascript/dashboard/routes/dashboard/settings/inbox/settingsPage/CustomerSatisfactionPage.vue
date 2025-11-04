@@ -286,14 +286,14 @@ const updateInbox = async attributes => {
 };
 
 const createTemplate = async () => {
-  if (!isWhatsAppChannel.value) return;
+  if (!isWhatsAppChannel.value) return null;
 
   try {
     isUpdating.value = true;
     // This function is called only when:
     // 1. No template exists yet, OR
     // 2. Template fields (message, button_text, language) have changed
-    await store.dispatch('inboxes/createCSATTemplate', {
+    const response = await store.dispatch('inboxes/createCSATTemplate', {
       inboxId: props.inbox.id,
       template: {
         message: state.message,
@@ -305,6 +305,9 @@ const createTemplate = async () => {
     // Check status after creation
     await checkTemplateStatus();
     useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.SUCCESS_MESSAGE'));
+
+    // Return the template data from the response
+    return response.template;
   } catch (error) {
     const errorMessage =
       error.response?.data?.error ||
@@ -319,6 +322,7 @@ const createTemplate = async () => {
 const performSave = async () => {
   try {
     isUpdating.value = true;
+    let newTemplateData = null;
 
     // For WhatsApp channels, create template first if needed
     if (
@@ -327,7 +331,7 @@ const performSave = async () => {
       shouldCreateTemplate()
     ) {
       try {
-        await createTemplate();
+        newTemplateData = await createTemplate();
       } catch (templateError) {
         // If template creation fails, show the Meta error and no need to update inbox
         useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE'));
@@ -346,10 +350,20 @@ const performSave = async () => {
       },
     };
 
-    // Preserve existing template information if it exists
-    const templateConfig = buildTemplateConfig();
-    if (templateConfig) {
-      csatConfig.template = templateConfig;
+    // Use new template data if created, otherwise preserve existing template information
+    if (newTemplateData) {
+      csatConfig.template = {
+        name: newTemplateData.name,
+        template_id: newTemplateData.template_id,
+        language: newTemplateData.language,
+        status: newTemplateData.status,
+        created_at: new Date().toISOString(),
+      };
+    } else {
+      const templateConfig = buildTemplateConfig();
+      if (templateConfig) {
+        csatConfig.template = templateConfig;
+      }
     }
 
     await updateInbox({
@@ -358,6 +372,7 @@ const performSave = async () => {
     });
 
     useAlert(t('INBOX_MGMT.CSAT.API.SUCCESS_MESSAGE'));
+    checkTemplateStatus();
     // eslint-disable-next-line no-empty
   } catch (error) {
   } finally {
