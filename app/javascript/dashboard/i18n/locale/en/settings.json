@@ -408,8 +408,9 @@
     "VIEW_PRICING": "View Pricing",
     "OPEN_STRIPE_DASHBOARD": "Open Stripe Dashboard",
     "CREDITS_BALANCE": {
-      "TITLE": "Credits Balance",
+      "TITLE": "Captain Credits",
       "DESCRIPTION": "Your current credit balance and recent transactions.",
+      "CURRENT_BALANCE": "Current Balance",
       "CREDITS": "credits",
       "REFRESH": "Refresh",
       "BUY_CREDITS": "Buy Credits",
@@ -418,7 +419,7 @@
       "TOPUP_CREDITS": "Top-up Credits",
       "USED_THIS_MONTH": "Used This Month",
       "TOTAL_USED": "Total Used",
-      "USAGE_BASED_INFO": "Usage-based pricing: Credits are consumed as you use Chatwoot features."
+      "USAGE_BASED_INFO": "Credits are consumed as you use Captain"
     },
     "PLAN_SUMMARY": {
       "NAME": "Plan Name",

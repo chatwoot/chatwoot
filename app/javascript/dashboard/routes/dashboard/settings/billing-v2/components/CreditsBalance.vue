@@ -46,34 +46,25 @@ const formatAmount = amount => {
 </script>
 
 <template>
-  <div
-    class="p-5 rounded-xl outline outline-1 outline-n-weak bg-n-solid-1 mx-5 mt-5"
-  >
-    <div class="p-4 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 mb-4">
-      <div class="flex items-baseline gap-2 mb-1">
-        <span class="text-4xl font-bold text-n-slate-12">
-          {{ formatAmount(currentBalance) }}
-        </span>
-        <span class="text-base text-n-slate-11">
-          {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.CREDITS') }}
-        </span>
-      </div>
-      <p class="text-xs text-n-slate-11 mb-0">
-        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.USAGE_BASED_INFO') }}
-      </p>
-    </div>
-
-    <div class="grid grid-cols-2 gap-6 mb-4">
+  <div class="rounded-xl mx-5 mt-5">
+    <div
+      class="flex gap-6 mb-4 items-center justify-evenly rounded-xl bg-n-slate-2 px-4 py-3"
+    >
       <div>
         <p class="text-xs text-n-slate-11 mb-1">
           {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.MONTHLY_CREDITS') }}
         </p>
         <div class="flex items-center gap-1.5">
-          <Icon icon="i-lucide-calendar-check" class="text-n-blue-9" />
           <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatAmount(monthlyCredits) }}
           </p>
         </div>
+      </div>
+
+      <div
+        class="bg-n-background rounded-lg grid place-content-center h-5 w-6 shadow-sm outline outline-1 outline-n-weak"
+      >
+        <Icon icon="i-lucide-plus" class="size-4 text-n-blue-8" />
       </div>
 
       <div>
@@ -81,11 +72,16 @@ const formatAmount = amount => {
           {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.TOPUP_CREDITS') }}
         </p>
         <div class="flex items-center gap-1.5">
-          <Icon icon="i-lucide-plus-circle" class="text-n-teal-9" />
           <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatAmount(topupCredits) }}
           </p>
         </div>
+      </div>
+
+      <div
+        class="bg-n-background rounded-lg grid place-content-center h-5 w-6 shadow-sm outline outline-1 outline-n-weak"
+      >
+        <Icon icon="i-lucide-minus" class="size-4 text-n-ruby-8" />
       </div>
 
       <div>
@@ -93,19 +89,41 @@ const formatAmount = amount => {
           {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.USED_THIS_MONTH') }}
         </p>
         <div class="flex items-center gap-1.5">
-          <Icon icon="i-lucide-trending-down" class="text-n-amber-9" />
           <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatAmount(usageThisMonth) }}
           </p>
         </div>
       </div>
 
+      <div
+        class="bg-n-background rounded-lg grid place-content-center h-5 w-6 shadow-sm outline outline-1 outline-n-weak"
+      >
+        <Icon icon="i-lucide-equal" class="size-4 text-n-teal-8" />
+      </div>
+
       <div>
+        <span class="flex items-center gap-2 mb-1">
+          <div class="text-xs text-n-slate-11">
+            {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.CURRENT_BALANCE') }}
+          </div>
+          <Icon
+            v-tooltip="
+              t('BILLING_SETTINGS_V2.CREDITS_BALANCE.USAGE_BASED_INFO')
+            "
+            icon="i-lucide-circle-question-mark"
+            class="size-3 text-n-slate-10"
+          />
+        </span>
+        <div class="text-lg font-semibold text-n-slate-12">
+          {{ formatAmount(currentBalance) }}
+        </div>
+      </div>
+
+      <div class="hidden">
         <p class="text-xs text-n-slate-11 mb-1">
           {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.TOTAL_USED') }}
         </p>
         <div class="flex items-center gap-1.5">
-          <Icon icon="i-lucide-bar-chart-3" class="text-n-slate-9" />
           <p class="text-lg font-semibold text-n-slate-12 mb-0">
             {{ formatAmount(usageTotal) }}
           </p>
@@ -113,36 +131,35 @@ const formatAmount = amount => {
       </div>
     </div>
 
-    <div
-      class="flex items-center justify-end gap-2 pt-4 border-t border-n-weak"
-    >
+    <div class="flex items-center justify-between gap-2">
+      <div class="space-x-2">
+        <Button
+          variant="faded"
+          color="slate"
+          size="sm"
+          icon="i-lucide-refresh-cw"
+          :is-loading="isLoading"
+          @click="emit('refresh')"
+        >
+          {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.REFRESH') }}
+        </Button>
+        <Button
+          variant="faded"
+          color="slate"
+          size="sm"
+          icon="i-lucide-history"
+          @click="emit('viewHistory')"
+        >
+          {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.VIEW_HISTORY') }}
+        </Button>
+      </div>
       <Button
-        variant="faded"
-        color="blue"
-        size="sm"
-        icon="i-lucide-refresh-cw"
-        :is-loading="isLoading"
-        @click="emit('refresh')"
-      >
-        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.REFRESH') }}
-      </Button>
-      <Button
-        variant="faded"
         color="teal"
         size="sm"
-        icon="i-lucide-plus-circle"
+        icon="i-lucide-plus"
         @click="emit('viewTopup')"
       >
         {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.BUY_CREDITS') }}
-      </Button>
-      <Button
-        variant="faded"
-        color="slate"
-        size="sm"
-        icon="i-lucide-history"
-        @click="emit('viewHistory')"
-      >
-        {{ t('BILLING_SETTINGS_V2.CREDITS_BALANCE.VIEW_HISTORY') }}
       </Button>
     </div>
   </div>
