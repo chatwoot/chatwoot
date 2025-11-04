@@ -76,22 +76,21 @@ defineExpose({
     type="edit"
     width="xl"
     :title="t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.TITLE')"
+    :description="
+      t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.DESCRIPTION', {
+        planName: plan?.name || '',
+        planPrice: formatPrice(plan?.base_price || 0),
+        credits: formatNumber(totalCredits || 0),
+      })
+    "
     :confirm-button-label="t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.CONFIRM')"
     :cancel-button-label="t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.CANCEL')"
     :is-loading="isSubscribing"
     @confirm="handleSubscribe"
   >
     <div v-if="plan" class="space-y-4">
-      <div class="px-4 py-3 rounded-lg bg-n-slate-2 dark:bg-n-solid-2">
-        <h4 class="font-medium text-n-slate-12">
-          {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.PLAN_NAME') }}
-          <span class="text-n-slate-12 font-semibold">{{ plan.name }}</span>
-        </h4>
-        <p class="mt-1 text-sm text-n-slate-11">{{ plan.description }}</p>
-      </div>
-
       <div
-        class="p-4 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 border border-n-slate-4 dark:border-n-solid-4 flex items-center justify-between"
+        class="p-3 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 border border-n-slate-4 dark:border-n-solid-4 flex items-center justify-between"
       >
         <div>
           <label class="block text-sm font-semibold text-n-slate-12">
@@ -135,7 +134,7 @@ defineExpose({
         </div>
       </div>
 
-      <div class="p-4 rounded-lg bg-n-blue-2 dark:bg-n-blue-3 space-y-2">
+      <div class="space-y-2">
         <div class="flex justify-between text-sm">
           <span class="text-n-slate-11">
             {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.BASE_PRICE') }}
@@ -148,16 +147,15 @@ defineExpose({
           <span class="text-n-slate-11">
             {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.INCLUDED_CREDITS') }}
           </span>
-          <span class="font-semibold text-n-amber-11">
+          <span class="font-semibold">
             {{ formatNumber(totalCredits) }}
-            {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.CREDITS') }}
           </span>
         </div>
-        <div class="flex justify-between text-sm pt-2 border-t border-n-blue-4">
+        <div class="flex justify-between text-sm pt-2 border-t border-n-weak">
           <span class="font-semibold text-n-slate-12">
             {{ t('BILLING_SETTINGS_V2.SUBSCRIBE_MODAL.MONTHLY_TOTAL') }}
           </span>
-          <span class="text-lg font-bold text-n-blue-11">
+          <span class="font-bold">
             {{ formatPrice(totalPrice) }}
           </span>
         </div>

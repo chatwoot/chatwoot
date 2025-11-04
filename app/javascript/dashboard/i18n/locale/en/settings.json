@@ -485,7 +485,7 @@
     },
     "SUBSCRIBE_MODAL": {
       "TITLE": "Confirm Subscription",
-      "PLAN_NAME": "Plan Name:",
+      "DESCRIPTION": "You are subscribing to {planName} for {planPrice} per seat with {credits} included credits for Captain AI.",
       "NUMBER_OF_SEATS": "Number of seats",
       "MIN": "Min",
       "MAX": "Max",
