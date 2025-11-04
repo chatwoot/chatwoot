@@ -8,6 +8,7 @@ import {
   watch,
   watchEffect,
 } from 'vue';
+import { useStore } from 'vuex';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import { required } from '@vuelidate/validators';
