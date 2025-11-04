@@ -21,7 +21,7 @@ module Stark
         case status_code
         when 200
           # Success: return the message
-          { message: response.dig('body', 'message'), metadata: response.dig('body', 'metadata') || [] }
+          { message: response.dig('body', 'message'), metadata: response.dig('body', 'metadata') || {} }
         when 400
           # Invalid data: log and return nil
           message = response.dig('body', 'message')
