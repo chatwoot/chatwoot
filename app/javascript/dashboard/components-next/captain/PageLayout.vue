@@ -128,6 +128,27 @@ const handleCreateAssistant = () => {
                   >
                     {{ activeAssistantName }}
                   </span>
+                  <div v-if="activeAssistantName" class="relative group">
+                    <OnClickOutside
+                      @trigger="showAssistantSwitcherDropdown = false"
+                    >
+                      <Button
+                        icon="i-lucide-chevron-down"
+                        variant="ghost"
+                        color="slate"
+                        size="xs"
+                        class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3 [&>span]:size-4"
+                        @click="toggleAssistantSwitcher"
+                      />
+
+                      <AssistantSwitcher
+                        v-if="showAssistantSwitcherDropdown"
+                        class="absolute ltr:left-0 rtl:right-0 top-9"
+                        @close="showAssistantSwitcherDropdown = false"
+                        @create-assistant="handleCreateAssistant"
+                      />
+                    </OnClickOutside>
+                  </div>
                   <Icon
                     v-if="activeAssistantName"
                     icon="i-lucide-chevron-right"
@@ -136,27 +157,6 @@ const handleCreateAssistant = () => {
                   <span class="text-xl font-medium text-n-slate-11">
                     {{ headerTitle }}
                   </span>
-                </div>
-                <div v-if="activeAssistantName" class="relative group">
-                  <OnClickOutside
-                    @trigger="showAssistantSwitcherDropdown = false"
-                  >
-                    <Button
-                      icon="i-lucide-chevron-down"
-                      variant="ghost"
-                      color="slate"
-                      size="xs"
-                      class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3"
-                      @click="toggleAssistantSwitcher"
-                    />
-
-                    <AssistantSwitcher
-                      v-if="showAssistantSwitcherDropdown"
-                      class="absolute ltr:left-0 rtl:right-0 top-9"
-                      @close="showAssistantSwitcherDropdown = false"
-                      @create-assistant="handleCreateAssistant"
-                    />
-                  </OnClickOutside>
                 </div>
               </div>
               <span v-else class="text-xl font-medium text-n-slate-12">
