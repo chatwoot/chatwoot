@@ -116,15 +116,15 @@ export default {
     <!-- Account Configuration Info Banner -->
     <div
       v-if="!isLoadingSettings && hasAccountSettings"
-      class="mb-6 p-4 rounded-lg bg-blue-50 border border-blue-200"
+      class="mb-6 p-4 rounded-lg bg-n-alpha-3 border border-n-weak"
     >
       <div class="flex items-start">
-        <i class="i-lucide-info text-blue-600 text-xl mr-3 mt-0.5" />
+        <i class="i-lucide-info text-n-slate-11 text-xl mr-3 mt-0.5" />
         <div>
-          <p class="text-sm font-medium text-blue-900 mb-1">
+          <p class="text-sm font-medium text-n-slate-12 mb-1">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.ACCOUNT_CONFIG.TITLE') }}
           </p>
-          <p class="text-sm text-blue-700">
+          <p class="text-sm text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.ACCOUNT_CONFIG.DESCRIPTION') }}
             <br />
             <span class="font-mono text-xs">
@@ -132,7 +132,7 @@ export default {
               {{ configuredAppId }}
             </span>
           </p>
-          <p class="text-xs text-blue-600 mt-2">
+          <p class="text-xs text-n-slate-11 mt-2">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.ACCOUNT_CONFIG.HELP_TEXT') }}
           </p>
         </div>
