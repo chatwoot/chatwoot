@@ -3,6 +3,8 @@ class Imap::ImapMailbox
   include IncomingEmailValidityHelper
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
+  FALLBACK_CONVERSATION_PATTERN = %r{account/(\d+)/conversation/([a-zA-Z0-9-]+)@}
+
   def process(mail, channel)
     @inbound_mail = mail
     @channel = channel
@@ -52,14 +54,25 @@ class Imap::ImapMailbox
     return if @inbound_mail.references.blank? && in_reply_to.present?
 
     message = find_message_by_references
+    conversation_from_message = @inbox.conversations.find(message.conversation_id) if message.present?
 
-    return if message.nil?
+    return conversation_from_message if conversation_from_message.present?
 
-    @inbox.conversations.find(message.conversation_id)
+    conversation_id = find_conversation_by_references
+    @inbox.conversations.find_by(uuid: conversation_id)
   end
 
   def in_reply_to
     @processed_mail.in_reply_to
+  end
+
+  def find_conversation_by_references
+    references = Array.wrap(@inbound_mail.references)
+    references.each do |message_id|
+      match = FALLBACK_CONVERSATION_PATTERN.match(message_id)
+
+      return match[2] if match.present?
+    end
   end
 
   def find_message_by_references
