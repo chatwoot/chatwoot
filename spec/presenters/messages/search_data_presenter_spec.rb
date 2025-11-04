@@ -67,11 +67,11 @@ RSpec.describe Messages::SearchDataPresenter do
       end
 
       it 'includes campaign_id' do
-        expect(presenter.search_data[:campaign_id]).to eq('123')
+        expect(presenter.search_data[:additional_attributes][:campaign_id]).to eq('123')
       end
 
       it 'includes automation_rule_id' do
-        expect(presenter.search_data[:automation_rule_id]).to eq('456')
+        expect(presenter.search_data[:additional_attributes][:automation_rule_id]).to eq('456')
       end
     end
   end
