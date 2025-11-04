@@ -17,6 +17,7 @@
 #  last_sign_in_ip        :string
 #  message_signature      :text
 #  name                   :string           not null
+#  phone_number           :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -34,6 +35,7 @@
 # Indexes
 #
 #  index_users_on_email                 (email)
+#  index_users_on_phone_number          (phone_number) UNIQUE WHERE ((phone_number IS NOT NULL) AND ((phone_number)::text <> ''::text))
 #  index_users_on_pubsub_token          (pubsub_token) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
