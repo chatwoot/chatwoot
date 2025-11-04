@@ -13,7 +13,8 @@ class Whatsapp::FacebookApiClient
       query: {
         client_id: get_app_id,
         client_secret: get_app_secret,
-        code: code
+        code: code,
+        redirect_uri: 'https://www.facebook.com/'
       }
     )
 
