@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import format from 'date-fns/format';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import SeatManager from './SeatManager.vue';
 
 const props = defineProps({
   planName: {
@@ -70,32 +71,6 @@ const formatPrice = price => {
 const formatNumber = num => {
   return new Intl.NumberFormat('en-US').format(num);
 };
-
-const canDecreaseSeats = computed(() => {
-  return props.currentSeats > props.minSeats;
-});
-
-const canIncreaseSeats = computed(() => {
-  return props.currentSeats < 100; // Max 100 seats
-});
-
-const handleDecreaseSeats = () => {
-  if (canDecreaseSeats.value && !props.isUpdatingSeats) {
-    emit('updateSeats', {
-      quantity: props.currentSeats - 1,
-      direction: 'decrease',
-    });
-  }
-};
-
-const handleIncreaseSeats = () => {
-  if (canIncreaseSeats.value && !props.isUpdatingSeats) {
-    emit('updateSeats', {
-      quantity: props.currentSeats + 1,
-      direction: 'increase',
-    });
-  }
-};
 </script>
 
 <template>
@@ -154,47 +129,15 @@ const handleIncreaseSeats = () => {
       </div>
     </div>
 
-    <div
+    <SeatManager
       v-if="!isCancelling"
-      class="flex items-center justify-between p-3 rounded-lg bg-n-slate-2 dark:bg-n-solid-2 mb-4"
-    >
-      <div class="flex items-center gap-2">
-        <Icon icon="i-lucide-users" class="text-n-slate-11" />
-        <div>
-          <h6 class="text-sm font-semibold text-n-slate-12">
-            {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.NUMBER_OF_SEATS') }}
-          </h6>
-          <p class="text-xs text-n-slate-11">
-            {{ t('BILLING_SETTINGS_V2.PLAN_SUMMARY.ADJUST_SEATS_HINT') }}
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-        <Button
-          faded
-          slate
-          sm
-          icon="i-lucide-minus"
-          type="button"
-          :is-loading="isUpdatingSeats && updatingDirection === 'decrease'"
-          :disabled="!canDecreaseSeats || isUpdatingSeats"
-          @click="handleDecreaseSeats"
-        />
-        <span class="min-w-12 text-center text-lg font-bold text-n-slate-12">
-          {{ currentSeats }}
-        </span>
-        <Button
-          faded
-          slate
-          sm
-          icon="i-lucide-plus"
-          type="button"
-          :is-loading="isUpdatingSeats && updatingDirection === 'increase'"
-          :disabled="!canIncreaseSeats || isUpdatingSeats"
-          @click="handleIncreaseSeats"
-        />
-      </div>
-    </div>
+      :current-seats="currentSeats"
+      :min-seats="minSeats"
+      :is-updating-seats="isUpdatingSeats"
+      :updating-direction="updatingDirection"
+      class="mb-4"
+      @update-seats="emit('updateSeats', $event)"
+    />
 
     <div
       class="flex items-center justify-end gap-2 pt-4 border-t border-n-weak"
