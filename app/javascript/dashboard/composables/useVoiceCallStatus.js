@@ -105,7 +105,11 @@ export function useVoiceCallStatus(statusRef, directionRef) {
       return 'i-ph-phone-x';
     }
 
-    // For ringing/completed/canceled show direction when possible
+    if (isEndedStatus.value) {
+      return isOutbound.value ? 'i-ph-phone-outgoing' : 'i-ph-phone-incoming';
+    }
+
+    // ringing/other transitional states
     return isOutbound.value ? 'i-ph-phone-outgoing' : 'i-ph-phone-incoming';
   });
 
@@ -126,6 +130,18 @@ export function useVoiceCallStatus(statusRef, directionRef) {
 
     // default (e.g., ringing)
     return 'bg-n-teal-9 animate-pulse';
+  });
+
+  const bubbleIconText = computed(() => {
+    if (isFailedStatus.value) {
+      return 'text-white';
+    }
+
+    if (isEndedStatus.value) {
+      return 'text-n-slate-1';
+    }
+
+    return 'text-white';
   });
 
   const listIconColor = computed(() => {
@@ -152,6 +168,7 @@ export function useVoiceCallStatus(statusRef, directionRef) {
     subtextKey,
     bubbleIconName,
     bubbleIconBg,
+    bubbleIconText,
     listIconColor,
   };
 }

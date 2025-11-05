@@ -20,14 +20,8 @@ module Voice
 
     def find_voice_inbox
       scope = account.inboxes.where(channel_type: 'Channel::Voice')
-      @voice_inbox = if inbox_id.present?
-                       scope.find_by(id: inbox_id)
-                     else
-                       scope.first
-                     end
-      raise 'No Voice channel found' if @voice_inbox.blank?
+      @voice_inbox = scope.find(inbox_id)
       raise 'Contact has no phone number' if contact.phone_number.blank?
     end
-
   end
 end

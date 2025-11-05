@@ -28,7 +28,7 @@ module Voice
       merge_payload!(attrs['data'], timestamp)
 
       message.update!(
-        message_type: direction == 'inbound' ? :incoming : :outgoing,
+        message_type: direction == 'inbound' ? 'incoming' : 'outgoing',
         content_attributes: attrs,
         sender: sender_for_direction
       )
@@ -37,7 +37,7 @@ module Voice
     def build_message_params(timestamp)
       {
         content: 'Voice Call',
-        message_type: direction == 'inbound' ? :incoming : :outgoing,
+        message_type: direction == 'inbound' ? 'incoming' : 'outgoing',
         content_type: 'voice_call',
         content_attributes: { data: build_payload(timestamp) }
       }

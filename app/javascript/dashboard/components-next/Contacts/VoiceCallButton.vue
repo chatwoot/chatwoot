@@ -58,7 +58,9 @@ const startCall = async inboxId => {
     showSuccess();
   } catch (error) {
     const apiError =
-      error?.response?.data?.error || error?.response?.data?.message;
+      error?.response?.data?.error ||
+      error?.response?.data?.message ||
+      error?.message;
     showFailure(apiError);
   } finally {
     isProcessing.value = false;

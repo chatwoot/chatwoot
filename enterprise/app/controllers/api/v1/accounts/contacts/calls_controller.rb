@@ -2,6 +2,10 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
   before_action :fetch_contact
 
   def create
+    authorize @contact, :show?
+    voice_inbox = resolve_voice_inbox
+    authorize voice_inbox, :show?
+
     # Validate that contact has a phone number
     if @contact.phone_number.blank?
       render json: { error: 'Contact has no phone number' }, status: :unprocessable_entity
@@ -13,7 +17,7 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
       account: Current.account,
       contact: @contact,
       user: Current.user,
-      inbox_id: params[:inbox_id]
+      inbox_id: voice_inbox.id
     )
 
     result = service.process
@@ -41,5 +45,14 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
 
   def fetch_contact
     @contact = Current.account.contacts.find(params[:contact_id])
+  end
+
+  def resolve_voice_inbox
+    scope = Current.user.assigned_inboxes.where(
+      account_id: Current.account.id,
+      channel_type: 'Channel::Voice'
+    )
+
+    scope.find(params.require(:inbox_id))
   end
 end

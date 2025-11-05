@@ -23,9 +23,8 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     call_sid = conversation.identifier
     if call_sid.blank?
       incoming_sid = params[:call_sid].to_s
-      if incoming_sid.blank?
-        return render json: { error: 'conference_not_ready', code: 'not_ready', details: 'call_sid missing' }, status: :conflict
-      end
+      return render json: { error: 'conference_not_ready', code: 'not_ready', details: 'call_sid missing' }, status: :conflict if incoming_sid.blank?
+
       call_sid = incoming_sid
       conversation.update!(identifier: call_sid)
     end
@@ -44,7 +43,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       status: 'success',
       conversation_id: conversation.display_id,
       conference_sid: conference_sid,
-      using_webrtc: true,
+      using_webrtc: true
     }
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found
@@ -84,11 +83,11 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     { id: current_user.id, name: current_user.name }
   end
 
-  def update_join_metadata!(call_sid)
+  def update_join_metadata!(_call_sid)
     attrs = convo_attrs.merge(
       'agent_joined' => true,
-      'joined_at'    => Time.current.to_i,
-      'joined_by'    => user_meta
+      'joined_at' => Time.current.to_i,
+      'joined_by' => user_meta
     )
 
     @conversation.update!(additional_attributes: attrs)
@@ -100,8 +99,10 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   end
 
   def fetch_conversation_by_display_id
-    cid = params[:conversation_id] || params[:conversationId]
-    raise ActiveRecord::RecordNotFound, 'conversation_id required' if cid.blank?
-    Current.account.conversations.find_by!(display_id: cid)
+    conversation = @voice_inbox.conversations.find_by!(display_id: params.require(:conversation_id))
+
+    authorize conversation, :show?
+
+    conversation
   end
 end

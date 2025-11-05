@@ -17,7 +17,7 @@ module Voice
           to: to,
           url: callback_url,
           status_callback: "#{host}/twilio/voice/status/#{phone_digits}",
-          status_callback_event: %w[initiated ringing answered completed failed busy no-answer canceled],
+          status_callback_event: %w[initiated ringing answered completed],
           status_callback_method: 'POST'
         }
 
@@ -42,4 +42,3 @@ module Voice
     end
   end
 end
-

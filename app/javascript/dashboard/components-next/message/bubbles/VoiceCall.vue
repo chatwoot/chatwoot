@@ -43,7 +43,7 @@ const direction = computed(() => {
   return undefined;
 });
 
-const { labelKey, subtextKey, bubbleIconBg, bubbleIconName } =
+const { labelKey, subtextKey, bubbleIconBg, bubbleIconName, bubbleIconText } =
   useVoiceCallStatus(status, direction);
 
 const containerRingClass = computed(() => {
@@ -62,7 +62,7 @@ const containerRingClass = computed(() => {
           class="flex justify-center items-center rounded-full size-10 shrink-0"
           :class="bubbleIconBg"
         >
-          <span class="text-xl" :class="bubbleIconName" />
+          <span class="text-xl" :class="[bubbleIconText, bubbleIconName]" />
         </div>
 
         <div class="flex overflow-hidden flex-col flex-grow">
