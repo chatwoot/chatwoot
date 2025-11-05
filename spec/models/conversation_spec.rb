@@ -576,8 +576,19 @@ RSpec.describe Conversation do
       expect(conversation.status).to eq('pending')
     end
 
-    it 'returns conversation as open if campaign is present' do
-      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: create(:campaign))
+    it 'returns conversation as open if campaign is present without allow_bots' do
+      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: create(:campaign, allow_bots: false))
+      expect(conversation.status).to eq('open')
+    end
+
+    it 'returns conversation as pending if campaign has allow_bots enabled' do
+      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: create(:campaign, allow_bots: true))
+      expect(conversation.status).to eq('pending')
+    end
+
+    it 'returns conversation as open if campaign has allow_bots but inbox has no bot' do
+      regular_inbox = create(:inbox, account: bot_inbox.inbox.account)
+      conversation = create(:conversation, inbox: regular_inbox, campaign: create(:campaign, allow_bots: true))
       expect(conversation.status).to eq('open')
     end
   end
