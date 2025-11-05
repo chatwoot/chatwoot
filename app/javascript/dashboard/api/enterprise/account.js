@@ -25,10 +25,6 @@ class EnterpriseAccountAPI extends ApiClient {
   }
 
   // V2 Billing APIs
-  creditsBalance() {
-    return axios.get(`${this.url}credits_balance`);
-  }
-
   creditGrants() {
     return axios.get(`${this.url}credit_grants`);
   }

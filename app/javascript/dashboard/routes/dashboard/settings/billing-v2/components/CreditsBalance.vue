@@ -20,7 +20,7 @@ const emit = defineEmits(['refresh', 'viewTopup', 'viewHistory']);
 const { t } = useI18n();
 
 const currentBalance = computed(() => {
-  return props.balanceData?.total_credits || 0;
+  return props.balanceData?.current_available || 0;
 });
 
 const monthlyCredits = computed(() => {

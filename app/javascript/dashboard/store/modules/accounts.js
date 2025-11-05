@@ -178,8 +178,19 @@ export const actions = {
   fetchCreditsBalance: async ({ commit }) => {
     commit(types.default.SET_V2_BILLING_UI_FLAG, { isFetchingBalance: true });
     try {
-      const response = await EnterpriseAccountAPI.creditsBalance();
-      commit(types.default.SET_CREDITS_BALANCE, response.data);
+      const response = await EnterpriseAccountAPI.getLimits();
+      const responses = response.data?.limits?.captain?.responses || {};
+
+      // Transform captain.responses to the format expected by the UI
+      const creditsBalance = {
+        total_credits: responses.total_count || 0,
+        monthly_credits: responses.monthly || 0,
+        topup_credits: responses.topup || 0,
+        usage_this_month: responses.consumed || 0,
+        current_available: responses.current_available || 0,
+      };
+
+      commit(types.default.SET_CREDITS_BALANCE, creditsBalance);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
