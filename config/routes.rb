@@ -432,7 +432,6 @@ Rails.application.routes.draw do
               get :limits
               post :toggle_deletion
               # V2 Billing endpoints
-              get :credits_balance
               get :credit_grants
               get :v2_pricing_plans
               get :v2_topup_options

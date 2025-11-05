@@ -14,8 +14,6 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_deleted
     when 'billing.credit_grant.created'
       process_credit_grant_created
-    when 'billing.credit_grant.updated'
-      process_credit_grant_updated
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -98,27 +96,7 @@ class Enterprise::Billing::HandleStripeEventService
     return if amount.zero?
 
     service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
-
-    if grant.expires_at.present?
-      service.sync_monthly_credits(amount)
-    else
-      service.add_topup_credits(amount)
-    end
-  end
-
-  def process_credit_grant_updated
-    grant = @event.data.object
-    # Check if grant has expired
-    return unless grant.respond_to?(:expired_at) && grant.expired_at
-
-    # Grant has expired
-    handle_credit_grant_expired
-
-    # Other updates (voided, amount changes, etc) - do nothing
-  end
-
-  def handle_credit_grant_expired
-    Enterprise::Billing::V2::CreditManagementService.new(account: account).expire_monthly_credits
+    service.add_response_topup_credits(amount)
   end
 
   def extract_credit_grant_id(grant_object)
@@ -136,17 +114,6 @@ class Enterprise::Billing::HandleStripeEventService
     # Fallback: extract from amount object
     amount_data = extract_attribute(grant, :amount)
     return 0 unless amount_data
-
-    amount_type = extract_attribute(amount_data, :type)
-
-    case amount_type
-    when 'monetary'
-      extract_amount_value(amount_data, :monetary)
-    when 'custom_pricing_unit'
-      extract_amount_value(amount_data, :custom_pricing_unit)
-    else
-      0
-    end
   end
 
   def extract_attribute(object, attribute)

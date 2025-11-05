@@ -1,6 +1,13 @@
 module Enterprise::Account::PlanUsageAndLimits
+  # Total credits
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
+
+  # Response credits breakdown (monthly + topup)
+  CAPTAIN_RESPONSES_MONTHLY = 'captain_responses_monthly'.freeze
+  CAPTAIN_RESPONSES_TOPUP = 'captain_responses_topup'.freeze
+
+  # Usage tracking
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
 
@@ -16,8 +23,7 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def increment_response_usage
-    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = (custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0) + 1
     save
   end
 
@@ -58,11 +64,12 @@ module Enterprise::Account::PlanUsageAndLimits
                else
                  custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
                end
-
     consumed = 0 if consumed.negative?
 
     {
       total_count: total_count,
+      monthly: (self[:limits][CAPTAIN_RESPONSES_MONTHLY].to_i if type == :responses),
+      topup: (self[:limits][CAPTAIN_RESPONSES_TOPUP].to_i if type == :responses),
       current_available: (total_count - consumed).clamp(0, total_count),
       consumed: consumed
     }
@@ -96,17 +103,12 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def agent_limits
-    subscribed_quantity = custom_attributes['subscribed_quantity']
-    subscribed_quantity || get_limits(:agents)
+    custom_attributes['subscribed_quantity'] || get_limits(:agents)
   end
 
   def get_limits(limit_name)
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
-    return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
-
-    return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
-
-    ChatwootApp.max_limit
+    self[:limits][limit_name.to_s].presence || GlobalConfig.get(config_name)[config_name].presence || ChatwootApp.max_limit
   end
 
   def validate_limit_keys
@@ -119,7 +121,9 @@ module Enterprise::Account::PlanUsageAndLimits
         'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
         'captain_responses' => { 'type': 'number' },
-        'captain_documents' => { 'type': 'number' }
+        'captain_documents' => { 'type': 'number' },
+        'captain_responses_monthly' => { 'type': 'number' },
+        'captain_responses_topup' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

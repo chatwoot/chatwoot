@@ -5,18 +5,6 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
     before_action :validate_topup_amount, only: [:v2_topup]
   end
 
-  def credits_balance
-    service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
-    balance = service.credit_balance
-
-    render json: {
-      id: @account.id,
-      monthly_credits: balance[:monthly],
-      topup_credits: balance[:topup],
-      total_credits: balance[:total]
-    }
-  end
-
   def credit_grants
     service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
     grants = service.fetch_credit_grants

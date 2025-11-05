@@ -31,10 +31,6 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def credits_balance?
-    @account_user.administrator?
-  end
-
   def v2_pricing_plans?
     @account_user.administrator?
   end
