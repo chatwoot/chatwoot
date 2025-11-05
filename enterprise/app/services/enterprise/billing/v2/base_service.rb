@@ -51,16 +51,6 @@ class Enterprise::Billing::V2::BaseService
     account.with_lock(&)
   end
 
-  def log_credit_transaction(type:, amount:, credit_type:, description: nil, metadata: nil)
-    account.credit_transactions.create!(
-      transaction_type: type,
-      amount: amount,
-      credit_type: credit_type,
-      description: description,
-      metadata: (metadata || {}).stringify_keys
-    )
-  end
-
   def with_stripe_error_handling
     yield
   rescue Stripe::StripeError => e

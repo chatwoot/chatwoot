@@ -20,14 +20,6 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   end
 
   def generate_response(input)
-    # Check and use credits before making API call
-    credit_result = check_and_use_credits
-
-    unless credit_result[:success]
-      error_message = credit_result[:message] || 'Insufficient credits'
-      return { error: error_message, error_code: 402 }
-    end
-
     @messages << { role: 'user', content: input } if input.present?
     response = request_chat_completion
 
@@ -119,19 +111,6 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @copilot_thread.copilot_messages.create!(
       message: message,
       message_type: message_type
-    )
-  end
-
-  def check_and_use_credits
-    credit_service = Enterprise::Ai::CaptainCreditService.new(account: @account)
-    credit_service.check_and_use_credits(
-      feature: 'ai_copilot',
-      amount: 1,
-      metadata: {
-        'assistant_id' => @assistant.id,
-        'user_id' => @user&.id,
-        'copilot_thread_id' => @copilot_thread&.id
-      }
     )
   end
 end
