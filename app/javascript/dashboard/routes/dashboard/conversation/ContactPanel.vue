@@ -122,7 +122,7 @@ onMounted(() => {
         ghost-class="ghost"
         handle=".drag-handle"
         item-key="name"
-        class="flex flex-col gap-3"
+        class="sidebar-grid gap-3"
         @start="dragging = true"
         @end="onDragEnd"
       >
@@ -289,6 +289,11 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+.sidebar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
 ::v-deep {
   .contact--profile {
     @apply pb-3 border-b border-solid border-n-weak;

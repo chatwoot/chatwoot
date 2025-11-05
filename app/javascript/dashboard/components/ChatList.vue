@@ -980,11 +980,8 @@ watch(chatLists, () => {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 bg-n-solid-1 conversations-list-wrap"
-    :class="[
-      { hidden: !showConversationList },
-      isOnExpandedLayout ? 'basis-full' : 'w-[340px] 2xl:w-[412px]',
-    ]"
+    class="flex flex-col flex-shrink-0 bg-n-solid-1 conversations-list-wrap w-full h-full"
+    :class="[{ hidden: !showConversationList }]"
   >
     <slot />
     <ChatListHeader

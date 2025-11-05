@@ -169,6 +169,9 @@ importers:
       snakecase-keys:
         specifier: ^8.0.1
         version: 8.0.1
+      splitpanes:
+        specifier: ^4.0.4
+        version: 4.0.4(vue@3.5.12(typescript@5.6.2))
       timezone-phone-codes:
         specifier: ^0.0.2
         version: 0.0.2
@@ -4038,6 +4041,11 @@ packages:
 
   spark-md5@3.0.2:
     resolution: {integrity: sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==}
+
+  splitpanes@4.0.4:
+    resolution: {integrity: sha512-RbysugZhjbCw5fgplvk3hOXr41stahQDtZhHVkhnnJI6H4wlGDhM2kIpbehy7v92duy9GnMa8zIhHigIV1TWtg==}
+    peerDependencies:
+      vue: ^3.2.0
 
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
@@ -8887,6 +8895,10 @@ snapshots:
     optional: true
 
   spark-md5@3.0.2: {}
+
+  splitpanes@4.0.4(vue@3.5.12(typescript@5.6.2)):
+    dependencies:
+      vue: 3.5.12(typescript@5.6.2)
 
   sprintf-js@1.0.3: {}
 
