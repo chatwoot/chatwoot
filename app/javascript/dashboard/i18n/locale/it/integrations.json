@@ -472,7 +472,7 @@
         "FEATURES": {
           "TITLE": "Funzionalità",
           "ALLOW_CONVERSATION_FAQS": "Genera FAQ dalle conversazioni risolte",
-          "ALLOW_MEMORIES": "Salva memorie e dettagli chiavi dalle interazioni con i clienti.",
+          "ALLOW_MEMORIES": "Salva memorie e dettagli chiave dalle interazioni con i clienti.",
           "ALLOW_CITATIONS": "Includi citazioni alle fonti nelle risposte"
         }
       },
