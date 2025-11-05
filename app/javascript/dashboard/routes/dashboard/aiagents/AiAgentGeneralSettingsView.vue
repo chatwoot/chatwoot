@@ -136,6 +136,7 @@ watch(
             console.log(agents_config)
             state.welcoming_message = agent_config.bot_prompt.persona;
             state.routing_conditions = agent_config.bot_prompt.handover_conditions;
+            state.instruction = agent_config.bot_prompt.instruction || '';
           }
         });
         // Now look for tab:1 content
@@ -211,6 +212,7 @@ async function submit() {
       if (agent_config.bot_prompt) {
         agent_config.bot_prompt.persona = state.welcoming_message || agent_config.bot_prompt.persona;
         agent_config.bot_prompt.handover_conditions = state.routing_conditions || '';
+        agent_config.bot_prompt.instruction = state.instruction || '';
         // Optionally reset to default if empty:
         // if (!state.routing_conditions) agent_config.bot_prompt.handover_conditions = '...default...'
       }
