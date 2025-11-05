@@ -8,6 +8,7 @@ import {
   useStore,
   useMapGetter,
 } from 'dashboard/composables/store';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
@@ -40,6 +41,7 @@ const agentList = computed(() => getters['agents/getAgents'].value);
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
 const currentUserId = computed(() => getters.getCurrentUserID.value);
 const customRoles = useMapGetter('customRole/getCustomRoles');
+const { isAdmin } = useAdmin();
 
 onMounted(() => {
   store.dispatch('agents/get');
@@ -151,6 +153,7 @@ const confirmDeletion = () => {
       >
         <template #actions>
           <Button
+            v-if="isAdmin"
             icon="i-lucide-circle-plus"
             :label="$t('AGENT_MGMT.HEADER_BTN_TXT')"
             @click="openAddPopup"

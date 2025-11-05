@@ -4,6 +4,9 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+# ============================================
+# Ruby / Rails
+# ============================================
 # Ignore bundler config.
 /.bundle
 
@@ -16,20 +19,42 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-*.mmdb
 
 # Ignore Byebug command history file.
 .byebug_history
-.DS_Store
-*.log
+
 # Ignore application configuration
-node_modules
 master.key
-*.rdb
+/config/master.key
+/config/*.enc
 
-# Ignore env files
-.env
+# Rails storage
+/storage
 
+# Vendor directory
+# Ignore bundler gems (installed via bundle install)
+/vendor/bundle
+# But allow custom vendor files (assets, db, etc.)
+!/vendor/assets
+!/vendor/db
+
+# ============================================
+# Node.js / JavaScript / Frontend
+# ============================================
+# Dependencies
+node_modules
+/node_modules
+package-lock.json
+yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Build outputs
+/public/packs
+/public/packs-test
+/public/vite*
+
+# Assets
 public/uploads
 public/packs*
 public/assets/administrate*
@@ -38,64 +63,66 @@ public/assets/activestorage*.js
 public/assets/trix*
 public/assets/belongs_to*.js
 public/assets/manifest*.js
-public/assets/manifest*.js
 public/assets/*.js.gz
 public/assets/secretField*
 public/assets/.sprockets-manifest-*.json
 
-# VIM files
-*.swp
-*.swo
-*.un~
+# ============================================
+# Environment & Configuration
+# ============================================
+.env
+*.local
+
+# ============================================
+# Testing & Coverage
+# ============================================
 .jest-cache
-
-# ignore jetbrains IDE files
-.idea
-
-# coverage report
 buildreports
 coverage
-
-/storage
-
-# ignore packages
-node_modules
-package-lock.json
-
-*.dump
-
-
-# cypress
 test/cypress/videos/*
 
-/config/master.key
-/config/*.enc
+# ============================================
+# Database & Data Files
+# ============================================
+*.mmdb
+*.rdb
+*.dump
 
+# ============================================
+# Logs
+# ============================================
+*.log
+.DS_Store
 
+# ============================================
+# Local Development Tools
+# ============================================
 # yalc for local testing
 .yalc
 yalc.lock
 
-/public/packs
-/public/packs-test
-/node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
+# ============================================
+# IDEs & Editors
+# ============================================
+# VIM
+*.swp
+*.swo
+*.un~
 
-# Vite Ruby
-/public/vite*
-# Vite uses dotenv and suggests to ignore local-only env files. See
-# https://vitejs.dev/guide/env-and-mode.html#env-files
-*.local
+# JetBrains IDEs
+.idea
 
-
-# TextEditors & AI Agents config files
+# VS Code
 .vscode
-.claude/settings.local.json
+
+# Cursor / Claude
 .cursor
+.claude/settings.local.json
 CLAUDE.local.md
 
+# ============================================
+# Deployment & Build
+# ============================================
 # Histoire deployment
 .netlify
 .histoire

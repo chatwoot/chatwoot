@@ -9,7 +9,10 @@ class AgentBuilder
   # @param inviter [User] the user who is inviting the agent (Current.user in most cases).
   # @param availability [String] the availability status of the user, defaults to 'offline' if not provided.
   # @param auto_offline [Boolean] the auto offline status of the user.
-  pattr_initialize [:email, { name: '' }, :inviter, :account, { role: :agent }, { availability: :offline }, { auto_offline: false }]
+  # @param password [String] the password for the new user (optional, generates random if not provided).
+  # @param password_confirmation [String] the password confirmation.
+  pattr_initialize [:email, { name: '' }, :inviter, :account, { role: :agent }, { availability: :offline }, { auto_offline: false }, :password,
+                    :password_confirmation]
 
   # Creates a user and account user in a transaction.
   # @return [User] the created user.
@@ -23,14 +26,37 @@ class AgentBuilder
 
   private
 
-  # Finds a user by email or creates a new one with a temporary password.
+  # Finds a user by email or creates a new one with provided or temporary password.
   # @return [User] the found or created user.
   def find_or_create_user
     user = User.from_email(email)
     return user if user
 
-    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
-    User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
+    # Use provided password or generate a temporary one
+    user_password = (password.presence || "1!aA#{SecureRandom.alphanumeric(12)}")
+    user_password_confirmation = (password_confirmation.presence || user_password)
+
+    # Create user - skip email format validation
+    # Devise validatable validates email format, so we use validate: false
+    user = User.new(
+      email: email,
+      name: name,
+      password: user_password,
+      password_confirmation: user_password_confirmation
+    )
+
+    # Set uid for Devise Token Auth (required)
+    user.uid = email
+
+    # Save without validations (bypasses Devise email format validation)
+    # Password will still be encrypted by Devise callbacks
+    user.save(validate: false)
+
+    # Skip email confirmation so user can login immediately
+    user.skip_confirmation!
+    user.save(validate: false)
+
+    user
   end
 
   # Checks if the user needs confirmation.

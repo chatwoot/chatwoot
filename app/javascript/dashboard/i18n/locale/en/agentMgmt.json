@@ -39,6 +39,11 @@
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
+        "PASSWORD": {
+          "LABEL": "Password",
+          "PLACEHOLDER": "Enter the user password",
+          "ERROR": "Password is required"
+        },
         "SUBMIT": "Add Agent"
       },
       "API": {
@@ -80,6 +85,20 @@
           "LABEL": "Availability",
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
+        },
+        "PASSWORD": {
+          "CHANGE_PASSWORD": "Change Password",
+          "NEW_PASSWORD": {
+            "LABEL": "New Password",
+            "PLACEHOLDER": "Enter the new password",
+            "ERROR": "Password is required"
+          },
+          "CONFIRM_PASSWORD": {
+            "LABEL": "Confirm New Password",
+            "PLACEHOLDER": "Confirm the new password",
+            "ERROR": "Password confirmation is required"
+          },
+          "CANCEL": "Cancel"
         },
         "SUBMIT": "Edit Agent"
       },

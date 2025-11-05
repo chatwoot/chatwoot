@@ -6,7 +6,6 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
 
 const props = defineProps({
@@ -18,6 +17,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  // eslint-disable-next-line vue/no-unused-properties
   email: {
     type: String,
     default: '',
@@ -50,18 +50,26 @@ const { t } = useI18n();
 const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
-const agentCredentials = ref({ email: props.email });
+const agentPassword = ref('');
+const agentPasswordConfirmation = ref('');
+const showPasswordFields = ref(false);
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
   selectedRoleId: { required },
   agentAvailability: { required },
+  agentPassword: { required: computed(() => showPasswordFields.value) },
+  agentPasswordConfirmation: {
+    required: computed(() => showPasswordFields.value),
+  },
 };
 
 const v$ = useVuelidate(rules, {
   agentName,
   selectedRoleId,
   agentAvailability,
+  agentPassword,
+  agentPasswordConfirmation,
 });
 
 const pageTitle = computed(
@@ -121,6 +129,14 @@ const editAgent = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
 
+  // Validate password match if password fields are shown
+  if (showPasswordFields.value && agentPassword.value) {
+    if (agentPassword.value !== agentPasswordConfirmation.value) {
+      useAlert('As senhas não coincidem');
+      return;
+    }
+  }
+
   try {
     const payload = {
       id: props.id,
@@ -135,6 +151,12 @@ const editAgent = async () => {
       payload.custom_role_id = null;
     }
 
+    // Add password if provided
+    if (showPasswordFields.value && agentPassword.value) {
+      payload.password = agentPassword.value;
+      payload.password_confirmation = agentPasswordConfirmation.value;
+    }
+
     await store.dispatch('agents/update', payload);
     useAlert(t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
     emit('close');
@@ -143,12 +165,11 @@ const editAgent = async () => {
   }
 };
 
-const resetPassword = async () => {
-  try {
-    await Auth.resetPassword(agentCredentials.value);
-    useAlert(t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE'));
-  } catch (error) {
-    useAlert(t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
+const togglePasswordFields = () => {
+  showPasswordFields.value = !showPasswordFields.value;
+  if (!showPasswordFields.value) {
+    agentPassword.value = '';
+    agentPasswordConfirmation.value = '';
   }
 };
 </script>
@@ -204,18 +225,63 @@ const resetPassword = async () => {
         </label>
       </div>
 
-      <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">
-        <div class="w-[50%] ltr:text-left rtl:text-right">
+      <div v-if="provider !== 'saml'" class="w-full">
+        <div class="flex items-center justify-between mb-2">
+          <label class="text-sm font-medium text-slate-700 dark:text-slate-300">
+            {{ $t('AGENT_MGMT.EDIT.FORM.PASSWORD.CHANGE_PASSWORD') }}
+          </label>
           <Button
-            v-if="provider !== 'saml'"
             ghost
             type="button"
             icon="i-lucide-lock-keyhole"
-            class="!px-2"
-            :label="$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON')"
-            @click.prevent="resetPassword"
+            class="!px-2 !py-1"
+            :label="
+              showPasswordFields
+                ? $t('AGENT_MGMT.EDIT.FORM.PASSWORD.CANCEL')
+                : $t('AGENT_MGMT.EDIT.FORM.PASSWORD.CHANGE_PASSWORD')
+            "
+            @click.prevent="togglePasswordFields"
           />
         </div>
+        <div v-if="showPasswordFields" class="space-y-4">
+          <div class="w-full">
+            <label :class="{ error: v$.agentPassword.$error }">
+              {{ $t('AGENT_MGMT.EDIT.FORM.PASSWORD.NEW_PASSWORD.LABEL') }}
+              <input
+                v-model="agentPassword"
+                type="password"
+                :placeholder="
+                  $t('AGENT_MGMT.EDIT.FORM.PASSWORD.NEW_PASSWORD.PLACEHOLDER')
+                "
+                @input="v$.agentPassword.$touch"
+              />
+              <span v-if="v$.agentPassword.$error" class="message">
+                {{ $t('AGENT_MGMT.EDIT.FORM.PASSWORD.NEW_PASSWORD.ERROR') }}
+              </span>
+            </label>
+          </div>
+          <div class="w-full">
+            <label :class="{ error: v$.agentPasswordConfirmation.$error }">
+              {{ $t('AGENT_MGMT.EDIT.FORM.PASSWORD.CONFIRM_PASSWORD.LABEL') }}
+              <input
+                v-model="agentPasswordConfirmation"
+                type="password"
+                :placeholder="
+                  $t(
+                    'AGENT_MGMT.EDIT.FORM.PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER'
+                  )
+                "
+                @input="v$.agentPasswordConfirmation.$touch"
+              />
+              <span v-if="v$.agentPasswordConfirmation.$error" class="message">
+                {{ $t('AGENT_MGMT.EDIT.FORM.PASSWORD.CONFIRM_PASSWORD.ERROR') }}
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <div class="w-[50%] flex justify-end items-center gap-2">
           <Button
             faded
