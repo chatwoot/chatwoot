@@ -57,7 +57,8 @@
           "OTHER_PREFERENCES": {
             "TITLE": "Other preferences",
             "ENABLED": "Enable campaign",
-            "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours"
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+            "ALLOW_BOTS": "Allow bots to handle conversations"
           },
           "BUTTONS": {
             "CREATE": "Create",

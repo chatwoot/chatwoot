@@ -47,6 +47,7 @@ const initialState = {
   senderId: 0,
   enabled: true,
   triggerOnlyDuringBusinessHours: false,
+  allowBots: false,
   endPoint: '',
   timeOnPage: 10,
 };
@@ -139,6 +140,7 @@ const prepareCampaignDetails = () => ({
   sender_id: state.senderId || null,
   enabled: state.enabled,
   trigger_only_during_business_hours: state.triggerOnlyDuringBusinessHours,
+  allow_bots: state.allowBots,
   trigger_rules: {
     url: state.endPoint,
     time_on_page: state.timeOnPage,
@@ -166,6 +168,7 @@ const updateStateFromCampaign = campaign => {
     sender,
     enabled,
     trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
+    allow_bots: allowBots,
     trigger_rules: { url: endPoint, time_on_page: timeOnPage },
   } = campaign;
 
@@ -176,6 +179,7 @@ const updateStateFromCampaign = campaign => {
     senderId: sender?.id ?? 0,
     enabled,
     triggerOnlyDuringBusinessHours,
+    allowBots,
     endPoint,
     timeOnPage,
   });
@@ -293,6 +297,13 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
               'CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TRIGGER_ONLY_BUSINESS_HOURS'
             )
           }}
+        </span>
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input v-model="state.allowBots" type="checkbox" />
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.ALLOW_BOTS') }}
         </span>
       </label>
     </fieldset>
