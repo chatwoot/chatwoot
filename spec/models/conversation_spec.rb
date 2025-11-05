@@ -591,6 +591,13 @@ RSpec.describe Conversation do
       conversation = create(:conversation, inbox: regular_inbox, campaign: create(:campaign, allow_bots: true))
       expect(conversation.status).to eq('open')
     end
+
+    it 'does not start as pending when allow_bots is explicitly disabled even with bot inbox' do
+      campaign = create(:campaign, allow_bots: false)
+      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
+      expect(conversation.status).to eq('open')
+      expect(conversation.status).not_to eq('pending')
+    end
   end
 
   describe '#botintegration: when conversation created in inbox with dialogflow integration' do
