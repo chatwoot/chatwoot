@@ -272,7 +272,7 @@ export default {
       <Pane
         :size="splitpaneSizes.conversationBox"
         min-size="30"
-        max-size="80"
+        max-size="100"
         class="flex h-full"
       >
         <ConversationBox
