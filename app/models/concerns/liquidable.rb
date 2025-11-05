@@ -40,11 +40,11 @@ module Liquidable
 
   def process_liquid_in_email_content
     return unless liquid_processable_message?
-    return unless content_attributes&.dig('email')
+    return unless content_attributes&.dig(:email)
 
-    email_attrs = content_attributes['email']
-    process_email_content_hash(email_attrs, 'html_content')
-    process_email_content_hash(email_attrs, 'text_content')
+    email_attrs = content_attributes[:email]
+    process_email_content_hash(email_attrs, :html_content)
+    process_email_content_hash(email_attrs, :text_content)
   rescue Liquid::Error
     # If there is an error in the liquid syntax, we don't want to process it
   end
