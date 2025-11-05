@@ -34,8 +34,7 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
   private
 
   def validate_params
-    customer_id = custom_attribute('stripe_customer_id')
-    raise StandardError, 'Customer ID required. Please create a Stripe customer first.' if customer_id.blank?
+    raise StandardError, 'Customer ID required. Please create a Stripe customer first.' if stripe_customer_id.blank?
   end
 
   def store_pending_subscription_quantity
@@ -53,14 +52,13 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
   # This creates a subscription with V2 Billing features automatically.
   #
   def create_checkout_session
-    customer_id = custom_attribute('stripe_customer_id')
-    session = super(checkout_session_params(customer_id), api_version: checkout_stripe_version)
+    session = super(checkout_session_params, api_version: checkout_stripe_version)
     build_success_response(session)
   end
 
-  def checkout_session_params(customer_id)
+  def checkout_session_params
     {
-      customer: customer_id,
+      customer: stripe_customer_id,
       checkout_items: build_checkout_items,
       automatic_tax: {
         enabled: true
@@ -111,12 +109,10 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
   end
 
   def build_success_response(session)
-    session_id = session.respond_to?(:id) ? session.id : session['id']
     session_url = session.respond_to?(:url) ? session.url : session['url']
 
     {
       success: true,
-      session_id: session_id,
       redirect_url: session_url
     }
   end

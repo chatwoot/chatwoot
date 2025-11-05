@@ -21,11 +21,10 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
   end
 
   def fetch_credit_grants
-    customer_id = stripe_customer_id
-    return [] if customer_id.blank?
+    return [] if stripe_customer_id.blank?
 
     response = Stripe::Billing::CreditGrant.list(
-      { customer: customer_id, limit: 100 }
+      { customer: stripe_customer_id, limit: 100 }
     )
 
     grants = response.data.map do |grant|
@@ -81,9 +80,5 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
     return nil unless timestamp
 
     Time.zone.at(timestamp)
-  end
-
-  def stripe_customer_id
-    custom_attribute('stripe_customer_id')
   end
 end

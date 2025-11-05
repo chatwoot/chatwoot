@@ -19,7 +19,6 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
   def validate_topup_request(credits)
     return { valid: false, success: false, message: 'Invalid topup amount' } unless credits.to_i.positive?
 
-    # Check if account has a valid subscription plan
     plan_validation = validate_subscription_plan
     return plan_validation unless plan_validation[:valid]
 
@@ -27,7 +26,6 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
     return { valid: false, success: false, message: 'Unsupported topup amount' } unless topup_definition
     return { valid: false, success: false, message: 'Stripe customer not configured' } if stripe_customer_id.blank?
 
-    # Check if customer has a default payment method using common service
     payment_service = Enterprise::Billing::V2::InvoicePaymentService.new(account: account)
     payment_method_validation = payment_service.validate_payment_method
     return payment_method_validation.merge(valid: false) if payment_method_validation
@@ -143,9 +141,5 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
       source: 'topup',
       credits: credits.to_s
     }
-  end
-
-  def stripe_customer_id
-    custom_attribute('stripe_customer_id')
   end
 end

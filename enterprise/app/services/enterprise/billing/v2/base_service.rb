@@ -74,4 +74,21 @@ class Enterprise::Billing::V2::BaseService
   def with_locked_account(&)
     account.with_lock(&)
   end
+
+  # Convenient accessors for common attributes
+  def stripe_customer_id
+    custom_attribute('stripe_customer_id')
+  end
+
+  def stripe_subscription_id
+    custom_attribute('stripe_subscription_id')
+  end
+
+  def pricing_plan_id
+    custom_attribute('stripe_pricing_plan_id')
+  end
+
+  def subscribed_quantity
+    custom_attribute('subscribed_quantity').to_i
+  end
 end

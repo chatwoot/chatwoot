@@ -16,7 +16,7 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
   private
 
   def valid_configuration?
-    custom_attribute('stripe_customer_id').present?
+    stripe_customer_id.present?
   end
 
   def meter_event_params(credits_used)
@@ -24,7 +24,7 @@ class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::B
       event_name: 'chatwoot.usage',
       payload: {
         value: credits_used.to_s,
-        stripe_customer_id: custom_attribute('stripe_customer_id')
+        stripe_customer_id: stripe_customer_id
       },
       identifier: "#{account.id}_#{Time.current.to_i}_#{SecureRandom.hex(4)}"
     }

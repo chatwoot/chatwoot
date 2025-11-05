@@ -11,10 +11,9 @@ class Enterprise::Billing::V2::InvoicePaymentService < Enterprise::Billing::V2::
   # Validate that customer has a default payment method
   # @return [Hash, nil] Returns error hash if validation fails, nil if success
   def validate_payment_method
-    customer_id = custom_attribute('stripe_customer_id')
-    return { success: false, message: 'No Stripe customer ID found' } if customer_id.blank?
+    return { success: false, message: 'No Stripe customer ID found' } if stripe_customer_id.blank?
 
-    customer = Stripe::Customer.retrieve(customer_id, stripe_api_options)
+    customer = Stripe::Customer.retrieve(stripe_customer_id)
 
     if customer.invoice_settings.default_payment_method.nil? && customer.default_source.nil?
       return {
@@ -37,9 +36,8 @@ class Enterprise::Billing::V2::InvoicePaymentService < Enterprise::Billing::V2::
   # @param metadata [Hash] Invoice metadata
   # @return [Hash] { success:, invoice_id:, invoice_url:, amount:, status: }
   def create_and_pay_invoice(line_items:, description:, currency: 'usd', metadata: {})
-    customer_id = custom_attribute('stripe_customer_id')
-    invoice = create_invoice(customer_id, currency, description, metadata)
-    add_line_items_to_invoice(invoice.id, customer_id, line_items, currency)
+    invoice = create_invoice(stripe_customer_id, currency, description, metadata)
+    add_line_items_to_invoice(invoice.id, stripe_customer_id, line_items, currency)
     finalize_and_pay_invoice(invoice.id)
   rescue Stripe::StripeError => e
     Rails.logger.error("Error creating invoice: #{e.message}")
@@ -56,7 +54,7 @@ class Enterprise::Billing::V2::InvoicePaymentService < Enterprise::Billing::V2::
                              auto_advance: false,
                              description: description,
                              metadata: metadata.stringify_keys
-                           }, stripe_api_options)
+                           })
   end
 
   def add_line_items_to_invoice(invoice_id, customer_id, line_items, currency)
@@ -68,7 +66,7 @@ class Enterprise::Billing::V2::InvoicePaymentService < Enterprise::Billing::V2::
                                    invoice: invoice_id,
                                    description: item[:description],
                                    metadata: (item[:metadata] || {}).stringify_keys
-                                 }, stripe_api_options)
+                                 })
     end
   end
 
@@ -79,15 +77,14 @@ class Enterprise::Billing::V2::InvoicePaymentService < Enterprise::Billing::V2::
     # Finalize the invoice
     finalized_invoice = Stripe::Invoice.finalize_invoice(
       invoice_id,
-      { auto_advance: false },
-      stripe_api_options
+      { auto_advance: false }
     )
 
     # Pay the invoice immediately if not already paid
     if finalized_invoice.status == 'paid'
       build_invoice_response(finalized_invoice)
     else
-      paid_invoice = Stripe::Invoice.pay(invoice_id, {}, stripe_api_options)
+      paid_invoice = Stripe::Invoice.pay(invoice_id, {})
       build_invoice_response(paid_invoice)
     end
   rescue Stripe::StripeError => e
@@ -103,9 +100,5 @@ class Enterprise::Billing::V2::InvoicePaymentService < Enterprise::Billing::V2::
       amount: invoice.total / 100.0,
       status: invoice.status
     }
-  end
-
-  def stripe_api_options
-    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
   end
 end

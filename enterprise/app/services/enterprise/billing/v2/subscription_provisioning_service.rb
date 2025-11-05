@@ -4,54 +4,47 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
   include Enterprise::Billing::Concerns::StripeV2ClientHelper
 
   def provision(subscription_id:)
+    process_subscription(subscription_id)
+  end
+
+  def refresh
+    return if stripe_subscription_id.blank?
+
+    process_subscription(stripe_subscription_id)
+  end
+
+  private
+
+  def process_subscription(subscription_id)
     # Retrieve pricing plan subscription details from Stripe V2 API
     subscription = retrieve_pricing_plan_subscription(subscription_id)
+
+    # Check if subscription is canceled
+    if servicing_status(subscription) == 'canceled'
+      cancel_subscription
+      reset_captain_usage
+      return { pricing_plan_id: nil, quantity: nil }
+    end
+
     # Extract details from the subscription
     pricing_plan_id = extract_pricing_plan_id(subscription)
     quantity = extract_subscription_quantity(subscription)
     billing_cadence = extract_billing_cadence(subscription)
+
     # Update account with subscription details
     update_subscription_details(subscription_id, pricing_plan_id, quantity, billing_cadence)
 
     # Provision the subscription: sync credits and enable features
     provision_new_plan(pricing_plan_id) if pricing_plan_id.present?
 
-    build_success_response(subscription_id, pricing_plan_id, quantity)
-  rescue Stripe::StripeError => e
-    { success: false, message: "Stripe error: #{e.message}" }
-  end
-
-  def refresh
-    subscription_id = account.custom_attributes['stripe_subscription_id']
-    return if subscription_id.blank?
-
-    subscription_plan = retrieve_pricing_plan_subscription(subscription_id)
-    servicing_status = servicing_status(subscription_plan)
-    pricing_plan_id = extract_pricing_plan_id(subscription_plan)
-    if servicing_status == 'canceled'
-      cancel_subscription
-    else
-      quantity = account.custom_attributes['subscribed_quantity']
-      billing_cadence = extract_billing_cadence(subscription_plan)
-      update_subscription_details(subscription_id, pricing_plan_id, quantity, billing_cadence)
-    end
+    # Reset usage for the new billing cycle
     reset_captain_usage
-  end
 
-  private
-
-  def build_success_response(subscription_id, pricing_plan_id, quantity)
-    {
-      success: true,
-      subscription_id: subscription_id,
-      pricing_plan_id: pricing_plan_id,
-      quantity: quantity,
-      message: 'Subscription provisioned successfully'
-    }
+    { pricing_plan_id: pricing_plan_id, quantity: quantity }
   end
 
   def servicing_status(subscription_plan)
-    subscription_plan.respond_to?(:servicing_status) ? subscription_plan.servicing_status : subscription_plan['servicing_status']
+    extract_attribute(subscription_plan, :servicing_status)
   end
 
   def cancel_subscription
@@ -78,26 +71,20 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
   end
 
   def extract_pricing_plan_id(subscription)
-    # Extract pricing_plan from the subscription object
-    subscription.respond_to?(:pricing_plan) ? subscription.pricing_plan : subscription['pricing_plan']
+    extract_attribute(subscription, :pricing_plan)
   end
 
   def extract_billing_cadence(subscription)
-    subscription.respond_to?(:billing_cadence) ? subscription.billing_cadence : subscription['billing_cadence']
+    extract_attribute(subscription, :billing_cadence)
   end
 
   def extract_subscription_quantity(_subscription)
     # Get quantity from account custom_attributes (set during checkout)
-    pending_quantity = account.custom_attributes['pending_subscription_quantity']
-    if pending_quantity.present? && pending_quantity.to_i.positive?
-      Rails.logger.info "[V2 Billing] Using quantity from custom_attributes: #{pending_quantity}"
-      return pending_quantity.to_i
-    end
-    subscribed_quantity = account.custom_attributes['subscribed_quantity']
-    if subscribed_quantity.present? && subscribed_quantity.to_i.positive?
-      Rails.logger.info "[V2 Billing] Using quantity from custom_attributes: #{subscribed_quantity}"
-      return subscribed_quantity.to_i
-    end
+    pending_quantity = custom_attribute('pending_subscription_quantity')
+    return pending_quantity.to_i if pending_quantity.present? && pending_quantity.to_i.positive?
+
+    return subscribed_quantity if subscribed_quantity.positive?
+
     1
   end
 
