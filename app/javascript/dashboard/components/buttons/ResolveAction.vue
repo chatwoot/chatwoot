@@ -142,7 +142,8 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
         size="sm"
         color="slate"
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0 active:!scale-100"
+        no-animation
+        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
         :is-loading="isLoading"
         @click="onCmdResolveConversation"
       />
@@ -151,7 +152,8 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
         size="sm"
         color="slate"
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0 active:!scale-100"
+        no-animation
+        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
@@ -160,7 +162,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
-        class="active:!scale-100"
+        no-animation
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
@@ -170,7 +172,8 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         icon="i-lucide-chevron-down"
         :disabled="isLoading"
         size="sm"
-        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0 active:!scale-100"
+        no-animation
+        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
         color="slate"
         trailing-icon
         @click="openDropdown"
