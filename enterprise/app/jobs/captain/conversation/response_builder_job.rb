@@ -122,7 +122,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def handle_error(error)
     log_error(error)
-    refund_credit
     process_action('handoff')
     true
   end
@@ -133,19 +132,5 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def captain_v2_enabled?
     account.feature_enabled?('captain_integration_v2')
-  end
-
-  def refund_credit
-    credit_service = Enterprise::Ai::CaptainCreditService.new(conversation: @conversation)
-    credit_service.check_and_use_credits(
-      feature: 'ai_captain_conversation',
-      amount: -1, # Negative to refund
-      metadata: {
-        'assistant_id' => @assistant.id,
-        'conversation_id' => @conversation.id,
-        'inbox_id' => @inbox.id,
-        'refund' => true
-      }
-    )
   end
 end

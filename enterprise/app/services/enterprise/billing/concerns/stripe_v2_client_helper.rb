@@ -107,11 +107,11 @@ module Enterprise::Billing::Concerns::StripeV2ClientHelper
   end
 
   def default_stripe_version
-    '2025-08-27.preview'
+    '2025-10-29.preview'
   end
 
   def checkout_stripe_version
-    '2025-08-27.preview;checkout_product_catalog_preview=v1'
+    '2025-10-29.preview;checkout_product_catalog_preview=v1'
   end
 
   def extract_attribute(object, key)
