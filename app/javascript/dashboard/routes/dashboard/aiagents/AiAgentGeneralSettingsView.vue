@@ -85,7 +85,7 @@ const rules = {
   name: { required },
   description: {},
   instruction: {},
-  business_info: { required },
+  business_info: {},
   welcoming_message: {},
   routing_conditions: {},
   has_website: {},
