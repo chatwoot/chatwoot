@@ -709,19 +709,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
   end
 
-  create_table "credit_transactions", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "transaction_type", null: false
-    t.integer "amount", null: false
-    t.string "credit_type", null: false
-    t.string "description"
-    t.json "metadata"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "created_at"], name: "index_credit_transactions_on_account_id_and_created_at"
-    t.index ["account_id"], name: "index_credit_transactions_on_account_id"
-  end
-
   create_table "csat_survey_responses", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false

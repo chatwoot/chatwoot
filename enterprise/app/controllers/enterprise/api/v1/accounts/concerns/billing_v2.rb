@@ -13,9 +13,7 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
       id: @account.id,
       monthly_credits: balance[:monthly],
       topup_credits: balance[:topup],
-      total_credits: balance[:total],
-      usage_this_month: balance[:usage_this_month],
-      usage_total: balance[:usage_total]
+      total_credits: balance[:total]
     }
   end
 
