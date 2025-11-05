@@ -44,18 +44,27 @@ class Api::V1::Accounts::KnowledgeSourceTextsController < Api::V1::Accounts::Bas
   private
 
   def create_source(knowledge_source)
+    # ⬇️ fallback agar text kosong tetap valid
+    text = params[:text].presence || ''
+
     document_loader = create_document_loader(
       knowledge_source.store_id,
       "Knowledge Source - #{params[:tab]}",
-      params[:text]
+      text
     )
+
     unless document_loader
       render json: { error: 'Failed to create document loader' }, status: :bad_gateway
       return
     end
 
     begin
-      knowledge_source_text = knowledge_source.add_text!(content: params, document_loader: document_loader)
+      # ⬇️ Pastikan juga text kosong dikirim ke add_text!
+      knowledge_source_text = knowledge_source.add_text!(
+        content: params.merge(text: text),
+        document_loader: document_loader
+      )
+
       render json: knowledge_source_text, status: :created
     rescue StandardError => e
       delete_document_loader(store_id: knowledge_source.store_id, loader_id: document_loader['docId'])

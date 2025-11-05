@@ -24,7 +24,7 @@
 #
 class KnowledgeSourceText < ApplicationRecord
   belongs_to :knowledge_source
-  validates :text, presence: true
+  validates :text, exclusion: { in: [nil], message: 'tidak boleh nil' }
   validates :tab, presence: true
   validates :loader_id, presence: true
 end
