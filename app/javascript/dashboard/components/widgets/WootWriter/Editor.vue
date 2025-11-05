@@ -313,6 +313,8 @@ function handleEmptyBodyWithSignature() {
     return;
   }
 
+  // create a paragraph node and
+  // start a transaction to append it at the end
   const paragraph = schema.nodes.paragraph.create();
   const paragraphTransaction = tr.insert(0, paragraph);
   editorView.dispatch(paragraphTransaction);
