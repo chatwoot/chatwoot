@@ -50,10 +50,4 @@ class Enterprise::Billing::V2::BaseService
   def with_locked_account(&)
     account.with_lock(&)
   end
-
-  def with_stripe_error_handling
-    yield
-  rescue Stripe::StripeError => e
-    { success: false, message: e.message }
-  end
 end

@@ -32,8 +32,7 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
     return [] if customer_id.blank?
 
     response = Stripe::Billing::CreditGrant.list(
-      { customer: customer_id, limit: 100 },
-      stripe_api_options
+      { customer: customer_id, limit: 100 }
     )
 
     grants = response.data.map do |grant|
@@ -86,9 +85,5 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
 
   def stripe_customer_id
     custom_attribute('stripe_customer_id')
-  end
-
-  def stripe_api_options
-    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
   end
 end

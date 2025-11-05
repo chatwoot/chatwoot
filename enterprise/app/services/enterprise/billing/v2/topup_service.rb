@@ -102,8 +102,7 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
   # Following Stripe UBB Integration Guide section 8
   def create_stripe_credit_grant(amount_cents, currency, credits)
     Stripe::Billing::CreditGrant.create(
-      credit_grant_params(amount_cents, currency, credits),
-      stripe_api_options
+      credit_grant_params(amount_cents, currency, credits)
     )
   end
 
@@ -148,9 +147,5 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
 
   def stripe_customer_id
     custom_attribute('stripe_customer_id')
-  end
-
-  def stripe_api_options
-    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
   end
 end

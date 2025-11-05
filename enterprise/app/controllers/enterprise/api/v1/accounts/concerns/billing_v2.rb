@@ -53,7 +53,7 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
     )
 
     if result[:success]
-      render json: { success: true, redirect_url: result[:redirect_url], checkout_session_id: result[:checkout_session_id] }
+      render json: { success: true, redirect_url: result[:redirect_url], session_id: result[:session_id] }
     else
       render json: { error: result[:message] }, status: :unprocessable_entity
     end
