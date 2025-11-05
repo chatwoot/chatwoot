@@ -519,6 +519,7 @@ Rails.application.routes.draw do
   post 'webhooks/call/:account_id/:inbox_id/:conversation_id', to: 'webhooks/call#handle_call_callback'
   post 'webhooks/call/ivrsolutions', to: 'webhooks/call_ivrsolutions#handle_call_callback'
   post 'webhooks/call/ivrsolutionsincoming', to: 'webhooks/call_ivrsolutions_incoming#handle_incoming_call'
+  post 'webhooks/call/ivrsolutions_missed', to: 'webhooks/call_ivrsolutions#handle_missed_call_callback'
   post 'webhooks/call/myoperator', to: 'webhooks/call_myoperator#handle_call_callback'
   post 'webhooks/call/ozonetel', to: 'webhooks/call_ozonetel#handle_call_callback'
   post 'webhooks/call/alohaa', to: 'webhooks/call_alohaa#handle_call_callback'

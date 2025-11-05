@@ -1,8 +1,10 @@
 require 'json'
 require 'httparty'
 
+# rubocop:disable Metrics/ClassLength
 class Webhooks::CallIvrsolutionsController < ActionController::API
   include CallIvrsolutionsHelper
+  include CommonCallHelper
 
   def handle_call_callback
     parsed_body = parse_request_body
@@ -26,6 +28,38 @@ class Webhooks::CallIvrsolutionsController < ActionController::API
 
       head :ok
     end
+  end
+
+  def handle_missed_call_callback
+    Rails.logger.info "IVR Solutions Missed call callback received: #{params.inspect}"
+
+    parsed_body = parse_request_body
+    Rails.logger.info "Parsed body: #{parsed_body.inspect}"
+
+    account = find_account_by_id(parsed_body['account_id'])
+    return render json: { error: 'Account not found' }, status: :not_found if account.blank?
+
+    # Find or create contact based on the caller number
+    contact = find_or_create_contact(account, parsed_body)
+
+    # Find WA API inbox
+    wa_api_inbox = find_wa_api_inbox(account)
+    return render json: { error: 'WA Inbox not found' }, status: :bad_request if wa_api_inbox.blank?
+
+    # Find latest conversation for the contact
+    latest_conversation = find_latest_conversation(contact, account)
+
+    conversation = handle_conversation_creation(latest_conversation, contact, wa_api_inbox)
+
+    mark_conversation_as_inbound_call(conversation)
+
+    # Determine the reason for missed call based on last_call_flow
+    last_call_flow = parsed_body['last_call_flow']
+    received_agent = parsed_body['received_agent']
+
+    mark_conversation_as_missed_call_ivr(conversation, last_call_flow, received_agent)
+
+    render json: { message: 'Missed call processed successfully' }, status: :ok
   end
 
   private
@@ -63,73 +97,6 @@ class Webhooks::CallIvrsolutionsController < ActionController::API
     send_call_log_to_bspd(parsed_body, conversation, account)
 
     head :ok
-  end
-
-  def add_waiting_time_reporting_event(conversation, wait_time, start_time)
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_call_waiting_time',
-      value: wait_time,
-      value_in_business_hours: wait_time,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id || bot_user(conversation.account).id,
-      conversation_id: conversation.id,
-      event_start_time: start_time,
-      event_end_time: conversation.updated_at
-    )
-
-    reporting_event.save!
-  end
-
-  def add_handling_time_reporting_event(conversation, handled_time, start_time)
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_call_handling_time',
-      value: handled_time,
-      value_in_business_hours: handled_time,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id || bot_user(conversation.account).id,
-      conversation_id: conversation.id,
-      event_start_time: start_time,
-      event_end_time: conversation.updated_at
-    )
-
-    reporting_event.save!
-  end
-
-  def mark_conversation_as_inbound_call(conversation)
-    add_inbound_call_label(conversation)
-
-    add_inbound_reporting_event(conversation)
-  end
-
-  def add_inbound_call_label(conversation)
-    Label.find_or_create_by!(
-      account: conversation.account,
-      title: 'inbound-call'
-    ) do |l|
-      l.description = 'Automatically added to conversations with inbound calls'
-      l.show_on_sidebar = true
-      l.color = '#7C21D7' # Default color
-    end
-
-    conversation.add_labels(['inbound-call'])
-  end
-
-  def add_inbound_reporting_event(conversation)
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_inbound_call',
-      value: 1,
-      value_in_business_hours: 1,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id || bot_user(conversation.account).id,
-      conversation_id: conversation.id,
-      event_start_time: conversation.updated_at,
-      event_end_time: conversation.updated_at
-    )
-
-    reporting_event.save!
   end
 
   def parse_request_body
@@ -207,8 +174,92 @@ class Webhooks::CallIvrsolutionsController < ActionController::API
     raise error
   end
 
-  def bot_user(account)
-    query = account.users.where('email LIKE ?', 'cx.%@bitespeed.co')
-    query.first
+  def find_account_by_id(account_id)
+    Account.find_by(id: account_id)
+  end
+
+  def find_or_create_contact(account, parsed_body)
+    # Parse the caller number from the webhook
+    caller_number = parsed_body['caller_number']
+
+    # Normalize phone number to match existing format (+91...)
+    normalized_number = caller_number.gsub(/^0/, '+91')
+    normalized_number = "+91#{normalized_number}" unless normalized_number.start_with?('+')
+
+    contact = Contact.find_by(account_id: account.id, phone_number: normalized_number)
+
+    if contact.blank?
+      contact = account.contacts.new(
+        name: parsed_body['phone'],
+        email: '',
+        phone_number: normalized_number
+      )
+      contact.save!
+    end
+
+    contact
+  end
+
+  def find_wa_api_inbox(account)
+    matching_inboxes = Inbox.where(account_id: account.id, channel_type: 'Channel::Api')
+    matching_inboxes.find do |inbox|
+      inbox.channel.additional_attributes['agent_reply_time_window'].present?
+    end
+  end
+
+  def add_missed_call_label(conversation)
+    Label.find_or_create_by!(
+      account: conversation.account,
+      title: 'missed-call'
+    ) do |l|
+      l.description = 'Automatically added to conversations with missed calls'
+      l.show_on_sidebar = true
+      l.color = '#7C21D7'
+    end
+
+    conversation.add_labels(['missed-call'])
+  end
+
+  def mark_conversation_as_missed_call_ivr(conversation, last_call_flow, received_agent) # rubocop:disable Metrics/MethodLength
+    add_missed_call_label(conversation)
+
+    reason = received_agent.blank? ? 'busy' : 'other'
+
+    base_message = if reason == 'busy'
+                     'Call was missed - No agents available'
+                   else
+                     'Call was missed'
+                   end
+
+    message = last_call_flow.present? ? "#{base_message}.\nLast Call Flow: #{last_call_flow}" : base_message
+
+    conversation.messages.create!(private_message_params_for_missed_call(message, conversation))
+
+    reporting_event_name = "conversation_missed_call_#{reason}"
+
+    reporting_event = ReportingEvent.new(
+      name: reporting_event_name,
+      value: 1,
+      value_in_business_hours: 1,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id || bot_user(conversation.account).id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.updated_at,
+      event_end_time: conversation.updated_at
+    )
+
+    reporting_event.save!
+  end
+
+  def private_message_params_for_missed_call(content, conversation)
+    {
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :outgoing,
+      content: content,
+      private: true
+    }
   end
 end
+# rubocop:enable Metrics/ClassLength

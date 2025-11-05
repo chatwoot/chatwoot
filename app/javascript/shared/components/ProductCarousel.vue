@@ -289,6 +289,7 @@ export default {
         quantity: product.quantity,
         price: product.price,
         currency: product.currency,
+        product_handle: product.productHandle,
       }));
       try {
         const data = await ContactsAPI.getCheckoutRedirectURL(
@@ -374,6 +375,8 @@ export default {
     },
     onBuyNow(item, event) {
       event.stopPropagation();
+      // eslint-disable-next-line no-console
+      console.log('itemDetails', item, event);
       const selectedProduct = [
         {
           id: item.variant_id,
@@ -381,6 +384,7 @@ export default {
           currency: item.currency,
           price: item.price,
           shopUrl: item.shopUrl,
+          productHandle: item.productHandle,
         },
       ];
       this.openCheckoutPage(selectedProduct);

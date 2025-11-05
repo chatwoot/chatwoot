@@ -86,7 +86,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     render json: response
   end
 
-  def get_checkout_url # rubocop:disable Naming/AccessorMethodName, Metrics/AbcSize
+  def get_checkout_url # rubocop:disable Naming/AccessorMethodName, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
     inbox_id = conversation.inbox.id
     account_id = conversation.inbox.account.id
 
@@ -100,10 +100,36 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     Rails.logger.info("account_id, #{account_id}")
     Rails.logger.info("get_checkout_url_called_Params, #{permitted_params[:line_items]}")
 
-    # For account IDs 1904 and 939, redirect directly to cart page instead of creating checkout
+    # For account ID 1904, redirect to product page when clicking "Buy Now"
     if [1904].include?(account_id)
-      Rails.logger.info("Account ID #{account_id} detected, returning direct cart URL")
-      response = { 'checkoutUrl' => "https://#{shop_url}/cart" }
+      Rails.logger.info("Account ID #{account_id} detected, checking for product page redirect")
+
+      begin
+        line_items = JSON.parse(permitted_params[:line_items])
+
+        # If there's exactly one item (Buy Now scenario), redirect to product page
+        if line_items.length == 1
+          first_item = line_items.first
+          variant_id = first_item['variant_id']
+          product_handle = first_item['product_handle']
+
+          if product_handle.present?
+            Rails.logger.info("Redirecting to product page for variant #{variant_id} with handle #{product_handle}")
+            response = { 'checkoutUrl' => "https://#{shop_url}/products/#{product_handle}?variant=#{variant_id}" }
+          else
+            # Fallback to cart if product handle not provided
+            Rails.logger.warn("Product handle not found in line_items for variant #{variant_id}, falling back to cart")
+            response = { 'checkoutUrl' => "https://#{shop_url}/cart" }
+          end
+        else
+          # Multiple items, redirect to cart
+          Rails.logger.info('Multiple items in cart, redirecting to cart page')
+          response = { 'checkoutUrl' => "https://#{shop_url}/cart" }
+        end
+      rescue JSON::ParserError => e
+        Rails.logger.error("Error parsing line_items: #{e.message}")
+        response = { 'checkoutUrl' => "https://#{shop_url}/cart" }
+      end
     else
       response = fetch_checkout_url(shop_url, source_id, permitted_params[:line_items])
     end
