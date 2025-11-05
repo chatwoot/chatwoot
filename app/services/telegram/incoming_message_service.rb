@@ -77,10 +77,12 @@ class Telegram::IncomingMessageService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.first
-    return if @conversation
+    @contact_inbox.with_lock do
+      @conversation = @contact_inbox.conversations.first
+      return @conversation if @conversation
 
-    @conversation = ::Conversation.create!(conversation_params)
+      @conversation = ::Conversation.create!(conversation_params)
+    end
   end
 
   def contact_attributes
