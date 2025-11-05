@@ -3,7 +3,6 @@ module Liquidable
 
   included do
     before_create :process_liquid_in_content
-    before_create :process_liquid_in_email_content
     before_create :process_liquid_in_template_params
   end
 
@@ -36,28 +35,6 @@ module Liquidable
     # This regex is used to match the code blocks in the content
     # We don't want to process liquid in code blocks
     content.gsub(/`(.*?)`/m, '{% raw %}`\\1`{% endraw %}')
-  end
-
-  def process_liquid_in_email_content
-    return unless liquid_processable_message?
-    return unless content_attributes&.dig(:email)
-
-    email_attrs = content_attributes[:email]
-    process_email_content_hash(email_attrs, :html_content)
-    process_email_content_hash(email_attrs, :text_content)
-  rescue Liquid::Error
-    # If there is an error in the liquid syntax, we don't want to process it
-  end
-
-  def process_email_content_hash(email_attrs, content_key)
-    return unless email_attrs[content_key].is_a?(Hash)
-
-    email_attrs[content_key].each do |key, value|
-      next unless value.is_a?(String)
-
-      template = Liquid::Template.parse(value)
-      email_attrs[content_key][key] = template.render(message_drops)
-    end
   end
 
   def process_liquid_in_template_params

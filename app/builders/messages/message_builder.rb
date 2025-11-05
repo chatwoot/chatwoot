@@ -1,4 +1,4 @@
-class Messages::MessageBuilder
+class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
   include ::FileTypeHelper
   attr_reader :message
 
@@ -178,14 +178,17 @@ class Messages::MessageBuilder
     email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
     normalized_content = normalize_email_body(@message.content)
 
+    # Process liquid templates in normalized content with code block protection
+    processed_content = process_liquid_in_email_body(normalized_content)
+
     # Use custom HTML content if provided, otherwise generate from message content
     email_attributes[:html_content] = if custom_email_content_provided?
                                         build_custom_html_content
                                       else
-                                        build_html_content(normalized_content)
+                                        build_html_content(processed_content)
                                       end
 
-    email_attributes[:text_content] = build_text_content(normalized_content)
+    email_attributes[:text_content] = build_text_content(processed_content)
     email_attributes
   end
 
@@ -231,5 +234,39 @@ class Messages::MessageBuilder
     html_content[:reply] = @params[:email_html_content]
 
     html_content
+  end
+
+  # Liquid processing methods for email content
+  def process_liquid_in_email_body(content)
+    return content unless should_process_liquid?
+    return content if content.blank?
+
+    # Protect code blocks from liquid processing
+    modified_content = sanitize_code_blocks(content)
+    template = Liquid::Template.parse(modified_content)
+    template.render(message_drops)
+  rescue Liquid::Error
+    # If there is an error in the liquid syntax, return original content
+    content
+  end
+
+  def should_process_liquid?
+    @message_type == 'outgoing' || @message_type == 'template'
+  end
+
+  def sanitize_code_blocks(content)
+    # This regex is used to match the code blocks in the content
+    # We don't want to process liquid in code blocks
+    content.gsub(/`(.*?)`/m, '{% raw %}`\\1`{% endraw %}')
+  end
+
+  def message_drops
+    {
+      'contact' => ContactDrop.new(@conversation.contact),
+      'agent' => UserDrop.new(sender),
+      'conversation' => ConversationDrop.new(@conversation),
+      'inbox' => InboxDrop.new(@conversation.inbox),
+      'account' => AccountDrop.new(@conversation.account)
+    }
   end
 end
