@@ -8,11 +8,17 @@ import Avatar from 'next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
 import InboxName from '../InboxName.vue';
 import ConversationContextMenu from './contextMenu/Index.vue';
-import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import { useSourceChannelColors } from 'dashboard/composables/useSourceChannelColors';
+import {
+  format,
+  fromUnixTime,
+  isToday,
+  isYesterday,
+  isSameYear,
+} from 'date-fns';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -117,7 +123,37 @@ const messagePreviewClass = computed(() => {
 });
 
 const sourceBgStyle = computed(() => {
-  return getInboxBackgroundStyle(inboxId.value);
+  const baseStyle = getInboxBackgroundStyle(inboxId.value);
+
+  if (isActiveChat.value && baseStyle.backgroundColor) {
+    const color = baseStyle.backgroundColor.slice(0, -2);
+    return {
+      backgroundColor: `${color}55`,
+    };
+  }
+
+  return baseStyle;
+});
+
+const formattedTimestamp = computed(() => {
+  if (!props.chat.timestamp) return '';
+
+  const date = fromUnixTime(props.chat.timestamp);
+  const now = new Date();
+
+  if (isToday(date)) {
+    return format(date, 'HH:mm');
+  }
+
+  if (isYesterday(date)) {
+    return `Yesterday ${format(date, 'HH:mm')}`;
+  }
+
+  if (isSameYear(date, now)) {
+    return format(date, 'MMM d, HH:mm');
+  }
+
+  return format(date, 'MMM d yyyy, HH:mm');
 });
 
 onMounted(() => {
@@ -236,13 +272,13 @@ const deleteConversation = () => {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
     :class="{
-      'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 border-n-weak':
+      'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 border-n-weak border-l-4 !border-l-woot-500':
         isActiveChat,
       'bg-n-slate-2 dark:bg-n-slate-3': selected,
-      'px-0': compact,
-      'px-3': !compact,
+      'px-0 border-l-0': compact,
+      'px-3 border-l-0': !compact,
     }"
     :style="sourceBgStyle"
     @click="onCardClick"
@@ -339,11 +375,8 @@ const deleteConversation = () => {
         class="absolute flex flex-col ltr:right-3 rtl:left-3"
         :class="showMetaSection ? 'top-8' : 'top-4'"
       >
-        <span class="ml-auto font-normal leading-4 text-xxs">
-          <TimeAgo
-            :last-activity-timestamp="chat.timestamp"
-            :created-at-timestamp="chat.created_at"
-          />
+        <span class="ml-auto font-normal leading-4 text-xxs text-n-slate-10">
+          {{ formattedTimestamp }}
         </span>
         <span
           class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"

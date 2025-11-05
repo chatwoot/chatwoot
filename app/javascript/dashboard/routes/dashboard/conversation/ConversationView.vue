@@ -236,15 +236,9 @@ export default {
       if (this.isLayoutLocked) {
         this.removeSavedSizes();
         this.isLayoutLocked = false;
-        this.$track('splitpane_layout_unlocked');
       } else {
         this.saveSplitpaneSizes();
         this.isLayoutLocked = true;
-        this.$track('splitpane_layout_locked', {
-          chatList: this.splitpaneSizes.chatList,
-          conversationBox: this.splitpaneSizes.conversationBox,
-          sidebar: this.splitpaneSizes.sidebar,
-        });
       }
     },
   },
@@ -278,6 +272,7 @@ export default {
       <Pane
         :size="splitpaneSizes.conversationBox"
         min-size="30"
+        max-size="80"
         class="flex h-full"
       >
         <ConversationBox
