@@ -302,10 +302,17 @@ function isBodyEmpty(content) {
 }
 
 function handleEmptyBodyWithSignature() {
-  const { schema, tr } = state;
+  const { schema, tr, doc } = state;
 
-  // create a paragraph node and
-  // start a transaction to append it at the end
+  const isEmptyParagraph = node =>
+    node && node.type === schema.nodes.paragraph && node.content.size === 0;
+
+  // Check if empty paragraph already exists to prevent duplicates when toggling signatures
+  if (isEmptyParagraph(doc.firstChild)) {
+    focusEditorInputField('start');
+    return;
+  }
+
   const paragraph = schema.nodes.paragraph.create();
   const paragraphTransaction = tr.insert(0, paragraph);
   editorView.dispatch(paragraphTransaction);
