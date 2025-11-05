@@ -113,7 +113,8 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
       'pending_subscription_pricing_plan' => nil,
       'billing_cadence' => billing_cadence,
       'next_billing_date' => nil,
-      'pending_stripe_pricing_plan_id' => nil
+      'pending_stripe_pricing_plan_id' => nil,
+      'stripe_billing_version' => 2
     }
     attributes['stripe_pricing_plan_id'] = pricing_plan_id if pricing_plan_id.present?
 
