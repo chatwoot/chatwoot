@@ -5,6 +5,7 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
       enqueue_conversation_job
       head :ok
     when 'Contact'
+      check_authorization_for_contact_action
       enqueue_contact_job
       head :ok
     else
@@ -32,6 +33,14 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
       current_user.id,
       contact_params
     )
+  end
+
+  def delete_contact_action?
+    params[:action_name] == 'delete'
+  end
+
+  def check_authorization_for_contact_action
+    authorize(Contact, :destroy?) if delete_contact_action?
   end
 
   def conversation_params

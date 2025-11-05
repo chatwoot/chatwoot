@@ -39,6 +39,6 @@ class Contacts::BulkActionService
   end
 
   def delete_requested?
-    @params[:action_name].to_s.casecmp('delete').zero?
+    @params[:action_name] == 'delete'
   end
 end

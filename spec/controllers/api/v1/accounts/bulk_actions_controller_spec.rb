@@ -254,6 +254,20 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
 
         expect(response).to have_http_status(:success)
       end
+
+      it 'returns unauthorized for delete action when user is not admin' do
+        contact = create(:contact, account: account)
+
+        post "/api/v1/accounts/#{account.id}/bulk_actions",
+             headers: agent.create_new_auth_token,
+             params: {
+               type: 'Contact',
+               ids: [contact.id],
+               action_name: 'delete'
+             }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 end
