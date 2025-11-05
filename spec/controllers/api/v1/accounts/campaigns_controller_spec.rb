@@ -108,6 +108,29 @@ RSpec.describe 'Campaigns API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:title]).to eq('test')
       end
 
+      it 'creates a new campaign with allow_bots enabled' do
+        post "/api/v1/accounts/#{account.id}/campaigns",
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message', allow_bots: true },
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+        expect(response_data[:title]).to eq('test')
+        expect(response_data[:allow_bots]).to be true
+      end
+
+      it 'creates a new campaign with allow_bots disabled by default' do
+        post "/api/v1/accounts/#{account.id}/campaigns",
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+        expect(response_data[:allow_bots]).to be false
+      end
+
       it 'creates a new ongoing campaign' do
         post "/api/v1/accounts/#{account.id}/campaigns",
              params: { inbox_id: inbox.id, title: 'test', message: 'test message', trigger_rules: { url: 'https://test.com' } },
@@ -188,6 +211,16 @@ RSpec.describe 'Campaigns API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:title]).to eq('test')
+      end
+
+      it 'updates the campaign allow_bots setting' do
+        patch "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+              params: { allow_bots: true },
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:allow_bots]).to be true
       end
     end
   end
