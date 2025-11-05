@@ -1,5 +1,6 @@
 class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Billing::V2::BaseService
   include Enterprise::Billing::Concerns::PlanFeatureManager
+  include Enterprise::Billing::Concerns::PlanProvisioningHelper
   include Enterprise::Billing::Concerns::StripeV2ClientHelper
 
   def provision(subscription_id:)
@@ -13,7 +14,7 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
     update_subscription_details(subscription_id, pricing_plan_id, quantity, billing_cadence)
 
     # Provision the subscription: sync credits and enable features
-    provision_subscription(pricing_plan_id) if pricing_plan_id.present?
+    provision_new_plan(pricing_plan_id) if pricing_plan_id.present?
 
     build_success_response(subscription_id, pricing_plan_id, quantity)
   rescue Stripe::StripeError => e
@@ -34,6 +35,7 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
       billing_cadence = extract_billing_cadence(subscription_plan)
       update_subscription_details(subscription_id, pricing_plan_id, quantity, billing_cadence)
     end
+    reset_captain_usage
   end
 
   private
@@ -73,9 +75,6 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
     # Disable all premium features and save
     disable_all_premium_features
     account.save!
-
-    # Reset captain usage
-    reset_captain_usage
   end
 
   def extract_pricing_plan_id(subscription)
@@ -125,34 +124,5 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
     end
 
     update_custom_attributes(attributes)
-  end
-
-  def provision_subscription(pricing_plan_id)
-    # Sync monthly credits based on plan
-    sync_plan_credits(pricing_plan_id)
-
-    # Extract plan name and enable features using PlanFeatureManager
-    plan_definition = Enterprise::Billing::V2::PlanCatalog.definition_for(pricing_plan_id)
-    if plan_definition
-      plan_name = extract_plan_name(plan_definition)
-      enable_plan_specific_features(plan_name) if plan_name.present?
-    end
-
-    # Reset captain usage after provisioning
-    reset_captain_usage
-  end
-
-  def sync_plan_credits(pricing_plan_id)
-    plan_credits = Enterprise::Billing::V2::PlanCatalog.monthly_credits_for(pricing_plan_id)
-
-    Enterprise::Billing::V2::CreditManagementService
-      .new(account: account)
-      .sync_monthly_credits(plan_credits.to_i)
-  end
-
-  def extract_plan_name(plan_definition)
-    # Extract plan name like "Startup", "Business", or "Enterprise" from display_name
-    # e.g., "Chatwoot Startup" -> "Startup"
-    plan_definition[:display_name].split.find { |word| %w[Startup Startups Business Enterprise].include?(word) }
   end
 end

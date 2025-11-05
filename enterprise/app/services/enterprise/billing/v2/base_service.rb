@@ -17,19 +17,43 @@ class Enterprise::Billing::V2::BaseService
     ENV.fetch('STRIPE_BILLING_V2_ENABLED', 'false') == 'true'
   end
 
-  def monthly_credits
-    custom_attribute('monthly_credits').to_i
+  def response_monthly_credits
+    account.limits&.[]('captain_responses_monthly').to_i
   end
 
-  def topup_credits
-    custom_attribute('topup_credits').to_i
+  def response_topup_credits
+    account.limits&.[]('captain_responses_topup').to_i
   end
 
-  def update_credits(monthly: nil, topup: nil)
-    updates = {}
-    updates['monthly_credits'] = monthly unless monthly.nil?
-    updates['topup_credits'] = topup unless topup.nil?
-    update_custom_attributes(updates)
+  def response_usage
+    account.custom_attributes&.[]('captain_responses_usage').to_i
+  end
+
+  # Update response credits (monthly/topup with auto-calculation of total)
+  def update_response_credits(monthly: nil, topup: nil)
+    # Calculate and update total in limits hash ONLY
+    return unless monthly || topup
+
+    new_monthly = monthly || response_monthly_credits
+    new_topup = topup || response_topup_credits
+    total_credits = new_monthly + new_topup
+    limits = {
+      'captain_responses_monthly' => new_monthly,
+      'captain_responses_topup' => new_topup,
+      'captain_responses' => total_credits
+    }
+    update_limits(limits)
+  end
+
+  def update_limits(updates)
+    return if updates.blank?
+
+    current_limits = account.limits.present? ? account.limits.deep_dup : {}
+    updates.each do |key, value|
+      current_limits[key.to_s] = value
+    end
+
+    account.update!(limits: current_limits)
   end
 
   def update_custom_attributes(updates)

@@ -1,30 +1,23 @@
 class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2::BaseService
-  def sync_monthly_credits(amount)
+  # Sync monthly response credits (resets on billing cycle with topup preservation)
+  def sync_monthly_response_credits(amount)
     with_locked_account do
-      update_credits(monthly: amount)
+      # Preserve topup credits but cap at remaining balance
+      preserved_topup = preserve_topup_on_reset(
+        current_topup: response_topup_credits,
+        new_monthly: amount,
+        current_usage: response_usage
+      )
+      update_response_credits(monthly: amount, topup: preserved_topup)
     end
   end
 
-  def add_topup_credits(amount)
+  # Add topup credits for responses
+  def add_response_topup_credits(amount)
     with_locked_account do
-      update_credits(topup: topup_credits + amount)
+      new_topup = response_topup_credits + amount
+      update_response_credits(topup: new_topup)
     end
-  end
-
-  def expire_monthly_credits
-    with_locked_account do
-      expired = monthly_credits
-      update_credits(monthly: 0) if expired.positive?
-      expired
-    end
-  end
-
-  def credit_balance
-    {
-      monthly: monthly_credits,
-      topup: topup_credits,
-      total: total_credits
-    }
   end
 
   def fetch_credit_grants
@@ -44,11 +37,18 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
     []
   end
 
-  def total_credits
-    monthly_credits + topup_credits
-  end
-
   private
+
+  # Preserve topup credits on monthly reset, capped at remaining balance
+  # Formula: min(current_topup, max(0, (new_monthly + current_topup) - current_usage))
+  def preserve_topup_on_reset(current_topup:, new_monthly:, current_usage:)
+    # Calculate remaining balance after usage
+    total_after_sync = new_monthly + current_topup
+    remaining_balance = [total_after_sync - current_usage, 0].max
+
+    # Cap topup at remaining balance to avoid over-crediting
+    [current_topup, remaining_balance].min
+  end
 
   def transform_credit_grant(grant)
     category = grant_attribute(grant, :category)

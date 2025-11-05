@@ -7,12 +7,10 @@ module Enterprise::Billing::Concerns::PlanProvisioningHelper
     sync_plan_credits(new_pricing_plan_id)
 
     plan_definition = Enterprise::Billing::V2::PlanCatalog.definition_for(new_pricing_plan_id)
-    if plan_definition
-      plan_name = extract_plan_name(plan_definition)
-      enable_plan_specific_features(plan_name) if plan_name.present?
-    end
+    return unless plan_definition
 
-    reset_captain_usage
+    plan_name = extract_plan_name(plan_definition)
+    enable_plan_specific_features(plan_name) if plan_name.present?
   end
 
   def sync_plan_credits(pricing_plan_id)
@@ -20,7 +18,7 @@ module Enterprise::Billing::Concerns::PlanProvisioningHelper
 
     Enterprise::Billing::V2::CreditManagementService
       .new(account: account)
-      .sync_monthly_credits(plan_credits.to_i)
+      .sync_monthly_response_credits(plan_credits.to_i)
   end
 
   def extract_plan_name(plan_definition)
