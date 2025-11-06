@@ -5,6 +5,7 @@ import aiAgents from '../../../../api/aiAgents';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
+import CustomNumberingTab from './cs-bot-tabs/CustomNumberingTab.vue';
 
 const { t } = useI18n();
 
@@ -33,6 +34,12 @@ const tabs = computed(() => [
     index: 1,
     name: t('AGENT_MGMT.RESTAURANT_BOT.ORDERS_COSTS_TAB'),
     icon: 'i-lucide-calculator',
+  },
+  {
+    key: '2',
+    index: 2,
+    name: 'Penomoran Otomatis',
+    icon: 'i-lucide-notebook-tabs',
   },
 ]);
 
@@ -638,6 +645,12 @@ function saveOrderSettings() {
             </div>
           </div>
         </div>
+
+        <!-- Custom Numbering Content -->
+        <div v-show="activeIndex === 2" class="w-full">
+          <CustomNumberingTab :data="data" />
+        </div>
+
       </div>
     </div>
   </div>

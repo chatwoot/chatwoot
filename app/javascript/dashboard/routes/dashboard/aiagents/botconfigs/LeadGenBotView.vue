@@ -330,7 +330,7 @@
           </div>
         </div>       
         <!-- Tab 4: Priorities -->
-       <div v-show="activeIndex === 4" class="w-full">
+        <div v-show="activeIndex === 4" class="w-full">
           <PrioritiesTab 
             v-if="data"
             :data="data" 
@@ -341,6 +341,12 @@
             <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
           </div>
         </div>
+
+        <!-- Custom Numbering Content -->
+        <div v-show="activeIndex === 5" class="w-full">
+          <CustomNumberingTab :data="data" />
+        </div>
+
       </div>
     </div>
   </div>
@@ -356,6 +362,7 @@ import PrioritiesTab from './cs-bot-tabs/PrioritiesTab.vue'
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport'
 import aiAgents from '../../../../api/aiAgents'
 import { useAlert } from 'dashboard/composables';
+import CustomNumberingTab from './cs-bot-tabs/CustomNumberingTab.vue';
 
 const { t } = useI18n()
 
@@ -441,6 +448,12 @@ const tabs = computed(() => [
     index: 4,
     name: 'Prioritas',
     icon: 'i-lucide-star',
+  },
+  {
+    key: '5',
+    index: 5,
+    name: 'Penomoran Otomatis',
+    icon: 'i-lucide-notebook-tabs',
   },
 ])
 
