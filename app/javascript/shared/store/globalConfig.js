@@ -18,7 +18,6 @@ const {
   LOGO_DARK: logoDark,
   PRIVACY_URL: privacyURL,
   IS_ENTERPRISE: isEnterprise,
-  STRIPE_BILLING_V2_ENABLED: stripeBillingV2Enabled,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
@@ -47,7 +46,6 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
-  stripeBillingV2Enabled: parseBoolean(stripeBillingV2Enabled),
 };
 
 export const getters = {
@@ -55,7 +53,6 @@ export const getters = {
   isOnChatwootCloud: $state => $state.deploymentEnv === 'cloud',
   isACustomBrandedInstance: $state => $state.installationName !== 'Chatwoot',
   isAChatwootInstance: $state => $state.installationName === 'Chatwoot',
-  isStripeBillingV2Enabled: $state => $state.stripeBillingV2Enabled,
 };
 
 export const actions = {};
