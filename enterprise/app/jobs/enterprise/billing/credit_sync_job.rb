@@ -15,7 +15,7 @@ class Enterprise::Billing::CreditSyncJob < ApplicationJob
     Rails.logger.info '[CreditSyncJob] Starting credit sync for all accounts'
 
     accounts_with_stripe = Account.where(
-      "custom_attributes->>'stripe_customer_id' IS NOT NULL AND custom_attributes->>'stripe_billing_version' = '2'"
+      "custom_attributes->>'stripe_customer_id' IS NOT NULL AND custom_attributes->>'stripe_billing_version' = 2"
     )
     synced_count = 0
     failed_count = 0

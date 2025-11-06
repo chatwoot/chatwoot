@@ -7,6 +7,8 @@ if resource.custom_attributes.present?
     json.subscription_status resource.custom_attributes['subscription_status']
     json.subscription_ends_on resource.custom_attributes['subscription_ends_on']
     json.stripe_subscription_id resource.custom_attributes['stripe_subscription_id'] if resource.custom_attributes['stripe_subscription_id'].present?
+    json.stripe_billing_version resource.custom_attributes['stripe_billing_version'] if resource.custom_attributes['stripe_billing_version'].present?
+    json.stripe_customer_id resource.custom_attributes['stripe_customer_id'] if resource.custom_attributes['stripe_customer_id'].present?
     if resource.custom_attributes['pending_stripe_pricing_plan_id'].present?
       json.pending_stripe_pricing_plan_id resource.custom_attributes['pending_stripe_pricing_plan_id']
     end
