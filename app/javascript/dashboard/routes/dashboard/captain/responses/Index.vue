@@ -39,7 +39,7 @@ const { t } = useI18n();
 
 const createDialog = ref(null);
 
-const selectedAssistantId = Number(route.params.assistantId);
+const selectedAssistantId = computed(() => Number(route.params.assistantId));
 
 const pendingCount = useMapGetter('captainResponses/getPendingCount');
 
@@ -98,8 +98,8 @@ const updateURLWithFilters = (page, search) => {
 const fetchResponses = (page = 1) => {
   const filterParams = { page, status: 'approved' };
 
-  if (selectedAssistantId) {
-    filterParams.assistantId = selectedAssistantId;
+  if (selectedAssistantId.value) {
+    filterParams.assistantId = selectedAssistantId.value;
   }
   if (searchQuery.value) {
     filterParams.search = searchQuery.value;

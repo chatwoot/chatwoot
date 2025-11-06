@@ -23,7 +23,6 @@ const isAssistantActive = assistant => {
 };
 
 const fetchDataForRoute = async (routeName, assistantId) => {
-  // Fetch appropriate data based on the current route
   const dataFetchMap = {
     captain_assistants_responses_index: async () => {
       await store.dispatch('captainResponses/get', { assistantId });
@@ -64,15 +63,12 @@ const fetchDataForRoute = async (routeName, assistantId) => {
 const handleAssistantChange = async assistant => {
   if (isAssistantActive(assistant)) return;
 
-  // Navigate to the same route type but with new assistant
   const currentRouteName = route.name;
   const targetRouteName =
     currentRouteName || 'captain_assistants_responses_index';
 
-  // Fetch data for the new assistant BEFORE navigation to prevent flash of old data
   await fetchDataForRoute(targetRouteName, assistant.id);
 
-  // Update the route with new assistant ID
   await router.push({
     name: targetRouteName,
     params: {

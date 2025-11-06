@@ -24,7 +24,7 @@ const documents = useMapGetter('captainDocuments/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const documentsMeta = useMapGetter('captainDocuments/getMeta');
 
-const selectedAssistantId = Number(route.params.assistantId);
+const selectedAssistantId = computed(() => Number(route.params.assistantId));
 
 const selectedDocument = ref(null);
 const deleteDocumentDialog = ref(null);
@@ -72,8 +72,8 @@ const handleAction = ({ action, id }) => {
 const fetchDocuments = (page = 1) => {
   const filterParams = { page };
 
-  if (selectedAssistantId) {
-    filterParams.assistantId = selectedAssistantId;
+  if (selectedAssistantId.value) {
+    filterParams.assistantId = selectedAssistantId.value;
   }
   store.dispatch('captainDocuments/get', filterParams);
 };
@@ -152,6 +152,7 @@ onMounted(() => {
     <CreateDocumentDialog
       v-if="showCreateDialog"
       ref="createDocumentDialog"
+      :assistant-id="selectedAssistantId"
       @close="handleCreateDialogClose"
     />
     <DeleteDialog
