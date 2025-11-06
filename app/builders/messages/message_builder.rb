@@ -1,5 +1,8 @@
-class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
+class Messages::MessageBuilder
   include ::FileTypeHelper
+  include ::EmailHelper
+  include ::DataHelper
+
   attr_reader :message
 
   def initialize(user, conversation, params)
@@ -38,27 +41,9 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     params = convert_to_hash(@params)
     content_attributes = params.fetch(:content_attributes, {})
 
-    return parse_json(content_attributes) if content_attributes.is_a?(String)
+    return safe_parse_json(content_attributes) if content_attributes.is_a?(String)
     return content_attributes if content_attributes.is_a?(Hash)
 
-    {}
-  end
-
-  # Converts the given object to a hash.
-  # If it's an instance of ActionController::Parameters, converts it to an unsafe hash.
-  # Otherwise, returns the object as-is.
-  def convert_to_hash(obj)
-    return obj.to_unsafe_h if obj.instance_of?(ActionController::Parameters)
-
-    obj
-  end
-
-  # Attempts to parse a string as JSON.
-  # If successful, returns the parsed hash with symbolized names.
-  # If unsuccessful, returns nil.
-  def parse_json(content)
-    JSON.parse(content, symbolize_names: true)
-  rescue JSON::ParserError
     {}
   end
 
@@ -108,12 +93,6 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     return [] if email_string.blank?
 
     email_string.gsub(/\s+/, '').split(',')
-  end
-
-  def validate_email_addresses(all_emails)
-    all_emails&.each do |email|
-      raise StandardError, 'Invalid email address' unless email.match?(URI::MailTo::EMAIL_REGEXP)
-    end
   end
 
   def message_type
@@ -207,22 +186,6 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     text_content
   end
 
-  def ensure_indifferent_access(hash)
-    return {} if hash.blank?
-
-    hash.respond_to?(:with_indifferent_access) ? hash.with_indifferent_access : hash
-  end
-
-  def normalize_email_body(content)
-    content.to_s.gsub("\r\n", "\n")
-  end
-
-  def render_email_html(content)
-    return '' if content.blank?
-
-    ChatwootMarkdownRenderer.new(content).render_message.to_s
-  end
-
   def custom_email_content_provided?
     @params[:email_html_content].present?
   end
@@ -238,13 +201,13 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
 
   # Liquid processing methods for email content
   def process_liquid_in_email_body(content)
-    return content unless should_process_liquid?
     return content if content.blank?
+    return content unless should_process_liquid?
 
     # Protect code blocks from liquid processing
-    modified_content = sanitize_code_blocks(content)
+    modified_content = modified_liquid_content(content)
     template = Liquid::Template.parse(modified_content)
-    template.render(message_drops)
+    template.render(drops_with_sender)
   rescue Liquid::Error
     # If there is an error in the liquid syntax, return original content
     content
@@ -254,19 +217,9 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     @message_type == 'outgoing' || @message_type == 'template'
   end
 
-  def sanitize_code_blocks(content)
-    # This regex is used to match the code blocks in the content
-    # We don't want to process liquid in code blocks
-    content.gsub(/`(.*?)`/m, '{% raw %}`\\1`{% endraw %}')
-  end
-
-  def message_drops
-    {
-      'contact' => ContactDrop.new(@conversation.contact),
-      'agent' => UserDrop.new(sender),
-      'conversation' => ConversationDrop.new(@conversation),
-      'inbox' => InboxDrop.new(@conversation.inbox),
-      'account' => AccountDrop.new(@conversation.account)
-    }
+  def drops_with_sender
+    message_drops(@conversation).merge({
+                                         'agent' => UserDrop.new(sender)
+                                       })
   end
 end
