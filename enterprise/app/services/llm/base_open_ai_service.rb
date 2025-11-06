@@ -1,5 +1,6 @@
 class Llm::BaseOpenAiService
   DEFAULT_MODEL = 'gpt-4o-mini'.freeze
+  attr_reader :client, :model
 
   def initialize
     @client = OpenAI::Client.new(

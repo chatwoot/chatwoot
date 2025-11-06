@@ -62,6 +62,9 @@ lv:
         invalid: Nederīga e-pasta adrese
       phone_number:
         invalid: vajadzētu būt E.164 formātā
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: vajadzētu būt unikālai, kategorijā un portālā
@@ -185,6 +188,8 @@ lv:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
         open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: '%{user_name} sarunu atzīmēja kā atrisinātu'
         contact_resolved: '%{contact_name} atrisināja sarunu'
