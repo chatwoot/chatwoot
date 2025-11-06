@@ -69,7 +69,15 @@ export function useVoiceCallStatus(statusRef, directionRef) {
         : 'CONVERSATION.VOICE_CALL.YOU_ANSWERED';
     }
 
-    return 'CONVERSATION.VOICE_CALL.NO_ANSWER';
+    if (isFailedStatus.value) {
+      return 'CONVERSATION.VOICE_CALL.NO_ANSWER';
+    }
+
+    if (isCompleted.value) {
+      return 'CONVERSATION.VOICE_CALL.CALL_ENDED';
+    }
+
+    return 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET';
   });
 
   const bubbleIconName = computed(() => {
