@@ -6,9 +6,9 @@ module Enterprise::Billing::Concerns::BillingIntentWorkflow
   # Execute a billing intent with automatic reserve and commit
   def execute_billing_intent(intent_params)
     intent = create_billing_intent(intent_params)
-    reserve_billing_intent(intent)
+    reserve_billing_intent(intent['id'])
     yield(intent) if block_given?
-    commit_billing_intent(intent)
+    commit_billing_intent(intent['id'])
     intent
   end
 end

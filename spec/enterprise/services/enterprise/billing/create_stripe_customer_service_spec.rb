@@ -59,7 +59,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
           'plan_name' => 'Hacker',
           'subscribed_quantity' => 2
         )
-        expect(service).to have_received(:enable_plan_specific_features).with('Startup')
+        expect(service).to have_received(:enable_plan_specific_features).with('Hacker')
       end
 
       it 'does not create new customer when customer already exists with V2' do
