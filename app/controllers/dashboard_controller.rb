@@ -71,7 +71,6 @@ class DashboardController < ActionController::Base
       WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
-      STRIPE_BILLING_V2_ENABLED: GlobalConfigService.load('STRIPE_BILLING_V2_ENABLED', 'false'),
       GIT_SHA: GIT_HASH
     }
   end

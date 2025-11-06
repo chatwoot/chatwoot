@@ -8,26 +8,23 @@ class Enterprise::Billing::CreateStripeCustomerService
   def perform
     return if existing_subscription?
 
-    customer_id = prepare_customer_id
+    raise_config_error unless v2_configs_present?
 
-    if billing_v2_enabled? && v2_configs_present?
-      update_account_for_v2_billing(customer_id)
-      enable_plan_specific_features(default_plan['name'])
-    elsif default_plan.present?
-      subscription = create_subscription(customer_id)
-      update_account_with_subscription(customer_id, subscription)
-    else
-      # Minimal setup when configs are missing
-      account.update!(custom_attributes: { stripe_customer_id: customer_id })
-    end
+    customer_id = prepare_customer_id
+    update_account_for_v2_billing(customer_id)
+    enable_plan_specific_features(default_plan['name'])
   end
 
   private
 
   def prepare_customer_id
     customer_id = account.custom_attributes['stripe_customer_id']
+    test_clock = Stripe::TestHelpers::TestClock.create({
+                                                         frozen_time: Time.now.to_i,
+                                                         name: 'Test Clock for Account'
+                                                       })
     if customer_id.blank?
-      customer = Stripe::Customer.create({ name: account.name, email: billing_email })
+      customer = Stripe::Customer.create({ name: account.name, email: billing_email, test_clock: test_clock.id })
       customer_id = customer.id
     end
     customer_id
@@ -46,18 +43,13 @@ class Enterprise::Billing::CreateStripeCustomerService
     @default_plan ||= installation_config&.value&.first
   end
 
-  def price_id
-    price_ids = default_plan['price_ids']
-    price_ids.first
-  end
-
-  def billing_v2_enabled?
-    ENV.fetch('STRIPE_BILLING_V2_ENABLED', 'false') == 'true'
-  end
-
   def v2_configs_present?
     InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID').present? &&
       default_plan.present?
+  end
+
+  def raise_config_error
+    raise StandardError, 'V2 billing configuration is required. Please configure STRIPE_HACKER_PLAN_ID and CHATWOOT_CLOUD_PLANS.'
   end
 
   def existing_subscription?
@@ -74,17 +66,13 @@ class Enterprise::Billing::CreateStripeCustomerService
     subscriptions.data.present?
   end
 
-  def create_subscription(customer_id)
-    Stripe::Subscription.create(
-      customer: customer_id,
-      items: [{ price: price_id, quantity: default_quantity }]
-    )
-  end
-
   def update_account_for_v2_billing(customer_id)
     hacker_plan_config = InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID')
 
-    attributes = { stripe_customer_id: customer_id }
+    attributes = {
+      stripe_customer_id: customer_id,
+      stripe_billing_version: 'v2'
+    }
 
     if hacker_plan_config&.value.present?
       attributes.merge!(
@@ -95,17 +83,5 @@ class Enterprise::Billing::CreateStripeCustomerService
     end
 
     account.update!(custom_attributes: attributes)
-  end
-
-  def update_account_with_subscription(customer_id, subscription)
-    account.update!(
-      custom_attributes: {
-        stripe_customer_id: customer_id,
-        stripe_price_id: subscription['plan']['id'],
-        stripe_product_id: subscription['plan']['product'],
-        plan_name: default_plan['name'],
-        subscribed_quantity: subscription['quantity']
-      }
-    )
   end
 end

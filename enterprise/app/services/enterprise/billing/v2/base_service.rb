@@ -13,10 +13,6 @@ class Enterprise::Billing::V2::BaseService
     )
   end
 
-  def v2_enabled?
-    ENV.fetch('STRIPE_BILLING_V2_ENABLED', 'false') == 'true'
-  end
-
   def response_monthly_credits
     account.limits&.[]('captain_responses_monthly').to_i
   end
@@ -75,9 +71,20 @@ class Enterprise::Billing::V2::BaseService
     account.with_lock(&)
   end
 
-  def with_stripe_error_handling
-    yield
-  rescue Stripe::StripeError => e
-    { success: false, message: e.message }
+  # Convenient accessors for common attributes
+  def stripe_customer_id
+    custom_attribute('stripe_customer_id')
+  end
+
+  def stripe_subscription_id
+    custom_attribute('stripe_subscription_id')
+  end
+
+  def pricing_plan_id
+    custom_attribute('stripe_pricing_plan_id')
+  end
+
+  def subscribed_quantity
+    custom_attribute('subscribed_quantity').to_i
   end
 end

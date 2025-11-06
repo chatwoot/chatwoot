@@ -1,6 +1,8 @@
 class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::V2::BaseService
   include Enterprise::Billing::Concerns::PlanFeatureManager
   include Enterprise::Billing::Concerns::StripeV2ClientHelper
+  include Enterprise::Billing::Concerns::BillingIntentWorkflow
+  include Enterprise::Billing::Concerns::SubscriptionDataManager
 
   # Cancel subscription using Stripe's V2 Billing Intent API
   # Creates a deactivate billing intent for the pricing plan subscription
@@ -10,12 +12,11 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
   #
   def cancel_subscription
     with_locked_account do
-      billing_intent = create_deactivate_intent
-      reserve_billing_intent(billing_intent)
-      commit_billing_intent(billing_intent)
-      update_account_status(billing_intent)
-      success_response = build_success_response(billing_intent)
-      success_response
+      metadata = fetch_subscription_metadata
+      intent_params = build_deactivate_params(metadata[:subscription_id], metadata[:cadence_id])
+      execute_billing_intent(intent_params)
+      update_account_status(metadata[:next_billing_date])
+      build_success_response
     end
   rescue Stripe::StripeError => e
     { success: false, message: "Stripe error: #{e.message}" }
@@ -24,35 +25,6 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
   end
 
   private
-
-  def create_deactivate_intent
-    pricing_plan_subscription_id = fetch_subscription_id
-    billing_cadence_id = fetch_billing_cadence_id(pricing_plan_subscription_id)
-    store_next_billing_date(billing_cadence_id)
-
-    create_billing_intent(
-      build_deactivate_params(pricing_plan_subscription_id, billing_cadence_id)
-    )
-  end
-
-  def fetch_subscription_id
-    custom_attribute('stripe_subscription_id').tap do |id|
-      raise StandardError, 'No pricing plan subscription ID found' if id.blank?
-    end
-  end
-
-  def fetch_billing_cadence_id(subscription_id)
-    subscription = retrieve_pricing_plan_subscription(subscription_id)
-    extract_attribute(subscription, :billing_cadence).tap do |cadence_id|
-      raise StandardError, 'No billing cadence found in subscription' if cadence_id.blank?
-    end
-  end
-
-  def store_next_billing_date(cadence_id)
-    cadence = retrieve_billing_cadence(cadence_id)
-    Rails.logger.info("Cadence: #{cadence}")
-    @next_billing_date = extract_attribute(cadence, :next_billing_date)
-  end
 
   def build_deactivate_params(subscription_id, cadence_id)
     {
@@ -68,17 +40,17 @@ class Enterprise::Billing::V2::CancelSubscriptionService < Enterprise::Billing::
     }
   end
 
-  def update_account_status(_billing_intent)
+  def update_account_status(next_billing_date)
     # Mark subscription as cancelling (will be cancelled at period end)
     # Store next_billing_date so the UI can show when the subscription ends
     update_custom_attributes({
                                'subscription_status' => 'cancel_at_period_end',
                                'subscription_cancelled_at' => Time.current.iso8601,
-                               'subscription_ends_at' => @next_billing_date
+                               'subscription_ends_at' => next_billing_date
                              })
   end
 
-  def build_success_response(_billing_intent)
+  def build_success_response
     {
       success: true,
       cancel_at_period_end: true,

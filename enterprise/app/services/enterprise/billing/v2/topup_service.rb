@@ -19,7 +19,6 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
   def validate_topup_request(credits)
     return { valid: false, success: false, message: 'Invalid topup amount' } unless credits.to_i.positive?
 
-    # Check if account has a valid subscription plan
     plan_validation = validate_subscription_plan
     return plan_validation unless plan_validation[:valid]
 
@@ -27,7 +26,6 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
     return { valid: false, success: false, message: 'Unsupported topup amount' } unless topup_definition
     return { valid: false, success: false, message: 'Stripe customer not configured' } if stripe_customer_id.blank?
 
-    # Check if customer has a default payment method using common service
     payment_service = Enterprise::Billing::V2::InvoicePaymentService.new(account: account)
     payment_method_validation = payment_service.validate_payment_method
     return payment_method_validation.merge(valid: false) if payment_method_validation
@@ -102,8 +100,7 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
   # Following Stripe UBB Integration Guide section 8
   def create_stripe_credit_grant(amount_cents, currency, credits)
     Stripe::Billing::CreditGrant.create(
-      credit_grant_params(amount_cents, currency, credits),
-      stripe_api_options
+      credit_grant_params(amount_cents, currency, credits)
     )
   end
 
@@ -144,13 +141,5 @@ class Enterprise::Billing::V2::TopupService < Enterprise::Billing::V2::BaseServi
       source: 'topup',
       credits: credits.to_s
     }
-  end
-
-  def stripe_customer_id
-    custom_attribute('stripe_customer_id')
-  end
-
-  def stripe_api_options
-    { api_key: ENV.fetch('STRIPE_SECRET_KEY', nil), stripe_version: '2025-08-27.preview' }
   end
 end

@@ -93,11 +93,10 @@ module Enterprise::Billing::V2::PlanCatalog
     }
   end
 
-  def rate_card_component(definition)
+  def rate_card_component(_definition)
     {
       type: 'rate_card',
       name: 'Overage Rate',
-      overage_rate: definition[:overage_rate],
       rate_unit: CREDIT_UNIT,
       meter_id: nil
     }
