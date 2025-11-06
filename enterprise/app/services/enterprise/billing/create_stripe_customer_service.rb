@@ -12,7 +12,7 @@ class Enterprise::Billing::CreateStripeCustomerService
 
     customer_id = prepare_customer_id
     update_account_for_v2_billing(customer_id)
-    enable_plan_specific_features(default_plan['name'])
+    enable_plan_specific_features('Hacker')
   end
 
   private
@@ -26,26 +26,16 @@ class Enterprise::Billing::CreateStripeCustomerService
     customer_id
   end
 
-  def default_quantity
-    default_plan['default_quantity'] || DEFAULT_QUANTITY
-  end
-
   def billing_email
     account.administrators.first.email
   end
 
-  def default_plan
-    installation_config = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')
-    @default_plan ||= installation_config&.value&.first
-  end
-
   def v2_configs_present?
-    InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID').present? &&
-      default_plan.present?
+    InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID').present?
   end
 
   def raise_config_error
-    raise StandardError, 'V2 billing configuration is required. Please configure STRIPE_HACKER_PLAN_ID and CHATWOOT_CLOUD_PLANS.'
+    raise StandardError, 'V2 billing configuration is required. Please configure STRIPE_HACKER_PLAN_ID.'
   end
 
   def existing_subscription?

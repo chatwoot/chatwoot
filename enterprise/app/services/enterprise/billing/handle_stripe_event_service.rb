@@ -78,12 +78,6 @@ class Enterprise::Billing::HandleStripeEventService
     cloud_plans.find { |config| config['product_id'].include?(plan_id) }
   end
 
-  def default_plan?
-    cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
-    default_plan = cloud_plans.first || {}
-    account.custom_attributes['plan_name'] == default_plan['name']
-  end
-
   def process_credit_grant_created
     grant_id = extract_credit_grant_id(@event.data.object)
     return if grant_id.blank?
