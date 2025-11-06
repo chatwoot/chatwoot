@@ -7,6 +7,9 @@ if resource.custom_attributes.present?
     json.subscription_status resource.custom_attributes['subscription_status']
     json.subscription_ends_on resource.custom_attributes['subscription_ends_on']
     json.stripe_subscription_id resource.custom_attributes['stripe_subscription_id'] if resource.custom_attributes['stripe_subscription_id'].present?
+    json.pending_stripe_pricing_plan_id resource.custom_attributes['pending_stripe_pricing_plan_id'] if resource.custom_attributes['pending_stripe_pricing_plan_id'].present?
+    json.pending_subscription_quantity resource.custom_attributes['pending_subscription_quantity'] if resource.custom_attributes['pending_subscription_quantity'].present?
+    json.stripe_pricing_plan_id resource.custom_attributes['stripe_pricing_plan_id'] if resource.custom_attributes['stripe_pricing_plan_id'].present?
     json.next_billing_date resource.custom_attributes['next_billing_date'] if resource.custom_attributes['next_billing_date'].present?
     json.industry resource.custom_attributes['industry'] if resource.custom_attributes['industry'].present?
     json.company_size resource.custom_attributes['company_size'] if resource.custom_attributes['company_size'].present?
@@ -17,10 +20,6 @@ if resource.custom_attributes.present?
     if resource.custom_attributes['marked_for_deletion_reason'].present?
       json.marked_for_deletion_reason resource.custom_attributes['marked_for_deletion_reason']
     end
-    # V2 Billing attributes
-    json.stripe_customer_id resource.custom_attributes['stripe_customer_id'] if resource.custom_attributes['stripe_customer_id'].present?
-    json.stripe_pricing_plan_id resource.custom_attributes['stripe_pricing_plan_id'] if resource.custom_attributes['stripe_pricing_plan_id'].present?
-    json.stripe_cadence_id resource.custom_attributes['stripe_cadence_id'] if resource.custom_attributes['stripe_cadence_id'].present?
   end
 end
 json.domain @account.domain
