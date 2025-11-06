@@ -15,7 +15,7 @@ module Enterprise::Billing::V2::PlanCatalog
       key: :startup,
       display_name: 'Chatwoot Startup',
       base_fee: 19.0,
-      monthly_credits: 10_000,
+      monthly_credits: 300,
       config_key: 'STRIPE_STARTUP_PLAN_ID',
       licensed_item_lookup_key: 'chatwoot_startup_license_fee_v2'
     },
@@ -23,7 +23,7 @@ module Enterprise::Billing::V2::PlanCatalog
       key: :business,
       display_name: 'Chatwoot Business',
       base_fee: 39.0,
-      monthly_credits: 50_000,
+      monthly_credits: 500,
       config_key: 'STRIPE_BUSINESS_PLAN_ID',
       licensed_item_lookup_key: 'chatwoot_business_license_fee_v2'
     },
@@ -31,7 +31,7 @@ module Enterprise::Billing::V2::PlanCatalog
       key: :enterprise,
       display_name: 'Chatwoot Enterprise',
       base_fee: 99.0,
-      monthly_credits: 200_000,
+      monthly_credits: 800,
       config_key: 'STRIPE_ENTERPRISE_PLAN_ID',
       licensed_item_lookup_key: 'chatwoot_enterprise_license_fee_v2'
     }
