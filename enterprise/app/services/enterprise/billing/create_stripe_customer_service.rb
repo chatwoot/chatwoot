@@ -67,7 +67,7 @@ class Enterprise::Billing::CreateStripeCustomerService
 
     attributes = {
       stripe_customer_id: customer_id,
-      stripe_billing_version: 'v2'
+      stripe_billing_version: '2'
     }
 
     if hacker_plan_config&.value.present?

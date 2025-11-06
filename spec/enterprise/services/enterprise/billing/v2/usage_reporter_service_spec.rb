@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Enterprise::Billing::V2::UsageReporterService do
-  let(:account) { create(:account, custom_attributes: { 'stripe_billing_version' => 2, 'stripe_customer_id' => 'cus_123' }) }
+  let(:account) { create(:account, custom_attributes: { 'stripe_billing_version' => '2', 'stripe_customer_id' => 'cus_123' }) }
   let(:service) { described_class.new(account: account) }
 
   describe '#report' do

@@ -54,7 +54,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
         expect(Stripe::Customer).to have_received(:create).with({ name: account.name, email: admin1.email })
         expect(account.reload.custom_attributes).to include(
           'stripe_customer_id' => 'cus_random_number',
-          'stripe_billing_version' => 'v2',
+          'stripe_billing_version' => '2',
           'stripe_pricing_plan_id' => 'bpp_hacker_123',
           'plan_name' => 'Hacker',
           'subscribed_quantity' => 2
@@ -79,7 +79,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
         expect(Stripe::Customer).not_to have_received(:create)
         expect(account.reload.custom_attributes).to include(
           'stripe_customer_id' => 'cus_existing_v2',
-          'stripe_billing_version' => 'v2',
+          'stripe_billing_version' => '2',
           'stripe_pricing_plan_id' => 'bpp_hacker_123',
           'plan_name' => 'Hacker',
           'subscribed_quantity' => 2
