@@ -15,6 +15,7 @@ import {
   CMD_RESOLVE_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
 
+import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const store = useStore();
@@ -133,8 +134,8 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
-    <div
-      class="rounded-lg shadow outline-1 outline flex-shrink-0 transition-transform duration-150 ease-out active:scale-[0.97]"
+    <ButtonGroup
+      class="rounded-lg shadow outline-1 outline flex-shrink-0"
       :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
     >
       <Button
@@ -178,7 +179,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         trailing-icon
         @click="openDropdown"
       />
-    </div>
+    </ButtonGroup>
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"

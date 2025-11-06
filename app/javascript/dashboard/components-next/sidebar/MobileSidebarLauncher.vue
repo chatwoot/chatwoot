@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 
 defineProps({
   isMobileSidebarOpen: {
@@ -45,8 +46,8 @@ const toggleSidebar = () => {
       },
     ]"
   >
-    <div
-      class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow transition-all duration-200 has-[button:active]:scale-95 has-[button:active]:shadow-md"
+    <ButtonGroup
+      class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow hover:shadow-md"
     >
       <Button
         icon="i-lucide-menu"
@@ -55,7 +56,7 @@ const toggleSidebar = () => {
         lg
         @click="toggleSidebar"
       />
-    </div>
+    </ButtonGroup>
   </div>
   <template v-else />
 </template>
