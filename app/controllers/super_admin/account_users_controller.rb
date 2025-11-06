@@ -17,6 +17,16 @@ class SuperAdmin::AccountUsersController < SuperAdmin::ApplicationController
     redirect_back(fallback_location: [namespace, resource.account], notice: notice)
   end
 
+  def update
+    account_user = AccountUser.find(params[:id])
+
+    if account_user.update(account_user_params)
+      render json: { success: true, active_chat_limit: account_user.active_chat_limit }
+    else
+      render json: { success: false, errors: account_user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     if requested_resource.destroy
       flash[:notice] = translate_with_resource('destroy.success')
@@ -24,6 +34,12 @@ class SuperAdmin::AccountUsersController < SuperAdmin::ApplicationController
       flash[:error] = requested_resource.errors.full_messages.join('<br/>')
     end
     redirect_back(fallback_location: [namespace, requested_resource.account])
+  end
+
+  private
+
+  def account_user_params
+    params.require(:account_user).permit(:active_chat_limit, :active_chat_limit_enabled)
   end
 
   # Override this method to specify custom lookup behavior.
