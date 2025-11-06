@@ -209,7 +209,6 @@ class Messages::MessageBuilder
     template = Liquid::Template.parse(modified_content)
     template.render(drops_with_sender)
   rescue Liquid::Error
-    # If there is an error in the liquid syntax, return original content
     content
   end
 
