@@ -8,11 +8,6 @@ module Enterprise::Billing::Concerns::StripeV2ClientHelper
     @stripe_client ||= Stripe::StripeClient.new(ENV.fetch('STRIPE_SECRET_KEY', nil))
   end
 
-  # Generic Stripe V2 API request wrapper (for methods not available in gem)
-  def stripe_v2_request(method, path, params = {}, api_version: nil)
-    StripeV2Client.request(method, path, params, stripe_api_options(api_version))
-  end
-
   # Pricing Plan Subscriptions
   def retrieve_pricing_plan_subscription(subscription_id)
     stripe_client.v2.billing.pricing_plan_subscriptions.retrieve(subscription_id)
@@ -23,27 +18,27 @@ module Enterprise::Billing::Concerns::StripeV2ClientHelper
     stripe_client.v2.billing.pricing_plans.retrieve(pricing_plan_id)
   end
 
-  # gem not available - using custom HTTP client
-  def update_pricing_plan(plan_id, params)
-    stripe_v2_request(:post, "/v2/billing/pricing_plans/#{plan_id}", params)
-  end
-
-  # Billing Cadences
   def retrieve_billing_cadence(cadence_id)
     stripe_client.v2.billing.cadences.retrieve(cadence_id)
   end
 
-  # gem not available - using custom HTTP client
   def create_billing_intent(params)
-    stripe_v2_request(:post, '/v2/billing/intents', params)
+    response = Faraday.post('https://api.stripe.com/v2/billing/intents') do |req|
+      req.headers['Authorization'] = "Bearer #{ENV.fetch('STRIPE_SECRET_KEY', nil)}"
+      req.headers['Stripe-Version'] = default_stripe_version
+      req.headers['Content-Type'] = 'application/json'
+      req.body = params.to_json
+    end
+
+    JSON.parse(response.body)
   end
 
-  def reserve_billing_intent(billing_intent)
-    stripe_client.v2.billing.intents.reserve(billing_intent.id)
+  def reserve_billing_intent(billing_intent_id)
+    stripe_client.v2.billing.intents.reserve(billing_intent_id)
   end
 
-  def commit_billing_intent(billing_intent)
-    stripe_client.v2.billing.intents.commit(billing_intent.id)
+  def commit_billing_intent(billing_intent_id)
+    stripe_client.v2.billing.intents.commit(billing_intent_id)
   end
 
   # Checkout Sessions (V1 API but used with V2 plans)
@@ -54,14 +49,6 @@ module Enterprise::Billing::Concerns::StripeV2ClientHelper
   # Credit Grants (V1 API but used with V2)
   def retrieve_credit_grant(grant_id)
     Stripe::Billing::CreditGrant.retrieve(grant_id)
-  end
-
-  # API Options with support for custom versions
-  def stripe_api_options(custom_version = nil)
-    {
-      api_key: ENV.fetch('STRIPE_SECRET_KEY', nil),
-      stripe_version: custom_version || default_stripe_version
-    }
   end
 
   def default_stripe_version
