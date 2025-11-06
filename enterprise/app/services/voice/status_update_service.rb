@@ -1,5 +1,3 @@
-require 'time'
-
 class Voice::StatusUpdateService
   pattr_initialize [:account!, :call_sid!, :call_status, { payload: {} }]
 
@@ -56,7 +54,7 @@ class Voice::StatusUpdateService
     ts = payload['Timestamp'] || payload['timestamp']
     return unless ts
 
-    Time.parse(ts).to_i
+    Time.zone.parse(ts).to_i
   rescue ArgumentError
     nil
   end

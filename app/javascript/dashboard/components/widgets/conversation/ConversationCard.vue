@@ -5,7 +5,6 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import Avatar from 'next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
 import InboxName from '../InboxName.vue';
@@ -88,47 +87,9 @@ const callStatus = computed(
   () => props.chat.additional_attributes?.call_status
 );
 
-const callDirection = computed(() => {
-  const attrs = props.chat.additional_attributes || {};
-  const convDirection = attrs.call_direction;
-  if (convDirection) {
-    return convDirection;
-  }
-
-  const messages = props.chat.messages || [];
-  const reversedMessages = [...messages].reverse();
-  const lastVoiceMessage = reversedMessages.find(message => {
-    return message.content_type === 'voice_call';
-  });
-
-  const lastMessage = lastVoiceMessage || lastMessageInChat.value;
-  if (!lastMessage) {
-    return undefined;
-  }
-
-  const lastMessageAttrs = lastMessage.content_attributes?.data || {};
-
-  const messageDirection = lastMessageAttrs.call_direction;
-  if (messageDirection) {
-    return messageDirection;
-  }
-
-  const typeValue = lastMessage.message_type;
-  if (
-    typeValue === MESSAGE_TYPE.OUTGOING ||
-    typeValue?.toString().toLowerCase() === 'outgoing'
-  ) {
-    return 'outbound';
-  }
-  if (
-    typeValue === MESSAGE_TYPE.INCOMING ||
-    typeValue?.toString().toLowerCase() === 'incoming'
-  ) {
-    return 'inbound';
-  }
-
-  return undefined;
-});
+const callDirection = computed(
+  () => props.chat.additional_attributes?.call_direction || undefined
+);
 
 const {
   labelKey: voiceLabelKey,
