@@ -72,5 +72,4 @@ class Contacts::ContactableInboxesService
   end
 end
 
-# Enterprise can extend behavior
 Contacts::ContactableInboxesService.prepend_mod_with('Contacts::ContactableInboxesService')

@@ -235,5 +235,4 @@ class Messages::MessageBuilder
   end
 end
 
-# Enterprise can extend behavior
 Messages::MessageBuilder.prepend_mod_with('Messages::MessageBuilder')
