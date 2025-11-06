@@ -1,58 +1,38 @@
 class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseController
-  before_action :fetch_contact
+  before_action :contact
+  before_action :voice_inbox
 
   def create
-    authorize @contact, :show?
-    voice_inbox = resolve_voice_inbox
+    authorize contact, :show?
     authorize voice_inbox, :show?
 
-    # Validate that contact has a phone number
-    if @contact.phone_number.blank?
-      render json: { error: 'Contact has no phone number' }, status: :unprocessable_entity
-      return
-    end
-
-    # Use the outgoing call service to handle the entire process
-    service = Voice::OutgoingCallService.new(
+    result = Voice::OutboundCallBuilder.perform!(
       account: Current.account,
-      contact: @contact,
+      inbox: voice_inbox,
       user: Current.user,
-      inbox_id: voice_inbox.id
+      contact: contact
     )
 
-    result = service.process
-    conversation = Current.account.conversations.find_by!(display_id: result[:conversation_id])
-    conference_sid = result[:conference_sid]
-    call_sid = result[:call_sid]
+    conversation = result[:conversation]
 
     render json: {
-      status: 'success',
-      conversation_id: result[:conversation_id],
-      inbox_id: conversation.inbox_id,
-      conference_sid: conference_sid,
-      call_sid: call_sid
+      conversation_id: conversation.display_id,
+      inbox_id: voice_inbox.id,
+      call_sid: result[:call_sid],
+      conference_sid: conversation.additional_attributes['conference_sid']
     }
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: 'not_found', code: 'not_found', details: e.message }, status: :not_found
-  rescue StandardError => e
-    Rails.logger.error("VOICE_CONTACT_CALL_ERROR #{e.class}: #{e.message}")
-    Sentry.capture_exception(e) if defined?(Sentry)
-    Raven.capture_exception(e) if defined?(Raven)
-    render json: { error: 'failed_to_initiate_call', code: 'initiate_error', details: e.message }, status: :unprocessable_entity
   end
 
   private
 
-  def fetch_contact
-    @contact = Current.account.contacts.find(params[:contact_id])
+  def contact
+    @contact ||= Current.account.contacts.find(params.require(:contact_id))
   end
 
-  def resolve_voice_inbox
-    scope = Current.user.assigned_inboxes.where(
+  def voice_inbox
+    @voice_inbox ||= Current.user.assigned_inboxes.where(
       account_id: Current.account.id,
       channel_type: 'Channel::Voice'
-    )
-
-    scope.find(params.require(:inbox_id))
+    ).find(params.require(:inbox_id))
   end
 end

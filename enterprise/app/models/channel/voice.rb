@@ -42,13 +42,12 @@ class Channel::Voice < ApplicationRecord
   def messaging_window_enabled?
     false
   end
-  def initiate_call(to:, conference_sid: nil, agent_id: nil)
+
+  def initiate_call(to:)
     case provider
     when 'twilio'
       Voice::Provider::TwilioAdapter.new(self).initiate_call(
-        to: to,
-        conference_sid: conference_sid,
-        agent_id: agent_id
+        to: to
       )
     else
       raise "Unsupported voice provider: #{provider}"

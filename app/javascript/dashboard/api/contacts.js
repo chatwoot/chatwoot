@@ -48,14 +48,6 @@ class ContactAPI extends ApiClient {
   }
 
   initiateCall(contactId, inboxId) {
-    if (!contactId) {
-      return Promise.reject(new Error('Contact ID is required'));
-    }
-
-    if (!inboxId) {
-      return Promise.reject(new Error('Voice inbox ID is required'));
-    }
-
     return axios.post(`${this.url}/${contactId}/call`, {
       inbox_id: inboxId,
     });

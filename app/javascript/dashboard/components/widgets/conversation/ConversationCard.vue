@@ -88,25 +88,9 @@ const callStatus = computed(
   () => props.chat.additional_attributes?.call_status
 );
 
-const normalizeMessageType = messageTypeValue => {
-  if (typeof messageTypeValue === 'number') {
-    return messageTypeValue;
-  }
-  if (typeof messageTypeValue === 'string') {
-    const lowered = messageTypeValue.toLowerCase();
-    if (lowered === 'outgoing') {
-      return MESSAGE_TYPE.OUTGOING;
-    }
-    if (lowered === 'incoming') {
-      return MESSAGE_TYPE.INCOMING;
-    }
-  }
-  return null;
-};
-
 const callDirection = computed(() => {
   const attrs = props.chat.additional_attributes || {};
-  const convDirection = attrs.call_direction || attrs.callDirection;
+  const convDirection = attrs.call_direction;
   if (convDirection) {
     return convDirection;
   }
@@ -114,8 +98,7 @@ const callDirection = computed(() => {
   const messages = props.chat.messages || [];
   const reversedMessages = [...messages].reverse();
   const lastVoiceMessage = reversedMessages.find(message => {
-    const ct = message.content_type || message.contentType;
-    return ct === 'voice_call' || ct === 12;
+    return message.content_type === 'voice_call';
   });
 
   const lastMessage = lastVoiceMessage || lastMessageInChat.value;
@@ -123,22 +106,24 @@ const callDirection = computed(() => {
     return undefined;
   }
 
-  const lastMessageAttrs =
-    lastMessage.content_attributes?.data ||
-    lastMessage.contentAttributes?.data ||
-    {};
+  const lastMessageAttrs = lastMessage.content_attributes?.data || {};
 
-  const messageDirection =
-    lastMessageAttrs.call_direction || lastMessageAttrs.callDirection;
+  const messageDirection = lastMessageAttrs.call_direction;
   if (messageDirection) {
     return messageDirection;
   }
 
-  const normalizedType = normalizeMessageType(lastMessage.message_type);
-  if (normalizedType === MESSAGE_TYPE.OUTGOING) {
+  const typeValue = lastMessage.message_type;
+  if (
+    typeValue === MESSAGE_TYPE.OUTGOING ||
+    typeValue?.toString().toLowerCase() === 'outgoing'
+  ) {
     return 'outbound';
   }
-  if (normalizedType === MESSAGE_TYPE.INCOMING) {
+  if (
+    typeValue === MESSAGE_TYPE.INCOMING ||
+    typeValue?.toString().toLowerCase() === 'incoming'
+  ) {
     return 'inbound';
   }
 

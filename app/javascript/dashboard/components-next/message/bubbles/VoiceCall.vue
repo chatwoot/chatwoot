@@ -10,33 +10,18 @@ const { contentAttributes, messageType } = useMessageContext();
 const data = computed(() => contentAttributes.value?.data);
 
 const status = computed(() => data.value?.status);
-const normalizeMessageType = typeValue => {
-  if (typeof typeValue === 'number') {
-    return typeValue;
-  }
-  if (typeof typeValue === 'string') {
-    const lowered = typeValue.toLowerCase();
-    if (lowered === 'outgoing') {
-      return MESSAGE_TYPE.OUTGOING;
-    }
-    if (lowered === 'incoming') {
-      return MESSAGE_TYPE.INCOMING;
-    }
-  }
-  return null;
-};
-
 const direction = computed(() => {
   const explicitDirection = data.value?.call_direction;
   if (explicitDirection) {
     return explicitDirection;
   }
 
-  const normalizedType = normalizeMessageType(messageType.value);
-  if (normalizedType === MESSAGE_TYPE.OUTGOING) {
+  const typeValue = messageType.value;
+  const normalized = typeValue?.toString().toLowerCase();
+  if (typeValue === MESSAGE_TYPE.OUTGOING || normalized === 'outgoing') {
     return 'outbound';
   }
-  if (normalizedType === MESSAGE_TYPE.INCOMING) {
+  if (typeValue === MESSAGE_TYPE.INCOMING || normalized === 'incoming') {
     return 'inbound';
   }
 

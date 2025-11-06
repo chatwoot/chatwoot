@@ -18,20 +18,16 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     let(:from_number) { '+15550003333' }
     let(:to_number) { channel.phone_number }
 
-    it 'invokes Voice::CallOrchestratorService for inbound calls and renders conference TwiML' do
-      orchestrator_double = instance_double(Voice::CallOrchestratorService)
+    it 'invokes Voice::InboundCallBuilder for inbound calls and renders conference TwiML' do
+      instance_double(Voice::InboundCallBuilder)
       conversation = create(:conversation, account: account, inbox: inbox)
 
-      expect(Voice::CallOrchestratorService).to receive(:new).with(
-        hash_including(
-          account: account,
-          inbox: inbox,
-          direction: :inbound,
-          phone_number: from_number,
-          call_sid: call_sid
-        )
-      ).and_return(orchestrator_double)
-      expect(orchestrator_double).to receive(:inbound!).and_return(conversation)
+      expect(Voice::InboundCallBuilder).to receive(:perform!).with(
+        account: account,
+        inbox: inbox,
+        from_number: from_number,
+        call_sid: call_sid
+      ).and_return(conversation)
 
       post "/twilio/voice/call/#{digits}", params: {
         'CallSid' => call_sid,
@@ -54,9 +50,11 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
           conversation: conversation,
           call_sid: call_sid,
           message_call_sid: conversation.identifier,
-          from_number: from_number,
-          to_number: to_number,
-          direction: 'outbound'
+          leg: {
+            from_number: from_number,
+            to_number: to_number,
+            direction: 'outbound'
+          }
         )
       ).and_return(sync_double)
 
@@ -82,9 +80,11 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
           conversation: conversation,
           call_sid: child_sid,
           message_call_sid: parent_sid,
-          from_number: from_number,
-          to_number: to_number,
-          direction: 'outbound'
+          leg: {
+            from_number: from_number,
+            to_number: to_number,
+            direction: 'outbound'
+          }
         )
       ).and_return(sync_double)
 
@@ -100,7 +100,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     end
 
     it 'raises not found when inbox is not present' do
-      expect(Voice::CallOrchestratorService).not_to receive(:new)
+      expect(Voice::InboundCallBuilder).not_to receive(:perform!)
       post '/twilio/voice/call/19998887777', params: {
         'CallSid' => call_sid,
         'From' => from_number,
@@ -120,7 +120,8 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         hash_including(
           account: account,
           call_sid: call_sid,
-          call_status: 'completed'
+          call_status: 'completed',
+          payload: hash_including('CallSid' => call_sid, 'CallStatus' => 'completed')
         )
       ).and_return(service_double)
       expect(service_double).to receive(:perform)

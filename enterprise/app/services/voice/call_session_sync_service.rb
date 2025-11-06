@@ -1,20 +1,23 @@
 class Voice::CallSessionSyncService
   attr_reader :conversation, :call_sid, :message_call_sid, :from_number, :to_number, :direction
 
-  def initialize(conversation:, call_sid:, from_number:, to_number:, direction:, message_call_sid: nil)
+  def initialize(conversation:, call_sid:, leg:, message_call_sid: nil)
     @conversation = conversation
     @call_sid = call_sid
     @message_call_sid = message_call_sid || call_sid
-    @from_number = from_number
-    @to_number = to_number
-    @direction = direction
+    @from_number = leg[:from_number]
+    @to_number = leg[:to_number]
+    @direction = leg[:direction]
   end
 
   def perform
     ActiveRecord::Base.transaction do
-      ensure_conference_sid!
-      refresh_conversation_metadata!
-      sync_voice_call_message!
+      attrs = refreshed_attributes
+      conversation.update!(
+        additional_attributes: attrs,
+        last_activity_at: Time.current
+      )
+      sync_voice_call_message!(attrs)
     end
 
     conversation
@@ -22,58 +25,43 @@ class Voice::CallSessionSyncService
 
   private
 
-  def ensure_conference_sid!
-    attrs = conversation.additional_attributes || {}
-    return if attrs['conference_sid'].present?
-
-    # We always persist the human-readable conference friendly name. Twilio's
-    # opaque ConferenceSid is stored separately (see controller callbacks) and
-    # is only used to correlate webhook payloads.
-    attrs['conference_sid'] = Voice::Conference::Name.for(conversation)
-    conversation.update!(additional_attributes: attrs)
-  end
-
-  def refresh_conversation_metadata!
+  def refreshed_attributes
     attrs = (conversation.additional_attributes || {}).dup
-    existing_direction = attrs['call_direction']
-    if existing_direction.present? && existing_direction != direction
-      raise ArgumentError, "Call direction mismatch (existing=#{existing_direction}, incoming=#{direction})"
-    end
     attrs['call_direction'] = direction
     attrs['call_status'] ||= 'ringing'
-    attrs['last_provider_event_at'] = Time.current.to_i
+    attrs['conference_sid'] ||= Voice::Conference::Name.for(conversation)
     attrs['meta'] ||= {}
-    attrs['meta']['initiated_at'] ||= Time.current.to_i
+    attrs['meta']['initiated_at'] ||= current_timestamp
+    attrs
+  end
 
-    conversation.update!(
-      additional_attributes: attrs,
-      last_activity_at: Time.current
+  def sync_voice_call_message!(attrs)
+    Voice::CallMessageBuilder.perform!(
+      conversation: conversation,
+      direction: direction,
+      payload: {
+        call_sid: message_call_sid,
+        status: attrs['call_status'],
+        conference_sid: attrs['conference_sid'],
+        from_number: origin_number_for(direction),
+        to_number: target_number_for(direction)
+      },
+      user: agent_for(attrs),
+      timestamps: {
+        created_at: attrs.dig('meta', 'initiated_at'),
+        ringing_at: attrs.dig('meta', 'ringing_at')
+      }
     )
   end
 
-  def sync_voice_call_message!
-    attrs = conversation.additional_attributes || {}
-    current_direction = direction
+  def origin_number_for(current_direction)
+    return outbound_origin if current_direction == 'outbound'
 
-    Voice::CallMessageBuilder.new(
-      conversation: conversation,
-      direction: current_direction,
-      call_sid: message_call_sid,
-      conference_sid: attrs['conference_sid'] || Voice::Conference::Name.for(conversation),
-      from_number: origin_number_for(current_direction),
-      to_number: target_number_for(current_direction),
-      user: agent_for(attrs)
-    ).perform
+    from_number.presence || inbox_number
   end
 
-  def origin_number_for(direction)
-    return conversation.inbox&.channel&.phone_number || from_number if direction == 'outbound'
-
-    from_number || conversation.inbox&.channel&.phone_number
-  end
-
-  def target_number_for(direction)
-    return conversation.contact&.phone_number || to_number if direction == 'outbound'
+  def target_number_for(current_direction)
+    return conversation.contact&.phone_number || to_number if current_direction == 'outbound'
 
     to_number || conversation.contact&.phone_number
   end
@@ -88,4 +76,15 @@ class Voice::CallSessionSyncService
     agent
   end
 
+  def current_timestamp
+    @current_timestamp ||= Time.current.to_i
+  end
+
+  def outbound_origin
+    inbox_number || from_number
+  end
+
+  def inbox_number
+    conversation.inbox&.channel&.phone_number
+  end
 end
