@@ -172,7 +172,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
-              post :call, to: 'calls#create' if ChatwootApp.enterprise?
+              post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
           resources :csat_survey_responses, only: [:index] do
