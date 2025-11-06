@@ -2,20 +2,22 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  internal_attributes   :jsonb            not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  settings              :jsonb
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                        :integer          not null, primary key
+#  active_chat_limit_enabled :boolean          default(FALSE)
+#  active_chat_limit_value   :integer          default(7)
+#  auto_resolve_duration     :integer
+#  custom_attributes         :jsonb
+#  domain                    :string(100)
+#  feature_flags             :bigint           default(0), not null
+#  internal_attributes       :jsonb            not null
+#  limits                    :jsonb
+#  locale                    :integer          default("en")
+#  name                      :string           not null
+#  settings                  :jsonb
+#  status                    :integer          default("active")
+#  support_email             :string(100)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 # Indexes
 #
@@ -53,6 +55,7 @@ class Account < ApplicationRecord
   }.freeze
 
   validates :name, presence: true
+  validates :active_chat_limit_value, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :domain, length: { maximum: 100 }
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
@@ -161,6 +164,14 @@ class Account < ApplicationRecord
     # we need to extract the language code from the locale
     account_locale = locale&.split('_')&.first
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
+  def active_chat_limit_enabled?
+    active_chat_limit_enabled
+  end
+
+  def active_chat_limit
+    active_chat_limit_value
   end
 
   private
