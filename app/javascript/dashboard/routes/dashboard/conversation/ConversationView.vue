@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useWindowSize } from '@vueuse/core';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
 import wootConstants from 'dashboard/constants/globals';
@@ -58,11 +59,13 @@ export default {
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
     const { accountId } = useAccount();
+    const { width: windowWidth } = useWindowSize();
 
     return {
       uiSettings,
       updateUISettings,
       accountId,
+      windowWidth,
     };
   },
   data() {
@@ -81,10 +84,19 @@ export default {
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
+    isMobileView() {
+      return this.windowWidth < wootConstants.SMALL_SCREEN_BREAKPOINT;
+    },
     showConversationList() {
+      if (this.isMobileView) {
+        return !this.conversationId;
+      }
       return this.isOnExpandedLayout ? !this.conversationId : true;
     },
     showMessageView() {
+      if (this.isMobileView) {
+        return this.conversationId && !this.shouldShowSidebar;
+      }
       return this.conversationId ? true : !this.isOnExpandedLayout;
     },
     isOnExpandedLayout() {
@@ -247,7 +259,9 @@ export default {
 
 <template>
   <section class="flex w-full h-full min-w-0 relative">
+    <!-- Desktop: Splitpanes layout -->
     <Splitpanes
+      v-if="!isMobileView"
       class="w-full h-full"
       :class="{ 'splitpanes-locked': isLayoutLocked }"
       @resized="onSplitpaneResize"
@@ -289,7 +303,34 @@ export default {
         <ConversationSidebar :current-chat="currentChat" />
       </Pane>
     </Splitpanes>
+
+    <!-- Mobile: Simple flex layout (one panel at a time) -->
+    <div v-else class="flex w-full h-full">
+      <div v-show="showConversationList" class="flex h-full w-full">
+        <ChatList
+          :show-conversation-list="showConversationList"
+          :conversation-inbox="inboxId"
+          :label="label"
+          :team-id="teamId"
+          :conversation-type="conversationType"
+          :folders-id="foldersId"
+          :is-on-expanded-layout="isOnExpandedLayout"
+          @conversation-load="onConversationLoad"
+        />
+      </div>
+      <div v-show="showMessageView" class="flex h-full w-full">
+        <ConversationBox
+          :inbox-id="inboxId"
+          :is-on-expanded-layout="isOnExpandedLayout"
+        />
+      </div>
+      <div v-show="shouldShowSidebar" class="flex h-full w-full">
+        <ConversationSidebar :current-chat="currentChat" />
+      </div>
+    </div>
+
     <button
+      v-if="!isMobileView"
       type="button"
       class="absolute top-4 right-4 z-50 flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors outline-none"
       :class="{

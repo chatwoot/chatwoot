@@ -1,10 +1,12 @@
 <script>
 import { mapGetters } from 'vuex';
+import { useWindowSize } from '@vueuse/core';
 import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
 import { useSourceChannelColors } from 'dashboard/composables/useSourceChannelColors';
+import wootConstants from 'dashboard/constants/globals';
 
 export default {
   components: {
@@ -35,9 +37,11 @@ export default {
   setup() {
     const { getSourceBgColor, getInboxBackgroundStyle } =
       useSourceChannelColors();
+    const { width: windowWidth } = useWindowSize();
     return {
       getSourceBgColor,
       getInboxBackgroundStyle,
+      windowWidth,
     };
   },
   data() {
@@ -48,6 +52,14 @@ export default {
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
+    isMobileView() {
+      return this.windowWidth < wootConstants.SMALL_SCREEN_BREAKPOINT;
+    },
+    shouldShowBackButton() {
+      return (
+        this.isMobileView || (this.isOnExpandedLayout && !this.isInboxView)
+      );
+    },
     conversationBgStyle() {
       const inboxId = this.currentChat?.inbox_id;
       if (!inboxId) return {};
@@ -115,7 +127,7 @@ export default {
     <ConversationHeader
       v-if="currentChat.id"
       :chat="currentChat"
-      :show-back-button="isOnExpandedLayout && !isInboxView"
+      :show-back-button="shouldShowBackButton"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
