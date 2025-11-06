@@ -73,7 +73,7 @@ describe Whatsapp::ChannelCreationService do
       it 'raises an error even if the channel belongs to a different account' do
         expect { service.perform }.to raise_error(
           RuntimeError,
-          I18n.t('api.whatsapp.phone_number_already_exists', phone_number: '+1234567890')
+          I18n.t('errors.whatsapp.phone_number_already_exists', phone_number: '+1234567890')
         )
       end
     end
