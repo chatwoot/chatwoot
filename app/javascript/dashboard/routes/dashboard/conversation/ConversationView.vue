@@ -384,8 +384,16 @@ export default {
   position: relative;
 }
 
+:is(.dark .splitpanes__splitter) {
+  background-color: rgb(51 65 85);
+}
+
 .splitpanes__splitter:hover {
   background-color: rgb(209 213 219);
+}
+
+:is(.dark .splitpanes__splitter:hover) {
+  background-color: rgb(71 85 105);
 }
 
 .splitpanes__splitter::before {
@@ -402,6 +410,10 @@ export default {
   transition: opacity 0.2s;
 }
 
+:is(.dark .splitpanes__splitter::before) {
+  background-color: rgb(100 116 139);
+}
+
 .splitpanes__splitter:hover::before {
   opacity: 1;
 }
@@ -413,6 +425,11 @@ export default {
   cursor: col-resize;
 }
 
+:is(.dark .splitpanes--vertical > .splitpanes__splitter) {
+  border-left-color: rgb(51 65 85);
+  border-right-color: rgb(51 65 85);
+}
+
 /* Disable resizing when locked */
 .splitpanes-locked .splitpanes__splitter {
   pointer-events: none;
@@ -422,6 +439,10 @@ export default {
 
 .splitpanes-locked .splitpanes__splitter:hover {
   background-color: rgb(229 231 235);
+}
+
+:is(.dark .splitpanes-locked .splitpanes__splitter:hover) {
+  background-color: rgb(51 65 85);
 }
 
 .splitpanes-locked .splitpanes__splitter::before {

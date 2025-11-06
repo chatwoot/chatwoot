@@ -59,7 +59,7 @@ const contextMenu = ref({
   y: null,
 });
 
-const { getSourceBgColor, getInboxBackgroundStyle } = useSourceChannelColors();
+const { getSourceBgColor } = useSourceChannelColors();
 
 const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
@@ -120,19 +120,6 @@ const messagePreviewClass = computed(() => {
     !props.compact && hasUnread.value ? 'ltr:pr-4 rtl:pl-4' : '',
     props.compact && hasUnread.value ? 'ltr:pr-6 rtl:pl-6' : '',
   ];
-});
-
-const sourceBgStyle = computed(() => {
-  const baseStyle = getInboxBackgroundStyle(inboxId.value);
-
-  if (isActiveChat.value && baseStyle.backgroundColor) {
-    const color = baseStyle.backgroundColor.slice(0, -2);
-    return {
-      backgroundColor: `${color}55`,
-    };
-  }
-
-  return baseStyle;
 });
 
 const formattedTimestamp = computed(() => {
@@ -280,7 +267,6 @@ const deleteConversation = () => {
       'px-0 border-l-0': compact,
       'px-3 border-l-0': !compact,
     }"
-    :style="sourceBgStyle"
     @click="onCardClick"
     @contextmenu="openContextMenu($event)"
   >
