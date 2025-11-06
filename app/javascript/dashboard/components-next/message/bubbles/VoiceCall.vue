@@ -4,21 +4,12 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import { useMessageContext } from '../provider.js';
 import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
 
-const { contentAttributes, messageType } = useMessageContext();
+const { contentAttributes } = useMessageContext();
 
 const data = computed(() => contentAttributes.value?.data);
 
 const status = computed(() => data.value?.status);
-const direction = computed(() => {
-  if (data.value?.call_direction) {
-    return data.value.call_direction;
-  }
-
-  if (messageType.value === 'outgoing') return 'outbound';
-  if (messageType.value === 'incoming') return 'inbound';
-
-  return undefined;
-});
+const direction = computed(() => data.value?.call_direction);
 
 const { labelKey, subtextKey, bubbleIconBg, bubbleIconName, bubbleIconText } =
   useVoiceCallStatus(status, direction);
