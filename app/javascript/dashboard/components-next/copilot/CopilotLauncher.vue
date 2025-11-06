@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useMapGetter } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -53,14 +54,17 @@ const toggleSidebar = () => {
     v-if="showCopilotLauncher"
     class="fixed bottom-4 ltr:right-4 rtl:left-4 z-50"
   >
-    <div class="rounded-full bg-n-alpha-2 p-1">
+    <ButtonGroup
+      class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow hover:shadow-md"
+    >
       <Button
         icon="i-woot-captain"
-        class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl"
+        no-animation
+        class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl transition-all duration-200 ease-out hover:brightness-110"
         lg
         @click="toggleSidebar"
       />
-    </div>
+    </ButtonGroup>
   </div>
   <template v-else />
 </template>
