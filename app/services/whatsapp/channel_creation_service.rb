@@ -10,9 +10,7 @@ class Whatsapp::ChannelCreationService
     validate_parameters!
 
     existing_channel = find_existing_channel
-    if existing_channel
-      raise "Channel already exists for this phone number: #{existing_channel.phone_number}, please contact support if the error persists"
-    end
+    raise I18n.t('api.whatsapp.phone_number_already_exists', phone_number: existing_channel.phone_number) if existing_channel
 
     create_channel_with_inbox
   end
