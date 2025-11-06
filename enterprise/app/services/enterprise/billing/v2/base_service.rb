@@ -13,10 +13,6 @@ class Enterprise::Billing::V2::BaseService
     )
   end
 
-  def v2_enabled?
-    ENV.fetch('STRIPE_BILLING_V2_ENABLED', 'false') == 'true'
-  end
-
   def response_monthly_credits
     account.limits&.[]('captain_responses_monthly').to_i
   end

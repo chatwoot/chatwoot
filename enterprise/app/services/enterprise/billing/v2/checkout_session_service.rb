@@ -1,21 +1,7 @@
-# V2 Billing Checkout Service
-#
-# This service creates Checkout Sessions for V2 Billing subscriptions using
-# checkout_items with pricing_plan_subscription_item.
-#
 class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2::BaseService
   include Enterprise::Billing::Concerns::PlanFeatureManager
   include Enterprise::Billing::Concerns::StripeV2ClientHelper
 
-  # Create a subscription checkout session
-  #
-  # Creates a Checkout Session with checkout_items containing the V2 Pricing Plan
-  # and component configurations for the license fee.
-  #
-  # @param pricing_plan_id [String] V2 Pricing Plan ID
-  # @param quantity [Integer] Number of licenses/seats
-  # @return [Hash] { success:, session_id:, redirect_url: } or error
-  #
   def create_subscription_checkout(pricing_plan_id:, quantity: 1)
     @pricing_plan_id = pricing_plan_id
     @quantity = quantity.to_i.positive? ? quantity.to_i : 1
@@ -26,9 +12,8 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
 
     validate_params
     store_pending_subscription_quantity
-    create_checkout_session
-  rescue Stripe::StripeError => e
-    { success: false, message: "Stripe API error: #{e.message}", error: e }
+    session = create_checkout_session
+    { success: true, redirect_url: session.url }
   end
 
   private
@@ -44,16 +29,6 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
                                'pending_subscription_quantity' => @quantity,
                                'pending_subscription_pricing_plan' => @pricing_plan_id
                              })
-  end
-
-  # Create Checkout Session with checkout_items
-  #
-  # Uses V2 Pricing Plans directly via checkout_items parameter.
-  # This creates a subscription with V2 Billing features automatically.
-  #
-  def create_checkout_session
-    session = super(checkout_session_params, api_version: checkout_stripe_version)
-    build_success_response(session)
   end
 
   def checkout_session_params
@@ -105,15 +80,6 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
       pricing_plan_id: @pricing_plan_id,
       quantity: @quantity,
       billing_version: 'v2'
-    }
-  end
-
-  def build_success_response(session)
-    session_url = session.respond_to?(:url) ? session.url : session['url']
-
-    {
-      success: true,
-      redirect_url: session_url
     }
   end
 end

@@ -5,7 +5,6 @@ RSpec.describe Enterprise::Billing::CreditSyncJob, type: :job do
 
   before do
     allow(ENV).to receive(:fetch).and_call_original
-    allow(ENV).to receive(:fetch).with('STRIPE_BILLING_V2_ENABLED', 'false').and_return('true')
     allow(ENV).to receive(:fetch).with('STRIPE_SECRET_KEY', nil).and_return('sk_test_123')
     allow(InstallationConfig).to receive(:find_by).and_call_original
     allow(InstallationConfig).to receive(:find_by).with(name: 'STRIPE_METER_ID')

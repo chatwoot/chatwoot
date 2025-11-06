@@ -1,6 +1,5 @@
 class Enterprise::Billing::V2::UsageReporterService < Enterprise::Billing::V2::BaseService
   def report(credits_used, _feature = nil)
-    return { success: false, message: 'V2 billing not enabled' } unless v2_enabled?
     return { success: false, message: 'Missing Stripe configuration' } unless valid_configuration?
 
     event = Stripe::Billing::MeterEvent.create(
