@@ -702,7 +702,7 @@ function scrollToPackage() {
           >
             <p>{{ $t('BILLING.NO_CUSTOM_PLANS') }}</p>
           </div>
-          <div v-else class="pricing-plans mt-4">
+          <div v-else class="custom-plans mt-4">
             <div v-for="plan in custom_plans" :key="plan.id" class="pricing-card bg-[#fff] dark:bg-[#23252d]">
               <div class="plan-header flex flex-row">
                 <div class="flex-1">
@@ -1187,8 +1187,9 @@ export default {
 
 .custom-plans {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
   gap: 1.5rem;
+  justify-content: center;
 }
 
 .pricing-card {
