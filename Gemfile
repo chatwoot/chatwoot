@@ -159,7 +159,7 @@ gem 'working_hours'
 gem 'pg_search'
 
 # Subscriptions, Billing
-gem 'stripe', '17.2.0.pre.beta.1'
+gem 'stripe', '17.2.0.pre.alpha.2'
 
 ## - helper gems --##
 ## to populate db with sample data

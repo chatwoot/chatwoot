@@ -19,12 +19,8 @@ class Enterprise::Billing::CreateStripeCustomerService
 
   def prepare_customer_id
     customer_id = account.custom_attributes['stripe_customer_id']
-    test_clock = Stripe::TestHelpers::TestClock.create({
-                                                         frozen_time: Time.now.to_i,
-                                                         name: 'Test Clock for Account'
-                                                       })
     if customer_id.blank?
-      customer = Stripe::Customer.create({ name: account.name, email: billing_email, test_clock: test_clock.id })
+      customer = Stripe::Customer.create({ name: account.name, email: billing_email })
       customer_id = customer.id
     end
     customer_id

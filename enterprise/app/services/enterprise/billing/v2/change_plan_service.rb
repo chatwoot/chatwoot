@@ -20,7 +20,7 @@ class Enterprise::Billing::V2::ChangePlanService < Enterprise::Billing::V2::Base
 
   def validate_parameters(new_pricing_plan_id, quantity)
     return { success: false, message: 'Must specify either new_pricing_plan_id or quantity' } if new_pricing_plan_id.nil? && quantity.nil?
-    return { success: false, message: 'Invalid quantity' } if quantity && !quantity.positive?
+    return { success: false, message: 'Invalid quantity' } if !quantity.nil? && !quantity.positive?
 
     # Validate customer has a default payment method using common service
     payment_service = Enterprise::Billing::V2::InvoicePaymentService.new(account: account)
