@@ -114,6 +114,8 @@ class Enterprise::Billing::HandleStripeEventService
     # Fallback: extract from amount object
     amount_data = extract_attribute(grant, :amount)
     return 0 unless amount_data
+
+    0
   end
 
   def extract_attribute(object, attribute)

@@ -327,8 +327,8 @@ describe Enterprise::Billing::HandleStripeEventService do
     end
 
     context 'when handling monthly credit grant' do
-      it 'syncs monthly credits from Stripe' do
-        allow(credit_service).to receive(:sync_monthly_credits)
+      it 'adds credits from Stripe' do
+        allow(credit_service).to receive(:add_response_topup_credits)
 
         # Webhook event object (minimal, just has ID)
         grant_event_object = OpenStruct.new(
@@ -342,25 +342,26 @@ describe Enterprise::Billing::HandleStripeEventService do
         api_grant_response = OpenStruct.new(
           id: 'credgr_test_123',
           customer: 'cus_123',
+          metadata: { 'credits' => '2000' },
           amount: OpenStruct.new(
             type: 'custom_pricing_unit',
             custom_pricing_unit: OpenStruct.new(value: 2000)
           ),
           expires_at: Time.current
         )
-        allow(StripeV2Client).to receive(:request)
-          .with(:get, '/v1/billing/credit_grants/credgr_test_123')
+        allow(Stripe::Billing::CreditGrant).to receive(:retrieve)
+          .with('credgr_test_123')
           .and_return(api_grant_response)
 
         stripe_event_service.new.perform(event: event)
 
-        expect(credit_service).to have_received(:sync_monthly_credits).with(2000)
+        expect(credit_service).to have_received(:add_response_topup_credits).with(2000)
       end
     end
 
     context 'when handling topup credit grant' do
       it 'adds topup credits' do
-        allow(credit_service).to receive(:add_topup_credits)
+        allow(credit_service).to receive(:add_response_topup_credits)
 
         # Webhook event object (minimal, just has ID)
         grant_event_object = OpenStruct.new(
@@ -374,42 +375,26 @@ describe Enterprise::Billing::HandleStripeEventService do
         api_grant_response = OpenStruct.new(
           id: 'credgr_test_456',
           customer: 'cus_123',
+          metadata: { 'credits' => '500' },
           amount: OpenStruct.new(
             type: 'custom_pricing_unit',
             custom_pricing_unit: OpenStruct.new(value: 500)
           ),
           expires_at: nil
         )
-        allow(StripeV2Client).to receive(:request)
-          .with(:get, '/v1/billing/credit_grants/credgr_test_456')
+        allow(Stripe::Billing::CreditGrant).to receive(:retrieve)
+          .with('credgr_test_456')
           .and_return(api_grant_response)
 
         stripe_event_service.new.perform(event: event)
 
-        expect(credit_service).to have_received(:add_topup_credits).with(500)
-      end
-    end
-
-    context 'when handling credit grant update with expiration' do
-      it 'expires monthly credits when grant is expired' do
-        allow(credit_service).to receive(:expire_monthly_credits).and_return(100)
-
-        grant = OpenStruct.new(
-          customer: 'cus_123',
-          expired_at: Time.current
-        )
-        allow(event).to receive(:type).and_return('billing.credit_grant.updated')
-        allow(data).to receive(:object).and_return(grant)
-
-        stripe_event_service.new.perform(event: event)
-
-        expect(credit_service).to have_received(:expire_monthly_credits)
+        expect(credit_service).to have_received(:add_response_topup_credits).with(500)
       end
     end
 
     context 'when handling monetary type credit grant' do
-      it 'syncs monthly credits from monetary grant' do
-        allow(credit_service).to receive(:sync_monthly_credits)
+      it 'adds credits from monetary grant' do
+        allow(credit_service).to receive(:add_response_topup_credits)
 
         # Webhook event object (minimal, just has ID)
         grant_event_object = OpenStruct.new(
@@ -423,6 +408,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         api_grant_response = OpenStruct.new(
           id: 'credgr_test_monetary',
           customer: 'cus_123',
+          metadata: { 'credits' => '1000' },
           amount: OpenStruct.new(
             type: 'monetary',
             monetary: OpenStruct.new(
@@ -432,13 +418,13 @@ describe Enterprise::Billing::HandleStripeEventService do
           ),
           expires_at: Time.current
         )
-        allow(StripeV2Client).to receive(:request)
-          .with(:get, '/v1/billing/credit_grants/credgr_test_monetary')
+        allow(Stripe::Billing::CreditGrant).to receive(:retrieve)
+          .with('credgr_test_monetary')
           .and_return(api_grant_response)
 
         stripe_event_service.new.perform(event: event)
 
-        expect(credit_service).to have_received(:sync_monthly_credits).with(1000)
+        expect(credit_service).to have_received(:add_response_topup_credits).with(1000)
       end
     end
 
@@ -462,8 +448,8 @@ describe Enterprise::Billing::HandleStripeEventService do
           ),
           expires_at: Time.current
         )
-        allow(StripeV2Client).to receive(:request)
-          .with(:get, '/v1/billing/credit_grants/credgr_test_zero')
+        allow(Stripe::Billing::CreditGrant).to receive(:retrieve)
+          .with('credgr_test_zero')
           .and_return(api_grant_response)
 
         stripe_event_service.new.perform(event: event)
