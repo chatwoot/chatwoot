@@ -2,18 +2,20 @@
 #
 # Table name: account_users
 #
-#  id                       :bigint           not null, primary key
-#  active_at                :datetime
-#  auto_offline             :boolean          default(TRUE), not null
-#  availability             :integer          default("online"), not null
-#  role                     :integer          default("agent")
-#  created_at               :datetime         not null
-#  updated_at               :datetime         not null
-#  account_id               :bigint
-#  agent_capacity_policy_id :bigint
-#  custom_role_id           :bigint
-#  inviter_id               :bigint
-#  user_id                  :bigint
+#  id                        :bigint           not null, primary key
+#  active_at                 :datetime
+#  active_chat_limit         :integer
+#  active_chat_limit_enabled :boolean          default(FALSE), not null
+#  auto_offline              :boolean          default(TRUE), not null
+#  availability              :integer          default("online"), not null
+#  role                      :integer          default("agent")
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  account_id                :bigint
+#  agent_capacity_policy_id  :bigint
+#  custom_role_id            :bigint
+#  inviter_id                :bigint
+#  user_id                   :bigint
 #
 # Indexes
 #
@@ -41,6 +43,7 @@ class AccountUser < ApplicationRecord
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
   validates :user_id, uniqueness: { scope: :account_id }
+  validates :active_chat_limit, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
   def create_notification_setting
     setting = user.notification_settings.new(account_id: account.id)
@@ -64,6 +67,10 @@ class AccountUser < ApplicationRecord
       role: role,
       user_id: user_id
     }
+  end
+
+  def active_chat_limit_enabled?
+    active_chat_limit_enabled
   end
 
   private
