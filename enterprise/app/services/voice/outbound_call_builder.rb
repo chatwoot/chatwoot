@@ -43,7 +43,6 @@ class Voice::OutboundCallBuilder
     attrs = {
       'call_direction' => 'outbound',
       'call_status' => 'ringing',
-      'requires_agent_join' => true,
       'agent_id' => user.id,
       'conference_sid' => nil,
       'meta' => { 'initiated_at' => timestamp }
@@ -71,7 +70,6 @@ class Voice::OutboundCallBuilder
     attrs = (conversation.additional_attributes || {}).dup
     attrs['call_direction'] = 'outbound'
     attrs['call_status'] = 'ringing'
-    attrs['requires_agent_join'] = true
     attrs['agent_id'] = user.id
     attrs['conference_sid'] ||= Voice::Conference::Name.for(conversation)
     attrs['meta'] ||= {}

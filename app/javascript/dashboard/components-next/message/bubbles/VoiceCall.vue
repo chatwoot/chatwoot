@@ -11,17 +11,21 @@ const data = computed(() => contentAttributes.value?.data);
 
 const status = computed(() => data.value?.status);
 const direction = computed(() => {
-  const explicitDirection = data.value?.call_direction;
-  if (explicitDirection) {
-    return explicitDirection;
+  if (data.value?.call_direction) {
+    return data.value.call_direction;
   }
 
-  const typeValue = messageType.value;
-  const normalized = typeValue?.toString().toLowerCase();
-  if (typeValue === MESSAGE_TYPE.OUTGOING || normalized === 'outgoing') {
+  if (
+    messageType.value === MESSAGE_TYPE.OUTGOING ||
+    messageType.value === 'outgoing'
+  ) {
     return 'outbound';
   }
-  if (typeValue === MESSAGE_TYPE.INCOMING || normalized === 'incoming') {
+
+  if (
+    messageType.value === MESSAGE_TYPE.INCOMING ||
+    messageType.value === 'incoming'
+  ) {
     return 'inbound';
   }
 

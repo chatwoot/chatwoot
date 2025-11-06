@@ -39,11 +39,8 @@ RSpec.describe Voice::OutboundCallBuilder do
       aggregate_failures do
         expect(result[:call_sid]).to eq(call_sid)
         expect(conversation.identifier).to eq(call_sid)
-        expect(attrs).to include(
-          'call_direction' => 'outbound',
-          'call_status' => 'ringing',
-          'agent_id' => user.id
-        )
+        expect(attrs).to include('call_direction' => 'outbound', 'call_status' => 'ringing')
+        expect(attrs['agent_id']).to eq(user.id)
         expect(attrs['conference_sid']).to be_present
 
         voice_message = conversation.messages.voice_calls.last

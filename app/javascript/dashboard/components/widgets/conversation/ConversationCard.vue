@@ -88,7 +88,7 @@ const callStatus = computed(
 );
 
 const callDirection = computed(
-  () => props.chat.additional_attributes?.call_direction || undefined
+  () => props.chat.additional_attributes?.call_direction
 );
 
 const {

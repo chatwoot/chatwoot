@@ -1,5 +1,5 @@
 class Voice::CallStatus::Manager
-  pattr_initialize [:conversation!, :call_sid, :provider]
+  pattr_initialize [:conversation!, :call_sid]
 
   ALLOWED_STATUSES = %w[ringing in-progress completed no-answer failed].freeze
   TERMINAL_STATUSES = %w[completed no-answer failed].freeze

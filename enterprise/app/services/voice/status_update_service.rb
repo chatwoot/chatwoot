@@ -24,8 +24,7 @@ class Voice::StatusUpdateService
 
     Voice::CallStatus::Manager.new(
       conversation: conversation,
-      call_sid: call_sid,
-      provider: :twilio
+      call_sid: call_sid
     ).process_status_update(
       normalized_status,
       duration: payload_duration,

@@ -20,8 +20,7 @@ class Voice::Conference::Manager
   def status_manager
     @status_manager ||= Voice::CallStatus::Manager.new(
       conversation: conversation,
-      call_sid: call_sid,
-      provider: :twilio
+      call_sid: call_sid
     )
   end
 
