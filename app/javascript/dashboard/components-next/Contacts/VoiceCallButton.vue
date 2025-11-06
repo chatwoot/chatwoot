@@ -13,7 +13,7 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const props = defineProps({
   phone: { type: String, default: '' },
-  contactId: { type: [String, Number], default: null },
+  contactId: { type: [String, Number], required: true },
   label: { type: String, default: '' },
   icon: { type: [String, Object, Function], default: '' },
   size: { type: String, default: 'sm' },
@@ -41,23 +41,13 @@ const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
 const dialogRef = ref(null);
 const isProcessing = ref(false);
 
-const showSuccess = () => useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
-const showFailure = message =>
-  useAlert(message || t('CONTACT_PANEL.CALL_FAILED'));
-
 const startCall = async inboxId => {
   if (isProcessing.value) return;
 
-  const targetContactId = props.contactId ?? route.params.contactId;
-  if (!targetContactId) {
-    showFailure();
-    return;
-  }
-
   try {
     isProcessing.value = true;
-    const response = await ContactsAPI.initiateCall(targetContactId, inboxId);
-    showSuccess();
+    const response = await ContactsAPI.initiateCall(props.contactId, inboxId);
+    useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
     const conversationId = response?.data?.conversation_id;
     const accountId = route.params.accountId;
     if (conversationId && accountId) {
@@ -74,7 +64,7 @@ const startCall = async inboxId => {
       error?.message ||
       error?.response?.data?.error ||
       error?.response?.data?.message;
-    showFailure(apiError);
+    useAlert(apiError || t('CONTACT_PANEL.CALL_FAILED'));
   } finally {
     isProcessing.value = false;
   }
@@ -86,13 +76,12 @@ const onClick = async () => {
     return;
   }
   const [inbox] = voiceInboxes.value;
-  if (!inbox) return;
   await startCall(inbox.id);
 };
 
 const onPickInbox = async inbox => {
-  await startCall(inbox.id);
   dialogRef.value?.close();
+  await startCall(inbox.id);
 };
 </script>
 

@@ -32,13 +32,9 @@ class Voice::CallMessageBuilder
   end
 
   def update_message!(message)
-    attrs = message.content_attributes&.deep_dup || {}
-    attrs['data'] ||= {}
-    attrs['data'].merge!(base_payload)
-
     message.update!(
       message_type: message_type,
-      content_attributes: attrs,
+      content_attributes: { 'data' => base_payload },
       sender: sender
     )
   end
@@ -63,7 +59,7 @@ class Voice::CallMessageBuilder
         :from_number,
         :to_number
       ).stringify_keys
-      data['call_direction'] ||= direction
+      data['call_direction'] = direction
       data['meta'] = {
         'created_at' => timestamps[:created_at] || current_timestamp,
         'ringing_at' => timestamps[:ringing_at] || current_timestamp
@@ -89,6 +85,6 @@ class Voice::CallMessageBuilder
   end
 
   def current_timestamp
-    @current_timestamp ||= Time.current.to_i
+    @current_timestamp ||= Time.zone.now.to_i
   end
 end

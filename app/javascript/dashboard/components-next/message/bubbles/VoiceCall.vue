@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import { useMessageContext } from '../provider.js';
 import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
 
 const { contentAttributes, messageType } = useMessageContext();
 
@@ -15,19 +14,8 @@ const direction = computed(() => {
     return data.value.call_direction;
   }
 
-  if (
-    messageType.value === MESSAGE_TYPE.OUTGOING ||
-    messageType.value === 'outgoing'
-  ) {
-    return 'outbound';
-  }
-
-  if (
-    messageType.value === MESSAGE_TYPE.INCOMING ||
-    messageType.value === 'incoming'
-  ) {
-    return 'inbound';
-  }
+  if (messageType.value === 'outgoing') return 'outbound';
+  if (messageType.value === 'incoming') return 'inbound';
 
   return undefined;
 });

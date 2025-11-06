@@ -29,7 +29,7 @@ class Voice::CallStatus::Manager
 
     conversation.update!(
       additional_attributes: attrs,
-      last_activity_at: Time.current
+      last_activity_at: current_time
     )
   end
 
@@ -57,6 +57,10 @@ class Voice::CallStatus::Manager
   end
 
   def now_seconds
-    Time.current.to_i
+    current_time.to_i
+  end
+
+  def current_time
+    @current_time ||= Time.zone.now
   end
 end

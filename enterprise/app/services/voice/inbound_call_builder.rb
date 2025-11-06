@@ -13,12 +13,14 @@ class Voice::InboundCallBuilder
   end
 
   def perform!
+    timestamp = current_timestamp
+
     ActiveRecord::Base.transaction do
       contact = ensure_contact!
       contact_inbox = ensure_contact_inbox!(contact)
       conversation = find_conversation || create_conversation!(contact, contact_inbox)
-      touch_conversation!(conversation)
-      build_voice_message!(conversation, contact)
+      update_conversation!(conversation, timestamp)
+      build_voice_message!(conversation, timestamp)
       conversation
     end
   end
@@ -47,42 +49,31 @@ class Voice::InboundCallBuilder
   end
 
   def create_conversation!(contact, contact_inbox)
-    timestamp = current_timestamp
-    attrs = {
-      'call_direction' => 'inbound',
-      'call_status' => 'ringing',
-      'conference_sid' => nil,
-      'meta' => { 'initiated_at' => timestamp }
-    }
-
     account.conversations.create!(
       contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
       contact_id: contact.id,
       status: :open,
+      identifier: call_sid
+    )
+  end
+
+  def update_conversation!(conversation, timestamp)
+    attrs = {
+      'call_direction' => 'inbound',
+      'call_status' => 'ringing',
+      'conference_sid' => Voice::Conference::Name.for(conversation),
+      'meta' => { 'initiated_at' => timestamp }
+    }
+
+    conversation.update!(
       identifier: call_sid,
-      additional_attributes: attrs
-    ).tap do |conversation|
-      attrs['conference_sid'] = Voice::Conference::Name.for(conversation)
-      conversation.update!(additional_attributes: attrs)
-    end
+      additional_attributes: attrs,
+      last_activity_at: current_time
+    )
   end
 
-  def touch_conversation!(conversation)
-    timestamp = current_timestamp
-    attrs = (conversation.additional_attributes || {}).dup
-    attrs['call_direction'] = 'inbound'
-    attrs['call_status'] = 'ringing'
-    attrs['conference_sid'] ||= Voice::Conference::Name.for(conversation)
-    attrs['meta'] ||= {}
-    attrs['meta']['initiated_at'] ||= timestamp
-
-    updates = { additional_attributes: attrs, last_activity_at: Time.current }
-    updates[:identifier] = call_sid if call_sid.present? && conversation.identifier != call_sid
-    conversation.update!(updates)
-  end
-
-  def build_voice_message!(conversation, _contact)
+  def build_voice_message!(conversation, timestamp)
     Voice::CallMessageBuilder.perform!(
       conversation: conversation,
       direction: 'inbound',
@@ -93,14 +84,15 @@ class Voice::InboundCallBuilder
         from_number: from_number,
         to_number: inbox.channel&.phone_number
       },
-      timestamps: {
-        created_at: current_timestamp,
-        ringing_at: current_timestamp
-      }
+      timestamps: { created_at: timestamp, ringing_at: timestamp }
     )
   end
 
   def current_timestamp
-    @current_timestamp ||= Time.current.to_i
+    @current_timestamp ||= current_time.to_i
+  end
+
+  def current_time
+    @current_time ||= Time.zone.now
   end
 end

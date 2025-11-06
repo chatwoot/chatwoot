@@ -15,7 +15,7 @@ class Voice::CallSessionSyncService
       attrs = refreshed_attributes
       conversation.update!(
         additional_attributes: attrs,
-        last_activity_at: Time.current
+        last_activity_at: current_time
       )
       sync_voice_call_message!(attrs)
     end
@@ -77,7 +77,11 @@ class Voice::CallSessionSyncService
   end
 
   def current_timestamp
-    @current_timestamp ||= Time.current.to_i
+    @current_timestamp ||= current_time.to_i
+  end
+
+  def current_time
+    @current_time ||= Time.zone.now
   end
 
   def outbound_origin

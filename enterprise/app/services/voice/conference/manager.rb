@@ -39,22 +39,22 @@ class Voice::Conference::Manager
   end
 
   def mark_in_progress!
-    status_manager.process_status_update('in-progress', timestamp: Time.current.to_i)
+    status_manager.process_status_update('in-progress', timestamp: current_timestamp)
   end
 
   def handle_leave!
     case current_status
     when 'ringing'
-      status_manager.process_status_update('no-answer', timestamp: Time.current.to_i)
+      status_manager.process_status_update('no-answer', timestamp: current_timestamp)
     when 'in-progress'
-      status_manager.process_status_update('completed', timestamp: Time.current.to_i)
+      status_manager.process_status_update('completed', timestamp: current_timestamp)
     end
   end
 
   def finalize_conference!
     return if %w[completed no-answer failed].include?(current_status)
 
-    status_manager.process_status_update('completed', timestamp: Time.current.to_i)
+    status_manager.process_status_update('completed', timestamp: current_timestamp)
   end
 
   def current_status
@@ -63,5 +63,9 @@ class Voice::Conference::Manager
 
   def agent_participant?
     participant_label.to_s.start_with?('agent')
+  end
+
+  def current_timestamp
+    Time.zone.now.to_i
   end
 end

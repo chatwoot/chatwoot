@@ -16,13 +16,15 @@ class Voice::OutboundCallBuilder
     raise ArgumentError, 'Contact phone number required' if contact.phone_number.blank?
     raise ArgumentError, 'Agent required' if user.blank?
 
+    timestamp = current_timestamp
+
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
       conversation = create_conversation!(contact_inbox)
-      conference_sid = conversation.additional_attributes['conference_sid']
+      conference_sid = Voice::Conference::Name.for(conversation)
       call_sid = initiate_call!
-      finalize_conversation!(conversation, call_sid)
-      build_voice_message!(conversation, call_sid, conference_sid)
+      update_conversation!(conversation, call_sid, conference_sid, timestamp)
+      build_voice_message!(conversation, call_sid, conference_sid, timestamp)
       { conversation: conversation, call_sid: call_sid }
     end
   end
@@ -39,25 +41,12 @@ class Voice::OutboundCallBuilder
   end
 
   def create_conversation!(contact_inbox)
-    timestamp = current_timestamp
-    attrs = {
-      'call_direction' => 'outbound',
-      'call_status' => 'ringing',
-      'agent_id' => user.id,
-      'conference_sid' => nil,
-      'meta' => { 'initiated_at' => timestamp }
-    }
-
     account.conversations.create!(
       contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
       contact_id: contact.id,
-      status: :open,
-      additional_attributes: attrs
-    ).tap do |conversation|
-      attrs['conference_sid'] = Voice::Conference::Name.for(conversation)
-      conversation.update!(additional_attributes: attrs)
-    end
+      status: :open
+    )
   end
 
   def initiate_call!
@@ -66,22 +55,23 @@ class Voice::OutboundCallBuilder
     )[:call_sid]
   end
 
-  def finalize_conversation!(conversation, call_sid)
-    attrs = (conversation.additional_attributes || {}).dup
-    attrs['call_direction'] = 'outbound'
-    attrs['call_status'] = 'ringing'
-    attrs['agent_id'] = user.id
-    attrs['conference_sid'] ||= Voice::Conference::Name.for(conversation)
-    attrs['meta'] ||= {}
-    attrs['meta']['initiated_at'] ||= current_timestamp
+  def update_conversation!(conversation, call_sid, conference_sid, timestamp)
+    attrs = {
+      'call_direction' => 'outbound',
+      'call_status' => 'ringing',
+      'agent_id' => user.id,
+      'conference_sid' => conference_sid,
+      'meta' => { 'initiated_at' => timestamp }
+    }
+
     conversation.update!(
       identifier: call_sid,
       additional_attributes: attrs,
-      last_activity_at: Time.current
+      last_activity_at: current_time
     )
   end
 
-  def build_voice_message!(conversation, call_sid, conference_sid)
+  def build_voice_message!(conversation, call_sid, conference_sid, timestamp)
     Voice::CallMessageBuilder.perform!(
       conversation: conversation,
       direction: 'outbound',
@@ -93,14 +83,15 @@ class Voice::OutboundCallBuilder
         to_number: contact.phone_number
       },
       user: user,
-      timestamps: {
-        created_at: current_timestamp,
-        ringing_at: current_timestamp
-      }
+      timestamps: { created_at: timestamp, ringing_at: timestamp }
     )
   end
 
   def current_timestamp
-    @current_timestamp ||= Time.current.to_i
+    @current_timestamp ||= current_time.to_i
+  end
+
+  def current_time
+    @current_time ||= Time.zone.now
   end
 end

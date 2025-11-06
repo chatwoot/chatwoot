@@ -1,149 +1,95 @@
 import { computed, unref } from 'vue';
 
-const CALL_STATUSES = {
-  IN_PROGRESS: 'in-progress',
-  RINGING: 'ringing',
-  COMPLETED: 'completed',
-  NO_ANSWER: 'no-answer',
-  FAILED: 'failed',
-};
-
-const CALL_DIRECTIONS = {
-  INBOUND: 'inbound',
-  OUTBOUND: 'outbound',
-};
-
-/**
- * Composable for handling voice call status display logic
- * @param {Ref|string} statusRef - Call status (ringing, in-progress, etc.)
- * @param {Ref|string} directionRef - Call direction (inbound, outbound)
- * @returns {Object} UI properties for displaying call status
- */
 export function useVoiceCallStatus(statusRef, directionRef) {
   const status = computed(() => unref(statusRef)?.toString());
   const direction = computed(() => unref(directionRef)?.toString());
 
-  // Status group helpers
-  const isFailedStatus = computed(() =>
-    [CALL_STATUSES.NO_ANSWER, CALL_STATUSES.FAILED].includes(status.value)
-  );
-  const isCompleted = computed(() => status.value === CALL_STATUSES.COMPLETED);
-  const isOutbound = computed(
-    () => direction.value === CALL_DIRECTIONS.OUTBOUND
+  const isOutbound = computed(() => direction.value === 'outbound');
+  const isFailed = computed(() =>
+    ['no-answer', 'failed'].includes(status.value)
   );
 
   const labelKey = computed(() => {
-    const s = status.value;
-
-    if (s === CALL_STATUSES.IN_PROGRESS) {
-      return 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS';
+    switch (status.value) {
+      case 'in-progress':
+        return 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS';
+      case 'ringing':
+        return isOutbound.value
+          ? 'CONVERSATION.VOICE_CALL.OUTGOING_CALL'
+          : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
+      case 'completed':
+        return 'CONVERSATION.VOICE_CALL.CALL_ENDED';
+      default:
+        return isFailed.value
+          ? 'CONVERSATION.VOICE_CALL.MISSED_CALL'
+          : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
     }
-
-    if (s === CALL_STATUSES.RINGING) {
-      return isOutbound.value
-        ? 'CONVERSATION.VOICE_CALL.OUTGOING_CALL'
-        : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
-    }
-
-    if (isFailedStatus.value) {
-      return 'CONVERSATION.VOICE_CALL.MISSED_CALL';
-    }
-
-    if (isCompleted.value) {
-      return 'CONVERSATION.VOICE_CALL.CALL_ENDED';
-    }
-
-    return 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
   });
 
   const subtextKey = computed(() => {
-    const s = status.value;
-
-    if (s === CALL_STATUSES.RINGING) {
-      return 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET';
+    switch (status.value) {
+      case 'ringing':
+        return 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET';
+      case 'in-progress':
+        return isOutbound.value
+          ? 'CONVERSATION.VOICE_CALL.THEY_ANSWERED'
+          : 'CONVERSATION.VOICE_CALL.YOU_ANSWERED';
+      case 'completed':
+        return 'CONVERSATION.VOICE_CALL.CALL_ENDED';
+      default:
+        return isFailed.value
+          ? 'CONVERSATION.VOICE_CALL.NO_ANSWER'
+          : 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET';
     }
-
-    if (s === CALL_STATUSES.IN_PROGRESS) {
-      return isOutbound.value
-        ? 'CONVERSATION.VOICE_CALL.THEY_ANSWERED'
-        : 'CONVERSATION.VOICE_CALL.YOU_ANSWERED';
-    }
-
-    if (isFailedStatus.value) {
-      return 'CONVERSATION.VOICE_CALL.NO_ANSWER';
-    }
-
-    if (isCompleted.value) {
-      return 'CONVERSATION.VOICE_CALL.CALL_ENDED';
-    }
-
-    return 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET';
   });
 
-  const bubbleIconName = computed(() => {
-    const s = status.value;
+  const defaultIcon = computed(() =>
+    isOutbound.value ? 'i-ph-phone-outgoing' : 'i-ph-phone-incoming'
+  );
 
-    if (s === CALL_STATUSES.IN_PROGRESS) {
+  const bubbleIconName = computed(() => {
+    if (status.value === 'in-progress') {
       return 'i-ph-phone-call';
     }
-
-    if (isFailedStatus.value) {
+    if (isFailed.value) {
       return 'i-ph-phone-x';
     }
-
-    if (isCompleted.value) {
-      return isOutbound.value ? 'i-ph-phone-outgoing' : 'i-ph-phone-incoming';
-    }
-
-    return isOutbound.value ? 'i-ph-phone-outgoing' : 'i-ph-phone-incoming';
+    return defaultIcon.value;
   });
 
   const bubbleIconBg = computed(() => {
-    const s = status.value;
-
-    if (s === CALL_STATUSES.IN_PROGRESS) {
+    if (status.value === 'in-progress') {
       return 'bg-n-teal-9';
     }
-
-    if (isFailedStatus.value) {
+    if (isFailed.value) {
       return 'bg-n-ruby-9';
     }
-
-    if (isCompleted.value) {
+    if (status.value === 'completed') {
       return 'bg-n-slate-11';
     }
-
-    // default (e.g., ringing)
     return 'bg-n-teal-9 animate-pulse';
   });
 
   const bubbleIconText = computed(() => {
-    if (isFailedStatus.value) {
+    if (isFailed.value) {
       return 'text-white';
     }
-
-    if (isCompleted.value) {
+    if (status.value === 'completed') {
       return 'text-n-slate-1';
     }
-
     return 'text-white';
   });
 
   const listIconColor = computed(() => {
-    const s = status.value;
-
-    if (s === CALL_STATUSES.IN_PROGRESS || s === CALL_STATUSES.RINGING) {
+    if (['in-progress', 'ringing'].includes(status.value)) {
       return 'text-n-teal-9';
     }
-
-    if (isFailedStatus.value) {
+    if (isFailed.value) {
       return 'text-n-ruby-9';
     }
-
-    if (isCompleted.value) {
+    if (status.value === 'completed') {
       return 'text-n-slate-11';
     }
-
     return 'text-n-teal-9';
   });
 
