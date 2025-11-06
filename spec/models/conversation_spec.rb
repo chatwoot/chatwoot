@@ -576,9 +576,38 @@ RSpec.describe Conversation do
       expect(conversation.status).to eq('pending')
     end
 
-    it 'returns conversation as open if campaign is present' do
-      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: create(:campaign))
-      expect(conversation.status).to eq('open')
+    context 'with campaigns' do
+      let(:user) { create(:user, account: bot_inbox.inbox.account) }
+
+      it 'returns conversation as open if campaign has a sender' do
+        campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: user)
+        conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'returns conversation as pending if campaign has no sender (bot-initiated) and bot is active' do
+        campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: nil)
+        conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
+        expect(conversation.status).to eq('pending')
+      end
+    end
+
+    context 'with campaigns in inbox without bot' do
+      let(:account) { create(:account) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:user) { create(:user, account: account) }
+
+      it 'returns conversation as open if campaign has no sender but no bot is active' do
+        campaign = create(:campaign, inbox: inbox, account: account, sender: nil)
+        conversation = create(:conversation, inbox: inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'returns conversation as open if campaign has a sender' do
+        campaign = create(:campaign, inbox: inbox, account: account, sender: user)
+        conversation = create(:conversation, inbox: inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
     end
   end
 
