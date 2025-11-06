@@ -67,7 +67,7 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
     service = Enterprise::Billing::V2::ChangePlanService.new(account: @account)
     result = service.change_plan(
       new_pricing_plan_id: params[:pricing_plan_id],
-      quantity: params[:quantity].to_i
+      quantity: params[:quantity]&.to_i
     )
 
     if result[:success]

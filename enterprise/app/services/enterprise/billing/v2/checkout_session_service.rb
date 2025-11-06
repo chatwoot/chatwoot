@@ -12,7 +12,7 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
 
     validate_params
     store_pending_subscription_quantity
-    session = create_checkout_session
+    session = create_checkout_session(checkout_session_params)
     { success: true, redirect_url: session.url }
   end
 
