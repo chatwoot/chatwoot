@@ -1,4 +1,9 @@
+# Provides utility methods for data transformation, hash manipulation, and JSON parsing.
+# This module contains helper methods for converting between different data types,
+# normalizing hashes, and safely handling JSON operations.
 module DataHelper
+  # Ensures a hash supports indifferent access (string or symbol keys).
+  # Returns an empty hash if the input is blank.
   def ensure_indifferent_access(hash)
     return {} if hash.blank?
 
