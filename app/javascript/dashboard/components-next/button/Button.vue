@@ -36,6 +36,7 @@ const props = defineProps({
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
   isLoading: { type: Boolean, default: false },
+  noAnimation: { type: Boolean, default: false },
 });
 
 const slots = useSlots();
@@ -179,12 +180,18 @@ const STYLE_CONFIG = {
     md: 'text-sm font-medium',
     lg: 'text-base',
   },
+  clickAnimation: {
+    xs: 'active:enabled:scale-[0.97]',
+    sm: 'active:enabled:scale-[0.97]',
+    md: 'active:enabled:scale-[0.98]',
+    lg: 'active:enabled:scale-[0.98]',
+  },
   justify: {
     start: 'justify-start',
     center: 'justify-center',
     end: 'justify-end',
   },
-  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-200 ease-in-out border-0 rounded-lg outline-1 outline disabled:opacity-50',
+  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0 rounded-lg outline-1 outline disabled:opacity-50',
 };
 
 const variantClasses = computed(() => {
@@ -221,6 +228,12 @@ const linkButtonClasses = computed(() => {
 
   return classes.join(' ');
 });
+
+const animationClasses = computed(() => {
+  return props.noAnimation
+    ? ''
+    : STYLE_CONFIG.clickAnimation[computedSize.value];
+});
 </script>
 
 <template>
@@ -230,6 +243,7 @@ const linkButtonClasses = computed(() => {
       [STYLE_CONFIG.base]: true,
       [isLink ? linkButtonClasses : buttonClasses]: true,
       [STYLE_CONFIG.fontSize[computedSize]]: true,
+      [animationClasses]: true,
       [STYLE_CONFIG.justify[computedJustify]]: true,
       'flex-row-reverse': trailingIcon && !isIconOnly,
     }"
