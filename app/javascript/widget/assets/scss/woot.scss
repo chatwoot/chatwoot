@@ -380,3 +380,97 @@ blockquote {
     --white-alpha: 255, 255, 255, 0.1;
   }
 }
+
+/* =========================
+ * HYFER — Widget UI overrides
+ * 放在 woot.scss 最底部
+ * ========================= */
+
+/* 整體訊息卡片間距拉開一點 */
+.woot-widget-holder .message-content {
+  @apply space-y-2;
+}
+
+/* ===== input_select：把每個選項做成「滿版按鈕」風 ===== */
+.woot-widget-holder .woot--input-select,
+.woot-widget-holder .rich-content--input-select {
+  @apply mt-2 space-y-2;
+}
+
+/* 兼容不同渲染方式：按鈕 / a 連結 */
+.woot-widget-holder .woot--input-select button,
+.woot-widget-holder .woot--input-select a,
+.woot-widget-holder .rich-content--input-select button,
+.woot-widget-holder .rich-content--input-select a {
+  @apply w-full block text-left rounded-lg bg-white dark:bg-n-alpha-2
+         border border-n-slate-4 dark:border-n-alpha-3
+         px-4 py-3 text-[15px] leading-5 font-medium
+         text-n-slate-12 hover:bg-n-slate-3/70
+         transition-colors;
+
+  /* 讓內容一行時置中感更強 */
+  line-height: 1.25;
+}
+
+/* icon + 文字的排版（如果你會在 title 前放 emoji/小圖示） */
+.woot-widget-holder .woot--input-select button > *,
+.woot-widget-holder .woot--input-select a > * {
+  @apply align-middle;
+}
+
+/* Focus 狀態更明顯（鍵盤操作會用到） */
+.woot-widget-holder .woot--input-select button:focus-visible,
+.woot-widget-holder .woot--input-select a:focus-visible {
+  @apply outline-none ring-2 ring-n-brand;
+}
+
+/* ===== form：讓 select / input 更一致、好點擊 ===== */
+.woot-widget-holder .woot--form {
+  @apply mt-2 space-y-3;
+}
+
+.woot-widget-holder .woot--form label {
+  @apply text-[13px] text-n-slate-11;
+}
+
+.woot-widget-holder .woot--form input:not(.reset-base),
+.woot-widget-holder .woot--form textarea:not(.reset-base),
+.woot-widget-holder .woot--form select:not(.reset-base) {
+  @apply rounded-lg bg-n-background dark:bg-n-alpha-2
+         border border-n-slate-4 dark:border-n-alpha-3
+         text-[15px] text-n-slate-12 px-3 py-2.5 w-full;
+}
+
+/* select 的下拉箭頭更清楚（沿用你原本的 data-URI 箭頭） */
+.woot-widget-holder .woot--form select:not(.reset-base) {
+  @apply ltr:pr-10 rtl:pl-10;
+}
+
+/* 送出/下一步按鈕（如果 form 有 actions） */
+.woot-widget-holder .woot--form .woot--actions button,
+.woot-widget-holder .woot--form button[type="submit"] {
+  @apply w-full h-11 rounded-lg bg-n-brand text-white font-medium
+         hover:brightness-110 active:brightness-125;
+}
+
+/* ===== cards：如果不小心用到卡片，也讓它乾淨一點 ===== */
+.woot-widget-holder .woot--cards,
+.woot-widget-holder .rich-content--cards {
+  @apply grid gap-2;
+}
+
+.woot-widget-holder .woot--cards .card,
+.woot-widget-holder .rich-content--cards .card {
+  @apply rounded-lg bg-white dark:bg-n-alpha-2
+         border border-n-slate-4 dark:border-n-alpha-3
+         p-3;
+}
+
+.woot-widget-holder .woot--cards .card .title {
+  @apply font-semibold text-n-slate-12 mb-1;
+}
+
+.woot-widget-holder .woot--cards .card .description {
+  @apply text-sm text-n-slate-11;
+}
+
