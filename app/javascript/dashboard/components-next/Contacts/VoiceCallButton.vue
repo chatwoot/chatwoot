@@ -1,11 +1,12 @@
 <script setup>
 import { computed, ref, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useAlert } from 'dashboard/composables';
 import ContactsAPI from 'dashboard/api/contacts';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -22,6 +23,7 @@ const props = defineProps({
 defineOptions({ inheritAttrs: false });
 const attrs = useAttrs();
 const route = useRoute();
+const router = useRouter();
 
 const { t } = useI18n();
 
@@ -54,8 +56,19 @@ const startCall = async inboxId => {
 
   try {
     isProcessing.value = true;
-    await ContactsAPI.initiateCall(targetContactId, inboxId);
+    const response = await ContactsAPI.initiateCall(targetContactId, inboxId);
     showSuccess();
+    const conversationId = response?.data?.conversation_id;
+    const accountId = route.params.accountId;
+    if (conversationId && accountId) {
+      const path = frontendURL(
+        conversationUrl({
+          accountId,
+          id: conversationId,
+        })
+      );
+      router.push({ path });
+    }
   } catch (error) {
     const apiError =
       error?.message ||
