@@ -20,7 +20,7 @@ export const validateAuthenticateRoutePermission = (to, next) => {
 
   const { accounts = [], account_id: accountId } = user;
 
-  if (accounts.length === 0) {
+  if (!accounts.length) {
     if (to.name === 'no_accounts') {
       return next();
     }
