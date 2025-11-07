@@ -252,7 +252,7 @@
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "ID Account Business",
-          "PLACEHOLDER": "Si prega di inserire l'ID dell'account business ottenuto dalla dashboard sviluppatore di Facebook.",
+          "PLACEHOLDER": "Inserisci l'ID dell'Account Business ottenuto dalla dashboard sviluppatore di Facebook.",
           "ERROR": "Inserisci un valore valido."
         },
         "WEBHOOK_VERIFY_TOKEN": {

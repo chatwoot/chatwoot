@@ -107,7 +107,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Stai utilizzando l'integrazione Slack",
-        "BODY": "Con questa integrazione, tutte le conversazioni in arrivo verranno sincronizzate nel canale ***{selectedChannelName}*** del tuo workspace Slack. Potrai gestire tutte le conversazioni con i clienti direttamente dal canale e non perderai mai un messaggio.\n\nEcco le principali funzionalità dell’integrazione:\n\n**Rispondi alle conversazioni direttamente da Slack:** Per rispondere a una conversazione nel canale Slack ***{selectedChannelName}***, ti basta scrivere il tuo messaggio e inviarlo come thread. Questo genererà automaticamente una risposta al cliente tramite Chatwoot. Semplice, no?\n\n**Crea note private:** Se vuoi aggiungere note private invece di risposte, inizia il messaggio con ***`note:`***. In questo modo il messaggio resterà privato e non sarà visibile al cliente.\n\n**Associa un profilo operatore:** Se la persona che risponde su Slack ha un profilo operatore in Chatwoot con lo stesso indirizzo email, le risposte verranno associate automaticamente a quel profilo. In questo modo potrai sapere facilmente chi ha risposto e quando. Se invece chi risponde non ha un profilo operatore associato, le risposte verranno inviate al cliente dal profilo del bot.",
+        "BODY": "Con questa integrazione, tutte le conversazioni in arrivo verranno sincronizzate nel canale ***{selectedChannelName}*** del tuo workspace Slack. Potrai gestire tutte le conversazioni con i clienti direttamente dal canale e non perderai mai un messaggio.\n\nEcco le principali funzionalità dell’integrazione:\n\n**Rispondi alle conversazioni direttamente da Slack:** Per rispondere a una conversazione nel canale Slack ***{selectedChannelName}***, ti basta scrivere il tuo messaggio e inviarlo come thread. Questo genererà automaticamente una risposta al cliente tramite Chatwoot. Semplice, no?\n\n**Crea note private:** Se vuoi aggiungere note private invece di risposte, inizia il messaggio con ***`note:`***. In questo modo il messaggio resterà privato e non sarà visibile al cliente.\n\n**Associa un profilo operatore:** Se la persona che risponde su Slack ha un profilo operatore in app con lo stesso indirizzo email, le risposte verranno associate automaticamente a quel profilo. In questo modo potrai sapere facilmente chi ha risposto e quando. Se invece chi risponde non ha un profilo operatore associato, le risposte verranno inviate al cliente dal profilo del bot.",
         "SELECTED": "selezionato"
       },
       "SELECT_CHANNEL": {
@@ -472,7 +472,7 @@
         "FEATURES": {
           "TITLE": "Funzionalità",
           "ALLOW_CONVERSATION_FAQS": "Genera FAQ dalle conversazioni risolte",
-          "ALLOW_MEMORIES": "Cattura i dettagli chiave come memorie dalle interazioni con i clienti.",
+          "ALLOW_MEMORIES": "Salva memorie e dettagli chiave dalle interazioni con i clienti.",
           "ALLOW_CITATIONS": "Includi citazioni alle fonti nelle risposte"
         }
       },
@@ -694,8 +694,8 @@
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
       "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "TITLE": "FAQ Correlate",
+        "DESCRIPTION": "Queste FAQ vengono generate direttamente dai Documenti."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -740,7 +740,7 @@
         "ERROR_MESSAGE": "Si è verificato un errore durante l'eliminazione del documento, riprova."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Visualizza Risposte Correlate",
+        "VIEW_RELATED_RESPONSES": "Visualizza FAQ Correlate",
         "DELETE_DOCUMENT": "Elimina Documento"
       },
       "EMPTY_STATE": {
@@ -895,7 +895,7 @@
       "FILTER": {
         "ASSISTANT": "Assistente: {selected}",
         "STATUS": "Stato: {selected}",
-        "ALL_ASSISTANTS": "Tutte"
+        "ALL_ASSISTANTS": "Tutti"
       },
       "STATUS": {
         "TITLE": "Stato",
