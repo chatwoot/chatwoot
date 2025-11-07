@@ -1,7 +1,9 @@
-<script>
+<script setup>
+import { ref, reactive, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email, sameAs } from '@vuelidate/validators';
-import { mapGetters } from 'vuex';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
@@ -17,172 +19,180 @@ import * as CompanyEmailValidator from 'company-email-validator';
 const MIN_PASSWORD_LENGTH = 6;
 const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/;
 
-export default {
-  components: {
-    FormInput,
-    GoogleOAuthButton,
-    NextButton,
-    SimpleDivider,
-    Icon,
-    VueHcaptcha,
-  },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      credentials: {
-        accountName: '',
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        hCaptchaClientResponse: '',
+const store = useStore();
+const { t } = useI18n();
+
+const hCaptcha = ref(null);
+const credentials = reactive({
+  accountName: 'Raj',
+  fullName: 'Raj',
+  email: 'raj@chatwoot.com',
+  password: 'Raj@123',
+  hCaptchaClientResponse: '',
+});
+const didCaptchaReset = ref(false);
+const isSignupInProgress = ref(false);
+const isPasswordFocused = ref(false);
+
+const rules = computed(() => ({
+  credentials: {
+    accountName: {
+      required,
+      minLength: minLength(2),
+    },
+    fullName: {
+      required,
+      minLength: minLength(2),
+    },
+    email: {
+      required,
+      email,
+      businessEmailValidator(value) {
+        return CompanyEmailValidator.isCompanyEmail(value);
       },
-      didCaptchaReset: false,
-      isSignupInProgress: false,
-      error: '',
-    };
-  },
-  validations() {
-    return {
-      credentials: {
-        accountName: {
-          required,
-          minLength: minLength(2),
-        },
-        fullName: {
-          required,
-          minLength: minLength(2),
-        },
-        email: {
-          required,
-          email,
-          businessEmailValidator(value) {
-            return CompanyEmailValidator.isCompanyEmail(value);
-          },
-        },
-        password: {
-          required,
-          isValidPassword,
-          minLength: minLength(MIN_PASSWORD_LENGTH),
-        },
-        confirmPassword: {
-          required,
-          minLength: minLength(MIN_PASSWORD_LENGTH),
-          sameAsPassword: sameAs(this.credentials.password),
-        },
-      },
-    };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    termsLink() {
-      return this.$t('REGISTER.TERMS_ACCEPT')
-        .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
-        .replace(
-          'https://www.chatwoot.com/privacy-policy',
-          this.globalConfig.privacyURL
-        );
     },
-    hasAValidCaptcha() {
-      if (this.globalConfig.hCaptchaSiteKey) {
-        return !!this.credentials.hCaptchaClientResponse;
-      }
-      return true;
-    },
-    confirmPasswordErrorText() {
-      const { confirmPassword } = this.v$.credentials;
-      if (!confirmPassword.$error) return '';
-      if (confirmPassword.sameAsPassword.$invalid) {
-        return this.$t('REGISTER.CONFIRM_PASSWORD.ERROR');
-      }
-      return '';
-    },
-    showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
-    },
-    isFormValid() {
-      return !this.v$.$invalid && this.hasAValidCaptcha;
-    },
-    passwordRequirements() {
-      const password = this.credentials.password || '';
-      return {
-        length: password.length >= MIN_PASSWORD_LENGTH,
-        uppercase: /[A-Z]/.test(password),
-        lowercase: /[a-z]/.test(password),
-        number: /[0-9]/.test(password),
-        special: SPECIAL_CHAR_REGEX.test(password),
-      };
-    },
-    passwordRequirementItems() {
-      const reqs = this.passwordRequirements;
-      return [
-        {
-          id: 'length',
-          met: reqs.length,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH', {
-            min: MIN_PASSWORD_LENGTH,
-          }),
-        },
-        {
-          id: 'uppercase',
-          met: reqs.uppercase,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE'),
-        },
-        {
-          id: 'lowercase',
-          met: reqs.lowercase,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE'),
-        },
-        {
-          id: 'number',
-          met: reqs.number,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER'),
-        },
-        {
-          id: 'special',
-          met: reqs.special,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL'),
-        },
-      ];
-    },
-    passwordRequirementsMet() {
-      return Object.values(this.passwordRequirements).every(Boolean);
+    password: {
+      required,
+      isValidPassword,
+      minLength: minLength(MIN_PASSWORD_LENGTH),
     },
   },
-  methods: {
-    async submit() {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        this.resetCaptcha();
-        return;
-      }
-      this.isSignupInProgress = true;
-      try {
-        await register(this.credentials);
-        window.location = DEFAULT_REDIRECT_URL;
-      } catch (error) {
-        let errorMessage =
-          error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
-        this.resetCaptcha();
-        useAlert(errorMessage);
-      } finally {
-        this.isSignupInProgress = false;
-      }
+}));
+
+const v$ = useVuelidate(rules, { credentials });
+
+const globalConfig = computed(() => store.getters['globalConfig/get']);
+
+const termsLink = computed(() => {
+  return t('REGISTER.TERMS_ACCEPT')
+    .replace('https://www.chatwoot.com/terms', globalConfig.value.termsURL)
+    .replace(
+      'https://www.chatwoot.com/privacy-policy',
+      globalConfig.value.privacyURL
+    );
+});
+
+const hasAValidCaptcha = computed(() => {
+  if (globalConfig.value.hCaptchaSiteKey) {
+    return !!credentials.hCaptchaClientResponse;
+  }
+  return true;
+});
+
+const showGoogleOAuth = computed(() => {
+  return Boolean(window.chatwootConfig.googleOAuthClientId);
+});
+
+const isFormValid = computed(() => {
+  return !v$.value.$invalid;
+});
+
+const passwordRequirements = computed(() => {
+  const password = credentials.password || '';
+  return {
+    length: password.length >= MIN_PASSWORD_LENGTH,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: SPECIAL_CHAR_REGEX.test(password),
+  };
+});
+
+const passwordRequirementItems = computed(() => {
+  const reqs = passwordRequirements.value;
+  return [
+    {
+      id: 'length',
+      met: reqs.length,
+      label: t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH', {
+        min: MIN_PASSWORD_LENGTH,
+      }),
     },
-    onRecaptchaVerified(token) {
-      this.credentials.hCaptchaClientResponse = token;
-      this.didCaptchaReset = false;
-      this.v$.$touch();
+    {
+      id: 'uppercase',
+      met: reqs.uppercase,
+      label: t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE'),
     },
-    resetCaptcha() {
-      if (!this.globalConfig.hCaptchaSiteKey) return;
-      this.$refs.hCaptcha.reset();
-      this.credentials.hCaptchaClientResponse = '';
-      this.didCaptchaReset = true;
+    {
+      id: 'lowercase',
+      met: reqs.lowercase,
+      label: t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE'),
     },
-  },
+    {
+      id: 'number',
+      met: reqs.number,
+      label: t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER'),
+    },
+    {
+      id: 'special',
+      met: reqs.special,
+      label: t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL'),
+    },
+  ];
+});
+
+const passwordRequirementsMet = computed(() => {
+  return Object.values(passwordRequirements.value).every(Boolean);
+});
+
+const resetCaptcha = () => {
+  if (!globalConfig.value.hCaptchaSiteKey) return;
+  hCaptcha.value.reset();
+  credentials.hCaptchaClientResponse = '';
+  didCaptchaReset.value = true;
+};
+
+const submit = async () => {
+  v$.value.$touch();
+  if (v$.value.$invalid) {
+    resetCaptcha();
+    return;
+  }
+
+  // For invisible captcha, execute it first
+  if (globalConfig.value.hCaptchaSiteKey && !credentials.hCaptchaClientResponse) {
+    hCaptcha.value.execute();
+    return;
+  }
+
+  isSignupInProgress.value = true;
+  try {
+    await register(credentials);
+    window.location = DEFAULT_REDIRECT_URL;
+  } catch (error) {
+    let errorMessage = error?.message || t('REGISTER.API.ERROR_MESSAGE');
+    resetCaptcha();
+    useAlert(errorMessage);
+  } finally {
+    isSignupInProgress.value = false;
+  }
+};
+
+const onRecaptchaVerified = (token) => {
+  credentials.hCaptchaClientResponse = token;
+  didCaptchaReset.value = false;
+  v$.value.$touch();
+  // Auto-submit after captcha verification for invisible mode
+  submit();
+};
+
+const onCaptchaExpired = () => {
+  credentials.hCaptchaClientResponse = '';
+  didCaptchaReset.value = true;
+};
+
+const onCaptchaError = (error) => {
+  credentials.hCaptchaClientResponse = '';
+  didCaptchaReset.value = true;
+  useAlert(t('SET_NEW_PASSWORD.CAPTCHA.ERROR'));
+};
+
+const handlePasswordBlur = () => {
+  v$.value.credentials.password.$touch();
+  // Delay hiding requirements to allow submit button click to register
+  setTimeout(() => {
+    isPasswordFocused.value = false;
+  }, 150);
 };
 </script>
 
@@ -233,47 +243,49 @@ export default {
         :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
         :has-error="v$.credentials.password.$error"
         aria-describedby="password-requirements"
-        @blur="v$.credentials.password.$touch"
+        @focus="isPasswordFocused = true"
+        @blur="handlePasswordBlur"
       />
       <div
-        id="password-requirements"
-        class="text-xs rounded-md px-4 py-3 outline outline-1 outline-n-weak bg-n-alpha-black2"
+        class="grid transition-all duration-300 ease-out"
+        :class="isPasswordFocused ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
       >
-        <ul role="list" class="grid grid-cols-2 gap-1">
-          <li
-            v-for="item in passwordRequirementItems"
-            :key="item.id"
-            class="inline-flex gap-1 items-start"
+        <div class="overflow-hidden">
+          <div
+            v-show="isPasswordFocused"
+            id="password-requirements"
+            class="text-xs rounded-md px-4 py-3 outline outline-1 outline-n-weak bg-n-alpha-black2"
           >
-            <Icon
-              class="flex-none flex-shrink-0 w-3 mt-0.5"
-              :icon="item.met ? 'i-lucide-circle-check-big' : 'i-lucide-circle'"
-              :class="item.met ? 'text-n-teal-10' : 'text-n-slate-10'"
-            />
+            <ul role="list" class="grid grid-cols-2 gap-1">
+              <li
+                v-for="item in passwordRequirementItems"
+                :key="item.id"
+                class="inline-flex gap-1 items-start"
+              >
+                <Icon
+                  class="flex-none flex-shrink-0 w-3 mt-0.5"
+                  :icon="item.met ? 'i-lucide-circle-check-big' : 'i-lucide-circle'"
+                  :class="item.met ? 'text-n-teal-10' : 'text-n-slate-10'"
+                />
 
-            <span :class="item.met ? 'text-n-slate-11' : 'text-n-slate-10'">
-              {{ item.label }}
-            </span>
-          </li>
-        </ul>
+                <span :class="item.met ? 'text-n-slate-11' : 'text-n-slate-10'">
+                  {{ item.label }}
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <FormInput
-        v-model="credentials.confirmPassword"
-        type="password"
-        name="confirm_password"
-        :class="{ error: v$.credentials.confirmPassword.$error }"
-        :label="$t('REGISTER.CONFIRM_PASSWORD.LABEL')"
-        :placeholder="$t('REGISTER.CONFIRM_PASSWORD.PLACEHOLDER')"
-        :has-error="v$.credentials.confirmPassword.$error"
-        :error-message="confirmPasswordErrorText"
-        @blur="v$.credentials.confirmPassword.$touch"
-      />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
         <VueHcaptcha
           ref="hCaptcha"
           :class="{ error: !hasAValidCaptcha && didCaptchaReset }"
           :sitekey="globalConfig.hCaptchaSiteKey"
+          size="invisible"
           @verify="onRecaptchaVerified"
+          @expired="onCaptchaExpired"
+          @challenge-expired="onCaptchaExpired"
+          @error="onCaptchaError"
         />
         <span
           v-if="!hasAValidCaptcha && didCaptchaReset"
