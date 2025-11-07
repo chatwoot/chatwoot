@@ -17,7 +17,7 @@ const props = defineProps({
   messageType: {
     type: String,
     default: 'info',
-    validator: value => ['info', 'error', 'success'].includes(value),
+    validator: value => !value || ['info', 'error', 'success'].includes(value),
   },
   min: { type: String, default: '' },
   max: { type: String, default: '' },
@@ -39,25 +39,26 @@ const uniqueId = computed(() => props.id || `input-${uid}`);
 const isFocused = ref(false);
 const inputRef = ref(null);
 
-const messageClass = computed(() => {
-  switch (props.messageType) {
-    case 'error':
-      return 'text-n-ruby-9 dark:text-n-ruby-9';
-    case 'success':
-      return 'text-n-teal-10 dark:text-n-teal-10';
-    default:
-      return 'text-n-slate-11 dark:text-n-slate-11';
-  }
-});
+const MESSAGE_STYLES = {
+  error: 'text-n-ruby-9 dark:text-n-ruby-9',
+  success: 'text-n-teal-10 dark:text-n-teal-10',
+  info: 'text-n-slate-11 dark:text-n-slate-11',
+};
 
-const inputOutlineClass = computed(() => {
-  switch (props.messageType) {
-    case 'error':
-      return 'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8';
-    default:
-      return 'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak focus:outline-n-brand dark:focus:outline-n-brand';
-  }
-});
+const OUTLINE_STYLES = {
+  error:
+    'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8',
+  default:
+    'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak focus:outline-n-brand dark:focus:outline-n-brand',
+};
+
+const messageClass = computed(
+  () => MESSAGE_STYLES[props.messageType || 'info'] || MESSAGE_STYLES.info
+);
+
+const inputOutlineClass = computed(
+  () => OUTLINE_STYLES[props.messageType || 'info'] || OUTLINE_STYLES.default
+);
 
 const handleInput = event => {
   let value = event.target.value;
@@ -145,7 +146,7 @@ onMounted(() => {
     />
     <p
       v-if="message"
-      class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+      class="min-w-0 mt-0.5 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
       :class="messageClass"
     >
       {{ message }}
