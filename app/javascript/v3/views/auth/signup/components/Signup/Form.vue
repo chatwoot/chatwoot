@@ -24,10 +24,10 @@ const { t } = useI18n();
 
 const hCaptcha = ref(null);
 const credentials = reactive({
-  accountName: 'Raj',
-  fullName: 'Raj',
-  email: 'raj@chatwoot.com',
-  password: 'Raj@123',
+  accountName: '',
+  fullName: '',
+  email: '',
+  password: '',
   hCaptchaClientResponse: '',
 });
 const didCaptchaReset = ref(false);
@@ -149,7 +149,9 @@ const submit = async () => {
     return;
   }
 
-  // For invisible captcha, execute it first
+  // For invisible captcha, there is no user input. We have to execute it if when
+  // the user submits the form. If 99.9% Passive mode is enabled, the users won't
+  // be prompted to solve the captcha
   if (globalConfig.value.hCaptchaSiteKey && !credentials.hCaptchaClientResponse) {
     hCaptcha.value.execute();
     return;
