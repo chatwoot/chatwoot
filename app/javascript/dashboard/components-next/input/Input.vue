@@ -133,48 +133,52 @@ onMounted(() => {
     </label>
     <!-- Added prefix slot to allow adding icons to the input -->
     <slot name="prefix" />
-    <input
-      :id="uniqueId"
-      v-bind="$attrs"
-      ref="inputRef"
-      :value="modelValue"
-      :class="[
-        customInputClass,
-        inputOutlineClass,
-        sizeClass,
-        {
-          error: messageType === 'error',
-          focus: isFocused,
-          'ltr:!pr-10 rtl:!pl-10': isPasswordField,
-        },
-      ]"
-      :type="currentInputType"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :min="['date', 'datetime-local', 'time'].includes(type) ? min : undefined"
-      :max="
-        ['date', 'datetime-local', 'time', 'number'].includes(type)
-          ? max
-          : undefined
-      "
-      class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-      @input="handleInput"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @keyup.enter="handleEnter"
-    />
-    <Button
-      v-if="isPasswordField"
-      type="button"
-      slate
-      sm
-      link
-      class="absolute inset-y-0 ltr:right-3.5 rtl:left-3.5"
-      :icon="isPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-      :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
-      :aria-pressed="isPasswordVisible"
-      @click="togglePasswordVisibility()"
-    />
+    <div class="relative">
+      <input
+        :id="uniqueId"
+        v-bind="$attrs"
+        ref="inputRef"
+        :value="modelValue"
+        :class="[
+          customInputClass,
+          inputOutlineClass,
+          sizeClass,
+          {
+            error: messageType === 'error',
+            focus: isFocused,
+            'ltr:!pr-10 rtl:!pl-10': isPasswordField,
+          },
+        ]"
+        :type="currentInputType"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :min="
+          ['date', 'datetime-local', 'time'].includes(type) ? min : undefined
+        "
+        :max="
+          ['date', 'datetime-local', 'time', 'number'].includes(type)
+            ? max
+            : undefined
+        "
+        class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @keyup.enter="handleEnter"
+      />
+      <Button
+        v-if="isPasswordField"
+        type="button"
+        slate
+        sm
+        link
+        class="absolute inset-y-0 ltr:right-3.5 rtl:left-3.5"
+        :icon="isPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+        :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
+        :aria-pressed="isPasswordVisible"
+        @click="togglePasswordVisibility()"
+      />
+    </div>
     <p
       v-if="message"
       class="min-w-0 mt-0.5 mb-0 text-xs truncate transition-all duration-500 ease-in-out"

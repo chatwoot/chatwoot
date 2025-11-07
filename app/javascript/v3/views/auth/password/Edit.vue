@@ -2,7 +2,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
-import FormInput from '../../../components/Form/Input.vue';
+import FormInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
@@ -99,24 +99,30 @@ export default {
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>
 
-      <div class="space-y-5">
+      <div class="space-y-6 mt-5">
         <FormInput
           v-model="credentials.password"
-          class="mt-3"
           name="password"
           type="password"
-          :has-error="v$.credentials.password.$error"
-          :error-message="$t('SET_NEW_PASSWORD.PASSWORD.ERROR')"
+          :message-type="v$.credentials.password.$error ? 'error' : ''"
+          :message="
+            v$.credentials.password.$error
+              ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
+              : ''
+          "
           :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
           @blur="v$.credentials.password.$touch"
         />
         <FormInput
           v-model="credentials.confirmPassword"
-          class="mt-3"
           name="confirm_password"
           type="password"
-          :has-error="v$.credentials.confirmPassword.$error"
-          :error-message="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')"
+          :message-type="v$.credentials.confirmPassword.$error ? 'error' : ''"
+          :message="
+            v$.credentials.confirmPassword.$error
+              ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
+              : ''
+          "
           :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
           @blur="v$.credentials.confirmPassword.$touch"
         />
