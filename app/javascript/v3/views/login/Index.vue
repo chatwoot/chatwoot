@@ -12,7 +12,7 @@ import { useBranding } from 'shared/composables/useBranding';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
-import FormInput from '../../components/Form/Input.vue';
+import FormInput from 'dashboard/components-next/input/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -287,11 +287,12 @@ export default {
             name="email_address"
             type="text"
             data-testid="email_input"
+            autocomplete="email"
             :tabindex="1"
             required
             :label="$t('LOGIN.EMAIL.LABEL')"
             :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
-            :has-error="v$.credentials.email.$error"
+            :message-type="v$.credentials.email.$error ? 'error' : ''"
             @input="v$.credentials.email.$touch"
           />
           <FormInput
@@ -299,22 +300,28 @@ export default {
             type="password"
             name="password"
             data-testid="password_input"
+            autocomplete="current-password"
             required
             :tabindex="2"
             :label="$t('LOGIN.PASSWORD.LABEL')"
             :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
-            :has-error="v$.credentials.password.$error"
+            :message-type="v$.credentials.password.$error ? 'error' : ''"
             @input="v$.credentials.password.$touch"
           >
-            <p v-if="!globalConfig.disableUserProfileUpdate">
-              <router-link
-                to="auth/reset/password"
-                class="text-sm text-link"
-                tabindex="4"
+            <template #prefix>
+              <p
+                v-if="!globalConfig.disableUserProfileUpdate"
+                class="absolute ltr:right-0 rtl:left-0"
               >
-                {{ $t('LOGIN.FORGOT_PASSWORD') }}
-              </router-link>
-            </p>
+                <router-link
+                  to="auth/reset/password"
+                  class="text-sm text-link"
+                  tabindex="4"
+                >
+                  {{ $t('LOGIN.FORGOT_PASSWORD') }}
+                </router-link>
+              </p>
+            </template>
           </FormInput>
           <NextButton
             lg

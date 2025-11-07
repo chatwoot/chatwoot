@@ -104,6 +104,7 @@ export default {
           v-model="credentials.password"
           name="password"
           type="password"
+          autocomplete="new-password"
           :message-type="v$.credentials.password.$error ? 'error' : ''"
           :message="
             v$.credentials.password.$error
@@ -117,6 +118,7 @@ export default {
           v-model="credentials.confirmPassword"
           name="confirm_password"
           type="password"
+          autocomplete="confirm-password"
           :message-type="v$.credentials.confirmPassword.$error ? 'error' : ''"
           :message="
             v$.credentials.confirmPassword.$error
