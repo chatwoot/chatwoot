@@ -60,6 +60,9 @@
         <div v-show="activeIndex === 5" class="w-full">
           <ProductCatalogTab :data="data" />
         </div>
+        <div v-show="activeIndex === 6" class="w-full">
+          <CustomNumberingTab :data="data" />
+        </div>
       </div>
 
       <!-- Submit Button -->
@@ -84,6 +87,7 @@ import CategoryTab from './cs-bot-tabs/CategoryTab.vue'
 import PrioritiesTab from './cs-bot-tabs/PrioritiesTab.vue'
 import ProductCatalogTab from './cs-bot-tabs/ProductCatalogTab.vue'
 import GeneralTab from './cs-bot-tabs/GeneralTab.vue'
+import CustomNumberingTab from './cs-bot-tabs/CustomNumberingTab.vue'
 
 const { t } = useI18n()
 

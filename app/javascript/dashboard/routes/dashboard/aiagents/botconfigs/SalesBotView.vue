@@ -1385,6 +1385,12 @@
               context="sales"
             />
           </div>
+
+          <!-- Custom Numbering Content -->
+          <div v-show="activeTabIndex === 5" class="w-full">
+            <CustomNumberingTab :data="data" />
+          </div>
+
         </div>
       </div>
     </div>
@@ -1404,6 +1410,7 @@ import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
 // AI Agents API
 import aiAgents from '../../../../api/aiAgents';
 import { useAlert } from 'dashboard/composables';
+import CustomNumberingTab from './cs-bot-tabs/CustomNumberingTab.vue';
 
 const { t } = useI18n()
 
@@ -1735,6 +1742,12 @@ const tabs = computed(() => [
     index: 4,
     name: 'QnA',
     icon: 'i-lucide-help-circle',
+  },
+  {
+    key: '5',
+    index: 5,
+    name: 'Penomoran Otomatis',
+    icon: 'i-lucide-notebook-tabs',
   },
 ])
 const activeTabIndex = ref(0);

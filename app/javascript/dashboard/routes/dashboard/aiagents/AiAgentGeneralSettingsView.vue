@@ -424,4 +424,5 @@ function resetChat() {
     </div>
     <!-- Chat Preview Section -->
   </div>
+
 </template>

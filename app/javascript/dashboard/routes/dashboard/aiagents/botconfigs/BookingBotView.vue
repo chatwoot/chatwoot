@@ -7,6 +7,7 @@ import QnaKnowledgeSources from '../knowledge-sources/QnaKnowledgeSources.vue'
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
+import CustomNumberingTab from './cs-bot-tabs/CustomNumberingTab.vue';
 
 const { t } = useI18n();
 
@@ -41,6 +42,12 @@ const tabs = computed(() => [
     index: 2,
     name: 'QnA',
     icon: 'i-lucide-help-circle',
+  },
+  {
+    key: '3',
+    index: 3,
+    name: 'Penomoran Otomatis',
+    icon: 'i-lucide-notebook-tabs',
   },
 ]);
 
@@ -615,6 +622,11 @@ onMounted(async () => {
         <!-- QnA Tab Content -->
         <div v-show="activeIndex === 2" class="w-full min-w-0">
           <QnaKnowledgeSources :data="data" context="booking" />
+        </div>
+
+        <!-- Custom Numbering Content -->
+        <div v-show="activeIndex === 3" class="w-full">
+          <CustomNumberingTab :data="data" />
         </div>
       </div>
     </div>
