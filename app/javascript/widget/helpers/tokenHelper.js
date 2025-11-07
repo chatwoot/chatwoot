@@ -31,6 +31,7 @@ class TokenHelper {
   serverUrl = '';
   baseUrl = '';
   isEhrLaunch;
+  space = 'jeeves-epic';
 
   isTokenExpired(minValidity) {
     if (!this.tokenParsed || !this.refreshToken || !this.tokenParsed.exp) {
@@ -136,6 +137,7 @@ class TokenHelper {
       isEhrLaunch,
       serverUrl,
       baseUrl,
+      space
     } = message;
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
@@ -143,6 +145,7 @@ class TokenHelper {
     this.tenant = tenant;
     this.playerEnv = playerEnv;
     this.baseUrl = baseUrl;
+    this.space = space;
     if (serverUrl) {
       this.serverUrl = serverUrl;
     } else {

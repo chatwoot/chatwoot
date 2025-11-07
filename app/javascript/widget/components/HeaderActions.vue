@@ -151,7 +151,7 @@ export default {
             user_name: agentName,
             user_email: '',
           },
-          { headers: { Authorization: `Bearer ${token}` } }
+          { headers: { Authorization: `Bearer ${token}`, 'x-jeeves-space': tokenHelperInstance.space } }
         );
 
         const response = await axios.post(
@@ -162,7 +162,7 @@ export default {
             room: this.roomNameSuffix,
             token,
           },
-          { headers: { Authorization: `Bearer ${token}` } }
+          { headers: { Authorization: `Bearer ${token}`, 'x-jeeves-space': tokenHelperInstance.space } }
         );
 
         const baseUrl = tokenHelperInstance.baseUrl;
