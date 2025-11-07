@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MessageList from './MessageList.vue';
@@ -28,6 +28,16 @@ const resetConversation = () => {
   messages.value = [];
   newMessage.value = '';
 };
+
+// Watch for assistant ID changes and reset conversation
+watch(
+  () => assistantId,
+  (newId, oldId) => {
+    if (oldId && newId !== oldId) {
+      resetConversation();
+    }
+  }
+);
 
 const sendMessage = async () => {
   if (!newMessage.value.trim() || isLoading.value) return;
@@ -74,7 +84,7 @@ const sendMessage = async () => {
         </h3>
         <NextButton
           ghost
-          size="small"
+          sm
           icon="i-lucide-rotate-ccw"
           @click="resetConversation"
         />
@@ -97,7 +107,7 @@ const sendMessage = async () => {
       />
       <NextButton
         ghost
-        size="small"
+        sm
         :disabled="!newMessage.trim()"
         icon="i-lucide-send"
         @click="sendMessage"
