@@ -184,5 +184,6 @@ class Twilio::VoiceController < ApplicationController
   end
 
   attr_reader :inbox
+
   delegate :account, :channel, to: :inbox, prefix: true
 end
