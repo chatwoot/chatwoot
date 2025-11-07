@@ -102,7 +102,7 @@ const closeMobileSidebar = () => {
               />
               <VoiceCallButton
                 :phone="selectedContact?.phoneNumber"
-                :contact-id="String(contactId)"
+                :contact-id="contactId"
                 :label="$t('CONTACT_PANEL.CALL')"
                 size="sm"
               />
