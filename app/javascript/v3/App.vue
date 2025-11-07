@@ -7,6 +7,8 @@ export default {
     return { theme: 'light' };
   },
   mounted() {
+    // Add background color class once - it automatically handles light/dark modes
+    document.documentElement.classList.add('bg-n-background');
     this.setColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
