@@ -28,7 +28,10 @@ export default {
     await this.$store.dispatch('labels/get')
     const labelsFromStore = this.$store.getters['labels/getLabels']
     this.labels = [...labelsFromStore]
+    // Primeiro monta as colunas
     this.fetchColumns()
+    // Atualiza as colunas toda vez que montar o componente
+    await this.refreshColumns()
   },
 
   data() {
@@ -294,6 +297,43 @@ export default {
       localStorage.setItem('localColumns', JSON.stringify(this.localColumns));
       this.isLoading = false
       this.closeColumnModal(updatedColumn);
+    },
+
+    async refreshColumns() {
+      this.isLoading = true;
+      // Para cada coluna,  busca novamente as convs
+      for (let i = 0; i < this.localColumns.length; i++) {
+        const column = this.localColumns[i]
+        const labelTitles = column.labels.map(label => label.title)
+
+        const filters = [{
+          attribute_key: "labels",
+          attribute_model: "standart",
+          filter_operator: "equal_to",
+          values: labelTitles,
+          custom_attribute_type: ""
+        }]
+
+        try {
+          const {data} = await ConversationApi.filter({
+            queryData: {payload: filters}
+          })
+
+          // Atualiza os items da coluna
+          this.localColumns[i].items = data.payload.map(conv => ({
+            id: conv.id,
+            content: conv.meta.sender.name,
+            labels: conv.labels
+          }))
+        } catch (error) {
+          console.error("Erro ao atualizar coluna: ", error)
+        }
+      }
+
+      // Atualiza o localStorage e emite eventos
+      this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
+      localStorage.setItem('localColumns', JSON.stringify(this.localColumns))
+      this.isLoading = false
     },
 
     fetchColumns() {
