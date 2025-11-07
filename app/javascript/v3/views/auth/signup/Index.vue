@@ -63,7 +63,7 @@ export default {
           <SignupForm />
           <div class="px-1 text-sm text-n-slate-12">
             <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }} </span>
-            <router-link class="text-link text-n-brand" to="/app/login">
+            <router-link class="text-link text-n-brand mx-1" to="/app/login">
               {{ replaceInstallationName($t('LOGIN.TITLE')) }}
             </router-link>
           </div>
