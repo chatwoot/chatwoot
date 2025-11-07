@@ -22,8 +22,8 @@ const props = defineProps({
     default: 'info',
     validator: value => !value || ['info', 'error', 'success'].includes(value),
   },
-  min: { type: String, default: '' },
-  max: { type: String, default: '' },
+  min: { type: [String, Number], default: '' },
+  max: { type: [String, Number], default: '' },
   autofocus: { type: Boolean, default: false },
 });
 
@@ -128,7 +128,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative flex flex-col min-w-0 gap-1">
+  <div class="relative flex flex-col min-w-0 gap-1 w-full">
     <label
       v-if="label"
       :for="uniqueId"
@@ -136,9 +136,9 @@ onMounted(() => {
     >
       {{ label }}
     </label>
-    <!-- Added prefix slot to allow adding icons to the input -->
-    <slot name="prefix" />
-    <div class="relative">
+    <div class="relative flex min-w-0 items-center">
+      <!-- Added prefix slot to allow adding icons to the input -->
+      <slot name="prefix" />
       <input
         :id="uniqueId"
         ref="inputRef"

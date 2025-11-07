@@ -82,12 +82,12 @@ const handleSendMessage = template => {
           :placeholder="
             t('COMPOSE_NEW_CONVERSATION.FORM.TWILIO_OPTIONS.SEARCH_PLACEHOLDER')
           "
-          custom-input-class="ltr:pl-10 rtl:pr-10"
+          class="ltr:!pl-8 rtl:!pr-8"
         >
           <template #prefix>
             <Icon
               icon="i-lucide-search"
-              class="absolute top-2 size-3.5 ltr:left-3 rtl:right-3"
+              class="absolute top-3 size-3.5 ltr:left-3 rtl:right-3"
             />
           </template>
         </Input>

@@ -163,7 +163,7 @@ watch(
   <div>
     <div
       v-on-clickaway="() => closeCountryDropdown()"
-      class="relative flex items-center h-8 transition-all duration-500 ease-in-out outline outline-1 outline-offset-[-1px] rounded-lg bg-n-alpha-black2"
+      class="relative flex items-center h-8 transition-all duration-500 ease-in-out outline outline-1 outline-offset-[-1px] w-full rounded-lg bg-n-alpha-black2"
       :class="[inputBorderClass, { 'cursor-not-allowed opacity-50': disabled }]"
     >
       <Input
@@ -171,8 +171,7 @@ watch(
         type="tel"
         :placeholder="placeholder"
         :disabled="disabled"
-        custom-input-class="!border-0 !outline-none h-8 !py-0.5 !bg-transparent ltr:!pl-1 rtl:!pr-1"
-        class="w-full !flex-row"
+        class="!border-0 !outline-none h-8 !py-0.5 !bg-transparent ltr:!pl-1 rtl:!pr-1"
       >
         <template #prefix>
           <div class="flex items-center flex-shrink-0">
@@ -186,7 +185,7 @@ watch(
               trailing-icon
               :disabled="disabled"
               type="button"
-              class="!h-[1.875rem] top-1 ltr:ml-px rtl:mr-px !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
+              class="!h-[1.875rem] top-1 ltr:ml-px rtl:mr-px !px-2 outline-0 !outline-none !rounded-[7px] border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
               @click="toggleCountryDropdown"
             >
               <span
