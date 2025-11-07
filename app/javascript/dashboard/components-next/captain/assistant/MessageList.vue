@@ -60,15 +60,20 @@ watch(() => props.messages.length, scrollToBottom);
       :class="getMessageAlignment(message.sender)"
     >
       <div
-        class="flex items-end gap-1.5"
+        class="flex items-end gap-1.5 max-w-[90%] md:max-w-[60%]"
         :class="getMessageDirection(message.sender)"
       >
-        <Avatar :name="getAvatarName(message.sender)" rounded-full :size="24" />
+        <Avatar
+          :name="getAvatarName(message.sender)"
+          rounded-full
+          :size="24"
+          class="shrink-0"
+        />
         <div
-          class="min-w-0 max-w-[80%] px-4 py-3 text-sm"
+          class="px-4 py-3 text-sm [overflow-wrap:break-word]"
           :class="getMessageStyle(message.sender)"
         >
-          <div class="break-all" v-html="formatMessage(message.content)" />
+          <div v-html="formatMessage(message.content)" />
         </div>
       </div>
     </div>
