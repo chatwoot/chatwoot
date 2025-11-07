@@ -35,8 +35,8 @@ const getAvatarName = sender =>
 
 const getMessageStyle = sender =>
   isUserMessage(sender)
-    ? 'bg-n-strong text-n-white'
-    : 'bg-n-solid-iris text-n-slate-12';
+    ? 'bg-n-solid-blue text-n-slate-12 rounded-br-sm rounded-bl-xl rounded-t-xl'
+    : 'bg-n-solid-iris text-n-slate-12 rounded-bl-sm rounded-br-xl rounded-t-xl';
 
 const scrollToBottom = async () => {
   await nextTick();
@@ -49,7 +49,10 @@ watch(() => props.messages.length, scrollToBottom);
 </script>
 
 <template>
-  <div ref="messageContainer" class="flex-1 overflow-y-auto mb-4 space-y-2">
+  <div
+    ref="messageContainer"
+    class="flex-1 overflow-y-auto mb-4 px-6 space-y-6"
+  >
     <div
       v-for="(message, index) in messages"
       :key="index"
@@ -57,15 +60,15 @@ watch(() => props.messages.length, scrollToBottom);
       :class="getMessageAlignment(message.sender)"
     >
       <div
-        class="flex items-start gap-1.5"
+        class="flex items-end gap-1.5"
         :class="getMessageDirection(message.sender)"
       >
         <Avatar :name="getAvatarName(message.sender)" rounded-full :size="24" />
         <div
-          class="max-w-[80%] rounded-lg p-3 text-sm"
+          class="min-w-0 max-w-[80%] px-4 py-3 text-sm"
           :class="getMessageStyle(message.sender)"
         >
-          <div class="break-words" v-html="formatMessage(message.content)" />
+          <div class="break-all" v-html="formatMessage(message.content)" />
         </div>
       </div>
     </div>
