@@ -1,38 +1,28 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { ref, computed, onBeforeMount } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useBranding } from 'shared/composables/useBranding';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
-export default {
-  components: {
-    SignupForm,
-    Spinner,
-    Testimonials,
-  },
-  setup() {
-    const { replaceInstallationName } = useBranding();
-    return { replaceInstallationName };
-  },
-  data() {
-    return { isLoading: false };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    isAChatwootInstance() {
-      return this.globalConfig.installationName === 'Chatwoot';
-    },
-  },
-  beforeMount() {
-    this.isLoading = this.isAChatwootInstance;
-  },
-  methods: {
-    resizeContainers() {
-      this.isLoading = false;
-    },
-  },
+const { replaceInstallationName } = useBranding();
+
+const globalConfig = useMapGetter('globalConfig/get');
+
+const isLoading = ref(false);
+
+const isAChatwootInstance = computed(() => {
+  return globalConfig.value.installationName === 'Chatwoot';
+});
+
+const resizeContainers = () => {
+  isLoading.value = false;
 };
+
+onBeforeMount(() => {
+  isLoading.value = isAChatwootInstance.value;
+});
 </script>
 
 <template>
@@ -62,7 +52,7 @@ export default {
           </div>
           <SignupForm />
           <div class="px-1 text-sm text-n-slate-12">
-            <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }} </span>
+            <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
             <router-link class="text-link text-n-brand mx-1" to="/app/login">
               {{ replaceInstallationName($t('LOGIN.TITLE')) }}
             </router-link>

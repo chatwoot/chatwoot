@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
 // components
-import FormInput from 'dashboard/components-next/input/Input.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -94,7 +94,7 @@ onMounted(async () => {
       }"
     >
       <form class="space-y-5" method="POST" action="/api/v1/auth/saml_login">
-        <FormInput
+        <Input
           v-model="credentials.email"
           name="email"
           type="text"

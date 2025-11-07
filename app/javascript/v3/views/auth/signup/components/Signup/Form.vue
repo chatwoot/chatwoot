@@ -197,7 +197,7 @@ const handlePasswordBlur = () => {
 <template>
   <div class="flex-1 px-1 overflow-auto">
     <form class="space-y-3" @submit.prevent="submit">
-      <div class="flex items-start gap-2">
+      <div class="grid grid-cols-2 gap-2">
         <Input
           v-model="credentials.fullName"
           name="full_name"

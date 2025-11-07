@@ -1,28 +1,26 @@
-<script>
+<script setup>
+import { ref, onBeforeMount } from 'vue';
 import TestimonialCard from './TestimonialCard.vue';
 import { getTestimonialContent } from '../../../../../api/testimonials';
-export default {
-  components: { TestimonialCard },
-  emits: ['resizeContainers'],
-  data() {
-    return { testimonials: [] };
-  },
-  beforeMount() {
-    this.fetchTestimonials();
-  },
-  methods: {
-    async fetchTestimonials() {
-      try {
-        const { data } = await getTestimonialContent();
-        this.testimonials = data;
-      } catch (error) {
-        // Ignoring the error as the UI wouldn't break
-      } finally {
-        this.$emit('resizeContainers', !!this.testimonials.length);
-      }
-    },
-  },
+
+const emit = defineEmits(['resizeContainers']);
+
+const testimonials = ref([]);
+
+const fetchTestimonials = async () => {
+  try {
+    const { data } = await getTestimonialContent();
+    testimonials.value = data;
+  } catch (error) {
+    // Ignoring the error as the UI wouldn't break
+  } finally {
+    emit('resizeContainers', !!testimonials.value.length);
+  }
 };
+
+onBeforeMount(() => {
+  fetchTestimonials();
+});
 </script>
 
 <template>

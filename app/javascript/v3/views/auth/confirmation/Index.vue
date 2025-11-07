@@ -1,32 +1,30 @@
-<script>
+<script setup>
+import { onMounted } from 'vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { verifyPasswordToken } from '../../../api/auth';
 import Spinner from 'shared/components/Spinner.vue';
 
-export default {
-  components: { Spinner },
-  props: {
-    confirmationToken: {
-      type: String,
-      default: '',
-    },
+const props = defineProps({
+  confirmationToken: {
+    type: String,
+    default: '',
   },
-  mounted() {
-    this.confirmToken();
-  },
-  methods: {
-    async confirmToken() {
-      try {
-        await verifyPasswordToken({
-          confirmationToken: this.confirmationToken,
-        });
-        window.location = DEFAULT_REDIRECT_URL;
-      } catch (error) {
-        window.location = DEFAULT_REDIRECT_URL;
-      }
-    },
-  },
+});
+
+const confirmToken = async () => {
+  try {
+    await verifyPasswordToken({
+      confirmationToken: props.confirmationToken,
+    });
+    window.location = DEFAULT_REDIRECT_URL;
+  } catch (error) {
+    window.location = DEFAULT_REDIRECT_URL;
+  }
 };
+
+onMounted(() => {
+  confirmToken();
+});
 </script>
 
 <template>

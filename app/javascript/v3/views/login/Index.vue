@@ -1,23 +1,31 @@
-<script>
-// utils and composables
-import { login } from '../../api/auth';
-import { mapGetters } from 'vuex';
+<script setup>
+import { ref, reactive, computed, onMounted } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email as emailValidator } from '@vuelidate/validators';
+import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { parseBoolean } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
-import { required, email } from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
+import { useMapGetter } from 'dashboard/composables/store';
+import { useBranding } from 'shared/composables/useBranding';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import SessionStorage from 'shared/helpers/sessionStorage';
-import { useBranding } from 'shared/composables/useBranding';
-
-// components
+import { login } from '../../api/auth';
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
-import FormInput from 'dashboard/components-next/input/Input.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
+
+const props = defineProps({
+  ssoAuthToken: { type: String, default: '' },
+  ssoAccountId: { type: String, default: '' },
+  ssoConversationId: { type: String, default: '' },
+  email: { type: String, default: '' },
+  authError: { type: String, default: '' },
+});
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -28,189 +36,162 @@ const ERROR_MESSAGES = {
 
 const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
 
-export default {
-  components: {
-    FormInput,
-    GoogleOAuthButton,
-    Spinner,
-    NextButton,
-    SimpleDivider,
-    MfaVerification,
-    Icon,
-  },
-  props: {
-    ssoAuthToken: { type: String, default: '' },
-    ssoAccountId: { type: String, default: '' },
-    ssoConversationId: { type: String, default: '' },
-    email: { type: String, default: '' },
-    authError: { type: String, default: '' },
-  },
-  setup() {
-    const { replaceInstallationName } = useBranding();
-    return {
-      replaceInstallationName,
-      v$: useVuelidate(),
-    };
-  },
-  data() {
-    return {
-      // We need to initialize the component with any
-      // properties that will be used in it
-      credentials: {
-        email: '',
-        password: '',
-      },
-      loginApi: {
-        message: '',
-        showLoading: false,
-        hasErrored: false,
-      },
-      error: '',
-      mfaRequired: false,
-      mfaToken: null,
-    };
-  },
-  validations() {
-    return {
-      credentials: {
-        password: {
-          required,
-        },
-        email: {
-          required,
-          email,
-        },
-      },
-    };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
-    },
-    showSignupLink() {
-      return parseBoolean(window.chatwootConfig.signupEnabled);
-    },
-    showSamlLogin() {
-      return this.globalConfig.isEnterprise;
-    },
-  },
-  created() {
-    if (this.ssoAuthToken) {
-      this.submitLogin();
-    }
-    if (this.authError) {
-      const messageKey = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
-      // Use a method to get the translated text to avoid dynamic key warning
-      const translatedMessage = this.getTranslatedMessage(messageKey);
-      useAlert(translatedMessage);
-      // wait for idle state
-      this.requestIdleCallbackPolyfill(() => {
-        // Remove the error query param from the url
-        const { query } = this.$route;
-        this.$router.replace({ query: { ...query, error: undefined } });
-      });
-    }
-  },
-  methods: {
-    getTranslatedMessage(key) {
-      // Avoid dynamic key warning by handling each case explicitly
-      switch (key) {
-        case 'LOGIN.OAUTH.NO_ACCOUNT_FOUND':
-          return this.$t('LOGIN.OAUTH.NO_ACCOUNT_FOUND');
-        case 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY':
-          return this.$t('LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY');
-        case 'LOGIN.API.UNAUTH':
-        default:
-          return this.$t('LOGIN.API.UNAUTH');
-      }
-    },
-    // TODO: Remove this when Safari gets wider support
-    // Ref: https://caniuse.com/requestidlecallback
-    //
-    requestIdleCallbackPolyfill(callback) {
-      if (window.requestIdleCallback) {
-        window.requestIdleCallback(callback);
-      } else {
-        // Fallback for safari
-        // Using a delay of 0 allows the callback to be executed asynchronously
-        // in the next available event loop iteration, similar to requestIdleCallback
-        setTimeout(callback, 0);
-      }
-    },
-    showAlertMessage(message) {
-      // Reset loading, current selected agent
-      this.loginApi.showLoading = false;
-      this.loginApi.message = message;
-      useAlert(this.loginApi.message);
-    },
-    handleImpersonation() {
-      // Detects impersonation mode via URL and sets a session flag to prevent user settings changes during impersonation.
-      const urlParams = new URLSearchParams(window.location.search);
-      const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
-      if (impersonation) {
-        SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
-      }
-    },
-    submitLogin() {
-      this.loginApi.hasErrored = false;
-      this.loginApi.showLoading = true;
+const route = useRoute();
+const router = useRouter();
+const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
-      const credentials = {
-        email: this.email
-          ? decodeURIComponent(this.email)
-          : this.credentials.email,
-        password: this.credentials.password,
-        sso_auth_token: this.ssoAuthToken,
-        ssoAccountId: this.ssoAccountId,
-        ssoConversationId: this.ssoConversationId,
-      };
+const globalConfig = useMapGetter('globalConfig/get');
 
-      login(credentials)
-        .then(result => {
-          // Check if MFA is required
-          if (result?.mfaRequired) {
-            this.loginApi.showLoading = false;
-            this.mfaRequired = true;
-            this.mfaToken = result.mfaToken;
-            return;
-          }
+const credentials = reactive({
+  email: '',
+  password: '',
+});
 
-          this.handleImpersonation();
-          this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
-        })
-        .catch(response => {
-          // Reset URL Params if the authentication is invalid
-          if (this.email) {
-            window.location = '/app/login';
-          }
-          this.loginApi.hasErrored = true;
-          this.showAlertMessage(
-            response?.message || this.$t('LOGIN.API.UNAUTH')
-          );
-        });
-    },
-    submitFormLogin() {
-      if (this.v$.credentials.email.$invalid && !this.email) {
-        this.showAlertMessage(this.$t('LOGIN.EMAIL.ERROR'));
-        return;
-      }
+const showLoading = ref(false);
+const hasErrored = ref(false);
+const mfaRequired = ref(false);
+const mfaToken = ref(null);
 
-      this.submitLogin();
+const rules = computed(() => ({
+  credentials: {
+    password: {
+      required,
     },
-    handleMfaVerified() {
-      // MFA verification successful, continue with login
-      this.handleImpersonation();
-      window.location = '/app';
-    },
-    handleMfaCancel() {
-      // User cancelled MFA, reset state
-      this.mfaRequired = false;
-      this.mfaToken = null;
-      this.credentials.password = '';
+    email: {
+      required,
+      email: emailValidator,
     },
   },
+}));
+
+const v$ = useVuelidate(rules, { credentials });
+
+const showGoogleOAuth = computed(() => {
+  return Boolean(window.chatwootConfig.googleOAuthClientId);
+});
+
+const showSignupLink = computed(() => {
+  return parseBoolean(window.chatwootConfig.signupEnabled);
+});
+
+const showSamlLogin = computed(() => {
+  return Boolean(globalConfig.value.isEnterprise);
+});
+
+const getTranslatedMessage = key => {
+  // Avoid dynamic key warning by handling each case explicitly
+  switch (key) {
+    case 'LOGIN.OAUTH.NO_ACCOUNT_FOUND':
+      return t('LOGIN.OAUTH.NO_ACCOUNT_FOUND');
+    case 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY':
+      return t('LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY');
+    case 'LOGIN.API.UNAUTH':
+    default:
+      return t('LOGIN.API.UNAUTH');
+  }
 };
+
+// TODO: Remove this when Safari gets wider support
+// Ref: https://caniuse.com/requestidlecallback
+const requestIdleCallbackPolyfill = callback => {
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(callback);
+  } else {
+    // Fallback for safari
+    // Using a delay of 0 allows the callback to be executed asynchronously
+    // in the next available event loop iteration, similar to requestIdleCallback
+    setTimeout(callback, 0);
+  }
+};
+
+const showAlertMessage = message => {
+  showLoading.value = false;
+  useAlert(message);
+};
+
+const handleImpersonation = () => {
+  // Detects impersonation mode via URL and sets a session flag to prevent user settings changes during impersonation.
+  const urlParams = new URLSearchParams(window.location.search);
+  const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
+  if (impersonation) {
+    SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
+  }
+};
+
+const submitLogin = async () => {
+  hasErrored.value = false;
+  showLoading.value = true;
+
+  const loginCredentials = {
+    email: props.email ? decodeURIComponent(props.email) : credentials.email,
+    password: credentials.password,
+    sso_auth_token: props.ssoAuthToken,
+    ssoAccountId: props.ssoAccountId,
+    ssoConversationId: props.ssoConversationId,
+  };
+
+  try {
+    const result = await login(loginCredentials);
+
+    // Check if MFA is required
+    if (result?.mfaRequired) {
+      showLoading.value = false;
+      mfaRequired.value = true;
+      mfaToken.value = result.mfaToken;
+      return;
+    }
+
+    handleImpersonation();
+    showAlertMessage(t('LOGIN.API.SUCCESS_MESSAGE'));
+  } catch (response) {
+    // Reset URL Params if the authentication is invalid
+    if (props.email) {
+      window.location = '/app/login';
+    }
+    hasErrored.value = true;
+    showAlertMessage(response?.message || t('LOGIN.API.UNAUTH'));
+  }
+};
+
+const submitFormLogin = () => {
+  if (v$.value.credentials.email.$invalid && !props.email) {
+    showAlertMessage(t('LOGIN.EMAIL.ERROR'));
+    return;
+  }
+
+  submitLogin();
+};
+
+const handleMfaVerified = () => {
+  // MFA verification successful, continue with login
+  handleImpersonation();
+  window.location = '/app';
+};
+
+const handleMfaCancel = () => {
+  // User cancelled MFA, reset state
+  mfaRequired.value = false;
+  mfaToken.value = null;
+  credentials.password = '';
+};
+
+onMounted(() => {
+  if (props.ssoAuthToken) {
+    submitLogin();
+  }
+  if (props.authError) {
+    const messageKey = ERROR_MESSAGES[props.authError] ?? 'LOGIN.API.UNAUTH';
+    const translatedMessage = getTranslatedMessage(messageKey);
+    useAlert(translatedMessage);
+    // wait for idle state
+    requestIdleCallbackPolyfill(() => {
+      // Remove the error query param from the url
+      const { query } = route;
+      router.replace({ query: { ...query, error: undefined } });
+    });
+  }
+});
 </script>
 
 <template>
@@ -255,10 +236,10 @@ export default {
       class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
-        'animate-wiggle': loginApi.hasErrored,
+        'animate-wiggle': hasErrored,
       }"
     >
-      <div v-if="!email">
+      <div v-if="!props.email">
         <div class="flex flex-col gap-4">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
           <div v-if="showSamlLogin" class="text-center">
@@ -282,7 +263,7 @@ export default {
           />
         </div>
         <form class="space-y-5" @submit.prevent="submitFormLogin">
-          <FormInput
+          <Input
             v-model="credentials.email"
             name="email_address"
             type="text"
@@ -295,7 +276,7 @@ export default {
             :message-type="v$.credentials.email.$error ? 'error' : ''"
             @input="v$.credentials.email.$touch"
           />
-          <FormInput
+          <Input
             v-model="credentials.password"
             type="password"
             name="password"
@@ -322,7 +303,7 @@ export default {
                 </router-link>
               </p>
             </template>
-          </FormInput>
+          </Input>
           <NextButton
             lg
             type="submit"
@@ -330,8 +311,8 @@ export default {
             class="w-full"
             :tabindex="3"
             :label="$t('LOGIN.SUBMIT')"
-            :disabled="loginApi.showLoading"
-            :is-loading="loginApi.showLoading"
+            :disabled="showLoading"
+            :is-loading="showLoading"
           />
         </form>
       </div>

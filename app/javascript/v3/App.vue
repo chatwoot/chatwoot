@@ -1,46 +1,47 @@
-<script>
+<script setup>
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import SnackbarContainer from './components/SnackBar/Container.vue';
 
-export default {
-  components: { SnackbarContainer },
-  data() {
-    return { theme: 'light' };
-  },
-  mounted() {
-    // Add background color class once - it automatically handles light/dark modes
-    document.documentElement.classList.add('bg-n-background');
-    this.setColorTheme();
-    this.listenToThemeChanges();
-    this.setLocale(window.chatwootConfig.selectedLocale);
-  },
-  methods: {
-    setColorTheme() {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        this.theme = 'dark';
-        document.documentElement.classList.add('dark');
-      } else {
-        this.theme = 'light';
-        document.documentElement.classList.remove('dark');
-      }
-    },
-    listenToThemeChanges() {
-      const mql = window.matchMedia('(prefers-color-scheme: dark)');
+const theme = ref('light');
 
-      mql.onchange = e => {
-        if (e.matches) {
-          this.theme = 'dark';
-          document.documentElement.classList.add('dark');
-        } else {
-          this.theme = 'light';
-          document.documentElement.classList.remove('dark');
-        }
-      };
-    },
-    setLocale(locale) {
-      this.$root.$i18n.locale = locale;
-    },
-  },
+const setColorTheme = () => {
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme.value = 'dark';
+    document.documentElement.classList.add('dark');
+  } else {
+    theme.value = 'light';
+    document.documentElement.classList.remove('dark');
+  }
 };
+
+const listenToThemeChanges = () => {
+  const mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+  mql.onchange = e => {
+    if (e.matches) {
+      theme.value = 'dark';
+      document.documentElement.classList.add('dark');
+    } else {
+      theme.value = 'light';
+      document.documentElement.classList.remove('dark');
+    }
+  };
+};
+
+const setLocale = locale => {
+  const instance = getCurrentInstance();
+  if (instance) {
+    instance.appContext.config.globalProperties.$i18n.locale = locale;
+  }
+};
+
+onMounted(() => {
+  // Add background color class once - it automatically handles light/dark modes
+  document.documentElement.classList.add('bg-n-background');
+  setColorTheme();
+  listenToThemeChanges();
+  setLocale(window.chatwootConfig.selectedLocale);
+});
 </script>
 
 <template>
