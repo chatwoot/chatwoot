@@ -2,6 +2,7 @@
 import { computed, ref, onMounted, nextTick, getCurrentInstance } from 'vue';
 import { useToggle } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   modelValue: { type: [String, Number], default: '' },
   type: { type: String, default: 'text' },
@@ -33,6 +34,10 @@ const emit = defineEmits([
   'focus',
   'enter',
 ]);
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 // Generate a unique ID per component instance when `id` prop is not provided.
 const { uid } = getCurrentInstance();
@@ -136,8 +141,8 @@ onMounted(() => {
     <div class="relative">
       <input
         :id="uniqueId"
-        v-bind="$attrs"
         ref="inputRef"
+        v-bind="$attrs"
         :value="modelValue"
         :class="[
           customInputClass,
