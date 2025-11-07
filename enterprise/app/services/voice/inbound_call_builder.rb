@@ -19,6 +19,7 @@ class Voice::InboundCallBuilder
       contact = ensure_contact!
       contact_inbox = ensure_contact_inbox!(contact)
       conversation = find_conversation || create_conversation!(contact, contact_inbox)
+      conversation.reload
       update_conversation!(conversation, timestamp)
       build_voice_message!(conversation, timestamp)
       conversation

@@ -79,5 +79,19 @@ RSpec.describe Voice::OutboundCallBuilder do
         )
       end.to raise_error(ArgumentError, 'Agent required')
     end
+
+    it 'ensures the conversation has a display_id before building the conference SID' do
+      allow(Voice::Conference::Name).to receive(:for).and_wrap_original do |original, conversation|
+        expect(conversation.display_id).to be_present
+        original.call(conversation)
+      end
+
+      described_class.perform!(
+        account: account,
+        inbox: inbox,
+        user: user,
+        contact: contact
+      )
+    end
   end
 end

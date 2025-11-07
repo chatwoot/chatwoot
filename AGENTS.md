@@ -10,6 +10,7 @@
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
 - **Run Project**: `overmind start -f Procfile.dev`
+- Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
 
 ## Code Style
 
@@ -37,6 +38,8 @@
 
 - MVP focus: Least code change, happy-path only
 - No unnecessary defensive programming
+- Ship the happy path first: limit guards/fallbacks to what production has proven necessary, then iterate
+- Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
 - Break down complex tasks into small, testable units
 - Iterate after confirmation
 - Avoid writing specs unless explicitly asked

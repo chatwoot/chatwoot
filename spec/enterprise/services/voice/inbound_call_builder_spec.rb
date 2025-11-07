@@ -56,6 +56,15 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(data['meta']['created_at']).to be_present
       expect(data['meta']['ringing_at']).to be_present
     end
+
+    it 'ensures the conversation has a display_id before building the conference SID' do
+      allow(Voice::Conference::Name).to receive(:for).and_wrap_original do |original, conversation|
+        expect(conversation.display_id).to be_present
+        original.call(conversation)
+      end
+
+      perform_builder
+    end
   end
 
   context 'when a conversation already exists for the call_sid' do

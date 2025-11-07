@@ -21,6 +21,7 @@ class Voice::OutboundCallBuilder
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
       conversation = create_conversation!(contact_inbox)
+      conversation.reload
       conference_sid = Voice::Conference::Name.for(conversation)
       call_sid = initiate_call!
       update_conversation!(conversation, call_sid, conference_sid, timestamp)
