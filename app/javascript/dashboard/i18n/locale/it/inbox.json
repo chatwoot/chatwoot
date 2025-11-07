@@ -6,7 +6,7 @@
       "LOADING": "Caricamento notifiche",
       "404": "Non ci sono notifiche attive in questo gruppo.",
       "NO_NOTIFICATIONS": "Nessuna notifica",
-      "NOTE": "Notifiche da tutte le inbox sottoscritte",
+      "NOTE": "Notifiche da tutte le Inbox",
       "NO_MESSAGES_AVAILABLE": "Oops! Impossibile recuperare i messaggi",
       "SNOOZED_UNTIL": "Posticipata fino a",
       "SNOOZED_UNTIL_TOMORROW": "Posticipata fino a domani",
@@ -45,8 +45,8 @@
       "MARK_AS_UNREAD": "Segna come da leggere",
       "SNOOZE": "Posticipa",
       "DELETE": "Elimina",
-      "MARK_ALL_READ": "Segna tutto come letto",
-      "DELETE_ALL": "Elimina tutto",
+      "MARK_ALL_READ": "Segna tutte come lette",
+      "DELETE_ALL": "Elimina tutte",
       "DELETE_ALL_READ": "Elimina tutte le lette"
     },
     "DISPLAY_MENU": {
