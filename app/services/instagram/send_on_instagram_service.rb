@@ -86,7 +86,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       message.external_error = external_error(response)
     end
 
-    message.source_id = response['message_id'] if response['message_id'].present?
+    store_instagram_message_id(response['message_id']) if response['message_id'].present?
     message.save!
 
     response
@@ -133,5 +133,22 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     params[:messaging_type] = 'MESSAGE_TAG'
     params[:tag] = 'HUMAN_AGENT'
     params
+  end
+
+  # Store all Instagram message IDs for a single Chatwoot message
+  # This is needed because Instagram creates separate message IDs for each attachment and text,
+  # but Chatwoot stores them as a single message with multiple attachments
+  def store_instagram_message_id(instagram_message_id)
+    # Set the primary source_id to the first Instagram message ID
+    message.source_id ||= instagram_message_id
+
+    # Initialize external_source_ids if not present
+    message.external_source_ids ||= {}
+
+    # Store all Instagram message IDs in an array
+    message.external_source_ids['instagram'] ||= []
+    message.external_source_ids['instagram'] << instagram_message_id unless message.external_source_ids['instagram'].include?(instagram_message_id)
+
+    Rails.logger.info("Stored Instagram message ID: #{instagram_message_id}. All IDs: #{message.external_source_ids['instagram']}")
   end
 end

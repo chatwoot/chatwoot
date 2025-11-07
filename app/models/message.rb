@@ -114,7 +114,7 @@ class Message < ApplicationRecord
                                          :translations, :in_reply_to_external_id, :is_unsupported,
                                          :reply_to_comment_id, :should_prompt_resolution, :is_dm_conversation_created, :user_phone_number, :previous_selected_replies, :user_order_id, :selected_reply, :product_id, :product_id_for_more_info, :product_page, :pre_chat_form_response, :assign_to_agent, :conversation_resolved, :skip_conversation_reopen], coder: JSON
 
-  store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
+  store :external_source_ids, accessors: [:slack, :instagram], coder: JSON, prefix: :external_source_id
 
   scope :created_since, ->(datetime) { where('created_at > ?', datetime) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
