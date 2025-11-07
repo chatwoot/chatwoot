@@ -28,7 +28,7 @@ export default {
 <template>
   <div
     v-show="testimonials.length"
-    class="relative flex-1 min-h-screen hidden overflow-hidden bg-n-blue-8 dark:bg-n-blue-5 xl:flex"
+    class="relative self-stretch hidden overflow-hidden bg-n-blue-8 dark:bg-n-blue-5 xl:flex"
   >
     <img
       src="assets/images/auth/top-left.svg"
@@ -42,9 +42,7 @@ export default {
       src="assets/images/auth/auth--bg.svg"
       class="h-[96%] left-[6%] top-[8%] w-[96%] absolute"
     />
-    <div
-      class="z-50 flex flex-col items-center justify-center w-full h-full min-h-screen"
-    >
+    <div class="z-50 flex flex-col items-center justify-center w-full h-full">
       <div class="flex items-start justify-center p-6">
         <TestimonialCard
           v-for="(testimonial, index) in testimonials"
