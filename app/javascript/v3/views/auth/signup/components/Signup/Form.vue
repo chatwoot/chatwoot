@@ -10,14 +10,13 @@ import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import SimpleDivider from '../../../../../components/Divider/SimpleDivider.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
 import * as CompanyEmailValidator from 'company-email-validator';
+import PasswordRequirements from './PasswordRequirements.vue';
 
 const MIN_PASSWORD_LENGTH = 6;
-const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/;
 
 const store = useStore();
 const { t } = useI18n();
@@ -76,7 +75,8 @@ const shouldShowError = fieldName => {
 };
 
 const shouldShowPasswordRequirementError = computed(() => {
-  const hasValue = credentials.password && credentials.password.length > 0;
+  const hasValue =
+    Boolean(credentials.password) && credentials.password.length > 0;
   return hasValue && v$.value.credentials.password.$error;
 });
 
@@ -105,51 +105,6 @@ const showGoogleOAuth = computed(() => {
 const isFormValid = computed(() => {
   return !v$.value.$invalid;
 });
-
-const passwordRequirements = computed(() => {
-  const password = credentials.password || '';
-  return {
-    length: password.length >= MIN_PASSWORD_LENGTH,
-    uppercase: /[A-Z]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    number: /[0-9]/.test(password),
-    special: SPECIAL_CHAR_REGEX.test(password),
-  };
-});
-
-const passwordRequirementItems = computed(() => {
-  const reqs = passwordRequirements.value;
-  return [
-    {
-      id: 'length',
-      met: reqs.length,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH', {
-        min: MIN_PASSWORD_LENGTH,
-      }),
-    },
-    {
-      id: 'uppercase',
-      met: reqs.uppercase,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE'),
-    },
-    {
-      id: 'lowercase',
-      met: reqs.lowercase,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE'),
-    },
-    {
-      id: 'number',
-      met: reqs.number,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER'),
-    },
-    {
-      id: 'special',
-      met: reqs.special,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL'),
-    },
-  ];
-});
-
 const resetCaptcha = () => {
   if (!globalConfig.value.hCaptchaSiteKey) return;
   hCaptcha.value.reset();
@@ -299,67 +254,12 @@ const handlePasswordBlur = () => {
         @focus="handlePasswordFocus"
         @blur="handlePasswordBlur"
       />
-      <div
-        class="grid transition-all duration-300 ease-in-out"
-        :class="[
-          isPasswordFocused ? 'grid-rows-[1fr] !mt-1' : 'grid-rows-[0fr] !mt-0',
-        ]"
-      >
-        <div class="overflow-hidden">
-          <Transition
-            enter-active-class="transition-all duration-300 ease-in-out"
-            leave-active-class="transition-all duration-300 ease-in-out"
-            enter-from-class="opacity-0 -translate-y-2"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 -translate-y-2"
-          >
-            <div
-              v-if="isPasswordFocused"
-              id="password-requirements"
-              class="text-xs rounded-lg px-3 py-2.5 outline outline-1 -outline-offset-1 outline-n-weak bg-n-alpha-black2"
-            >
-              <ul role="list" class="grid grid-cols-2 gap-1">
-                <li
-                  v-for="item in passwordRequirementItems"
-                  :key="item.id"
-                  class="inline-flex gap-1 items-start"
-                >
-                  <Icon
-                    class="flex-none flex-shrink-0 w-3 mt-0.5"
-                    :icon="
-                      item.met
-                        ? 'i-lucide-circle-check'
-                        : shouldShowPasswordRequirementError
-                          ? 'i-lucide-circle-x'
-                          : 'i-lucide-circle-dot'
-                    "
-                    :class="
-                      item.met
-                        ? 'text-n-teal-9'
-                        : shouldShowPasswordRequirementError
-                          ? 'text-n-ruby-9'
-                          : 'text-n-slate-10'
-                    "
-                  />
-
-                  <span
-                    :class="
-                      item.met
-                        ? 'text-n-teal-11'
-                        : shouldShowPasswordRequirementError
-                          ? 'text-n-ruby-11'
-                          : 'text-n-slate-11'
-                    "
-                  >
-                    {{ item.label }}
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </Transition>
-        </div>
-      </div>
+      <PasswordRequirements
+        :password="credentials.password"
+        :open="isPasswordFocused"
+        :show-error="shouldShowPasswordRequirementError"
+        :min-length="MIN_PASSWORD_LENGTH"
+      />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
         <VueHcaptcha
           ref="hCaptcha"
