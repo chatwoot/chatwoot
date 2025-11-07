@@ -3,8 +3,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from '@vuelidate/validators';
 import { useBranding } from 'shared/composables/useBranding';
-import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
+import FormInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
@@ -84,8 +84,12 @@ export default {
         <FormInput
           v-model="credentials.email"
           name="email_address"
-          :has-error="v$.credentials.email.$error"
-          :error-message="$t('RESET_PASSWORD.EMAIL.ERROR')"
+          autocomplete="email"
+          type="email"
+          :message="
+            v$.credentials.email.$error ? $t('RESET_PASSWORD.EMAIL.ERROR') : ''
+          "
+          :message-type="v$.credentials.email.$error ? 'error' : ''"
           :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
           @input="v$.credentials.email.$touch"
         />
