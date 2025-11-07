@@ -1,5 +1,7 @@
 <script setup>
 import { computed, ref, onMounted, nextTick, getCurrentInstance } from 'vue';
+import { useToggle } from '@vueuse/core';
+import Button from 'dashboard/components-next/button/Button.vue';
 const props = defineProps({
   modelValue: { type: [String, Number], default: '' },
   type: { type: String, default: 'text' },
@@ -38,6 +40,22 @@ const uniqueId = computed(() => props.id || `input-${uid}`);
 
 const isFocused = ref(false);
 const inputRef = ref(null);
+
+const FIELDS = {
+  TEXT: 'text',
+  PASSWORD: 'password',
+};
+
+const [isPasswordVisible, togglePasswordVisibility] = useToggle();
+
+const isPasswordField = computed(() => props.type === FIELDS.PASSWORD);
+
+const currentInputType = computed(() => {
+  if (isPasswordField.value) {
+    return isPasswordVisible.value ? FIELDS.TEXT : FIELDS.PASSWORD;
+  }
+  return props.type;
+});
 
 const MESSAGE_STYLES = {
   error: 'text-n-ruby-9 dark:text-n-ruby-9',
@@ -127,9 +145,10 @@ onMounted(() => {
         {
           error: messageType === 'error',
           focus: isFocused,
+          'ltr:!pr-10 rtl:!pl-10': isPasswordField,
         },
       ]"
-      :type="type"
+      :type="currentInputType"
       :placeholder="placeholder"
       :disabled="disabled"
       :min="['date', 'datetime-local', 'time'].includes(type) ? min : undefined"
@@ -143,6 +162,18 @@ onMounted(() => {
       @focus="handleFocus"
       @blur="handleBlur"
       @keyup.enter="handleEnter"
+    />
+    <Button
+      v-if="isPasswordField"
+      type="button"
+      slate
+      sm
+      link
+      class="absolute inset-y-0 ltr:right-3.5 rtl:left-3.5"
+      :icon="isPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+      :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
+      :aria-pressed="isPasswordVisible"
+      @click="togglePasswordVisibility()"
     />
     <p
       v-if="message"

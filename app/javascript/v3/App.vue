@@ -44,7 +44,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full min-h-screen w-full antialiased" :class="theme">
+  <div class="h-full min-h-screen w-full antialiased" dir="ltr" :class="theme">
     <router-view />
     <SnackbarContainer />
   </div>
