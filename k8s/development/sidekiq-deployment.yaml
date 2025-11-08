@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chatwoot-sidekiq-staging
+  name: chatwoot-sidekiq-development
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: chatwoot-sidekiq-staging
+      app: chatwoot-sidekiq-development
   template:
     metadata:
       labels:
-        app: chatwoot-sidekiq-staging
+        app: chatwoot-sidekiq-development
     spec:
       containers:
       - name: sidekiq
-        image: wavai/chatwoot-rails-staging:v1.0.39
+        image: wavai/chatwoot-rails-dev:v1.0.39
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "bundle exec sidekiq -C config/sidekiq.yml"]
         envFrom:
         - configMapRef:
-            name: chatwoot-config-staging
+            name: chatwoot-config-development
         - secretRef:
-            name: chatwoot-secrets-staging
+            name: chatwoot-secrets-development
         resources:
           requests:
             memory: "512Mi"
