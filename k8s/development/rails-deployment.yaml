@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chatwoot-rails-staging
+  name: chatwoot-rails-development
   annotations:
-    kubernetes.io/change-cause: "Staging deployment"
+    kubernetes.io/change-cause: "Development deployment"
     container.apparmor.security.beta.kubernetes.io/rails: runtime/default
 spec:
   replicas: 1
@@ -15,17 +15,17 @@ spec:
       maxUnavailable: 1
   selector:
     matchLabels:
-      app: chatwoot-rails-staging
+      app: chatwoot-rails-development
   template:
     metadata:
       labels:
-        app: chatwoot-rails-staging
+        app: chatwoot-rails-development
       annotations:
         timestamp: "0"
     spec:
       containers:
       - name: rails
-        image: wavai/chatwoot-rails-staging:v1.0.41
+        image: wavai/chatwoot-rails-dev:v1.0.41
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "docker/entrypoints/rails.sh && bundle exec rails server -b 0.0.0.0"]
@@ -33,21 +33,21 @@ spec:
         - containerPort: 3000
         envFrom:
         - configMapRef:
-            name: chatwoot-config-staging
+            name: chatwoot-config-development
         - secretRef:
-            name: chatwoot-secrets-staging
+            name: chatwoot-secrets-development
         env:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: chatwoot-secrets-staging
+              name: chatwoot-secrets-development
               key: DATABASE_URL
         - name: VITE_DEV_SERVER_HOST
-          value: "chatwoot-vite-staging.default.svc.cluster.local"
+          value: "chatwoot-vite-development.default.svc.cluster.local"
         - name: VITE_DEV_SERVER_PORT
           value: "3036"
         - name: VITE_RUBY_HOST
-          value: "staging.cx.aloochat.ai"
+          value: "development.cx.aloochat.ai"
         - name: VITE_RUBY_PORT
           value: "443"
         - name: VITE_RUBY_HTTPS
@@ -94,10 +94,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: chatwoot-rails-staging
+  name: chatwoot-rails-development
 spec:
   selector:
-    app: chatwoot-rails-staging
+    app: chatwoot-rails-development
   ports:
   - port: 3000
     targetPort: 3000

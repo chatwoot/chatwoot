@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: chatwoot-config
+  name: chatwoot-config-development
+  namespace: chatwoot-development
 data:
   # Application Configuration
   RAILS_ENV: "production"
@@ -9,9 +10,9 @@ data:
   RAILS_SERVE_STATIC_FILES: "true"
   BUNDLE_WITHOUT: ""
   EXECJS_RUNTIME: "Node"
-  INSTALLATION_NAME: "AlooChat"
-  FRONTEND_URL: "https://cx.aloochat.ai"
-  DOMAIN: "cx.aloochat.ai"
+  INSTALLATION_NAME: "AlooChat (Development)"
+  FRONTEND_URL: "https://development.cx.aloochat.ai"
+  DOMAIN: "development.cx.aloochat.ai"
 
   # Database Configuration
   POSTGRES_USER: "${POSTGRES_USER}"
@@ -20,11 +21,12 @@ data:
   POSTGRES_PORT: "${POSTGRES_PORT}"
   POSTGRES_DB: "${POSTGRES_DB}"
 
-  # Redis Configuration (Internal Redis Service)
-  REDIS_HOST: "redis.default.svc.cluster.local"
+  # Redis Configuration (using in-cluster Redis)
+  REDIS_HOST: "redis-development.chatwoot-development.svc.cluster.local"
   REDIS_PORT: "6379"
+  REDIS_URL: "redis://redis-development.chatwoot-development.svc.cluster.local:6379"
 
-  # SMTP Configuration
+  # SMTP Configuration (override via Secret stringData)
   SMTP_ADDRESS: "smtp.eu.mailgun.org"
   SMTP_PORT: "587"
   SMTP_DOMAIN: "mg.aloochat.ai"
@@ -32,7 +34,7 @@ data:
   SMTP_PASSWORD: "${SMTP_PASSWORD}"
   SMTP_AUTHENTICATION: "plain"
   SMTP_ENABLE_STARTTLS_AUTO: "true"
-  MAILER_SENDER_EMAIL: "AlooChat <accounts@mg.aloochat.ai>"
+  MAILER_SENDER_EMAIL: "AlooChat Development <accounts@mg.aloochat.ai>"
   SMTP_OPENSSL_VERIFY_MODE: "peer"
   MAILER_INBOUND_EMAIL_DOMAIN: "mg.aloochat.ai"
   RAILS_INBOUND_EMAIL_SERVICE: "mailgun"
@@ -45,14 +47,15 @@ data:
   ALOOSTUDIO_WEBHOOK_URL: "${ALOOSTUDIO_WEBHOOK_URL}"
   ALOOSTUDIO_BACKEND_URL: "${ALOOSTUDIO_BACKEND_URL}"
   ALOOSTUDIO_FRONTEND_URL: "${ALOOSTUDIO_FRONTEND_URL}"
+
   # Vite Configuration
   VITE_DEV_SERVER_HOST: "localhost"
-  VITE_APP_URL: "https://cx.aloochat.ai"
+  VITE_APP_URL: "https://development.cx.aloochat.ai"
   VITE_RUBY_HOST: "localhost"
   VITE_RUBY_PORT: "3000"
   VITE_RUBY_HTTPS: "false"
 
-  # Add other environment variables as needed
+  # Other
   ACTIVE_STORAGE_SERVICE: "${ACTIVE_STORAGE_SERVICE}"
   S3_BUCKET_NAME: "${S3_BUCKET_NAME}"
   AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"

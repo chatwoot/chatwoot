@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-development
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: admin@aloochat.ai
+    privateKeySecretRef:
+      name: letsencrypt-development
+    solvers:
+    - http01:
+        ingress:
+          class: nginx-development
