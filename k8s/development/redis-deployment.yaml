@@ -20,14 +20,6 @@ spec:
         - containerPort: 6379
         command:
         - redis-server
-        - --requirepass
-        - $(REDIS_PASSWORD)
-        env:
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: chatwoot-secrets-development
-              key: REDIS_PASSWORD
         resources:
           requests:
             memory: "256Mi"
