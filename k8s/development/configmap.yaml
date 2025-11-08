@@ -24,6 +24,7 @@ data:
   # Redis Configuration (using in-cluster Redis)
   REDIS_HOST: "redis-development.chatwoot-development.svc.cluster.local"
   REDIS_PORT: "6379"
+  REDIS_URL: "redis://redis-development.chatwoot-development.svc.cluster.local:6379"
 
   # SMTP Configuration (override via Secret stringData)
   SMTP_ADDRESS: "smtp.eu.mailgun.org"
