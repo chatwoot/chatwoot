@@ -218,6 +218,7 @@
         "OUTPUT_SHEET_TITLE": "Output Sheet Pelacakan Pesanan",
         "OUTPUT_SHEET_DESC": "Lihat data pesanan pelanggan berdasarkan percakapan bot dan pelanggan."
       },
+      "FILE_TAB": "File",
       "PAYMENT": {
         "HEADER": "Metode Pembayaran",
         "HEADER_DESC": "Pengaturan metode pembayaran",
@@ -422,6 +423,7 @@
     },
     "BOOKING_BOT": {
       "FILE_TAB": "File",
+      "CHAR": "Kata",
       "GENERAL_TAB": "Umum",
       "HEADER": "Konfigurasi Bot Booking",
       "HEADER_DESC": "Halaman ini berisi konfigurasi Sheets dan parameter untuk Bot Booking Anda.",

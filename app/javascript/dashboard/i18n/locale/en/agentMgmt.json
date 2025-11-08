@@ -261,6 +261,7 @@
     },
     "BOOKING_BOT": {
       "FILE_TAB": "File",
+      "CHAR": "Words",
       "GENERAL_TAB": "General",
       "HEADER": "Booking Bot Configuration",
       "HEADER_DESC": "This page contains configuration settings for your Booking Bot.",

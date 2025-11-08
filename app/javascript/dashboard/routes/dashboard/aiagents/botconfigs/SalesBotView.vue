@@ -229,9 +229,13 @@
               </div>
             </div>
           </div>
+
+          <div v-show="activeTabIndex === 1" class="w-full">
+            <FileKnowledgeSources :data="data" context="sales"/>
+          </div>
   
           <!-- Shipping Tab -->
-          <div v-show="activeTabIndex === 1" class="w-full min-w-0">
+          <div v-show="activeTabIndex === 2" class="w-full min-w-0">
             <div class="flex flex-row gap-4">
               <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
                 <div class="space-y-4">
@@ -1030,7 +1034,7 @@
           </div>
   
           <!-- Payment Methods Tab -->
-          <div v-show="activeTabIndex === 2" class="w-full min-w-0">
+          <div v-show="activeTabIndex === 3" class="w-full min-w-0">
             <div class="flex flex-row gap-4">
               <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
                 <div class="space-y-4">
@@ -1271,7 +1275,7 @@
           </div>
   
           <!-- Cart Configuration Tab -->
-          <div v-show="activeTabIndex === 3" class="w-full min-w-0">
+          <div v-show="activeTabIndex === 4" class="w-full min-w-0">
             <div class="flex flex-row gap-4">
               <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
                 <div class="space-y-4">
@@ -1379,7 +1383,7 @@
           </div>
 
           <!-- QnA Tab Content -->
-          <div v-show="activeTabIndex === 4" class="w-full min-w-0">
+          <div v-show="activeTabIndex === 5" class="w-full min-w-0">
             <QnaKnowledgeSources
               :data="data"
               context="sales"
@@ -1387,7 +1391,7 @@
           </div>
 
           <!-- Custom Numbering Content -->
-          <div v-show="activeTabIndex === 5" class="w-full">
+          <div v-show="activeTabIndex === 6" class="w-full">
             <CustomNumberingTab :data="data" />
           </div>
 
@@ -1398,6 +1402,7 @@
 </template>
 
 <script setup>
+import FileKnowledgeSources from '../knowledge-sources/FileKnowledgeSources.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import provinsiJson from '../wilayah/provinsi/provinsi.json';
@@ -1722,30 +1727,36 @@ const tabs = computed(() => [
   {
     key: '1',
     index: 1,
-    name: t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER'),
-    icon: 'i-lucide-truck',
+    name: t('AGENT_MGMT.BOOKING_BOT.FILE_TAB'),
+    icon: 'i-lucide-folder',
   },
   {
     key: '2',
     index: 2,
-    name: t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER'),
-    icon: 'i-lucide-credit-card',
+    name: t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER'),
+    icon: 'i-lucide-truck',
   },
   {
     key: '3',
     index: 3,
-    name: t('AGENT_MGMT.SALESBOT.CART.HEADER'),
-    icon: 'i-lucide-shopping-cart',
+    name: t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER'),
+    icon: 'i-lucide-credit-card',
   },
   {
     key: '4',
     index: 4,
-    name: 'QnA',
-    icon: 'i-lucide-help-circle',
+    name: t('AGENT_MGMT.SALESBOT.CART.HEADER'),
+    icon: 'i-lucide-shopping-cart',
   },
   {
     key: '5',
     index: 5,
+    name: 'QnA',
+    icon: 'i-lucide-help-circle',
+  },
+  {
+    key: '6',
+    index: 6,
     name: 'Penomoran Otomatis',
     icon: 'i-lucide-notebook-tabs',
   },

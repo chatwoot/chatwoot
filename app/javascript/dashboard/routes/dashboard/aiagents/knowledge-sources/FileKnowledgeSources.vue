@@ -14,7 +14,7 @@ const props = defineProps({
   context: {
     type: String,
     default: 'general',
-    validator: (value) => ['booking', 'cs', 'general', 'lead_generation'].includes(value)
+    validator: (value) => ['booking', 'cs', 'sales', 'general', 'lead_generation'].includes(value)
   }
 });
 
@@ -280,6 +280,8 @@ const contextLabel = computed(() => {
   switch(props.context) {
     case 'booking': return 'Booking Bot';
     case 'cs': return 'CS Bot';
+    case 'sales': return 'Sales Bot';
+    case 'lead_generation': return 'Lead Generation Bot';
     default: return 'General';
   }
 });
@@ -348,13 +350,13 @@ const previewFileName = (fileName) => {
           <div
             v-for="(item, index) in contextFiles"
             :key="index"
-            class="flex items-center gap-3 p-2 bg-white dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-600 transition-colors"
+            class="flex items-center gap-3 p-2 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-600 transition-colors"
           >
             <svg class="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
             <span class="flex-1 text-sm truncate text-gray-900 dark:text-gray-100">{{ item.file_name }}</span>
-            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">{{ item.total_chars }} {{ $t("CONVERSATION.CHAR") }}</span>
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">{{ item.total_chars }} {{ $t("AGENT_MGMT.BOOKING_BOT.CHAR") }}</span>
             <Button
               variant="ghost"
               color="ruby"
