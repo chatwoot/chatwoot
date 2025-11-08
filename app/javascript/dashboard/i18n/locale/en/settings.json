@@ -350,14 +350,8 @@
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
+    "HELP_CENTER": "Help Center",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
-    "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
-      "SETTINGS": "Settings"
-    },
     "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",

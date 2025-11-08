@@ -98,11 +98,8 @@ export default {
       return false;
     },
     automationActionTypes() {
-      const actionTypes = this.isFeatureEnabled('sla')
-        ? AUTOMATION_ACTION_TYPES
-        : AUTOMATION_ACTION_TYPES.filter(({ key }) => key !== 'add_sla');
-
-      return actionTypes.map(action => ({
+      // Always include all action types, including SLA for all plans
+      return AUTOMATION_ACTION_TYPES.map(action => ({
         ...action,
         label: this.$t(`AUTOMATION.ACTIONS.${action.label}`),
       }));

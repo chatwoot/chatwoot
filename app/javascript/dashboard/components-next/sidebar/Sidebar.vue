@@ -331,6 +331,26 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Help Center',
+      label: t('SIDEBAR.HELP_CENTER'),
+      icon: 'i-lucide-book-open',
+      to: accountScopedRoute('portals_index', {
+        navigationPath: 'portals_articles_index',
+      }),
+      activeOn: [
+        'portals_index',
+        'portals_articles_index',
+        'portals_articles_new',
+        'portals_articles_edit',
+        'portals_categories_index',
+        'portals_categories_articles_index',
+        'portals_categories_articles_edit',
+        'portals_locales_index',
+        'portals_settings_index',
+        'portals_new',
+      ],
+    },
+    {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
       icon: 'i-lucide-bolt',

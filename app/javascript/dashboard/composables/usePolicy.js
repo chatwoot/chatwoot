@@ -18,7 +18,7 @@ export function usePolicy() {
     'globalConfig/isACustomBrandedInstance'
   );
 
-  const { isEnterprise, enterprisePlanName } = useConfig();
+  const { isEnterprise } = useConfig();
   const { accountId } = useAccount();
 
   const getUserPermissionsForAccount = () => {
@@ -56,7 +56,7 @@ export function usePolicy() {
   };
 
   const hasPremiumEnterprise = computed(() => {
-    if (isEnterprise) return enterprisePlanName !== 'community';
+    if (isEnterprise) return true;
 
     return true;
   });
@@ -66,10 +66,17 @@ export function usePolicy() {
     const perms = unref(permissions);
     const installation = unref(installationTypes);
 
-    // if the user does not have permissions or installation type is not supported
-    // return false;
+    // if the user does not have permissions, return false
     // This supersedes everything
     if (!checkPermissions(perms)) return false;
+
+    // Premium features (like SLA) are available to all plans
+    // Skip installation type check for premium features
+    if (isPremiumFeature(flag)) {
+      return true;
+    }
+
+    // For non-premium features, check installation type
     if (!checkInstallationType(installation)) return false;
 
     if (isACustomBrandedInstance.value) {
@@ -85,19 +92,14 @@ export function usePolicy() {
     }
 
     if (isEnterprise) {
-      // in enterprise, if the feature is premium but they don't have an enterprise plan
-      // we should it anyway this is to show upsells on enterprise regardless of the feature flag
+      // in enterprise, always show premium features regardless of feature flag status
       // Feature flag is only honored if they have a premium plan
       //
-      // In case they have a premium plan, the check on feature flag alone is enough
-      // because the second condition will always be false
-      // That means once subscribed, the feature can be disabled by the admin
-      //
       // the paywall should be managed by the individual component
-      return (
-        isFeatureFlagEnabled(flag) ||
-        (isPremiumFeature(flag) && !hasPremiumEnterprise.value)
-      );
+      if (isPremiumFeature(flag)) {
+        return true;
+      }
+      return isFeatureFlagEnabled(flag);
     }
 
     // default to true

@@ -64,7 +64,13 @@ class Macros::ExecutionService < ActionService
   end
 
   def send_webhook_event(webhook_url)
+    # Handle both string and array inputs, normalize the URL
+    url = webhook_url.is_a?(Array) ? webhook_url.first : webhook_url
+    url = url.to_s.strip
+
+    return if url.blank?
+
     payload = @conversation.webhook_data.merge(event: 'macro.executed')
-    WebhookJob.perform_later(webhook_url.first, payload)
+    WebhookJob.perform_later(url, payload)
   end
 end

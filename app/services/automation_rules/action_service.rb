@@ -36,8 +36,14 @@ class AutomationRules::ActionService < ActionService
   end
 
   def send_webhook_event(webhook_url)
+    # Handle both string and array inputs, normalize the URL
+    url = webhook_url.is_a?(Array) ? webhook_url.first : webhook_url
+    url = url.to_s.strip
+
+    return if url.blank?
+
     payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}")
-    WebhookJob.perform_later(webhook_url[0], payload)
+    WebhookJob.perform_later(url, payload)
   end
 
   def send_message(message)
