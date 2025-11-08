@@ -165,6 +165,7 @@ jobs:
             FB_APP_ID: "${{ secrets.FB_APP_ID }}"
             IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
+            IP_LOOKUP_API_KEY: "${{ secrets.IP_LOOKUP_API_KEY }}"
           EOF
           kubectl apply -f k8s/production/configmap.yaml
       
@@ -224,6 +225,7 @@ jobs:
             FB_APP_ID: "${{ secrets.FB_APP_ID }}"
             IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
+            IP_LOOKUP_API_KEY: "${{ secrets.IP_LOOKUP_API_KEY }}"
           EOF
           kubectl apply -f k8s/production/secret.yaml -n default
           rm k8s/production/secret.yaml
