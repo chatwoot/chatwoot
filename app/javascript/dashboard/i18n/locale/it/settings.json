@@ -253,9 +253,9 @@
       "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "TITLE": "Nessun account trovato",
+      "MESSAGE_CLOUD": "Non fai parte di nessun account al momento. Se pensi che sia un errore, contatta il nostro team di supporto.",
+      "MESSAGE_SELF_HOSTED": "Non fai parte di nessun account al momento. Per favore contatta il tuo amministratore.",
       "LOGOUT": "Disconnetti"
     }
   },
