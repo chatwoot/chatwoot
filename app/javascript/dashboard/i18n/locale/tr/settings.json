@@ -253,9 +253,9 @@
       "MESSAGE": "Hesabınız askıya alındı. Daha fazla bilgi için lütfen destek ekibine ulaşın."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "TITLE": "Hesap bulunamadı",
+      "MESSAGE_CLOUD": "Şu anda herhangi bir hesabın parçası değilsiniz. Bunun bir hata olduğunu düşünüyorsanız, lütfen destek ekibimizle iletişime geçin.",
+      "MESSAGE_SELF_HOSTED": "Şu anda herhangi bir hesabın parçası değilsiniz. Lütfen yöneticinizle iletişime geçin.",
       "LOGOUT": "Log out"
     }
   },
@@ -429,8 +429,8 @@
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "Parmak izi",
+        "TOOLTIP": "Sertifikanın SHA-1 parmak izi – Bunu, Kimlik Sağlayıcısı (IdP) yapılandırmanızda sertifikayı doğrulamak için kullanın"
       },
       "COPY_SUCCESS": "Kod başarıyla panoya kopyalandı",
       "SP_ENTITY_ID": {
