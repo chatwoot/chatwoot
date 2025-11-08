@@ -67,13 +67,25 @@ class Channel::Whatsapp < ApplicationRecord
     perform_webhook_setup
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
-    prompt_reauthorization!
+    # Only prompt reauthorization if it's an actual auth error
+    # Don't prompt for network issues, API downtime, or incomplete registration
+    prompt_reauthorization! if auth_error?(e)
   end
 
   private
 
   def ensure_webhook_verify_token
-    provider_config['webhook_verify_token'] ||= SecureRandom.hex(16) if provider == 'whatsapp_cloud'
+    return unless provider == 'whatsapp_cloud'
+    return if provider_config['webhook_verify_token'].present?
+
+    # Priority order:
+    # 1. Account-specific verify token (from whatsapp_settings)
+    # 2. Global FB_VERIFY_TOKEN environment variable
+    # 3. Generate random token
+    account_token = inbox&.account&.whatsapp_settings&.verify_token
+    global_token = ENV.fetch('FB_VERIFY_TOKEN', nil)
+
+    provider_config['webhook_verify_token'] = account_token.presence || global_token.presence || SecureRandom.hex(16)
   end
 
   def validate_provider_config
@@ -89,5 +101,25 @@ class Channel::Whatsapp < ApplicationRecord
 
   def teardown_webhooks
     Whatsapp::WebhookTeardownService.new(self).perform
+  end
+
+  def auth_error?(error)
+    # Check if the error is an authentication/authorization error
+    error_message = error.message.to_s.downcase
+
+    # Common auth error patterns from Facebook/WhatsApp API
+    auth_patterns = [
+      'invalid oauth access token',
+      'oauth',
+      'access token',
+      'expired',
+      'unauthorized',
+      '401',
+      '403',
+      'permission',
+      'invalid credentials'
+    ]
+
+    auth_patterns.any? { |pattern| error_message.include?(pattern) }
   end
 end

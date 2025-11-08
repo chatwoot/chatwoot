@@ -227,6 +227,13 @@
           "YES": "അയയ്‌ക്കുക",
           "CANCEL": "റദ്ദാക്കുക"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "സ്വകാര്യ കുറിപ്പ്: നിങ്ങൾക്കും നിങ്ങളുടെ ടീമിനും മാത്രം ദൃശ്യമാണ്",

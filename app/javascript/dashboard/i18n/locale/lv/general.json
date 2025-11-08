@@ -5,6 +5,8 @@
       "PLACEHOLDER": "Meklēt",
       "EMPTY_STATE": "Nav atrasts"
     },
-    "CLOSE": "Aizvērt"
+    "CLOSE": "Aizvērt",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

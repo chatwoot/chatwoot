@@ -1,23 +1,54 @@
 <script setup>
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useBranding } from 'shared/composables/useBranding';
+import { useI18n } from 'vue-i18n';
+import whatsappSettingsAPI from 'dashboard/api/whatsappSettings';
 import IntegrationItem from './IntegrationItem.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 const store = useStore();
 const getters = useStoreGetters();
 const { replaceInstallationName } = useBranding();
+const { t } = useI18n();
 
 const uiFlags = getters['integrations/getUIFlags'];
+const accountId = getters.getCurrentAccountId;
+const whatsappConfigured = ref(false);
 
 const integrationList = computed(
   () => getters['integrations/getAppIntegrations'].value
 );
 
+const whatsappSettingsURL = computed(() =>
+  frontendURL(`accounts/${accountId.value}/settings/integrations/whatsapp`)
+);
+
+const whatsappStatus = computed(() =>
+  whatsappConfigured.value
+    ? t('INTEGRATION_APPS.STATUS.ENABLED')
+    : t('INTEGRATION_APPS.STATUS.DISABLED')
+);
+
+const whatsappStatusColor = computed(() =>
+  whatsappConfigured.value ? 'bg-n-teal-9' : 'bg-n-slate-8'
+);
+
+const loadWhatsappSettings = async () => {
+  try {
+    const response = await whatsappSettingsAPI.get();
+    whatsappConfigured.value = !!response.data?.app_id;
+  } catch (error) {
+    whatsappConfigured.value = false;
+  }
+};
+
 onMounted(() => {
   store.dispatch('integrations/get');
+  loadWhatsappSettings();
 });
 </script>
 
@@ -39,6 +70,41 @@ onMounted(() => {
     <template #body>
       <div class="flex-grow flex-shrink overflow-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <!-- WhatsApp Business Settings Card -->
+          <div
+            class="flex flex-col flex-1 p-6 m-[1px] outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
+          >
+            <div class="flex items-start justify-between">
+              <div
+                class="flex h-12 w-12 mb-4 items-center justify-center rounded-md border border-n-weak shadow-sm bg-n-alpha-3 dark:bg-n-alpha-2"
+              >
+                <i class="i-lucide-message-circle text-3xl text-green-600" />
+              </div>
+              <span
+                v-tooltip="whatsappStatus"
+                class="text-white p-0.5 rounded-full w-5 h-5 flex items-center justify-center"
+                :class="whatsappStatusColor"
+              >
+                <i class="i-ph-check-bold text-sm" />
+              </span>
+            </div>
+            <div class="flex flex-col m-0 flex-1">
+              <div
+                class="font-medium mb-2 text-n-slate-12 flex justify-between items-center"
+              >
+                <span class="text-base font-semibold">{{
+                  $t('INTEGRATION_SETTINGS.WHATSAPP.TITLE')
+                }}</span>
+                <router-link :to="whatsappSettingsURL">
+                  <Button :label="$t('INTEGRATION_APPS.CONFIGURE')" link />
+                </router-link>
+              </div>
+              <p class="text-n-slate-11">
+                {{ $t('INTEGRATION_SETTINGS.WHATSAPP.DESCRIPTION') }}
+              </p>
+            </div>
+          </div>
+
           <IntegrationItem
             v-for="item in integrationList"
             :id="item.id"

@@ -177,7 +177,8 @@
       "REFERER_LINK": "Lien de référence",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Équipes",
-      "PRIORITY": "Priorité"
+      "PRIORITY": "Priorité",
+      "LABELS": "Étiquettes"
     }
   }
 }

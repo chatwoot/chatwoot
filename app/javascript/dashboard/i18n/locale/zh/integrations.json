@@ -1,5 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
+    "WHATSAPP": {
+      "TITLE": "WhatsApp Business Settings",
+      "DESCRIPTION": "Configure your WhatsApp Business API credentials for multi-tenant setup. Each organization can use their own Facebook App credentials."
+    },
     "HEADER": "Integrations",
     "WEBHOOK": {
       "TITLE": "Webhook",

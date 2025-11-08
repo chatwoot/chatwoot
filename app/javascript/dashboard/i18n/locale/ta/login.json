@@ -22,6 +22,20 @@
     },
     "FORGOT_PASSWORD": "உங்கள் பாஸ்வேர்ட்டை மறந்துவிட்டதா?",
     "CREATE_NEW_ACCOUNT": "புதிய கணக்கை உருவாக்க",
-    "SUBMIT": "உள்நுழையவும்"
+    "SUBMIT": "உள்நுழையவும்",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
   }
 }

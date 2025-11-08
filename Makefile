@@ -14,6 +14,9 @@ db_create:
 db_migrate:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:migrate
 
+db_rollback:
+	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:rollback
+
 db_seed:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:seed
 
@@ -130,4 +133,4 @@ dev-console:
 # db_prepare:
 # 	docker compose run --rm rails bundle exec rails db:chatwoot_prepare
 
-.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run debug debug_worker dev-setup dev-up dev-down dev-migrate dev-init dev-logs dev-console force_run_tunnel
+.PHONY: setup db_create db_migrate db_rollback db_seed db_reset db console server burn docker run force_run debug debug_worker dev-setup dev-up dev-down dev-migrate dev-init dev-logs dev-console force_run_tunnel

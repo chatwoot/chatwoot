@@ -52,9 +52,14 @@ class Whatsapp::IncomingMessageBaseService
     set_contact
     return unless @contact
 
-    set_conversation
-    create_messages
-    clear_message_source_id_from_redis
+    ActiveRecord::Base.transaction do
+      set_conversation
+      create_messages
+      clear_message_source_id_from_redis
+    end
+
+    # Trigger AI response after transaction commits to ensure message exists in DB
+    trigger_ai_response_if_needed
   end
 
   def process_statuses
@@ -89,10 +94,6 @@ class Whatsapp::IncomingMessageBaseService
       Rails.logger.info '[WHATSAPP_DEBUG] Creating regular message'
       create_regular_message(message)
     end
-
-    Rails.logger.info "[WHATSAPP_DEBUG] 🤖 Triggering AI response for message: #{@message&.id}"
-    # Trigger AI response once per WhatsApp message, regardless of type
-    trigger_ai_response_if_needed
   end
 
   def create_contact_messages(message)

@@ -4,6 +4,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import whatsappSettingsAPI from 'dashboard/api/whatsappSettings';
 import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
@@ -28,6 +29,11 @@ const authCodeReceived = ref(false);
 const authCode = ref(null);
 const businessData = ref(null);
 const isAuthenticating = ref(false);
+const whatsappConfig = ref({
+  appId: null,
+  configurationId: null,
+  apiVersion: null,
+});
 
 const benefits = computed(() => [
   {
@@ -162,21 +168,52 @@ const handleEmbeddedSignupData = async data => {
 
 const handleSignupMessage = createMessageHandler(handleEmbeddedSignupData);
 
+// Load WhatsApp configuration (account-specific or global fallback)
+const loadWhatsappConfig = async () => {
+  try {
+    const response = await whatsappSettingsAPI.get();
+    const settings = response.data;
+
+    if (settings && settings.app_id) {
+      whatsappConfig.value = {
+        appId: settings.app_id,
+        configurationId: settings.configuration_id,
+        apiVersion: settings.api_version || 'v22.0',
+      };
+    } else {
+      whatsappConfig.value = {
+        appId: window.chatwootConfig?.whatsappAppId,
+        configurationId: window.chatwootConfig?.whatsappConfigurationId,
+        apiVersion: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
+      };
+    }
+  } catch (error) {
+    whatsappConfig.value = {
+      appId: window.chatwootConfig?.whatsappAppId,
+      configurationId: window.chatwootConfig?.whatsappConfigurationId,
+      apiVersion: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
+    };
+  }
+};
+
 const launchEmbeddedSignup = async () => {
   try {
+    // Load account-specific configuration first
+    await loadWhatsappConfig();
+
     isAuthenticating.value = true;
     processingMessage.value = t(
       'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
     );
 
     await setupFacebookSdk(
-      window.chatwootConfig?.whatsappAppId,
-      window.chatwootConfig?.whatsappApiVersion
+      whatsappConfig.value.appId,
+      whatsappConfig.value.apiVersion
     );
     fbSdkLoaded.value = true;
 
     const code = await initWhatsAppEmbeddedSignup(
-      window.chatwootConfig?.whatsappConfigurationId
+      whatsappConfig.value.configurationId
     );
 
     authCode.value = code;

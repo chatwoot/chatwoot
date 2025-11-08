@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chatwoot-config-development
+  namespace: chatwoot-development
+data:
+  # Application Configuration
+  RAILS_ENV: "production"
+  NODE_ENV: "production"
+  RAILS_SERVE_STATIC_FILES: "true"
+  BUNDLE_WITHOUT: ""
+  EXECJS_RUNTIME: "Node"
+  INSTALLATION_NAME: "AlooChat (Development)"
+  FRONTEND_URL: "https://development.cx.aloochat.ai"
+  DOMAIN: "development.cx.aloochat.ai"
+
+  # Database Configuration
+  POSTGRES_USER: "${POSTGRES_USER}"
+  POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+  POSTGRES_HOST: "${POSTGRES_HOST}"
+  POSTGRES_PORT: "${POSTGRES_PORT}"
+  POSTGRES_DB: "${POSTGRES_DB}"
+
+  # Redis Configuration (using in-cluster Redis)
+  REDIS_HOST: "redis-development.chatwoot-development.svc.cluster.local"
+  REDIS_PORT: "6379"
+
+  # SMTP Configuration (override via Secret stringData)
+  SMTP_ADDRESS: "smtp.eu.mailgun.org"
+  SMTP_PORT: "587"
+  SMTP_DOMAIN: "mg.aloochat.ai"
+  SMTP_USERNAME: "accounts@mg.aloochat.ai"
+  SMTP_PASSWORD: "${SMTP_PASSWORD}"
+  SMTP_AUTHENTICATION: "plain"
+  SMTP_ENABLE_STARTTLS_AUTO: "true"
+  MAILER_SENDER_EMAIL: "AlooChat Development <accounts@mg.aloochat.ai>"
+  SMTP_OPENSSL_VERIFY_MODE: "peer"
+  MAILER_INBOUND_EMAIL_DOMAIN: "mg.aloochat.ai"
+  RAILS_INBOUND_EMAIL_SERVICE: "mailgun"
+  SMTP_OPEN_TIMEOUT: "60"
+  SMTP_READ_TIMEOUT: "60"
+
+  # AlooStudio Configuration
+  CLERK_WEBHOOK_SECRET: "${CLERK_WEBHOOK_SECRET}"
+  ALOOSTUDIO_API_TOKEN: "${ALOOSTUDIO_API_TOKEN}"
+  ALOOSTUDIO_WEBHOOK_URL: "${ALOOSTUDIO_WEBHOOK_URL}"
+  ALOOSTUDIO_BACKEND_URL: "${ALOOSTUDIO_BACKEND_URL}"
+  ALOOSTUDIO_FRONTEND_URL: "${ALOOSTUDIO_FRONTEND_URL}"
+
+  # Vite Configuration
+  VITE_DEV_SERVER_HOST: "localhost"
+  VITE_APP_URL: "https://development.cx.aloochat.ai"
+  VITE_RUBY_HOST: "localhost"
+  VITE_RUBY_PORT: "3000"
+  VITE_RUBY_HTTPS: "false"
+
+  # Other
+  ACTIVE_STORAGE_SERVICE: "${ACTIVE_STORAGE_SERVICE}"
+  S3_BUCKET_NAME: "${S3_BUCKET_NAME}"
+  AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+  AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+  AWS_REGION: "${AWS_REGION}"
+  OPENAI_API_KEY: "${OPENAI_API_KEY}"
+  FORCE_SSL: "${FORCE_SSL}"
+
+  FB_VERIFY_TOKEN: "${FB_VERIFY_TOKEN}"
+  FB_APP_SECRET: "${FB_APP_SECRET}"
+  FB_APP_ID: "${FB_APP_ID}"
+  IG_VERIFY_TOKEN: "${IG_VERIFY_TOKEN}"
+  INSTAGRAM_APP_ID: "${INSTAGRAM_APP_ID}"
+
+  # Google Configuration
+  GOOGLE_OAUTH_CLIENT_ID: "${GOOGLE_OAUTH_CLIENT_ID}"
+  GOOGLE_OAUTH_CLIENT_SECRET: "${GOOGLE_OAUTH_CLIENT_SECRET}"
+  GOOGLE_OAUTH_CALLBACK_URL: "${GOOGLE_OAUTH_CALLBACK_URL}"

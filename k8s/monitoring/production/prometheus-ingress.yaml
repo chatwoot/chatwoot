@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Basic auth for security - RECOMMENDED for production
+    # Uncomment and create secret after deployment:
+    # nginx.ingress.kubernetes.io/auth-type: basic
+    # nginx.ingress.kubernetes.io/auth-secret: prometheus-basic-auth
+    # nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - AlooChat Prometheus'
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - prometheus.aloochat.ai
+      secretName: prometheus-production-tls
+  rules:
+    - host: prometheus.aloochat.ai
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus
+                port:
+                  number: 9090

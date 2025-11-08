@@ -67,10 +67,13 @@ class DashboardController < ActionController::Base
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
       INSTAGRAM_APP_ID: GlobalConfigService.load('INSTAGRAM_APP_ID', ''),
       FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v18.0'),
-      WHATSAPP_APP_ID: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
-      WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
+      WHATSAPP_APP_ID: whatsapp_app_id,
+      WHATSAPP_CONFIGURATION_ID: whatsapp_configuration_id,
+      WHATSAPP_API_VERSION: whatsapp_api_version,
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
+      GOOGLE_OAUTH_CLIENT_ID: GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', ''),
+      FRONTEND_URL: ENV.fetch('FRONTEND_URL', ''),
       GIT_SHA: GIT_HASH
     }
   end
@@ -91,5 +94,31 @@ class DashboardController < ActionController::Base
     current_path = request.path.gsub(%r{^/app}, '')
 
     sensitive_paths.include?(current_path)
+  end
+
+  def whatsapp_app_id
+    account = current_user&.account
+    account_settings = account&.whatsapp_settings
+    app_id = account_settings&.app_id.presence || GlobalConfigService.load('WHATSAPP_APP_ID', '')
+
+    Rails.logger.info "[DASHBOARD_CONFIG] 👤 User: #{current_user&.email}, Account: #{account&.name} (ID: #{account&.id})"
+    Rails.logger.info "[DASHBOARD_CONFIG] WhatsApp App ID - Account Settings: #{account_settings&.app_id.present? ? '✓' : '✗'}, Using: #{app_id.present? ? app_id[0..8] : 'NONE'}"
+    app_id
+  end
+
+  def whatsapp_configuration_id
+    account_settings = current_user&.account&.whatsapp_settings
+    config_id = account_settings&.configuration_id.presence || GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', '')
+
+    Rails.logger.info "[DASHBOARD_CONFIG] WhatsApp Configuration ID - Account Settings: #{account_settings&.configuration_id.present? ? '✓' : '✗'}, Using: #{config_id}"
+    config_id
+  end
+
+  def whatsapp_api_version
+    account_settings = current_user&.account&.whatsapp_settings
+    api_version = account_settings&.api_version.presence || GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+
+    Rails.logger.info "[DASHBOARD_CONFIG] WhatsApp API Version - Account Settings: #{account_settings&.api_version.present? ? '✓' : '✗'}, Using: #{api_version}"
+    api_version
   end
 end

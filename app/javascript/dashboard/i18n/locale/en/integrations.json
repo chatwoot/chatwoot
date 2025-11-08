@@ -1,5 +1,86 @@
 {
   "INTEGRATION_SETTINGS": {
+    "WHATSAPP": {
+      "TITLE": "WhatsApp Business Settings",
+      "DESCRIPTION": "Configure your WhatsApp Business API credentials for multi-tenant setup. Each organization can use their own Facebook App credentials.",
+      "FORM": {
+        "TITLE": "WhatsApp Business Configuration",
+        "DESCRIPTION": "Enter your Facebook App credentials to enable WhatsApp Business API integration for your organization.",
+        "APP_ID": {
+          "LABEL": "WhatsApp App ID",
+          "PLACEHOLDER": "Enter your Facebook App ID",
+          "HELP": "Your Facebook App ID from the Facebook Developer Console",
+          "ERROR": "App ID is required"
+        },
+        "APP_SECRET": {
+          "LABEL": "WhatsApp App Secret",
+          "PLACEHOLDER": "Enter your Facebook App Secret",
+          "HELP": "Your Facebook App Secret from the Facebook Developer Console",
+          "ERROR": "App Secret is required"
+        },
+        "CONFIGURATION_ID": {
+          "LABEL": "Configuration ID",
+          "PLACEHOLDER": "Enter your Configuration ID",
+          "HELP": "The Configuration ID for embedded signup flow",
+          "ERROR": "Configuration ID is required"
+        },
+        "VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Auto-generated or enter custom token",
+          "HELP": "Token used to verify webhook requests from Facebook. Leave empty to auto-generate."
+        },
+        "API_VERSION": {
+          "LABEL": "API Version",
+          "PLACEHOLDER": "v22.0",
+          "HELP": "Facebook Graph API version (e.g., v22.0, v21.0)",
+          "V22": "v22.0 (Latest)",
+          "V21": "v21.0",
+          "V20": "v20.0"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook Callback URL",
+          "HELP": "Use this URL in your Facebook App webhook configuration"
+        },
+        "WEBHOOK_SECTION": {
+          "TITLE": "Webhook Configuration",
+          "CALLBACK_URL": "Callback URL:",
+          "VERIFY_TOKEN": "Verify Token:"
+        },
+        "SUBMIT": "Save Settings",
+        "UPDATE": "Update Settings",
+        "CANCEL": "Cancel"
+      },
+      "SETUP_INSTRUCTIONS": {
+        "TITLE": "Setup Instructions",
+        "STEP_1": "Go to",
+        "STEP_1_LINK": "Facebook Developer Console",
+        "STEP_2": "Create a new app or select existing WhatsApp Business app",
+        "STEP_3": "Copy App ID and App Secret from app settings",
+        "STEP_4": "Go to WhatsApp → Configuration and copy Configuration ID",
+        "STEP_5": "Paste the values above and save",
+        "STEP_6": "Configure webhook in Facebook with the URL and token shown above",
+        "STEP_7": "Subscribe to 'messages' webhook field",
+        "LEARN_MORE": "Learn more about WhatsApp Business API setup"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "WhatsApp settings saved successfully",
+        "UPDATE_SUCCESS": "WhatsApp settings updated successfully",
+        "ERROR_MESSAGE": "Failed to save WhatsApp settings. Please try again.",
+        "DELETE_SUCCESS": "WhatsApp settings deleted successfully",
+        "DELETE_ERROR": "Failed to delete WhatsApp settings"
+      },
+      "DELETE": {
+        "TITLE": "Delete WhatsApp Settings",
+        "MESSAGE": "Are you sure you want to delete the WhatsApp Business configuration? This will affect all WhatsApp channels using these credentials.",
+        "CONFIRM": "Yes, Delete",
+        "CANCEL": "Cancel"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp Configuration",
+        "DESCRIPTION": "Configure your WhatsApp Business API credentials to enable multi-tenant WhatsApp integration. Each organization can use their own Facebook App.",
+        "BUTTON": "Configure WhatsApp"
+      }
+    },
     "SHOPIFY": {
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
@@ -747,6 +828,115 @@
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+        }
+      }
+    },
+    "CUSTOM_TOOLS": {
+      "HEADER": "Tools",
+      "ADD_NEW": "Create a new tool",
+      "EMPTY_STATE": {
+        "TITLE": "No custom tools available",
+        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Custom Tools",
+          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+        }
+      },
+      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "OPTIONS": {
+        "EDIT_TOOL": "Edit tool",
+        "DELETE_TOOL": "Delete tool"
+      },
+      "CREATE": {
+        "TITLE": "Create Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool created successfully",
+        "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "EDIT": {
+        "TITLE": "Edit Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool updated successfully",
+        "ERROR_MESSAGE": "Failed to update custom tool"
+      },
+      "DELETE": {
+        "TITLE": "Delete Custom Tool",
+        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete custom tool"
+      },
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tool Name",
+          "PLACEHOLDER": "Order Lookup",
+          "ERROR": "Tool name is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Looks up order details by order ID"
+        },
+        "HTTP_METHOD": {
+          "LABEL": "Method"
+        },
+        "ENDPOINT_URL": {
+          "LABEL": "Endpoint URL",
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
+          "ERROR": "Valid URL is required"
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication Type"
+        },
+        "AUTH_TYPES": {
+          "NONE": "None",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
+          "API_KEY": "API Key"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
+          "USERNAME": "Username",
+          "USERNAME_PLACEHOLDER": "Enter username",
+          "PASSWORD": "Password",
+          "PASSWORD_PLACEHOLDER": "Enter password",
+          "API_KEY": "Header Name",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
+          "API_VALUE": "Header Value",
+          "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "PARAMETERS": {
+          "LABEL": "Parameters",
+          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+        },
+        "ADD_PARAMETER": "Add Parameter",
+        "PARAM_NAME": {
+          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+        },
+        "PARAM_TYPE": {
+          "PLACEHOLDER": "Type"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "NUMBER": "Number",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
+          "OBJECT": "Object"
+        },
+        "PARAM_DESCRIPTION": {
+          "PLACEHOLDER": "Description of the parameter"
+        },
+        "PARAM_REQUIRED": {
+          "LABEL": "Required"
+        },
+        "REQUEST_TEMPLATE": {
+          "LABEL": "Request Body Template (Optional)",
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "LABEL": "Response Template (Optional)",
+          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+        },
+        "ERRORS": {
+          "PARAM_NAME_REQUIRED": "Parameter name is required"
         }
       }
     },

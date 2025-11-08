@@ -7,10 +7,23 @@ class Whatsapp::WebhookSetupService
   end
 
   def perform
+    Rails.logger.info "[WHATSAPP_WEBHOOK] Starting webhook setup for phone_number_id: #{@channel.provider_config['phone_number_id']}"
+
     validate_parameters!
-    # Since coexistence method does not need to register, we check it
-    register_phone_number unless phone_number_verified?
+    Rails.logger.info '[WHATSAPP_WEBHOOK] ✓ Parameters validated'
+
+    # Register phone number if either condition is met:
+    # 1. Phone number is not verified (code_verification_status != 'VERIFIED')
+    # 2. Phone number needs registration (pending provisioning state)
+    if !phone_number_verified? || phone_number_needs_registration?
+      Rails.logger.info '[WHATSAPP_WEBHOOK] Phone number needs registration, attempting to register...'
+      register_phone_number
+    else
+      Rails.logger.info '[WHATSAPP_WEBHOOK] Phone number already verified, skipping registration'
+    end
+
     setup_webhook
+    Rails.logger.info '[WHATSAPP_WEBHOOK] ✅ Webhook setup completed successfully'
   end
 
   private
@@ -52,10 +65,29 @@ class Whatsapp::WebhookSetupService
     callback_url = build_callback_url
     verify_token = @channel.provider_config['webhook_verify_token']
 
+    Rails.logger.info "[WHATSAPP_WEBHOOK] Subscribing webhook - URL: #{callback_url}"
     @api_client.subscribe_waba_webhook(@waba_id, callback_url, verify_token)
+    Rails.logger.info '[WHATSAPP_WEBHOOK] ✓ Webhook subscribed successfully'
 
   rescue StandardError => e
-    Rails.logger.error("[WHATSAPP] Webhook setup failed: #{e.message}")
+    Rails.logger.error "[WHATSAPP_WEBHOOK] ❌ Webhook subscription failed: #{e.class.name} - #{e.message}"
+    Rails.logger.error "[WHATSAPP_WEBHOOK] Callback URL: #{callback_url}"
+    Rails.logger.error "[WHATSAPP_WEBHOOK] Verify Token: #{verify_token}"
+    Rails.logger.error "[WHATSAPP_WEBHOOK] WABA ID: #{@waba_id}"
+
+    # Check if this is the "must be subscribed" error
+    if e.message.include?('must be subscribed')
+      Rails.logger.error '[WHATSAPP_WEBHOOK] 📋 MANUAL SETUP REQUIRED:'
+      Rails.logger.error '[WHATSAPP_WEBHOOK] 1. Go to Meta Business Suite → WhatsApp Manager'
+      Rails.logger.error "[WHATSAPP_WEBHOOK] 2. Select WABA ID: #{@waba_id}"
+      Rails.logger.error '[WHATSAPP_WEBHOOK] 3. Go to Configuration → Webhooks'
+      Rails.logger.error '[WHATSAPP_WEBHOOK] 4. Configure webhook with:'
+      Rails.logger.error "[WHATSAPP_WEBHOOK]    - Callback URL: #{callback_url}"
+      Rails.logger.error "[WHATSAPP_WEBHOOK]    - Verify Token: #{verify_token}"
+      Rails.logger.error "[WHATSAPP_WEBHOOK] 5. Subscribe to 'messages' field"
+      Rails.logger.error "[WHATSAPP_WEBHOOK] 6. Click 'Verify and Save'"
+    end
+
     raise "Webhook setup failed: #{e.message}"
   end
 
@@ -69,9 +101,44 @@ class Whatsapp::WebhookSetupService
   def phone_number_verified?
     phone_number_id = @channel.provider_config['phone_number_id']
 
-    @api_client.phone_number_verified?(phone_number_id)
+    # Check with WhatsApp API if the phone number code verification is complete
+    # This checks code_verification_status == 'VERIFIED'
+    verified = @api_client.phone_number_verified?(phone_number_id)
+    Rails.logger.info("[WHATSAPP] Phone number #{phone_number_id} code verification status: #{verified}")
+
+    verified
   rescue StandardError => e
-    Rails.logger.error("[WHATSAPP] Phone registration status check failed, but continuing: #{e.message}")
+    # If verification check fails, assume not verified to be safe
+    Rails.logger.error("[WHATSAPP] Phone verification status check failed: #{e.message}")
+    false
+  end
+
+  def phone_number_needs_registration?
+    # Check if phone is in pending provisioning state based on health data
+    # This is a separate check from phone_number_verified? which only checks code verification
+
+    phone_number_in_pending_state?
+
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Phone registration check failed: #{e.message}")
+    # Conservative approach: don't register if we can't determine the state
+    false
+  end
+
+  def phone_number_in_pending_state?
+    health_service = Whatsapp::HealthService.new(@channel)
+    health_data = health_service.fetch_health_status
+
+    # Check if phone number is in "not provisioned" state based on health indicators
+    # These conditions indicate the number is pending and needs registration:
+    # - platform_type: "NOT_APPLICABLE" means not fully set up
+    # - throughput.level: "NOT_APPLICABLE" means no messaging capacity assigned
+    health_data[:platform_type] == 'NOT_APPLICABLE' ||
+      health_data.dig(:throughput, :level) == 'NOT_APPLICABLE'
+
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Health status check failed: #{e.message}")
+    # If health check fails, assume registration is not needed to avoid errors
     false
   end
 end

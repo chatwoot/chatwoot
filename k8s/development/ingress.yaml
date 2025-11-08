@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chatwoot-ingress-development
+  namespace: chatwoot-development
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-development"
+spec:
+  ingressClassName: nginx-development
+  tls:
+    - hosts:
+        - development.cx.aloochat.ai
+      secretName: chatwoot-development-tls
+  rules:
+    - host: development.cx.aloochat.ai
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chatwoot-rails-development
+                port:
+                  number: 3000

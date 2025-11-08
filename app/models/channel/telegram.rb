@@ -17,6 +17,9 @@
 class Channel::Telegram < ApplicationRecord
   include Channelable
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  encrypts :bot_token, deterministic: true if Chatwoot.encryption_configured?
+
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
 

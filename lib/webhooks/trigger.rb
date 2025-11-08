@@ -31,14 +31,33 @@ class Webhooks::Trigger
   end
 
   def handle_error(error)
-    return unless should_handle_error?
+    return unless SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
     return unless message
 
-    update_message_status(error)
+    case @webhook_type
+    when :agent_bot_webhook
+      conversation = message.conversation
+      return unless conversation&.pending?
+
+      conversation.open!
+      create_agent_bot_error_activity(conversation)
+    when :api_inbox_webhook
+      update_message_status(error)
+    end
   end
 
-  def should_handle_error?
-    @webhook_type == :api_inbox_webhook && SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
+  def create_agent_bot_error_activity(conversation)
+    content = I18n.t('conversations.activity.agent_bot.error_moved_to_open')
+    Conversations::ActivityMessageJob.perform_later(conversation, activity_message_params(conversation, content))
+  end
+
+  def activity_message_params(conversation, content)
+    {
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :activity,
+      content: content
+    }
   end
 
   def update_message_status(error)

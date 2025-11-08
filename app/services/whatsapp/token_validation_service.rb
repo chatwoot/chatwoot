@@ -1,8 +1,9 @@
 class Whatsapp::TokenValidationService
-  def initialize(access_token, waba_id)
+  def initialize(access_token, waba_id, account: nil)
     @access_token = access_token
     @waba_id = waba_id
-    @api_client = Whatsapp::FacebookApiClient.new(access_token)
+    @account = account
+    @api_client = Whatsapp::FacebookApiClient.new(access_token, account: @account)
   end
 
   def perform
