@@ -21,11 +21,9 @@ data:
   POSTGRES_PORT: "${POSTGRES_PORT}"
   POSTGRES_DB: "${POSTGRES_DB}"
 
-  # Redis Configuration
-  REDIS_URL: "${REDIS_URL}"
-  REDIS_PASSWORD: "${REDIS_PASSWORD}"
-  REDIS_HOST: "${REDIS_HOST}"
-  REDIS_PORT: "${REDIS_PORT}"
+  # Redis Configuration (using in-cluster Redis)
+  REDIS_HOST: "redis-development.chatwoot-development.svc.cluster.local"
+  REDIS_PORT: "6379"
 
   # SMTP Configuration (override via Secret stringData)
   SMTP_ADDRESS: "smtp.eu.mailgun.org"

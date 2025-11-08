@@ -125,10 +125,8 @@ jobs:
             POSTGRES_DATABASE: "${{ secrets.DEV_POSTGRES_DATABASE }}"
             POSTGRES_USERNAME: "${{ secrets.DEV_POSTGRES_USERNAME }}"
             POSTGRES_PASSWORD: "${{ secrets.DEV_POSTGRES_PASSWORD }}"
-            REDIS_URL: "${{ secrets.DEV_REDIS_URL }}"
-            REDIS_PASSWORD: "${{ secrets.DEV_REDIS_PASSWORD }}"
-            REDIS_HOST: "${{ secrets.DEV_REDIS_HOST }}"
-            REDIS_PORT: "${{ secrets.DEV_REDIS_PORT }}"
+            REDIS_HOST: "redis-development.chatwoot-development.svc.cluster.local"
+            REDIS_PORT: "6379"
             SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
             DOMAIN: "development.cx.aloochat.ai"
             ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
@@ -187,10 +185,9 @@ jobs:
             POSTGRES_DATABASE: "${{ secrets.DEV_POSTGRES_DATABASE }}"
             POSTGRES_USERNAME: "${{ secrets.DEV_POSTGRES_USERNAME }}"
             POSTGRES_PASSWORD: "${{ secrets.DEV_POSTGRES_PASSWORD }}"
-            REDIS_URL: "${{ secrets.DEV_REDIS_URL }}"
+            REDIS_HOST: "redis-development.chatwoot-development.svc.cluster.local"
+            REDIS_PORT: "6379"
             REDIS_PASSWORD: "${{ secrets.DEV_REDIS_PASSWORD }}"
-            REDIS_HOST: "${{ secrets.DEV_REDIS_HOST }}"
-            REDIS_PORT: "${{ secrets.DEV_REDIS_PORT }}"
             SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
             DOMAIN: "development.cx.aloochat.ai"
             ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
@@ -234,6 +231,7 @@ jobs:
       - name: Deploy AlooChat to Kubernetes (development)
         run: |
           # Apply development deployments & services to chatwoot-development namespace
+          kubectl apply -n chatwoot-development -f k8s/development/redis-deployment.yaml
           kubectl apply -n chatwoot-development -f k8s/development/rails-deployment.yaml
           kubectl apply -n chatwoot-development -f k8s/development/vite-deployment.yaml
           kubectl apply -n chatwoot-development -f k8s/development/sidekiq-deployment.yaml
@@ -241,6 +239,9 @@ jobs:
           kubectl apply -n chatwoot-development -f k8s/development/ingress.yaml
 
           # Wait for all deployments to be ready
+          echo "Waiting for Redis deployment (development)..."
+          kubectl rollout status deployment/redis-development -n chatwoot-development --timeout=300s
+
           echo "Waiting for Rails deployment (development)..."
           kubectl rollout status deployment/chatwoot-rails-development -n chatwoot-development --timeout=900s
 
