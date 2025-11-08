@@ -534,7 +534,7 @@
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
           "SELECT_ALL": "Tümünü seç ({count})",
           "UNSELECT_ALL": "Tümünü kaldır ({count})",
           "BULK_DELETE_BUTTON": "Sil"
@@ -624,7 +624,7 @@
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
           "SELECT_ALL": "Tümünü seç ({count})",
           "UNSELECT_ALL": "Tümünü kaldır ({count})",
           "BULK_DELETE_BUTTON": "Sil"
