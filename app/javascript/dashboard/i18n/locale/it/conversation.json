@@ -208,7 +208,7 @@
       "": "",
       "EMAIL_HEAD": {
         "TO": "A",
-        "ADD_BCC": "Aggiungi Bcc",
+        "ADD_BCC": "Aggiungi Ccn",
         "CC": {
           "LABEL": "Cc",
           "PLACEHOLDER": "Email separate da virgole",
