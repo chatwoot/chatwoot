@@ -52,6 +52,10 @@ const chatStatusOptions = computed(() => [
     value: 'pending',
   },
   {
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.queued.TEXT'),
+    value: 'queued',
+  },
+  {
     label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
     value: 'snoozed',
   },

@@ -3,7 +3,7 @@
 # Table name: accounts
 #
 #  id                        :integer          not null, primary key
-#  active_chat_limit_enabled :boolean          default(FALSE)
+#  active_chat_limit_enabled :boolean          default(FALSE), not null
 #  active_chat_limit_value   :integer          default(7)
 #  auto_resolve_duration     :integer
 #  custom_attributes         :jsonb
@@ -13,6 +13,7 @@
 #  limits                    :jsonb
 #  locale                    :integer          default("en")
 #  name                      :string           not null
+#  queue_enabled             :boolean          default(FALSE), not null
 #  settings                  :jsonb
 #  status                    :integer          default("active")
 #  support_email             :string(100)
@@ -77,6 +78,8 @@ class Account < ApplicationRecord
   has_many :categories, dependent: :destroy_async, class_name: '::Category'
   has_many :contacts, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
+  has_many :conversation_queues, dependent: :destroy_async
+  has_many :queue_statistics, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :custom_attribute_definitions, dependent: :destroy_async
   has_many :custom_filters, dependent: :destroy_async
