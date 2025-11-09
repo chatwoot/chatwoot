@@ -1,0 +1,60 @@
+# CommMate Installation Config Overrides
+# This file overrides the default config/installation_config.yml with CommMate branding
+
+# ------- Branding Related Config ------- #
+- name: INSTALLATION_NAME
+  value: 'CommMate'
+  display_title: 'Installation Name'
+  description: 'The installation wide name that would be used in the dashboard, title etc.'
+- name: LOGO_THUMBNAIL
+  value: '/brand-assets/logo_thumbnail.png'
+  display_title: 'Logo Thumbnail'
+  description: 'The thumbnail that would be used for favicon (512px X 512px)'
+- name: LOGO
+  value: '/brand-assets/logo-full.png'
+  display_title: 'Logo'
+  description: 'The logo that would be used on the dashboard, login page etc.'
+- name: LOGO_DARK
+  value: '/brand-assets/logo-full-dark.png'
+  display_title: 'Logo Dark Mode'
+  description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
+- name: BRAND_URL
+  value: 'https://commmate.com'
+  display_title: 'Brand URL'
+  description: 'The URL that would be used in emails under the section "Powered By"'
+- name: WIDGET_BRAND_URL
+  value: 'https://commmate.com'
+  display_title: 'Widget Brand URL'
+  description: 'The URL that would be used in the widget under the section "Powered By"'
+- name: BRAND_NAME
+  value: 'CommMate'
+  display_title: 'Brand Name'
+  description: 'The name that would be used in emails and the widget'
+- name: TERMS_URL
+  value: 'https://commmate.com/terms'
+  display_title: 'Terms URL'
+  description: 'The terms of service URL displayed in Signup Page'
+- name: PRIVACY_URL
+  value: 'https://commmate.com/privacy'
+  display_title: 'Privacy URL'
+  description: 'The privacy policy URL displayed in the app'
+- name: DISPLAY_MANIFEST
+  value: true
+  display_title: 'CommMate Metadata'
+  description: 'Display default CommMate metadata like favicons and upgrade warnings'
+  type: boolean
+# ------- End of Branding Related Config ------- #
+
+# ------- Signup & Account Related Config ------- #
+- name: ENABLE_ACCOUNT_SIGNUP
+  display_title: 'Enable Account Signup'
+  value: false
+  description: 'Allow users to signup for new accounts'
+  type: boolean
+- name: CREATE_NEW_ACCOUNT_FROM_DASHBOARD
+  display_title: 'Create new account from dashboard'
+  value: false
+  description: 'Allow Super Admins to create accounts from dashboard'
+  type: boolean
+# ------- End of Signup & Account Related Config ------- #
+

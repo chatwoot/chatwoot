@@ -3,7 +3,7 @@ set -e
 
 echo "🚀 Starting CommMate..."
 
-# Wait for database
+# Wait for database (same as original Chatwoot)
 echo "⏳ Waiting for database..."
 until PGPASSWORD=$POSTGRES_PASSWORD psql -h "$POSTGRES_HOST" -U "$POSTGRES_USERNAME" -d "$POSTGRES_DATABASE" -c '\q' 2>/dev/null; do
   echo "Waiting for PostgreSQL..."
@@ -11,14 +11,14 @@ until PGPASSWORD=$POSTGRES_PASSWORD psql -h "$POSTGRES_HOST" -U "$POSTGRES_USERN
 done
 echo "✅ Database is ready"
 
-# Run migrations
-echo "📦 Running database migrations..."
-bundle exec rails db:migrate
+# Use Chatwoot's smart prepare task (handles fresh vs existing intelligently)
+echo "📦 Preparing database (using Chatwoot's db:chatwoot_prepare)..."
+bundle exec rails db:chatwoot_prepare
 
-# Apply CommMate branding (idempotent - safe to run on every installation)
-bundle exec rails commmate:branding
+# CommMate branding is applied automatically by initializer during Rails startup
+# No additional rake task needed - initializer handles it
 
-# Start Rails
+# Start Rails (same as original Chatwoot)
 echo "🎉 Starting Rails server..."
 exec bundle exec rails s -b 0.0.0.0
 

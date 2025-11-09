@@ -3,20 +3,13 @@ version: '3.8'
 # CommMate Production - USA SUA IMAGEM CUSTOMIZADA
 services:
   rails:
-    image: commmate/commmate:latest
+    image: commmate/commmate:v4.7.0.3
     container_name: commmate-rails
     restart: unless-stopped
     ports:
       - '3000:3000'
     environment:
-      # CommMate Branding (já integrado na imagem)
-      - APP_NAME=CommMate
-      - BRAND_NAME=CommMate
-      - INSTALLATION_NAME=CommMate
-      - BRAND_URL=https://commmate.com
-      - HIDE_BRANDING=true
-      - DEFAULT_LOCALE=pt_BR
-      
+
       # Environment
       - RAILS_ENV=production
       - NODE_ENV=production
@@ -41,10 +34,9 @@ services:
       # Email
       - SMTP_ADDRESS=mailhog
       - SMTP_PORT=1025
-      - MAILER_SENDER_EMAIL=CommMate <support@commmate.com>
+      # MAILER_SENDER_EMAIL built into image (override here if needed)
       
       # Features
-      - ENABLE_ACCOUNT_SIGNUP=true
       - ACTIVE_STORAGE_SERVICE=local
       - RAILS_LOG_TO_STDOUT=true
     volumes:
@@ -54,13 +46,14 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    # Uses entrypoint from Dockerfile (automatic setup)
 
   sidekiq:
-    image: commmate/commmate:latest
+    image: commmate/commmate:v4.7.0.3
     container_name: commmate-sidekiq
     restart: unless-stopped
     environment:
+      # CommMate security defaults built into image
       - RAILS_ENV=production
       - POSTGRES_HOST=postgres
       - POSTGRES_DATABASE=chatwoot
@@ -74,10 +67,10 @@ services:
       - rails
     volumes:
       - commmate-storage:/app/storage
-    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    command: ['sh', '-c', 'sleep 30 && bundle exec sidekiq -C config/sidekiq.yml']
 
   postgres:
-    image: postgres:16
+    image: pgvector/pgvector:pg16
     container_name: commmate-postgres
     restart: unless-stopped
     environment:

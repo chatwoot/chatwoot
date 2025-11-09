@@ -3,6 +3,8 @@ class Internal::CheckNewVersionsJob < ApplicationJob
 
   def perform
     return unless Rails.env.production?
+    # CommMate: Disabled version checks to Chatwoot Hub
+    return if ENV['DISABLE_CHATWOOT_CONNECTIONS'] == 'true'
 
     @instance_info = ChatwootHub.sync_with_hub
     update_version_info

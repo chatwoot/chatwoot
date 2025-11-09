@@ -95,10 +95,12 @@ COPY custom/assets/favicons/* /app/public/
 COPY custom/config/branding.yml /app/config/commmate/
 COPY custom/locales/*.yml /app/config/locales/
 COPY custom/config/docker-entrypoint.sh /app/custom/config/
+COPY custom/config/installation_config.yml /app/custom/config/
 
 # Copy CommMate initializers
 COPY custom/config/initializers/commmate_branding.rb /app/config/initializers/
 COPY custom/config/initializers/commmate_i18n.rb /app/config/initializers/
+COPY custom/config/initializers/commmate_config_overrides.rb /app/config/initializers/
 
 # Copy CommMate styles (will be compiled during asset precompilation)
 COPY custom/styles /app/custom/styles
@@ -198,7 +200,17 @@ ENV BUNDLE_PATH="/gems"
 ENV APP_NAME="CommMate" \
     BRAND_NAME="CommMate" \
     INSTALLATION_NAME="CommMate" \
-    BRAND_URL="https://commmate.com"
+    BRAND_URL="https://commmate.com" \
+    HIDE_BRANDING="true" \
+    DEFAULT_LOCALE="pt_BR"
+
+# COMMMATE PRIVACY & SECURITY
+ENV ENABLE_ACCOUNT_SIGNUP="false" \
+    DISABLE_CHATWOOT_CONNECTIONS="true" \
+    DISABLE_TELEMETRY="true"
+
+# COMMMATE EMAIL DEFAULTS
+ENV MAILER_SENDER_EMAIL="CommMate <support@commmate.com>"
 # ============================================
 
 RUN apk update && apk add --no-cache \

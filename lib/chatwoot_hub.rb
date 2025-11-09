@@ -65,6 +65,10 @@ class ChatwootHub
   end
 
   def self.sync_with_hub
+    # CommMate: Disabled external connections to Chatwoot Hub
+    return {} if ENV['DISABLE_CHATWOOT_CONNECTIONS'] == 'true'
+    return {} if ENV['DISABLE_TELEMETRY'] == 'true'
+
     begin
       info = instance_config
       info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
@@ -79,6 +83,9 @@ class ChatwootHub
   end
 
   def self.register_instance(company_name, owner_name, owner_email)
+    # CommMate: Disabled external connections to Chatwoot Hub
+    return if ENV['DISABLE_CHATWOOT_CONNECTIONS'] == 'true'
+
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
     RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
@@ -88,6 +95,9 @@ class ChatwootHub
   end
 
   def self.send_push(fcm_options)
+    # CommMate: Disabled external connections to Chatwoot Hub
+    return if ENV['DISABLE_CHATWOOT_CONNECTIONS'] == 'true'
+
     info = { fcm_options: fcm_options }
     RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
@@ -97,6 +107,9 @@ class ChatwootHub
   end
 
   def self.get_captain_settings(account)
+    # CommMate: Disabled external connections to Chatwoot Hub
+    return nil if ENV['DISABLE_CHATWOOT_CONNECTIONS'] == 'true'
+
     info = {
       installation_identifier: installation_identifier,
       chatwoot_account_id: account.id,
@@ -108,6 +121,8 @@ class ChatwootHub
   end
 
   def self.emit_event(event_name, event_data)
+    # CommMate: Disabled external connections to Chatwoot Hub
+    return if ENV['DISABLE_CHATWOOT_CONNECTIONS'] == 'true'
     return if ENV['DISABLE_TELEMETRY']
 
     info = { event_name: event_name, event_data: event_data }
