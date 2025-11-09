@@ -57,7 +57,7 @@ class Whatsapp::OneoffCampaignService
       return
     end
 
-    send_whatsapp_template_message(to: contact.phone_number)
+    send_whatsapp_template_message(to: contact.phone_number, contact: contact)
   end
 
   def process_audience(audience_labels)
@@ -69,10 +69,13 @@ class Whatsapp::OneoffCampaignService
     Rails.logger.info "Campaign #{campaign.id} processing completed"
   end
 
-  def send_whatsapp_template_message(to:)
+  def send_whatsapp_template_message(to:, contact:)
+    # Process Liquid variables in template_params for this specific contact
+    personalized_params = process_liquid_variables(campaign.template_params, contact)
+
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
-      template_params: campaign.template_params
+      template_params: personalized_params
     )
 
     name, namespace, lang_code, processed_parameters = processor.call
@@ -91,5 +94,29 @@ class Whatsapp::OneoffCampaignService
     Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
     # continue processing remaining contacts
     nil
+  end
+
+  def process_liquid_variables(template_params, contact)
+    return template_params if template_params.blank?
+
+    # Deep clone to avoid modifying the original
+    personalized = template_params.deep_dup
+
+    # Process processed_params if present using the shared Liquid processor service
+    if personalized['processed_params'].present?
+      liquid_processor = Liquid::TemplateVariableProcessorService.new(drops: liquid_drops(contact))
+      personalized['processed_params'] = liquid_processor.process_hash(personalized['processed_params'])
+    end
+
+    personalized
+  end
+
+  def liquid_drops(contact)
+    {
+      'contact' => ContactDrop.new(contact),
+      'agent' => UserDrop.new(campaign.sender),
+      'inbox' => InboxDrop.new(campaign.inbox),
+      'account' => AccountDrop.new(campaign.account)
+    }
   end
 end
