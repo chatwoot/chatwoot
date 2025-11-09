@@ -29,10 +29,7 @@ class Labels::AutoLabelService
   end
 
   def fetch_label_suggestions
-    classifier = Labels::OpenaiClassifierService.new(
-      conversation: conversation,
-      account: account
-    )
+    classifier = Labels::OpenaiClassifierService.new(conversation: conversation, account: account)
 
     result = classifier.suggest_labels
     result[:labels] || []

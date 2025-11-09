@@ -16,7 +16,6 @@ class Labels::OpenaiClassifierService
   private
 
   def should_process?
-    return false unless ENV['OPENAI_API_KEY'].present?
     return false if conversation.messages.incoming.count < 3
     return false if conversation.messages.count > 100
     return false if available_labels.empty?
