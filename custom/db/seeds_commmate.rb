@@ -13,7 +13,14 @@ Rails.logger.info '  ✓ Onboarding disabled'
 
 # Create default CommMate account if doesn't exist
 account = Account.find_or_create_by!(name: 'CommMate') do |acc|
+  acc.locale = 'pt_BR'
   Rails.logger.info '  ✓ Created default CommMate account'
+end
+
+# Update locale if already exists but has wrong locale
+if account.locale != 'pt_BR'
+  account.update!(locale: 'pt_BR')
+  Rails.logger.info '  ✓ Updated account locale to pt_BR'
 end
 
 # Create super admin ONLY if no SuperAdmin exists at all
