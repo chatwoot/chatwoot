@@ -11,22 +11,79 @@ module AutoAssignmentHandler
   def run_auto_assignment
     # Round robin kicks in on conversation create & update
     # run it only when conversation status changes to open
+    if saved_change_to_status? && status == "open" && status_before_last_save == "queued"
+      return
+    end
+  
     return unless conversation_status_changed_to_open?
     return unless should_run_auto_assignment?
 
-    if inbox.auto_assignment_v2_enabled?
-      # Use new assignment system
-      AutoAssignment::AssignmentJob.perform_later(inbox_id: inbox.id)
+    if account.queue_enabled?
+      handle_queue_assignment
     else
-      # Use legacy assignment system
-      AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: inbox.member_ids_with_assignment_capacity).perform
+      return unless should_run_auto_assignment?
+      handle_standard_assignment
     end
   end
 
+  def find_available_agent_for(conversation)
+    queue_service = ChatQueue::QueueService.new(account: account)
+
+    queue_service.online_agents_list.each do |agent_id|
+      agent = User.find_by(id: agent_id)
+      next unless agent
+
+      next unless queue_service.conversation_allowed_for_agent?(conversation, agent)
+      next unless queue_service.agent_available?(agent)
+  
+      return agent
+    end
+
+    nil
+  end
+
   def should_run_auto_assignment?
+    if account.queue_enabled?
+      return false if status == "queued"
+
+      return true
+    end
+  
     return false unless inbox.enable_auto_assignment?
 
-    # run only if assignee is blank or doesn't have access to inbox
-    assignee.blank? || inbox.members.exclude?(assignee)
+    if assignee.blank? || inbox.members.exclude?(assignee)
+      return true
+    end
+
+    false
+  end
+
+  def handle_queue_assignment
+    queue_service = ChatQueue::QueueService.new(account: account)
+  
+    return if queued? || assignee.present? 
+  
+    update_column(:assignee_id, nil) if assignee_id.present?
+  
+    if queue_service.queue_size.zero?
+      assignee = find_available_agent_for(self)
+
+      if assignee && assignee_id.nil?
+        update!(assignee: assignee, status: :open)
+      else
+        queue_service.add_to_queue(self)
+      end
+    else
+      queue_service.add_to_queue(self)
+    end
+  end
+
+  def handle_standard_assignment
+    assignee = ::AutoAssignment::AgentAssignmentService.new(
+      conversation: self,
+      allowed_agent_ids: inbox.member_ids_with_assignment_capacity
+    ).find_assignee
+
+    update!(assignee: assignee) if assignee
   end
 end

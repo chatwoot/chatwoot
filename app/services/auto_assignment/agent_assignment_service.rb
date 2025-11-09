@@ -34,7 +34,7 @@ class AutoAssignment::AgentAssignmentService
 
   def online_agent_ids
     @online_agent_ids ||= begin
-      agents = OnlineStatusTracker.get_available_users(conversation.account_id)
+      agents = OnlineStatusTracker.get_available_users(conversation.account_id) || {}
       agents.select { |_id, status| status == 'online' }.keys
     end
   end
@@ -51,7 +51,7 @@ class AutoAssignment::AgentAssignmentService
 
   def active_chat_counts_for(agent_ids)
     Conversation
-      .where(assignee_id: agent_ids)
+      .where(assignee_id: agent_ids, account_id: conversation.account_id)
       .where.not(status: :resolved)
       .group(:assignee_id)
       .count
@@ -64,6 +64,9 @@ class AutoAssignment::AgentAssignmentService
     return agent_ids.sample if agent_ids.size == 1
 
     last_closed_times = last_closed_chat_times_for(agent_ids)
+
+    return agent_ids.sample if last_closed_times.values.compact.empty?
+
     agent_ids.min_by { |id| last_closed_times[id] || Time.zone.at(0) }
   end
 
