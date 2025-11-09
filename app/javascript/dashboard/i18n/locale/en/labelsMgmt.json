@@ -6,15 +6,15 @@
     "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
     "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "There are no items matching this query",
-    "AUTO_LABEL": {
-      "TITLE": "AI-Powered Auto-Labeling",
-      "DESCRIPTION": "Automatically assign labels to conversations using AI analysis based on conversation content and context.",
-      "ENABLE": "Enable automatic labeling",
-      "THRESHOLD_LABEL": "Minimum messages before auto-labeling",
-      "THRESHOLD_HINT": "Wait for this many messages before applying labels",
-      "UPDATE_SUCCESS": "Auto-label settings updated successfully",
-      "UPDATE_FAILED": "Failed to update auto-label settings",
-      "INFO_MESSAGE": "Labels will be automatically applied when conversations reach the message threshold. Only unlabeled conversations will be processed. Requires OPENAI_API_KEY to be configured."
+    "AUTO_CLASSIFICATION": {
+      "LABEL_TITLE": "AI-Powered Auto-Labeling",
+      "LABEL_DESCRIPTION": "Automatically assign labels to conversations using AI analysis based on conversation content and context.",
+      "TEAM_TITLE": "AI-Powered Auto-Team Assignment",
+      "TEAM_DESCRIPTION": "Automatically assign teams to conversations using AI analysis based on conversation content and team descriptions.",
+      "THRESHOLD_LABEL": "Minimum messages before processing",
+      "THRESHOLD_HINT": "Wait for this many incoming messages before applying AI suggestions",
+      "UPDATE_SUCCESS": "Auto-classification settings updated successfully",
+      "UPDATE_FAILED": "Failed to update auto-classification settings"
     },
     "LIST": {
       "404": "There are no labels available in this account.",

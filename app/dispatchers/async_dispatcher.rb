@@ -10,7 +10,7 @@ class AsyncDispatcher < BaseDispatcher
 
   def listeners
     [
-      AutoLabelListener.instance,
+      AutoClassificationListener.instance,
       AutomationRuleListener.instance,
       CampaignListener.instance,
       CsatSurveyListener.instance,

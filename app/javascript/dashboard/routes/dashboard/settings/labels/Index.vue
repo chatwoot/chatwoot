@@ -6,7 +6,7 @@ import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
 import AddLabel from './AddLabel.vue';
 import EditLabel from './EditLabel.vue';
-import AutoLabelSettings from './AutoLabelSettings.vue';
+import AutoClassificationSettings from '../account/AutoClassificationSettings.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -105,7 +105,7 @@ onBeforeMount(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <AutoLabelSettings class="mb-6" />
+      <AutoClassificationSettings class="mb-6" />
       <table class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th

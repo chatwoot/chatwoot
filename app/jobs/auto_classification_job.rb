@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Labels::AutoLabelJob < ApplicationJob
+class AutoClassificationJob < ApplicationJob
   queue_as :default
 
   # Retry 3 times with exponential backoff: 3s, 9s, 27s
@@ -10,6 +10,6 @@ class Labels::AutoLabelJob < ApplicationJob
     conversation = Conversation.find_by(id: conversation_id)
     return unless conversation
 
-    Labels::AutoLabelService.new(conversation).perform
+    AutoClassificationService.new(conversation).perform
   end
 end

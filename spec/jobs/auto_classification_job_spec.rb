@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Labels::AutoLabelJob do
+RSpec.describe AutoClassificationJob do
   include ActiveJob::TestHelper
 
   let(:account) { create(:account) }
@@ -10,9 +10,9 @@ RSpec.describe Labels::AutoLabelJob do
 
   describe '#perform' do
     context 'when conversation exists' do
-      it 'calls AutoLabelService with the conversation' do
-        service = instance_double(Labels::AutoLabelService)
-        allow(Labels::AutoLabelService).to receive(:new)
+      it 'calls AutoClassificationService with the conversation' do
+        service = instance_double(AutoClassificationService)
+        allow(AutoClassificationService).to receive(:new)
           .with(conversation)
           .and_return(service)
         expect(service).to receive(:perform)
@@ -26,8 +26,8 @@ RSpec.describe Labels::AutoLabelJob do
         expect { described_class.perform_now(999_999) }.not_to raise_error
       end
 
-      it 'does not call AutoLabelService' do
-        expect(Labels::AutoLabelService).not_to receive(:new)
+      it 'does not call AutoClassificationService' do
+        expect(AutoClassificationService).not_to receive(:new)
 
         described_class.perform_now(999_999)
       end
@@ -54,13 +54,8 @@ RSpec.describe Labels::AutoLabelJob do
   end
 
   describe 'retry configuration' do
-    # NOTE: The job is configured with `retry_on StandardError, wait: :exponentially_longer, attempts: 3`
-    # This configuration is tested implicitly in production when errors occur.
-    # Testing retry behavior with rspec-rails requires time manipulation and can be flaky.
-
     it 'has retry_on declared in the job class' do
-      # Verify that the job source code contains retry_on configuration
-      job_source = File.read(Rails.root.join('app/jobs/labels/auto_label_job.rb'))
+      job_source = File.read(Rails.root.join('app/jobs/auto_classification_job.rb'))
       expect(job_source).to include('retry_on StandardError')
       expect(job_source).to include('wait: :exponentially_longer')
       expect(job_source).to include('attempts: 3')
@@ -69,23 +64,28 @@ RSpec.describe Labels::AutoLabelJob do
 
   describe 'integration test' do
     before do
-      account.update!(settings: { auto_label_enabled: true })
+      account.update!(settings: { auto_label_enabled: true, auto_team_enabled: true })
       create_list(:message, 3, conversation: conversation, message_type: :incoming, content: 'Test message')
     end
 
     it 'processes the job successfully' do
-      support_label = create(:label, title: 'support', account: account)
-      classifier_service = instance_double(Labels::OpenaiClassifierService)
-      allow(Labels::OpenaiClassifierService).to receive(:new).and_return(classifier_service)
-      allow(classifier_service).to receive(:suggest_label).and_return(support_label.id)
+      label = create(:label, title: 'support', account: account)
+      team = create(:team, name: 'Support Team', account: account)
+
+      allow(ConversationTriageAgent).to receive(:run).and_return({
+                                                                   'label_id' => label.id,
+                                                                   'team_id' => team.id
+                                                                 })
 
       expect do
         perform_enqueued_jobs do
           described_class.perform_later(conversation.id)
         end
       end.to change { conversation.reload.label_list.count }.by(1)
+                                                            .and change { conversation.reload.team_id }.from(nil).to(team.id)
 
       expect(conversation.label_list).to include('support')
+      expect(conversation.team).to eq(team)
     end
   end
 end
