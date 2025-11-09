@@ -75,8 +75,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
-    t.boolean "active_chat_limit_enabled", default: false
+    t.boolean "active_chat_limit_enabled", default: false, null: false
     t.integer "active_chat_limit_value", default: 7
+    t.boolean "queue_enabled", default: false, null: false
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -646,6 +647,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["user_id"], name: "index_conversation_participants_on_user_id"
   end
 
+  create_table "conversation_queues", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "queued_at", null: false
+    t.datetime "assigned_at"
+    t.datetime "left_at"
+    t.integer "position", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status", "position"], name: "idx_on_account_id_status_position_c5e04b77ac"
+    t.index ["account_id", "status", "queued_at"], name: "idx_on_account_id_status_queued_at_960ec2cf36"
+    t.index ["account_id"], name: "index_conversation_queues_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_queues_on_conversation_id", unique: true
+  end
+
   create_table "conversations", id: :serial, force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "inbox_id", null: false
@@ -1081,6 +1098,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
+  create_table "queue_statistics", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "date", null: false
+    t.integer "total_queued", default: 0, null: false
+    t.integer "total_assigned", default: 0, null: false
+    t.integer "total_left", default: 0, null: false
+    t.integer "average_wait_time_seconds", default: 0, null: false
+    t.integer "max_wait_time_seconds", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "date"], name: "index_queue_statistics_on_account_id_and_date", unique: true
+    t.index ["account_id"], name: "index_queue_statistics_on_account_id"
+  end
+
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
@@ -1258,7 +1289,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversation_queues", "accounts"
+  add_foreign_key "conversation_queues", "conversations"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "queue_statistics", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
