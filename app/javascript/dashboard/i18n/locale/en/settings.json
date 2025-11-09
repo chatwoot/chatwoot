@@ -398,6 +398,10 @@
       "LOCALES": "Locales",
       "SETTINGS": "Settings"
     },
+    "KNOWLEDGE_BASE": {
+      "TITLE": "Knowledge Base",
+      "PRODUCT_CATALOG": "Product Catalog"
+    },
     "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",

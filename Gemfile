@@ -48,6 +48,10 @@ gem 'net-smtp',  '~> 0.3.4'
 gem 'csv-safe'
 # QR code generation
 gem 'rqrcode'
+# Excel file processing
+gem 'roo', '~> 2.10.0'
+gem 'rubyzip', '~> 2.3.0'
+gem 'write_xlsx', '~> 1.11.0'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false

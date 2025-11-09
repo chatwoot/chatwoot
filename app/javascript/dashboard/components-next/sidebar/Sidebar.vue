@@ -447,6 +447,18 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Knowledge Base',
+      label: t('SIDEBAR.KNOWLEDGE_BASE.TITLE'),
+      icon: 'i-lucide-book-open',
+      children: [
+        {
+          name: 'Product Catalog',
+          label: t('SIDEBAR.KNOWLEDGE_BASE.PRODUCT_CATALOG'),
+          to: accountScopedRoute('knowledge_base_products'),
+        },
+      ],
+    },
+    {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',

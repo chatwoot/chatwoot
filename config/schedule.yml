@@ -66,3 +66,10 @@ purge_expired_appointment_qr_codes_job:
   cron: '30 23 * * *'
   class: 'PurgeExpiredAppointmentQrCodesJob'
   queue: housekeeping
+
+# executed every 5 minutes
+# to cleanup stale bulk processing requests stuck in PENDING/PROCESSING
+cleanup_stale_bulk_requests_job:
+  cron: '*/5 * * * *'
+  class: 'CleanupStaleBulkRequestsJob'
+  queue: scheduled_jobs
