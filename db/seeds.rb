@@ -2,10 +2,16 @@
 GlobalConfig.clear_cache
 ConfigLoader.new.process
 
-## Seeds productions
+## Seeds for production
 if Rails.env.production?
-  # Setup Onboarding flow
-  Redis::Alfred.set(Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING, true)
+  # For CommMate, run custom seeds instead of default onboarding
+  commmate_seeds_path = Rails.root.join('custom/db/seeds_commmate.rb')
+  if File.exist?(commmate_seeds_path)
+    load commmate_seeds_path
+  else
+    # Setup Onboarding flow (default Chatwoot behavior)
+    Redis::Alfred.set(Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING, true)
+  end
 end
 
 ## Seeds for Local Development
