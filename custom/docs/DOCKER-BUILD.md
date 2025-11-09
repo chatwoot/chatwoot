@@ -1,16 +1,26 @@
 # CommMate Docker Image Build Guide
 
+**Last Updated**: 09/11/2025  
 How to build and deploy CommMate Docker images.
 
-## Quick Build
+---
+
+## 🚀 **Quick Build (Multi-Platform)**
 
 ```bash
-# Simple method
-./custom/script/build_commmate_image.sh v4.7.0
+# Recommended: Use the multi-platform build script
+./custom/script/build_multiplatform.sh v4.7.0.3
 
-# Or manually
-docker build -f docker/Dockerfile.commmate -t commmate/commmate:v4.7.0 .
+# Builds for:
+# - linux/amd64 (production servers)
+# - linux/arm64 (Mac M1/M2, development)
 ```
+
+**Build Time:** 15-20 minutes (first time), 5-10 minutes (cached)
+
+---
+
+## 📦 **Build Methods**
 
 ## Build Options
 
@@ -64,15 +74,33 @@ docker build \
 **Configuration:**
 - ✅ Branding config (`custom/config/branding.yml`)
 - ✅ Custom translations (`custom/locales/*.yml`)
+- ✅ CommMate installation config overrides
+- ✅ Automatic branding initializer
+- ✅ Custom seeds for CommMate setup
 
-**Environment Variables:**
+**Entrypoint:**
+- ✅ `custom/config/docker-entrypoint.sh`
+- ✅ Uses `db:chatwoot_prepare` (Chatwoot's proven method)
+- ✅ Automatic database setup on first start
+- ✅ Safe for existing installations
+
+**Environment Variables (Built-in Defaults):**
 ```env
+# Branding
 APP_NAME=CommMate
 BRAND_NAME=CommMate
 INSTALLATION_NAME=CommMate
 BRAND_URL=https://commmate.com
 HIDE_BRANDING=true
 DEFAULT_LOCALE=pt_BR
+
+# Privacy & Security
+DISABLE_CHATWOOT_CONNECTIONS=true
+DISABLE_TELEMETRY=true
+ENABLE_ACCOUNT_SIGNUP=false
+
+# Email
+MAILER_SENDER_EMAIL=CommMate <support@commmate.com>
 ```
 
 ### Applied at Runtime
@@ -83,8 +111,15 @@ DEFAULT_LOCALE=pt_BR
 - Green branding in all components
 
 **Database Configs:**
-- Set on first container start
-- Or via initialization script
+- Applied automatically by initializer on startup
+- Persistent across restarts
+- Safe for existing installations
+
+**Automatic Setup:**
+- Uses `db:chatwoot_prepare` task
+- Fresh install: schema:load + seeds
+- Existing: migrations only
+- No manual intervention needed
 
 ## Build Script
 
@@ -352,50 +387,66 @@ volumes:
 
 ## Deployment
 
-### First Time Setup
+### First Time Setup (Fully Automatic!)
 
 ```bash
 # 1. Start containers
-docker-compose up -d
+podman-compose -f docker-compose.commmate.yaml up -d
 
-# 2. Wait for services
-sleep 10
+# That's it! Automatic setup happens:
+#  - Database schema loaded
+#  - Seeds create CommMate account + admin
+#  - Branding applied
+#  - Ready to use!
 
-# 3. Run migrations
-docker-compose exec commmate bundle exec rails db:migrate
-
-# 4. Create super admin
-docker-compose exec commmate bundle exec rails runner "
-account = Account.create!(name: 'CommMate')
-user = User.create!(
-  email: 'admin@commmate.com',
-  password: 'Password@123',
-  password_confirmation: 'Password@123',
-  name: 'Admin',
-  confirmed_at: Time.current
-)
-AccountUser.create!(account: account, user: user, role: :administrator)
-"
-
-# 5. Access
+# 2. Access (wait ~60 seconds for setup)
 open http://localhost:3000
 ```
 
-### Updating Image
+**Login:** admin@commmate.com / CommMate123!
+
+**What happens automatically:**
+1. Waits for PostgreSQL
+2. Runs `db:chatwoot_prepare` (detects fresh vs existing)
+3. Applies CommMate branding via initializer
+4. Starts Rails server
+
+**No manual steps required!** ✅
+
+### Updating to New Image
 
 ```bash
-# Pull new image
-docker pull commmate/commmate:v4.7.0
+# 1. Pull new image
+podman pull commmate/commmate:v4.7.0.3
 
-# Stop containers
-docker-compose down
+# 2. Stop app containers (keeps data)
+podman-compose -f docker-compose.commmate.yaml down
 
-# Start with new image
-docker-compose up -d
+# 3. Start with new image
+podman-compose -f docker-compose.commmate.yaml up -d
 
-# Run migrations
-docker-compose exec commmate bundle exec rails db:migrate
+# Automatic:
+#  - db:chatwoot_prepare runs any new migrations
+#  - Branding reapplied if needed
+#  - Data preserved
 ```
+
+**Note:** Postgres volume persists, all data safe.
+
+### Publishing Images (Optional)
+
+```bash
+# Use the monitor and publish script
+./custom/script/monitor_and_publish.sh v4.7.0.3
+
+# Or manually:
+podman manifest push commmate/commmate:v4.7.0.3 docker://commmate/commmate:v4.7.0.3
+
+# To also update 'latest' tag:
+./custom/script/monitor_and_publish.sh v4.7.0.3 --tag-latest
+```
+
+**Note:** Script only publishes, does NOT auto-deploy to production.
 
 ## Image Tags
 

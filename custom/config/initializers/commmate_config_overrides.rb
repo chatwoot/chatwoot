@@ -32,7 +32,8 @@ Rails.application.config.after_initialize do
         'PRIVACY_URL' => 'https://www.chatwoot.com/privacy-policy',
         'LOGO' => '/brand-assets/logo.svg',
         'LOGO_DARK' => '/brand-assets/logo_dark.svg',
-        'LOGO_THUMBNAIL' => '/brand-assets/logo_thumbnail.svg'
+        'LOGO_THUMBNAIL' => '/brand-assets/logo_thumbnail.svg',
+        'DEFAULT_LOCALE' => 'en'
       }
 
       # Override if value is still Chatwoot default

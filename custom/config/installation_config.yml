@@ -58,3 +58,10 @@
   type: boolean
 # ------- End of Signup & Account Related Config ------- #
 
+# ------- Locale Related Config ------- #
+- name: DEFAULT_LOCALE
+  display_title: 'Default Locale'
+  value: 'pt_BR'
+  description: 'Default locale for CommMate (Brazilian Portuguese)'
+# ------- End of Locale Related Config ------- #
+

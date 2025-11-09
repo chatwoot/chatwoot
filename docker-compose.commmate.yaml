@@ -3,7 +3,7 @@ version: '3.8'
 # CommMate Production - USA SUA IMAGEM CUSTOMIZADA
 services:
   rails:
-    image: commmate/commmate:v4.7.0.3
+    image: commmate/commmate:v4.7.0.3-liquid
     container_name: commmate-rails
     restart: unless-stopped
     ports:
@@ -49,7 +49,7 @@ services:
     # Uses entrypoint from Dockerfile (automatic setup)
 
   sidekiq:
-    image: commmate/commmate:v4.7.0.3
+    image: commmate/commmate:v4.7.0.3-liquid
     container_name: commmate-sidekiq
     restart: unless-stopped
     environment:

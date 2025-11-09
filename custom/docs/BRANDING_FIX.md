@@ -1,17 +1,99 @@
 # CommMate Branding Fix
 
-**Data**: 02/11/2025  
-**Problema**: Cores aplicadas mas nome e ícones não apareciam  
-**Solução**: Correções no Dockerfile.commmate
+**Last Updated**: 09/11/2025  
+**Status**: ✅ Fully Resolved
 
 ---
 
-## ❌ **Problemas Identificados**
+## 🔍 **Root Cause Discovered (November 2025)**
+
+### **The ConfigLoader Problem**
+
+Chatwoot has a task that runs **AFTER EVERY migration**:
+
+```ruby
+# lib/tasks/db_enhancements.rake
+Rake::Task['db:migrate'].enhance do
+  ConfigLoader.new.process  # Loads config/installation_config.yml
+end
+```
+
+**What was happening:**
+1. Migration runs → ConfigLoader.process executes
+2. ConfigLoader reads `config/installation_config.yml`
+3. If any branding config missing, creates it with **"Chatwoot"** defaults
+4. **CommMate branding gets overwritten!**
+
+This is why branding kept reverting after container restarts or migrations.
+
+---
+
+## ✅ **Complete Solution (Multiple Layers)**
+
+### **Layer 1: Initializer Override (Primary Fix)**
+
+**File:** `custom/config/initializers/commmate_config_overrides.rb`
+
+Runs AFTER ConfigLoader and intelligently overrides configs:
+
+```ruby
+# Only overrides if value is still Chatwoot default
+if existing.value == 'Chatwoot'
+  existing.update!(value: 'CommMate')
+end
+```
+
+**Benefits:**
+- Runs on every Rails startup
+- Only overrides Chatwoot defaults
+- Preserves user customizations
+- Automatic and bulletproof
+
+### **Layer 2: CommMate Config Defaults**
+
+**File:** `custom/config/installation_config.yml`
+
+Contains CommMate-specific defaults for branding configs:
+- INSTALLATION_NAME: CommMate
+- BRAND_NAME: CommMate
+- LOGO paths: /brand-assets/logo-full.png
+- URLs: commmate.com
+- DEFAULT_LOCALE: pt_BR
+
+### **Layer 3: Migration (One-Time)**
+
+**File:** `db/migrate/20251102174650_apply_commmate_branding.rb`
+
+Applies branding once during migrations (backup redundancy).
+
+### **Layer 4: Docker ENV Defaults**
+
+**File:** `docker/Dockerfile.commmate`
+
+```dockerfile
+ENV APP_NAME="CommMate" \
+    BRAND_NAME="CommMate" \
+    INSTALLATION_NAME="CommMate" \
+    BRAND_URL="https://commmate.com" \
+    HIDE_BRANDING="true" \
+    DEFAULT_LOCALE="pt_BR" \
+    ENABLE_ACCOUNT_SIGNUP="false" \
+    DISABLE_CHATWOOT_CONNECTIONS="true" \
+    DISABLE_TELEMETRY="true" \
+    MAILER_SENDER_EMAIL="CommMate <support@commmate.com>"
+```
+
+All settings built into image, overridable via docker-compose.
+
+---
+
+## ❌ **Historical Problems (Pre-November 2025)**
 
 1. **Diretórios não criados**: `public/brand-assets` não existia antes de copiar
 2. **Assets copiados incorretamente**: Nomes de arquivos não correspondiam aos esperados pelo Chatwoot
 3. **Entrypoint não funcionava**: CMD com if não executa corretamente
 4. **Variáveis de ambiente**: Faltavam no runtime
+5. **ConfigLoader reverting branding**: Discovered November 2025 ⚠️
 
 ---
 
