@@ -16,12 +16,17 @@ account = Account.find_or_create_by!(name: 'CommMate') do |acc|
   Rails.logger.info '  ✓ Created default CommMate account'
 end
 
-# Create super admin if doesn't exist
+# Create super admin ONLY if no SuperAdmin exists at all
 admin_email = ENV.fetch('COMMMATE_ADMIN_EMAIL', 'admin@commmate.com')
 admin_password = ENV.fetch('COMMMATE_ADMIN_PASSWORD', 'CommMate123!')
 
-user = User.find_by(email: admin_email)
-if user.nil?
+# Check if ANY SuperAdmin exists (not just this specific email)
+existing_super_admin = User.where(type: 'SuperAdmin').first
+
+if existing_super_admin
+  user = existing_super_admin
+  Rails.logger.info "  ✓ Super admin already exists: #{user.email} (not creating new one)"
+else
   user = User.new(
     name: 'CommMate Admin',
     email: admin_email,
@@ -31,8 +36,6 @@ if user.nil?
   user.skip_confirmation!
   user.save!
   Rails.logger.info "  ✓ Created super admin: #{admin_email}"
-else
-  Rails.logger.info "  ✓ Super admin already exists: #{admin_email}"
 end
 
 # Link super admin to account if not already linked
