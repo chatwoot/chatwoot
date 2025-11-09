@@ -144,7 +144,11 @@ class ConversationFinder
   def filter_by_status
     return if params[:status] == 'all'
 
-    @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+    statuses = Array.wrap(params[:status] || DEFAULT_STATUS)
+
+    statuses << 'pending' if current_account.queue_enabled? && statuses.include?('open') && statuses.exclude?('pending')
+
+    @conversations = @conversations.where(status: statuses.uniq)
   end
 
   def filter_by_team
