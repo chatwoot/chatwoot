@@ -14,7 +14,6 @@
 #
 #  index_custom_roles_on_account_id  (account_id)
 #
-#
 
 # Available permissions for custom roles:
 # - 'conversation_manage': Can manage all conversations.
