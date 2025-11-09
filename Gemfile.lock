@@ -778,10 +778,6 @@ GEM
     rubocop-rspec (3.6.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
-    ruby-openai (7.3.1)
-      event_stream_parser (>= 0.3.0, < 2.0.0)
-      faraday (>= 1)
-      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     ruby-saml (1.18.1)
       nokogiri (>= 1.13.10)
@@ -1088,7 +1084,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
-  ruby-openai
+  ruby_llm
   ruby_llm-schema
   scout_apm
   scss_lint
