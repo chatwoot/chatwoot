@@ -351,6 +351,44 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Captain',
+      label: t('SIDEBAR.CAPTAIN'),
+      icon: 'i-woot-captain',
+      children: [
+        {
+          name: 'Assistants',
+          label: t('SIDEBAR.CAPTAIN_ASSISTANTS'),
+          to: accountScopedRoute('captain_assistants_index'),
+          activeOn: [
+            'captain_assistants_index',
+            'captain_assistants_edit',
+            'captain_assistants_inboxes_index',
+            'captain_assistants_guardrails_index',
+            'captain_assistants_scenarios_index',
+            'captain_assistants_guidelines_index',
+          ],
+        },
+        {
+          name: 'Documents',
+          label: t('SIDEBAR.CAPTAIN_DOCUMENTS'),
+          to: accountScopedRoute('captain_documents_index'),
+          activeOn: ['captain_documents_index'],
+        },
+        {
+          name: 'FAQs',
+          label: t('SIDEBAR.CAPTAIN_RESPONSES'),
+          to: accountScopedRoute('captain_responses_index'),
+          activeOn: ['captain_responses_index'],
+        },
+        {
+          name: 'Tools',
+          label: t('SIDEBAR.CAPTAIN_TOOLS'),
+          to: accountScopedRoute('captain_tools_index'),
+          activeOn: ['captain_tools_index'],
+        },
+      ],
+    },
+    {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
       icon: 'i-lucide-bolt',
