@@ -45,6 +45,7 @@ class Api::V1::AccountsController < Api::BaseController
 
   def update
     @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email))
+    @account.queue_enabled = params[:queue_enabled] if params.key?(:queue_enabled)
     @account.custom_attributes.merge!(custom_attributes_params)
     @account.settings.merge!(settings_params)
     @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
@@ -92,7 +93,8 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def settings_params
-    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label)
+    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
+                  :queue_enabled)
   end
 
   def check_signup_enabled
