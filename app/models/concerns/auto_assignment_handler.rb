@@ -14,14 +14,13 @@ module AutoAssignmentHandler
     return unless conversation_status_changed_to_open? || conversation_status_changed_to_resolved_or_snoozed?
     return unless should_run_auto_assignment?
 
-    if inbox.auto_assignment_v2_enabled?
-      # Use new assignment system
-      AutoAssignment::AssignmentJob.perform_later(inbox_id: inbox.id)
-    else
-      # Use legacy assignment system
-      # If conversation has a team, only consider team members for assignment
-      allowed_agent_ids = team_id.present? ? team_member_ids_with_capacity : inbox.member_ids_with_assignment_capacity
-      AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: allowed_agent_ids).perform
+    assignee = ::AutoAssignment::AgentAssignmentService.new(conversation: self,
+                                                            allowed_agent_ids: inbox.member_ids_with_assignment_capacity).find_assignee
+
+    if assignee
+      update!(assignee: assignee)
+    elsif account.queue_enabled?
+      Queue::QueueService.new(account: account).add_to_queue(self)
     end
   end
 
