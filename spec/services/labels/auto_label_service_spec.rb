@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Labels::AutoLabelService do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
-  let(:service) { described_class.new(conversation: conversation) }
+  let(:service) { described_class.new(conversation) }
   let!(:label1) { create(:label, title: 'billing', account: account) }
   let!(:label2) { create(:label, title: 'support', account: account) }
 
@@ -21,8 +21,8 @@ RSpec.describe Labels::AutoLabelService do
           allow(Labels::OpenaiClassifierService).to receive(:new)
             .with(conversation)
             .and_return(classifier_service)
-          allow(classifier_service).to receive(:suggest_labels)
-            .and_return({ label_id: label1.id })
+          allow(classifier_service).to receive(:suggest_label)
+            .and_return(label1.id)
 
           expect(conversation).to receive(:add_labels).with([label1.title])
 
@@ -32,8 +32,8 @@ RSpec.describe Labels::AutoLabelService do
         it 'logs successful auto-labeling' do
           classifier_service = instance_double(Labels::OpenaiClassifierService)
           allow(Labels::OpenaiClassifierService).to receive(:new).and_return(classifier_service)
-          allow(classifier_service).to receive(:suggest_labels)
-            .and_return({ label_id: label1.id })
+          allow(classifier_service).to receive(:suggest_label)
+            .and_return(label1.id)
           allow(conversation).to receive(:add_labels)
 
           expect(Rails.logger).to receive(:info)
@@ -62,7 +62,7 @@ RSpec.describe Labels::AutoLabelService do
         it 'does not apply any labels' do
           classifier_service = instance_double(Labels::OpenaiClassifierService)
           allow(Labels::OpenaiClassifierService).to receive(:new).and_return(classifier_service)
-          allow(classifier_service).to receive(:suggest_labels).and_return({ label_id: nil })
+          allow(classifier_service).to receive(:suggest_label).and_return(nil)
 
           expect(conversation).not_to receive(:add_labels)
 
@@ -103,7 +103,7 @@ RSpec.describe Labels::AutoLabelService do
       it 'logs the error and re-raises for job retry' do
         classifier_service = instance_double(Labels::OpenaiClassifierService)
         allow(Labels::OpenaiClassifierService).to receive(:new).and_return(classifier_service)
-        allow(classifier_service).to receive(:suggest_labels)
+        allow(classifier_service).to receive(:suggest_label)
           .and_raise(StandardError.new('API Error'))
 
         expect(Rails.logger).to receive(:error)
@@ -115,7 +115,7 @@ RSpec.describe Labels::AutoLabelService do
       it 're-raises the error for job retry mechanism' do
         classifier_service = instance_double(Labels::OpenaiClassifierService)
         allow(Labels::OpenaiClassifierService).to receive(:new).and_return(classifier_service)
-        allow(classifier_service).to receive(:suggest_labels)
+        allow(classifier_service).to receive(:suggest_label)
           .and_raise(StandardError.new('Network timeout'))
         allow(Rails.logger).to receive(:error)
 

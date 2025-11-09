@@ -13,7 +13,7 @@ RSpec.describe Labels::AutoLabelJob do
       it 'calls AutoLabelService with the conversation' do
         service = instance_double(Labels::AutoLabelService)
         allow(Labels::AutoLabelService).to receive(:new)
-          .with(conversation: conversation)
+          .with(conversation)
           .and_return(service)
         expect(service).to receive(:perform)
 
@@ -71,13 +71,13 @@ RSpec.describe Labels::AutoLabelJob do
     before do
       account.update!(settings: { auto_label_enabled: true })
       create_list(:message, 3, conversation: conversation, message_type: :incoming, content: 'Test message')
-      create(:label, title: 'support', account: account)
     end
 
     it 'processes the job successfully' do
+      support_label = create(:label, title: 'support', account: account)
       classifier_service = instance_double(Labels::OpenaiClassifierService)
       allow(Labels::OpenaiClassifierService).to receive(:new).and_return(classifier_service)
-      allow(classifier_service).to receive(:suggest_labels).and_return({ labels: ['support'] })
+      allow(classifier_service).to receive(:suggest_label).and_return(support_label.id)
 
       expect do
         perform_enqueued_jobs do

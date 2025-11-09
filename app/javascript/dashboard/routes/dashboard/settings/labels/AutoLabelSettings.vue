@@ -78,12 +78,6 @@ const handleThresholdChange = () => {
           @change="handleThresholdChange"
         />
       </WithLabel>
-
-      <div
-        class="rounded-xl border border-n-weak bg-n-alpha-3 p-3 text-sm text-n-slate-11"
-      >
-        <p>{{ t('LABEL_MGMT.AUTO_LABEL.INFO_MESSAGE') }}</p>
-      </div>
     </div>
   </SectionLayout>
 </template>

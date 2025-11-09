@@ -26,7 +26,7 @@ RSpec.describe Labels::OpenaiClassifierService do
     create_list(:message, 3, conversation: conversation, message_type: :incoming, content: 'Customer message')
   end
 
-  describe '#suggest_labels' do
+  describe '#suggest_label' do
     context 'when all conditions are met' do
       it 'returns suggested label from OpenAI' do
         allow(RubyLLM).to receive(:chat).and_return(mock_chat)
@@ -34,10 +34,9 @@ RSpec.describe Labels::OpenaiClassifierService do
         allow(mock_chat).to receive(:with_schema).with(LabelClassificationSchema).and_return(mock_schema_chat)
         allow(mock_schema_chat).to receive(:ask).and_return(structured_response)
 
-        result = service.suggest_labels
+        result = service.suggest_label
 
-        expect(result[:label_id]).to eq(label1.id)
-        expect(result[:reasoning]).to eq('Customer is asking about billing issues with technical aspects')
+        expect(result).to eq(label1.id)
       end
 
       it 'calls RubyLLM with correct parameters' do
@@ -46,7 +45,7 @@ RSpec.describe Labels::OpenaiClassifierService do
         allow(mock_chat).to receive(:with_schema).with(LabelClassificationSchema).and_return(mock_schema_chat)
         allow(mock_schema_chat).to receive(:ask).and_return(structured_response)
 
-        service.suggest_labels
+        service.suggest_label
 
         expect(RubyLLM).to have_received(:chat).with(model: 'gpt-4o-mini')
         expect(mock_chat).to have_received(:with_temperature).with(0.3)
@@ -61,10 +60,10 @@ RSpec.describe Labels::OpenaiClassifierService do
         allow(RubyLLM).to receive(:chat)
       end
 
-      it 'returns nil label_id without calling API' do
-        result = service.suggest_labels
+      it 'returns nil without calling API' do
+        result = service.suggest_label
 
-        expect(result[:label_id]).to be_nil
+        expect(result).to be_nil
         expect(RubyLLM).not_to have_received(:chat)
       end
     end
@@ -75,10 +74,10 @@ RSpec.describe Labels::OpenaiClassifierService do
         allow(RubyLLM).to receive(:chat)
       end
 
-      it 'returns nil label_id without calling API' do
-        result = service.suggest_labels
+      it 'returns nil without calling API' do
+        result = service.suggest_label
 
-        expect(result[:label_id]).to be_nil
+        expect(result).to be_nil
         expect(RubyLLM).not_to have_received(:chat)
       end
     end
@@ -88,15 +87,15 @@ RSpec.describe Labels::OpenaiClassifierService do
         double('NilLabelResponse', content: { 'label_id' => nil, 'reasoning' => nil })
       end
 
-      it 'returns nil label_id' do
+      it 'returns nil' do
         allow(RubyLLM).to receive(:chat).and_return(mock_chat)
         allow(mock_chat).to receive(:with_temperature).with(0.3).and_return(mock_chat)
         allow(mock_chat).to receive(:with_schema).with(LabelClassificationSchema).and_return(mock_schema_chat)
         allow(mock_schema_chat).to receive(:ask).and_return(nil_label_response)
 
-        result = service.suggest_labels
+        result = service.suggest_label
 
-        expect(result[:label_id]).to be_nil
+        expect(result).to be_nil
       end
     end
 
@@ -106,10 +105,9 @@ RSpec.describe Labels::OpenaiClassifierService do
 
         expect(Rails.logger).to receive(:error).with(/OpenAI label classification failed/)
 
-        result = service.suggest_labels
+        result = service.suggest_label
 
-        expect(result[:label_id]).to be_nil
-        expect(result[:reasoning]).to be_nil
+        expect(result).to be_nil
       end
 
       it 'handles API error responses' do
@@ -119,9 +117,9 @@ RSpec.describe Labels::OpenaiClassifierService do
 
         expect(Rails.logger).to receive(:error).with(/OpenAI label classification failed/)
 
-        result = service.suggest_labels
+        result = service.suggest_label
 
-        expect(result[:label_id]).to be_nil
+        expect(result).to be_nil
       end
     end
 
@@ -140,7 +138,7 @@ RSpec.describe Labels::OpenaiClassifierService do
         allow(mock_chat).to receive(:with_schema).with(LabelClassificationSchema).and_return(mock_schema_chat)
         allow(mock_schema_chat).to receive(:ask).and_return(structured_response)
 
-        service.suggest_labels
+        service.suggest_label
 
         expect(RubyLLM).to have_received(:chat)
         expect(mock_schema_chat).to have_received(:ask)

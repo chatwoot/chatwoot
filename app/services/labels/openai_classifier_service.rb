@@ -15,7 +15,7 @@ class Labels::OpenaiClassifierService
     response.content.fetch('label_id')
   rescue StandardError => e
     Rails.logger.error("OpenAI label classification failed: #{e.message}")
-    { label_id: nil, reasoning: nil }
+    nil
   end
 
   private

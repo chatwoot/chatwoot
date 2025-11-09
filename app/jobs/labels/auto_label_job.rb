@@ -10,6 +10,6 @@ class Labels::AutoLabelJob < ApplicationJob
     conversation = Conversation.find_by(id: conversation_id)
     return unless conversation
 
-    Labels::AutoLabelService.new(conversation: conversation).perform
+    Labels::AutoLabelService.new(conversation).perform
   end
 end
