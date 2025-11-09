@@ -41,6 +41,7 @@ class AccountUser < ApplicationRecord
   after_create_commit :notify_creation, :create_notification_setting
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
+  after_commit :process_queue_when_agent_available, if: :saved_change_to_availability?
 
   validates :user_id, uniqueness: { scope: :account_id }
   validates :active_chat_limit, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
@@ -85,6 +86,14 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
+  end
+
+  def process_queue_when_agent_available
+    # When agent becomes online, process queue
+    return unless account.queue_enabled?
+    return unless online?
+
+    Queue::ProcessQueueJob.perform_later(account.id)
   end
 end
 

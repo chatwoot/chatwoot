@@ -7,8 +7,20 @@ export const findPendingMessageIndex = (chat, message) => {
   );
 };
 
-export const filterByStatus = (chatStatus, filterStatus) =>
-  filterStatus === 'all' ? true : chatStatus === filterStatus;
+export const filterByStatus = (
+  chatStatus,
+  filterStatus,
+  queueEnabled = false
+) => {
+  if (filterStatus === 'all') {
+    return true;
+  }
+
+  if (filterStatus === 'open' && queueEnabled && chatStatus === 'pending') {
+    return true;
+  }
+  return chatStatus === filterStatus;
+};
 
 export const filterByInbox = (shouldFilter, inboxId, chatInboxId) => {
   const isOnInbox = Number(inboxId) === chatInboxId;
@@ -35,7 +47,11 @@ export const filterByUnattended = (
     : shouldFilter;
 };
 
-export const applyPageFilters = (conversation, filters) => {
+export const applyPageFilters = (
+  conversation,
+  filters,
+  queueEnabled = false
+) => {
   const { inboxId, status, labels = [], teamId, conversationType } = filters;
   const {
     status: chatStatus,
@@ -48,7 +64,7 @@ export const applyPageFilters = (conversation, filters) => {
   const team = meta.team || {};
   const { id: chatTeamId } = team;
 
-  let shouldFilter = filterByStatus(chatStatus, status);
+  let shouldFilter = filterByStatus(chatStatus, status, queueEnabled);
   shouldFilter = filterByInbox(shouldFilter, inboxId, chatInboxId);
   shouldFilter = filterByTeam(shouldFilter, teamId, chatTeamId);
   shouldFilter = filterByLabel(shouldFilter, labels, chatLabels);

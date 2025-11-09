@@ -37,7 +37,8 @@ class AccountDashboard < Administrate::BaseDashboard
     custom_attributes: Field::String,
 
     active_chat_limit_enabled: Field::Boolean,
-    active_chat_limit_value: Field::Number
+    active_chat_limit_value: Field::Number,
+    queue_enabled: Field::Boolean
   }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES
@@ -75,6 +76,7 @@ class AccountDashboard < Administrate::BaseDashboard
     account_users
     active_chat_limit_enabled
     active_chat_limit_value
+    queue_enabled
   ] + enterprise_show_page_attributes).freeze
 
   # FORM_ATTRIBUTES
@@ -94,6 +96,7 @@ class AccountDashboard < Administrate::BaseDashboard
     status
     active_chat_limit_enabled
     active_chat_limit_value
+    queue_enabled
   ] + enterprise_form_attributes).freeze
 
   # COLLECTION_FILTERS
