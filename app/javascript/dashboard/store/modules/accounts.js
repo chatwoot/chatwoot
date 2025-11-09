@@ -152,6 +152,19 @@ export const actions = {
   getCacheKeys: async () => {
     return AccountAPI.getCacheKeys();
   },
+
+  updateSettings: async ({ commit }, settings) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await AccountAPI.updateSettings(settings);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      commit(types.default.EDIT_ACCOUNT, response.data);
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      throw error;
+    }
+  },
 };
 
 export const mutations = {
@@ -164,6 +177,12 @@ export const mutations = {
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
   [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
+  [types.default.UPDATE_ACCOUNT_SETTINGS]($state, accountData) {
+    const account = $state.records.find(r => r.id === accountData.id);
+    if (account) {
+      account.settings = accountData.settings;
+    }
+  },
 };
 
 export default {
