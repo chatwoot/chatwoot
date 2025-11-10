@@ -54,9 +54,12 @@ class Webhooks::WhatsappController < ActionController::API
       return true if webhook_token.present? && token == webhook_token
     end
 
+<<<<<<< HEAD
     false
   end
 
+=======
+>>>>>>> master
   def inactive_whatsapp_number?(phone_number = nil)
     phone_number ||= params[:phone_number]
     return false if phone_number.blank?
