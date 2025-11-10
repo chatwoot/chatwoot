@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AutoClassificationJob < ApplicationJob
+class AutoAssignConversationJob < ApplicationJob
   queue_as :default
 
   # Retry 3 times with exponential backoff: 3s, 9s, 27s

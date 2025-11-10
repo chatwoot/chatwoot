@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AutoClassificationJob do
+RSpec.describe AutoAssignConversationJob do
   include ActiveJob::TestHelper
 
   let(:account) { create(:account) }
@@ -55,7 +55,7 @@ RSpec.describe AutoClassificationJob do
 
   describe 'retry configuration' do
     it 'has retry_on declared in the job class' do
-      job_source = File.read(Rails.root.join('app/jobs/auto_classification_job.rb'))
+      job_source = File.read(Rails.root.join('app/jobs/auto_assign_conversation_job.rb'))
       expect(job_source).to include('retry_on StandardError')
       expect(job_source).to include('wait: :exponentially_longer')
       expect(job_source).to include('attempts: 3')

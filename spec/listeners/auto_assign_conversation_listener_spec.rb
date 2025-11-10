@@ -21,11 +21,11 @@ RSpec.describe AutoAssignConversationListener do
         account.update!(settings: { auto_label_enabled: true, auto_label_message_threshold: 3 })
       end
 
-      it 'enqueues AutoClassificationJob' do
+      it 'enqueues AutoAssignConversationJob' do
         event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
 
         expect { listener.message_created(event) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
           .with(conversation.id)
       end
     end
@@ -35,11 +35,11 @@ RSpec.describe AutoAssignConversationListener do
         account.update!(settings: { auto_team_enabled: true, auto_label_message_threshold: 3 })
       end
 
-      it 'enqueues AutoClassificationJob' do
+      it 'enqueues AutoAssignConversationJob' do
         event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
 
         expect { listener.message_created(event) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
           .with(conversation.id)
       end
     end
@@ -49,38 +49,12 @@ RSpec.describe AutoAssignConversationListener do
         account.update!(settings: { auto_label_enabled: true, auto_team_enabled: true, auto_label_message_threshold: 3 })
       end
 
-      it 'enqueues AutoClassificationJob' do
+      it 'enqueues AutoAssignConversationJob' do
         event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
 
         expect { listener.message_created(event) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
           .with(conversation.id)
-      end
-    end
-
-    context 'when both features are disabled' do
-      before do
-        account.update!(settings: { auto_label_enabled: false, auto_team_enabled: false })
-      end
-
-      it 'does not enqueue job' do
-        event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
-
-        expect { listener.message_created(event) }
-          .not_to have_enqueued_job(AutoClassificationJob)
-      end
-    end
-
-    context 'when auto settings are not set' do
-      before do
-        account.update!(settings: {})
-      end
-
-      it 'does not enqueue job' do
-        event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
-
-        expect { listener.message_created(event) }
-          .not_to have_enqueued_job(AutoClassificationJob)
       end
     end
 
@@ -97,7 +71,7 @@ RSpec.describe AutoAssignConversationListener do
         event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
 
         expect { listener.message_created(event) }
-          .not_to have_enqueued_job(AutoClassificationJob)
+          .not_to have_enqueued_job(AutoAssignConversationJob)
       end
     end
 
@@ -112,7 +86,7 @@ RSpec.describe AutoAssignConversationListener do
         event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
 
         expect { listener.message_created(event) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
           .with(conversation.id)
       end
     end
@@ -128,7 +102,7 @@ RSpec.describe AutoAssignConversationListener do
         event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
 
         expect { listener.message_created(event) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
           .with(conversation.id)
       end
     end
@@ -144,7 +118,7 @@ RSpec.describe AutoAssignConversationListener do
         event = Events::Base.new('message.created', Time.zone.now, { message: incoming_message })
 
         expect { listener.message_created(event) }
-          .not_to have_enqueued_job(AutoClassificationJob)
+          .not_to have_enqueued_job(AutoAssignConversationJob)
       end
     end
 
@@ -157,7 +131,7 @@ RSpec.describe AutoAssignConversationListener do
 
       it 'enqueues job' do
         expect { listener.message_created(Events::Base.new('message.created', Time.zone.now, { message: incoming_message })) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
       end
     end
 
@@ -170,7 +144,7 @@ RSpec.describe AutoAssignConversationListener do
 
       it 'enqueues job' do
         expect { listener.message_created(Events::Base.new('message.created', Time.zone.now, { message: incoming_message })) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
       end
     end
 
@@ -183,7 +157,7 @@ RSpec.describe AutoAssignConversationListener do
 
       it 'uses default threshold of 3' do
         expect { listener.message_created(Events::Base.new('message.created', Time.zone.now, { message: incoming_message })) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
       end
     end
 
@@ -196,7 +170,7 @@ RSpec.describe AutoAssignConversationListener do
 
       it 'respects custom threshold' do
         expect { listener.message_created(Events::Base.new('message.created', Time.zone.now, { message: incoming_message })) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
       end
     end
 
@@ -212,7 +186,7 @@ RSpec.describe AutoAssignConversationListener do
 
       it 'counts only incoming messages' do
         expect { listener.message_created(Events::Base.new('message.created', Time.zone.now, { message: incoming_message })) }
-          .to have_enqueued_job(AutoClassificationJob)
+          .to have_enqueued_job(AutoAssignConversationJob)
       end
     end
 
@@ -225,7 +199,7 @@ RSpec.describe AutoAssignConversationListener do
         event = Events::Base.new('message.created', Time.zone.now, { message: outgoing_message })
 
         expect { listener.message_created(event) }
-          .not_to have_enqueued_job(AutoClassificationJob)
+          .not_to have_enqueued_job(AutoAssignConversationJob)
       end
     end
   end

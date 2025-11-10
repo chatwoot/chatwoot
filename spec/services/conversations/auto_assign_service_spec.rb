@@ -6,10 +6,10 @@ RSpec.describe Conversations::AutoAssignService do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
   let(:service) { described_class.new(conversation) }
-  let!(:label1) { create(:label, title: 'billing', account: account) }
-  let!(:label2) { create(:label, title: 'support', account: account) }
-  let!(:team1) { create(:team, name: 'Support Team', description: 'Handles support', account: account) }
-  let!(:team2) { create(:team, name: 'Sales Team', description: 'Handles sales', account: account) }
+  let!(:label1) { create(:label, title: 'billing', account: account, allow_auto_assign: true) }
+  let!(:label2) { create(:label, title: 'support', account: account, allow_auto_assign: true) }
+  let!(:team1) { create(:team, name: 'Support Team', description: 'Handles support', account: account, allow_auto_assign: true) }
+  let!(:team2) { create(:team, name: 'Sales Team', description: 'Handles sales', account: account, allow_auto_assign: true) }
 
   before do
     create_list(:message, 3, conversation: conversation, message_type: :incoming, content: 'Test message')
