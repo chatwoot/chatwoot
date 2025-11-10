@@ -24,32 +24,23 @@ class AutoClassificationService
   private
 
   def should_classify?
-    return false unless auto_label_enabled? || auto_team_enabled?
-    return false unless message_threshold_met?
+    return false if available_labels.empty? && available_teams.empty?
 
     true
   end
 
-  def message_threshold_met?
-    threshold = account.settings.fetch('auto_label_message_threshold', 3)
-    conversation.messages.incoming.count >= threshold
-  end
-
   def fetch_suggestions
-    labels = auto_label_enabled? ? available_labels : []
-    teams = auto_team_enabled? ? available_teams : []
-
-    return nil if labels.empty? && teams.empty?
+    return nil if available_labels.empty? && available_teams.empty?
 
     ConversationTriageAgent.run(conversation)
   end
 
   def should_apply_label?
-    auto_label_enabled? && conversation.label_list.empty?
+    conversation.label_list.empty? && available_labels.any?
   end
 
   def should_apply_team?
-    auto_team_enabled? && conversation.team_id.nil?
+    conversation.team_id.nil? && available_teams.any?
   end
 
   def apply_label(label_id)
@@ -68,19 +59,11 @@ class AutoClassificationService
     Rails.logger.info("Auto-assigned conversation #{conversation.id} to team: #{team.name}")
   end
 
-  def auto_label_enabled?
-    account.settings.dig('auto_label_enabled') == true
-  end
-
-  def auto_team_enabled?
-    account.settings.dig('auto_team_enabled') == true
-  end
-
   def available_labels
-    @available_labels ||= account.labels.as_json(only: [:id, :title, :description])
+    @available_labels ||= account.labels.where(allow_auto_assign: true).as_json(only: [:id, :title, :description])
   end
 
   def available_teams
-    @available_teams ||= account.teams.as_json(only: [:id, :name, :description])
+    @available_teams ||= account.teams.where(allow_auto_assign: true).as_json(only: [:id, :name, :description])
   end
 end

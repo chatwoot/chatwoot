@@ -7,8 +7,8 @@ class ConversationTriageAgent < BaseAgent
   def initialize(conversation)
     @conversation = conversation
     @account = conversation.account
-    @available_labels = @account.labels
-    @available_teams = @account.teams
+    @available_labels = @account.labels.where(allow_auto_assign: true)
+    @available_teams = @account.teams.where(allow_auto_assign: true)
   end
 
   def run
