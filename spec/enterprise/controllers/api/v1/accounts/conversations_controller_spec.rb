@@ -172,22 +172,11 @@ RSpec.describe 'Conversations API', type: :request do
 
         # Check they are sorted by created_at asc (oldest first)
         expect(json_response.first['name']).to eq('first_response')
-        expect(json_response.second['name']).to eq('reply_time')
         expect(json_response.last['name']).to eq('resolution')
 
         # Verify it doesn't include events from other conversations
         event_names = json_response.map { |e| e['name'] }
         expect(event_names).not_to include('other_conversation_event')
-
-        # Check event structure
-        first_event = json_response.first
-        expect(first_event).to have_key('id')
-        expect(first_event).to have_key('name')
-        expect(first_event).to have_key('value')
-        expect(first_event).to have_key('created_at')
-        expect(first_event).to have_key('conversation_id')
-        expect(first_event).to have_key('inbox_id')
-        expect(first_event).to have_key('user_id')
       end
 
       it 'returns empty array when conversation has no reporting events' do

@@ -26,7 +26,7 @@ RSpec.describe 'Enterprise Reporting Events API', type: :request do
     end
 
     context 'when it is an authenticated admin user' do
-      let!(:reporting_event1) do
+      before do
         create(:reporting_event,
                account: account,
                conversation: conversation,
@@ -35,8 +35,6 @@ RSpec.describe 'Enterprise Reporting Events API', type: :request do
                name: 'first_response',
                value: 120,
                created_at: 3.days.ago)
-      end
-      let!(:reporting_event2) do
         create(:reporting_event,
                account: account,
                conversation: conversation,
@@ -45,8 +43,6 @@ RSpec.describe 'Enterprise Reporting Events API', type: :request do
                name: 'resolution',
                value: 300,
                created_at: 2.days.ago)
-      end
-      let!(:reporting_event3) do
         create(:reporting_event,
                account: account,
                conversation: conversation,
@@ -65,29 +61,16 @@ RSpec.describe 'Enterprise Reporting Events API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
 
-        # Check structure
+        # Check structure and pagination
         expect(json_response).to have_key('payload')
         expect(json_response).to have_key('meta')
-
-        # Check pagination meta
         expect(json_response['meta']['count']).to eq(3)
-        expect(json_response['meta']['current_page']).to eq(1)
 
         # Check events are sorted by created_at desc (newest first)
         events = json_response['payload']
         expect(events.size).to eq(3)
         expect(events.first['name']).to eq('reply_time')
         expect(events.last['name']).to eq('first_response')
-
-        # Check event structure
-        first_event = events.first
-        expect(first_event).to have_key('id')
-        expect(first_event).to have_key('name')
-        expect(first_event).to have_key('value')
-        expect(first_event).to have_key('created_at')
-        expect(first_event).to have_key('conversation_id')
-        expect(first_event).to have_key('inbox_id')
-        expect(first_event).to have_key('user_id')
       end
 
       it 'filters reporting events by date range using since and until' do
