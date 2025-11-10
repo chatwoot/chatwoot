@@ -10,6 +10,6 @@ class AutoClassificationJob < ApplicationJob
     conversation = Conversation.find_by(id: conversation_id)
     return unless conversation
 
-    AutoClassificationService.new(conversation).perform
+    Conversations::AutoAssignService.new(conversation).perform
   end
 end

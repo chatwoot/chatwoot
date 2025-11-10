@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AutoClassificationListener < BaseListener
+class AutoAssignConversationListener < BaseListener
   MESSAGE_THRESHOLD = 3
 
   def message_created(event)

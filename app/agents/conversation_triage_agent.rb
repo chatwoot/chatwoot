@@ -14,10 +14,7 @@ class ConversationTriageAgent < BaseAgent
   def run
     return nil if @available_labels.empty? && @available_teams.empty?
 
-    response = execute
-    return nil unless response
-
-    response.slice('label_id', 'team_id')
+    execute
   rescue StandardError => e
     log_error('Conversation triage failed', e)
     nil

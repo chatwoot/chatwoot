@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AutoClassificationService
+class Conversations::AutoAssignService
   attr_reader :conversation, :account
 
   def initialize(conversation)
@@ -9,13 +9,11 @@ class AutoClassificationService
   end
 
   def perform
-    return unless should_classify?
-
     suggestions = fetch_suggestions
     return if suggestions.nil?
 
-    apply_label(suggestions['label_id']) if should_apply_label? && suggestions['label_id'].present?
-    apply_team(suggestions['team_id']) if should_apply_team? && suggestions['team_id'].present?
+    apply_label(suggestions['label_id']) if suggestions['label_id'].present?
+    apply_team(suggestions['team_id']) if suggestions['team_id'].present?
   rescue StandardError => e
     Rails.logger.error("Auto-classification failed for conversation #{conversation.id}: #{e.message}")
     raise # Re-raise for job retry
@@ -23,24 +21,8 @@ class AutoClassificationService
 
   private
 
-  def should_classify?
-    return false if available_labels.empty? && available_teams.empty?
-
-    true
-  end
-
   def fetch_suggestions
-    return nil if available_labels.empty? && available_teams.empty?
-
     ConversationTriageAgent.run(conversation)
-  end
-
-  def should_apply_label?
-    conversation.label_list.empty? && available_labels.any?
-  end
-
-  def should_apply_team?
-    conversation.team_id.nil? && available_teams.any?
   end
 
   def apply_label(label_id)

@@ -129,7 +129,7 @@ class Conversation < ApplicationRecord
   end
 
   def classify
-    AutoClassificationService.new(self).perform
+    Conversations::AutoAssignService.new(self).perform
   end
 
   # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.

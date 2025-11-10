@@ -10,9 +10,9 @@ RSpec.describe AutoClassificationJob do
 
   describe '#perform' do
     context 'when conversation exists' do
-      it 'calls AutoClassificationService with the conversation' do
-        service = instance_double(AutoClassificationService)
-        allow(AutoClassificationService).to receive(:new)
+      it 'calls Conversations::AutoAssignService with the conversation' do
+        service = instance_double(Conversations::AutoAssignService)
+        allow(Conversations::AutoAssignService).to receive(:new)
           .with(conversation)
           .and_return(service)
         expect(service).to receive(:perform)
@@ -26,8 +26,8 @@ RSpec.describe AutoClassificationJob do
         expect { described_class.perform_now(999_999) }.not_to raise_error
       end
 
-      it 'does not call AutoClassificationService' do
-        expect(AutoClassificationService).not_to receive(:new)
+      it 'does not call Conversations::AutoAssignService' do
+        expect(Conversations::AutoAssignService).not_to receive(:new)
 
         described_class.perform_now(999_999)
       end

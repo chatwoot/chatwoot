@@ -4,10 +4,12 @@ class BaseAgent
   #
   # Usage:
   #   class MyAgent < BaseAgent
-  #     def initialize(user, additional_params)
-  #       super()
+  #
+  #     MODEL = 'gpt-4o-mini'
+  #     TEMPERATURE = 0.7
+  #
+  #     def initialize(user)
   #       @user = user
-  #       @model = "gpt-4o-mini"
   #     end
   #
   #     def run
@@ -74,7 +76,7 @@ class BaseAgent
     response = chat.ask(user_prompt)
     response.content.with_indifferent_access
   rescue StandardError => e
-    log_error('Chat execution failed', e)
+    log_error('Agent execution failed', e)
     nil
   end
 

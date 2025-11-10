@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AutoClassificationService do
+RSpec.describe Conversations::AutoAssignService do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
   let(:service) { described_class.new(conversation) }

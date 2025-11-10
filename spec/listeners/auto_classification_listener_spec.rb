@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AutoClassificationListener do
+RSpec.describe AutoAssignConversationListener do
   include ActiveJob::TestHelper
 
   let(:account) { create(:account) }
