@@ -1,4 +1,4 @@
-json.array! @bulk_processing_requests do |bulk_request|
+json.data @bulk_processing_requests do |bulk_request|
   json.id bulk_request.id
   json.status bulk_request.status
   json.entity_type bulk_request.entity_type
@@ -17,5 +17,13 @@ json.array! @bulk_processing_requests do |bulk_request|
   json.user do
     json.id bulk_request.user.id
     json.name bulk_request.user.name
+    json.email bulk_request.user.email
   end
+end
+
+json.meta do
+  json.current_page @current_page
+  json.total_pages @total_pages
+  json.total_count @total_count
+  json.per_page @bulk_processing_requests.limit_value
 end

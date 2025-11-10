@@ -8,6 +8,13 @@
     >
       <template #header-actions>
         <button
+          class="flex-shrink-0 px-4 py-2 bg-n-slate-3 text-n-slate-12 rounded-lg hover:bg-n-slate-4 transition-colors text-sm font-medium flex items-center gap-2"
+          @click="navigateToUploadHistory"
+        >
+          <i class="i-lucide-history w-4 h-4" />
+          {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD_HISTORY') }}
+        </button>
+        <button
           class="flex-shrink-0 px-4 py-2 bg-n-blue-9 text-white rounded-lg hover:bg-n-blue-10 transition-colors text-sm font-medium flex items-center gap-2"
           @click="handleDownloadTemplate"
         >
@@ -224,6 +231,7 @@
 import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { useToggle } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
@@ -244,6 +252,7 @@ import ProductCatalogAPI from 'dashboard/api/productCatalog';
 
 const { t } = useI18n();
 const store = useStore();
+const router = useRouter();
 
 const [showUploadDialog, toggleUploadDialog] = useToggle();
 const selectedProduct = ref(null);
@@ -649,5 +658,9 @@ const handlePageChange = async (page) => {
 
   // Scroll to top of product list
   window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const navigateToUploadHistory = () => {
+  router.push({ name: 'knowledge_base_upload_history' });
 };
 </script>

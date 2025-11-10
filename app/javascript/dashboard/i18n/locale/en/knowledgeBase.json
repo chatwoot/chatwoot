@@ -127,6 +127,31 @@
         "TO": "to",
         "OF": "of",
         "RESULTS": "results"
+      },
+      "UPLOAD_HISTORY": "Upload History"
+    },
+    "UPLOAD_HISTORY": {
+      "HEADER_TITLE": "Upload History",
+      "EMPTY_STATE": {
+        "TITLE": "No upload history",
+        "SUBTITLE": "Upload history will appear here once you upload files"
+      },
+      "TABLE": {
+        "FILE_NAME": "File Name",
+        "STATUS": "Status",
+        "UPLOADED_BY": "Uploaded By",
+        "DATE": "Upload Date",
+        "TOTAL": "Total",
+        "PROCESSED": "Processed",
+        "FAILED": "Failed",
+        "ACTIONS": "Actions"
+      },
+      "DOWNLOAD_ERRORS": "Download Errors",
+      "PAGINATION": {
+        "SHOWING": "Showing",
+        "TO": "to",
+        "OF": "of",
+        "RESULTS": "results"
       }
     },
     "BULK_REQUESTS": {

@@ -34,6 +34,7 @@ const handleButtonClick = () => {
           <div class="flex items-center gap-2">
             <slot name="header-actions" />
             <div
+              v-if="buttonLabel"
               v-on-clickaway="() => emit('close')"
               class="relative group/kb-button"
             >

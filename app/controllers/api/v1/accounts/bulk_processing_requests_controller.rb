@@ -3,9 +3,26 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
   before_action :check_authorization
 
   def index
-    @bulk_processing_requests = Current.account.bulk_processing_requests
-                                       .includes(:user)
-                                       .order(created_at: :desc)
+    page = params[:page] || 1
+    per_page = params[:per_page] || 50
+    entity_type = params[:entity_type]
+
+    base_query = Current.account.bulk_processing_requests.includes(:user)
+
+    @bulk_processing_requests = if entity_type.present?
+                                  base_query.where(entity_type: entity_type)
+                                            .order(created_at: :desc)
+                                            .page(page)
+                                            .per(per_page)
+                                else
+                                  base_query.order(created_at: :desc)
+                                            .page(page)
+                                            .per(per_page)
+                                end
+
+    @total_count = @bulk_processing_requests.total_count
+    @total_pages = (@total_count.to_f / per_page.to_i).ceil
+    @current_page = page.to_i
   end
 
   def show; end

@@ -23,8 +23,10 @@ export const actions = {
     commit(types.SET_BULK_PROCESSING_REQUEST_UI_FLAG, { isFetching: true });
     try {
       const response = await BulkProcessingRequestsAPI.get();
-      commit(types.SET_BULK_PROCESSING_REQUESTS, response.data);
-      return response.data;
+      // Handle both old format (array) and new format (object with data and meta)
+      const data = Array.isArray(response.data) ? response.data : response.data.data;
+      commit(types.SET_BULK_PROCESSING_REQUESTS, data);
+      return data;
     } catch (error) {
       // Handle error
       return [];
