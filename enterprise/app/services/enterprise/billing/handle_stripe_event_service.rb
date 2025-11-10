@@ -105,22 +105,10 @@ class Enterprise::Billing::HandleStripeEventService
       return credits.to_i if credits.present? && credits.to_i.positive?
     end
 
-    # Fallback: extract from amount object
-    amount_data = extract_attribute(grant, :amount)
-    return 0 unless amount_data
-
     0
   end
 
   def extract_attribute(object, attribute)
     object.respond_to?(attribute) ? object.public_send(attribute) : object[attribute.to_s]
-  end
-
-  def extract_amount_value(amount_data, unit_type)
-    unit = extract_attribute(amount_data, unit_type)
-    return 0 unless unit
-
-    value = extract_attribute(unit, :value)
-    value.to_i
   end
 end
