@@ -35,11 +35,10 @@ class LandingPage::RequestLandingPageService
 
   def request_payload
     {
-      inbox_name: @inbox.name,
-      website_url: @channel.website_url,
+      title: @inbox.name,
       website_token: @channel.website_token,
-      landing_page_description: @channel.landing_page_description,
-      frontend_url: ENV.fetch('FRONTEND_URL', '')
+      description: @channel.landing_page_description,
+      website_baseurl: ENV.fetch('FRONTEND_URL', '')
     }
   end
 

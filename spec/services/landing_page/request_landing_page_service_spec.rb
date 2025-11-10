@@ -38,11 +38,10 @@ RSpec.describe LandingPage::RequestLandingPageService do
           landing_page_endpoint,
           {
             body: {
-              inbox_name: inbox.name,
-              website_url: channel_widget.website_url,
+              title: inbox.name,
               website_token: channel_widget.website_token,
-              landing_page_description: channel_widget.landing_page_description,
-              frontend_url: 'https://app.chatwoot.com'
+              description: channel_widget.landing_page_description,
+              website_baseurl: 'https://app.chatwoot.com'
             }.to_json,
             headers: { 'Content-Type' => 'application/json' },
             timeout: 60
@@ -157,11 +156,10 @@ RSpec.describe LandingPage::RequestLandingPageService do
     describe '#request_payload' do
       it 'includes all required fields' do
         expected_payload = {
-          inbox_name: inbox.name,
-          website_url: channel_widget.website_url,
+          title: inbox.name,
           website_token: channel_widget.website_token,
-          landing_page_description: channel_widget.landing_page_description,
-          frontend_url: 'https://app.chatwoot.com'
+          description: channel_widget.landing_page_description,
+          website_baseurl: 'https://app.chatwoot.com'
         }
 
         actual_payload = service.send(:request_payload)
