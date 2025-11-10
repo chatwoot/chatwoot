@@ -10,6 +10,7 @@ import campaignsRoutes from './campaigns/campaigns.routes';
 import { routes as captainRoutes } from './captain/captain.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
+import NoAccounts from './noAccounts/Index.vue';
 
 export default {
   routes: [
@@ -35,6 +36,11 @@ export default {
         permissions: ['administrator', 'agent', 'custom_role'],
       },
       component: Suspended,
+    },
+    {
+      path: frontendURL('no-accounts'),
+      name: 'no_accounts',
+      component: NoAccounts,
     },
   ],
 };
