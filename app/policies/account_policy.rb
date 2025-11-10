@@ -30,4 +30,32 @@ class AccountPolicy < ApplicationPolicy
   def toggle_deletion?
     @account_user.administrator?
   end
+
+  def v2_pricing_plans?
+    @account_user.administrator?
+  end
+
+  def v2_topup_options?
+    @account_user.administrator?
+  end
+
+  def v2_topup?
+    @account_user.administrator?
+  end
+
+  def v2_subscribe?
+    @account_user.administrator?
+  end
+
+  def cancel_subscription?
+    @account_user.administrator?
+  end
+
+  def credit_grants?
+    @account_user.administrator?
+  end
+
+  def change_pricing_plan?
+    @account_user.administrator?
+  end
 end

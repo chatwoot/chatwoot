@@ -6,6 +6,17 @@ if resource.custom_attributes.present?
     json.subscribed_quantity resource.custom_attributes['subscribed_quantity']
     json.subscription_status resource.custom_attributes['subscription_status']
     json.subscription_ends_on resource.custom_attributes['subscription_ends_on']
+    json.stripe_subscription_id resource.custom_attributes['stripe_subscription_id'] if resource.custom_attributes['stripe_subscription_id'].present?
+    json.stripe_billing_version resource.custom_attributes['stripe_billing_version'] if resource.custom_attributes['stripe_billing_version'].present?
+    json.stripe_customer_id resource.custom_attributes['stripe_customer_id'] if resource.custom_attributes['stripe_customer_id'].present?
+    if resource.custom_attributes['pending_stripe_pricing_plan_id'].present?
+      json.pending_stripe_pricing_plan_id resource.custom_attributes['pending_stripe_pricing_plan_id']
+    end
+    if resource.custom_attributes['pending_subscription_quantity'].present?
+      json.pending_subscription_quantity resource.custom_attributes['pending_subscription_quantity']
+    end
+    json.stripe_pricing_plan_id resource.custom_attributes['stripe_pricing_plan_id'] if resource.custom_attributes['stripe_pricing_plan_id'].present?
+    json.next_billing_date resource.custom_attributes['next_billing_date'] if resource.custom_attributes['next_billing_date'].present?
     json.industry resource.custom_attributes['industry'] if resource.custom_attributes['industry'].present?
     json.company_size resource.custom_attributes['company_size'] if resource.custom_attributes['company_size'].present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?

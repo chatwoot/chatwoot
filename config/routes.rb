@@ -431,6 +431,14 @@ Rails.application.routes.draw do
               post :subscription
               get :limits
               post :toggle_deletion
+              # V2 Billing endpoints
+              get :credit_grants
+              get :v2_pricing_plans
+              get :v2_topup_options
+              post :v2_topup
+              post :v2_subscribe
+              post :cancel_subscription
+              post :change_pricing_plan
             end
           end
         end

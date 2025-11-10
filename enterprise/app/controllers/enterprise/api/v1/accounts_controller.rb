@@ -1,5 +1,7 @@
 class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
+  include Enterprise::Api::V1::Accounts::Concerns::BillingV2
+
   before_action :fetch_account
   before_action :check_authorization
   before_action :check_cloud_env, only: [:limits, :toggle_deletion]
