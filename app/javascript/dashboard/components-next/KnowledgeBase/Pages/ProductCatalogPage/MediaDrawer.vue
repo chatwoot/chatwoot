@@ -1,7 +1,16 @@
 <template>
+  <!-- Backdrop overlay -->
+  <div
+    v-if="product"
+    class="fixed inset-0 z-40 bg-black bg-opacity-50 transition-opacity"
+    @click="emit('close')"
+  />
+
+  <!-- Drawer -->
   <div
     v-if="product"
     class="fixed inset-y-0 right-0 z-50 w-full max-w-2xl bg-n-background border-l border-n-weak shadow-2xl flex flex-col"
+    @click.stop
   >
     <!-- Header -->
     <div class="flex items-start justify-between p-6 border-b border-n-weak">
@@ -132,7 +141,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -152,6 +161,21 @@ const emit = defineEmits(['close']);
 const store = useStore();
 const { t } = useI18n();
 const selectedMedia = ref(null);
+
+// Handle ESC key to close drawer
+const handleKeyDown = (event) => {
+  if (event.key === 'Escape') {
+    emit('close');
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeyDown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeyDown);
+});
 
 const imageMedia = computed(() => {
   if (!props.product?.product_media) return [];

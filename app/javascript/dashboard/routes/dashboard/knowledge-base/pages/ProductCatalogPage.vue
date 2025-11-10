@@ -44,12 +44,12 @@
         :error-message="activeProcessing.error_message"
         :error-details="activeProcessing.error_details"
         :bulk-request-id="activeProcessing.id"
-        class="m-6"
+        class="mb-6"
         @cancel="handleCancelProcessing"
         @close="handleCloseProcessingStatus"
       />
 
-      <div v-if="!hasNoProducts || activeProcessing" class="p-6 space-y-6">
+      <div v-if="!hasNoProducts || activeProcessing" class="space-y-6">
 
         <!-- Search Bar and Bulk Actions -->
         <div v-if="!hasNoProducts || (activeProcessing && products.length > 0)" class="flex items-center gap-2">
