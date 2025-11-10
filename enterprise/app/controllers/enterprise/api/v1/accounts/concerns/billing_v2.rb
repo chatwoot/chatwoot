@@ -41,7 +41,19 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
   end
 
   def cancel_subscription
-    render json: { success: true, message: 'Subscription cancelled.' }
+    service = Enterprise::Billing::V2::CancelSubscriptionService.new(account: @account)
+    result = service.cancel_subscription
+
+    if result[:success]
+      # Include account ID and updated attributes for frontend store update
+      @account.reload
+      render json: result.merge(
+        id: @account.id,
+        custom_attributes: @account.custom_attributes
+      )
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
   end
 
   def change_pricing_plan
