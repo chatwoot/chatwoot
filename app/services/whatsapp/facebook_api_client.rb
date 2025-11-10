@@ -1,18 +1,20 @@
 class Whatsapp::FacebookApiClient
   BASE_URI = 'https://graph.facebook.com'.freeze
 
-  def initialize(access_token = nil)
+  def initialize(access_token = nil, account: nil)
     @access_token = access_token
-    @api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+    @account = account
+    @api_version = get_api_version
   end
 
   def exchange_code_for_token(code)
     response = HTTParty.get(
       "#{BASE_URI}/#{@api_version}/oauth/access_token",
       query: {
-        client_id: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
-        client_secret: GlobalConfigService.load('WHATSAPP_APP_SECRET', ''),
-        code: code
+        client_id: get_app_id,
+        client_secret: get_app_secret,
+        code: code,
+        redirect_uri: 'https://www.facebook.com/'
       }
     )
 
@@ -92,9 +94,19 @@ class Whatsapp::FacebookApiClient
   end
 
   def build_app_access_token
-    app_id = GlobalConfigService.load('WHATSAPP_APP_ID', '')
-    app_secret = GlobalConfigService.load('WHATSAPP_APP_SECRET', '')
-    "#{app_id}|#{app_secret}"
+    "#{get_app_id}|#{get_app_secret}"
+  end
+
+  def get_app_id
+    @account&.whatsapp_settings&.app_id.presence || GlobalConfigService.load('WHATSAPP_APP_ID', '')
+  end
+
+  def get_app_secret
+    @account&.whatsapp_settings&.app_secret.presence || GlobalConfigService.load('WHATSAPP_APP_SECRET', '')
+  end
+
+  def get_api_version
+    @account&.whatsapp_settings&.api_version.presence || GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
   end
 
   def handle_response(response, error_message)

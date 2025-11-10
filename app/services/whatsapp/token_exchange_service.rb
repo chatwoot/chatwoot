@@ -1,7 +1,8 @@
 class Whatsapp::TokenExchangeService
-  def initialize(code)
+  def initialize(code, account: nil)
     @code = code
-    @api_client = Whatsapp::FacebookApiClient.new
+    @account = account
+    @api_client = Whatsapp::FacebookApiClient.new(nil, account: @account)
   end
 
   def perform

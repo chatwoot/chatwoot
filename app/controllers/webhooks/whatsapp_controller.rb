@@ -28,24 +28,38 @@ class Webhooks::WhatsappController < ActionController::API
   private
 
   def valid_token?(token)
-    # For Facebook WhatsApp Business API webhook verification, use FB_VERIFY_TOKEN
-    fb_verify_token = GlobalConfig.get_value('FB_VERIFY_TOKEN')
-    return token == fb_verify_token if fb_verify_token.present?
+    # For webhook verification, we need to check if the token matches any WhatsApp channel
+    # or account-level settings since Facebook doesn't send phone_number_id during verification
 
-    # Fallback to channel-specific verification for backward compatibility
-    # Try to find channel by phone_number_id first (new format), then by phone_number (old format)
-    phone_number_id = extract_phone_number_id_from_payload
+    # First, try to find channel by phone_number if provided in URL (backward compatibility)
+    if params[:phone_number].present?
+      channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+      if channel.present?
+        whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token']
+        return token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
+      end
+    end
 
-    channel = if phone_number_id.present?
-                find_channel_by_phone_number_id(phone_number_id)
-              else
-                Channel::Whatsapp.find_by(phone_number: params[:phone_number])
-              end
+    # Check account-level WhatsApp settings (for multi-tenant setup)
+    if defined?(AccountWhatsappSettings)
+      AccountWhatsappSettings.find_each do |settings|
+        return true if settings.verify_token.present? && token == settings.verify_token
+      end
+    end
 
-    whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
-    token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
+    # For unified endpoint, check all WhatsApp channels to find matching token
+    # This is necessary during webhook verification when we don't have phone_number_id yet
+    Channel::Whatsapp.where(provider: 'whatsapp_cloud').find_each do |channel|
+      webhook_token = channel.provider_config['webhook_verify_token']
+      return true if webhook_token.present? && token == webhook_token
+    end
+
+<<<<<<< HEAD
+    false
   end
 
+=======
+>>>>>>> master
   def inactive_whatsapp_number?(phone_number = nil)
     phone_number ||= params[:phone_number]
     return false if phone_number.blank?

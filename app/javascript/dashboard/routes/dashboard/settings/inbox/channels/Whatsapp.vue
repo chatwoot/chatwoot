@@ -1,7 +1,8 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
+import whatsappSettingsAPI from 'dashboard/api/whatsappSettings';
 import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
@@ -12,6 +13,9 @@ const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 
+const accountWhatsappSettings = ref(null);
+const isLoadingSettings = ref(true);
+
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
   TWILIO: 'twilio',
@@ -21,7 +25,30 @@ const PROVIDER_TYPES = {
   THREE_SIXTY_DIALOG: '360dialog',
 };
 
+// Load account WhatsApp settings on mount
+const loadAccountWhatsappSettings = async () => {
+  try {
+    const response = await whatsappSettingsAPI.get();
+    accountWhatsappSettings.value = response.data;
+  } catch (error) {
+    accountWhatsappSettings.value = null;
+  } finally {
+    isLoadingSettings.value = false;
+  }
+};
+
+onMounted(() => {
+  loadAccountWhatsappSettings();
+});
+
+// Check account-level settings first, then fall back to global config
 const hasWhatsappAppId = computed(() => {
+  // Priority 1: Account-level settings
+  if (accountWhatsappSettings.value?.app_id) {
+    return true;
+  }
+
+  // Priority 2: Global config
   return (
     window.chatwootConfig?.whatsappAppId &&
     window.chatwootConfig.whatsappAppId !== 'none'

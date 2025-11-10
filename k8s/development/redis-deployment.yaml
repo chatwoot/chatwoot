@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-development
+  namespace: chatwoot-development
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-development
+  template:
+    metadata:
+      labels:
+        app: redis-development
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        command:
+        - redis-server
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-development
+  namespace: chatwoot-development
+spec:
+  selector:
+    app: redis-development
+  ports:
+  - port: 6379
+    targetPort: 6379
+  type: ClusterIP

@@ -1,5 +1,86 @@
 {
   "INTEGRATION_SETTINGS": {
+    "WHATSAPP": {
+      "TITLE": "WhatsApp Business Settings",
+      "DESCRIPTION": "Configure your WhatsApp Business API credentials for multi-tenant setup. Each organization can use their own Facebook App credentials.",
+      "FORM": {
+        "TITLE": "WhatsApp Business Configuration",
+        "DESCRIPTION": "Enter your Facebook App credentials to enable WhatsApp Business API integration for your organization.",
+        "APP_ID": {
+          "LABEL": "WhatsApp App ID",
+          "PLACEHOLDER": "Enter your Facebook App ID",
+          "HELP": "Your Facebook App ID from the Facebook Developer Console",
+          "ERROR": "App ID is required"
+        },
+        "APP_SECRET": {
+          "LABEL": "WhatsApp App Secret",
+          "PLACEHOLDER": "Enter your Facebook App Secret",
+          "HELP": "Your Facebook App Secret from the Facebook Developer Console",
+          "ERROR": "App Secret is required"
+        },
+        "CONFIGURATION_ID": {
+          "LABEL": "Configuration ID",
+          "PLACEHOLDER": "Enter your Configuration ID",
+          "HELP": "The Configuration ID for embedded signup flow",
+          "ERROR": "Configuration ID is required"
+        },
+        "VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Auto-generated or enter custom token",
+          "HELP": "Token used to verify webhook requests from Facebook. Leave empty to auto-generate."
+        },
+        "API_VERSION": {
+          "LABEL": "API Version",
+          "PLACEHOLDER": "v22.0",
+          "HELP": "Facebook Graph API version (e.g., v22.0, v21.0)",
+          "V22": "v22.0 (Latest)",
+          "V21": "v21.0",
+          "V20": "v20.0"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook Callback URL",
+          "HELP": "Use this URL in your Facebook App webhook configuration"
+        },
+        "WEBHOOK_SECTION": {
+          "TITLE": "Webhook Configuration",
+          "CALLBACK_URL": "Callback URL:",
+          "VERIFY_TOKEN": "Verify Token:"
+        },
+        "SUBMIT": "Save Settings",
+        "UPDATE": "Update Settings",
+        "CANCEL": "Cancel"
+      },
+      "SETUP_INSTRUCTIONS": {
+        "TITLE": "Setup Instructions",
+        "STEP_1": "Go to",
+        "STEP_1_LINK": "Facebook Developer Console",
+        "STEP_2": "Create a new app or select existing WhatsApp Business app",
+        "STEP_3": "Copy App ID and App Secret from app settings",
+        "STEP_4": "Go to WhatsApp → Configuration and copy Configuration ID",
+        "STEP_5": "Paste the values above and save",
+        "STEP_6": "Configure webhook in Facebook with the URL and token shown above",
+        "STEP_7": "Subscribe to 'messages' webhook field",
+        "LEARN_MORE": "Learn more about WhatsApp Business API setup"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "WhatsApp settings saved successfully",
+        "UPDATE_SUCCESS": "WhatsApp settings updated successfully",
+        "ERROR_MESSAGE": "Failed to save WhatsApp settings. Please try again.",
+        "DELETE_SUCCESS": "WhatsApp settings deleted successfully",
+        "DELETE_ERROR": "Failed to delete WhatsApp settings"
+      },
+      "DELETE": {
+        "TITLE": "Delete WhatsApp Settings",
+        "MESSAGE": "Are you sure you want to delete the WhatsApp Business configuration? This will affect all WhatsApp channels using these credentials.",
+        "CONFIRM": "Yes, Delete",
+        "CANCEL": "Cancel"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp Configuration",
+        "DESCRIPTION": "Configure your WhatsApp Business API credentials to enable multi-tenant WhatsApp integration. Each organization can use their own Facebook App.",
+        "BUTTON": "Configure WhatsApp"
+      }
+    },
     "SHOPIFY": {
       "DELETE": {
         "TITLE": "Delete Shopify Integration",

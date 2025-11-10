@@ -5,6 +5,7 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   # Handles both initial authorization and reauthorization
   # If inbox_id is present in params, it performs reauthorization
   def create
+    log_whatsapp_configuration
     validate_embedded_signup_params!
     channel = process_embedded_signup
     render_success_response(channel.inbox)
@@ -13,6 +14,44 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   end
 
   private
+
+  def log_whatsapp_configuration
+    account = Current.account
+    whatsapp_settings = account.whatsapp_settings if account.respond_to?(:whatsapp_settings)
+
+    Rails.logger.info '=' * 80
+    Rails.logger.info '🚀 WHATSAPP AUTHORIZATION REQUEST'
+    Rails.logger.info '=' * 80
+    Rails.logger.info "📋 Account: #{account.name} (ID: #{account.id})"
+    Rails.logger.info "👤 User: #{current_user.email} (ID: #{current_user.id})"
+    Rails.logger.info "🔄 Type: #{params[:inbox_id].present? ? 'Reauthorization' : 'New Authorization'}"
+    Rails.logger.info "📦 Inbox ID: #{params[:inbox_id]}" if params[:inbox_id].present?
+    Rails.logger.info ''
+    Rails.logger.info '📱 WHATSAPP CONFIGURATION:'
+
+    if whatsapp_settings
+      Rails.logger.info "  ✅ Account-level settings found (ID: #{whatsapp_settings.id})"
+      Rails.logger.info "  📱 App ID: #{whatsapp_settings.app_id&.slice(0, 8)}... (#{whatsapp_settings.app_id&.length} chars)"
+      Rails.logger.info "  🔐 App Secret: #{whatsapp_settings.app_secret.present? ? '✓ Set' : '✗ Missing'} (#{whatsapp_settings.app_secret&.length} chars)"
+      Rails.logger.info "  ⚙️  Configuration ID: #{whatsapp_settings.configuration_id}"
+      Rails.logger.info "  🔑 Verify Token: #{whatsapp_settings.verify_token&.slice(0, 8)}... (#{whatsapp_settings.verify_token&.length} chars)"
+      Rails.logger.info "  📊 API Version: #{whatsapp_settings.api_version}"
+    else
+      Rails.logger.info '  ⚠️  No account-level settings found - using global config'
+      Rails.logger.info "  📱 Global App ID: #{GlobalConfigService.load('WHATSAPP_APP_ID', 'NOT_SET')}"
+      Rails.logger.info "  🔐 Global App Secret: #{ENV['WHATSAPP_APP_SECRET'].present? ? '✓ Set' : '✗ Missing'}"
+      Rails.logger.info "  ⚙️  Global Configuration ID: #{GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', 'NOT_SET')}"
+      Rails.logger.info "  📊 Global API Version: #{GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')}"
+    end
+
+    Rails.logger.info ''
+    Rails.logger.info '📥 REQUEST PARAMS:'
+    Rails.logger.info "  🔑 Code: #{params[:code].present? ? '✓ Received' : '✗ Missing'} (#{params[:code]&.length} chars)"
+    Rails.logger.info "  🏢 Business ID: #{params[:business_id]}"
+    Rails.logger.info "  📞 WABA ID: #{params[:waba_id]}"
+    Rails.logger.info "  📱 Phone Number ID: #{params[:phone_number_id]}" if params[:phone_number_id].present?
+    Rails.logger.info '=' * 80
+  end
 
   def process_embedded_signup
     service = Whatsapp::EmbeddedSignupService.new(

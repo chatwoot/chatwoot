@@ -17,5 +17,6 @@ module Enterprise::Concerns::Account
     has_many :voice_channels, dependent: :destroy_async, class_name: '::Channel::Voice'
 
     has_one :saml_settings, dependent: :destroy_async, class_name: 'AccountSamlSettings'
+    has_one :whatsapp_settings, dependent: :destroy_async, class_name: 'AccountWhatsappSettings'
   end
 end

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatwoot-vite-development
+  annotations:
+    kubernetes.io/change-cause: "Development deployment"
+    container.apparmor.security.beta.kubernetes.io/vite: runtime/default
+spec:
+  replicas: 1
+  progressDeadlineSeconds: 600
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: chatwoot-vite-development
+  template:
+    metadata:
+      labels:
+        app: chatwoot-vite-development
+      annotations:
+        timestamp: "0"
+    spec:
+      containers:
+      - name: vite
+        image: wavai/chatwoot-vite-dev:v1.0.41
+        imagePullPolicy: Always
+        command: ["/bin/sh"]
+        args: ["-c", "docker/entrypoints/vite.sh"]
+        ports:
+        - containerPort: 3036
+        envFrom:
+        - configMapRef:
+            name: chatwoot-config-development
+        - secretRef:
+            name: chatwoot-secrets-development
+        env:
+        - name: VITE_DEV_SERVER_HOST
+          value: "0.0.0.0"
+        - name: NODE_ENV
+          value: "production"
+        - name: RAILS_ENV
+          value: "production"
+        - name: VITE_PORT
+          value: "3036"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatwoot-vite-development
+spec:
+  selector:
+    app: chatwoot-vite-development
+  ports:
+  - port: 3036
+    targetPort: 3036
+  type: ClusterIP
