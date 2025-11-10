@@ -20,7 +20,7 @@ class Api::V1::Accounts::ReportingEventsController < Api::V1::Accounts::Enterpri
                                .filter_by_date_range(range)
                                .filter_by_inbox_id(params[:inbox_id])
                                .filter_by_user_id(params[:user_id])
-                               .filter_by_name(params[:event_name])
+                               .filter_by_name(params[:name])
                                .order(created_at: :desc)
   end
 
