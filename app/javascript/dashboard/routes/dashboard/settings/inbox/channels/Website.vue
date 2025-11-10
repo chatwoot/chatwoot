@@ -7,6 +7,7 @@ import PageHeader from '../../SettingsSubPageHeader.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
@@ -25,12 +26,21 @@ export default {
       greetingEnabled: false,
       greetingMessage: '',
       welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
+      autoGenerateLandingPage: false,
+      landingPageDescription: '',
     };
   },
   computed: {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
+      accountId: 'getCurrentAccountId',
     }),
+    isAutoGenerateLandingPageEnabled() {
+      return this.$store.getters['accounts/isFeatureEnabledonAccount'](
+        this.accountId,
+        FEATURE_FLAGS.AUTO_GENERATE_LANDING_PAGE
+      );
+    },
     textAreaChannels() {
       if (
         this.isATwilioChannel ||
@@ -56,6 +66,8 @@ export default {
               widget_color: this.channelWidgetColor,
               welcome_title: this.channelWelcomeTitle,
               welcome_tagline: this.channelWelcomeTagline,
+              auto_generate_landing_page: this.autoGenerateLandingPage,
+              landing_page_description: this.landingPageDescription,
             },
           }
         );
@@ -191,12 +203,43 @@ export default {
         "
         :richtext="!textAreaChannels"
       />
+
+      <div v-if="isAutoGenerateLandingPageEnabled" class="w-full">
+        <label class="w-full">
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.AUTO_GENERATE_LANDING_PAGE.SECTION_TITLE') }}
+        </label>
+        <div class="flex gap-2 pt-2 pb-4">
+          <input
+            v-model="autoGenerateLandingPage"
+            type="checkbox"
+          />
+          <label>
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.AUTO_GENERATE_LANDING_PAGE.LABEL') }}
+          </label>
+        </div>
+        <Editor
+          v-if="autoGenerateLandingPage"
+          v-model="landingPageDescription"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.AUTO_GENERATE_LANDING_PAGE.DESCRIPTION_LABEL')
+          "
+          :placeholder="
+            $t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.AUTO_GENERATE_LANDING_PAGE.DESCRIPTION_PLACEHOLDER'
+            )
+          "
+          :max-length="500"
+          :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+          class="mb-4"
+        />
+      </div>
+
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2 mt-4">
         <div class="w-full">
           <NextButton
             type="submit"
             :is-loading="uiFlags.isCreating"
-            :disabled="!channelWebsiteUrl || !inboxName"
+            :disabled="!channelWebsiteUrl || !inboxName || (autoGenerateLandingPage && !landingPageDescription)"
             solid
             blue
             :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
