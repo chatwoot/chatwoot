@@ -30,10 +30,10 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getProductCatalogs({ commit }, { page = 1, per_page = 50 } = {}) {
+  get: async function getProductCatalogs({ commit }, { page = 1, per_page = 50, q = undefined } = {}) {
     commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isFetching: true });
     try {
-      const response = await ProductCatalogAPI.get({ page, per_page });
+      const response = await ProductCatalogAPI.get({ page, per_page, q });
       // Response now has { data: [], meta: {} } structure
       commit(types.SET_PRODUCT_CATALOGS, response.data.data);
       commit(types.SET_PRODUCT_CATALOG_META, response.data.meta);

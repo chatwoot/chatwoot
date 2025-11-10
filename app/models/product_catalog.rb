@@ -34,8 +34,28 @@
 #  fk_rails_...  (bulk_processing_request_id => bulk_processing_requests.id)
 #
 class ProductCatalog < ApplicationRecord
+  include PgSearch::Model
+
   # Disable Single Table Inheritance (STI) to allow 'type' column for product type
   self.inheritance_column = :_type_disabled
+
+  # Configure pg_search for efficient full-text search
+  pg_search_scope :search_by_text,
+                  against: {
+                    productName: 'A',      # Highest priority
+                    product_id: 'A',
+                    type: 'B',             # Medium priority
+                    industry: 'B',
+                    subcategory: 'C',      # Lower priority
+                    description: 'D'
+                  },
+                  using: {
+                    tsearch: {
+                      prefix: true,        # Allow partial matching
+                      any_word: true,      # Match any word in query
+                      dictionary: 'english'
+                    }
+                  }
 
   belongs_to :account
   belongs_to :bulk_processing_request, optional: true

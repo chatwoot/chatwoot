@@ -221,12 +221,13 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useToggle } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useDebounceFn } from '@vueuse/core';
 
 import KnowledgeBaseLayout from 'dashboard/components-next/KnowledgeBase/KnowledgeBaseLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -252,6 +253,7 @@ const deleteDialogRef = ref(null);
 const activeProcessing = ref(null);
 const pollingInterval = ref(null);
 const searchQuery = ref('');
+const searchAbortController = ref(null);
 
 const uiFlags = useMapGetter('productCatalogs/getUIFlags');
 const isFetching = computed(() => uiFlags.value.isFetching);
@@ -260,20 +262,8 @@ const products = computed(() => store.getters['productCatalogs/getProductCatalog
 const meta = computed(() => store.getters['productCatalogs/getMeta']);
 const hasNoProducts = computed(() => products.value?.length === 0 && !isFetching.value);
 
-const filteredProducts = computed(() => {
-  if (!searchQuery.value) return products.value;
-
-  const query = searchQuery.value.toLowerCase();
-  return products.value.filter(product => {
-    return (
-      product.productName?.toLowerCase().includes(query) ||
-      product.product_id?.toLowerCase().includes(query) ||
-      product.type?.toLowerCase().includes(query) ||
-      product.industry?.toLowerCase().includes(query) ||
-      product.description?.toLowerCase().includes(query)
-    );
-  });
-});
+// Use products directly - search is now handled by the backend
+const filteredProducts = computed(() => products.value);
 
 const isProcessing = computed(() => {
   return activeProcessing.value && ['PENDING', 'PROCESSING'].includes(activeProcessing.value.status);
@@ -327,6 +317,40 @@ onMounted(async () => {
 
 onUnmounted(() => {
   stopPolling();
+  // Cancel any pending search requests
+  if (searchAbortController.value) {
+    searchAbortController.value.abort();
+  }
+});
+
+// Debounced search function - waits 1.5s after user stops typing
+const performSearch = useDebounceFn(async (query) => {
+  // Cancel previous search request if it exists
+  if (searchAbortController.value) {
+    searchAbortController.value.abort();
+  }
+
+  // Create new abort controller for this search
+  searchAbortController.value = new AbortController();
+
+  try {
+    // Perform search with query parameter
+    await store.dispatch('productCatalogs/get', {
+      page: 1,
+      per_page: 50,
+      q: query || undefined
+    });
+  } catch (error) {
+    // Ignore abort errors (expected when we cancel previous requests)
+    if (error.name !== 'AbortError' && error.name !== 'CanceledError') {
+      console.error('Search error:', error);
+    }
+  }
+}, 1500);
+
+// Watch for search query changes
+watch(searchQuery, (newQuery) => {
+  performSearch(newQuery);
 });
 
 const checkActiveProcessing = async () => {

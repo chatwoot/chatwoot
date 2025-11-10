@@ -5,14 +5,26 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
   def index
     page = params[:page] || 1
     per_page = params[:per_page] || 50 # Default 50 products per page
+    search_query = params[:q]
 
-    @product_catalogs = Current.account.product_catalogs
-                               .includes(:product_media)
-                               .order(created_at: :desc)
-                               .page(page)
-                               .per(per_page)
+    # Base query for current account
+    base_query = Current.account.product_catalogs
 
-    @total_count = Current.account.product_catalogs.count
+    # Apply search if query parameter is present
+    @product_catalogs = if search_query.present?
+                          base_query.search_by_text(search_query)
+                                    .includes(:product_media)
+                                    .order('product_catalogs.created_at DESC')
+                                    .page(page)
+                                    .per(per_page)
+                        else
+                          base_query.includes(:product_media)
+                                    .order(created_at: :desc)
+                                    .page(page)
+                                    .per(per_page)
+                        end
+
+    @total_count = @product_catalogs.total_count
     @total_pages = (@total_count.to_f / per_page.to_i).ceil
     @current_page = page.to_i
   end

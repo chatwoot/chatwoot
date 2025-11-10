@@ -6,10 +6,13 @@ class ProductCatalogAPI extends ApiClient {
     super('product_catalogs', { accountScoped: true });
   }
 
-  get({ page = 1, per_page = 50 } = {}) {
-    return axios.get(this.url, {
-      params: { page, per_page }
-    });
+  get({ page = 1, per_page = 50, q = undefined } = {}) {
+    const params = { page, per_page };
+    // Only include 'q' parameter if it has a value
+    if (q) {
+      params.q = q;
+    }
+    return axios.get(this.url, { params });
   }
 
   bulkUpload(file) {
