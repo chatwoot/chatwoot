@@ -74,7 +74,7 @@ watch(
 const state = reactive({
   name: '',
   description: '',
-  instruction: '',
+  instructions: '',
   business_info: '',
   welcoming_message: '',
   routing_conditions: '',
@@ -84,7 +84,7 @@ const state = reactive({
 const rules = {
   name: { required },
   description: {},
-  instruction: {},
+  instructions: {},
   business_info: {},
   welcoming_message: {},
   routing_conditions: {},
@@ -136,7 +136,7 @@ watch(
             console.log(agents_config)
             state.welcoming_message = agent_config.bot_prompt.persona;
             state.routing_conditions = agent_config.bot_prompt.handover_conditions;
-            state.instruction = agent_config.bot_prompt.instruction || '';
+            state.instructions = agent_config.bot_prompt.instructions || '';
           }
         });
         // Now look for tab:1 content
@@ -212,7 +212,7 @@ async function submit() {
       if (agent_config.bot_prompt) {
         agent_config.bot_prompt.persona = state.welcoming_message || agent_config.bot_prompt.persona;
         agent_config.bot_prompt.handover_conditions = state.routing_conditions || '';
-        agent_config.bot_prompt.instruction = state.instruction || '';
+        agent_config.bot_prompt.instructions = state.instructions || '';
         // Optionally reset to default if empty:
         // if (!state.routing_conditions) agent_config.bot_prompt.handover_conditions = '...default...'
       }
@@ -326,7 +326,7 @@ function resetChat() {
           <label for="instruction">{{ t('AGENT_MGMT.FORM_CREATE.INSTRUCTION') }}</label>
           <TextArea
             id="instruction"
-            v-model="state.instruction"
+            v-model="state.instructions"
             custom-text-area-wrapper-class=""
             custom-text-area-class="!outline-none"
             :placeholder="t('AGENT_MGMT.FORM_CREATE.INSTRUCTION_PLACEHOLDER')"

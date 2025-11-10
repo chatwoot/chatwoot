@@ -218,6 +218,7 @@
         "OUTPUT_SHEET_TITLE": "Output Sheet Pelacakan Pesanan",
         "OUTPUT_SHEET_DESC": "Lihat data pesanan pelanggan berdasarkan percakapan bot dan pelanggan."
       },
+      "FILE_TAB": "File",
       "PAYMENT": {
         "HEADER": "Metode Pembayaran",
         "HEADER_DESC": "Pengaturan metode pembayaran",
@@ -391,7 +392,7 @@
       "AI_AGENT_BUSINESS_INFO": "Informasi Bisnis Anda",
       "AI_AGENT_BUSINESS_INFO_PLACEHOLDER": "Toko buka setiap hari Senin sampai Jumat, buka mulai jam 09.00 hingga 17.00",
       "INSTRUCTION": "Instruksi untuk Bot AI",
-      "INSTRUCTION_PLACEHOLDER": "Jawab semua pertanyaan dengan sopan dan ramah. Jika kamu tidak tahu jawabannya, katakan 'Maaf, saya tidak tahu.' Jangan buat jawaban.",
+      "INSTRUCTION_PLACEHOLDER": "Silakan merespons pertanyaan pelanggan dengan cara yang membantu dan profesional. Selalu gunakan alat yang tersedia sesuai kebutuhan dan berikan respons dalam bahasa Indonesia, kecuali jika pelanggan chat dalam bahasa lain.",
       "AI_AGENT_PERSONA_LANG_STYLE": "Persona dan Gaya Bahasa",
       "AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER": "Kamu adalah bot yang ramah dan membantu. Gunakan bahasa yang santai dan mudah dimengerti.",
       "HAS_WEBSITE_QUESTION": "Apakah Anda sudah memiliki website?",
@@ -422,6 +423,7 @@
     },
     "BOOKING_BOT": {
       "FILE_TAB": "File",
+      "CHAR": "Kata",
       "GENERAL_TAB": "Umum",
       "HEADER": "Konfigurasi Bot Booking",
       "HEADER_DESC": "Halaman ini berisi konfigurasi Sheets dan parameter untuk Bot Booking Anda.",
