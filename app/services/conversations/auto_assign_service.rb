@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 class Conversations::AutoAssignService
-  attr_reader :conversation, :account
+  attr_reader :conversation, :account, :labels, :teams
 
   def initialize(conversation)
     @conversation = conversation
     @account = conversation.account
+    @labels = account.labels.with_auto_assign_enabled.as_json(only: [:id, :title, :description])
+    @teams = account.teams.with_auto_assign_enabled.as_json(only: [:id, :name, :description])
   end
 
   def perform
@@ -24,22 +26,14 @@ class Conversations::AutoAssignService
   private
 
   def should_process?
-    return false unless auto_label_enabled? || auto_team_enabled?
     return false unless threshold_met?
+    return if labels.empty? && teams.empty?
 
     true
   end
 
-  def auto_label_enabled?
-    account.settings['auto_label_enabled'] == true
-  end
-
-  def auto_team_enabled?
-    account.settings['auto_team_enabled'] == true
-  end
-
   def threshold_met?
-    threshold = account.settings['auto_label_message_threshold'] || 3
+    threshold = 3
     conversation.messages.incoming.count >= threshold
   end
 
@@ -52,11 +46,7 @@ class Conversations::AutoAssignService
   end
 
   def fetch_suggestions
-    options = {
-      available_labels: auto_label_enabled? ? available_labels : [],
-      available_teams: auto_team_enabled? ? available_teams : []
-    }
-    ConversationTriageAgent.run(conversation, options)
+    ConversationTriageAgent.run(conversation: conversation, teams: teams, labels: labels)
   end
 
   def apply_label(label_id)
@@ -73,13 +63,5 @@ class Conversations::AutoAssignService
 
     conversation.update(team: team)
     Rails.logger.info("Auto-assigned conversation #{conversation.id} to team: #{team.name}")
-  end
-
-  def available_labels
-    @available_labels ||= account.labels.where(allow_auto_assign: true).as_json(only: [:id, :title, :description])
-  end
-
-  def available_teams
-    @available_teams ||= account.teams.where(allow_auto_assign: true).as_json(only: [:id, :name, :description])
   end
 end

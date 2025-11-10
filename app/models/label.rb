@@ -32,6 +32,8 @@ class Label < ApplicationRecord
   after_update_commit :update_associated_models
   default_scope { order(:title) }
 
+  scope :with_auto_assign_enabled, -> { where(allow_auto_assign: true) }
+
   before_validation do
     self.title = title.downcase if attribute_present?('title')
   end

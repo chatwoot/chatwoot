@@ -4,15 +4,14 @@ class ConversationTriageAgent < BaseAgent
   MODEL = 'gpt-4o-mini'
   TEMPERATURE = 0.3
 
-  def initialize(conversation)
+  def initialize(conversation:, teams: [], labels: [])
     @conversation = conversation
-    @account = conversation.account
-    @available_labels = @account.labels.where(allow_auto_assign: true)
-    @available_teams = @account.teams.where(allow_auto_assign: true)
+    @teams = teams
+    @labels = labels
   end
 
   def run
-    return nil if @available_labels.empty? && @available_teams.empty?
+    return nil if @labels.empty? && @teams.empty?
 
     execute
   rescue StandardError => e
@@ -28,8 +27,8 @@ class ConversationTriageAgent < BaseAgent
     PROMPT
 
     # Add labels section if available
-    if @available_labels.any?
-      labels_list = @available_labels.map do |label|
+    if @labels.any?
+      labels_list = @labels.map do |label|
         desc = label['description'].present? ? " - #{label['description']}" : ''
         "#{label['id']}: #{label['title']}#{desc}"
       end.join("\n")
@@ -44,8 +43,8 @@ class ConversationTriageAgent < BaseAgent
     end
 
     # Add teams section if available
-    if @available_teams.any?
-      teams_list = @available_teams.map do |team|
+    if @teams.any?
+      teams_list = @teams.map do |team|
         desc = team['description'].present? ? " - #{team['description']}" : ''
         "#{team['id']}: #{team['name']}#{desc}"
       end.join("\n")
