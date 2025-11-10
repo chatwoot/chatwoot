@@ -7,6 +7,7 @@ export const FEATURE_FLAGS = {
   CAMPAIGNS: 'campaigns',
   WHATSAPP_CAMPAIGNS: 'whatsapp_campaign',
   BOARD: 'board',
+  AUTO_GENERATE_LANDING_PAGE: 'auto_generate_landing_page',
   CANNED_RESPONSES: 'canned_responses',
   CRM: 'crm',
   CUSTOM_ATTRIBUTES: 'custom_attributes',

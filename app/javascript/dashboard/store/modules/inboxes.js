@@ -195,6 +195,10 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: false });
     }
   },
+  fetchInbox: async ({ commit }, inboxId) => {
+    const response = await InboxesAPI.getInbox(inboxId);
+    commit(types.default.EDIT_INBOXES, response.data);
+  },
   createChannel: async ({ commit }, params) => {
     try {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });

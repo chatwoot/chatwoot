@@ -98,6 +98,17 @@
           "ENABLED": "Enabled",
           "DISABLED": "Disabled"
         },
+        "AUTO_GENERATE_LANDING_PAGE": {
+          "SECTION_TITLE": "Auto Generate Landing Page",
+          "LABEL": "Auto generate landing page",
+          "DESCRIPTION_LABEL": "Landing Page Description",
+          "DESCRIPTION_PLACEHOLDER": "Describe your landing page. Include details about your business, services, and what you want to highlight to your customers."
+        },
+        "LANDING_PAGE_URL": {
+          "LABEL": "Landing Page URL",
+          "OPEN_LINK": "Open Landing Page",
+          "HELP_TEXT": "This is your auto-generated landing page. Share this URL with your customers to showcase your business and services."
+        },
         "REPLY_TIME": {
           "TITLE": "Set Reply time",
           "IN_A_FEW_MINUTES": "In a few minutes",

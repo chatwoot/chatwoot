@@ -39,6 +39,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
         )
       )
       @inbox.save!
+      trigger_landing_page_generation
     end
   end
 
@@ -219,6 +220,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     elsif @inbox.twilio? && @inbox.channel.whatsapp?
       Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)
     end
+  end
+
+  def trigger_landing_page_generation
+    return unless @inbox.web_widget?
+    return unless @inbox.channel.auto_generate_landing_page
+
+    LandingPage::GenerateLandingPageJob.perform_later(@inbox.id)
   end
 end
 
