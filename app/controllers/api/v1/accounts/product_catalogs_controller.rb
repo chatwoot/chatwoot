@@ -88,9 +88,13 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
     # Save file temporarily and trigger background job
     temp_file = save_uploaded_file(uploaded_file)
 
-    # Queue the background job immediately
+    # Queue the background job and extract the Sidekiq JID from the provider_job_id
     job = ProductCatalogs::ProcessBulkUploadJob.perform_later(@bulk_request.id, temp_file)
-    @bulk_request.update!(job_id: job.job_id)
+
+    # Get the actual Sidekiq JID from the job
+    # ActiveJob wraps Sidekiq, so we need to extract the real Sidekiq JID
+    sidekiq_jid = job.provider_job_id
+    @bulk_request.update!(job_id: sidekiq_jid)
 
     render json: { bulk_request_id: @bulk_request.id }, status: :accepted
   end

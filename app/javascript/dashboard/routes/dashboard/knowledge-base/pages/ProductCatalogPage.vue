@@ -33,7 +33,7 @@
       </template>
 
       <div
-        v-if="isFetching"
+        v-if="isInitialLoading"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
@@ -67,6 +67,7 @@
             :custom-input-class="[
               'h-8 [&:not(.focus)]:!border-transparent bg-n-alpha-2 dark:bg-n-solid-1 ltr:!pl-8 !py-1 rtl:!pr-8',
             ]"
+            :disabled="!!activeProcessing"
             class="w-full"
             @input="searchQuery = $event.target.value"
           >
@@ -263,13 +264,13 @@ const activeProcessing = ref(null);
 const pollingInterval = ref(null);
 const searchQuery = ref('');
 const searchAbortController = ref(null);
+const isInitialLoading = ref(true);
 
 const uiFlags = useMapGetter('productCatalogs/getUIFlags');
-const isFetching = computed(() => uiFlags.value.isFetching);
 
 const products = computed(() => store.getters['productCatalogs/getProductCatalogs']);
 const meta = computed(() => store.getters['productCatalogs/getMeta']);
-const hasNoProducts = computed(() => products.value?.length === 0 && !isFetching.value);
+const hasNoProducts = computed(() => products.value?.length === 0 && !isInitialLoading.value);
 
 // Use products directly - search is now handled by the backend
 const filteredProducts = computed(() => products.value);
@@ -320,8 +321,12 @@ const visiblePages = computed(() => {
 });
 
 onMounted(async () => {
-  await store.dispatch('productCatalogs/get', { page: 1, per_page: 50 });
-  await checkActiveProcessing();
+  try {
+    await store.dispatch('productCatalogs/get', { page: 1, per_page: 50 });
+    await checkActiveProcessing();
+  } finally {
+    isInitialLoading.value = false;
+  }
 });
 
 onUnmounted(() => {
@@ -524,14 +529,17 @@ const handleCancelProcessing = async () => {
   }
 };
 
-const handleCloseProcessingStatus = () => {
+const handleCloseProcessingStatus = async () => {
   // Only allow closing if status is final (not PENDING or PROCESSING)
   if (activeProcessing.value) {
     const statusUpper = activeProcessing.value.status?.toUpperCase();
     if (['COMPLETED', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(statusUpper)) {
       const requestId = activeProcessing.value.id;
 
-      // Close dialog immediately for better UX
+      // Refresh products first to show latest data
+      await store.dispatch('productCatalogs/get', { page: meta.value.current_page, per_page: 50 });
+
+      // Close dialog after refresh
       activeProcessing.value = null;
 
       // Make dismiss request in background (fire and forget)

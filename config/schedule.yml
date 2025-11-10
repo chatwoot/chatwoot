@@ -73,3 +73,10 @@ cleanup_stale_bulk_requests_job:
   cron: '*/5 * * * *'
   class: 'CleanupStaleBulkRequestsJob'
   queue: scheduled_jobs
+
+# executed daily at 0200 UTC
+# to cleanup temporary uploaded files older than 24 hours
+cleanup_temp_uploads_job:
+  cron: '0 2 * * *'
+  class: 'CleanupTempUploadsJob'
+  queue: scheduled_jobs

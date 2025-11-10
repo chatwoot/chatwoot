@@ -4,7 +4,7 @@
       :header-title="$t('KNOWLEDGE_BASE.UPLOAD_HISTORY.HEADER_TITLE')"
     >
       <div
-        v-if="isFetching && bulkRequests.length === 0"
+        v-if="isInitialLoading"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
@@ -214,7 +214,7 @@ import BulkProcessingRequestsAPI from 'dashboard/api/bulkProcessingRequests';
 const { t } = useI18n();
 const store = useStore();
 
-const isFetching = ref(false);
+const isInitialLoading = ref(true);
 const bulkRequests = ref([]);
 const meta = ref({
   current_page: 1,
@@ -264,7 +264,6 @@ onMounted(async () => {
 });
 
 const fetchBulkRequests = async (page = 1) => {
-  isFetching.value = true;
   try {
     const response = await BulkProcessingRequestsAPI.getAll({
       page,
@@ -277,7 +276,10 @@ const fetchBulkRequests = async (page = 1) => {
   } catch (error) {
     console.error('Error fetching bulk requests:', error);
   } finally {
-    isFetching.value = false;
+    // Only show initial loading spinner on first load
+    if (isInitialLoading.value) {
+      isInitialLoading.value = false;
+    }
   }
 };
 

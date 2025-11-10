@@ -45,6 +45,14 @@ class CleanupStaleBulkRequestsJob < ApplicationJob
   private
 
   def check_job_exists(job_id)
+    # Check currently running workers (MOST IMPORTANT - check this first!)
+    workers = Sidekiq::Workers.new
+    workers.each do |_process_id, _thread_id, work|
+      # Handle both direct jid and nested payload['jid']
+      worker_jid = work['jid'] || work.dig('payload', 'jid')
+      return true if worker_jid == job_id
+    end
+
     # Check scheduled jobs (jobs with delay)
     return true if Sidekiq::ScheduledSet.new.any? { |job| job.jid == job_id }
 
@@ -57,6 +65,7 @@ class CleanupStaleBulkRequestsJob < ApplicationJob
     end
   rescue StandardError => e
     Rails.logger.error("Error checking job existence for #{job_id}: #{e.message}")
+    Rails.logger.error(e.backtrace.join("\n"))
     # If we can't check, assume it exists to avoid false positives
     true
   end

@@ -193,6 +193,9 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    creek (2.6.3)
+      nokogiri (>= 1.10.0)
+      rubyzip (>= 1.0.0)
     csv (3.3.0)
     csv-safe (3.3.1)
       csv (~> 3.0)
@@ -328,6 +331,7 @@ GEM
       googleauth (~> 1)
     ffi (1.17.2)
     ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x64-mingw-ucrt)
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi-compiler (1.0.1)
@@ -410,6 +414,9 @@ GEM
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.72.0-arm64-darwin)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.72.0-x64-mingw-ucrt)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.72.0-x86_64-darwin)
@@ -583,6 +590,8 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     nokogiri (1.18.9-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.9-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.18.9-x86_64-darwin)
       racc (~> 1.4)
@@ -1017,6 +1026,7 @@ PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
   ruby
+  x64-mingw-ucrt
   x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
@@ -1046,6 +1056,7 @@ DEPENDENCIES
   byebug
   climate_control
   commonmarker
+  creek (~> 2.6.3)
   csv-safe
   database_cleaner
   datadog (~> 2.0)

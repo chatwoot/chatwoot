@@ -69,6 +69,14 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
     @media_errors = []
 
     products.find_each do |product|
+      # Check if bulk request status is still valid for processing
+      @bulk_request.reload
+      current_status = @bulk_request.status.upcase
+      unless ['PENDING', 'PROCESSING'].include?(current_status)
+        Rails.logger.warn("Stopping media processing - bulk request #{@bulk_request.id} status is #{current_status}")
+        break
+      end
+
       begin
         create_media_for_product(product)
       rescue StandardError => e
@@ -85,9 +93,15 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
 
       processed += 1
 
-      # Update progress from 50% to 100%
-      progress = 50 + (processed.to_f / total_products * 50).round(2)
-      @bulk_request.update!(progress: progress)
+      # Update progress from 50% to 100% every 100 products (less frequent for better performance)
+      # Also update updated_at to keep the job alive in cleanup checks
+      if processed % 100 == 0
+        progress = 50 + (processed.to_f / total_products * 50).round(2)
+        @bulk_request.update!(
+          progress: progress,
+          updated_at: Time.current
+        )
+      end
     end
 
     # Save media errors to bulk request
