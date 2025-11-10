@@ -8,7 +8,19 @@
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "Edit team",
-      "NONE": "None"
+      "NONE": "None",
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "AUTO_ASSIGN": "Auto-Assign",
+        "ACTIONS": "Actions"
+      }
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     },
     "CREATE_FLOW": {
       "CREATE": {

@@ -128,8 +128,8 @@ class Conversation < ApplicationRecord
     additional_attributes&.dig('conversation_language')
   end
 
-  def auto_label!
-    Labels::AutoLabelService.new(self).perform
+  def classify
+    AutoClassificationService.new(self).perform
   end
 
   # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.

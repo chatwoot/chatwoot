@@ -23,7 +23,8 @@
       "TABLE_HEADER": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
-        "COLOR": "Color"
+        "COLOR": "Color",
+        "AUTO_CLASSIFY": "Auto-Classify"
       }
     },
     "FORM": {
@@ -44,10 +45,20 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Show label on sidebar"
       },
+      "ALLOW_AUTO_ASSIGN": {
+        "LABEL": "Enable AI auto-classification for this label"
+      },
       "EDIT": "Edit",
       "CREATE": "Create",
       "DELETE": "Delete",
       "CANCEL": "Cancel"
+    },
+    "AUTO_CLASSIFY": {
+      "ENABLED": "Auto-classification enabled for label",
+      "DISABLED": "Auto-classification disabled for label",
+      "ERROR": "Failed to update auto-classification setting",
+      "BULK_SUCCESS": "Auto-classification updated for all labels",
+      "BULK_ERROR": "Failed to update auto-classification for all labels"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
