@@ -241,6 +241,7 @@ export default {
       canScrollLeft: false,
       canScrollRight: false,
       productClicked: [],
+      currentIndex: 0,
     };
   },
   computed: {
@@ -428,16 +429,42 @@ export default {
       emitter.emit(BUS_EVENTS.ASK_FOR_PRODUCT, productData);
     },
     scrollLeft() {
-      const carousel = this.$refs.carousel;
-      carousel.scrollBy({
-        left: -carousel.offsetWidth,
-        behavior: 'smooth',
-      });
+      if (this.currentIndex > 0) {
+        this.currentIndex -= 1;
+        this.scrollToIndex(this.currentIndex);
+      }
     },
     scrollRight() {
+      if (this.currentIndex < this.items.length - 1) {
+        this.currentIndex += 1;
+        this.scrollToIndex(this.currentIndex);
+      }
+    },
+    scrollToIndex(index) {
       const carousel = this.$refs.carousel;
-      carousel.scrollBy({
-        left: carousel.offsetWidth,
+      const itemWidth = 248; // product card width
+      const gap = 10; // gap between items
+      const containerWidth = carousel.offsetWidth;
+      const carouselPadding = 12; // px-3 = 12px padding
+
+      // Calculate the position of the item
+      const itemPosition = index * (itemWidth + gap) + carouselPadding;
+
+      // Calculate scroll position to center the item
+      const centerOffset = (containerWidth - itemWidth) / 2;
+      let targetScroll = itemPosition - centerOffset;
+
+      // For first item, keep it at the start
+      if (index === 0) {
+        targetScroll = 0;
+      }
+      // For last item, scroll to the end
+      else if (index === this.items.length - 1) {
+        targetScroll = carousel.scrollWidth - carousel.offsetWidth;
+      }
+
+      carousel.scrollTo({
+        left: targetScroll,
         behavior: 'smooth',
       });
     },
