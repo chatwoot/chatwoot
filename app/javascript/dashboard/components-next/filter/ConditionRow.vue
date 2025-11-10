@@ -189,18 +189,18 @@ defineExpose({ validate });
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :options="operatorOptionsPartnerTeam"
+        :options="(partnerFilter && attributeKey === 'team_id') ? operatorOptionsPartnerTeam : currentFilter.options"
       />
       <template v-if="currentOperator.hasInput">
         <MultiSelect
           v-if="inputType === 'multiSelect'"
           v-model="values"
-          :options="filteredOptions"
+          :options="(partnerFilter && attributeKey === 'team_id') ? filteredOptions : currentFilter.options"
         />
         <SingleSelect
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
-          :options="filteredOptions"
+          :options="(partnerFilter && attributeKey === 'team_id') ? filteredOptions : currentFilter.options"
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"
