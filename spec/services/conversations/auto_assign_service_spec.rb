@@ -17,10 +17,6 @@ RSpec.describe Conversations::AutoAssignService do
 
   describe '#perform' do
     context 'when both auto-label and auto-team are enabled' do
-      before do
-        account.update!(settings: { auto_label_enabled: true, auto_team_enabled: true, auto_label_message_threshold: 3 })
-      end
-
       it 'applies both label and team when suggested' do
         allow(ConversationTriageAgent).to receive(:run).and_return({
                                                                      'label_id' => label1.id,
@@ -78,10 +74,6 @@ RSpec.describe Conversations::AutoAssignService do
     end
 
     context 'when only auto-labeling is enabled' do
-      before do
-        account.update!(settings: { auto_label_enabled: true, auto_team_enabled: false })
-      end
-
       it 'only applies label' do
         allow(ConversationTriageAgent).to receive(:run).and_return({
                                                                      'label_id' => label1.id,
@@ -94,20 +86,21 @@ RSpec.describe Conversations::AutoAssignService do
       end
 
       it 'does not call agent with teams' do
-        expect(ConversationTriageAgent).to receive(:run) do |_conv, options|
-          expect(options[:available_labels]).not_to be_empty
-          expect(options[:available_teams]).to be_empty
+        # Disable teams from auto-assign
+        team1.update!(allow_auto_assign: false)
+        team2.update!(allow_auto_assign: false)
+
+        expect(ConversationTriageAgent).to receive(:run) do |args|
+          expect(args[:conversation]).to eq(conversation)
+          expect(args[:labels]).not_to be_empty
+          expect(args[:teams]).to be_empty
         end.and_return({ 'label_id' => label1.id, 'team_id' => nil })
 
-        service.perform
+        described_class.new(conversation).perform
       end
     end
 
     context 'when only auto-team is enabled' do
-      before do
-        account.update!(settings: { auto_label_enabled: false, auto_team_enabled: true })
-      end
-
       it 'only applies team' do
         allow(ConversationTriageAgent).to receive(:run).and_return({
                                                                      'label_id' => nil,
@@ -120,46 +113,49 @@ RSpec.describe Conversations::AutoAssignService do
       end
 
       it 'does not call agent with labels' do
-        expect(ConversationTriageAgent).to receive(:run) do |_conv, options|
-          expect(options[:available_labels]).to be_empty
-          expect(options[:available_teams]).not_to be_empty
+        # Disable labels from auto-assign
+        label1.update!(allow_auto_assign: false)
+        label2.update!(allow_auto_assign: false)
+
+        expect(ConversationTriageAgent).to receive(:run) do |args|
+          expect(args[:conversation]).to eq(conversation)
+          expect(args[:labels]).to be_empty
+          expect(args[:teams]).not_to be_empty
         end.and_return({ 'label_id' => nil, 'team_id' => team1.id })
 
-        service.perform
+        described_class.new(conversation).perform
       end
     end
 
-    context 'when both features are disabled' do
+    context 'when no labels or teams have auto-assign enabled' do
       before do
-        account.update!(settings: { auto_label_enabled: false, auto_team_enabled: false })
+        label1.update!(allow_auto_assign: false)
+        label2.update!(allow_auto_assign: false)
+        team1.update!(allow_auto_assign: false)
+        team2.update!(allow_auto_assign: false)
       end
 
       it 'does not process the conversation' do
         expect(ConversationTriageAgent).not_to receive(:run)
 
-        service.perform
+        described_class.new(conversation).perform
       end
     end
 
     context 'when message threshold is not met' do
       before do
-        account.update!(settings: { auto_label_enabled: true, auto_label_message_threshold: 10 })
         conversation.messages.destroy_all
-        create_list(:message, 3, conversation: conversation, message_type: :incoming, content: 'Message')
+        create_list(:message, 2, conversation: conversation, message_type: :incoming, content: 'Message')
       end
 
       it 'does not process the conversation' do
         expect(ConversationTriageAgent).not_to receive(:run)
 
-        service.perform
+        described_class.new(conversation).perform
       end
     end
 
     context 'when agent returns nil' do
-      before do
-        account.update!(settings: { auto_label_enabled: true, auto_team_enabled: true })
-      end
-
       it 'does not apply anything' do
         allow(ConversationTriageAgent).to receive(:run).and_return(nil)
 
@@ -171,10 +167,6 @@ RSpec.describe Conversations::AutoAssignService do
     end
 
     context 'when agent returns nil for both IDs' do
-      before do
-        account.update!(settings: { auto_label_enabled: true, auto_team_enabled: true })
-      end
-
       it 'does not apply anything' do
         allow(ConversationTriageAgent).to receive(:run).and_return({
                                                                      'label_id' => nil,
@@ -189,10 +181,6 @@ RSpec.describe Conversations::AutoAssignService do
     end
 
     context 'when suggested label does not exist' do
-      before do
-        account.update!(settings: { auto_label_enabled: true })
-      end
-
       it 'does not apply label' do
         allow(ConversationTriageAgent).to receive(:run).and_return({
                                                                      'label_id' => 999_999,
@@ -206,10 +194,6 @@ RSpec.describe Conversations::AutoAssignService do
     end
 
     context 'when suggested team does not exist' do
-      before do
-        account.update!(settings: { auto_team_enabled: true })
-      end
-
       it 'does not apply team' do
         allow(ConversationTriageAgent).to receive(:run).and_return({
                                                                      'label_id' => nil,
@@ -223,15 +207,11 @@ RSpec.describe Conversations::AutoAssignService do
     end
 
     context 'when an error occurs' do
-      before do
-        account.update!(settings: { auto_label_enabled: true, auto_team_enabled: true })
-      end
-
       it 'logs the error and re-raises for job retry' do
         allow(ConversationTriageAgent).to receive(:run).and_raise(StandardError.new('API Error'))
 
         expect(Rails.logger).to receive(:error)
-          .with("Auto-classification failed for conversation #{conversation.id}: API Error")
+          .with("Auto-assign failed for conversation #{conversation.id}: API Error")
 
         expect { service.perform }.to raise_error(StandardError, 'API Error')
       end

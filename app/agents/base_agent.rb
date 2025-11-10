@@ -64,11 +64,11 @@ class BaseAgent
     nil
   end
 
-  protected
+  private
 
   # Execute LLM chat with optional schema
   def execute
-    chat = RubyLLM.chat.with_model(MODEL).with_temperature(TEMPERATURE)
+    chat = RubyLLM.chat.with_model(self.class::MODEL).with_temperature(self.class::TEMPERATURE)
 
     chat = chat.with_instructions(system_prompt) if system_prompt
     chat = chat.with_schema(schema) if schema

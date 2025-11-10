@@ -14,9 +14,6 @@ class ConversationTriageAgent < BaseAgent
     return nil if @labels.empty? && @teams.empty?
 
     execute
-  rescue StandardError => e
-    log_error('Conversation triage failed', e)
-    nil
   end
 
   def user_prompt
