@@ -112,6 +112,10 @@ Rails.application.routes.draw do
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :product_catalogs, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post :toggle_visibility
+            end
+
             collection do
               post :bulk_upload
               post :bulk_delete

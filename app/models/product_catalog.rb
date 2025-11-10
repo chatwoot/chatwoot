@@ -5,6 +5,7 @@
 #  id                         :bigint           not null, primary key
 #  description                :text
 #  industry                   :string           not null
+#  is_visible                 :boolean          default(TRUE), not null
 #  link                       :text
 #  listPrice                  :decimal(10, 2)
 #  payment_options            :string

@@ -1221,6 +1221,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_184157) do
     t.text "photoLinks"
     t.text "videoLinks"
     t.string "product_id"
+    t.boolean "is_visible", default: true, null: false
     t.index ["account_id", "product_id"], name: "index_product_catalogs_on_account_id_and_product_id", unique: true
     t.index ["account_id"], name: "index_product_catalogs_on_account_id"
     t.index ["bulk_processing_request_id"], name: "index_product_catalogs_on_bulk_processing_request_id"

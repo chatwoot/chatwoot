@@ -107,6 +107,7 @@
           @update:selected-product-ids="handleSelectedProductIdsUpdate"
           @select="handleProductSelect"
           @delete="handleDelete"
+          @toggle-visibility="handleToggleVisibility"
         />
 
         <!-- Pagination -->
@@ -549,6 +550,18 @@ const handleSelectedProductIdsUpdate = (newIds) => {
 const refreshProducts = async () => {
   await store.dispatch('productCatalogs/get', { page: meta.value.current_page, per_page: 50 });
   useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.REFRESHED'));
+};
+
+const handleToggleVisibility = async (product) => {
+  try {
+    await store.dispatch('productCatalogs/toggleVisibility', product.id);
+    useAlert(product.is_visible
+      ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.VISIBILITY.HIDDEN')
+      : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.VISIBILITY.SHOWN')
+    );
+  } catch (error) {
+    useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.VISIBILITY.ERROR'));
+  }
 };
 
 const handleExport = async () => {

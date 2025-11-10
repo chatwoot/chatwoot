@@ -12,6 +12,7 @@ json.data @product_catalogs do |product_catalog|
   json.pdfLinks product_catalog.pdfLinks
   json.photoLinks product_catalog.photoLinks
   json.videoLinks product_catalog.videoLinks
+  json.is_visible product_catalog.is_visible
   json.created_at product_catalog.created_at
   json.updated_at product_catalog.updated_at
 

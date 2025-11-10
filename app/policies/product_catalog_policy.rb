@@ -34,4 +34,8 @@ class ProductCatalogPolicy < ApplicationPolicy
   def download_template?
     @account_user.administrator?
   end
+
+  def toggle_visibility?
+    @account_user.administrator?
+  end
 end

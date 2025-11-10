@@ -49,6 +49,10 @@ class ProductCatalogAPI extends ApiClient {
       }
     );
   }
+
+  toggleVisibility(id) {
+    return axios.post(`${this.url}/${id}/toggle_visibility`);
+  }
 }
 
 export default new ProductCatalogAPI();

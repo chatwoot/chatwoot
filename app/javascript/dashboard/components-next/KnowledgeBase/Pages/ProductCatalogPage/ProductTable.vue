@@ -29,7 +29,10 @@
         v-for="product in products"
         :key="product.id"
         class="relative grid grid-cols-12 gap-4 px-6 py-4 hover:bg-n-slate-2 transition-colors w-full text-left"
-        :class="{ 'bg-n-blue-2': selectedProductId === product.id }"
+        :class="{
+          'bg-n-blue-2': selectedProductId === product.id,
+          'opacity-50 bg-n-slate-3': !product.is_visible
+        }"
         @click="handleProductClick(product)"
       >
         <!-- Product ID Badge as tab on upper left -->
@@ -76,7 +79,15 @@
             {{ getMediaCount(product, 'DOCUMENT') }}
           </span>
         </div>
-        <div class="col-span-2 flex items-center justify-end" @click.stop>
+        <div class="col-span-2 flex items-center justify-end gap-1" @click.stop>
+          <button
+            class="p-2 text-n-slate-11 hover:text-n-blue-11 hover:bg-n-blue-2 rounded-lg transition-colors"
+            :title="product.is_visible ? 'Hide product' : 'Show product'"
+            @click="emit('toggle-visibility', product)"
+          >
+            <i v-if="product.is_visible" class="i-lucide-eye w-4 h-4" />
+            <i v-else class="i-lucide-eye-off w-4 h-4" />
+          </button>
           <button
             class="p-2 text-n-slate-11 hover:text-n-red-11 hover:bg-n-red-2 rounded-lg transition-colors"
             @click="emit('delete', product)"
@@ -107,7 +118,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['delete', 'select', 'update:selected-product-ids']);
+const emit = defineEmits(['delete', 'select', 'update:selected-product-ids', 'toggle-visibility']);
 
 const handleProductClick = (product) => {
   emit('select', product);

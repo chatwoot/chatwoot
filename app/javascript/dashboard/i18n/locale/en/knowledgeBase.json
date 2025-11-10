@@ -77,6 +77,11 @@
         "MEDIA": "Media",
         "ACTIONS": "Actions"
       },
+      "VISIBILITY": {
+        "HIDDEN": "Product hidden successfully",
+        "SHOWN": "Product shown successfully",
+        "ERROR": "Failed to toggle product visibility"
+      },
       "SEARCH_PLACEHOLDER": "Search products...",
       "RESULTS": "results",
       "REFRESH": "Refresh products",

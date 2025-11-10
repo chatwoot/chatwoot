@@ -120,6 +120,18 @@ export const actions = {
       commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isUploading: false });
     }
   },
+
+  toggleVisibility: async ({ commit }, productCatalogId) => {
+    commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await ProductCatalogAPI.toggleVisibility(productCatalogId);
+      commit(types.EDIT_PRODUCT_CATALOG, response.data);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isUpdating: false });
+    }
+  },
 };
 
 export const mutations = {

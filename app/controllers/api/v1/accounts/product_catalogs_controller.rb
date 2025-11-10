@@ -32,6 +32,11 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
     head :ok
   end
 
+  def toggle_visibility
+    @product_catalog.update!(is_visible: !@product_catalog.is_visible)
+    render :show
+  end
+
   def bulk_upload
     uploaded_file = params[:file]
 
