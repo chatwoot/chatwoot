@@ -15,6 +15,9 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
+
+    # Track Meta campaign interactions if referral data is present
+    track_meta_campaign_interaction(params, channel.inbox) if has_referral_data?(params)
   end
 
   private
@@ -48,5 +51,27 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
     # validate to ensure the phone number id matches the whatsapp channel
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
+  end
+
+  def has_referral_data?(params)
+    return false unless params[:entry].present?
+
+    first_message = params[:entry].first&.dig(:changes, 0, :value, :messages, 0)
+    first_message&.dig(:referral).present?
+  end
+
+  def track_meta_campaign_interaction(params, inbox)
+    first_message = params[:entry].first&.dig(:changes, 0, :value, :messages, 0)
+    referral = first_message&.dig(:referral)
+    return unless referral.present?
+
+    # Find the message by source_id
+    message = Message.find_by(source_id: first_message[:id], inbox_id: inbox.id)
+    return unless message
+
+    # Track the interaction
+    MetaCampaigns::InteractionTrackerService.new(message: message).perform
+  rescue StandardError => e
+    Rails.logger.error "Error tracking Meta campaign interaction: #{e.message}"
   end
 end

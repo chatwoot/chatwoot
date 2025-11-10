@@ -13,6 +13,8 @@ import AgentReportsShow from './AgentReportsShow.vue';
 import InboxReportsShow from './InboxReportsShow.vue';
 import TeamReportsShow from './TeamReportsShow.vue';
 import LabelReportsShow from './LabelReportsShow.vue';
+import MetaCampaignReportsIndex from './MetaCampaignReportsIndex.vue';
+import MetaCampaignReportsShow from './MetaCampaignReportsShow.vue';
 
 import AgentReports from './AgentReports.vue';
 import InboxReports from './InboxReports.vue';
@@ -121,6 +123,22 @@ const revisedReportRoutes = [
       permissions: ['administrator', 'report_manage'],
     },
     component: LabelReportsShow,
+  },
+  {
+    path: 'meta_campaigns',
+    name: 'meta_campaign_reports_index',
+    meta: {
+      permissions: ['administrator', 'report_manage'],
+    },
+    component: MetaCampaignReportsIndex,
+  },
+  {
+    path: 'meta_campaigns/:id',
+    name: 'meta_campaign_reports_show',
+    meta: {
+      permissions: ['administrator', 'report_manage'],
+    },
+    component: MetaCampaignReportsShow,
   },
 ];
 

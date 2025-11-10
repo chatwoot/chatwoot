@@ -1,0 +1,51 @@
+{
+  "META_CAMPAIGNS": {
+    "HEADER": "Campañas de Meta",
+    "DESCRIPTION": "Rastrea interacciones y rendimiento de campañas de Meta Ads (Facebook/Instagram) en WhatsApp",
+    "ALL_INBOXES": "Todas las bandejas de WhatsApp",
+    "SUMMARY": {
+      "TOTAL_CAMPAIGNS": "Total de Campañas",
+      "TOTAL_INTERACTIONS": "Total de Interacciones",
+      "UNIQUE_CONVERSATIONS": "Conversaciones Únicas",
+      "CONVERSION_RATE": "Tasa de Conversión",
+      "PERCENTAGE_SYMBOL": "%"
+    },
+    "TABLE": {
+      "TITLE": "Rendimiento de Campañas",
+      "NO_DATA": "No se encontraron campañas",
+      "NO_DATA_DESCRIPTION": "No se han registrado interacciones de campañas de Meta Ads para el período seleccionado",
+      "CAMPAIGN_ID": "ID de Campaña",
+      "TYPE": "Tipo",
+      "HEADLINE": "Título",
+      "INTERACTIONS": "Interacciones",
+      "FIRST_INTERACTION": "Primera Interacción",
+      "LAST_INTERACTION": "Última Interacción"
+    },
+    "TYPES": {
+      "AD": "Anuncio",
+      "POST": "Publicación"
+    },
+    "API": {
+      "ERROR": "Error al obtener los datos de campañas. Por favor intente más tarde."
+    },
+    "DETAIL": {
+      "HEADER": "Detalles de la Campaña",
+      "DESCRIPTION": "Ver interacciones y contactos detallados de esta campaña de Meta",
+      "BACK_TO_CAMPAIGNS": "Volver a Campañas",
+      "CAMPAIGN_TITLE": "Detalles de la Campaña",
+      "CAMPAIGN_ID": "ID de Campaña",
+      "CAMPAIGN_INFO": "Información de la Campaña",
+      "HEADLINE": "Título",
+      "BODY": "Cuerpo",
+      "TOTAL_INTERACTIONS": "Total de Interacciones",
+      "UNIQUE_CONVERSATIONS": "Conversaciones Únicas",
+      "CONVERSION_RATE": "Tasa de Conversión",
+      "INTERACTIONS_TITLE": "Interacciones de Contactos",
+      "NO_INTERACTIONS": "No se encontraron interacciones para esta campaña",
+      "CONTACT_NAME": "Nombre del Contacto",
+      "CONVERSATION_ID": "Conversación",
+      "INTERACTION_DATE": "Fecha de Interacción",
+      "NOT_FOUND": "Campaña no encontrada"
+    }
+  }
+}

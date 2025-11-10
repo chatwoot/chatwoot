@@ -6,7 +6,7 @@
 #  audience                           :jsonb
 #  campaign_status                    :integer          default("active"), not null
 #  campaign_type                      :integer          default("ongoing"), not null
-#  contacts_preparation_status        :integer          default(0), not null
+#  contacts_preparation_status        :integer          default("preparing"), not null
 #  description                        :text
 #  enabled                            :boolean          default(TRUE)
 #  message                            :text             not null
