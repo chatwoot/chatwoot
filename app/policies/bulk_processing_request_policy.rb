@@ -14,4 +14,8 @@ class BulkProcessingRequestPolicy < ApplicationPolicy
   def cancel?
     @account_user.administrator?
   end
+
+  def dismiss?
+    @account_user.administrator?
+  end
 end

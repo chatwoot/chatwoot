@@ -3,6 +3,7 @@
 # Table name: bulk_processing_requests
 #
 #  id                :bigint           not null, primary key
+#  dismissed_at      :datetime
 #  entity_type       :string           not null
 #  error_details     :jsonb
 #  error_message     :text
@@ -49,7 +50,8 @@ class BulkProcessingRequest < ApplicationRecord
     processing: 'PROCESSING',
     completed: 'COMPLETED',
     failed: 'FAILED',
-    partially_completed: 'PARTIALLY_COMPLETED'
+    partially_completed: 'PARTIALLY_COMPLETED',
+    cancelled: 'CANCELLED'
   }
 
   def update_progress(processed:, failed: 0)

@@ -1,4 +1,4 @@
-json.array! @product_catalogs do |product_catalog|
+json.data @product_catalogs do |product_catalog|
   json.id product_catalog.id
   json.product_id product_catalog.product_id
   json.industry product_catalog.industry
@@ -27,4 +27,11 @@ json.array! @product_catalogs do |product_catalog|
     json.display_order media.display_order
     json.created_at media.created_at
   end
+end
+
+json.meta do
+  json.current_page @current_page
+  json.total_pages @total_pages
+  json.total_count @total_count
+  json.per_page params[:per_page] || 50
 end

@@ -33,7 +33,7 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
   end
 
   def cancel
-    unless ['PENDING', 'PROCESSING'].include?(@bulk_processing_request.status)
+    unless ['PENDING', 'PROCESSING', 'FAILED'].include?(@bulk_processing_request.status.upcase)
       return render json: { error: 'Cannot cancel completed request' }, status: :unprocessable_entity
     end
 
@@ -90,9 +90,15 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
 
     @bulk_processing_request.update!(
       status: 'CANCELLED',
-      error_message: 'Cancelled by user'
+      error_message: 'Cancelled by user',
+      dismissed_at: Time.current
     )
 
+    head :ok
+  end
+
+  def dismiss
+    @bulk_processing_request.update!(dismissed_at: Time.current)
     head :ok
   end
 

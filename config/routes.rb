@@ -129,6 +129,7 @@ Rails.application.routes.draw do
             member do
               get :download_errors
               post :cancel
+              post :dismiss
             end
           end
           resources :appointments, only: [:index, :create, :show, :update, :destroy] do

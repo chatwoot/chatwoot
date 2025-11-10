@@ -116,6 +116,12 @@
         "OPEN_IN_NEW_TAB": "Open in New Tab",
         "URL_COPIED": "URL copied to clipboard",
         "COPY_FAILED": "Failed to copy URL"
+      },
+      "PAGINATION": {
+        "SHOWING": "Showing",
+        "TO": "to",
+        "OF": "of",
+        "RESULTS": "results"
       }
     },
     "BULK_REQUESTS": {

@@ -23,9 +23,9 @@
 # Indexes
 #
 #  index_product_catalogs_on_account_id                  (account_id)
+#  index_product_catalogs_on_account_id_and_product_id   (account_id,product_id) UNIQUE
 #  index_product_catalogs_on_bulk_processing_request_id  (bulk_processing_request_id)
 #  index_product_catalogs_on_created_at                  (created_at)
-#  index_product_catalogs_on_product_id                  (product_id) UNIQUE
 #
 # Foreign Keys
 #

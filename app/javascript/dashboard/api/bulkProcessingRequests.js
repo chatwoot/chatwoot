@@ -10,6 +10,10 @@ class BulkProcessingRequestsAPI extends ApiClient {
     return axios.post(`${this.url}/${id}/cancel`);
   }
 
+  dismiss(id) {
+    return axios.post(`${this.url}/${id}/dismiss`);
+  }
+
   downloadErrors(id) {
     return axios.get(`${this.url}/${id}/download_errors`);
   }

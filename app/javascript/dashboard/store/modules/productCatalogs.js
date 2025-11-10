@@ -4,6 +4,12 @@ import ProductCatalogAPI from '../../api/productCatalog';
 
 export const state = {
   records: [],
+  meta: {
+    current_page: 1,
+    total_pages: 1,
+    total_count: 0,
+    per_page: 50,
+  },
   uiFlags: {
     isFetching: false,
     isCreating: false,
@@ -20,14 +26,17 @@ export const getters = {
   getProductCatalogs: _state => _state.records,
   getProductCatalog: _state => productCatalogId =>
     _state.records.find(record => record.id === productCatalogId),
+  getMeta: _state => _state.meta,
 };
 
 export const actions = {
-  get: async function getProductCatalogs({ commit }) {
+  get: async function getProductCatalogs({ commit }, { page = 1, per_page = 50 } = {}) {
     commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isFetching: true });
     try {
-      const response = await ProductCatalogAPI.get();
-      commit(types.SET_PRODUCT_CATALOGS, response.data);
+      const response = await ProductCatalogAPI.get({ page, per_page });
+      // Response now has { data: [], meta: {} } structure
+      commit(types.SET_PRODUCT_CATALOGS, response.data.data);
+      commit(types.SET_PRODUCT_CATALOG_META, response.data.meta);
     } catch (error) {
       // Handle error
     } finally {
@@ -104,7 +113,9 @@ export const actions = {
       const response = await ProductCatalogAPI.bulkUpload(file);
       return response.data;
     } catch (error) {
-      throw new Error(error);
+      // Extract error message from response if available
+      const errorMessage = error.response?.data?.error || error.message || 'Upload failed';
+      throw new Error(errorMessage);
     } finally {
       commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isUploading: false });
     }
@@ -117,6 +128,10 @@ export const mutations = {
       ..._state.uiFlags,
       ...data,
     };
+  },
+
+  [types.SET_PRODUCT_CATALOG_META](_state, meta) {
+    _state.meta = meta;
   },
 
   [types.SET_PRODUCT_CATALOGS]: MutationHelpers.set,

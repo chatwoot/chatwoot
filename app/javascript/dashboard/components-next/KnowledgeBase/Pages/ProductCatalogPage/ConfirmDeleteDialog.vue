@@ -28,7 +28,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'deleted']);
 const { t } = useI18n();
 const store = useStore();
 const dialogRef = ref(null);
@@ -69,6 +69,12 @@ const deleteMultipleProducts = async ids => {
 
 const handleDialogConfirm = async () => {
   try {
+    const currentMeta = store.getters['productCatalogs/getMeta'];
+    const currentPage = currentMeta.current_page;
+    const totalPages = currentMeta.total_pages;
+    const productsOnPage = store.getters['productCatalogs/getProductCatalogs'].length;
+    const deletedCount = isMultipleDelete.value ? props.selectedProductIds.length : 1;
+
     if (isMultipleDelete.value) {
       if (!props.selectedProductIds || props.selectedProductIds.length === 0) {
         useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DELETE.ERROR'));
@@ -88,7 +94,16 @@ const handleDialogConfirm = async () => {
       await deleteProduct(props.selectedProduct.id);
       useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DELETE.SUCCESS'));
     }
+
+    // Refresh products - if deleting all products on current page and not on page 1, go to previous page
+    const willPageBeEmpty = deletedCount >= productsOnPage;
+    const shouldGoToPrevPage = willPageBeEmpty && currentPage > 1;
+    const targetPage = shouldGoToPrevPage ? currentPage - 1 : currentPage;
+
+    await store.dispatch('productCatalogs/get', { page: targetPage, per_page: 50 });
+
     dialogRef.value?.close();
+    emit('deleted'); // Emit 'deleted' instead of 'close' when products are actually deleted
     emit('close');
   } catch (error) {
     console.error('Error deleting product(s):', error);

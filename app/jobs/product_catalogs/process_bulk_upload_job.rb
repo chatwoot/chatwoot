@@ -1,5 +1,5 @@
 class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
-  queue_as :low
+  queue_as :high
   retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
 
   def perform(bulk_request_id, file_path)
@@ -18,6 +18,15 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
   private
 
   def process_upload
+    # Check if request is still in a valid state to process
+    current_status = @bulk_request.status.upcase
+    unless ['PENDING', 'PROCESSING'].include?(current_status)
+      Rails.logger.info("Skipping processing for bulk request #{@bulk_request.id} - status is #{current_status}")
+      # Cleanup temp file even if we're not processing
+      File.delete(@file_path) if File.exist?(@file_path)
+      return
+    end
+
     @bulk_request.update!(status: 'PROCESSING')
 
     # Phase 1: Process Excel file (0-50% progress)

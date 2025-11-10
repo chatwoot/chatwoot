@@ -68,6 +68,21 @@ export const actions = {
       commit(types.SET_BULK_PROCESSING_REQUEST_UI_FLAG, { isFetching: false });
     }
   },
+
+  dismiss: async function dismissBulkProcessingRequest({ commit }, requestId) {
+    commit(types.SET_BULK_PROCESSING_REQUEST_UI_FLAG, { isFetching: true });
+    try {
+      await BulkProcessingRequestsAPI.dismiss(requestId);
+      // Fetch updated request to get the new dismissed_at timestamp
+      const response = await BulkProcessingRequestsAPI.show(requestId);
+      commit(types.UPDATE_BULK_PROCESSING_REQUEST, response.data);
+      return response.data;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_BULK_PROCESSING_REQUEST_UI_FLAG, { isFetching: false });
+    }
+  },
 };
 
 export const mutations = {

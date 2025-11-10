@@ -2,15 +2,7 @@
   <div class="bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak overflow-hidden">
     <!-- Table Header -->
     <div class="grid grid-cols-12 gap-4 px-6 py-4 bg-n-slate-2 border-b border-n-weak">
-      <div class="col-span-1 flex items-center">
-        <input
-          type="checkbox"
-          :checked="isAllSelected"
-          :indeterminate="isSomeSelected"
-          class="w-4 h-4 rounded border-n-slate-7 text-n-blue-9 focus:ring-n-blue-9 focus:ring-offset-0"
-          @change="toggleSelectAll"
-        />
-      </div>
+      <div class="col-span-1"></div>
       <div class="col-span-3 text-xs font-medium text-n-slate-11 uppercase">
         {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.TABLE.PRODUCT') }}
       </div>
@@ -125,25 +117,10 @@ const isProductSelected = (productId) => {
   return props.selectedProductIds.includes(productId);
 };
 
-const isAllSelected = computed(() => {
-  return props.products.length > 0 && props.selectedProductIds.length === props.products.length;
-});
-
-const isSomeSelected = computed(() => {
-  return props.selectedProductIds.length > 0 && props.selectedProductIds.length < props.products.length;
-});
-
 const toggleProductSelection = (productId) => {
   const newSelection = isProductSelected(productId)
     ? props.selectedProductIds.filter(id => id !== productId)
     : [...props.selectedProductIds, productId];
-  emit('update:selected-product-ids', newSelection);
-};
-
-const toggleSelectAll = () => {
-  const newSelection = isAllSelected.value
-    ? []
-    : props.products.map(p => p.id);
   emit('update:selected-product-ids', newSelection);
 };
 

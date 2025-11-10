@@ -3,9 +3,18 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
   before_action :check_authorization
 
   def index
+    page = params[:page] || 1
+    per_page = params[:per_page] || 50 # Default 50 products per page
+
     @product_catalogs = Current.account.product_catalogs
                                .includes(:product_media)
                                .order(created_at: :desc)
+                               .page(page)
+                               .per(per_page)
+
+    @total_count = Current.account.product_catalogs.count
+    @total_pages = (@total_count.to_f / per_page.to_i).ceil
+    @current_page = page.to_i
   end
 
   def show; end
@@ -31,6 +40,26 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       return
     end
 
+    # Check if there's already an active processing request for this account
+    active_request = Current.account.bulk_processing_requests
+                            .where(entity_type: 'ProductCatalog')
+                            .where(status: %w[PENDING PROCESSING])
+                            .first
+
+    if active_request
+      render json: {
+        error: 'A file is already being processed. Please wait for it to complete or cancel it first.',
+        active_request_id: active_request.id
+      }, status: :unprocessable_entity
+      return
+    end
+
+    # Dismiss all previous bulk requests for ProductCatalog
+    Current.account.bulk_processing_requests
+           .where(entity_type: 'ProductCatalog')
+           .where(dismissed_at: nil)
+           .update_all(dismissed_at: Time.current)
+
     # Create bulk processing request
     @bulk_request = Current.account.bulk_processing_requests.create!(
       user: current_user,
@@ -42,7 +71,7 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
     # Save file temporarily and trigger background job
     temp_file = save_uploaded_file(uploaded_file)
 
-    # Queue the background job and store the job ID
+    # Queue the background job immediately
     job = ProductCatalogs::ProcessBulkUploadJob.perform_later(@bulk_request.id, temp_file)
     @bulk_request.update!(job_id: job.job_id)
 
