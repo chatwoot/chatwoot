@@ -57,7 +57,22 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
   end
 
   def change_pricing_plan
-    render json: { success: true, message: 'Pricing plan changed.' }
+    service = Enterprise::Billing::V2::ChangePlanService.new(account: @account)
+    result = service.change_plan(
+      new_pricing_plan_id: params[:pricing_plan_id],
+      quantity: params[:quantity]&.to_i
+    )
+
+    if result[:success]
+      # Include account ID and updated attributes for frontend store update
+      @account.reload
+      render json: result.merge(
+        id: @account.id,
+        custom_attributes: @account.custom_attributes
+      )
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
   end
 
   private
