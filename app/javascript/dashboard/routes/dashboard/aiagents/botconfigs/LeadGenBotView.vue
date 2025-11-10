@@ -168,7 +168,7 @@
                         {{ syncingColumns ? $t('AGENT_MGMT.LEADGENBOT.CATALOG.SYNC_BUTTON_LOADING') : $t('AGENT_MGMT.LEADGENBOT.CATALOG.SYNC_BUTTON') }}
                       </button>
                     </div>
-                    <div v-else class="text-red-600 text-sm flex items-center gap-2">
+                    <div class="text-red-600 text-sm flex items-center gap-2">
                       <button
                         @click="retryAuthentication"
                         class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 pr-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20"

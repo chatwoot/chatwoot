@@ -504,13 +504,13 @@ onMounted(async () => {
                         </div>
 
                       <!-- Sync Button for Resource and Location Lists -->
-                      <div class="flex items-center justify-between">
+                      <div class="flex items-center justify-between gap-2">
                         <div>
                           <div v-if="!bookingAuthError">
                             <button
                             @click="syncScheduleColumns"
                             :disabled="syncingColumns"
-                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 h-10"
+                            class="h-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 h-10 inline-flex items-center space-x-2 px-4 py-2 rounded-md font-small "
                             >
                             <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
                               <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
@@ -523,7 +523,6 @@ onMounted(async () => {
                           </button>
                         </div>
                       </div>
-                      <div class="flex flex-row">
 
                         <div class="text-red-600 text-sm flex items-center gap-2">
                           <button
@@ -533,15 +532,14 @@ onMounted(async () => {
                         >
                         <span>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
                       </button>
-                    </div>
-                    <button
-                    @click="disconnectGoogle"
-                    class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
-                    :disabled="loading"
-                    >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
-                    <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
-                  </button>
+                      <button
+                      @click="disconnectGoogle"
+                      class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20"
+                      :disabled="loading"
+                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                      <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                    </button>
                 </div>
               </div>
                     </div>
