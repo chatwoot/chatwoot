@@ -23,7 +23,14 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
   end
 
   def v2_topup
-    render json: { success: true, message: 'Topup successful.' }
+    service = Enterprise::Billing::V2::TopupService.new(account: @account)
+    result = service.create_topup(credits: params[:credits].to_i)
+
+    if result[:success]
+      render json: { success: true, message: result[:message] }
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
   end
 
   def v2_subscribe
