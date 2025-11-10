@@ -109,7 +109,7 @@ class Whatsapp::IncomingMessageBaseService
                     end
     return if @conversation
 
-    @conversation = ::Conversation.create!(conversation_params)
+    @conversation = ::Conversation.create!(conversation_params.merge(additional_attributes: referral_attributes))
   end
 
   def attach_files
@@ -146,7 +146,7 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_message(message)
-    @message = @conversation.messages.build(
+    message_attrs = {
       content: message_content(message),
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -154,7 +154,12 @@ class Whatsapp::IncomingMessageBaseService
       sender: @contact,
       source_id: message[:id].to_s,
       in_reply_to_external_id: @in_reply_to_external_id
-    )
+    }
+
+    # Add referral data to first message if present
+    message_attrs[:additional_attributes] = { referral: extract_referral_data(message) } if message[:referral].present?
+
+    @message = @conversation.messages.build(message_attrs)
   end
 
   def attach_contact(contact)
@@ -192,5 +197,29 @@ class Whatsapp::IncomingMessageBaseService
     phone_number = "+#{@processed_params[:messages].first[:from]}"
     formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
     @contact.name == phone_number || @contact.name == formatted_phone_number
+  end
+
+  def referral_attributes
+    first_message = @processed_params[:messages]&.first
+    return {} unless first_message&.dig(:referral).present?
+
+    { meta_ad_campaign: extract_referral_data(first_message) }
+  end
+
+  def extract_referral_data(message)
+    referral = message[:referral]
+    return {} unless referral.present?
+
+    {
+      source_id: referral[:source_id],
+      source_type: referral[:source_type],
+      source_url: referral[:source_url],
+      ctwa_clid: referral[:ctwa_clid],
+      headline: referral[:headline],
+      body: referral[:body],
+      media_type: referral[:media_type],
+      image_url: referral[:image_url],
+      video_url: referral[:video_url]
+    }.compact
   end
 end

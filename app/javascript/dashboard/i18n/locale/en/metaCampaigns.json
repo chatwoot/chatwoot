@@ -1,0 +1,51 @@
+{
+  "META_CAMPAIGNS": {
+    "HEADER": "Meta Campaigns",
+    "DESCRIPTION": "Track interactions and performance from Meta Ads (Facebook/Instagram) campaigns on WhatsApp",
+    "ALL_INBOXES": "All WhatsApp Inboxes",
+    "SUMMARY": {
+      "TOTAL_CAMPAIGNS": "Total Campaigns",
+      "TOTAL_INTERACTIONS": "Total Interactions",
+      "UNIQUE_CONVERSATIONS": "Unique Conversations",
+      "CONVERSION_RATE": "Conversion Rate",
+      "PERCENTAGE_SYMBOL": "%"
+    },
+    "TABLE": {
+      "TITLE": "Campaign Performance",
+      "NO_DATA": "No campaigns found",
+      "NO_DATA_DESCRIPTION": "No Meta Ads campaign interactions have been recorded for the selected period",
+      "CAMPAIGN_ID": "Campaign ID",
+      "TYPE": "Type",
+      "HEADLINE": "Headline",
+      "INTERACTIONS": "Interactions",
+      "FIRST_INTERACTION": "First Interaction",
+      "LAST_INTERACTION": "Last Interaction"
+    },
+    "TYPES": {
+      "AD": "Ad",
+      "POST": "Post"
+    },
+    "API": {
+      "ERROR": "Failed to fetch campaign data. Please try again later."
+    },
+    "DETAIL": {
+      "HEADER": "Campaign Details",
+      "DESCRIPTION": "View detailed interactions and contacts for this Meta campaign",
+      "BACK_TO_CAMPAIGNS": "Back to Campaigns",
+      "CAMPAIGN_TITLE": "Campaign Details",
+      "CAMPAIGN_ID": "Campaign ID",
+      "CAMPAIGN_INFO": "Campaign Information",
+      "HEADLINE": "Headline",
+      "BODY": "Body",
+      "TOTAL_INTERACTIONS": "Total Interactions",
+      "UNIQUE_CONVERSATIONS": "Unique Conversations",
+      "CONVERSION_RATE": "Conversion Rate",
+      "INTERACTIONS_TITLE": "Contact Interactions",
+      "NO_INTERACTIONS": "No interactions found for this campaign",
+      "CONTACT_NAME": "Contact Name",
+      "CONVERSATION_ID": "Conversation",
+      "INTERACTION_DATE": "Interaction Date",
+      "NOT_FOUND": "Campaign not found"
+    }
+  }
+}

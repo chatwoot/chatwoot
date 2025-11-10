@@ -112,6 +112,7 @@ docker-compose.yaml
 SERVICIOS.md
 CLAUDE.md
 ESTRUCTURA.md
+DEVELOPMENT_FLOW.md
 
 # Husky git hooks (if installed locally)
 .husky/

@@ -442,6 +442,11 @@ Rails.application.routes.draw do
               get :grouped_conversation_metrics
             end
           end
+          resources :meta_campaign_reports, only: [:index, :show] do
+            collection do
+              get :summary
+            end
+          end
         end
       end
     end

@@ -120,6 +120,12 @@ const newReportRoutes = () => [
     to: accountScopedRoute('team_reports_index'),
     activeOn: ['team_reports_show'],
   },
+  {
+    name: 'Meta Campaigns',
+    label: t('SIDEBAR.META_CAMPAIGNS'),
+    to: accountScopedRoute('meta_campaign_reports_index'),
+    activeOn: ['meta_campaign_reports_show'],
+  },
 ];
 
 const reportRoutes = computed(() => newReportRoutes());

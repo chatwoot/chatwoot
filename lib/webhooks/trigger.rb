@@ -39,8 +39,8 @@ class Webhooks::Trigger
       conversation = message.conversation
       return unless conversation&.pending?
 
-      conversation.open!
-      create_agent_bot_error_activity(conversation)
+      #conversation.open!
+      #create_agent_bot_error_activity(conversation)
     when :api_inbox_webhook
       update_message_status(error)
     end
