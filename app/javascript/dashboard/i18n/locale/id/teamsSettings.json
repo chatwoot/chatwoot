@@ -9,9 +9,7 @@
       "404": "Belum ada tim yang dibuat pada akun ini.",
       "EDIT_TEAM": "Edit Tim",
       "NONE": "Tidak ada",
-      "TABLE_HEADER": {
-        "AUTO_ASSIGN": "Auto-Assign"
-      }
+      "TABLE_HEADER": {}
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -119,13 +117,6 @@
         "LABEL": "Izinkan penugasan otomatis untuk tim ini."
       },
       "SUBMIT_CREATE": "Buat tim"
-    },
-    "AUTO_ASSIGN": {
-      "ENABLED": "Auto-assignment enabled for team",
-      "DISABLED": "Auto-assignment disabled for team",
-      "ERROR": "Failed to update auto-assignment setting",
-      "BULK_SUCCESS": "Auto-assignment updated for all teams",
-      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

@@ -6,6 +6,16 @@
     "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
     "LEARN_MORE": "معرفة المزيد حول التسميات",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
+    "AUTO_CLASSIFICATION": {
+      "LABEL_TITLE": "الوسم التلقائي بالذكاء الاصطناعي",
+      "LABEL_DESCRIPTION": "تعيين الوسوم تلقائياً للمحادثات باستخدام تحليل الذكاء الاصطناعي بناءً على محتوى المحادثة والسياق.",
+      "TEAM_TITLE": "تعيين الفريق التلقائي بالذكاء الاصطناعي",
+      "TEAM_DESCRIPTION": "تعيين الفرق تلقائياً للمحادثات باستخدام تحليل الذكاء الاصطناعي بناءً على محتوى المحادثة ووصف الفريق.",
+      "THRESHOLD_LABEL": "الحد الأدنى من الرسائل قبل المعالجة",
+      "THRESHOLD_HINT": "انتظر هذا العدد من الرسائل الواردة قبل تطبيق اقتراحات الذكاء الاصطناعي",
+      "UPDATE_SUCCESS": "تم تحديث إعدادات التصنيف التلقائي بنجاح",
+      "UPDATE_FAILED": "فشل تحديث إعدادات التصنيف التلقائي"
+    },
     "LIST": {
       "404": "لا توجد وسوم متوفرة في هذا الحساب.",
       "TITLE": "إدارة الوسوم",
@@ -14,7 +24,7 @@
         "NAME": "الاسم",
         "DESCRIPTION": "الوصف",
         "COLOR": "اللون",
-        "AUTO_CLASSIFY": "Auto Assign"
+        "AUTO_CLASSIFY": "التصنيف التلقائي"
       }
     },
     "FORM": {
@@ -35,13 +45,20 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "إظهار الوسم على الشريط الجانبي"
       },
+      "ALLOW_AUTO_ASSIGN": {
+        "LABEL": "تفعيل التصنيف التلقائي بالذكاء الاصطناعي لهذا الوسم"
+      },
       "EDIT": "تعديل",
       "CREATE": "إنشاء",
       "DELETE": "حذف",
-      "CANCEL": "إلغاء",
-      "ALLOW_AUTO_ASSIGN": {
-        "LABEL": "Enable AI auto assign for this label"
-      }
+      "CANCEL": "إلغاء"
+    },
+    "AUTO_CLASSIFY": {
+      "ENABLED": "تم تفعيل التصنيف التلقائي للوسم",
+      "DISABLED": "تم تعطيل التصنيف التلقائي للوسم",
+      "ERROR": "فشل تحديث إعداد التصنيف التلقائي",
+      "BULK_SUCCESS": "تم تحديث التصنيف التلقائي لجميع الوسوم",
+      "BULK_ERROR": "فشل تحديث التصنيف التلقائي لجميع الوسوم"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
@@ -84,23 +101,6 @@
         "YES": "نعم، احذف ",
         "NO": "لا، احتفظ "
       }
-    },
-    "AUTO_CLASSIFICATION": {
-      "LABEL_TITLE": "AI-Powered Auto-Labeling",
-      "LABEL_DESCRIPTION": "Automatically assign labels to conversations using AI analysis based on conversation content and context.",
-      "TEAM_TITLE": "AI-Powered Auto-Team Assignment",
-      "TEAM_DESCRIPTION": "Automatically assign teams to conversations using AI analysis based on conversation content and team descriptions.",
-      "THRESHOLD_LABEL": "Minimum messages before processing",
-      "THRESHOLD_HINT": "Wait for this many incoming messages before applying AI suggestions",
-      "UPDATE_SUCCESS": "Auto-classification settings updated successfully",
-      "UPDATE_FAILED": "Failed to update auto-classification settings"
-    },
-    "AUTO_CLASSIFY": {
-      "ENABLED": "Auto-Assign enabled for label",
-      "DISABLED": "Auto-Assign disabled for label",
-      "ERROR": "Failed to update auto assign setting",
-      "BULK_SUCCESS": "Auto Assign updated for all labels",
-      "BULK_ERROR": "Failed to update auto assign for all labels"
     }
   }
 }

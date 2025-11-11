@@ -9,9 +9,7 @@
       "404": "Không có nhóm nào được tạo đối với tài khoản này.",
       "EDIT_TEAM": "Sửa nhóm",
       "NONE": "Không có",
-      "TABLE_HEADER": {
-        "AUTO_ASSIGN": "Auto-Assign"
-      }
+      "TABLE_HEADER": {}
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -119,13 +117,6 @@
         "LABEL": "Cho phép tự động phân công đối với nhóm này."
       },
       "SUBMIT_CREATE": "Tạo nhóm"
-    },
-    "AUTO_ASSIGN": {
-      "ENABLED": "Auto-assignment enabled for team",
-      "DISABLED": "Auto-assignment disabled for team",
-      "ERROR": "Failed to update auto-assignment setting",
-      "BULK_SUCCESS": "Auto-assignment updated for all teams",
-      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

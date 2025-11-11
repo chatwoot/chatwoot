@@ -9,9 +9,7 @@
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "Edit team",
       "NONE": "Tiada",
-      "TABLE_HEADER": {
-        "AUTO_ASSIGN": "Auto-Assign"
-      }
+      "TABLE_HEADER": {}
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -119,13 +117,6 @@
         "LABEL": "Allow auto assign for this team."
       },
       "SUBMIT_CREATE": "Create team"
-    },
-    "AUTO_ASSIGN": {
-      "ENABLED": "Auto-assignment enabled for team",
-      "DISABLED": "Auto-assignment disabled for team",
-      "ERROR": "Failed to update auto-assignment setting",
-      "BULK_SUCCESS": "Auto-assignment updated for all teams",
-      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

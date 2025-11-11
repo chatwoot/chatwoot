@@ -9,9 +9,7 @@
       "404": "В этом аккаунте нет ни одной команды.",
       "EDIT_TEAM": "Редактировать команду",
       "NONE": "Ничего",
-      "TABLE_HEADER": {
-        "AUTO_ASSIGN": "Auto-Assign"
-      }
+      "TABLE_HEADER": {}
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -119,13 +117,6 @@
         "LABEL": "Разрешить автоматическое назначение для этой команды."
       },
       "SUBMIT_CREATE": "Создать команду"
-    },
-    "AUTO_ASSIGN": {
-      "ENABLED": "Auto-assignment enabled for team",
-      "DISABLED": "Auto-assignment disabled for team",
-      "ERROR": "Failed to update auto-assignment setting",
-      "BULK_SUCCESS": "Auto-assignment updated for all teams",
-      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

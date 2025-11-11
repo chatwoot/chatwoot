@@ -24,7 +24,7 @@
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "COLOR": "Color",
-        "AUTO_CLASSIFY": "Auto-Classify"
+        "AUTO_CLASSIFY": "Auto-Classification"
       }
     },
     "FORM": {

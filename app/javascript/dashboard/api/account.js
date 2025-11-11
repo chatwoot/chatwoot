@@ -16,10 +16,6 @@ class AccountAPI extends ApiClient {
     );
     return response.data.cache_keys;
   }
-
-  updateSettings(settings) {
-    return this.update('', settings);
-  }
 }
 
 export default new AccountAPI();

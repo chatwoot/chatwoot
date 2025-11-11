@@ -13,8 +13,7 @@
       "TABLE_HEADER": {
         "NAME": "Nombre",
         "DESCRIPTION": "Descripción",
-        "COLOR": "Color",
-        "AUTO_CLASSIFY": "Auto Assign"
+        "COLOR": "Color"
       }
     },
     "FORM": {
@@ -38,10 +37,7 @@
       "EDIT": "Editar",
       "CREATE": "Crear",
       "DELETE": "Eliminar",
-      "CANCEL": "Cancelar",
-      "ALLOW_AUTO_ASSIGN": {
-        "LABEL": "Enable AI auto assign for this label"
-      }
+      "CANCEL": "Cancelar"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
@@ -84,23 +80,6 @@
         "YES": "Sí, eliminar ",
         "NO": "No, mantenerlo "
       }
-    },
-    "AUTO_CLASSIFICATION": {
-      "LABEL_TITLE": "AI-Powered Auto-Labeling",
-      "LABEL_DESCRIPTION": "Automatically assign labels to conversations using AI analysis based on conversation content and context.",
-      "TEAM_TITLE": "AI-Powered Auto-Team Assignment",
-      "TEAM_DESCRIPTION": "Automatically assign teams to conversations using AI analysis based on conversation content and team descriptions.",
-      "THRESHOLD_LABEL": "Minimum messages before processing",
-      "THRESHOLD_HINT": "Wait for this many incoming messages before applying AI suggestions",
-      "UPDATE_SUCCESS": "Auto-classification settings updated successfully",
-      "UPDATE_FAILED": "Failed to update auto-classification settings"
-    },
-    "AUTO_CLASSIFY": {
-      "ENABLED": "Auto-Assign enabled for label",
-      "DISABLED": "Auto-Assign disabled for label",
-      "ERROR": "Failed to update auto assign setting",
-      "BULK_SUCCESS": "Auto Assign updated for all labels",
-      "BULK_ERROR": "Failed to update auto assign for all labels"
     }
   }
 }

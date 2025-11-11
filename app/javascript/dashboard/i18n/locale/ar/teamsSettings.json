@@ -10,8 +10,17 @@
       "EDIT_TEAM": "تعديل الفريق",
       "NONE": "لا شيء",
       "TABLE_HEADER": {
-        "AUTO_ASSIGN": "Auto-Assign"
+        "NAME": "الاسم",
+        "AUTO_ASSIGN": "التعيين التلقائي",
+        "ACTIONS": "الإجراءات"
       }
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "تم تفعيل التعيين التلقائي للفريق",
+      "DISABLED": "تم تعطيل التعيين التلقائي للفريق",
+      "ERROR": "فشل تحديث إعداد التعيين التلقائي",
+      "BULK_SUCCESS": "تم تحديث التعيين التلقائي لجميع الفرق",
+      "BULK_ERROR": "فشل تحديث التعيين التلقائي لجميع الفرق"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -119,13 +128,6 @@
         "LABEL": "السماح بالتكليف التلقائي لهذا الفريق."
       },
       "SUBMIT_CREATE": "إنشاء فريق جديد"
-    },
-    "AUTO_ASSIGN": {
-      "ENABLED": "Auto-assignment enabled for team",
-      "DISABLED": "Auto-assignment disabled for team",
-      "ERROR": "Failed to update auto-assignment setting",
-      "BULK_SUCCESS": "Auto-assignment updated for all teams",
-      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }
