@@ -106,9 +106,10 @@ module ActivityMessageHandler
   end
 
   def generate_assignee_change_activity_content(user_name)
-    params = { assignee_name: assignee&.name || '', user_name: user_name }
-    key = assignee_id ? 'assigned' : 'removed'
-    key = 'self_assigned' if self_assign? assignee_id
+    assignee_record = assigned_entity
+    params = { assignee_name: assignee_record&.name || '', user_name: user_name }
+    key = assignee_record.present? ? 'assigned' : 'removed'
+    key = 'self_assigned' if assignee_record.is_a?(User) && self_assign?(assignee_id)
     I18n.t("conversations.activity.assignee.#{key}", **params)
   end
 

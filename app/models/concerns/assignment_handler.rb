@@ -29,7 +29,7 @@ module AssignmentHandler
 
   def notify_assignment_change
     {
-      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? },
+      ASSIGNEE_CHANGED => -> { assignee_assignment_changed? },
       TEAM_CHANGED => -> { saved_change_to_team_id? }
     }.each do |event, condition|
       condition.call && dispatcher_dispatch(event, previous_changes)
@@ -44,7 +44,7 @@ module AssignmentHandler
     user_name = Current.user.name if Current.user.present?
     if saved_change_to_team_id?
       create_team_change_activity(user_name)
-    elsif saved_change_to_assignee_id?
+    elsif assignee_assignment_changed?
       create_assignee_change_activity(user_name)
     end
   end

@@ -20,6 +20,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :integer          not null
+#  assignee_agent_bot_id  :bigint
 #  assignee_id            :integer
 #  campaign_id            :bigint
 #  contact_id             :bigint
@@ -34,12 +35,14 @@
 #  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
 #  index_conversations_on_account_id                  (account_id)
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
+#  index_conversations_on_assignee_agent_bot_id       (assignee_agent_bot_id)
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
 #  index_conversations_on_contact_id                  (contact_id)
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
 #  index_conversations_on_id_and_account_id           (account_id,id)
+#  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
@@ -64,17 +67,28 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
+  before_validation :reset_agent_assignee_when_bot_present
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
   validate :validate_referer_url
+  validate :validate_single_assignee
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
-  scope :unassigned, -> { where(assignee_id: nil) }
-  scope :assigned, -> { where.not(assignee_id: nil) }
-  scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :unassigned, -> { where(assignee_id: nil, assignee_agent_bot_id: nil) }
+  scope :assigned, lambda {
+    where.not(assignee_id: nil).or(where.not(assignee_agent_bot_id: nil))
+  }
+  scope :assigned_to, lambda { |assignee_record|
+    case assignee_record
+    when AgentBot
+      where(assignee_agent_bot_id: assignee_record.id)
+    else
+      where(assignee_id: assignee_record.id)
+    end
+  }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
@@ -97,6 +111,7 @@ class Conversation < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
+  belongs_to :assignee_agent_bot, class_name: 'AgentBot', optional: true
   belongs_to :contact
   belongs_to :contact_inbox
   belongs_to :team, optional: true
@@ -172,11 +187,26 @@ class Conversation < ApplicationRecord
   end
 
   def notifiable_assignee_change?
-    return false unless saved_change_to_assignee_id?
-    return false if assignee_id.blank?
-    return false if self_assign?(assignee_id)
+    return false unless assignee_assignment_changed?
 
-    true
+    if assignee.present?
+      return false if self_assign?(assignee_id)
+
+      true
+    else
+      assignee_agent_bot.present?
+    end
+  end
+
+  def assignee_type
+    return 'AgentBot' if assignee_agent_bot_id.present?
+    return 'User' if assignee_id.present?
+
+    nil
+  end
+
+  def assigned_entity
+    assignee_agent_bot || assignee
   end
 
   def tweet?
@@ -225,6 +255,22 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
+  def reset_agent_assignee_when_bot_present
+    return if assignee_agent_bot_id.blank?
+
+    self.assignee_id = nil
+  end
+
+  def assignee_assignment_changed?
+    saved_change_to_assignee_id? || saved_change_to_assignee_agent_bot_id?
+  end
+
+  def validate_single_assignee
+    return unless assignee_id.present? && assignee_agent_bot_id.present?
+
+    errors.add(:base, 'Conversation cannot have both an agent and an agent bot assigned')
+  end
+
   def determine_conversation_status
     self.status = :resolved and return if contact.blocked?
 
@@ -250,8 +296,8 @@ class Conversation < ApplicationRecord
   end
 
   def list_of_keys
-    %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
-       priority]
+    %w[team_id assignee_id assignee_agent_bot_id status snoozed_until custom_attributes label_list waiting_since
+       first_reply_created_at priority]
   end
 
   def allowed_keys?

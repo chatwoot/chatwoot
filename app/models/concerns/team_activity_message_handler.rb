@@ -8,7 +8,7 @@ module TeamActivityMessageHandler
     return unless user_name
 
     key = generate_team_change_activity_key
-    params = { assignee_name: assignee&.name, team_name: team&.name, user_name: user_name }
+    params = { assignee_name: assigned_entity&.name, team_name: team&.name, user_name: user_name }
     params[:team_name] = generate_team_name_for_activity if key == 'removed'
     content = I18n.t("conversations.activity.team.#{key}", **params)
 
@@ -18,8 +18,12 @@ module TeamActivityMessageHandler
   def generate_team_change_activity_key
     team = Team.find_by(id: team_id)
     key = team.present? ? 'assigned' : 'removed'
-    key += '_with_assignee' if key == 'assigned' && saved_change_to_assignee_id? && assignee
+    key += '_with_assignee' if key == 'assigned' && assignee_present_after_change?
     key
+  end
+
+  def assignee_present_after_change?
+    assigned_entity.present?
   end
 
   def generate_team_name_for_activity
