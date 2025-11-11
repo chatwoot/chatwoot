@@ -7,11 +7,22 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   RESULTS_PER_PAGE = 25
 
   before_action :check_authorization
-  before_action :set_current_page, only: [:index]
+  before_action :set_current_page, only: [:index, :search]
   before_action :fetch_company, only: [:show, :update, :destroy]
 
   def index
     @companies = fetch_companies(resolved_companies)
+    @companies_count = @companies.total_count
+  end
+
+  def search
+    return render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank?
+
+    companies = resolved_companies.where(
+      'name ILIKE :search OR domain ILIKE :search',
+      search: "%#{params[:q].strip}%"
+    )
+    @companies = fetch_companies(companies)
     @companies_count = @companies.total_count
   end
 
@@ -37,12 +48,6 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
     return @resolved_companies if @resolved_companies
 
     @resolved_companies = Current.account.companies
-    if params[:search].present?
-      @resolved_companies = @resolved_companies.where(
-        'name ILIKE :search OR domain ILIKE :search',
-        search: "%#{params[:search]}%"
-      )
-    end
     @resolved_companies
   end
 
