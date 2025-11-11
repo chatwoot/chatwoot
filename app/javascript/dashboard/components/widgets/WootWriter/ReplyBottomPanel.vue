@@ -10,13 +10,20 @@ import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
+import PaymentLinkButton from '../PaymentLinkButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
+  components: {
+    NextButton,
+    FileUpload,
+    VideoCallButton,
+    AIAssistanceButton,
+    PaymentLinkButton,
+  },
   mixins: [inboxMixin],
   props: {
     isNote: {
@@ -385,6 +392,11 @@ export default {
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
       />
+
+      <PaymentLinkButton
+        v-if="!isOnPrivateNote"
+        :conversation-id="conversationId"
+      />
       <AIAssistanceButton
         v-if="!isFetchingAppIntegrations"
         :conversation-id="conversationId"
@@ -392,6 +404,7 @@ export default {
         :message="message"
         @replace-text="replaceText"
       />
+
       <transition name="modal-fade">
         <div
           v-show="uploadRef && uploadRef.dropActive"

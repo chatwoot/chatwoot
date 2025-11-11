@@ -426,5 +426,30 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "PAYMENT_LINK": {
+    "TITLE": "Generate Payment Link",
+    "DESC": "Create a payment link for the customer",
+    "BUTTON_TEXT": "Generate Payment Link",
+    "FORM": {
+      "AMOUNT": {
+        "LABEL": "Amount",
+        "PLACEHOLDER": "Enter amount",
+        "ERROR": "Please enter a valid amount"
+      },
+      "CURRENCY": {
+        "LABEL": "Currency",
+        "PLACEHOLDER": "Select currency",
+        "ERROR": "Please select a currency"
+      },
+      "CUSTOMER_INFO": "Customer Information",
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "PHONE": "Phone"
+    },
+    "SUBMIT": "Generate & Send Link",
+    "CANCEL": "Cancel",
+    "SUCCESS": "Payment link sent successfully",
+    "ERROR": "Failed to generate payment link"
   }
 }

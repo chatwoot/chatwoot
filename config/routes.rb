@@ -133,6 +133,7 @@ Rails.application.routes.draw do
               end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resources :payment_links, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
