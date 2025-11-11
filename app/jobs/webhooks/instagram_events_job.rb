@@ -8,7 +8,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def perform(entries)
     @entries = entries
 
-    key = format(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: sender_id, ig_account_id: ig_account_id)
+    key = format(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: contact_instagram_id, ig_account_id: ig_account_id)
     with_lock(key) do
       process_entries(entries)
     end
@@ -75,6 +75,19 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
   def ig_account_id
     @entries&.first&.dig(:id)
+  end
+
+  def contact_instagram_id
+    messaging = @entries&.dig(0, :messaging, 0)
+    return nil unless messaging
+
+    # For echo messages (outgoing from our account), use recipient's ID (the contact)
+    # For incoming messages (from contact), use sender's ID (the contact)
+    if messaging.dig(:message, :is_echo)
+      messaging.dig(:recipient, :id)
+    else
+      messaging.dig(:sender, :id)
+    end
   end
 
   def sender_id
