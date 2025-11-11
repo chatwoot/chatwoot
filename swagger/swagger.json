@@ -3281,7 +3281,7 @@
     "/api/v1/accounts/{account_id}/contacts/{id}/contact_inboxes": {
       "post": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactInboxCreation",
         "description": "Create a contact inbox record for an inbox",
@@ -3366,7 +3366,7 @@
     "/api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes": {
       "get": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactableInboxesGet",
         "description": "Get List of contactable Inboxes",
