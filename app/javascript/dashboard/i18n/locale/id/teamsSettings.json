@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Belum ada tim yang dibuat pada akun ini.",
       "EDIT_TEAM": "Edit Tim",
-      "NONE": "Tidak ada",
-      "TABLE_HEADER": {}
+      "NONE": "Tidak ada"
     },
     "CREATE_FLOW": {
       "CREATE": {

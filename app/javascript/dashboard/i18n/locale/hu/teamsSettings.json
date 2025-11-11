@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Ebben a fiókban nincs csapat létrehozva.",
       "EDIT_TEAM": "Csapat szerkesztése",
-      "NONE": "Nincs",
-      "TABLE_HEADER": {}
+      "NONE": "Nincs"
     },
     "CREATE_FLOW": {
       "CREATE": {

@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Bu hesap üzerine oluşturulmuş ekip bulunmamaktadır.",
       "EDIT_TEAM": "Ekibi düzenle",
-      "NONE": "Hiç",
-      "TABLE_HEADER": {}
+      "NONE": "Hiç"
     },
     "CREATE_FLOW": {
       "CREATE": {

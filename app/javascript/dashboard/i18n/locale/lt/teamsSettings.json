@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Šioje paskyroje nėra sukurtų komandų.",
       "EDIT_TEAM": "Redaguoti komandą",
-      "NONE": "Nėra",
-      "TABLE_HEADER": {}
+      "NONE": "Nėra"
     },
     "CREATE_FLOW": {
       "CREATE": {

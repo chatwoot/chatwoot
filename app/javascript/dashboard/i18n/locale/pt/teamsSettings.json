@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Não há equipas configuradas para esta conta.",
       "EDIT_TEAM": "Editar equipa",
-      "NONE": "Nenhuma",
-      "TABLE_HEADER": {}
+      "NONE": "Nenhuma"
     },
     "CREATE_FLOW": {
       "CREATE": {

@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Šajā kontā nav izveidota neviena komanda.",
       "EDIT_TEAM": "Rediģēt komandu",
-      "NONE": "Nav",
-      "TABLE_HEADER": {}
+      "NONE": "Nav"
     },
     "CREATE_FLOW": {
       "CREATE": {

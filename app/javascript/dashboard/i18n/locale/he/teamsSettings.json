@@ -8,8 +8,7 @@
     "LIST": {
       "404": "לא נוצרו צוותים בחשבון זה.",
       "EDIT_TEAM": "ערוך צוות",
-      "NONE": "כלום",
-      "TABLE_HEADER": {}
+      "NONE": "כלום"
     },
     "CREATE_FLOW": {
       "CREATE": {

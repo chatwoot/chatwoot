@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Không có nhóm nào được tạo đối với tài khoản này.",
       "EDIT_TEAM": "Sửa nhóm",
-      "NONE": "Không có",
-      "TABLE_HEADER": {}
+      "NONE": "Không có"
     },
     "CREATE_FLOW": {
       "CREATE": {

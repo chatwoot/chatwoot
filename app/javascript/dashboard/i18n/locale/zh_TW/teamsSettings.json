@@ -8,8 +8,7 @@
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "編輯團隊",
-      "NONE": "無",
-      "TABLE_HEADER": {}
+      "NONE": "無"
     },
     "CREATE_FLOW": {
       "CREATE": {

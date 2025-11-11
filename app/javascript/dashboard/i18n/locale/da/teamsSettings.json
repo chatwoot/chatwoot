@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Der er ingen teams oprettet på denne konto.",
       "EDIT_TEAM": "Rediger team",
-      "NONE": "Ingen",
-      "TABLE_HEADER": {}
+      "NONE": "Ingen"
     },
     "CREATE_FLOW": {
       "CREATE": {

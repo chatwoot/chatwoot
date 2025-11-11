@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Nema timova napravljenih na ovom nalogu.",
       "EDIT_TEAM": "Uredi tim",
-      "NONE": "Niko",
-      "TABLE_HEADER": {}
+      "NONE": "Niko"
     },
     "CREATE_FLOW": {
       "CREATE": {

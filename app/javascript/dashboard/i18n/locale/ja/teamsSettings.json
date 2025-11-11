@@ -8,8 +8,7 @@
     "LIST": {
       "404": "このアカウントにはまだ作成されたチームがありません。",
       "EDIT_TEAM": "チームを編集",
-      "NONE": "該当なし",
-      "TABLE_HEADER": {}
+      "NONE": "該当なし"
     },
     "CREATE_FLOW": {
       "CREATE": {

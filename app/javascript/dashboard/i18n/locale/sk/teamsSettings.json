@@ -8,8 +8,7 @@
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "Edit team",
-      "NONE": "Žiadne",
-      "TABLE_HEADER": {}
+      "NONE": "Žiadne"
     },
     "CREATE_FLOW": {
       "CREATE": {

@@ -8,8 +8,7 @@
     "LIST": {
       "404": "Nu există echipe create în acest cont.",
       "EDIT_TEAM": "Editează echipa",
-      "NONE": "Nimic",
-      "TABLE_HEADER": {}
+      "NONE": "Nimic"
     },
     "CREATE_FLOW": {
       "CREATE": {

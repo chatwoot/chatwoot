@@ -8,8 +8,7 @@
     "LIST": {
       "404": "계정에 연결된 에이전트가 없습니다.",
       "EDIT_TEAM": "팀 수정하기",
-      "NONE": "없음",
-      "TABLE_HEADER": {}
+      "NONE": "없음"
     },
     "CREATE_FLOW": {
       "CREATE": {
