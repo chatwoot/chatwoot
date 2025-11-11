@@ -18,8 +18,17 @@ export const validateAuthenticateRoutePermission = (to, next) => {
     return '';
   }
 
-  if (!to.name) {
-    return next(frontendURL(`accounts/${user.account_id}/dashboard`));
+  const { accounts = [], account_id: accountId } = user;
+
+  if (!accounts.length) {
+    if (to.name === 'no_accounts') {
+      return next();
+    }
+    return next(frontendURL('no-accounts'));
+  }
+
+  if (to.name === 'no_accounts' || !to.name) {
+    return next(frontendURL(`accounts/${accountId}/dashboard`));
   }
 
   const nextRoute = validateLoggedInRoutes(to, store.getters.getCurrentUser);

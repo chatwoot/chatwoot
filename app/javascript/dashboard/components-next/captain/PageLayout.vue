@@ -1,11 +1,17 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
+import { OnClickOutside } from '@vueuse/components';
+import { useRoute } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store.js';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import BackButton from 'dashboard/components/widgets/BackButton.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Policy from 'dashboard/components/policy.vue';
+import AssistantSwitcher from 'dashboard/components-next/captain/pageComponents/switcher/AssistantSwitcher.vue';
+import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
 
 const props = defineProps({
   currentPage: {
@@ -56,10 +62,31 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showAssistantSwitcher: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['click', 'close', 'update:currentPage']);
+
+const route = useRoute();
 const { shouldShowPaywall } = usePolicy();
+
+const showAssistantSwitcherDropdown = ref(false);
+const createAssistantDialogRef = ref(null);
+
+const assistants = useMapGetter('captainAssistants/getRecords');
+
+const currentAssistantId = computed(() => route.params.assistantId);
+
+const activeAssistantName = computed(() => {
+  return (
+    assistants.value?.find(
+      assistant => assistant.id === Number(currentAssistantId.value)
+    )?.name || ''
+  );
+});
 
 const showPaywall = computed(() => {
   return shouldShowPaywall(props.featureFlag);
@@ -72,6 +99,15 @@ const handleButtonClick = () => {
 const handlePageChange = event => {
   emit('update:currentPage', event);
 };
+
+const toggleAssistantSwitcher = () => {
+  showAssistantSwitcherDropdown.value = !showAssistantSwitcherDropdown.value;
+};
+
+const handleCreateAssistant = () => {
+  showAssistantSwitcherDropdown.value = false;
+  createAssistantDialogRef.value.dialogRef.open();
+};
 </script>
 
 <template>
@@ -82,9 +118,48 @@ const handlePageChange = event => {
           class="flex items-start lg:items-center justify-between w-full py-6 lg:py-0 lg:h-20 gap-4 lg:gap-2 flex-col lg:flex-row"
         >
           <div class="flex gap-4 items-center">
-            <BackButton v-if="backUrl" :to="backUrl" />
+            <BackButton v-if="backUrl" :back-url="backUrl" />
             <slot name="headerTitle">
-              <span class="text-xl font-medium text-n-slate-12">
+              <div v-if="showAssistantSwitcher" class="flex items-center gap-2">
+                <div class="flex items-center gap-1">
+                  <span
+                    v-if="activeAssistantName"
+                    class="text-xl font-medium truncate text-n-slate-12"
+                  >
+                    {{ activeAssistantName }}
+                  </span>
+                  <div v-if="activeAssistantName" class="relative group">
+                    <OnClickOutside
+                      @trigger="showAssistantSwitcherDropdown = false"
+                    >
+                      <Button
+                        icon="i-lucide-chevron-down"
+                        variant="ghost"
+                        color="slate"
+                        size="xs"
+                        class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3 [&>span]:size-4"
+                        @click="toggleAssistantSwitcher"
+                      />
+
+                      <AssistantSwitcher
+                        v-if="showAssistantSwitcherDropdown"
+                        class="absolute ltr:left-0 rtl:right-0 top-9"
+                        @close="showAssistantSwitcherDropdown = false"
+                        @create-assistant="handleCreateAssistant"
+                      />
+                    </OnClickOutside>
+                  </div>
+                  <Icon
+                    v-if="activeAssistantName"
+                    icon="i-lucide-chevron-right"
+                    class="size-6 text-n-slate-11"
+                  />
+                  <span class="text-xl font-medium text-n-slate-11">
+                    {{ headerTitle }}
+                  </span>
+                </div>
+              </div>
+              <span v-else class="text-xl font-medium text-n-slate-12">
                 {{ headerTitle }}
               </span>
             </slot>
@@ -97,23 +172,27 @@ const handlePageChange = event => {
             </div>
           </div>
 
-          <div
-            v-if="!showPaywall && buttonLabel"
-            v-on-clickaway="() => emit('close')"
-            class="relative group/campaign-button"
-          >
-            <Policy :permissions="buttonPolicy">
-              <Button
-                :label="buttonLabel"
-                icon="i-lucide-plus"
-                size="sm"
-                class="group-hover/campaign-button:brightness-110"
-                @click="handleButtonClick"
-              />
-            </Policy>
-            <slot name="action" />
+          <div class="flex gap-2">
+            <slot name="search" />
+            <div
+              v-if="!showPaywall && buttonLabel"
+              v-on-clickaway="() => emit('close')"
+              class="relative group/captain-button"
+            >
+              <Policy :permissions="buttonPolicy">
+                <Button
+                  :label="buttonLabel"
+                  icon="i-lucide-plus"
+                  size="sm"
+                  class="group-hover/captain-button:brightness-110"
+                  @click="handleButtonClick"
+                />
+              </Policy>
+              <slot name="action" />
+            </div>
           </div>
         </div>
+        <slot name="subHeader" />
       </div>
     </header>
     <main class="flex-1 px-6 overflow-y-auto">
@@ -143,5 +222,6 @@ const handlePageChange = event => {
         @update:current-page="handlePageChange"
       />
     </footer>
+    <CreateAssistantDialog ref="createAssistantDialogRef" type="create" />
   </section>
 </template>
