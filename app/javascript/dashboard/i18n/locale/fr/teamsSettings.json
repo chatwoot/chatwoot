@@ -8,7 +8,10 @@
     "LIST": {
       "404": "Il n'y a aucune équipe créée sur ce compte.",
       "EDIT_TEAM": "Modifier l'équipe",
-      "NONE": "Aucun"
+      "NONE": "Aucun",
+      "TABLE_HEADER": {
+        "AUTO_ASSIGN": "Auto-Assign"
+      }
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -116,6 +119,13 @@
         "LABEL": "Autoriser l'affectation automatique pour cette équipe."
       },
       "SUBMIT_CREATE": "Créer une équipe"
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

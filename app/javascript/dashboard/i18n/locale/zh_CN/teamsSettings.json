@@ -8,7 +8,10 @@
     "LIST": {
       "404": "此帐户尚未添加团队。",
       "EDIT_TEAM": "编辑团队",
-      "NONE": "啥都没有"
+      "NONE": "啥都没有",
+      "TABLE_HEADER": {
+        "AUTO_ASSIGN": "Auto-Assign"
+      }
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -116,6 +119,13 @@
         "LABEL": "允许为这个团队自动分配。"
       },
       "SUBMIT_CREATE": "创建新团队"
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

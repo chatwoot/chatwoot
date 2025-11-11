@@ -8,7 +8,10 @@
     "LIST": {
       "404": "Δεν έχουν δημιουργηθεί ομάδες σε αυτόν τον λογαριασμό.",
       "EDIT_TEAM": "Επεξεργασία ομάδας",
-      "NONE": "Κανένα"
+      "NONE": "Κανένα",
+      "TABLE_HEADER": {
+        "AUTO_ASSIGN": "Auto-Assign"
+      }
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -116,6 +119,13 @@
         "LABEL": "Επιτρέψτε την αυτόματη ανάθεση σε αυτήν την ομάδα."
       },
       "SUBMIT_CREATE": "Δημιουργία Ομάδας"
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

@@ -8,7 +8,10 @@
     "LIST": {
       "404": "ยังไม่มีทีมที่ถูกสร้างในบัญชีนี้",
       "EDIT_TEAM": "แก้ไขทีม",
-      "NONE": "ไม่มี"
+      "NONE": "ไม่มี",
+      "TABLE_HEADER": {
+        "AUTO_ASSIGN": "Auto-Assign"
+      }
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -116,6 +119,13 @@
         "LABEL": "เปิดใช้การมอบหมายงานอัตโนมัติสำหรับทีมนี้"
       },
       "SUBMIT_CREATE": "สร้างทีม"
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

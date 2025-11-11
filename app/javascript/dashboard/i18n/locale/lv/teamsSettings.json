@@ -8,7 +8,10 @@
     "LIST": {
       "404": "Šajā kontā nav izveidota neviena komanda.",
       "EDIT_TEAM": "Rediģēt komandu",
-      "NONE": "Nav"
+      "NONE": "Nav",
+      "TABLE_HEADER": {
+        "AUTO_ASSIGN": "Auto-Assign"
+      }
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -116,6 +119,13 @@
         "LABEL": "Atļaut automātiskai piešķirt šai komandai."
       },
       "SUBMIT_CREATE": "Izveidot komandu"
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

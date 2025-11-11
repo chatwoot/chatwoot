@@ -8,7 +8,10 @@
     "LIST": {
       "404": "لا يوجد موظفي دعم مرتبطين بهذا الحساب.",
       "EDIT_TEAM": "تعديل الفريق",
-      "NONE": "لا شيء"
+      "NONE": "لا شيء",
+      "TABLE_HEADER": {
+        "AUTO_ASSIGN": "Auto-Assign"
+      }
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -116,6 +119,13 @@
         "LABEL": "السماح بالتكليف التلقائي لهذا الفريق."
       },
       "SUBMIT_CREATE": "إنشاء فريق جديد"
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

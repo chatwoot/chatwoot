@@ -13,7 +13,8 @@
       "TABLE_HEADER": {
         "NAME": "姓名",
         "DESCRIPTION": "描述資訊",
-        "COLOR": "顏色"
+        "COLOR": "顏色",
+        "AUTO_CLASSIFY": "Auto Assign"
       }
     },
     "FORM": {
@@ -37,7 +38,10 @@
       "EDIT": "編輯",
       "CREATE": "建立",
       "DELETE": "刪除",
-      "CANCEL": "取消操作"
+      "CANCEL": "取消操作",
+      "ALLOW_AUTO_ASSIGN": {
+        "LABEL": "Enable AI auto assign for this label"
+      }
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
@@ -80,6 +84,23 @@
         "YES": "是，刪除 ",
         "NO": "不，保留 "
       }
+    },
+    "AUTO_CLASSIFICATION": {
+      "LABEL_TITLE": "AI-Powered Auto-Labeling",
+      "LABEL_DESCRIPTION": "Automatically assign labels to conversations using AI analysis based on conversation content and context.",
+      "TEAM_TITLE": "AI-Powered Auto-Team Assignment",
+      "TEAM_DESCRIPTION": "Automatically assign teams to conversations using AI analysis based on conversation content and team descriptions.",
+      "THRESHOLD_LABEL": "Minimum messages before processing",
+      "THRESHOLD_HINT": "Wait for this many incoming messages before applying AI suggestions",
+      "UPDATE_SUCCESS": "Auto-classification settings updated successfully",
+      "UPDATE_FAILED": "Failed to update auto-classification settings"
+    },
+    "AUTO_CLASSIFY": {
+      "ENABLED": "Auto-Assign enabled for label",
+      "DISABLED": "Auto-Assign disabled for label",
+      "ERROR": "Failed to update auto assign setting",
+      "BULK_SUCCESS": "Auto Assign updated for all labels",
+      "BULK_ERROR": "Failed to update auto assign for all labels"
     }
   }
 }

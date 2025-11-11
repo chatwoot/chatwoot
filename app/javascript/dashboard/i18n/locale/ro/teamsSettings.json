@@ -8,7 +8,10 @@
     "LIST": {
       "404": "Nu există echipe create în acest cont.",
       "EDIT_TEAM": "Editează echipa",
-      "NONE": "Nimic"
+      "NONE": "Nimic",
+      "TABLE_HEADER": {
+        "AUTO_ASSIGN": "Auto-Assign"
+      }
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -116,6 +119,13 @@
         "LABEL": "Permiteți atribuirea automată pentru această echipă."
       },
       "SUBMIT_CREATE": "Creați o echipă"
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }

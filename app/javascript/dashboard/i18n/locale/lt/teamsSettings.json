@@ -8,7 +8,10 @@
     "LIST": {
       "404": "Šioje paskyroje nėra sukurtų komandų.",
       "EDIT_TEAM": "Redaguoti komandą",
-      "NONE": "Nėra"
+      "NONE": "Nėra",
+      "TABLE_HEADER": {
+        "AUTO_ASSIGN": "Auto-Assign"
+      }
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -116,6 +119,13 @@
         "LABEL": "Leisti automatiškai priskirti šiai komandai."
       },
       "SUBMIT_CREATE": "Sukurti komandą"
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Auto-assignment enabled for team",
+      "DISABLED": "Auto-assignment disabled for team",
+      "ERROR": "Failed to update auto-assignment setting",
+      "BULK_SUCCESS": "Auto-assignment updated for all teams",
+      "BULK_ERROR": "Failed to update auto-assignment for all teams"
     }
   }
 }
