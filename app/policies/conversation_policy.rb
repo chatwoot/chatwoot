@@ -11,6 +11,10 @@ class ConversationPolicy < ApplicationPolicy
     administrator? || agent_bot? || agent_can_view_conversation?
   end
 
+  def update?
+    administrator? || agent_bot? || agent_can_view_conversation?
+  end
+
   private
 
   def agent_can_view_conversation?
