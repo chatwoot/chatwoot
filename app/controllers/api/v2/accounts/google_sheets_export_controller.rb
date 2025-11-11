@@ -451,8 +451,8 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     state_payload = { original_state: original_state, account_id: account_id }.to_json
     encoded_state = Base64.urlsafe_encode64(state_payload)
 
+    # 'https://www.googleapis.com/auth/spreadsheets',
     scopes = [
-      'https://www.googleapis.com/auth/spreadsheets',
       'https://www.googleapis.com/auth/drive.file',
       'https://www.googleapis.com/auth/userinfo.email'
     ].join(' ')
