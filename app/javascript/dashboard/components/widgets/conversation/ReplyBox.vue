@@ -1123,7 +1123,7 @@ export default {
       <WootMessageEditor
         v-model="message"
         :editor-id="editorStateId"
-        class="input"
+        class="input popover-prosemirror-menu"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
