@@ -329,6 +329,12 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     },
+    "ASSIGNED_INBOX_LABEL": "Assigned source",
+    "ASSIGNED_INBOX_TITLE": "Source",
+    "ASSIGNED_INBOX_PLACEHOLDER": "Select source",
+    "ASSIGNED_INBOX_NO_RESULTS": "No sources available",
+    "ASSIGNED_INBOX_INPUT_PLACEHOLDER": "Enter source name",
+    "INBOX_CHANGED": "Source changed to %{inbox}",
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",

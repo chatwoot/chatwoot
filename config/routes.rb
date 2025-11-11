@@ -147,6 +147,7 @@ Rails.application.routes.draw do
               get :attachments
               get :inbox_assistant
               get :reporting_events if ChatwootApp.enterprise?
+              patch :change_inbox
             end
           end
 

@@ -329,6 +329,12 @@
     "SELECT": {
       "PLACEHOLDER": "Ничего"
     },
+    "ASSIGNED_INBOX_LABEL": "Назначенный источник",
+    "ASSIGNED_INBOX_TITLE": "Источник",
+    "ASSIGNED_INBOX_PLACEHOLDER": "Выберите источник",
+    "ASSIGNED_INBOX_NO_RESULTS": "Нет доступных источников",
+    "ASSIGNED_INBOX_INPUT_PLACEHOLDER": "Введите название источника",
+    "INBOX_CHANGED": "Источник изменен на %{inbox}",
     "ACCORDION": {
       "CONTACT_DETAILS": "Контактные данные",
       "CONVERSATION_ACTIONS": "Действия в беседе",

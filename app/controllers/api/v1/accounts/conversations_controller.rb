@@ -130,6 +130,19 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def change_inbox
+    @conversation = Current.account.conversations.find(params[:id])
+    authorize @conversation, :update?
+
+    Conversations::ChangeConversationInboxService.new(
+      conversation: @conversation,
+      inbox_id: params[:inbox_id],
+      current_user: current_user
+    ).call
+
+    render json: { success: true, inbox_id: @conversation.inbox_id }
+  end
+
   private
 
   def permitted_update_params
