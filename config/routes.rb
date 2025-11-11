@@ -141,6 +141,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               get :inbox_assistant
+              patch :change_inbox
             end
           end
 

@@ -10,6 +10,7 @@ import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { useInboxes } from 'dashboard/composables/useInboxes';
 
 export default {
   components: {
@@ -26,8 +27,10 @@ export default {
   },
   setup() {
     const { agentsList } = useAgentsList();
+    const { inboxes } = useInboxes();
     return {
       agentsList,
+      inboxes,
     };
   },
   data() {
@@ -111,6 +114,33 @@ export default {
           });
       },
     },
+    assignedInbox: {
+      get() {
+        return this.inboxes.find(i => i.id === this.currentChat.inbox_id);
+      },
+      set(inbox) {
+        const conversationId = this.currentChat.id;
+        const inboxId = inbox ? inbox.id : null;
+
+        this.$store.dispatch('conversations/updateConversation', {
+          ...this.currentChat,
+          inbox_id: inboxId,
+        });
+
+        this.$store
+          .dispatch('changeInbox', { conversationId, inboxId })
+          .then(() => {
+            useAlert(`Источник изменён на ${inbox.name}`);
+          });
+      },
+    },
+
+    inboxesList() {
+      return this.inboxes.map(inbox => ({
+        id: inbox.id,
+        name: inbox.name,
+      }));
+    },
     assignedPriority: {
       get() {
         const selectedOption = this.priorityOptions.find(
@@ -192,6 +222,13 @@ export default {
         this.assignedTeam = null;
       } else {
         this.assignedTeam = selectedItemTeam;
+      }
+    },
+    onClickAssignInbox(selectedInbox) {
+      if (this.assignedInbox && this.assignedInbox.id === selectedInbox.id) {
+        this.assignedInbox = null;
+      } else {
+        this.assignedInbox = selectedInbox;
       }
     },
 
@@ -281,5 +318,25 @@ export default {
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
     />
     <ConversationLabels :conversation-id="conversationId" />
+  </div>
+
+  <div class="multiselect-wrap--small">
+    <ContactDetailsItem
+      compact
+      :title="$t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_LABEL')"
+    />
+    <MultiselectDropdown
+      :options="inboxesList"
+      :selected-item="assignedInbox"
+      :multiselector-title="$t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_TITLE')"
+      :multiselector-placeholder="
+        $t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_PLACEHOLDER')
+      "
+      :no-search-result="$t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_NO_RESULTS')"
+      :input-placeholder="
+        $t('CONVERSATION_SIDEBAR.ASSIGNED_INBOX_INPUT_PLACEHOLDER')
+      "
+      @select="onClickAssignInbox"
+    />
   </div>
 </template>
