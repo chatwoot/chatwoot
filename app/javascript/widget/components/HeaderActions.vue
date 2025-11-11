@@ -92,11 +92,14 @@ export default {
       "
       class="button transparent compact"
       :title="$t('END_CONVERSATION')"
+      :class="{
+        'rn-close-button': !isRNWebView,
+      }"
       @click="resolveConversation"
     >
       <FluentIcon
-        icon="sign-out"
-        size="22"
+        icon="dismiss"
+        size="24"
         :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
       />
     </button>
