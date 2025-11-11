@@ -27,6 +27,7 @@ describe('FileUploadMixin', () => {
   beforeEach(() => {
     mockGlobalConfig = reactive({
       directUploadsEnabled: true,
+      maximumFileUploadSize: 40,
     });
 
     mockCurrentChat = reactive({

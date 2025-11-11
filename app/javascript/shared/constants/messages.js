@@ -1,3 +1,10 @@
+import {
+  DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
+  resolveMaximumFileUploadSize,
+} from 'shared/helpers/FileUploadLimitHelper';
+
+export { DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE, resolveMaximumFileUploadSize };
+
 export const MESSAGE_STATUS = {
   FAILED: 'failed',
   SENT: 'sent',
@@ -34,8 +41,12 @@ export const CONVERSATION_PRIORITY_ORDER = {
   low: 1,
 };
 
+const globalWindow = typeof window !== 'undefined' ? window : {};
+
 // Size in mega bytes
-export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
+export const MAXIMUM_FILE_UPLOAD_SIZE = resolveMaximumFileUploadSize(
+  globalWindow?.globalConfig?.MAXIMUM_FILE_UPLOAD_SIZE
+);
 
 export const ALLOWED_FILE_TYPES =
   'image/*,' +

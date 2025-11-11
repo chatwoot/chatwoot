@@ -2,10 +2,8 @@
 import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import {
-  MAXIMUM_FILE_UPLOAD_SIZE,
-  ALLOWED_FILE_TYPES,
-} from 'shared/constants/messages';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import { resolveMaximumFileUploadSize } from 'shared/helpers/FileUploadLimitHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
@@ -29,7 +27,9 @@ export default {
       shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
     }),
     fileUploadSizeLimit() {
-      return MAXIMUM_FILE_UPLOAD_SIZE;
+      return resolveMaximumFileUploadSize(
+        this.globalConfig.maximumFileUploadSize
+      );
     },
     allowedFileTypes() {
       return ALLOWED_FILE_TYPES;
@@ -73,7 +73,7 @@ export default {
       }
       this.isUploading = true;
       try {
-        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        if (checkFileSizeLimit(file, this.fileUploadSizeLimit)) {
           const { websiteToken } = window.chatwootWebChannel;
           const upload = new DirectUpload(
             file.file,
@@ -115,7 +115,7 @@ export default {
       }
       this.isUploading = true;
       try {
-        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        if (checkFileSizeLimit(file, this.fileUploadSizeLimit)) {
           await this.onAttach({
             file: file.file,
             ...this.getLocalFileAttributes(file),

@@ -32,6 +32,7 @@ class DashboardController < ActionController::Base
       'API_CHANNEL_THUMBNAIL',
       'ANALYTICS_TOKEN',
       'DIRECT_UPLOADS_ENABLED',
+      'MAXIMUM_FILE_UPLOAD_SIZE',
       'HCAPTCHA_SITE_KEY',
       'LOGOUT_REDIRECT_LINK',
       'DISABLE_USER_PROFILE_UPDATE',
