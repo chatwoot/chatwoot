@@ -1,13 +1,18 @@
 /* global axios */
 import ApiClient from './ApiClient';
 
-export const buildCompanyParams = (page, sort, search) => {
+export const buildCompanyParams = (page, sort) => {
   let params = `page=${page}`;
   if (sort) {
     params = `${params}&sort=${sort}`;
   }
-  if (search) {
-    params = `${params}&search=${search}`;
+  return params;
+};
+
+export const buildSearchParams = (query, page, sort) => {
+  let params = `q=${encodeURIComponent(query)}&page=${page}`;
+  if (sort) {
+    params = `${params}&sort=${sort}`;
   }
   return params;
 };
@@ -17,14 +22,14 @@ class CompanyAPI extends ApiClient {
     super('companies', { accountScoped: true });
   }
 
-  get(page, sort = 'name', search = '') {
-    let requestURL = `${this.url}?${buildCompanyParams(page, sort, search)}`;
+  get(page = 1, sort = 'name') {
+    const requestURL = `${this.url}?${buildCompanyParams(page, sort)}`;
     return axios.get(requestURL);
   }
 
-  search(search = '', page = 1, sort = 'name') {
-    // Use the index endpoint with search query parameter
-    return this.get(page, sort, search);
+  search(query = '', page = 1, sort = 'name') {
+    const requestURL = `${this.url}/search?${buildSearchParams(query, page, sort)}`;
+    return axios.get(requestURL);
   }
 }
 
