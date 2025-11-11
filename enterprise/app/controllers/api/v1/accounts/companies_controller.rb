@@ -2,7 +2,7 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   include Sift
   sort_on :name, type: :string
   sort_on :domain, type: :string
-  sort_on :created_at, type: :string
+  sort_on :created_at, type: :datetime
 
   RESULTS_PER_PAGE = 25
 
