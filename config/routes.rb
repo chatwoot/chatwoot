@@ -529,6 +529,15 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
+  # ActionMailbox ingress route for Resend
+  namespace :action_mailbox do
+    namespace :ingresses do
+      namespace :resend do
+        resources :inbound_emails, only: :create
+      end
+    end
+  end
+
   namespace :twitter do
     resource :callback, only: [:show]
   end
