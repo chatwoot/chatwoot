@@ -68,13 +68,41 @@ RSpec.describe 'Companies API', type: :request do
         expect(company_data['contacts_count']).to eq(5)
       end
 
+      it 'does not return companies from other accounts' do
+        other_account = create(:account)
+        create(:company, name: 'Other Account Company', account: other_account)
+        create(:company, name: 'My Company', account: account)
+        get "/api/v1/accounts/#{account.id}/companies",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        expect(response_body['payload'].size).to eq(3)
+        expect(response_body['payload'].map { |c| c['name'] }).not_to include('Other Account Company')
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/companies/search' do
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'returns error when q parameter is missing' do
+        get "/api/v1/accounts/#{account.id}/companies/search",
+            headers: admin.create_new_auth_token,
+            as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Specify search string with parameter q')
+      end
+
       it 'searches companies by name' do
         create(:company, name: 'Acme Corp', domain: 'acme.com', account: account)
         create(:company, name: 'Tech Solutions', domain: 'tech.com', account: account)
         create(:company, name: 'Global Inc', domain: 'global.com', account: account)
 
-        get "/api/v1/accounts/#{account.id}/companies",
-            params: { search: 'tech' },
+        get "/api/v1/accounts/#{account.id}/companies/search",
+            params: { q: 'tech' },
             headers: admin.create_new_auth_token,
             as: :json
         expect(response).to have_http_status(:success)
@@ -88,8 +116,8 @@ RSpec.describe 'Companies API', type: :request do
         create(:company, name: 'Tech Solutions', domain: 'tech.com', account: account)
         create(:company, name: 'Global Inc', domain: 'global.com', account: account)
 
-        get "/api/v1/accounts/#{account.id}/companies",
-            params: { search: 'acme.com' },
+        get "/api/v1/accounts/#{account.id}/companies/search",
+            params: { q: 'acme.com' },
             headers: admin.create_new_auth_token,
             as: :json
 
@@ -101,8 +129,8 @@ RSpec.describe 'Companies API', type: :request do
 
       it 'search is case insensitive' do
         create(:company, name: 'Acme Corp', domain: 'acme.com', account: account)
-        get "/api/v1/accounts/#{account.id}/companies",
-            params: { search: 'ACME' },
+        get "/api/v1/accounts/#{account.id}/companies/search",
+            params: { q: 'ACME' },
             headers: admin.create_new_auth_token,
             as: :json
         expect(response).to have_http_status(:success)
@@ -113,28 +141,14 @@ RSpec.describe 'Companies API', type: :request do
 
       it 'returns empty array when no companies match search' do
         create(:company, name: 'Acme Corp', domain: 'acme.com', account: account)
-        get "/api/v1/accounts/#{account.id}/companies",
-            params: { search: 'nonexistent' },
+        get "/api/v1/accounts/#{account.id}/companies/search",
+            params: { q: 'nonexistent' },
             headers: admin.create_new_auth_token,
             as: :json
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].size).to eq(0)
         expect(response_body['meta']['count']).to eq(0)
-      end
-
-      it 'does not return companies from other accounts' do
-        other_account = create(:account)
-        create(:company, name: 'Other Account Company', account: other_account)
-        create(:company, name: 'My Company', account: account)
-        get "/api/v1/accounts/#{account.id}/companies",
-            headers: admin.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        response_body = response.parsed_body
-        expect(response_body['payload'].size).to eq(3)
-        expect(response_body['payload'].map { |c| c['name'] }).not_to include('Other Account Company')
       end
     end
   end
