@@ -70,7 +70,7 @@ module ResendSpecHelpers
       filename: 'test_file.pdf',
       content_type: 'application/pdf',
       size: 1024,
-      download_url: download_url || "https://outbound-cdn.resend.com/test-email-123/attachments/#{attachment_id}?signature=test-sig"
+      download_url: download_url || "https://cdn.resend.app/inbound/test-email-123/attachments/#{attachment_id}?signature=test-sig"
     }
   end
 
@@ -110,7 +110,7 @@ module ResendSpecHelpers
   end
 
   def stub_resend_attachment_metadata_fetch(email_id:, attachment_id:, download_url: nil, status: 200)
-    download_url ||= "https://api.resend.com/attachments/download/#{attachment_id}"
+    download_url ||= "https://cdn.resend.app/inbound/#{email_id}/attachments/#{attachment_id}"
     metadata = resend_attachment_metadata(attachment_id: attachment_id, download_url: download_url)
 
     stub_request(:get, "https://api.resend.com/emails/receiving/#{email_id}/attachments/#{attachment_id}")
@@ -142,7 +142,7 @@ module ResendSpecHelpers
     # Stub attachment fetches if email has attachments
     if email_data[:attachments].present?
       email_data[:attachments].each do |attachment|
-        download_url = "https://outbound-cdn.resend.com/#{email_id}/attachments/#{attachment[:id]}?signature=test-sig"
+        download_url = "https://cdn.resend.app/inbound/#{email_id}/attachments/#{attachment[:id]}?signature=test-sig"
 
         # Stub attachment metadata
         stub_resend_attachment_metadata_fetch(

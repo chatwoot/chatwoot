@@ -12,7 +12,7 @@ module ActionMailbox::Ingresses::Resend
 
     MAX_REQUEST_SIZE = 10.megabytes
     MAX_ATTACHMENT_SIZE = 25.megabytes
-    ALLOWED_HOST_PATTERN = /\A[a-z0-9-]+\.resend\.com\z/i.freeze
+    ALLOWED_HOST_PATTERN = /\A[a-z0-9-]+\.resend\.(com|app)\z/i.freeze
 
     before_action :verify_authenticity
     before_action :validate_request_size
