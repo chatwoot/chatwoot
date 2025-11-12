@@ -34,7 +34,7 @@
         "SUBSCRIPTIONS": {
           "LABEL": "Olaylar",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Görüşme Oluşturuldu",
+            "CONVERSATION_CREATED": "Konuşma Oluşturuldu",
             "CONVERSATION_STATUS_CHANGED": "Görüşme Durumu Değişti",
             "CONVERSATION_UPDATED": "Görüşme Güncellendi",
             "MESSAGE_CREATED": "Mesaj Oluşturuldu",
@@ -42,8 +42,8 @@
             "WEBWIDGET_TRIGGERED": "Kullanıcı tarafından canlı sohbet widget'ı açıldı",
             "CONTACT_CREATED": "Kişi Oluşturuldu",
             "CONTACT_UPDATED": "Kişi Güncellendi",
-            "CONVERSATION_TYPING_ON": "Sohbet Yazıyor Açık",
-            "CONVERSATION_TYPING_OFF": "Sohbet Yazıyor Kapalı"
+            "CONVERSATION_TYPING_ON": "Konuşmada Yazıyor Açık",
+            "CONVERSATION_TYPING_OFF": "Konuşmada Yazıyor Kapalı"
           }
         },
         "END_POINT": {
@@ -327,7 +327,7 @@
       },
       "CTA": {
         "TITLE": "Linear'a bağlan",
-        "AGENT_DESCRIPTION": "Doğrusal çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için yöneticinizden bir çalışma alanı bağlamasını isteyin.",
+        "AGENT_DESCRIPTION": "Linear çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için yöneticinizden bir çalışma alanı bağlamasını isteyin.",
         "DESCRIPTION": "Linear çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için çalışma alanınızı bağlamak üzere aşağıdaki düğmeye tıklayın.",
         "BUTTON_TEXT": "Linear çalışma alanını bağlayın"
       }
@@ -348,7 +348,7 @@
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
       "PANEL_TITLE": "Copilot ile başlayın",
-      "KICK_OFF_MESSAGE": "Hızlı bir özet mi lazım, geçmiş sohbetleri mi kontrol etmek istiyorsunuz ya da daha iyi bir yanıt mı yazmak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
+      "KICK_OFF_MESSAGE": "Hızlı bir özet mi gerekiyor, geçmiş konuşmaları mı kontrol etmek istiyorsunuz, yoksa daha iyi bir yanıt mı tasarlamak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
       "SEND_MESSAGE": "Mesajı Gönder...",
       "EMPTY_MESSAGE": "Yanıt oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
       "LOADER": "Captain is thinking",
@@ -371,8 +371,8 @@
           "CONTENT": "Sohbetin müşterinin ihtiyaçlarını ne kadar karşıladığını gözden geçirin. Ton, açıklık ve etkililik açısından 5 üzerinden bir puan verin."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "Yüksek öncelikli sohbetler",
-          "CONTENT": "Tüm yüksek öncelikli açık sohbetlerin bir özetini verin. Sohbet kimliği, müşteri adı (varsa), son mesaj içeriği ve atanan temsilciyi ekleyin. Gerekirse duruma göre gruplayın."
+          "LABEL": "Yüksek öncelikli konuşmalar",
+          "CONTENT": "Tüm yüksek öncelikli açık konuşmaların bir özetini verin. Konuşma kimliği, müşteri adı (varsa), son mesaj içeriği ve atanan temsilciyi ekleyin. Gerekirse duruma göre gruplayın."
         },
         "LIST_CONTACTS": {
           "LABEL": "Kişileri listele",
@@ -383,7 +383,7 @@
     "PLAYGROUND": {
       "USER": "Sen",
       "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Mesajınız...",
+      "MESSAGE_PLACEHOLDER": "Mesajınızı yazın...",
       "HEADER": "Oyun Alanı",
       "DESCRIPTION": "Bu oyun alanını asistanınıza mesaj göndermek ve yanıtlarının doğru, hızlı ve beklediğiniz tonda olup olmadığını kontrol etmek için kullanın.",
       "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
@@ -863,6 +863,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -902,6 +903,10 @@
         "APPROVED": "Approved",
         "ALL": "Hepsi"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
         "TITLE": "Add an FAQ",
@@ -932,13 +937,15 @@
         "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
       },
       "OPTIONS": {
-        "APPROVE": "Mark as approved",
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Düzenle",
+        "DELETE_RESPONSE": "Sil"
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
