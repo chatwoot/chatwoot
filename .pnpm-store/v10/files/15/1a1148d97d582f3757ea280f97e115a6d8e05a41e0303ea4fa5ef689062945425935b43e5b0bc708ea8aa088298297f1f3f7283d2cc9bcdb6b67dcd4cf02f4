@@ -1,1 +1,0 @@
-{"version":3,"file":"module.es.js","sourceRoot":"","sources":["../../../src/entrypoints/module.es.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;AAAA,qCAAkC;AAClC,kFAA6C;AAC7C,0DAAuC;AACvC,kBAAe,+BAAO,CAAA","sourcesContent":["import './external-scripts-loader'\nimport posthog from './module.no-external.es'\nexport * from './module.no-external.es'\nexport default posthog\n"]}

@@ -1,1 +1,0 @@
-{"version":3,"file":"module.full.es.js","sourceRoot":"","sources":["../../../src/entrypoints/module.full.es.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;AAAA,uCAAoC;AACpC,0DAAiC;AACjC,8CAA2B;AAC3B,kBAAe,mBAAO,CAAA","sourcesContent":["import './all-external-dependencies'\nimport posthog from './module.es'\nexport * from './module.es'\nexport default posthog\n"]}

@@ -1,1 +1,0 @@
-{"version":3,"file":"recorder-v2.js","sourceRoot":"","sources":["../../../src/entrypoints/recorder-v2.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,gDAAgD;AAChD,6CAA0B","sourcesContent":["// This is only here for backwards compatibility\nexport * from './recorder'\n"]}

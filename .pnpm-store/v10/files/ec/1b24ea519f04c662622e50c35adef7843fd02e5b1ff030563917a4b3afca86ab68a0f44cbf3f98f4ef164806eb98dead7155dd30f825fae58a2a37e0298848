@@ -1,1 +1,0 @@
-{"version":3,"file":"source-code-fixer.d.ts","sourceRoot":"","sources":["../../src/eslint/source-code-fixer.ts"],"names":[],"mappings":"AAGA;;;GAGG;AAOH,OAAO,EAAE,MAAM,EAAE,MAAM,QAAQ,CAAC;AAqChC;;;GAGG;AACH,iBAAS,eAAe,SAGvB;kBAHQ,eAAe;iCAcV,MAAM,YACR,MAAM,CAAC,WAAW,EAAE,aACnB,OAAO,GAAG,CAAC,CAAC,OAAO,EAAE,MAAM,CAAC,WAAW,KAAK,OAAO,CAAC;;;;;;AA0FjE,OAAO,EAAE,eAAe,EAAE,CAAC"}

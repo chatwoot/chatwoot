@@ -1,6 +1,0 @@
-{
-  "compilerOptions": {
-    "moduleResolution": "node"
-  },
-  "extends": "../../tsconfig.json"
-}

@@ -1,4 +1,0 @@
-// @flow
-
-declare export var maxTime: number
-declare export var minTime: number
