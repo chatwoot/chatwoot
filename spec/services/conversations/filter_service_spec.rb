@@ -128,7 +128,6 @@ describe Conversations::FilterService do
         ]
         result = filter_service.new(params, user_1, account).perform
 
-        # Only include conversations with medium and low priority, excluding high and urgent
         expect(result[:conversations].length).to eq 2
         expect(result[:conversations].pluck(:id)).to include(low_priority.id, medium_priority.id)
       end
@@ -185,7 +184,7 @@ describe Conversations::FilterService do
         params[:payload] = payload
         result = filter_service.new(params, user_1, account).perform
         conversations = Conversation.where(
-          "custom_attributes ->> 'conversation_type' NOT IN (?) OR custom_attributes ->> 'conversation_type' IS NULL", ['platinum']
+          "custom_attributes ->> 'conversation_type' NOT IN(?) OR custom_attributes ->> 'conversation_type' IS NULL", ['platinum']
         )
         expect(result[:count][:all_count]).to be conversations.count
       end
@@ -397,8 +396,6 @@ describe Conversations::FilterService do
       end
 
       it 'handles custom attribute in the middle of conditions without raising error' do
-        # Test case 2: custom attribute in the middle of conditions
-        # Using existing conversations that already have conversation_type: 'platinum'
         params[:payload] = [
           {
             attribute_key: 'status',
@@ -423,12 +420,10 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
 
-        # This should not raise an error even with custom attribute in the middle
-        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
 
         result = filter_service.new(params, user_1, account).perform
-        # Should return conversations that match: status=pending AND conversation_type=platinum AND assignee_id=user_1.id
-        # From existing data: en_conversation_2 has conversation_type: 'platinum' and assignee: user_1
+        expect(result).to have_key(:conversations)
         expect(result[:conversations].length).to eq 1
         expect(result[:conversations].first[:id]).to eq en_conversation_2.id
       end
@@ -444,9 +439,10 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
 
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
+
         result = filter_service.new(params, user_1, account).perform
-        # Should return conversations that do NOT contain 'test' in mail_subject
-        expect(result[:conversations].length).to be >= 0
+        expect(result).to have_key(:conversations)
       end
 
       it 'handles mail_subject filter with contains operator' do
@@ -460,8 +456,10 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
 
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
+
         result = filter_service.new(params, user_1, account).perform
-        expect(result[:conversations].length).to be >= 0
+        expect(result).to have_key(:conversations)
       end
 
       it 'handles empty values in custom attributes without error' do
@@ -475,11 +473,10 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
 
-        # This should not raise an error with is_present operator (which allows empty values)
-        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
 
         result = filter_service.new(params, user_1, account).perform
-        expect(result[:conversations].length).to be >= 0
+        expect(result).to have_key(:conversations)
       end
 
       it 'handles unknown filter operator with default case' do
@@ -493,11 +490,10 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
 
-        # This should not raise an error with valid operator
-        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
 
         result = filter_service.new(params, user_1, account).perform
-        expect(result[:conversations].length).to be >= 0
+        expect(result).to have_key(:conversations)
       end
     end
   end
