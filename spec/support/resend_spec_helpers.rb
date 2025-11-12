@@ -130,6 +130,14 @@ module ResendSpecHelpers
   def stub_resend_attachment_download(download_url:, content: nil, status: 200)
     content ||= sample_attachment_content
 
+    # Stub HEAD request for size check
+    stub_request(:head, download_url)
+      .to_return(
+        status: 200,
+        headers: { 'Content-Length' => content.bytesize.to_s }
+      )
+
+    # Stub GET request for actual download
     stub_request(:get, download_url)
       .to_return(
         status: status,

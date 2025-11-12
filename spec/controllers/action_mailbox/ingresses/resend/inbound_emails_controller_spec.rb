@@ -272,7 +272,7 @@ RSpec.describe ActionMailbox::Ingresses::Resend::InboundEmailsController, type: 
         request.headers.merge!(svix_headers(valid: true))
 
         expect(ActionMailbox::InboundEmail).to receive(:create_and_extract_message_id!).with(
-          a_string_not_matching(%r{data:image/png;base64})
+          a_string_excluding('data:image/png;base64')
         )
 
         post :create, body: webhook_payload.to_json
@@ -289,7 +289,7 @@ RSpec.describe ActionMailbox::Ingresses::Resend::InboundEmailsController, type: 
         request.headers.merge!(svix_headers(valid: true))
 
         expect(ActionMailbox::InboundEmail).to receive(:create_and_extract_message_id!).with(
-          a_string_including('MIME-Version: 1.0')
+          a_string_matching(/Mime-Version: 1\.0/i)
         )
 
         post :create, body: webhook_payload.to_json
@@ -393,11 +393,13 @@ RSpec.describe ActionMailbox::Ingresses::Resend::InboundEmailsController, type: 
         post :create, body: webhook_payload.to_json
       end
 
-      it 'includes BCC header' do
+      it 'does not include BCC header in RFC822 message' do
         request.headers.merge!(svix_headers(valid: true))
 
+        # BCC headers should NOT appear in the final RFC822 message per RFC 5322
+        # The Mail gem correctly strips BCC to maintain the "blind" nature of blind carbon copy
         expect(ActionMailbox::InboundEmail).to receive(:create_and_extract_message_id!).with(
-          a_string_matching(/Bcc: bcc@example\.com/)
+          a_string_excluding('Bcc:')
         )
 
         post :create, body: webhook_payload.to_json
