@@ -31,27 +31,21 @@ describe('HealthController (HTTP)', () => {
     });
 
     it('should check database health', async () => {
-      const response = await request(getHttpServer(app))
-        .get('/health')
-        .expect(200);
+      const response = await request(getHttpServer(app)).get('/health').expect(200);
 
       // Should have database check in details
       expect(response.body.details).toHaveProperty('database');
     });
 
     it('should check redis health', async () => {
-      const response = await request(getHttpServer(app))
-        .get('/health')
-        .expect(200);
+      const response = await request(getHttpServer(app)).get('/health').expect(200);
 
       // Should have redis check in details (may be down if Redis unavailable)
       expect(response.body.details).toHaveProperty('redis');
     });
 
     it('should check memory health', async () => {
-      const response = await request(getHttpServer(app))
-        .get('/health')
-        .expect(200);
+      const response = await request(getHttpServer(app)).get('/health').expect(200);
 
       // Should have memory checks
       expect(response.body.details).toHaveProperty('memory_heap');
@@ -59,9 +53,7 @@ describe('HealthController (HTTP)', () => {
     });
 
     it('should check disk health', async () => {
-      const response = await request(getHttpServer(app))
-        .get('/health')
-        .expect(200);
+      const response = await request(getHttpServer(app)).get('/health').expect(200);
 
       // Should have disk check
       expect(response.body.details).toHaveProperty('disk');
@@ -80,9 +72,7 @@ describe('HealthController (HTTP)', () => {
     });
 
     it('should always return ok for liveness (app is running)', async () => {
-      const response = await request(getHttpServer(app))
-        .get('/health/live')
-        .expect(200);
+      const response = await request(getHttpServer(app)).get('/health/live').expect(200);
 
       // Liveness just checks if app is running, so should always be ok
       expect(response.body.status).toBe('ok');
@@ -101,18 +91,14 @@ describe('HealthController (HTTP)', () => {
     });
 
     it('should check database for readiness', async () => {
-      const response = await request(getHttpServer(app))
-        .get('/health/ready')
-        .expect(200);
+      const response = await request(getHttpServer(app)).get('/health/ready').expect(200);
 
       // Readiness should check database
       expect(response.body.details).toHaveProperty('database');
     });
 
     it('should check redis for readiness', async () => {
-      const response = await request(getHttpServer(app))
-        .get('/health/ready')
-        .expect(200);
+      const response = await request(getHttpServer(app)).get('/health/ready').expect(200);
 
       // Readiness should check redis
       expect(response.body.details).toHaveProperty('redis');
@@ -121,15 +107,11 @@ describe('HealthController (HTTP)', () => {
 
   describe('Error Handling', () => {
     it('should return 404 for non-existent health endpoint', async () => {
-      await request(getHttpServer(app))
-        .get('/health/nonexistent')
-        .expect(404);
+      await request(getHttpServer(app)).get('/health/nonexistent').expect(404);
     });
 
     it('should handle OPTIONS requests for CORS', async () => {
-      await request(getHttpServer(app))
-        .options('/health')
-        .expect(200);
+      await request(getHttpServer(app)).options('/health').expect(200);
     });
   });
 });

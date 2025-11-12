@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+cd chatwoot-typescript
+echo "Running tests before push..."
+pnpm test:cov

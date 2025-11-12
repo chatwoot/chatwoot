@@ -1,0 +1,76 @@
+name: Lint
+
+on:
+  push:
+    branches: [main, develop, claude/**]
+    paths:
+      - 'chatwoot-typescript/**'
+      - '.github/workflows/lint.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'chatwoot-typescript/**'
+
+defaults:
+  run:
+    working-directory: ./chatwoot-typescript
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+          cache: 'pnpm'
+          cache-dependency-path: 'chatwoot-typescript/pnpm-lock.yaml'
+
+      - name: Install pnpm
+        run: npm install -g pnpm@10.20.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm lint
+
+      - name: Run Prettier check
+        run: pnpm format:check
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+          cache: 'pnpm'
+          cache-dependency-path: 'chatwoot-typescript/pnpm-lock.yaml'
+
+      - name: Install pnpm
+        run: npm install -g pnpm@10.20.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: dist
+          path: chatwoot-typescript/dist/
+          retention-days: 1

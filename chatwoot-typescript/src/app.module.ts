@@ -17,10 +17,7 @@ import { HealthModule } from './modules/health.module';
       isGlobal: true,
       load: configurations,
       validate,
-      envFilePath:
-        process.env.NODE_ENV === 'test'
-          ? ['.env.test', '.env']
-          : ['.env.local', '.env'],
+      envFilePath: process.env.NODE_ENV === 'test' ? ['.env.test', '.env'] : ['.env.local', '.env'],
       cache: true,
     }),
     WinstonModule.forRootAsync({

@@ -27,10 +27,7 @@ describe('Supertest Sanity Test', () => {
     });
 
     const testData = { name: 'test', value: 123 };
-    const response = await request(app)
-      .post('/echo')
-      .send(testData)
-      .expect(200);
+    const response = await request(app).post('/echo').send(testData).expect(200);
 
     expect(response.body).toEqual(testData);
   });
@@ -44,9 +41,7 @@ describe('Supertest Sanity Test', () => {
   it('should be able to check response headers', async () => {
     const app = express();
     app.get('/headers', (req, res) => {
-      res
-        .header('X-Custom-Header', 'test-value')
-        .json({ success: true });
+      res.header('X-Custom-Header', 'test-value').json({ success: true });
     });
 
     const response = await request(app)

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd chatwoot-typescript
+npx lint-staged
