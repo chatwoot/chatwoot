@@ -66,6 +66,7 @@ module ActionMailbox::Ingresses::Resend
 
       Rails.logger.warn('Resend webhook: Invalid signature')
       head :unauthorized
+      false # Halt the filter chain
     end
 
     def valid_signature?(body, headers)
