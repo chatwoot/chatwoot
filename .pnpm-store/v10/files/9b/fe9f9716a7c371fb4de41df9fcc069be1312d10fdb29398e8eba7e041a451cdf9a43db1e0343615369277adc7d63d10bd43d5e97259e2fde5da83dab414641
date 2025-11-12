@@ -1,0 +1,172 @@
+{
+  "name": "libphonenumber-js",
+  "version": "1.11.9",
+  "description": "A simpler (and smaller) rewrite of Google Android's libphonenumber library in javascript",
+  "main": "index.cjs",
+  "module": "index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./min": {
+      "import": "./min/index.js",
+      "require": "./min/index.cjs"
+    },
+    "./max": {
+      "import": "./max/index.js",
+      "require": "./max/index.cjs"
+    },
+    "./mobile": {
+      "import": "./mobile/index.js",
+      "require": "./mobile/index.cjs"
+    },
+    "./core": {
+      "import": "./core/index.js",
+      "require": "./core/index.cjs"
+    },
+    "./min/metadata": {
+      "import": "./metadata.min.json.js",
+      "require": "./metadata.min.json"
+    },
+    "./metadata.min": {
+      "import": "./metadata.min.json.js",
+      "require": "./metadata.min.json"
+    },
+    "./metadata.min.json": {
+      "import": "./metadata.min.json.js",
+      "require": "./metadata.min.json"
+    },
+    "./metadata.full": {
+      "import": "./metadata.max.json.js",
+      "require": "./metadata.max.json"
+    },
+    "./metadata.full.json": {
+      "import": "./metadata.max.json.js",
+      "require": "./metadata.max.json"
+    },
+    "./max/metadata": {
+      "import": "./metadata.max.json.js",
+      "require": "./metadata.max.json"
+    },
+    "./metadata.max": {
+      "import": "./metadata.max.json.js",
+      "require": "./metadata.max.json"
+    },
+    "./metadata.max.json": {
+      "import": "./metadata.max.json.js",
+      "require": "./metadata.max.json"
+    },
+    "./mobile/metadata": {
+      "import": "./metadata.mobile.json.js",
+      "require": "./metadata.mobile.json"
+    },
+    "./metadata.mobile": {
+      "import": "./metadata.mobile.json.js",
+      "require": "./metadata.mobile.json"
+    },
+    "./metadata.mobile.json": {
+      "import": "./metadata.mobile.json.js",
+      "require": "./metadata.mobile.json"
+    },
+    "./mobile/examples": {
+      "import": "./examples.mobile.json.js",
+      "require": "./examples.mobile.json"
+    },
+    "./examples.mobile": {
+      "import": "./examples.mobile.json.js",
+      "require": "./examples.mobile.json"
+    },
+    "./examples.mobile.json": {
+      "import": "./examples.mobile.json.js",
+      "require": "./examples.mobile.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.12",
+    "@babel/plugin-syntax-import-assertions": "^7.18.6",
+    "@babel/plugin-transform-for-of": "^7.17.12",
+    "@babel/preset-env": "^7.17.12",
+    "@babel/register": "^7.17.7",
+    "babel-plugin-istanbul": "^6.1.1",
+    "chai": "^4.3.6",
+    "cpy-cli": "^5.0.0",
+    "crlf": "^1.1.1",
+    "cross-env": "^7.0.3",
+    "istanbul": "^1.1.0-alpha.1",
+    "libphonenumber-metadata-generator": "^1.0.2",
+    "minimist": "^1.2.6",
+    "mocha": "^10.0.0",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
+    "renamer": "^4.0.0",
+    "replace-in-file": "^7.0.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.73.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "scripts": {
+    "metadata:update:job": "git reset --hard && git pull && npm install && npm run metadata:update:release",
+    "metadata:pull-request": "node runnable/metadata-pull-request",
+    "metadata:branch": "node runnable/metadata-branch",
+    "metadata:unbranch": "node runnable/metadata-unbranch",
+    "metadata:publish": "npm version patch && npm publish && git push",
+    "metadata:update:release": "npm run metadata:download && node runnable/metadata-update-and-release",
+    "metadata:update:branch": "npm run metadata:branch && npm run metadata:download && node runnable/metadata-update-and-push",
+    "metadata:update:pull-request": "npm run metadata:branch && npm run metadata:download && node runnable/metadata-update-and-push-and-pull-request",
+    "metadata:generate": "npm-run-all metadata:generate:min metadata:generate:full metadata:generate:max metadata:generate:mobile metadata:generate:min:js metadata:generate:full:js metadata:generate:max:js metadata:generate:mobile:js metadata:generate:mobile:examples:js",
+    "metadata:generate:min": "node runnable/generate ../PhoneNumberMetadata.xml ../metadata.min.json --examples mobile",
+    "metadata:generate:full": "node runnable/generate ../PhoneNumberMetadata.xml ../metadata.full.json --extended --debug",
+    "metadata:generate:max": "node runnable/generate ../PhoneNumberMetadata.xml ../metadata.max.json --extended --debug",
+    "metadata:generate:mobile": "node runnable/generate ../PhoneNumberMetadata.xml ../metadata.mobile.json --types mobile",
+    "metadata:generate:min:js": "node runnable/json-to-js ./metadata.min.json",
+    "metadata:generate:full:js": "node runnable/json-to-js ./metadata.full.json",
+    "metadata:generate:max:js": "node runnable/json-to-js ./metadata.max.json",
+    "metadata:generate:mobile:js": "node runnable/json-to-js ./metadata.mobile.json",
+    "metadata:generate:mobile:examples:js": "node runnable/json-to-js ./examples.mobile.json",
+    "metadata:download": "node runnable/download https://raw.githubusercontent.com/googlei18n/libphonenumber/master/resources/PhoneNumberMetadata.xml PhoneNumberMetadata.xml",
+    "generate-country-codes": "node --experimental-json-modules runnable/generate-country-codes",
+    "test": "node --experimental-json-modules node_modules/mocha/bin/_mocha --colors --bail --reporter spec --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\" --recursive",
+    "test-coverage": "npm-run-all build:commonjs test-coverage:commonjs",
+    "test-coverage:commonjs": "node --experimental-json-modules node_modules/istanbul/lib/cli.js cover -x \"*.test.js\" -x \"build/findNumbers/Leniency.js\" -x \"build/findNumbers/matchPhoneNumberStringAgainstPhoneNumber.js\" -x \"build/findNumbers/RegExpCache.js\" -x \"build/findNumbers/LRUCache.js\" -x \"build/PhoneNumberMatcher.js\" -x \"build/tools/semver-compare.js\" node_modules/mocha/bin/_mocha -- --colors --reporter dot --require ./test/setup.js \"build/**/*.test.js\" --recursive",
+    "test-coverage--does-not-work-with-es-modules": "node --experimental-json-modules node_modules/istanbul/lib/cli.js cover -x \"build/**\" -x \"es6/**\" -x \"*.test.js\" -x \"source/findNumbers/Leniency.js\" -x \"source/findNumbers/matchPhoneNumberStringAgainstPhoneNumber.js\" -x \"source/findNumbers/RegExpCache.js\" -x \"source/findNumbers/LRUCache.js\" -x \"source/PhoneNumberMatcher.js\" -x \"source/tools/semver-compare.js\" node_modules/mocha/bin/_mocha -- --colors --reporter dot --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\" --recursive",
+    "test-coverage--nyc--does-not-work-with-es-modules": "cross-env nyc node --experimental-json-modules node_modules/mocha/bin/_mocha --bail --require @babel/register --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
+    "coveralls--nyc-is-very-slow-and-is-not-used": "nyc report --reporter=text-lcov | coveralls",
+    "test-travis": "node --experimental-json-modules node_modules/istanbul/lib/cli.js cover -x \"build/**\" -x \"es6/**\" -x \"*.test.js\" -x \"source/findNumbers/Leniency.js\" -x \"source/findNumbers/matchPhoneNumberStringAgainstPhoneNumber.js\" -x \"source/findNumbers/RegExpCache.js\" -x \"source/findNumbers/LRUCache.js\" -x \"source/PhoneNumberMatcher.js\" -x \"source/tools/semver-compare.js\" node_modules/mocha/bin/_mocha --report lcovonly -- --colors --reporter spec --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\" --recursive",
+    "clean": "rimraf ./build/**/* ./es6/**/*",
+    "build:commonjs": "npm-run-all build:commonjs:with-tests build:commonjs:package.json build:commonjs:create-typescript-definitions build:commonjs:patch-typescript-definitions",
+    "build:commonjs:before-es-modules": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./build --source-maps --ignore test.js",
+    "build:commonjs:with-tests": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./build --source-maps",
+    "build:commonjs:package.json": "node runnable/create-commonjs-package-json.js",
+    "build:commonjs:create-typescript-definitions": "rimraf --verbose --glob ./*.d.cts \"./!(node_modules)/**/*.d.cts\" && cpy **/{index,metadata*,examples*,types}.d.ts . --rename={{basename}}.cts && renamer --find d.cts.ts --replace d.cts ./*.d.cts.ts \"./!(node_modules)/**/*.d.cts.ts\"",
+    "build:commonjs:patch-typescript-definitions": "replace-in-file \".d.js';\" \".d.cjs';\" **/*.d.cts",
+    "build:modules:copy-typescript-definitions": "cpy --flat min/index.d.ts max && cpy --flat min/index.d.ts mobile",
+    "build:modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./es6 --source-maps --ignore test.js",
+    "build:bundle": "rollup --config rollup.config.mjs",
+    "build": "npm-run-all clean build:modules:copy-typescript-definitions build:modules build:commonjs build:bundle",
+    "prepublishOnly": "npm run metadata:generate && npm run generate-country-codes && crlf --set=LF metadata.*.json && npm-run-all build test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/catamphetamine/libphonenumber-js.git"
+  },
+  "keywords": [
+    "telephone",
+    "phone",
+    "number",
+    "input",
+    "mobile",
+    "libphonenumber"
+  ],
+  "author": "catamphetamine <purecatamphetamine@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/catamphetamine/libphonenumber-js/issues"
+  },
+  "homepage": "https://gitlab.com/catamphetamine/libphonenumber-js#readme"
+}

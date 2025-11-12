@@ -1,0 +1,123 @@
+{
+  "name": "is-language-code",
+  "version": "3.1.0",
+  "description": "Is given string a language code (as per IANA)",
+  "keywords": [
+    "check",
+    "code",
+    "codes",
+    "iana",
+    "ietf",
+    "is",
+    "langref",
+    "language",
+    "lookup",
+    "registry",
+    "rfc",
+    "rfc 5646",
+    "seo",
+    "standards",
+    "valid",
+    "validate"
+  ],
+  "homepage": "https://codsen.com/os/is-language-code/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codsen/codsen.git",
+    "directory": "packages/is-language-code"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Roy Revelt",
+    "email": "roy@codsen.com",
+    "url": "https://codsen.com"
+  },
+  "main": "dist/is-language-code.cjs.js",
+  "module": "dist/is-language-code.esm.js",
+  "browser": "dist/is-language-code.umd.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "esbuild": "node '../../scripts/esbuild.js'",
+    "esbuild_dev": "cross-env MODE=dev node '../../scripts/esbuild.js'",
+    "ci_test": "npm run build && npm run format && tap --no-only --reporter=silent --output-file=testStats.md && npm run clean_cov",
+    "dev": "rollup -c --dev",
+    "devunittest": "npm run dev && tap --only -R 'base'",
+    "format": "npm run lect && npm run prettier && npm run lint",
+    "lect": "lect",
+    "lint": "../../node_modules/eslint/bin/eslint.js . --ext .js --ext .ts --fix --config \"../../.eslintrc.json\" --quiet",
+    "perf": "node perf/check",
+    "prettier": "../../node_modules/prettier/bin-prettier.js '*.{js,css,scss,vue,md,ts}' --write --loglevel silent",
+    "republish": "npm publish || :",
+    "tap": "tap",
+    "tsc": "tsc",
+    "pretest": "npm run build",
+    "test": "npm run lint && npm run unittest && npm run test:examples && npm run clean_cov && npm run format",
+    "test:examples": "../../scripts/test-examples.js && npm run lect && npm run prettier",
+    "unittest": "./node_modules/.bin/tap --no-only --output-file=testStats.md --reporter=terse && tsc -p tsconfig.json --noEmit && npm run clean_cov && npm run perf",
+    "clean_cov": "../../scripts/leaveCoverageTotalOnly.js",
+    "clean_types": "../../scripts/cleanTypes.js"
+  },
+  "tap": {
+    "coverage-report": [
+      "json-summary",
+      "text"
+    ],
+    "nyc-arg": [
+      "--exclude=**/*.cjs.js",
+      "--exclude=**/*.umd.js"
+    ],
+    "timeout": 0
+  },
+  "lect": {
+    "licence": {
+      "extras": [
+        ""
+      ]
+    },
+    "req": "{ isLangCode }",
+    "various": {
+      "devDependencies": []
+    }
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.14.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/node": "^7.14.2",
+    "@babel/plugin-external-helpers": "^7.12.13",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.14.2",
+    "@babel/plugin-proposal-optional-chaining": "^7.14.2",
+    "@babel/plugin-transform-runtime": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "@babel/preset-typescript": "^7.13.0",
+    "@babel/register": "^7.13.16",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@rollup/plugin-strip": "^2.0.1",
+    "@rollup/plugin-typescript": "^8.2.1",
+    "@types/node": "^15.6.0",
+    "@types/tap": "^15.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "core-js": "^3.12.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.27.0",
+    "lect": "^0.17.0",
+    "rollup": "^2.49.0",
+    "rollup-plugin-ascii": "^0.0.3",
+    "rollup-plugin-banner": "^0.2.1",
+    "rollup-plugin-cleanup": "^3.2.1",
+    "rollup-plugin-dts": "^3.0.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "tap": "^14.11.0",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
+  }
+}

@@ -1,0 +1,13 @@
+@startuml
+
+state "Download Segment" as DL
+state "Prepare for Append" as PfA
+
+[*] -> DL
+DL -> PfA
+PfA : transmux (if needed)
+PfA -> Append
+Append : MSE source buffer
+Append -> [*]
+
+@enduml

@@ -1,0 +1,1042 @@
+/* packages/themes/src/css/genesis/variables.css */
+:root {
+  --formkit-theme: genesis;
+  --fk-font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --fk-font-family-input: var(--fk-font-family);
+  --fk-font-family-label: var(--fk-font-family);
+  --fk-font-family-legend: var(--fk-font-family-label);
+  --fk-font-family-option: var(--fk-font-family-input);
+  --fk-font-family-help: var(--fk-font-family);
+  --fk-font-family-message: var(--fk-font-family);
+  --fk-font-weight: 400;
+  --fk-font-weight-input: var(--fk-font-weight);
+  --fk-font-weight-label: 700;
+  --fk-font-weight-legend: var(--fk-font-weight-label, bold);
+  --fk-font-weight-help: var(--fk-font-weight);
+  --fk-font-weight-option: var(--fk-font-weight);
+  --fk-font-weight-message: var(--fk-font-weight);
+  --fk-font-size: 1em;
+  --fk-font-size-input: var(--fk-font-size);
+  --fk-font-size-label: 0.875em;
+  --fk-font-size-legend: 0.875em;
+  --fk-font-size-help: 0.8125em;
+  --fk-font-size-remove: 0.8125em;
+  --fk-font-size-option: 0.9em;
+  --fk-font-size-message: 0.8125em;
+  --fk-font-size-button: 0.875em;
+  --fk-font-size-summary: 1.25em;
+  --fk-line-height: 1.1;
+  --fk-line-height-label: var(--fk-line-height);
+  --fk-line-height-help: var(--fk-line-height);
+  --fk-line-height-option: var(--fk-line-height);
+  --fk-line-height-message: var(--fk-line-height);
+  --fk-line-height-textarea: var(--fk-line-height);
+  --fk-line-height-input: 1.125em;
+  --fk-line-height-button: 1.3;
+  --fk-max-width-input: 25em;
+  --fk-box-size: 1.25em;
+  --fk-color-primary: #006ff9;
+  --fk-color-checked: var(--fk-color-primary);
+  --fk-color-input: #000;
+  --fk-color-input-selection: rgba(0, 122, 255, 25%);
+  --fk-color-border: #94929c;
+  --fk-color-border-focus: var(--fk-color-primary);
+  --fk-color-danger: #ea0000;
+  --fk-color-error: var(--fk-color-danger);
+  --fk-color-placeholder: #767676;
+  --fk-color-disabled: rgba(0 0 0 / 10%);
+  --fk-color-help: rgba(0 0 0 / 60%);
+  --fk-color-icon: rgba(0 0 0 / 80%);
+  --fk-color-icon-minor: rgba(0 0 0 / 55%);
+  --fk-color-button: #fff;
+  --fk-color-button-hover: #fff;
+  --fk-color-submit: var(--fk-color-button);
+  --fk-color-submit-hover: var(--fk-color-button-hover);
+  --fk-color-range-track: var(--fk-color-border);
+  --fk-color-range-thumb: var(--fk-color-primary);
+  --fk-focus-ring-color: rgb(50 100 203 / 31%);
+  --fk-error-ring-color: rgb(235 0 0 / 60%);
+  --fk-error-ring-focus-color: rgb(235 0 0 / 30%);
+  --fk-bg-input: transparent;
+  --fk-bg-disabled: rgba(0 0 0 / 5%);
+  --fk-bg-decorator:
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.07),
+      transparent);
+  --fk-bg-button: var(--fk-color-primary);
+  --fk-bg-button-hover: var(--fk-bg-button);
+  --fk-bg-submit: var(--fk-bg-button);
+  --fk-bg-submit-hover: var(--fk-bg-submit);
+  --fk-border-width: 1px;
+  --fk-border-width-decorator: var(--fk-border-width);
+  --fk-border-width-focus: 2px;
+  --fk-border-width-checked: 1px;
+  --fk-border-width-decorator-checked: 2px;
+  --fk-border-width-decorator-focus: var(--fk-border-width-decorator-checked);
+  --fk-border-width-decorator-focus-visible: var(--fk-border-width-focus);
+  --fk-border-style: solid;
+  --fk-border: var(--fk-border-width) var(--fk-border-style) var(--fk-color-border);
+  --fk-border-focus: var(--fk-border-width-focus) var(--fk-border-style) var(--fk-color-border-focus);
+  --fk-border-decorator: var(--fk-border-width-decorator) var(--fk-border-style) var(--fk-color-border);
+  --fk-border-decorator-focus: var(--fk-border-width-focus) var(--fk-border-style) var(--fk-color-border-focus);
+  --fk-border-decorator-focus-visible: var(--fk-border-width-decorator-focus-visible) var(--fk-border-style) var(--fk-color-border-focus);
+  --fk-border-decorator-checked: var(--fk-border-width-checked) var(--fk-border-style) var(--fk-color-border-focus);
+  --fk-border-box-shadow: 0 0 0 var(--fk-border-width) var(--fk-color-border);
+  --fk-border-box-shadow-focus: 0 0 0 var(--fk-border-width-focus) var(--fk-color-border-focus);
+  --fk-border-box-shadow-decorator: 0 0 0 var(--fk-border-width-decorator);
+  --fk-border-box-shadow-decorator-focus: 0 0 0 var(--fk-border-width-decorator-focus) var(--fk-color-border-focus);
+  --fk-border-box-shadow-decorator-focus-visible: 0 0 0 var(--fk-border-width-decorator-focus-visible) var(--fk-color-border-focus);
+  --fk-border-box-shadow-decorator-checked: 0 0 0 var(--fk-border-width-decorator-checked) var(--fk-color-border-focus);
+  --fk-border-box-shadow-invalid: 0 0 0 var(--fk-border-width-decorator-focus-visible) var(--fk-error-ring-color);
+  --fk-border-radius-tl: 0.25em;
+  --fk-border-radius-tr: 0.25em;
+  --fk-border-radius-bl: 0.25em;
+  --fk-border-radius-br: 0.25em;
+  --fk-border-radius: var(--fk-border-radius-tl, 0.25em) var(--fk-border-radius-tr, 0.25em) var(--fk-border-radius-br, 0.25em) var(--fk-border-radius-bl, 0.25em);
+  --fk-border-radius-full: 999em;
+  --fk-focus-ring: 0.25em;
+  --fk-error-ring: 3px;
+  --fk-error-ring-offset: 2px;
+  --fk-padding-base: 0.25em;
+  --fk-padding-input-x: calc(var(--fk-padding-base) * 3);
+  --fk-padding-input-y: calc(var(--fk-padding-base) * 3);
+  --fk-padding-input-t: var(--fk-padding-input-y, 0);
+  --fk-padding-input-r: var(--fk-padding-input-x, 0);
+  --fk-padding-input-b: var(--fk-padding-input-y, 0);
+  --fk-padding-input-l: var(--fk-padding-input-x, 0);
+  --fk-padding-input: var(--fk-padding-input-t) var(--fk-padding-input-r) var(--fk-padding-input-b) var(--fk-padding-input-l);
+  --fk-padding-label-x: inherit;
+  --fk-padding-label-y: inherit;
+  --fk-padding-label-t: var(--fk-padding-label-y, 0);
+  --fk-padding-label-r: var(--fk-padding-label-x, 0);
+  --fk-padding-label-b: var(--fk-padding-label-y, 0.5em);
+  --fk-padding-label-l: var(--fk-padding-label-x, 0);
+  --fk-padding-label: var(--fk-padding-label-t) var(--fk-padding-label-r) var(--fk-padding-label-b) var(--fk-padding-label-l);
+  --fk-padding-help-x: inherit;
+  --fk-padding-help-y: var(--fk-padding-base);
+  --fk-padding-help-t: var(--fk-padding-help-y, 0);
+  --fk-padding-help-r: var(--fk-padding-help-x, 0);
+  --fk-padding-help-b: var(--fk-padding-help-y, 0);
+  --fk-padding-help-l: var(--fk-padding-help-x, 0);
+  --fk-padding-help: var(--fk-padding-help-t) var(--fk-padding-help-r) var(--fk-padding-help-b) var(--fk-padding-help-l);
+  --fk-padding-option-x: inherit;
+  --fk-padding-option-y: inherit;
+  --fk-padding-option-t: var(--fk-padding-option-y, 0);
+  --fk-padding-option-r: var(--fk-padding-option-x, 0);
+  --fk-padding-option-b: var(--fk-padding-option-y, 0);
+  --fk-padding-option-l: var(--fk-padding-option-x, 0);
+  --fk-padding-option: var(--fk-padding-option-t) var(--fk-padding-option-r) var(--fk-padding-option-b) var(--fk-padding-option-l);
+  --fk-padding-messages-x: inherit;
+  --fk-padding-messages-y: inherit;
+  --fk-padding-messages-t: var(--fk-padding-messages-y, var(--fk-padding-base));
+  --fk-padding-messages-r: var(--fk-padding-messages-x, 0);
+  --fk-padding-messages-b: var(--fk-padding-messages-y, 0);
+  --fk-padding-messages-l: var(--fk-padding-messages-x, 0);
+  --fk-padding-messages: var(--fk-padding-messages-t) var(--fk-padding-messages-r) var(--fk-padding-messages-b) var(--fk-padding-messages-l);
+  --fk-padding-message-x: inherit;
+  --fk-padding-message-y: var(--fk-padding-base);
+  --fk-padding-message-t: var(--fk-padding-message-y, 0);
+  --fk-padding-message-r: var(--fk-padding-message-x, 0);
+  --fk-padding-message-b: var(--fk-padding-message-y, 0);
+  --fk-padding-message-l: var(--fk-padding-message-x, 0);
+  --fk-padding-message: var(--fk-padding-message-t) var(--fk-padding-message-r) var(--fk-padding-message-b) var(--fk-padding-message-l);
+  --fk-padding-legend-x: 0.25em;
+  --fk-padding-legend-y: 0.25em;
+  --fk-padding-legend-t: var(--fk-padding-legend-y);
+  --fk-padding-legend-r: var(--fk-padding-legend-x);
+  --fk-padding-legend-b: var(--fk-padding-legend-y);
+  --fk-padding-legend-l: var(--fk-padding-legend-x);
+  --fk-padding-legend: var(--fk-padding-legend-t) var(--fk-padding-legend-r) var(--fk-padding-legend-b) var(--fk-padding-legend-l);
+  --fk-padding-fieldset-x: var(--fk-padding-input-x);
+  --fk-padding-fieldset-y: var(--fk-padding-input-y);
+  --fk-padding-fieldset-t: var(--fk-padding-fieldset-y);
+  --fk-padding-fieldset-r: var(--fk-padding-fieldset-x);
+  --fk-padding-fieldset-b: var(--fk-padding-fieldset-y);
+  --fk-padding-fieldset-l: var(--fk-padding-fieldset-x);
+  --fk-padding-fieldset: var(--fk-padding-fieldset-t) var(--fk-padding-fieldset-r) var(--fk-padding-fieldset-b) var(--fk-padding-fieldset-l);
+  --fk-padding-decorator-x: inherit;
+  --fk-padding-decorator-y: var(--fk-padding-base);
+  --fk-padding-decorator-t: var(--fk-padding-decorator-y, 1.25em);
+  --fk-padding-decorator-r: var(--fk-padding-decorator-x, 1.25em);
+  --fk-padding-decorator-b: var(--fk-padding-decorator-y, 1.25em);
+  --fk-padding-decorator-l: var(--fk-padding-decorator-x, 1.25em);
+  --fk-padding-decorator: var(--fk-padding-decorator-t) var(--fk-padding-decorator-r) var(--fk-padding-decorator-b) var(--fk-padding-decorator-l);
+  --fk-padding-button-x: calc(var(--fk-padding-base) * 8);
+  --fk-padding-button-y: calc(var(--fk-padding-base) * 3);
+  --fk-padding-button-t: var(--fk-padding-button-y);
+  --fk-padding-button-r: var(--fk-padding-button-x);
+  --fk-padding-button-b: var(--fk-padding-button-y);
+  --fk-padding-button-l: var(--fk-padding-button-x);
+  --fk-padding-button: var(--fk-padding-button-t) var(--fk-padding-button-r) var(--fk-padding-button-b) var(--fk-padding-button-l);
+  --fk-margin-base: 0.5em;
+  --fk-margin-outer-x: inherit;
+  --fk-margin-outer-y: inherit;
+  --fk-margin-outer-t: var(--fk-margin-outer-y, 0);
+  --fk-margin-outer-r: var(--fk-margin-outer-x, 0);
+  --fk-margin-outer-b: var(--fk-margin-outer-y, calc(var(--fk-margin-base) * 2));
+  --fk-margin-outer-l: var(--fk-margin-outer-x, 0);
+  --fk-margin-outer: var(--fk-margin-outer-t) var(--fk-margin-outer-r) var(--fk-margin-outer-b) var(--fk-margin-outer-l);
+  --fk-margin-wrapper-x: inherit;
+  --fk-margin-wrapper-y: inherit;
+  --fk-margin-wrapper-t: var(--fk-margin-wrapper-y, 0);
+  --fk-margin-wrapper-r: var(--fk-margin-wrapper-x, 0);
+  --fk-margin-wrapper-b: var(--fk-margin-wrapper-y, 0);
+  --fk-margin-wrapper-l: var(--fk-margin-wrapper-x, 0);
+  --fk-margin-wrapper: var(--fk-margin-wrapper-t) var(--fk-margin-wrapper-r) var(--fk-margin-wrapper-b) var(--fk-margin-wrapper-l);
+  --fk-margin-input-x: inherit;
+  --fk-margin-input-y: inherit;
+  --fk-margin-input-t: var(--fk-margin-input-y, 0);
+  --fk-margin-input-r: var(--fk-margin-input-x, 0);
+  --fk-margin-input-b: var(--fk-margin-input-y, 0);
+  --fk-margin-input-l: var(--fk-margin-input-x, 0);
+  --fk-margin-input: var(--fk-margin-input-t) var(--fk-margin-input-r) var(--fk-margin-input-b) var(--fk-margin-input-l);
+  --fk-margin-label-x: inherit;
+  --fk-margin-label-y: 0;
+  --fk-margin-label-t: var(--fk-margin-label-y, 0);
+  --fk-margin-label-r: var(--fk-margin-label-x, 0);
+  --fk-margin-label-b: var(--fk-margin-label-y, var(--fk-margin-base));
+  --fk-margin-label-l: var(--fk-margin-label-x, 0);
+  --fk-margin-label: var(--fk-margin-label-t) var(--fk-margin-label-r) var(--fk-margin-label-b) var(--fk-margin-label-l);
+  --fk-margin-help-x: inherit;
+  --fk-margin-help-y: 0.3em;
+  --fk-margin-help-t: var(--fk-margin-help-y, 0);
+  --fk-margin-help-r: var(--fk-margin-help-x, 0);
+  --fk-margin-help-b: 0;
+  --fk-margin-help-l: var(--fk-margin-help-x, 0);
+  --fk-margin-help: var(--fk-margin-help-t) var(--fk-margin-help-r) var(--fk-margin-help-b) var(--fk-margin-help-l);
+  --fk-margin-option-x: inherit;
+  --fk-margin-option-y: inherit;
+  --fk-margin-option-t: var(--fk-margin-option-y, 0);
+  --fk-margin-option-r: var(--fk-margin-option-x, 0);
+  --fk-margin-option-b: var(--fk-margin-option-y, 0.625em);
+  --fk-margin-option-l: var(--fk-margin-option-x, 0);
+  --fk-margin-option: var(--fk-margin-option-t) var(--fk-margin-option-r) var(--fk-margin-option-b) var(--fk-margin-option-l);
+  --fk-margin-message-x: inherit;
+  --fk-margin-message-y: inherit;
+  --fk-margin-message-t: var(--fk-margin-message-y, 0);
+  --fk-margin-message-r: var(--fk-margin-message-x, 0);
+  --fk-margin-message-b: var(--fk-margin-message-y, 0);
+  --fk-margin-message-l: var(--fk-margin-message-x, 0);
+  --fk-margin-message: var(--fk-margin-message-t) var(--fk-margin-message-r) var(--fk-margin-message-b) var(--fk-margin-message-l);
+  --fk-margin-legend-x: 0em;
+  --fk-margin-legend-y: inherit;
+  --fk-margin-legend-t: var(--fk-margin-legend-y, 0);
+  --fk-margin-legend-r: var(--fk-margin-legend-x, 0);
+  --fk-margin-legend-b: var(--fk-margin-legend-y, 0);
+  --fk-margin-legend-l: var(--fk-margin-legend-x, 0);
+  --fk-margin-legend: var(--fk-margin-legend-t) var(--fk-margin-legend-r) var(--fk-margin-legend-b) var(--fk-margin-legend-l);
+  --fk-margin-fieldset-x: inherit;
+  --fk-margin-fieldset-y: inherit;
+  --fk-margin-fieldset-t: var(--fk-margin-fieldset-y, 0);
+  --fk-margin-fieldset-r: var(--fk-margin-fieldset-x, 0);
+  --fk-margin-fieldset-b: var(--fk-margin-fieldset-y, 0);
+  --fk-margin-fieldset-l: var(--fk-margin-fieldset-x, 0);
+  --fk-margin-fieldset: var(--fk-margin-fieldset-t) var(--fk-margin-fieldset-r) var(--fk-margin-fieldset-b) var(--fk-margin-fieldset-l);
+  --fk-margin-decorator-x: inherit;
+  --fk-margin-decorator-y: inherit;
+  --fk-margin-decorator-t: var(--fk-margin-decorator-y, 0);
+  --fk-margin-decorator-r: var(--fk-margin-decorator-x, 0.5em);
+  --fk-margin-decorator-b: var(--fk-margin-decorator-y, 0);
+  --fk-margin-decorator-l: var(--fk-margin-decorator-x, 0);
+  --fk-margin-decorator: var(--fk-margin-decorator-t) var(--fk-margin-decorator-r) var(--fk-margin-decorator-b) var(--fk-margin-decorator-l);
+  --fk-margin-button-x: inherit;
+  --fk-margin-button-y: inherit;
+  --fk-margin-button-t: var(--fk-margin-button-y, 0);
+  --fk-margin-button-r: var(--fk-margin-button-x, 0.5em);
+  --fk-margin-button-b: var(--fk-margin-button-y, 0);
+  --fk-margin-button-l: var(--fk-margin-button-x, 0);
+  --fk-margin-button: var(--fk-margin-button-t) var(--fk-margin-button-r) var(--fk-margin-button-b) var(--fk-margin-button-l);
+  --fk-icon-close: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMiAxNiI+PHBhdGggZD0iTTEwLDEyLjVjLS4xMywwLS4yNi0uMDUtLjM1LS4xNUwxLjY1LDQuMzVjLS4yLS4yLS4yLS41MSwwLS43MSwuMi0uMiwuNTEtLjIsLjcxLDBMMTAuMzUsMTEuNjVjLjIsLjIsLjIsLjUxLDAsLjcxLS4xLC4xLS4yMywuMTUtLjM1LC4xNVoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjxwYXRoIGQ9Ik0yLDEyLjVjLS4xMywwLS4yNi0uMDUtLjM1LS4xNS0uMi0uMi0uMi0uNTEsMC0uNzFMOS42NSwzLjY1Yy4yLS4yLC41MS0uMiwuNzEsMCwuMiwuMiwuMiwuNTEsMCwuNzFMMi4zNSwxMi4zNWMtLjEsLjEtLjIzLC4xNS0uMzUsLjE1WiIgZmlsbD0iY3VycmVudENvbG9yIi8+PC9zdmc+;
+  --fk-icon-down: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiA3Ij48cGF0aCBkPSJNOCw2LjVjLS4xMywwLS4yNi0uMDUtLjM1LS4xNUwzLjE1LDEuODVjLS4yLS4yLS4yLS41MSwwLS43MSwuMi0uMiwuNTEtLjIsLjcxLDBsNC4xNSw0LjE1TDEyLjE1LDEuMTVjLjItLjIsLjUxLS4yLC43MSwwLC4yLC4yLC4yLC41MSwwLC43MWwtNC41LDQuNWMtLjEsLjEtLjIzLC4xNS0uMzUsLjE1WiIgZmlsbD0iY3VycmVudENvbG9yIi8+PC9zdmc+;
+  --fk-icon-fileDoc: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNSAxNiI+PHBhdGggZD0iTTEyLjUsMTZIMi41Yy0uODMsMC0xLjUtLjY3LTEuNS0xLjVWMS41YzAtLjgzLC42Ny0xLjUsMS41LTEuNWg3LjA5Yy40LDAsLjc4LC4xNiwxLjA2LC40NGwyLjkxLDIuOTFjLjI4LC4yOCwuNDQsLjY2LC40NCwxLjA2VjE0LjVjMCwuODMtLjY3LDEuNS0xLjUsMS41Wk0yLjUsMWMtLjI4LDAtLjUsLjIyLS41LC41VjE0LjVjMCwuMjgsLjIyLC41LC41LC41SDEyLjVjLjI4LDAsLjUtLjIyLC41LS41VjQuNDFjMC0uMTMtLjA1LS4yNi0uMTUtLjM1bC0yLjkxLTIuOTFjLS4wOS0uMDktLjIyLS4xNS0uMzUtLjE1SDIuNVoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjxwYXRoIGQ9Ik0xMy4zOCw1aC0yLjkxYy0uODEsMC0xLjQ3LS42Ni0xLjQ3LTEuNDdWLjYyYzAtLjI4LC4yMi0uNSwuNS0uNXMuNSwuMjIsLjUsLjVWMy41M2MwLC4yNiwuMjEsLjQ3LC40NywuNDdoMi45MWMuMjgsMCwuNSwuMjIsLjUsLjVzLS4yMiwuNS0uNSwuNVoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjxwYXRoIGQ9Ik0xMCwxM0g1Yy0uMjgsMC0uNS0uMjItLjUtLjVzLjIyLS41LC41LS41aDVjLjI4LDAsLjUsLjIyLC41LC41cy0uMjIsLjUtLjUsLjVaIiBmaWxsPSJjdXJyZW50Q29sb3IiLz48cGF0aCBkPSJNMTAsMTBINWMtLjI4LDAtLjUtLjIyLS41LS41cy4yMi0uNSwuNS0uNWg1Yy4yOCwwLC41LC4yMiwuNSwuNXMtLjIyLC41LS41LC41WiIgZmlsbD0iY3VycmVudENvbG9yIi8+PHBhdGggZD0iTTcsN2gtMmMtLjI4LDAtLjUtLjIyLS41LS41cy4yMi0uNSwuNS0uNWgyYy4yOCwwLC41LC4yMiwuNSwuNXMtLjIyLC41LS41LC41WiIgZmlsbD0iY3VycmVudENvbG9yIi8+PC9zdmc+Cg==;
+  --fk-icon-check: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAyNyI+PHBvbHlnb24gZmlsbD0iY3VycmVudENvbG9yIiBwb2ludHM9IjI2Ljk5IDAgMTAuMTMgMTcuMTcgNC42OSAxMS42MyAwIDE2LjQxIDEwLjQgMjcgMTUuMDUgMjIuMjcgMTUuMDkgMjIuMzEgMzIgNS4xIDI2Ljk5IDAiLz48L3N2Zz4=;
+  --fk-icon-circle: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PGNpcmNsZSBmaWxsPSJjdXJyZW50Q29sb3IiIGN4PSIxNiIgY3k9IjE2IiByPSIxNiIvPjwvc3ZnPg==;
+  --fk-icon-fileItem: var(--fk-icon-fileDoc);
+  --fk-icon-fileRemove: var(--fk-icon-close);
+  --fk-icon-noFiles: var(--fk-icon-fileDoc);
+  --fk-icon-select: var(--fk-icon-down);
+  --fk-icon-checkboxDecorator: var(--fk-icon-check);
+  --fk-icon-radioDecorator: var(--fk-icon-circle);
+}
+
+/* packages/themes/src/css/genesis/formkit-reset.css */
+.formkit-outer {
+  box-sizing: border-box;
+}
+.formkit-outer * {
+  box-sizing: border-box;
+}
+.formkit-outer *::before,
+.formkit-outer *::after {
+  box-sizing: inherit;
+}
+.formkit-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+}
+.formkit-input:focus {
+  outline: none;
+}
+@media (forced-colors: active) {
+  .formkit-input,
+  .formkit-decorator {
+    border: 1px solid !important;
+  }
+}
+.formkit-message {
+  list-style-type: none;
+}
+
+/* packages/themes/src/css/genesis/colors.css */
+.formkit-inner:focus-within {
+  border-color: var(--fk-color-border-focus);
+}
+[data-type=select]:not([data-multiple]) .formkit-inner:after {
+  background-color: var(--fk-color-icon);
+}
+.formkit-input {
+  background-color: var(--fk-bg-input);
+  color: var(--fk-color-input);
+}
+input.formkit-input[type=radio]:checked ~ .formkit-decorator::before {
+  background: var(--fk-color-checked);
+}
+input.formkit-input[type=checkbox]:checked ~ .formkit-decorator::before {
+  border-color: var(--fk-color-checked);
+}
+[data-family=text] .formkit-input::-moz-selection {
+  background-color: var(--fk-color-input-selection);
+}
+[data-family=text] .formkit-input::selection {
+  background-color: var(--fk-color-input-selection);
+}
+.formkit-help,
+.formkit-option-help {
+  color: var(--fk-color-help);
+}
+.formkit-message {
+  color: var(--fk-color-error);
+}
+
+/* packages/themes/src/css/genesis/typography.css */
+.formkit-outer {
+  font-family: var(--fk-font-family);
+  font-weight: var(--fk-font-weight);
+  font-size: var(--fk-font-size);
+  line-height: var(--fk-line-height);
+}
+.formkit-outer[data-type=textarea] textarea {
+  line-height: var(--fk-line-height-textarea);
+}
+.formkit-label {
+  font-family: var(--fk-font-family-label);
+  font-size: var(--fk-font-size-label);
+  font-weight: var(--fk-font-weight-label);
+  line-height: var(--fk-line-height-label);
+}
+[data-type=checkbox] .formkit-label,
+[data-type=radio] .formkit-label,
+.formkit-option .formkit-label {
+  font-weight: var(--fk-font-weight-option);
+  font-size: var(--fk-font-size-option);
+  margin-bottom: 0.1em;
+}
+.formkit-legend {
+  font-family: var(--fk-font-family-legend);
+  font-size: var(--fk-font-size-legend);
+  font-weight: var(--fk-font-weight-legend);
+}
+.formkit-input {
+  font-family: var(--fk-font-family-input);
+  font-size: var(--fk-font-size-input);
+  font-weight: var(--fk-font-weight-input);
+  line-height: var(--fk-line-height-input);
+}
+.formkit-help,
+.formkit-option-help {
+  font-family: var(--fk-font-family-help);
+  font-size: var(--fk-font-size-help);
+  font-weight: var(--fk-font-weight-help);
+  line-height: var(--fk-line-height-help);
+}
+.formkit-messages {
+  font-family: var(--fk-font-family-message);
+  font-family: var(--fk-font-family);
+  line-height: var(--fk-line-height-message);
+}
+.formkit-message {
+  font-size: var(--fk-font-size-message);
+  font-weight: var(--fk-font-weight-message);
+}
+
+/* packages/themes/src/css/genesis/structure.css */
+.formkit-outer {
+  margin: var(--fk-margin-outer);
+}
+.formkit-outer[data-disabled] {
+  opacity: 0.5;
+}
+.formkit-outer[data-disabled] [data-disabled] {
+  opacity: 1;
+}
+.formkit-wrapper,
+.formkit-fieldset {
+  max-width: var(--fk-max-width-input);
+}
+.formkit-label {
+  display: block;
+  margin: var(--fk-margin-label);
+  padding: var(--fk-padding-label);
+}
+.formkit-fieldset {
+  margin: var(--fk-margin-fieldset);
+  padding: var(--fk-padding-fieldset);
+  border-radius: var(--fk-border-radius);
+  border: var(--fk-border);
+}
+.formkit-fieldset:focus-within {
+  border: var(--fk-border-focus);
+}
+.formkit-fieldset > .formkit-help {
+  margin-top: calc(var(--fk-padding-fieldset-t) * -0.5);
+  margin-bottom: calc(var(--fk-padding-fieldset-t) * 1.5);
+}
+.formkit-legend {
+  display: block;
+  margin: var(--fk-margin-legend);
+  padding: var(--fk-padding-legend);
+}
+.formkit-inner {
+  position: relative;
+  box-shadow: var(--fk-border-box-shadow);
+  border-radius: var(--fk-border-radius);
+  display: flex;
+  align-items: center;
+}
+.formkit-inner:focus-within {
+  box-shadow: var(--fk-border-box-shadow-focus);
+}
+[data-type=checkbox] .formkit-inner,
+[data-type=radio] .formkit-inner {
+  border: none;
+  box-shadow: none;
+  display: inline-block;
+}
+[data-invalid] :is([data-type=checkbox] .formkit-inner):focus-within,
+[data-invalid] :is([data-type=radio] .formkit-inner):focus-within,
+[data-errors] :is([data-type=checkbox] .formkit-inner):focus-within,
+[data-errors] :is([data-type=radio] .formkit-inner):focus-within {
+  outline: none;
+}
+.formkit-input {
+  display: block;
+  width: 100%;
+  border-radius: var(--fk-border-radius);
+  padding: var(--fk-padding-input);
+}
+.formkit-input[disabled] {
+  background-color: var(--fk-bg-disabled);
+}
+.formkit-input[multiple] {
+  padding: 0;
+}
+.formkit-input[multiple] option {
+  padding: var(--fk-padding-input);
+}
+input.formkit-input[type=date]::-webkit-calendar-picker-indicator {
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 0.875em;
+}
+input.formkit-input[type=date]::-webkit-datetime-edit {
+  line-height: 1;
+  overflow: visible;
+}
+select.formkit-input {
+  padding-right: calc(var(--fk-padding-base) * 7);
+}
+select.formkit-input[data-placeholder]:not([multiple]) {
+  color: var(--fk-color-placeholder);
+}
+select.formkit-input[data-placeholder]:not([multiple]) option {
+  color: var(--fk-color-input);
+}
+select.formkit-input[data-placeholder]:not([multiple]) option[disabled] {
+  color: var(--fk-color-disabled);
+}
+select.formkit-input[data-placeholder]:not([multiple]) option[data-is-placeholder] {
+  color: var(--fk-color-placeholder);
+}
+select.formkit-input option {
+  font-size: var(--fk-font-size-option);
+}
+input.formkit-input[type=radio] ~ .formkit-decorator {
+  border-radius: var(--fk-border-radius-full);
+}
+input.formkit-input[type=radio] ~ .formkit-decorator::before {
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 2em;
+}
+.formkit-help,
+.formkit-option-help {
+  margin: var(--fk-margin-help);
+}
+.formkit-messages {
+  padding: var(--fk-padding-messages);
+  margin: var(--fk-margin-messages);
+}
+.formkit-help + .formkit-messages {
+  padding-top: 0;
+}
+.formkit-message {
+  padding: var(--fk-padding-message);
+  margin: var(--fk-margin-message);
+}
+.formkit-messages + .formkit-actions {
+  margin-top: var(--fk-margin-outer-b);
+}
+
+/* packages/themes/src/css/genesis/animations.css */
+@keyframes fk-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fk-glow {
+  0% {
+    box-shadow: 0 0 0 0.1em var(--fk-color-primary);
+  }
+  100% {
+    box-shadow: 0 0 0 0.4em var(--fk-color-primary);
+  }
+}
+
+/* packages/themes/src/css/genesis/inputs/button-and-submit.css */
+[data-type=button] .formkit-input,
+[data-type=submit] .formkit-input {
+  font-size: var(--fk-font-size-button);
+  border-radius: var(--fk-border-radius);
+  cursor: pointer;
+  display: inline-flex;
+  width: auto;
+  justify-content: center;
+  padding: var(--fk-padding-button);
+  margin: var(--fk-margin-button);
+  position: relative;
+  transition: filter 0.25s;
+  border: 1px solid transparent;
+  line-height: var(--fk-line-height-button);
+}
+[data-type=button] .formkit-input:focus-visible,
+[data-type=submit] .formkit-input:focus-visible {
+  outline: var(--fk-color-border-focus) solid 2px;
+  outline-offset: 2px;
+}
+[data-type=button][data-disabled] .formkit-input,
+[data-type=submit][data-disabled] .formkit-input,
+[data-type=button] .formkit-input[disabled],
+[data-type=submit] .formkit-input[disabled] {
+  background: var(--fk-color-border) !important;
+  color: var(--fk-color-button) !important;
+  cursor: not-allowed;
+}
+[data-type=submit] .formkit-input {
+  background: var(--fk-bg-submit);
+  color: var(--fk-color-submit);
+}
+[data-type=submit] .formkit-input::before {
+  box-sizing: border-box;
+  content: "";
+  width: 0;
+  margin-right: 0;
+  height: 1.28571428em;
+  border: 0 solid transparent;
+  border-radius: 1.28571428em;
+  transition:
+    width 0.25s,
+    border 0.25s,
+    margin-right 0.25s;
+}
+[data-type=submit] .formkit-input:hover {
+  background: var(--fk-bg-submit-hover);
+}
+[data-loading] [data-type=submit] .formkit-input::before {
+  animation: fk-rotate 0.5s linear infinite;
+  width: 1.28571428em;
+  border: 0.1428571429em solid white;
+  border-right-color: transparent;
+  margin-right: 0.75em;
+}
+[data-loading] .formkit-actions [data-type=submit] .formkit-input {
+  filter: brightness(1.1);
+  pointer-events: none;
+}
+[data-type=button] .formkit-input {
+  background: var(--fk-bg-button);
+  color: var(--fk-color-button);
+}
+[data-type=button] .formkit-input:hover {
+  background: var(--fk-bg-button-hover);
+}
+
+/* packages/themes/src/css/genesis/inputs/checkbox-and-radio.css */
+[data-type=checkbox] [data-disabled],
+[data-type=radio] [data-disabled] {
+  opacity: 30%;
+}
+[data-type=checkbox] .formkit-label,
+[data-type=radio] .formkit-label {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  padding: 0;
+  margin: 0;
+}
+[data-type=checkbox] .formkit-wrapper,
+[data-type=radio] .formkit-wrapper {
+  display: flex;
+  align-items: center;
+}
+[data-type=checkbox] .formkit-input,
+[data-type=radio] .formkit-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  left: -999em;
+}
+[data-type=checkbox] .formkit-input ~ .formkit-decorator,
+[data-type=radio] .formkit-input ~ .formkit-decorator {
+  background: var(--fk-bg-decorator);
+  display: block;
+  box-sizing: content-box;
+  width: var(--fk-box-size);
+  height: var(--fk-box-size);
+  flex: 0 0 var(--fk-box-size);
+  border: none;
+  box-shadow: var(--fk-border-box-shadow);
+  border-radius: var(--fk-border-radius);
+  margin: var(--fk-margin-decorator);
+  position: relative;
+}
+[data-type=checkbox] .formkit-input ~ .formkit-decorator .formkit-icon,
+[data-type=radio] .formkit-input ~ .formkit-decorator .formkit-icon {
+  width: 0;
+  height: 0;
+  position: absolute;
+  padding: 3px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  pointer-events: none;
+}
+[data-type=checkbox] .formkit-input ~ .formkit-decorator .formkit-icon svg,
+[data-type=radio] .formkit-input ~ .formkit-decorator .formkit-icon svg {
+  height: 100%;
+}
+[data-type=checkbox] .formkit-input:checked ~ .formkit-decorator,
+[data-type=radio] .formkit-input:checked ~ .formkit-decorator {
+  box-shadow: var(--fk-border-box-shadow-decorator-checked);
+}
+[data-type=checkbox] .formkit-input:checked ~ .formkit-decorator .formkit-icon,
+[data-type=radio] .formkit-input:checked ~ .formkit-decorator .formkit-icon {
+  width: 100%;
+  height: 100%;
+}
+[data-type=checkbox] .formkit-input:checked ~ .formkit-decorator .formkit-icon,
+[data-type=radio] .formkit-input:checked ~ .formkit-decorator .formkit-icon {
+  color: var(--fk-color-border-focus);
+}
+[data-type=checkbox] .formkit-input:focus ~ .formkit-decorator,
+[data-type=radio] .formkit-input:focus ~ .formkit-decorator {
+  box-shadow: var(--fk-border-box-shadow-decorator-focus);
+  outline: var(--fk-focus-ring) solid var(--fk-focus-ring-color);
+}
+[data-type=checkbox] .formkit-input:focus-visible ~ .formkit-decorator,
+[data-type=radio] .formkit-input:focus-visible ~ .formkit-decorator {
+  box-shadow: var(--fk-border-box-shadow-decorator-focus-visible);
+}
+[data-type=checkbox] .formkit-options,
+[data-type=radio] .formkit-options {
+  margin: var(--fk-checkbox-options-margin);
+  padding: 0;
+}
+[data-type=checkbox] .formkit-option,
+[data-type=radio] .formkit-option {
+  list-style-type: none;
+  margin: var(--fk-margin-option);
+}
+[data-type=checkbox] .formkit-option:last-child,
+[data-type=radio] .formkit-option:last-child {
+  margin-bottom: 0;
+}
+[data-type=checkbox] fieldset.formkit-fieldset,
+[data-type=radio] fieldset.formkit-fieldset {
+  border: var(--fk-border);
+  border-radius: var(--fk-border-radius);
+}
+[data-type=radio] .formkit-input ~ .formkit-decorator .formkit-icon {
+  padding: 5px;
+}
+
+/* packages/themes/src/css/genesis/inputs/color.css */
+[data-type=color] .formkit-inner {
+  max-width: 5em;
+}
+[data-type=color] input[type=color] {
+  border: none;
+  padding: 0;
+}
+[data-type=color] input[type=color]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+}
+[data-type=color] input[type=color]::-moz-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+}
+[data-type=color] input[type=color]::-webkit-color-swatch {
+  border-radius: var(--fk-border-radius);
+  border: none;
+}
+[data-type=color] input[type=color]::-moz-color-swatch {
+  border-radius: var(--fk-border-radius);
+  border: none;
+}
+
+/* packages/themes/src/css/genesis/inputs/range.css */
+[data-type=range] .formkit-inner {
+  border: 0;
+  box-shadow: none;
+}
+[data-type=range] .formkit-inner:focus-within {
+  border: 0;
+  box-shadow: none;
+}
+[data-type=range] input {
+  padding-left: 0;
+  padding-right: 0;
+}
+[data-type=range] input[disabled] {
+  background: transparent;
+}
+[data-type=range] input::-webkit-slider-runnable-track {
+  background-color: var(--fk-color-border);
+  height: 4px;
+  border-radius: 4px;
+}
+[data-type=range] input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  transform: translateY(calc(-50% + 2px));
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  background-color: var(--fk-color-range-thumb);
+  border: 0;
+}
+[data-type=range] input::-moz-range-track {
+  background-color: var(--fk-color-border);
+  height: 4px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+[data-type=range] input::-moz-range-thumb {
+  -moz-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  background-color: var(--fk-color-range-thumb);
+  border: 1px solid var(--fk-color-range-thumb);
+}
+[data-type=range] input:focus::-webkit-slider-thumb {
+  outline: var(--fk-focus-ring) solid var(--fk-focus-ring-color);
+}
+[data-type=range] input:focus::-moz-range-thumb {
+  outline: var(--fk-focus-ring) solid var(--fk-focus-ring-color);
+}
+[data-type=range] input[disabled]::-webkit-slider-thumb {
+  background-color: var(--fk-color-border);
+}
+[data-type=range] input[disabled]::-moz-slider-thumb {
+  background-color: var(--fk-color-border);
+}
+
+/* packages/themes/src/css/genesis/inputs/select.css */
+[data-type=select]:not([data-multiple]) .formkit-inner .formkit-select-icon {
+  margin-left: -2.5em;
+  pointer-events: none;
+}
+[data-type=select][data-multiple] .formkit-select-icon {
+  display: none;
+}
+
+/* packages/themes/src/css/genesis/inputs/file.css */
+[data-type=file] .formkit-no-files,
+[data-type=file] .formkit-file-list {
+  padding: var(--fk-padding-input);
+  margin: 0;
+}
+[data-type=file] .formkit-no-files,
+[data-type=file] .formkit-file-item {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  font-size: var(--fk-font-size-input);
+  position: relative;
+}
+[data-type=file] .formkit-no-files + .formkit-no-files,
+[data-type=file] .formkit-file-item + .formkit-file-item {
+  margin-top: var(--fk-padding-input-t);
+}
+[data-type=file] .formkit-inner .formkit-file-item-icon,
+[data-type=file] .formkit-inner .formkit-no-files-icon {
+  width: 1em;
+  margin-right: 0.5em;
+}
+[data-type=file] .formkit-file-item .formkit-file-remove {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  font-size: 0;
+  margin-left: auto;
+  padding: 0;
+  position: relative;
+  z-index: 3;
+  cursor: pointer;
+}
+[data-type=file] .formkit-file-item .formkit-file-remove:hover {
+  color: var(--fk-color-danger);
+}
+[data-type=file] .formkit-file-item .formkit-file-remove .formkit-file-remove-icon {
+  width: 1em;
+  font-size: 1rem;
+}
+[data-type=file] .formkit-no-files {
+  color: var(--fk-color-placeholder);
+}
+[data-type=file] .formkit-no-files::before {
+  background-color: var(--fk-color-placeholder);
+}
+[data-type=file] .formkit-file-list {
+  width: 100%;
+}
+[data-type=file] .formkit-file-list[data-has-multiple] {
+  margin-bottom: calc(var(--fk-padding-input-b) + var(--fk-font-size-remove) * 1.1);
+}
+[data-type=file] .formkit-file-list[data-has-multiple] .formkit-file-item {
+  line-height: var(--fk-line-height-input);
+}
+[data-type=file] .formkit-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  z-index: 2;
+  color: transparent;
+}
+[data-type=file] .formkit-input::file-selector-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 0;
+  padding: 0;
+  border: 0;
+}
+[data-type=file] .formkit-input[data-file-hover] {
+  animation: fk-glow 0.75s infinite alternate;
+}
+[data-type=file] [data-has-multiple=true] ~ .formkit-file-remove {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  font-size: var(--fk-font-size-remove);
+  color: var(--fk-color-primary);
+  bottom: calc(var(--fk-padding-input-b) + (1em - var(--fk-font-size-remove)));
+  left: calc(var(--fk-padding-input-l) + (1em - var(--fk-font-size-remove)));
+  display: block;
+  z-index: 5;
+  cursor: pointer;
+}
+[data-type=file] [data-has-multiple=true] ~ .formkit-file-remove:hover {
+  color: var(--fk-color-danger);
+}
+
+/* packages/themes/src/css/genesis/inputs/textarea.css */
+[data-type=textarea] textarea {
+  width: 100%;
+  min-height: 6em;
+  flex-grow: 1;
+}
+
+/* packages/themes/src/css/genesis/extras/summary.css */
+.formkit-summary {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.formkit-summary-inner {
+  padding: var(--fk-margin-outer-b);
+  border: var(--fk-error-ring) solid var(--fk-error-ring-color);
+  border-radius: 0.5em;
+}
+.formkit-summary-header {
+  font-size: var(--fk-font-size-summary);
+  margin: 0 0 var(--fk-margin-outer-b) 0;
+}
+.formkit-message-link {
+  color: var(--fk-color-danger);
+  text-decoration: none;
+}
+.formkit-message-link:focus {
+  outline: var(--fk-error-ring) solid var(--fk-error-ring-color);
+}
+
+/* packages/themes/src/css/genesis/addons/icons.css */
+.formkit-inner:focus-within .formkit-icon.formkit-prefix-icon {
+  color: var(--fk-color-primary);
+}
+.formkit-outer .formkit-icon {
+  width: 2.5em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-self: stretch;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.formkit-outer .formkit-icon.formkit-prefix-icon {
+  border-radius: var(--fk-border-radius-tl) 0 0 var(--fk-border-radius-bl);
+  background: var(--fk-bg-decorator);
+  box-shadow: 1px 0 0 0 rgba(0, 0, 0, 0.33);
+}
+.formkit-outer .formkit-icon.formkit-suffix-icon {
+  width: 1.75em;
+  padding-left: 0em;
+  padding-right: 0.75em;
+}
+.formkit-outer .formkit-icon svg {
+  width: 100%;
+  margin: auto;
+  max-height: 1em;
+  max-width: 1em;
+}
+[data-type=button] .formkit-icon.formkit-prefix-icon,
+[data-type=submit] .formkit-icon.formkit-prefix-icon,
+[data-type=range] .formkit-icon.formkit-prefix-icon {
+  background: none;
+  box-shadow: none;
+}
+[data-type=button] .formkit-inner:focus-within .formkit-icon,
+[data-type=submit] .formkit-inner:focus-within .formkit-icon,
+[data-type=range] .formkit-inner:focus-within .formkit-icon {
+  color: currentColor;
+}
+[data-type=button] .formkit-icon,
+[data-type=submit] .formkit-icon,
+[data-type=range] .formkit-icon {
+  padding: 0;
+  width: 1em;
+  font-size: 1rem;
+}
+[data-type=button] .formkit-icon.formkit--prefix-icon,
+[data-type=submit] .formkit-icon.formkit--prefix-icon,
+[data-type=range] .formkit-icon.formkit--prefix-icon {
+  margin-right: 0.5em;
+}
+[data-type=button] .formkit-icon.formkit-suffix-icon,
+[data-type=submit] .formkit-icon.formkit-suffix-icon,
+[data-type=range] .formkit-icon.formkit-suffix-icon {
+  margin-left: 0.5em;
+}
+[data-type=button] .formkit-prefix-icon,
+[data-type=submit] .formkit-prefix-icon {
+  margin-left: -0.5em;
+  margin-right: 0.5em;
+}
+[data-type=button] .formkit-suffix-icon,
+[data-type=submit] .formkit-suffix-icon {
+  margin-left: 0.5em;
+  margin-right: -0.5em;
+}
+[data-prefix-icon=true][data-prefix-icon-click=true] .formkit-prefix-icon {
+  cursor: pointer;
+}
+[data-prefix-icon=true][data-type=color] input[type=color]::-webkit-color-swatch {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+[data-prefix-icon=true][data-type=color] input[type=color]::-moz-color-swatch {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+[data-prefix-icon=true][data-type=file][data-multiple=true] .formkit-file-remove {
+  left: calc(var(--fk-padding-input-l) + (4em - var(--fk-font-size-remove)));
+}
+[data-suffix-icon=true][data-suffix-icon-click=true] .formkit-suffix-icon {
+  cursor: pointer;
+}
+[data-suffix-icon=true][data-type=color] input[type=color]::-webkit-color-swatch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[data-suffix-icon=true][data-type=color] input[type=color]::-moz-color-swatch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[data-suffix-icon=true][data-type=color] .formkit-icon.formkit-suffix-icon {
+  padding-right: 0;
+  width: 2.5em;
+}
+[data-suffix-icon=true][data-type=select] .formkit-inner::after {
+  right: 2.5em;
+}
+[data-prefix-icon=true][data-type=color] .formkit-inner,
+[data-suffix-icon=true][data-type=color] .formkit-inner {
+  max-width: 7.5em;
+}
+[data-prefix-icon=true][data-suffix-icon=true][data-type=color] .formkit-inner {
+  max-width: 10em;
+}
+
+/* packages/themes/src/css/genesis/genesis.css */
+/*# sourceMappingURL=index.css.map */

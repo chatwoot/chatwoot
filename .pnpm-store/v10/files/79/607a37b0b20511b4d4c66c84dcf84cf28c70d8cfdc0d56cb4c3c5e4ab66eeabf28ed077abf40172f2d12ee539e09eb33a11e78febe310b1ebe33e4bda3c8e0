@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "esnext",
+        "strict": true,
+        "jsx": "preserve",
+        "importHelpers": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "declaration": true,
+        "baseUrl": ".",
+        "types": [
+            "node",
+            "webpack-env"
+        ],
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+        },
+        "lib": [
+            "esnext",
+            "dom",
+            "scripthost"
+        ]
+    },
+    "include": [
+        "./src/*.ts",
+        "./src/*.vue",
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        "./src/**/*.vue",
+        "./src/views/*.vue"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

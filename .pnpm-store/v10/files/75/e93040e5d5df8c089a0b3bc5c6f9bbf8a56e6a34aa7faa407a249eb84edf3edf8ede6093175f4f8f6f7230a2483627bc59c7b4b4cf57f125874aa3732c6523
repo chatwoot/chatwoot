@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Ninja Keys</title>
+
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons&display=block"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="ninja-keys.bundled.js"></script>
+    
+  </head>
+
+  <body
+    class="
+      font-inter
+      dark:bg-gray-800 dark:text-gray-200
+      bg-white
+      antialiased
+      text-gray-900
+      tracking-tight
+    "
+  >
+    <header>
+      <h1
+        class="
+          text-3xl
+          md:text-4xl
+          font-extrabold
+          leading-tighter
+          text-center
+          tracking-tighter
+          mb-4
+        "
+      >
+        <span
+          class="
+            bg-clip-text
+            text-4xl
+            md:text-5xl
+            text-transparent
+            bg-gradient-to-r
+            from-blue-500
+            to-indigo-400
+          "
+          >Ninja Keys</span
+        ><br />
+        Keyboard shorcuts interface for your website
+      </h1>
+    </header>
+
+    <div class="dark:text-gray-200">
+      <main>
+        <div class="text-center py-8">
+          <img class="w-32 m-auto" src="ninja.png" />
+        </div>
+
+        <div class="py-8 text-center">
+          <h3 class="pb-2 text-gray-700 dark:text-gray-200">
+            Show me your skills ninja, enter that shorcut or click button
+          </h3>
+          <button
+            id="btnNinja"
+            class="
+              bg-gray-50
+              m-auto
+              text-gray-400 text-2xl
+              hover:text-gray-900
+              border border-gray-200
+              rounded-xl
+              px-4
+              py-2
+            "
+          >
+            ⌘ + K
+          </button>
+        </div>
+
+        <div class="text-xs">
+          <h4 class="text-lg pb-2 font-semibold">Install</h4>
+          <p>
+            <code>&lt;ninja-keys&gt;</code> is distributed on npm, so you can
+            install it locally or use it via npm CDNs like unpkg.com.
+          </p>
+          <h2>Local Installation</h2>
+          <pre
+            class="language-bash text-xs rounded"
+          ><code class="language-bash">npm i ninja-keys</code></pre>
+          <h2 class="font-bold pt-2">CDN</h2>
+          <p>
+            npm CDNs like <a href="">unpkg.com</a> can directly serve files that
+            have been published to npm. This works great for standard JavaScript
+            modules that the browser can load natively.
+          </p>
+          <p>
+            For this element to work from unpkg.com specifically, you need to
+            include the <code>?module</code> query parameter, which tells
+            unpkg.com to rewrite &quot;bare&quot; module specificers to full
+            URLs.
+          </p>
+          <h3 class="font-bold pt-2">HTML</h3>
+          <pre
+            class="language-html text-xs rounded"
+          ><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;https://unpkg.com/ninja-keys?module&quot;&gt;&lt;/script&gt;</code></pre>
+          <h3 class="font-bold pt-2">JavaScript</h3>
+          <pre
+            class="language-js text-xs rounded"
+          ><code class="language-html">import {NinjaKeys} from &#39;https://unpkg.com/ninja-keys?module&#39;;</code></pre>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <p>
+        Made with ❤️ by
+        <a href="https://github.com/ssleptsov">Sergei</a>
+      </p>
+    </footer>
+
+    <ninja-keys> </ninja-keys>
+
+    <script>
+      const ninja = document.querySelector('ninja-keys');
+      ninja.data = [
+        {
+          id: 'Projects',
+          title: 'Open Projects',
+          hotkey: 'ctrl+N',
+          mdIcon: 'apps',
+          section: 'Projects',
+          handler: () => {
+            // it's auto register above hotkey with this handler
+            alert('Your logic to handle');
+          },
+        },
+        {
+          id: 'Theme',
+          title: 'Change theme...',
+          mdIcon: 'desktop_windows',
+          children: ['Light Theme', 'Dark Theme', 'System Theme'],
+          hotkey: 'ctrl+T',
+          handler: () => {
+            // if menu closed
+            ninja.open({ parent: 'Theme'});
+            // if menu opened that prevent it from closing on select such actions
+            return {keepOpen: true};
+          },
+        },
+        {
+          id: 'Light Theme',
+          title: 'Change theme to Light',
+          mdIcon: 'light_mode',
+          parent: 'Theme',
+          handler: () => {
+            // simple handler
+            document.documentElement.classList.remove('dark');
+            ninja.classList.remove('dark');
+          },
+        },
+        {
+          id: 'Dark Theme',
+          title: 'Change theme to Dark',
+          mdIcon: 'dark_mode',
+          parent: 'Theme',
+          handler: () => {
+            // simple handler
+            document.documentElement.classList.add('dark');
+            ninja.classList.add('dark');
+          },
+        },
+      ];
+      document.querySelector('#btnNinja').addEventListener('click', () => {
+        ninja.open();
+      });
+    </script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </body>
+</html>

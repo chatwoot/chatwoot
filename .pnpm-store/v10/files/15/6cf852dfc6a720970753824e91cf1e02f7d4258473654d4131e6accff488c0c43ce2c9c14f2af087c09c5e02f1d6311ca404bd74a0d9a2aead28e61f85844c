@@ -1,0 +1,36 @@
+{
+  "name": "sdp",
+  "version": "3.2.0",
+  "description": "SDP parsing and serialization utilities",
+  "main": "dist/sdp.js",
+  "module": "sdp.js",
+  "typings": "sdp.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fippo/sdp.git"
+  },
+  "scripts": {
+    "build": "babel sdp.js --presets babel-preset-env --out-dir dist",
+    "coverage": "c8 report --reporter=text-lcov > coverage.lcov",
+    "prepare": "npm run build",
+    "test": "eslint sdp.js test/sdp.js && c8 --reporter html mocha test/sdp.js"
+  },
+  "keywords": [
+    "sdp",
+    "webrtc"
+  ],
+  "author": "Philipp Hancke",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "c8": "^7.12.0",
+    "chai": "^4.3.7",
+    "codecov": "^3.6.5",
+    "eslint": "^8.31.0",
+    "mocha": "^10.2.0",
+    "sinon": "^15.0.1",
+    "sinon-chai": "^3.7.0"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "husky",
+  "version": "7.0.4",
+  "description": "Modern native Git hooks made easy",
+  "keywords": [
+    "git",
+    "hooks",
+    "pre-commit"
+  ],
+  "homepage": "https://typicode.github.io/husky",
+  "repository": "typicode/husky",
+  "funding": "https://github.com/sponsors/typicode",
+  "license": "MIT",
+  "author": "Typicode <typicode@gmail.com>",
+  "bin": "lib/bin.js",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "husky.sh"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "sh test/all.sh",
+    "lint": "eslint src --ext .ts",
+    "serve": "docsify serve docs",
+    "prepare": "npm run build && node lib/bin install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "@tsconfig/node12": "^1.0.7",
+    "@types/node": "^15.3.1",
+    "@typicode/eslint-config": "^0.1.2",
+    "docsify-cli": "^4.4.3",
+    "typescript": "^4.2.3"
+  },
+  "engines": {
+    "node": ">=12"
+  }
+}

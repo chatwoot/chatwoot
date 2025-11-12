@@ -1,0 +1,72 @@
+/**
+ * Sorts an array of numbers in ascending order.
+ * @param {number[]} arr - The array of numbers to be sorted.
+ * @returns {number[]} - The sorted array.
+ */
+export declare function sortAsc(arr: number[]): number[];
+/**
+ * Calculates the quantile value of an array at a specified percentile.
+ * @param {number[]} arr - The array of numbers to calculate the quantile value from.
+ * @param {number} q - The percentile to calculate the quantile value for.
+ * @returns {number} - The quantile value.
+ */
+export declare function quantile(arr: number[], q: number): number;
+/**
+ * Clamps a value between a minimum and maximum range.
+ * @param {number} min - The minimum range.
+ * @param {number} max - The maximum range.
+ * @param {number} value - The value to be clamped.
+ * @returns {number} - The clamped value.
+ */
+export declare function clamp(min: number, max: number, value: number): number;
+/**
+ * Calculates the quantile values for an array of intervals.
+ * @param {number[]} data - The array of numbers to calculate the quantile values from.
+ * @param {number[]} intervals - The array of intervals to calculate the quantile values for.
+ * @returns {number[]} - The array of quantile values for the intervals.
+ */
+export declare const getQuantileIntervals: (data: number[], intervals: number[]) => number[];
+/**
+ * Calculates the relative position of a point from the center of an element
+ *
+ * @param {number} mouseX - The x-coordinate of the mouse pointer
+ * @param {number} mouseY - The y-coordinate of the mouse pointer
+ * @param {DOMRect} rect - The bounding client rectangle of the target element
+ * @returns {{relativeX: number, relativeY: number}} Object containing x and y distances from center
+ */
+export declare const calculateCenterOffset: (mouseX: number, mouseY: number, rect: DOMRect) => {
+    relativeX: number;
+    relativeY: number;
+};
+/**
+ * Applies a rotation matrix to coordinates
+ * Used to adjust mouse coordinates based on the current rotation of the image
+ * This function implements a standard 2D rotation matrix transformation:
+ * [x']   [cos(θ) -sin(θ)] [x]
+ * [y'] = [sin(θ)  cos(θ)] [y]
+ *
+ * @see {@link https://mathworld.wolfram.com/RotationMatrix.html} for mathematical derivation
+ *
+ * @param {number} relativeX - X-coordinate relative to center before rotation
+ * @param {number} relativeY - Y-coordinate relative to center before rotation
+ * @param {number} angle - Rotation angle in degrees
+ * @returns {{rotatedX: number, rotatedY: number}} Coordinates after applying rotation matrix
+ */
+export declare const applyRotationTransform: (relativeX: number, relativeY: number, angle: number) => {
+    rotatedX: number;
+    rotatedY: number;
+};
+/**
+ * Converts absolute rotated coordinates to percentage values relative to image dimensions
+ * Ensures values are clamped between 0-100% for valid CSS transform-origin properties
+ *
+ * @param {number} rotatedX - X-coordinate after rotation transformation
+ * @param {number} rotatedY - Y-coordinate after rotation transformation
+ * @param {number} width - Width of the target element
+ * @param {number} height - Height of the target element
+ * @returns {{x: number, y: number}} Normalized coordinates as percentages (0-100%)
+ */
+export declare const normalizeToPercentage: (rotatedX: number, rotatedY: number, width: number, height: number) => {
+    x: number;
+    y: number;
+};

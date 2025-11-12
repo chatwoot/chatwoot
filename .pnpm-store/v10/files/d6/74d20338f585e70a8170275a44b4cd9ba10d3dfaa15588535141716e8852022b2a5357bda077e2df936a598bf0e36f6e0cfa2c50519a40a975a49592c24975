@@ -1,0 +1,126 @@
+{
+  "name": "@formkit/themes",
+  "version": "1.6.7",
+  "type": "module",
+  "description": "FormKit base themes",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./genesis": "./dist/css/genesis/index.css",
+    "./windicss": {
+      "import": {
+        "types": "./dist/windicss/index.d.mts",
+        "development": "./dist/windicss/index.dev.mjs",
+        "default": "./dist/windicss/index.mjs"
+      },
+      "require": {
+        "types": "./dist/windicss/index.d.cts",
+        "default": "./dist/windicss/index.cjs"
+      }
+    },
+    "./tailwindcss": {
+      "import": {
+        "types": "./dist/tailwindcss/index.d.mts",
+        "development": "./dist/tailwindcss/index.dev.mjs",
+        "default": "./dist/tailwindcss/index.mjs"
+      },
+      "require": {
+        "types": "./dist/tailwindcss/index.d.cts",
+        "default": "./dist/tailwindcss/index.cjs"
+      }
+    },
+    "./tailwindcss/genesis": {
+      "import": {
+        "types": "./dist/tailwindcss/genesis/index.d.mts",
+        "development": "./dist/tailwindcss/genesis/index.dev.mjs",
+        "default": "./dist/tailwindcss/genesis/index.mjs"
+      },
+      "require": {
+        "types": "./dist/tailwindcss/genesis/index.d.cts",
+        "default": "./dist/tailwindcss/genesis/index.cjs"
+      }
+    },
+    "./unocss": {
+      "import": {
+        "types": "./dist/unocss/index.d.mts",
+        "development": "./dist/unocss/index.dev.mjs",
+        "default": "./dist/unocss/index.mjs"
+      },
+      "require": {
+        "types": "./dist/unocss/index.d.cts",
+        "default": "./dist/unocss/index.cjs"
+      }
+    },
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "development": "./dist/index.dev.mjs",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "windicss": [
+        "./dist/windicss/index.d.ts"
+      ],
+      "tailwindcss": [
+        "./dist/tailwindcss/index.d.ts"
+      ],
+      "unocss": [
+        "./dist/unocss/index.d.ts"
+      ]
+    }
+  },
+  "keywords": [
+    "vue",
+    "forms",
+    "ui",
+    "styling",
+    "css",
+    "classes"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/formkit/formkit.git",
+    "directory": "packages/themes"
+  },
+  "contributors": [
+    "Justin Schroeder <justin@formkit.com>",
+    "Andrew Boyd <andrew@formkit.com>",
+    "lennartzellmer <2241624+lennartzellmer@users.noreply.github.com>",
+    "Gustavo Fenilli <gustavofenilli@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@formkit/core": "1.6.7"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.2.0",
+    "unocss": "0.x.x",
+    "windicss": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    },
+    "unocss": {
+      "optional": true
+    },
+    "windicss": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "windicss": "^3.5.6"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}

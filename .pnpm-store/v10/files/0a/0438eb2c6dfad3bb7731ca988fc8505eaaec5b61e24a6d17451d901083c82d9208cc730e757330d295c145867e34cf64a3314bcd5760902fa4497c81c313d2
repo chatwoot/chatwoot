@@ -1,0 +1,119 @@
+{
+  "name": "scroll-into-view-if-needed",
+  "version": "2.2.31",
+  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
+  "keywords": [
+    "behavior-smooth",
+    "if-needed",
+    "polyfill",
+    "ponyfill",
+    "scroll",
+    "scroll-into-view",
+    "scrollIntoView",
+    "scrollIntoViewIfNeeded",
+    "scrollMode",
+    "smooth",
+    "smoothscroll",
+    "typescript"
+  ],
+  "homepage": "https://scroll-into-view.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scroll-into-view/scroll-into-view-if-needed.git"
+  },
+  "license": "MIT",
+  "author": "Cody Olsen",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./typings/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./es/index.js",
+      "require": "./index.js",
+      "default": "./es/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "index.js",
+  "module": "es/index.js",
+  "typings": "typings/index.d.ts",
+  "files": [
+    "es",
+    "typings",
+    "umd"
+  ],
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm run build:d.ts && npm run build:cjs && npm run build:es && npm run build:umd && npm run build:umd.min",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel src -d . --extensions '.ts'",
+    "build:d.ts": "tsc --emitDeclarationOnly",
+    "build:es": "cross-env BABEL_ENV=es babel src -d es --extensions '.ts'",
+    "build:umd": "cross-env BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o umd/scroll-into-view-if-needed.js",
+    "build:umd.min": "cross-env BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
+    "clean": "rimraf 'umd' 'es' 'typings'",
+    "dev": "concurrently 'tsc --noEmit --watch' 'tsc --noEmit -p tests/typescript --watch' 'npm run build:cjs --watch' 'npm run build:es --watch' 'npm run build:umd --watch' 'npm run build:umd.min --watch'",
+    "lint": "eslint ./integration-examples",
+    "precommit": "lint-staged",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tests/typescript"
+  },
+  "browserify": {
+    "transform": [
+      "loose-envify"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": ".babelrc",
+        "options": {
+          "parser": "json"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "compute-scroll-into-view": "^1.0.20"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.5",
+    "@babel/plugin-external-helpers": "^7.18.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "@sanity/semantic-release-preset": "^2.0.2",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "babel-plugin-dev-expression": "^0.2.3",
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-react": "^7.31.11",
+    "flowgen": "^1.20.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.5.0",
+    "prettier": "^2.8.0",
+    "prettier-plugin-packagejson": "^2.3.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.79.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.9.3"
+  },
+  "bundlesize": [
+    {
+      "path": "./umd/scroll-into-view-if-needed.min.js",
+      "maxSize": "3.3 kB",
+      "compression": "none"
+    }
+  ]
+}

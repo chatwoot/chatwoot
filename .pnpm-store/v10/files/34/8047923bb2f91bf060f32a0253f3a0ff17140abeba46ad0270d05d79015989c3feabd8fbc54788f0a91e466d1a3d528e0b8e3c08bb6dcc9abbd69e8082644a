@@ -1,0 +1,52 @@
+{
+  "name": "@posthog/core",
+  "version": "1.0.1",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PostHog/posthog-js.git",
+    "directory": "packages/core"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./vendor/*": {
+      "types": "./dist/vendor/*.d.ts",
+      "require": "./dist/vendor/*.js",
+      "import": "./dist/vendor/*.mjs"
+    },
+    "./testing": {
+      "types": "./dist/testing/index.d.ts",
+      "require": "./dist/testing/index.js",
+      "import": "./dist/testing/index.mjs"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "require": "./dist/utils/index.js",
+      "import": "./dist/utils/index.mjs"
+    }
+  },
+  "devDependencies": {
+    "@rslib/core": "^0.10.5",
+    "jest": "^29.7.0",
+    "@posthog-tooling/tsconfig-base": "1.0.0"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix",
+    "build": "rslib build",
+    "dev": "rslib build -w",
+    "test:unit": "jest",
+    "package": "pnpm pack --out $PACKAGE_DEST/%s.tgz"
+  }
+}

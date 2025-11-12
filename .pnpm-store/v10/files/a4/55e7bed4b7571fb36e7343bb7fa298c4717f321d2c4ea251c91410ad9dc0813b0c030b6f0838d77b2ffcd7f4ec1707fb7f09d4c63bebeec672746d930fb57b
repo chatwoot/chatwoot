@@ -1,0 +1,65 @@
+{
+  "name": "@egoist/tailwindcss-icons",
+  "version": "1.8.1",
+  "description": "Icons utility for TailwindCSS",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "prepare": "pnpm run gen-types",
+    "gen-types": "node ./gen-types.mjs",
+    "build-fast": "pnpm gen-types && tsup src/index.ts --format cjs,esm",
+    "build": "pnpm run build-fast --dts-resolve",
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint --max-warnings 0 ."
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@9.1.4",
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
+    "@iconify-json/heroicons": "^1.1.21",
+    "@iconify/json": "^2.2.216",
+    "@iconify/types": "^2.0.0",
+    "@types/node": "^20.14.2",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
+    "eslint": "^9.4.0",
+    "postcss": "^8.4.38",
+    "prettier": "^3.3.1",
+    "prettier-plugin-tailwindcss": "^0.6.1",
+    "tailwindcss": "^3.4.3",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "@iconify/utils": "^2.1.24"
+  },
+  "peerDependencies": {
+    "tailwindcss": "*"
+  }
+}

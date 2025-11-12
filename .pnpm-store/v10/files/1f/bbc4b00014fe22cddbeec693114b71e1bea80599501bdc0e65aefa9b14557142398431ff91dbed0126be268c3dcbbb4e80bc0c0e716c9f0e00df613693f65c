@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/customizations/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,4FAAyE;AACzE,gDAA6B","sourcesContent":["export * from './setAllPersonProfilePropertiesAsPersonPropertiesForFlags'\nexport * from './before-send'\n"]}

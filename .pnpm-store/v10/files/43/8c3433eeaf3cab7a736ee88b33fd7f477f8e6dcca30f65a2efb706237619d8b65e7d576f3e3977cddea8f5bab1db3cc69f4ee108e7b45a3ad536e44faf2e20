@@ -1,0 +1,147 @@
+// copy from: https://github.com/eslint/eslint/blob/219aecb78bc646d44bad27dc775a9b3d3dc58232/lib/linter/rule-fixer.js
+// ESLint does not export the RuleFixer. So, I've copied the implementation.
+
+/**
+ * @fileoverview An object that creates fix commands for rules.
+ * @author Nicholas C. Zakas
+ */
+
+// ------------------------------------------------------------------------------
+// Requirements
+// ------------------------------------------------------------------------------
+
+// none!
+
+// ------------------------------------------------------------------------------
+// Helpers
+// ------------------------------------------------------------------------------
+
+import { AST, Rule } from 'eslint';
+import type { Node } from 'estree';
+
+/**
+ * Creates a fix command that inserts text at the specified index in the source text.
+ * @param {int} index The 0-based index at which to insert the new text.
+ * @param {string} text The text to insert.
+ * @returns {Object} The fix command.
+ * @private
+ */
+function insertTextAt(index: number, text: string): Rule.Fix {
+  return {
+    range: [index, index],
+    text,
+  };
+}
+
+// ------------------------------------------------------------------------------
+// Public Interface
+// ------------------------------------------------------------------------------
+
+/**
+ * Creates code fixing commands for rules.
+ */
+
+/** @type {import('eslint').Rule.RuleFixer} */
+const ruleFixer = Object.freeze({
+  /**
+   * Creates a fix command that inserts text after the given node or token.
+   * The fix is not applied until applyFixes() is called.
+   * @param {ASTNode|Token} nodeOrToken The node or token to insert after.
+   * @param {string} text The text to insert.
+   * @returns {Object} The fix command.
+   */
+  insertTextAfter(nodeOrToken: Node | AST.Token, text: string): Rule.Fix {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.insertTextAfterRange(nodeOrToken.range!, text);
+  },
+
+  /**
+   * Creates a fix command that inserts text after the specified range in the source text.
+   * The fix is not applied until applyFixes() is called.
+   * @param {int[]} range The range to replace, first item is start of range, second
+   *      is end of range.
+   * @param {string} text The text to insert.
+   * @returns {Object} The fix command.
+   */
+  insertTextAfterRange(range: AST.Range, text: string): Rule.Fix {
+    return insertTextAt(range[1], text);
+  },
+
+  /**
+   * Creates a fix command that inserts text before the given node or token.
+   * The fix is not applied until applyFixes() is called.
+   * @param {ASTNode|Token} nodeOrToken The node or token to insert before.
+   * @param {string} text The text to insert.
+   * @returns {Object} The fix command.
+   */
+  insertTextBefore(nodeOrToken: Node | AST.Token, text: string): Rule.Fix {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.insertTextBeforeRange(nodeOrToken.range!, text);
+  },
+
+  /**
+   * Creates a fix command that inserts text before the specified range in the source text.
+   * The fix is not applied until applyFixes() is called.
+   * @param {int[]} range The range to replace, first item is start of range, second
+   *      is end of range.
+   * @param {string} text The text to insert.
+   * @returns {Object} The fix command.
+   */
+  insertTextBeforeRange(range: AST.Range, text: string): Rule.Fix {
+    return insertTextAt(range[0], text);
+  },
+
+  /**
+   * Creates a fix command that replaces text at the node or token.
+   * The fix is not applied until applyFixes() is called.
+   * @param {ASTNode|Token} nodeOrToken The node or token to remove.
+   * @param {string} text The text to insert.
+   * @returns {Object} The fix command.
+   */
+  replaceText(nodeOrToken: Node | AST.Token, text: string): Rule.Fix {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.replaceTextRange(nodeOrToken.range!, text);
+  },
+
+  /**
+   * Creates a fix command that replaces text at the specified range in the source text.
+   * The fix is not applied until applyFixes() is called.
+   * @param {int[]} range The range to replace, first item is start of range, second
+   *      is end of range.
+   * @param {string} text The text to insert.
+   * @returns {Object} The fix command.
+   */
+  replaceTextRange(range: AST.Range, text: string): Rule.Fix {
+    return {
+      range,
+      text,
+    };
+  },
+
+  /**
+   * Creates a fix command that removes the node or token from the source.
+   * The fix is not applied until applyFixes() is called.
+   * @param {ASTNode|Token} nodeOrToken The node or token to remove.
+   * @returns {Object} The fix command.
+   */
+  remove(nodeOrToken: Node | AST.Token): Rule.Fix {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.removeRange(nodeOrToken.range!);
+  },
+
+  /**
+   * Creates a fix command that removes the specified range of text from the source.
+   * The fix is not applied until applyFixes() is called.
+   * @param {int[]} range The range to remove, first item is start of range, second
+   *      is end of range.
+   * @returns {Object} The fix command.
+   */
+  removeRange(range: AST.Range): Rule.Fix {
+    return {
+      range,
+      text: '',
+    };
+  },
+});
+
+export { ruleFixer };

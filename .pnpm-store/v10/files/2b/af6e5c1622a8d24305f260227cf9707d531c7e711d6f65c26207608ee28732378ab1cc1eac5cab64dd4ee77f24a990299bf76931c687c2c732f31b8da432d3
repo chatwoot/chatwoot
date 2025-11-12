@@ -1,0 +1,14 @@
+{
+    "name": "posthog-js-react",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Provides components and hooks for React integrations of PostHog. It is not published to NPM, but is used in the main posthog-js package.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/PostHog/posthog-js",
+        "directory": "packages/react"
+    },
+    "main": "dist/umd/index.js",
+    "module": "dist/esm/index.js",
+    "types": "dist/types/index.d.ts"
+}

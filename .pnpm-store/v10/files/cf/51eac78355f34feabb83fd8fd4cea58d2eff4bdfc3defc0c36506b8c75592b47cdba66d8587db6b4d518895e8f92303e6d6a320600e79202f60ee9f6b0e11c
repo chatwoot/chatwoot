@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../src/eventBuffer/index.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,WAAW,EAAE,MAAM,UAAU,CAAC;AAK5C,UAAU,uBAAuB;IAC/B,cAAc,EAAE,OAAO,CAAC;IACxB,SAAS,CAAC,EAAE,MAAM,CAAC;CACpB;AAKD;;GAEG;AACH,wBAAgB,iBAAiB,CAAC,EAChC,cAAc,EACd,SAAS,EAAE,eAAe,GAC3B,EAAE,uBAAuB,GAAG,WAAW,CAevC"}

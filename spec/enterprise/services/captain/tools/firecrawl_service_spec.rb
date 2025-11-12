@@ -57,6 +57,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
         ignoreSitemap: false,
         limit: crawl_limit,
         webhook: webhook_url,
+        excludePaths: [],
         scrapeOptions: {
           onlyMainContent: false,
           formats: ['markdown'],
@@ -136,6 +137,39 @@ RSpec.describe Captain::Tools::FirecrawlService do
         expect(WebMock).to have_requested(:post, 'https://api.firecrawl.dev/v1/crawl')
           .with(
             body: expected_payload,
+            headers: expected_headers
+          )
+      end
+    end
+
+    context 'when exclude paths are provided' do
+      it 'includes excludePaths in the payload' do
+        payload_with_excludes = {
+          url: url,
+          maxDepth: 50,
+          ignoreSitemap: false,
+          limit: crawl_limit,
+          webhook: webhook_url,
+          excludePaths: ['blog/*', 'news/*'],
+          scrapeOptions: {
+            onlyMainContent: false,
+            formats: ['markdown'],
+            excludeTags: ['iframe']
+          }
+        }.to_json
+
+        stub_request(:post, 'https://api.firecrawl.dev/v1/crawl')
+          .with(
+            body: payload_with_excludes,
+            headers: expected_headers
+          )
+          .to_return(status: 200, body: '{"status":"ok"}')
+
+        service.perform(url, webhook_url, crawl_limit, exclude_paths: ['blog/*', 'news/*'])
+
+        expect(WebMock).to have_requested(:post, 'https://api.firecrawl.dev/v1/crawl')
+          .with(
+            body: payload_with_excludes,
             headers: expected_headers
           )
       end

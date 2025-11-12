@@ -1,0 +1,1 @@
+{"version":3,"file":"unsafe-svg.d.ts","sourceRoot":"","sources":["../../src/directives/unsafe-svg.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAGH,OAAO,EAAC,mBAAmB,EAAC,MAAM,kBAAkB,CAAC;AAIrD,cAAM,kBAAmB,SAAQ,mBAAmB;IAClD,OAAgB,aAAa,SAAe;IAC5C,OAAgB,UAAU,SAAc;CACzC;AAED;;;;;;;;;GASG;AACH,eAAO,MAAM,SAAS,iMAAgC,CAAC;AAEvD;;;GAGG;AACH,YAAY,EAAC,kBAAkB,EAAC,CAAC"}

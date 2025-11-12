@@ -1,0 +1,142 @@
+/**
+ * @name Get contrasting text color
+ * @description Get contrasting text color from a text color
+ * @param bgColor  Background color of text.
+ * @returns contrasting text color
+ */
+export declare const getContrastingTextColor: (bgColor: string) => string;
+/**
+ * @name Get formatted date
+ * @description Get date in today, yesterday or any other date format
+ * @param date  date
+ * @param todayText  Today text
+ * @param yesterdayText  Yesterday text
+ * @returns formatted date
+ */
+export declare const formatDate: ({ date, todayText, yesterdayText, }: {
+    date: string;
+    todayText: string;
+    yesterdayText: string;
+}) => string;
+/**
+ * @name formatTime
+ * @description Format time to Hour, Minute and Second
+ * @param timeInSeconds  number
+ * @returns formatted time
+ */
+export declare const formatTime: (timeInSeconds: number) => string;
+/**
+ * @name trimContent
+ * @description Trim a string to max length
+ * @param content String to trim
+ * @param maxLength Length of the string to trim, default 1024
+ * @param ellipsis Boolean to add dots at the end of the string, default false
+ * @returns trimmed string
+ */
+export declare const trimContent: (content?: string, maxLength?: number, ellipsis?: boolean) => string;
+/**
+ * @name convertSecondsToTimeUnit
+ * @description Convert seconds to time unit
+ * @param seconds  number
+ * @param unitNames  object
+ * @returns time and unit
+ * @example
+ * convertToUnit(60, { minute: 'm', hour: 'h', day: 'd' }); // { time: 1, unit: 'm' }
+ * convertToUnit(60, { minute: 'Minutes', hour: 'Hours', day: 'Days' }); // { time: 1, unit: 'Minutes' }
+ */
+export declare const convertSecondsToTimeUnit: (seconds: number, unitNames: {
+    minute: string;
+    hour: string;
+    day: string;
+}) => {
+    time: string;
+    unit: string;
+} | {
+    time: number;
+    unit: string;
+};
+/**
+ * @name fileNameWithEllipsis
+ * @description Truncates a filename while preserving the extension
+ * @param {Object} file - File object containing filename or name property
+ * @param {number} [maxLength=26] - Maximum length of the filename (excluding extension)
+ * @param {string} [ellipsis='…'] - Character to use for truncation
+ * @returns {string} Truncated filename with extension
+ * @example
+ * fileNameWithEllipsis({ filename: 'very-long-filename.pdf' }, 10) // 'very-long-f….pdf'
+ * fileNameWithEllipsis({ name: 'short.txt' }, 10) // 'short.txt'
+ */
+export declare const fileNameWithEllipsis: (file: {
+    filename?: string;
+    name?: string;
+}, maxLength?: number, ellipsis?: string) => string;
+/**
+ * @name splitName
+ * @description Splits a full name into firstName and lastName
+ * @param {string} name - Full name of the user
+ * @returns {Object} Object with firstName and lastName
+ * @example
+ * splitName('Mary Jane Smith') // { firstName: 'Mary Jane', lastName: 'Smith' }
+ * splitName('Alice') // { firstName: 'Alice', lastName: '' }
+ * splitName('John Doe') // { firstName: 'John', lastName: 'Doe' }
+ * splitName('') // { firstName: '', lastName: '' }
+ */
+export declare const splitName: (fullName: string) => {
+    firstName: string;
+    lastName: string;
+};
+interface DownloadFileOptions {
+    url: string;
+    type: string;
+    extension?: string | null;
+}
+/**
+ * Downloads a file from a URL with proper file type handling
+ * @name downloadFile
+ * @description Downloads file from URL with proper type handling and cleanup
+ * @param {Object} options Download configuration options
+ * @param {string} options.url File URL to download
+ * @param {string} options.type File type identifier
+ * @param {string} [options.extension] Optional file extension
+ * @returns {Promise<boolean>} Returns true if download successful, false otherwise
+ */
+export declare const downloadFile: ({ url, type, extension, }: DownloadFileOptions) => Promise<void>;
+interface FileInfo {
+    name: string;
+    type: string;
+    base: string;
+}
+/**
+ * Extracts file information from a URL or file path.
+ *
+ * @param {string} url - The URL or file path to process
+ * @returns {FileInfo} Object containing file information
+ *
+ * @example
+ * getFileInfo('https://example.com/path/Document%20Name.PDF')
+ * returns {
+ *   name: 'Document Name.PDF',
+ *   type: 'pdf',
+ *   base: 'Document Name'
+ * }
+ *
+ * getFileInfo('invalid/url')
+ * returns {
+ *   name: 'Unknown File',
+ *   type: '',
+ *   base: 'Unknown File'
+ * }
+ */
+export declare const getFileInfo: (url: string) => FileInfo;
+/**
+ * Formats a number with K/M/B/T suffixes using Intl.NumberFormat
+ * @param {number | string | null | undefined} num - The number to format
+ * @returns {string} Formatted string (e.g., "1.2K", "2.3M", "999")
+ * @example
+ * formatNumber(1234)     // "1.2K"
+ * formatNumber(1000000)  // "1M"
+ * formatNumber(999)      // "999"
+ * formatNumber(12344)    // "12.3K"
+ */
+export declare const formatNumber: (num: number | string | null | undefined) => string;
+export {};

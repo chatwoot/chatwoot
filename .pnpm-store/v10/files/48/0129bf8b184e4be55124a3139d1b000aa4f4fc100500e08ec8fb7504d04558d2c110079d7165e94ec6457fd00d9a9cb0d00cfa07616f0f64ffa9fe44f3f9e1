@@ -1,0 +1,73 @@
+{
+  "name": "vue-letter",
+  "version": "0.2.1",
+  "description": "Display e-mail messages in your Vue projects.",
+  "main": "dist/vue-letter.umd.cjs",
+  "module": "dist/vue-letter.js",
+  "types": "dist/main.d.ts",
+  "files": [
+    "dist"
+  ],
+  "browser": {
+    "./sfc": "src/Letter.vue"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/vue-letter.umd.cjs",
+      "import": "./dist/vue-letter.js",
+      "types": "./dist/main.d.ts"
+    }
+  },
+  "type": "module",
+  "typings": "dist/main.d.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "vite build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ],
+    "__tests__/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.3.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.6.0",
+    "vue": "^3.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mat-sz/vue-letter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mat-sz/vue-letter/issues"
+  },
+  "homepage": "https://github.com/mat-sz/vue-letter",
+  "dependencies": {
+    "lettersanitizer": "^1.0.6"
+  },
+  "author": "Mat Sz <contact@matsz.dev>",
+  "license": "BSD-3-Clause-Clear",
+  "keywords": [
+    "vue",
+    "vue-component",
+    "email",
+    "e-mail",
+    "mail",
+    "mime-message",
+    "ui"
+  ]
+}

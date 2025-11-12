@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" profiles="urn:mpeg:dash:profile:isoff-live:2011" type="static" mediaPresentationDuration="PT6S" minBufferTime="PT2.000S">
+  <BaseURL>https://www.example.com/base</BaseURL>
+  <Period>
+    <AdaptationSet mimeType="video/mp4" scanType="progressive" segmentAlignment="true" startWithSAP="1">
+      <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main"></Role>
+      <Representation bandwidth="449000" codecs="avc1.420015" frameRate="2997/125" height="270" id="482" width="482" >
+      </Representation>
+      <SegmentList timescale="1000" duration="1000">
+        <RepresentationIndex sourceURL="representation-index-low"/>
+        <SegmentURL media="low/segment-1.ts"/>
+        <SegmentURL media="low/segment-2.ts"/>
+        <SegmentURL media="low/segment-3.ts"/>
+        <SegmentURL media="low/segment-4.ts"/>
+        <SegmentURL media="low/segment-5.ts"/>
+        <SegmentURL media="low/segment-6.ts"/>
+        <SegmentURL media="low/segment-7.ts"/>
+        <SegmentURL media="low/segment-8.ts"/>
+        <SegmentURL media="low/segment-9.ts"/>
+        <SegmentURL media="low/segment-10.ts"/>
+      </SegmentList>
+    </AdaptationSet>
+
+    <AdaptationSet mimeType="video/mp4" scanType="progressive" segmentAlignment="true" startWithSAP="1">
+      <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main"></Role>
+      <Representation bandwidth="3971000" codecs="avc1.420015" frameRate="2997/125" height="404" id="720" width="720" >
+        <SegmentList timescale="90000">
+          <RepresentationIndex sourceURL="representation-index-high"/>
+          <SegmentTimeline>
+            <S t="0" r="9" d="5400000"/>
+          </SegmentTimeline>
+          <SegmentURL media="high/segment-1.ts"/>
+          <SegmentURL media="high/segment-2.ts"/>
+          <SegmentURL media="high/segment-3.ts"/>
+          <SegmentURL media="high/segment-4.ts"/>
+          <SegmentURL media="high/segment-5.ts"/>
+          <SegmentURL media="high/segment-6.ts"/>
+          <SegmentURL media="high/segment-7.ts"/>
+          <SegmentURL media="high/segment-8.ts"/>
+          <SegmentURL media="high/segment-9.ts"/>
+          <SegmentURL media="high/segment-10.ts"/>
+        </SegmentList>
+      </Representation>
+    </AdaptationSet>
+
+  </Period>
+</MPD>

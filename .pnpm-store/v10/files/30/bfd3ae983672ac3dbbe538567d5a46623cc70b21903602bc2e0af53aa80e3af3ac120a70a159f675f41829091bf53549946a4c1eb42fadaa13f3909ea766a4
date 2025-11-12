@@ -1,0 +1,53 @@
+.video-js .vjs-control-bar {
+  display: none;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3.0em;
+
+  @include background-color-with-alpha($primary-background-color, $primary-background-transparency);
+}
+
+// Video has started playing
+.vjs-has-started .vjs-control-bar {
+  @include display-flex;
+  visibility: visible;
+  opacity: 1;
+
+  $trans: visibility 0.1s, opacity 0.1s; // Var needed because of comma
+  @include transition($trans);
+}
+
+// Video has started playing AND user is inactive
+.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+  // Remain visible for screen reader and keyboard users
+  visibility: visible;
+  opacity: 0;
+  // prevent a click/tap from interacting with vjs-lock-showing menu's
+  // or other controls while we are inactive/hidden
+  pointer-events: none;
+
+  $trans: visibility 1.0s, opacity 1.0s;
+  @include transition($trans);
+
+}
+
+.vjs-controls-disabled .vjs-control-bar,
+.vjs-using-native-controls .vjs-control-bar,
+.vjs-error .vjs-control-bar {
+  // !important is ok in this context.
+  display: none !important;
+}
+
+// Don't hide the control bar if it's audio
+.vjs-audio.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+  opacity: 1;
+  visibility: visible;
+}
+
+// no flex support
+.vjs-has-started.vjs-no-flex .vjs-control-bar {
+  display: table;
+}

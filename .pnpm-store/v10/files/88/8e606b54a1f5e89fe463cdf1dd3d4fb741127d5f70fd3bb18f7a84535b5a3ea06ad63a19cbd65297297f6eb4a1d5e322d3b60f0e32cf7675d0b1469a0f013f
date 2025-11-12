@@ -1,0 +1,1 @@
+{"version":3,"file":"apply-auto-fixes.d.ts","sourceRoot":"","sources":["../../src/fix/apply-auto-fixes.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,QAAQ,CAAC;AAE9B,OAAO,EAAE,UAAU,EAAE,MAAM,YAAY,CAAC;AAGxC,MAAM,MAAM,uBAAuB,GAAG,EAAE,CAAC;AAEzC;;GAEG;AACH,wBAAgB,yBAAyB,CAAC,OAAO,EAAE,UAAU,EAAE,KAAK,EAAE,uBAAuB,GAAG,IAAI,CAAC,GAAG,EAAE,CAEzG"}

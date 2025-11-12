@@ -1,0 +1,1 @@
+{"version":3,"file":"mockSdk.d.ts","sourceRoot":"","sources":["../../../../src/core/mockSdk.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,cAAc,CAAC;AAGtD,MAAM,WAAW,aAAa;IAC5B,aAAa,CAAC,EAAE,OAAO,CAAC,iBAAiB,CAAC,CAAC;CAC5C;AAkCD;;GAEG;AACH,wBAAsB,OAAO,CAAC,EAAE,aAAa,EAAE,GAAE,aAAkB,GAAG,OAAO,CAAC,IAAI,CAAC,CAWlF"}

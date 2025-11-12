@@ -1,0 +1,22 @@
+{
+  "name": "@rollup/rollup-freebsd-arm64",
+  "version": "4.52.5",
+  "os": [
+    "freebsd"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "files": [
+    "rollup.freebsd-arm64.node"
+  ],
+  "description": "Native bindings for Rollup",
+  "author": "Lukas Taegert-Atkinson",
+  "homepage": "https://rollupjs.org/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rollup/rollup.git"
+  },
+  "main": "./rollup.freebsd-arm64.node"
+}

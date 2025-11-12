@@ -1,0 +1,6 @@
+# A simple master playlist with multiple variant streams
+#EXTM3U
+#EXT-X-STREAM-INF:PROGRAM-ID=1
+media.m3u8
+#EXT-X-STREAM-INF:
+media1.m3u8

@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --yellow-a1: #aaaa0006;
+  --yellow-a2: #f4dd0016;
+  --yellow-a3: #ffee0047;
+  --yellow-a4: #ffe3016b;
+  --yellow-a5: #ffd5008f;
+  --yellow-a6: #ebbc0097;
+  --yellow-a7: #d2a10098;
+  --yellow-a8: #c99700c6;
+  --yellow-a9: #ffe100d6;
+  --yellow-a10: #ffdc00;
+  --yellow-a11: #9e6c00;
+  --yellow-a12: #2e2000e0;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --yellow-a1: color(display-p3 0.675 0.675 0.024 / 0.024);
+      --yellow-a2: color(display-p3 0.953 0.855 0.008 / 0.079);
+      --yellow-a3: color(display-p3 0.988 0.925 0.004 / 0.251);
+      --yellow-a4: color(display-p3 0.98 0.875 0.004 / 0.373);
+      --yellow-a5: color(display-p3 0.969 0.816 0.004 / 0.491);
+      --yellow-a6: color(display-p3 0.875 0.71 0 / 0.526);
+      --yellow-a7: color(display-p3 0.769 0.604 0 / 0.542);
+      --yellow-a8: color(display-p3 0.725 0.549 0 / 0.687);
+      --yellow-a9: color(display-p3 1 0.898 0 / 0.781);
+      --yellow-a10: color(display-p3 0.969 0.812 0 / 0.71);
+      --yellow-a11: color(display-p3 0.6 0.44 0);
+      --yellow-a12: color(display-p3 0.271 0.233 0.137);
+    }
+  }
+}

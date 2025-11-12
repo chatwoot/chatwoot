@@ -1,0 +1,61 @@
+{
+  "name": "@vuelidate/validators",
+  "version": "2.0.4",
+  "description": "Validators for Vuelidate",
+  "main": "dist/index.cjs",
+  "types": "index.d.ts",
+  "module": "dist/index.mjs",
+  "unpkg": "dist/index.iife.min.js",
+  "jsdelivr": "dist/index.iife.min.js",
+  "repository": {
+    "url": "https://github.com/vuelidate/vuelidate",
+    "type": "git",
+    "directory": "packages/validators"
+  },
+  "license": "MIT",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./*": "./*"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "dev": "yarn build --watch",
+    "test:unit": "jest",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "vue-demi": "^0.13.11"
+  },
+  "peerDependencies": {
+    "@vue/composition-api": "^1.0.0-rc.1",
+    "vue": "^2.0.0 || >=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "flush-promises": "^1.0.2"
+  },
+  "sideEffects": [
+    "./src/utils/common.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "bdb672d334456461bcf9058dc551a21f0152d3d9"
+}

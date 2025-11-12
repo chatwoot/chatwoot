@@ -1,0 +1,20 @@
+/* Ensure custom controls are always visible because
+   the plugin hides and replace the video.js native mobile
+   controls.
+--------------------------------------------------------------------------------
+*/
+.vjs-wavesurfer .vjs-using-native-controls .vjs-control-bar {
+    display: flex !important;
+}
+
+/* Ensure that vjs menus and interfaces can be interacted with (such as the
+   progress control).
+--------------------------------------------------------------------------------
+*/
+.vjs-wavesurfer .vjs-menu-content, .vjs-progress-control {
+    z-index: 4;
+}
+
+.vjs-wavesurfer .vjs-modal-dialog, .vjs-text-track-display {
+    z-index: 4;
+}

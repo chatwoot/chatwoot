@@ -1,0 +1,75 @@
+{
+  "name": "@floating-ui/dom",
+  "version": "0.1.10",
+  "@rollingversions": {
+    "baseVersion": [
+      0,
+      0,
+      0
+    ]
+  },
+  "description": "Floating UI for the web",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/floating-ui.dom.cjs",
+  "module": "dist/floating-ui.dom.esm.js",
+  "unpkg": "dist/floating-ui.dom.min.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/floating-ui.dom.esm.js",
+      "require": "./dist/floating-ui.dom.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist/",
+    "index.d.ts",
+    "src/**/*.d.ts"
+  ],
+  "browserslist": "> 0.5%, not dead, not IE 11",
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "NODE_ENV=build rollup -c",
+    "test": "jest test"
+  },
+  "author": "atomiks",
+  "license": "MIT",
+  "bugs": "https://github.com/floating-ui/floating-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/floating-ui/floating-ui.git",
+    "directory": "packages/dom"
+  },
+  "homepage": "https://floating-ui.com",
+  "keywords": [
+    "tooltip",
+    "popover",
+    "dropdown",
+    "menu",
+    "popup",
+    "positioning"
+  ],
+  "dependencies": {
+    "@floating-ui/core": "^0.3.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@playwright/test": "^1.16.3",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@types/jest": "^27.0.3",
+    "babel-plugin-annotate-pure-calls": "^0.4.0",
+    "concurrently": "^6.4.0",
+    "jest": "^27.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.1.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "serve": "^13.0.2",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "name": "@intlify/eslint-plugin-vue-i18n",
+  "description": "ESLint plugin for Vue I18n",
+  "version": "3.2.0",
+  "license": "MIT",
+  "homepage": "https://github.com/intlify/eslint-plugin-vue-i18n#readme",
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "eslintplugin",
+    "i18n",
+    "internationalization",
+    "vue",
+    "vue-i18n",
+    "vue.js",
+    "vuejs"
+  ],
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/eslint-plugin-vue-i18n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/intlify/eslint-plugin-vue-i18n/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "type": "commonjs",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "dependencies": {
+    "@eslint/eslintrc": "^3.0.0",
+    "@intlify/core-base": "^9.12.0",
+    "@intlify/message-compiler": "^9.12.0",
+    "debug": "^4.3.4",
+    "eslint-compat-utils": "^0.6.0",
+    "glob": "^10.3.3",
+    "globals": "^15.0.0",
+    "ignore": "^6.0.0",
+    "import-fresh": "^3.3.0",
+    "is-language-code": "^3.1.0",
+    "js-yaml": "^4.1.0",
+    "json5": "^2.2.3",
+    "jsonc-eslint-parser": "^2.3.0",
+    "lodash": "^4.17.21",
+    "parse5": "^7.1.2",
+    "semver": "^7.5.4",
+    "synckit": "^0.9.0",
+    "vue-eslint-parser": "^9.3.1",
+    "yaml-eslint-parser": "^1.2.2"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.26.2",
+    "@types/debug": "^4.1.8",
+    "@types/eslint": "^8.44.1",
+    "@types/eslint-scope": "^3.7.4",
+    "@types/glob": "^8.1.0",
+    "@types/js-yaml": "^4.0.5",
+    "@types/json-schema": "^7.0.12",
+    "@types/lodash": "^4.14.196",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.4.5",
+    "@types/prettier": "^3.0.0",
+    "@types/semver": "^7.5.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "entities": "^5.0.0",
+    "env-cmd": "^10.1.0",
+    "eslint": "^9.4.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-markdown": "^5.0.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-vue": "^9.24.1",
+    "eslint4b": "^7.32.0",
+    "espree": "^10.0.0",
+    "esquery": "^1.5.0",
+    "jiti": "^1.21.0",
+    "json-schema": "^0.4.0",
+    "lint-staged": "^15.0.0",
+    "mocha": "^10.2.0",
+    "monaco-editor": "^0.52.0",
+    "npm-run-all2": "7.0.1",
+    "nyc": "^17.0.0",
+    "opener": "^1.5.2",
+    "path-scurry": "^1.10.1",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.1.6",
+    "typescript-eslint": "^7.11.0",
+    "vitepress": "^1.0.2",
+    "vue-eslint-editor": "^1.1.0",
+    "vue-github-button": "^3.1.0"
+  },
+  "peerDependencies": {
+    "eslint": "^8.0.0 || ^9.0.0-0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "lint-staged": {
+    "*.{json,md,yml}": [
+      "prettier --write"
+    ],
+    "*.{js?(x)}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write",
+      "eslint --fix"
+    ]
+  },
+  "scripts": {
+    "build": "tsc --project ./tsconfig.build.json",
+    "clean": "git clean -fx .nyc_output coverage dist docs/.vitepress/dist",
+    "coverage": "nyc report --reporter lcov && opener coverage/lcov-report/index.html",
+    "docs": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "generate": "jiti scripts/update.ts",
+    "fix": "run-p fix:*",
+    "fix:eslint": "pnpm run lint:eslint --fix",
+    "fix:prettier": "prettier --write .",
+    "lint": "run-s lint:*",
+    "lint:eslint": "eslint .  --ignore-pattern \"tests/fixtures/\"",
+    "lint:prettier": "prettier --check .",
+    "prerelease": "pnpm run test && pnpm run build",
+    "release": "changeset publish",
+    "test": "mocha --require jiti/register \"./tests/lib/**/*.ts\" --timeout 5000",
+    "test:debug": "mocha --require jiti/register \"./tests/lib/**/*.ts\"",
+    "test:coverage": "nyc mocha --require jiti/register \"./tests/lib/**/*.ts\" --timeout 60000",
+    "test:integrations": "mocha --require jiti/register \"./tests/integrations/*.ts\" --timeout 60000",
+    "new": "jiti ./scripts/new-rule.ts",
+    "version:ci": "env-cmd -e version-ci pnpm run generate && changeset version",
+    "changeset": "changeset"
+  }
+}

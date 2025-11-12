@@ -1,0 +1,46 @@
+{
+  "name": "@histoire/shared",
+  "type": "module",
+  "version": "0.17.17",
+  "description": "Shared utilities for Histoire",
+  "author": {
+    "name": "Guillaume Chau"
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/Akryum/histoire.git",
+    "type": "git",
+    "directory": "packages/histoire-shared"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./*",
+    "./client-node": "./dist/client/server/run.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "peerDependencies": {
+    "vite": "^2.9.0 || ^3.0.0 || ^4.0.0 || ^5.0.0"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/markdown-it": "^12.2.3",
+    "chokidar": "^3.5.3",
+    "pathe": "^1.1.1",
+    "picocolors": "^1.0.0",
+    "@histoire/vendors": "^0.17.17"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.4",
+    "vite": "^5.0.11"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -d",
+    "watch": "tsc -d -w --sourceMap"
+  }
+}

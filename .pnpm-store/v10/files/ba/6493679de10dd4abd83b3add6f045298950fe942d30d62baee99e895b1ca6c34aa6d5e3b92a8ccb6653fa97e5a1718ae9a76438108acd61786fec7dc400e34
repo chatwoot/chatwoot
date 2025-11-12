@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --slate-a1: #00005503;
+  --slate-a2: #00005506;
+  --slate-a3: #0000330f;
+  --slate-a4: #00002d17;
+  --slate-a5: #0009321f;
+  --slate-a6: #00002f26;
+  --slate-a7: #00062e32;
+  --slate-a8: #00083046;
+  --slate-a9: #00051d74;
+  --slate-a10: #00071b7f;
+  --slate-a11: #0007149f;
+  --slate-a12: #000509e3;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --slate-a1: color(display-p3 0.024 0.024 0.349 / 0.012);
+      --slate-a2: color(display-p3 0.024 0.024 0.349 / 0.024);
+      --slate-a3: color(display-p3 0.004 0.004 0.204 / 0.059);
+      --slate-a4: color(display-p3 0.012 0.012 0.184 / 0.091);
+      --slate-a5: color(display-p3 0.004 0.039 0.2 / 0.122);
+      --slate-a6: color(display-p3 0.008 0.008 0.165 / 0.15);
+      --slate-a7: color(display-p3 0.008 0.027 0.184 / 0.197);
+      --slate-a8: color(display-p3 0.004 0.031 0.176 / 0.275);
+      --slate-a9: color(display-p3 0.004 0.02 0.106 / 0.455);
+      --slate-a10: color(display-p3 0.004 0.027 0.098 / 0.499);
+      --slate-a11: color(display-p3 0 0.02 0.063 / 0.62);
+      --slate-a12: color(display-p3 0 0.012 0.031 / 0.887);
+    }
+  }
+}

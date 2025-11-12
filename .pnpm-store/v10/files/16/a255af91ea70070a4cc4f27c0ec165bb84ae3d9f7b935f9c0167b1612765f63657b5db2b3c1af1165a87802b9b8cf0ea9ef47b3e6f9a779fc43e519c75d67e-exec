@@ -1,0 +1,101 @@
+#!/usr/bin/env node
+
+// Forward to the automatically-generated WebAssembly loader from the Go compiler
+
+const module_ = require('module');
+const path = require('path');
+const fs = require('fs');
+
+const wasm_exec_node = path.join(__dirname, '..', 'wasm_exec_node.js');
+const esbuild_wasm = path.join(__dirname, '..', 'esbuild.wasm');
+
+const code = fs.readFileSync(wasm_exec_node, 'utf8');
+const wrapper = new Function('require', 'WebAssembly', code);
+
+function instantiate(bytes, importObject) {
+  // Using this API causes "./esbuild --version" to run around 1 second faster
+  // than using the "WebAssembly.instantiate()" API when run in node (v12.16.2)
+  const module = new WebAssembly.Module(bytes);
+  const instance = new WebAssembly.Instance(module, importObject);
+  return Promise.resolve({ instance, module });
+}
+
+// Node has another bug where using "fs.read" to read from stdin reads
+// everything successfully and then throws an error, but only on Windows. Go's
+// WebAssembly support uses "fs.read" so it hits this problem. This is a patch
+// to try to work around the bug in node. This bug has been reported to node
+// at least twice in https://github.com/nodejs/node/issues/35997 and in
+// https://github.com/nodejs/node/issues/19831. This issue has also been
+// reported to the Go project: https://github.com/golang/go/issues/43913.
+const read = fs.read;
+fs.read = function () {
+  const callback = arguments[5];
+  arguments[5] = function (err, count) {
+    if (count === 0 && err && err.code === 'EOF') {
+      arguments[0] = null;
+    }
+    return callback.apply(this, arguments);
+  };
+  return read.apply(this, arguments);
+};
+
+// Hack around a Unicode bug in node: https://github.com/nodejs/node/issues/24550.
+// See this for the matching Go issue: https://github.com/golang/go/issues/43917.
+const write = fs.write;
+fs.write = function (fd, buf, offset, length, position, callback) {
+  if (offset === 0 && length === buf.length && position === null) {
+    if (fd === process.stdout.fd) {
+      try {
+        process.stdout.write(buf, err => err ? callback(err, 0, null) : callback(null, length, buf));
+      } catch (err) {
+        callback(err, 0, null);
+      }
+      return;
+    }
+    if (fd === process.stderr.fd) {
+      try {
+        process.stderr.write(buf, err => err ? callback(err, 0, null) : callback(null, length, buf));
+      } catch (err) {
+        callback(err, 0, null);
+      }
+      return;
+    }
+  }
+  return write.apply(this, arguments);
+};
+const writeSync = fs.writeSync;
+fs.writeSync = function (fd, buf) {
+  if (fd === process.stdout.fd) return process.stdout.write(buf), buf.length;
+  if (fd === process.stderr.fd) return process.stderr.write(buf), buf.length;
+  return writeSync.apply(this, arguments);
+};
+
+// WASM code generated with Go 1.17.2+ will crash when run in a situation with
+// many environment variables: https://github.com/golang/go/issues/49011. An
+// example of this situation is running a Go-compiled WASM executable in GitHub
+// Actions. Work around this by filtering node's copy of environment variables
+// down to only include the environment variables that esbuild currently uses.
+const esbuildUsedEnvVars = [
+  'NO_COLOR',
+  'NODE_PATH',
+  'npm_config_user_agent',
+  'WT_SESSION',
+]
+for (let key in process.env) {
+  if (esbuildUsedEnvVars.indexOf(key) < 0) {
+    delete process.env[key]
+  }
+}
+
+// Node v19 introduced "globalThis.crypto" https://github.com/nodejs/node/pull/44897.
+// This broke Go's WebAssembly shim: https://github.com/golang/go/issues/56860.
+// Hack around this breakage by resetting "globalThis.crypto" to "writable".
+// Just to be safe, also make it "configurable" in case Go updates their
+// compiler such that it tries to reconfigure "globalThis.crypto" itself.
+Object.defineProperty(globalThis, 'crypto', {
+  writable: true,
+  configurable: true,
+});
+
+process.argv.splice(2, 0, esbuild_wasm);
+wrapper(module_.createRequire(wasm_exec_node), Object.assign(Object.create(WebAssembly), { instantiate }));

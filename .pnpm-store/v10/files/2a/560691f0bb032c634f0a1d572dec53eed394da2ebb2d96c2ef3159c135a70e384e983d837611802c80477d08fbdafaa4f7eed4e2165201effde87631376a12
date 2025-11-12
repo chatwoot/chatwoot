@@ -1,0 +1,9 @@
+videojs.addLanguage('ru', {
+  "Device": "Устройство",
+  "Record": "Запись",
+  "Stop": "Стоп",
+  "Image": "Изображение",
+  "Retry": "Повторить",
+  "REC": "REC",
+  "Picture in Picture": "Picture in Picture"
+});

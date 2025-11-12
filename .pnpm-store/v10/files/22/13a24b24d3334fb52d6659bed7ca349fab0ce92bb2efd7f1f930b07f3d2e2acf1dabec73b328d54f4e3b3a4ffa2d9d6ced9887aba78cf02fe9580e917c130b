@@ -1,0 +1,33 @@
+{
+  "name": "json-logic-js",
+  "version": "2.0.5",
+  "description": "Build complex rules, serialize them as JSON, and execute them in JavaScript",
+  "main": "logic.js",
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "qunit": "^2.16.0"
+  },
+  "scripts": {
+    "test": "qunit ./tests/tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwadhams/json-logic-js.git"
+  },
+  "keywords": [
+    "json",
+    "logic",
+    "jsonlogic",
+    "rules"
+  ],
+  "author": "Jeremy Wadhams <jwadhams@dealerinspire.com> (http://jsonlogic.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwadhams/json-logic-js/issues"
+  },
+  "homepage": "https://github.com/jwadhams/json-logic-js#readme"
+}

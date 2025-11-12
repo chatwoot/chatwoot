@@ -1,0 +1,34 @@
+{
+  "name": "crelt",
+  "version": "1.0.5",
+  "description": "Tiny DOM-element-creation utility",
+  "main": "dist/index.cjs",
+  "type": "module",
+  "exports": {
+    "import": "./index.es.js",
+    "require": "./dist/index.cjs"
+  },
+  "module": "index.es.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "prepare": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marijnh/crelt.git"
+  },
+  "keywords": [
+    "dom",
+    "creation",
+    "crel"
+  ],
+  "author": "Marijn Haverbeke <marijnh@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marijnh/crelt/issues"
+  },
+  "homepage": "https://github.com/marijnh/crelt#readme",
+  "devDependencies": {
+    "rollup": "^2.0.5"
+  }
+}

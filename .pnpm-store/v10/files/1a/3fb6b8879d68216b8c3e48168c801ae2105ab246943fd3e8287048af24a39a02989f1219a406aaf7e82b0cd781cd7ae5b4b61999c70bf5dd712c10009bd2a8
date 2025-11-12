@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display&display=swap');
+@import 'floating-vue/dist/style.css';
+@import '@histoire/controls/dist/style.css';
+
+@import 'floating.pcss';
+@import 'transitions.pcss';
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+a,
+input,
+button {
+  color: inherit;
+}
+
+a {
+  text-decoration: inherit;
+}
+
+input, button {
+  font-family: inherit;
+}
+
+a,
+button {
+  user-select: none;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body,
+  pre {
+    margin: 0;
+  }
+
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  html {
+    font-family: 'Noto Sans Display', system-ui, sans-serif;
+    font-size: 1rem;
+  }
+
+  body {
+    font-size: 1.125rem;
+  }
+
+  @media (min-width: 640px) {
+    body {
+      font-size: .875rem;
+    }
+  }
+
+  .__histoire-render-story:not(.__histoire-render-custom-controls) {
+    overflow: auto;
+    min-height: 100%;
+  }
+
+  .__histoire-code .shiki {
+    background: transparent !important;
+  }
+
+  .htw-prose {
+    h1, h2, h3, h4 {
+      &:not(:hover) {
+        .header-anchor[aria-hidden="true"] {
+          visibility: hidden;
+        }
+      }
+    }
+
+    hr {
+      margin: 1rem 0;
+    }
+  }
+
+  .__histoire-pane-shadow-from-right {
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0));
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: right;
+
+    .htw-dark & {
+      background-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+    }
+  }
+}

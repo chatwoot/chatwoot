@@ -1,0 +1,447 @@
+[
+  {
+    "name": "Bipbop - Muxed TS with 1 alt Audio, 5 captions",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "FMP4 and ts both muxed",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/ts-fmp4/index.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Advanced Bipbop - ts and captions muxed",
+    "uri": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Advanced Bipbop - FMP4 and captions muxed",
+    "uri": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Advanced Bipbop - FMP4 hevc, demuxed",
+    "uri": "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Angel One - FMP4 demuxed, many audio/captions",
+    "uri": "https://storage.googleapis.com/shaka-demo-assets/angel-one-hls/hls.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Parkour - FMP4 demuxed",
+    "uri": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s-fmp4/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Song - ts Audio only",
+    "uri": "https://s3.amazonaws.com/qa.jwplayer.com/~alex/121628/new_master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Coit Tower drone footage - 4 8 second segment",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/CoitTower/master_ts_segtimes.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Disney's Oceans trailer - HLSe, ts Encrypted",
+    "uri": "https://playertest.longtailvideo.com/adaptive/oceans_aes/oceans_aes.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Sintel - ts with audio/subs and a 4k rendtion",
+    "uri": "https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Boat Ipsum Subs - HLS + subtitles",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/hls-webvtt/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Boat Video Only",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/video-only/out.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Boat Audio Only",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/audio-only/out.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Boat 4K",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/4k-hls/out.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Boat Misaligned - 3, 5, 7, second segment playlists",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/misaligned-playlists/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "BBB-CMIF: Big Buck Bunny Dark Truths - demuxed, fmp4",
+    "uri": "https://storage.googleapis.com/shaka-demo-assets/bbb-dark-truths-hls/hls.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Big Buck Bunny - demuxed audio/video, includes 4K, burns in frame, pts, resolution, bitrate values",
+    "uri": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "Angel One - fmp4, webm, subs (TODO: subs are broken), alternate audio tracks",
+    "uri": "https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "Angel One - Widevine, fmp4, webm, subs, alternate audio tracks",
+    "uri": "https://storage.googleapis.com/shaka-demo-assets/angel-one-widevine/dash.mpd",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.widevine.alpha": "https://cwip-shaka-proxy.appspot.com/no_auth"
+    }
+  },
+  {
+    "name": "BBB-CMIF: Big Buck Bunny Dark Truths - demuxed, fmp4",
+    "uri": "https://storage.googleapis.com/shaka-demo-assets/bbb-dark-truths/dash.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "SIDX demuxed, 2 audio",
+    "uri": "https://dash.akamaized.net/dash264/TestCases/10a/1/iis_forest_short_poem_multi_lang_480p_single_adapt_aaclc_sidx.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "SIDX bipbop-like",
+    "uri": "https://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-onDemand/mp4-onDemand-mpd-AV.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "Google self-driving car - SIDX",
+    "uri": "https://yt-dash-mse-test.commondatastorage.googleapis.com/media/car-20120827-manifest.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "Sintel - single rendition",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/sintel_dash/sintel_vod.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "HLS - Live - Axinom live stream, may not always be available",
+    "uri": "https://akamai-axtest.akamaized.net/routes/lapd-v1-acceptance/www_c4/Manifest.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": ["live"]
+  },
+  {
+    "name": "DASH - Live - Axinom live stream, may not always be available",
+    "uri": "https://akamai-axtest.akamaized.net/routes/lapd-v1-acceptance/www_c4/Manifest.mpd",
+    "mimetype": "application/dash+xml",
+    "features": ["live"]
+  },
+  {
+    "name": "DASH - Live simulated DASH from DASH IF",
+    "uri": "https://livesim.dashif.org/livesim/mup_30/testpic_2s/Manifest.mpd",
+    "mimetype": "application/dash+xml",
+    "features": ["live"]
+  },
+  {
+    "name": "DASH - Shaka Player Source Simulated Live",
+    "uri": "https://storage.googleapis.com/shaka-live-assets/player-source.mpd",
+    "mimetype": "application/dash+xml",
+    "features": ["live"]
+  },
+  {
+    "name": "Apple's LL-HLS test stream",
+    "uri": "https://ll-hls-test.apple.com/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": ["live", "low-latency"]
+  },
+  {
+    "name": "Apple's LL-HLS test stream, cmaf, fmp4",
+    "uri": "https://ll-hls-test.apple.com/cmaf/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": ["live", "low-latency"]
+  },
+  {
+    "name": "Mux's LL-HLS test stream",
+    "uri": "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": ["live", "low-latency"]
+  },
+  {
+    "name": "Axinom Multi DRM - DASH, 4k, HEVC, Playready, Widevine",
+    "uri": "https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest.mpd",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.microsoft.playready": {
+        "url": "https://drm-playready-licensing.axtest.net/AcquireLicense",
+        "licenseHeaders": {
+          "X-AxDRM-Message": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.4lWwW46k-oWcah8oN18LPj5OLS5ZU-_AQv7fe0JhNjA"
+        }
+      },
+      "com.widevine.alpha": {
+        "url": "https://drm-widevine-licensing.axtest.net/AcquireLicense",
+        "licenseHeaders": {
+          "X-AxDRM-Message": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.4lWwW46k-oWcah8oN18LPj5OLS5ZU-_AQv7fe0JhNjA"
+        }
+      }
+    }
+  },
+  {
+    "name": "Axinom Multi DRM, Multi Period - DASH, 4k, HEVC, Playready, Widevine",
+    "uri": "https://media.axprod.net/TestVectors/v7-MultiDRM-MultiKey-MultiPeriod/Manifest.mpd",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.microsoft.playready": {
+        "url": "https://drm-playready-licensing.axtest.net/AcquireLicense",
+        "licenseHeaders": {
+          "X-AxDRM-Message": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImtleXMiOlt7ImlkIjoiMDg3Mjc4NmUtZjllNy00NjVmLWEzYTItNGU1YjBlZjhmYTQ1IiwiZW5jcnlwdGVkX2tleSI6IlB3NitlRVlOY3ZqWWJmc2gzWDNmbWc9PSJ9LHsiaWQiOiJjMTRmMDcwOS1mMmI5LTQ0MjctOTE2Yi02MWI1MjU4NjUwNmEiLCJlbmNyeXB0ZWRfa2V5IjoiLzErZk5paDM4bXFSdjR5Y1l6bnQvdz09In0seyJpZCI6IjhiMDI5ZTUxLWQ1NmEtNDRiZC05MTBmLWQ0YjVmZDkwZmJhMiIsImVuY3J5cHRlZF9rZXkiOiJrcTBKdVpFanBGTjhzYVRtdDU2ME9nPT0ifSx7ImlkIjoiMmQ2ZTkzODctNjBjYS00MTQ1LWFlYzItYzQwODM3YjRiMDI2IiwiZW5jcnlwdGVkX2tleSI6IlRjUlFlQld4RW9IT0tIcmFkNFNlVlE9PSJ9LHsiaWQiOiJkZTAyZjA3Zi1hMDk4LTRlZTAtYjU1Ni05MDdjMGQxN2ZiYmMiLCJlbmNyeXB0ZWRfa2V5IjoicG9lbmNTN0dnbWVHRmVvSjZQRUFUUT09In0seyJpZCI6IjkxNGU2OWY0LTBhYjMtNDUzNC05ZTlmLTk4NTM2MTVlMjZmNiIsImVuY3J5cHRlZF9rZXkiOiJlaUkvTXNsbHJRNHdDbFJUL0xObUNBPT0ifSx7ImlkIjoiZGE0NDQ1YzItZGI1ZS00OGVmLWIwOTYtM2VmMzQ3YjE2YzdmIiwiZW5jcnlwdGVkX2tleSI6IjJ3K3pkdnFycERWM3hSMGJKeTR1Z3c9PSJ9LHsiaWQiOiIyOWYwNWU4Zi1hMWFlLTQ2ZTQtODBlOS0yMmRjZDQ0Y2Q3YTEiLCJlbmNyeXB0ZWRfa2V5IjoiL3hsU0hweHdxdTNnby9nbHBtU2dhUT09In0seyJpZCI6IjY5ZmU3MDc3LWRhZGQtNGI1NS05NmNkLWMzZWRiMzk5MTg1MyIsImVuY3J5cHRlZF9rZXkiOiJ6dTZpdXpOMnBzaTBaU3hRaUFUa1JRPT0ifV19fQ.BXr93Et1krYMVs-CUnf7F3ywJWFRtxYdkR7Qn4w3-to"
+        }
+      },
+      "com.widevine.alpha": {
+        "url": "https://drm-widevine-licensing.axtest.net/AcquireLicense",
+        "licenseHeaders": {
+          "X-AxDRM-Message": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImtleXMiOlt7ImlkIjoiMDg3Mjc4NmUtZjllNy00NjVmLWEzYTItNGU1YjBlZjhmYTQ1IiwiZW5jcnlwdGVkX2tleSI6IlB3NitlRVlOY3ZqWWJmc2gzWDNmbWc9PSJ9LHsiaWQiOiJjMTRmMDcwOS1mMmI5LTQ0MjctOTE2Yi02MWI1MjU4NjUwNmEiLCJlbmNyeXB0ZWRfa2V5IjoiLzErZk5paDM4bXFSdjR5Y1l6bnQvdz09In0seyJpZCI6IjhiMDI5ZTUxLWQ1NmEtNDRiZC05MTBmLWQ0YjVmZDkwZmJhMiIsImVuY3J5cHRlZF9rZXkiOiJrcTBKdVpFanBGTjhzYVRtdDU2ME9nPT0ifSx7ImlkIjoiMmQ2ZTkzODctNjBjYS00MTQ1LWFlYzItYzQwODM3YjRiMDI2IiwiZW5jcnlwdGVkX2tleSI6IlRjUlFlQld4RW9IT0tIcmFkNFNlVlE9PSJ9LHsiaWQiOiJkZTAyZjA3Zi1hMDk4LTRlZTAtYjU1Ni05MDdjMGQxN2ZiYmMiLCJlbmNyeXB0ZWRfa2V5IjoicG9lbmNTN0dnbWVHRmVvSjZQRUFUUT09In0seyJpZCI6IjkxNGU2OWY0LTBhYjMtNDUzNC05ZTlmLTk4NTM2MTVlMjZmNiIsImVuY3J5cHRlZF9rZXkiOiJlaUkvTXNsbHJRNHdDbFJUL0xObUNBPT0ifSx7ImlkIjoiZGE0NDQ1YzItZGI1ZS00OGVmLWIwOTYtM2VmMzQ3YjE2YzdmIiwiZW5jcnlwdGVkX2tleSI6IjJ3K3pkdnFycERWM3hSMGJKeTR1Z3c9PSJ9LHsiaWQiOiIyOWYwNWU4Zi1hMWFlLTQ2ZTQtODBlOS0yMmRjZDQ0Y2Q3YTEiLCJlbmNyeXB0ZWRfa2V5IjoiL3hsU0hweHdxdTNnby9nbHBtU2dhUT09In0seyJpZCI6IjY5ZmU3MDc3LWRhZGQtNGI1NS05NmNkLWMzZWRiMzk5MTg1MyIsImVuY3J5cHRlZF9rZXkiOiJ6dTZpdXpOMnBzaTBaU3hRaUFUa1JRPT0ifV19fQ.BXr93Et1krYMVs-CUnf7F3ywJWFRtxYdkR7Qn4w3-to"
+        }
+      }
+    }
+  },
+  {
+    "name": "Axinom Clear - DASH, 4k, HEVC",
+    "uri": "https://media.axprod.net/TestVectors/v7-Clear/Manifest.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "Axinom Clear MultiPeriod - DASH, 4k, HEVC",
+    "uri": "https://media.axprod.net/TestVectors/v7-Clear/Manifest_MultiPeriod.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "DASH-IF simulated live",
+    "uri": "https://livesim.dashif.org/livesim/testpic_2s/Manifest.mpd",
+    "mimetype": "application/dash+xml",
+    "features": ["live"]
+  },
+  {
+    "name": "Tears of Steal - Widevine (Unified Streaming)",
+    "uri": "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-dash-widevine.ism/.mpd",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.widevine.alpha": "https://widevine-proxy.appspot.com/proxy"
+    }
+  },
+  {
+    "name": "Tears of Steal - PlayReady (Unified Streaming)",
+    "uri": "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-dash-playready.ism/.mpd",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.microsoft.playready": "https://test.playready.microsoft.com/service/rightsmanager.asmx"
+    }
+  },
+  {
+    "name": "Unified Streaming Live DASH",
+    "uri": "https://live.unified-streaming.com/scte35/scte35.isml/.mpd",
+    "mimetype": "application/dash+xml",
+    "features": ["live"]
+  },
+  {
+    "name": "Unified Streaming Live HLS",
+    "uri": "https://live.unified-streaming.com/scte35/scte35.isml/.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": ["live"]
+  },
+  {
+    "name": "DOESN'T WORK - Bayerrischer Rundfunk Recorded Loop - DASH, may not always be available",
+    "uri": "https://irtdashreference-i.akamaihd.net/dash/live/901161/keepixo1/manifestBR2.mpd",
+    "mimetype": "application/dash+xml",
+    "features": ["live"]
+  },
+  {
+    "name": "DOESN'T WORK - Bayerrischer Rundfunk Recorded Loop - HLS, may not always be available",
+    "uri": "https://irtdashreference-i.akamaihd.net/dash/live/901161/keepixo1/playlistBR2.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": ["live"]
+  },
+  {
+    "name": "Big Buck Bunny - Azure - DASH, Widevine, PlayReady",
+    "uri": "https://amssamples.streaming.mediaservices.windows.net/622b189f-ec39-43f2-93a2-201ac4e31ce1/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.widevine.alpha": "https://amssamples.keydelivery.mediaservices.windows.net/Widevine/?KID=1ab45440-532c-4399-94dc-5c5ad9584bac",
+      "com.microsoft.playready": "https://amssamples.keydelivery.mediaservices.windows.net/PlayReady/"
+    }
+  },
+  {
+    "name": "Big Buck Bunny Audio only, groups have same uri as renditons",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/audio-only-dupe-groups/prog_index.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Big Buck Bunny Demuxed av, audio only rendition same as group",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/demuxed-ts-with-audio-only-rendition/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "sidx v1 dash",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/sidx-v1-dash/Dog.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "fmp4 x264/flac no manifest codecs",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/fmp4-flac-no-manifest-codecs/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "fmp4 x264/opus no manifest codecs",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/fmp4-opus-no-manifest-codecs/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "fmp4 h264/aac no manifest codecs",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/fmp4-muxed-no-playlist-codecs/index.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "ts one valid codec among many invalid",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/ts-one-valid-many-invalid-codecs/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Legacy AVC Codec",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/legacy-avc-codec/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Pseudo-Live PDT test source",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/pdt-test-source/no-endlist.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": ["live"]
+  },
+  {
+    "name": "PDT test source",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/pdt-test-source/endlist.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "audio only dash, two groups",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/audio-only-dash/dash.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "video only dash, two renditions",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/video-only-dash/dash.mpd",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "encrypted init segment",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/encrypted-init-segment/master.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "Dash data uri for https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd",
+    "uri": "data:application/dash+xml;charset=utf-8,%3CMPD%20mediaPresentationDuration=%22PT634.566S%22%20minBufferTime=%22PT2.00S%22%20profiles=%22urn:hbbtv:dash:profile:isoff-live:2012,urn:mpeg:dash:profile:isoff-live:2011%22%20type=%22static%22%20xmlns=%22urn:mpeg:dash:schema:mpd:2011%22%20xmlns:xsi=%22http://www.w3.org/2001/XMLSchema-instance%22%20xsi:schemaLocation=%22urn:mpeg:DASH:schema:MPD:2011%20DASH-MPD.xsd%22%3E%20%3CBaseURL%3Ehttps://dash.akamaized.net/akamai/bbb_30fps/%3C/BaseURL%3E%20%3CPeriod%3E%20%20%3CAdaptationSet%20mimeType=%22video/mp4%22%20contentType=%22video%22%20subsegmentAlignment=%22true%22%20subsegmentStartsWithSAP=%221%22%20par=%2216:9%22%3E%20%20%20%3CSegmentTemplate%20duration=%22120%22%20timescale=%2230%22%20media=%22$RepresentationID$/$RepresentationID$_$Number$.m4v%22%20startNumber=%221%22%20initialization=%22$RepresentationID$/$RepresentationID$_0.m4v%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_1024x576_2500k%22%20codecs=%22avc1.64001f%22%20bandwidth=%223134488%22%20width=%221024%22%20height=%22576%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_1280x720_4000k%22%20codecs=%22avc1.64001f%22%20bandwidth=%224952892%22%20width=%221280%22%20height=%22720%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_1920x1080_8000k%22%20codecs=%22avc1.640028%22%20bandwidth=%229914554%22%20width=%221920%22%20height=%221080%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_320x180_200k%22%20codecs=%22avc1.64000d%22%20bandwidth=%22254320%22%20width=%22320%22%20height=%22180%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_320x180_400k%22%20codecs=%22avc1.64000d%22%20bandwidth=%22507246%22%20width=%22320%22%20height=%22180%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_480x270_600k%22%20codecs=%22avc1.640015%22%20bandwidth=%22759798%22%20width=%22480%22%20height=%22270%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_640x360_1000k%22%20codecs=%22avc1.64001e%22%20bandwidth=%221254758%22%20width=%22640%22%20height=%22360%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_640x360_800k%22%20codecs=%22avc1.64001e%22%20bandwidth=%221013310%22%20width=%22640%22%20height=%22360%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_768x432_1500k%22%20codecs=%22avc1.64001e%22%20bandwidth=%221883700%22%20width=%22768%22%20height=%22432%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_30fps_3840x2160_12000k%22%20codecs=%22avc1.640033%22%20bandwidth=%2214931538%22%20width=%223840%22%20height=%222160%22%20frameRate=%2230%22%20sar=%221:1%22%20scanType=%22progressive%22/%3E%20%20%3C/AdaptationSet%3E%20%20%3CAdaptationSet%20mimeType=%22audio/mp4%22%20contentType=%22audio%22%20subsegmentAlignment=%22true%22%20subsegmentStartsWithSAP=%221%22%3E%20%20%20%3CAccessibility%20schemeIdUri=%22urn:tva:metadata:cs:AudioPurposeCS:2007%22%20value=%226%22/%3E%20%20%20%3CRole%20schemeIdUri=%22urn:mpeg:dash:role:2011%22%20value=%22main%22/%3E%20%20%20%3CSegmentTemplate%20duration=%22192512%22%20timescale=%2248000%22%20media=%22$RepresentationID$/$RepresentationID$_$Number$.m4a%22%20startNumber=%221%22%20initialization=%22$RepresentationID$/$RepresentationID$_0.m4a%22/%3E%20%20%20%3CRepresentation%20id=%22bbb_a64k%22%20codecs=%22mp4a.40.5%22%20bandwidth=%2267071%22%20audioSamplingRate=%2248000%22%3E%20%20%20%20%3CAudioChannelConfiguration%20schemeIdUri=%22urn:mpeg:dash:23003:3:audio_channel_configuration:2011%22%20value=%222%22/%3E%20%20%20%3C/Representation%3E%20%20%3C/AdaptationSet%3E%20%3C/Period%3E%3C/MPD%3E",
+    "mimetype": "application/dash+xml",
+    "features": []
+  },
+  {
+    "name": "HLS data uri for https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+    "uri": "data:application/x-mpegurl;charset=utf-8,%23EXTM3U%0D%0A%0D%0A%23EXT-X-MEDIA%3ATYPE%3DAUDIO%2CGROUP-ID%3D%22bipbop_audio%22%2CLANGUAGE%3D%22eng%22%2CNAME%3D%22BipBop%20Audio%201%22%2CAUTOSELECT%3DYES%2CDEFAULT%3DYES%0D%0A%23EXT-X-MEDIA%3ATYPE%3DAUDIO%2CGROUP-ID%3D%22bipbop_audio%22%2CLANGUAGE%3D%22eng%22%2CNAME%3D%22BipBop%20Audio%202%22%2CAUTOSELECT%3DNO%2CDEFAULT%3DNO%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Falternate_audio_aac_sinewave%2Fprog_index.m3u8%22%0D%0A%0D%0A%0D%0A%23EXT-X-MEDIA%3ATYPE%3DSUBTITLES%2CGROUP-ID%3D%22subs%22%2CNAME%3D%22English%22%2CDEFAULT%3DYES%2CAUTOSELECT%3DYES%2CFORCED%3DNO%2CLANGUAGE%3D%22en%22%2CCHARACTERISTICS%3D%22public.accessibility.transcribes-spoken-dialog%2C%20public.accessibility.describes-music-and-sound%22%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fsubtitles%2Feng%2Fprog_index.m3u8%22%0D%0A%23EXT-X-MEDIA%3ATYPE%3DSUBTITLES%2CGROUP-ID%3D%22subs%22%2CNAME%3D%22English%20%28Forced%29%22%2CDEFAULT%3DNO%2CAUTOSELECT%3DNO%2CFORCED%3DYES%2CLANGUAGE%3D%22en%22%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fsubtitles%2Feng_forced%2Fprog_index.m3u8%22%0D%0A%23EXT-X-MEDIA%3ATYPE%3DSUBTITLES%2CGROUP-ID%3D%22subs%22%2CNAME%3D%22Fran%C3%83%C2%A7ais%22%2CDEFAULT%3DNO%2CAUTOSELECT%3DYES%2CFORCED%3DNO%2CLANGUAGE%3D%22fr%22%2CCHARACTERISTICS%3D%22public.accessibility.transcribes-spoken-dialog%2C%20public.accessibility.describes-music-and-sound%22%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fsubtitles%2Ffra%2Fprog_index.m3u8%22%0D%0A%23EXT-X-MEDIA%3ATYPE%3DSUBTITLES%2CGROUP-ID%3D%22subs%22%2CNAME%3D%22Fran%C3%83%C2%A7ais%20%28Forced%29%22%2CDEFAULT%3DNO%2CAUTOSELECT%3DNO%2CFORCED%3DYES%2CLANGUAGE%3D%22fr%22%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fsubtitles%2Ffra_forced%2Fprog_index.m3u8%22%0D%0A%23EXT-X-MEDIA%3ATYPE%3DSUBTITLES%2CGROUP-ID%3D%22subs%22%2CNAME%3D%22Espa%C3%83%C2%B1ol%22%2CDEFAULT%3DNO%2CAUTOSELECT%3DYES%2CFORCED%3DNO%2CLANGUAGE%3D%22es%22%2CCHARACTERISTICS%3D%22public.accessibility.transcribes-spoken-dialog%2C%20public.accessibility.describes-music-and-sound%22%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fsubtitles%2Fspa%2Fprog_index.m3u8%22%0D%0A%23EXT-X-MEDIA%3ATYPE%3DSUBTITLES%2CGROUP-ID%3D%22subs%22%2CNAME%3D%22Espa%C3%83%C2%B1ol%20%28Forced%29%22%2CDEFAULT%3DNO%2CAUTOSELECT%3DNO%2CFORCED%3DYES%2CLANGUAGE%3D%22es%22%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fsubtitles%2Fspa_forced%2Fprog_index.m3u8%22%0D%0A%23EXT-X-MEDIA%3ATYPE%3DSUBTITLES%2CGROUP-ID%3D%22subs%22%2CNAME%3D%22%C3%A6%C2%97%C2%A5%C3%A6%C2%9C%C2%AC%C3%A8%C2%AA%C2%9E%22%2CDEFAULT%3DNO%2CAUTOSELECT%3DYES%2CFORCED%3DNO%2CLANGUAGE%3D%22ja%22%2CCHARACTERISTICS%3D%22public.accessibility.transcribes-spoken-dialog%2C%20public.accessibility.describes-music-and-sound%22%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fsubtitles%2Fjpn%2Fprog_index.m3u8%22%0D%0A%23EXT-X-MEDIA%3ATYPE%3DSUBTITLES%2CGROUP-ID%3D%22subs%22%2CNAME%3D%22%C3%A6%C2%97%C2%A5%C3%A6%C2%9C%C2%AC%C3%A8%C2%AA%C2%9E%20%28Forced%29%22%2CDEFAULT%3DNO%2CAUTOSELECT%3DNO%2CFORCED%3DYES%2CLANGUAGE%3D%22ja%22%2CURI%3D%22https%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fsubtitles%2Fjpn_forced%2Fprog_index.m3u8%22%0D%0A%0D%0A%0D%0A%23EXT-X-STREAM-INF%3ABANDWIDTH%3D263851%2CCODECS%3D%22mp4a.40.2%2C%20avc1.4d400d%22%2CRESOLUTION%3D416x234%2CAUDIO%3D%22bipbop_audio%22%2CSUBTITLES%3D%22subs%22%0D%0Ahttps%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fgear1%2Fprog_index.m3u8%0D%0A%0D%0A%23EXT-X-STREAM-INF%3ABANDWIDTH%3D577610%2CCODECS%3D%22mp4a.40.2%2C%20avc1.4d401e%22%2CRESOLUTION%3D640x360%2CAUDIO%3D%22bipbop_audio%22%2CSUBTITLES%3D%22subs%22%0D%0Ahttps%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fgear2%2Fprog_index.m3u8%0D%0A%0D%0A%23EXT-X-STREAM-INF%3ABANDWIDTH%3D915905%2CCODECS%3D%22mp4a.40.2%2C%20avc1.4d401f%22%2CRESOLUTION%3D960x540%2CAUDIO%3D%22bipbop_audio%22%2CSUBTITLES%3D%22subs%22%0D%0Ahttps%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fgear3%2Fprog_index.m3u8%0D%0A%0D%0A%23EXT-X-STREAM-INF%3ABANDWIDTH%3D1030138%2CCODECS%3D%22mp4a.40.2%2C%20avc1.4d401f%22%2CRESOLUTION%3D1280x720%2CAUDIO%3D%22bipbop_audio%22%2CSUBTITLES%3D%22subs%22%0D%0Ahttps%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fgear4%2Fprog_index.m3u8%0D%0A%0D%0A%23EXT-X-STREAM-INF%3ABANDWIDTH%3D1924009%2CCODECS%3D%22mp4a.40.2%2C%20avc1.4d401f%22%2CRESOLUTION%3D1920x1080%2CAUDIO%3D%22bipbop_audio%22%2CSUBTITLES%3D%22subs%22%0D%0Ahttps%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fgear5%2Fprog_index.m3u8%0D%0A%0D%0A%23EXT-X-STREAM-INF%3ABANDWIDTH%3D41457%2CCODECS%3D%22mp4a.40.2%22%2CAUDIO%3D%22bipbop_audio%22%2CSUBTITLES%3D%22subs%22%0D%0Ahttps%3A%2F%2Fd2zihajmogu5jn.cloudfront.net%2Fbipbop-advanced%2Fgear0%2Fprog_index.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "audio only ts with program Map table every other segment",
+    "uri": "https://d2zihajmogu5jn.cloudfront.net/first-pmt-only/index.m3u8",
+    "mimetype": "application/x-mpegurl",
+    "features": []
+  },
+  {
+    "name": "HDCP v1.0 DRM dash",
+    "uri": "https://storage.googleapis.com/wvmedia/cenc/h264/tears/tears.mpd#1",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.widevine.alpha": {
+        "url": "https://proxy.uat.widevine.com/proxy?video_id=GTS_SW_SECURE_CRYPTO_HDCP_V1&provider=widevine_test"
+      }
+    }
+  },
+  {
+    "name": "HDCP v2.0 DRM dash",
+    "uri": "https://storage.googleapis.com/wvmedia/cenc/h264/tears/tears.mpd#2",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.widevine.alpha": {
+        "url": "https://proxy.uat.widevine.com/proxy?video_id=GTS_SW_SECURE_CRYPTO_HDCP_V2&provider=widevine_test"
+      }
+    }
+  },
+  {
+    "name": "HDCP v2.1 DRM dash",
+    "uri": "https://storage.googleapis.com/wvmedia/cenc/h264/tears/tears.mpd@21",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.widevine.alpha": {
+        "url": "https://proxy.uat.widevine.com/proxy?video_id=GTS_SW_SECURE_CRYPTO_HDCP_V2_1&provider=widevine_test"
+      }
+    }
+  },
+  {
+    "name": "HDCP v2.2 DRM dash",
+    "uri": "https://storage.googleapis.com/wvmedia/cenc/h264/tears/tears.mpd#22",
+    "mimetype": "application/dash+xml",
+    "features": [],
+    "keySystems": {
+      "com.widevine.alpha": {
+        "url": "https://proxy.uat.widevine.com/proxy?video_id=GTS_SW_SECURE_CRYPTO_HDCP_V2_2&provider=widevine_test"
+      }
+    }
+  }
+]

@@ -1,0 +1,12 @@
+import { Selection, NodeSelection, type Transaction } from 'prosemirror-state';
+import { Node as PMNode, type ResolvedPos } from 'prosemirror-model';
+import type { NodeTypeParam, Content } from './types';
+export declare const isNodeSelection: (selection: Selection) => selection is NodeSelection;
+export declare const equalNodeType: (nodeType: NodeTypeParam, node: PMNode) => boolean;
+export declare const cloneTr: (tr: Transaction) => Transaction;
+export declare const replaceNodeAtPos: (position: number, content: Content) => (tr: Transaction) => Transaction;
+export declare const canReplace: ($pos: ResolvedPos, content: Content) => boolean;
+export declare const removeNodeAtPos: (position: number) => (tr: Transaction) => Transaction;
+export declare const canInsert: ($pos: ResolvedPos, content: Content) => boolean;
+export declare const isEmptyParagraph: (node: PMNode) => boolean;
+export declare const checkInvalidMovements: (originIndex: number, targetIndex: number, targets: number[], type: unknown) => boolean;

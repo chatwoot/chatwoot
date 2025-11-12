@@ -26,7 +26,8 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
             "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            20
+            20,
+            exclude_paths: []
           )
 
           described_class.perform_now(document)
@@ -42,7 +43,8 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
             "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            500
+            500,
+            exclude_paths: []
           )
 
           described_class.perform_now(document)
@@ -58,10 +60,29 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
             "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            10
+            10,
+            exclude_paths: []
           )
 
           described_class.perform_now(document)
+        end
+      end
+
+      context 'when exclude paths are provided' do
+        before do
+          allow(account).to receive(:usage_limits).and_return({})
+        end
+
+        it 'forwards exclude paths to the FirecrawlService' do
+          paths = ['blog/*', 'news/*']
+          expect(firecrawl_service).to receive(:perform).with(
+            document.external_link,
+            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            10,
+            exclude_paths: paths
+          )
+
+          described_class.perform_now(document, paths)
         end
       end
     end

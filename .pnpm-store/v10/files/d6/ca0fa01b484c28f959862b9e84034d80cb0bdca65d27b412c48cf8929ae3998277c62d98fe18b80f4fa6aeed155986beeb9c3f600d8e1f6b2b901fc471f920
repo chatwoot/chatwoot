@@ -1,0 +1,42 @@
+<?xml version="1.0" standalone="no"?> 
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <font id="videojs-record" horiz-adv-x="48">
+    <font-face font-family="videojs-record"
+      units-per-em="48" ascent="48"
+      descent="0" />
+    <missing-glyph horiz-adv-x="0" />
+    <glyph glyph-name="av-perm"
+      unicode="&#xF101;"
+      horiz-adv-x="48" d=" M40 38H33.66L30 42H18L14.34 38H8C5.79 38 4 36.21 4 34V10C4 7.79 5.79 6 8 6H22V10.18C16.33 11.14 12 16.07 12 22H16C16 17.59 19.59 14 24 14S32 17.59 32 22H36C36 16.07 31.67 11.14 26 10.18V6H40C42.21 6 44 7.79 44 10V34C44 36.21 42.21 38 40 38zM28 22C28 19.79 26.21 18 24 18S20 19.79 20 22V30C20 32.21 21.79 34 24 34S28 32.21 28 30V22z" />
+    <glyph glyph-name="sv-perm"
+      unicode="&#xF104;"
+      horiz-adv-x="48" d=" M40 12C42.2 12 43.98 13.8 43.98 16L44 36C44 38.22 42.2 40 40 40H8C5.78 40 4 38.22 4 36V16C4 13.8 5.78 12 8 12H0V8H48V12H40zM26 19.06V23.44C20.44 23.44 16.78 21.74 14 18C15.12 23.34 18.22 28.66 26 29.74V34L34 26.54L26 19.06z" />
+    <glyph glyph-name="video-perm"
+      unicode="&#xF102;"
+      horiz-adv-x="48" d=" M34 27V34C34 35.1 33.1 36 32 36H8C6.9 36 6 35.1 6 34V14C6 12.9 6.9 12 8 12H32C33.1 12 34 12.9 34 14V21L42 13V35L34 27z" />
+    <glyph glyph-name="audio-perm"
+      unicode="&#xF103;"
+      horiz-adv-x="48" d=" M24 20C27.31 20 29.98 22.69 29.98 26L30 38C30 41.32 27.32 44 24 44C20.69 44 18 41.32 18 38V26C18 22.69 20.69 20 24 20zM34.6 26C34.6 20 29.53 15.8 24 15.8C18.48 15.8 13.4 20 13.4 26H10C10 19.17 15.44 13.53 22 12.56V6H26V12.56C32.56 13.53 38 19.17 38 26H34.6z" />
+    <glyph glyph-name="screen-perm"
+      unicode="&#xF104;"
+      horiz-adv-x="48" d=" M40 12C42.2 12 43.98 13.8 43.98 16L44 36C44 38.22 42.2 40 40 40H8C5.78 40 4 38.22 4 36V16C4 13.8 5.78 12 8 12H0V8H48V12H40zM26 19.06V23.44C20.44 23.44 16.78 21.74 14 18C15.12 23.34 18.22 28.66 26 29.74V34L34 26.54L26 19.06z" />
+    <glyph glyph-name="record-start"
+      unicode="&#xF105;"
+      horiz-adv-x="48" d=" M24 44C12.95 44 4 35.05 4 24S12.95 4 24 4S44 12.95 44 24S35.05 44 24 44z" />
+    <glyph glyph-name="record-stop"
+      unicode="&#xF106;"
+      horiz-adv-x="48" d=" M12 36H36V12H12z" />
+    <glyph glyph-name="photo-camera"
+      unicode="&#xF107;"
+      horiz-adv-x="48" d=" M17.6 24C17.6 20.4653776010829 20.4653776010829 17.6 24 17.6C27.5346223989171 17.6 30.4 20.4653776010829 30.4 24C30.4 27.5346223989171 27.5346223989171 30.4 24 30.4C20.4653776010829 30.4 17.6 27.5346223989171 17.6 24z M18 44L14.34 40H8C5.79 40 4 38.21 4 36V12C4 9.79 5.79 8 8 8H40C42.21 8 44 9.79 44 12V36C44 38.21 42.21 40 40 40H33.66L30 44H18zM24 14C18.48 14 14 18.48 14 24S18.48 34 24 34S34 29.52 34 24S29.52 14 24 14z" />
+    <glyph glyph-name="picture-in-picture-start"
+      unicode="&#xF108;"
+      horiz-adv-x="48" d=" M38 34H22V22H38V34zM42 42H6C3.79 42 2 40.21 2 38V10C2 7.79 3.79 6.04 6 6.04H42C44.21 6.04 46 7.8 46 10V38C46 40.21 44.21 42 42 42zM42 9.97H6V38.03H42V9.97z" />
+    <glyph glyph-name="picture-in-picture-stop"
+      unicode="&#xF109;"
+      horiz-adv-x="48" d=" M42 42H6C3.8 42 2 40.2 2 38V10C2 7.8 3.8 6 6 6H42C44.2 6 46 7.8 46 10V38C46 40.2 44.2 42 42 42zM42 16H6V38H42V16z" />
+  </font>
+</defs>
+</svg>

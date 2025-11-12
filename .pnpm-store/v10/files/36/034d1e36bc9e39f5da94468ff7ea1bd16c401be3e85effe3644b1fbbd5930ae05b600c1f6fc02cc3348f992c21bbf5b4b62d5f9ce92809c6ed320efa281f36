@@ -1,0 +1,25 @@
+{
+  "name": "@rollup/rollup-linux-arm-musleabihf",
+  "version": "4.52.5",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "files": [
+    "rollup.linux-arm-musleabihf.node"
+  ],
+  "description": "Native bindings for Rollup",
+  "author": "Lukas Taegert-Atkinson",
+  "homepage": "https://rollupjs.org/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rollup/rollup.git"
+  },
+  "libc": [
+    "musl"
+  ],
+  "main": "./rollup.linux-arm-musleabihf.node"
+}

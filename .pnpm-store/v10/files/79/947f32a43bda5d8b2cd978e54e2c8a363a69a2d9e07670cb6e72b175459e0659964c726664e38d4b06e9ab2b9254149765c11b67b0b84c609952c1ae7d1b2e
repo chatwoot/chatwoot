@@ -1,0 +1,27 @@
+/**
+ * URL related helper functions
+ */
+/**
+ * Converts various input formats to URL objects.
+ * Handles URL objects, domain strings, relative paths, and full URLs.
+ * @param {string|URL} input - Input to convert to URL object
+ * @returns {URL|null} URL object or null if input is invalid
+ */
+export declare const toURL: (input: string | URL | null | undefined) => URL | null;
+/**
+ * Determines if two URLs belong to the same host by comparing their normalized URL objects.
+ * Handles various input formats including URL objects, domain strings, relative paths, and full URLs.
+ * Returns false if either URL cannot be parsed or normalized.
+ * @param {string|URL} url1 - First URL to compare
+ * @param {string|URL} url2 - Second URL to compare
+ * @returns {boolean} True if both URLs have the same host, false otherwise
+ */
+export declare const isSameHost: (url1: string | URL | null | undefined, url2: string | URL | null | undefined) => boolean;
+/**
+ * Check if a string is a valid domain name.
+ * An empty string is allowed and considered valid.
+ *
+ * @param domain Domain to validate.
+ * @returns Whether the domain matches the rules.
+ */
+export declare const isValidDomain: (domain: string) => boolean;

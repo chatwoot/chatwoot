@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mux.js Demo</title>
+  <link rel="icon" href="logo.svg">
+</head>
+<body>
+  <h1>use window.muxjs in the console!</h3>
+  <ul>
+    <li><a href="test/debug.html">Run unit tests in browser.</a></li>
+  </ul>
+
+  <script src="dist/mux.js"></script>
+  </body>
+</html>

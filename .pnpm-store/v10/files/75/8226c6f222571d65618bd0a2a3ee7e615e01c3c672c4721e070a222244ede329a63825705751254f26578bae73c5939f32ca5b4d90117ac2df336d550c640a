@@ -1,0 +1,1 @@
+{"version":3,"file":"array.no-external.js","sourceRoot":"","sources":["../../../src/entrypoints/array.no-external.ts"],"names":[],"mappings":";;AAAA,gDAAmD;AAEnD,IAAA,gCAAiB,GAAE,CAAA","sourcesContent":["import { init_from_snippet } from '../posthog-core'\n\ninit_from_snippet()\n"]}

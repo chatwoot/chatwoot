@@ -1,0 +1,33 @@
+{
+  "extends": "google",
+
+  "rules": {
+    "no-var": "off",
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "double", {
+        "avoidEscape": true
+      }
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "max-len": [
+      "warn", {
+        "ignoreComments": true
+      }
+    ],
+    "prefer-spread": ["off"],
+    "prefer-rest-params": ["off"],
+    "camelcase" : ["off"]
+  }
+}

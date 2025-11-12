@@ -1,0 +1,11 @@
+import { Survey, SurveyType } from '../posthog-surveys-types';
+export declare const SURVEY_LOGGER: import("@posthog/core").Logger;
+export declare function isSurveyRunning(survey: Survey): boolean;
+export declare function doesSurveyActivateByEvent(survey: Pick<Survey, 'conditions'>): boolean;
+export declare function doesSurveyActivateByAction(survey: Pick<Survey, 'conditions'>): boolean;
+export declare const SURVEY_SEEN_PREFIX = "seenSurvey_";
+export declare const SURVEY_IN_PROGRESS_PREFIX = "inProgressSurvey_";
+export declare const getSurveyInteractionProperty: (survey: Pick<Survey, "id" | "current_iteration">, action: "responded" | "dismissed") => string;
+export declare const getSurveySeenKey: (survey: Pick<Survey, "id" | "current_iteration">) => string;
+export declare const setSurveySeenOnLocalStorage: (survey: Pick<Survey, "id" | "current_iteration">) => void;
+export declare const IN_APP_SURVEY_TYPES: SurveyType[];

@@ -1,0 +1,30 @@
+{
+  "name": "fast-diff",
+  "version": "1.3.0",
+  "description": "Fast Javascript text diff",
+  "author": "Jason Chen <jhchen7@gmail.com>",
+  "main": "diff.js",
+  "types": "diff.d.ts",
+  "files": [
+    "diff.d.ts"
+  ],
+  "devDependencies": {
+    "lodash": "~4.17.21",
+    "nyc": "~15.1.0",
+    "seedrandom": "~3.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jhchen/fast-diff"
+  },
+  "bugs": {
+    "url": "https://github.com/jhchen/fast-diff/issues"
+  },
+  "scripts": {
+    "test": "nyc node test.js"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "diff"
+  ]
+}

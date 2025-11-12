@@ -1,0 +1,41 @@
+{
+  "name": "common-path-prefix",
+  "version": "3.0.0",
+  "description": "Computes the longest prefix string that is common to each path, excluding the base component",
+  "main": "index.js",
+  "files": [
+    "index.d.ts",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "standard && nyc ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/novemberborn/common-path-prefix.git"
+  },
+  "author": "Mark Wubben (https://novemberborn.net/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/novemberborn/common-path-prefix/issues"
+  },
+  "homepage": "https://github.com/novemberborn/common-path-prefix#readme",
+  "keywords": [
+    "common",
+    "path",
+    "directory",
+    "dir",
+    "file",
+    "root",
+    "typescript",
+    "common prefix",
+    "common path",
+    "common path start",
+    "common root"
+  ],
+  "devDependencies": {
+    "ava": "^2.3.0",
+    "nyc": "^14.1.1",
+    "standard": "^14.0.2"
+  }
+}

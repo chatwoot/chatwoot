@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "libphonenumber-js/core",
+  "main": "index.cjs",
+  "module": "index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    }
+  },
+  "sideEffects": false
+}

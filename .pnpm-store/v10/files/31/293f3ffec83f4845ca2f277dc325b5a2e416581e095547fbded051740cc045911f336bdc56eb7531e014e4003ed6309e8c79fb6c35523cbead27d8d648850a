@@ -1,0 +1,25 @@
+{
+  "name": "@rollup/rollup-linux-s390x-gnu",
+  "version": "4.52.5",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "s390x"
+  ],
+  "files": [
+    "rollup.linux-s390x-gnu.node"
+  ],
+  "description": "Native bindings for Rollup",
+  "author": "Lukas Taegert-Atkinson",
+  "homepage": "https://rollupjs.org/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rollup/rollup.git"
+  },
+  "libc": [
+    "glibc"
+  ],
+  "main": "./rollup.linux-s390x-gnu.node"
+}

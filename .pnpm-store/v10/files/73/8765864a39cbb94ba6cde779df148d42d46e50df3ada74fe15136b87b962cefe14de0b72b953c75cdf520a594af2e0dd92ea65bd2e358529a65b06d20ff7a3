@@ -1,0 +1,42 @@
+{
+  "name": "prosemirror-menu",
+  "version": "1.2.4",
+  "description": "Simple menu elements for ProseMirror",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./style/menu.css": "./style/menu.css"
+  },
+  "sideEffects": ["./style/menu.css"],
+  "style": "style/menu.css",
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "Marijn Haverbeke",
+      "email": "marijn@haverbeke.berlin",
+      "web": "http://marijnhaverbeke.nl"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/prosemirror/prosemirror-menu.git"
+  },
+  "dependencies": {
+    "crelt": "^1.0.0",
+    "prosemirror-state": "^1.0.0",
+    "prosemirror-commands": "^1.0.0",
+    "prosemirror-history": "^1.0.0"
+  },
+  "devDependencies": {
+    "@prosemirror/buildhelper": "^0.1.5"
+  },
+  "scripts": {
+    "prepare": "pm-buildhelper src/index.ts"
+  }
+}

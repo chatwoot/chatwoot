@@ -1,0 +1,25 @@
+{
+  "name": "@rollup/rollup-linux-riscv64-musl",
+  "version": "4.52.5",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "riscv64"
+  ],
+  "files": [
+    "rollup.linux-riscv64-musl.node"
+  ],
+  "description": "Native bindings for Rollup",
+  "author": "Lukas Taegert-Atkinson",
+  "homepage": "https://rollupjs.org/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rollup/rollup.git"
+  },
+  "libc": [
+    "musl"
+  ],
+  "main": "./rollup.linux-riscv64-musl.node"
+}

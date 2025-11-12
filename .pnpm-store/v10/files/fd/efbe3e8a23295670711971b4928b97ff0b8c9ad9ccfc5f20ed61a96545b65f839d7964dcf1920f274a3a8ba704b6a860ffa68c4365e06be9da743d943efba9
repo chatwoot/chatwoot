@@ -1,0 +1,68 @@
+{
+  "name": "@histoire/plugin-vue",
+  "version": "0.17.15",
+  "description": "Histoire plugin for Vue.js support",
+  "license": "MIT",
+  "author": {
+    "name": "Guillaume Chau"
+  },
+  "repository": {
+    "url": "https://github.com/Akryum/histoire.git",
+    "type": "git",
+    "directory": "packages/histoire-plugin-vue"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    "./client": {
+      "types": "./dist/client/client.d.ts",
+      "default": "./dist/bundled/client/client.js"
+    },
+    "./collect": {
+      "types": "./dist/client/server.d.ts",
+      "default": "./dist/bundled/client/server.js"
+    },
+    "./client-dev": {
+      "default": "./src/client/client.ts"
+    },
+    "./collect-dev": {
+      "default": "./src/client/server.ts"
+    },
+    ".": {
+      "types": "./dist/index.node.d.ts",
+      "node": "./dist/index.node.js",
+      "default": "./dist/index.js"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.node.d.ts",
+  "dependencies": {
+    "change-case": "^4.1.2",
+    "globby": "^13.2.2",
+    "launch-editor": "^2.6.1",
+    "pathe": "^1.1.1",
+    "@histoire/controls": "^0.17.15",
+    "@histoire/shared": "^0.17.15",
+    "@histoire/vendors": "^0.17.15"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "concurrently": "^7.6.0",
+    "typescript": "^4.9.5",
+    "vite": "^5.0.11",
+    "vue": "^3.3.8",
+    "histoire": "0.17.15"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.47",
+    "histoire": "^0.17.15"
+  },
+  "scripts": {
+    "build": "rimraf dist && vite build && tsc -d -P tsconfig.build.json && pnpm run build:types",
+    "build:types": "tsc --declaration --emitDeclarationOnly",
+    "watch": "concurrently \"vite build --watch\" \"tsc -d -P tsconfig.build.json --watch\" \"pnpm run build:types --watch\""
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"browserapierrors.d.ts","sourceRoot":"","sources":["../../../../src/integrations/browserapierrors.ts"],"names":[],"mappings":"AA4CA,UAAU,uBAAuB;IAC/B,UAAU,EAAE,OAAO,CAAC;IACpB,WAAW,EAAE,OAAO,CAAC;IACrB,qBAAqB,EAAE,OAAO,CAAC;IAC/B,cAAc,EAAE,OAAO,CAAC;IACxB,WAAW,EAAE,OAAO,GAAG,MAAM,EAAE,CAAC;CACjC;AA0CD;;GAEG;AACH,eAAO,MAAM,2BAA2B,iGAAkD,CAAC"}

@@ -1,0 +1,174 @@
+{
+  "name": "web-vitals",
+  "version": "4.2.4",
+  "description": "Easily measure performance metrics in JavaScript",
+  "type": "module",
+  "typings": "dist/modules/index.d.ts",
+  "main": "dist/web-vitals.umd.cjs",
+  "module": "dist/web-vitals.js",
+  "unpkg": "dist/web-vitals.iife.js",
+  "exports": {
+    ".": {
+      "types": "./dist/modules/index.d.ts",
+      "require": "./dist/web-vitals.umd.cjs",
+      "default": "./dist/web-vitals.js"
+    },
+    "./attribution": {
+      "types": "./dist/modules/attribution/index.d.ts",
+      "require": "./dist/web-vitals.attribution.umd.cjs",
+      "default": "./dist/web-vitals.attribution.js"
+    },
+    "./attribution.js": {
+      "types": "./dist/modules/attribution/index.d.ts",
+      "require": "./dist/web-vitals.attribution.umd.cjs",
+      "default": "./dist/web-vitals.attribution.js"
+    },
+    "./onCLS.js": {
+      "types": "./dist/modules/onCLS.d.ts",
+      "default": "./dist/modules/onCLS.js"
+    },
+    "./onFCP.js": {
+      "types": "./dist/modules/onFCP.d.ts",
+      "default": "./dist/modules/onFCP.js"
+    },
+    "./onFID.js": {
+      "types": "./dist/modules/onFID.d.ts",
+      "default": "./dist/modules/onFID.js"
+    },
+    "./onINP.js": {
+      "types": "./dist/modules/onINP.d.ts",
+      "default": "./dist/modules/onINP.js"
+    },
+    "./onLCP.js": {
+      "types": "./dist/modules/onLCP.d.ts",
+      "default": "./dist/modules/onLCP.js"
+    },
+    "./onTTFB.js": {
+      "types": "./dist/modules/onTTFB.d.ts",
+      "default": "./dist/modules/onTTFB.js"
+    },
+    "./attribution/onCLS.js": {
+      "types": "./dist/modules/attribution/onCLS.d.ts",
+      "default": "./dist/modules/attribution/onCLS.js"
+    },
+    "./attribution/onFCP.js": {
+      "types": "./dist/modules/attribution/onFCP.d.ts",
+      "default": "./dist/modules/attribution/onFCP.js"
+    },
+    "./attribution/onFID.js": {
+      "types": "./dist/modules/attribution/onFID.d.ts",
+      "default": "./dist/modules/attribution/onFID.js"
+    },
+    "./attribution/onINP.js": {
+      "types": "./dist/modules/attribution/onINP.d.ts",
+      "default": "./dist/modules/attribution/onINP.js"
+    },
+    "./attribution/onLCP.js": {
+      "types": "./dist/modules/attribution/onLCP.d.ts",
+      "default": "./dist/modules/attribution/onLCP.js"
+    },
+    "./attribution/onTTFB.js": {
+      "types": "./dist/modules/attribution/onTTFB.d.ts",
+      "default": "./dist/modules/attribution/onTTFB.js"
+    }
+  },
+  "files": [
+    "attribution.js",
+    "attribution.d.ts",
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "run-s clean build:ts build:js",
+    "build:ts": "tsc -b",
+    "build:js": "rollup -c",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "dev": "run-p watch test:server",
+    "format": "prettier \"**/*.{cjs,css,html,js,json,md,ts,yml,yaml}\" --write --ignore-path .gitignore",
+    "format:check": "prettier \"**/*.{cjs,css,html,js,json,html,md,ts,yml,yaml}\" --check --ignore-path .gitignore",
+    "lint": "eslint \"*.js\" \"src/**/*.ts\" \"test/**/*.js\"",
+    "lint:fix": "eslint --fix \"*.js\" \"src/**/*.ts\" \"test/**/*.js\"",
+    "postversion": "git push --follow-tags",
+    "release:major": "npm version major -m 'Release v%s' && npm publish",
+    "release:minor": "npm version minor -m 'Release v%s' && npm publish",
+    "release:patch": "npm version patch -m 'Release v%s' && npm publish",
+    "test": "npm-run-all build test:unit -p -r test:e2e test:server",
+    "test:e2e": "wdio wdio.conf.cjs",
+    "test:server": "node test/server.js",
+    "test:unit": "node --test test/unit/*test.js",
+    "start": "run-s build:ts test:server watch",
+    "watch": "run-p watch:*",
+    "watch:ts": "tsc -b -w",
+    "watch:js": "rollup -c -w",
+    "version": "run-s build",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "crux",
+    "performance",
+    "metrics",
+    "Core Web Vitals",
+    "CLS",
+    "FCP",
+    "FID",
+    "INP",
+    "LCP",
+    "TTFB"
+  ],
+  "author": {
+    "name": "Philip Walton",
+    "email": "philip@philipwalton.com",
+    "url": "http://philipwalton.com"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoogleChrome/web-vitals.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GoogleChrome/web-vitals/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": false,
+    "quoteProps": "preserve",
+    "singleQuote": true
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
+    "@wdio/cli": "^8.32.3",
+    "@wdio/local-runner": "^8.32.3",
+    "@wdio/mocha-framework": "^8.32.3",
+    "@wdio/spec-reporter": "^8.32.2",
+    "body-parser": "^1.20.2",
+    "chromedriver": "^122.0.4",
+    "eslint": "^8.56.0",
+    "express": "^4.18.2",
+    "fs-extra": "^11.2.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "npm-run-all": "^4.1.5",
+    "nunjucks": "^3.2.4",
+    "prettier": "^3.1.1",
+    "rollup": "^4.9.1",
+    "selenium-standalone": "^9.3.1",
+    "typescript": "^5.3.3",
+    "wdio-chromedriver-service": "^8.1.1",
+    "yargs": "^17.7.2"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": "eslint --fix --ignore-path .gitignore",
+    "**/*.{cjs,css,html,js,json,html,md,ts,yml,yaml}": "prettier --write --ignore-path .gitignore"
+  }
+}

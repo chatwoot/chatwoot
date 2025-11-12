@@ -1,0 +1,26 @@
+/* Record Toggle (start/stop recording button in controlbar)
+--------------------------------------------------------------------------------
+*/
+.vjs-record .vjs-record-button.vjs-control
+{
+    cursor: pointer;
+}
+
+.vjs-record .vjs-error .vjs-record-button
+{
+    display: none;
+}
+
+.vjs-record .vjs-record-button.vjs-control.vjs-icon-record-start:before {
+    font-size: 1.4em;
+    line-height: 2.2em;
+}
+
+.vjs-record .vjs-record-button.vjs-control.vjs-icon-record-stop:before {
+    font-size: 2.2em;
+    line-height: 1.4em;
+}
+
+.vjs-record .vjs-play-control.vjs-control {
+    cursor: pointer;
+}

@@ -1,0 +1,53 @@
+{
+  "name": "company-email-validator",
+  "version": "1.1.0",
+  "author": "Batyrlan Nurbekov <batyrlan@utterly.app>",
+  "description": "Provides a fast company / work email validator by checking whether the email domain is in the free email provider list.",
+  "main": "index",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "typings": "index.d.ts",
+  "engines": {
+    "node": ">4.0"
+  },
+  "license": "Unlicense",
+  "keywords": [
+    "email",
+    "validation",
+    "validator",
+    "syntax",
+    "company",
+    "work"
+  ],
+  "homepage": "http://github.com/bnurbekov/company-email-validator",
+  "licenses": [
+    {
+      "type": "Unlicense",
+      "url": "http://github.com/bnurbekov/company-email-validator/raw/master/LICENSE"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Batyrlan Nurbekov",
+      "email": "batyrlan@utterly.app",
+      "url": "https://utterly.app"
+    },
+    {
+      "name": "Malika Nurbekova",
+      "email": "malika@utterly.app",
+      "url": "https://utterly.app"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/bnurbekov/company-email-validator.git"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "5.0.5"
+  },
+  "dependencies": {
+    "email-validator": "^2.0.4"
+  }
+}

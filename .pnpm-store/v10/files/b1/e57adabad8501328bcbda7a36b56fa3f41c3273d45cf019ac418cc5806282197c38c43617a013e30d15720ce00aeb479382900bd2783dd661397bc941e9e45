@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Histoire</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="/assets/style.7657d2ac.css">
+  
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/assets/index.58f51dd0.js"></script>
+</body>
+</html>

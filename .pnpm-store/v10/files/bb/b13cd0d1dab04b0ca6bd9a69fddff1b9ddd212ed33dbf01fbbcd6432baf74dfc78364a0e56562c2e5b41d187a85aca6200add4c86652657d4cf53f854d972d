@@ -1,0 +1,26 @@
+<svg width="304" height="610" version="1.1" baseProfile="full" viewbox="0 0 304 610" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" style="font-weight:bold; font-size:10pt; font-family:'Arial', Helvetica, sans-serif;;stroke-width:2;stroke-linejoin:round;stroke-linecap:round"><text x="172" y="111" style="font-weight:normal;">load()</text>
+<path d="M152 81 L152 105 L152 129 L152 129 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M148.8 121 L152 125 L155.2 121 L152 129 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<text x="172" y="211" style="font-weight:normal;">media()</text>
+<path d="M152 181 L152 205 L152 229 L152 229 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M148.8 221 L152 225 L155.2 221 L152 229 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<text x="172" y="311" style="font-weight:normal;">media()/ start()</text>
+<path d="M152 281 L152 305 L152 329 L152 329 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M148.8 321 L152 325 L155.2 321 L152 329 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<path d="M152 381 L152 405 L152 429 L152 429 " style="stroke:#33322E;fill:none;stroke-dasharray:4 4;"></path>
+<path d="M148.8 421 L152 425 L155.2 421 L152 429 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<path d="M155.2 389 L152 385 L148.8 389 L152 381 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<path d="M152 481 L152 505 L152 529 L152 529 " style="stroke:#33322E;fill:none;stroke-dasharray:4 4;"></path>
+<path d="M148.8 521 L152 525 L155.2 521 L152 529 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<path d="M155.2 489 L152 485 L148.8 489 L152 481 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<rect x="75" y="30" height="50" width="154" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="95" y="60" style="">HAVE_NOTHING</text>
+<rect x="78" y="130" height="50" width="149" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="98" y="160" style="">HAVE_MASTER</text>
+<rect x="56" y="230" height="50" width="192" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="76.3" y="260" style="">SWITCHING_MEDIA</text>
+<rect x="68" y="330" height="50" width="168" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="88" y="360" style="">HAVE_METADATA</text>
+<text x="67" y="460" style="font-weight:normal;font-style:italic;">mediaupdatetimeout</text>
+<rect x="30" y="530" height="50" width="244" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="50" y="560" style="">HAVE_CURRENT_METADATA</text></svg>

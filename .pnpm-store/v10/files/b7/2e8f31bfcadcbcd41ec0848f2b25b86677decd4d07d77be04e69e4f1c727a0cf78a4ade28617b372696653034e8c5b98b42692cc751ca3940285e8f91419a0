@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --cyan-a1: #0099cc05;
+  --cyan-a2: #009db10d;
+  --cyan-a3: #00c2d121;
+  --cyan-a4: #00bcd435;
+  --cyan-a5: #01b4cc4a;
+  --cyan-a6: #00a7c162;
+  --cyan-a7: #009fbb82;
+  --cyan-a8: #00a3c0c2;
+  --cyan-a9: #00a2c7;
+  --cyan-a10: #0094b7f8;
+  --cyan-a11: #007491ef;
+  --cyan-a12: #00323ef2;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --cyan-a1: color(display-p3 0.02 0.608 0.804 / 0.02);
+      --cyan-a2: color(display-p3 0.02 0.557 0.647 / 0.044);
+      --cyan-a3: color(display-p3 0.004 0.694 0.796 / 0.114);
+      --cyan-a4: color(display-p3 0.004 0.678 0.784 / 0.181);
+      --cyan-a5: color(display-p3 0.004 0.624 0.733 / 0.248);
+      --cyan-a6: color(display-p3 0.004 0.584 0.706 / 0.33);
+      --cyan-a7: color(display-p3 0.004 0.541 0.667 / 0.436);
+      --cyan-a8: color(display-p3 0 0.533 0.667 / 0.612);
+      --cyan-a9: color(display-p3 0 0.482 0.675 / 0.718);
+      --cyan-a10: color(display-p3 0 0.435 0.608 / 0.738);
+      --cyan-a11: color(display-p3 0.08 0.48 0.63);
+      --cyan-a12: color(display-p3 0.108 0.232 0.277);
+    }
+  }
+}

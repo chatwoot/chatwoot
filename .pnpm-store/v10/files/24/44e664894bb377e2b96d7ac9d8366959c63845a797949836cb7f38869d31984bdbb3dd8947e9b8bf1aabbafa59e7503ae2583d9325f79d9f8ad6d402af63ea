@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --ruby-1: #191113;
+  --ruby-2: #1e1517;
+  --ruby-3: #3a141e;
+  --ruby-4: #4e1325;
+  --ruby-5: #5e1a2e;
+  --ruby-6: #6f2539;
+  --ruby-7: #883447;
+  --ruby-8: #b3445a;
+  --ruby-9: #e54666;
+  --ruby-10: #ec5a72;
+  --ruby-11: #ff949d;
+  --ruby-12: #fed2e1;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --ruby-1: color(display-p3 0.093 0.068 0.074);
+      --ruby-2: color(display-p3 0.113 0.083 0.089);
+      --ruby-3: color(display-p3 0.208 0.088 0.117);
+      --ruby-4: color(display-p3 0.279 0.092 0.147);
+      --ruby-5: color(display-p3 0.337 0.12 0.18);
+      --ruby-6: color(display-p3 0.401 0.166 0.223);
+      --ruby-7: color(display-p3 0.495 0.224 0.281);
+      --ruby-8: color(display-p3 0.652 0.295 0.359);
+      --ruby-9: color(display-p3 0.83 0.323 0.408);
+      --ruby-10: color(display-p3 0.857 0.392 0.455);
+      --ruby-11: color(display-p3 1 0.57 0.59);
+      --ruby-12: color(display-p3 0.968 0.83 0.88);
+    }
+  }
+}

@@ -1,11 +1,11 @@
 class Captain::Documents::CrawlJob < ApplicationJob
   queue_as :low
 
-  def perform(document)
+  def perform(document, exclude_paths = [])
     if document.pdf_document?
       perform_pdf_processing(document)
     elsif InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value.present?
-      perform_firecrawl_crawl(document)
+      perform_firecrawl_crawl(document, exclude_paths)
     else
       perform_simple_crawl(document)
     end
@@ -39,7 +39,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
     )
   end
 
-  def perform_firecrawl_crawl(document)
+  def perform_firecrawl_crawl(document, exclude_paths)
     captain_usage_limits = document.account.usage_limits[:captain] || {}
     document_limit = captain_usage_limits[:documents] || {}
     crawl_limit = [document_limit[:current_available] || 10, 500].min
@@ -49,7 +49,8 @@ class Captain::Documents::CrawlJob < ApplicationJob
       .perform(
         document.external_link,
         firecrawl_webhook_url(document),
-        crawl_limit
+        crawl_limit,
+        exclude_paths: exclude_paths
       )
   end
 

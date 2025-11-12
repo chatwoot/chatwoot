@@ -1,0 +1,16 @@
+import type { TagResolver } from "./commons";
+export declare const NULL: TagResolver<null>;
+export declare const TRUE: TagResolver<true>;
+export declare const FALSE: TagResolver<false>;
+export declare const INT: TagResolver<number>;
+export declare const INT_BASE2: TagResolver<number>;
+export declare const INT_BASE8: TagResolver<number>;
+export declare const INT_BASE16: TagResolver<number>;
+export declare const INT_BASE60: TagResolver<number>;
+export declare const FLOAT: TagResolver<number>;
+export declare const FLOAT_BASE60: TagResolver<number>;
+export declare const INFINITY: TagResolver<number>;
+export declare const NAN: TagResolver<number>;
+export declare const STR: TagResolver<string>;
+export declare const tagResolvers: (TagResolver<null> | TagResolver<true> | TagResolver<false> | TagResolver<number> | TagResolver<string>)[];
+export declare const tagNodeResolvers: (import("./commons").TagNodeResolver<Record<any, any>> | import("./commons").TagNodeResolver<any[]>)[];

@@ -1,0 +1,39 @@
+{
+  "name": "url-toolkit",
+  "version": "2.2.5",
+  "description": "Build an absolute URL from a base URL and a relative URL (RFC 1808). No dependencies!",
+  "main": "src/url-toolkit.js",
+  "types": "src/url-toolkit.d.ts",
+  "scripts": {
+    "test": "jest",
+    "prettier": "prettier --write .",
+    "lint": "eslint 'src/**/*.js' && prettier --check .",
+    "prepare": "husky install"
+  },
+  "hooks": {
+    "pre-commit": "npm run prettier"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjenkinson/url-toolkit.git"
+  },
+  "keywords": [
+    "url",
+    "relative",
+    "absolute",
+    "parser"
+  ],
+  "author": "Tom Jenkinson <tjcode@outlook.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/tjenkinson/url-toolkit/issues"
+  },
+  "homepage": "https://github.com/tjenkinson/url-toolkit#readme",
+  "devDependencies": {
+    "eslint": "^8.8.0",
+    "eslint-plugin-redos-detector": "^1.0.1",
+    "husky": "^7.0.1",
+    "jest": "^27.0.6",
+    "prettier": "^2.0.5"
+  }
+}
