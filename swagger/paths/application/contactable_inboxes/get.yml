@@ -1,6 +1,6 @@
 get:
   tags:
-    - Contact
+    - Contacts
   operationId: contactableInboxesGet
   description: Get List of contactable Inboxes
   summary: Get Contactable Inboxes
