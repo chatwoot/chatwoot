@@ -4,7 +4,8 @@ module ActionMailbox
   module Ingresses
     module Resend
       # Controller to handle inbound email webhooks from Resend
-      # Receives JSON webhook payload, verifies signature, converts to RFC822, and processes via ActionMailbox
+      # Receives JSON webhook payload, verifies signature, fetches full email from Resend API,
+      # converts to RFC822, and processes via ActionMailbox
       class InboundEmailsController < ActionController::Base
         skip_forgery_protection
 
@@ -17,15 +18,16 @@ module ActionMailbox
           # Only process email.received events
           return head :ok unless payload['type'] == 'email.received'
 
-          # Extract email data
-          data = payload['data'] || {}
-          from = data['from']
-          to = (data['to'] || []).join(', ')
-          subject = data['subject'] || '(no subject)'
-          text = data['text'] || '(no body)'
+          # Extract email_id from webhook
+          email_id = payload.dig('data', 'email_id')
+          return head(:unprocessable_entity) if email_id.blank?
 
-          # Build RFC822 MIME message (plain text only for MVP)
-          mime_message = build_rfc822_message(from: from, to: to, subject: subject, body: text)
+          # Fetch full email from Resend API
+          email_data = fetch_email_from_resend(email_id)
+          return head(:internal_server_error) if email_data.nil?
+
+          # Build RFC822 MIME message with full content
+          mime_message = build_rfc822_message(email_data)
 
           # Submit to ActionMailbox for processing
           ActionMailbox::InboundEmail.create_and_extract_message_id!(mime_message)
@@ -36,6 +38,7 @@ module ActionMailbox
           head :bad_request
         rescue StandardError => e
           Rails.logger.error("Resend webhook: Processing error - #{e.message}")
+          Rails.logger.error(e.backtrace.join("\n"))
           head :internal_server_error
         end
 
@@ -67,16 +70,74 @@ module ActionMailbox
           ActiveSupport::SecurityUtils.secure_compare(computed_signature, signature)
         end
 
-        def build_rfc822_message(from:, to:, subject:, body:)
-          # Build simple RFC822 message (plain text only for MVP)
-          <<~EMAIL
-            From: #{from}
-            To: #{to}
-            Subject: #{subject}
-            Content-Type: text/plain; charset=utf-8
+        def fetch_email_from_resend(email_id)
+          api_key = ENV.fetch('RESEND_API_KEY', nil)
+          if api_key.blank?
+            Rails.logger.error('Resend webhook: RESEND_API_KEY not configured')
+            return nil
+          end
 
-            #{body}
-          EMAIL
+          uri = URI("https://api.resend.com/emails/receiving/#{email_id}")
+          request = Net::HTTP::Get.new(uri)
+          request['Authorization'] = "Bearer #{api_key}"
+          request['Content-Type'] = 'application/json'
+
+          response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+            http.request(request)
+          end
+
+          if response.is_a?(Net::HTTPSuccess)
+            JSON.parse(response.body)
+          else
+            Rails.logger.error("Resend API error: #{response.code} - #{response.body}")
+            nil
+          end
+        rescue StandardError => e
+          Rails.logger.error("Failed to fetch email from Resend: #{e.message}")
+          nil
+        end
+
+        def build_rfc822_message(email_data)
+          # Use Mail gem to build proper RFC822 MIME message
+          require 'mail'
+
+          Mail.new do
+            from     email_data['from']
+            to       email_data['to']
+            cc       email_data['cc'] if email_data['cc'].present?
+            bcc      email_data['bcc'] if email_data['bcc'].present?
+            subject  email_data['subject'] || '(no subject)'
+
+            # Add threading headers if available
+            message_id email_data['message_id'] if email_data['message_id'].present?
+            in_reply_to email_data.dig('headers', 'in-reply-to') if email_data.dig('headers', 'in-reply-to').present?
+            references email_data.dig('headers', 'references') if email_data.dig('headers', 'references').present?
+
+            # Build multipart message with both text and HTML
+            if email_data['html'].present? && email_data['text'].present?
+              # Multipart: text + html
+              text_part do
+                content_type 'text/plain; charset=UTF-8'
+                body email_data['text']
+              end
+
+              html_part do
+                content_type 'text/html; charset=UTF-8'
+                body email_data['html']
+              end
+            elsif email_data['html'].present?
+              # HTML only
+              content_type 'text/html; charset=UTF-8'
+              body email_data['html']
+            else
+              # Text only
+              content_type 'text/plain; charset=UTF-8'
+              body email_data['text'] || '(no body)'
+            end
+
+            # TODO: Add attachment handling in future enhancement
+            # For now, we handle text and HTML emails
+          end.to_s
         end
       end
     end

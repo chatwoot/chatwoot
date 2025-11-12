@@ -11,9 +11,12 @@ This implementation adds native support for Resend inbound email webhooks to Cha
 Features:
 - Accepts Resend's `email.received` webhook events
 - Verifies HMAC SHA256 signature for security
+- Fetches full email content from Resend API using email_id
 - Converts JSON payload to RFC822 MIME format
+- Supports both HTML and plain text emails
+- Preserves email threading headers (Message-ID, In-Reply-To, References)
 - Submits to ActionMailbox for normal Chatwoot processing
-- MVP: Plain text emails only (HTML and attachments in future enhancement)
+- Current limitations: Attachments not yet implemented
 
 ### 2. Routes
 **File:** `config/routes.rb`
@@ -24,8 +27,8 @@ New endpoint: `POST /rails/action_mailbox/resend/inbound_emails`
 **File:** `.env.example`
 
 Added configuration for:
-- `RESEND_WEBHOOK_SECRET` - Required for signature verification
-- `RESEND_API_KEY` - Optional, for future enhancements
+- `RESEND_WEBHOOK_SECRET` - Required for webhook signature verification
+- `RESEND_API_KEY` - Required for fetching full email content from Resend API
 
 ## Deployment Instructions
 
@@ -75,10 +78,11 @@ This will trigger Heroku auto-deploy from the `develop` branch.
 
 ### Step 5: Configure Heroku Environment Variables
 ```bash
-# Set webhook secret (get this from Resend dashboard)
+# REQUIRED: Set webhook secret (get this from Resend dashboard when creating webhook)
 heroku config:set RESEND_WEBHOOK_SECRET=whsec_your_secret_here --app support-migrately-nl
 
-# Optional: Set API key for future enhancements
+# REQUIRED: Set API key to fetch full email content from Resend
+# Get this from: https://resend.com/api-keys
 heroku config:set RESEND_API_KEY=re_your_api_key_here --app support-migrately-nl
 
 # Optional: Set ingress service (not required for Resend)
@@ -193,32 +197,33 @@ Common causes:
 heroku logs --tail --app support-migrately-nl | grep "Invalid signature"
 ```
 
-## MVP Limitations
+## Current Implementation Status
 
-Current implementation (MVP):
+What's implemented:
 - ✅ Plain text emails
-- ✅ Basic headers (From, To, Subject)
-- ✅ HMAC signature verification
-- ❌ HTML emails (not yet supported)
-- ❌ Attachments (not yet supported)
-- ❌ Email threading (Message-ID, In-Reply-To not yet preserved)
+- ✅ HTML emails (multipart MIME)
+- ✅ Email headers (From, To, CC, BCC, Subject)
+- ✅ Threading headers (Message-ID, In-Reply-To, References)
+- ✅ HMAC SHA256 signature verification
+- ✅ Fetches full email content from Resend API
+
+What's NOT yet implemented:
+- ❌ Attachments (download and embed in MIME message)
+- ❌ Inline images (requires attachment handling)
 
 ## Future Enhancements
 
-1. **HTML Email Support**
-   - Build multipart MIME messages (text/plain + text/html)
+1. **Attachment Support** (Next Priority)
+   - Fetch attachment metadata from email response
+   - Download attachment content from Resend CDN using `download_url`
+   - Embed attachments in MIME message using Mail gem
+   - Support both inline images (Content-ID) and regular attachments
 
-2. **Attachment Support**
-   - Use Resend API to fetch attachment content
-   - Embed attachments in MIME message
-
-3. **Full Email Content**
-   - Call Resend API `/emails/{email_id}` to get complete email
-   - Preserve all headers for proper threading
-
-4. **Email Threading**
-   - Extract and preserve Message-ID, In-Reply-To, References headers
-   - Enable conversation continuity
+2. **Advanced Features**
+   - Rate limiting for Resend API calls
+   - Caching of downloaded attachments
+   - Retry logic for failed API calls
+   - Better error handling and logging
 
 ## Architecture Notes
 
