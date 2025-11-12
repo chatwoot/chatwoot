@@ -26,12 +26,14 @@ export default {
       }
     },
     replyWaitMessage() {
-      if (
-        this.conversationAttributes?.assignee?.name
-          .toLowerCase()
-          .includes('bitespeed')
-      ) {
-        return 'Online - AI Support';
+      const isAiAssignee = this.conversationAttributes?.assignee?.name
+        ?.toLowerCase()
+        .includes('bitespeed');
+      const showAiIndicators =
+        this.channelConfig.aiMessageSettings?.show_indicators !== false;
+
+      if (isAiAssignee) {
+        return showAiIndicators ? 'Online - AI Support' : 'Online - Support';
       }
       const { workingHoursEnabled } = this.channelConfig;
       if (workingHoursEnabled) {

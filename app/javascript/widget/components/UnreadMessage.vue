@@ -70,14 +70,18 @@ export default {
     agentName() {
       if (this.isSenderExist(this.sender)) {
         const { available_name: availableName, name } = this.sender;
-        return name.toLowerCase().includes('bitespeed')
-          ? 'AI Support'
-          : availableName;
+        const isAiAgent = name.toLowerCase().includes('bitespeed');
+        if (isAiAgent && !this.showAiMessageIndicators) {
+          return availableName;
+        }
+        return isAiAgent ? 'AI Support' : availableName;
       }
       if (this.useInboxAvatarForBot) {
         return this.channelConfig.websiteName;
       }
-      return 'AI Support';
+      return this.showAiMessageIndicators
+        ? 'AI Support'
+        : this.channelConfig.websiteName;
     },
     availabilityStatus() {
       if (this.isSenderExist(this.sender)) {

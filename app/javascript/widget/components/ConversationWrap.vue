@@ -21,6 +21,7 @@
           :update-selected-products="updateSelectedProducts"
           :open-checkout-page="openCheckoutPage"
           :set-selected-products="setSelectProducts"
+          :replace-selected-products="replaceSelectedProducts"
           :all-grouped-messages="filterGroupedMessages(groupedMessage.messages)"
         />
       </div>
@@ -225,6 +226,10 @@ export default {
     },
     setSelectProducts(products) {
       this.selectedProducts = [...this.selectedProducts, ...products];
+    },
+    replaceSelectedProducts(products) {
+      // Replace entire selected products array (used for cart sync from Shopify)
+      this.selectedProducts = products;
     },
     handleScroll() {
       if (

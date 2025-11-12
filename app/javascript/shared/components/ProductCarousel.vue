@@ -233,6 +233,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    replaceSelectedProducts: {
+      type: Function,
+      default: () => {},
+    },
     messageId: { type: Number, default: null },
   },
   data() {
@@ -265,9 +269,14 @@ export default {
     this.$refs.carousel.addEventListener('scroll', this.checkScrollButtons);
     this.addCustomCartAttributeToShopifyCart();
     this.setInitialCart();
+
+    // Listen for cart updates from Shopify
+    emitter.on('SHOPIFY_CART_UPDATED', this.handleCartUpdate);
   },
   beforeDestroy() {
     this.$refs.carousel.removeEventListener('scroll', this.checkScrollButtons);
+    // Remove cart update listener
+    emitter.off('SHOPIFY_CART_UPDATED', this.handleCartUpdate);
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
@@ -531,6 +540,25 @@ export default {
       } finally {
         this.isCheckoutLoading = false;
       }
+    },
+    handleCartUpdate(updatedCartData) {
+      if (!this.items?.length || !updatedCartData?.attributes) {
+        return;
+      }
+
+      const { bitespeed_cart_products = [] } = updatedCartData.attributes;
+
+      let cartProducts = bitespeed_cart_products;
+      if (typeof bitespeed_cart_products === 'string') {
+        try {
+          cartProducts = JSON.parse(bitespeed_cart_products);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Error parsing bitespeed_cart_products:', e);
+          cartProducts = [];
+        }
+      }
+      this.replaceSelectedProducts(cartProducts);
     },
   },
 };

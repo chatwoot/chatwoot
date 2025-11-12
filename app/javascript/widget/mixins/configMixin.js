@@ -43,5 +43,8 @@ export default {
         preChatFields.filter(field => field.enabled).length > 0;
       return this.preChatFormEnabled && hasEnabledFields;
     },
+    showAiMessageIndicators() {
+      return this.channelConfig.aiMessageSettings?.show_indicators !== false;
+    },
   },
 };

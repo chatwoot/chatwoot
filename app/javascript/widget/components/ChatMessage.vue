@@ -15,6 +15,7 @@
     :update-selected-products="updateSelectedProducts"
     :open-checkout-page="openCheckoutPage"
     :set-selected-products="setSelectedProducts"
+    :replace-selected-products="replaceSelectedProducts"
     :is-different-type="isDifferentType"
     :is-last-message="isLastMessage"
   />
@@ -49,6 +50,10 @@ export default {
       default: () => {},
     },
     setSelectedProducts: {
+      type: Function,
+      default: () => {},
+    },
+    replaceSelectedProducts: {
       type: Function,
       default: () => {},
     },

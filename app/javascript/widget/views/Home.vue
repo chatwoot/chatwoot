@@ -75,7 +75,10 @@
         <div class="flex flex-col px-2">
           <div class="text-xs text-[#8C8C8C] text-left flex gap-1.5">
             Sent at {{ readableTimeStamp(lastMessage) }}
-            <span v-if="isSentByBot" class="flex items-center gap-1.5">
+            <span
+              v-if="isSentByBot && showAiMessageIndicators"
+              class="flex items-center gap-1.5"
+            >
               <span class="w-1 h-1 bg-[#999999] rounded-full" />
               Answered by AI ✨
             </span>

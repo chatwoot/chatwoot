@@ -357,6 +357,13 @@ export default {
           }
         } else if (message.event === SDK_SET_BUBBLE_VISIBILITY) {
           this.setBubbleVisibility(message.hideMessageBubble);
+        } else if (message.event === 'SHOPIFY_CART_UPDATED') {
+          if (message.cartData) {
+            window.shopifyCart = message.cartData;
+
+            // Emit event for ProductCarousel to refresh
+            emitter.emit('SHOPIFY_CART_UPDATED', message.cartData);
+          }
         }
       });
     },

@@ -74,6 +74,17 @@
               </select>
             </label>
             <label class="w-full pb-4">
+              Show AI Message Indicators
+              <select v-model="showAiMessageIndicators">
+                <option :value="true">
+                  {{ 'Show' }}
+                </option>
+                <option :value="false">
+                  {{ 'Hide' }}
+                </option>
+              </select>
+            </label>
+            <label class="w-full pb-4">
               Chat on WhatsApp
               <select v-model="chatOnWhatsappSettings.enabled">
                 <option :value="true">
@@ -360,6 +371,7 @@ export default {
       additionalAttributes: {},
       selectedCountry: 'IN',
       countries,
+      showAiMessageIndicators: true,
     };
   },
   computed: {
@@ -554,6 +566,8 @@ export default {
       this.backPopulateConversationMessages = back_populates_conversation;
       this.selectedCountry =
         additional_attributes?.default_country_code || 'IN';
+      this.showAiMessageIndicators =
+        additional_attributes?.ai_message_settings?.show_indicators !== false;
 
       this.setNeedMoreHelpOptionsData(
         need_more_help_type ?? 'need_more_help_type'
@@ -694,6 +708,9 @@ export default {
                 button_text: this.chatOnWhatsappSettings.buttonText,
                 default_text: this.chatOnWhatsappSettings.defaultText,
                 phone_number: this.setPhoneNumber,
+              },
+              ai_message_settings: {
+                show_indicators: this.showAiMessageIndicators,
               },
               default_country_code: this.defaultCountryCode,
               default_dial_code: this.defaultDialCode,
