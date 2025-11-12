@@ -1,29 +1,30 @@
 import CompanyAPI from 'dashboard/api/companies';
-import { createStore } from 'dashboard/store/captain/storeFactory';
+import { createStore } from 'dashboard/store/storeFactory';
 import camelcaseKeys from 'camelcase-keys';
 
-export default createStore({
+export const useCompaniesStore = createStore({
   name: 'Company',
+  type: 'pinia',
   API: CompanyAPI,
   getters: {
     getCompaniesList: state => {
       return camelcaseKeys(state.records, { deep: true });
     },
   },
-  actions: mutationTypes => ({
-    search: async ({ commit }, { search, page, sort }) => {
-      commit(mutationTypes.SET_UI_FLAG, { fetchingList: true });
+  actions: () => ({
+    async search({ search, page, sort }) {
+      this.setUIFlag({ fetchingList: true });
       try {
         const {
           data: { payload, meta },
         } = await CompanyAPI.search(search, page, sort);
-        commit(mutationTypes.SET, payload);
-        commit(mutationTypes.SET_META, meta);
-      } catch (error) {
-        // Error
+        this.records = payload;
+        this.setMeta(meta);
       } finally {
-        commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
+        this.setUIFlag({ fetchingList: false });
       }
     },
   }),
 });
+
+export default useCompaniesStore;

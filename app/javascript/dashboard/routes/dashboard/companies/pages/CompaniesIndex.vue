@@ -1,17 +1,17 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store';
 import { debounce } from '@chatwoot/utils';
+import { useCompaniesStore } from 'dashboard/store/modules/companies';
 
 import CompaniesListLayout from 'dashboard/components-next/Companies/CompaniesListLayout.vue';
 import CompaniesCard from 'dashboard/components-next/Companies/CompaniesCard/CompaniesCard.vue';
 
 const DEBOUNCE_DELAY = 300;
 
-const store = useStore();
+const companiesStore = useCompaniesStore();
+
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
@@ -30,9 +30,9 @@ const activeOrdering = computed(() => {
   return sortParam.startsWith('-') ? '-' : '';
 });
 
-const companies = useMapGetter('companies/getCompaniesList');
-const meta = useMapGetter('companies/getMeta');
-const uiFlags = useMapGetter('companies/getUIFlags');
+const companies = computed(() => companiesStore.getCompaniesList);
+const meta = computed(() => companiesStore.getMeta);
+const uiFlags = computed(() => companiesStore.getUIFlags);
 
 const isFetchingList = computed(() => uiFlags.value.fetchingList);
 
@@ -74,13 +74,13 @@ const fetchCompanies = async (page, search, sort) => {
   }
 
   if (currentSearch) {
-    await store.dispatch('companies/search', {
+    await companiesStore.search({
       search: currentSearch,
       page: currentPage,
       sort: currentSort,
     });
   } else {
-    await store.dispatch('companies/get', {
+    await companiesStore.get({
       page: currentPage,
       sort: currentSort,
     });
