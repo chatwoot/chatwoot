@@ -130,6 +130,14 @@ module ActionMailbox
           # Determine if we have attachments
           has_attachments = email_data['attachments'].present?
 
+          # Log HTML content if we have inline attachments
+          if has_attachments && email_data['html'].present?
+            inline_attachments = email_data['attachments'].select { |a| a['content_disposition'] == 'inline' }
+            if inline_attachments.any?
+              Rails.logger.info("Resend HTML with inline images: #{email_data['html'][0..500]}")
+            end
+          end
+
           # Build email body structure
           if email_data['html'].present? && email_data['text'].present?
             # Both text and HTML - create multipart/alternative
@@ -189,7 +197,12 @@ module ActionMailbox
 
           # Handle inline attachments (content_id present)
           if attachment_meta['content_id'].present? && attachment_meta['content_disposition'] == 'inline'
-            mail.attachments.last.content_id = attachment_meta['content_id']
+            # Strip angle brackets as Mail gem adds them automatically
+            # Resend provides content_id with brackets: "<unique-id>"
+            # Mail gem expects without brackets: "unique-id"
+            content_id_without_brackets = attachment_meta['content_id'].gsub(/[<>]/, '')
+            Rails.logger.info("Resend inline attachment: original CID=#{attachment_meta['content_id']}, stripped=#{content_id_without_brackets}")
+            mail.attachments.last.content_id = content_id_without_brackets
           end
         rescue StandardError => e
           Rails.logger.error("Failed to add attachment #{attachment_meta['id']}: #{e.message}")
