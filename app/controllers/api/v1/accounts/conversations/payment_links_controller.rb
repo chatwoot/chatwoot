@@ -35,13 +35,50 @@ class Api::V1::Accounts::Conversations::PaymentLinksController < Api::V1::Accoun
   end
 
   def send_payment_link_message(payment_link_data)
+    contact = @conversation.contact
+
     message_params = {
       content: format_payment_link_message(payment_link_data),
       message_type: :outgoing,
-      private: false
+      content_type: :payment_link,
+      private: false,
+      content_attributes: {
+        data: {
+          payment_id: payment_link_data[:payment_id],
+          payment_url: payment_link_data[:payment_url],
+          amount: permitted_params[:amount],
+          currency: permitted_params[:currency],
+          status: 'pending',
+          contact_id: contact&.id,
+          contact_name: contact&.name,
+          customer_data: customer_data
+        }
+      }
     }
 
-    Messages::MessageBuilder.new(Current.user, @conversation, message_params).perform
+    message = Messages::MessageBuilder.new(Current.user, @conversation, message_params).perform
+
+    # Create PaymentLink record
+    create_payment_link_record(message, payment_link_data, contact)
+
+    message
+  end
+
+  def create_payment_link_record(message, payment_link_data, contact)
+    PaymentLink.create!(
+      account: Current.account,
+      conversation: @conversation,
+      message: message,
+      contact: contact,
+      created_by: Current.user,
+      payment_id: payment_link_data[:payment_id],
+      payment_url: payment_link_data[:payment_url],
+      track_id: generate_track_id,
+      amount: permitted_params[:amount],
+      currency: permitted_params[:currency],
+      status: :pending,
+      customer_data: customer_data
+    )
   end
 
   def format_payment_link_message(payment_link_data)

@@ -65,6 +65,7 @@ export const CONTENT_TYPES = {
   INTEGRATIONS: 'integrations',
   STICKER: 'sticker',
   VOICE_CALL: 'voice_call',
+  PAYMENT_LINK: 'payment_link',
 };
 
 export const MEDIA_TYPES = [

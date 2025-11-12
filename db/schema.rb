@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_12_120810) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1053,6 +1053,32 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120810) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "payment_links", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "payment_id", null: false
+    t.string "payment_url", null: false
+    t.string "track_id", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.string "currency", default: "KWD", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "paid_at"
+    t.datetime "expires_at"
+    t.jsonb "customer_data", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_payment_links_on_account_id"
+    t.index ["contact_id"], name: "index_payment_links_on_contact_id"
+    t.index ["conversation_id"], name: "index_payment_links_on_conversation_id"
+    t.index ["created_by_id"], name: "index_payment_links_on_created_by_id"
+    t.index ["message_id"], name: "index_payment_links_on_message_id", unique: true
+    t.index ["payment_id"], name: "index_payment_links_on_payment_id", unique: true
+    t.index ["status"], name: "index_payment_links_on_status"
+  end
+
   create_table "platform_app_permissibles", force: :cascade do |t|
     t.bigint "platform_app_id", null: false
     t.string "permissible_type", null: false
@@ -1283,6 +1309,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120810) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "payment_links", "accounts"
+  add_foreign_key "payment_links", "contacts"
+  add_foreign_key "payment_links", "conversations"
+  add_foreign_key "payment_links", "messages"
+  add_foreign_key "payment_links", "users", column: "created_by_id"
   add_foreign_key "users", "users", column: "human_agent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

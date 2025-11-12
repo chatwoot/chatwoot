@@ -428,9 +428,23 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   },
   "PAYMENT_LINK": {
-    "TITLE": "Generate Payment Link",
+    "TITLE": "Payment Link",
     "DESC": "Create a payment link for the customer",
     "BUTTON_TEXT": "Generate Payment Link",
+    "SENDER_MESSAGE": "{sender} sent a payment request",
+    "AMOUNT": "Amount",
+    "CUSTOMER": "Customer",
+    "VIEW_PAYMENT_PAGE": "View Payment Page",
+    "PAYMENT_REQUEST": "Payment Request",
+    "CUSTOMER_MESSAGE": "You have a payment request for {amount} {currency}",
+    "PAY_NOW": "Pay Now",
+    "STATUS": {
+      "PENDING": "Pending",
+      "PAID": "Paid",
+      "FAILED": "Failed",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    },
     "FORM": {
       "AMOUNT": {
         "LABEL": "Amount",
