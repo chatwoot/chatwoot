@@ -9,6 +9,7 @@ import articles from './modules/helpCenterArticles';
 import attributes from './modules/attributes';
 import auditlogs from './modules/auditlogs';
 import auth from './modules/auth';
+import paymentLinks from './modules/paymentLinks';
 import automations from './modules/automations';
 import bulkActions from './modules/bulkActions';
 import campaigns from './modules/campaigns';
@@ -72,6 +73,7 @@ export default createStore({
     attributes,
     auditlogs,
     auth,
+    paymentLinks,
     automations,
     bulkActions,
     campaigns,

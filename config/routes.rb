@@ -184,6 +184,12 @@ Rails.application.routes.draw do
               resources :notes
             end
           end
+          resources :payment_links, only: [:index] do
+            collection do
+              get :search
+              post :filter
+            end
+          end
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics

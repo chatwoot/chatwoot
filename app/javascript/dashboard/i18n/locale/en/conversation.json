@@ -465,5 +465,61 @@
     "CANCEL": "Cancel",
     "SUCCESS": "Payment link sent successfully",
     "ERROR": "Failed to generate payment link"
+  },
+  "PAYMENT_LINKS": {
+    "HEADER": "Payment Links",
+    "DESCRIPTION": "View and manage all payment links created for your customers. Track payment statuses and access payment details.",
+    "LOADING": "Loading payment links...",
+    "EMPTY_STATE": "No payment links found. Create a payment link from a conversation to see it here.",
+    "TABLE": {
+      "PAYMENT_ID": "Payment ID",
+      "CONTACT": "Contact",
+      "AMOUNT": "Amount",
+      "STATUS": "Status",
+      "CREATED_AT": "Created",
+      "CREATED_BY": "Created By",
+      "CONVERSATION": "Conversation",
+      "ACTIONS": "Actions",
+      "COPY_URL": "Copy payment URL",
+      "VIEW_PAYMENT": "View payment page"
+    },
+    "FILTERS": {
+      "STATUS": "Status",
+      "ALL_STATUS": "All Status",
+      "DATE_RANGE": "Date Range",
+      "ALL_TIME": "All Time",
+      "TODAY": "Today",
+      "THIS_WEEK": "This Week",
+      "THIS_MONTH": "This Month",
+      "CUSTOM": "Custom Range",
+      "DATE_FROM": "From Date",
+      "DATE_TO": "To Date",
+      "SEARCH": "Search",
+      "SEARCH_PLACEHOLDER": "Search by Payment ID, Track ID, or Contact Name",
+      "AMOUNT_MIN": "Min Amount",
+      "AMOUNT_MAX": "Max Amount",
+      "MIN": "Min",
+      "MAX": "Max",
+      "CLEAR_FILTERS": "Clear Filters"
+    },
+    "FILTER": {
+      "TITLE": "Filter Payment Links",
+      "STATUS": "Status",
+      "AMOUNT": "Amount",
+      "CREATED_AT": "Created At",
+      "PAID_AT": "Paid At",
+      "BUTTONS": {
+        "ADD_FILTER": "Add Filter",
+        "CLEAR_FILTERS": "Clear Filters",
+        "APPLY_FILTERS": "Apply Filters"
+      }
+    },
+    "STATUS": {
+      "PENDING": "Pending",
+      "PAID": "Paid",
+      "FAILED": "Failed",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    }
   }
 }

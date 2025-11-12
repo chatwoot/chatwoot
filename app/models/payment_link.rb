@@ -69,6 +69,21 @@ class PaymentLink < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :filter_by_created_at, ->(range) { where(created_at: range) if range.present? }
   scope :filter_by_conversation, ->(conversation_id) { where(conversation_id: conversation_id) if conversation_id.present? }
+  scope :search, lambda { |query|
+    return all if query.blank?
+
+    joins(:contact).where(
+      'payment_links.payment_id ILIKE :q OR payment_links.track_id ILIKE :q OR contacts.name ILIKE :q',
+      q: "%#{query}%"
+    )
+  }
+  scope :filter_by_amount_range, lambda { |min, max|
+    return all if min.blank? && max.blank?
+    return where('amount >= ?', min) if max.blank?
+    return where('amount <= ?', max) if min.blank?
+
+    where(amount: min..max)
+  }
 
   def mark_as_paid!
     update!(status: :paid, paid_at: Time.current)
