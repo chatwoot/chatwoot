@@ -127,43 +127,59 @@ module ActionMailbox
           # Use Mail gem to build proper RFC822 MIME message
           require 'mail'
 
-          mail = Mail.new do
-            from     email_data['from']
-            to       email_data['to']
-            cc       email_data['cc'] if email_data['cc'].present?
-            bcc      email_data['bcc'] if email_data['bcc'].present?
-            subject  email_data['subject'] || '(no subject)'
+          mail = Mail.new
+          mail.from = email_data['from']
+          mail.to = email_data['to']
+          mail.cc = email_data['cc'] if email_data['cc'].present?
+          mail.bcc = email_data['bcc'] if email_data['bcc'].present?
+          mail.subject = email_data['subject'] || '(no subject)'
 
-            # Add threading headers if available
-            message_id email_data['message_id'] if email_data['message_id'].present?
-            in_reply_to email_data.dig('headers', 'in-reply-to') if email_data.dig('headers', 'in-reply-to').present?
-            references email_data.dig('headers', 'references') if email_data.dig('headers', 'references').present?
+          # Add threading headers if available
+          mail.message_id = email_data['message_id'] if email_data['message_id'].present?
+          mail.in_reply_to = email_data.dig('headers', 'in-reply-to') if email_data.dig('headers', 'in-reply-to').present?
+          mail.references = email_data.dig('headers', 'references') if email_data.dig('headers', 'references').present?
 
-            # Build multipart message with both text and HTML
-            if email_data['html'].present? && email_data['text'].present?
-              # Multipart: text + html
-              text_part do
+          # Determine if we have attachments
+          has_attachments = email_data['attachments'].present?
+
+          # Build email body structure
+          if email_data['html'].present? && email_data['text'].present?
+            # Both text and HTML - create multipart/alternative
+            if has_attachments
+              # With attachments: multipart/mixed > multipart/alternative > text + html
+              mail.text_part = Mail::Part.new do
                 content_type 'text/plain; charset=UTF-8'
                 body email_data['text']
               end
 
-              html_part do
+              mail.html_part = Mail::Part.new do
                 content_type 'text/html; charset=UTF-8'
                 body email_data['html']
               end
-            elsif email_data['html'].present?
-              # HTML only
-              content_type 'text/html; charset=UTF-8'
-              body email_data['html']
             else
-              # Text only
-              content_type 'text/plain; charset=UTF-8'
-              body email_data['text'] || '(no body)'
+              # Without attachments: just multipart/alternative
+              mail.text_part = Mail::Part.new do
+                content_type 'text/plain; charset=UTF-8'
+                body email_data['text']
+              end
+
+              mail.html_part = Mail::Part.new do
+                content_type 'text/html; charset=UTF-8'
+                body email_data['html']
+              end
             end
+          elsif email_data['html'].present?
+            # HTML only
+            mail.content_type = 'text/html; charset=UTF-8'
+            mail.body = email_data['html']
+          else
+            # Text only
+            mail.content_type = 'text/plain; charset=UTF-8'
+            mail.body = email_data['text'] || '(no body)'
           end
 
-          # Add attachments if present
-          if email_data['attachments'].present?
+          # Add attachments if present - this will automatically convert to multipart/mixed
+          if has_attachments
             email_data['attachments'].each do |attachment_meta|
               add_attachment_to_mail(mail, email_data['email_id'], attachment_meta)
             end
