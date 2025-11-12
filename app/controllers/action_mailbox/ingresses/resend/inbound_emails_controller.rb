@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
+# rubocop:disable Metrics/ClassLength, Style/ClassAndModuleChildren
 module ActionMailbox::Ingresses::Resend
   # Controller to handle inbound email webhooks from Resend
   # Receives JSON webhook payload, verifies signature, fetches full email from Resend API,
@@ -12,6 +12,7 @@ module ActionMailbox::Ingresses::Resend
 
     before_action :verify_authenticity
 
+    # rubocop:disable Metrics/AbcSize
     def create
       # Parse webhook payload
       payload = JSON.parse(request.body.read)
@@ -45,6 +46,7 @@ module ActionMailbox::Ingresses::Resend
       Rails.logger.error(e.backtrace.join("\n"))
       head :internal_server_error
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 
@@ -110,7 +112,6 @@ module ActionMailbox::Ingresses::Resend
       nil
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
     def build_rfc822_message(email_data)
       # Use Mail gem to build proper RFC822 MIME message
       require 'mail'
@@ -136,8 +137,8 @@ module ActionMailbox::Ingresses::Resend
 
       mail.to_s
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
+    # rubocop:disable Metrics/AbcSize
     def set_mail_headers(mail, email_data)
       mail.from = email_data['from']
       mail.to = email_data['to']
@@ -150,6 +151,7 @@ module ActionMailbox::Ingresses::Resend
       mail.in_reply_to = email_data.dig('headers', 'in-reply-to') if email_data.dig('headers', 'in-reply-to').present?
       mail.references = email_data.dig('headers', 'references') if email_data.dig('headers', 'references').present?
     end
+    # rubocop:enable Metrics/AbcSize
 
     def set_mail_body(mail, email_data, _has_attachments)
       if email_data['html'].present? && email_data['text'].present?
@@ -211,7 +213,7 @@ module ActionMailbox::Ingresses::Resend
       }
 
       # Set Content-ID for cid: reference matching
-      return unless attachment_meta['content_id'].present?
+      return if attachment_meta['content_id'].blank?
 
       # Strip angle brackets as Mail gem adds them automatically
       # Resend provides: "<content-id>", Mail gem expects: "content-id"
@@ -267,7 +269,7 @@ module ActionMailbox::Ingresses::Resend
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def convert_data_uris_to_cid(html, attachments, email_id)
       # Resend embeds inline images as data URIs in HTML
       # We need to convert them to cid: references that match the attachment Content-IDs
@@ -304,7 +306,7 @@ module ActionMailbox::Ingresses::Resend
       Rails.logger.error("Failed to convert data URIs to cid references: #{e.message}")
       html # Return original HTML on error
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     def build_data_uri_map(inline_attachments, email_id)
       data_uri_to_cid = {}
@@ -322,4 +324,4 @@ module ActionMailbox::Ingresses::Resend
     end
   end
 end
-# rubocop:enable Metrics/ClassLength
+# rubocop:enable Metrics/ClassLength, Style/ClassAndModuleChildren
