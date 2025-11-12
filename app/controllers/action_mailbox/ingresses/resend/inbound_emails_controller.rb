@@ -5,7 +5,9 @@ module ActionMailbox::Ingresses::Resend
   # Controller to handle inbound email webhooks from Resend
   # Receives JSON webhook payload, verifies signature, fetches full email from Resend API,
   # converts to RFC822, and processes via ActionMailbox
+  # rubocop:disable Rails/ApplicationController
   class InboundEmailsController < ActionController::Base
+    # rubocop:enable Rails/ApplicationController
     skip_forgery_protection
 
     before_action :verify_authenticity
