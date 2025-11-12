@@ -9,6 +9,7 @@ import endOfMonth from 'date-fns/endOfMonth';
 import startOfDay from 'date-fns/startOfDay';
 import startOfMonth from 'date-fns/startOfMonth';
 import subDays from 'date-fns/subDays';
+import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
@@ -188,7 +189,7 @@ watch(
 
 <template>
   <div
-    v-on-clickaway="() => toggleDropdown(false)"
+    v-on-click-outside="() => toggleDropdown(false)"
     class="relative flex items-center group"
   >
     <Button
