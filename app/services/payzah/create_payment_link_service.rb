@@ -11,14 +11,15 @@ class Payzah::CreatePaymentLinkService
   DEFAULT_CURRENCY = 'KWD'.freeze
   DEFAULT_LANGUAGE = 'en'.freeze
 
-  attr_reader :trackid, :amount, :currency, :language, :customer
+  attr_reader :trackid, :amount, :currency, :language, :customer, :account
 
-  def initialize(trackid:, amount:, currency: DEFAULT_CURRENCY, language: DEFAULT_LANGUAGE, customer: {})
+  def initialize(trackid:, amount:, currency: DEFAULT_CURRENCY, language: DEFAULT_LANGUAGE, customer: {}, account: nil)
     @trackid = trackid
     @amount = amount
     @currency = currency
     @language = language
     @customer = customer
+    @account = account
   end
 
   def perform
@@ -33,11 +34,19 @@ class Payzah::CreatePaymentLinkService
   private
 
   def create_payment_request
-    client = Payzah::ApiClient.new
+    api_key = fetch_payzah_api_key!
+    client = Payzah::ApiClient.new(api_key: api_key)
     client.create_payment(payment_params)
   rescue Payzah::ApiClient::ApiError => e
     Rails.logger.error "Payzah payment creation failed: #{e.message}"
     raise
+  end
+
+  def fetch_payzah_api_key!
+    return @account.payzah_settings.api_key if @account.payzah_settings&.payzah_configured?
+
+    raise ArgumentError, 'Payzah is not configured for this account. ' \
+                         'Please configure Payzah API key in Settings → Integrations → Payzah.'
   end
 
   def validate_response!(response)

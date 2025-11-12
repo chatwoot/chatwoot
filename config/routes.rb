@@ -78,6 +78,7 @@ Rails.application.routes.draw do
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
+          resource :payzah_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member

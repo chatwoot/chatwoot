@@ -27,7 +27,8 @@ class Api::V1::Accounts::Conversations::PaymentLinksController < Api::V1::Accoun
       trackid: generate_track_id,
       amount: permitted_params[:amount],
       currency: permitted_params[:currency],
-      customer: customer_data
+      customer: customer_data,
+      account: Current.account
     )
 
     service.perform

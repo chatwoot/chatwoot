@@ -13,49 +13,42 @@ class Payzah::ApiClient
     end
   end
 
-  def initialize
-    @api_key = ENV.fetch('PAYZAH_API_KEY', nil)
+  attr_reader :api_key, :api_url
+
+  def initialize(api_key:)
+    @api_key = api_key
     @api_url = ENV.fetch('PAYZAH_API_URL', 'https://development.payzah.net/ws/paymentgateway/index')
+
+    validate_api_key!
   end
 
   def create_payment(payment_params)
-    options = {
-      headers: headers,
-      body: payment_params.to_json
-    }
-
-    response = self.class.post(@api_url, options)
+    response = self.class.post(@api_url, request_options(payment_params))
     handle_response(response)
   end
 
   private
 
-  def headers
+  def validate_api_key!
+    return if api_key.present?
+
+    raise ArgumentError, 'Payzah API key is required'
+  end
+
+  def request_options(payment_params)
     {
-      'Authorization' => Base64.strict_encode64(@api_key),
-      'Content-Type' => 'application/json'
+      headers: {
+        'Authorization' => Base64.strict_encode64(api_key),
+        'Content-Type' => 'application/json'
+      },
+      body: payment_params.to_json
     }
   end
 
   def handle_response(response)
-    case response.code
-    when 200..299
-      handle_success(response)
-    else
-      error_message = "Payzah API error: #{response.code} - #{response.body}"
-      Rails.logger.error error_message
-      raise ApiError.new(error_message, response.code, response)
-    end
-  end
+    return response.parsed_response if response.success?
 
-  def handle_success(response)
-    parse_response(response)
-  rescue JSON::ParserError, TypeError => e
-    error_message = "Failed to parse Payzah API response: #{e.message}"
-    raise ApiError.new(error_message, response.code, response)
-  end
-
-  def parse_response(response)
-    response.parsed_response
+    Rails.logger.error "Payzah API error: #{response.code} - #{response.body}"
+    raise ApiError.new("Payzah API error: #{response.code}", response.code, response)
   end
 end

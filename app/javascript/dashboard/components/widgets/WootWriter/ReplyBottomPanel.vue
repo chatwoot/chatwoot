@@ -14,6 +14,7 @@ import PaymentLinkButton from '../PaymentLinkButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import payzahSettingsAPI from 'dashboard/api/payzahSettings';
 
 export default {
   name: 'ReplyBottomPanel',
@@ -175,6 +176,7 @@ export default {
   data() {
     return {
       ALLOWED_FILE_TYPES,
+      payzahEnabled: false,
     };
   },
   computed: {
@@ -273,8 +275,17 @@ export default {
   },
   mounted() {
     ActiveStorage.start();
+    this.loadPayzahStatus();
   },
   methods: {
+    async loadPayzahStatus() {
+      try {
+        const response = await payzahSettingsAPI.get();
+        this.payzahEnabled = !!response.data?.enabled;
+      } catch (error) {
+        this.payzahEnabled = false;
+      }
+    },
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
@@ -394,7 +405,7 @@ export default {
       />
 
       <PaymentLinkButton
-        v-if="!isOnPrivateNote"
+        v-if="!isOnPrivateNote && payzahEnabled"
         :conversation-id="conversationId"
       />
       <AIAssistanceButton
