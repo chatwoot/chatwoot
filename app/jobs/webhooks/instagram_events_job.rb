@@ -78,7 +78,11 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def contact_instagram_id
-    messaging = @entries&.dig(0, :messaging, 0)
+    entry = @entries&.first
+    return nil unless entry
+
+    # Handle both messaging and standby arrays
+    messaging = (entry[:messaging].presence || entry[:standby] || []).first
     return nil unless messaging
 
     # For echo messages (outgoing from our account), use recipient's ID (the contact)
