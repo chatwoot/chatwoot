@@ -98,7 +98,19 @@ module ActionMailbox
           end
 
           if response.is_a?(Net::HTTPSuccess)
-            JSON.parse(response.body)
+            email_data = JSON.parse(response.body)
+
+            # Log attachment data from email fetch
+            if email_data['attachments'].present?
+              Rails.logger.info("=== ATTACHMENTS FROM EMAIL FETCH ===")
+              Rails.logger.info("Number of attachments: #{email_data['attachments'].length}")
+              email_data['attachments'].each do |att|
+                Rails.logger.info("Attachment: #{att.inspect}")
+              end
+              Rails.logger.info("=== END ATTACHMENTS ===")
+            end
+
+            email_data
           else
             Rails.logger.error("Resend API error: #{response.code} - #{response.body}")
             nil
@@ -182,12 +194,21 @@ module ActionMailbox
 
           # Step 1: Get attachment metadata including download_url
           metadata_uri = URI("https://api.resend.com/emails/receiving/#{email_id}/attachments/#{attachment_id}")
+
+          Rails.logger.info("=== FETCHING ATTACHMENT ===")
+          Rails.logger.info("Email ID: #{email_id}")
+          Rails.logger.info("Attachment ID: #{attachment_id}")
+          Rails.logger.info("Full URL: #{metadata_uri}")
+
           metadata_request = Net::HTTP::Get.new(metadata_uri)
           metadata_request['Authorization'] = "Bearer #{api_key}"
 
           metadata_response = Net::HTTP.start(metadata_uri.hostname, metadata_uri.port, use_ssl: true) do |http|
             http.request(metadata_request)
           end
+
+          Rails.logger.info("Response Code: #{metadata_response.code}")
+          Rails.logger.info("Response Body: #{metadata_response.body}")
 
           unless metadata_response.is_a?(Net::HTTPSuccess)
             Rails.logger.error("Resend API error fetching attachment metadata: #{metadata_response.code} - #{metadata_response.body}")
