@@ -98,22 +98,7 @@ module ActionMailbox
           end
 
           if response.is_a?(Net::HTTPSuccess)
-            email_data = JSON.parse(response.body)
-
-            # Log the complete API response structure for research purposes
-            Rails.logger.info("=== RESEND API RESPONSE FOR EMAIL #{email_id} ===")
-            Rails.logger.info("Response keys: #{email_data.keys.inspect}")
-            Rails.logger.info("Full response: #{email_data.inspect}")
-
-            # Specifically check for attachments
-            if email_data['attachments'].present?
-              Rails.logger.info("ATTACHMENTS FOUND: #{email_data['attachments'].inspect}")
-            else
-              Rails.logger.info("No attachments field in response")
-            end
-            Rails.logger.info("=== END RESEND API RESPONSE ===")
-
-            email_data
+            JSON.parse(response.body)
           else
             Rails.logger.error("Resend API error: #{response.code} - #{response.body}")
             nil
@@ -127,7 +112,7 @@ module ActionMailbox
           # Use Mail gem to build proper RFC822 MIME message
           require 'mail'
 
-          Mail.new do
+          mail = Mail.new do
             from     email_data['from']
             to       email_data['to']
             cc       email_data['cc'] if email_data['cc'].present?
@@ -160,10 +145,58 @@ module ActionMailbox
               content_type 'text/plain; charset=UTF-8'
               body email_data['text'] || '(no body)'
             end
+          end
 
-            # TODO: Add attachment handling in future enhancement
-            # For now, we handle text and HTML emails
-          end.to_s
+          # Add attachments if present
+          if email_data['attachments'].present?
+            email_data['attachments'].each do |attachment_meta|
+              add_attachment_to_mail(mail, email_data['email_id'], attachment_meta)
+            end
+          end
+
+          mail.to_s
+        end
+
+        def add_attachment_to_mail(mail, email_id, attachment_meta)
+          # Fetch attachment content from Resend API
+          attachment_content = fetch_attachment_from_resend(email_id, attachment_meta['id'])
+          return if attachment_content.nil?
+
+          # Add attachment to mail
+          mail.attachments[attachment_meta['filename']] = {
+            content_type: attachment_meta['content_type'],
+            content: attachment_content
+          }
+
+          # Handle inline attachments (content_id present)
+          if attachment_meta['content_id'].present? && attachment_meta['content_disposition'] == 'inline'
+            mail.attachments.last.content_id = attachment_meta['content_id']
+          end
+        rescue StandardError => e
+          Rails.logger.error("Failed to add attachment #{attachment_meta['id']}: #{e.message}")
+        end
+
+        def fetch_attachment_from_resend(email_id, attachment_id)
+          api_key = ENV.fetch('RESEND_API_KEY', nil)
+          return nil if api_key.blank?
+
+          uri = URI("https://api.resend.com/emails/receiving/#{email_id}/attachments/#{attachment_id}")
+          request = Net::HTTP::Get.new(uri)
+          request['Authorization'] = "Bearer #{api_key}"
+
+          response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+            http.request(request)
+          end
+
+          if response.is_a?(Net::HTTPSuccess)
+            response.body
+          else
+            Rails.logger.error("Resend API error fetching attachment: #{response.code} - #{response.body}")
+            nil
+          end
+        rescue StandardError => e
+          Rails.logger.error("Failed to fetch attachment from Resend: #{e.message}")
+          nil
         end
       end
     end
