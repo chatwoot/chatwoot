@@ -37,8 +37,8 @@ RSpec.describe 'Companies API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].size).to eq(25)
-        expect(response_body['meta']['count']).to eq(32)
-        expect(response_body['meta']['current_page']).to eq(1)
+        expect(response_body['meta']['total_count']).to eq(32)
+        expect(response_body['meta']['page']).to eq(1)
       end
 
       it 'returns second page of companies' do
@@ -50,8 +50,8 @@ RSpec.describe 'Companies API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].size).to eq(7)
-        expect(response_body['meta']['count']).to eq(32)
-        expect(response_body['meta']['current_page']).to eq(2)
+        expect(response_body['meta']['total_count']).to eq(32)
+        expect(response_body['meta']['page']).to eq(2)
       end
 
       it 'returns companies with contacts_count' do
@@ -148,7 +148,7 @@ RSpec.describe 'Companies API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].size).to eq(0)
-        expect(response_body['meta']['count']).to eq(0)
+        expect(response_body['meta']['total_count']).to eq(0)
       end
     end
   end
