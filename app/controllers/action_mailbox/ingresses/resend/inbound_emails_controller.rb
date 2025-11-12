@@ -175,8 +175,12 @@ module ActionMailbox
           end
 
           # Add attachments if present - this will automatically convert to multipart/mixed
+          # Skip inline attachments as Resend embeds them as data URIs in the HTML
           if has_attachments
             email_data['attachments'].each do |attachment_meta|
+              # Skip inline images - they're already embedded as data URIs in HTML
+              next if attachment_meta['content_disposition'] == 'inline'
+
               add_attachment_to_mail(mail, email_data['email_id'], attachment_meta)
             end
           end
