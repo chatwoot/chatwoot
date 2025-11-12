@@ -114,6 +114,7 @@ module ActionMailbox
         def build_rfc822_message(email_data)
           # Use Mail gem to build proper RFC822 MIME message
           require 'mail'
+          require 'base64'
 
           mail = Mail.new
           mail.from = email_data['from']
@@ -129,6 +130,12 @@ module ActionMailbox
 
           # Determine if we have attachments
           has_attachments = email_data['attachments'].present?
+
+          # Convert data URI images to cid: references if we have inline attachments
+          # Resend embeds images as data URIs in HTML, but we need cid: references for proper email structure
+          if has_attachments && email_data['html'].present?
+            email_data['html'] = convert_data_uris_to_cid(email_data['html'], email_data['attachments'], email_data['email_id'])
+          end
 
           # Build email body structure
           if email_data['html'].present? && email_data['text'].present?
@@ -247,6 +254,53 @@ module ActionMailbox
         rescue StandardError => e
           Rails.logger.error("Failed to fetch attachment from Resend: #{e.message}")
           nil
+        end
+
+        def convert_data_uris_to_cid(html, attachments, email_id)
+          # Resend embeds inline images as data URIs in HTML
+          # We need to convert them to cid: references that match the attachment Content-IDs
+          # This allows MailboxHelper to convert them to ActiveStorage URLs
+
+          return html if html.blank? || attachments.blank?
+
+          # Find inline image attachments with content_ids
+          inline_attachments = attachments.select { |a| a['content_disposition'] == 'inline' && a['content_id'].present? }
+          return html unless inline_attachments.any?
+
+          # Build a map of base64-encoded image data to content_ids by fetching each attachment
+          data_uri_to_cid = {}
+          inline_attachments.each do |attachment|
+            attachment_content = fetch_attachment_from_resend(email_id, attachment['id'])
+            next if attachment_content.nil?
+
+            # Encode as base64 to match data URI format
+            base64_content = Base64.strict_encode64(attachment_content)
+            # Strip angle brackets from content_id (Resend provides "<cid>", we need "cid")
+            content_id = attachment['content_id'].gsub(/[<>]/, '')
+            data_uri_to_cid[base64_content] = content_id
+          end
+
+          # Replace data URI images with cid: references
+          # Match: <img src="data:image/TYPE;base64,BASE64DATA" ...>
+          html.gsub(/(<img[^>]+src=")data:image\/[^;]+;base64,([^"]+)("[^>]*>)/i) do |match|
+            prefix = ::Regexp.last_match(1)
+            base64_data = ::Regexp.last_match(2)
+            suffix = ::Regexp.last_match(3)
+
+            # Find matching content_id for this base64 data
+            content_id = data_uri_to_cid[base64_data]
+
+            if content_id
+              # Replace with cid: reference
+              "#{prefix}cid:#{content_id}#{suffix}"
+            else
+              # No matching attachment found, leave as data URI
+              match
+            end
+          end
+        rescue StandardError => e
+          Rails.logger.error("Failed to convert data URIs to cid references: #{e.message}")
+          html # Return original HTML on error
         end
       end
     end
