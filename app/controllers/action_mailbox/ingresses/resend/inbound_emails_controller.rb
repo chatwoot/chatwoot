@@ -130,11 +130,12 @@ module ActionMailbox
           # Determine if we have attachments
           has_attachments = email_data['attachments'].present?
 
-          # Log HTML content if we have inline attachments
+          # Convert Resend's data URI images to cid: references
+          # Resend embeds inline images as data URIs, but Chatwoot expects cid: references
           if has_attachments && email_data['html'].present?
             inline_attachments = email_data['attachments'].select { |a| a['content_disposition'] == 'inline' }
             if inline_attachments.any?
-              Rails.logger.info("Resend HTML with inline images: #{email_data['html'][0..500]}")
+              email_data['html'] = convert_data_uris_to_cid(email_data['html'], inline_attachments)
             end
           end
 
@@ -175,17 +176,41 @@ module ActionMailbox
           end
 
           # Add attachments if present - this will automatically convert to multipart/mixed
-          # Skip inline attachments as Resend embeds them as data URIs in the HTML
           if has_attachments
             email_data['attachments'].each do |attachment_meta|
-              # Skip inline images - they're already embedded as data URIs in HTML
-              next if attachment_meta['content_disposition'] == 'inline'
-
               add_attachment_to_mail(mail, email_data['email_id'], attachment_meta)
             end
           end
 
           mail.to_s
+        end
+
+        def convert_data_uris_to_cid(html, inline_attachments)
+          # Resend embeds inline images as data URIs: <img src="data:image/png;base64,...">
+          # We need to convert them to cid: references: <img src="cid:content_id">
+          # This allows Chatwoot to display them properly without modifying DOMPurify config
+
+          modified_html = html.dup
+
+          # Find all data URI images in the HTML
+          # Match: <img src="data:image/TYPE;base64,DATA">
+          data_uri_pattern = /<img[^>]*\ssrc="data:image\/[^;]+;base64,[^"]*"/i
+
+          # For each inline attachment, replace the first data URI we find
+          # This is a simple heuristic - assumes order matches between HTML and attachments
+          inline_attachments.each do |attachment|
+            # Strip angle brackets from content_id for cid: reference
+            content_id = attachment['content_id']&.gsub(/[<>]/, '')
+            next if content_id.blank?
+
+            # Replace the first data URI with cid: reference
+            modified_html = modified_html.sub(data_uri_pattern) do |match|
+              # Keep everything except the src value
+              match.sub(/src="data:image\/[^;]+;base64,[^"]*"/, "src=\"cid:#{content_id}\"")
+            end
+          end
+
+          modified_html
         end
 
         def add_attachment_to_mail(mail, email_id, attachment_meta)
@@ -202,10 +227,8 @@ module ActionMailbox
           # Handle inline attachments (content_id present)
           if attachment_meta['content_id'].present? && attachment_meta['content_disposition'] == 'inline'
             # Strip angle brackets as Mail gem adds them automatically
-            # Resend provides content_id with brackets: "<unique-id>"
-            # Mail gem expects without brackets: "unique-id"
+            # Resend provides: "<content-id>", Mail gem expects: "content-id"
             content_id_without_brackets = attachment_meta['content_id'].gsub(/[<>]/, '')
-            Rails.logger.info("Resend inline attachment: original CID=#{attachment_meta['content_id']}, stripped=#{content_id_without_brackets}")
             mail.attachments.last.content_id = content_id_without_brackets
           end
         rescue StandardError => e
