@@ -51,7 +51,7 @@ const formattedUpdatedAt = computed(() => {
             {{ displayName }}
           </span>
           <span
-            v-if="domain"
+            v-if="domain && description"
             class="inline-flex items-center gap-1.5 text-sm text-n-slate-11 truncate"
           >
             <Icon icon="i-lucide-globe" size="size-3.5 text-n-slate-11" />
@@ -60,11 +60,18 @@ const formattedUpdatedAt = computed(() => {
         </div>
         <div class="flex items-center justify-between">
           <div class="flex flex-wrap items-center gap-x-3 gap-y-1 min-w-0">
+            <span
+              v-if="domain && !description"
+              class="inline-flex items-center gap-1.5 text-sm text-n-slate-11 truncate"
+            >
+              <Icon icon="i-lucide-globe" size="size-3.5 text-n-slate-11" />
+              <span class="truncate">{{ domain }}</span>
+            </span>
             <span v-if="description" class="text-sm text-n-slate-11 truncate">
               {{ description }}
             </span>
             <div
-              v-if="description && contactsCount"
+              v-if="(description || domain) && contactsCount"
               class="w-px h-3 bg-n-slate-6"
             />
             <span
