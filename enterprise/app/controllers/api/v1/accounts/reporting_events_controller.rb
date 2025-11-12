@@ -25,6 +25,6 @@ class Api::V1::Accounts::ReportingEventsController < Api::V1::Accounts::Enterpri
   end
 
   def set_current_page
-    @current_page = params[:page] || 1
+    @current_page = (params[:page] || 1).to_i
   end
 end
