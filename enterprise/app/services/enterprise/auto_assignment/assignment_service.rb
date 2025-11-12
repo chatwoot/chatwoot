@@ -13,13 +13,6 @@ module Enterprise::AutoAssignment::AssignmentService
     }.compact
   end
 
-  # Override to check policy first
-  def assignment_enabled?
-    return policy.enabled? if policy
-
-    super
-  end
-
   # Extend agent finding to add capacity checks
   def find_available_agent
     agents = filter_agents_by_rate_limit(inbox.available_agents)
@@ -65,11 +58,11 @@ module Enterprise::AutoAssignment::AssignmentService
     # Apply exclusion rules from capacity policy or assignment policy
     scope = apply_exclusion_rules(scope)
 
-    # Apply conversation priority from config
-    scope = if assignment_config['conversation_priority'] == 'longest_waiting'
-              scope.order(last_activity_at: :asc, created_at: :asc)
+    # Apply conversation priority using enum methods if policy exists
+    scope = if policy&.longest_waiting?
+              scope.reorder(last_activity_at: :asc, created_at: :asc)
             else
-              scope.order(created_at: :asc)
+              scope.reorder(created_at: :asc)
             end
 
     scope.limit(limit)

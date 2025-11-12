@@ -40,10 +40,10 @@ class AutoAssignment::RateLimiter
   end
 
   def assignment_key_pattern
-    "assignment:#{inbox.id}:agent:#{agent.id}:*"
+    format(Redis::RedisKeys::ASSIGNMENT_KEY_PATTERN, inbox_id: inbox.id, agent_id: agent.id)
   end
 
   def build_assignment_key(conversation_id)
-    "assignment:#{inbox.id}:agent:#{agent.id}:conversation:#{conversation_id}"
+    format(Redis::RedisKeys::ASSIGNMENT_KEY, inbox_id: inbox.id, agent_id: agent.id, conversation_id: conversation_id)
   end
 end

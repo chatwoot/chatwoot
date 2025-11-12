@@ -2,7 +2,7 @@ class AutoAssignment::AssignmentService
   pattr_initialize [:inbox!]
 
   def perform_bulk_assignment(limit: 100)
-    return 0 unless inbox.enable_auto_assignment
+    return 0 unless inbox.auto_assignment_v2_enabled?
 
     assigned_count = 0
 
@@ -32,10 +32,10 @@ class AutoAssignment::AssignmentService
   def unassigned_conversations(limit)
     scope = inbox.conversations.unassigned.open
 
-    scope = if assignment_config['conversation_priority'] == 'longest_waiting'
-              scope.order(last_activity_at: :asc, created_at: :asc)
+    scope = if assignment_config['conversation_priority'].to_s == 'longest_waiting'
+              scope.reorder(last_activity_at: :asc, created_at: :asc)
             else
-              scope.order(created_at: :asc)
+              scope.reorder(created_at: :asc)
             end
 
     scope.limit(limit)

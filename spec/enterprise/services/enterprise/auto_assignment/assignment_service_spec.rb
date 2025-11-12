@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
   let(:account) { create(:account) }
+  let(:assignment_policy) { create(:assignment_policy, account: account, enabled: true) }
   let(:inbox) { create(:inbox, account: account) }
   let(:agent1) { create(:user, account: account, name: 'Agent 1') }
   let(:agent2) { create(:user, account: account, name: 'Agent 2') }
@@ -11,6 +12,9 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
     # Create inbox members
     create(:inbox_member, inbox: inbox, user: agent1)
     create(:inbox_member, inbox: inbox, user: agent2)
+
+    # Link inbox to assignment policy
+    create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
 
     allow(account).to receive(:feature_enabled?).and_return(false)
     allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)

@@ -59,7 +59,7 @@ RSpec.describe AutoAssignment::RateLimiter do
       end
 
       it 'creates a Redis key with correct expiry' do
-        expected_key = "assignment:#{inbox.id}:agent:#{agent.id}:conversation:#{conversation.id}"
+        expected_key = format(Redis::RedisKeys::ASSIGNMENT_KEY, inbox_id: inbox.id, agent_id: agent.id, conversation_id: conversation.id)
         expect(Redis::Alfred).to receive(:set).with(
           expected_key,
           conversation.id.to_s,
@@ -90,7 +90,7 @@ RSpec.describe AutoAssignment::RateLimiter do
       end
 
       it 'counts matching Redis keys' do
-        pattern = "assignment:#{inbox.id}:agent:#{agent.id}:*"
+        pattern = format(Redis::RedisKeys::ASSIGNMENT_KEY_PATTERN, inbox_id: inbox.id, agent_id: agent.id)
         allow(Redis::Alfred).to receive(:keys_count).with(pattern).and_return(3)
 
         expect(rate_limiter.current_count).to eq(3)
@@ -108,7 +108,7 @@ RSpec.describe AutoAssignment::RateLimiter do
       end
 
       it 'uses the custom window value' do
-        expected_key = "assignment:#{inbox.id}:agent:#{agent.id}:conversation:#{conversation.id}"
+        expected_key = format(Redis::RedisKeys::ASSIGNMENT_KEY, inbox_id: inbox.id, agent_id: agent.id, conversation_id: conversation.id)
         expect(Redis::Alfred).to receive(:set).with(
           expected_key,
           conversation.id.to_s,
@@ -126,7 +126,7 @@ RSpec.describe AutoAssignment::RateLimiter do
       end
 
       it 'uses the default window value of 3600' do
-        expected_key = "assignment:#{inbox.id}:agent:#{agent.id}:conversation:#{conversation.id}"
+        expected_key = format(Redis::RedisKeys::ASSIGNMENT_KEY, inbox_id: inbox.id, agent_id: agent.id, conversation_id: conversation.id)
         expect(Redis::Alfred).to receive(:set).with(
           expected_key,
           conversation.id.to_s,

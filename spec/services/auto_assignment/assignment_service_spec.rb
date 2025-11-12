@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AutoAssignment::AssignmentService do
   let(:account) { create(:account) }
+  let(:assignment_policy) { create(:assignment_policy, account: account, enabled: true) }
   let(:inbox) { create(:inbox, account: account, enable_auto_assignment: true) }
   let(:service) { described_class.new(inbox: inbox) }
   let(:agent) { create(:user, account: account, role: :agent, availability: :online) }
@@ -9,6 +10,10 @@ RSpec.describe AutoAssignment::AssignmentService do
   let(:conversation) { create(:conversation, inbox: inbox, assignee: nil) }
 
   before do
+    # Enable assignment_v2 feature for the account
+    allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
+    # Link inbox to assignment policy
+    create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
     create(:inbox_member, inbox: inbox, user: agent)
   end
 
@@ -105,7 +110,7 @@ RSpec.describe AutoAssignment::AssignmentService do
     end
 
     context 'when auto assignment is disabled' do
-      before { inbox.update!(enable_auto_assignment: false) }
+      before { assignment_policy.update!(enabled: false) }
 
       it 'returns 0 without processing' do
         assigned_count = service.perform_bulk_assignment(limit: 10)
