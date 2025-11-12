@@ -391,7 +391,7 @@
       "AI_AGENT_DESC": "Deskripsi Bot AI",
       "AI_AGENT_BUSINESS_INFO": "Informasi Bisnis Anda",
       "AI_AGENT_BUSINESS_INFO_PLACEHOLDER": "Toko buka setiap hari Senin sampai Jumat, buka mulai jam 09.00 hingga 17.00",
-      "INSTRUCTION": "Instruksi untuk Bot AI",
+      "INSTRUCTION": "Objektif dan Instruksi",
       "INSTRUCTION_PLACEHOLDER": "Silakan merespons pertanyaan pelanggan dengan cara yang membantu dan profesional. Selalu gunakan alat yang tersedia sesuai kebutuhan dan berikan respons dalam bahasa Indonesia, kecuali jika pelanggan chat dalam bahasa lain.",
       "AI_AGENT_PERSONA_LANG_STYLE": "Persona dan Gaya Bahasa",
       "AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER": "Kamu adalah bot yang ramah dan membantu. Gunakan bahasa yang santai dan mudah dimengerti.",
