@@ -12,7 +12,7 @@ module ActionMailbox::Ingresses::Resend
 
     MAX_REQUEST_SIZE = 10.megabytes
     MAX_ATTACHMENT_SIZE = 25.megabytes
-    ALLOWED_HOST_PATTERN = /\A[a-z0-9-]+\.resend\.(com|app)\z/i.freeze
+    ALLOWED_HOST_PATTERN = /\A[a-z0-9-]+\.resend\.(com|app)\z/i
 
     before_action :verify_authenticity
     before_action :validate_request_size
@@ -62,22 +62,22 @@ module ActionMailbox::Ingresses::Resend
     def validate_request_size
       return if request.content_length.nil?
 
-      if request.content_length > MAX_REQUEST_SIZE
-        Rails.logger.warn("Resend webhook rejected: request too large (#{request.content_length} bytes)")
-        head :payload_too_large
-        false # Halt the filter chain
-      end
+      return unless request.content_length > MAX_REQUEST_SIZE
+
+      Rails.logger.warn("Resend webhook rejected: request too large (#{request.content_length} bytes)")
+      head :payload_too_large
+      false # Halt the filter chain
     end
 
     def check_idempotency
       svix_id = request.headers['svix-id']
       return if svix_id.blank?
 
-      if already_processed?(svix_id)
-        Rails.logger.info("Resend webhook skipped: duplicate svix-id #{svix_id}")
-        head :conflict
-        false # Halt the filter chain
-      end
+      return unless already_processed?(svix_id)
+
+      Rails.logger.info("Resend webhook skipped: duplicate svix-id #{svix_id}")
+      head :conflict
+      false # Halt the filter chain
     end
 
     def already_processed?(svix_id)
@@ -281,7 +281,7 @@ module ActionMailbox::Ingresses::Resend
       }
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def fetch_attachment_from_resend(email_id, attachment_id)
       api_key = ENV.fetch('RESEND_API_KEY', nil)
       return nil if api_key.blank?
@@ -348,7 +348,7 @@ module ActionMailbox::Ingresses::Resend
       Rails.logger.error("Failed to fetch attachment from Resend: #{e.message}")
       nil
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def convert_data_uris_to_cid(html, attachments, email_id)

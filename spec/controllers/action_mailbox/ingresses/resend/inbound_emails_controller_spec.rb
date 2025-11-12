@@ -223,7 +223,7 @@ RSpec.describe ActionMailbox::Ingresses::Resend::InboundEmailsController, type: 
         request.headers.merge!(svix_headers(valid: true))
 
         expect(ActionMailbox::InboundEmail).to receive(:create_and_extract_message_id!).with(
-          a_string_matching(/Content-Type: application\/pdf/)
+          a_string_matching(%r{Content-Type: application/pdf})
         )
 
         post :create, body: webhook_payload.to_json
@@ -272,14 +272,14 @@ RSpec.describe ActionMailbox::Ingresses::Resend::InboundEmailsController, type: 
         request.headers.merge!(svix_headers(valid: true))
 
         expect(ActionMailbox::InboundEmail).to receive(:create_and_extract_message_id!).with(
-          a_string_not_matching(/data:image\/png;base64/)
+          a_string_not_matching(%r{data:image/png;base64})
         )
 
         post :create, body: webhook_payload.to_json
       end
     end
 
-    context 'RFC822 message structure' do
+    context 'when verifying RFC822 message structure' do
       before do
         mock_svix_verification(valid: true)
         stub_all_resend_apis(email_id: email_id, email_data: email_data)
@@ -299,7 +299,7 @@ RSpec.describe ActionMailbox::Ingresses::Resend::InboundEmailsController, type: 
         request.headers.merge!(svix_headers(valid: true))
 
         expect(ActionMailbox::InboundEmail).to receive(:create_and_extract_message_id!).with(
-          a_string_matching(/Content-Type: multipart\/alternative/)
+          a_string_matching(%r{Content-Type: multipart/alternative})
         )
 
         post :create, body: webhook_payload.to_json
@@ -421,7 +421,7 @@ RSpec.describe ActionMailbox::Ingresses::Resend::InboundEmailsController, type: 
         request.headers.merge!(svix_headers(valid: true))
 
         expect(ActionMailbox::InboundEmail).to receive(:create_and_extract_message_id!).with(
-          a_string_matching(/Content-Type: text\/html/)
+          a_string_matching(%r{Content-Type: text/html})
         )
 
         post :create, body: webhook_payload.to_json
@@ -445,7 +445,7 @@ RSpec.describe ActionMailbox::Ingresses::Resend::InboundEmailsController, type: 
         request.headers.merge!(svix_headers(valid: true))
 
         expect(ActionMailbox::InboundEmail).to receive(:create_and_extract_message_id!).with(
-          a_string_matching(/Content-Type: text\/plain/)
+          a_string_matching(%r{Content-Type: text/plain})
         )
 
         post :create, body: webhook_payload.to_json

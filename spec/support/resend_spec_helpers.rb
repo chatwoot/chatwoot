@@ -2,6 +2,7 @@
 
 require 'base64'
 
+# rubocop:disable Metrics/ModuleLength
 module ResendSpecHelpers
   # Webhook payload stubs
   def resend_webhook_payload(email_id: 'test_email_123', event_type: 'email.received')
@@ -14,6 +15,7 @@ module ResendSpecHelpers
     }
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def resend_email_data(options = {})
     {
       from: options[:from] || 'sender@example.com',
@@ -28,6 +30,7 @@ module ResendSpecHelpers
       attachments: options[:attachments] || []
     }
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def resend_email_with_attachments
     resend_email_data(
@@ -51,7 +54,9 @@ module ResendSpecHelpers
 
   def resend_email_with_inline_images
     resend_email_data(
+      # rubocop:disable Layout/LineLength
       html: '<p>Email with image: <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" /></p>',
+      # rubocop:enable Layout/LineLength
       attachments: [
         {
           id: 'att_inline_123',
@@ -80,7 +85,7 @@ module ResendSpecHelpers
   end
 
   # Svix signature headers
-  def svix_headers(payload_json: nil, valid: true)
+  def svix_headers(_payload_json: nil, valid: true)
     if valid
       {
         'svix-id' => 'msg_test_123',
@@ -140,20 +145,20 @@ module ResendSpecHelpers
     stub_resend_email_fetch(email_id: email_id, response_body: email_data.to_json)
 
     # Stub attachment fetches if email has attachments
-    if email_data[:attachments].present?
-      email_data[:attachments].each do |attachment|
-        download_url = "https://cdn.resend.app/inbound/#{email_id}/attachments/#{attachment[:id]}?signature=test-sig"
+    return if email_data[:attachments].blank?
 
-        # Stub attachment metadata
-        stub_resend_attachment_metadata_fetch(
-          email_id: email_id,
-          attachment_id: attachment[:id],
-          download_url: download_url
-        )
+    email_data[:attachments].each do |attachment|
+      download_url = "https://cdn.resend.app/inbound/#{email_id}/attachments/#{attachment[:id]}?signature=test-sig"
 
-        # Stub attachment download
-        stub_resend_attachment_download(download_url: download_url)
-      end
+      # Stub attachment metadata
+      stub_resend_attachment_metadata_fetch(
+        email_id: email_id,
+        attachment_id: attachment[:id],
+        download_url: download_url
+      )
+
+      # Stub attachment download
+      stub_resend_attachment_download(download_url: download_url)
     end
   end
 
@@ -182,3 +187,4 @@ module ResendSpecHelpers
     ENV.delete('RESEND_WEBHOOK_SECRET')
   end
 end
+# rubocop:enable Metrics/ModuleLength
