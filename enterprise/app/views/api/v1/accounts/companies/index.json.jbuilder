@@ -1,6 +1,6 @@
 json.meta do
-  json.count @companies_count
-  json.current_page @current_page
+  json.total_count @companies_count
+  json.page @current_page
 end
 
 json.payload do
