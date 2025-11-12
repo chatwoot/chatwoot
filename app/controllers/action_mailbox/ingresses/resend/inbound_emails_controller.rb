@@ -26,6 +26,9 @@ module ActionMailbox
           email_data = fetch_email_from_resend(email_id)
           return head(:internal_server_error) if email_data.nil?
 
+          # Add email_id to email_data since Resend API doesn't include it in the response
+          email_data['email_id'] = email_id
+
           # Build RFC822 MIME message with full content
           mime_message = build_rfc822_message(email_data)
 
