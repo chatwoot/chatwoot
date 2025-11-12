@@ -49,25 +49,36 @@ module ActionMailbox
           raw_body = request.body.read
           request.body.rewind # Rewind so it can be read again
 
-          signature = request.headers['Resend-Signature']
+          # Extract Svix headers
+          headers = {
+            'svix-id' => request.headers['svix-id'],
+            'svix-timestamp' => request.headers['svix-timestamp'],
+            'svix-signature' => request.headers['svix-signature']
+          }
 
-          unless valid_signature?(raw_body, signature)
+          unless valid_signature?(raw_body, headers)
             Rails.logger.warn('Resend webhook: Invalid signature')
             head :unauthorized
           end
         end
 
-        def valid_signature?(body, signature)
-          return false if signature.blank?
+        def valid_signature?(body, headers)
+          return false if headers['svix-signature'].blank?
 
           secret = ENV.fetch('RESEND_WEBHOOK_SECRET', nil)
           return false if secret.blank?
 
-          # Compute HMAC SHA256 signature
-          computed_signature = OpenSSL::HMAC.hexdigest('SHA256', secret, body)
-
-          # Secure comparison to prevent timing attacks
-          ActiveSupport::SecurityUtils.secure_compare(computed_signature, signature)
+          # Use Svix to verify webhook signature
+          require 'svix'
+          wh = Svix::Webhook.new(secret)
+          wh.verify(body, headers)
+          true
+        rescue Svix::WebhookVerificationError => e
+          Rails.logger.error("Resend webhook verification failed: #{e.message}")
+          false
+        rescue StandardError => e
+          Rails.logger.error("Resend webhook verification error: #{e.message}")
+          false
         end
 
         def fetch_email_from_resend(email_id)
