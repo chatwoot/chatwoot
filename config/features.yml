@@ -227,3 +227,4 @@
   display_name: Companies
   enabled: false
   premium: true
+  chatwoot_internal: true

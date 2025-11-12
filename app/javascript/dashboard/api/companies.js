@@ -22,7 +22,8 @@ class CompanyAPI extends ApiClient {
     super('companies', { accountScoped: true });
   }
 
-  get(page = 1, sort = 'name') {
+  get(params = {}) {
+    const { page = 1, sort = 'name' } = params;
     const requestURL = `${this.url}?${buildCompanyParams(page, sort)}`;
     return axios.get(requestURL);
   }

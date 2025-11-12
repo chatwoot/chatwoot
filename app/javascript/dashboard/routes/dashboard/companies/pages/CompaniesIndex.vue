@@ -34,7 +34,7 @@ const companies = useMapGetter('companies/getCompaniesList');
 const meta = useMapGetter('companies/getMeta');
 const uiFlags = useMapGetter('companies/getUIFlags');
 
-const isFetchingList = computed(() => uiFlags.value.isFetching);
+const isFetchingList = computed(() => uiFlags.value.fetchingList);
 
 const sortParam = computed(() => {
   return activeOrdering.value === '-'
@@ -112,7 +112,7 @@ onMounted(() => {
     :search-value="searchValue"
     :header-title="t('COMPANIES.HEADER')"
     :current-page="pageNumber"
-    :total-items="Number(meta.count)"
+    :total-items="Number(meta.totalCount || 0)"
     :active-sort="activeSort"
     :active-ordering="activeOrdering"
     :is-fetching-list="isFetchingList"
