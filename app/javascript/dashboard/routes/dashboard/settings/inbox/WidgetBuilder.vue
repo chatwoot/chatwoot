@@ -91,7 +91,7 @@ export default {
       const planName = (this.activeSubscription?.plan_name || '')
         .toString()
         .toLowerCase();
-      console.log('planName', planName);
+      // console.log('planName', planName);
       return planName === 'pertamax' || planName === 'pertamax turbo';
     },
     storageKey() {
@@ -162,18 +162,7 @@ export default {
     },
   },
   async mounted() {
-    
-    // Fetch the latest subscription data
-    try {
-      await this.$store.dispatch('getLatestSubscription');
-      // console.log('activeSubscription after fetch:', this.activeSubscription);
-      console.log('shouldHideBranding after fetch:', this.shouldHideBranding);
-    } catch (error) {
-      console.error('Failed to fetch subscription:', error);
-    }
-    
     this.setDefaults();
-    // Fetch latest subscription only if not already available in store
     this.fetchLatestSubscriptionSafely();
   },
   validations: {
@@ -301,9 +290,7 @@ export default {
         const response = await billingAPI.latestSubscription();
         this.localSubscription = response?.data || null;
       } catch (e) {
-        // Keep it silent to avoid UX noise; branding will just not be hidden
-        // until user navigates to Billing which populates the store.
-        // console.warn('Failed to fetch latest subscription locally', e);
+        // Silent fail
       }
     },
   },
