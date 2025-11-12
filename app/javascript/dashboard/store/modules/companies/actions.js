@@ -1,15 +1,6 @@
-import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import types from '../../mutation-types';
 import CompanyAPI from '../../../api/companies';
 import snakecaseKeys from 'snakecase-keys';
-
-export const handleCompanyOperationErrors = error => {
-  if (error.response?.data?.message) {
-    throw new ExceptionWithMessage(error.response.data.message);
-  } else {
-    throw new Error(error);
-  }
-};
 
 export const actions = {
   search: async ({ commit }, { search, page, sort }) => {
@@ -70,7 +61,7 @@ export const actions = {
       commit(types.SET_COMPANY_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_COMPANY_UI_FLAG, { isUpdating: false });
-      handleCompanyOperationErrors(error);
+      throw error;
     }
   },
 
@@ -86,7 +77,7 @@ export const actions = {
       return response.data.payload.company;
     } catch (error) {
       commit(types.SET_COMPANY_UI_FLAG, { isCreating: false });
-      return handleCompanyOperationErrors(error);
+      throw error;
     }
   },
 
@@ -97,11 +88,7 @@ export const actions = {
       commit(types.SET_COMPANY_UI_FLAG, { isDeleting: false });
     } catch (error) {
       commit(types.SET_COMPANY_UI_FLAG, { isDeleting: false });
-      if (error.response?.data?.message) {
-        throw new Error(error.response.data.message);
-      } else {
-        throw new Error(error);
-      }
+      throw error;
     }
   },
 };
