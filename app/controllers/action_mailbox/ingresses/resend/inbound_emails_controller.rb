@@ -12,7 +12,7 @@ module ActionMailbox::Ingresses::Resend
 
     MAX_REQUEST_SIZE = 10.megabytes
     MAX_ATTACHMENT_SIZE = 25.megabytes
-    ALLOWED_HOSTS = ['api.resend.com'].freeze
+    ALLOWED_HOST_PATTERN = /\A[a-z0-9-]+\.resend\.com\z/i.freeze
 
     before_action :verify_authenticity
     before_action :validate_request_size
@@ -227,15 +227,22 @@ module ActionMailbox::Ingresses::Resend
     end
 
     def add_all_attachments(mail, email_data)
+      total = email_data['attachments'].size
+      failed = 0
+
       email_data['attachments'].each do |attachment_meta|
-        add_attachment_to_mail(mail, email_data['email_id'], attachment_meta)
+        result = add_attachment_to_mail(mail, email_data['email_id'], attachment_meta)
+        failed += 1 if result.nil?
       end
+
+      Rails.logger.info("Resend attachments: #{total - failed}/#{total} successful")
+      Rails.logger.warn("Resend: #{failed} attachments failed to download") if failed.positive?
     end
 
     def add_attachment_to_mail(mail, email_id, attachment_meta)
       # Fetch attachment content from Resend API
       attachment_content = fetch_attachment_from_resend(email_id, attachment_meta['id'])
-      return if attachment_content.nil?
+      return nil if attachment_content.nil?
 
       # Handle inline vs regular attachments differently
       # Inline attachments must use mail.attachments.inline[] to set Content-Disposition header
@@ -245,8 +252,11 @@ module ActionMailbox::Ingresses::Resend
       else
         add_regular_attachment(mail, attachment_meta, attachment_content)
       end
+
+      true # Return success
     rescue StandardError => e
       Rails.logger.error("Failed to add attachment #{attachment_meta['id']}: #{e.message}")
+      nil # Return failure
     end
 
     def add_inline_attachment(mail, attachment_meta, attachment_content)
@@ -402,8 +412,8 @@ module ActionMailbox::Ingresses::Resend
       # Check scheme - only HTTPS allowed
       return false unless uri.scheme == 'https'
 
-      # Check host against allow-list
-      return false unless ALLOWED_HOSTS.include?(uri.host)
+      # Check host against Resend domain pattern (*.resend.com)
+      return false unless uri.host&.match?(ALLOWED_HOST_PATTERN)
 
       true
     rescue URI::InvalidURIError => e
