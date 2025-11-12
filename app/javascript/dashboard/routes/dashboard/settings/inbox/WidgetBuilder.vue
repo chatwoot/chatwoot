@@ -20,7 +20,9 @@ export default {
     },
   },
   setup() {
-    return { v$: useVuelidate() };
+    return { 
+      v$: useVuelidate(),
+    };
   },
   data() {
     return {
@@ -75,6 +77,24 @@ export default {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    activeSubscription() {
+      return this.$store.state.billing?.billing?.latestSubscription;
+    },
+    shouldHideBranding() {
+      
+      const planName = this.activeSubscription?.plan_name;
+      
+      if (!planName) {
+        // console.log('No plan name found, returning false');
+        return false;
+      }
+      
+      const premiumPlans = ['Pertamax', 'Pertamax Turbo', 'Starter', 'Premium'];
+      const shouldHide = premiumPlans.some(plan => planName.includes(plan));
+      // console.log('should hide branding:', shouldHide);
+      
+      return shouldHide;
+    },
     storageKey() {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
     },
@@ -142,7 +162,17 @@ export default {
         : '';
     },
   },
-  mounted() {
+  async mounted() {
+    
+    // Fetch the latest subscription data
+    try {
+      await this.$store.dispatch('getLatestSubscription');
+      // console.log('activeSubscription after fetch:', this.activeSubscription);
+      console.log('shouldHideBranding after fetch:', this.shouldHideBranding);
+    } catch (error) {
+      console.error('Failed to fetch subscription:', error);
+    }
+    
     this.setDefaults();
   },
   validations: {
@@ -411,6 +441,7 @@ export default {
             :widget-bubble-position="widgetBubblePosition"
             :widget-bubble-launcher-title="widgetBubbleLauncherTitle"
             :widget-bubble-type="widgetBubbleType"
+            :hide-branding="shouldHideBranding"
           />
         </div>
         <div v-else class="mx-5 p-2.5 bg-slate-50 rounded-lg dark:bg-slate-700">
