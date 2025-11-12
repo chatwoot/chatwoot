@@ -4,7 +4,11 @@ json.website_channel_config do
   json.auth_token @token
   json.avatar_url @web_widget.inbox.avatar_url
   json.csat_survey_enabled @web_widget.inbox.csat_survey_enabled
-  json.disable_branding @web_widget.inbox.account.feature_enabled?('disable_branding')
+  active_transaction = @web_widget.inbox.account.transactions.where(package_type: 'subscription', status: 'success').order(expiry_date: :desc).first
+  package_name = active_transaction&.package_name
+  premium_plans = ['Pertamax', 'Pertamax Turbo', 'Premium']
+  has_premium_plan = premium_plans.include?(package_name)
+  json.disable_branding @web_widget.inbox.account.feature_enabled?('disable_branding') || has_premium_plan
   json.enabled_features @web_widget.selected_feature_flags
   json.enabled_languages available_locales_with_name
   json.locale @web_widget.account.locale

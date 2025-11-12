@@ -60,6 +60,10 @@ export default {
       type: String,
       default: '',
     },
+    hideBranding: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -158,7 +162,7 @@ export default {
         />
         <WidgetFooter :config="getWidgetConfig" />
         <div class="py-2.5 flex justify-center">
-          <a
+          <a v-if="!hideBranding" 
             class="items-center gap-0.5 text-slate-500 dark:text-slate-400 cursor-pointer flex filter grayscale opacity-90 hover:grayscale-0 hover:opacity-100 text-xxs"
           >
             <img
