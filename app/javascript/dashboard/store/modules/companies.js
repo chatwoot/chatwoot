@@ -26,5 +26,3 @@ export const useCompaniesStore = createStore({
     },
   }),
 });
-
-export default useCompaniesStore;
