@@ -910,6 +910,7 @@ GEM
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
     stripe (8.5.0)
+    svix (1.81.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
     thor (1.4.0)
@@ -1119,6 +1120,7 @@ DEPENDENCIES
   squasher
   stackprof
   stripe
+  svix
   telephone_number
   test-prof
   tidewave
