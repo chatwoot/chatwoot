@@ -90,7 +90,6 @@ export const createCrudActions = (API, mutationTypes) => ({
 
 /**
  * Create Vuex store with standard CRUD operations
- * Uses helpers from storeFactoryHelper.js for consistency
  *
  * @param {Object} options - Store configuration
  * @param {string} options.name - Store name
@@ -126,7 +125,6 @@ export const createVuexStore = options => {
 
 /**
  * Create Pinia store with standard CRUD operations
- * Uses helpers from storeFactoryHelper.js for consistency
  *
  * @param {Object} options - Store configuration
  * @param {string} options.name - Store name
@@ -221,11 +219,8 @@ export const createPiniaStore = options => {
 export const createStore = options => {
   const { type = 'vuex' } = options;
 
-  // If type is 'pinia', return Pinia store
   if (type === 'pinia') {
     return createPiniaStore(options);
   }
-
-  // Default to Vuex store for backward compatibility
   return createVuexStore(options);
 };
