@@ -10,7 +10,6 @@ import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
-import { REPLY_EDITOR_MODES } from './constants';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -20,9 +19,9 @@ export default {
   components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [inboxMixin],
   props: {
-    mode: {
-      type: String,
-      default: REPLY_EDITOR_MODES.REPLY,
+    isNote: {
+      type: Boolean,
+      default: false,
     },
     onSend: {
       type: Function,
@@ -119,6 +118,14 @@ export default {
       type: String,
       default: '',
     },
+    showQuotedReplyToggle: {
+      type: Boolean,
+      default: false,
+    },
+    quotedReplyEnabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'replaceText',
@@ -126,6 +133,7 @@ export default {
     'toggleEditor',
     'selectWhatsappTemplate',
     'selectContentTemplate',
+    'toggleQuotedReply',
   ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -168,9 +176,6 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'integrations/getUIFlags',
     }),
-    isNote() {
-      return this.mode === REPLY_EDITOR_MODES.NOTE;
-    },
     wrapClass() {
       return {
         'is-note-mode': this.isNote,
@@ -252,6 +257,11 @@ export default {
     },
     isFetchingAppIntegrations() {
       return this.uiFlags.isFetching;
+    },
+    quotedReplyToggleTooltip() {
+      return this.quotedReplyEnabled
+        ? this.$t('CONVERSATION.REPLYBOX.QUOTED_REPLY.DISABLE_TOOLTIP')
+        : this.$t('CONVERSATION.REPLYBOX.QUOTED_REPLY.ENABLE_TOOLTIP');
     },
   },
   mounted() {
@@ -342,6 +352,16 @@ export default {
         faded
         sm
         @click="toggleMessageSignature"
+      />
+      <NextButton
+        v-if="showQuotedReplyToggle"
+        v-tooltip.top-end="quotedReplyToggleTooltip"
+        icon="i-ph-quotes"
+        :variant="quotedReplyEnabled ? 'solid' : 'faded'"
+        color="slate"
+        sm
+        :aria-pressed="quotedReplyEnabled"
+        @click="$emit('toggleQuotedReply')"
       />
       <NextButton
         v-if="enableWhatsAppTemplates"

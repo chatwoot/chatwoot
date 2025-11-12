@@ -27,15 +27,20 @@
       "LABEL": "Password",
       "PLACEHOLDER": "Password",
       "ERROR": "Password is too short",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+      "REQUIREMENTS_LENGTH": "მინიმუმ 6 სიმბოლო",
+      "REQUIREMENTS_UPPERCASE": "მინიმუმ ერთი დიდი ასო",
+      "REQUIREMENTS_LOWERCASE": "მინიმუმ ერთი პატარა ასო",
+      "REQUIREMENTS_NUMBER": "მინიმუმ ერთი რიცხვი",
+      "REQUIREMENTS_SPECIAL": "მინიმუმ ერთი სპეციალური სიმბოლო"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm Password",
       "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "ERROR": "პაროლები არ ემთხვევა."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
+      "SUCCESS_MESSAGE": "რეგისტრაცია წარმატებით დასრულდა",
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
     "SUBMIT": "Create account",
