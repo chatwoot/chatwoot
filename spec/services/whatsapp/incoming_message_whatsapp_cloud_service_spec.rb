@@ -38,6 +38,59 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect_message_has_attachment
       end
 
+      it 'corrects audio/opus MIME type to audio/ogg; codecs=opus for .ogg files' do
+        audio_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+                messages: [{
+                  from: '2423423243',
+                  id: 'audio-msg-123',
+                  audio: {
+                    id: 'audio-id-123',
+                    mime_type: 'audio/ogg',
+                    sha256: 'audio-sha256'
+                  },
+                  timestamp: '1664799904',
+                  type: 'audio'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+
+        stub_request(:get, whatsapp_channel.media_url('audio-id-123', whatsapp_channel.provider_config['phone_number_id']))
+          .to_return(
+            status: 200,
+            body: { url: 'https://chatwoot-assets.local/sample.ogg' }.to_json,
+            headers: { 'content-type' => 'application/json' }
+          )
+
+        audio_file = Tempfile.new(['audio', '.ogg'])
+        audio_file.write(File.read('spec/assets/sample_opus.ogg'))
+        audio_file.rewind
+        audio_file.define_singleton_method(:content_type) { 'audio/opus' }
+        audio_file.define_singleton_method(:original_filename) { 'audio.ogg' }
+        allow(Down).to receive(:download)
+          .with('https://chatwoot-assets.local/sample.ogg', anything)
+          .and_return(audio_file)
+
+        service = described_class.new(inbox: whatsapp_channel.inbox, params: audio_params)
+
+        expect(service.send(:corrected_content_type, audio_file)).to eq('audio/ogg; codecs=opus')
+
+        service.perform
+
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.attachments.first.file.content_type).to eq('audio/ogg; codecs=opus')
+      end
+
       it 'increments reauthorization count if fetching attachment fails' do
         stub_request(
           :get,

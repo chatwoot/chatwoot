@@ -127,9 +127,20 @@ class Whatsapp::IncomingMessageBaseService
       file: {
         io: attachment_file,
         filename: attachment_file.original_filename,
-        content_type: attachment_file.content_type
+        content_type: corrected_content_type(attachment_file)
       }
     )
+  end
+
+  def corrected_content_type(attachment_file)
+    content_type = attachment_file.content_type
+    filename = attachment_file.original_filename
+
+    if content_type == 'audio/opus' && filename&.end_with?('.ogg')
+      'audio/ogg; codecs=opus'
+    else
+      content_type
+    end
   end
 
   def attach_location
