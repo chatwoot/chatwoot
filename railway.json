@@ -17,7 +17,11 @@
     "CW_EDITION": "ce",
     "REDIS_OPENSSL_VERIFY_MODE": "none",
     "REDIS_URL": "redis://redis:6379",
-    "REDIS_PASSWORD": ""
+    "REDIS_PASSWORD": "",
+    "WHATSAPP_VERIFY_TOKEN": "",
+    "WHATSAPP_APP_ID": "",
+    "WHATSAPP_APP_SECRET": "",
+    "WHATSAPP_CONFIGURATION_ID": ""
   },
   "build": {
     "builder": "Nixpacks",

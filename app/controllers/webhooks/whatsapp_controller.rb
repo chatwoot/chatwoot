@@ -1,6 +1,17 @@
 class Webhooks::WhatsappController < ActionController::API
   include MetaTokenVerifyConcern
 
+  def events
+    Rails.logger.info('WhatsApp webhook received events')
+    if params['object'].casecmp('whatsapp_business_account').zero?
+      Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash)
+      render json: :ok
+    else
+      Rails.logger.warn("Message is not received from the WhatsApp webhook event: #{params['object']}")
+      head :unprocessable_entity
+    end
+  end
+
   def process_payload
     if inactive_whatsapp_number?
       Rails.logger.warn("Rejected webhook for inactive WhatsApp number: #{params[:phone_number]}")
@@ -15,6 +26,8 @@ class Webhooks::WhatsappController < ActionController::API
   private
 
   def valid_token?(token)
+    return token == GlobalConfigService.load('WHATSAPP_VERIFY_TOKEN', '') if params[:phone_number].blank?
+
     channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
     whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
     token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
