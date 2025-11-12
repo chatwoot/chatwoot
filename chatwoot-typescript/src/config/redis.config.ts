@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { RedisOptions } from 'ioredis';
 
 @Injectable()
 export class RedisConfigService {
+  private readonly logger = new Logger(RedisConfigService.name);
+
   constructor(private configService: ConfigService) {}
 
   getRedisConfig(): RedisOptions {
@@ -18,6 +20,16 @@ export class RedisConfigService {
       maxRetriesPerRequest: 3,
       enableReadyCheck: true,
       enableOfflineQueue: true,
+      lazyConnect: true, // Don't connect immediately, prevents startup crash
+      retryStrategy: (times: number) => {
+        if (times > 10) {
+          this.logger.error('Redis connection failed after 10 retries');
+          return null; // Stop retrying
+        }
+        const delay = Math.min(times * 1000, 5000); // Max 5 seconds
+        this.logger.warn(`Redis reconnecting in ${delay}ms (attempt ${times})`);
+        return delay;
+      },
     };
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Logger } from '@nestjs/common';
 import {
   HealthCheckService,
   HealthCheck,
@@ -11,7 +11,9 @@ import { RedisConfigService } from '@config/redis.config';
 
 @Controller('health')
 export class HealthController {
+  private readonly logger = new Logger(HealthController.name);
   private redis: Redis;
+  private redisHealthy = false;
 
   constructor(
     private health: HealthCheckService,
@@ -20,8 +22,34 @@ export class HealthController {
     private disk: DiskHealthIndicator,
     private redisConfigService: RedisConfigService,
   ) {
-    // Create Redis client for health checks
+    // Create Redis client for health checks with error handling
     this.redis = new Redis(this.redisConfigService.getRedisConfig());
+
+    // Handle Redis connection errors gracefully
+    this.redis.on('error', (err: Error) => {
+      this.logger.warn(`Redis health check connection error: ${err.message}`);
+      this.redisHealthy = false;
+    });
+
+    this.redis.on('connect', () => {
+      this.logger.log('Redis health check connected');
+      this.redisHealthy = true;
+    });
+
+    this.redis.on('ready', () => {
+      this.logger.log('Redis health check ready');
+      this.redisHealthy = true;
+    });
+
+    this.redis.on('close', () => {
+      this.logger.warn('Redis health check connection closed');
+      this.redisHealthy = false;
+    });
+
+    // Attempt to connect (non-blocking with lazyConnect)
+    this.redis.connect().catch((err: Error) => {
+      this.logger.warn(`Redis health check initial connection failed: ${err.message}`);
+    });
   }
 
   @Get()
@@ -31,14 +59,35 @@ export class HealthController {
       // Database health check
       () => this.db.pingCheck('database'),
 
-      // Redis health check
+      // Redis health check with graceful degradation
       async () => {
-        const isHealthy = this.redis.status === 'ready';
-        return {
-          redis: {
-            status: isHealthy ? 'up' : 'down',
-          },
-        };
+        try {
+          if (!this.redisHealthy) {
+            return {
+              redis: {
+                status: 'down',
+                message: 'Not connected',
+              },
+            };
+          }
+
+          await this.redis.ping();
+          return {
+            redis: {
+              status: 'up',
+            },
+          };
+        } catch (error) {
+          this.logger.warn(
+            `Redis ping failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          );
+          return {
+            redis: {
+              status: 'down',
+              message: error instanceof Error ? error.message : 'Ping failed',
+            },
+          };
+        }
       },
 
       // Memory health check (heap should not exceed 300MB)
@@ -69,13 +118,33 @@ export class HealthController {
     // Readiness probe - check if app can serve traffic
     return this.health.check([
       () => this.db.pingCheck('database'),
+
+      // Redis readiness check
       async () => {
-        const isHealthy = this.redis.status === 'ready';
-        return {
-          redis: {
-            status: isHealthy ? 'up' : 'down',
-          },
-        };
+        try {
+          if (!this.redisHealthy) {
+            return {
+              redis: {
+                status: 'down',
+                message: 'Not connected',
+              },
+            };
+          }
+
+          await this.redis.ping();
+          return {
+            redis: {
+              status: 'up',
+            },
+          };
+        } catch (error) {
+          return {
+            redis: {
+              status: 'down',
+              message: error instanceof Error ? error.message : 'Ping failed',
+            },
+          };
+        }
       },
     ]);
   }
