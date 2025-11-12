@@ -3,7 +3,7 @@ import { createStore } from 'dashboard/store/storeFactory';
 import camelcaseKeys from 'camelcase-keys';
 
 export const useCompaniesStore = createStore({
-  name: 'Company',
+  name: 'companies',
   type: 'pinia',
   API: CompanyAPI,
   getters: {

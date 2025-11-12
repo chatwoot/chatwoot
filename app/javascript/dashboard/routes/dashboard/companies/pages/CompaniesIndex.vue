@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { debounce } from '@chatwoot/utils';
-import { useCompaniesStore } from 'dashboard/store/modules/companies';
+import { useCompaniesStore } from 'dashboard/stores/companies';
 
 import CompaniesListLayout from 'dashboard/components-next/Companies/CompaniesListLayout.vue';
 import CompaniesCard from 'dashboard/components-next/Companies/CompaniesCard/CompaniesCard.vue';
