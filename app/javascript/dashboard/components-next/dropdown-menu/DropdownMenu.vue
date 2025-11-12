@@ -111,19 +111,27 @@ onMounted(() => {
 
 <template>
   <div
-    class="bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container absolute rounded-xl z-50 py-2 px-2 gap-2 flex flex-col min-w-[136px] shadow-lg"
+    class="bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container absolute rounded-xl z-50 gap-2 flex flex-col min-w-[136px] shadow-lg pb-2 px-2"
+    :class="{
+      'pt-2': !showSearch,
+    }"
   >
-    <div v-if="showSearch" class="relative">
-      <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
-      <input
-        ref="searchInput"
-        v-model="searchQuery"
-        type="search"
-        :placeholder="
-          searchPlaceholder || t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')
-        "
-        class="reset-base w-full h-8 py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
-      />
+    <div
+      v-if="showSearch"
+      class="sticky top-0 bg-n-alpha-3 backdrop-blur-sm pt-2"
+    >
+      <div class="relative">
+        <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
+        <input
+          ref="searchInput"
+          v-model="searchQuery"
+          type="search"
+          :placeholder="
+            searchPlaceholder || t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')
+          "
+          class="reset-base w-full h-8 py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+        />
+      </div>
     </div>
     <template v-if="hasSections">
       <div

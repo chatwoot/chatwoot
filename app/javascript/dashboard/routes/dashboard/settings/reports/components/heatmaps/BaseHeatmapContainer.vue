@@ -288,7 +288,7 @@ onMounted(() => {
             :menu-items="inboxMenuItems"
             show-search
             :search-placeholder="t('INBOX_REPORTS.SEARCH_INBOX')"
-            class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0 top-full min-w-[200px]"
+            class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0 top-full !min-w-56 max-w-56 max-h-96 overflow-y-auto"
             @action="handleInboxAction($event)"
           />
         </div>
