@@ -141,6 +141,18 @@ class Rack::Attack
     end
   end
 
+  ###-----------------------------------------------###
+  ###---------Webhook Throttling--------------------###
+  ###-----------------------------------------------###
+
+  # Throttle Resend webhook endpoint to prevent abuse
+  # Resend webhooks should be infrequent (only on email receipt)
+  throttle('action_mailbox/resend/webhook', limit: 30, period: 1.minute) do |req|
+    req.ip if req.path == '/action_mailbox/ingresses/resend/inbound_emails' && req.post?
+  end
+
+  ###-----------------------------------------------###
+
   ## Prevent Brute-Force Signup Attacks ###
   throttle('accounts/ip', limit: 5, period: 30.minutes) do |req|
     req.ip if req.path_without_extentions == '/api/v1/accounts' && req.post?

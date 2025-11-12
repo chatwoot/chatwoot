@@ -10,7 +10,13 @@ module ActionMailbox::Ingresses::Resend
     # rubocop:enable Rails/ApplicationController
     skip_forgery_protection
 
+    MAX_REQUEST_SIZE = 10.megabytes
+    MAX_ATTACHMENT_SIZE = 25.megabytes
+    ALLOWED_HOSTS = ['api.resend.com'].freeze
+
     before_action :verify_authenticity
+    before_action :validate_request_size
+    before_action :check_idempotency
 
     # rubocop:disable Metrics/AbcSize
     def create
@@ -37,6 +43,9 @@ module ActionMailbox::Ingresses::Resend
       # Submit to ActionMailbox for processing
       ActionMailbox::InboundEmail.create_and_extract_message_id!(mime_message)
 
+      # Mark webhook as processed to prevent duplicates
+      mark_processed(request.headers['svix-id'])
+
       head :ok
     rescue JSON::ParserError => e
       Rails.logger.error("Resend webhook: Invalid JSON - #{e.message}")
@@ -49,6 +58,39 @@ module ActionMailbox::Ingresses::Resend
     # rubocop:enable Metrics/AbcSize
 
     private
+
+    def validate_request_size
+      return if request.content_length.nil?
+
+      if request.content_length > MAX_REQUEST_SIZE
+        Rails.logger.warn("Resend webhook rejected: request too large (#{request.content_length} bytes)")
+        head :payload_too_large
+        false # Halt the filter chain
+      end
+    end
+
+    def check_idempotency
+      svix_id = request.headers['svix-id']
+      return if svix_id.blank?
+
+      if already_processed?(svix_id)
+        Rails.logger.info("Resend webhook skipped: duplicate svix-id #{svix_id}")
+        head :conflict
+        false # Halt the filter chain
+      end
+    end
+
+    def already_processed?(svix_id)
+      cache_key = "resend:webhook:#{svix_id}"
+      Rails.cache.read(cache_key).present?
+    end
+
+    def mark_processed(svix_id)
+      return if svix_id.blank?
+
+      cache_key = "resend:webhook:#{svix_id}"
+      Rails.cache.write(cache_key, true, expires_in: 24.hours)
+    end
 
     def verify_authenticity
       # Get raw body for signature verification
@@ -100,7 +142,7 @@ module ActionMailbox::Ingresses::Resend
       request['Authorization'] = "Bearer #{api_key}"
       request['Content-Type'] = 'application/json'
 
-      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, open_timeout: 5, read_timeout: 10) do |http|
         http.request(request)
       end
 
@@ -239,7 +281,7 @@ module ActionMailbox::Ingresses::Resend
       metadata_request = Net::HTTP::Get.new(metadata_uri)
       metadata_request['Authorization'] = "Bearer #{api_key}"
 
-      metadata_response = Net::HTTP.start(metadata_uri.hostname, metadata_uri.port, use_ssl: true) do |http|
+      metadata_response = Net::HTTP.start(metadata_uri.hostname, metadata_uri.port, use_ssl: true, open_timeout: 5, read_timeout: 10) do |http|
         http.request(metadata_request)
       end
 
@@ -256,9 +298,37 @@ module ActionMailbox::Ingresses::Resend
         return nil
       end
 
+      # Validate download URL to prevent SSRF attacks
+      unless valid_resend_url?(download_url)
+        Rails.logger.error("Invalid or unauthorized download URL: #{download_url}")
+        return nil
+      end
+
       # Step 2: Download actual file content from the download_url
       download_uri = URI(download_url)
-      download_response = Net::HTTP.get_response(download_uri)
+
+      # Check attachment size before downloading
+      head_response = Net::HTTP.start(download_uri.hostname, download_uri.port, use_ssl: true, open_timeout: 5, read_timeout: 10) do |http|
+        http.head(download_uri.request_uri)
+      end
+
+      if head_response['content-length'].present?
+        content_length = head_response['content-length'].to_i
+        if content_length > MAX_ATTACHMENT_SIZE
+          Rails.logger.warn("Resend attachment too large: #{content_length} bytes (max: #{MAX_ATTACHMENT_SIZE})")
+          return nil
+        end
+      end
+
+      download_response = Net::HTTP.start(download_uri.hostname, download_uri.port, use_ssl: true, open_timeout: 5, read_timeout: 10) do |http|
+        http.get(download_uri.request_uri)
+      end
+
+      # Block redirects to prevent SSRF attacks
+      if download_response.is_a?(Net::HTTPRedirection)
+        Rails.logger.warn("Resend attachment download redirect blocked: #{download_url}")
+        return nil
+      end
 
       return download_response.body if download_response.is_a?(Net::HTTPSuccess)
 
@@ -322,6 +392,23 @@ module ActionMailbox::Ingresses::Resend
         data_uri_to_cid[base64_content] = content_id
       end
       data_uri_to_cid
+    end
+
+    def valid_resend_url?(url)
+      return false if url.blank?
+
+      uri = URI.parse(url)
+
+      # Check scheme - only HTTPS allowed
+      return false unless uri.scheme == 'https'
+
+      # Check host against allow-list
+      return false unless ALLOWED_HOSTS.include?(uri.host)
+
+      true
+    rescue URI::InvalidURIError => e
+      Rails.logger.error("Invalid URL in Resend webhook: #{url} - #{e.message}")
+      false
     end
   end
 end
