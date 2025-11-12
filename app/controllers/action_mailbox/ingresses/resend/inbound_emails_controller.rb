@@ -180,18 +180,36 @@ module ActionMailbox
           api_key = ENV.fetch('RESEND_API_KEY', nil)
           return nil if api_key.blank?
 
-          uri = URI("https://api.resend.com/emails/receiving/#{email_id}/attachments/#{attachment_id}")
-          request = Net::HTTP::Get.new(uri)
-          request['Authorization'] = "Bearer #{api_key}"
+          # Step 1: Get attachment metadata including download_url
+          metadata_uri = URI("https://api.resend.com/emails/receiving/#{email_id}/attachments/#{attachment_id}")
+          metadata_request = Net::HTTP::Get.new(metadata_uri)
+          metadata_request['Authorization'] = "Bearer #{api_key}"
 
-          response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-            http.request(request)
+          metadata_response = Net::HTTP.start(metadata_uri.hostname, metadata_uri.port, use_ssl: true) do |http|
+            http.request(metadata_request)
           end
 
-          if response.is_a?(Net::HTTPSuccess)
-            response.body
+          unless metadata_response.is_a?(Net::HTTPSuccess)
+            Rails.logger.error("Resend API error fetching attachment metadata: #{metadata_response.code} - #{metadata_response.body}")
+            return nil
+          end
+
+          metadata = JSON.parse(metadata_response.body)
+          download_url = metadata['download_url']
+
+          if download_url.blank?
+            Rails.logger.error("No download_url in attachment metadata")
+            return nil
+          end
+
+          # Step 2: Download actual file content from the download_url
+          download_uri = URI(download_url)
+          download_response = Net::HTTP.get_response(download_uri)
+
+          if download_response.is_a?(Net::HTTPSuccess)
+            download_response.body
           else
-            Rails.logger.error("Resend API error fetching attachment: #{response.code} - #{response.body}")
+            Rails.logger.error("Failed to download attachment from URL: #{download_response.code}")
             nil
           end
         rescue StandardError => e
