@@ -13,7 +13,7 @@ export async function setup(): Promise<void> {
   try {
     await createTestDatabase();
     console.log('✅ Global setup complete with database');
-  } catch (error) {
+  } catch {
     console.warn('⚠️  Database connection failed - tests requiring database will be skipped');
     console.warn('   To run all tests, ensure PostgreSQL is running on localhost:5432');
     // Don't throw - allow tests that don't need database to run
@@ -30,7 +30,7 @@ export async function teardown(): Promise<void> {
   try {
     await closeTestDatabase();
     console.log('✅ Global teardown complete');
-  } catch (error) {
+  } catch {
     // Silently ignore - database may not have been initialized
     console.log('✅ Global teardown complete (no database connection)');
   }

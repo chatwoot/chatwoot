@@ -21,7 +21,7 @@ global.console = {
 beforeEach(async () => {
   try {
     await resetDatabase();
-  } catch (error) {
+  } catch {
     // Silently skip if database not initialized yet (e.g., for sanity tests)
     // This allows tests that don't need database to still run
   }
@@ -31,7 +31,7 @@ beforeEach(async () => {
 afterAll(async () => {
   try {
     await closeTestDatabase();
-  } catch (error) {
+  } catch {
     // Silently skip if database was never initialized
   }
 });

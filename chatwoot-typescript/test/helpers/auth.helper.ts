@@ -13,10 +13,10 @@ import * as jwt from 'jsonwebtoken';
  * const token = generateTestToken({ userId: '123', role: 'admin' });
  * ```
  */
-export function generateTestToken(payload: any, expiresIn: string = '1h'): string {
+export function generateTestToken(payload: any, expiresIn = '1h'): string {
   return jwt.sign(payload, process.env.JWT_SECRET || 'test-secret', {
     expiresIn,
-  });
+  } as jwt.SignOptions);
 }
 
 /**

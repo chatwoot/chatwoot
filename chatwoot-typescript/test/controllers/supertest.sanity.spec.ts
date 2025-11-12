@@ -10,7 +10,7 @@ describe('Supertest Sanity Test', () => {
   it('should be able to make HTTP GET requests', async () => {
     // Create a simple Express app for testing
     const app = express();
-    app.get('/test', (req, res) => {
+    app.get('/test', (_req, res) => {
       res.json({ message: 'test successful' });
     });
 
@@ -40,7 +40,7 @@ describe('Supertest Sanity Test', () => {
 
   it('should be able to check response headers', async () => {
     const app = express();
-    app.get('/headers', (req, res) => {
+    app.get('/headers', (_req, res) => {
       res.header('X-Custom-Header', 'test-value').json({ success: true });
     });
 
