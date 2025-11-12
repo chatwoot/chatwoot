@@ -12,7 +12,7 @@ defaults: &defaults
     RAILS_LOG_TO_STDOUT: false
     COVERAGE: true
     LOG_LEVEL: warn
-  parallelism: 4
+  parallelism: 12
 
 jobs:
   build:
@@ -161,6 +161,10 @@ jobs:
                               --out ~/tmp/test-results/rspec.xml \
                               -- ${TESTFILES}
           no_output_timeout: 30m
+
+      # Store test results for better splitting in future runs
+      - store_test_results:
+          path: ~/tmp/test-results
 
       # Qlty coverage publish
       - qlty-orb/coverage_publish:
