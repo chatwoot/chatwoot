@@ -349,17 +349,6 @@ function resetChat() {
             />
           </div>
           <div>
-            <label for="routing_conditions">{{ t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION') }}</label>
-            <TextArea
-              id="routing_conditions"
-              v-model="state.routing_conditions"
-              custom-text-area-wrapper-class=""
-              custom-text-area-class="!outline-none"
-              :placeholder="t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION_PLACEHOLDER')"
-              auto-height
-            />
-          </div>
-          <div>
             <label for="business_info">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO') }}</label>
             <TextArea
               id="business_info"
@@ -368,6 +357,17 @@ function resetChat() {
               custom-text-area-class="!outline-none"
               auto-height
               :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO_PLACEHOLDER')"
+            />
+          </div>
+          <div>
+            <label for="routing_conditions">{{ t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION') }}</label>
+            <TextArea
+              id="routing_conditions"
+              v-model="state.routing_conditions"
+              custom-text-area-wrapper-class=""
+              custom-text-area-class="!outline-none"
+              :placeholder="t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION_PLACEHOLDER')"
+              auto-height
             />
           </div>
         </template>
