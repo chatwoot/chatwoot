@@ -1,5 +1,6 @@
 import CompanyAPI from 'dashboard/api/companies';
 import { createStore } from 'dashboard/store/storeFactory';
+import { throwErrorMessage } from 'dashboard/store/utils/api';
 import camelcaseKeys from 'camelcase-keys';
 
 export const useCompaniesStore = createStore({
@@ -20,6 +21,8 @@ export const useCompaniesStore = createStore({
         } = await CompanyAPI.search(search, page, sort);
         this.records = payload;
         this.setMeta(meta);
+      } catch (error) {
+        throwErrorMessage(error);
       } finally {
         this.setUIFlag({ fetchingList: false });
       }
