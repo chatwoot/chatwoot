@@ -98,7 +98,22 @@ module ActionMailbox
           end
 
           if response.is_a?(Net::HTTPSuccess)
-            JSON.parse(response.body)
+            email_data = JSON.parse(response.body)
+
+            # Log the complete API response structure for research purposes
+            Rails.logger.info("=== RESEND API RESPONSE FOR EMAIL #{email_id} ===")
+            Rails.logger.info("Response keys: #{email_data.keys.inspect}")
+            Rails.logger.info("Full response: #{email_data.inspect}")
+
+            # Specifically check for attachments
+            if email_data['attachments'].present?
+              Rails.logger.info("ATTACHMENTS FOUND: #{email_data['attachments'].inspect}")
+            else
+              Rails.logger.info("No attachments field in response")
+            end
+            Rails.logger.info("=== END RESEND API RESPONSE ===")
+
+            email_data
           else
             Rails.logger.error("Resend API error: #{response.code} - #{response.body}")
             nil
