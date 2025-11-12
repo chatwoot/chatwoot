@@ -130,15 +130,6 @@ module ActionMailbox
           # Determine if we have attachments
           has_attachments = email_data['attachments'].present?
 
-          # Convert Resend's data URI images to cid: references
-          # Resend embeds inline images as data URIs, but Chatwoot expects cid: references
-          if has_attachments && email_data['html'].present?
-            inline_attachments = email_data['attachments'].select { |a| a['content_disposition'] == 'inline' }
-            if inline_attachments.any?
-              email_data['html'] = convert_data_uris_to_cid(email_data['html'], inline_attachments)
-            end
-          end
-
           # Build email body structure
           if email_data['html'].present? && email_data['text'].present?
             # Both text and HTML - create multipart/alternative
@@ -185,51 +176,33 @@ module ActionMailbox
           mail.to_s
         end
 
-        def convert_data_uris_to_cid(html, inline_attachments)
-          # Resend embeds inline images as data URIs: <img src="data:image/png;base64,...">
-          # We need to convert them to cid: references: <img src="cid:content_id">
-          # This allows Chatwoot to display them properly without modifying DOMPurify config
-
-          modified_html = html.dup
-
-          # Find all data URI images in the HTML
-          # Match: <img src="data:image/TYPE;base64,DATA">
-          data_uri_pattern = /<img[^>]*\ssrc="data:image\/[^;]+;base64,[^"]*"/i
-
-          # For each inline attachment, replace the first data URI we find
-          # This is a simple heuristic - assumes order matches between HTML and attachments
-          inline_attachments.each do |attachment|
-            # Strip angle brackets from content_id for cid: reference
-            content_id = attachment['content_id']&.gsub(/[<>]/, '')
-            next if content_id.blank?
-
-            # Replace the first data URI with cid: reference
-            modified_html = modified_html.sub(data_uri_pattern) do |match|
-              # Keep everything except the src value
-              match.sub(/src="data:image\/[^;]+;base64,[^"]*"/, "src=\"cid:#{content_id}\"")
-            end
-          end
-
-          modified_html
-        end
-
         def add_attachment_to_mail(mail, email_id, attachment_meta)
           # Fetch attachment content from Resend API
           attachment_content = fetch_attachment_from_resend(email_id, attachment_meta['id'])
           return if attachment_content.nil?
 
-          # Add attachment to mail
-          mail.attachments[attachment_meta['filename']] = {
-            content_type: attachment_meta['content_type'],
-            content: attachment_content
-          }
+          # Handle inline vs regular attachments differently
+          # Inline attachments must use mail.attachments.inline[] to set Content-Disposition header
+          # This allows MailboxHelper to detect them via .inline? and convert cid: to ActiveStorage URLs
+          if attachment_meta['content_disposition'] == 'inline'
+            mail.attachments.inline[attachment_meta['filename']] = {
+              content_type: attachment_meta['content_type'],
+              content: attachment_content
+            }
 
-          # Handle inline attachments (content_id present)
-          if attachment_meta['content_id'].present? && attachment_meta['content_disposition'] == 'inline'
-            # Strip angle brackets as Mail gem adds them automatically
-            # Resend provides: "<content-id>", Mail gem expects: "content-id"
-            content_id_without_brackets = attachment_meta['content_id'].gsub(/[<>]/, '')
-            mail.attachments.last.content_id = content_id_without_brackets
+            # Set Content-ID for cid: reference matching
+            if attachment_meta['content_id'].present?
+              # Strip angle brackets as Mail gem adds them automatically
+              # Resend provides: "<content-id>", Mail gem expects: "content-id"
+              content_id_without_brackets = attachment_meta['content_id'].gsub(/[<>]/, '')
+              mail.attachments.last.content_id = content_id_without_brackets
+            end
+          else
+            # Regular attachments
+            mail.attachments[attachment_meta['filename']] = {
+              content_type: attachment_meta['content_type'],
+              content: attachment_content
+            }
           end
         rescue StandardError => e
           Rails.logger.error("Failed to add attachment #{attachment_meta['id']}: #{e.message}")
