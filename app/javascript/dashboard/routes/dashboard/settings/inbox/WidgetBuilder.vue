@@ -7,6 +7,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import billingAPI from 'dashboard/api/billing';
 
 export default {
   components: {
@@ -71,6 +72,8 @@ export default {
           checked: false,
         },
       ],
+      // Local cache to avoid triggering global UI flags / route resets
+      localSubscription: null,
     };
   },
   computed: {
@@ -78,22 +81,18 @@ export default {
       uiFlags: 'inboxes/getUIFlags',
     }),
     activeSubscription() {
-      return this.$store.state.billing?.billing?.latestSubscription;
+      return (
+        this.localSubscription ||
+        this.$store.state.billing?.billing?.latestSubscription ||
+        null
+      );
     },
     shouldHideBranding() {
-      
-      const planName = this.activeSubscription?.plan_name;
-      
-      if (!planName) {
-        // console.log('No plan name found, returning false');
-        return false;
-      }
-      
-      const premiumPlans = ['Pertamax', 'Pertamax Turbo', 'Starter', 'Premium'];
-      const shouldHide = premiumPlans.some(plan => planName.includes(plan));
-      // console.log('should hide branding:', shouldHide);
-      
-      return shouldHide;
+      const planName = (this.activeSubscription?.plan_name || '')
+        .toString()
+        .toLowerCase();
+      // console.log('planName', planName);
+      return planName === 'pertamax' || planName === 'pertamax turbo';
     },
     storageKey() {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
@@ -163,17 +162,8 @@ export default {
     },
   },
   async mounted() {
-    
-    // Fetch the latest subscription data
-    try {
-      await this.$store.dispatch('getLatestSubscription');
-      // console.log('activeSubscription after fetch:', this.activeSubscription);
-      console.log('shouldHideBranding after fetch:', this.shouldHideBranding);
-    } catch (error) {
-      console.error('Failed to fetch subscription:', error);
-    }
-    
     this.setDefaults();
+    this.fetchLatestSubscriptionSafely();
   },
   validations: {
     websiteName: { required },
@@ -289,6 +279,19 @@ export default {
     },
     getSavedInboxInformation() {
       return LocalStorage.get(this.storageKey);
+    },
+    async fetchLatestSubscriptionSafely() {
+      try {
+        const existing = this.$store.state.billing?.billing?.latestSubscription;
+        if (existing && Object.keys(existing).length) {
+          // Store already has it; no need to fetch
+          return;
+        }
+        const response = await billingAPI.latestSubscription();
+        this.localSubscription = response?.data || null;
+      } catch (e) {
+        // Silent fail
+      }
     },
   },
 };
