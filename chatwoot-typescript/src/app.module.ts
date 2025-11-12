@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -21,9 +21,12 @@ import { HealthModule } from './modules/health.module';
       cache: true,
     }),
     WinstonModule.forRootAsync({
-      inject: [LoggerConfigService],
-      useFactory: (loggerConfigService: LoggerConfigService) =>
-        loggerConfigService.createWinstonModuleOptions(),
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const loggerConfigService = new LoggerConfigService(configService);
+        return loggerConfigService.createWinstonModuleOptions();
+      },
     }),
     DatabaseModule,
     RedisModule,
