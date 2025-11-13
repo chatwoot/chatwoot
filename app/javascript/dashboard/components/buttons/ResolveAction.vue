@@ -6,11 +6,12 @@ import { useI18n } from 'vue-i18n';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import wootConstants from 'dashboard/constants/globals';
+import ConversationApi from 'dashboard/api/conversations';
+
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
@@ -18,16 +19,13 @@ import {
 
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
-const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
-const resolveAttributesModalRef = ref(null);
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 const closeDropdown = () => toggleDropdown(false);
@@ -47,6 +45,9 @@ const isResolved = computed(
 const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
 );
+const isQueued = computed(
+  () => currentChat.value.status === wootConstants.STATUS_TYPE.QUEUED
+);
 
 const showAdditionalActions = computed(
   () => !isPending.value && !isSnoozed.value
@@ -55,6 +56,22 @@ const showAdditionalActions = computed(
 const showOpenButton = computed(() => {
   return isPending.value || isSnoozed.value;
 });
+
+const forceTransfer = async () => {
+  closeDropdown();
+  isLoading.value = true;
+
+  try {
+    await ConversationApi.forceTransfer(currentChat.value.id);
+    useAlert(t('CONVERSATION.FORCE_TRANSFER.SUCCESS'));
+
+    store.dispatch('fetchConversation', currentChat.value.id);
+  } catch (error) {
+    useAlert(t('CONVERSATION.FORCE_TRANSFER.ERROR'));
+  } finally {
+    isLoading.value = false;
+  }
+};
 
 const getConversationParams = () => {
   const allConversations = document.querySelectorAll(
@@ -81,36 +98,19 @@ const openSnoozeModal = () => {
   ninja.open({ parent: 'snooze_conversation' });
 };
 
-const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
+const toggleStatus = (status, snoozedUntil) => {
   closeDropdown();
   isLoading.value = true;
-
-  const payload = {
-    conversationId: currentChat.value.id,
-    status,
-    snoozedUntil,
-  };
-
-  if (customAttributes) {
-    payload.customAttributes = customAttributes;
-  }
-
-  store.dispatch('toggleStatus', payload).then(() => {
-    useAlert(t('CONVERSATION.CHANGE_STATUS'));
-    isLoading.value = false;
-  });
-};
-
-const handleResolveWithAttributes = ({ attributes, context }) => {
-  if (context) {
-    const currentCustomAttributes = currentChat.value.custom_attributes || {};
-    const mergedAttributes = { ...currentCustomAttributes, ...attributes };
-    toggleStatus(
-      wootConstants.STATUS_TYPE.RESOLVED,
-      context.snoozedUntil,
-      mergedAttributes
-    );
-  }
+  store
+    .dispatch('toggleStatus', {
+      conversationId: currentChat.value.id,
+      status,
+      snoozedUntil,
+    })
+    .then(() => {
+      useAlert(t('CONVERSATION.CHANGE_STATUS'));
+      isLoading.value = false;
+    });
 };
 
 const onCmdOpenConversation = () => {
@@ -118,24 +118,7 @@ const onCmdOpenConversation = () => {
 };
 
 const onCmdResolveConversation = () => {
-  const currentCustomAttributes = currentChat.value.custom_attributes || {};
-  const { hasMissing, missing } = checkMissingAttributes(
-    currentCustomAttributes
-  );
-
-  if (hasMissing) {
-    const conversationContext = {
-      id: currentChat.value.id,
-      snoozedUntil: null,
-    };
-    resolveAttributesModalRef.value?.open(
-      missing,
-      currentCustomAttributes,
-      conversationContext
-    );
-  } else {
-    toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-  }
+  toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
 };
 
 const keyboardEvents = {
@@ -145,13 +128,13 @@ const keyboardEvents = {
   },
   'Alt+KeyE': {
     action: async () => {
-      onCmdResolveConversation();
+      await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
     },
   },
   '$mod+Alt+KeyE': {
     action: async event => {
       const { all, activeIndex, lastIndex } = getConversationParams();
-      onCmdResolveConversation();
+      await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
 
       if (activeIndex < lastIndex) {
         all[activeIndex + 1].click();
@@ -171,53 +154,95 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 </script>
 
 <template>
-  <div class="flex relative justify-end items-center resolve-actions">
-    <ButtonGroup
-      class="flex-shrink-0 rounded-lg shadow outline-1 outline"
-      :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
-    >
-      <Button
-        v-if="isOpen"
-        :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
+  <div class="relative flex items-center justify-end resolve-actions">
+    <template v-if="isQueued">
+    <Button
+        :label="t('CONVERSATION.FORCE_TRANSFER.ACTION')"
         size="sm"
         color="slate"
         no-animation
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+        class="mr-2"
         :is-loading="isLoading"
-        @click="onCmdResolveConversation"
+        @click="forceTransfer"
       />
       <Button
-        v-else-if="isResolved"
-        :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
-        size="sm"
-        color="slate"
-        no-animation
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
-        :is-loading="isLoading"
-        @click="onCmdOpenConversation"
-      />
-      <Button
-        v-else-if="showOpenButton"
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
         no-animation
+        class="mr-2"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
       <Button
-        v-if="showAdditionalActions"
-        ref="arrowDownButtonRef"
-        icon="i-lucide-chevron-down"
-        :disabled="isLoading"
+        :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
         size="sm"
-        no-animation
-        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
         color="slate"
-        trailing-icon
-        @click="openDropdown"
+        no-animation
+        class="!outline-0"
+        :is-loading="isLoading"
+        @click="onCmdResolveConversation"
       />
-    </ButtonGroup>
+    </template>
+
+    <template v-else>
+      <ButtonGroup
+        class="rounded-lg shadow outline-1 outline flex-shrink-0"
+        :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
+      >
+       <Button
+          :label="t('CONVERSATION.FORCE_TRANSFER.ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="mr-2"
+          :is-loading="isLoading"
+          @click="forceTransfer"
+          />
+        <Button
+          v-if="isOpen"
+          :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+          :is-loading="isLoading"
+          @click="onCmdResolveConversation"
+        />
+        <Button
+          v-else-if="isResolved"
+          :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+          :is-loading="isLoading"
+          @click="onCmdOpenConversation"
+        />
+        <Button
+          v-else-if="showOpenButton"
+          :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          :is-loading="isLoading"
+          @click="onCmdOpenConversation"
+        />
+        <Button
+          v-if="showAdditionalActions"
+          ref="arrowDownButtonRef"
+          icon="i-lucide-chevron-down"
+          :disabled="isLoading"
+          size="sm"
+          no-animation
+          class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
+          color="slate"
+          trailing-icon
+          @click="openDropdown"
+        />
+      </ButtonGroup>
+    </template>
+
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
@@ -250,9 +275,5 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         </WootDropdownItem>
       </WootDropdownMenu>
     </div>
-    <ConversationResolveAttributesModal
-      ref="resolveAttributesModalRef"
-      @submit="handleResolveWithAttributes"
-    />
   </div>
 </template>
