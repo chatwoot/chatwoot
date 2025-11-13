@@ -16,9 +16,8 @@ class Api::V1::Accounts::ScheduledMessagesController < Api::V1::Accounts::BaseCo
   def show; end
 
   def create
-    # Try to find by id first, then by display_id
-    conversation = Current.account.conversations.find_by(id: scheduled_message_params[:conversation_id]) ||
-                   Current.account.conversations.find_by(display_id: scheduled_message_params[:conversation_id])
+    # Find by display_id since that's what comes from the URL
+    conversation = Current.account.conversations.find_by(display_id: scheduled_message_params[:conversation_id])
 
     unless conversation
       render json: { error: 'Conversation not found' }, status: :not_found
@@ -26,7 +25,7 @@ class Api::V1::Accounts::ScheduledMessagesController < Api::V1::Accounts::BaseCo
     end
 
     @scheduled_message = Current.account.scheduled_messages.new(scheduled_message_params)
-    @scheduled_message.conversation_id = conversation.id  # Force correct conversation ID
+    @scheduled_message.conversation_id = conversation.id  # Use the real conversation ID
     @scheduled_message.sender = Current.user
     @scheduled_message.inbox_id = conversation.inbox_id
     @scheduled_message.account_id = Current.account.id
@@ -73,9 +72,8 @@ class Api::V1::Accounts::ScheduledMessagesController < Api::V1::Accounts::BaseCo
   private
 
   def fetch_by_conversation
-    # Try to find by id first, then by display_id
-    conversation = Current.account.conversations.find_by(id: params[:conversation_id]) ||
-                   Current.account.conversations.find_by(display_id: params[:conversation_id])
+    # Find by display_id since that's what comes from the URL
+    conversation = Current.account.conversations.find_by(display_id: params[:conversation_id])
     return Current.account.scheduled_messages.none unless conversation
 
     Current.account.scheduled_messages.by_conversation(conversation.id)

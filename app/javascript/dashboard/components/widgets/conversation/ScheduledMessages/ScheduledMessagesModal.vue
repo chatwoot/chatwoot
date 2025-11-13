@@ -23,9 +23,10 @@ export default {
   data() {
     return {
       formData: {
-        title: '',
         content: '',
-        scheduled_at: '',
+        date: '',
+        hour: '09',
+        minute: '00',
       },
       editingId: null,
     };
@@ -62,8 +63,6 @@ export default {
     },
   },
   mounted() {
-    console.log('[ScheduledMessagesModal] mounted - conversationId:', this.conversationId);
-    console.log('[ScheduledMessagesModal] mounted - conversationId type:', typeof this.conversationId);
     if (this.show) {
       this.fetchMessages();
     }
@@ -84,23 +83,25 @@ export default {
     },
     resetForm() {
       this.formData = {
-        title: '',
         content: '',
-        scheduled_at: '',
+        date: '',
+        hour: '09',
+        minute: '00',
       };
       this.editingId = null;
     },
     async handleSubmit() {
-      if (!this.formData.content || !this.formData.scheduled_at) {
+      if (!this.formData.content || !this.formData.date || !this.formData.hour || !this.formData.minute) {
         useAlert('Preencha todos os campos obrigatórios');
         return;
       }
 
       try {
+        const scheduledDateTime = `${this.formData.date}T${this.formData.hour}:${this.formData.minute}:00`;
         const data = {
           conversation_id: this.conversationId,
           content: this.formData.content,
-          scheduled_at: new Date(this.formData.scheduled_at).toISOString(),
+          scheduled_at: new Date(scheduledDateTime).toISOString(),
           private: false,
         };
 
@@ -123,12 +124,18 @@ export default {
       }
     },
     handleEdit(message) {
+      const date = new Date(message.scheduled_at * 1000);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hour = String(date.getHours()).padStart(2, '0');
+      const minute = String(date.getMinutes()).padStart(2, '0');
+
       this.formData = {
-        title: message.title || '',
         content: message.content,
-        scheduled_at: new Date(message.scheduled_at * 1000)
-          .toISOString()
-          .slice(0, 16),
+        date: `${year}-${month}-${day}`,
+        hour: hour,
+        minute: minute,
       };
       this.editingId = message.id;
     },
@@ -177,6 +184,27 @@ export default {
       };
       return badges[status] || badges.pending;
     },
+    getStatusBadgeStyle(status) {
+      const styles = {
+        pending: {
+          backgroundColor: 'rgba(245, 158, 11, 0.1)',
+          color: '#f59e0b',
+        },
+        sent: {
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          color: '#10b981',
+        },
+        failed: {
+          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          color: '#ef4444',
+        },
+        cancelled: {
+          backgroundColor: 'rgba(100, 116, 139, 0.1)',
+          color: '#64748b',
+        },
+      };
+      return styles[status] || styles.pending;
+    },
   },
 };
 </script>
@@ -199,18 +227,6 @@ export default {
           <form @submit.prevent="handleSubmit" class="space-y-4 min-w-0">
             <div class="w-full">
               <label class="block mb-2 text-sm font-medium text-n-slate-11">
-                Título (opcional)
-              </label>
-              <input
-                v-model="formData.title"
-                type="text"
-                class="w-full"
-                placeholder="Ex: Follow-up Cliente X"
-              />
-            </div>
-
-            <div class="w-full">
-              <label class="block mb-2 text-sm font-medium text-n-slate-11">
                 Mensagem <span class="text-n-red-9">*</span>
               </label>
               <textarea
@@ -227,14 +243,54 @@ export default {
 
             <div class="w-full">
               <label class="block mb-2 text-sm font-medium text-n-slate-11">
-                Data e Hora <span class="text-n-red-9">*</span>
+                Data <span class="text-n-red-9">*</span>
               </label>
               <input
-                v-model="formData.scheduled_at"
-                type="datetime-local"
+                v-model="formData.date"
+                type="date"
                 required
                 class="w-full"
               />
+            </div>
+
+            <div class="flex gap-2 w-full">
+              <div class="flex-1">
+                <label class="block mb-2 text-sm font-medium text-n-slate-11">
+                  Hora <span class="text-n-red-9">*</span>
+                </label>
+                <select
+                  v-model="formData.hour"
+                  required
+                  class="w-full"
+                >
+                  <option v-for="h in 24" :key="h-1" :value="String(h-1).padStart(2, '0')">
+                    {{ String(h-1).padStart(2, '0') }}
+                  </option>
+                </select>
+              </div>
+              <div class="flex-1">
+                <label class="block mb-2 text-sm font-medium text-n-slate-11">
+                  Minuto <span class="text-n-red-9">*</span>
+                </label>
+                <select
+                  v-model="formData.minute"
+                  required
+                  class="w-full"
+                >
+                  <option value="00">00</option>
+                  <option value="05">05</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="25">25</option>
+                  <option value="30">30</option>
+                  <option value="35">35</option>
+                  <option value="40">40</option>
+                  <option value="45">45</option>
+                  <option value="50">50</option>
+                  <option value="55">55</option>
+                </select>
+              </div>
             </div>
 
             <div class="flex gap-2 pt-2">
@@ -286,24 +342,22 @@ export default {
               class="p-4 border rounded-lg border-n-slate-6 hover:border-n-slate-7 transition-colors bg-n-slate-1"
             >
               <!-- Header -->
-              <div class="flex items-start justify-between mb-2">
-                <h4 class="text-sm font-medium text-n-slate-12">
-                  {{ message.title || 'Mensagem Agendada' }}
-                </h4>
-                <span :class="['label', getStatusBadge(message.status).class]">
+              <div class="flex items-center justify-between gap-3 mb-3">
+                <div class="flex items-center gap-3 text-xs text-n-slate-10">
+                  <span class="flex items-center gap-1">
+                    <fluent-icon icon="calendar" size="14" class="text-woot-500" />
+                    {{ formatDate(message.scheduled_at) }}
+                  </span>
+                  <span v-if="message.sender" class="flex items-center gap-1">
+                    <fluent-icon icon="person" size="14" class="text-woot-500" />
+                    {{ message.sender.name }}
+                  </span>
+                </div>
+                <span
+                  class="px-2 py-1 text-xs font-medium rounded-md"
+                  :style="getStatusBadgeStyle(message.status)"
+                >
                   {{ getStatusBadge(message.status).text }}
-                </span>
-              </div>
-
-              <!-- Metadata -->
-              <div class="flex items-center gap-3 mb-3 text-xs text-n-slate-10">
-                <span class="flex items-center gap-1">
-                  <fluent-icon icon="calendar" size="14" class="text-woot-500" />
-                  {{ formatDate(message.scheduled_at) }}
-                </span>
-                <span v-if="message.sender" class="flex items-center gap-1">
-                  <fluent-icon icon="person" size="14" class="text-woot-500" />
-                  {{ message.sender.name }}
                 </span>
               </div>
 

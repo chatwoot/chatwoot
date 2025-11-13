@@ -12,13 +12,9 @@ const state = {
 };
 
 export const getters = {
-  getScheduledMessages: state => conversationId => {
-    const allMessages = Object.values(state.records);
-    const convId = Number(conversationId);
-    const filtered = allMessages.filter(msg =>
-      msg.conversation_id === convId || msg.conversation_display_id === convId
-    );
-    return filtered.sort((a, b) => a.scheduled_at - b.scheduled_at);
+  getScheduledMessages: state => () => {
+    // Backend já filtra corretamente, só retornamos tudo do store
+    return Object.values(state.records).sort((a, b) => a.scheduled_at - b.scheduled_at);
   },
   getAllScheduledMessages: state => {
     return Object.values(state.records).sort(
@@ -35,6 +31,7 @@ export const actions = {
   get: async ({ commit }, conversationId) => {
     commit(types.SET_SCHEDULED_MESSAGES_UI_FLAG, { isFetching: true });
     try {
+      commit(types.CLEAR_SCHEDULED_MESSAGES); // Limpa store antes de buscar
       const response = await ScheduledMessagesApi.getByConversation(
         conversationId
       );
