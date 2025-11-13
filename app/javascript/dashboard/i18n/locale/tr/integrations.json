@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Konuşmada Yazıyor Kapalı"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "Web kancası URL'si",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
