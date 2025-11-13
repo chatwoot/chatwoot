@@ -3,6 +3,7 @@ orbs:
   node: circleci/node@6.1.0
   qlty-orb: qltysh/qlty-orb@0.0
 
+# Shared defaults for setup steps
 defaults: &defaults
   working_directory: ~/build
   machine:
@@ -12,10 +13,67 @@ defaults: &defaults
     RAILS_LOG_TO_STDOUT: false
     COVERAGE: true
     LOG_LEVEL: warn
-  parallelism: 12
 
 jobs:
-  build:
+  # Separate job for linting (no parallelism needed)
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Install RVM and Ruby 3.4.4
+          command: |
+            sudo apt-get install -y gpg
+            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+            \curl -sSL https://get.rvm.io | bash -s stable
+            echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
+            source ~/.rvm/scripts/rvm
+            rvm install "3.4.4"
+            rvm use 3.4.4 --default
+            gem install bundler -v 2.5.16
+      - run:
+          name: Install Application Dependencies
+          command: |
+            source ~/.rvm/scripts/rvm
+            bundle install
+      - node/install:
+          node-version: '23.7'
+      - node/install-pnpm
+      - node/install-packages:
+          pkg-manager: pnpm
+          override-ci-command: pnpm i
+
+      # Swagger verification
+      - run:
+          name: Verify swagger API specification
+          command: |
+            bundle exec rake swagger:build
+            if [[ `git status swagger/swagger.json --porcelain` ]]
+            then
+              echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
+              exit 1
+            fi
+            mkdir -p ~/tmp
+            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
+            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
+
+      # Bundle audit
+      - run:
+          name: Bundle audit
+          command: bundle exec bundle audit update && bundle exec bundle audit check -v
+
+      # Rubocop linting
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop --parallel
+
+      # ESLint linting
+      - run:
+          name: eslint
+          command: pnpm run eslint
+
+  # Separate job for frontend tests
+  frontend-tests:
     <<: *defaults
     steps:
       - checkout
@@ -25,8 +83,31 @@ jobs:
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i
-      - run: node --version
-      - run: pnpm --version
+
+      - run:
+          name: Run frontend tests (with coverage)
+          command: |
+            mkdir -p ~/build/coverage/frontend
+            pnpm run test:coverage
+
+      - persist_to_workspace:
+          root: ~/build
+          paths:
+            - coverage/frontend
+
+  # Backend tests with parallelization
+  backend-tests:
+    <<: *defaults
+    parallelism: 16
+    steps:
+      - checkout
+      - node/install:
+          node-version: '23.7'
+      - node/install-pnpm
+      - node/install-packages:
+          pkg-manager: pnpm
+          override-ci-command: pnpm i
+
       - run:
           name: Add PostgreSQL repository and update
           command: |
@@ -91,20 +172,6 @@ jobs:
             source ~/.rvm/scripts/rvm
             bundle install
 
-      # Swagger verification
-      - run:
-          name: Verify swagger API specification
-          command: |
-            bundle exec rake swagger:build
-            if [[ `git status swagger/swagger.json --porcelain` ]]
-            then
-              echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
-              exit 1
-            fi
-            mkdir -p ~/tmp
-            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
-            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
-
       # Configure environment and database
       - run:
           name: Database Setup and Configure Environment Variables
@@ -127,28 +194,7 @@ jobs:
           name: Run DB migrations
           command: bundle exec rails db:chatwoot_prepare
 
-      # Bundle audit
-      - run:
-          name: Bundle audit
-          command: bundle exec bundle audit update && bundle exec bundle audit check -v
-
-      # Rubocop linting
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
-
-      # ESLint linting
-      - run:
-          name: eslint
-          command: pnpm run eslint
-
-      - run:
-          name: Run frontend tests (with coverage)
-          command: |
-            mkdir -p ~/build/coverage/frontend
-            pnpm run test:coverage
-
-      # Run backend tests
+      # Run backend tests (parallelized)
       - run:
           name: Run backend tests
           command: |
@@ -166,6 +212,19 @@ jobs:
       - store_test_results:
           path: ~/tmp/test-results
 
+      - persist_to_workspace:
+          root: ~/build
+          paths:
+            - coverage/backend
+
+  # Collect coverage from all jobs
+  coverage:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/build
+
       # Qlty coverage publish
       - qlty-orb/coverage_publish:
           files: |
@@ -175,13 +234,20 @@ jobs:
       - run:
           name: List coverage directory contents
           command: |
-            ls -R ~/build/coverage
-
-      - persist_to_workspace:
-          root: ~/build
-          paths:
-            - coverage
+            ls -R ~/build/coverage || echo "No coverage directory"
 
       - store_artifacts:
           path: coverage
           destination: coverage
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - lint
+      - frontend-tests
+      - backend-tests
+      - coverage:
+          requires:
+            - frontend-tests
+            - backend-tests
