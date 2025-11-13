@@ -3,11 +3,15 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
+import VariableList from 'dashboard/components/widgets/conversation/VariableList.vue';
 
 export default {
   components: {
     Spinner,
     NextButton,
+    CannedResponse,
+    VariableList,
   },
   props: {
     show: {
@@ -29,6 +33,13 @@ export default {
         minute: '00',
       },
       editingId: null,
+      showCannedMenu: false,
+      showVariableMenu: false,
+      cannedSearchKey: '',
+      variableSearchKey: '',
+      cursorPosition: 0,
+      statusFilter: 'all',
+      showFilterMenu: false,
     };
   },
   computed: {
@@ -46,6 +57,12 @@ export default {
     },
     scheduledMessages() {
       return this.scheduledMessagesGetter(this.conversationId);
+    },
+    filteredScheduledMessages() {
+      if (this.statusFilter === 'all') {
+        return this.scheduledMessages;
+      }
+      return this.scheduledMessages.filter(msg => msg.status === this.statusFilter);
     },
     isEditMode() {
       return this.editingId !== null;
@@ -98,21 +115,26 @@ export default {
 
       try {
         const scheduledDateTime = `${this.formData.date}T${this.formData.hour}:${this.formData.minute}:00`;
-        const data = {
-          conversation_id: this.conversationId,
-          content: this.formData.content,
-          scheduled_at: new Date(scheduledDateTime).toISOString(),
-          private: false,
-        };
 
         if (this.isEditMode) {
-          await this.$store.dispatch('scheduledMessages/update', {
+          // No update, não enviamos conversation_id pois a mensagem já está vinculada
+          const updateData = {
             id: this.editingId,
-            ...data,
-          });
+            content: this.formData.content,
+            scheduled_at: new Date(scheduledDateTime).toISOString(),
+            private: false,
+          };
+          await this.$store.dispatch('scheduledMessages/update', updateData);
           useAlert('Mensagem atualizada!');
         } else {
-          await this.$store.dispatch('scheduledMessages/create', data);
+          // No create, enviamos conversation_id
+          const createData = {
+            conversation_id: this.conversationId,
+            content: this.formData.content,
+            scheduled_at: new Date(scheduledDateTime).toISOString(),
+            private: false,
+          };
+          await this.$store.dispatch('scheduledMessages/create', createData);
           useAlert('Mensagem agendada!');
         }
 
@@ -148,17 +170,6 @@ export default {
         await this.fetchMessages();
       } catch (error) {
         useAlert(error.message || 'Erro ao excluir');
-      }
-    },
-    async handleSendNow(message) {
-      if (!confirm('Enviar esta mensagem agora?')) return;
-
-      try {
-        await this.$store.dispatch('scheduledMessages/sendNow', message.id);
-        useAlert('Mensagem enviada!');
-        await this.fetchMessages();
-      } catch (error) {
-        useAlert(error.message || 'Erro ao enviar');
       }
     },
     formatDate(dateInput) {
@@ -205,6 +216,77 @@ export default {
       };
       return styles[status] || styles.pending;
     },
+    handleInput(e) {
+      const textarea = e.target;
+      this.cursorPosition = textarea.selectionStart;
+      const textBeforeCursor = this.formData.content.substring(0, this.cursorPosition);
+
+      // Check for canned response trigger "/"
+      const cannedMatch = textBeforeCursor.match(/\/(\w*)$/);
+      if (cannedMatch) {
+        this.cannedSearchKey = cannedMatch[1];
+        this.showCannedMenu = true;
+        this.showVariableMenu = false;
+        return;
+      }
+
+      // Check for variable trigger "{{"
+      const variableMatch = textBeforeCursor.match(/\{\{([^}]*)$/);
+      if (variableMatch) {
+        this.variableSearchKey = variableMatch[1];
+        this.showVariableMenu = true;
+        this.showCannedMenu = false;
+        return;
+      }
+
+      // Close both menus if no trigger found
+      this.showCannedMenu = false;
+      this.showVariableMenu = false;
+    },
+    handleCannedSelect(cannedContent) {
+      const textarea = this.$refs.messageInput;
+      const textBeforeCursor = this.formData.content.substring(0, this.cursorPosition);
+      const textAfterCursor = this.formData.content.substring(this.cursorPosition);
+
+      // Find and replace the "/" trigger
+      const beforeTrigger = textBeforeCursor.replace(/\/\w*$/, '');
+      this.formData.content = beforeTrigger + cannedContent + textAfterCursor;
+
+      this.showCannedMenu = false;
+      this.cannedSearchKey = '';
+
+      this.$nextTick(() => {
+        const newPosition = beforeTrigger.length + cannedContent.length;
+        textarea.setSelectionRange(newPosition, newPosition);
+        textarea.focus();
+      });
+    },
+    handleVariableSelect(variableKey) {
+      const textarea = this.$refs.messageInput;
+      const textBeforeCursor = this.formData.content.substring(0, this.cursorPosition);
+      const textAfterCursor = this.formData.content.substring(this.cursorPosition);
+
+      // Find and replace the "{{" trigger with the complete variable format
+      const beforeTrigger = textBeforeCursor.replace(/\{\{[^}]*$/, '');
+      const variableText = `{{${variableKey}}}`;
+      this.formData.content = beforeTrigger + variableText + textAfterCursor;
+
+      this.showVariableMenu = false;
+      this.variableSearchKey = '';
+
+      this.$nextTick(() => {
+        const newPosition = beforeTrigger.length + variableText.length;
+        textarea.setSelectionRange(newPosition, newPosition);
+        textarea.focus();
+      });
+    },
+    handleKeydown(e) {
+      // Close menus on Escape
+      if (e.key === 'Escape') {
+        this.showCannedMenu = false;
+        this.showVariableMenu = false;
+      }
+    },
   },
 };
 </script>
@@ -225,20 +307,47 @@ export default {
           </h3>
 
           <form @submit.prevent="handleSubmit" class="space-y-4 min-w-0">
-            <div class="w-full">
+            <div class="w-full relative">
               <label class="block mb-2 text-sm font-medium text-n-slate-11">
-                Mensagem <span class="text-n-red-9">*</span>
+                Conteúdo<span class="text-n-red-9">*</span>
               </label>
               <textarea
+                ref="messageInput"
                 v-model="formData.content"
-                rows="6"
                 required
-                class="w-full"
-                placeholder="Digite a mensagem que será enviada..."
-              ></textarea>
+                rows="6"
+                placeholder="Digite / para respostas prontas ou {{ para variáveis..."
+                class="w-full px-3 py-2 text-sm border rounded-md resize-none border-n-slate-6 focus:border-woot-500 focus:ring-1 focus:ring-woot-500"
+                @input="handleInput"
+                @keydown="handleKeydown"
+              />
               <span class="block mt-1 text-xs text-n-slate-8">
                 {{ formData.content.length }} caracteres
               </span>
+
+              <!-- Canned Response Menu -->
+              <div
+                v-if="showCannedMenu"
+                class="absolute left-0 right-0 z-50"
+                style="top: calc(100% - 24px)"
+              >
+                <CannedResponse
+                  :search-key="cannedSearchKey"
+                  @replace="handleCannedSelect"
+                />
+              </div>
+
+              <!-- Variable Menu -->
+              <div
+                v-if="showVariableMenu"
+                class="absolute left-0 right-0 z-50"
+                style="top: calc(100% - 24px)"
+              >
+                <VariableList
+                  :search-key="variableSearchKey"
+                  @selectVariable="handleVariableSelect"
+                />
+              </div>
             </div>
 
             <div class="w-full">
@@ -314,8 +423,46 @@ export default {
         <div class="flex-1 p-6 overflow-y-auto overflow-x-hidden bg-n-slate-1 min-w-0">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-base font-medium text-n-slate-12">
-              Agendadas ({{ scheduledMessages.length }})
+              Programadas ({{ filteredScheduledMessages.length }})
             </h3>
+            <div class="relative">
+              <button
+                type="button"
+                @click="showFilterMenu = !showFilterMenu"
+                class="p-2 rounded-md hover:bg-n-slate-3 transition-colors"
+                :class="{ 'bg-n-slate-3': showFilterMenu }"
+              >
+                <fluent-icon
+                  icon="filter"
+                  size="16"
+                  class="text-n-slate-10"
+                />
+              </button>
+
+              <!-- Dropdown Menu -->
+              <div
+                v-if="showFilterMenu"
+                v-click-outside="() => showFilterMenu = false"
+                class="absolute right-0 mt-1 w-48 bg-white border rounded-lg shadow-lg border-n-slate-6 z-50"
+              >
+                <button
+                  v-for="option in [
+                    { value: 'all', label: 'Todos' },
+                    { value: 'pending', label: 'Pendentes' },
+                    { value: 'sent', label: 'Enviadas' },
+                    { value: 'failed', label: 'Falhas' },
+                    { value: 'cancelled', label: 'Canceladas' },
+                  ]"
+                  :key="option.value"
+                  type="button"
+                  @click="statusFilter = option.value; showFilterMenu = false"
+                  class="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-n-slate-2"
+                  :class="{ 'bg-n-slate-2 font-medium': statusFilter === option.value }"
+                >
+                  {{ option.label }}
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Loading -->
@@ -325,19 +472,21 @@ export default {
 
           <!-- Empty -->
           <div
-            v-else-if="scheduledMessages.length === 0"
+            v-else-if="filteredScheduledMessages.length === 0"
             class="flex flex-col items-center justify-center py-12 text-center"
           >
-            <p class="text-sm text-n-slate-9">Nenhuma mensagem agendada</p>
+            <p class="text-sm text-n-slate-9">
+              {{ statusFilter === 'all' ? 'Nenhuma mensagem agendada' : 'Nenhuma mensagem com este status' }}
+            </p>
             <p class="mt-1 text-xs text-n-slate-7">
-              Preencha o formulário ao lado para agendar
+              {{ statusFilter === 'all' ? 'Preencha o formulário ao lado para agendar' : 'Tente outro filtro' }}
             </p>
           </div>
 
           <!-- Lista -->
           <div v-else class="space-y-3">
             <div
-              v-for="message in scheduledMessages"
+              v-for="message in filteredScheduledMessages"
               :key="message.id"
               class="p-4 border rounded-lg border-n-slate-6 hover:border-n-slate-7 transition-colors bg-n-slate-1"
             >
@@ -368,14 +517,6 @@ export default {
 
               <!-- Footer Actions -->
               <div v-if="message.status === 'pending'" class="flex gap-4 pt-3 border-t border-n-slate-4">
-                <button
-                  @click="handleSendNow(message)"
-                  class="flex items-center gap-1 px-0 text-xs font-medium transition-all hover:scale-105"
-                  style="color: #10b981"
-                >
-                  <fluent-icon icon="send" size="14" style="color: #10b981" />
-                  <span>Reenviar</span>
-                </button>
                 <button
                   @click="handleEdit(message)"
                   class="flex items-center gap-1 px-0 text-xs font-medium transition-all hover:scale-105"
