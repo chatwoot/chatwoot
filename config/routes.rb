@@ -144,6 +144,12 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :scheduled_messages, only: [:index, :show, :create, :update, :destroy] do
+            member do
+              post :send_now
+            end
+          end
+
           resources :search, only: [:index] do
             collection do
               get :conversations

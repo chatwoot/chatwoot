@@ -136,7 +136,7 @@ onMounted(() => {
       :title="$t('CONVERSATION.SIDEBAR.CONTACT')"
       @close="closeContactPanel"
     />
-    <ContactInfo :contact="contact" :channel-type="channelType" />
+    <ContactInfo :contact="contact" :channel-type="channelType" :conversation-id="conversationId" />
     <div class="pb-8 list-group px-2">
       <Draggable
         :list="conversationSidebarItems"
