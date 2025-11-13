@@ -111,6 +111,9 @@ const advancedFilterTypes = ref(
   }))
 );
 
+// TODO: Arrumar essa gambi. Essa variável existe para preenchermos do localStorage quando montamos o componente
+const isPartnerUser = ref(false)
+
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
@@ -198,7 +201,7 @@ const userPermissions = computed(() => {
 });
 
 const assigneeTabItems = computed(() => {
-  return filterItemsByPermission(
+  const allTabs = filterItemsByPermission(
     ASSIGNEE_TYPE_TAB_PERMISSIONS,
     userPermissions.value,
     item => item.permissions
@@ -207,6 +210,11 @@ const assigneeTabItems = computed(() => {
     name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
     count: conversationStats.value[countKey] || 0,
   }));
+  // se for um usuario de time parceiro a única aba disponivel para ele deve ser a de minhas conversas
+  if (isPartnerUser.value) {
+    return allTabs.filter(tab => tab.key === wootConstants.ASSIGNEE_TYPE.ME)
+  }
+  return allTabs
 });
 
 const showAssigneeInConversationCard = computed(() => {
@@ -612,6 +620,10 @@ function handleScroll() {
 }
 
 function updateAssigneeTab(selectedTab) {
+  // Se for um usuario de time parceiro, não deixa mudar de aba
+  if (isPartnerUser.value && selectedTab !== wootConstants.ASSIGNEE_TYPE.ME) {
+    return
+  }
   if (activeAssigneeTab.value !== selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
@@ -764,6 +776,13 @@ useEmitter('fetch_conversation_stats', () => {
 useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
 
 onMounted(() => {
+  // Verificar se o cara é um user de time privado
+  const userPrivado = localStorage.getItem('isPartnerUser')
+  // se for um user privado, seta a flag para true e ativa a tab de minhas conversas
+  if (userPrivado !== 'false') {
+    isPartnerUser.value = true
+    activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.ME
+  }
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
