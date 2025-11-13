@@ -2,10 +2,9 @@
 import { computed, ref, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useAlert } from 'dashboard/composables';
-import ContactsAPI from 'dashboard/api/contacts';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -24,10 +23,15 @@ defineOptions({ inheritAttrs: false });
 const attrs = useAttrs();
 const route = useRoute();
 const router = useRouter();
+const store = useStore();
 
 const { t } = useI18n();
 
+const dialogRef = ref(null);
+
 const inboxesList = useMapGetter('inboxes/getInboxes');
+const contactsUiFlags = useMapGetter('contacts/getUIFlags');
+
 const voiceInboxes = computed(() =>
   (inboxesList.value || []).filter(
     inbox => inbox.channel_type === INBOX_TYPES.VOICE
@@ -38,35 +42,36 @@ const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
 // Unified behavior: hide when no phone
 const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
 
-const dialogRef = ref(null);
-const isProcessing = ref(false);
+const isInitiatingCall = computed(() => {
+  return contactsUiFlags.value?.isInitiatingCall || false;
+});
+
+const navigateToConversation = conversationId => {
+  const accountId = route.params.accountId;
+  if (conversationId && accountId) {
+    const path = frontendURL(
+      conversationUrl({
+        accountId,
+        id: conversationId,
+      })
+    );
+    router.push({ path });
+  }
+};
 
 const startCall = async inboxId => {
-  if (isProcessing.value) return;
+  if (isInitiatingCall.value) return;
 
   try {
-    isProcessing.value = true;
-    const response = await ContactsAPI.initiateCall(props.contactId, inboxId);
+    const response = await store.dispatch('contacts/initiateCall', {
+      contactId: props.contactId,
+      inboxId,
+    });
     useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
-    const conversationId = response?.data?.conversation_id;
-    const accountId = route.params.accountId;
-    if (conversationId && accountId) {
-      const path = frontendURL(
-        conversationUrl({
-          accountId,
-          id: conversationId,
-        })
-      );
-      router.push({ path });
-    }
+    navigateToConversation(response?.conversation_id);
   } catch (error) {
-    const apiError =
-      error?.message ||
-      error?.response?.data?.error ||
-      error?.response?.data?.message;
+    const apiError = error?.message;
     useAlert(apiError || t('CONTACT_PANEL.CALL_FAILED'));
-  } finally {
-    isProcessing.value = false;
   }
 };
 
@@ -91,7 +96,8 @@ const onPickInbox = async inbox => {
       v-if="shouldRender"
       v-tooltip.top-end="tooltipLabel || null"
       v-bind="attrs"
-      :disabled="isProcessing"
+      :disabled="isInitiatingCall"
+      :is-loading="isInitiatingCall"
       :label="label"
       :icon="icon"
       :size="size"
