@@ -22,6 +22,17 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Job to clear notifications which are older than 1 month
     Notification::RemoveOldNotificationJob.perform_later
+
+    # Job to send scheduled messages
+    trigger_scheduled_messages
+  end
+
+  private
+
+  def trigger_scheduled_messages
+    ScheduledMessage.due.find_each(batch_size: 100) do |scheduled_message|
+      ScheduledMessages::SendJob.perform_later(scheduled_message.id)
+    end
   end
 end
 

@@ -10,6 +10,7 @@ import EditContact from './EditContact.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
+import ScheduledMessagesModal from 'dashboard/components/widgets/conversation/ScheduledMessages/ScheduledMessagesModal.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
@@ -32,6 +33,7 @@ export default {
     ContactMergeModal,
     ContactLabels,
     VoiceCallButton,
+    ScheduledMessagesModal,
   },
   props: {
     contact: {
@@ -41,6 +43,10 @@ export default {
     showAvatar: {
       type: Boolean,
       default: true,
+    },
+    conversationId: {
+      type: [Number, String],
+      default: null,
     },
   },
   emits: ['panelClose'],
@@ -55,6 +61,7 @@ export default {
       showEditModal: false,
       showMergeModal: false,
       showDeleteModal: false,
+      showScheduledMessagesModal: false,
     };
   },
   computed: {
@@ -174,6 +181,9 @@ export default {
     },
     openMergeModal() {
       this.showMergeModal = true;
+    },
+    toggleScheduledMessagesModal() {
+      this.showScheduledMessagesModal = !this.showScheduledMessagesModal;
     },
   },
 };
@@ -295,6 +305,14 @@ export default {
           faded
         />
         <NextButton
+          v-tooltip.top-end="'Agendamento de Mensagem'"
+          icon="i-ph-calendar-plus"
+          slate
+          faded
+          sm
+          @click="toggleScheduledMessagesModal"
+        />
+        <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"
           slate
@@ -346,6 +364,12 @@ export default {
       :message-value="confirmDeleteMessage"
       :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
       :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
+    />
+    <ScheduledMessagesModal
+      v-if="showScheduledMessagesModal"
+      :show="showScheduledMessagesModal"
+      :conversation-id="conversationId"
+      @close="toggleScheduledMessagesModal"
     />
   </div>
 </template>

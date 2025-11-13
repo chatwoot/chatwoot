@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_11_222415) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1104,6 +1104,35 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "scheduled_messages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "sender_id"
+    t.bigint "message_id"
+    t.text "content", null: false
+    t.integer "message_type", default: 1, null: false
+    t.integer "content_type", default: 0, null: false
+    t.json "content_attributes", default: {}
+    t.jsonb "additional_attributes", default: {}
+    t.boolean "private", default: false, null: false
+    t.datetime "scheduled_at", null: false
+    t.datetime "sent_at"
+    t.datetime "cancelled_at"
+    t.integer "status", default: 0, null: false
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_scheduled_messages_on_account_id_and_status"
+    t.index ["account_id"], name: "index_scheduled_messages_on_account_id"
+    t.index ["conversation_id", "status"], name: "index_scheduled_messages_on_conversation_id_and_status"
+    t.index ["conversation_id"], name: "index_scheduled_messages_on_conversation_id"
+    t.index ["inbox_id"], name: "index_scheduled_messages_on_inbox_id"
+    t.index ["message_id"], name: "index_scheduled_messages_on_message_id"
+    t.index ["scheduled_at", "status"], name: "index_scheduled_messages_on_scheduled_at_and_status"
+    t.index ["sender_id"], name: "index_scheduled_messages_on_sender_id"
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -1251,6 +1280,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_03_091242) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "scheduled_messages", "accounts"
+  add_foreign_key "scheduled_messages", "conversations"
+  add_foreign_key "scheduled_messages", "inboxes"
+  add_foreign_key "scheduled_messages", "messages"
+  add_foreign_key "scheduled_messages", "users", column: "sender_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
