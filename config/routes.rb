@@ -98,6 +98,11 @@ Rails.application.routes.draw do
             post :execute, on: :member
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
+          resources :queue_statistics, only: [:index, :show] do
+            collection do
+              get :current
+            end
+          end
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :agent_capacity_policies, only: [:index, :create, :show, :update, :destroy] do
             scope module: :agent_capacity_policies do
@@ -597,7 +602,7 @@ Rails.application.routes.draw do
       end
 
       # resources that doesn't appear in primary navigation in super admin
-      resources :account_users, only: [:new, :create, :show, :destroy]
+      resources :account_users, only: [:new, :create, :show, :destroy, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
