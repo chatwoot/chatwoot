@@ -20,6 +20,43 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+
+      # Install minimal system dependencies for linting
+      - run:
+          name: Install System Dependencies
+          command: |
+            sudo apt-get update
+            DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
+              libpq-dev \
+              build-essential \
+              git \
+              curl \
+              libssl-dev \
+              zlib1g-dev \
+              libreadline-dev \
+              libyaml-dev \
+              openjdk-11-jdk \
+              jq \
+              software-properties-common \
+              ca-certificates \
+              imagemagick \
+              libxml2-dev \
+              libxslt1-dev \
+              file \
+              g++ \
+              gcc \
+              autoconf \
+              gnupg2 \
+              patch \
+              ruby-dev \
+              liblzma-dev \
+              libgmp-dev \
+              libncurses5-dev \
+              libffi-dev \
+              libgdbm6 \
+              libgdbm-dev \
+              libvips
+
       - run:
           name: Install RVM and Ruby 3.4.4
           command: |
@@ -31,11 +68,13 @@ jobs:
             rvm install "3.4.4"
             rvm use 3.4.4 --default
             gem install bundler -v 2.5.16
+
       - run:
           name: Install Application Dependencies
           command: |
             source ~/.rvm/scripts/rvm
             bundle install
+
       - node/install:
           node-version: '23.7'
       - node/install-pnpm
