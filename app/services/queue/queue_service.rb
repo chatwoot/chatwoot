@@ -15,7 +15,7 @@ class Queue::QueueService
 
     return false unless entry.persisted?
 
-    conversation.update!(status: :pending) unless conversation.pending?
+    conversation.update!(status: :queued) unless conversation.queued?
 
     send_queue_notification(conversation)
 
@@ -133,26 +133,26 @@ class Queue::QueueService
   end
 
   def send_queue_notification(conversation)
-    Messages::MessageBuilder.new(
-      nil,
-      conversation,
-      {
-        content: 'Все операторы сейчас заняты. Мы подключим вас к свободному оператору, как только он освободится.',
-        message_type: 'activity',
-        private: false
-      }
-    ).perform
+    conversation.messages.create!(
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :template,
+      content: 'Все операторы сейчас заняты. Мы подключим вас к свободному оператору, как только он освободится.'
+    )
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+    true
   end
 
   def send_assigned_notification(conversation)
-    Messages::MessageBuilder.new(
-      nil,
-      conversation,
-      {
-        content: 'Оператор подключился к диалогу.',
-        message_type: 'activity',
-        private: false
-      }
-    ).perform
+    conversation.messages.create!(
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :template,
+      content: 'Оператор подключился к диалогу.'
+    )
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+    true
   end
 end
