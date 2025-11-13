@@ -12,17 +12,31 @@ const props = defineProps({
   messagePreviewClass: { type: [String, Array, Object], default: '' },
 });
 
+const LABEL_KEYS = {
+  [VOICE_CALL_STATUS.IN_PROGRESS]: 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS',
+  [VOICE_CALL_STATUS.COMPLETED]: 'CONVERSATION.VOICE_CALL.CALL_ENDED',
+};
+
+const ICON_MAP = {
+  [VOICE_CALL_STATUS.IN_PROGRESS]: 'i-ph-phone-call',
+  [VOICE_CALL_STATUS.NO_ANSWER]: 'i-ph-phone-x',
+  [VOICE_CALL_STATUS.FAILED]: 'i-ph-phone-x',
+};
+
+const COLOR_MAP = {
+  [VOICE_CALL_STATUS.IN_PROGRESS]: 'text-n-teal-9',
+  [VOICE_CALL_STATUS.RINGING]: 'text-n-teal-9',
+  [VOICE_CALL_STATUS.COMPLETED]: 'text-n-slate-11',
+  [VOICE_CALL_STATUS.NO_ANSWER]: 'text-n-ruby-9',
+  [VOICE_CALL_STATUS.FAILED]: 'text-n-ruby-9',
+};
+
 const isOutbound = computed(
   () => props.direction === VOICE_CALL_DIRECTION.OUTBOUND
 );
 const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(props.status)
 );
-
-const LABEL_KEYS = {
-  [VOICE_CALL_STATUS.IN_PROGRESS]: 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS',
-  [VOICE_CALL_STATUS.COMPLETED]: 'CONVERSATION.VOICE_CALL.CALL_ENDED',
-};
 
 const labelKey = computed(() => {
   if (LABEL_KEYS[props.status]) return LABEL_KEYS[props.status];
@@ -36,24 +50,10 @@ const labelKey = computed(() => {
     : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
 });
 
-const ICON_MAP = {
-  [VOICE_CALL_STATUS.IN_PROGRESS]: 'i-ph-phone-call',
-  [VOICE_CALL_STATUS.NO_ANSWER]: 'i-ph-phone-x',
-  [VOICE_CALL_STATUS.FAILED]: 'i-ph-phone-x',
-};
-
 const iconName = computed(() => {
   if (ICON_MAP[props.status]) return ICON_MAP[props.status];
   return isOutbound.value ? 'i-ph-phone-outgoing' : 'i-ph-phone-incoming';
 });
-
-const COLOR_MAP = {
-  [VOICE_CALL_STATUS.IN_PROGRESS]: 'text-n-teal-9',
-  [VOICE_CALL_STATUS.RINGING]: 'text-n-teal-9',
-  [VOICE_CALL_STATUS.COMPLETED]: 'text-n-slate-11',
-  [VOICE_CALL_STATUS.NO_ANSWER]: 'text-n-ruby-9',
-  [VOICE_CALL_STATUS.FAILED]: 'text-n-ruby-9',
-};
 
 const statusColor = computed(
   () => COLOR_MAP[props.status] || 'text-n-slate-11'
