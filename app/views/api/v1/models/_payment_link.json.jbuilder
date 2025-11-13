@@ -1,13 +1,11 @@
 json.id resource.id
-json.payment_id resource.payment_id
+json.external_payment_id resource.external_payment_id
 json.payment_url resource.payment_url
-json.track_id resource.track_id
+json.provider resource.provider
 json.amount resource.amount
 json.currency resource.currency
 json.status resource.status
 json.paid_at resource.paid_at
-json.expires_at resource.expires_at
-json.customer_data resource.customer_data
 json.created_at resource.created_at
 json.updated_at resource.updated_at
 

@@ -12,10 +12,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    currentChat: {
-      type: Object,
-      default: () => ({}),
-    },
     isSubmitting: {
       type: Boolean,
       default: false,
@@ -29,9 +25,6 @@ export default {
     return {
       amount: '',
       currency: 'KWD',
-      customerName: '',
-      customerEmail: '',
-      customerPhone: '',
       currencies: [
         { value: 'KWD', label: 'KWD - Kuwaiti Dinar' },
         { value: 'USD', label: 'USD - US Dollar' },
@@ -69,41 +62,8 @@ export default {
         !this.v$.currency.$error
       );
     },
-    contactInfo() {
-      if (!this.currentChat?.meta?.sender) {
-        return { name: '', email: '', phone: '' };
-      }
-
-      const sender = this.currentChat.meta.sender;
-      return {
-        name: sender.name || '',
-        email: sender.email || '',
-        phone: sender.phone_number || '',
-      };
-    },
-  },
-  watch: {
-    show(newVal) {
-      if (newVal) {
-        this.prefillCustomerInfo();
-      }
-    },
-    currentChat: {
-      handler(newVal) {
-        if (newVal?.meta?.sender && this.show) {
-          this.prefillCustomerInfo();
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
   },
   methods: {
-    prefillCustomerInfo() {
-      this.customerName = this.contactInfo.name;
-      this.customerEmail = this.contactInfo.email;
-      this.customerPhone = this.contactInfo.phone;
-    },
     onCancel() {
       this.resetForm();
       this.$emit('cancel');
@@ -117,11 +77,6 @@ export default {
       const paymentData = {
         amount: parseFloat(this.amount),
         currency: this.currency,
-        customer: {
-          name: this.customerName,
-          email: this.customerEmail,
-          phone: this.customerPhone,
-        },
       };
 
       this.$emit('submit', paymentData);
@@ -129,9 +84,6 @@ export default {
     resetForm() {
       this.amount = '';
       this.currency = 'KWD';
-      this.customerName = '';
-      this.customerEmail = '';
-      this.customerPhone = '';
       this.v$.$reset();
     },
   },
@@ -184,48 +136,6 @@ export default {
               <span v-if="v$.currency.$error" class="message">
                 {{ $t('PAYMENT_LINK.FORM.CURRENCY.ERROR') }}
               </span>
-            </label>
-          </div>
-        </div>
-        <!-- Customer Information Section -->
-        <div class="w-full mt-6">
-          <h4 class="text-sm font-medium text-n-slate-12 mb-3">
-            {{ $t('PAYMENT_LINK.FORM.CUSTOMER_INFO') }}
-          </h4>
-
-          <!-- Customer Name -->
-          <div class="w-full mt-3">
-            <label>
-              {{ $t('PAYMENT_LINK.FORM.NAME') }}
-              <input
-                v-model="customerName"
-                type="text"
-                :placeholder="$t('PAYMENT_LINK.FORM.NAME')"
-              />
-            </label>
-          </div>
-
-          <!-- Customer Email -->
-          <div class="w-full mt-3">
-            <label>
-              {{ $t('PAYMENT_LINK.FORM.EMAIL') }}
-              <input
-                v-model="customerEmail"
-                type="email"
-                :placeholder="$t('PAYMENT_LINK.FORM.EMAIL')"
-              />
-            </label>
-          </div>
-
-          <!-- Customer Phone -->
-          <div class="w-full mt-3">
-            <label>
-              {{ $t('PAYMENT_LINK.FORM.PHONE') }}
-              <input
-                v-model="customerPhone"
-                type="tel"
-                :placeholder="$t('PAYMENT_LINK.FORM.PHONE')"
-              />
             </label>
           </div>
         </div>

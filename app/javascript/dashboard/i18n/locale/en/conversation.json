@@ -481,7 +481,9 @@
       "CONVERSATION": "Conversation",
       "ACTIONS": "Actions",
       "COPY_URL": "Copy payment URL",
-      "VIEW_PAYMENT": "View payment page"
+      "VIEW_PAYMENT": "View payment page",
+      "NO_RESULTS_SEARCH": "No payment links found matching your search",
+      "NO_RESULTS_FILTER": "No payment links found matching your filters"
     },
     "FILTERS": {
       "STATUS": "Status",
@@ -520,6 +522,35 @@
       "FAILED": "Failed",
       "EXPIRED": "Expired",
       "CANCELLED": "Cancelled"
+    }
+  },
+  "PAYMENT_LINKS_LAYOUT": {
+    "HEADER": {
+      "SEARCH_PLACEHOLDER": "Search payment links by ID, contact, or amount",
+      "ACTIONS": {
+        "SORT_BY": {
+          "LABEL": "Sort by",
+          "OPTIONS": {
+            "CREATED_AT": "Created Date",
+            "AMOUNT": "Amount",
+            "STATUS": "Status",
+            "CONTACT_NAME": "Contact Name"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Order",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "EXPORT": "Export",
+        "EXPORT_SUCCESS": "Payment links exported successfully",
+        "EXPORT_ERROR": "Failed to export payment links"
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {from} - {to} of {count} payment links"
     }
   }
 }

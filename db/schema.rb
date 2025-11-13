@@ -915,9 +915,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
     t.bigint "account_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "allow_auto_assign", default: false
     t.index ["account_id"], name: "index_labels_on_account_id"
-    t.index ["allow_auto_assign"], name: "index_labels_on_allow_auto_assign"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
@@ -1056,26 +1054,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
   create_table "payment_links", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
-    t.bigint "message_id", null: false
+    t.bigint "message_id"
     t.bigint "contact_id", null: false
     t.bigint "created_by_id", null: false
-    t.string "payment_id", null: false
-    t.string "payment_url", null: false
-    t.string "track_id", null: false
+    t.string "external_payment_id"
+    t.string "payment_url"
+    t.string "provider", null: false
     t.decimal "amount", precision: 10, scale: 2, null: false
-    t.string "currency", default: "KWD", null: false
+    t.string "currency", null: false
     t.integer "status", default: 0, null: false
-    t.datetime "paid_at"
-    t.datetime "expires_at"
-    t.jsonb "customer_data", default: {}
+    t.jsonb "payload", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_payment_links_on_account_id"
     t.index ["contact_id"], name: "index_payment_links_on_contact_id"
     t.index ["conversation_id"], name: "index_payment_links_on_conversation_id"
     t.index ["created_by_id"], name: "index_payment_links_on_created_by_id"
-    t.index ["message_id"], name: "index_payment_links_on_message_id", unique: true
-    t.index ["payment_id"], name: "index_payment_links_on_payment_id", unique: true
+    t.index ["external_payment_id"], name: "index_payment_links_on_external_payment_id", unique: true
+    t.index ["message_id"], name: "index_payment_links_on_message_id"
+    t.index ["provider"], name: "index_payment_links_on_provider"
     t.index ["status"], name: "index_payment_links_on_status"
   end
 

@@ -50,58 +50,18 @@ const getters = {
 const actions = {
   async fetch(
     { commit, rootGetters, state: storeState },
-    { page, filters } = {}
+    { page, filters, sort = '', order = '' } = {}
   ) {
     commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: true });
     try {
       const accountId = rootGetters.getCurrentAccountId;
       const filterParams = filters || storeState.filters;
-      const response = await PaymentLinksAPI.get(accountId, page, filterParams);
-      const { payload: paymentLinks = [], meta = {} } = response.data;
-      const { count: totalEntries, current_page: currentPage } = meta;
-
-      commit(types.default.SET_PAYMENT_LINKS, paymentLinks);
-      commit(types.default.SET_PAYMENT_LINKS_META, {
-        totalEntries,
-        perPage: 15,
-        currentPage,
-      });
-      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
-      return paymentLinks;
-    } catch (error) {
-      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
-      return throwErrorMessage(error);
-    }
-  },
-  async search({ commit, rootGetters }, { page, search }) {
-    commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: true });
-    try {
-      const accountId = rootGetters.getCurrentAccountId;
-      const response = await PaymentLinksAPI.search(accountId, search, page);
-      const { payload: paymentLinks = [], meta = {} } = response.data;
-      const { count: totalEntries, current_page: currentPage } = meta;
-
-      commit(types.default.SET_PAYMENT_LINKS, paymentLinks);
-      commit(types.default.SET_PAYMENT_LINKS_META, {
-        totalEntries,
-        perPage: 15,
-        currentPage,
-      });
-      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
-      return paymentLinks;
-    } catch (error) {
-      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
-      return throwErrorMessage(error);
-    }
-  },
-  async filter({ commit, rootGetters }, { page, queryPayload }) {
-    commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: true });
-    try {
-      const accountId = rootGetters.getCurrentAccountId;
-      const response = await PaymentLinksAPI.filter(
+      const response = await PaymentLinksAPI.get(
         accountId,
-        queryPayload,
-        page
+        page,
+        filterParams,
+        sort,
+        order
       );
       const { payload: paymentLinks = [], meta = {} } = response.data;
       const { count: totalEntries, current_page: currentPage } = meta;
@@ -116,6 +76,75 @@ const actions = {
       return paymentLinks;
     } catch (error) {
       commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
+      return throwErrorMessage(error);
+    }
+  },
+  async search(
+    { commit, rootGetters },
+    { page, search, sort = '', order = '' }
+  ) {
+    commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: true });
+    try {
+      const accountId = rootGetters.getCurrentAccountId;
+      const response = await PaymentLinksAPI.search(
+        accountId,
+        search,
+        page,
+        sort,
+        order
+      );
+      const { payload: paymentLinks = [], meta = {} } = response.data;
+      const { count: totalEntries, current_page: currentPage } = meta;
+
+      commit(types.default.SET_PAYMENT_LINKS, paymentLinks);
+      commit(types.default.SET_PAYMENT_LINKS_META, {
+        totalEntries,
+        perPage: 15,
+        currentPage,
+      });
+      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
+      return paymentLinks;
+    } catch (error) {
+      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
+      return throwErrorMessage(error);
+    }
+  },
+  async filter(
+    { commit, rootGetters },
+    { page, queryPayload, sort = '', order = '' }
+  ) {
+    commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: true });
+    try {
+      const accountId = rootGetters.getCurrentAccountId;
+      const response = await PaymentLinksAPI.filter(
+        accountId,
+        queryPayload,
+        page,
+        sort,
+        order
+      );
+      const { payload: paymentLinks = [], meta = {} } = response.data;
+      const { count: totalEntries, current_page: currentPage } = meta;
+
+      commit(types.default.SET_PAYMENT_LINKS, paymentLinks);
+      commit(types.default.SET_PAYMENT_LINKS_META, {
+        totalEntries,
+        perPage: 15,
+        currentPage,
+      });
+      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
+      return paymentLinks;
+    } catch (error) {
+      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
+      return throwErrorMessage(error);
+    }
+  },
+  async export() {
+    try {
+      // This is a placeholder - implement actual export API call when backend is ready
+      // TODO: Use accountId from rootGetters when implementing
+      throw new Error('Export functionality not yet implemented');
+    } catch (error) {
       return throwErrorMessage(error);
     }
   },

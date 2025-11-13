@@ -1,17 +1,19 @@
 class Api::V1::Accounts::Conversations::PaymentLinksController < Api::V1::Accounts::Conversations::BaseController
   def create
-    payment_link_data = generate_payment_link
-    send_payment_link_message(payment_link_data)
+    payment_link = PaymentLinks::CreateService.new(
+      conversation: @conversation,
+      user: Current.user,
+      amount: permitted_params[:amount],
+      currency: permitted_params[:currency]
+    ).perform
 
     render json: {
       success: true,
       data: {
-        payment_url: payment_link_data[:payment_url],
-        payment_id: payment_link_data[:payment_id],
-        direct_url: payment_link_data[:direct_url],
-        gateway_url: payment_link_data[:gateway_url],
-        amount: permitted_params[:amount],
-        currency: permitted_params[:currency]
+        payment_url: payment_link.payment_url,
+        external_payment_id: payment_link.external_payment_id,
+        amount: payment_link.amount,
+        currency: payment_link.currency
       }
     }, status: :created
   rescue StandardError => e
@@ -22,88 +24,7 @@ class Api::V1::Accounts::Conversations::PaymentLinksController < Api::V1::Accoun
 
   private
 
-  def generate_payment_link
-    service = Payzah::CreatePaymentLinkService.new(
-      trackid: generate_track_id,
-      amount: permitted_params[:amount],
-      currency: permitted_params[:currency],
-      customer: customer_data,
-      account: Current.account
-    )
-
-    service.perform
-  end
-
-  def send_payment_link_message(payment_link_data)
-    contact = @conversation.contact
-
-    message_params = {
-      content: format_payment_link_message(payment_link_data),
-      message_type: :outgoing,
-      content_type: :payment_link,
-      private: false,
-      content_attributes: {
-        data: {
-          payment_id: payment_link_data[:payment_id],
-          payment_url: payment_link_data[:payment_url],
-          amount: permitted_params[:amount],
-          currency: permitted_params[:currency],
-          status: 'pending',
-          contact_id: contact&.id,
-          contact_name: contact&.name,
-          customer_data: customer_data
-        }
-      }
-    }
-
-    message = Messages::MessageBuilder.new(Current.user, @conversation, message_params).perform
-
-    # Create PaymentLink record
-    create_payment_link_record(message, payment_link_data, contact)
-
-    message
-  end
-
-  def create_payment_link_record(message, payment_link_data, contact)
-    PaymentLink.create!(
-      account: Current.account,
-      conversation: @conversation,
-      message: message,
-      contact: contact,
-      created_by: Current.user,
-      payment_id: payment_link_data[:payment_id],
-      payment_url: payment_link_data[:payment_url],
-      track_id: generate_track_id,
-      amount: permitted_params[:amount],
-      currency: permitted_params[:currency],
-      status: :pending,
-      customer_data: customer_data
-    )
-  end
-
-  def format_payment_link_message(payment_link_data)
-    <<~MESSAGE
-      Amount: #{permitted_params[:amount]} #{permitted_params[:currency]}
-
-      Click here to pay: #{payment_link_data[:payment_url]}
-    MESSAGE
-  end
-
-  def generate_track_id
-    @conversation.display_id
-  end
-
-  def customer_data
-    contact = @conversation.contact
-
-    {
-      name: permitted_params.dig(:customer, :name).presence || contact&.name,
-      email: permitted_params.dig(:customer, :email).presence || contact&.email,
-      phone: permitted_params.dig(:customer, :phone).presence || contact&.phone_number
-    }.compact
-  end
-
   def permitted_params
-    params.permit(:amount, :currency, customer: [:name, :email, :phone])
+    params.permit(:amount, :currency)
   end
 end

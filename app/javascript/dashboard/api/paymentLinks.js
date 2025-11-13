@@ -7,7 +7,7 @@ const create = (accountId, conversationId, paymentData) => {
   );
 };
 
-const get = (accountId, page = 1, filters = {}) => {
+const get = (accountId, page = 1, filters = {}, sort = '', order = '') => {
   const params = new URLSearchParams({ page: page.toString() });
 
   if (filters.status && filters.status !== 'all') {
@@ -31,26 +31,39 @@ const get = (accountId, page = 1, filters = {}) => {
   if (filters.amountMax) {
     params.append('amount_max', filters.amountMax);
   }
+  if (sort) {
+    params.append('sort', `${order}${sort}`);
+  }
 
   return axios.get(
     `/api/v1/accounts/${accountId}/payment_links?${params.toString()}`
   );
 };
 
-const search = (accountId, searchQuery, page = 1) => {
+const search = (accountId, searchQuery, page = 1, sort = '', order = '') => {
   const params = new URLSearchParams({
     page: page.toString(),
     q: searchQuery,
   });
+
+  if (sort) {
+    params.append('sort', `${order}${sort}`);
+  }
 
   return axios.get(
     `/api/v1/accounts/${accountId}/payment_links/search?${params.toString()}`
   );
 };
 
-const filter = (accountId, queryPayload, page = 1) => {
+const filter = (accountId, queryPayload, page = 1, sort = '', order = '') => {
+  const params = new URLSearchParams({ page: page.toString() });
+
+  if (sort) {
+    params.append('sort', `${order}${sort}`);
+  }
+
   return axios.post(
-    `/api/v1/accounts/${accountId}/payment_links/filter?page=${page}`,
+    `/api/v1/accounts/${accountId}/payment_links/filter?${params.toString()}`,
     queryPayload
   );
 };
