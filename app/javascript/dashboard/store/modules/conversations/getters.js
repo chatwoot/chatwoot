@@ -74,19 +74,11 @@ const getters = {
   },
   getMineChats: (_state, _, __, rootGetters) => activeFilters => {
     const currentUserID = rootGetters.getCurrentUser?.id;
-    const currentAccountId = rootGetters.getCurrentAccountId;
-    const getAccount = rootGetters['accounts/getAccount'];
-    const currentAccount = getAccount ? getAccount(currentAccountId) : {};
-    const queueEnabled = currentAccount?.queue_enabled || false;
 
     return _state.allConversations.filter(conversation => {
       const { assignee } = conversation.meta;
       const isAssignedToMe = assignee && assignee.id === currentUserID;
-      const shouldFilter = applyPageFilters(
-        conversation,
-        activeFilters,
-        queueEnabled
-      );
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
       const isChatMine = isAssignedToMe && shouldFilter;
 
       return isChatMine;
@@ -103,41 +95,23 @@ const getters = {
     const hasAppliedFilters = _state.appliedFilters.length !== 0;
     return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
   },
-  getUnAssignedChats:
-    (_state, _, __, rootGetters = {}) =>
-    activeFilters => {
-      const currentAccountId = rootGetters.getCurrentAccountId || null;
-      const getAccount = rootGetters['accounts/getAccount'] || (() => ({}));
-      const currentAccount = getAccount ? getAccount(currentAccountId) : {};
-      const queueEnabled = currentAccount?.queue_enabled || false;
-
-      return _state.allConversations.filter(conversation => {
-        const isUnAssigned = !conversation.meta?.assignee;
-        const shouldFilter = applyPageFilters(
-          conversation,
-          activeFilters,
-          queueEnabled
-        );
-        return isUnAssigned && shouldFilter;
-      });
-    },
+  getUnAssignedChats: _state => activeFilters => {
+    return _state.allConversations.filter(conversation => {
+      const isUnAssigned = !conversation.meta.assignee;
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      return isUnAssigned && shouldFilter;
+    });
+  },
   getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
     const currentUser = rootGetters.getCurrentUser;
     const currentUserId = rootGetters.getCurrentUser.id;
     const currentAccountId = rootGetters.getCurrentAccountId;
-    const getAccount = rootGetters['accounts/getAccount'];
-    const currentAccount = getAccount ? getAccount(currentAccountId) : {};
-    const queueEnabled = currentAccount?.queue_enabled || false;
 
     const permissions = getUserPermissions(currentUser, currentAccountId);
     const userRole = getUserRole(currentUser, currentAccountId);
 
     return _state.allConversations.filter(conversation => {
-      const shouldFilter = applyPageFilters(
-        conversation,
-        activeFilters,
-        queueEnabled
-      );
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
       const allowedForRole = applyRoleFilter(
         conversation,
         userRole,
