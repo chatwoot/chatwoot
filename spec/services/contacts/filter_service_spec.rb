@@ -136,7 +136,6 @@ describe Contacts::FilterService do
         params = { payload: [{ attribute_key: 'blocked', filter_operator: 'equal_to', values: [false],
                                query_operator: nil }.with_indifferent_access] }
         result = filter_service.new(account, first_user, params).perform
-        # existing contacts are not blocked
         expect(result[:count]).to be 3
       end
     end
@@ -371,8 +370,6 @@ describe Contacts::FilterService do
       end
 
       it 'handles custom attribute in the middle of conditions without raising error' do
-        # Test case 2: custom attribute in the middle of conditions
-        # Using existing contacts that already have customer_type: 'platinum'
         params[:payload] = [
           {
             attribute_key: 'name',
@@ -394,12 +391,9 @@ describe Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        # This should not raise an error even with custom attribute in the middle
         expect { filter_service.new(account, first_user, params).perform }.not_to raise_error
 
         result = filter_service.new(account, first_user, params).perform
-        # Should return contacts that match: name=el_contact.name AND customer_type=platinum AND email contains '@'
-        # From existing data: el_contact has customer_type: 'platinum'
         expect(result[:contacts].length).to eq 1
         expect(result[:contacts].first.id).to eq(el_contact.id)
       end
@@ -415,7 +409,6 @@ describe Contacts::FilterService do
         ]
 
         result = filter_service.new(account, first_user, params).perform
-        # Should return contacts that do NOT contain 'test' in name
         expect(result[:contacts].length).to be >= 0
       end
 
@@ -429,7 +422,6 @@ describe Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        # This should not raise an error with is_present operator (which allows empty values)
         expect { filter_service.new(account, first_user, params).perform }.not_to raise_error
 
         result = filter_service.new(account, first_user, params).perform
@@ -446,7 +438,6 @@ describe Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        # This should not raise an error with valid operator
         expect { filter_service.new(account, first_user, params).perform }.not_to raise_error
 
         result = filter_service.new(account, first_user, params).perform

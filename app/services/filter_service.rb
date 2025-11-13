@@ -155,9 +155,9 @@ class FilterService
     table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
     query = if attribute_data_type == 'text'
-              " ( LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} "
+              "(LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} "
             else
-              " ( (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value}  "
+              "((#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} "
             end
 
     query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type) + " #{query_operator} "
