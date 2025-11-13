@@ -44,6 +44,9 @@ export default function useAutomationValues() {
       pending: {
         TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
       },
+      queued: {
+        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.queued.TEXT'),
+      },
       snoozed: {
         TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
       },
