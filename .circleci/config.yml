@@ -125,14 +125,21 @@ jobs:
 
       - run:
           name: Run frontend tests (with coverage)
+          command: pnpm run test:coverage
+
+      - run:
+          name: Move coverage files if they exist
           command: |
-            mkdir -p ~/build/coverage/frontend
-            pnpm run test:coverage
+            if [ -d "coverage" ]; then
+              mkdir -p ~/build/coverage
+              cp -r coverage ~/build/coverage/frontend || true
+            fi
+          when: always
 
       - persist_to_workspace:
           root: ~/build
           paths:
-            - coverage/frontend
+            - coverage
 
   # Backend tests with parallelization
   backend-tests:
@@ -251,10 +258,18 @@ jobs:
       - store_test_results:
           path: ~/tmp/test-results
 
+      - run:
+          name: Move coverage files if they exist
+          command: |
+            if [ -d "~/build/coverage" ]; then
+              mkdir -p ~/build/coverage/backend || true
+            fi
+          when: always
+
       - persist_to_workspace:
           root: ~/build
           paths:
-            - coverage/backend
+            - coverage
 
   # Collect coverage from all jobs
   coverage:
