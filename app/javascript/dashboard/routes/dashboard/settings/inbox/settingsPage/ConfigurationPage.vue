@@ -77,7 +77,11 @@ export default {
     },
     async fetchLandingPageUrl() {
       // Only fetch if it's a web widget and auto-generate is enabled
-      if (!this.isAWebWidgetInbox || this.landingPageUrl) {
+      if (
+        !this.isAWebWidgetInbox ||
+        !this.autoGenerateLandingPage ||
+        this.landingPageUrl
+      ) {
         return;
       }
 
@@ -86,24 +90,24 @@ export default {
 
       try {
         // Sleep de 10 segundos
-        for (let index = 0; index < 5; index++) {
+        let index = 1;
+        let inbox;
+
+        while (index <= 5) {
           // Race between the store dispatch and timeout
           this.$store.dispatch('inboxes/fetchInbox', this.inbox.id);
-          const inbox = this.$store.getters['inboxes/getInbox'](this.inbox?.id);
+          inbox = this.$store.getters['inboxes/getInbox'](this.inbox?.id);
 
-          if (inbox?.landing_page_url) {
-            this.landingPageUrlhelper = inbox.landing_page_url;
-            break;
-          }
+          if (inbox?.landing_page_url) break;
 
           await new Promise(resolve => setTimeout(resolve, 10000));
+
+          index += 1;
         }
 
-        throw new Error();
+        if (!inbox?.landing_page_url) throw new Error();
       } catch (error) {
-        if (error.message !== 'Timeout') {
-          this.landingPageError = true;
-        }
+        this.landingPageError = true;
       }
     },
     handleHmacFlag() {
@@ -240,9 +244,30 @@ export default {
     <div class="mx-8">
       <!-- Loading state for landing page -->
       <SettingsSection
-        v-if="!landingPageUrl"
+        v-if="autoGenerateLandingPage && landingPageError"
         :title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.LABEL')"
-        :sub-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.HELP_TEXT')"
+        :sub-title="
+          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.HELP_TEXT')
+        "
+      >
+        <div class="flex flex-col gap-4 w-full max-w-3xl">
+          <p class="text-sm text-red-600">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.ERROR_MESSAGE'
+              )
+            }}
+          </p>
+        </div>
+      </SettingsSection>
+
+      <!-- Loading state for landing page -->
+      <SettingsSection
+        v-else-if="autoGenerateLandingPage && !landingPageUrl"
+        :title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.LABEL')"
+        :sub-title="
+          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.HELP_TEXT')
+        "
       >
         <div class="flex flex-col gap-4 w-full max-w-3xl">
           <div class="h-16 bg-n-slate-3 rounded animate-pulse" />
@@ -252,9 +277,11 @@ export default {
 
       <!-- Loaded state with landing page URL -->
       <SettingsSection
-        v-else-if="autoGenerateLandingPage && !isLoadingLandingPage && landingPageUrl"
+        v-else-if="autoGenerateLandingPage && landingPageUrl"
         :title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.LABEL')"
-        :sub-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.HELP_TEXT')"
+        :sub-title="
+          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.HELP_TEXT')
+        "
       >
         <div class="flex flex-col gap-4 w-full max-w-3xl">
           <woot-code :script="landingPageUrl" class="text-xs" />
@@ -264,7 +291,11 @@ export default {
             rel="noopener noreferrer"
             class="text-sm text-blue-600 hover:text-blue-800 underline flex items-center gap-1 w-fit"
           >
-            <span>{{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.OPEN_LINK') }}</span>
+            <span>
+              {{
+                $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LANDING_PAGE_URL.OPEN_LINK')
+              }}
+            </span>
             <fluent-icon icon="open" size="12" class="inline-block" />
           </a>
         </div>

@@ -107,7 +107,8 @@
         "LANDING_PAGE_URL": {
           "LABEL": "Landing Page URL",
           "OPEN_LINK": "Open Landing Page",
-          "HELP_TEXT": "This is your auto-generated landing page. Share this URL with your customers to showcase your business and services."
+          "HELP_TEXT": "This is your auto-generated landing page. Share this URL with your customers to showcase your business and services.",
+          "ERROR_MESSAGE": "Unable to generate landing page URL. Please try refreshing the page or contact support if the problem persists."
         },
         "REPLY_TIME": {
           "TITLE": "Set Reply time",

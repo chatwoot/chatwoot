@@ -27,7 +27,7 @@ class LandingPage::RequestLandingPageService
       landing_page_endpoint,
       body: request_payload.to_json,
       headers: { 'Content-Type' => 'application/json' },
-      timeout: 60
+      timeout: request_timeout
     )
 
     handle_response(response)
@@ -64,5 +64,9 @@ class LandingPage::RequestLandingPageService
 
   def landing_page_endpoint
     ENV.fetch('LANDING_PAGE_GENERATION_ENDPOINT', nil)
+  end
+
+  def request_timeout
+    ENV.fetch('LANDING_PAGE_GENERATION_TIMEOUT', 60).to_i
   end
 end

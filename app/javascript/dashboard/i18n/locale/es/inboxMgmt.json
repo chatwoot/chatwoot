@@ -107,7 +107,8 @@
         "LANDING_PAGE_URL": {
           "LABEL": "URL de la Página de Destino",
           "OPEN_LINK": "Abrir Página de Destino",
-          "HELP_TEXT": "Esta es tu página de destino generada automáticamente. Comparte esta URL con tus clientes para mostrar tu negocio y servicios."
+          "HELP_TEXT": "Esta es tu página de destino generada automáticamente. Comparte esta URL con tus clientes para mostrar tu negocio y servicios.",
+          "ERROR_MESSAGE": "No se pudo generar la URL de la página de destino. Por favor, intente actualizar la página o contacte al soporte si el problema persiste."
         },
         "REPLY_TIME": {
           "TITLE": "Establecer tiempo de respuesta",
