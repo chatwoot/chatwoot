@@ -246,6 +246,7 @@ export default {
       canScrollRight: false,
       productClicked: [],
       currentIndex: 0,
+      updateCartTimer: null,
     };
   },
   computed: {
@@ -256,9 +257,21 @@ export default {
   watch: {
     // Watch selectedProducts for changes
     selectedProducts: {
-      handler(newProducts) {
-        // Send update to Shopify cart whenever selectedProducts changes
-        this.updateShopifyCart(newProducts);
+      handler(newProducts, oldProducts) {
+        // eslint-disable-next-line no-console
+        if (JSON.stringify(newProducts) === JSON.stringify(oldProducts)) {
+          return;
+        }
+
+        // Clear previous timer
+        if (this.updateCartTimer) {
+          clearTimeout(this.updateCartTimer);
+        }
+
+        // Send update to Shopify cart after 1 second delay
+        this.updateCartTimer = setTimeout(() => {
+          this.updateShopifyCart(newProducts);
+        }, 1000);
       },
       deep: true, // Watch for changes in nested properties
       immediate: false, // Don't trigger on initial mount
@@ -277,6 +290,10 @@ export default {
     this.$refs.carousel.removeEventListener('scroll', this.checkScrollButtons);
     // Remove cart update listener
     emitter.off('SHOPIFY_CART_UPDATED', this.handleCartUpdate);
+    // Clear pending cart update timer
+    if (this.updateCartTimer) {
+      clearTimeout(this.updateCartTimer);
+    }
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
@@ -327,31 +344,23 @@ export default {
         return;
       }
 
-      if (newProducts.length > 0) {
-        window.parent.postMessage(
-          {
-            type: 'UPDATE_CART_ATTRIBUTES',
-            attributes: {
-              bitespeed_live_chat_user: `live_chat_${uuid}`,
-              bitespeed_cart_products: newProducts,
-              bitespeed_product_clicked: productClicked,
-            },
+      window.parent.postMessage(
+        {
+          type: 'UPDATE_CART_ATTRIBUTES',
+          attributes: {
+            bitespeed_live_chat_user: `live_chat_${uuid}`,
+            bitespeed_cart_products: newProducts,
+            bitespeed_product_clicked: productClicked,
           },
-          '*'
-        );
-      }
+        },
+        '*'
+      );
     },
     async increaseQuantity(productId, event) {
       event.stopPropagation();
       const product = this.selectedProducts.find(
         selectedProduct => selectedProduct.id === productId
       );
-      await fetch(`https://${product.shopUrl}/cart.js`)
-        .then(res => res.json())
-        .catch(() => {});
-      await fetch(`https://${product.shopUrl}/cart.js`)
-        .then(res => res.json())
-        .catch(() => {});
       const productQuantity = product.quantity;
       this.updateSelectedProducts(
         product.id,
@@ -385,8 +394,6 @@ export default {
     },
     onBuyNow(item, event) {
       event.stopPropagation();
-      // eslint-disable-next-line no-console
-      console.log('itemDetails', item, event);
       const selectedProduct = [
         {
           id: item.variant_id,
@@ -400,7 +407,6 @@ export default {
       this.openCheckoutPage(selectedProduct);
     },
     decreaseQuantity(productId, event) {
-      event.stopPropagation();
       event.stopPropagation();
       const product = this.selectedProducts.find(
         selectedProduct => selectedProduct.id === productId
@@ -424,10 +430,6 @@ export default {
         selectedProduct => selectedProduct.id === productId
       );
       return product ? +product.quantity : 0;
-    },
-    onAddToCart(item) {
-      // eslint-disable-next-line no-alert
-      alert(`Added ${item.title} to cart.`);
     },
     askMoreAboutProduct(productData) {
       emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, {

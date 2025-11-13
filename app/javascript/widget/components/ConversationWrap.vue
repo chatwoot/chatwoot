@@ -212,16 +212,21 @@ export default {
             p => p.id !== productId
           );
         } else {
-          existingProduct.quantity = quantity;
+          this.selectedProducts = this.selectedProducts.map(p =>
+            p.id === productId ? { ...p, quantity } : p
+          );
         }
       } else {
-        this.selectedProducts.push({
-          id: productId,
-          quantity,
-          currency,
-          price,
-          shopUrl,
-        });
+        this.selectedProducts = [
+          ...this.selectedProducts,
+          {
+            id: productId,
+            quantity,
+            currency,
+            price,
+            shopUrl,
+          },
+        ];
       }
     },
     setSelectProducts(products) {
