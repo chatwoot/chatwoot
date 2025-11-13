@@ -1349,6 +1349,10 @@
             "type": "string",
             "description": "The url to which the events will be send"
           },
+          "name": {
+            "type": "string",
+            "description": "The name of the webhook"
+          },
           "subscriptions": {
             "type": "array",
             "items": {
@@ -2928,6 +2932,10 @@
             "description": "The url where the events should be sent",
             "example": "https://example.com/webhook"
           },
+          "name": {
+            "type": "string",
+            "description": "The name of the webhook"
+          },
           "subscriptions": {
             "type": "array",
             "items": {
@@ -4432,6 +4440,100 @@
               "$ref": "#/components/schemas/contact_inbox"
             },
             "description": "List of contactable inboxes for the contact"
+          }
+        }
+      },
+      "reporting_event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the reporting event"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the event (e.g., first_response, resolution, reply_time)"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "description": "Value of the metric in seconds"
+          },
+          "value_in_business_hours": {
+            "type": "number",
+            "format": "double",
+            "description": "Value of the metric in seconds, calculated only for business hours"
+          },
+          "event_start_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the event started"
+          },
+          "event_end_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the event ended"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "ID of the account"
+          },
+          "conversation_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the conversation"
+          },
+          "inbox_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the inbox"
+          },
+          "user_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the user/agent"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the reporting event was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the reporting event was last updated"
+          }
+        }
+      },
+      "reporting_event_meta": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of reporting events"
+          },
+          "current_page": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "Total number of pages"
+          }
+        }
+      },
+      "reporting_events_list_response": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/reporting_event_meta"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/reporting_event"
+            },
+            "description": "List of reporting events"
           }
         }
       }
