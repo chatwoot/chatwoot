@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Digitazione conversazione disattiva"
           }
         },
+        "NAME": {
+          "LABEL": "Nome Webhook",
+          "PLACEHOLDER": "Inserisci un nome per il webhook"
+        },
         "END_POINT": {
           "LABEL": "URL del webhook",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
@@ -346,7 +350,7 @@
     "HEADER_KNOW_MORE": "Scopri di più",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistenti",
-      "SWITCH_ASSISTANT": "Switch between assistants",
+      "SWITCH_ASSISTANT": "Cambia assistenti",
       "NEW_ASSISTANT": "Crea Assistente"
     },
     "COPILOT": {
