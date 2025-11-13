@@ -54,8 +54,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ci_node_total: [12]
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        ci_node_total: [16]
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
     services:
       postgres:
@@ -111,14 +111,17 @@ jobs:
 
       - name: Run backend tests (parallelized)
         run: |
-          # Get all spec files and split them across nodes
+          # Get all spec files and split them using round-robin distribution
+          # This ensures slow tests are distributed evenly across all nodes
           SPEC_FILES=($(find spec -name '*_spec.rb' | sort))
-          TOTAL=${#SPEC_FILES[@]}
-          PER_NODE=$(( (TOTAL + ${{ matrix.ci_node_total }} - 1) / ${{ matrix.ci_node_total }} ))
-          START=$(( PER_NODE * ${{ matrix.ci_node_index }} ))
+          TESTS=""
 
-          # Get the slice of specs for this node
-          TESTS="${SPEC_FILES[@]:$START:$PER_NODE}"
+          for i in "${!SPEC_FILES[@]}"; do
+            # Assign spec to this node if: index % total == node_index
+            if [ $(( i % ${{ matrix.ci_node_total }} )) -eq ${{ matrix.ci_node_index }} ]; then
+              TESTS="$TESTS ${SPEC_FILES[$i]}"
+            fi
+          done
 
           if [ -n "$TESTS" ]; then
             bundle exec rspec --profile=10 --format progress --format json --out tmp/rspec_results.json $TESTS
