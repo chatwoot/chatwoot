@@ -294,6 +294,15 @@ jobs:
           path: coverage
           destination: coverage
 
+  # Summary job for GitHub PR status check
+  build:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: All tests passed
+          command: echo "✅ All tests, lints, and coverage checks passed!"
+
 workflows:
   version: 2
   build-and-test:
@@ -305,3 +314,9 @@ workflows:
           requires:
             - frontend-tests
             - backend-tests
+      - build:
+          requires:
+            - lint
+            - frontend-tests
+            - backend-tests
+            - coverage
