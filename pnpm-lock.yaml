@@ -79,6 +79,9 @@ importers:
       '@vuelidate/validators':
         specifier: ^2.0.4
         version: 2.0.4(vue@3.5.12(typescript@5.6.2))
+      '@vuepic/vue-datepicker':
+        specifier: ^8.8.0
+        version: 8.8.1(vue@3.5.12(typescript@5.6.2))
       '@vueuse/components':
         specifier: ^12.0.0
         version: 12.0.0(typescript@5.6.2)
@@ -1429,6 +1432,11 @@ packages:
       '@vue/composition-api':
         optional: true
 
+  '@vuepic/vue-datepicker@8.8.1':
+    resolution: {integrity: sha512-8ehfUz1m69Vuc16Pm4ukgb3Mg1VT14x4EsG1ag4O/qbSNRWztTo+pUV4JnFt0FGLl5gGb6NXlxIvR7EjLgD7Gg==}
+    peerDependencies:
+      vue: '>=3.2.0'
+
   '@vueuse/components@12.0.0':
     resolution: {integrity: sha512-XpOoBXYRuFuUiiq+HsMX6rGzqvcHdKnbT4sbR0FHYxwSGBHO3Zli8pPTZoLRNBGp4CGov7BRCnANEK/1Ch/6tQ==}
 
@@ -1919,6 +1927,9 @@ packages:
   date-fns@2.30.0:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
+
+  date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
 
   date-format-parse@0.2.7:
     resolution: {integrity: sha512-/+lyMUKoRogMuTeOVii6lUwjbVlesN9YRYLzZT/g3TEZ3uD9QnpjResujeEqUW+OSNbT7T1+SYdyEkTcRv+KDQ==}
@@ -5907,6 +5918,11 @@ snapshots:
       vue: 3.5.12(typescript@5.6.2)
       vue-demi: 0.13.11(vue@3.5.12(typescript@5.6.2))
 
+  '@vuepic/vue-datepicker@8.8.1(vue@3.5.12(typescript@5.6.2))':
+    dependencies:
+      date-fns: 3.6.0
+      vue: 3.5.12(typescript@5.6.2)
+
   '@vueuse/components@12.0.0(typescript@5.6.2)':
     dependencies:
       '@vueuse/core': 12.0.0(typescript@5.6.2)
@@ -6469,6 +6485,8 @@ snapshots:
   date-fns@2.30.0:
     dependencies:
       '@babel/runtime': 7.26.7
+
+  date-fns@3.6.0: {}
 
   date-format-parse@0.2.7: {}
 
