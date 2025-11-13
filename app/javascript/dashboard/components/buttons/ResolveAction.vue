@@ -43,6 +43,9 @@ const isResolved = computed(
 const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
 );
+const isQueued = computed(
+  () => currentChat.value.status === wootConstants.STATUS_TYPE.QUEUED
+);
 
 const showAdditionalActions = computed(
   () => !isPending.value && !isSnoozed.value
@@ -134,52 +137,76 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
-    <ButtonGroup
-      class="rounded-lg shadow outline-1 outline flex-shrink-0"
-      :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
-    >
+    <template v-if="isQueued">
       <Button
-        v-if="isOpen"
-        :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
-        size="sm"
-        color="slate"
-        no-animation
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
-        :is-loading="isLoading"
-        @click="onCmdResolveConversation"
-      />
-      <Button
-        v-else-if="isResolved"
-        :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
-        size="sm"
-        color="slate"
-        no-animation
-        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
-        :is-loading="isLoading"
-        @click="onCmdOpenConversation"
-      />
-      <Button
-        v-else-if="showOpenButton"
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
         no-animation
+        class="mr-2"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
       <Button
-        v-if="showAdditionalActions"
-        ref="arrowDownButtonRef"
-        icon="i-lucide-chevron-down"
-        :disabled="isLoading"
+        :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
         size="sm"
-        no-animation
-        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
         color="slate"
-        trailing-icon
-        @click="openDropdown"
+        no-animation
+        class="!outline-0"
+        :is-loading="isLoading"
+        @click="onCmdResolveConversation"
       />
-    </ButtonGroup>
+    </template>
+
+    <template v-else>
+      <ButtonGroup
+        class="rounded-lg shadow outline-1 outline flex-shrink-0"
+        :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
+      >
+        <Button
+          v-if="isOpen"
+          :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+          :is-loading="isLoading"
+          @click="onCmdResolveConversation"
+        />
+        <Button
+          v-else-if="isResolved"
+          :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+          :is-loading="isLoading"
+          @click="onCmdOpenConversation"
+        />
+        <Button
+          v-else-if="showOpenButton"
+          :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          :is-loading="isLoading"
+          @click="onCmdOpenConversation"
+        />
+        <Button
+          v-if="showAdditionalActions"
+          ref="arrowDownButtonRef"
+          icon="i-lucide-chevron-down"
+          :disabled="isLoading"
+          size="sm"
+          no-animation
+          class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
+          color="slate"
+          trailing-icon
+          @click="openDropdown"
+        />
+      </ButtonGroup>
+    </template>
+
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"

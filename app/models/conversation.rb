@@ -70,7 +70,7 @@ class Conversation < ApplicationRecord
   validates :uuid, uniqueness: true
   validate :validate_referer_url
 
-  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
+  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3, queued: 4 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
   scope :unassigned, -> { where(assignee_id: nil) }
@@ -107,6 +107,8 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
+
+  has_one :conversation_queue, dependent: :destroy
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
@@ -116,6 +118,7 @@ class Conversation < ApplicationRecord
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
+  after_update_commit :process_queue_on_assignment_change
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
 
@@ -205,6 +208,13 @@ class Conversation < ApplicationRecord
     notify_conversation_updation
   end
 
+  def process_queue_on_assignment_change
+    return unless account.queue_enabled?
+    return unless saved_change_to_assignee_id? || saved_change_to_status?
+
+    Queue::ProcessQueueJob.perform_later(account.id) if resolved? || assignee_id.blank?
+  end
+
   def handle_resolved_status_change
     # When conversation is resolved, clear waiting_since using update_column to avoid callbacks
     return unless saved_change_to_status? && status == 'resolved'
@@ -212,6 +222,10 @@ class Conversation < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:waiting_since, nil)
     # rubocop:enable Rails/SkipsModelValidations
+
+    return unless conversation_queue&.waiting?
+
+    Queue::QueueService.new(account: account).remove_from_queue(self)
   end
 
   def ensure_snooze_until_reset
