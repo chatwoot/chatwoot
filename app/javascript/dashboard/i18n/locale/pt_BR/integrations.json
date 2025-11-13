@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "URL do Webhook",
           "PLACEHOLDER": "Exemplo: {webhookExampleURL}",
