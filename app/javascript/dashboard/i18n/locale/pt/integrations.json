@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Conversa: a escrever desligada"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "URL do webhook",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
