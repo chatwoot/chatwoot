@@ -55,6 +55,9 @@ module Events::Types
   AGENT_ADDED = 'agent.added'
   AGENT_REMOVED = 'agent.removed'
 
+  # csat events
+  CSAT_SURVEY_RESPONSE_CREATED = 'csat_survey_response.created'
+
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
 end

@@ -23,6 +23,8 @@ class CsatSurveys::ResponseBuilder
     csat_survey_response.rating = rating
     csat_survey_response.feedback_message = feedback_message
     csat_survey_response.save!
+    Rails.configuration.dispatcher.dispatch(Events::Types::CSAT_SURVEY_RESPONSE_CREATED, Time.zone.now,
+                                             csat_survey_response: csat_survey_response, message: message)
     csat_survey_response
   end
 end
