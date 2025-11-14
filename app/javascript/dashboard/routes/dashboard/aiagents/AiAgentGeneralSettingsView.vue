@@ -16,8 +16,10 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import aiAgents from '../../../api/aiAgents';
 import MarkdownIt from 'markdown-it';
+import { useRoute } from 'vue-router';
 
 const md = new MarkdownIt();
+const route = useRoute();
 
 const props = defineProps({
   data: {
@@ -31,6 +33,10 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+
+// Check if debug mode is enabled via URL parameter
+// ?debugmode=true
+const isDebugMode = computed(() => route.query.debugmode === 'true');
 
 // custom agent type
 const isCustomAgent = computed(() => props.botType === 'custom_agent');
@@ -80,6 +86,8 @@ const state = reactive({
   routing_conditions: '',
   has_website: '', // 'yes' or 'no'
   website_url: '',
+  full_prompt: '',
+  temperature: '',
 });
 const rules = {
   name: { required },
@@ -90,6 +98,8 @@ const rules = {
   routing_conditions: {},
   has_website: {},
   website_url: {},
+  full_prompt: {},
+  temperature: {},
 };
 
 const v$ = useVuelidate(rules, state);
@@ -309,7 +319,7 @@ function resetChat() {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
             <label for="name">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME') }}</label>
-            <Input id="name" v-model="state.name" :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME')" />
+            <Input id="name" v-model="state.name" :disabled="isDebugMode" :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME')" />
           </div>
           <!-- <div>
             <label for="description">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_DESC') }}</label>
@@ -327,6 +337,7 @@ function resetChat() {
           <TextArea
             id="instruction"
             v-model="state.instructions"
+            :disabled="isDebugMode"
             custom-text-area-wrapper-class=""
             custom-text-area-class="!outline-none"
             :placeholder="t('AGENT_MGMT.FORM_CREATE.INSTRUCTION_PLACEHOLDER')"
@@ -344,6 +355,7 @@ function resetChat() {
             <TextArea
               :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER')"            id="welcome_message"
               v-model="state.welcoming_message"
+              :disabled="isDebugMode"
               custom-text-area-wrapper-class=""
               custom-text-area-class="!outline-none"
               auto-height
@@ -356,6 +368,7 @@ function resetChat() {
             <TextArea
               id="business_info"
               v-model="state.business_info"
+              :disabled="isDebugMode"
               custom-text-area-wrapper-class=""
               custom-text-area-class="!outline-none"
               auto-height
@@ -371,6 +384,7 @@ function resetChat() {
             <TextArea
               id="routing_conditions"
               v-model="state.routing_conditions"
+              :disabled="isDebugMode"
               custom-text-area-wrapper-class=""
               custom-text-area-class="!outline-none"
               :placeholder="t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION_PLACEHOLDER')"
@@ -379,9 +393,37 @@ function resetChat() {
               max-height="300px"
             />
           </div>
-        </template>
-        
-        <button v-if="!isCustomAgent" class="button self-start" type="submit" :disabled="loadingSave">
+
+          <!-- Debug Mode Fields -->
+          <template v-if="isDebugMode">
+            <hr class="my-4 border-slate-200 dark:border-slate-700" />
+            
+            <div>
+              <label for="full_prompt">Full Prompt</label>
+              <TextArea
+                id="full_prompt"
+                v-model="state.full_prompt"
+                custom-text-area-wrapper-class=""
+                custom-text-area-class="!outline-none"
+                placeholder="Full prompt will be displayed here"
+                auto-height
+                min-height="80px"
+                max-height="300px"
+              />
+            </div>
+
+            <div>
+              <label for="temperature">Temperature</label>
+              <Input
+                id="temperature"
+                v-model="state.temperature"
+                placeholder="AI Agent temperature value"
+              />
+            </div>
+          </template>
+
+          
+        </template>        <button v-if="!isCustomAgent" class="button self-start" type="submit" :disabled="loadingSave">
           <span v-if="loadingSave" class="mt-4 mb-4 spinner" />
           <span v-else>{{ t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}</span>
         </button>
