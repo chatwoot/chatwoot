@@ -32,21 +32,21 @@ export const useLoadWithRetry = (config = {}) => {
       });
     };
 
-    for (let attempt = 0; attempt < maxRetry; attempt += 1) {
+    const retry = async (attempt = 0) => {
       try {
-        // eslint-disable-next-line no-await-in-loop
         await attemptLoad();
-        return;
       } catch (error) {
         if (attempt + 1 >= maxRetry) {
           hasError.value = true;
           isLoaded.value = false;
           return;
         }
-        // eslint-disable-next-line no-await-in-loop
         await sleep(backoff * (attempt + 1));
+        await retry(attempt + 1);
       }
-    }
+    };
+
+    await retry();
   };
 
   return {
