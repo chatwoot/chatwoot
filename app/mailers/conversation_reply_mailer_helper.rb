@@ -110,4 +110,4 @@ module ConversationReplyMailerHelper
     email = @inbox.channel.try(:email)
     email.present? ? email.split('@').last : raise(StandardError, 'Channel email domain not present.')
   end
-end # rubocop:enable Metrics/ModuleLength
+end
