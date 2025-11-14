@@ -27,7 +27,7 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
   end
 
   def fetch_audio_file
-    temp_dir = Rails.root.join('tmp/uploads', 'audio-transcriptions')
+    temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
     FileUtils.mkdir_p(temp_dir)
     temp_file_path = File.join(temp_dir, "#{attachment.file.blob.key}-#{attachment.file.filename}")
 

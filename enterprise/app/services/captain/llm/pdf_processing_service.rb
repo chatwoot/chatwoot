@@ -29,12 +29,16 @@ class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
     end
   end
 
-  def with_tempfile(&)
+  def with_tempfile
     Tempfile.create(['pdf_upload', '.pdf'], binmode: true) do |temp_file|
-      temp_file.write(document.pdf_file.download)
-      temp_file.close
+      document.pdf_file.blob.download do |chunk|
+        temp_file.write(chunk)
+      end
 
-      File.open(temp_file.path, 'rb', &)
+      temp_file.flush
+      temp_file.rewind
+
+      yield temp_file
     end
   end
 end
