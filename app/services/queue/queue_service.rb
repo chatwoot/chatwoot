@@ -27,7 +27,7 @@ class Queue::QueueService
   def assign_from_queue(agent)
     return nil unless account.queue_enabled?
 
-    entry = find_next_queue_entry
+    entry = find_next_queue_entry(agent)
     return nil unless entry&.conversation
 
     if entry.conversation.assignee.present?
@@ -71,10 +71,21 @@ class Queue::QueueService
 
   private
 
-  def find_next_queue_entry
+  def find_next_queue_entry(agent)
+    allowed_inboxes = InboxMember.where(user_id: agent.id).pluck(:inbox_id)
+
+    allowed_teams = Team.where(id: TeamMember.where(user_id: agent.id).select(:team_id)).pluck(:id)
+
     ConversationQueue
-      .for_account(account.id)
-      .waiting
+      .joins(:conversation)
+      .where(account_id: account.id, status: :waiting)
+      .where(
+        "conversations.inbox_id IN (:inboxes)
+         OR conversations.team_id IN (:teams)",
+        inboxes: allowed_inboxes,
+        teams: allowed_teams
+      )
+      .order(:queued_at)
       .first
   end
 
