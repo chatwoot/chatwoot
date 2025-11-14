@@ -44,6 +44,37 @@ async function fetchAiAgents() {
 
     const resp = await aiAgents.getAiAgents();
     aiAgentsRef.value = resp?.data;
+    
+    // Fetch additional details for each agent (description and type)
+    if (aiAgentsRef.value && aiAgentsRef.value.length) {
+      await Promise.all(
+        aiAgentsRef.value.map(async (agent) => {
+          try {
+            const detailResp = await aiAgents.detailAgent(agent.id);
+            const agentData = detailResp?.data;
+            
+            // Get type from display_flow_data.type (multi_agent or single_agent)
+            if (agentData?.display_flow_data?.type) {
+              agent.type = agentData.display_flow_data.type;
+            }
+            
+            // Get enabled agents list
+            if (agentData?.display_flow_data?.enabled_agents) {
+              agent.enabled_agents = agentData.display_flow_data.enabled_agents;
+            }
+            
+            // Get description/instructions from agents_config
+            if (agentData?.display_flow_data?.agents_config?.[0]?.bot_prompt?.instructions) {
+              agent.description = agentData.display_flow_data.agents_config[0].bot_prompt.instructions;
+            }
+          } catch (err) {
+            console.error(`Failed to fetch details for agent ${agent.id}:`, err);
+          }
+        })
+      );
+    }
+    
+    console.log('Fetched AI Agents:', aiAgentsRef.value);
   } finally {
     aiAgentsLoading.value = false;
   }
@@ -236,11 +267,67 @@ function setDefaultTemplate() {
 
   state.selectedTemplate = templates.value[0].id;
 }
+
+// ini copy dari fluenticon
+function getAgentIcon(agent) {
+  const iconMap = {
+    customer_service: `
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 9a7 7 0 0 1 14 0v5a2 2 0 0 1-2 2h-2a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2.5V9a5.5 5.5 0 1 0-11 0v1H9a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H7c-.173 0-.34-.022-.5-.063v.313a2.25 2.25 0 0 0 2.096 2.245l.154.005h1.128a2.251 2.251 0 1 1 0 1.5H8.75a3.75 3.75 0 0 1-3.745-3.55L5 16.25V9Z" fill="currentColor"/></svg>
+    `,
+    sales: `
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm2.492 7.36a.75.75 0 1 1-1.484-.22c.162-1.09 1.123-1.89 2.242-1.89s2.08.8 2.242 1.89a.75.75 0 1 1-1.484.22c-.048-.323-.35-.61-.758-.61-.408 0-.71.287-.758.61ZM12 18c-3.142 0-5.237-2.363-5.5-5.25h11C17.237 15.637 15.142 18 12 18ZM8.75 8.75c-.408 0-.71.287-.758.61a.75.75 0 1 1-1.484-.22C6.67 8.05 7.631 7.25 8.75 7.25s2.08.8 2.242 1.89a.75.75 0 1 1-1.484.22c-.048-.323-.35-.61-.758-.61Z" fill="currentColor"/></svg>
+    `,
+    booking: `
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 2A2.5 2.5 0 0 0 4 4.5v15A2.5 2.5 0 0 0 6.5 22h13.25a.75.75 0 0 0 0-1.5H6.5a1 1 0 0 1-1-1h14.25a.75.75 0 0 0 .75-.75V4.5A2.5 2.5 0 0 0 18 2H6.5ZM8 5h8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" fill="currentColor"/></svg>
+    `,
+    restaurant: `
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 3a1 1 0 0 1 .993.883L19 4v16a1 1 0 0 1-1.993.117L17 20v-5h-1a1 1 0 0 1-.993-.883L15 14V8c0-2.21 1.5-5 3-5Zm-6 0a1 1 0 0 1 .993.883L13 4v5a4.002 4.002 0 0 1-3 3.874V20a1 1 0 0 1-1.993.117L8 20v-7.126a4.002 4.002 0 0 1-2.995-3.668L5 9V4a1 1 0 0 1 1.993-.117L7 4v5a2 2 0 0 0 1 1.732V4a1 1 0 0 1 1.993-.117L10 4l.001 6.732a2 2 0 0 0 .992-1.563L11 9V4a1 1 0 0 1 1-1Z" fill="currentColor"/></svg>
+    `,
+    custom_agent: `
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.086 18.611 5.996-14.004a1 1 0 0 1 1.878.677l-.04.11-5.996 14.004a1 1 0 0 1-1.878-.677l.04-.11 5.996-14.004L8.086 18.61Zm-5.793-7.318 4-4a1 1 0 0 1 1.497 1.32l-.083.094L4.414 12l3.293 3.293a1 1 0 0 1-1.32 1.498l-.094-.084-4-4a1 1 0 0 1-.083-1.32l.083-.094 4-4-4 4Zm14-4.001a1 1 0 0 1 1.32-.083l.093.083 4.001 4.001a1 1 0 0 1 .083 1.32l-.083.095-4.001 3.995a1 1 0 0 1-1.497-1.32l.084-.095L19.584 12l-3.293-3.294a1 1 0 0 1 0-1.414Z" fill="currentColor"/></svg>
+    `,
+    lead_generation: `
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.25 2a.75.75 0 0 1 .743.648L17 2.75v.749h.749a2.25 2.25 0 0 1 2.25 2.25V16h-3.754l-.154.005a2.25 2.25 0 0 0-2.09 2.084l-.006.161v3.755H5.754a2.25 2.25 0 0 1-2.25-2.25L3.502 5.75a2.25 2.25 0 0 1 2.25-2.25l.747-.001.001-.749a.75.75 0 0 1 1.493-.102L8 2.75v.749H11V2.75a.75.75 0 0 1 1.494-.102l.007.102v.749h2.997l.001-.749a.75.75 0 0 1 .75-.75Zm3.31 15.5-4.066 4.065.001-3.315.007-.102a.75.75 0 0 1 .641-.641l.102-.007h3.314ZM11.247 16H7.25l-.102.007a.75.75 0 0 0 0 1.486l.102.007h3.998l.102-.007a.75.75 0 0 0 0-1.486L11.248 16Zm5-4H7.25l-.102.007a.75.75 0 0 0 0 1.486l.102.007h8.998l.102-.007a.75.75 0 0 0 0-1.486L16.248 12Zm0-4H7.25l-.102.007a.75.75 0 0 0 0 1.486l.102.007h8.998l.102-.007a.75.75 0 0 0 0-1.486L16.248 8Z" fill="currentColor"/></svg>
+    `,
+
+    // Add other agent types here...
+  };
+
+  // For multi-agent, use a specific SVG
+  if (agent.type === 'multi_agent') {
+    return `
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.754 10c.966 0 1.75.784 1.75 1.75v4.749a4.501 4.501 0 0 1-9.002 0V11.75c0-.966.783-1.75 1.75-1.75h5.502Zm-7.623 0c-.35.422-.575.95-.62 1.53l-.01.22v4.749c0 .847.192 1.649.534 2.365A4.001 4.001 0 0 1 2 14.999V11.75a1.75 1.75 0 0 1 1.606-1.744L3.75 10h3.381Zm9.744 0h3.375c.966 0 1.75.784 1.75 1.75V15a4 4 0 0 1-5.03 3.866c.3-.628.484-1.32.525-2.052l.009-.315V11.75c0-.665-.236-1.275-.63-1.75ZM12 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm6.5 1a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm-13 0a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Z" fill="currentColor"/></svg>
+    `;
+  }
+
+  // For single agent, get the SVG from the first enabled agent type
+  if (agent.enabled_agents && agent.enabled_agents.length > 0) {
+    return iconMap[agent.enabled_agents[0]] || iconMap.technical_support;
+  }
+
+  return iconMap.technical_support; // Default icon
+}
+
+// Get formatted agent type label
+function getAgentTypeLabel(agent) {
+  if (agent.type === 'multi_agent' && agent.enabled_agents) {
+    return agent.enabled_agents.map(type => type.replace(/_/g, ' ')).join(', ');
+  }
+  
+  if (agent.enabled_agents && agent.enabled_agents.length > 0) {
+    return agent.enabled_agents[0].replace(/_/g, ' ');
+  }
+  
+  return agent.type?.replace(/_/g, ' ') || 'Agent';
+}
+
+
 </script>
 
 <template>
   <div class="w-full px-8 py-8 bg-n-background overflow-auto">
     <BaseSettingsHeader
+      class="pb-4"
       :title="$t('SIDEBAR.AI_AGENTS')"
       :description="$t('SIDEBAR.AI_AGENTS_DESC')"
     >
@@ -261,60 +348,66 @@ function setDefaultTemplate() {
       <div v-else-if="!aiAgentsRef || !aiAgentsRef.length">
         <span>{{ $t('AGENT_MGMT.FORM_CREATE.EMPTY_AI_AGENT') }}</span>
       </div>
-      <table v-else class="divide-y divide-slate-75 dark:divide-slate-700">
-        <tbody class="divide-y divide-n-weak text-n-slate-11">
-          <tr v-for="(agent, _) in aiAgentsRef" :key="agent.id">
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <div class="flex flex-row items-center gap-4">
-                <!-- <Thumbnail
-                  :src="agent.thumbnail"
-                  :username="agent.name"
-                  size="40px"
-                  :status="agent.availability_status"
-                /> -->
-                <div>
-                  <span
-                    class="block font-medium text-lg text-slate-900 dark:text-slate-25"
-                  >
-                    {{ agent.name }}
-                  </span>
-                  <span>{{ agent.description }}</span>
-                </div>
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          v-for="agent in aiAgentsRef"
+          :key="agent.id"
+          class="bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden border border-slate-200 dark:border-slate-700"
+        >
+          <!-- Card Header with Icon -->
+          <div class="p-6 py-4 flex items-center gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 rounded-full bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm border border-slate-200 dark:border-slate-700">
+                <div v-html="getAgentIcon(agent)" class="text-slate-700 dark:text-slate-200"></div>
               </div>
-            </td>
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-25 truncate">
+                {{ agent.name }}
+              </h3>
+              <p class="text-xs text-slate-600 dark:text-slate-400 capitalize">
+                {{ getAgentTypeLabel(agent) }}
+              </p>
+            </div>
+          </div>
 
-            <td class="py-4">
-              <div class="flex justify-end gap-1">
-                <RouterLink
-                  :to="`/app/accounts/${accountId}/ai-agents/${agent.id}`"
-                >
-                  <woot-button
-                    v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                    variant="smooth"
-                    color-scheme="secondary"
-                    icon="edit"
-                    class-names="grey-btn"
-                  />
-                </RouterLink>
-                <woot-button
-                  v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
-                  :is-loading="loadingCards[agent.id]"
-                  @click="
-                    () => {
-                      dataToDelete = agent;
-                      showDeleteModal = true;
-                    }
-                  "
-                />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          <!-- Card Body -->
+          <div class="p-6 pt-0 py-4">
+            <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 min-h-[60px]">
+              {{ agent.description || 'Tidak ada deskripsi' }}
+            </p>
+          </div>
+
+          <!-- Card Footer with Actions -->
+          <div class="px-6 pb-6 flex justify-end gap-2 border-t border-slate-100 dark:border-slate-700 pt-4">
+            <RouterLink
+              :to="`/app/accounts/${accountId}/ai-agents/${agent.id}`"
+            >
+              <woot-button
+                v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
+                variant="smooth"
+                color-scheme="secondary"
+                icon="edit"
+                class-names="grey-btn"
+              />
+            </RouterLink>
+            <woot-button
+              v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
+              variant="smooth"
+              color-scheme="alert"
+              icon="dismiss-circle"
+              class-names="grey-btn"
+              :is-loading="loadingCards[agent.id]"
+              @click="
+                () => {
+                  dataToDelete = agent;
+                  showDeleteModal = true;
+                }
+              "
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <woot-delete-modal
@@ -526,7 +619,7 @@ function setDefaultTemplate() {
         </div>
       </div>
 
-      <div class="flex items-center justify-start gap-2 pt-2">
+      <div class="flex items-center justify-start gap-2 pt-2 pb-4">
         <WootSubmitButton
           :disabled="loadingCreate"
           :button-text="$t('AI_AGENTS.CREATE_NEW')"
@@ -542,5 +635,13 @@ function setDefaultTemplate() {
 /* Additional styles for better UX */
 .rotate-180 {
   transform: rotate(180deg);
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
