@@ -128,7 +128,23 @@
     "PAYMENT_PENDING": "Seu pagamento está pendente. Por favor, atualize suas informações de pagamento para continuar usando o Chatwoot",
     "UPGRADE": "Atualize para continuar usando o Chatwoot",
     "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o Chatwoot",
-    "OPEN_BILLING": "Abrir faturamento"
+    "OPEN_BILLING": "Abrir faturamento",
+    "BOOKING_EMAILS": {
+      "TITLE": "Booking Notification Emails",
+      "NOTE": "Configure email addresses to receive booking notifications. Only these emails will receive booking alerts. If no emails are added, no booking notifications will be sent.",
+      "LABEL": "Add email address",
+      "HELP": "Enter an email address and click Add. You can add multiple email addresses.",
+      "PLACEHOLDER": "email{'@'}example.com",
+      "ADD_BUTTON": "Add",
+      "CONFIGURED_EMAILS": "Configured Email Addresses",
+      "EMPTY_STATE": "⚠️ No booking notification emails configured. Add at least one email address to receive booking notifications.",
+      "INVALID_EMAIL": "Please enter a valid email address",
+      "DUPLICATE_EMAIL": "This email address is already added",
+      "API": {
+        "SUCCESS": "Booking emails updated successfully",
+        "ERROR": "Failed to update booking emails"
+      }
+    }
   },
   "FORMS": {
     "MULTISELECT": {

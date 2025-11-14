@@ -128,7 +128,23 @@
     "PAYMENT_PENDING": "الدفعة الخاصة بك معلقة. الرجاء تحديث معلومات الدفع الخاصة بك للاستمرار في استخدام Chatwoot",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "لقد تجاوز حسابك حدود الاستخدام، يرجى ترقية خطتك للاستمرار في استخدام Chatwoot",
-    "OPEN_BILLING": "فتح الفواتير"
+    "OPEN_BILLING": "فتح الفواتير",
+    "BOOKING_EMAILS": {
+      "TITLE": "Booking Notification Emails",
+      "NOTE": "Configure email addresses to receive booking notifications. Only these emails will receive booking alerts. If no emails are added, no booking notifications will be sent.",
+      "LABEL": "Add email address",
+      "HELP": "Enter an email address and click Add. You can add multiple email addresses.",
+      "PLACEHOLDER": "email{'@'}example.com",
+      "ADD_BUTTON": "Add",
+      "CONFIGURED_EMAILS": "Configured Email Addresses",
+      "EMPTY_STATE": "⚠️ No booking notification emails configured. Add at least one email address to receive booking notifications.",
+      "INVALID_EMAIL": "Please enter a valid email address",
+      "DUPLICATE_EMAIL": "This email address is already added",
+      "API": {
+        "SUCCESS": "Booking emails updated successfully",
+        "ERROR": "Failed to update booking emails"
+      }
+    }
   },
   "FORMS": {
     "MULTISELECT": {
