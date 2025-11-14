@@ -120,19 +120,31 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result.strip).to eq('bold italic code')
       end
 
-      it 'extracts URL from links' do
+      it 'preserves URLs from links in plain text format' do
         content = '[link text](https://example.com)'
         result = described_class.new(content, channel_type).render
-        expect(result.strip).to eq('link text')
+        expect(result).to eq('link text https://example.com')
+      end
+
+      it 'preserves URLs in messages with multiple links' do
+        content = 'Visit [our site](https://example.com) or [help center](https://help.example.com)'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq('Visit our site https://example.com or help center https://help.example.com')
+      end
+
+      it 'preserves link text and URL when both are present' do
+        content = '[Reset password](https://example.com/reset)'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq('Reset password https://example.com/reset')
       end
 
       it 'handles complex markdown' do
-        content = "# Heading\n\n**bold** _italic_ [link](url)"
+        content = "# Heading\n\n**bold** _italic_ [link](https://example.com)"
         result = described_class.new(content, channel_type).render
         expect(result).to include('Heading')
         expect(result).to include('bold')
         expect(result).to include('italic')
-        expect(result).to include('link')
+        expect(result).to include('link https://example.com')
         expect(result).not_to include('**')
         expect(result).not_to include('_')
         expect(result).not_to include('[')
@@ -227,18 +239,30 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result.strip).to eq('bold italic code')
       end
+
+      it 'preserves URLs from links' do
+        content = '[Click here](https://example.com)'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq('Click here https://example.com')
+      end
     end
 
     context 'when channel is Channel::TwitterProfile' do
       let(:channel_type) { 'Channel::TwitterProfile' }
 
       it 'strips all markdown like SMS' do
-        content = '**bold** [link](url)'
+        content = '**bold** [link](https://example.com)'
         result = described_class.new(content, channel_type).render
         expect(result).to include('bold')
-        expect(result).to include('link')
+        expect(result).to include('link https://example.com')
         expect(result).not_to include('**')
         expect(result).not_to include('[')
+      end
+
+      it 'preserves URLs from links' do
+        content = '[Reset password](https://example.com/reset)'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq('Reset password https://example.com/reset')
       end
     end
 

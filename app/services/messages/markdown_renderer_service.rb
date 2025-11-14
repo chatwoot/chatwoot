@@ -64,7 +64,76 @@ class Messages::MarkdownRendererService
   end
 
   def render_plain_text
-    commonmarker_doc.to_plaintext.gsub(/\n+\z/, '')
+    renderer = PlainTextRenderer.new
+    renderer.render(commonmarker_doc).gsub(/\n+\z/, '')
+  end
+
+  class PlainTextRenderer < CommonMarker::Renderer
+    def document(_node)
+      out(:children)
+    end
+
+    def paragraph(_node)
+      out(:children)
+      cr
+    end
+
+    def text(node)
+      out(node.string_content)
+    end
+
+    def link(node)
+      out(:children)
+      out(' ', node.url) if node.url.present?
+    end
+
+    def softbreak(_node)
+      out(' ')
+    end
+
+    def linebreak(_node)
+      out("\n")
+    end
+
+    def strong(_node)
+      out(:children)
+    end
+
+    def emph(_node)
+      out(:children)
+    end
+
+    def code(node)
+      out(node.string_content)
+    end
+
+    def list(_node)
+      out(:children)
+      cr
+    end
+
+    def list_item(_node)
+      out(:children)
+      cr
+    end
+
+    def blockquote(_node)
+      out(:children)
+      cr
+    end
+
+    def code_block(node)
+      out(node.string_content, "\n")
+    end
+
+    def header(_node)
+      out(:children)
+      cr
+    end
+
+    def thematic_break(_node)
+      out("\n")
+    end
   end
 
   class WhatsAppRenderer < CommonMarker::Renderer
