@@ -85,6 +85,13 @@ RSpec.describe 'Companies API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/{account.id}/companies/search' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/companies/search"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
@@ -154,6 +161,14 @@ RSpec.describe 'Companies API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/{account.id}/companies/{id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        company = create(:company, account: account)
+        get "/api/v1/accounts/#{account.id}/companies/#{company.id}"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:company) { create(:company, account: account) }
@@ -171,6 +186,13 @@ RSpec.describe 'Companies API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/companies' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/companies"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:valid_params) do
@@ -210,6 +232,14 @@ RSpec.describe 'Companies API', type: :request do
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/companies/{id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        company = create(:company, account: account)
+        patch "/api/v1/accounts/#{account.id}/companies/#{company.id}"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:company) { create(:company, account: account) }
@@ -236,6 +266,14 @@ RSpec.describe 'Companies API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/companies/{id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        company = create(:company, account: account)
+        delete "/api/v1/accounts/#{account.id}/companies/#{company.id}"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an authenticated administrator' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:company) { create(:company, account: account) }
