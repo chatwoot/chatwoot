@@ -229,9 +229,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "ENABLE_TOOLTIP": "Alıntılanan e-posta zincirini dahil et",
+        "DISABLE_TOOLTIP": "Alıntılanan e-posta zincirini dahil etme",
+        "REMOVE_PREVIEW": "Alıntılanan e-posta zincirini kaldır",
         "COLLAPSE": "Önizlemeyi daralt",
         "EXPAND": "Önizlemeyi genişlet"
       }
