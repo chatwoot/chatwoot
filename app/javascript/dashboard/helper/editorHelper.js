@@ -5,6 +5,7 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
+import { FORMATTING } from 'dashboard/constants/editor';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -389,3 +390,14 @@ export const getContentNode = (
     ? creator(editorView, content, from, to, variables)
     : { node: null, from, to };
 };
+
+/**
+ * Get the formatting configuration for a specific channel type.
+ * Returns the appropriate marks, nodes, and menu items for the editor.
+ *
+ * @param {string} channelType - The channel type (e.g., 'Channel::FacebookPage', 'Channel::WebWidget')
+ * @returns {Object} The formatting configuration with marks, nodes, and menu properties
+ */
+export function getFormattingForEditor(channelType) {
+  return FORMATTING[channelType] || FORMATTING['Context::Default'];
+}
