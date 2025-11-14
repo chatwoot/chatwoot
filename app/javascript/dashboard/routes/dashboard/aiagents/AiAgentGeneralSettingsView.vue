@@ -332,12 +332,13 @@ function resetChat() {
             :placeholder="t('AGENT_MGMT.FORM_CREATE.INSTRUCTION_PLACEHOLDER')"
             auto-height
             min-height="80px"
-            max-height="200px"
+            max-height="300px"
           />
         </div>
         
         <!-- Only show these fields if NOT a custom agent -->
         <template v-if="!isCustomAgent">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="welcome_message">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE') }}</label>
             <TextArea
@@ -346,6 +347,8 @@ function resetChat() {
               custom-text-area-wrapper-class=""
               custom-text-area-class="!outline-none"
               auto-height
+              min-height="80px"
+              max-height="300px"
             />
           </div>
           <div>
@@ -357,8 +360,12 @@ function resetChat() {
               custom-text-area-class="!outline-none"
               auto-height
               :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO_PLACEHOLDER')"
+              min-height="80px"
+              max-height="300px"
             />
           </div>
+          </div>
+
           <div>
             <label for="routing_conditions">{{ t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION') }}</label>
             <TextArea
@@ -368,6 +375,8 @@ function resetChat() {
               custom-text-area-class="!outline-none"
               :placeholder="t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION_PLACEHOLDER')"
               auto-height
+              min-height="80px"
+              max-height="300px"
             />
           </div>
         </template>
