@@ -28,11 +28,11 @@
       "PLACEHOLDER": "סיסמה",
       "ERROR": "הסיסמה קצרה מדי",
       "IS_INVALID_PASSWORD": "הסיסמה צריכה להכיל לפחות אות אחת גדולה, אות קטנה אחת, מספר אחד ותו מיוחד אחד",
-      "REQUIREMENTS_LENGTH": "At least 6 characters long",
-      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
-      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
-      "REQUIREMENTS_NUMBER": "At least one number",
-      "REQUIREMENTS_SPECIAL": "At least one special character"
+      "REQUIREMENTS_LENGTH": "לפחות 6 תווים",
+      "REQUIREMENTS_UPPERCASE": "לפחות אות אחת גדולה",
+      "REQUIREMENTS_LOWERCASE": "לפחות אות אחת קטנה",
+      "REQUIREMENTS_NUMBER": "לפחות מספר אחד",
+      "REQUIREMENTS_SPECIAL": "לפחות תו מיוחד אחד"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "אמת סיסמה",
@@ -40,7 +40,7 @@
       "ERROR": "סיסמאות לא תואמות"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successful",
+      "SUCCESS_MESSAGE": "ההרשמה הצליחה",
       "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
     },
     "SUBMIT": "צור חשבון",

@@ -6,7 +6,7 @@
     "LIST": {
       "404": "אין שיחות פעילות בקבוצה הזו."
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "שליחה נכשלה",
     "TAB_HEADING": "שיחות",
     "MENTION_HEADING": "תיוגים",
     "UNATTENDED_HEADING": "לא מתוכנן",
@@ -37,10 +37,10 @@
       }
     },
     "VIEW_FILTER": "צפה",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "מיין שיחות",
     "CHAT_SORT": {
       "STATUS": "מצב",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "סדר לפי"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
@@ -48,34 +48,34 @@
         "OLDEST": "נוצר בזמן:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "פעילות אחרונה:",
+        "ACTIVE": "פעילות אחרונה"
       }
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "פעילות אחרונה: הישן ביותר תחילה"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "פעילות אחרונה: החדש ביותר תחילה"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "נוצר ב: החדש ביותר תחילה"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "נוצר ב: הישן ביותר תחילה"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "עדיפות: הגבוהה ביותר תחילה"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "עדיפות: הנמוכה ביותר תחילה"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "ממתין לתגובה: הארוך ביותר תחילה"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "ממתין לתגובה: הקצר ביותר תחילה"
       }
     },
     "ATTACHMENTS": {
@@ -95,30 +95,30 @@
         "CONTENT": "מיקום"
       },
       "ig_reel": {
-        "CONTENT": "Instagram Reel"
+        "CONTENT": "סרטון אינסטגרם (Reel)"
       },
       "fallback": {
         "CONTENT": "שיתף קישור"
       },
       "contact": {
-        "CONTENT": "Shared contact"
+        "CONTENT": "איש קשר משותף"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "מיין שיחה",
       "DROPDOWN_TITLE": "מיין לפי",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "זמן פעילות אחרונה",
+          "LABEL": "פעילות אחרונה"
         },
         "CREATED_AT": {
           "NAME": "נוצר בזמן",
           "LABEL": "נוצר בזמן"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "זמן הודעת משתמש אחרונה",
+          "LABEL": "הודעה אחרונה"
         }
       }
     },
@@ -134,6 +134,6 @@
     "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
     "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
     "MESSAGE_READ": "נקרא",
-    "SENDING": "Sending"
+    "SENDING": "שולח"
   }
 }
