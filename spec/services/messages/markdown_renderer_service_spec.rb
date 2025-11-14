@@ -1,0 +1,267 @@
+require 'rails_helper'
+
+RSpec.describe Messages::MarkdownRendererService, type: :service do
+  describe '#render' do
+    context 'when content is blank' do
+      it 'returns the content as-is for nil' do
+        result = described_class.new(nil, 'Channel::Whatsapp').render
+        expect(result).to be_nil
+      end
+
+      it 'returns the content as-is for empty string' do
+        result = described_class.new('', 'Channel::Whatsapp').render
+        expect(result).to eq('')
+      end
+    end
+
+    context 'when channel is Channel::Whatsapp' do
+      let(:channel_type) { 'Channel::Whatsapp' }
+
+      it 'converts bold from double to single asterisk' do
+        content = '**bold text**'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('*bold text*')
+      end
+
+      it 'keeps italic with underscore' do
+        content = '_italic text_'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('_italic text_')
+      end
+
+      it 'keeps code with backticks' do
+        content = '`code`'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('`code`')
+      end
+
+      it 'converts links to URLs only' do
+        content = '[link text](https://example.com)'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('https://example.com')
+      end
+
+      it 'handles combined formatting' do
+        content = '**bold** _italic_ `code` [link](https://example.com)'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('*bold* _italic_ `code` https://example.com')
+      end
+
+      it 'handles nested formatting' do
+        content = '**bold _italic_**'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('*bold _italic_*')
+      end
+
+      it 'converts bullet lists' do
+        content = "- item 1\n- item 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to include('- item 1')
+        expect(result.strip).to include('- item 2')
+      end
+    end
+
+    context 'when channel is Channel::Instagram' do
+      let(:channel_type) { 'Channel::Instagram' }
+
+      it 'converts bold from double to single asterisk' do
+        content = '**bold text**'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('*bold text*')
+      end
+
+      it 'keeps italic with underscore' do
+        content = '_italic text_'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('_italic text_')
+      end
+
+      it 'strips code backticks' do
+        content = '`code`'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('code')
+      end
+
+      it 'converts links to URLs only' do
+        content = '[link text](https://example.com)'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('https://example.com')
+      end
+    end
+
+    context 'when channel is Channel::Line' do
+      let(:channel_type) { 'Channel::Line' }
+
+      it 'adds spaces around bold markers' do
+        content = '**bold**'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include(' *bold* ')
+      end
+
+      it 'adds spaces around italic markers' do
+        content = '_italic_'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include(' _italic_ ')
+      end
+
+      it 'adds spaces around code markers' do
+        content = '`code`'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include(' `code` ')
+      end
+    end
+
+    context 'when channel is Channel::Sms' do
+      let(:channel_type) { 'Channel::Sms' }
+
+      it 'strips all markdown formatting' do
+        content = '**bold** _italic_ `code`'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('bold italic code')
+      end
+
+      it 'extracts URL from links' do
+        content = '[link text](https://example.com)'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('link text')
+      end
+
+      it 'handles complex markdown' do
+        content = "# Heading\n\n**bold** _italic_ [link](url)"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('Heading')
+        expect(result).to include('bold')
+        expect(result).to include('italic')
+        expect(result).to include('link')
+        expect(result).not_to include('**')
+        expect(result).not_to include('_')
+        expect(result).not_to include('[')
+      end
+    end
+
+    context 'when channel is Channel::Telegram' do
+      let(:channel_type) { 'Channel::Telegram' }
+
+      it 'converts to HTML format' do
+        content = '**bold** _italic_ `code`'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<strong>bold</strong>')
+        expect(result).to include('<em>italic</em>')
+        expect(result).to include('<code>code</code>')
+      end
+
+      it 'handles links' do
+        content = '[link text](https://example.com)'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<a href="https://example.com">link text</a>')
+      end
+
+      it 'preserves newlines' do
+        content = "line 1\nline 2"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include("\n")
+      end
+    end
+
+    context 'when channel is Channel::Email' do
+      let(:channel_type) { 'Channel::Email' }
+
+      it 'renders full HTML' do
+        content = '**bold** _italic_'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<strong>bold</strong>')
+        expect(result).to include('<em>italic</em>')
+      end
+
+      it 'renders ordered lists as HTML' do
+        content = "1. first\n2. second"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<ol>')
+        expect(result).to include('<li>first</li>')
+      end
+    end
+
+    context 'when channel is Channel::WebWidget' do
+      let(:channel_type) { 'Channel::WebWidget' }
+
+      it 'renders full HTML like Email' do
+        content = '**bold** _italic_ `code`'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<strong>bold</strong>')
+        expect(result).to include('<em>italic</em>')
+        expect(result).to include('<code>code</code>')
+      end
+    end
+
+    context 'when channel is Channel::FacebookPage' do
+      let(:channel_type) { 'Channel::FacebookPage' }
+
+      it 'converts bold to single asterisk like Instagram' do
+        content = '**bold text**'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('*bold text*')
+      end
+
+      it 'strips unsupported formatting' do
+        content = '`code` ~~strike~~'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('code ~~strike~~')
+      end
+    end
+
+    context 'when channel is Channel::TwilioSms' do
+      let(:channel_type) { 'Channel::TwilioSms' }
+
+      it 'strips all markdown like SMS' do
+        content = '**bold** _italic_'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('bold italic')
+      end
+    end
+
+    context 'when channel is Channel::Api' do
+      let(:channel_type) { 'Channel::Api' }
+
+      it 'strips all markdown to plain text' do
+        content = '**bold** _italic_ `code`'
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('bold italic code')
+      end
+    end
+
+    context 'when channel is Channel::TwitterProfile' do
+      let(:channel_type) { 'Channel::TwitterProfile' }
+
+      it 'strips all markdown like SMS' do
+        content = '**bold** [link](url)'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('bold')
+        expect(result).to include('link')
+        expect(result).not_to include('**')
+        expect(result).not_to include('[')
+      end
+    end
+
+    context 'when testing all formatting types' do
+      let(:channel_type) { 'Channel::Whatsapp' }
+
+      it 'handles ordered lists' do
+        content = "1. first\n2. second\n3. third"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('first')
+        expect(result).to include('second')
+        expect(result).to include('third')
+      end
+    end
+
+    context 'when channel is unknown' do
+      let(:channel_type) { 'Channel::Unknown' }
+
+      it 'returns content as-is' do
+        content = '**bold** _italic_'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq(content)
+      end
+    end
+  end
+end
