@@ -1,4 +1,4 @@
-name: 🚀 Deploy Chatwoot Homologação
+name: 🚀 Deploy EixoChat Homologação
 
 on:
   pull_request:
@@ -73,6 +73,9 @@ jobs:
           username: ${{ secrets.HETZNER_SSH_USER }}
           key: ${{ secrets.HETZNER_SSH_KEY }}
           script: |
+            echo "🔑 Login no GHCR dentro do servidor..."
+            echo "${{ secrets.HETZNER_GHCR_TOKEN }}" | docker login ghcr.io -u eixo-x --password-stdin
+
             echo "📦 Atualizando imagem Chatwoot..."
             docker pull ghcr.io/eixo-x/eixochat:latest
 
