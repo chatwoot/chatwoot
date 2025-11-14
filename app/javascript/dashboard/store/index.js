@@ -16,6 +16,7 @@ import contactConversations from './modules/contactConversations';
 import contactLabels from './modules/contactLabels';
 import contactNotes from './modules/contactNotes';
 import contacts from './modules/contacts';
+import contests from './modules/contests';
 import conversationLabels from './modules/conversationLabels';
 import conversationMetadata from './modules/conversationMetadata';
 import conversationPage from './modules/conversationPage';
@@ -76,6 +77,7 @@ export default createStore({
     contactLabels,
     contactNotes,
     contacts,
+    contests,
     conversationLabels,
     conversationMetadata,
     conversationPage,

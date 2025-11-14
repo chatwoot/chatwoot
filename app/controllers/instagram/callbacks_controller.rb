@@ -45,18 +45,14 @@ class Instagram::CallbacksController < ApplicationController
     redirect_to_error_page(error_info)
   end
 
-  # Extract error details from the exception
   def extract_error_info(error)
     if error.is_a?(OAuth2::Error)
       begin
-        # Instagram returns JSON error response which we parse to extract error details
         JSON.parse(error.message)
-      rescue JSON::ParseError
-        # Fall back to a generic OAuth error if JSON parsing fails
+      rescue JSON::ParserError
         { 'error_type' => 'OAuthException', 'code' => 400, 'error_message' => error.message }
       end
     else
-      # For other unexpected errors
       { 'error_type' => error.class.name, 'code' => 500, 'error_message' => error.message }
     end
   end
@@ -99,7 +95,6 @@ class Instagram::CallbacksController < ApplicationController
     end
 
     # reauthorize channel, this code path only triggers when instagram auth is successful
-    # reauthorized will also update cache keys for the associated inbox
     channel_instagram.reauthorized!
 
     [channel_instagram.inbox, channel_exists]
