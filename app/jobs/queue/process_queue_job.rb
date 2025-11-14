@@ -32,7 +32,7 @@ class Queue::ProcessQueueJob < ApplicationJob
       next unless agent_has_capacity?(account, agent)
 
       conversation = queue_service.assign_from_queue(agent)
-      break unless conversation
+      break if conversation
     end
   end
 
