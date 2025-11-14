@@ -90,6 +90,16 @@ RSpec.describe ContactInbox do
           ['Source invalid source id for twilio whatsapp inbox. valid Regex (?-mix:^whatsapp:\\+\\d{1,15}\\z)']
         )
       end
+
+      it 'allows source_id up to 1024 characters' do
+        inbox = create(:inbox)
+        contact = create(:contact)
+        # Test with a 1024 character source_id (email addresses can be very long)
+        long_source_id = 'a' * 1024
+        contact_inbox = build(:contact_inbox, contact: contact, inbox: inbox, source_id: long_source_id)
+        expect(contact_inbox).to be_valid
+        expect(contact_inbox.save).to be(true)
+      end
     end
   end
 end
