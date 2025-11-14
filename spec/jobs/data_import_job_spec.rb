@@ -15,7 +15,7 @@ RSpec.describe DataImportJob do
 
   describe 'retrying the job' do
     context 'when ActiveStorage::FileNotFoundError is raised' do
-      let(:import_file_double) { double('ImportFile') }
+      let(:import_file_double) { instance_double(ActiveStorage::Attached::One) }
 
       before do
         allow(data_import).to receive(:import_file).and_return(import_file_double)
@@ -161,7 +161,7 @@ RSpec.describe DataImportJob do
       end
 
       before do
-        import_file_double = double('ImportFile')
+        import_file_double = instance_double(ActiveStorage::Attached::One)
         allow(data_import).to receive(:import_file).and_return(import_file_double)
         allow(import_file_double).to receive(:open).and_yield(StringIO.new(invalid_csv_content))
       end
