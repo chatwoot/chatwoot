@@ -469,6 +469,14 @@
   description: 'The API key/token for authenticating with the dealership API'
 ## ------ End of Configs added for Dealership API ------ ##
 
+## ------ Configs added for Contest API ------ ##
+- name: CONTEST_API_BASE_URL
+  display_title: 'Contest API Base URL'
+  value: ''
+  locked: false
+  description: 'The base URL for the contests API'
+  ## ------ End of Configs added for Contest API ------ ##
+
 ## ------ Configs added for Twilio SMS Notifications ------ ##
 - name: TWILIO_ACCOUNT_SID
   display_title: 'Twilio Account SID'
