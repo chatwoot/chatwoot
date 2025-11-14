@@ -16,7 +16,7 @@ RSpec.describe DataImportJob do
   describe 'retrying the job' do
     context 'when ActiveStorage::FileNotFoundError is raised' do
       before do
-        allow(data_import.import_file).to receive(:download).and_raise(ActiveStorage::FileNotFoundError)
+        allow(data_import).to receive_message_chain(:import_file, :open).and_raise(ActiveStorage::FileNotFoundError)
       end
 
       it 'retries the job' do
@@ -158,7 +158,8 @@ RSpec.describe DataImportJob do
       end
 
       before do
-        allow(data_import.import_file).to receive(:download).and_return(invalid_csv_content)
+        allow(data_import).to receive_message_chain(:import_file, :open)
+          .and_yield(StringIO.new(invalid_csv_content))
       end
 
       it 'does not import any data and handles the MalformedCSVError' do

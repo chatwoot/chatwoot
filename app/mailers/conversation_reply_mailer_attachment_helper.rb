@@ -14,24 +14,38 @@ module ConversationReplyMailerAttachmentHelper
     current_total_size = 0
 
     @message.attachments.each do |attachment|
-      blob = attachment.file.blob
-      next if blob.blank?
+      current_total_size = handle_attachment_inline(current_total_size, attachment)
+    end
+  end
 
-      file_size = blob.byte_size
-      attachment_name = attachment.file.filename.to_s
-
-      # Attach files directly until we hit 20MB total
-      # After reaching 20MB, send remaining files as links
-      if current_total_size + file_size <= 20.megabytes
-        mail.attachments[attachment_name] = {
-          mime_type: attachment.file.content_type || 'application/octet-stream',
-          content: blob.download
-        }
-        @options[:attachments] << { name: attachment_name }
-        current_total_size += file_size
-      else
-        @large_attachments << attachment
+  def read_blob_content(blob)
+    buffer = +''
+    blob.open do |file|
+      while (chunk = file.read(64.kilobytes))
+        buffer << chunk
       end
+    end
+    buffer
+  end
+
+  def handle_attachment_inline(current_total_size, attachment)
+    blob = attachment.file.blob
+    return current_total_size if blob.blank?
+
+    file_size = blob.byte_size
+    attachment_name = attachment.file.filename.to_s
+
+    if current_total_size + file_size <= 20.megabytes
+      content = read_blob_content(blob)
+      mail.attachments[attachment_name] = {
+        mime_type: attachment.file.content_type || 'application/octet-stream',
+        content: content
+      }
+      @options[:attachments] << { name: attachment_name }
+      current_total_size + file_size
+    else
+      @large_attachments << attachment
+      current_total_size
     end
   end
 end

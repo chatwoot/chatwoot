@@ -32,8 +32,8 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
     temp_file_path = File.join(temp_dir, "#{attachment.file.blob.key}-#{attachment.file.filename}")
 
     File.open(temp_file_path, 'wb') do |file|
-      attachment.file.blob.download do |chunk|
-        file.write(chunk)
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, file)
       end
     end
 

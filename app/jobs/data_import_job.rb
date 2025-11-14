@@ -104,11 +104,18 @@ class DataImportJob < ApplicationJob
 
   def csv_reader(file)
     file.rewind
-    CSV.new(file, headers: true, encoding: 'bom|UTF-8', invalid: :replace, undef: :replace, replace: '')
+    raw_data = file.read
+    utf8_data = raw_data.force_encoding('UTF-8')
+    clean_data = utf8_data.valid_encoding? ? utf8_data : utf8_data.encode('UTF-16le', invalid: :replace, replace: '').encode('UTF-8')
+
+    CSV.new(StringIO.new(clean_data), headers: true)
   end
 
   def with_import_file
-    @data_import.import_file.open(tmpdir: Rails.root.join('tmp/imports')) do |file|
+    temp_dir = Rails.root.join('tmp/imports')
+    FileUtils.mkdir_p(temp_dir)
+
+    @data_import.import_file.open(tmpdir: temp_dir) do |file|
       file.binmode
       yield file
     end
