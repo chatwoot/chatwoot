@@ -422,7 +422,7 @@
       "NO_ASSISTANTS_AVAILABLE": "Non ci sono assistenti disponibili nel tuo account.",
       "ADD_NEW": "Crea un nuovo assistente",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
+        "TITLE": "Sei sicuro di voler eliminare l'assistente?",
         "DESCRIPTION": "Questa azione è permanente. L'eliminazione di questo assistente la rimuoverà da tutte le inbox connesse e cancellerà definitivamente tutte le knowledge generate.",
         "CONFIRM": "Sì, elimina",
         "SUCCESS_MESSAGE": "L'assistente è stato eliminato con successo",
