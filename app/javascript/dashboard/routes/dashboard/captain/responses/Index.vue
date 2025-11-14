@@ -195,7 +195,10 @@ const navigateToPendingFAQs = () => {
 
 onMounted(() => {
   initializeFromURL();
-  store.dispatch('captainResponses/fetchPendingCount', selectedAssistantId);
+  store.dispatch(
+    'captainResponses/fetchPendingCount',
+    selectedAssistantId.value
+  );
 });
 </script>
 
