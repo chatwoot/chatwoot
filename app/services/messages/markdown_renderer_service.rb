@@ -50,21 +50,21 @@ class Messages::MarkdownRendererService
 
   def render_whatsapp
     renderer = WhatsAppRenderer.new
-    renderer.render(commonmarker_doc)
+    renderer.render(commonmarker_doc).gsub(/\n+\z/, '')
   end
 
   def render_instagram
     renderer = InstagramRenderer.new
-    renderer.render(commonmarker_doc)
+    renderer.render(commonmarker_doc).gsub(/\n+\z/, '')
   end
 
   def render_line
     renderer = LineRenderer.new
-    renderer.render(commonmarker_doc)
+    renderer.render(commonmarker_doc).gsub(/\n+\z/, '')
   end
 
   def render_plain_text
-    commonmarker_doc.to_plaintext
+    commonmarker_doc.to_plaintext.gsub(/\n+\z/, '')
   end
 
   class WhatsAppRenderer < CommonMarker::Renderer
