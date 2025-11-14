@@ -228,6 +228,7 @@ export default {
           },
         ];
       }
+      return this.selectedProducts;
     },
     setSelectProducts(products) {
       this.selectedProducts = [...this.selectedProducts, ...products];

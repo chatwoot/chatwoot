@@ -98,21 +98,7 @@
                 <button
                   class="w-[50%] p-3 border-r border-[#E6E6E6] text-[13px] font-bold text-[#2E52E5] leading-5"
                   :disabled="isCheckoutLoading"
-                  @click.stop="
-                    updateSelectedProducts(
-                      item.variant_id,
-                      1,
-                      item.currency,
-                      item.price,
-                      item.shopUrl,
-                      $event
-                    );
-                    sendMessageToParentWindow('CART_UPDATED', {
-                      id: item.variant_id,
-                      quantity: 1,
-                      type: 'Add_TO_CART',
-                    });
-                  "
+                  @click.stop="addToCart(item, $event)"
                 >
                   Add to cart
                 </button>
@@ -254,29 +240,6 @@ export default {
       currentUser: 'contacts/getCurrentUser',
     }),
   },
-  watch: {
-    // Watch selectedProducts for changes
-    selectedProducts: {
-      handler(newProducts, oldProducts) {
-        // eslint-disable-next-line no-console
-        if (JSON.stringify(newProducts) === JSON.stringify(oldProducts)) {
-          return;
-        }
-
-        // Clear previous timer
-        if (this.updateCartTimer) {
-          clearTimeout(this.updateCartTimer);
-        }
-
-        // Send update to Shopify cart after 1 second delay
-        this.updateCartTimer = setTimeout(() => {
-          this.updateShopifyCart(newProducts);
-        }, 1000);
-      },
-      deep: true, // Watch for changes in nested properties
-      immediate: false, // Don't trigger on initial mount
-    },
-  },
   mounted() {
     this.checkScrollButtons();
     this.$refs.carousel.addEventListener('scroll', this.checkScrollButtons);
@@ -307,6 +270,30 @@ export default {
         this.productClicked.push(item.variant_id);
         this.updateShopifyCart([], this.productClicked);
       }
+    },
+    async addToCart(item, event) {
+      event.stopPropagation();
+      let uuid = this.currentUser.source_id;
+      if (!window.parent || !uuid) {
+        return;
+      }
+      const updatedProducts = this.updateSelectedProducts(
+        item.variant_id,
+        1,
+        item.currency,
+        item.price,
+        item.shopUrl,
+        event
+      );
+      this.sendMessageToParentWindow('CART_UPDATED', {
+        id: item.variant_id,
+        quantity: 1,
+        type: 'Add_TO_CART',
+        attributes: {
+          bitespeed_live_chat_user: `live_chat_${uuid}`,
+          bitespeed_cart_products: updatedProducts,
+        },
+      });
     },
     async openCheckoutPage(selectedProducts) {
       this.isCheckoutLoading = true;
