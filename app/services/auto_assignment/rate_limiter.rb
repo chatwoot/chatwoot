@@ -28,15 +28,15 @@ class AutoAssignment::RateLimiter
   end
 
   def limit
-    config['fair_distribution_limit']&.to_i
+    config&.fair_distribution_limit&.to_i || Math
   end
 
   def window
-    config['fair_distribution_window']&.to_i || 3600
+    config&.fair_distribution_window&.to_i || 24.hours.to_i
   end
 
   def config
-    @config ||= inbox.auto_assignment_config || {}
+    @config ||= inbox.assignment_policy
   end
 
   def assignment_key_pattern
