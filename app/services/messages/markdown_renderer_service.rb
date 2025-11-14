@@ -1,4 +1,18 @@
 class Messages::MarkdownRendererService
+  CHANNEL_RENDERERS = {
+    'Channel::Email' => :render_html,
+    'Channel::WebWidget' => :render_html,
+    'Channel::Telegram' => :render_telegram_html,
+    'Channel::Whatsapp' => :render_whatsapp,
+    'Channel::FacebookPage' => :render_instagram,
+    'Channel::Instagram' => :render_instagram,
+    'Channel::Line' => :render_line,
+    'Channel::Api' => :render_plain_text,
+    'Channel::TwitterProfile' => :render_plain_text,
+    'Channel::Sms' => :render_plain_text,
+    'Channel::TwilioSms' => :render_plain_text
+  }.freeze
+
   def initialize(content, channel_type)
     @content = content
     @channel_type = channel_type
@@ -7,22 +21,8 @@ class Messages::MarkdownRendererService
   def render
     return @content if @content.blank?
 
-    case @channel_type
-    when 'Channel::Email', 'Channel::WebWidget'
-      render_html
-    when 'Channel::Telegram'
-      render_telegram_html
-    when 'Channel::Whatsapp'
-      render_whatsapp
-    when 'Channel::FacebookPage', 'Channel::Instagram'
-      render_instagram
-    when 'Channel::Line'
-      render_line
-    when 'Channel::Api', 'Channel::TwitterProfile', 'Channel::Sms', 'Channel::TwilioSms'
-      render_plain_text
-    else
-      @content
-    end
+    renderer_method = CHANNEL_RENDERERS[@channel_type]
+    renderer_method ? send(renderer_method) : @content
   end
 
   private
