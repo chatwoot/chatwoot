@@ -139,6 +139,14 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     end
   end
 
+  def build_files_array
+    message.attachments.filter_map do |attachment|
+      next unless attachment.with_attached_file?
+
+      build_file_payload(attachment)
+    end
+  end
+
   def build_file_payload(attachment)
     content = download_attachment_content(attachment)
     return if content.blank?
