@@ -45,10 +45,7 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   private
 
   def resolved_companies
-    return @resolved_companies if @resolved_companies
-
-    @resolved_companies = Current.account.companies
-    @resolved_companies
+    @resolved_companies ||= Current.account.companies
   end
 
   def set_current_page
