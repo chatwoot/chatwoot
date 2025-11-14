@@ -16,12 +16,12 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def search
-    return render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank?
+    if params[:q].blank?
+      return render json: { error: I18n.t('errors.companies.search.query_missing') },
+                    status: :unprocessable_entity
+    end
 
-    companies = resolved_companies.where(
-      'name ILIKE :search OR domain ILIKE :search',
-      search: "%#{params[:q].strip}%"
-    )
+    companies = resolved_companies.search_by_name_or_domain(params[:q])
     @companies = fetch_companies(companies)
     @companies_count = @companies.total_count
   end
