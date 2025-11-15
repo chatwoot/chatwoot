@@ -76,6 +76,7 @@ it:
       token_exchange_failed: 'Impossibile scambiare il codice con il token di accesso. Riprova.'
       invalid_token_permissions: 'Il token di accesso non dispone dei permessi richiesti per WhatsApp.'
       phone_info_fetch_failed: 'Impossibile recuperare le informazioni sul numero di telefono. Riprova.'
+      phone_number_already_exists: 'Esiste già un canale per questo numero di telefono: %{phone_number}, si prega di contattare il supporto se l''errore persiste'
       reauthorization:
         generic: 'Impossibile riautorizzare WhatsApp. Riprova.'
         not_supported: 'La riautorizzazione non è supportata per questo tipo di canale WhatsApp.'
