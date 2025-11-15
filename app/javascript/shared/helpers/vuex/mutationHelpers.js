@@ -34,6 +34,10 @@ export const updateAttributes = (state, data) => {
 
 export const updatePresence = (state, data) => {
   state.records.forEach((element, index) => {
+    // Skip if element is not an object or doesn't have an id
+    if (!element || typeof element !== 'object' || !element.id) {
+      return;
+    }
     const availabilityStatus = data[element.id];
     state.records[index].availability_status = availabilityStatus || 'offline';
   });

@@ -64,10 +64,29 @@ const fetchAloostudioAgents = async () => {
     );
 
     aiAgents.value = deployments.map(d => {
-      return {
+      // Extract region and channel info
+      const regionName = d.region?.name || 'Unknown Region';
+      const regionFlag = d.region?.flag || '';
+      const channel = d.channel || 'unknown';
+
+      // console.log('Deployment Index:', index);
+
+      // Format channel name for display
+      const channelDisplay = channel.charAt(0).toUpperCase() + channel.slice(1);
+
+      // Create display name with region and channel
+      const agentTitle = d.agent?.title || 'AI Agent';
+      const displayName = `${agentTitle} (${regionFlag} ${regionName} - ${channelDisplay})`;
+
+      const mappedAgent = {
         id: d.agent_id || d.id,
-        name: d.agent?.title || 'AI Agent',
+        name: displayName,
+        original_name: agentTitle,
         region_id: d.region_id || '',
+        region_name: regionName,
+        region_flag: regionFlag,
+        channel: channel,
+        channel_display: channelDisplay,
         agent_key: d.agent_key || '',
         description: d.agent?.welcome_message || '',
         capabilities: d.agent?.category_names || [],
@@ -75,6 +94,8 @@ const fetchAloostudioAgents = async () => {
         response_time: d.agent?.response_time || '',
         raw: d,
       };
+
+      return mappedAgent;
     });
   } catch (error) {
     useAlert(t('AGENT_MGMT.ADD.API.BLEEP_FETCH_ERROR'));
