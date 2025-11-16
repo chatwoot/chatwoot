@@ -74,6 +74,7 @@ export default {
   computed: {
     inboxesList() {
       if (this.assignedInbox?.id) {
+        // NOTE: Only show "All Inboxes" option when an inbox is already assigned
         return [
           {
             id: 0,
