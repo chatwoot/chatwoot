@@ -32,7 +32,7 @@ export default {
           preview: {
             senderName: 'Smith',
             businessName: 'AlooChat',
-            email: '<support@yourbusiness.com>',
+            email: '<support@aloochat.ai>',
           },
         },
         {
@@ -46,7 +46,7 @@ export default {
           preview: {
             senderName: '',
             businessName: 'AlooChat',
-            email: '<support@yourbusiness.com>',
+            email: '<support@aloochat.ai>',
           },
         },
       ],
