@@ -6,7 +6,7 @@ module Enterprise::InboxAgentAvailability
 
     # Get online agents with capacity
     agents = available_agents
-    agents = filter_by_capacity(agents) if capacity_filtering_enabled?
+    agents = filter_by_capacity(agents)
     agents.map(&:user_id)
   end
 

@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe AutoAssignment::RateLimiter do
+  # Stub Math methods for testing when assignment_policy is nil
+  # rubocop:disable RSpec/BeforeAfterAll, RSpec/InstanceVariable
+  before(:all) do
+    @math_had_positive = Math.respond_to?(:positive?)
+    Math.define_singleton_method(:positive?) { false } unless @math_had_positive
+  end
+
+  after(:all) do
+    Math.singleton_class.send(:remove_method, :positive?) unless @math_had_positive
+  end
+  # rubocop:enable RSpec/BeforeAfterAll, RSpec/InstanceVariable
+
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:agent) { create(:user, account: account, role: :agent) }
@@ -10,7 +22,7 @@ RSpec.describe AutoAssignment::RateLimiter do
   describe '#within_limit?' do
     context 'when rate limiting is not enabled' do
       before do
-        allow(inbox).to receive(:auto_assignment_config).and_return({})
+        allow(inbox).to receive(:assignment_policy).and_return(nil)
       end
 
       it 'returns true' do
@@ -19,11 +31,14 @@ RSpec.describe AutoAssignment::RateLimiter do
     end
 
     context 'when rate limiting is enabled' do
+      let(:assignment_policy) do
+        instance_double(AssignmentPolicy,
+                        fair_distribution_limit: 5,
+                        fair_distribution_window: 3600)
+      end
+
       before do
-        allow(inbox).to receive(:auto_assignment_config).and_return({
-                                                                      'fair_distribution_limit' => 5,
-                                                                      'fair_distribution_window' => 3600
-                                                                    })
+        allow(inbox).to receive(:assignment_policy).and_return(assignment_policy)
       end
 
       it 'returns true when under the limit' do
@@ -41,7 +56,7 @@ RSpec.describe AutoAssignment::RateLimiter do
   describe '#track_assignment' do
     context 'when rate limiting is not enabled' do
       before do
-        allow(inbox).to receive(:auto_assignment_config).and_return({})
+        allow(inbox).to receive(:assignment_policy).and_return(nil)
       end
 
       it 'does not track the assignment' do
@@ -51,11 +66,14 @@ RSpec.describe AutoAssignment::RateLimiter do
     end
 
     context 'when rate limiting is enabled' do
+      let(:assignment_policy) do
+        instance_double(AssignmentPolicy,
+                        fair_distribution_limit: 5,
+                        fair_distribution_window: 3600)
+      end
+
       before do
-        allow(inbox).to receive(:auto_assignment_config).and_return({
-                                                                      'fair_distribution_limit' => 5,
-                                                                      'fair_distribution_window' => 3600
-                                                                    })
+        allow(inbox).to receive(:assignment_policy).and_return(assignment_policy)
       end
 
       it 'creates a Redis key with correct expiry' do
@@ -73,7 +91,7 @@ RSpec.describe AutoAssignment::RateLimiter do
   describe '#current_count' do
     context 'when rate limiting is not enabled' do
       before do
-        allow(inbox).to receive(:auto_assignment_config).and_return({})
+        allow(inbox).to receive(:assignment_policy).and_return(nil)
       end
 
       it 'returns 0' do
@@ -82,11 +100,14 @@ RSpec.describe AutoAssignment::RateLimiter do
     end
 
     context 'when rate limiting is enabled' do
+      let(:assignment_policy) do
+        instance_double(AssignmentPolicy,
+                        fair_distribution_limit: 5,
+                        fair_distribution_window: 3600)
+      end
+
       before do
-        allow(inbox).to receive(:auto_assignment_config).and_return({
-                                                                      'fair_distribution_limit' => 5,
-                                                                      'fair_distribution_window' => 3600
-                                                                    })
+        allow(inbox).to receive(:assignment_policy).and_return(assignment_policy)
       end
 
       it 'counts matching Redis keys' do
@@ -100,11 +121,14 @@ RSpec.describe AutoAssignment::RateLimiter do
 
   describe 'configuration' do
     context 'with custom window' do
+      let(:assignment_policy) do
+        instance_double(AssignmentPolicy,
+                        fair_distribution_limit: 10,
+                        fair_distribution_window: 7200)
+      end
+
       before do
-        allow(inbox).to receive(:auto_assignment_config).and_return({
-                                                                      'fair_distribution_limit' => 10,
-                                                                      'fair_distribution_window' => 7200
-                                                                    })
+        allow(inbox).to receive(:assignment_policy).and_return(assignment_policy)
       end
 
       it 'uses the custom window value' do
@@ -119,18 +143,22 @@ RSpec.describe AutoAssignment::RateLimiter do
     end
 
     context 'without custom window' do
-      before do
-        allow(inbox).to receive(:auto_assignment_config).and_return({
-                                                                      'fair_distribution_limit' => 10
-                                                                    })
+      let(:assignment_policy) do
+        instance_double(AssignmentPolicy,
+                        fair_distribution_limit: 10,
+                        fair_distribution_window: nil)
       end
 
-      it 'uses the default window value of 3600' do
+      before do
+        allow(inbox).to receive(:assignment_policy).and_return(assignment_policy)
+      end
+
+      it 'uses the default window value of 24 hours' do
         expected_key = format(Redis::RedisKeys::ASSIGNMENT_KEY, inbox_id: inbox.id, agent_id: agent.id, conversation_id: conversation.id)
         expect(Redis::Alfred).to receive(:set).with(
           expected_key,
           conversation.id.to_s,
-          ex: 3600
+          ex: 86_400
         )
         rate_limiter.track_assignment(conversation)
       end
