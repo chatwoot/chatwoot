@@ -19,9 +19,15 @@ class Instagram::CallbacksController < ApplicationController
 
   # Process the authorization code and create inbox
   def process_successful_authorization
+    redirect_uri = "#{base_url}/#{provider_name}/callback"
+
+    Rails.logger.info "[Instagram Callback] redirect_uri: #{redirect_uri}"
+    Rails.logger.info "[Instagram Callback] base_url: #{base_url}"
+    Rails.logger.info "[Instagram Callback] provider_name: #{provider_name}"
+
     @response = instagram_client.auth_code.get_token(
       oauth_code,
-      redirect_uri: "#{base_url}/#{provider_name}/callback",
+      redirect_uri: redirect_uri,
       grant_type: 'authorization_code'
     )
 
