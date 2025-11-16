@@ -389,6 +389,15 @@
   post:
     $ref: ./application/conversation/labels/create.yml
 
+# Conversation Reporting Events
+
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/reporting_events:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  get:
+    $ref: ./application/conversation/reporting_events.yml
+
 # Inboxes
 /api/v1/accounts/{account_id}/inboxes:
   $ref: ./application/inboxes/index.yml
@@ -534,6 +543,13 @@
     $ref: ./application/webhooks/delete.yml
 
 ### Reports
+
+# Account Reporting Events
+/api/v1/accounts/{account_id}/reporting_events:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/reporting_events/index.yml
 
 # List
 /api/v2/accounts/{account_id}/reports:
