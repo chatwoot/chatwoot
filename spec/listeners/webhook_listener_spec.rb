@@ -11,30 +11,108 @@ describe WebhookListener do
     create(:message, message_type: 'outgoing',
                      account: account, inbox: inbox, conversation: conversation)
   end
-  let!(:message_created_event) { Events::Base.new(event_name, Time.zone.now, message: message) }
-  let!(:conversation_created_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
-  let!(:contact_event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
+  let(:message_created_event) { Events::Base.new(event_name, Time.zone.now, message: message) }
+  let(:conversation_created_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+  let(:contact_event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
 
   describe 'filter events by inbox' do
-    let(:event_name) { :'message.created' }
+    context 'when webhook is filtered by inbox' do
+      context 'with events containing inbox hash' do
+        let(:event_name) { :'message.created' }
 
-    context 'when webhook has an inbox and it matches the event inbox' do
-      it 'triggers the webhook event' do
-        webhook = create(:webhook, account: account, inbox: inbox)
-        expect(WebhookJob).to receive(:perform_later)
-          .with(webhook.url, message.webhook_data.merge(event: 'message_created')).once
+        it 'triggers webhook when inbox matches' do
+          webhook = create(:webhook, account: account, inbox: inbox)
+          expect(WebhookJob).to receive(:perform_later)
+            .with(webhook.url, message.webhook_data.merge(event: 'message_created')).once
 
-        listener.message_created(message_created_event)
+          listener.message_created(message_created_event)
+        end
+
+        it 'does not trigger webhook when inbox does not match' do
+          another_inbox = create(:inbox, account: account)
+          create(:webhook, account: account, inbox: another_inbox, url: 'https://different.webhook.com')
+          expect(WebhookJob).to receive(:perform_later).exactly(0).times
+
+          listener.message_created(message_created_event)
+        end
+      end
+
+      context 'with events containing inbox_id' do
+        let(:event_name) { :'conversation.typing_on' }
+        let(:typing_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: user) }
+
+        it 'triggers webhook when inbox_id matches' do
+          webhook = create(:webhook, account: account, inbox: inbox, subscriptions: ['conversation_typing_on'])
+          payload = {
+            event: 'conversation_typing_on',
+            user: user.webhook_data,
+            inbox_id: inbox.id,
+            conversation: conversation.webhook_data,
+            is_private: false
+          }
+
+          expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+          listener.conversation_typing_on(typing_event)
+        end
+
+        it 'does not trigger webhook when inbox_id does not match' do
+          another_inbox = create(:inbox, account: account)
+          create(:webhook, account: account, inbox: another_inbox, subscriptions: ['conversation_typing_on'], url: 'https://different.webhook.com')
+
+          expect(WebhookJob).not_to receive(:perform_later)
+          listener.conversation_typing_on(typing_event)
+        end
+      end
+
+      context 'with events without inbox' do
+        let(:event_name) { :'contact.created' }
+
+        it 'triggers webhook for events without inbox info' do
+          webhook = create(:webhook, account: account, inbox: inbox, subscriptions: ['contact_created'], url: 'https://filtered.webhook.com')
+
+          expect(WebhookJob).to receive(:perform_later)
+            .with(webhook.url, contact.webhook_data.merge(event: 'contact_created')).once
+          listener.contact_created(contact_event)
+        end
       end
     end
 
-    context 'when webhook has an inbox and it does not match the event inbox' do
-      it 'does not trigger webhook' do
-        another_inbox = create(:inbox, account: account)
-        create(:webhook, account: account, inbox: another_inbox)
-        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+    context 'when webhook is not filtered by inbox' do
+      it 'triggers for events with inbox hash' do
+        webhook = create(:webhook, account: account, inbox: nil, url: 'https://unfiltered.webhook.com')
 
-        listener.message_created(message_created_event)
+        expect(WebhookJob).to receive(:perform_later)
+          .with(webhook.url, message.webhook_data.merge(event: 'message_created')).once
+
+        event = Events::Base.new(:'message.created', Time.zone.now, message: message)
+        listener.message_created(event)
+      end
+
+      it 'triggers for events with inbox_id' do
+        webhook = create(:webhook, account: account, inbox: nil, subscriptions: ['conversation_typing_on'], url: 'https://unfiltered2.webhook.com')
+
+        payload = {
+          event: 'conversation_typing_on',
+          user: user.webhook_data,
+          inbox_id: inbox.id,
+          conversation: conversation.webhook_data,
+          is_private: false
+        }
+
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+
+        event = Events::Base.new(:'conversation.typing_on', Time.zone.now, conversation: conversation, user: user)
+        listener.conversation_typing_on(event)
+      end
+
+      it 'triggers for events without inbox' do
+        webhook = create(:webhook, account: account, inbox: nil, subscriptions: ['contact_created'], url: 'https://unfiltered3.webhook.com')
+
+        expect(WebhookJob).to receive(:perform_later)
+          .with(webhook.url, contact.webhook_data.merge(event: 'contact_created')).once
+
+        event = Events::Base.new(:'contact.created', Time.zone.now, contact: contact)
+        listener.contact_created(event)
       end
     end
   end
@@ -322,6 +400,7 @@ describe WebhookListener do
         payload = {
           event: 'conversation_typing_on',
           user: user.webhook_data,
+          inbox_id: inbox.id,
           conversation: conversation.webhook_data,
           is_private: false
         }
@@ -341,6 +420,7 @@ describe WebhookListener do
         payload = {
           event: 'conversation_typing_on',
           user: user.webhook_data,
+          inbox_id: api_inbox.id,
           conversation: api_conversation.webhook_data,
           is_private: false
         }
@@ -369,6 +449,7 @@ describe WebhookListener do
         payload = {
           event: 'conversation_typing_off',
           user: user.webhook_data,
+          inbox_id: inbox.id,
           conversation: conversation.webhook_data,
           is_private: false
         }
