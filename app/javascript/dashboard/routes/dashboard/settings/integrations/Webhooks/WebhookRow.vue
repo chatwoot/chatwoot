@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 import { useI18n } from 'vue-i18n';
+import InboxName from 'components/widgets/InboxName.vue';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -37,6 +38,7 @@ const subscribedEvents = computed(() => {
 <template>
   <tr>
     <td class="py-4 ltr:pr-4 rtl:pl-4">
+      <InboxName v-if="webhook.inbox" class="!mx-0" :inbox="webhook.inbox" />
       <div class="flex gap-2 font-medium break-words text-n-slate-12">
         <template v-if="webhook.name">
           {{ webhook.name }}

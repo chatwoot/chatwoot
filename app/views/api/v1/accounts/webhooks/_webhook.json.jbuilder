@@ -7,5 +7,6 @@ if webhook.inbox
   json.inbox do
     json.id webhook.inbox.id
     json.name webhook.inbox.name
+    json.channel_type webhook.inbox.channel_type
   end
 end
