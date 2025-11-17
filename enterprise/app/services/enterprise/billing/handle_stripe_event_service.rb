@@ -89,12 +89,27 @@ class Enterprise::Billing::HandleStripeEventService
     amount = extract_credit_amount(grant)
     return if amount.zero?
 
+    grant_type = extract_grant_type(grant)
     service = Enterprise::Billing::V2::CreditManagementService.new(account: account)
-    service.add_response_topup_credits(amount)
+    if grant_type == 'monetary'
+      service.add_response_topup_credits(amount)
+    else
+      service.sync_monthly_response_credits(amount)
+    end
   end
 
   def extract_credit_grant_id(grant_object)
     grant_object.respond_to?(:id) ? grant_object.id : grant_object['id']
+  end
+
+  def extract_grant_type(grant)
+    amount_object = extract_attribute(grant, :amount)
+    return 'monetary' if amount_object.blank?
+
+    type = extract_attribute(amount_object, :type)
+    return 'monetary' if type.blank?
+
+    type
   end
 
   def extract_credit_amount(grant)
@@ -104,7 +119,6 @@ class Enterprise::Billing::HandleStripeEventService
       credits = extract_attribute(metadata, :credits)
       return credits.to_i if credits.present? && credits.to_i.positive?
     end
-
     amount = extract_attribute(grant, :amount)
     return 0 if amount.blank?
 
