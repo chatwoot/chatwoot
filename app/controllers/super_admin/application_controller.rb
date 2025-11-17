@@ -9,9 +9,10 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
   include ActionView::Context
   include SuperAdmin::NavigationHelper
 
-  helper_method :render_vue_component, :settings_open?, :settings_pages
+  helper_method :render_vue_component, :settings_open?, :settings_pages, :installation_name
   # authenticiation done via devise : SuperAdmin Model
   before_action :authenticate_super_admin!
+  before_action :set_installation_name
 
   # Override this value to specify the number of elements to display at a time
   # on index pages. Defaults to 20.
@@ -27,6 +28,14 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
   end
 
   private
+
+  def set_installation_name
+    @installation_name = GlobalConfig.load('INSTALLATION_NAME', 'Admin')
+  end
+
+  def installation_name
+    @installation_name
+  end
 
   def render_vue_component(component_name, props = {})
     html_options = {

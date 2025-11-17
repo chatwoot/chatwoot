@@ -1,25 +1,10 @@
-<svg
-  width="16"
-  height="16"
-  viewBox="0 0 16 16"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clip-path="url(#woot-logo-clip-2342424e23u32098)">
-    <path
-      d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-      fill="#2781F6"
-    />
-    <path
-      d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z"
-      fill="white"
-      stroke="white"
-      stroke-width="0.1875"
-    />
-  </g>
-  <defs>
-    <clipPath id="woot-logo-clip-2342424e23u32098">
-      <rect width="16" height="16" fill="white" />
-    </clipPath>
-  </defs>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>neutral_logo_thumbnail</title>
+<desc>Neutral logo thumbnail without lettering</desc>
+<g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g id="neutral_logo_thumbnail" fill-rule="nonzero">
+<circle id="Oval" fill="#47A7F6" cx="64" cy="64" r="64"></circle>
+<path d="M96 96 L64 96 C40 96 20 76 20 52 C20 28 40 8 64 8 C88 8 108 28 108 52 L108 96 Z" id="Fill-1" stroke="#FFFFFF" stroke-width="3" fill="#FFFFFF"></path>
+</g>
+</g>
 </svg>
