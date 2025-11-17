@@ -3,7 +3,7 @@
 
 ___
 
-# Chatwoot
+# Chatwoo
 
 The modern customer support platform, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.
 

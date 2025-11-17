@@ -71,6 +71,7 @@ test/cypress/videos/*
 /config/master.key
 /config/*.enc
 
+.pnpm-store/
 
 # yalc for local testing
 .yalc
