@@ -92,8 +92,8 @@
         "RESET": "Reset",
         "CONFIRM_RESET": "Are you sure?",
         "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "RESET_SUCCESS": "訪問token已成功重新產生",
+        "RESET_ERROR": "無法重新產生訪問token。請再試一次"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "音效通知",
@@ -251,6 +251,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "退出登入"
     }
   },
   "COMPONENTS": {
@@ -305,6 +311,10 @@
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "收件匣",
+    "CAPTAIN_SETTINGS": "設定",
     "HOME": "首頁",
     "AGENTS": "客服",
     "AGENT_BOTS": "機器人",

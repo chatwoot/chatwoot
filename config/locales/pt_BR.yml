@@ -62,6 +62,9 @@ pt_BR:
         invalid: E-mail inválido
       phone_number:
         invalid: deve estar no formato e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: deve ser único na categoria e no portal
@@ -73,6 +76,7 @@ pt_BR:
       token_exchange_failed: 'Falha ao trocar o código por um token de acesso. Por favor, tente novamente.'
       invalid_token_permissions: 'O token de acesso não tem as permissões necessárias para o WhatsApp.'
       phone_info_fetch_failed: 'Falha ao obter a informação do número de telefone. Por favor, tente novamente.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       reauthorization:
         generic: 'Falha ao reautenticar o WhatsApp. Por favor, tente novamente.'
         not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
@@ -185,6 +189,8 @@ pt_BR:
       captain:
         resolved: 'A conversa foi marcada como resolvida por %{user_name} por inatividade'
         open: 'A conversa foi aberta por %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'A conversa foi resolvida por %{contact_name}'
