@@ -32,4 +32,7 @@ class Company < ApplicationRecord
   has_many :contacts, dependent: :nullify
 
   scope :ordered_by_name, -> { order(:name) }
+  scope :search_by_name_or_domain, lambda { |query|
+    where('name ILIKE :search OR domain ILIKE :search', search: "%#{query.strip}%")
+  }
 end
