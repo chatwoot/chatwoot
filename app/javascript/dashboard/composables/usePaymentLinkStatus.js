@@ -1,6 +1,7 @@
 import { computed, unref } from 'vue';
 
 const PAYMENT_STATUSES = {
+  INITIATED: 'initiated',
   PENDING: 'pending',
   PAID: 'paid',
   FAILED: 'failed',
@@ -10,33 +11,37 @@ const PAYMENT_STATUSES = {
 
 /**
  * Composable for handling payment link status display logic
- * @param {Ref|string} statusRef - Payment status (pending, paid, failed, expired, cancelled)
+ * @param {Ref|string} statusRef - Payment status (initiated, pending, paid, failed, expired, cancelled)
  * @returns {Object} UI properties for displaying payment status
  */
 export function usePaymentLinkStatus(statusRef) {
-  const status = computed(() => unref(statusRef)?.toString() || 'pending');
+  const status = computed(() => unref(statusRef)?.toString() || 'initiated');
 
   const iconName = computed(() => {
     const s = status.value;
 
     if (s === PAYMENT_STATUSES.PAID) {
-      return 'i-lucide-check-circle';
+      return 'i-lucide-circle-check';
     }
 
     if (s === PAYMENT_STATUSES.FAILED) {
-      return 'i-lucide-x-circle';
+      return 'i-lucide-circle-x';
     }
 
     if (s === PAYMENT_STATUSES.EXPIRED) {
-      return 'i-lucide-clock-off';
+      return 'i-lucide-clock-alert';
     }
 
     if (s === PAYMENT_STATUSES.CANCELLED) {
       return 'i-lucide-ban';
     }
 
-    // Default for pending
-    return 'i-lucide-clock';
+    if (s === PAYMENT_STATUSES.PENDING) {
+      return 'i-lucide-circle-dot-dashed';
+    }
+
+    // Default for initiated
+    return 'i-lucide-circle-dashed';
   });
 
   const iconBgColor = computed(() => {
@@ -54,8 +59,12 @@ export function usePaymentLinkStatus(statusRef) {
       return 'bg-n-slate-11';
     }
 
-    // Default for pending
-    return 'bg-n-amber-9';
+    if (s === PAYMENT_STATUSES.PENDING) {
+      return 'bg-n-amber-9';
+    }
+
+    // Default for initiated
+    return 'bg-n-sky-9';
   });
 
   const labelKey = computed(() => {
@@ -77,7 +86,11 @@ export function usePaymentLinkStatus(statusRef) {
       return 'PAYMENT_LINK.STATUS.CANCELLED';
     }
 
-    return 'PAYMENT_LINK.STATUS.PENDING';
+    if (s === PAYMENT_STATUSES.PENDING) {
+      return 'PAYMENT_LINK.STATUS.PENDING';
+    }
+
+    return 'PAYMENT_LINK.STATUS.INITIATED';
   });
 
   const statusBadgeBg = computed(() => {
@@ -95,8 +108,12 @@ export function usePaymentLinkStatus(statusRef) {
       return 'bg-n-slate-4';
     }
 
-    // Default for pending
-    return 'bg-n-amber-4';
+    if (s === PAYMENT_STATUSES.PENDING) {
+      return 'bg-n-amber-4';
+    }
+
+    // Default for initiated
+    return 'bg-n-sky-4';
   });
 
   const statusBadgeText = computed(() => {
@@ -114,8 +131,12 @@ export function usePaymentLinkStatus(statusRef) {
       return 'text-n-slate-11';
     }
 
-    // Default for pending
-    return 'text-n-amber-11';
+    if (s === PAYMENT_STATUSES.PENDING) {
+      return 'text-n-amber-11';
+    }
+
+    // Default for initiated
+    return 'text-n-sky-11';
   });
 
   return {

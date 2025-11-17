@@ -68,9 +68,14 @@ const filter = (accountId, queryPayload, page = 1, sort = '', order = '') => {
   );
 };
 
+const exportPaymentLinks = accountId => {
+  return axios.post(`/api/v1/accounts/${accountId}/payment_links/export`);
+};
+
 export default {
   create,
   get,
   search,
   filter,
+  exportPaymentLinks,
 };

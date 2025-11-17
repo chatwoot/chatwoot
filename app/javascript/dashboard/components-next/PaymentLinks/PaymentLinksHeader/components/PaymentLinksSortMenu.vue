@@ -32,10 +32,6 @@ const sortMenus = [
     value: 'amount',
   },
   {
-    label: t('PAYMENT_LINKS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.STATUS'),
-    value: 'status',
-  },
-  {
     label: t(
       'PAYMENT_LINKS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.CONTACT_NAME'
     ),

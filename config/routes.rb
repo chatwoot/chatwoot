@@ -192,6 +192,7 @@ Rails.application.routes.draw do
             collection do
               get :search
               post :filter
+              post :export
             end
           end
           resources :csat_survey_responses, only: [:index] do

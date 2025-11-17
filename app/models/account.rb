@@ -102,6 +102,7 @@ class Account < ApplicationRecord
   has_one :payzah_settings, dependent: :destroy_async, class_name: 'AccountPayzahSettings'
 
   has_one_attached :contacts_export
+  has_one_attached :payment_links_export
 
   enum :locale, LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h, prefix: true
   enum :status, { active: 0, suspended: 1 }

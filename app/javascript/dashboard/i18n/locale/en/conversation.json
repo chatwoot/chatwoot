@@ -517,6 +517,7 @@
       }
     },
     "STATUS": {
+      "INITIATED": "Initiated",
       "PENDING": "Pending",
       "PAID": "Paid",
       "FAILED": "Failed",
@@ -545,7 +546,7 @@
           }
         },
         "EXPORT": "Export",
-        "EXPORT_SUCCESS": "Payment links exported successfully",
+        "EXPORT_SUCCESS": "Export is in progress. You will be notified on email when the export file is ready to download.",
         "EXPORT_ERROR": "Failed to export payment links"
       }
     },

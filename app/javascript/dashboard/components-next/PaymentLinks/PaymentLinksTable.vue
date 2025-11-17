@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { useRouter } from 'vue-router';
 import { usePaymentLinkStatus } from 'dashboard/composables/usePaymentLinkStatus';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 defineProps({
   paymentLinks: { type: Array, required: true },
@@ -38,6 +39,10 @@ const navigateToContact = (accountId, contactId) => {
     name: 'contact_profile',
     params: { accountId, id: contactId },
   });
+};
+
+const openPaymentLink = url => {
+  window.open(url, '_blank', 'noopener,noreferrer');
 };
 
 const getStatusBadgeClasses = status => {
@@ -111,7 +116,9 @@ const getStatusBadgeClasses = status => {
       <tr v-for="paymentLink in paymentLinks" :key="paymentLink.id">
         <td class="py-4 ltr:pr-4 rtl:pl-4">
           <div class="flex flex-col gap-0.5">
-            <span class="font-medium">{{ paymentLink.payment_id }}</span>
+            <span class="font-medium">{{
+              paymentLink.external_payment_id
+            }}</span>
             <span class="text-xs text-n-slate-11">{{
               formatDate(paymentLink.created_at)
             }}</span>
@@ -147,8 +154,8 @@ const getStatusBadgeClasses = status => {
               getStatusBadgeClasses(paymentLink.status).text,
             ]"
           >
-            <span
-              :class="getStatusBadgeClasses(paymentLink.status).icon"
+            <Icon
+              :icon="getStatusBadgeClasses(paymentLink.status).icon"
               class="text-sm"
             />
             <span>{{
@@ -190,10 +197,7 @@ const getStatusBadgeClasses = status => {
               slate
               xs
               faded
-              tag="a"
-              :href="paymentLink.payment_url"
-              target="_blank"
-              rel="noopener noreferrer"
+              @click="openPaymentLink(paymentLink.payment_url)"
             />
           </div>
         </td>

@@ -1,6 +1,6 @@
 class PaymentLinkPolicy < ApplicationPolicy
   def index?
-    @account_user.administrator? || @account_user.agent? || @account_user.custom_role&.permissions&.include?('contact_manage')
+    true
   end
 
   def search?
@@ -8,6 +8,10 @@ class PaymentLinkPolicy < ApplicationPolicy
   end
 
   def filter?
+    true
+  end
+
+  def export?
     true
   end
 end

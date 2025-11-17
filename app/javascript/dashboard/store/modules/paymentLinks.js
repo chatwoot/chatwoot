@@ -139,13 +139,19 @@ const actions = {
       return throwErrorMessage(error);
     }
   },
-  async export() {
+  async export({ commit, rootGetters }) {
+    commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { isExporting: true });
     try {
-      // This is a placeholder - implement actual export API call when backend is ready
-      // TODO: Use accountId from rootGetters when implementing
-      throw new Error('Export functionality not yet implemented');
+      const accountId = rootGetters.getCurrentAccountId;
+      await PaymentLinksAPI.exportPaymentLinks(accountId);
+      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { isExporting: false });
     } catch (error) {
-      return throwErrorMessage(error);
+      commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { isExporting: false });
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      } else {
+        throw new Error(error);
+      }
     }
   },
   setPaymentLinkFilters({ commit }, data) {

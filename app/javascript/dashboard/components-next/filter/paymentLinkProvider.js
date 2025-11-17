@@ -60,6 +60,10 @@ export function usePaymentLinkFilterContext() {
       dataType: 'text',
       options: [
         {
+          id: 'initiated',
+          name: t('PAYMENT_LINKS.STATUS.INITIATED'),
+        },
+        {
           id: 'pending',
           name: t('PAYMENT_LINKS.STATUS.PENDING'),
         },

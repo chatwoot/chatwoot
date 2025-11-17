@@ -85,6 +85,20 @@ class PaymentLink < ApplicationRecord
 
     where(amount: min..max)
   }
+  scope :order_on_created_at, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"payment_links\".\"created_at\" #{direction} NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_contact_name, lambda { |direction|
+    joins(:contact).order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"name\" #{direction} NULLS LAST")
+      )
+    )
+  }
 
   def mark_as_paid!(callback_data = {})
     update!(
