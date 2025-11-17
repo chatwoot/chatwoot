@@ -2,65 +2,54 @@ class AgentBotListener < BaseListener
   def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
-    agent_bot = agent_bot_for(inbox, conversation)
-    return unless agent_bot
-
     event_name = __method__.to_s
     payload = conversation.webhook_data.merge(event: event_name)
-    process_webhook_bot_event(agent_bot, payload)
+    agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
   def conversation_opened(event)
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
-    agent_bot = agent_bot_for(inbox, conversation)
-    return unless agent_bot
-
     event_name = __method__.to_s
     payload = conversation.webhook_data.merge(event: event_name)
-    process_webhook_bot_event(agent_bot, payload)
+    agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
   def message_created(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
-    agent_bot = agent_bot_for(inbox, message.conversation)
-    return unless agent_bot
     return unless message.webhook_sendable?
 
     method_name = __method__.to_s
-    process_message_event(method_name, agent_bot, message, event)
+    agent_bots_for(inbox, message.conversation).each { |agent_bot| process_message_event(method_name, agent_bot, message, event) }
   end
 
   def message_updated(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
-    agent_bot = agent_bot_for(inbox, message.conversation)
-    return unless agent_bot
     return unless message.webhook_sendable?
 
     method_name = __method__.to_s
-    process_message_event(method_name, agent_bot, message, event)
+    agent_bots_for(inbox, message.conversation).each { |agent_bot| process_message_event(method_name, agent_bot, message, event) }
   end
 
   def webwidget_triggered(event)
     contact_inbox = event.data[:contact_inbox]
     inbox = contact_inbox.inbox
-    agent_bot = agent_bot_for(inbox)
-    return unless agent_bot
-
     event_name = __method__.to_s
     payload = contact_inbox.webhook_data.merge(event: event_name)
     payload[:event_info] = event.data[:event_info]
-    process_webhook_bot_event(agent_bot, payload)
+    agent_bots_for(inbox).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
   private
 
-  def agent_bot_for(inbox, conversation = nil)
-    return conversation.assignee_agent_bot if conversation&.assignee_agent_bot.present?
-
-    active_inbox_agent_bot(inbox)
+  def agent_bots_for(inbox, conversation = nil)
+    bots = []
+    bots << conversation.assignee_agent_bot if conversation&.assignee_agent_bot.present?
+    inbox_bot = active_inbox_agent_bot(inbox)
+    bots << inbox_bot if inbox_bot.present?
+    bots.compact.uniq
   end
 
   def active_inbox_agent_bot(inbox)
