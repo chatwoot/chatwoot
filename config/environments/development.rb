@@ -1,3 +1,5 @@
+require 'fileutils'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -77,7 +79,9 @@ Rails.application.configure do
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
-  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
+  log_file = Rails.root.join('log', "#{Rails.env}.log")
+  FileUtils.mkdir_p(log_file.dirname) unless log_file.dirname.exist?
+  config.logger = ActiveSupport::Logger.new(log_file, 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
 
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do

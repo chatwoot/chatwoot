@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    # Temporarily using standard postgres instead of pgvector
+    # Once network is fixed, switch back to pgvector/pgvector:pg16
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+

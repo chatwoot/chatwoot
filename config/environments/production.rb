@@ -1,3 +1,5 @@
+require 'fileutils'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -78,8 +80,10 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   else
+    log_file = Rails.root.join("log/#{Rails.env}.log")
+    FileUtils.mkdir_p(log_file.dirname) unless log_file.dirname.exist?
     config.logger    = ActiveSupport::Logger.new(
-      Rails.root.join("log/#{Rails.env}.log"),
+      log_file,
       1,
       ENV.fetch('LOG_SIZE', '1024').to_i.megabytes
     )
