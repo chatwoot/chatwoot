@@ -18,9 +18,9 @@
     "CREATED_AT_LABEL": "Erstellt",
     "NEW_MESSAGE": "Neue Nachricht",
     "CALL": "Anruf",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL_UNDER_DEVELOPMENT": "Anrufe sind in der Entwicklung",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "Spracheingang wählen"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Es sind keine vorherigen Gespräche mit diesem Kontakt verbunden.",
@@ -554,12 +554,12 @@
         "WROTE": "schrieb",
         "YOU": "Sie",
         "SAVE": "Notiz speichern",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "Füge eine Kontakt-Notiz hinzu",
         "EXPAND": "Erweitern",
         "COLLAPSE": "Einklappen",
         "NO_NOTES": "Keine Notizen, Sie können Notizen auf der Kontakt-Detailseite hinzufügen.",
         "EMPTY_STATE": "Es gibt keine Notizen zu diesem Kontakt. Sie können eine Notiz hinzufügen, indem Sie diese in das obige Feld eingeben.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "Es sind noch keine Notizen vorhanden. Benutzen Sie die Schaltfläche \"Notiz hinzufügen\" um eine zu erstellen."
       }
     },
     "EMPTY_STATE": {
@@ -574,21 +574,21 @@
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Labels zuweisen",
     "ASSIGN_LABELS_SUCCESS": "Labels erfolgreich zugewiesen.",
-    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
-    "NO_LABELS_FOUND": "No labels available yet.",
+    "ASSIGN_LABELS_FAILED": "Fehler beim Zuweisen der Labels",
+    "DESCRIPTION": "Wählen Sie die Labels aus, die zu den ausgewählten Kontakten hinzugefügt werden sollen.",
+    "NO_LABELS_FOUND": "Noch keine Labels vorhanden.",
     "SELECTED_COUNT": "{count} selected",
-    "CLEAR_SELECTION": "Clear selection",
-    "SELECT_ALL": "Select all ({count})",
+    "CLEAR_SELECTION": "Auswahl löschen",
+    "SELECT_ALL": "Alle auswählen ({count})",
     "DELETE_CONTACTS": "Löschen",
-    "DELETE_SUCCESS": "Contacts deleted successfully.",
-    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_SUCCESS": "Kontakte erfolgreich gelöscht.",
+    "DELETE_FAILED": "Kontakte konnten nicht gelöscht werden.",
     "DELETE_DIALOG": {
-      "TITLE": "Delete selected contacts",
-      "SINGULAR_TITLE": "Delete selected contact",
-      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
-      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
-      "CONFIRM_MULTIPLE": "Delete contacts",
+      "TITLE": "Ausgewählte Kontakte löschen",
+      "SINGULAR_TITLE": "Ausgewählten Kontakt löschen",
+      "DESCRIPTION": "Dies wird {count} ausgewählte Kontakte dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "SINGULAR_DESCRIPTION": "Der ausgewählte Kontakt wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "CONFIRM_MULTIPLE": "Kontakte löschen",
       "CONFIRM_SINGLE": "Kontakt löschen"
     }
   },

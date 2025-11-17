@@ -207,7 +207,7 @@ group :production do
 end
 
 group :development do
-  gem 'annotaterb'
+  gem 'annotate'
   gem 'bullet'
   gem 'letter_opener'
   gem 'scss_lint', require: false
