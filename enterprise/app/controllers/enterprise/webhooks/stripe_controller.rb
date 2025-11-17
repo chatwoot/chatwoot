@@ -44,6 +44,6 @@ class Enterprise::Webhooks::StripeController < ActionController::API
 
   def v2_billing_event?(event_type)
     Rails.logger.debug { "V2 billing event: #{event_type}" }
-    event_type.start_with?('v2.')
+    event_type.start_with?('v2.') if event_type.present?
   end
 end
