@@ -6,42 +6,44 @@ import { DirectUpload } from 'activestorage';
 import {
   DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
   resolveMaximumFileUploadSize,
-} from 'shared/helpers/FileUploadLimitHelper';
+} from 'shared/helpers/FileHelper';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+    installationLimit() {
+      return resolveMaximumFileUploadSize(
+        this.globalConfig.maximumFileUploadSize
+      );
+    },
   },
 
   methods: {
     maxSizeFor(mime) {
-      const installationLimit = resolveMaximumFileUploadSize(
-        this.globalConfig.maximumFileUploadSize
-      );
-
       if (this.isOnPrivateNote) {
-        return installationLimit;
+        return this.installationLimit;
+      }
+
+      const channelType = this.inbox?.channel_type;
+
+      if (!channelType || channelType === INBOX_TYPES.WEB) {
+        return this.installationLimit;
       }
 
       const channelLimit = getMaxUploadSizeByChannel({
-        channelType: this.inbox?.channel_type,
+        channelType,
         medium: this.inbox?.medium, // e.g. 'sms' | 'whatsapp'
         mime, // e.g. 'image/png'
       });
 
-      const channelType = this.inbox?.channel_type;
-
-      if (
-        !channelType ||
-        channelType === 'Channel::WebWidget' ||
-        channelLimit === DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE
-      ) {
-        return installationLimit;
+      if (channelLimit === DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE) {
+        return this.installationLimit;
       }
 
-      return Math.min(channelLimit, installationLimit);
+      return Math.min(channelLimit, this.installationLimit);
     },
     alertOverLimit(maxSizeMB) {
       useAlert(

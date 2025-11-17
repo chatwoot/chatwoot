@@ -12,7 +12,11 @@ vi.mock('dashboard/composables', () => ({
 }));
 vi.mock('vue-i18n');
 vi.mock('activestorage');
-vi.mock('shared/helpers/FileHelper');
+vi.mock('shared/helpers/FileHelper', () => ({
+  checkFileSizeLimit: vi.fn(),
+  resolveMaximumFileUploadSize: vi.fn(value => Number(value) || 40),
+  DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE: 40,
+}));
 vi.mock('@chatwoot/utils');
 
 describe('useFileUpload', () => {
