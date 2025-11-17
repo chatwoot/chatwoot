@@ -32,7 +32,7 @@
     "LOADING_CONVERSATIONS": "Sohbetler Yükleniyor\n",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
-    "API_HOURS_WINDOW": "Bu sohbete yalnızca {hours} saat içinde yanıt verebilirsiniz",
+    "API_HOURS_WINDOW": "Bu konuşmaya yalnızca {hours} saat içinde cevap verebilirsiniz",
     "NOT_ASSIGNED_TO_YOU": "Bu görüşme size atanmamış. Bu konuşmayı kendinize atamak ister misiniz?",
     "ASSIGN_TO_ME": "Bana ata",
     "BOT_HANDOFF_MESSAGE": "Şu anda bir asistan veya bot tarafından yürütülen bir konuşmaya yanıt veriyorsunuz.",
@@ -42,7 +42,7 @@
     "BOT_HANDOFF_ERROR": "Konuşma devralınamadı. Lütfen tekrar deneyin.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bu konuşmaya yalnızca şablon mesaj kullanarak yanıt verebilirsiniz, çünkü",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Tüm yeni mesajlar orada görünecek. Bu sohbetten artık mesaj gönderemezsiniz.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Bu Instagram hesabı, yeni Instagram kanal gelen kutusuna taşındı. Tüm yeni mesajlar orada görünecektir. Artık bu konuşmadan mesaj gönderemeyeceksiniz.",
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
@@ -139,8 +139,8 @@
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "#{conversationId} numaralı sohbeti sil",
-      "DESCRIPTION": "Bu sohbeti silmek istediğinizden emin misiniz?",
+      "TITLE": "#{conversationId} numaralı konuşmayı sil",
+      "DESCRIPTION": "Bu konuşmayı silmek istediğinizden emin misiniz?",
       "CONFIRM": "Sil"
     },
     "CARD_CONTEXT_MENU": {
@@ -159,7 +159,7 @@
       "ASSIGN_LABEL": "Etiket ata",
       "AGENTS_LOADING": "Temsilciler Yükleniyor...",
       "ASSIGN_TEAM": "Takım ata",
-      "DELETE": "Sohbeti sil",
+      "DELETE": "Konuşmayı sil",
       "OPEN_IN_NEW_TAB": "Yeni sekmede aç",
       "COPY_LINK": "Konuşma bağlantısını kopyala",
       "COPY_LINK_SUCCESS": "Konuşma bağlantısı panoya kopyalandı",
@@ -229,9 +229,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "ENABLE_TOOLTIP": "Alıntılanan e-posta zincirini dahil et",
+        "DISABLE_TOOLTIP": "Alıntılanan e-posta zincirini dahil etme",
+        "REMOVE_PREVIEW": "Alıntılanan e-posta zincirini kaldır",
         "COLLAPSE": "Önizlemeyi daralt",
         "EXPAND": "Önizlemeyi genişlet"
       }
@@ -244,8 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiket başarıyla atandı",
     "ASSIGN_LABEL_FAILED": "Etiket ataması yapılamadı",
     "CHANGE_TEAM": "Takım değişti",
-    "SUCCESS_DELETE_CONVERSATION": "Sohbet başarıyla silindi",
-    "FAIL_DELETE_CONVERSATION": "Sohbet silinemedi! Tekrar deneyin",
+    "SUCCESS_DELETE_CONVERSATION": "Konuşma başarıyla silindi",
+    "FAIL_DELETE_CONVERSATION": "Konuşma silinemedi! Tekrar deneyin",
     "FILE_SIZE_LIMIT": "Dosya, {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB ek dosya sınırını aşıyor",
     "MESSAGE_ERROR": "Bu mesaj gönderilemiyor, lütfen daha sonra tekrar deneyin",
     "SENT_BY": "Tarafından gönderildi:",

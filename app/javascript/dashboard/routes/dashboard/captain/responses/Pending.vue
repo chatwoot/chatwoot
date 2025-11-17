@@ -7,16 +7,14 @@ import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { frontendURL } from 'dashboard/helper/URLHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
-import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
@@ -28,7 +26,6 @@ const route = useRoute();
 const store = useStore();
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
-const assistants = useMapGetter('captainAssistants/getRecords');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
@@ -37,21 +34,20 @@ const selectedResponse = ref(null);
 const deleteDialog = ref(null);
 const bulkDeleteDialog = ref(null);
 
-const selectedAssistant = ref('all');
+const selectedAssistantId = Number(route.params.assistantId);
 const dialogType = ref('');
 const searchQuery = ref('');
 const { t } = useI18n();
 
 const createDialog = ref(null);
 
-const shouldShowDropdown = computed(() => {
-  if (assistants.value.length === 0) return false;
-  return !isFetching.value;
-});
-
-const backUrl = computed(() =>
-  frontendURL(`accounts/${route.params.accountId}/captain/responses`)
-);
+const backUrl = computed(() => ({
+  name: 'captain_assistants_responses_index',
+  params: {
+    accountId: route.params.accountId,
+    assistantId: selectedAssistantId,
+  },
+}));
 
 // Filter out approved responses in pending view
 const filteredResponses = computed(() =>
@@ -76,11 +72,6 @@ const handleAccept = async () => {
   } finally {
     selectedResponse.value = null;
   }
-};
-
-const handleCreate = () => {
-  dialogType.value = 'create';
-  nextTick(() => createDialog.value.dialogRef.open());
 };
 
 const handleEdit = () => {
@@ -134,8 +125,8 @@ const updateURLWithFilters = (page, search) => {
 const fetchResponses = (page = 1) => {
   const filterParams = { page, status: 'pending' };
 
-  if (selectedAssistant.value !== 'all') {
-    filterParams.assistantId = selectedAssistant.value;
+  if (selectedAssistantId) {
+    filterParams.assistantId = selectedAssistantId;
   }
   if (searchQuery.value) {
     filterParams.search = searchQuery.value;
@@ -151,31 +142,18 @@ const fetchResponses = (page = 1) => {
 const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
 
-const bulkSelectionState = computed(() => {
-  const selectedCount = bulkSelectedIds.value.size;
-  const totalCount = filteredResponses.value?.length || 0;
-
-  return {
-    hasSelected: selectedCount > 0,
-    isIndeterminate: selectedCount > 0 && selectedCount < totalCount,
-    allSelected: totalCount > 0 && selectedCount === totalCount,
-  };
-});
-
-const bulkCheckbox = computed({
-  get: () => bulkSelectionState.value.allSelected,
-  set: value => {
-    bulkSelectedIds.value = value
-      ? new Set(filteredResponses.value.map(r => r.id))
-      : new Set();
-  },
-});
-
 const buildSelectedCountLabel = computed(() => {
   const count = filteredResponses.value?.length || 0;
-  return bulkSelectionState.value.allSelected
+  const isAllSelected = bulkSelectedIds.value.size === count && count > 0;
+  return isAllSelected
     ? t('CAPTAIN.RESPONSES.UNSELECT_ALL', { count })
     : t('CAPTAIN.RESPONSES.SELECT_ALL', { count });
+});
+
+const selectedCountLabel = computed(() => {
+  return t('CAPTAIN.RESPONSES.SELECTED', {
+    count: bulkSelectedIds.value.size,
+  });
 });
 
 const handleCardHover = (isHovered, id) => {
@@ -219,12 +197,11 @@ const handleBulkApprove = async () => {
 };
 
 const onPageChange = page => {
-  const wasAllPageSelected = bulkSelectionState.value.allSelected;
-  const hadPartialSelection = bulkSelectedIds.value.size > 0;
+  const hadSelection = bulkSelectedIds.value.size > 0;
 
   fetchResponses(page);
 
-  if (wasAllPageSelected || hadPartialSelection) {
+  if (hadSelection) {
     bulkSelectedIds.value = new Set();
   }
 };
@@ -239,22 +216,16 @@ const onBulkDeleteSuccess = () => {
   fetchResponseAfterBulkAction();
 };
 
-const handleAssistantFilterChange = assistant => {
-  selectedAssistant.value = assistant;
-  fetchResponses(1);
-};
-
 const debouncedSearch = debounce(async () => {
   fetchResponses(1);
 }, 500);
 
 const hasActiveFilters = computed(() => {
-  return Boolean(searchQuery.value || selectedAssistant.value !== 'all');
+  return Boolean(searchQuery.value);
 });
 
 const clearFilters = () => {
   searchQuery.value = '';
-  selectedAssistant.value = 'all';
   fetchResponses(1);
 };
 
@@ -267,7 +238,6 @@ const initializeFromURL = () => {
 };
 
 onMounted(() => {
-  store.dispatch('captainAssistants/get');
   initializeFromURL();
 });
 </script>
@@ -276,16 +246,14 @@ onMounted(() => {
   <PageLayout
     :total-count="responseMeta.totalCount"
     :current-page="responseMeta.page"
-    :button-policy="['administrator']"
     :header-title="$t('CAPTAIN.RESPONSES.PENDING_FAQS')"
-    :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"
     :is-empty="!filteredResponses.length"
     :show-pagination-footer="!isFetching && !!filteredResponses.length"
+    :show-know-more="false"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :back-url="backUrl"
     @update:current-page="onPageChange"
-    @click="handleCreate"
   >
     <template #knowMore>
       <FeatureSpotlightPopover
@@ -299,96 +267,53 @@ onMounted(() => {
       />
     </template>
 
-    <template #subHeader>
+    <template #search>
       <div
-        v-if="shouldShowDropdown"
-        class="mb-2 flex justify-between items-center py-1"
-        :class="{
-          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 w-fit':
-            bulkSelectionState.hasSelected,
-        }"
+        v-if="bulkSelectedIds.size === 0"
+        class="flex gap-3 justify-between w-full items-center"
       >
-        <div
-          v-if="!bulkSelectionState.hasSelected"
-          class="flex gap-3 justify-between w-full items-center"
-        >
-          <div class="flex items-center gap-3">
-            <AssistantSelector
-              :assistant-id="selectedAssistant"
-              @update="handleAssistantFilterChange"
-            />
-          </div>
-          <Input
-            v-model="searchQuery"
-            :placeholder="$t('CAPTAIN.RESPONSES.SEARCH_PLACEHOLDER')"
-            class="w-64"
-            size="sm"
-            type="search"
-            autofocus
-            @input="debouncedSearch"
-          />
-        </div>
-
-        <transition
-          name="slide-fade"
-          enter-active-class="transition-all duration-300 ease-out"
-          enter-from-class="opacity-0 transform ltr:-translate-x-4 rtl:translate-x-4"
-          enter-to-class="opacity-100 transform translate-x-0"
-          leave-active-class="hidden opacity-0"
-        >
-          <div
-            v-if="bulkSelectionState.hasSelected"
-            class="flex items-center gap-3"
-          >
-            <div class="flex items-center gap-3">
-              <div class="flex items-center gap-1.5">
-                <Checkbox
-                  v-model="bulkCheckbox"
-                  :indeterminate="bulkSelectionState.isIndeterminate"
-                />
-                <span class="text-sm text-n-slate-12 font-medium tabular-nums">
-                  {{ buildSelectedCountLabel }}
-                </span>
-              </div>
-              <span class="text-sm text-n-slate-10 tabular-nums">
-                {{
-                  $t('CAPTAIN.RESPONSES.SELECTED', {
-                    count: bulkSelectedIds.size,
-                  })
-                }}
-              </span>
-            </div>
-            <div class="h-4 w-px bg-n-strong" />
-            <div class="flex gap-3 items-center">
-              <Button
-                :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
-                sm
-                ghost
-                icon="i-lucide-check"
-                class="!px-1.5"
-                @click="handleBulkApprove"
-              />
-              <div class="h-4 w-px bg-n-strong" />
-              <Button
-                :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
-                sm
-                ruby
-                ghost
-                class="!px-1.5"
-                icon="i-lucide-trash"
-                @click="bulkDeleteDialog.dialogRef.open()"
-              />
-            </div>
-          </div>
-        </transition>
+        <Input
+          v-model="searchQuery"
+          :placeholder="$t('CAPTAIN.RESPONSES.SEARCH_PLACEHOLDER')"
+          class="w-64"
+          size="sm"
+          type="search"
+          autofocus
+          @input="debouncedSearch"
+        />
       </div>
+    </template>
+
+    <template #subHeader>
+      <BulkSelectBar
+        v-model="bulkSelectedIds"
+        :all-items="filteredResponses"
+        :select-all-label="buildSelectedCountLabel"
+        :selected-count-label="selectedCountLabel"
+        :delete-label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
+        class="w-fit"
+        :class="{
+          'mb-2': bulkSelectedIds.size > 0,
+        }"
+        @bulk-delete="bulkDeleteDialog.dialogRef.open()"
+      >
+        <template #secondary-actions>
+          <Button
+            :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
+            sm
+            ghost
+            icon="i-lucide-check"
+            class="!px-1.5"
+            @click="handleBulkApprove"
+          />
+        </template>
+      </BulkSelectBar>
     </template>
 
     <template #emptyState>
       <ResponsePageEmptyState
         variant="pending"
         :has-active-filters="hasActiveFilters"
-        @click="handleCreate"
         @clear-filters="clearFilters"
       />
     </template>
