@@ -39,4 +39,34 @@ RSpec.describe 'Super Admin Installation Config API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /super_admin/installation_configs/:id' do
+    let!(:primary_color_config) do
+      create(:installation_config, name: InstallationConfig::PRIMARY_COLOR_NAME, value: '#2781F6', locked: false)
+    end
+
+    context 'when the super admin is not signed in' do
+      it 'redirects to the login page' do
+        patch "/super_admin/installation_configs/#{primary_color_config.id}",
+              params: { installation_config: { name: primary_color_config.name, value: '#123456' } }
+
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context 'when the super admin is signed in' do
+      before do
+        sign_in(super_admin, scope: :super_admin)
+      end
+
+      it 'rejects an invalid hex value' do
+        patch "/super_admin/installation_configs/#{primary_color_config.id}",
+              params: { installation_config: { name: primary_color_config.name, value: '123456' } }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('must be a valid hex color in #RRGGBB format')
+        expect(primary_color_config.reload.value).to eq('#2781F6')
+      end
+    end
+  end
 end

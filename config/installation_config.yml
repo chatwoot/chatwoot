@@ -42,6 +42,11 @@
   value: 'Chatwoot'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
+- name: PRIMARY_COLOR_HEX
+  value: '#2781F6'
+  display_title: 'Primary Color'
+  description: 'Hex value used for the installation primary brand color (#RRGGBB)'
+  locked: false
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
   display_title: 'Terms URL'

@@ -13,6 +13,8 @@
   value: 'https://www.chatwoot.com'
 - name: BRAND_NAME
   value: 'Chatwoot'
+- name: PRIMARY_COLOR_HEX
+  value: '#2781F6'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
 - name: PRIVACY_URL

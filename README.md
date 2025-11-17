@@ -94,6 +94,10 @@ Detailed documentation is available at [chatwoot.com/help-center](https://www.ch
 
 The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot.com/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
 
+## Branding configuration
+
+Administrators can adjust installation-wide branding through the super admin panel (Settings → Installation Configs). The new `PRIMARY_COLOR_HEX` config controls the primary theme color applied across dashboards, widgets, and portals. Provide the value as a hex string in `#RRGGBB` format. Chatwoot defaults to `#2781F6` when no override is supplied.
+
 ## Branching model
 
 We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.

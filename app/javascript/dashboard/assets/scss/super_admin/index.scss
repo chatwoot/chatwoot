@@ -100,6 +100,7 @@ body {
     --solid-active: 255 255 255;
     --solid-amber: 252 232 193;
     --solid-blue: 218 236 255;
+    --cw-admin-primary-preview: #2781F6;
     --solid-iris: 230 231 255;
 
     --alpha-1: 67, 67, 67, 0.06;
@@ -199,6 +200,7 @@ body {
     --solid-active: 53 57 66;
     --solid-amber: 42 37 30;
     --solid-blue: 16 49 91;
+    --cw-admin-primary-preview: #2781F6;
     --solid-iris: 38 42 101;
     --text-blue: 126 182 255;
 
@@ -210,5 +212,12 @@ body {
     --border-blue: 39, 129, 246, 0.5;
     --border-container: 236, 236, 236, 0;
     --white-alpha: 255, 255, 255, 0.1;
+  }
+}
+
+@layer components {
+  .primary-color-preview {
+    background-color: var(--cw-admin-primary-preview, #2781F6);
+    transition: background-color 150ms ease-in-out;
   }
 }
