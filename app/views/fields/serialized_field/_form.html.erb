@@ -13,7 +13,53 @@
         <% end %>
       <% end %>
     <% else %>
-      <%= f.text_field field.attribute %>
+      <% if field.resource.respond_to?(:name) && field.resource.name == InstallationConfig::PRIMARY_COLOR_NAME %>
+        <% fallback_color = '#2781F6' %>
+        <% raw_value = field.resource.value %>
+        <% initial_color = raw_value.present? ? raw_value.to_s : fallback_color %>
+        <% initial_color = initial_color.strip.upcase %>
+        <% initial_color = fallback_color unless initial_color.match?(InstallationConfig::PRIMARY_COLOR_HEX_REGEX) %>
+        <div
+          class="space-y-2"
+          data-primary-color-config="true"
+          data-default-color="<%= fallback_color %>"
+        >
+          <div class="flex items-center gap-3">
+            <input
+              type="color"
+              value="<%= initial_color %>"
+              class="h-10 w-16 rounded border border-slate-200 bg-white"
+              data-primary-color-picker="true"
+              aria-label="Select primary color"
+            />
+            <%= f.text_field field.attribute,
+                  value: initial_color,
+                  pattern: '#[0-9A-Fa-f]{6}',
+                  title: 'Use a hex color in #RRGGBB format',
+                  placeholder: fallback_color,
+                  autocomplete: 'off',
+                  inputmode: 'text',
+                  aria: { describedby: 'primary-color-hex-error' },
+                  class: 'w-36 rounded border border-slate-200 p-2 font-mono text-sm uppercase tracking-wide',
+                  data: { primary_color_input: true, default_color: fallback_color }
+            %>
+          </div>
+          <p
+            id="primary-color-hex-error"
+            class="text-xs text-red-600 hidden"
+            data-primary-color-error="true"
+          >
+            Color must be a valid hex value in #RRGGBB format.
+          </p>
+          <div
+            class="primary-color-preview h-10 w-20 rounded border border-slate-200"
+            aria-hidden="true"
+            data-primary-color-preview="true"
+          ></div>
+        </div>
+      <% else %>
+        <%= f.text_field field.attribute %>
+      <% end %>
     <% end %>
   </div>
 </div>

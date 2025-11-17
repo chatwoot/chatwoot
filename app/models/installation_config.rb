@@ -15,6 +15,9 @@
 #  index_installation_configs_on_name_and_created_at  (name,created_at) UNIQUE
 #
 class InstallationConfig < ApplicationRecord
+  PRIMARY_COLOR_NAME = 'PRIMARY_COLOR_HEX'.freeze
+  PRIMARY_COLOR_HEX_REGEX = /\A#[0-9A-F]{6}\z/.freeze
+
   # https://stackoverflow.com/questions/72970170/upgrading-to-rails-6-1-6-1-causes-psychdisallowedclass-tried-to-load-unspecif
   # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
   # FIX ME : fixes breakage of installation config. we need to migrate.
@@ -22,7 +25,9 @@ class InstallationConfig < ApplicationRecord
   serialize :serialized_value, coder: YAML, type: ActiveSupport::HashWithIndifferentAccess
 
   before_validation :set_lock
+  before_validation :normalize_primary_color_hex
   validates :name, presence: true
+  validate :validate_primary_color_hex_format
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -49,6 +54,26 @@ class InstallationConfig < ApplicationRecord
 
   def set_lock
     self.locked = true if locked.nil?
+  end
+
+  def normalize_primary_color_hex
+    return unless primary_color_config?
+    return unless value.is_a?(String)
+
+    normalized = value.strip.upcase
+    self.value = normalized
+  end
+
+  def validate_primary_color_hex_format
+    return unless primary_color_config?
+
+    if value.blank? || !PRIMARY_COLOR_HEX_REGEX.match?(value)
+      errors.add(:value, 'must be a valid hex color in #RRGGBB format')
+    end
+  end
+
+  def primary_color_config?
+    name.to_s == PRIMARY_COLOR_NAME
   end
 
   def clear_cache
