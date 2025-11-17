@@ -47,7 +47,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
     @allowed_configs = mapping.fetch(
       @config,
-      %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT]
+      %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE]
     )
   end
 end

@@ -89,6 +89,11 @@
   value: false
   description: 'Enable direct uploads to cloud storage'
   locked: false
+- name: MAXIMUM_FILE_UPLOAD_SIZE
+  value: 40
+  display_title: 'Attachment size limit (MB)'
+  description: 'Maximum attachment size in MB allowed for uploads'
+  locked: false
 # ------- End of Account Related Config ------- #
 
 # ------- Email Related Config ------- #
