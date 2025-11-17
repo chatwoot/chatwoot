@@ -37,7 +37,7 @@ class Queue::ProcessQueueJob < ApplicationJob
   end
 
   def get_available_agents(account)
-    online_users = OnlineStatusTracker.get_available_users(account.id)
+    online_users = OnlineStatusTracker.get_available_users(account.id) || {}
     online_user_ids = online_users.select { |_id, status| status == 'online' }.keys.map(&:to_i)
     return [] if online_user_ids.empty?
 
@@ -57,7 +57,7 @@ class Queue::ProcessQueueJob < ApplicationJob
     account_user = AccountUser.find_by(account_id: account.id, user_id: agent.id)
     limit = if account_user&.active_chat_limit_enabled? && account_user.active_chat_limit.present?
               account_user.active_chat_limit.to_i
-            elsif account.active_chat_limit_enabled? && account.active_chat_limit_value.present?
+            elsif account.active_chat_limit_enabled? && account.active_chat_limit.present?
               account.active_chat_limit_value.to_i
             end
 
