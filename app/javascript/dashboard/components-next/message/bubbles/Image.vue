@@ -42,6 +42,10 @@ const downloadAttachment = async () => {
     isDownloading.value = false;
   }
 };
+
+const handleImageError = () => {
+  hasError.value = true;
+};
 </script>
 
 <template>
@@ -86,7 +90,7 @@ const downloadAttachment = async () => {
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
-    @error="() => (hasError = true)"
+    @error="handleImageError"
     @close="() => (showGallery = false)"
   />
 </template>
