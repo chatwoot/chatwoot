@@ -8,9 +8,8 @@ class Whatsapp::FacebookApiClient
   end
 
   def exchange_code_for_token(code)
-    # OAuth token exchange endpoint does not use API version
     response = HTTParty.get(
-      "#{BASE_URI}/oauth/access_token",
+      "#{BASE_URI}/#{@api_version}/oauth/access_token",
       query: {
         client_id: get_app_id,
         client_secret: get_app_secret,
