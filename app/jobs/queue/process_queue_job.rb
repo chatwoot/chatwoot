@@ -32,7 +32,11 @@ class Queue::ProcessQueueJob < ApplicationJob
       next unless agent_has_capacity?(account, agent)
 
       conversation = queue_service.assign_from_queue(agent)
-      break if conversation
+
+      if conversation.nil?
+        available_conversation = find_unassigned_conversation_for(agent, account)
+        AutoAssignment::AgentAssignmentService.new(conversation: available_conversation).perform if available_conversation
+      end
     end
   end
 
@@ -62,5 +66,14 @@ class Queue::ProcessQueueJob < ApplicationJob
             end
 
     limit.nil? || active_count < limit
+  end
+
+  def find_unassigned_conversation_for(_agent, account)
+    Conversation
+      .open
+      .unassigned
+      .where(account_id: account.id)
+      .where.not(id: ConversationQueue.select(:conversation_id))
+      .order(:created_at).first
   end
 end
