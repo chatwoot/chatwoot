@@ -428,6 +428,12 @@
   value:
   locked: false
   description: 'The redirect URI configured in your Google OAuth app'
+- name: ENABLE_GOOGLE_OAUTH_LOGIN
+  display_title: 'Enable Google OAuth login'
+  value: true
+  locked: false
+  description: 'Show Google OAuth as a login option when credentials are configured'
+  type: boolean
 ## ------ End of Configs added for Google OAuth ------ ##
 
 ## ------ Configs added for Cloudflare ------ ##

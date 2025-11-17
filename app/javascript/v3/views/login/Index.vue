@@ -86,7 +86,10 @@ export default {
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
+      const loginEnabled = parseBoolean(
+        window.chatwootConfig.enableGoogleOAuthLogin ?? 'true'
+      );
+      return loginEnabled && Boolean(window.chatwootConfig.googleOAuthClientId);
     },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
