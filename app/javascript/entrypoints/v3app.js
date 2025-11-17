@@ -7,6 +7,7 @@ import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
 } from 'dashboard/helper/scriptHelpers';
+import { initializeThemeColor } from 'shared/helpers/themeColor';
 import App from '../v3/App.vue';
 import router, { initalizeRouter } from '../v3/views/index';
 import store from '../v3/store';
@@ -60,6 +61,11 @@ if (window.errorLoggingConfig) {
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
+
+const primaryColorHex = window.globalConfig?.PRIMARY_COLOR_HEX;
+if (primaryColorHex) {
+  initializeThemeColor(primaryColorHex);
+}
 
 window.onload = () => {
   app.mount('#app');

@@ -30,6 +30,7 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
+import { initializeThemeColor } from 'shared/helpers/themeColor';
 
 import 'floating-vue/dist/style.css';
 
@@ -105,6 +106,11 @@ window.axios = createAxios(axios);
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
+
+const primaryColorHex = window.globalConfig?.PRIMARY_COLOR_HEX;
+if (primaryColorHex) {
+  initializeThemeColor(primaryColorHex);
+}
 
 window.onload = () => {
   app.mount('#app');

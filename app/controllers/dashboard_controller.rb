@@ -25,6 +25,7 @@ class DashboardController < ActionController::Base
       'WIDGET_BRAND_URL', 'TERMS_URL',
       'BRAND_URL', 'BRAND_NAME',
       'PRIVACY_URL',
+      'PRIMARY_COLOR_HEX',
       'DISPLAY_MANIFEST',
       'CREATE_NEW_ACCOUNT_FROM_DASHBOARD',
       'CHATWOOT_INBOX_TOKEN',

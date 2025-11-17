@@ -2,6 +2,20 @@
 @layer base {
   // NEXT COLORS START
   :root {
+    // Dynamic primary color defaults (will be overridden by JavaScript)
+    --dl-primary-color-1: 251 253 255;
+    --dl-primary-color-2: 245 249 255;
+    --dl-primary-color-3: 233 243 255;
+    --dl-primary-color-4: 218 236 255;
+    --dl-primary-color-5: 201 226 255;
+    --dl-primary-color-6: 181 213 255;
+    --dl-primary-color-7: 155 195 252;
+    --dl-primary-color-8: 117 171 247;
+    --dl-primary-color-9: 39 129 246;
+    --dl-primary-color-10: 16 115 233;
+    --dl-primary-color-11: 8 109 224;
+    --dl-primary-color-12: 11 50 101;
+
     // slate
     --slate-1: 252 252 253;
     --slate-2: 249 249 251;
