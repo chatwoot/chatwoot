@@ -526,7 +526,6 @@ RSpec.describe Conversation do
         meta: {
           sender: conversation.contact.push_event_data,
           assignee: conversation.assignee,
-          assignee_type: conversation.assignee_type,
           team: conversation.team,
           hmac_verified: conversation.contact_inbox.hmac_verified
         },
