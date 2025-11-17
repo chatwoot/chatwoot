@@ -12,12 +12,7 @@ const applyCssPreview = (color, preview) => {
   }
 };
 
-const mountPrimaryColorControl = () => {
-  const container = document.querySelector(PRIMARY_COLOR_SELECTOR);
-  if (!container) {
-    return;
-  }
-
+const mountContainer = container => {
   const textInput = container.querySelector('[data-primary-color-input]');
   const colorInput = container.querySelector('[data-primary-color-picker]');
   const preview = container.querySelector('[data-primary-color-preview]');
@@ -97,6 +92,15 @@ const mountPrimaryColorControl = () => {
   updateFromValue(textInput?.value || fallback);
 };
 
+const mountPrimaryColorControl = () => {
+  const containers = document.querySelectorAll(PRIMARY_COLOR_SELECTOR);
+  if (!containers.length) {
+    return;
+  }
+
+  containers.forEach(container => mountContainer(container));
+};
+
 const registerPrimaryColorControl = () => {
   mountPrimaryColorControl();
 };
@@ -106,13 +110,15 @@ const registerPrimaryColorControl = () => {
 });
 
 document.addEventListener('turbo:before-cache', () => {
-  const container = document.querySelector(PRIMARY_COLOR_SELECTOR);
-  if (!container) {
+  const containers = document.querySelectorAll(PRIMARY_COLOR_SELECTOR);
+  if (!containers.length) {
     return;
   }
 
-  const textInput = container.querySelector('[data-primary-color-input]');
-  const preview = container.querySelector('[data-primary-color-preview]');
+  containers.forEach(container => {
+    const textInput = container.querySelector('[data-primary-color-input]');
+    const preview = container.querySelector('[data-primary-color-preview]');
 
-  applyCssPreview(getNormalizedHex(textInput?.value || FALLBACK_COLOR), preview);
+    applyCssPreview(getNormalizedHex(textInput?.value || FALLBACK_COLOR), preview);
+  });
 });
