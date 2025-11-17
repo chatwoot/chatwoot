@@ -1,5 +1,5 @@
 import { parseBoolean } from '@chatwoot/utils';
-import { resolveMaximumFileUploadSize } from 'shared/helpers/FileUploadLimitHelper';
+import { resolveMaximumFileUploadSize } from 'shared/helpers/FileHelper';
 
 const {
   API_CHANNEL_NAME: apiChannelName,
