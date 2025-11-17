@@ -31,6 +31,7 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
 
   // helper: compute max upload size for a given file's mime
   const maxSizeFor = mime => {
+    // Use default/installation limit for private notes
     if (isPrivateNote) {
       return installationLimit;
     }

@@ -23,6 +23,7 @@ export default {
 
   methods: {
     maxSizeFor(mime) {
+      // Use default/installation limit for private notes
       if (this.isOnPrivateNote) {
         return this.installationLimit;
       }
