@@ -69,6 +69,8 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def default_captain_limits
+    return { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access if ChatwootApp.enterprise?
+
     max_limits = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
     zero_limits = { documents: 0, responses: 0 }.with_indifferent_access
     plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
@@ -101,6 +103,8 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def get_limits(limit_name)
+    return ChatwootApp.max_limit if ChatwootApp.enterprise?
+
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
 
