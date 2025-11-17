@@ -27,10 +27,10 @@
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Invio (↵)",
-            "CONTENT": "Invia messaggi premendo il tasto INVIO invece di fare clic sul pulsante Invia."
+            "CONTENT": "Invia messaggi premendo il tasto Invio invece di fare clic sul pulsante Invia."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "HEADING": "Cmd/Ctrl + Invio (⌘ + ↵)",
             "CONTENT": "Invia messaggi premendo Cmd/Ctrl + Invio invece di dover cliccare sul pulsante Invia."
           }
         }
@@ -251,6 +251,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Sospeso",
       "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "Nessun account trovato",
+      "MESSAGE_CLOUD": "Non fai parte di nessun account al momento. Se pensi che sia un errore, contatta il nostro team di supporto.",
+      "MESSAGE_SELF_HOSTED": "Non fai parte di nessun account al momento. Per favore contatta il tuo amministratore.",
+      "LOGOUT": "Disconnetti"
     }
   },
   "COMPONENTS": {
@@ -299,12 +305,16 @@
     "REPORTS": "Report",
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
-    "ACTIVE": "Attiva",
+    "ACTIVE": "Attivi",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistenti",
     "CAPTAIN_DOCUMENTS": "Documenti",
     "CAPTAIN_RESPONSES": "FAQ",
     "CAPTAIN_TOOLS": "Strumenti",
+    "CAPTAIN_SCENARIOS": "Scenari",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Inbox",
+    "CAPTAIN_SETTINGS": "Impostazioni",
     "HOME": "Home",
     "AGENTS": "Operatori",
     "AGENT_BOTS": "Bots",
@@ -324,7 +334,7 @@
     "BILLING": "Fatturazione",
     "CUSTOM_VIEWS_FOLDER": "Cartelle",
     "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
-    "ALL_CONTACTS": "Tutti I Contatti",
+    "ALL_CONTACTS": "Tutti i Contatti",
     "TAGGED_WITH": "Etichettato con",
     "NEW_LABEL": "Nuova etichetta",
     "NEW_TEAM": "Nuovo team",
