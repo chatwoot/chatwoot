@@ -471,6 +471,19 @@ export default {
       this.canScrollLeft = carousel.scrollLeft > 0;
       this.canScrollRight =
         carousel.scrollLeft < carousel.scrollWidth - carousel.offsetWidth;
+
+      // Update currentIndex based on scroll position
+      const itemWidth = 248; // product card width
+      const gap = 10; // gap between items
+      const carouselPadding = 12; // px-3 = 12px padding
+
+      // Calculate which item is currently closest to the center
+      const scrollPosition = carousel.scrollLeft + carouselPadding;
+      const approximateIndex = Math.round(scrollPosition / (itemWidth + gap));
+      this.currentIndex = Math.max(
+        0,
+        Math.min(approximateIndex, this.items.length - 1)
+      );
     },
     async addCustomCartAttributeToShopifyCart() {
       let uuid = this.currentUser.source_id;
