@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  default from: -> { default_from_address }
   before_action { ensure_current_account(params.try(:[], :account)) }
   around_action :switch_locale
   layout 'mailer/base'
@@ -14,6 +14,39 @@ class ApplicationMailer < ActionMailer::Base
     def global_config
       @global_config ||= GlobalConfig.get('BRAND_NAME', 'BRAND_URL')
     end
+
+    def brand_name
+      @brand_name ||= begin
+        config = GlobalConfig.get('BRAND_NAME', 'INSTALLATION_NAME')
+        config['BRAND_NAME'].presence || config['INSTALLATION_NAME'].presence || 'Chatwoot'
+      end
+    end
+
+    def brand_url
+      @brand_url ||= GlobalConfig.get_value('BRAND_URL').presence || 'https://www.chatwoot.com'
+    end
+  end
+
+  def default_from_address
+    config = GlobalConfig.get('BRAND_NAME', 'MAILER_SENDER_EMAIL', 'BRAND_URL')
+    brand_name_for_email = config['BRAND_NAME'].presence || config['MAILER_SENDER_EMAIL']&.split('<')&.first&.strip || 'Chatwoot'
+    
+    # Try to extract email from MAILER_SENDER_EMAIL, otherwise construct a sensible default
+    sender_email = if config['MAILER_SENDER_EMAIL']&.include?('<')
+                     config['MAILER_SENDER_EMAIL'].split('<').last.gsub('>', '').strip
+                   elsif config['MAILER_SENDER_EMAIL']&.include?('@')
+                     config['MAILER_SENDER_EMAIL']
+                   else
+                     # Extract domain from BRAND_URL or use default
+                     domain = begin
+                               URI.parse(config['BRAND_URL'] || 'https://chatwoot.com').host
+                             rescue URI::InvalidURIError
+                               'chatwoot.com'
+                             end
+                     "accounts@#{domain}"
+                   end
+    
+    "#{brand_name_for_email} <#{sender_email}>"
   end
 
   rescue_from(*ExceptionList::SMTP_EXCEPTIONS, with: :handle_smtp_exceptions)
@@ -54,8 +87,10 @@ class ApplicationMailer < ActionMailer::Base
   def liquid_locals
     # expose variables you want to be exposed in liquid
     locals = {
-      global_config: GlobalConfig.get('BRAND_NAME', 'BRAND_URL'),
-      action_url: @action_url
+      global_config: GlobalConfig.get('BRAND_NAME', 'BRAND_URL', 'MAILER_SUPPORT_EMAIL'),
+      action_url: @action_url,
+      brand_name: brand_name,
+      brand_url: brand_url
     }
 
     locals.merge({ attachment_url: @attachment_url }) if @attachment_url
