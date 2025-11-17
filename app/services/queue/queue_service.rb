@@ -26,6 +26,7 @@ class Queue::QueueService
 
   def assign_from_queue(agent)
     return nil unless account.queue_enabled?
+    return nil unless agent_available?(agent)
 
     entry = find_next_queue_entry(agent)
     return nil unless entry&.conversation
@@ -90,6 +91,8 @@ class Queue::QueueService
   end
 
   def assign_conversation(entry, agent)
+    return nil unless agent.present? && agent_available?(agent)
+
     entry.update!(
       status: :assigned,
       assigned_at: Time.current
