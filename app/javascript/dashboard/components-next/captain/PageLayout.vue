@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -69,6 +70,8 @@ const props = defineProps({
 
 const emit = defineEmits(['click', 'close', 'update:currentPage']);
 
+const { t } = useI18n();
+
 const route = useRoute();
 const { shouldShowPaywall } = usePolicy();
 
@@ -76,14 +79,16 @@ const showAssistantSwitcherDropdown = ref(false);
 const createAssistantDialogRef = ref(null);
 
 const assistants = useMapGetter('captainAssistants/getRecords');
+const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 
 const currentAssistantId = computed(() => route.params.assistantId);
+const isFetchingAssistants = computed(() => uiFlags.value?.fetchingList);
 
 const activeAssistantName = computed(() => {
   return (
     assistants.value?.find(
       assistant => assistant.id === Number(currentAssistantId.value)
-    )?.name || ''
+    )?.name || t('CAPTAIN.ASSISTANT_SWITCHER.NEW_ASSISTANT')
   );
 });
 
@@ -118,15 +123,18 @@ const handleCreateAssistant = () => {
         >
           <div class="flex gap-3 items-center">
             <BackButton v-if="backUrl" :back-url="backUrl" />
-            <div v-if="showAssistantSwitcher" class="flex items-center gap-2">
+            <div
+              v-if="showAssistantSwitcher && !showPaywall"
+              class="flex items-center gap-2"
+            >
               <div class="flex items-center gap-2">
                 <span
-                  v-if="activeAssistantName"
+                  v-if="!isFetchingAssistants"
                   class="text-xl font-medium truncate text-n-slate-12"
                 >
                   {{ activeAssistantName }}
                 </span>
-                <div v-if="activeAssistantName" class="relative group">
+                <div class="relative group">
                   <OnClickOutside
                     @trigger="showAssistantSwitcherDropdown = false"
                   >
@@ -135,6 +143,8 @@ const handleCreateAssistant = () => {
                       variant="ghost"
                       color="slate"
                       size="xs"
+                      :disabled="isFetchingAssistants"
+                      :is-loading="isFetchingAssistants"
                       class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3 [&>span]:size-4"
                       @click="toggleAssistantSwitcher"
                     />
@@ -151,7 +161,7 @@ const handleCreateAssistant = () => {
             </div>
             <div class="flex items-center gap-4">
               <div
-                v-if="showAssistantSwitcher && headerTitle"
+                v-if="showAssistantSwitcher && !showPaywall && headerTitle"
                 class="w-0.5 h-4 rounded-2xl bg-n-weak"
               />
               <span
