@@ -164,6 +164,10 @@ class Conversation < ApplicationRecord
   def bot_handoff!
     open!
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
+
+    return unless account.queue_enabled? && assignee.nil?
+
+    Queue::QueueService.new(account: account).add_to_queue(self)
   end
 
   def unread_messages
