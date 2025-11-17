@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
 // components
-import FormInput from '../../components/Form/Input.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -94,15 +94,16 @@ onMounted(async () => {
       }"
     >
       <form class="space-y-5" method="POST" action="/api/v1/auth/saml_login">
-        <FormInput
+        <Input
           v-model="credentials.email"
           name="email"
           type="text"
+          autocomplete="email"
           :tabindex="1"
           required
           :label="t('LOGIN.SAML.WORK_EMAIL.LABEL')"
           :placeholder="t('LOGIN.SAML.WORK_EMAIL.PLACEHOLDER')"
-          :has-error="v$.credentials.email.$error"
+          :message-type="v$.credentials.email.$error ? 'error' : ''"
           @input="v$.credentials.email.$touch"
         />
         <input

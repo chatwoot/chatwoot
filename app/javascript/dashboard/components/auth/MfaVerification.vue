@@ -7,7 +7,7 @@ import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { useAccount } from 'dashboard/composables/useAccount';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import FormInput from 'v3/components/Form/Input.vue';
+import FormInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
@@ -200,7 +200,7 @@ const handleTryAnotherMethod = () => {
       <form class="space-y-4" @submit.prevent="handleVerification">
         <!-- OTP Code Input -->
         <div v-if="verificationMethod === OTP">
-          <label class="block text-sm font-medium text-n-slate-12 mb-2">
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('MFA_VERIFICATION.ENTER_OTP_CODE') }}
           </label>
           <div class="flex justify-between gap-2">
@@ -213,7 +213,7 @@ const handleTryAnotherMethod = () => {
               maxlength="1"
               pattern="[0-9]"
               inputmode="numeric"
-              class="w-12 h-12 text-center text-lg font-semibold border-2 border-n-weak hover:border-n-strong rounded-lg focus:border-n-brand bg-n-alpha-black2 text-n-slate-12 placeholder:text-n-slate-10"
+              class="w-12 h-10 text-center text-lg font-semibold outline outline-1 outline-n-weak hover:outline-n-slate-6 rounded-lg focus:outline-n-brand bg-n-alpha-black2 text-n-slate-12 placeholder:text-n-slate-10"
               @input="handleOtpInput(i)"
               @keydown.left.prevent="focusInput(i - 1)"
               @keydown.right.prevent="focusInput(i + 1)"
@@ -229,6 +229,7 @@ const handleTryAnotherMethod = () => {
             v-model="backupCode"
             name="backup_code"
             type="text"
+            autocomplete="one-time-code"
             data-testid="backup_code_input"
             :tabindex="1"
             required

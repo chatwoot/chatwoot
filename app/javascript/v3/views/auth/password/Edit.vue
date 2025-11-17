@@ -1,88 +1,72 @@
-<script>
+<script setup>
+import { ref, reactive, computed, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import FormInput from '../../../components/Form/Input.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
 
-export default {
-  components: {
-    FormInput,
-    NextButton,
-  },
-  props: {
-    resetPasswordToken: { type: String, default: '' },
-  },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      // We need to initialize the component with any
-      // properties that will be used in it
-      credentials: {
-        confirmPassword: '',
-        password: '',
-      },
-      newPasswordAPI: {
-        message: '',
-        showLoading: false,
-      },
-      error: '',
-    };
-  },
-  mounted() {
-    // If url opened without token
-    // redirect to login
-    if (!this.resetPasswordToken) {
-      window.location = DEFAULT_REDIRECT_URL;
-    }
-  },
-  validations: {
-    credentials: {
-      password: {
-        required,
-        minLength: minLength(6),
-      },
-      confirmPassword: {
-        required,
-        minLength: minLength(6),
-        isEqPassword(value) {
-          if (value !== this.credentials.password) {
-            return false;
-          }
-          return true;
-        },
+const props = defineProps({
+  resetPasswordToken: { type: String, default: '' },
+});
+
+const { t } = useI18n();
+
+const credentials = reactive({
+  confirmPassword: '',
+  password: '',
+});
+
+const showLoading = ref(false);
+
+const rules = computed(() => ({
+  credentials: {
+    password: {
+      required,
+      minLength: minLength(6),
+    },
+    confirmPassword: {
+      required,
+      minLength: minLength(6),
+      isEqPassword(value) {
+        return value === credentials.password;
       },
     },
   },
-  methods: {
-    showAlertMessage(message) {
-      // Reset loading, current selected agent
-      this.newPasswordAPI.showLoading = false;
-      useAlert(message);
-    },
-    submitForm() {
-      this.newPasswordAPI.showLoading = true;
-      const credentials = {
-        confirmPassword: this.credentials.confirmPassword,
-        password: this.credentials.password,
-        resetPasswordToken: this.resetPasswordToken,
-      };
-      setNewPassword(credentials)
-        .then(() => {
-          window.location = DEFAULT_REDIRECT_URL;
-        })
-        .catch(error => {
-          this.showAlertMessage(
-            error?.message || this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE')
-          );
-        });
-    },
-  },
+}));
+
+const v$ = useVuelidate(rules, { credentials });
+
+const showAlertMessage = message => {
+  showLoading.value = false;
+  useAlert(message);
 };
+
+const submitForm = async () => {
+  showLoading.value = true;
+  const credentialsData = {
+    confirmPassword: credentials.confirmPassword,
+    password: credentials.password,
+    resetPasswordToken: props.resetPasswordToken,
+  };
+
+  try {
+    await setNewPassword(credentialsData);
+    window.location = DEFAULT_REDIRECT_URL;
+  } catch (error) {
+    showAlertMessage(error?.message || t('SET_NEW_PASSWORD.API.ERROR_MESSAGE'));
+  }
+};
+
+onMounted(() => {
+  // If url opened without token, redirect to login
+  if (!props.resetPasswordToken) {
+    window.location = DEFAULT_REDIRECT_URL;
+  }
+});
 </script>
 
 <template>
@@ -99,24 +83,32 @@ export default {
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>
 
-      <div class="space-y-5">
-        <FormInput
+      <div class="space-y-6 mt-5">
+        <Input
           v-model="credentials.password"
-          class="mt-3"
           name="password"
           type="password"
-          :has-error="v$.credentials.password.$error"
-          :error-message="$t('SET_NEW_PASSWORD.PASSWORD.ERROR')"
+          autocomplete="new-password"
+          :message-type="v$.credentials.password.$error ? 'error' : ''"
+          :message="
+            v$.credentials.password.$error
+              ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
+              : ''
+          "
           :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
           @blur="v$.credentials.password.$touch"
         />
-        <FormInput
+        <Input
           v-model="credentials.confirmPassword"
-          class="mt-3"
           name="confirm_password"
           type="password"
-          :has-error="v$.credentials.confirmPassword.$error"
-          :error-message="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')"
+          autocomplete="confirm-password"
+          :message-type="v$.credentials.confirmPassword.$error ? 'error' : ''"
+          :message="
+            v$.credentials.confirmPassword.$error
+              ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
+              : ''
+          "
           :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
           @blur="v$.credentials.confirmPassword.$touch"
         />
@@ -129,9 +121,9 @@ export default {
           :disabled="
             v$.credentials.password.$invalid ||
             v$.credentials.confirmPassword.$invalid ||
-            newPasswordAPI.showLoading
+            showLoading
           "
-          :is-loading="newPasswordAPI.showLoading"
+          :is-loading="showLoading"
         />
       </div>
     </form>

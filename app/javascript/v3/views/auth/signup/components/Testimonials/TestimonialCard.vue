@@ -1,24 +1,22 @@
-<script>
-export default {
-  props: {
-    reviewContent: {
-      type: String,
-      default: '',
-    },
-    authorImage: {
-      type: String,
-      default: '',
-    },
-    authorName: {
-      type: String,
-      default: '',
-    },
-    authorDesignation: {
-      type: String,
-      default: '',
-    },
+<script setup>
+defineProps({
+  reviewContent: {
+    type: String,
+    default: '',
   },
-};
+  authorImage: {
+    type: String,
+    default: '',
+  },
+  authorName: {
+    type: String,
+    default: '',
+  },
+  authorDesignation: {
+    type: String,
+    default: '',
+  },
+});
 </script>
 
 <template>

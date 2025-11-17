@@ -1,5 +1,8 @@
 <script setup>
 import { computed, ref, onMounted, nextTick, getCurrentInstance } from 'vue';
+import { useToggle } from '@vueuse/core';
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   modelValue: { type: [String, Number], default: '' },
   type: { type: String, default: 'text' },
@@ -17,10 +20,10 @@ const props = defineProps({
   messageType: {
     type: String,
     default: 'info',
-    validator: value => ['info', 'error', 'success'].includes(value),
+    validator: value => !value || ['info', 'error', 'success'].includes(value),
   },
-  min: { type: String, default: '' },
-  max: { type: String, default: '' },
+  min: { type: [String, Number], default: '' },
+  max: { type: [String, Number], default: '' },
   autofocus: { type: Boolean, default: false },
 });
 
@@ -32,6 +35,10 @@ const emit = defineEmits([
   'enter',
 ]);
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 // Generate a unique ID per component instance when `id` prop is not provided.
 const { uid } = getCurrentInstance();
 const uniqueId = computed(() => props.id || `input-${uid}`);
@@ -39,25 +46,42 @@ const uniqueId = computed(() => props.id || `input-${uid}`);
 const isFocused = ref(false);
 const inputRef = ref(null);
 
-const messageClass = computed(() => {
-  switch (props.messageType) {
-    case 'error':
-      return 'text-n-ruby-9 dark:text-n-ruby-9';
-    case 'success':
-      return 'text-n-teal-10 dark:text-n-teal-10';
-    default:
-      return 'text-n-slate-11 dark:text-n-slate-11';
+const FIELDS = {
+  TEXT: 'text',
+  PASSWORD: 'password',
+};
+
+const [isPasswordVisible, togglePasswordVisibility] = useToggle();
+
+const isPasswordField = computed(() => props.type === FIELDS.PASSWORD);
+
+const currentInputType = computed(() => {
+  if (isPasswordField.value) {
+    return isPasswordVisible.value ? FIELDS.TEXT : FIELDS.PASSWORD;
   }
+  return props.type;
 });
 
-const inputOutlineClass = computed(() => {
-  switch (props.messageType) {
-    case 'error':
-      return 'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8';
-    default:
-      return 'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak focus:outline-n-brand dark:focus:outline-n-brand';
-  }
-});
+const MESSAGE_STYLES = {
+  error: 'text-n-ruby-9 dark:text-n-ruby-9',
+  success: 'text-n-teal-10 dark:text-n-teal-10',
+  info: 'text-n-slate-11 dark:text-n-slate-11',
+};
+
+const OUTLINE_STYLES = {
+  error:
+    'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8',
+  default:
+    'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak focus:outline-n-brand dark:focus:outline-n-brand',
+};
+
+const messageClass = computed(
+  () => MESSAGE_STYLES[props.messageType || 'info'] || MESSAGE_STYLES.info
+);
+
+const inputOutlineClass = computed(
+  () => OUTLINE_STYLES[props.messageType || 'info'] || OUTLINE_STYLES.default
+);
 
 const handleInput = event => {
   let value = event.target.value;
@@ -104,7 +128,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative flex flex-col min-w-0 gap-1">
+  <div class="relative flex flex-col min-w-0 gap-1 w-full">
     <label
       v-if="label"
       :for="uniqueId"
@@ -112,40 +136,57 @@ onMounted(() => {
     >
       {{ label }}
     </label>
-    <!-- Added prefix slot to allow adding icons to the input -->
-    <slot name="prefix" />
-    <input
-      :id="uniqueId"
-      v-bind="$attrs"
-      ref="inputRef"
-      :value="modelValue"
-      :class="[
-        customInputClass,
-        inputOutlineClass,
-        sizeClass,
-        {
-          error: messageType === 'error',
-          focus: isFocused,
-        },
-      ]"
-      :type="type"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :min="['date', 'datetime-local', 'time'].includes(type) ? min : undefined"
-      :max="
-        ['date', 'datetime-local', 'time', 'number'].includes(type)
-          ? max
-          : undefined
-      "
-      class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-      @input="handleInput"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @keyup.enter="handleEnter"
-    />
+    <div class="relative flex min-w-0 items-center">
+      <!-- Added prefix slot to allow adding icons to the input -->
+      <slot name="prefix" />
+      <input
+        :id="uniqueId"
+        ref="inputRef"
+        v-bind="$attrs"
+        :value="modelValue"
+        :class="[
+          customInputClass,
+          inputOutlineClass,
+          sizeClass,
+          {
+            error: messageType === 'error',
+            focus: isFocused,
+            'ltr:!pr-10 rtl:!pl-10': isPasswordField,
+          },
+        ]"
+        :type="currentInputType"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :min="
+          ['date', 'datetime-local', 'time'].includes(type) ? min : undefined
+        "
+        :max="
+          ['date', 'datetime-local', 'time', 'number'].includes(type)
+            ? max
+            : undefined
+        "
+        class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @keyup.enter="handleEnter"
+      />
+      <Button
+        v-if="isPasswordField"
+        type="button"
+        slate
+        sm
+        link
+        class="absolute inset-y-0 ltr:right-3.5 rtl:left-3.5"
+        :icon="isPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+        :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
+        :aria-pressed="isPasswordVisible"
+        @click="togglePasswordVisibility()"
+      />
+    </div>
     <p
       v-if="message"
-      class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+      class="min-w-0 mt-0.5 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
       :class="messageClass"
     >
       {{ message }}

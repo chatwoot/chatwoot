@@ -69,9 +69,13 @@
   description: 'Allow users to create new accounts from the dashboard'
   locked: false
 - name: HCAPTCHA_SITE_KEY
+  display_title: 'HCaptcha Site Key'
+  description: 'The HCaptcha public key used in the signup page'
   value:
   locked: false
 - name: HCAPTCHA_SERVER_KEY
+  display_title: 'HCaptcha Server Key'
+  description: 'The HCaptcha server key used to validate the HCaptcha response'
   value:
   locked: false
 - name: INSTALLATION_EVENTS_WEBHOOK_URL

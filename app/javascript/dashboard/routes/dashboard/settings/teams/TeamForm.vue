@@ -1,6 +1,6 @@
 <script>
 import validations from './helpers/validations';
-import FormInput from 'v3/components/Form/Input.vue';
+import FormInput from 'dashboard/components-next/input/Input.vue';
 import { reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 
@@ -69,21 +69,19 @@ export default {
       <FormInput
         v-model="state.title"
         name="title"
-        spacing="compact"
         :label="$t('TEAMS_SETTINGS.FORM.NAME.LABEL')"
         :placeholder="$t('TEAMS_SETTINGS.FORM.NAME.PLACEHOLDER')"
-        :has-error="v$.title.$error"
-        :error-message="v$.title.$error ? v$.title.$errors[0].$message : ''"
+        :message-type="v$.title.$error ? 'error' : ''"
+        :message="v$.title.$error ? v$.title.$errors[0].$message : ''"
         @blur="v$.title.$touch"
       />
       <FormInput
         v-model="state.description"
         name="description"
-        spacing="compact"
         :label="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.PLACEHOLDER')"
-        :has-error="v$.description.$error"
-        :error-message="
+        :message-type="v$.description.$error ? 'error' : ''"
+        :message="
           v$.description.$error ? v$.description.$errors[0].$message : ''
         "
         @blur="v$.description.$touch"
