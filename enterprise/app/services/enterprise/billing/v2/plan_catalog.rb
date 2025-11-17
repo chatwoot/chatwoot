@@ -53,11 +53,6 @@ module Enterprise::Billing::V2::PlanCatalog
     nil
   end
 
-  def monthly_credits_for(plan_id)
-    definition = definition_for(plan_id)
-    definition ? definition[:monthly_credits] : nil
-  end
-
   def plan_id_for(definition)
     InstallationConfig.find_by(name: definition[:config_key])&.value
   end

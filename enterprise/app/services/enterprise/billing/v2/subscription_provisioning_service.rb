@@ -63,7 +63,9 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
     update_custom_attributes(attributes)
 
     # Sync credits for Hacker plan (0 credits)
-    sync_plan_credits(pricing_plan_id)
+    Enterprise::Billing::V2::CreditManagementService
+      .new(account: account)
+      .sync_monthly_response_credits(0)
 
     # Disable all premium features and save
     disable_all_premium_features

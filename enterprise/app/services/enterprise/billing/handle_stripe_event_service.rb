@@ -105,7 +105,16 @@ class Enterprise::Billing::HandleStripeEventService
       return credits.to_i if credits.present? && credits.to_i.positive?
     end
 
-    0
+    amount = extract_attribute(grant, :amount)
+    return 0 if amount.blank?
+
+    custom_pricing_unit = extract_attribute(amount, :custom_pricing_unit)
+    return 0 if custom_pricing_unit.blank?
+
+    value = extract_attribute(custom_pricing_unit, :value)
+    return 0 if value.blank?
+
+    value.to_i
   end
 
   def extract_attribute(object, attribute)
