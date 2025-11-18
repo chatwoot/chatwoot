@@ -1,4 +1,6 @@
 name: Run Chatwoot CE spec
+permissions:
+  contents: read
 on:
   push:
     branches:
