@@ -17,7 +17,6 @@ RSpec.describe 'Conversation Assignment API', type: :request do
     context 'when it is an authenticated bot with out access to the inbox' do
       let(:agent_bot) { create(:agent_bot, account: account) }
       let(:agent) { create(:user, account: account, role: :agent) }
-      let(:agent_bot) { create(:agent_bot, account: account) }
 
       before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
@@ -68,7 +67,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['name']).to eq(agent_bot.name)
+        expect(response.parsed_body['name']).to eq(agent_bot.name)
         conversation.reload
         expect(conversation.assignee_agent_bot).to eq(agent_bot)
         expect(conversation.assignee).to be_nil

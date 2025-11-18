@@ -1,54 +1,52 @@
-module Conversations
-  class AssignmentService
-    def initialize(conversation:, assignee_id:, assignee_type: nil)
-      @conversation = conversation
-      @assignee_id = assignee_id
-      @assignee_type = assignee_type
-    end
+class Conversations::AssignmentService
+  def initialize(conversation:, assignee_id:, assignee_type: nil)
+    @conversation = conversation
+    @assignee_id = assignee_id
+    @assignee_type = assignee_type
+  end
 
-    def perform
-      agent_bot_assignment? ? assign_agent_bot : assign_agent
-    end
+  def perform
+    agent_bot_assignment? ? assign_agent_bot : assign_agent
+  end
 
-    private
+  private
 
-    attr_reader :conversation, :assignee_id, :assignee_type
+  attr_reader :conversation, :assignee_id, :assignee_type
 
-    def assign_agent
-      if assignee_id.blank?
-        conversation.assignee = nil
-        conversation.assignee_agent_bot = nil
-        conversation.save!
-        return
-      end
-
-      return unless assignee
-
-      conversation.assignee = assignee
+  def assign_agent
+    if assignee_id.blank?
+      conversation.assignee = nil
       conversation.assignee_agent_bot = nil
       conversation.save!
-      assignee
+      return
     end
 
-    def assign_agent_bot
-      return unless agent_bot
+    return unless assignee
 
-      conversation.assignee = nil
-      conversation.assignee_agent_bot = agent_bot
-      conversation.save!
-      agent_bot
-    end
+    conversation.assignee = assignee
+    conversation.assignee_agent_bot = nil
+    conversation.save!
+    assignee
+  end
 
-    def assignee
-      @assignee ||= conversation.account.users.find_by(id: assignee_id)
-    end
+  def assign_agent_bot
+    return unless agent_bot
 
-    def agent_bot
-      @agent_bot ||= AgentBot.accessible_to(conversation.account).find_by(id: assignee_id)
-    end
+    conversation.assignee = nil
+    conversation.assignee_agent_bot = agent_bot
+    conversation.save!
+    agent_bot
+  end
 
-    def agent_bot_assignment?
-      assignee_type.to_s == 'AgentBot'
-    end
+  def assignee
+    @assignee ||= conversation.account.users.find_by(id: assignee_id)
+  end
+
+  def agent_bot
+    @agent_bot ||= AgentBot.accessible_to(conversation.account).find_by(id: assignee_id)
+  end
+
+  def agent_bot_assignment?
+    assignee_type.to_s == 'AgentBot'
   end
 end
