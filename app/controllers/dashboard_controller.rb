@@ -78,8 +78,16 @@ class DashboardController < ActionController::Base
       WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
-      GIT_SHA: GIT_HASH
+      GIT_SHA: GIT_HASH,
+      ALLOWED_LOGIN_METHODS: allowed_login_methods
     }
+  end
+
+  def allowed_login_methods
+    methods = ['email']
+    methods << 'google_oauth' if GlobalConfigService.load('ENABLE_GOOGLE_OAUTH_LOGIN', 'true').to_s != 'false'
+    methods << 'saml' if ChatwootHub.pricing_plan != 'community' && GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s != 'false'
+    methods
   end
 
   def set_application_pack
