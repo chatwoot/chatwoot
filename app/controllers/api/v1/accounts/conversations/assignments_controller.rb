@@ -1,10 +1,10 @@
 class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Accounts::Conversations::BaseController
   # assigns agent/team to a conversation
   def create
-    if params.key?(:team_id)
+    if params.key?(:assignee_id) || agent_bot_assignment?
+      set_agent
+    elsif params.key?(:team_id)
       set_team
-    elsif params.key?(:assignee_id) || agent_bot_assignment?
-      update_assignee
     else
       render json: nil
     end
@@ -22,7 +22,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     params[:assignee_type].to_s == 'AgentBot'
   end
 
-  def update_assignee
+  def set_agent
     resource = Conversations::AssignmentService.new(
       conversation: @conversation,
       assignee_id: params[:assignee_id],
