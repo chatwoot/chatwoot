@@ -261,8 +261,9 @@ jobs:
       - run:
           name: Move coverage files if they exist
           command: |
-            if [ -d "~/build/coverage" ]; then
-              mkdir -p ~/build/coverage/backend || true
+            if [ -d "coverage" ]; then
+              mkdir -p ~/build/coverage
+              cp -r coverage ~/build/coverage/backend || true
             fi
           when: always
 
