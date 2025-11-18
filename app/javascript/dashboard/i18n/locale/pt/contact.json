@@ -554,10 +554,12 @@
         "WROTE": "escreveu",
         "YOU": "Você",
         "SAVE": "Salvar nota",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Expandir",
         "COLLAPSE": "Recolher",
         "NO_NOTES": "Sem notas, pode adicionar notas na página de detalhes do contacto.",
-        "EMPTY_STATE": "Não existem notas associadas a este contacto. Pode adicionar uma nota escrevendo na caixa acima."
+        "EMPTY_STATE": "Não existem notas associadas a este contacto. Pode adicionar uma nota escrevendo na caixa acima.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -567,6 +569,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "Nenhum contacto corresponde à sua pesquisa 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Neste momento não há contactos ativos 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Atribuir etiquetas",
+    "ASSIGN_LABELS_SUCCESS": "Etiquetas atribuídas com sucesso.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Selecionar todas ({count})",
+    "DELETE_CONTACTS": "Excluir",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Excluir contacto"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

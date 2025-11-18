@@ -184,6 +184,7 @@
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
+  deprecated: true
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
   enabled: false
@@ -208,3 +209,22 @@
   display_name: SAML
   enabled: false
   premium: true
+- name: advanced_search_indexing
+  display_name: Advanced Search Indexing
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+- name: reply_mailer_migration
+  # This feature is temporary only to migrate reply mailer to new email builder
+  # Once the migration is done, this feature can be removed
+  display_name: Reply Mailer Migration
+  enabled: false
+  chatwoot_internal: true
+- name: quoted_email_reply
+  display_name: Quoted Email Reply
+  enabled: false
+- name: companies
+  display_name: Companies
+  enabled: false
+  premium: true
+  chatwoot_internal: true

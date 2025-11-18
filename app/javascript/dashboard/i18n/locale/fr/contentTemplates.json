@@ -1,33 +1,33 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Modèles Twilio",
+      "SUBTITLE": "Sélectionnez le modèle Twilio que vous souhaitez envoyer",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configurer le modèle : {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Rechercher des modèles",
       "NO_TEMPLATES_FOUND": "Aucun modèle trouvé pour",
       "NO_CONTENT": "No content",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "En-tête",
+      "BODY": "Corps",
+      "FOOTER": "Pied de page",
+      "BUTTONS": "Boutons",
       "CATEGORY": "Catégorie",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "Contenu média",
+      "MEDIA_CONTENT_FALLBACK": "contenu multimédia",
+      "NO_TEMPLATES_AVAILABLE": "Aucun modèle Twilio disponible. Cliquez sur Actualiser pour synchroniser les modèles de Twilio.",
+      "REFRESH_BUTTON": "Rafraîchir les modèles",
+      "REFRESH_SUCCESS": "Mise à jour des modèles. La mise à jour peut prendre quelques minutes.",
+      "REFRESH_ERROR": "Échec de la mise à jour des modèles. Veuillez réessayer.",
       "LABELS": {
         "LANGUAGE": "Langue",
         "TEMPLATE_BODY": "Corps du modèle",
         "CATEGORY": "Catégorie"
       },
       "TYPES": {
-        "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
+        "MEDIA": "Média",
+        "QUICK_REPLY": "Réponse rapide",
         "TEXT": "Texte"
       }
     },
@@ -39,8 +39,8 @@
       "GO_BACK_LABEL": "Retour",
       "SEND_MESSAGE_LABEL": "Envoyer un message",
       "FORM_ERROR_MESSAGE": "Veuillez remplir toutes les variables avant d'envoyer",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_HEADER_LABEL": "En-tête {type}",
+      "MEDIA_URL_LABEL": "Saisissez l'URL complète du média",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {

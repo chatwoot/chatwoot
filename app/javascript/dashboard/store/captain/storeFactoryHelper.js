@@ -22,7 +22,7 @@ export const showRecord =
     commit(mutationTypes.SET_UI_FLAG, { fetchingItem: true });
     try {
       const response = await API.show(id);
-      commit(mutationTypes.ADD, response.data);
+      commit(mutationTypes.UPSERT, response.data);
       return response.data;
     } catch (error) {
       return throwErrorMessage(error);

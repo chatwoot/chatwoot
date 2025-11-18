@@ -78,6 +78,8 @@ watch(unit, () => {
     <option :value="DURATION_UNITS.HOURS">
       {{ t('DURATION_INPUT.HOURS') }}
     </option>
-    <option :value="DURATION_UNITS.DAYS">{{ t('DURATION_INPUT.DAYS') }}</option>
+    <option :value="DURATION_UNITS.DAYS">
+      {{ t('DURATION_INPUT.DAYS') }}
+    </option>
   </select>
 </template>
