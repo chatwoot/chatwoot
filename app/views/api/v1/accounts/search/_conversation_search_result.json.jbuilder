@@ -10,3 +10,6 @@ end
 json.inbox do
   json.partial! 'inbox', formats: [:json], inbox: conversation.inbox if conversation.try(:inbox).present?
 end
+json.agent do
+  json.partial! 'agent', formats: [:json], agent: conversation.assignee if conversation.try(:assignee).present?
+end
