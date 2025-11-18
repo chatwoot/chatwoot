@@ -43,8 +43,8 @@ class ApiClient {
     return axios.get(this.url);
   }
 
-  show(id) {
-    return axios.get(`${this.url}/${id}`);
+  show(id, params) {
+    return axios.get(`${this.url}/${id}`, { params });
   }
 
   create(data) {
