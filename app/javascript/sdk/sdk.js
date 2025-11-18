@@ -157,7 +157,11 @@ export const SDK_CSS = `
   opacity: 1;
 }
 
-.woot--close::before, .woot--close::after {
+.woot--close::after {
+  display: none !important;
+}
+
+.woot--close::before {
   background-color: #fff;
   content: ' ';
   display: inline;
@@ -173,11 +177,11 @@ export const SDK_CSS = `
 }
 
 .woot--close::before {
-  transform: rotate(45deg);
+  transform: rotate(90deg);
 }
 
 .woot--close::after {
-  transform: rotate(-45deg);
+  transform: rotate(90deg);
 }
 
 .woot--hide {
@@ -199,7 +203,7 @@ export const SDK_CSS = `
   transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
 }
 .woot-widget-bubble.woot--close.woot--hide {
-  transform: translateX(8px) scale(.75) rotate(45deg);
+  transform: translateX(8px) scale(.75) rotate(90deg);
   transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
 }
 
