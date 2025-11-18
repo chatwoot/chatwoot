@@ -7,7 +7,9 @@
 
 [phases.build]
 
-# Remove the release phase entirely
+# Disable the release phase entirely (no cmds = phase disabled)
 # Database preparation will happen at container startup via the start command
-[start]
+[phases.release]
+
+[phases.start]
 cmd = "bundle exec rails db:chatwoot_prepare && bundle exec rails ip_lookup:setup && bin/rails server -p $PORT -e $RAILS_ENV"
