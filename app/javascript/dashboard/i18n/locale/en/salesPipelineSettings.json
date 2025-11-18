@@ -1,0 +1,57 @@
+{
+  "TITLE": "Sales Pipeline Settings",
+  "ADD_STAGE": "Add Stage",
+  "PIPELINE_INFO": "Pipeline Information",
+  "PIPELINE_NAME": "Pipeline Name",
+  "TOTAL_STAGES": "Total Stages",
+  "ACTIVE_STAGES": "Active Stages",
+  "STAGES_LIST": "Pipeline Stages",
+  "NO_STAGES": "No stages configured yet",
+  "CREATE_FIRST_STAGE": "Create First Stage",
+  "POSITION": "Position",
+  "CONVERSATIONS": "conversations",
+  "DEFAULT_STAGE": "Default Stage",
+  "CLOSED_WON": "Closed Won",
+  "CLOSED_LOST": "Closed Lost",
+  "EDIT_STAGE": "Edit Stage",
+  "DELETE_STAGE": "Delete Stage",
+  "DELETE_STAGE_TITLE": "Delete Pipeline Stage",
+  "FORM": {
+    "NAME": "Stage Name",
+    "NAME_PLACEHOLDER": "Enter stage name",
+    "COLOR": "Stage Color",
+    "POSITION": "Position",
+    "STAGE_TYPE": "Stage Type",
+    "IS_DEFAULT": "Default stage for new conversations",
+    "IS_CLOSED_WON": "Mark as \"Closed Won\"",
+    "IS_CLOSED_LOST": "Mark as \"Closed Lost\"",
+    "CANCEL": "Cancel",
+    "CREATE": "Create Stage",
+    "UPDATE": "Update Stage"
+  },
+  "DELETE": {
+    "WARNING_TITLE": "Delete Pipeline Stage",
+    "WARNING_MESSAGE": "Are you sure you want to delete stage \"%{stageName}\"? This action cannot be undone.",
+    "CONVERSATIONS_WARNING": "There are %{count} conversations in this stage. You must choose a migration stage.",
+    "MIGRATE_STAGE": "Migration Stage *",
+    "SELECT_STAGE": "Select a stage to migrate conversations to",
+    "MIGRATION_NOTE": "All conversations in this stage will be moved to the selected stage.",
+    "CONFIRMATION_LABEL": "Confirmation",
+    "TYPE_STAGE_NAME": "Type stage name \"%{stageName}\" to confirm",
+    "CANCEL": "Cancel",
+    "CONFIRM_DELETE": "Delete Stage"
+  },
+  "SUCCESS": {
+    "PIPELINE_UPDATED": "Pipeline updated successfully",
+    "STAGE_CREATED": "Stage created successfully",
+    "STAGE_UPDATED": "Stage updated successfully",
+    "STAGE_DELETED": "Stage deleted successfully"
+  },
+  "ERROR": {
+    "LOAD_FAILED": "Failed to load pipeline settings",
+    "UPDATE_FAILED": "Failed to update pipeline",
+    "STAGE_SAVE_FAILED": "Failed to save stage",
+    "STAGE_DELETE_FAILED": "Failed to delete stage",
+    "REORDER_FAILED": "Failed to reorder stages"
+  }
+}

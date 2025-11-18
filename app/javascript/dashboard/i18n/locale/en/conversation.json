@@ -425,5 +425,22 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "SIDEBAR": {
+    "SALES_STAGE": "Sales Stage",
+    "NO_PIPELINE_CONFIGURED": "No pipeline configured",
+    "CONFIGURE_PIPELINE": "Configure Pipeline",
+    "SELECT_STAGE": "Select Stage",
+    "CHANGE_STAGE": "Change Stage",
+    "REMOVE_STAGE": "Remove Stage",
+    "DEFAULT_STAGE": "Default Stage",
+    "CLOSED_WON": "Closed Won",
+    "CLOSED_LOST": "Closed Lost",
+    "STAGE_UPDATED": "Stage updated to %{stageName}",
+    "STAGE_REMOVED": "Stage removed from conversation",
+    "ERROR": {
+      "UPDATE_FAILED": "Failed to update stage",
+      "REMOVE_FAILED": "Failed to remove stage"
+    }
   }
 }
