@@ -25,6 +25,7 @@ ENV NODE_OPTIONS ${NODE_OPTIONS}
 ENV BUNDLE_PATH="/gems"
 
 RUN apk update && apk add --no-cache \
+  bash \
   openssl \
   tar \
   build-base \
@@ -37,6 +38,9 @@ RUN apk update && apk add --no-cache \
   && mkdir -p /var/app \
   && gem install bundler
 
+# Use bash for subsequent RUN commands to support pipefail
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
@@ -44,8 +48,8 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
 
 RUN npm install -g pnpm@${PNPM_VERSION}
 
-RUN echo 'export PNPM_HOME="/root/.local/share/pnpm"' >> /root/.shrc \
-  && echo 'export PATH="$PNPM_HOME:$PATH"' >> /root/.shrc \
+RUN echo 'export PNPM_HOME="/root/.local/share/pnpm"' >> /root/.bashrc \
+  && echo 'export PATH="$PNPM_HOME:$PATH"' >> /root/.bashrc \
   && export PNPM_HOME="/root/.local/share/pnpm" \
   && export PATH="$PNPM_HOME:$PATH" \
   && pnpm --version
@@ -62,7 +66,7 @@ COPY Gemfile Gemfile.lock ./
 # https://github.com/googleapis/google-cloud-ruby/issues/13306
 # adding xz as nokogiri was failing to build libxml
 # https://github.com/chatwoot/chatwoot/issues/4045
-RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips
+RUN apk update && apk add --no-cache bash build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips
 RUN bundle config set --local force_ruby_platform true
 
 # Do not install development or test gems in production
@@ -121,6 +125,7 @@ ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
 RUN apk update && apk add --no-cache \
+  bash \
   build-base \
   openssl \
   tzdata \
@@ -129,6 +134,8 @@ RUN apk update && apk add --no-cache \
   git \
   vips \
   && gem install bundler
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
