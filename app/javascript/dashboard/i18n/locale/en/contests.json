@@ -20,7 +20,7 @@
     "CARD_NO_DESCRIPTION": "No description provided",
     "CARD_NO_TERMS": "No terms shared",
     "TABLE_TRIGGER_WORDS_EMPTY": "No trigger words configured",
-    "TABLE_DATES_RANGE": "{start} → {end}",
+    "TABLE_DATES_RANGE": "{start} - {end}",
     "FORM_HEADING": "Contest details",
     "FORM_SUBHEADING": "Define how customers join your contest and how their messages are captured.",
     "FORM_NAME_LABEL": "Contest name",

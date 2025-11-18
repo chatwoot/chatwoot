@@ -89,6 +89,9 @@
   display_name: Reports
   enabled: true
   help_url: https://chwt.app/hc/reports
+- name: contests
+  display_name: Contests
+  enabled: true
 - name: crm
   display_name: CRM
   enabled: true

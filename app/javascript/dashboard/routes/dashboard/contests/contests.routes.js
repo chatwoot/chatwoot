@@ -1,9 +1,11 @@
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { frontendURL } from '../../../helper/URLHelper';
 import ContestsList from './pages/ContestsList.vue';
 import ContestsReports from './pages/ContestsReports.vue';
 
 const meta = {
   permissions: ['administrator', 'agent', 'custom_role'],
+  featureFlag: FEATURE_FLAGS.CONTESTS,
 };
 
 const routes = [

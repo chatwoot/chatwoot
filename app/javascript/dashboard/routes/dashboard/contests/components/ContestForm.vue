@@ -194,132 +194,136 @@ const handleCancel = () => {
 </script>
 
 <template>
-  <section
-    class="flex w-full flex-col gap-4 bg-white p-2 rounded-xl dark:bg-[#22242b]"
+  <div
+    class="flex max-h-[calc(100vh-6rem)] w-full overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
   >
-    <header class="flex flex-col gap-2">
-      <div>
-        <h2 class="text-lg font-semibold text-n-slate-12">
-          {{ headingText }}
-        </h2>
-        <p class="text-sm text-n-slate-11">
-          {{ t('CONTESTS.FORM_SUBHEADING') }}
-        </p>
-      </div>
-    </header>
+    <section
+      class="mx-auto flex w-full flex-col gap-4 rounded-xl bg-white p-4 dark:bg-[#22242b]"
+    >
+      <header class="flex flex-col gap-2">
+        <div>
+          <h2 class="text-lg font-semibold text-n-slate-12">
+            {{ headingText }}
+          </h2>
+          <p class="text-sm text-n-slate-11">
+            {{ t('CONTESTS.FORM_SUBHEADING') }}
+          </p>
+        </div>
+      </header>
 
-    <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-      <section
-        class="grid gap-4 rounded-2xl border border-n-alpha-2 bg-n-alpha-1/40 p-4 dark:border-n-alpha-3 dark:bg-[#1f2129]"
-      >
-        <h3
-          class="text-xs font-semibold uppercase tracking-wide text-n-slate-10"
+      <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
+        <section
+          class="grid gap-4 rounded-2xl border border-n-alpha-2 bg-n-alpha-1/40 p-4 dark:border-n-alpha-3 dark:bg-[#1f2129]"
         >
-          {{ t('CONTESTS.FORM_SECTION_DETAILS') }}
-        </h3>
-        <div class="grid gap-4">
-          <Input
-            v-model="form.name"
-            required
-            :label="t('CONTESTS.FORM_NAME_LABEL')"
-            :placeholder="t('CONTESTS.FORM_NAME_PLACEHOLDER')"
-            :message="errors.name"
-            :message-type="errors.name ? 'error' : 'info'"
-          />
-          <div class="grid gap-4 sm:grid-cols-2">
+          <h3
+            class="text-xs font-semibold uppercase tracking-wide text-n-slate-10"
+          >
+            {{ t('CONTESTS.FORM_SECTION_DETAILS') }}
+          </h3>
+          <div class="grid gap-4">
             <Input
-              v-model="form.start_date"
-              type="date"
+              v-model="form.name"
               required
-              :label="t('CONTESTS.FORM_START_DATE_LABEL')"
-              :message="errors.start_date"
-              :message-type="errors.start_date ? 'error' : 'info'"
+              :label="t('CONTESTS.FORM_NAME_LABEL')"
+              :placeholder="t('CONTESTS.FORM_NAME_PLACEHOLDER')"
+              :message="errors.name"
+              :message-type="errors.name ? 'error' : 'info'"
             />
-            <Input
-              v-model="form.end_date"
-              type="date"
-              :min="form.start_date"
-              required
-              :label="t('CONTESTS.FORM_END_DATE_LABEL')"
-              :message="errors.end_date"
-              :message-type="errors.end_date ? 'error' : 'info'"
-            />
-          </div>
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <label class="text-sm font-medium text-n-slate-12">
-                {{ t('CONTESTS.FORM_TRIGGER_WORDS_LABEL') }}
-              </label>
-              <span class="text-xs text-n-slate-10">
-                {{
-                  t('CONTESTS.FORM_TRIGGER_WORDS_COUNT', {
-                    used: form.trigger_words.length,
-                  })
-                }}
-              </span>
-            </div>
-            <div
-              class="w-full rounded-lg border px-3 py-2 bg-white dark:bg-n-alpha-black2"
-              :class="
-                errors.trigger_words
-                  ? 'border-n-ruby-8 dark:border-n-ruby-8'
-                  : 'border-n-alpha-3 dark:border-n-alpha-4'
-              "
-            >
-              <TagInput
-                v-model="form.trigger_words"
-                allow-create
-                :placeholder="t('CONTESTS.FORM_TRIGGER_WORDS_PLACEHOLDER')"
-                class="w-full"
+            <div class="grid gap-4 sm:grid-cols-2">
+              <Input
+                v-model="form.start_date"
+                type="date"
+                required
+                :label="t('CONTESTS.FORM_START_DATE_LABEL')"
+                :message="errors.start_date"
+                :message-type="errors.start_date ? 'error' : 'info'"
+              />
+              <Input
+                v-model="form.end_date"
+                type="date"
+                :min="form.start_date"
+                required
+                :label="t('CONTESTS.FORM_END_DATE_LABEL')"
+                :message="errors.end_date"
+                :message-type="errors.end_date ? 'error' : 'info'"
               />
             </div>
-            <p v-if="errors.trigger_words" class="text-xs text-n-ruby-9">
-              {{ errors.trigger_words }}
-            </p>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium text-n-slate-12">
+                  {{ t('CONTESTS.FORM_TRIGGER_WORDS_LABEL') }}
+                </label>
+                <span class="text-xs text-n-slate-10">
+                  {{
+                    t('CONTESTS.FORM_TRIGGER_WORDS_COUNT', {
+                      used: form.trigger_words.length,
+                    })
+                  }}
+                </span>
+              </div>
+              <div
+                class="w-full rounded-lg border px-3 py-2 bg-white dark:bg-n-alpha-black2"
+                :class="
+                  errors.trigger_words
+                    ? 'border-n-ruby-8 dark:border-n-ruby-8'
+                    : 'border-n-alpha-3 dark:border-n-alpha-4'
+                "
+              >
+                <TagInput
+                  v-model="form.trigger_words"
+                  allow-create
+                  :placeholder="t('CONTESTS.FORM_TRIGGER_WORDS_PLACEHOLDER')"
+                  class="w-full"
+                />
+              </div>
+              <p v-if="errors.trigger_words" class="text-xs text-n-ruby-9">
+                {{ errors.trigger_words }}
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section
-        class="grid gap-3 rounded-2xl border border-n-alpha-2 bg-n-alpha-1/40 p-4 dark:border-n-alpha-3 dark:bg-[#1f2129]"
-      >
-        <h3
-          class="text-xs font-semibold uppercase tracking-wide text-n-slate-10"
+        <section
+          class="grid gap-3 rounded-2xl border border-n-alpha-2 bg-n-alpha-1/40 p-4 dark:border-n-alpha-3 dark:bg-[#1f2129]"
         >
-          {{ t('CONTESTS.FORM_SECTION_CONTENT') }}
-        </h3>
-        <div class="grid gap-3">
-          <TextArea
-            v-model="form.description"
-            auto-height
-            resize
-            :label="t('CONTESTS.FORM_DESCRIPTION_LABEL')"
-            :placeholder="t('CONTESTS.FORM_DESCRIPTION_PLACEHOLDER')"
-            :message="errors.description"
-            :message-type="errors.description ? 'error' : 'info'"
-          />
-          <TextArea
-            v-model="form.terms"
-            auto-height
-            resize
-            :label="t('CONTESTS.FORM_TERMS_LABEL')"
-            :placeholder="t('CONTESTS.FORM_TERMS_PLACEHOLDER')"
-            :message="errors.terms"
-            :message-type="errors.terms ? 'error' : 'info'"
-          />
-        </div>
-      </section>
+          <h3
+            class="text-xs font-semibold uppercase tracking-wide text-n-slate-10"
+          >
+            {{ t('CONTESTS.FORM_SECTION_CONTENT') }}
+          </h3>
+          <div class="grid gap-3">
+            <TextArea
+              v-model="form.description"
+              auto-height
+              resize
+              :label="t('CONTESTS.FORM_DESCRIPTION_LABEL')"
+              :placeholder="t('CONTESTS.FORM_DESCRIPTION_PLACEHOLDER')"
+              :message="errors.description"
+              :message-type="errors.description ? 'error' : 'info'"
+            />
+            <TextArea
+              v-model="form.terms"
+              auto-height
+              resize
+              :label="t('CONTESTS.FORM_TERMS_LABEL')"
+              :placeholder="t('CONTESTS.FORM_TERMS_PLACEHOLDER')"
+              :message="errors.terms"
+              :message-type="errors.terms ? 'error' : 'info'"
+            />
+          </div>
+        </section>
 
-      <footer
-        class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3"
-      >
-        <Button slate ghost type="button" @click="handleCancel">
-          {{ t('CONTESTS.FORM_CANCEL') }}
-        </Button>
-        <Button type="submit">
-          {{ submitText }}
-        </Button>
-      </footer>
-    </form>
-  </section>
+        <footer
+          class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3"
+        >
+          <Button slate ghost type="button" @click="handleCancel">
+            {{ t('CONTESTS.FORM_CANCEL') }}
+          </Button>
+          <Button type="submit">
+            {{ submitText }}
+          </Button>
+        </footer>
+      </form>
+    </section>
+  </div>
 </template>
