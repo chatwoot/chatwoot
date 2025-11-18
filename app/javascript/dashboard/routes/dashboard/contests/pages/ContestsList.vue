@@ -1,16 +1,15 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ContestForm from '../components/ContestForm.vue';
+import ContestShow from './ContestShow.vue';
 
 const store = useStore();
-const { accountScopedRoute } = useAccount();
 const { t } = useI18n();
 
 const createDialogRef = ref(null);
@@ -20,6 +19,9 @@ const deleteTarget = ref(null);
 const editDialogRef = ref(null);
 const editFormKey = ref(0);
 const editTarget = ref(null);
+const showDialogRef = ref(null);
+const showDialogKey = ref(0);
+const showContestId = ref(null);
 
 const contests = computed(() => store.getters['contests/getRecords']);
 const uiFlags = computed(() => store.getters['contests/getUIFlags']);
@@ -185,253 +187,287 @@ const handleEdit = async payload => {
     }
   }
 };
+
+const handleContestClick = contest => {
+  showContestId.value = contest.id;
+  showDialogKey.value += 1;
+  showDialogRef.value?.open();
+};
+
+const handleShowDialogClosed = () => {
+  showContestId.value = null;
+  showDialogKey.value += 1;
+};
+
+const closeShowDialog = () => {
+  showDialogRef.value?.close();
+};
+
+const handleShowEdit = contest => {
+  closeShowDialog();
+  openEditDialog(contest);
+};
 </script>
 
 <template>
-  <div
-    class="mx-auto flex w-full max-w-8xl flex-col gap-6 px-6 pb-10 pt-6 md:px-8"
-  >
+  <div class="flex h-[calc(100vh-4rem)] w-full overflow-hidden">
     <div
-      class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+      class="mx-auto flex w-full min-w-full max-w-6xl flex-col px-6 pt-6 md:px-8 lg:min-w-[35rem]"
     >
-      <div class="space-y-1">
-        <h2 class="text-lg font-semibold text-n-slate-12">
-          {{ t('CONTESTS.LIST_HEADING') }}
-        </h2>
-        <p class="text-sm text-n-slate-11">
-          {{ t('CONTESTS.LIST_SUBHEADING') }}
-        </p>
-      </div>
-
-      <div class="flex gap-3">
-        <RouterLink :to="accountScopedRoute('contests_reports')">
-          <Button outline slate>
-            {{ t('CONTESTS.LIST_VIEW_REPORTS') }}
-          </Button>
-        </RouterLink>
-        <Button @click="openCreateDialog">
-          {{ t('CONTESTS.LIST_CREATE_BUTTON') }}
-        </Button>
-      </div>
-    </div>
-
-    <div class="grid gap-4 md:grid-cols-2">
-      <div
-        class="flex items-center gap-3 rounded-2xl border border-n-alpha-3 bg-white px-5 py-4 shadow-sm dark:bg-n-solid-2"
-      >
+      <div class="flex-shrink-0 pb-6">
         <div
-          class="grid size-10 place-content-center rounded-full bg-n-blue-3 text-n-blue-10"
+          class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
         >
-          <Icon icon="i-lucide-trophy" class="size-5" />
-        </div>
-        <div>
-          <p class="text-xs uppercase tracking-wide text-n-slate-10">
-            {{ t('CONTESTS.METRICS_ACTIVE_CONTESTS') }}
-          </p>
-          <p class="text-2xl font-semibold text-n-slate-12">
-            {{ totalContests }}
-          </p>
-        </div>
-      </div>
-      <div
-        class="flex items-center gap-3 rounded-2xl border border-n-alpha-3 bg-white px-5 py-4 shadow-sm dark:bg-n-solid-2"
-      >
-        <div
-          class="grid size-10 place-content-center rounded-full bg-n-teal-3 text-n-teal-9"
-        >
-          <Icon icon="i-lucide-hash" class="size-5" />
-        </div>
-        <div>
-          <p class="text-xs uppercase tracking-wide text-n-slate-10">
-            {{ t('CONTESTS.METRICS_TRIGGER_WORDS') }}
-          </p>
-          <p class="text-2xl font-semibold text-n-slate-12">
-            {{ totalTriggerWords }}
-          </p>
-        </div>
-      </div>
-    </div>
+          <div class="space-y-1">
+            <h2 class="text-lg font-semibold text-n-slate-12">
+              {{ t('CONTESTS.LIST_HEADING') }}
+            </h2>
+            <p class="text-sm text-n-slate-11">
+              {{ t('CONTESTS.LIST_SUBHEADING') }}
+            </p>
+          </div>
 
-    <div
-      v-if="uiFlags.isFetching"
-      class="rounded-2xl border border-n-alpha-2 bg-white px-6 py-10 text-center text-sm text-n-slate-11 dark:bg-n-solid-2"
-    >
-      {{ t('CONTESTS.LOADING') }}
-    </div>
-    <div
-      v-else
-      class="rounded-2xl border border-n-alpha-2 bg-white shadow-sm dark:bg-n-solid-2"
-    >
-      <div
-        class="max-h-[46rem] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent [scrollbar-width:none] [-ms-overflow-style:none]"
-      >
-        <table class="min-w-full divide-y divide-n-alpha-2 text-left text-sm">
-          <thead
-            class="bg-n-alpha-1/60 uppercase tracking-wide text-n-slate-11"
+          <div class="flex gap-3">
+            <!-- <RouterLink :to="accountScopedRoute('contests_reports')">
+              <Button outline slate>
+                {{ t('CONTESTS.LIST_VIEW_REPORTS') }}
+              </Button>
+            </RouterLink> -->
+            <Button @click="openCreateDialog">
+              {{ t('CONTESTS.LIST_CREATE_BUTTON') }}
+            </Button>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          <div
+            class="flex items-center gap-3 rounded-2xl border border-n-gray-4 bg-white px-3 py-1 shadow-sm dark:bg-n-solid-2 md:px-5 md:py-4"
           >
-            <tr>
-              <th class="px-6 py-3 font-medium">
-                {{ t('CONTESTS.TABLE_NAME') }}
-              </th>
-              <th class="px-6 py-3 font-medium">
-                {{ t('CONTESTS.TABLE_TRIGGER_WORDS') }}
-              </th>
-              <th class="px-6 py-3 font-medium">
-                {{ t('CONTESTS.TABLE_DATES') }}
-              </th>
-              <th class="px-6 py-3 font-medium">
-                {{ t('CONTESTS.TABLE_DESCRIPTION') }}
-              </th>
-              <th class="px-6 py-3 font-medium">
-                {{ t('CONTESTS.TABLE_TERMS') }}
-              </th>
-              <th class="px-6 py-3 font-medium">
-                {{ t('CONTESTS.TABLE_ACTIONS') }}
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-n-alpha-2 text-n-slate-12">
-            <tr
-              v-for="contest in contests"
-              :key="contest.id"
-              class="group transition hover:bg-n-alpha-1/50"
+            <div
+              class="grid size-10 place-content-center rounded-full bg-n-blue-3 text-n-blue-10"
             >
-              <td class="px-6 py-4">
-                <div class="font-medium text-n-slate-12">
-                  {{ contest.name }}
-                </div>
-              </td>
-              <td class="px-6 py-4">
-                <div
-                  class="relative flex flex-wrap items-center gap-2 max-w-60 max-h-20 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent [scrollbar-width:none] hover:[scrollbar-width:thin] [-ms-overflow-style:none] hover:[-ms-overflow-style:auto] [&::-webkit-scrollbar]:hidden hover:[&::-webkit-scrollbar]:block hover:[&::-webkit-scrollbar-thumb]:bg-n-slate-7/70 after:absolute after:right-0 after:top-0 after:h-full after:w-px after:bg-n-slate-8/30 after:opacity-0 after:transition-opacity hover:after:opacity-80"
-                >
-                  <span
-                    v-for="word in contest.trigger_words"
-                    :key="`${contest.id}-${word}`"
-                    class="inline-flex items-center gap-1 rounded-full bg-n-alpha-2 px-2 py-0.5 text-xs text-n-slate-11"
-                  >
-                    <Icon
-                      icon="i-lucide-hash"
-                      class="size-3.5 text-n-slate-10"
-                    />
-                    <span>{{ word }}</span>
-                  </span>
-                  <span
-                    v-if="!(contest.trigger_words || []).length"
-                    class="text-xs text-n-slate-10"
-                  >
-                    {{ t('CONTESTS.TABLE_TRIGGER_WORDS_EMPTY') }}
-                  </span>
-                </div>
-              </td>
-              <td class="px-6 py-4">
-                <div class="text-sm text-n-slate-12">
-                  {{
-                    t('CONTESTS.TABLE_DATES_RANGE', {
-                      start: formatDate(contest.start_date),
-                      end: formatDate(contest.end_date),
-                    })
-                  }}
-                </div>
-              </td>
-              <td class="px-6 py-4">
-                <div
-                  class="relative max-w-72 min-w-32 max-h-20 overflow-y-auto pr-1 text-sm text-n-slate-11 whitespace-pre-line break-words scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent [scrollbar-width:none] hover:[scrollbar-width:thin] [-ms-overflow-style:none] hover:[-ms-overflow-style:auto] [&::-webkit-scrollbar]:hidden hover:[&::-webkit-scrollbar]:block hover:[&::-webkit-scrollbar-thumb]:bg-n-slate-7/70 after:absolute after:right-0 after:top-0 after:h-full after:w-px after:bg-n-slate-8/30 after:opacity-0 after:transition-opacity hover:after:opacity-80"
-                >
-                  {{ contest.description || t('CONTESTS.CARD_NO_DESCRIPTION') }}
-                </div>
-              </td>
-              <td class="px-6 py-4">
-                <div
-                  class="relative max-w-72 min-w-32 max-h-20 overflow-y-auto pr-1 text-sm text-n-slate-11 whitespace-pre-line break-words scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent [scrollbar-width:none] hover:[scrollbar-width:thin] [-ms-overflow-style:none] hover:[-ms-overflow-style:auto] [&::-webkit-scrollbar]:hidden hover:[&::-webkit-scrollbar]:block hover:[&::-webkit-scrollbar-thumb]:bg-n-slate-7/70 after:absolute after:right-0 after:top-0 after:h-full after:w-px after:bg-n-slate-8/30 after:opacity-0 after:transition-opacity hover:after:opacity-80"
-                >
-                  {{ contest.terms || t('CONTESTS.CARD_NO_TERMS') }}
-                </div>
-              </td>
-              <td class="px-6 py-4">
-                <div class="flex items-center gap-1">
-                  <Button
-                    icon="i-lucide-pencil"
-                    slate
-                    ghost
-                    xs
-                    :aria-label="t('CONTESTS.TABLE_EDIT_ACTION')"
-                    @click="openEditDialog(contest)"
-                  />
-                  <Button
-                    icon="i-lucide-trash-2"
-                    ruby
-                    ghost
-                    xs
-                    :aria-label="t('CONTESTS.TABLE_DELETE_ACTION')"
-                    @click="openDeleteDialog(contest)"
-                  />
-                </div>
-              </td>
-            </tr>
-            <tr v-if="!contests.length">
-              <td
-                class="px-6 py-6 text-center text-sm text-n-slate-11"
-                colspan="6"
-              >
-                {{ t('CONTESTS.EMPTY_MESSAGE') }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <Icon icon="i-lucide-trophy" class="size-5" />
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wide text-n-slate-10">
+                {{ t('CONTESTS.METRICS_ACTIVE_CONTESTS') }}
+              </p>
+              <p class="text-2xl font-semibold text-n-slate-12">
+                {{ totalContests }}
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-3 rounded-2xl border border-n-gray-4 bg-white px-3 py-1 shadow-sm dark:bg-n-solid-2 md:px-5 md:py-4"
+          >
+            <div
+              class="grid size-10 place-content-center rounded-full bg-n-teal-3 text-n-teal-9"
+            >
+              <Icon icon="i-lucide-hash" class="size-5" />
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wide text-n-slate-10">
+                {{ t('CONTESTS.METRICS_TRIGGER_WORDS') }}
+              </p>
+              <p class="text-2xl font-semibold text-n-slate-12">
+                {{ totalTriggerWords }}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <Dialog
-      ref="createDialogRef"
-      width="3xl"
-      :show-cancel-button="false"
-      :show-confirm-button="false"
-      @close="handleDialogClosed"
-    >
-      <ContestForm
-        :key="createFormKey"
-        :heading="t('CONTESTS.CREATE_HEADING')"
-        :submit-label="t('CONTESTS.CREATE_SUBMIT')"
-        @submit="handleCreate"
-        @cancel="closeCreateDialog"
-      />
-    </Dialog>
+      <div
+        class="flex-1 overflow-y-auto pb-10 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <div
+          v-if="uiFlags.isFetching"
+          class="rounded-2xl border border-n-alpha-2 bg-white px-6 py-10 text-center text-sm text-n-slate-11 dark:bg-n-solid-2"
+        >
+          {{ t('CONTESTS.LOADING') }}
+        </div>
+        <div v-else class="flex flex-col gap-3">
+          <article
+            v-for="contest in contests"
+            :key="contest.id"
+            class="flex flex-wrap items-center gap-3 rounded-2xl border border-n-gray-4 bg-white px-5 py-2 shadow-sm transition-colors hover:border-n-alpha-4 hover:bg-n-alpha-1 cursor-pointer dark:bg-n-solid-2 dark:hover:bg-n-solid-3"
+            @click="handleContestClick(contest)"
+          >
+            <div
+              class="min-w-[10rem] flex-1 space-y-1 pb-5 overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5"
+            >
+              <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
+                {{ t('CONTESTS.TABLE_NAME') }}
+              </span>
+              <div
+                class="flex flex-wrap items-center gap-2 text-sm font-semibold text-n-slate-12"
+              >
+                {{ contest.name }}
+              </div>
+            </div>
 
-    <Dialog
-      ref="deleteDialogRef"
-      type="alert"
-      :title="t('CONTESTS.DELETE_CONFIRM_TITLE')"
-      :description="
-        deleteTarget
-          ? t('CONTESTS.DELETE_CONFIRM_MESSAGE', {
-              name: deleteTarget.name,
-            })
-          : ''
-      "
-      :confirm-button-label="t('CONTESTS.DELETE_CONFIRM_SUBMIT')"
-      :cancel-button-label="t('CONTESTS.DELETE_CONFIRM_CANCEL')"
-      @confirm="handleDelete"
-      @close="handleDeleteDialogClosed"
-    />
+            <div
+              class="min-w-[9rem] flex-1 space-y-1 pb-4 overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5"
+            >
+              <p class="text-[11px] uppercase text-n-slate-10">
+                {{ t('CONTESTS.TABLE_TRIGGER_WORDS') }}
+              </p>
+              <div
+                class="flex max-h-12 max-w-48 flex-wrap gap-1 overflow-y-auto overflow-x-hidden text-[11px] text-n-slate-11 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              >
+                <span
+                  v-for="word in contest.trigger_words"
+                  :key="`${contest.id}-${word}`"
+                  class="inline-flex items-center gap-1 rounded-full bg-n-alpha-2 px-2 py-0.5"
+                >
+                  <Icon icon="i-lucide-hash" class="size-3 text-n-slate-9" />
+                  {{ word }}
+                </span>
+                <span v-if="!(contest.trigger_words || []).length">
+                  {{ t('CONTESTS.TABLE_TRIGGER_WORDS_EMPTY') }}
+                </span>
+              </div>
+            </div>
 
-    <Dialog
-      ref="editDialogRef"
-      width="3xl"
-      :show-cancel-button="false"
-      :show-confirm-button="false"
-      @close="handleEditDialogClosed"
-    >
-      <template v-if="editTarget">
+            <div
+              class="min-w-[5rem] flex-1 pb-5 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11"
+            >
+              <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
+                {{ t('CONTESTS.TABLE_DATES') }}
+              </span>
+              <p>
+                {{
+                  t('CONTESTS.TABLE_DATES_RANGE', {
+                    start: formatDate(contest.start_date),
+                    end: formatDate(contest.end_date),
+                  })
+                }}
+              </p>
+            </div>
+
+            <div
+              class="min-w-[14rem] md:min-w-[18rem] flex-1 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1"
+            >
+              <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
+                {{ t('CONTESTS.TABLE_DESCRIPTION') }}
+              </span>
+              <span
+                class="block max-h-16 overflow-y-auto overflow-x-hidden break-words [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {{ contest.description || t('CONTESTS.CARD_NO_DESCRIPTION') }}
+              </span>
+            </div>
+
+            <div
+              class="min-w-[14rem] flex-1 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1"
+            >
+              <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
+                {{ t('CONTESTS.TABLE_TERMS') }}
+              </span>
+              <span
+                class="block max-h-16 overflow-y-auto overflow-x-hidden break-words [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {{ contest.terms || t('CONTESTS.CARD_NO_TERMS') }}
+              </span>
+            </div>
+
+            <div class="ml-auto flex items-center gap-1" @click.stop>
+              <Button
+                icon="i-lucide-pencil"
+                slate
+                ghost
+                xs
+                :aria-label="t('CONTESTS.TABLE_EDIT_ACTION')"
+                @click="openEditDialog(contest)"
+              />
+              <Button
+                icon="i-lucide-trash-2"
+                ruby
+                ghost
+                xs
+                :aria-label="t('CONTESTS.TABLE_DELETE_ACTION')"
+                @click="openDeleteDialog(contest)"
+              />
+            </div>
+          </article>
+
+          <div
+            v-if="!contests.length"
+            class="col-span-full rounded-2xl border border-dashed border-n-alpha-3 bg-white py-16 text-center text-sm text-n-slate-11 dark:bg-n-solid-2"
+          >
+            {{ t('CONTESTS.EMPTY_MESSAGE') }}
+          </div>
+        </div>
+      </div>
+
+      <Dialog
+        ref="createDialogRef"
+        width="3xl"
+        :show-cancel-button="false"
+        :show-confirm-button="false"
+        @close="handleDialogClosed"
+      >
         <ContestForm
-          :key="editFormKey"
-          :contest="editTarget"
-          :heading="t('CONTESTS.EDIT_HEADING')"
-          :submit-label="t('CONTESTS.EDIT_SUBMIT')"
-          @submit="handleEdit"
-          @cancel="closeEditDialog"
+          :key="createFormKey"
+          :heading="t('CONTESTS.CREATE_HEADING')"
+          :submit-label="t('CONTESTS.CREATE_SUBMIT')"
+          @submit="handleCreate"
+          @cancel="closeCreateDialog"
         />
-      </template>
-    </Dialog>
+      </Dialog>
+
+      <Dialog
+        ref="deleteDialogRef"
+        type="alert"
+        :title="t('CONTESTS.DELETE_CONFIRM_TITLE')"
+        :description="
+          deleteTarget
+            ? t('CONTESTS.DELETE_CONFIRM_MESSAGE', {
+                name: deleteTarget.name,
+              })
+            : ''
+        "
+        :confirm-button-label="t('CONTESTS.DELETE_CONFIRM_SUBMIT')"
+        :cancel-button-label="t('CONTESTS.DELETE_CONFIRM_CANCEL')"
+        @confirm="handleDelete"
+        @close="handleDeleteDialogClosed"
+      />
+
+      <Dialog
+        ref="editDialogRef"
+        width="3xl"
+        :show-cancel-button="false"
+        :show-confirm-button="false"
+        @close="handleEditDialogClosed"
+      >
+        <template v-if="editTarget">
+          <ContestForm
+            :key="editFormKey"
+            :contest="editTarget"
+            :heading="t('CONTESTS.EDIT_HEADING')"
+            :submit-label="t('CONTESTS.EDIT_SUBMIT')"
+            @submit="handleEdit"
+            @cancel="closeEditDialog"
+          />
+        </template>
+      </Dialog>
+
+      <Dialog
+        ref="showDialogRef"
+        width="3xl"
+        :show-cancel-button="false"
+        :show-confirm-button="false"
+        @close="handleShowDialogClosed"
+      >
+        <ContestShow
+          v-if="showContestId"
+          :key="showDialogKey"
+          :contest-id="showContestId"
+          :show-back-button="false"
+          @close="closeShowDialog"
+          @edit="handleShowEdit"
+        />
+      </Dialog>
+    </div>
   </div>
 </template>
