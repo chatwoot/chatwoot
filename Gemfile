@@ -193,6 +193,11 @@ gem 'ai-agents', '>= 0.4.3'
 # TODO: Move this gem as a dependency of ai-agents
 gem 'ruby_llm-schema'
 
+# OpenTelemetry for LLM observability
+gem 'opentelemetry-sdk'
+gem 'opentelemetry-exporter-otlp'
+gem 'opentelemetry-instrumentation-rails'
+
 gem 'shopify_api'
 
 ### Gems required only in specific deployment environments ###

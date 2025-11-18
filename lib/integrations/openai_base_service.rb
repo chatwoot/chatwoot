@@ -98,10 +98,13 @@ class Integrations::OpenaiBaseService
 
     return { error: response.parsed_response, error_code: response.code } unless response.success?
 
-    choices = JSON.parse(response.body)['choices']
+    parsed_response = JSON.parse(response.body)
+    parsed_body = JSON.parse(body)
+    choices = parsed_response['choices']
+    usage = parsed_response['usage']
 
-    return { message: choices.first['message']['content'] } if choices.present?
+    return { message: choices.first['message']['content'], usage: usage, request_messages: parsed_body['messages'] } if choices.present?
 
-    { message: nil }
+    { message: nil, usage: usage, request_messages: parsed_body['messages'] }
   end
 end

@@ -65,6 +65,97 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def process_event(event)
+    # Only create span if OTel is enabled and this is an OpenAI hook
+    Rails.logger.info "[OTel Debug] process_event called - app_id: #{app_id}, OTEL_ENABLED: #{ENV['OTEL_ENABLED']}, event: #{event['name']}"
+
+    if ENV['OTEL_ENABLED'] == 'true' && app_id == 'openai'
+      Rails.logger.info "[OTel Debug] Creating telemetry span for OpenAI event: #{event['name']}"
+      process_event_with_telemetry(event)
+    else
+      Rails.logger.info "[OTel Debug] Skipping telemetry - condition not met"
+      process_event_without_telemetry(event)
+    end
+  end
+
+  private
+
+  def process_event_with_telemetry(event)
+    tracer = OpenTelemetry.tracer_provider.tracer('chatwoot.ai_editor')
+    Rails.logger.info "[OTel Debug] Tracer created: #{tracer.class}"
+
+    tracer.in_span(
+      'ai_editor.process',
+      attributes: {
+        'gen_ai.system' => 'openai',
+        'gen_ai.operation.name' => event['name'],
+        'gen_ai.request.model' => 'gpt-4o-mini',
+        'app.feature' => 'ai_editor',
+        'account.id' => account_id,
+        'conversation.id' => event.dig('data', 'conversation_display_id')
+      },
+      kind: :client
+    ) do |span|
+      Rails.logger.info "[OTel Debug] Span created: #{span.class}, recording: #{span.recording?}"
+      start_time = Time.current
+
+      result = Integrations::Openai::ProcessorService.new(hook: self, event: event).perform
+
+      # Extract token usage and add cost calculation
+      if result.is_a?(Hash)
+        span.set_attribute('gen_ai.response.success', result[:error].nil?)
+        span.set_attribute('gen_ai.response.has_message', result[:message].present?)
+
+        if result[:error]
+          span.set_attribute('gen_ai.error.message', result[:error].to_s)
+          span.set_attribute('gen_ai.error.code', result[:error_code]) if result[:error_code]
+        else
+          # Add prompt messages using both indexed and JSON formats for compatibility
+          if result[:request_messages].present?
+            # Indexed format (standard GenAI semantic convention)
+            result[:request_messages].each_with_index do |msg, idx|
+              span.set_attribute("gen_ai.prompt.#{idx}.role", msg['role'])
+              span.set_attribute("gen_ai.prompt.#{idx}.content", msg['content'])
+            end
+
+            # JSON format (alternative for Langfuse)
+            span.set_attribute('gen_ai.prompt_json', result[:request_messages].to_json)
+          end
+
+          # Add completion output using both indexed and JSON formats
+          if result[:message].present?
+            completion = { 'role' => 'assistant', 'content' => result[:message] }
+
+            # Indexed format
+            span.set_attribute('gen_ai.completion.0.role', 'assistant')
+            span.set_attribute('gen_ai.completion.0.content', result[:message])
+
+            # JSON format
+            span.set_attribute('gen_ai.completion_json', [completion].to_json)
+          end
+
+          # Add Langfuse-specific attributes for better organization
+          span.set_attribute('langfuse.tags', [event['name'], 'ai_editor'].to_json)
+
+          # Add token usage - Langfuse expects these attribute names
+          # Langfuse will auto-calculate cost from model + token counts
+          if result[:usage]
+            usage = result[:usage]
+            span.set_attribute('gen_ai.usage.prompt_tokens', usage['prompt_tokens']) if usage['prompt_tokens']
+            span.set_attribute('gen_ai.usage.completion_tokens', usage['completion_tokens']) if usage['completion_tokens']
+          end
+        end
+      end
+
+      result
+    rescue StandardError => e
+      # Let the span record the error
+      span.record_exception(e)
+      span.status = OpenTelemetry::Trace::Status.error("Error processing OpenAI event: #{e.message}")
+      raise
+    end
+  end
+
+  def process_event_without_telemetry(event)
     case app_id
     when 'openai'
       Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
@@ -72,6 +163,8 @@ class Integrations::Hook < ApplicationRecord
       { error: 'No processor found' }
     end
   end
+
+  public
 
   def feature_allowed?
     return true if app.blank?
