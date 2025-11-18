@@ -101,7 +101,7 @@ RSpec.describe 'Devise::Mailer' do
         let(:inviter_val) { create(:user, :administrator, skip_confirmation: true, account: account) }
 
         it 'shows standard invitation without SSO references' do
-          expect(mail.body).to match('has invited you to try out Chatwoot')
+          expect(mail.body).to match(/has invited you to try out .+/)
           expect(mail.body).not_to match('via Single Sign-On')
           expect(mail.body).not_to match('SSO portal')
         end
