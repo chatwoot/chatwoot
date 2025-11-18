@@ -20,9 +20,13 @@ export default {
     },
   },
   methods: {
-    resendVerificationEmail() {
-      this.$store.dispatch('resendConfirmation');
-      useAlert(this.$t('APP_GLOBAL.EMAIL_VERIFICATION_SENT'));
+    async resendVerificationEmail() {
+      const result = await this.$store.dispatch('resendConfirmation');
+      if (result?.success) {
+        useAlert(this.$t('APP_GLOBAL.EMAIL_VERIFICATION_SENT'));
+      } else {
+        useAlert(result?.error || this.$t('APP_GLOBAL.EMAIL_VERIFICATION_FAILED'), 'error');
+      }
     },
   },
 };

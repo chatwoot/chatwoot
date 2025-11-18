@@ -34,8 +34,13 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def resend_confirmation
-    @user.send_confirmation_instructions unless @user.confirmed?
+    return head :ok if @user.confirmed?
+
+    @user.send_confirmation_instructions
     head :ok
+  rescue StandardError => e
+    Rails.logger.error "Failed to resend confirmation email: #{e.message}"
+    render json: { error: 'Failed to send confirmation email' }, status: :unprocessable_entity
   end
 
   def reset_access_token

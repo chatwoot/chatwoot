@@ -233,11 +233,12 @@ export const actions = {
     }
   },
 
-  resendConfirmation: async () => {
+  resendConfirmation: async ({ dispatch }) => {
     try {
       await authAPI.resendConfirmation();
+      return { success: true };
     } catch (error) {
-      // Ignore error
+      return { success: false, error: error.response?.data?.error || 'Failed to send email' };
     }
   },
 };
