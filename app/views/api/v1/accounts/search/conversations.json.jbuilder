@@ -13,18 +13,6 @@ json.payload do
       json.inbox do
         json.partial! 'inbox', formats: [:json], inbox: conversation.inbox if conversation.try(:inbox).present?
       end
-      assignee_record = conversation.assigned_entity
-      if assignee_record.present?
-        json.assignee_type conversation.assignee_type
-        json.agent do
-          if assignee_record.is_a?(AgentBot)
-            json.partial! 'api/v1/models/agent_bot', formats: [:json], resource: assignee_record
-          else
-            json.partial! 'agent', formats: [:json], agent: assignee_record
-          end
-        end
-      end
-
       json.additional_attributes conversation.additional_attributes
     end
   end
