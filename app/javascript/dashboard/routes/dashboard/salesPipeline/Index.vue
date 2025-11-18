@@ -160,7 +160,7 @@
 
               <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                 <div>{{ card.assignee_name }}</div>
-                <div>{{ timeFormat(card.last_activity_at) }}</div>
+                <div>{{ dynamicTime(card.last_activity_at) }}</div>
               </div>
             </div>
 
@@ -180,7 +180,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
-import timeMixin from 'dashboard/mixins/time';
+import { dynamicTime } from 'shared/helpers/timeHelper';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import FluentIcon from 'shared/components/FluentIcon.vue';
 import draggable from 'vuedraggable';
@@ -192,7 +192,6 @@ export default {
     FluentIcon,
     draggable,
   },
-  mixins: [timeMixin],
   data() {
     return {
       filters: {
@@ -277,6 +276,10 @@ export default {
         message,
         type: 'error',
       });
+    },
+
+    dynamicTime(time) {
+      return dynamicTime(time);
     },
   },
 };
