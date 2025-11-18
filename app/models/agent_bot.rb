@@ -21,6 +21,11 @@ class AgentBot < ApplicationRecord
   include AccessTokenable
   include Avatarable
 
+  scope :accessible_to, lambda { |account|
+    account_id = account&.id
+    where(account_id: [nil, account_id])
+  }
+
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :inboxes, through: :agent_bot_inboxes
   has_many :messages, as: :sender, dependent: :nullify
