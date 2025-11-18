@@ -24,7 +24,7 @@ nixPkgs = [
 
 cmds = [
   'curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash -s stable',
-  'printf \'\\neval "$(~/.rbenv/bin/rbenv init -)"\' >> /root/.profile',
+  'echo "" >> /root/.profile && echo "eval \"$(~/.rbenv/bin/rbenv init -)\"" >> /root/.profile',
   '. /root/.profile',
   'rbenv install 3.4.4',
   'rbenv global 3.4.4',
