@@ -50,7 +50,7 @@ export default {
     whatsappAppId() {
       return window.chatwootConfig?.whatsappAppId;
     },
-    hasInboundEmailDomain() {
+    isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
     },
   },
@@ -304,13 +304,13 @@ export default {
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :sub-title="
-          hasInboundEmailDomain
+          isForwardingEnabled
             ? $t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')
             : ''
         "
       >
         <woot-code
-          v-if="hasInboundEmailDomain"
+          v-if="isForwardingEnabled"
           :script="inbox.forward_to_email"
         />
         <div
