@@ -19,7 +19,7 @@ module SalesPipeline
     def current_stage
       return nil unless account.present?
 
-      stage_labels = account.sales_pipeline_stages.joins(:label).pluck(:labels__title)
+      stage_labels = account.sales_pipeline_stages.joins(:label).pluck('labels.title')
       conversation_labels = conversation.labels.pluck(:name)
 
       stage_title = stage_labels.find { |label| conversation_labels.include?(label) }
@@ -51,7 +51,7 @@ module SalesPipeline
     def remove_current_stage_label!
       return unless account.present?
 
-      stage_labels = account.sales_pipeline_stages.joins(:label).pluck(:labels__title)
+      stage_labels = account.sales_pipeline_stages.joins(:label).pluck('labels.title')
       current_labels = conversation.labels.pluck(:name)
 
       stage_labels_to_remove = stage_labels & current_labels

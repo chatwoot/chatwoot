@@ -127,11 +127,13 @@
 
 <script>
 import Spinner from 'shared/components/Spinner.vue';
+import FluentIcon from 'shared/components/FluentIcon.vue';
 
 export default {
   name: 'StageForm',
   components: {
     Spinner,
+    FluentIcon,
   },
   props: {
     stage: {

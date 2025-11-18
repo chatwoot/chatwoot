@@ -128,11 +128,13 @@
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import FluentIcon from 'shared/components/FluentIcon.vue';
 
 export default {
   name: 'ConversationSalesStage',
   components: {
     Spinner,
+    FluentIcon,
   },
   props: {
     conversationId: {

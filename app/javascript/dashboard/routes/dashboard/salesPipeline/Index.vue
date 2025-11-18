@@ -183,12 +183,14 @@ import Spinner from 'shared/components/Spinner.vue';
 import timeMixin from 'dashboard/mixins/time';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import FluentIcon from 'shared/components/FluentIcon.vue';
+import draggable from 'vuedraggable';
 
 export default {
   name: 'SalesPipelineIndex',
   components: {
     Spinner,
     FluentIcon,
+    draggable,
   },
   mixins: [timeMixin],
   data() {
