@@ -989,6 +989,7 @@ DEPENDENCIES
   attr_extras
   audited (~> 5.4, >= 5.4.1)
   aws-actionmailbox-ses (~> 0)
+  aws-sdk-s3
   azure-storage-blob!
   barnes
   bootsnap
