@@ -40,6 +40,7 @@
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
 #  index_conversations_on_id_and_account_id           (account_id,id)
+#  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
@@ -228,12 +229,15 @@ class Conversation < ApplicationRecord
   def determine_conversation_status
     self.status = :resolved and return if contact.blocked?
 
-    # Message template hooks aren't executed for conversations from campaigns
-    # So making these conversations open for agent visibility
-    return if campaign.present?
+    return handle_campaign_status if campaign.present?
 
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
     self.status = :pending if inbox.active_bot?
+  end
+
+  def handle_campaign_status
+    # If campaign has no sender (bot-initiated) and inbox has active bot, let bot handle it
+    self.status = :pending if campaign.sender_id.nil? && inbox.active_bot?
   end
 
   def notify_conversation_creation

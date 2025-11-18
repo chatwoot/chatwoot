@@ -340,7 +340,7 @@ export default {
           "
         >
           <div class="flex gap-4 items-center">
-            <p class="text-sm text-slate-600">
+            <p class="text-sm text-n-slate-11">
               {{
                 $t(
                   'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION'
