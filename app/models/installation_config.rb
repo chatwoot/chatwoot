@@ -27,7 +27,7 @@ class InstallationConfig < ApplicationRecord
   before_validation :set_lock
   before_validation :normalize_primary_color_hex
   validates :name, presence: true
-  validate :validate_primary_color_hex_format
+  validate :saml_sso_users_check, if: -> { name == 'ENABLE_SAML_SSO_LOGIN' }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -78,5 +78,12 @@ class InstallationConfig < ApplicationRecord
 
   def clear_cache
     GlobalConfig.clear_cache
+  end
+
+  def saml_sso_users_check
+    return unless value == false || value == 'false'
+    return unless User.exists?(provider: 'saml')
+
+    errors.add(:base, 'Cannot disable SAML SSO login while users are using SAML authentication')
   end
 end
