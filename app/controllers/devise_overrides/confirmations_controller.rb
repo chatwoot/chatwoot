@@ -5,9 +5,13 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
 
   def create
     @confirmable = User.find_by(confirmation_token: params[:confirmation_token])
-    render_confirmation_success and return if @confirmable&.confirm
+    return render_confirmation_error if @confirmable.blank?
 
-    render_confirmation_error
+    if @confirmable.confirm
+      render_confirmation_success
+    else
+      render_confirmation_error
+    end
   end
 
   private
@@ -25,10 +29,5 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
     else
       render json: { message: 'Failure', redirect_url: '/' }, status: :unprocessable_entity
     end
-  end
-
-  def create_reset_token_link(user)
-    token = user.send(:set_reset_password_token)
-    "/app/auth/password/edit?config=default&redirect_url=&reset_password_token=#{token}"
   end
 end
