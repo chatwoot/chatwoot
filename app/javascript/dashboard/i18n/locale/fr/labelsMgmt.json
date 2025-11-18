@@ -6,6 +6,16 @@
     "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
     "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
+    "AUTO_CLASSIFICATION": {
+      "LABEL_TITLE": "Étiquetage Automatique par IA",
+      "LABEL_DESCRIPTION": "Attribuer automatiquement des étiquettes aux conversations en utilisant l'analyse IA basée sur le contenu et le contexte de la conversation.",
+      "TEAM_TITLE": "Attribution Automatique d'Équipe par IA",
+      "TEAM_DESCRIPTION": "Attribuer automatiquement des équipes aux conversations en utilisant l'analyse IA basée sur le contenu de la conversation et les descriptions des équipes.",
+      "THRESHOLD_LABEL": "Nombre minimum de messages avant traitement",
+      "THRESHOLD_HINT": "Attendre ce nombre de messages entrants avant d'appliquer les suggestions IA",
+      "UPDATE_SUCCESS": "Paramètres de classification automatique mis à jour avec succès",
+      "UPDATE_FAILED": "Échec de la mise à jour des paramètres de classification automatique"
+    },
     "LIST": {
       "404": "Il n'y a aucune étiquette disponible dans ce compte.",
       "TITLE": "Gérer les étiquettes",
@@ -13,7 +23,8 @@
       "TABLE_HEADER": {
         "NAME": "Nom",
         "DESCRIPTION": "Description",
-        "COLOR": "Couleur"
+        "COLOR": "Couleur",
+        "AUTO_CLASSIFY": "Classification Automatique"
       }
     },
     "FORM": {
@@ -34,10 +45,20 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Afficher l'étiquette dans la barre latérale"
       },
+      "ALLOW_AUTO_ASSIGN": {
+        "LABEL": "Activer la classification automatique par IA pour cette étiquette"
+      },
       "EDIT": "Modifier",
       "CREATE": "Créer",
       "DELETE": "Supprimer",
       "CANCEL": "Annuler"
+    },
+    "AUTO_CLASSIFY": {
+      "ENABLED": "Classification automatique activée pour l'étiquette",
+      "DISABLED": "Classification automatique désactivée pour l'étiquette",
+      "ERROR": "Échec de la mise à jour du paramètre de classification automatique",
+      "BULK_SUCCESS": "Classification automatique mise à jour pour toutes les étiquettes",
+      "BULK_ERROR": "Échec de la mise à jour de la classification automatique pour toutes les étiquettes"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {

@@ -128,6 +128,10 @@ class Conversation < ApplicationRecord
     additional_attributes&.dig('conversation_language')
   end
 
+  def classify
+    Conversations::AutoAssignService.new(self).perform
+  end
+
   # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.
   # Our DB column (see schema) stores timestamps with second-level precision (no microseconds), so
   # if you assign a Ruby Time with microseconds, the DB will truncate it. This may cause subtle differences

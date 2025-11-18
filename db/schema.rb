@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_04_103741) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_10_140957) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -906,7 +906,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_04_103741) do
     t.bigint "account_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.boolean "allow_auto_assign", default: false
     t.index ["account_id"], name: "index_labels_on_account_id"
+    t.index ["allow_auto_assign"], name: "index_labels_on_allow_auto_assign"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
