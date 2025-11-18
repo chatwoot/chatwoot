@@ -71,7 +71,6 @@ class Conversation < ApplicationRecord
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
   validate :validate_referer_url
-  validate :validate_single_assignee
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
@@ -177,17 +176,14 @@ class Conversation < ApplicationRecord
   end
 
   def notifiable_assignee_change?
-    return false unless assignee_assignment_changed?
+    return false unless saved_change_to_assignee_id?
+    return false if assignee_id.blank?
+    return false if self_assign?(assignee_id)
 
-    if assignee.present?
-      return false if self_assign?(assignee_id)
-
-      true
-    else
-      assignee_agent_bot.present?
-    end
+    true
   end
 
+  # Virtual attribute till we switch completely to polymorphic assignee
   def assignee_type
     return 'AgentBot' if assignee_agent_bot_id.present?
     return 'User' if assignee_id.present?
@@ -249,16 +245,6 @@ class Conversation < ApplicationRecord
     return if assignee_id.blank?
 
     self.assignee_agent_bot_id = nil
-  end
-
-  def assignee_assignment_changed?
-    saved_change_to_assignee_id? || saved_change_to_assignee_agent_bot_id?
-  end
-
-  def validate_single_assignee
-    return unless assignee_id.present? && assignee_agent_bot_id.present?
-
-    errors.add(:base, 'Conversation cannot have both an agent and an agent bot assigned')
   end
 
   def determine_conversation_status
