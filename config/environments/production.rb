@@ -67,7 +67,7 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = Logger::Formatter.new
+  config.log_formatter = ::Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
@@ -100,8 +100,7 @@ Rails.application.configure do
   # :mandrill for Mandrill
   # :postmark for Postmark
   # :sendgrid for Sendgrid
-  # :ses for Amazon SES
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
-  Rails.application.routes.default_url_options = { host: ENV.fetch('FRONTEND_URL', nil) }
+  Rails.application.routes.default_url_options = { host: ENV.fetch('FRONTEND_URL') }
 end
