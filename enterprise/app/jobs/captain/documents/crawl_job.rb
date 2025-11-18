@@ -7,7 +7,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
     elsif InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value.present?
       perform_firecrawl_crawl(document, exclude_paths)
     else
-      perform_simple_crawl(document)
+      perform_simple_crawl(document, exclude_paths)
     end
   end
 
@@ -23,8 +23,13 @@ class Captain::Documents::CrawlJob < ApplicationJob
     raise # Re-raise to let job framework handle retry logic
   end
 
-  def perform_simple_crawl(document)
-    page_links = Captain::Tools::SimplePageCrawlService.new(document.external_link).page_links
+  def perform_simple_crawl(document, exclude_paths)
+    crawler = Captain::Tools::SimplePageCrawlService.new(
+      document.external_link,
+      exclude_paths: exclude_paths
+    )
+
+    page_links = crawler.page_links
 
     page_links.each do |page_link|
       Captain::Tools::SimplePageCrawlParserJob.perform_later(
@@ -32,6 +37,8 @@ class Captain::Documents::CrawlJob < ApplicationJob
         page_link: page_link
       )
     end
+
+    return if crawler.excluded?(document.external_link)
 
     Captain::Tools::SimplePageCrawlParserJob.perform_later(
       assistant_id: document.assistant_id,

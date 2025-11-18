@@ -15,7 +15,6 @@ const {
   MAXIMUM_FILE_UPLOAD_SIZE: maximumFileUploadSize,
   HCAPTCHA_SITE_KEY: hCaptchaSiteKey,
   INSTALLATION_NAME: installationName,
-  CAPTAIN_FIRECRAWL_API_KEY_SET: captainFirecrawlApiKeySet,
   LOGO_THUMBNAIL: logoThumbnail,
   LOGO: logo,
   LOGO_DARK: logoDark,
@@ -50,7 +49,6 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
-  isCaptainFirecrawlApiKeySet: parseBoolean(captainFirecrawlApiKeySet),
 };
 
 export const getters = {

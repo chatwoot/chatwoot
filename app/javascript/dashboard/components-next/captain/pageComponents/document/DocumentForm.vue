@@ -24,11 +24,6 @@ const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 const { t } = useI18n();
 
-const globalConfig = useMapGetter('globalConfig/get');
-const isCaptainFirecrawlApiKeySet = computed(
-  () => globalConfig.value.isCaptainFirecrawlApiKeySet
-);
-
 const formState = {
   uiFlags: useMapGetter('captainDocuments/getUIFlags'),
 };
@@ -166,7 +161,7 @@ const handleSubmit = async () => {
     />
 
     <div
-      v-if="isCaptainFirecrawlApiKeySet && state.documentType === 'url'"
+      v-if="state.documentType === 'url'"
       class="relative flex flex-col min-w-0 gap-1"
     >
       <label class="mb-0.5 text-sm font-medium text-n-slate-12">

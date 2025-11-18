@@ -93,6 +93,44 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
         )
       end
     end
+
+    context 'when exclude paths are provided' do
+      let(:html_content) do
+        <<~HTML
+          <html>
+            <body>
+              <a href="/blog/post-1">Blog</a>
+              <a href="/news/article">News</a>
+              <a href="/about">About</a>
+            </body>
+          </html>
+        HTML
+      end
+
+      let(:service_with_excludes) do
+        described_class.new(
+          base_url,
+          exclude_paths: ['/blog/*', '^/news/.*$']
+        )
+      end
+
+      before do
+        stub_request(:get, base_url).to_return(body: html_content)
+      end
+
+      it 'filters links that match the exclude patterns' do
+        links = service_with_excludes.page_links
+
+        expect(links).not_to include('https://example.com/blog/post-1')
+        expect(links).not_to include('https://example.com/news/article')
+        expect(links).to include('https://example.com/about')
+      end
+
+      it 'reports whether a URL is excluded' do
+        expect(service_with_excludes.excluded?('https://example.com/blog/post-1')).to be(true)
+        expect(service_with_excludes.excluded?('https://example.com/about')).to be(false)
+      end
+    end
   end
 
   describe '#body_text_content' do
