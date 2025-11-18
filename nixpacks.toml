@@ -1,4 +1,0 @@
-# Nixpacks configuration for Chatwoot
-
-[phases.release]
-cmds = []
