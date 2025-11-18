@@ -10,31 +10,38 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
-  # Config related to smtp
   smtp_settings = {
     address: ENV.fetch('SMTP_ADDRESS', 'localhost'),
-    port: ENV.fetch('SMTP_PORT', 587)
+    port: ENV.fetch('SMTP_PORT', 587).to_i,
+    enable_starttls_auto: ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', true))
   }
 
-  smtp_settings[:authentication] = ENV.fetch('SMTP_AUTHENTICATION', 'login').to_sym if ENV['SMTP_AUTHENTICATION'].present?
+  smtp_settings[:authentication] = ENV['SMTP_AUTHENTICATION'].to_sym if ENV['SMTP_AUTHENTICATION'].present?
   smtp_settings[:domain] = ENV['SMTP_DOMAIN'] if ENV['SMTP_DOMAIN'].present?
-  smtp_settings[:user_name] = ENV.fetch('SMTP_USERNAME', nil)
-  smtp_settings[:password] = ENV.fetch('SMTP_PASSWORD', nil)
-  smtp_settings[:enable_starttls_auto] = ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', true))
+  smtp_settings[:user_name] = ENV['SMTP_USERNAME'] if ENV['SMTP_USERNAME'].present?
+  smtp_settings[:password] = ENV['SMTP_PASSWORD'] if ENV['SMTP_PASSWORD'].present?
   smtp_settings[:openssl_verify_mode] = ENV['SMTP_OPENSSL_VERIFY_MODE'] if ENV['SMTP_OPENSSL_VERIFY_MODE'].present?
-  smtp_settings[:ssl] = ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_SSL', true)) if ENV['SMTP_SSL']
-  smtp_settings[:tls] = ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_TLS', true)) if ENV['SMTP_TLS']
+  smtp_settings[:ssl] = ActiveModel::Type::Boolean.new.cast(ENV['SMTP_SSL']) if ENV['SMTP_SSL'].present?
+  smtp_settings[:tls] = ActiveModel::Type::Boolean.new.cast(ENV['SMTP_TLS']) if ENV['SMTP_TLS'].present?
   smtp_settings[:open_timeout] = ENV['SMTP_OPEN_TIMEOUT'].to_i if ENV['SMTP_OPEN_TIMEOUT'].present?
   smtp_settings[:read_timeout] = ENV['SMTP_READ_TIMEOUT'].to_i if ENV['SMTP_READ_TIMEOUT'].present?
 
-  config.action_mailer.delivery_method = :smtp unless Rails.env.test?
-  config.action_mailer.smtp_settings = smtp_settings
-
-  # Use sendmail if using postfix for email
-  config.action_mailer.delivery_method = :sendmail if ENV['SMTP_ADDRESS'].blank?
+  smtp_settings.compact!
 
   # You can use letter opener for your local development by setting the environment variable
-  config.action_mailer.delivery_method = :letter_opener if Rails.env.development? && ENV['LETTER_OPENER']
+  # This should take precedence over SMTP/sendmail in development
+  if Rails.env.development? && ENV['LETTER_OPENER'].present?
+    config.action_mailer.delivery_method = :letter_opener
+  elsif Rails.env.test?
+    config.action_mailer.delivery_method = :test
+  elsif ENV['SMTP_ADDRESS'].blank?
+    # Use sendmail if using postfix for email
+    config.action_mailer.delivery_method = :sendmail
+  else
+    config.action_mailer.delivery_method = :smtp
+  end
+
+  config.action_mailer.smtp_settings = smtp_settings
 
   #########################################
   # Configuration Related to Action MailBox
