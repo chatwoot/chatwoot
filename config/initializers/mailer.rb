@@ -10,11 +10,12 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
-  smtp_settings = {
-    address: ENV.fetch('SMTP_ADDRESS', 'localhost'),
-    port: ENV.fetch('SMTP_PORT', 587).to_i,
-    enable_starttls_auto: ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', true))
-  }
+  smtp_settings = {}
+  if ENV['SMTP_ADDRESS'].present?
+    smtp_settings[:address] = ENV['SMTP_ADDRESS']
+    smtp_settings[:port] = ENV.fetch('SMTP_PORT', 587).to_i
+    smtp_settings[:enable_starttls_auto] = ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', true))
+  end
 
   smtp_settings[:authentication] = ENV['SMTP_AUTHENTICATION'].to_sym if ENV['SMTP_AUTHENTICATION'].present?
   smtp_settings[:domain] = ENV['SMTP_DOMAIN'] if ENV['SMTP_DOMAIN'].present?
@@ -34,11 +35,11 @@ Rails.application.configure do
     config.action_mailer.delivery_method = :letter_opener
   elsif Rails.env.test?
     config.action_mailer.delivery_method = :test
-  elsif ENV['SMTP_ADDRESS'].blank?
+  elsif ENV['SMTP_ADDRESS'].present?
+    config.action_mailer.delivery_method = :smtp
+  else
     # Use sendmail if using postfix for email
     config.action_mailer.delivery_method = :sendmail
-  else
-    config.action_mailer.delivery_method = :smtp
   end
 
   config.action_mailer.smtp_settings = smtp_settings
