@@ -1,4 +1,4 @@
-import { frontendURL } from '../../../../helper/URLHelper';
+import { frontendURL } from '../../../helper/URLHelper';
 import SalesPipelineIndex from './Index.vue';
 import SalesPipelineSettings from './settings/Index.vue';
 
