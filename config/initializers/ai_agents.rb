@@ -3,6 +3,9 @@
 require 'agents'
 
 Rails.application.config.after_initialize do
+  # Skip database operations during asset precompilation, rake tasks, and migrations
+  next if Rails.env.precompiling? || defined?(Rails::Console) || ARGV.include?('db:migrate') || ARGV.include?('db:chatwoot_prepare')
+  
   api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
   model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || OpenAiConstants::DEFAULT_MODEL
   api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || OpenAiConstants::DEFAULT_ENDPOINT
