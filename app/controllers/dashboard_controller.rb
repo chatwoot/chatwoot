@@ -78,7 +78,6 @@ class DashboardController < ActionController::Base
       WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
-      MAILER_INBOUND_EMAIL_DOMAIN: GlobalConfigService.load('MAILER_INBOUND_EMAIL_DOMAIN', ''),
       GIT_SHA: GIT_HASH,
       ALLOWED_LOGIN_METHODS: allowed_login_methods
     }

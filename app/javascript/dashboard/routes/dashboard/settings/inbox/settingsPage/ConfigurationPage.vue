@@ -51,7 +51,7 @@ export default {
       return window.chatwootConfig?.whatsappAppId;
     },
     hasInboundEmailDomain() {
-      return !!window.chatwootConfig?.mailerInboundEmailDomain;
+      return !!this.inbox.forwarding_enabled;
     },
   },
   watch: {
