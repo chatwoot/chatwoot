@@ -15,6 +15,13 @@ module Conversations
     attr_reader :conversation, :assignee_id, :assignee_type
 
     def assign_agent
+      if assignee_id.blank?
+        conversation.assignee = nil
+        conversation.assignee_agent_bot = nil
+        conversation.save!
+        return
+      end
+
       return unless assignee
 
       conversation.assignee = assignee
