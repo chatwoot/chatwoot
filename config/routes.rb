@@ -301,6 +301,18 @@ Rails.application.routes.draw do
                 get :orders
               end
             end
+            resource :woocommerce, controller: 'woocommerce', only: [:destroy] do
+              collection do
+                post :test_connection
+                get :products
+              end
+            end
+            resource :ecommerce, controller: 'ecommerce', only: [] do
+              collection do
+                get :products
+                post :send_product
+              end
+            end
             resource :linear, controller: 'linear', only: [] do
               collection do
                 delete :destroy

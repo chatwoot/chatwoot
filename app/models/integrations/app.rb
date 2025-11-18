@@ -56,6 +56,8 @@ class Integrations::App
       GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
     when 'shopify'
       shopify_enabled?(account)
+    when 'woocommerce'
+      true
     when 'leadsquared'
       account.feature_enabled?('crm_integration')
     when 'notion'

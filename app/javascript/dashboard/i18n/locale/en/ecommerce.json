@@ -1,0 +1,24 @@
+{
+  "ECOMMERCE": {
+    "PRODUCTS": {
+      "TITLE": "Products",
+      "SEARCH_PLACEHOLDER": "Search products...",
+      "LOADING": "Loading products...",
+      "NO_PRODUCTS": "No products found",
+      "NO_INTEGRATION": "No e-commerce integration found. Please connect WooCommerce or Shopify in the settings.",
+      "ERROR": "Failed to load products. Please try again.",
+      "SEND_LINK": "Send link",
+      "SENDING": "Sending...",
+      "SENT_SUCCESS": "Product link sent successfully",
+      "SENT_ERROR": "Failed to send product link. Please try again.",
+      "PRICE": "Price",
+      "SKU": "SKU",
+      "IN_STOCK": "In stock",
+      "OUT_OF_STOCK": "Out of stock",
+      "PROVIDER": {
+        "WOOCOMMERCE": "WooCommerce",
+        "SHOPIFY": "Shopify"
+      }
+    }
+  }
+}

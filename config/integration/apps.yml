@@ -208,6 +208,66 @@ shopify:
   hook_type: account
   allow_multiple_hooks: false
 
+woocommerce:
+  id: woocommerce
+  logo: woocommerce.png
+  i18n_key: woocommerce
+  action: /woocommerce
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'store_name': { 'type': 'string' },
+          'store_base_url': { 'type': 'string' },
+          'consumer_key': { 'type': 'string' },
+          'consumer_secret': { 'type': 'string' },
+          'api_version': { 'type': 'string' },
+        },
+      'required': ['store_name', 'store_base_url', 'consumer_key', 'consumer_secret'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Store Name',
+        'type': 'text',
+        'name': 'store_name',
+        'validation': 'required',
+        'help': 'A friendly name for your WooCommerce store',
+      },
+      {
+        'label': 'Store Base URL',
+        'type': 'text',
+        'name': 'store_base_url',
+        'validation': 'required',
+        'help': 'Your store URL (e.g., https://mystore.com)',
+      },
+      {
+        'label': 'Consumer Key',
+        'type': 'text',
+        'name': 'consumer_key',
+        'validation': 'required',
+        'help': 'Generate this in WooCommerce → Settings → Advanced → REST API',
+      },
+      {
+        'label': 'Consumer Secret',
+        'type': 'password',
+        'name': 'consumer_secret',
+        'validation': 'required',
+        'help': 'Secret key from WooCommerce REST API settings',
+      },
+      {
+        'label': 'API Version',
+        'type': 'text',
+        'name': 'api_version',
+        'help': 'WooCommerce API version (default: v3)',
+      },
+    ]
+  visible_properties: ['store_name', 'store_base_url', 'api_version']
+
 leadsquared:
   id: leadsquared
   feature_flag: crm_integration

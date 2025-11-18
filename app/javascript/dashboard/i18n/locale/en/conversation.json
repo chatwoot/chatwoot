@@ -274,7 +274,8 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contact",
-      "COPILOT": "Copilot"
+      "COPILOT": "Copilot",
+      "PRODUCTS": "Products"
     }
   },
   "EMAIL_TRANSCRIPT": {

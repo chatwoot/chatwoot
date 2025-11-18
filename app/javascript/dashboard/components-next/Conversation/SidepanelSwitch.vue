@@ -2,9 +2,9 @@
 import Button from 'dashboard/components-next/button/Button.vue';
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useFunctionGetter, useStore } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 const { updateUISettings } = useUISettings();
@@ -18,6 +18,20 @@ const showCopilotTab = computed(() =>
   isFeatureEnabledonAccount.value(currentAccountId.value, FEATURE_FLAGS.CAPTAIN)
 );
 
+const woocommerceIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'woocommerce'
+);
+const shopifyIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'shopify'
+);
+
+const showProductsTab = computed(
+  () =>
+    woocommerceIntegration.value?.enabled || shopifyIntegration.value?.enabled
+);
+
 const { uiSettings } = useUISettings();
 const isContactSidebarOpen = computed(
   () => uiSettings.value.is_contact_sidebar_open
@@ -25,11 +39,15 @@ const isContactSidebarOpen = computed(
 const isCopilotPanelOpen = computed(
   () => uiSettings.value.is_copilot_panel_open
 );
+const isProductsSidebarOpen = computed(
+  () => uiSettings.value.is_products_sidebar_open
+);
 
 const toggleConversationSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: !isContactSidebarOpen.value,
     is_copilot_panel_open: false,
+    is_products_sidebar_open: false,
   });
 };
 
@@ -37,6 +55,7 @@ const handleConversationSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: true,
     is_copilot_panel_open: false,
+    is_products_sidebar_open: false,
   });
 };
 
@@ -44,6 +63,15 @@ const handleCopilotSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: false,
     is_copilot_panel_open: true,
+    is_products_sidebar_open: false,
+  });
+};
+
+const handleProductsSidebarToggle = () => {
+  updateUISettings({
+    is_contact_sidebar_open: false,
+    is_copilot_panel_open: false,
+    is_products_sidebar_open: true,
   });
 };
 
@@ -53,6 +81,14 @@ const keyboardEvents = {
   },
 };
 useKeyboardEvents(keyboardEvents);
+
+const store = useStore();
+
+onMounted(() => {
+  // Load integrations to ensure woocommerce and shopify integration states are available
+  store.dispatch('integrations/get', 'woocommerce');
+  store.dispatch('integrations/get', 'shopify');
+});
 </script>
 
 <template>
@@ -84,6 +120,20 @@ useKeyboardEvents(keyboardEvents);
       }"
       icon="i-woot-captain"
       @click="handleCopilotSidebarToggle"
+    />
+    <Button
+      v-if="showProductsTab"
+      v-tooltip.bottom="$t('CONVERSATION.SIDEBAR.PRODUCTS')"
+      ghost
+      slate
+      sm
+      class="!rounded-full transition-all duration-[250ms] ease-out active:!scale-95 active:duration-75"
+      :class="{
+        'bg-n-alpha-2 active:!brightness-105 active:shadow-sm':
+          isProductsSidebarOpen,
+      }"
+      icon="i-ph-storefront-bold"
+      @click="handleProductsSidebarToggle"
     />
   </ButtonGroup>
 </template>
