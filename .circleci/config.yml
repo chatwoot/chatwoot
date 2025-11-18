@@ -247,11 +247,22 @@ jobs:
             mkdir -p ~/tmp/test-results/rspec
             mkdir -p ~/tmp/test-artifacts
             mkdir -p ~/build/coverage/backend
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
+            # Use round-robin distribution (same as GitHub Actions) for better test isolation
+            # This prevents tests with similar timing from being grouped on the same runner
+            SPEC_FILES=($(find spec -name '*_spec.rb' | sort))
+            TESTS=""
+
+            for i in "${!SPEC_FILES[@]}"; do
+              if [ $(( i % $CIRCLE_NODE_TOTAL )) -eq $CIRCLE_NODE_INDEX ]; then
+                TESTS="$TESTS ${SPEC_FILES[$i]}"
+              fi
+            done
+
             bundle exec rspec -I ./spec --require coverage_helper --require spec_helper --format progress \
                               --format RspecJunitFormatter \
                               --out ~/tmp/test-results/rspec.xml \
-                              -- ${TESTFILES}
+                              -- $TESTS
           no_output_timeout: 30m
 
       # Store test results for better splitting in future runs
