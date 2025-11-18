@@ -28,12 +28,9 @@ class Conversations::EventDataPresenter < SimpleDelegator
   end
 
   def push_meta
-    assignee_data, assignee_type = push_assignee
-
     {
       sender: contact.push_event_data,
-      assignee: assignee_data,
-      assignee_type: assignee_type,
+      assignee: assignee&.push_event_data,
       team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
     }
@@ -48,16 +45,6 @@ class Conversations::EventDataPresenter < SimpleDelegator
       created_at: created_at.to_i,
       updated_at: updated_at.to_f
     }
-  end
-
-  def push_assignee
-    if assignee_agent_bot.present?
-      [assignee_agent_bot.push_event_data(inbox), 'AgentBot']
-    elsif assignee.present?
-      [assignee.push_event_data, 'User']
-    else
-      [nil, nil]
-    end
   end
 end
 Conversations::EventDataPresenter.prepend_mod_with('Conversations::EventDataPresenter')
