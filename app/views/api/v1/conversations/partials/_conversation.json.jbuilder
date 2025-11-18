@@ -7,17 +7,17 @@ json.meta do
     json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
   end
   json.channel conversation.inbox.try(:channel_type)
-  if conversation.assigned_entity
-    if conversation.assigned_entity.is_a?(AgentBot)
-      json.assignee do
-        json.partial! 'api/v1/models/agent_bot_slim', formats: [:json], resource: conversation.assigned_entity
-      end
-    else
-      json.assignee do
-        json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation.assigned_entity
-      end
+  assignee_record = conversation.assigned_entity
+  if assignee_record.is_a?(AgentBot)
+    json.assignee do
+      json.partial! 'api/v1/models/agent_bot_slim', formats: [:json], resource: assignee_record
     end
-    json.assignee_type conversation.assignee_type
+    json.assignee_type 'AgentBot'
+  elsif assignee_record&.account
+    json.assignee do
+      json.partial! 'api/v1/models/agent', formats: [:json], resource: assignee_record
+    end
+    json.assignee_type 'User'
   end
   if conversation.team.present?
     json.team do
