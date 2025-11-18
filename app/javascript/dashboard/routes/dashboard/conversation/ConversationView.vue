@@ -93,8 +93,11 @@ export default {
         return false;
       }
 
-      const { is_contact_sidebar_open: isContactSidebarOpen } = this.uiSettings;
-      return isContactSidebarOpen;
+      const {
+        is_contact_sidebar_open: isContactSidebarOpen,
+        is_products_sidebar_open: isProductsSidebarOpen,
+      } = this.uiSettings;
+      return isContactSidebarOpen || isProductsSidebarOpen;
     },
   },
   watch: {
