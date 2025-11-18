@@ -47,8 +47,6 @@ gem 'net-smtp',  '~> 0.3.4'
 gem 'csv-safe'
 
 ##-- for active storage --##
-gem 'aws-sdk-s3', require: false
-gem 'aws-sdk-rails', '~> 4'
 gem 'aws-actionmailbox-ses', '~> 0'
 # original gem isn't maintained actively
 # we wanted updated version of faraday which is a dependency for slack-ruby-client
