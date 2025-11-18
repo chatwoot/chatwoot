@@ -58,6 +58,6 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   def check_saml_sso_enabled
     return if GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s == 'true'
 
-    render json: { error: 'SAML SSO is not enabled for this installation' }, status: :forbidden
+    render json: { error: I18n.t('errors.saml.sso_not_enabled') }, status: :forbidden
   end
 end
