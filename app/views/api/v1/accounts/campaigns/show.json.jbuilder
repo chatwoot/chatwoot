@@ -17,9 +17,16 @@ json.campaign_contacts do
 end
 
 json.statistics do
-  json.total @campaign_contacts.count
-  json.sent @campaign_contacts.sent.count
-  json.failed @campaign_contacts.failed.count
-  json.pending @campaign_contacts.pending.count
-  json.skipped @campaign_contacts.skipped.count
+  json.total @campaign_contacts_scope.count
+  json.sent @campaign_contacts_scope.sent.count
+  json.failed @campaign_contacts_scope.failed.count
+  json.pending @campaign_contacts_scope.pending.count
+  json.skipped @campaign_contacts_scope.skipped.count
+end
+
+json.meta do
+  json.current_page @pagination_meta[:current_page]
+  json.per_page @pagination_meta[:per_page]
+  json.total_count @pagination_meta[:total_count]
+  json.total_pages @pagination_meta[:total_pages]
 end

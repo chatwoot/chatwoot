@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import ReportHeader from './components/ReportHeader.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -12,6 +13,7 @@ const router = useRouter();
 const { t } = useI18n();
 
 const sourceId = route.params.id;
+const currentPage = ref(1);
 const dateRange = ref({
   from: Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60,
   to: Math.floor(Date.now() / 1000),
@@ -24,6 +26,11 @@ const uiFlags = computed(() => store.getters['metaCampaigns/getUIFlags']);
 
 const interactions = computed(
   () => campaignDetails.value?.interactions || []
+);
+
+const paginationMeta = computed(() => campaignDetails.value?.meta || {});
+const totalInteractions = computed(
+  () => paginationMeta.value.total_count || 0
 );
 
 const formatDate = timestamp => {
@@ -53,6 +60,8 @@ const fetchData = async () => {
   const params = {
     since: dateRange.value.from,
     until: dateRange.value.to,
+    page: currentPage.value,
+    per_page: 25,
   };
 
   try {
@@ -63,6 +72,11 @@ const fetchData = async () => {
   } catch (error) {
     console.error('Failed to fetch campaign details:', error);
   }
+};
+
+const handlePageChange = newPage => {
+  currentPage.value = newPage;
+  fetchData();
 };
 
 onMounted(() => {
@@ -132,7 +146,7 @@ onMounted(() => {
           <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">
             {{ $t('META_CAMPAIGNS.DETAIL.INTERACTIONS_TITLE') }}
             <span class="text-slate-600 dark:text-slate-400">
-              ({{ interactions.length }})
+              ({{ totalInteractions }})
             </span>
           </h3>
         </div>
@@ -183,6 +197,19 @@ onMounted(() => {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <!-- Pagination -->
+        <div
+          v-if="totalInteractions > 0"
+          class="border-t border-slate-200 px-6 py-4 dark:border-slate-700"
+        >
+          <PaginationFooter
+            :current-page="currentPage"
+            :total-items="totalInteractions"
+            :items-per-page="25"
+            @update:current-page="handlePageChange"
+          />
         </div>
       </div>
     </div>

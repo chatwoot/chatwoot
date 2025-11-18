@@ -28,26 +28,55 @@ class Api::V2::Accounts::MetaCampaignReportsController < Api::V1::Accounts::Base
   end
 
   def fetch_campaign_details
-    interactions = MetaCampaignInteraction
-                   .where(account_id: Current.account.id, source_id: params[:id])
-                   .includes(:conversation, :message, :inbox)
-                   .order(created_at: :desc)
-
-    interactions = interactions.created_between(start_time, end_time) if start_time && end_time
+    interactions_scope = build_interactions_scope
+    total_count = interactions_scope.count
+    paginated_interactions = paginate_interactions(interactions_scope)
 
     {
       source_id: params[:id],
-      total_interactions: interactions.count,
-      unique_conversations: interactions.select(:conversation_id).distinct.count,
-      interactions: interactions.limit(100).map do |interaction|
-        {
-          id: interaction.id,
-          conversation_id: interaction.conversation.display_id,
-          contact_name: interaction.conversation.contact.name,
-          created_at: interaction.created_at,
-          metadata: interaction.metadata
-        }
-      end
+      total_interactions: total_count,
+      unique_conversations: interactions_scope.select(:conversation_id).distinct.count,
+      interactions: format_interactions(paginated_interactions),
+      meta: build_pagination_meta(total_count)
+    }
+  end
+
+  def build_interactions_scope
+    scope = MetaCampaignInteraction
+            .where(account_id: Current.account.id, source_id: params[:id])
+            .includes(:conversation, :message, :inbox)
+            .order(created_at: :desc)
+    scope = scope.created_between(start_time, end_time) if start_time && end_time
+    scope
+  end
+
+  def paginate_interactions(scope)
+    page = params[:page]&.to_i || 1
+    per_page = params[:per_page]&.to_i || 25
+    offset = (page - 1) * per_page
+    scope.limit(per_page).offset(offset)
+  end
+
+  def format_interactions(interactions)
+    interactions.map do |interaction|
+      {
+        id: interaction.id,
+        conversation_id: interaction.conversation.display_id,
+        contact_name: interaction.conversation.contact.name,
+        created_at: interaction.created_at,
+        metadata: interaction.metadata
+      }
+    end
+  end
+
+  def build_pagination_meta(total_count)
+    page = params[:page]&.to_i || 1
+    per_page = params[:per_page]&.to_i || 25
+    {
+      current_page: page,
+      per_page: per_page,
+      total_count: total_count,
+      total_pages: (total_count.to_f / per_page).ceil
     }
   end
 

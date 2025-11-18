@@ -65,6 +65,15 @@ class Whatsapp::OneoffCampaignService
       return
     end
 
+    # Validate phone number format early
+    normalized_phone = contact.phone_number.to_s.gsub(/\D/, '')
+    unless normalized_phone.match?(/^\d{1,15}$/)
+      error_msg = "Invalid phone format: '#{contact.phone_number}' (normalized: '#{normalized_phone}', length: #{normalized_phone.length})"
+      Rails.logger.warn "Skipping contact #{contact.name} - #{error_msg}"
+      campaign_contact.mark_as_skipped!(error_msg)
+      return
+    end
+
     if campaign.template_params.blank?
       Rails.logger.error "Skipping contact #{contact.name} - no template_params found for WhatsApp campaign"
       campaign_contact.mark_as_skipped!('No template params')
@@ -96,13 +105,7 @@ class Whatsapp::OneoffCampaignService
       return
     end
 
-    # Find or create contact_inbox for this contact
-    contact_inbox = find_or_create_contact_inbox(contact)
-
-    # Find or create conversation
-    conversation = find_or_create_conversation(contact_inbox)
-
-    # Send the template message via WhatsApp API first (without creating message in DB)
+    # Send the template message via WhatsApp API FIRST (before any DB operations)
     message_id = channel.send_template(contact.phone_number, {
                                          name: name,
                                          namespace: namespace,
@@ -110,13 +113,25 @@ class Whatsapp::OneoffCampaignService
                                          parameters: processed_parameters
                                        }, nil)
 
-    # Only create the message in conversation after successful send
+    # Verify send was successful
     raise 'Failed to send template message - no message_id returned' unless message_id.present?
 
-    create_outgoing_message(conversation, contact, name, message_id)
-
+    # Mark as sent IMMEDIATELY after successful WhatsApp API call to prevent duplicate sends on retry
     campaign_contact.mark_as_sent!
-    Rails.logger.info "Successfully sent message to #{contact.phone_number} in conversation #{conversation.id}"
+    Rails.logger.info "WhatsApp message sent successfully to #{contact.phone_number}, message_id: #{message_id}"
+
+    # Now try to create DB records - if this fails, message was already sent and marked
+    begin
+      contact_inbox = find_or_create_contact_inbox(contact)
+      conversation = find_or_create_conversation(contact_inbox)
+      create_outgoing_message(conversation, contact, name, message_id)
+      Rails.logger.info "Message record created in conversation #{conversation.id}"
+    rescue StandardError => db_error
+      # Log DB error but DON'T mark as failed since message was already sent successfully
+      Rails.logger.error "Message sent but failed to create DB records for #{contact.phone_number}: #{db_error.class.name}: #{db_error.message}"
+      Rails.logger.error "Backtrace: #{db_error.backtrace.first(3).join('\n')}"
+      # Message is already marked as sent, so no retry will occur
+    end
   rescue StandardError => e
     error_message = "#{e.class.name}: #{e.message}"
     Rails.logger.error "Failed to send WhatsApp template message to #{contact.phone_number}: #{error_message}"
