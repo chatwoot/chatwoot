@@ -80,6 +80,8 @@ en:
     companies:
       domain:
         invalid: must be a valid domain name
+      search:
+        query_missing: Specify search string with parameter q
     categories:
       locale:
         unique: should be unique in the category and portal
