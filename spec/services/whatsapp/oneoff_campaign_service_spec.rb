@@ -103,6 +103,38 @@ describe Whatsapp::OneoffCampaignService do
         described_class.new(campaign: campaign).perform
       end
 
+      it 'skips contacts with phone numbers longer than 15 digits' do
+        contact_invalid = create(:contact, :with_phone_number, account: account)
+        contact_invalid.update_labels([label1.title])
+        # Update phone to invalid value bypassing validations
+        contact_invalid.update_column(:phone_number, '+1234567890123456789')
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+        expect(Rails.logger).to receive(:warn).with(/Invalid phone format/)
+
+        described_class.new(campaign: campaign).perform
+
+        campaign_contact = campaign.campaign_contacts.find_by(contact: contact_invalid)
+        expect(campaign_contact.status).to eq('skipped')
+        expect(campaign_contact.error_message).to match(/Invalid phone format/)
+      end
+
+      it 'skips contacts with invalid phone number format' do
+        contact_invalid = create(:contact, :with_phone_number, account: account)
+        contact_invalid.update_labels([label1.title])
+        # Update phone to invalid value bypassing validations
+        contact_invalid.update_column(:phone_number, '+++')
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+        expect(Rails.logger).to receive(:warn).with(/Invalid phone format/)
+
+        described_class.new(campaign: campaign).perform
+
+        campaign_contact = campaign.campaign_contacts.find_by(contact: contact_invalid)
+        expect(campaign_contact.status).to eq('skipped')
+        expect(campaign_contact.error_message).to match(/Invalid phone format/)
+      end
+
       it 'uses template processor service to process templates' do
         contact = create(:contact, :with_phone_number, account: account)
         contact.update_labels([label1.title])
@@ -157,22 +189,58 @@ describe Whatsapp::OneoffCampaignService do
     end
 
     context 'when send_template raises an error' do
-      it 'logs error and continues processing remaining contacts' do
+      it 'marks contact as failed and continues processing remaining contacts' do
         contact_error, contact_success = create_list(:contact, 2, :with_phone_number, account: account)
         contact_error.update_labels([label1.title])
         contact_success.update_labels([label1.title])
         error_message = 'WhatsApp API error'
 
-        allow(whatsapp_channel).to receive(:send_template).and_return(nil)
-
-        expect(whatsapp_channel).to receive(:send_template).with(contact_error.phone_number, anything, nil).and_raise(StandardError, error_message)
-        expect(whatsapp_channel).to receive(:send_template).with(contact_success.phone_number, anything, nil).once
+        allow(whatsapp_channel).to receive(:send_template).and_return('message_id_123')
+        expect(whatsapp_channel).to receive(:send_template)
+          .with(contact_error.phone_number, anything, nil)
+          .and_raise(StandardError.new(error_message))
+        expect(whatsapp_channel).to receive(:send_template)
+          .with(contact_success.phone_number, anything, nil)
+          .and_return('message_id_456')
 
         expect(Rails.logger).to receive(:error)
-          .with("Failed to send WhatsApp template message to #{contact_error.phone_number}: #{error_message}")
+          .with("Failed to send WhatsApp template message to #{contact_error.phone_number}: StandardError: #{error_message}")
         expect(Rails.logger).to receive(:error).with(/Backtrace:/)
 
         described_class.new(campaign: campaign).perform
+
+        campaign_contact_error = campaign.campaign_contacts.find_by(contact: contact_error)
+        campaign_contact_success = campaign.campaign_contacts.find_by(contact: contact_success)
+
+        expect(campaign_contact_error.status).to eq('failed')
+        expect(campaign_contact_success.status).to eq('sent')
+        expect(campaign.reload.completed?).to be true
+      end
+    end
+
+    context 'when DB operations fail after successful send' do
+      it 'marks contact as sent but logs DB error' do
+        contact = create(:contact, :with_phone_number, account: account)
+        contact.update_labels([label1.title])
+
+        allow(whatsapp_channel).to receive(:send_template).and_return('message_id_123')
+        allow_any_instance_of(described_class).to receive(:find_or_create_contact_inbox) # rubocop:disable RSpec/AnyInstance
+          .and_raise(ActiveRecord::RecordInvalid.new(ContactInbox.new))
+
+        # Allow any other log messages
+        allow(Rails.logger).to receive(:info).and_call_original
+        allow(Rails.logger).to receive(:error).and_call_original
+
+        # Expect specific log messages
+        expect(Rails.logger).to receive(:info)
+          .with("WhatsApp message sent successfully to #{contact.phone_number}, message_id: message_id_123").once
+        expect(Rails.logger).to receive(:error)
+          .with(/Message sent but failed to create DB records/).once
+
+        described_class.new(campaign: campaign).perform
+
+        campaign_contact = campaign.campaign_contacts.find_by(contact: contact)
+        expect(campaign_contact.status).to eq('sent')
         expect(campaign.reload.completed?).to be true
       end
     end

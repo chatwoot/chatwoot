@@ -7,6 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -16,6 +17,7 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 const campaign = ref(null);
 const isLoading = ref(true);
 const pollingInterval = ref(null);
+const currentPage = ref(1);
 
 const campaignContacts = computed(
   () => campaign.value?.campaign_contacts || []
@@ -30,6 +32,8 @@ const statistics = computed(
       skipped: 0,
     }
 );
+const paginationMeta = computed(() => campaign.value?.meta || {});
+const totalContacts = computed(() => paginationMeta.value.total_count || 0);
 
 const preparationProgress = computed(() => {
   if (!campaign.value) return 0;
@@ -78,7 +82,10 @@ const stopPolling = () => {
 
 async function fetchCampaign() {
   try {
-    const response = await CampaignsAPI.show(route.params.campaignId);
+    const response = await CampaignsAPI.show(route.params.campaignId, {
+      page: currentPage.value,
+      per_page: 25,
+    });
     campaign.value = response.data;
 
     // Start polling if contacts are being prepared
@@ -98,12 +105,18 @@ async function fetchCampaign() {
   }
 }
 
+const handlePageChange = newPage => {
+  currentPage.value = newPage;
+  fetchCampaign();
+};
+
 watch(
   () => route.params.campaignId,
   async () => {
     stopPolling();
     isLoading.value = true;
     campaign.value = null;
+    currentPage.value = 1;
     await fetchCampaign();
     isLoading.value = false;
   }
@@ -318,6 +331,19 @@ onUnmounted(() => {
           <p class="text-n-slate-11">
             {{ t('CAMPAIGN.DETAIL.EMPTY_STATE') }}
           </p>
+        </div>
+
+        <!-- Pagination -->
+        <div
+          v-if="totalContacts > 0"
+          class="border-t border-n-slate-6 p-4"
+        >
+          <PaginationFooter
+            :current-page="currentPage"
+            :total-items="totalContacts"
+            :items-per-page="25"
+            @update:current-page="handlePageChange"
+          />
         </div>
       </div>
     </div>
