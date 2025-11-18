@@ -362,6 +362,7 @@ class Message < ApplicationRecord
   end
 
   def send_reply
+    return if private?
     if inbox.channel_type == 'Channel::Instagram' && conversation.additional_attributes['type'] != 'instagram_comments' && additional_attributes['delivery_status'] != 'sent' && message_type == 'outgoing'
       mark_pending!
 

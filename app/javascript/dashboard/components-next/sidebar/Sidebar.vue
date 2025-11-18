@@ -91,34 +91,6 @@ const closeMobileSidebar = () => {
   emit('closeMobileSidebar');
 };
 
-const newReportRoutes = () => [
-  {
-    name: 'Reports Agent',
-    label: t('SIDEBAR.REPORTS_AGENT'),
-    to: accountScopedRoute('agent_reports_index'),
-    activeOn: ['agent_reports_show'],
-  },
-  {
-    name: 'Reports Label',
-    label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports_index'),
-  },
-  {
-    name: 'Reports Inbox',
-    label: t('SIDEBAR.REPORTS_INBOX'),
-    to: accountScopedRoute('inbox_reports_index'),
-    activeOn: ['inbox_reports_show'],
-  },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports_index'),
-    activeOn: ['team_reports_show'],
-  },
-];
-
-const reportRoutes = computed(() => newReportRoutes());
-
 const menuItems = computed(() => {
   return [
     {
@@ -295,6 +267,25 @@ const menuItems = computed(() => {
             ],
           })),
         },
+      ],
+    },
+    {
+      name: 'Contests',
+      label: t('SIDEBAR.CONTESTS'),
+      icon: 'i-lucide-trophy',
+      children: [
+        {
+          name: 'ContestsOverview',
+          label: t('CONTESTS.NAV_OVERVIEW'),
+          to: accountScopedRoute('contests_index'),
+          activeOn: ['contests_index'],
+        },
+        // {
+        //   name: 'ContestsReports',
+        //   label: t('CONTESTS.NAV_REPORTS'),
+        //   to: accountScopedRoute('contests_reports'),
+        //   activeOn: ['contests_reports'],
+        // },
       ],
     },
     {

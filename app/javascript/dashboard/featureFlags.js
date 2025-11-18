@@ -13,6 +13,7 @@ export const FEATURE_FLAGS = {
   LABELS: 'labels',
   MACROS: 'macros',
   HELP_CENTER: 'help_center',
+  CONTESTS: 'contests',
   REPORTS: 'reports',
   TEAM_MANAGEMENT: 'team_management',
   VOICE_RECORDER: 'voice_recorder',
