@@ -352,6 +352,23 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Companies',
+      label: t('SIDEBAR.COMPANIES'),
+      icon: 'i-lucide-building-2',
+      children: [
+        {
+          name: 'All Companies',
+          label: t('SIDEBAR.ALL_COMPANIES'),
+          to: accountScopedRoute(
+            'companies_dashboard_index',
+            {},
+            { page: 1, search: undefined }
+          ),
+          activeOn: ['companies_dashboard_index'],
+        },
+      ],
+    },
+    {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
       icon: 'i-lucide-chart-spline',
