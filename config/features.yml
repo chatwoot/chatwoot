@@ -223,3 +223,8 @@
 - name: quoted_email_reply
   display_name: Quoted Email Reply
   enabled: false
+- name: companies
+  display_name: Companies
+  enabled: false
+  premium: true
+  chatwoot_internal: true
