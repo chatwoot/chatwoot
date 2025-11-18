@@ -1,6 +1,6 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import SalesPipelineIndex from './Index.vue';
-import SalesPipelineSettings from './settings/Index.vue';
+import SalesPipelineSettings from '../settings/salesPipeline/Index.vue';
 
 export default {
   routes: [
