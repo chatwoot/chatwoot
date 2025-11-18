@@ -198,7 +198,7 @@ const handleCancel = () => {
     class="flex max-h-[calc(100vh-6rem)] w-full overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
   >
     <section
-      class="mx-auto flex w-full flex-col gap-4 rounded-xl bg-white p-4 dark:bg-[#22242b]"
+      class="mx-auto flex w-full flex-col gap-4 rounded-xl bg-white dark:bg-[#22242b]"
     >
       <header class="flex flex-col gap-2">
         <div>

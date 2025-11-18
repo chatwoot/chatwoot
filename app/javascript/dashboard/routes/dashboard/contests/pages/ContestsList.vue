@@ -87,6 +87,7 @@ const handleCreate = async payload => {
     await store.dispatch('contests/create', {
       payload,
     });
+    useAlert(t('CONTESTS.CREATE_SUCCESS'));
     closeCreateDialog();
     if (import.meta.env?.DEV) {
       // eslint-disable-next-line no-console
@@ -129,6 +130,7 @@ const handleDelete = async () => {
     await store.dispatch('contests/delete', {
       id: targetId,
     });
+    useAlert(t('CONTESTS.DELETE_SUCCESS'));
     closeDeleteDialog();
     if (import.meta.env?.DEV && targetId) {
       // eslint-disable-next-line no-console
@@ -174,6 +176,7 @@ const handleEdit = async payload => {
       id: targetId,
       payload,
     });
+    useAlert(t('CONTESTS.EDIT_SUCCESS'));
     closeEditDialog();
     if (import.meta.env?.DEV && targetId) {
       // eslint-disable-next-line no-console
