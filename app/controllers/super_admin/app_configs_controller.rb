@@ -15,14 +15,20 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def create
+    errors = []
     params['app_config'].each do |key, value|
       next unless @allowed_configs.include?(key)
 
       i = InstallationConfig.where(name: key).first_or_create(value: value, locked: false)
       i.value = value
-      i.save!
+      errors.concat(i.errors.full_messages) unless i.save
     end
-    redirect_to super_admin_settings_path, notice: "App Configs - #{@config.titleize} updated successfully"
+
+    if errors.any?
+      redirect_to super_admin_app_config_path(config: @config), alert: errors.join(', ')
+    else
+      redirect_to super_admin_settings_path, notice: "App Configs - #{@config.titleize} updated successfully"
+    end
   end
 
   private

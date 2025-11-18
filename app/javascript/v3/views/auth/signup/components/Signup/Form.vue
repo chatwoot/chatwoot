@@ -10,7 +10,6 @@ import FormInput from '../../../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
-import { parseBoolean } from '@chatwoot/utils';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
 import * as CompanyEmailValidator from 'company-email-validator';
@@ -100,11 +99,14 @@ export default {
       }
       return '';
     },
+    allowedLoginMethods() {
+      return window.chatwootConfig.allowedLoginMethods || ['email'];
+    },
     showGoogleOAuth() {
-      const loginEnabled = parseBoolean(
-        window.chatwootConfig.enableGoogleOAuthLogin ?? 'true'
+      return (
+        this.allowedLoginMethods.includes('google_oauth') &&
+        Boolean(window.chatwootConfig.googleOAuthClientId)
       );
-      return loginEnabled && Boolean(window.chatwootConfig.googleOAuthClientId);
     },
     isFormValid() {
       return !this.v$.$invalid && this.hasAValidCaptcha;
@@ -300,7 +302,7 @@ export default {
     </form>
     <div class="flex flex-col">
       <SimpleDivider
-        v-if="showGoogleOAuth || showSamlLogin"
+        v-if="showGoogleOAuth"
         :label="$t('COMMON.OR')"
         bg="bg-n-background"
         class="uppercase"

@@ -436,6 +436,15 @@
   type: boolean
 ## ------ End of Configs added for Google OAuth ------ ##
 
+## ------ Configs added for SAML SSO ------ ##
+- name: ENABLE_SAML_SSO_LOGIN
+  display_title: 'Enable SAML SSO login'
+  value: true
+  locked: false
+  description: 'Show SAML SSO as a login option. Cannot be disabled if any users are using SAML authentication.'
+  type: boolean
+## ------ End of Configs added for SAML SSO ------ ##
+
 ## ------ Configs added for Cloudflare ------ ##
 - name: CLOUDFLARE_API_KEY
   display_title: 'Cloudflare API Key'
