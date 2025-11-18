@@ -1,0 +1,22 @@
+{
+  "TITLE": "Sales Pipeline",
+  "REFRESH": "Refresh",
+  "NO_STAGES_CONFIGURED": "No stages configured",
+  "CONFIGURE_STAGES_FIRST": "Please configure pipeline stages first",
+  "CONFIGURE_PIPELINE": "Configure Pipeline",
+  "DEFAULT_STAGE": "Default Stage",
+  "CLOSED_WON": "Closed Won",
+  "CLOSED_LOST": "Closed Lost",
+  "NO_CARDS_IN_STAGE": "No conversations in this stage",
+  "NO_MESSAGES": "No messages yet",
+  "FILTERS": {
+    "INBOX": "Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "ASSIGNEE": "Assignee",
+    "ALL_AGENTS": "All Agents"
+  },
+  "ERROR": {
+    "LOAD_FAILED": "Failed to load pipeline data",
+    "KANBAN_LOAD_FAILED": "Failed to load Kanban data"
+  }
+}

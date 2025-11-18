@@ -206,6 +206,20 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
+          
+          # Sales Pipeline Routes
+          resources :sales_pipelines, only: [:index, :show, :create, :update, :destroy] do
+            resources :sales_pipeline_stages, only: [:index, :show, :create, :update, :destroy] do
+              collection do
+                put :reorder
+              end
+            end
+            resource :sales_pipeline_kanban, only: [:show]
+          end
+          
+          resources :conversations, only: [] do
+            resource :sales_stage, only: [:show, :update, :destroy], controller: 'conversation_sales_stages'
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do
