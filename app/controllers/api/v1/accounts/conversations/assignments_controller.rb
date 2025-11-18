@@ -12,16 +12,6 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
 
   private
 
-  def set_team
-    @team = Current.account.teams.find_by(id: params[:team_id])
-    @conversation.update!(team: @team)
-    render json: @team
-  end
-
-  def agent_bot_assignment?
-    params[:assignee_type].to_s == 'AgentBot'
-  end
-
   def set_agent
     resource = Conversations::AssignmentService.new(
       conversation: @conversation,
@@ -29,10 +19,10 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       assignee_type: params[:assignee_type]
     ).perform
 
-    render_assignment(resource)
+    render_agent(resource)
   end
 
-  def render_assignment(resource)
+  def render_agent(resource)
     case resource
     when User
       render partial: 'api/v1/models/agent', formats: [:json], locals: { resource: resource }
@@ -41,5 +31,15 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     else
       render json: nil
     end
+  end
+
+  def set_team
+    @team = Current.account.teams.find_by(id: params[:team_id])
+    @conversation.update!(team: @team)
+    render json: @team
+  end
+
+  def agent_bot_assignment?
+    params[:assignee_type].to_s == 'AgentBot'
   end
 end
