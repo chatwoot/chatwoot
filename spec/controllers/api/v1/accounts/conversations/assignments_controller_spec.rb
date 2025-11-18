@@ -17,6 +17,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
     context 'when it is an authenticated bot with out access to the inbox' do
       let(:agent_bot) { create(:agent_bot, account: account) }
       let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent_bot) { create(:agent_bot, account: account) }
 
       before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
@@ -52,6 +53,25 @@ RSpec.describe 'Conversation Assignment API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.assignee).to eq(agent)
+      end
+
+      it 'assigns an agent bot to the conversation' do
+        params = { assignee_id: agent_bot.id, assignee_type: 'AgentBot' }
+
+        expect(Conversations::AssignmentService).to receive(:new)
+          .with(conversation: conversation, assignee_id: agent_bot.id, assignee_type: 'AgentBot')
+          .and_call_original
+
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body)['name']).to eq(agent_bot.name)
+        conversation.reload
+        expect(conversation.assignee_agent_bot).to eq(agent_bot)
+        expect(conversation.assignee).to be_nil
       end
 
       it 'assigns a team to the conversation' do
