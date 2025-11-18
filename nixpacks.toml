@@ -1,15 +1,4 @@
 # Nixpacks configuration for Chatwoot
-# This file disables the release phase to prevent database connection during build
 
-[phases.setup]
-
-[phases.install]
-
-[phases.build]
-
-# Disable the release phase entirely (no cmds = phase disabled)
-# Database preparation will happen at container startup via the start command
 [phases.release]
-
-[phases.start]
-cmd = "bundle exec rails db:chatwoot_prepare && bundle exec rails ip_lookup:setup && bin/rails server -p $PORT -e $RAILS_ENV"
+cmds = []
