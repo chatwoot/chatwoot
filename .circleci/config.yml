@@ -294,6 +294,14 @@ jobs:
           path: coverage
           destination: coverage
 
+  build:
+      <<: *defaults
+      steps:
+        - run:
+            name: Legacy build aggregator
+            command: |
+              echo "All main jobs passed; build job kept only for GitHub required check compatibility."
+
 workflows:
   version: 2
   build:
@@ -305,3 +313,7 @@ workflows:
           requires:
             - frontend-tests
             - backend-tests
+      - build:
+          requires:
+            - lint
+            - coverage
