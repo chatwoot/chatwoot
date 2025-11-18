@@ -1,4 +1,5 @@
 import { parseBoolean } from '@chatwoot/utils';
+import { resolveMaximumFileUploadSize } from 'shared/helpers/FileHelper';
 
 const {
   API_CHANNEL_NAME: apiChannelName,
@@ -11,6 +12,7 @@ const {
   DIRECT_UPLOADS_ENABLED: directUploadsEnabled,
   DISPLAY_MANIFEST: displayManifest,
   GIT_SHA: gitSha,
+  MAXIMUM_FILE_UPLOAD_SIZE: maximumFileUploadSize,
   HCAPTCHA_SITE_KEY: hCaptchaSiteKey,
   INSTALLATION_NAME: installationName,
   CAPTAIN_FIRECRAWL_API_KEY_SET: captainFirecrawlApiKeySet,
@@ -38,6 +40,7 @@ const state = {
   disableUserProfileUpdate: parseBoolean(disableUserProfileUpdate),
   displayManifest,
   gitSha,
+  maximumFileUploadSize: resolveMaximumFileUploadSize(maximumFileUploadSize),
   hCaptchaSiteKey,
   installationName,
   logo,
