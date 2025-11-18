@@ -111,8 +111,6 @@ const advancedFilterTypes = ref(
   }))
 );
 
-// TODO: Arrumar essa gambi. Essa variável existe para preenchermos do localStorage quando montamos o componente
-const isPartnerUser = ref(false)
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
@@ -132,6 +130,8 @@ const labels = useMapGetter('labels/getLabels');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 // We can't useFunctionGetter here since it needs to be called on setup?
 const getTeamFn = useMapGetter('teams/getTeam');
+
+const showOnlyMineTab = ref(false)
 
 useChatListKeyboardEvents(conversationListRef);
 const {
@@ -210,8 +210,8 @@ const assigneeTabItems = computed(() => {
     name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
     count: conversationStats.value[countKey] || 0,
   }));
-  // se for um usuario de time parceiro a única aba disponivel para ele deve ser a de minhas conversas
-  if (isPartnerUser.value) {
+
+  if (showOnlyMineTab.value) {
     return allTabs.filter(tab => tab.key === wootConstants.ASSIGNEE_TYPE.ME)
   }
   return allTabs
@@ -620,10 +620,6 @@ function handleScroll() {
 }
 
 function updateAssigneeTab(selectedTab) {
-  // Se for um usuario de time parceiro, não deixa mudar de aba
-  if (isPartnerUser.value && selectedTab !== wootConstants.ASSIGNEE_TYPE.ME) {
-    return
-  }
   if (activeAssigneeTab.value !== selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
@@ -776,13 +772,6 @@ useEmitter('fetch_conversation_stats', () => {
 useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
 
 onMounted(() => {
-  // Verificar se o cara é um user de time privado
-  const userPrivado = localStorage.getItem('isPartnerUser')
-  // se for um user privado, seta a flag para true e ativa a tab de minhas conversas
-  if (userPrivado !== 'false') {
-    isPartnerUser.value = true
-    activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.ME
-  }
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
@@ -825,6 +814,13 @@ provide('markAsRead', markAsRead);
 provide('assignPriority', assignPriority);
 provide('isConversationSelected', isConversationSelected);
 provide('deleteConversation', handleDelete);
+
+watch(teamsList, (newTeamsList) => {
+  const userTeams = newTeamsList.filter(t => t.is_member)
+  const regexPrivado = /\bprivado\b/i;
+  const isUserPrivateTeam = userTeams.some(team => regexPrivado.test(team.name))
+  showOnlyMineTab.value = isUserPrivateTeam
+}, {immediate: true})
 
 watch(activeTeam, () => resetAndFetchData());
 
