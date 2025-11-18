@@ -27,7 +27,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     when User
       render partial: 'api/v1/models/agent', formats: [:json], locals: { resource: resource }
     when AgentBot
-      render partial: 'api/v1/models/agent_bot', formats: [:json], locals: { resource: resource }
+      render partial: 'api/v1/models/agent_bot_slim', formats: [:json], locals: { resource: resource }
     else
       render json: nil
     end
