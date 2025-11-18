@@ -79,10 +79,20 @@
   display_title: 'System events Webhook URL'
   description: 'The URL to which the system events like new accounts created will be sent'
   locked: false
+- name: WEBHOOK_TIMEOUT
+  value: 5
+  display_title: 'Webhook request timeout (seconds)'
+  description: 'Maximum time Chatwoot waits for a webhook response before failing the request'
+  locked: false
 - name: DIRECT_UPLOADS_ENABLED
   type: boolean
   value: false
   description: 'Enable direct uploads to cloud storage'
+  locked: false
+- name: MAXIMUM_FILE_UPLOAD_SIZE
+  value: 40
+  display_title: 'Attachment size limit (MB)'
+  description: 'Maximum attachment size in MB allowed for uploads'
   locked: false
 # ------- End of Account Related Config ------- #
 

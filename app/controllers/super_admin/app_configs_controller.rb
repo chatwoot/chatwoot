@@ -51,7 +51,10 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       'google' => %w[GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET GOOGLE_OAUTH_REDIRECT_URI ENABLE_GOOGLE_OAUTH_LOGIN]
     }
 
-    @allowed_configs = mapping.fetch(@config, %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS])
+    @allowed_configs = mapping.fetch(
+      @config,
+      %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE]
+    )
   end
 end
 

@@ -1,6 +1,31 @@
 class DashboardController < ActionController::Base
   include SwitchLocale
 
+  GLOBAL_CONFIG_KEYS = %w[
+    LOGO
+    LOGO_DARK
+    LOGO_THUMBNAIL
+    INSTALLATION_NAME
+    WIDGET_BRAND_URL
+    TERMS_URL
+    BRAND_URL
+    BRAND_NAME
+    PRIVACY_URL
+    DISPLAY_MANIFEST
+    CREATE_NEW_ACCOUNT_FROM_DASHBOARD
+    CHATWOOT_INBOX_TOKEN
+    API_CHANNEL_NAME
+    API_CHANNEL_THUMBNAIL
+    ANALYTICS_TOKEN
+    DIRECT_UPLOADS_ENABLED
+    MAXIMUM_FILE_UPLOAD_SIZE
+    HCAPTCHA_SITE_KEY
+    LOGOUT_REDIRECT_LINK
+    DISABLE_USER_PROFILE_UPDATE
+    DEPLOYMENT_ENV
+    INSTALLATION_PRICING_PLAN
+  ].freeze
+
   before_action :set_application_pack
   before_action :set_global_config
   before_action :set_dashboard_scripts
@@ -19,25 +44,7 @@ class DashboardController < ActionController::Base
   end
 
   def set_global_config
-    @global_config = GlobalConfig.get(
-      'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL',
-      'INSTALLATION_NAME',
-      'WIDGET_BRAND_URL', 'TERMS_URL',
-      'BRAND_URL', 'BRAND_NAME',
-      'PRIVACY_URL',
-      'DISPLAY_MANIFEST',
-      'CREATE_NEW_ACCOUNT_FROM_DASHBOARD',
-      'CHATWOOT_INBOX_TOKEN',
-      'API_CHANNEL_NAME',
-      'API_CHANNEL_THUMBNAIL',
-      'ANALYTICS_TOKEN',
-      'DIRECT_UPLOADS_ENABLED',
-      'HCAPTCHA_SITE_KEY',
-      'LOGOUT_REDIRECT_LINK',
-      'DISABLE_USER_PROFILE_UPDATE',
-      'DEPLOYMENT_ENV',
-      'INSTALLATION_PRICING_PLAN'
-    ).merge(app_config)
+    @global_config = GlobalConfig.get(*GLOBAL_CONFIG_KEYS).merge(app_config)
   end
 
   def set_dashboard_scripts
