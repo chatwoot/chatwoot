@@ -233,6 +233,7 @@
       "UNTIL_TOMORROW": "Until tomorrow",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "UNTIL_LAST_CUSTOM_TIME": "Last snoozed {time}",
       "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
