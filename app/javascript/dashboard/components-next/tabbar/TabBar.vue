@@ -21,7 +21,7 @@ const props = defineProps({
 
 const emit = defineEmits(['tabChanged']);
 
-const activeTab = ref(props.initialActiveTab);
+const activeTab = computed(() => props.initialActiveTab);
 
 const tabRefs = ref([]);
 const indicatorStyle = ref({});
@@ -40,9 +40,8 @@ const updateIndicator = () => {
   });
 };
 
-// Watch for any changes that affect indicator position
-watch([() => props.tabs, activeTab], updateIndicator, {
-  deep: true,
+// Watch for prop/tabs changes to update indicator position
+watch([() => props.initialActiveTab, () => props.tabs], updateIndicator, {
   immediate: true,
 });
 
@@ -53,7 +52,6 @@ onMounted(() => {
 });
 
 const selectTab = index => {
-  activeTab.value = index;
   emit('tabChanged', props.tabs[index]);
 };
 

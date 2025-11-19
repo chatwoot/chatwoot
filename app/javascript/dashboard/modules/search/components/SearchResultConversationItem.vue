@@ -83,6 +83,7 @@ const visibleInfoItems = computed(() =>
 const inboxName = computed(() => props.inbox?.name);
 
 const inboxIcon = computed(() => {
+  if (!inbox.value) return null;
   const { channelType, medium } = inbox.value;
   return getInboxIconByType(channelType, medium);
 });
@@ -110,6 +111,7 @@ const inboxIcon = computed(() => {
           <div v-if="inboxName" class="w-px h-3 bg-n-strong" />
           <div v-if="inboxName" class="flex items-center gap-1.5 flex-shrink-0">
             <div
+              v-if="inboxIcon"
               class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-4"
             >
               <Icon
