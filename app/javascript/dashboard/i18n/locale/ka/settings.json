@@ -306,6 +306,8 @@
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
     "ACTIVE": "Active",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -411,6 +413,7 @@
     "TITLE": "უსაფრთხოება",
     "DESCRIPTION": "მართეთ თქვენი ანგარიშის უსაფრთხოების პარამეტრები.",
     "LINK_TEXT": "გაიგეთ მეტი SAML SSO-ს შესახებ",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "დააყენეთ SAML-ის ერთჯერადი შესვლა (SSO) თქვენს ანგარიშზე. მომხმარებლები ავთენტიფიკაციას გაივლიან თქვენს იდენტობის მომწოდებელთან, ელფოსტა/პაროლის გამოყენების ნაცვლად.",
