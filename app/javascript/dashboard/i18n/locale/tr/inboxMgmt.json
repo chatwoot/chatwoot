@@ -381,7 +381,11 @@
         "API": {
           "ERROR_MESSAGE": "E-posta kanalını kaydedemedik"
         },
-        "FINISH_MESSAGE": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın."
+        "FINISH_MESSAGE": "E-posta gelen kutunuz başarıyla oluşturuldu! E-postalarınızı aşağıdaki adrese yönlendirmeye başlayabilir veya doğrudan e-posta gönderip almak için SMTP ve IMAP bilgilerinizi yapılandırabilirsiniz.",
+        "FINISH_MESSAGE_NO_FORWARDING": "E-posta gelen kutunuz başarıyla oluşturuldu! E-posta gönderip almak için SMTP ve IMAP bilgilerinizi yapılandırmanız gerekmektedir. Bu ayarlar yapılmadan hiçbir e-posta işlenmeyecektir.",
+        "FORWARDING_ADDRESS_LABEL": "E-postaları bu adrese yönlendirin:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Buraya Tıkla",
+        "CONFIGURE_SMTP_IMAP_TEXT": " IMAP ve SMTP ayarlarını yapılandırmak için"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE Kanalı",
@@ -707,6 +711,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "API istemcilerinizi kimlik doğrulamak için burada gösterilen `inbox_identifier` belirteci ile kullanın.",
       "FORWARD_EMAIL_TITLE": "E-postaya İlet",
       "FORWARD_EMAIL_SUB_TEXT": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "E-postaların gelen kutunuza yönlendirilmesi bu kurulumda şu anda devre dışı bırakılmıştır. Bu özelliği kullanabilmek için yöneticiniz tarafından etkinleştirilmesi gerekmektedir. Devam etmek için lütfen yönetici ile iletişime geçin.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Çözülen konuşmadan sonra mesajlara izin ver",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Konuşma çözüldükten sonra bile son kullanıcılara mesaj göndermelerine izin ver.",
       "WHATSAPP_SECTION_SUBHEADER": "Bu API Anahtarı, WhatsApp API'larıyla entegrasyon için kullanılır.",
