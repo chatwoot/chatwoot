@@ -6,20 +6,27 @@ module Integrations::LlmInstrumentation
   def instrument_llm_call(params)
     return yield unless otel_enabled?
 
-    result = nil
     tracer.in_span(params[:span_name]) do |span|
-      set_request_attributes(span, params)
-      set_prompt_messages(span, params[:messages])
-      set_metadata_attributes(span, params)
+      begin
+        set_request_attributes(span, params)
+        set_prompt_messages(span, params[:messages])
+        set_metadata_attributes(span, params)
+      rescue StandardError => e
+        # Log instrumentation setup errors but continue with the API call
+        Rails.logger.error("LLM instrumentation setup error: #{e.message}")
+      end
 
       result = yield
-      set_completion_attributes(span, result) if result.is_a?(Hash)
+
+      begin
+        set_completion_attributes(span, result) if result.is_a?(Hash)
+      rescue StandardError => e
+        # Log instrumentation completion errors but don't affect the result
+        Rails.logger.error("LLM instrumentation completion error: #{e.message}")
+      end
 
       result
     end
-  rescue StandardError => e
-    Rails.logger.error("LLM instrumentation error: #{e.message}")
-    result
   end
 
   private
