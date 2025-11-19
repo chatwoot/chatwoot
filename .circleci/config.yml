@@ -294,8 +294,7 @@ jobs:
       # Qlty coverage publish
       - qlty-orb/coverage_publish:
           files: |
-            coverage/coverage.json
-            coverage/lcov.info
+            coverage/frontend/lcov.info
 
       - run:
           name: List coverage directory contents
