@@ -55,6 +55,9 @@ gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby',
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
+##-- for actionmailbox --##
+gem 'aws-actionmailbox-ses', '~> 0'
+
 ##-- gems for database --#
 gem 'groupdate'
 gem 'pg'
