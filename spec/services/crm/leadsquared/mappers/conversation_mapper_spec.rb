@@ -108,6 +108,13 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         system_message
       end
 
+      def formatted_line_for(msg, hook_for_tz)
+        tz = Time.find_zone(hook_for_tz.settings['timezone']) || Time.zone
+        ts = msg.created_at.in_time_zone(tz).strftime('%Y-%m-%d %H:%M')
+        sender = msg.sender&.name.presence || (msg.sender.present? ? "#{msg.sender_type} #{msg.sender_id}" : 'System')
+        "[#{ts}] #{sender}: #{msg.content.presence || I18n.t('crm.no_content')}"
+      end
+
       it 'generates transcript with messages in reverse chronological order' do
         travel_to(Time.zone.parse('2024-01-01 10:00:00')) do
           result = described_class.map_transcript_activity(hook, conversation)
@@ -116,13 +123,15 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
           expect(result).to include('Channel: Test Inbox')
 
           # Check that messages appear in reverse order (newest first)
+          newer = formatted_line_for(message2, hook)
+          older = formatted_line_for(message1, hook)
           message_positions = {
-            '[2024-01-01 10:00] John Doe: Hello' => result.index('[2024-01-01 10:00] John Doe: Hello'),
-            '[2024-01-01 10:01] Jane Smith: Hi there' => result.index('[2024-01-01 10:01] Jane Smith: Hi there')
+            newer => result.index(newer),
+            older => result.index(older)
           }
 
           # Latest message (10:01) should come before older message (10:00)
-          expect(message_positions['[2024-01-01 10:01] Jane Smith: Hi there']).to be < message_positions['[2024-01-01 10:00] John Doe: Hello']
+          expect(message_positions[newer]).to be < message_positions[older]
         end
       end
 
@@ -219,8 +228,9 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
           result = described_class.map_transcript_activity(hook, conversation)
 
           # Verify latest message is included (message 14)
-          latest_time = (Time.zone.parse('2024-01-01 10:00:00') + 14.hours).strftime('%Y-%m-%d %H:%M')
-          expect(result).to include("[#{latest_time}] John Doe: #{long_message_content} 14")
+          tz = Time.find_zone(hook.settings['timezone']) || Time.zone
+          latest_label = "[#{messages.last.created_at.in_time_zone(tz).strftime('%Y-%m-%d %H:%M')}] John Doe: #{long_message_content} 14"
+          expect(result).to include(latest_label)
 
           # Calculate the expected character count of the formatted messages
           messages.map do |msg|
