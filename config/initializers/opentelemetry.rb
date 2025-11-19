@@ -19,7 +19,7 @@ if ENV['OTEL_ENABLED'] == 'true'
     # Production should use proper SSL verification for security
     exporter_config[:ssl_verify_mode] = OpenSSL::SSL::VERIFY_NONE unless Rails.env.production?
 
-    exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(exporter_config)
+    exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(**exporter_config)
 
     # Use BatchSpanProcessor for better performance
     # Batches spans and exports asynchronously (default: every 5s or 2048 spans)
