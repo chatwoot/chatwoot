@@ -31,10 +31,17 @@ describe('useBranding', () => {
       expect(result).toBe('Welcome to MyCompany');
     });
 
-    it('should replace multiple occurrences of "Chatwoot"', () => {
+    it('should replace "Sibidesk" with installation name when both text and installation name are provided', () => {
+      const { replaceInstallationName } = useBranding();
+      const result = replaceInstallationName('Welcome to Sibidesk');
+
+      expect(result).toBe('Welcome to MyCompany');
+    });
+
+    it('should replace multiple occurrences of default brand names', () => {
       const { replaceInstallationName } = useBranding();
       const result = replaceInstallationName(
-        'Chatwoot is great! Use Chatwoot today.'
+        'Chatwoot is great! Use Sibidesk today.'
       );
 
       expect(result).toBe('MyCompany is great! Use MyCompany today.');
@@ -66,20 +73,20 @@ describe('useBranding', () => {
       expect(replaceInstallationName(undefined)).toBe(undefined);
     });
 
-    it('should handle text without "Chatwoot" gracefully', () => {
+    it('should handle text without default brand names gracefully', () => {
       const { replaceInstallationName } = useBranding();
       const result = replaceInstallationName('Welcome to our platform');
 
       expect(result).toBe('Welcome to our platform');
     });
 
-    it('should be case-sensitive for "Chatwoot"', () => {
+    it('should be case-sensitive for default brand names', () => {
       const { replaceInstallationName } = useBranding();
       const result = replaceInstallationName(
-        'Welcome to chatwoot and CHATWOOT'
+        'Welcome to chatwoot and CHATWOOT and sibidesk'
       );
 
-      expect(result).toBe('Welcome to chatwoot and CHATWOOT');
+      expect(result).toBe('Welcome to chatwoot and CHATWOOT and sibidesk');
     });
 
     it('should handle special characters in installation name', () => {

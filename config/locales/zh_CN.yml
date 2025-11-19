@@ -261,16 +261,16 @@ zh_CN:
       description: '仪表板应用允许您创建和嵌入显示用户信息、订单或支付历史的应用程序，为您的客户支持代理提供更多上下文。'
     dyte:
       name: 'Dyte'
-      short_description: '直接从 Chatwoot 开始与客户的视频/语音通话。'
-      description: 'Dyte 是一个将音频和视频功能集成到您的应用程序中的产品。通过此集成，您的代理可以直接从 Chatwoot 开始与客户的视频/语音通话。'
+      short_description: '直接从 Sibidesk 开始与客户的视频/语音通话。'
+      description: 'Dyte 是一个将音频和视频功能集成到您的应用程序中的产品。通过此集成，您的代理可以直接从 Sibidesk 开始与客户的视频/语音通话。'
       meeting_name: '%{agent_name} 已开始会议'
     slack:
       name: 'Slack'
       short_description: '在 Slack 直接接收通知和回复对话。'
-      description: "将 Chatwoot 与 Slack 集成，以保持团队的同步。此集成允许您接收新对话的通知并直接在 Slack 界面中响应它们。"
+      description: "将 Sibidesk 与 Slack 集成，以保持团队的同步。此集成允许您接收新对话的通知并直接在 Slack 界面中响应它们。"
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook 事件提供有关 Chatwoot 帐户中活动的实时更新。您可以订阅您喜欢的事件，Chatwoot 将向您发送带有更新的 HTTP 回调。'
+      description: 'Webhook 事件提供有关 Sibidesk 帐户中活动的实时更新。您可以订阅您喜欢的事件，Sibidesk 将向您发送带有更新的 HTTP 回调。'
     dialogflow:
       name: 'Dialogflow'
       short_description: '构建聊天机器人来处理初步咨询，然后再转接给客服。'

@@ -261,16 +261,16 @@ sl:
       description: 'Aplikacije nadzorne plošče vam omogočajo, da ustvarite in vdelate aplikacije, ki prikazujejo uporabniške informacije, naročila ali zgodovino plačil, kar zagotavlja več konteksta vašim agentom za podporo strankam.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
-      description: 'Dyte je rešitev, ki integrira avdio in video funkcije v vašo aplikacijo. S to integracijo lahko vaši agenti začnejo video/glasovne klice z vašimi strankami neposredno iz Chatwoota.'
+      short_description: 'Start video/voice calls with customers directly from Sibidesk.'
+      description: 'Dyte je rešitev, ki integrira avdio in video funkcije v vašo aplikacijo. S to integracijo lahko vaši agenti začnejo video/glasovne klice z vašimi strankami neposredno iz Sibideska.'
       meeting_name: '%{agent_name} je začel sestanek'
     slack:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "Integrirajte Chatwoot s Slackom, da bo vaša ekipa sinhronizirana. Ta integracija vam omogoča prejemanje obvestil o novih pogovorih in odgovarjanje nanje neposredno v Slackovem vmesniku."
+      description: "Integrirajte Sibidesk s Slackom, da bo vaša ekipa sinhronizirana. Ta integracija vam omogoča prejemanje obvestil o novih pogovorih in odgovarjanje nanje neposredno v Slackovem vmesniku."
     webhooks:
       name: 'Webhooks'
-      description: 'Dogodki Webhook zagotavljajo posodobitve v realnem času o dejavnostih v vašem računu Chatwoot. Naročite se lahko na želene dogodke in Chatwoot vam bo poslal povratne klice HTTP s posodobitvami.'
+      description: 'Dogodki Webhook zagotavljajo posodobitve v realnem času o dejavnostih v vašem računu Sibidesk. Naročite se lahko na želene dogodke in Sibidesk vam bo poslal povratne klice HTTP s posodobitvami.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Build chatbots to handle initial queries before transferring to agents.'

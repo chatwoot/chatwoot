@@ -2,6 +2,8 @@
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 
+import { mapGetters } from 'vuex';
+
 export default {
   components: {
     PreviewCard,
@@ -19,7 +21,10 @@ export default {
   },
   emits: ['update'],
   data() {
+    const installationName =
+      this.$store.getters['globalConfig/get']?.installationName || 'Sibidesk';
     return {
+      defaultBusinessName: installationName,
       senderNameKeyOptions: [
         {
           key: 'friendly',
@@ -31,7 +36,7 @@ export default {
           ),
           preview: {
             senderName: 'Smith',
-            businessName: 'Chatwoot',
+            businessName: installationName,
             email: '<support@yourbusiness.com>',
           },
         },
@@ -45,12 +50,15 @@ export default {
           ),
           preview: {
             senderName: '',
-            businessName: 'Chatwoot   ',
+            businessName: `${installationName}   `,
             email: '<support@yourbusiness.com>',
           },
         },
       ],
     };
+  },
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   methods: {
     isKeyOptionFriendly(key) {
@@ -101,7 +109,11 @@ export default {
                 <span
                   class="text-xs font-semibold leading-tight overflow-hidden whitespace-nowrap text-ellipsis"
                 >
-                  {{ businessName || keyOption.preview.businessName }}
+                  {{
+                    businessName ||
+                    keyOption.preview.businessName ||
+                    defaultBusinessName
+                  }}
                 </span>
               </div>
               <span class="text-xs">{{ keyOption.preview.email }}</span>
