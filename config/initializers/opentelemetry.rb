@@ -18,7 +18,7 @@ if ENV['OTEL_ENABLED'] == 'true'
 
     # Only disable SSL verification in non-production environments
     # Production should use proper SSL verification for security
-    exporter_config[:ssl_verify_mode] = OpenSSL::SSL::VERIFY_NONE unless Rails.env.production?
+    exporter_config[:ssl_verify_mode] = OpenSSL::SSL::VERIFY_NONE if Rails.env.development?
 
     exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(**exporter_config)
 
