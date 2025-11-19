@@ -14,13 +14,6 @@ class Conversations::AssignmentService
   attr_reader :conversation, :assignee_id, :assignee_type
 
   def assign_agent
-    if assignee_id.blank?
-      conversation.assignee = nil
-      conversation.assignee_agent_bot = nil
-      conversation.save!
-      return
-    end
-
     conversation.assignee = assignee
     conversation.assignee_agent_bot = nil
     conversation.save!
