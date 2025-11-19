@@ -1,6 +1,5 @@
 <script setup>
-import { computed, ref, onMounted, nextTick } from 'vue';
-import { useResizeObserver } from '@vueuse/core';
+import { computed, ref, onMounted, nextTick, watch } from 'vue';
 
 const props = defineProps({
   initialActiveTab: {
@@ -22,7 +21,7 @@ const props = defineProps({
 
 const emit = defineEmits(['tabChanged']);
 
-const activeTab = computed(() => props.initialActiveTab);
+const activeTab = ref(props.initialActiveTab);
 
 const tabRefs = ref([]);
 const indicatorStyle = ref({});
@@ -31,26 +30,30 @@ const enableTransition = ref(false);
 const activeElement = computed(() => tabRefs.value[activeTab.value]);
 
 const updateIndicator = () => {
-  if (!activeElement.value) return;
+  nextTick(() => {
+    if (!activeElement.value) return;
 
-  indicatorStyle.value = {
-    left: `${activeElement.value.offsetLeft}px`,
-    width: `${activeElement.value.offsetWidth}px`,
-  };
+    indicatorStyle.value = {
+      left: `${activeElement.value.offsetLeft}px`,
+      width: `${activeElement.value.offsetWidth}px`,
+    };
+  });
 };
 
-useResizeObserver(activeElement, () => {
-  if (enableTransition.value || !activeElement.value) updateIndicator();
+// Watch for any changes that affect indicator position
+watch([() => props.tabs, activeTab], updateIndicator, {
+  deep: true,
+  immediate: true,
 });
 
 onMounted(() => {
-  updateIndicator();
   nextTick(() => {
     enableTransition.value = true;
   });
 });
 
 const selectTab = index => {
+  activeTab.value = index;
   emit('tabChanged', props.tabs[index]);
 };
 
@@ -66,7 +69,7 @@ const showDivider = index => {
 
 <template>
   <div
-    class="relative flex items-center h-8 rounded-lg bg-n-alpha-1 w-fit transition-all duration-200 ease-out has-[button:active]:scale-[1.01]"
+    class="relative flex items-center h-8 rounded-lg bg-n-alpha-1 dark:bg-n-solid-1 w-fit transition-all duration-200 ease-out has-[button:active]:scale-[1.01]"
   >
     <div
       class="absolute rounded-lg bg-n-solid-active shadow-sm pointer-events-none h-8 outline-1 outline outline-n-container inset-y-0"

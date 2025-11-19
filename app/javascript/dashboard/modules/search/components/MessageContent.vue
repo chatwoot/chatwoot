@@ -1,7 +1,8 @@
 <script setup>
-import { ref, useTemplateRef, onMounted, watch, nextTick, computed } from 'vue';
+import { ref, computed, nextTick, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useToggle } from '@vueuse/core';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import ReadMore from './ReadMore.vue';
 
 const props = defineProps({
   author: {
@@ -18,6 +19,13 @@ const props = defineProps({
   },
 });
 
+const { t } = useI18n();
+const { highlightContent } = useMessageFormatter();
+
+const contentElement = ref(null);
+const [isExpanded, toggleExpanded] = useToggle(false);
+const needsToggle = ref(false);
+
 const messageContent = computed(() => {
   // We perform search on either content or email subject or transcribed text
   if (props.message.content) {
@@ -30,33 +38,19 @@ const messageContent = computed(() => {
     return email.subject;
   }
 
-  const audioAttachment = props.message.attachments.find(
+  const audioAttachment = props.message.attachments?.find(
     attachment => attachment.file_type === 'audio'
   );
   return audioAttachment?.transcribed_text || '';
 });
 
-const { highlightContent } = useMessageFormatter();
-
-const messageContainer = useTemplateRef('messageContainer');
-const isOverflowing = ref(false);
-
-const setOverflow = () => {
-  const wrap = messageContainer.value;
-  if (wrap) {
-    const message = wrap.querySelector('.message-content');
-    isOverflowing.value = message.offsetHeight > 150;
-  }
-};
-
 const escapeHtml = html => {
-  var text = document.createTextNode(html);
-  var p = document.createElement('p');
-  p.appendChild(text);
-  return p.innerText;
+  const wrapper = document.createElement('p');
+  wrapper.textContent = html;
+  return wrapper.textContent;
 };
 
-const prepareContent = () => {
+const highlightedContent = computed(() => {
   const content = messageContent.value || '';
   const escapedText = escapeHtml(content);
   return highlightContent(
@@ -64,50 +58,75 @@ const prepareContent = () => {
     props.searchTerm,
     'searchkey--highlight'
   );
+});
+
+const authorText = computed(() => {
+  const author = props.author || '';
+  const wroteText = t('SEARCH.WROTE') || 'wrote:';
+  return author ? `${author} ${wroteText} ` : '';
+});
+
+const checkOverflow = () => {
+  if (!contentElement.value) return;
+
+  const element = contentElement.value;
+  const computedStyle = window.getComputedStyle(element);
+  const lineHeight = parseFloat(computedStyle.lineHeight) || 20;
+  const maxHeight = lineHeight * 2;
+
+  needsToggle.value = element.scrollHeight > maxHeight;
 };
 
 onMounted(() => {
-  watch(() => {
-    return messageContainer.value;
-  }, setOverflow);
-
-  nextTick(setOverflow);
+  nextTick(checkOverflow);
 });
 </script>
 
 <template>
-  <blockquote ref="messageContainer" class="message border-l-2 border-n-weak">
-    <p class="header">
-      <strong class="text-n-slate-11">
-        {{ author }}
-      </strong>
-      {{ $t('SEARCH.WROTE') }}
-    </p>
-    <ReadMore :shrink="isOverflowing" @expand="isOverflowing = false">
-      <div v-dompurify-html="prepareContent()" class="message-content" />
-    </ReadMore>
-  </blockquote>
+  <div
+    ref="contentElement"
+    class="break-words grid items-center text-n-slate-11 text-sm leading-relaxed"
+    :class="needsToggle && !isExpanded ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'"
+  >
+    <div
+      class="min-w-0"
+      :class="{
+        'overflow-hidden whitespace-nowrap text-ellipsis':
+          !isExpanded && needsToggle,
+      }"
+    >
+      <span v-if="authorText" class="text-n-slate-11 font-medium leading-4">{{
+        authorText
+      }}</span>
+      <span
+        v-dompurify-html="highlightedContent"
+        class="message-content text-n-slate-12 [&_.searchkey--highlight]:text-n-slate-12 [&_.searchkey--highlight]:font-semibold"
+      />
+      <button
+        v-if="needsToggle && isExpanded"
+        class="text-sm text-n-slate-11 underline cursor-pointer bg-transparent border-0 p-0 hover:text-n-slate-12 font-medium ltr:ml-0.5 rtl:mr-0.5"
+        @click.prevent="toggleExpanded(false)"
+      >
+        {{ t('SEARCH.READ_LESS') }}
+      </button>
+    </div>
+    <button
+      v-if="needsToggle && !isExpanded"
+      class="text-sm text-n-slate-11 underline cursor-pointer bg-transparent border-0 p-0 hover:text-n-slate-12 font-medium justify-self-end ltr:ml-0.5 rtl:mr-0.5"
+      @click.prevent="toggleExpanded(true)"
+    >
+      {{ t('SEARCH.READ_MORE') }}
+    </button>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.message {
-  @apply py-0 px-2 mt-2;
+.message-content::v-deep p {
+  @apply inline;
+  margin: 0;
 }
 
-.message-content::v-deep p,
-.message-content::v-deep li::marker {
-  @apply text-n-slate-11 mb-1;
-}
-
-.header {
-  @apply text-n-slate-11 mb-1;
-}
-
-.message-content {
-  @apply break-words text-n-slate-11;
-}
-
-.message-content::v-deep .searchkey--highlight {
-  @apply text-n-slate-12 text-sm font-semibold;
+.message-content::v-deep br {
+  display: none;
 }
 </style>

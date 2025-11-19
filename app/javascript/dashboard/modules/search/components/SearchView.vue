@@ -4,6 +4,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useRouter, useRoute } from 'vue-router';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
@@ -47,7 +48,7 @@ const articleRecords = useMapGetter('conversationSearch/getArticleRecords');
 const uiFlags = useMapGetter('conversationSearch/getUIFlags');
 
 const addTypeToRecords = (records, type) =>
-  records.value.map(item => ({ ...item, type }));
+  records.value.map(item => ({ ...useCamelCase(item, { deep: true }), type }));
 
 const mappedContacts = computed(() =>
   addTypeToRecords(contactRecords, 'contact')
@@ -295,6 +296,7 @@ const onTabChange = tab => {
 
 onMounted(() => {
   store.dispatch('conversationSearch/clearSearchResults');
+  store.dispatch('agents/get');
 
   // Auto-execute search if query parameter exists
   if (route.query.q) {
@@ -321,7 +323,7 @@ onUnmounted(() => {
       />
     </div>
     <section class="flex flex-col flex-grow w-full h-full overflow-hidden">
-      <div class="w-full max-w-4xl mx-auto">
+      <div class="w-full max-w-4xl mx-auto z-[60]">
         <div class="flex flex-col w-full px-4">
           <SearchHeader :initial-query="query" @search="onSearch" />
           <SearchTabs
@@ -345,6 +347,7 @@ onUnmounted(() => {
                 :contacts="contacts"
                 :query="query"
                 :show-title="isSelectedTabAll"
+                class="mt-0.5"
               />
               <NextButton
                 v-if="showViewMore.contacts"
@@ -367,6 +370,10 @@ onUnmounted(() => {
                 :messages="messages"
                 :query="query"
                 :show-title="isSelectedTabAll"
+                :class="{
+                  'mt-4': isSelectedTabAll,
+                  'mt-0.5': !isSelectedTabAll,
+                }"
               />
               <NextButton
                 v-if="showViewMore.messages"
@@ -389,6 +396,10 @@ onUnmounted(() => {
                 :conversations="conversations"
                 :query="query"
                 :show-title="isSelectedTabAll"
+                :class="{
+                  'mt-4': isSelectedTabAll,
+                  'mt-0.5': !isSelectedTabAll,
+                }"
               />
               <NextButton
                 v-if="showViewMore.conversations"
@@ -413,6 +424,10 @@ onUnmounted(() => {
                 :articles="articles"
                 :query="query"
                 :show-title="isSelectedTabAll"
+                :class="{
+                  'mt-4': isSelectedTabAll,
+                  'mt-0.5': !isSelectedTabAll,
+                }"
               />
               <NextButton
                 v-if="showViewMore.articles"
@@ -425,7 +440,7 @@ onUnmounted(() => {
               />
             </Policy>
 
-            <div v-if="showLoadMore" class="flex justify-center mt-4 mb-6">
+            <div v-if="showLoadMore" class="flex justify-center mt-3 mb-6">
               <NextButton
                 v-if="!isSelectedTabAll"
                 :label="t(`SEARCH.LOAD_MORE`)"

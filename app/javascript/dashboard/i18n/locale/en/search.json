@@ -1,7 +1,7 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "All",
+      "ALL": "All results",
       "CONTACTS": "Contacts",
       "CONVERSATIONS": "Conversations",
       "MESSAGES": "Messages",
@@ -19,14 +19,47 @@
     "LOADING_DATA": "Loading",
     "EMPTY_STATE": "No {item} found for query '{query}'",
     "EMPTY_STATE_FULL": "No results found for query '{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
+    "PLACEHOLDER_KEYBINDING": "/to focus",
     "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "NO_RECENT_SEARCHES": "No recent searches",
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
     "BOT_LABEL": "Bot",
     "READ_MORE": "Read more",
+    "READ_LESS": "Read less",
     "WROTE": "wrote:",
-    "FROM": "from",
-    "EMAIL": "email",
-    "EMAIL_SUBJECT": "subject"
+    "FROM": "From",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Subject",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Last 7 days",
+      "LAST_30_DAYS": "Last 30 days",
+      "LAST_6_MONTHS": "Last 6 months",
+      "LAST_YEAR": "Last year",
+      "CUSTOM_RANGE": "Custom range",
+      "CREATED": "Created",
+      "BETWEEN": "between",
+      "BEFORE": "before",
+      "AFTER": "after",
+      "AND": "and",
+      "APPLY": "Apply",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Time range",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FROM": "From",
+      "TO": "To",
+      "AGENTS": "Agents",
+      "CONTACTS": "Contacts",
+      "NO_AGENTS": "No agents found",
+      "NO_CONTACTS": "No contacts found, try search"
+    }
   }
 }

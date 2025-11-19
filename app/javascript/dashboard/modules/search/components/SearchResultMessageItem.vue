@@ -2,28 +2,28 @@
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime } from 'shared/helpers/timeHelper';
-import { useInbox } from 'dashboard/composables/useInbox';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
+import { useInbox } from 'dashboard/composables/useInbox';
+import { ATTACHMENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import FileChip from 'next/message/chips/File.vue';
+import AudioChip from 'next/message/chips/Audio.vue';
+import TranscribedText from './TranscribedText.vue';
 
 const props = defineProps({
   id: {
     type: Number,
     default: 0,
   },
-  inbox: {
-    type: Object,
-    default: () => ({}),
+  inboxId: {
+    type: Number,
+    default: 0,
   },
-  name: {
-    type: String,
-    default: '',
-  },
-  email: {
-    type: String,
-    default: '',
+  isPrivate: {
+    type: Boolean,
+    default: false,
   },
   accountId: {
     type: [String, Number],
@@ -37,13 +37,13 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  emailSubject: {
-    type: String,
-    default: '',
+  attachments: {
+    type: Array,
+    default: () => [],
   },
 });
 
-const { inbox } = useInbox(props.inbox?.id);
+const { inbox } = useInbox(props.inboxId);
 
 const navigateTo = computed(() => {
   const params = {};
@@ -58,33 +58,27 @@ const navigateTo = computed(() => {
 
 const createdAtTime = dynamicTime(props.createdAt);
 
-const infoItems = computed(() => [
-  {
-    label: 'SEARCH.FROM',
-    value: props.name,
-    show: !!props.name,
-  },
-  {
-    label: 'SEARCH.EMAIL',
-    value: props.email,
-    show: !!props.email,
-  },
-  {
-    label: 'SEARCH.EMAIL_SUBJECT',
-    value: props.emailSubject,
-    show: !!props.emailSubject,
-  },
-]);
-
-const visibleInfoItems = computed(() =>
-  infoItems.value.filter(item => item.show)
-);
-
-const inboxName = computed(() => props.inbox?.name);
+const inboxName = computed(() => inbox.value?.name);
 
 const inboxIcon = computed(() => {
   const { channelType, medium } = inbox.value;
   return getInboxIconByType(channelType, medium);
+});
+
+const allAttachments = computed(() => {
+  return Array.isArray(props.attachments) ? props.attachments : [];
+});
+
+const fileAttachments = computed(() => {
+  return allAttachments.value.filter(
+    attachment => attachment.fileType !== ATTACHMENT_TYPES.AUDIO
+  );
+});
+
+const audioAttachments = computed(() => {
+  return allAttachments.value.filter(
+    attachment => attachment.fileType === ATTACHMENT_TYPES.AUDIO
+  );
 });
 </script>
 
@@ -121,29 +115,51 @@ const inboxIcon = computed(() => {
               {{ inboxName }}
             </span>
           </div>
+          <div v-if="isPrivate" class="w-px h-3 bg-n-strong" />
+          <div
+            v-if="isPrivate"
+            class="flex items-center text-n-amber-11 gap-1.5 flex-shrink-0"
+          >
+            <Icon icon="i-lucide-lock-keyhole" class="flex-shrink-0 size-3.5" />
+            <span class="text-sm leading-4">
+              {{ $t('SEARCH.PRIVATE') }}
+            </span>
+          </div>
         </div>
         <span class="text-sm font-normal min-w-0 truncate text-n-slate-11">
           {{ createdAtTime }}
         </span>
       </div>
-      <div class="flex flex-wrap gap-x-2 gap-y-1.5 items-center">
-        <template
-          v-for="(item, index) in visibleInfoItems"
-          :key="`info-${index}`"
-        >
-          <h5 class="m-0 text-sm min-w-0 text-n-slate-12 truncate">
-            <span class="text-sm leading-4 font-normal text-n-slate-11">
-              {{ $t(item.label) + ':' }}
-            </span>
-            {{ item.value }}
-          </h5>
-          <div
-            v-if="index < visibleInfoItems.length - 1"
-            class="w-px h-3 bg-n-strong"
-          />
-        </template>
-      </div>
       <slot />
+      <div v-if="audioAttachments.length" class="mt-1.5 space-y-4 w-full">
+        <div
+          v-for="attachment in audioAttachments"
+          :key="attachment.id"
+          class="w-full"
+        >
+          <AudioChip
+            class="bg-n-alpha-2 dark:bg-n-alpha-2 text-n-slate-12"
+            :attachment="attachment"
+            :show-transcribed-text="false"
+            @click.prevent
+          />
+          <div v-if="attachment.transcribedText" class="pt-2">
+            <TranscribedText :text="attachment.transcribedText" />
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="fileAttachments.length"
+        class="flex gap-2 flex-wrap items-center mt-1.5"
+      >
+        <FileChip
+          v-for="attachment in fileAttachments"
+          :key="attachment.id"
+          :attachment="attachment"
+          class="!h-8"
+          @click.stop
+        />
+      </div>
     </CardLayout>
   </router-link>
 </template>
