@@ -166,6 +166,15 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         @click="forceTransfer"
       />
       <Button
+        :label="t('CONVERSATION.FORCE_TRANSFER.ACTION')"
+        size="sm"
+        color="slate"
+        no-animation
+        class="mr-2"
+        :is-loading="isLoading"
+        @click="forceTransfer"
+      />
+      <Button
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
@@ -199,6 +208,15 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
           :is-loading="isLoading"
           @click="forceTransfer"
           />
+        <Button
+          :label="t('CONVERSATION.FORCE_TRANSFER.ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="mr-2"
+          :is-loading="isLoading"
+          @click="forceTransfer"
+        />
         <Button
           v-if="isOpen"
           :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
