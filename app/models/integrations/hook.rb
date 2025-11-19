@@ -67,13 +67,11 @@ class Integrations::Hook < ApplicationRecord
   def process_event(event)
     case app_id
     when 'openai'
-      Integrations::Openai::ProcessorService.new(hook: self, event: event).perform
+      Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
     else
       { error: 'No processor found' }
     end
   end
-
-  private
 
   def feature_allowed?
     return true if app.blank?
@@ -83,6 +81,8 @@ class Integrations::Hook < ApplicationRecord
 
     account.feature_enabled?(flag)
   end
+
+  private
 
   def ensure_feature_enabled
     errors.add(:feature_flag, 'Feature not enabled') unless feature_allowed?
