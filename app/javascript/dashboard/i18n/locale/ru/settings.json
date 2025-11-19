@@ -306,6 +306,8 @@
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
     "ACTIVE": "Активные",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Капитан",
     "CAPTAIN_ASSISTANTS": "Ассистенты",
     "CAPTAIN_DOCUMENTS": "Документы",
@@ -411,6 +413,7 @@
     "TITLE": "Безопасность",
     "DESCRIPTION": "Управление настройками безопасности вашего аккаунта.",
     "LINK_TEXT": "Узнать больше о SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Настройка единого SAML входа для вашей учетной записи. Пользователи будут аутентифицироваться через вашего провайдера идентификации вместо использования электронной почты/пароля.",
