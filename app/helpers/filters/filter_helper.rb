@@ -60,7 +60,12 @@ module Filters::FilterHelper
     when 'date'
       date_filter(current_filter, query_hash, filter_operator_value)
     when 'labels'
-      tag_filter_query(query_hash, current_index)
+      # Check if this is contact_labels filter for conversations
+      if query_hash[:attribute_key] == 'contact_labels'
+        contact_labels_filter_query(query_hash, current_index)
+      else
+        tag_filter_query(query_hash, current_index)
+      end
     when 'text_case_insensitive'
       text_case_insensitive_filter(query_hash, filter_operator_value)
     else

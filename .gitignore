@@ -24,6 +24,7 @@
 *.log
 # Ignore application configuration
 node_modules
+.pnpm-store/
 master.key
 *.rdb
 

@@ -156,7 +156,9 @@ class ConversationFinder
   def filter_by_labels
     return unless params[:labels]
 
-    @conversations = @conversations.tagged_with(params[:labels], any: true)
+    # Filter conversations by contact labels instead of conversation labels
+    contact_ids = current_account.contacts.tagged_with(params[:labels], any: true).pluck(:id)
+    @conversations = @conversations.where(contact_id: contact_ids)
   end
 
   def filter_by_source_id

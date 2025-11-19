@@ -40,18 +40,19 @@ export const applyPageFilters = (conversation, filters) => {
   const {
     status: chatStatus,
     inbox_id: chatInboxId,
-    labels: chatLabels = [],
     meta = {},
     first_reply_created_at: firstReplyOn,
     waiting_since: waitingSince,
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
+  // Use contact labels instead of conversation labels
+  const contactLabels = meta.sender?.labels || [];
 
   let shouldFilter = filterByStatus(chatStatus, status);
   shouldFilter = filterByInbox(shouldFilter, inboxId, chatInboxId);
   shouldFilter = filterByTeam(shouldFilter, teamId, chatTeamId);
-  shouldFilter = filterByLabel(shouldFilter, labels, chatLabels);
+  shouldFilter = filterByLabel(shouldFilter, labels, contactLabels);
   shouldFilter = filterByUnattended(
     shouldFilter,
     conversationType,

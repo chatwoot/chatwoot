@@ -68,6 +68,9 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'created_at':
     case 'last_activity_at':
       return conversation[attributeKey];
+    case 'contact_labels':
+      // Get labels from the contact (sender) associated with the conversation
+      return conversation.meta?.sender?.labels || [];
     case 'display_id':
       // Frontend uses 'id' but backend expects 'display_id'
       return conversation.display_id || conversation.id;
