@@ -14,24 +14,24 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Ikke tilgjengelig"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi er pålogget",
     "OFFLINE": "Vi er for øyeblikket borte",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "Vi er tilbake så snart som mulig"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
     "IN_A_FEW_HOURS": "Svarer vanligvis innen et par timer",
     "IN_A_DAY": "Svarer vanligvis innen en dag",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_IN_HOURS": "Vi er tilbake om {n} time | Vi vil være tilbake om {n} timer",
+    "BACK_IN_MINUTES": "Vi er tilbake om {time} minutter",
+    "BACK_AT_TIME": "Vi er tilbake {time}",
+    "BACK_ON_DAY": "Vi er tilbake {day}",
+    "BACK_TOMORROW": "Vi er tilbake i morgen",
+    "BACK_IN_SOME_TIME": "Vi er tilbake om en stund"
   },
   "DAY_NAMES": {
     "SUNDAY": "Søndag",
