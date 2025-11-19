@@ -50,6 +50,9 @@ export default {
     whatsappAppId() {
       return window.chatwootConfig?.whatsappAppId;
     },
+    isForwardingEnabled() {
+      return !!this.inbox.forwarding_enabled;
+    },
   },
   watch: {
     inbox() {
@@ -300,9 +303,24 @@ export default {
     <div class="mx-8">
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
-        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
+        :sub-title="
+          isForwardingEnabled
+            ? $t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')
+            : ''
+        "
       >
-        <woot-code :script="inbox.forward_to_email" />
+        <woot-code
+          v-if="isForwardingEnabled"
+          :script="inbox.forward_to_email"
+        />
+        <div
+          v-else
+          class="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg"
+        >
+          <p class="text-sm text-yellow-800 dark:text-yellow-200 mb-0">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_NOT_CONFIGURED') }}
+          </p>
+        </div>
       </SettingsSection>
     </div>
     <ImapSettings :inbox="inbox" />
