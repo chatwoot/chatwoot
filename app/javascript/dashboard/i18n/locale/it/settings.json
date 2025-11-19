@@ -306,6 +306,8 @@
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
     "ACTIVE": "Attivi",
+    "COMPANIES": "Aziende",
+    "ALL_COMPANIES": "Tutte le Aziende",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistenti",
     "CAPTAIN_DOCUMENTS": "Documenti",
@@ -411,6 +413,7 @@
     "TITLE": "Sicurezza",
     "DESCRIPTION": "Gestisci le impostazioni di sicurezza del tuo account.",
     "LINK_TEXT": "Ulteriori informazioni su SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO è attualmente disabilitato. Contatta l'amministratore per abilitare questa funzionalità.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configura SAML single sign-on per il tuo account. Gli utenti si autenticeranno tramite il tuo provider di identità invece di utilizzare email/password.",
