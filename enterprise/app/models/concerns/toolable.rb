@@ -89,11 +89,6 @@ module Concerns::Toolable
     headers['X-Chatwoot-Contact-Id'] = contact[:id].to_s if contact[:id]
     headers['X-Chatwoot-Contact-Email'] = contact[:email].to_s if contact[:email].present?
     headers['X-Chatwoot-Contact-Phone'] = contact[:phone_number].to_s if contact[:phone_number].present?
-    headers['X-Chatwoot-Contact-Verified'] = contact_verified?(contact).to_s
-  end
-
-  def contact_verified?(contact)
-    contact[:email].present? || contact[:phone_number].present?
   end
 
   def format_response(raw_response_body)
