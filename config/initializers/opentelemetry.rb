@@ -1,5 +1,6 @@
 require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
+require 'base64'
 
 # Only configure OpenTelemetry if explicitly enabled
 if ENV['OTEL_ENABLED'] == 'true'
