@@ -211,7 +211,7 @@ onMounted(async () => {
     @apply-filter="onApplyFilter"
     @clear-filters="clearFilters"
   >
-    <div class="flex flex-col gap-4 px-6">
+    <div class="flex flex-col gap-4 px-6 pb-6">
       <!-- Loading State -->
       <div v-if="isLoading" class="flex justify-center py-10">
         <Spinner size="large" />
@@ -219,7 +219,9 @@ onMounted(async () => {
 
       <!-- Empty State (no results at all) -->
       <div
-        v-else-if="noRecordsFound && !searchValue && !hasAppliedFilters"
+        v-else-if="
+          noRecordsFound && !searchValue && !hasAppliedFilters && !isLoading
+        "
         class="flex flex-col items-center justify-center py-20"
       >
         <span class="text-lg text-n-slate-11">

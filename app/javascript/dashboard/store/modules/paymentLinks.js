@@ -70,7 +70,7 @@ const actions = {
       commit(types.default.SET_PAYMENT_LINKS_META, {
         totalEntries,
         perPage: 15,
-        currentPage,
+        currentPage: Number(currentPage),
       });
       commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
       return paymentLinks;
@@ -100,7 +100,7 @@ const actions = {
       commit(types.default.SET_PAYMENT_LINKS_META, {
         totalEntries,
         perPage: 15,
-        currentPage,
+        currentPage: Number(currentPage),
       });
       commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
       return paymentLinks;
@@ -130,7 +130,7 @@ const actions = {
       commit(types.default.SET_PAYMENT_LINKS_META, {
         totalEntries,
         perPage: 15,
-        currentPage,
+        currentPage: Number(currentPage),
       });
       commit(types.default.SET_PAYMENT_LINKS_UI_FLAG, { fetchingList: false });
       return paymentLinks;
