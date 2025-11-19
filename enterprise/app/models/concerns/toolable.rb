@@ -66,6 +66,31 @@ module Concerns::Toolable
     [auth_config['username'], auth_config['password']]
   end
 
+  def build_metadata_headers(state)
+    headers = {}
+
+    headers['X-Chatwoot-Account-Id'] = state[:account_id].to_s if state[:account_id]
+    headers['X-Chatwoot-Assistant-Id'] = state[:assistant_id].to_s if state[:assistant_id]
+    headers['X-Chatwoot-Tool-Slug'] = slug if slug.present?
+
+    if state[:conversation]
+      conversation = state[:conversation]
+      headers['X-Chatwoot-Conversation-Id'] = conversation[:id].to_s if conversation[:id]
+      headers['X-Chatwoot-Conversation-Display-Id'] = conversation[:display_id].to_s if conversation[:display_id]
+    end
+
+    if state[:contact]
+      contact = state[:contact]
+      headers['X-Chatwoot-Contact-Id'] = contact[:id].to_s if contact[:id]
+      headers['X-Chatwoot-Contact-Email'] = contact[:email].to_s if contact[:email].present?
+      headers['X-Chatwoot-Contact-Phone'] = contact[:phone_number].to_s if contact[:phone_number].present?
+      # Contact is verified if they have email or phone number
+      headers['X-Chatwoot-Contact-Verified'] = (contact[:email].present? || contact[:phone_number].present?).to_s
+    end
+
+    headers
+  end
+
   def format_response(raw_response_body)
     return raw_response_body if response_template.blank?
 
