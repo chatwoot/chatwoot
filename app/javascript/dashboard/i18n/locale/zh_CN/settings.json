@@ -306,6 +306,8 @@
     "SETTINGS": "设置",
     "CONTACTS": "联系人",
     "ACTIVE": "状态",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "助手",
     "CAPTAIN_DOCUMENTS": "文档",
@@ -411,6 +413,7 @@
     "TITLE": "安全",
     "DESCRIPTION": "管理您的账户安全设置。",
     "LINK_TEXT": "了解更多关于 SAML SSO 的信息",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
