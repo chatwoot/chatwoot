@@ -44,6 +44,8 @@ gem 'down'
 gem 'gmail_xoauth'
 # Lock net-smtp to 0.3.4 to avoid issues with gmail_xoauth2
 gem 'net-smtp',  '~> 0.3.4'
+# Postmark HTTPS API delivery
+gem 'postmark-rails'
 # Prevent CSV injection
 gem 'csv-safe'
 

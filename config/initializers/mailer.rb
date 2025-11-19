@@ -35,6 +35,11 @@ Rails.application.configure do
     config.action_mailer.delivery_method = :letter_opener
   elsif Rails.env.test?
     config.action_mailer.delivery_method = :test
+  elsif ENV['POSTMARK_API_TOKEN'].present?
+    config.action_mailer.delivery_method = :postmark
+    config.action_mailer.postmark_settings = {
+      api_token: ENV.fetch('POSTMARK_API_TOKEN')
+    }
   elsif ENV['SMTP_ADDRESS'].present?
     config.action_mailer.delivery_method = :smtp
   else

@@ -656,6 +656,11 @@ GEM
       activerecord (>= 5.2)
       activesupport (>= 5.2)
     pgvector (0.1.1)
+    postmark (1.25.1)
+      json
+    postmark-rails (0.22.1)
+      actionmailer (>= 3.0.0)
+      postmark (>= 1.21.3, < 2.0)
     prism (1.4.0)
     procore-sift (1.0.0)
       activerecord (>= 6.1)
@@ -1097,6 +1102,7 @@ DEPENDENCIES
   pg
   pg_search
   pgvector
+  postmark-rails
   procore-sift
   pry-rails
   puma
