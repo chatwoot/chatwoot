@@ -8,14 +8,18 @@ if ENV['OTEL_ENABLED'] == 'true'
 
     # Add OTLP exporter for Langfuse
     # Langfuse expects Basic Auth: base64(public_key:secret_key)
-    exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
+    exporter_config = {
       endpoint: ENV.fetch('OTEL_EXPORTER_OTLP_ENDPOINT', 'https://cloud.langfuse.com/api/public/otel/v1/traces'),
       headers: {
-        'Authorization' => "Basic #{Base64.strict_encode64("#{ENV['LANGFUSE_PUBLIC_KEY']}:#{ENV['LANGFUSE_SECRET_KEY']}")}"
-      },
-      # Disable SSL verification for development (fix certificate issues)
-      ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
-    )
+        'Authorization' => "Basic #{Base64.strict_encode64("#{ENV.fetch('LANGFUSE_PUBLIC_KEY', nil)}:#{ENV.fetch('LANGFUSE_SECRET_KEY', nil)}")}"
+      }
+    }
+
+    # Only disable SSL verification in non-production environments
+    # Production should use proper SSL verification for security
+    exporter_config[:ssl_verify_mode] = OpenSSL::SSL::VERIFY_NONE unless Rails.env.production?
+
+    exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(exporter_config)
 
     # Use BatchSpanProcessor for better performance
     # Batches spans and exports asynchronously (default: every 5s or 2048 spans)
