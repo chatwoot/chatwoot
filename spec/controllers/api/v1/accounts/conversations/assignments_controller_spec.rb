@@ -17,7 +17,6 @@ RSpec.describe 'Conversation Assignment API', type: :request do
     context 'when it is an authenticated bot with out access to the inbox' do
       let(:agent_bot) { create(:agent_bot, account: account) }
       let(:agent) { create(:user, account: account, role: :agent) }
-      let(:agent_bot) { create(:agent_bot, account: account) }
 
       before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
