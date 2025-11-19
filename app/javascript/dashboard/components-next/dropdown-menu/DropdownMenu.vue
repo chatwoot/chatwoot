@@ -151,7 +151,7 @@ onMounted(() => {
       >
         <p
           v-if="section.title"
-          class="px-2 py-2 text-xs font-medium text-n-slate-11 uppercase tracking-wide sticky z-10 bg-n-alpha-3 backdrop-blur-sm"
+          class="px-2 py-2 text-xs mb-0 font-medium text-n-slate-11 uppercase tracking-wide sticky z-10 bg-n-alpha-3 backdrop-blur-sm"
           :class="showSearch ? 'top-10' : 'top-0'"
         >
           {{ section.title }}
@@ -160,7 +160,7 @@ onMounted(() => {
           v-if="section.isLoading"
           class="flex items-center justify-center py-2"
         >
-          <Spinner size="24" />
+          <Spinner :size="24" />
         </div>
         <div
           v-else-if="!section.items.length && section.emptyState"

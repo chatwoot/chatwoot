@@ -55,11 +55,13 @@
     },
     "FILTERS": {
       "FROM": "From",
-      "TO": "To",
+      "IN": "In",
       "AGENTS": "Agents",
       "CONTACTS": "Contacts",
+      "INBOXES": "Inboxes",
       "NO_AGENTS": "No agents found",
-      "NO_CONTACTS": "No contacts found, try search"
+      "NO_CONTACTS": "No contacts found, try search",
+      "NO_INBOXES": "No inboxes found"
     }
   }
 }

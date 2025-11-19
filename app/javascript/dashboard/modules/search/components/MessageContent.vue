@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, nextTick, onMounted } from 'vue';
+import { ref, computed, nextTick, onMounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
@@ -22,7 +22,7 @@ const props = defineProps({
 const { t } = useI18n();
 const { highlightContent } = useMessageFormatter();
 
-const contentElement = ref(null);
+const contentElement = useTemplateRef('contentElement');
 const [isExpanded, toggleExpanded] = useToggle(false);
 const needsToggle = ref(false);
 
@@ -62,7 +62,7 @@ const highlightedContent = computed(() => {
 
 const authorText = computed(() => {
   const author = props.author || '';
-  const wroteText = t('SEARCH.WROTE') || 'wrote:';
+  const wroteText = t('SEARCH.WROTE');
   return author ? `${author} ${wroteText} ` : '';
 });
 

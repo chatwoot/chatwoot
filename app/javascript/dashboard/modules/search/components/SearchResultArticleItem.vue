@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { ARTICLE_STATUSES } from 'dashboard/helper/portalHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import MessageFormatter from 'shared/helpers/MessageFormatter';
@@ -16,7 +17,7 @@ const props = defineProps({
   portalSlug: { type: String, required: true },
   accountId: { type: [String, Number], default: 0 },
   status: { type: String, default: '' },
-  updatedAt: { type: String, default: '' },
+  updatedAt: { type: Number, default: 0 },
 });
 
 const MAX_LENGTH = 300;
@@ -43,9 +44,9 @@ const truncatedContent = computed(() => {
 
 const statusTextColor = computed(() => {
   switch (props.status) {
-    case 'archived':
+    case ARTICLE_STATUSES.ARCHIVED:
       return 'text-n-slate-12';
-    case 'draft':
+    case ARTICLE_STATUSES.DRAFT:
       return 'text-n-amber-11';
     default:
       return 'text-n-teal-11';

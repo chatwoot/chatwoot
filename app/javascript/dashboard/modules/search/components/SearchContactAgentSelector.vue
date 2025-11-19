@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, defineModel } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
@@ -15,13 +15,24 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  modelValue: {
-    type: [String, Number],
-    default: null,
-  },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const modelValue = defineModel({
+  type: [String, Number],
+  default: null,
+});
+
+const MENU_ITEM_TYPES = {
+  AGENT: 'agent',
+  CONTACT: 'contact',
+};
+
+const MENU_ACTIONS = {
+  SELECT: 'select',
+};
+
+const SEARCH_KEYS = ['name', 'email', 'phone_number'];
+const DEBOUNCE_DELAY = 300;
 
 const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();
@@ -35,18 +46,18 @@ const selectedContact = ref(null);
 const agentsList = useMapGetter('agents/getVerifiedAgents');
 
 const agentsSection = computed(() => {
-  const agents = agentsList.value.map(agent => {
-    const camelCaseAgent = useCamelCase(agent, { deep: true });
+  const agents = agentsList.value?.map(agent => {
+    const transformedAgent = useCamelCase(agent, { deep: true });
     return {
-      label: camelCaseAgent.name,
-      value: camelCaseAgent.id,
-      action: 'select',
-      type: 'agent',
+      label: transformedAgent.name,
+      value: transformedAgent.id,
+      action: MENU_ACTIONS.SELECT,
+      type: MENU_ITEM_TYPES.AGENT,
       thumbnail: {
-        name: camelCaseAgent.name,
-        src: camelCaseAgent.avatarUrl,
+        name: transformedAgent.name,
+        src: transformedAgent.avatarUrl,
       },
-      isSelected: props.modelValue === camelCaseAgent.id,
+      isSelected: modelValue.value === transformedAgent.id,
     };
   });
 
@@ -58,22 +69,23 @@ const agentsSection = computed(() => {
 });
 
 const contactsSection = computed(() => {
-  return searchedContacts.value.map(contact => {
-    const camelCaseContact = useCamelCase(contact, { deep: true });
-    const label = camelCaseContact.name;
-    const description = camelCaseContact.email || camelCaseContact.phoneNumber;
+  return searchedContacts.value?.map(contact => {
+    const transformedContact = useCamelCase(contact, { deep: true });
+    const label = transformedContact.name;
+    const description =
+      transformedContact.email || transformedContact.phoneNumber;
 
     return {
       label: label,
-      value: camelCaseContact.id,
-      action: 'select',
-      type: 'contact',
+      value: transformedContact.id,
+      action: MENU_ACTIONS.SELECT,
+      type: MENU_ITEM_TYPES.CONTACT,
       thumbnail: {
-        name: camelCaseContact.name,
-        src: camelCaseContact.thumbnail,
+        name: transformedContact.name,
+        src: transformedContact.thumbnail,
       },
       description,
-      isSelected: props.modelValue === camelCaseContact.id,
+      isSelected: modelValue.value === transformedContact.id,
     };
   });
 });
@@ -81,36 +93,36 @@ const contactsSection = computed(() => {
 const menuSections = computed(() => {
   return [
     {
-      title: t('SEARCH.FILTERS.AGENTS'),
-      items: agentsSection.value,
-      emptyState: t('SEARCH.FILTERS.NO_AGENTS'),
-    },
-    {
       title: t('SEARCH.FILTERS.CONTACTS'),
       items: contactsSection.value,
       isLoading: isSearching.value,
       emptyState: t('SEARCH.FILTERS.NO_CONTACTS'),
     },
+    {
+      title: t('SEARCH.FILTERS.AGENTS'),
+      items: agentsSection.value,
+      emptyState: t('SEARCH.FILTERS.NO_AGENTS'),
+    },
   ];
 });
 
 const selectedLabel = computed(() => {
-  if (!props.modelValue) return props.label;
+  if (!modelValue.value) return props.label;
 
   // Check in preserved selected contact
-  if (selectedContact.value && selectedContact.value.id === props.modelValue) {
+  if (selectedContact.value && selectedContact.value.id === modelValue.value) {
     return `${props.label}: ${selectedContact.value.name}`;
   }
 
   // Check in agents
-  const agent = agentsList.value.find(a => a.id === props.modelValue);
+  const agent = agentsList.value?.find(a => a.id === modelValue.value);
   if (agent) return `${props.label}: ${agent.name}`;
 
   // Check in searched contacts
-  const contact = searchedContacts.value.find(c => c.id === props.modelValue);
+  const contact = searchedContacts.value?.find(c => c.id === modelValue.value);
   if (contact) return `${props.label}: ${contact.name}`;
 
-  return `${props.label}: ${props.modelValue}`;
+  return `${props.label}: ${modelValue.value}`;
 });
 
 const debouncedSearch = debounce(async query => {
@@ -122,7 +134,7 @@ const debouncedSearch = debounce(async query => {
 
   try {
     const contacts = await searchContacts({
-      keys: ['name', 'email', 'phone_number'],
+      keys: SEARCH_KEYS,
       query,
     });
     searchedContacts.value = contacts;
@@ -131,7 +143,7 @@ const debouncedSearch = debounce(async query => {
   } finally {
     isSearching.value = false;
   }
-}, 300);
+}, DEBOUNCE_DELAY);
 
 const performSearch = query => {
   searchQuery.value = query;
@@ -143,12 +155,12 @@ const performSearch = query => {
 };
 
 const handleAction = item => {
-  if (item.type === 'contact') {
+  if (item.type === MENU_ITEM_TYPES.CONTACT) {
     selectedContact.value = { id: item.value, name: item.label };
   } else {
     selectedContact.value = null;
   }
-  emit('update:modelValue', item.value);
+  modelValue.value = item.value;
   toggleDropdown(false);
 };
 
