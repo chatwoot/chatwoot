@@ -14,19 +14,43 @@ module AutoAssignmentHandler
     return unless conversation_status_changed_to_open?
     return unless should_run_auto_assignment?
 
-    assignee = ::AutoAssignment::AgentAssignmentService.new(conversation: self,
-                                                            allowed_agent_ids: inbox.member_ids_with_assignment_capacity).find_assignee
-
     if account.queue_enabled?
       queue_service = ChatQueue::QueueService.new(account: account)
+
+      if queue_service.queue_size.zero?
+        assignee = find_available_agent_for(self)
+      end
+  
+      if assignee
+        update!(assignee: assignee)
+        return
+      end
 
       queue_service.add_to_queue(self)
       return
     end
+  
+    assignee = ::AutoAssignment::AgentAssignmentService.new(
+      conversation: self,
+      allowed_agent_ids: inbox.member_ids_with_assignment_capacity
+    ).find_assignee
+  
+    update!(assignee: assignee) if assignee
+  end
 
-    return unless assignee
+  def find_available_agent_for(conversation)
+    queue_service = ChatQueue::QueueService.new(account: account)
 
-    update!(assignee: assignee)
+    queue_service.online_agents_list.each do |agent_id|
+      agent = User.find_by(id: agent_id)
+      next unless agent
+      next unless queue_service.agent_available?(agent)
+      next unless queue_service.conversation_allowed_for_agent?(conversation, agent)
+
+      return agent
+    end
+
+    nil
   end
 
   def should_run_auto_assignment?
