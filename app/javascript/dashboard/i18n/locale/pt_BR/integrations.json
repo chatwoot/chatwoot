@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "URL do Webhook",
           "PLACEHOLDER": "Exemplo: {webhookExampleURL}",
@@ -344,6 +348,12 @@
   "CAPTAIN": {
     "NAME": "Capitão",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistentes",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Copiloto",
       "TRY_THESE_PROMPTS": "Experimente estes comandos",
@@ -483,9 +493,7 @@
         "NOT_FOUND": "Não foi possível encontrar o assistente. Tente novamente."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Assistente"
-        },
+        "HEADER": "Configurações",
         "BASIC_SETTINGS": {
           "TITLE": "Configurações básicas",
           "DESCRIPTION": "Personalize o que o assistente diz quando termina uma conversa ou transfere para um humano."
@@ -502,15 +510,16 @@
               "TITLE": "Proteções",
               "DESCRIPTION": "Mantém as coisas no caminho — apenas os tipos de perguntas que você quer que seu assistente responda, nada fora de limites ou fora do tópico."
             },
-            "SCENARIOS": {
-              "TITLE": "Cenários",
-              "DESCRIPTION": "Dê algum contexto ao seu assistente — como \"o que fazer quando um usuário estiver com problemas\", ou \"como agir durante uma solicitação de reembolso\"."
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Diretrizes de resposta",
               "DESCRIPTION": "O jeito e a estrutura das respostas do seu assistente — tranquilo e amigável? Curto e ágil? Detalhado e formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Excluir Assistente",
+          "DESCRIPTION": "Esta ação é permanente. Excluir este assistente irá removê-lo de todas as caixas de entrada conectadas e apagará permanentemente todo o conhecimento gerado.",
+          "BUTTON_TEXT": "Excluir {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,9 +538,6 @@
       "GUARDRAILS": {
         "TITLE": "Proteções",
         "DESCRIPTION": "Mantém as coisas no caminho — apenas os tipos de perguntas que você quer que seu assistente responda, nada fora de limites ou fora do tópico.",
-        "BREADCRUMB": {
-          "TITLE": "Proteções"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selecionado | {count} itens selecionados",
           "SELECT_ALL": "Selecionar todos ({count})",
@@ -577,9 +583,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Diretrizes de Resposta",
         "DESCRIPTION": "O jeito e a estrutura das respostas do seu assistente — tranquilo e amigável? Curto e ágil? Detalhado e formal?",
-        "BREADCRUMB": {
-          "TITLE": "Diretrizes de Resposta"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selecionado | {count} itens selecionados",
           "SELECT_ALL": "Selecionar todos ({count})",
@@ -625,9 +628,6 @@
       "SCENARIOS": {
         "TITLE": "Cenários",
         "DESCRIPTION": "Dê algum contexto ao seu assistente — como \"o que fazer quando um usuário estiver com problemas\", ou \"como agir durante uma solicitação de reembolso\".",
-        "BREADCRUMB": {
-          "TITLE": "Cenários"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selecionado | {count} itens selecionados",
           "SELECT_ALL": "Selecionar todos ({count})",
@@ -725,11 +725,6 @@
         "NAME": {
           "LABEL": "Nome do documento (opcional)",
           "PLACEHOLDER": "Insira um nome para o documento"
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistente",
-          "PLACEHOLDER": "Selecione o assistente",
-          "ERROR": "O campo Assistente é obrigatório"
         }
       },
       "DELETE": {
@@ -754,13 +749,13 @@
     },
     "CUSTOM_TOOLS": {
       "HEADER": "Ferramentas",
-      "ADD_NEW": "Create a new tool",
+      "ADD_NEW": "Criar ferramenta",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "Não há ferramentas personalizadas disponíveis",
+        "SUBTITLE": "Crie ferramentas personalizadas para conectar com APIs e serviços externos, permitindo obter dados e agir por você.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "Ferramentas Personalizadas",
+          "NOTE": "Ferramentas personalizadas permitem seu assistente interagir com APIs e serviços externos. Crie ferramentas para obter dados, realizar ações ou integre com seus sistemas existentes para melhorar as capacidades do seu assistente."
         }
       },
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
@@ -780,16 +775,16 @@
       },
       "DELETE": {
         "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "DESCRIPTION": "Tem certeza que deseja excluir está ferramenta customizável? Está ação não pode ser desfeita.",
         "CONFIRM": "Sim, excluir",
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
+          "LABEL": "Nome da Ferramenta",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Nome da ferramente obrigatória"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
@@ -863,6 +858,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Criar nova FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversação #{id}"
@@ -902,6 +898,10 @@
         "APPROVED": "Aceito",
         "ALL": "Todos"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Adicione uma pergunta e sua resposta correspondente à base de conhecimento e selecione o assistente ao qual deve estar associado.",
       "CREATE": {
         "TITLE": "Adicionar uma FAQ",
@@ -918,11 +918,6 @@
           "LABEL": "Responder",
           "PLACEHOLDER": "Digite a resposta aqui",
           "ERROR": "Por favor, forneça uma resposta válida."
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistente",
-          "PLACEHOLDER": "Selecione um assistente",
-          "ERROR": "Por favor, selecione um assistente."
         }
       },
       "EDIT": {
@@ -932,13 +927,15 @@
         "APPROVE_SUCCESS_MESSAGE": "As Perguntas Frequentes foram marcadas como aprovadas"
       },
       "OPTIONS": {
-        "APPROVE": "Marcar como aprovado",
-        "EDIT_RESPONSE": "Editar Perguntas Frequentes",
-        "DELETE_RESPONSE": "Excluir FAQ"
+        "APPROVE": "Aprovar",
+        "EDIT_RESPONSE": "Alterar",
+        "DELETE_RESPONSE": "Excluir"
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhuma FAQ encontrada",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

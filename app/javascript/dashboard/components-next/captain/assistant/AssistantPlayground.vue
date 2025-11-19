@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MessageList from './MessageList.vue';
@@ -28,6 +28,16 @@ const resetConversation = () => {
   messages.value = [];
   newMessage.value = '';
 };
+
+// Watch for assistant ID changes and reset conversation
+watch(
+  () => assistantId,
+  (newId, oldId) => {
+    if (oldId && newId !== oldId) {
+      resetConversation();
+    }
+  }
+);
 
 const sendMessage = async () => {
   if (!newMessage.value.trim() || isLoading.value) return;
@@ -65,16 +75,17 @@ const sendMessage = async () => {
 
 <template>
   <div
-    class="flex flex-col h-full rounded-lg p-4 border border-n-slate-4 text-n-slate-11"
+    class="flex flex-col h-full rounded-xl border py-6 border-n-weak text-n-slate-11"
   >
-    <div class="mb-4">
+    <div class="mb-8 px-6">
       <div class="flex justify-between items-center mb-1">
         <h3 class="text-lg font-medium">
           {{ t('CAPTAIN.PLAYGROUND.HEADER') }}
         </h3>
         <NextButton
           ghost
-          size="small"
+          sm
+          slate
           icon="i-lucide-rotate-ccw"
           @click="resetConversation"
         />
@@ -87,17 +98,17 @@ const sendMessage = async () => {
     <MessageList :messages="messages" :is-loading="isLoading" />
 
     <div
-      class="flex items-center bg-n-solid-1 outline outline-n-container rounded-lg p-3"
+      class="flex items-center mx-6 bg-n-background outline outline-1 outline-n-weak rounded-xl p-3"
     >
       <input
         v-model="newMessage"
-        class="flex-1 bg-transparent border-none focus:outline-none text-sm mb-0"
+        class="flex-1 bg-transparent border-none focus:outline-none text-sm mb-0 text-n-slate-12 placeholder:text-n-slate-10"
         :placeholder="t('CAPTAIN.PLAYGROUND.MESSAGE_PLACEHOLDER')"
         @keyup.enter="sendMessage"
       />
       <NextButton
         ghost
-        size="small"
+        sm
         :disabled="!newMessage.trim()"
         icon="i-lucide-send"
         @click="sendMessage"
