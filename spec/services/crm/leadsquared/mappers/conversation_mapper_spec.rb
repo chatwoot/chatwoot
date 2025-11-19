@@ -109,19 +109,21 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
       end
 
       it 'generates transcript with messages in reverse chronological order' do
-        result = described_class.map_transcript_activity(hook, conversation)
+        travel_to(Time.zone.parse('2024-01-01 10:00:00')) do
+          result = described_class.map_transcript_activity(hook, conversation)
 
-        expect(result).to include('Conversation Transcript from TestBrand')
-        expect(result).to include('Channel: Test Inbox')
+          expect(result).to include('Conversation Transcript from TestBrand')
+          expect(result).to include('Channel: Test Inbox')
 
-        # Check that messages appear in reverse order (newest first)
-        message_positions = {
-          '[2024-01-01 10:00] John Doe: Hello' => result.index('[2024-01-01 10:00] John Doe: Hello'),
-          '[2024-01-01 10:01] Jane Smith: Hi there' => result.index('[2024-01-01 10:01] Jane Smith: Hi there')
-        }
+          # Check that messages appear in reverse order (newest first)
+          message_positions = {
+            '[2024-01-01 10:00] John Doe: Hello' => result.index('[2024-01-01 10:00] John Doe: Hello'),
+            '[2024-01-01 10:01] Jane Smith: Hi there' => result.index('[2024-01-01 10:01] Jane Smith: Hi there')
+          }
 
-        # Latest message (10:01) should come before older message (10:00)
-        expect(message_positions['[2024-01-01 10:01] Jane Smith: Hi there']).to be < message_positions['[2024-01-01 10:00] John Doe: Hello']
+          # Latest message (10:01) should come before older message (10:00)
+          expect(message_positions['[2024-01-01 10:01] Jane Smith: Hi there']).to be < message_positions['[2024-01-01 10:00] John Doe: Hello']
+        end
       end
 
       it 'formats message times according to hook timezone setting' do
@@ -199,35 +201,38 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
 
     context 'when messages exceed the ACTIVITY_NOTE_MAX_SIZE' do
       it 'truncates messages to stay within the character limit' do
-        # Create a large number of messages with reasonably sized content
-        long_message_content = 'A' * 200
-        messages = []
+        travel_to(Time.zone.parse('2024-01-01 10:00:00')) do
+          # Create a large number of messages with reasonably sized content
+          long_message_content = 'A' * 200
+          messages = []
 
-        # Create 15 messages (which should exceed the 1800 character limit)
-        15.times do |i|
-          messages << create(:message,
-                             conversation: conversation,
-                             sender: user,
-                             content: "#{long_message_content} #{i}",
-                             message_type: :outgoing,
-                             created_at: Time.zone.parse("2024-01-01 #{10 + i}:00:00"))
+          # Create 15 messages (which should exceed the 1800 character limit)
+          15.times do |i|
+            messages << create(:message,
+                               conversation: conversation,
+                               sender: user,
+                               content: "#{long_message_content} #{i}",
+                               message_type: :outgoing,
+                               created_at: Time.zone.parse('2024-01-01 10:00:00') + i.hours)
+          end
+
+          result = described_class.map_transcript_activity(hook, conversation)
+
+          # Verify latest message is included (message 14)
+          latest_time = (Time.zone.parse('2024-01-01 10:00:00') + 14.hours).strftime('%Y-%m-%d %H:%M')
+          expect(result).to include("[#{latest_time}] John Doe: #{long_message_content} 14")
+
+          # Calculate the expected character count of the formatted messages
+          messages.map do |msg|
+            "[#{msg.created_at.strftime('%Y-%m-%d %H:%M')}] John Doe: #{msg.content}"
+          end
+
+          # Verify the result is within the character limit
+          expect(result.length).to be <= described_class::ACTIVITY_NOTE_MAX_SIZE + 100
+
+          # Verify that not all messages are included (some were truncated)
+          expect(messages.count).to be > result.scan('John Doe:').count
         end
-
-        result = described_class.map_transcript_activity(hook, conversation)
-
-        # Verify latest message is included (message 14)
-        expect(result).to include("[2024-01-02 00:00] John Doe: #{long_message_content} 14")
-
-        # Calculate the expected character count of the formatted messages
-        messages.map do |msg|
-          "[#{msg.created_at.strftime('%Y-%m-%d %H:%M')}] John Doe: #{msg.content}"
-        end
-
-        # Verify the result is within the character limit
-        expect(result.length).to be <= described_class::ACTIVITY_NOTE_MAX_SIZE + 100
-
-        # Verify that not all messages are included (some were truncated)
-        expect(messages.count).to be > result.scan('John Doe:').count
       end
 
       it 'respects the ACTIVITY_NOTE_MAX_SIZE constant' do
