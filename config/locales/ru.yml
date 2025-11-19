@@ -50,6 +50,7 @@ ru:
       not_found: Политика назначения не найдена
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
+      sso_not_enabled: SAML SSO is not enabled for this installation
     data_import:
       data_type:
         invalid: Недопустимый тип данных
@@ -65,6 +66,8 @@ ru:
     companies:
       domain:
         invalid: должно быть корректным доменным именем
+      search:
+        query_missing: Specify search string with parameter q
     categories:
       locale:
         unique: Должны быть уникальными в категории и портале
