@@ -24,13 +24,15 @@ class Queue::ProcessQueueJob < ApplicationJob
   def assign_conversations(account, queue_service)
     online_agents = get_available_agents(account)
     return if online_agents.empty?
-
-    conv_id = fetch_first_queue_id(account)
-    return unless conv_id
-
-    online_agents.each do |agent|
-      if queue_service.assign_specific_from_queue!(agent, conv_id)
-        break
+  
+    queue_ids = fetch_queue_ids(account)
+    return if queue_ids.empty?
+  
+    queue_ids.each do |conv_id|
+      online_agents.each do |agent|
+        if queue_service.assign_specific_from_queue!(agent, conv_id)
+          break
+        end
       end
     end
   end
