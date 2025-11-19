@@ -6,6 +6,7 @@ module Integrations::LlmInstrumentation
   def instrument_llm_call(params)
     return yield unless otel_enabled?
 
+    result = nil
     tracer.in_span(params[:span_name]) do |span|
       set_request_attributes(span, params)
       set_prompt_messages(span, params[:messages])
@@ -18,7 +19,7 @@ module Integrations::LlmInstrumentation
     end
   rescue StandardError => e
     Rails.logger.error("LLM instrumentation error: #{e.message}")
-    yield
+    result
   end
 
   private
