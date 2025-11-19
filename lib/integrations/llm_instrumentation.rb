@@ -1,5 +1,4 @@
-module Integrations
-  module LlmInstrumentation
+module Integrations::LlmInstrumentation
     def tracer
       @tracer ||= OpenTelemetry.tracer_provider.tracer('chatwoot')
     end
