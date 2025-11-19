@@ -92,8 +92,10 @@ describe('#ConversationAPI', () => {
     it('#assignAgent', () => {
       conversationAPI.assignAgent({ conversationId: 12, agentId: 34 });
       expect(axiosMock.post).toHaveBeenCalledWith(
-        `/api/v1/conversations/12/assignments?assignee_id=34`,
-        {}
+        `/api/v1/conversations/12/assignments`,
+        {
+          assignee_id: 34,
+        }
       );
     });
 
