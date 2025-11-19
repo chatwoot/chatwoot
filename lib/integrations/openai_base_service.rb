@@ -101,7 +101,7 @@ class Integrations::OpenaiBaseService
     {
       span_name: "llm.#{event_name}",
       account_id: hook.account_id,
-      conversation_id: conversation&.id,
+      conversation_id: conversation&.display_id,
       feature_name: event_name,
       model: parsed_body['model'],
       messages: parsed_body['messages'],
