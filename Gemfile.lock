@@ -1089,6 +1089,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   ruby-openai
+  ruby_llm
   ruby_llm-schema
   scout_apm
   scss_lint

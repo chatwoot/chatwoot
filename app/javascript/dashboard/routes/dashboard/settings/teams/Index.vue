@@ -65,6 +65,46 @@ const confirmPlaceHolderText = computed(() =>
     teamName: selectedTeam.value.name,
   })
 );
+
+const selectAllChecked = computed(() => {
+  if (!teamsList.value.length) return false;
+  return teamsList.value.every(team => team.allow_auto_assign);
+});
+
+const toggleAutoAssign = async (teamId, currentValue) => {
+  loading.value[teamId] = true;
+  try {
+    await store.dispatch('teams/update', {
+      id: teamId,
+      allow_auto_assign: !currentValue,
+    });
+    useAlert(
+      !currentValue
+        ? t('TEAMS_SETTINGS.AUTO_ASSIGN.ENABLED')
+        : t('TEAMS_SETTINGS.AUTO_ASSIGN.DISABLED')
+    );
+  } catch (error) {
+    useAlert(t('TEAMS_SETTINGS.AUTO_ASSIGN.ERROR'));
+  } finally {
+    loading.value[teamId] = false;
+  }
+};
+
+const toggleSelectAll = async () => {
+  const newValue = !selectAllChecked.value;
+  try {
+    const updatePromises = teamsList.value.map(team =>
+      store.dispatch('teams/update', {
+        id: team.id,
+        allow_auto_assign: newValue,
+      })
+    );
+    await Promise.all(updatePromises);
+    useAlert(t('TEAMS_SETTINGS.AUTO_ASSIGN.BULK_SUCCESS'));
+  } catch (error) {
+    useAlert(t('TEAMS_SETTINGS.AUTO_ASSIGN.BULK_ERROR'));
+  }
+};
 </script>
 
 <template>
@@ -97,13 +137,48 @@ const confirmPlaceHolderText = computed(() =>
       </p>
 
       <table v-else class="min-w-full divide-y divide-n-weak">
+        <thead>
+          <th
+            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+          >
+            {{ $t('TEAMS_SETTINGS.LIST.TABLE_HEADER.NAME') }}
+          </th>
+          <th
+            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+          >
+            <div class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                :checked="selectAllChecked"
+                class="w-4 h-4 rounded cursor-pointer"
+                @change="toggleSelectAll"
+              />
+              <span>{{
+                $t('TEAMS_SETTINGS.LIST.TABLE_HEADER.AUTO_ASSIGN')
+              }}</span>
+            </div>
+          </th>
+          <th
+            class="py-4 font-semibold text-right ltr:pr-4 rtl:pl-4 text-n-slate-11"
+          >
+            {{ $t('TEAMS_SETTINGS.LIST.TABLE_HEADER.ACTIONS') }}
+          </th>
+        </thead>
         <tbody class="divide-y divide-n-weak">
           <tr v-for="team in teamsList" :key="team.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span class="block font-medium capitalize">{{ team.name }}</span>
               <p class="mb-0">{{ team.description }}</p>
             </td>
-
+            <td class="py-4 ltr:pr-4 rtl:pl-4">
+              <input
+                type="checkbox"
+                :checked="team.allow_auto_assign"
+                :disabled="loading[team.id]"
+                class="w-4 h-4 rounded cursor-pointer disabled:opacity-50"
+                @change="toggleAutoAssign(team.id, team.allow_auto_assign)"
+              />
+            </td>
             <td class="py-4 flex justify-end gap-1">
               <router-link
                 :to="{

@@ -915,7 +915,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
     t.bigint "account_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.boolean "allow_auto_assign", default: false
     t.index ["account_id"], name: "index_labels_on_account_id"
+    t.index ["allow_auto_assign"], name: "index_labels_on_allow_auto_assign"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
