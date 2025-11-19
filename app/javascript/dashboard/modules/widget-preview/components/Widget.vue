@@ -4,6 +4,7 @@ import WidgetBody from './WidgetBody.vue';
 import WidgetFooter from './WidgetFooter.vue';
 import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
 import { useBranding } from 'shared/composables/useBranding';
+import { hasCustomBrandAsset } from 'shared/helpers/brandingAssets';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -121,6 +122,9 @@ export default {
         ? ' '
         : this.widgetBubbleLauncherTitle;
     },
+    shouldShowBrandingLogo() {
+      return hasCustomBrandAsset(this.globalConfig.logoThumbnail);
+    },
   },
   methods: {
     handleScreenChange(item) {
@@ -159,6 +163,7 @@ export default {
             class="items-center gap-0.5 text-n-slate-11 cursor-pointer flex filter grayscale opacity-90 hover:grayscale-0 hover:opacity-100 text-xxs"
           >
             <img
+              v-if="shouldShowBrandingLogo"
               class="max-w-2.5 max-h-2.5"
               :src="globalConfig.logoThumbnail"
             />

@@ -8,6 +8,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
+import { hasCustomBrandAsset } from 'shared/helpers/brandingAssets';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
@@ -98,6 +99,12 @@ export default {
     },
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
+    },
+    shouldShowPrimaryLogo() {
+      return hasCustomBrandAsset(this.globalConfig.logo);
+    },
+    shouldShowDarkLogo() {
+      return hasCustomBrandAsset(this.globalConfig.logoDark);
     },
   },
   created() {
@@ -224,12 +231,13 @@ export default {
   >
     <section class="max-w-5xl mx-auto">
       <img
+        v-if="shouldShowPrimaryLogo"
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
         class="block w-auto h-8 mx-auto dark:hidden"
       />
       <img
-        v-if="globalConfig.logoDark"
+        v-if="shouldShowDarkLogo"
         :src="globalConfig.logoDark"
         :alt="globalConfig.installationName"
         class="hidden w-auto h-8 mx-auto dark:block"

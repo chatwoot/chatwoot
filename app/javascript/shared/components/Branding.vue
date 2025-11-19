@@ -1,5 +1,6 @@
 <script>
 import { useBranding } from 'shared/composables/useBranding';
+import { hasCustomBrandAsset } from 'shared/helpers/brandingAssets';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -47,6 +48,9 @@ export default {
       }
       return '';
     },
+    shouldShowLogo() {
+      return hasCustomBrandAsset(this.globalConfig.logoThumbnail);
+    },
   },
 };
 </script>
@@ -63,6 +67,7 @@ export default {
       class="branding--link text-n-slate-11 hover:text-n-slate-12 cursor-pointer text-xs inline-flex grayscale-[1] hover:grayscale-0 hover:opacity-100 opacity-90 no-underline justify-center items-center leading-3"
     >
       <img
+        v-if="shouldShowLogo"
         class="ltr:mr-1 rtl:ml-1 max-w-3 max-h-3"
         :alt="globalConfig.brandName"
         :src="globalConfig.logoThumbnail"

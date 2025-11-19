@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useBranding } from 'shared/composables/useBranding';
+import { hasCustomBrandAsset } from 'shared/helpers/brandingAssets';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
@@ -23,6 +24,12 @@ export default {
     isAChatwootInstance() {
       return this.globalConfig.installationName === 'Sibidesk';
     },
+    shouldShowPrimaryLogo() {
+      return hasCustomBrandAsset(this.globalConfig.logo);
+    },
+    shouldShowDarkLogo() {
+      return hasCustomBrandAsset(this.globalConfig.logoDark);
+    },
   },
   beforeMount() {
     this.isLoading = this.isAChatwootInstance;
@@ -44,12 +51,13 @@ export default {
         <div class="px-8 max-w-[560px] w-full overflow-auto">
           <div class="mb-4">
             <img
+              v-if="shouldShowPrimaryLogo"
               :src="globalConfig.logo"
               :alt="globalConfig.installationName"
               class="block w-auto h-8 dark:hidden"
             />
             <img
-              v-if="globalConfig.logoDark"
+              v-if="shouldShowDarkLogo"
               :src="globalConfig.logoDark"
               :alt="globalConfig.installationName"
               class="hidden w-auto h-8 dark:block"
