@@ -45,6 +45,7 @@ class PaymentLink < ApplicationRecord
   belongs_to :created_by, class_name: 'User', inverse_of: :created_payment_links
 
   before_validation :generate_external_payment_id
+  after_update :sync_message_status, if: :saved_change_to_status?
 
   enum status: {
     initiated: 0,
@@ -158,5 +159,16 @@ class PaymentLink < ApplicationRecord
       self.external_payment_id = SecureRandom.hex(8)
       break unless PaymentLink.exists?(external_payment_id: external_payment_id)
     end
+  end
+
+  def sync_message_status
+    return if message.blank?
+
+    message_data = message.content_attributes[:data] || {}
+    updated_data = message_data.merge(status: status)
+
+    message.update!(
+      content_attributes: message.content_attributes.merge(data: updated_data)
+    )
   end
 end
