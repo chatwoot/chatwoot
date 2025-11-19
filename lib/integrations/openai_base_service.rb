@@ -1,4 +1,6 @@
 class Integrations::OpenaiBaseService
+  include Integrations::LlmInstrumentation
+
   # gpt-4o-mini supports 128,000 tokens
   # 1 token is approx 4 characters
   # sticking with 120000 to be safe
@@ -87,24 +89,40 @@ class Integrations::OpenaiBaseService
   end
 
   def make_api_call(body)
-    headers = {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{hook.settings['api_key']}"
-    }
-
-    Rails.logger.info("OpenAI API request: #{body}")
-    response = HTTParty.post(api_url, headers: headers, body: body)
-    Rails.logger.info("OpenAI API response: #{response.body}")
-
-    return { error: response.parsed_response, error_code: response.code } unless response.success?
-
-    parsed_response = JSON.parse(response.body)
     parsed_body = JSON.parse(body)
-    choices = parsed_response['choices']
-    usage = parsed_response['usage']
+    model = parsed_body['model']
+    messages = parsed_body['messages']
+    temperature = parsed_body['temperature']
 
-    return { message: choices.first['message']['content'], usage: usage, request_messages: parsed_body['messages'] } if choices.present?
+    instrument_llm_call(
+      span_name: "llm.#{event_name}",
+      account_id: hook.account_id,
+      conversation_id: conversation&.id,
+      feature_name: event_name,
+      model: model,
+      messages: messages,
+      temperature: temperature
+    ) do
+      headers = {
+        'Content-Type' => 'application/json',
+        'Authorization' => "Bearer #{hook.settings['api_key']}"
+      }
 
-    { message: nil, usage: usage, request_messages: parsed_body['messages'] }
+      Rails.logger.info("OpenAI API request: #{body}")
+      response = HTTParty.post(api_url, headers: headers, body: body)
+      Rails.logger.info("OpenAI API response: #{response.body}")
+
+      return { error: response.parsed_response, error_code: response.code, request_messages: messages } unless response.success?
+
+      parsed_response = JSON.parse(response.body)
+      choices = parsed_response['choices']
+      usage = parsed_response['usage']
+
+      if choices.present?
+        { message: choices.first['message']['content'], usage: usage, request_messages: messages }
+      else
+        { message: nil, usage: usage, request_messages: messages }
+      end
+    end
   end
 end
