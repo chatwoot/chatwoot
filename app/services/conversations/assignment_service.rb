@@ -21,8 +21,6 @@ class Conversations::AssignmentService
       return
     end
 
-    return unless assignee
-
     conversation.assignee = assignee
     conversation.assignee_agent_bot = nil
     conversation.save!
