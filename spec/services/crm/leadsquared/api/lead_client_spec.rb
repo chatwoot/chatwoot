@@ -149,7 +149,7 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
 
       it 'raises ApiError' do
         expect { client.create_or_update_lead(lead_data) }
-          .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
+          .to raise_error(an_instance_of(Crm::Leadsquared::Api::BaseClient::ApiError))
       end
     end
 
@@ -223,7 +223,7 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
 
         it 'raises ApiError' do
           expect { client.update_lead(lead_data, lead_id) }
-            .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
+            .to raise_error(an_instance_of(Crm::Leadsquared::Api::BaseClient::ApiError))
         end
       end
     end
