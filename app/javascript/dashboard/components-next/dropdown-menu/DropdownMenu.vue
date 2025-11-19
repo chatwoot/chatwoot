@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, defineEmits, computed, onMounted, watch } from 'vue';
+import { defineProps, ref, defineEmits, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -95,9 +95,11 @@ const filteredMenuSections = computed(() => {
     .filter(section => section.items.length > 0);
 });
 
-watch(searchQuery, val => {
-  emit('search', val);
-});
+const handleSearchInput = event => {
+  if (props.disableLocalFiltering) {
+    emit('search', event.target.value);
+  }
+};
 
 const handleAction = item => {
   const { action, value, ...rest } = item;
@@ -140,6 +142,7 @@ onMounted(() => {
             searchPlaceholder || t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')
           "
           class="reset-base w-full h-8 py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          @input="handleSearchInput"
         />
       </div>
     </div>
