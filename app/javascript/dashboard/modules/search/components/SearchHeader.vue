@@ -55,7 +55,7 @@ watch(
       @search="onSearch"
       @select-recent-search="onSelectRecentSearch"
     >
-      <SearchFilters v-if="isEnterprise" @update:filters="onFilterChange" />
+      <SearchFilters v-if="isEnterprise" @update-filters="onFilterChange" />
     </SearchInput>
   </div>
 </template>

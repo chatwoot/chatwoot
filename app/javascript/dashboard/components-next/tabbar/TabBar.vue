@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, onMounted, nextTick, watch } from 'vue';
+import { useResizeObserver } from '@vueuse/core';
 
 const props = defineProps({
   initialActiveTab: {
@@ -39,6 +40,8 @@ const updateIndicator = () => {
     };
   });
 };
+
+useResizeObserver(activeElement, updateIndicator);
 
 // Watch for prop/tabs changes to update indicator position
 watch([() => props.initialActiveTab, () => props.tabs], updateIndicator, {

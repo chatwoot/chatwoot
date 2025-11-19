@@ -65,6 +65,11 @@ const mappedArticles = computed(() =>
 
 const isSelectedTabAll = computed(() => selectedTab.value === 'all');
 
+const searchResultSectionClass = computed(() => ({
+  'mt-4': isSelectedTabAll.value,
+  'mt-0.5': !isSelectedTabAll.value,
+}));
+
 const sliceRecordsIfAllTab = items =>
   isSelectedTabAll.value ? items.value.slice(0, 5) : items.value;
 
@@ -370,10 +375,7 @@ onUnmounted(() => {
                 :messages="messages"
                 :query="query"
                 :show-title="isSelectedTabAll"
-                :class="{
-                  'mt-4': isSelectedTabAll,
-                  'mt-0.5': !isSelectedTabAll,
-                }"
+                :class="searchResultSectionClass"
               />
               <NextButton
                 v-if="showViewMore.messages"
@@ -396,10 +398,7 @@ onUnmounted(() => {
                 :conversations="conversations"
                 :query="query"
                 :show-title="isSelectedTabAll"
-                :class="{
-                  'mt-4': isSelectedTabAll,
-                  'mt-0.5': !isSelectedTabAll,
-                }"
+                :class="searchResultSectionClass"
               />
               <NextButton
                 v-if="showViewMore.conversations"
@@ -424,10 +423,7 @@ onUnmounted(() => {
                 :articles="articles"
                 :query="query"
                 :show-title="isSelectedTabAll"
-                :class="{
-                  'mt-4': isSelectedTabAll,
-                  'mt-0.5': !isSelectedTabAll,
-                }"
+                :class="searchResultSectionClass"
               />
               <NextButton
                 v-if="showViewMore.articles"

@@ -25,13 +25,18 @@ const toModel = defineModel('to', { type: [Number, String], default: null });
 
 const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();
+const [showRangeTypeDropdown, toggleRangeTypeDropdown] = useToggle();
 
 const customFrom = ref('');
 const customTo = ref('');
 const rangeType = ref('between');
-const showRangeTypeDropdown = ref(false);
 
-const DATE_FILTER_ACTION = 'preset';
+const selectedPresetKey = ref('');
+
+const DATE_FILTER_ACTIONS = {
+  PRESET: 'preset',
+  SELECT: 'select',
+};
 
 const PRESET_RANGE_VALUES = {
   LAST_7_DAYS: 'last_7_days',
@@ -44,6 +49,10 @@ const CUSTOM_RANGE_TYPES = {
   BETWEEN: 'between',
   BEFORE: 'before',
   AFTER: 'after',
+};
+
+const SELECTION_TYPES = {
+  CUSTOM: 'custom',
 };
 
 const PRESET_RANGES = computed(() => [
@@ -70,9 +79,21 @@ const PRESET_RANGES = computed(() => [
 ]);
 
 const RANGE_TYPES = computed(() => [
-  { label: t('SEARCH.DATE_RANGE.BETWEEN'), value: CUSTOM_RANGE_TYPES.BETWEEN },
-  { label: t('SEARCH.DATE_RANGE.BEFORE'), value: CUSTOM_RANGE_TYPES.BEFORE },
-  { label: t('SEARCH.DATE_RANGE.AFTER'), value: CUSTOM_RANGE_TYPES.AFTER },
+  {
+    label: t('SEARCH.DATE_RANGE.BETWEEN'),
+    value: CUSTOM_RANGE_TYPES.BETWEEN,
+    action: DATE_FILTER_ACTIONS.SELECT,
+  },
+  {
+    label: t('SEARCH.DATE_RANGE.BEFORE'),
+    value: CUSTOM_RANGE_TYPES.BEFORE,
+    action: DATE_FILTER_ACTIONS.SELECT,
+  },
+  {
+    label: t('SEARCH.DATE_RANGE.AFTER'),
+    value: CUSTOM_RANGE_TYPES.AFTER,
+    action: DATE_FILTER_ACTIONS.SELECT,
+  },
 ]);
 
 const computeDateRange = config => {
@@ -86,17 +107,13 @@ const computeDateRange = config => {
 
 const selectedValue = computed(() => {
   if (!fromModel.value && !toModel.value) return '';
-  const matchedPreset = PRESET_RANGES.value.find(preset => {
-    const { from, to } = computeDateRange(preset);
-    return from === fromModel.value && to === toModel.value;
-  });
-  return matchedPreset ? matchedPreset.value : 'custom';
+  return selectedPresetKey.value || SELECTION_TYPES.CUSTOM;
 });
 
 const menuItems = computed(() =>
   PRESET_RANGES.value.map(item => ({
     ...item,
-    action: DATE_FILTER_ACTION,
+    action: DATE_FILTER_ACTIONS.PRESET,
     isSelected: selectedValue.value === item.value,
   }))
 );
@@ -108,6 +125,7 @@ const applySelection = ({ from, to }) => {
 };
 
 const clearFilter = () => {
+  selectedPresetKey.value = '';
   applySelection({ from: null, to: null });
   customFrom.value = '';
   customTo.value = '';
@@ -119,6 +137,7 @@ const handlePresetAction = item => {
     clearFilter();
     return;
   }
+  selectedPresetKey.value = item.value;
   applySelection(computeDateRange(item));
   toggleDropdown(false);
 };
@@ -148,6 +167,7 @@ const applyCustomRange = () => {
   }
 
   if (start || end) {
+    selectedPresetKey.value = '';
     applySelection({
       from: start ? getUnixTime(start) : null,
       to: end ? getUnixTime(end) : null,
@@ -156,12 +176,16 @@ const applyCustomRange = () => {
   }
 };
 
+const formatDate = timestamp => {
+  const date = fromUnixTime(timestamp);
+  return format(date, 'MMM d, yyyy'); // (e.g., "Jan 15, 2024")
+};
+
 const selectedLabel = computed(() => {
   const prefix = t('SEARCH.DATE_RANGE.TIME_RANGE');
   if (!selectedValue.value) return prefix;
 
-  if (selectedValue.value === 'custom') {
-    const formatDate = ts => format(fromUnixTime(ts), 'dd/MM/yyyy');
+  if (selectedValue.value === SELECTION_TYPES.CUSTOM) {
     const from = fromModel.value;
     const to = toModel.value;
 
@@ -183,13 +207,13 @@ const selectedRangeTypeLabel = computed(
 
 const handleRangeTypeAction = item => {
   rangeType.value = item.value;
-  showRangeTypeDropdown.value = false;
+  toggleRangeTypeDropdown(false);
 };
 
 const onToggleDropdown = () => {
   if (!showDropdown.value) {
     if (
-      selectedValue.value === 'custom' &&
+      selectedValue.value === SELECTION_TYPES.CUSTOM &&
       (fromModel.value || toModel.value)
     ) {
       try {
@@ -242,7 +266,10 @@ const onToggleDropdown = () => {
             <span class="text-sm text-n-slate-12">
               {{ t('SEARCH.DATE_RANGE.CREATED') }}
             </span>
-            <div class="relative">
+            <div
+              v-on-click-outside="() => toggleRangeTypeDropdown(false)"
+              class="relative"
+            >
               <Button
                 sm
                 slate
@@ -250,7 +277,7 @@ const onToggleDropdown = () => {
                 :label="selectedRangeTypeLabel"
                 trailing-icon
                 icon="i-lucide-chevron-down"
-                @click="showRangeTypeDropdown = !showRangeTypeDropdown"
+                @click="toggleRangeTypeDropdown()"
               />
               <DropdownMenu
                 v-if="showRangeTypeDropdown"
