@@ -11,12 +11,17 @@ module Integrations::LlmInstrumentation
       span.set_attribute('gen_ai.system', 'openai')
       span.set_attribute('gen_ai.request.model', model)
       span.set_attribute('gen_ai.request.temperature', temperature) if temperature
-      span.set_attribute('gen_ai.prompt_json', messages.to_json)
 
-      # Set Langfuse attributes for filtering and analysis
+      # Set input using indexed attributes (Langfuse standard format)
+      messages.each_with_index do |msg, idx|
+        span.set_attribute("gen_ai.prompt.#{idx}.role", msg['role'])
+        span.set_attribute("gen_ai.prompt.#{idx}.content", msg['content'])
+      end
+
+      # Set Langfuse metadata attributes
       span.set_attribute('langfuse.user.id', account_id.to_s) if account_id
       span.set_attribute('langfuse.session.id', conversation_id.to_s) if conversation_id
-      span.set_attribute('langfuse.tags', [feature_name])
+      span.set_attribute('langfuse.tags', [feature_name].to_json)
 
       # Execute the API call
       result = yield
@@ -38,10 +43,10 @@ module Integrations::LlmInstrumentation
   end
 
   def set_completion_attributes(span, result)
-    # Set completion content
+    # Set output using indexed attributes (Langfuse standard format)
     if result[:message].present?
-      completion = [{ role: 'assistant', content: result[:message] }]
-      span.set_attribute('gen_ai.completion_json', completion.to_json)
+      span.set_attribute('gen_ai.completion.0.role', 'assistant')
+      span.set_attribute('gen_ai.completion.0.content', result[:message])
     end
 
     # Set usage metrics
