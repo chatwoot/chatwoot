@@ -45,7 +45,7 @@ services:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
       # Please provide your own password.
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
