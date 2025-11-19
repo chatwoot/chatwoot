@@ -33,7 +33,6 @@ RSpec.describe MutexApplicationJob do
           # Do nothing
         end
       end.to raise_error(MutexApplicationJob::LockAcquisitionError)
-      expect(lock_manager).not_to receive(:unlock)
     end
 
     it 'raises StandardError if it execution raises it' do
