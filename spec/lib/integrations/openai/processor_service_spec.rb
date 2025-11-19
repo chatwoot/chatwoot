@@ -52,7 +52,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -76,7 +78,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -101,7 +105,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -140,7 +146,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -162,7 +170,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -184,7 +194,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -206,7 +218,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -228,7 +242,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -250,7 +266,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result[:message]).to eq('This is a reply from openai.')
+        expect(result[:request_messages]).to be_an(Array)
+        expect(result[:usage]).to be_nil
       end
     end
 
@@ -266,12 +284,15 @@ RSpec.describe Integrations::Openai::ProcessorService do
             .to_return(status: 200, body: openai_response, headers: {})
 
           result = subject.perform
-          expect(result).to eq({ :message => 'This is a reply from openai.' })
+          expect(result[:message]).to eq('This is a reply from openai.')
+          expect(result[:request_messages]).to be_an(Array)
+          expect(result[:usage]).to be_nil
         end
       end
 
       context 'when CAPTAIN_OPEN_AI_ENDPOINT is configured' do
         before do
+          InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy
           create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://custom.azure.com/')
         end
 
@@ -281,7 +302,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
             .to_return(status: 200, body: openai_response, headers: {})
 
           result = subject.perform
-          expect(result).to eq({ :message => 'This is a reply from openai.' })
+          expect(result[:message]).to eq('This is a reply from openai.')
+          expect(result[:request_messages]).to be_an(Array)
+          expect(result[:usage]).to be_nil
         end
       end
 
@@ -296,7 +319,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
             .to_return(status: 200, body: openai_response, headers: {})
 
           result = subject.perform
-          expect(result).to eq({ :message => 'This is a reply from openai.' })
+          expect(result[:message]).to eq('This is a reply from openai.')
+          expect(result[:request_messages]).to be_an(Array)
+          expect(result[:usage]).to be_nil
         end
       end
     end
