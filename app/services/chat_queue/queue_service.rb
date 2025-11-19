@@ -11,20 +11,22 @@ class ChatQueue::QueueService
     seq = redis.incr(seq_key)
     redis.zadd(queue_key, seq, conversation.id)
   
-    assigned = assign_from_queue_immediately(conversation)
-  
-    unless assigned
-      conversation.update!(status: :queued)
-      send_queue_notification(conversation)
-      schedule_queue_processing
-    end
+    conversation.update!(status: :queued)
+    send_queue_notification(conversation)
+    schedule_queue_processing
   
     true
+  end  
+
+  def online_agents_list
+    online_users_map
+      .select { |_id, status| status == 'online' }
+      .keys
+      .map(&:to_i)
   end
   
   def assign_from_queue(agent)
     return nil unless account.queue_enabled?
-    return nil unless agent_available?(agent)
 
     conv_id, _score = redis.zrange(queue_key, 0, 0, with_scores: true).first
     return nil unless conv_id
@@ -49,6 +51,10 @@ class ChatQueue::QueueService
   end
 
   def assign_specific_from_queue!(agent, conv_id)
+    agent_lock_key = "queue:#{account.id}:lock:agent:#{agent.id}"
+    agent_locked = redis.set(agent_lock_key, 1, ex: 3, nx: true)
+    return nil unless agent_locked
+
     return nil unless account.queue_enabled?
     return nil unless agent_available?(agent)
 
@@ -71,6 +77,8 @@ class ChatQueue::QueueService
       removed = redis.zrem(queue_key, conv_id)
       return nil if removed == 0
 
+      return nil unless agent_available?(agent)
+
       updated = Conversation.where(
         id: conv_id,
         status: :queued,
@@ -89,15 +97,35 @@ class ChatQueue::QueueService
 
     ensure
       redis.del(lock_key)
+      redis.del(agent_lock_key)
     end
   end
-
 
   def reset_caches_after_assign(agent_id)
     @active_counts = nil
     @online_map = nil
     @allowed_cache&.delete(agent_id)
     @limits_cache&.delete(agent_id)
+  end
+
+  def agent_available?(agent)
+    return false if agent.blank?
+
+    online_users = online_users_map
+    return false unless online_users[agent.id.to_s] == 'online'
+
+    active_counts = cached_active_counts
+    current_count = active_counts[agent.id] || 0
+
+    limit = effective_limit_for_agent(agent.id)
+    limit.nil? || current_count < limit
+  end
+
+  def conversation_allowed_for_agent?(conversation, agent)
+    allowed = cached_allowed_resources_for(agent.id)
+
+    allowed[:inboxes].include?(conversation.inbox_id) ||
+      allowed[:teams].include?(conversation.team_id)
   end
 
   private
@@ -116,26 +144,6 @@ class ChatQueue::QueueService
 
   def in_queue?(conversation_id)
     redis.zscore(queue_key, conversation_id).present?
-  end
-
-  def conversation_allowed_for_agent?(conversation, agent)
-    allowed = cached_allowed_resources_for(agent.id)
-
-    allowed[:inboxes].include?(conversation.inbox_id) ||
-      allowed[:teams].include?(conversation.team_id)
-  end
-
-  def agent_available?(agent)
-    return false if agent.blank?
-
-    online_users = online_users_map
-    return false unless online_users[agent.id.to_s] == 'online'
-
-    active_counts = cached_active_counts
-    current_count = active_counts[agent.id] || 0
-
-    limit = effective_limit_for_agent(agent.id)
-    limit.nil? || current_count < limit
   end
 
   def effective_limit_for_agent(agent_id)
@@ -169,15 +177,8 @@ class ChatQueue::QueueService
     @online_map ||= (OnlineStatusTracker.get_available_users(account.id) || {})
   end
 
-  def online_agents_list
-    online_users_map
-      .select { |_id, status| status == 'online' }
-      .keys
-      .map(&:to_i)
-  end
-
   def cached_active_counts
-    @active_counts ||= Conversation
+    Conversation
       .where(account_id: account.id)
       .where.not(status: :resolved)
       .group(:assignee_id)
@@ -189,19 +190,6 @@ class ChatQueue::QueueService
       agent = User.find_by(id: agent_id)
       agent_available?(agent)
     end
-  end
-
-  def assign_from_queue_immediately(conversation)
-    online_agents_list.each do |agent_id|
-      agent = User.find_by(id: agent_id)
-      next unless agent
-      next unless agent_available?(agent)
-      next unless conversation_allowed_for_agent?(conversation, agent)
-
-      assigned = assign_specific_from_queue!(agent, conversation.id)
-      return true if assigned
-    end
-    false
   end
 
   def send_queue_notification(conversation)
