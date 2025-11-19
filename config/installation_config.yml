@@ -79,10 +79,20 @@
   display_title: 'System events Webhook URL'
   description: 'The URL to which the system events like new accounts created will be sent'
   locked: false
+- name: WEBHOOK_TIMEOUT
+  value: 5
+  display_title: 'Webhook request timeout (seconds)'
+  description: 'Maximum time Chatwoot waits for a webhook response before failing the request'
+  locked: false
 - name: DIRECT_UPLOADS_ENABLED
   type: boolean
   value: false
   description: 'Enable direct uploads to cloud storage'
+  locked: false
+- name: MAXIMUM_FILE_UPLOAD_SIZE
+  value: 40
+  display_title: 'Attachment size limit (MB)'
+  description: 'Maximum attachment size in MB allowed for uploads'
   locked: false
 # ------- End of Account Related Config ------- #
 
@@ -428,7 +438,22 @@
   value:
   locked: false
   description: 'The redirect URI configured in your Google OAuth app'
+- name: ENABLE_GOOGLE_OAUTH_LOGIN
+  display_title: 'Enable Google OAuth login'
+  value: true
+  locked: false
+  description: 'Show Google OAuth as a login option when credentials are configured'
+  type: boolean
 ## ------ End of Configs added for Google OAuth ------ ##
+
+## ------ Configs added for SAML SSO ------ ##
+- name: ENABLE_SAML_SSO_LOGIN
+  display_title: 'Enable SAML SSO login'
+  value: true
+  locked: false
+  description: 'Show SAML SSO as a login option. Cannot be disabled if any users are using SAML authentication.'
+  type: boolean
+## ------ End of Configs added for SAML SSO ------ ##
 
 ## ------ Configs added for Cloudflare ------ ##
 - name: CLOUDFLARE_API_KEY
