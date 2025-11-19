@@ -19,6 +19,10 @@ class ConversationApi extends ApiClient {
       inbox_id: inboxID,
     });
   }
+
+  forceTransfer(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/force_transfer`);
+  }
 }
 
 export default new ConversationApi();

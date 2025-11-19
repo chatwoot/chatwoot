@@ -18,6 +18,11 @@
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
     },
+    "FORCE_TRANSFER":{
+      "ERROR": "Force transfer failed",
+      "SUCCESS": "Force transfer completed",
+      "ACTION": "Transfer"
+    },
     "SEARCH": {
       "TITLE": "Search messages",
       "RESULT_TITLE": "Search Results",
