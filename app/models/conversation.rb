@@ -167,7 +167,7 @@ class Conversation < ApplicationRecord
 
     return unless account.queue_enabled? && assignee.nil?
 
-    Queue::QueueService.new(account: account).add_to_queue(self)
+    ChatQueue::QueueService.new(account: account).add_to_queue(self)
   end
 
   def unread_messages
@@ -244,7 +244,7 @@ class Conversation < ApplicationRecord
 
     return unless conversation_queue&.waiting?
 
-    Queue::QueueService.new(account: account).remove_from_queue(self)
+    ChatQueue::QueueService.new(account: account).remove_from_queue(self)
   end
 
   def ensure_snooze_until_reset

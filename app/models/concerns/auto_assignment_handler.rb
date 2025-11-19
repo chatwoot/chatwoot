@@ -17,11 +17,16 @@ module AutoAssignmentHandler
     assignee = ::AutoAssignment::AgentAssignmentService.new(conversation: self,
                                                             allowed_agent_ids: inbox.member_ids_with_assignment_capacity).find_assignee
 
-    if assignee
-      update!(assignee: assignee)
-    elsif account.queue_enabled?
-      Queue::QueueService.new(account: account).add_to_queue(self)
+    if account.queue_enabled?
+      queue_service = ChatQueue::QueueService.new(account: account)
+
+      queue_service.add_to_queue(self)
+      return
     end
+
+    return unless assignee
+
+    update!(assignee: assignee)
   end
 
   def should_run_auto_assignment?
