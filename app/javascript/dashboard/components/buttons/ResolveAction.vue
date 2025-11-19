@@ -10,6 +10,8 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import wootConstants from 'dashboard/constants/globals';
+import ConversationApi from 'dashboard/api/conversations';
+
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
@@ -54,6 +56,22 @@ const showAdditionalActions = computed(
 const showOpenButton = computed(() => {
   return isPending.value || isSnoozed.value;
 });
+
+const forceTransfer = async () => {
+  closeDropdown();
+  isLoading.value = true;
+
+  try {
+    await ConversationApi.forceTransfer(currentChat.value.id);
+    useAlert(t('CONVERSATION.FORCE_TRANSFER.SUCCESS'));
+
+    store.dispatch('fetchConversation', currentChat.value.id);
+  } catch (error) {
+    useAlert(t('CONVERSATION.FORCE_TRANSFER.ERROR'));
+  } finally {
+    isLoading.value = false;
+  }
+};
 
 const getConversationParams = () => {
   const allConversations = document.querySelectorAll(
@@ -139,6 +157,15 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
   <div class="relative flex items-center justify-end resolve-actions">
     <template v-if="isQueued">
       <Button
+        :label="t('CONVERSATION.FORCE_TRANSFER.ACTION')"
+        size="sm"
+        color="slate"
+        no-animation
+        class="mr-2"
+        :is-loading="isLoading"
+        @click="forceTransfer"
+      />
+      <Button
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
@@ -163,6 +190,15 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         class="rounded-lg shadow outline-1 outline flex-shrink-0"
         :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
       >
+        <Button
+          :label="t('CONVERSATION.FORCE_TRANSFER.ACTION')"
+          size="sm"
+          color="slate"
+          no-animation
+          class="mr-2"
+          :is-loading="isLoading"
+          @click="forceTransfer"
+        />
         <Button
           v-if="isOpen"
           :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
