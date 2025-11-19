@@ -1,12 +1,14 @@
 class Queue::ProcessQueueJob < ApplicationJob
   queue_as :default
 
+  MAX_QUEUE_CHECK = 200
+
   def perform(account_id)
     account = find_active_account(account_id)
     return unless account
 
-    queue_service = Queue::QueueService.new(account: account)
-    return if queue_empty?(queue_service)
+    queue_service = ChatQueue::QueueService.new(account: account)
+    return if queue_service.queue_size.zero?
 
     assign_conversations(account, queue_service)
   end
@@ -16,64 +18,54 @@ class Queue::ProcessQueueJob < ApplicationJob
   def find_active_account(account_id)
     account = Account.find_by(id: account_id)
     return nil unless account&.queue_enabled?
-
     account
-  end
-
-  def queue_empty?(queue_service)
-    queue_service.queue_size.zero?
   end
 
   def assign_conversations(account, queue_service)
     online_agents = get_available_agents(account)
     return if online_agents.empty?
 
+    conv_id = fetch_first_queue_id(account)
+    return unless conv_id
+
     online_agents.each do |agent|
-      next unless agent_has_capacity?(account, agent)
-
-      conversation = queue_service.assign_from_queue(agent)
-
-      if conversation.nil?
-        available_conversation = find_unassigned_conversation_for(agent, account)
-        AutoAssignment::AgentAssignmentService.new(conversation: available_conversation).perform if available_conversation
+      if queue_service.assign_specific_from_queue!(agent, conv_id)
+        break
       end
     end
   end
 
+  def fetch_queue_ids(account)
+    queue_key = "queue:#{account.id}"
+    $alfred.with { |r| r.zrange(queue_key, 0, MAX_QUEUE_CHECK - 1) }.map(&:to_i)
+  end
+
+
+  def assign_first_available_conversation(_queue_ids, online_agents, account, queue_service)
+    conv_id = fetch_first_queue_id(account)
+    return false unless conv_id
+  
+    online_agents.each do |agent|
+      return true if queue_service.assign_specific_from_queue!(agent, conv_id)
+    end
+  
+    false
+  end  
+  
+  def fetch_first_queue_id(account)
+    queue_key = "queue:#{account.id}"
+    $alfred.with { |r| r.zrange(queue_key, 0, 0)&.first }.to_i
+  end  
+
   def get_available_agents(account)
-    online_users = OnlineStatusTracker.get_available_users(account.id) || {}
-    online_user_ids = online_users.select { |_id, status| status == 'online' }.keys.map(&:to_i)
-    return [] if online_user_ids.empty?
+    statuses = OnlineStatusTracker.get_available_users(account.id) || {}
+  online_ids = statuses
+                 .select { |_id, status| status == 'online' }
+                 .keys
+                 .map(&:to_i)
 
-    AccountUser
-      .where(account_id: account.id, user_id: online_user_ids)
-      .where(availability: :online)
-      .includes(:user)
-      .map(&:user)
-  end
+  return [] if online_ids.empty?
 
-  def agent_has_capacity?(account, agent)
-    active_count = Conversation
-                   .where(assignee_id: agent.id, account_id: account.id)
-                   .where.not(status: :resolved)
-                   .count
-
-    account_user = AccountUser.find_by(account_id: account.id, user_id: agent.id)
-    limit = if account_user&.active_chat_limit_enabled? && account_user.active_chat_limit.present?
-              account_user.active_chat_limit.to_i
-            elsif account.active_chat_limit_enabled? && account.active_chat_limit.present?
-              account.active_chat_limit_value.to_i
-            end
-
-    limit.nil? || active_count < limit
-  end
-
-  def find_unassigned_conversation_for(_agent, account)
-    Conversation
-      .open
-      .unassigned
-      .where(account_id: account.id)
-      .where.not(id: ConversationQueue.select(:conversation_id))
-      .order(:created_at).first
+  User.where(id: online_ids)
   end
 end
