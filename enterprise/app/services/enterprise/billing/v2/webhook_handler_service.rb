@@ -3,9 +3,8 @@ class Enterprise::Billing::V2::WebhookHandlerService
 
   def perform(event:)
     @event = event
-    return { success: false, message: 'Event is required' } if @event.blank?
-
-    return { success: false, message: 'Account not found' } if account.blank?
+    raise StandardError, 'Event is required' if @event.blank?
+    raise StandardError, 'Account not found' if account.blank?
 
     case @event.type
     when 'v2.billing.pricing_plan_subscription.servicing_activated'
@@ -14,12 +13,10 @@ class Enterprise::Billing::V2::WebhookHandlerService
     when 'v2.billing.cadence.billed'
       Rails.logger.info "Handling cadence billed event: #{@event.related_object.id}"
       refresh_account_subscription_details(@event.related_object.id)
-    else
-      { success: true }
     end
   rescue StandardError => e
-    Rails.logger.error "Error processing V2 webhook: #{e.message}"
-    { success: false, error: e.message }
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
+    raise
   end
 
   private

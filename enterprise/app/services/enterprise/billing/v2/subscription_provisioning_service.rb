@@ -49,6 +49,8 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
 
   def cancel_subscription
     hacker_plan_config = InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID')
+    return if hacker_plan_config.nil?
+
     pricing_plan_id = hacker_plan_config.value
 
     # Update subscription status and plan details

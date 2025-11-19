@@ -13,7 +13,7 @@ module Enterprise::Billing::V2::PlanCatalog
     },
     {
       key: :startup,
-      display_name: 'Chatwoot Startup',
+      display_name: 'Chatwoot Startups',
       base_fee: 19.0,
       monthly_credits: 300,
       config_key: 'STRIPE_STARTUP_PLAN_ID',

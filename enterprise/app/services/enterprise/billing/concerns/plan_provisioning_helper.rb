@@ -12,7 +12,7 @@ module Enterprise::Billing::Concerns::PlanProvisioningHelper
   end
 
   def extract_plan_name(plan_definition)
-    plan_definition[:display_name].split.find { |word| %w[Startup Startups Business Enterprise].include?(word) }
+    plan_definition[:display_name].split.find { |word| %w[Startups Business Enterprise].include?(word) }
   end
 
   def update_account_plan(new_pricing_plan_id, quantity, next_billing_date)

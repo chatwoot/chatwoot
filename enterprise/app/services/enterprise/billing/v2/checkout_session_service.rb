@@ -13,13 +13,13 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
     validate_params
     store_pending_subscription_quantity
     session = create_checkout_session(checkout_session_params)
-    { success: true, redirect_url: session.url }
+    session.url
   end
 
   private
 
   def validate_params
-    raise StandardError, 'Customer ID required. Please create a Stripe customer first.' if stripe_customer_id.blank?
+    raise StandardError, I18n.t('errors.enterprise.billing.stripe_customer_required') if stripe_customer_id.blank?
   end
 
   def store_pending_subscription_quantity
@@ -50,7 +50,7 @@ class Enterprise::Billing::V2::CheckoutSessionService < Enterprise::Billing::V2:
 
   def build_checkout_items
     lookup_key = extract_license_lookup_key
-    raise StandardError, "Lookup key not found for pricing plan #{@pricing_plan_id}" unless lookup_key
+    raise StandardError, I18n.t('errors.enterprise.billing.lookup_key_not_found', pricing_plan_id: @pricing_plan_id) unless lookup_key
 
     [
       {
