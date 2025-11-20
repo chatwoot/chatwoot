@@ -2,7 +2,7 @@ class Shopify::CallbacksController < ApplicationController
   include Shopify::IntegrationHelper
 
   def show
-    Rails.logger.info("[SHOPIFY_CALLBACK] start state=#{params[:state]} code_present=#{params[:code].present?} shop=#{params[:shop]}")
+    log_debug("start state=#{params[:state]} code_present=#{params[:code].present?} shop=#{params[:shop]}")
     verify_account!
 
     @response = oauth_client.auth_code.get_token(
@@ -10,9 +10,10 @@ class Shopify::CallbacksController < ApplicationController
       redirect_uri: '/shopify/callback'
     )
 
+    log_debug("token response parsed=#{parsed_body.inspect}") if Rails.env.test?
     handle_response
   rescue StandardError => e
-    Rails.logger.warn("[SHOPIFY_CALLBACK] rescued #{e.class}: #{e.message}")
+    log_debug("rescued #{e.class}: #{e.message}")
     redirect_to "#{redirect_uri}?error=true"
   end
 
@@ -20,7 +21,7 @@ class Shopify::CallbacksController < ApplicationController
 
   def verify_account!
     @account_id = verify_shopify_token(params[:state])
-    Rails.logger.info("[SHOPIFY_CALLBACK] verify_account! account_id=#{@account_id.inspect}")
+    log_debug("verify_account! account_id=#{@account_id.inspect}")
     raise StandardError, 'Invalid state parameter' if account.blank?
   end
 
@@ -70,5 +71,11 @@ class Shopify::CallbacksController < ApplicationController
     return shopify_integration_url if account
 
     ENV.fetch('FRONTEND_URL', nil)
+  end
+
+  def log_debug(message)
+    return unless Rails.env.test?
+
+    Rails.logger.info("[SHOPIFY_CALLBACK] #{message}")
   end
 end
