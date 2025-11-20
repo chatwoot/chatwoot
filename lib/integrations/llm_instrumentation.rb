@@ -30,7 +30,7 @@ module Integrations::LlmInstrumentation
   private
 
   def otel_enabled?
-    ENV['OTEL_ENABLED'] == 'true'
+    ENV['OTEL_PROVIDER'].present?
   end
 
   def set_request_attributes(span, params)

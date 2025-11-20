@@ -2,11 +2,12 @@ require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
 require 'base64'
 
-if ENV['OTEL_ENABLED'] == 'true'
+if ENV['OTEL_PROVIDER'] == 'langfuse'
   OpenTelemetry::SDK.configure do |c|
     c.service_name = 'chatwoot'
 
-    # default to US region will need to be changed when we have EU region available
+    # For EU region, set LANGFUSE_BASE_URL to https://cloud.langfuse.com
+    # https://langfuse.com/integrations/native/opentelemetry
     langfuse_endpoint = ENV.fetch('LANGFUSE_BASE_URL', 'https://us.cloud.langfuse.com')
     langfuse_api_endpoint = "#{langfuse_endpoint}/api/public/otel"
     traces_endpoint = "#{langfuse_api_endpoint}/v1/traces"
@@ -29,5 +30,5 @@ if ENV['OTEL_ENABLED'] == 'true'
     Rails.logger.info 'OpenTelemetry initialized and configured to export to Langfuse'
   end
 else
-  Rails.logger.debug 'OpenTelemetry disabled (set OTEL_ENABLED=true to enable)'
+  Rails.logger.debug 'OpenTelemetry disabled (set OTEL_PROVIDER=langfuse to enable)'
 end
