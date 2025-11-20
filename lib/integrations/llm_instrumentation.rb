@@ -12,7 +12,6 @@ module Integrations::LlmInstrumentation
         set_prompt_messages(span, params[:messages])
         set_metadata_attributes(span, params)
       rescue StandardError => e
-        # Log instrumentation setup errors but continue with the API call
         Rails.logger.error("LLM instrumentation setup error: #{e.message}")
       end
 
@@ -21,7 +20,6 @@ module Integrations::LlmInstrumentation
       begin
         set_completion_attributes(span, result) if result.is_a?(Hash)
       rescue StandardError => e
-        # Log instrumentation completion errors but don't affect the result
         Rails.logger.error("LLM instrumentation completion error: #{e.message}")
       end
 
