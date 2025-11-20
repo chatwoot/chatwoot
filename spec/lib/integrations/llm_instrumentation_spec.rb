@@ -8,174 +8,203 @@ RSpec.describe Integrations::LlmInstrumentation do
   end
 
   let(:instance) { test_class.new }
-
-  let!(:otel_config) { create(:installation_config, name: 'OTEL_PROVIDER', value: 'langfuse') }
-
-  describe '#otel_enabled?' do
-    context 'when OTEL_PROVIDER is set to langfuse' do
-      it 'returns true' do
-        expect(instance.send(:otel_enabled?)).to be true
-      end
-    end
-
-    context 'when OTEL_PROVIDER is empty' do
-      before do
-        otel_config.update(value: '')
-      end
-
-      it 'returns false' do
-        expect(instance.send(:otel_enabled?)).to be false
-      end
-    end
-
-    context 'when OTEL_PROVIDER config does not exist' do
-      before do
-        otel_config.destroy
-      end
-
-      it 'returns false' do
-        expect(instance.send(:otel_enabled?)).to be false
-      end
+  let!(:otel_config) do
+    InstallationConfig.find_or_create_by(name: 'OTEL_PROVIDER') do |config|
+      config.value = 'langfuse'
     end
   end
 
+  let(:params) do
+    {
+      span_name: 'llm.test',
+      account_id: 123,
+      conversation_id: 456,
+      feature_name: 'reply_suggestion',
+      model: 'gpt-4o-mini',
+      messages: [{ 'role' => 'user', 'content' => 'Hello' }],
+      temperature: 0.7
+    }
+  end
+
   describe '#instrument_llm_call' do
-    let(:params) do
-      {
-        span_name: 'llm.test',
-        account_id: 123,
-        conversation_id: 456,
-        feature_name: 'reply_suggestion',
-        model: 'gpt-4o-mini',
-        messages: [
-          { 'role' => 'user', 'content' => 'Hello' }
-        ],
-        temperature: 0.7
-      }
-    end
+    context 'when OTEL provider is not configured' do
+      before { otel_config.update(value: '') }
 
-    context 'when OTEL is disabled' do
-      before do
-        otel_config.update(value: '')
-      end
-
-      it 'yields without creating a span' do
-        result = instance.instrument_llm_call(params) { 'test result' }
-        expect(result).to eq('test result')
+      it 'executes the block without tracing' do
+        result = instance.instrument_llm_call(params) { 'my_result' }
+        expect(result).to eq('my_result')
       end
     end
 
-    context 'when OTEL is enabled' do
-      let(:mock_span) { instance_double(OpenTelemetry::Trace::Span) }
-      let(:mock_tracer) { instance_double(OpenTelemetry::Trace::Tracer) }
-
-      before do
+    context 'when OTEL provider is configured' do
+      it 'executes the block and returns the result' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
+        allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
         allow(instance).to receive(:tracer).and_return(mock_tracer)
-        allow(mock_tracer).to receive(:in_span).with('llm.test').and_yield(mock_span)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+
+        result = instance.instrument_llm_call(params) { 'my_result' }
+
+        expect(result).to eq('my_result')
       end
 
-      it 'creates a span and sets request attributes' do
+      it 'creates a tracing span with the provided span name' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
         allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
 
-        expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_PROVIDER, 'openai')
-        expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_REQUEST_MODEL, 'gpt-4o-mini')
-        expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_REQUEST_TEMPERATURE, 0.7)
+        instance.instrument_llm_call(params) { 'result' }
 
-        instance.instrument_llm_call(params) { { message: 'test' } }
+        expect(mock_tracer).to have_received(:in_span).with('llm.test')
       end
 
-      it 'sets prompt messages' do
-        expect(mock_span).to receive(:set_attribute).with('gen_ai.prompt.0.role', 'user')
-        expect(mock_span).to receive(:set_attribute).with('gen_ai.prompt.0.content', 'Hello')
+      it 'returns the block result even if instrumentation has errors' do
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_raise(StandardError.new('Instrumentation failed'))
+
+        result = instance.instrument_llm_call(params) { 'my_result' }
+
+        expect(result).to eq('my_result')
+      end
+
+      it 'handles errors gracefully and logs them' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+        allow(mock_span).to receive(:set_attribute).and_raise(StandardError.new('Span error'))
+        allow(Rails.logger).to receive(:error)
+
+        result = instance.instrument_llm_call(params) { 'my_result' }
+
+        expect(result).to eq('my_result')
+        expect(Rails.logger).to have_received(:error).with(/LLM instrumentation setup error/)
+      end
+
+      it 'sets correct request attributes on the span' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
         allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
 
-        instance.instrument_llm_call(params) { { message: 'test' } }
+        instance.instrument_llm_call(params) { 'result' }
+
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.provider.name', 'openai')
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.request.model', 'gpt-4o-mini')
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.request.temperature', 0.7)
       end
 
-      it 'sets metadata attributes' do
-        expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_LANGFUSE_USER_ID, '123')
-        expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_LANGFUSE_SESSION_ID, '456')
-        expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_LANGFUSE_TAGS, ['reply_suggestion'].to_json)
+      it 'sets correct prompt message attributes' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
         allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
 
-        instance.instrument_llm_call(params) { { message: 'test' } }
+        custom_params = params.merge(
+          messages: [
+            { 'role' => 'system', 'content' => 'You are a helpful assistant' },
+            { 'role' => 'user', 'content' => 'Hello' }
+          ]
+        )
+
+        instance.instrument_llm_call(custom_params) { 'result' }
+
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.prompt.0.role', 'system')
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.prompt.0.content', 'You are a helpful assistant')
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.prompt.1.role', 'user')
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.prompt.1.content', 'Hello')
       end
 
-      context 'when the block returns a successful result' do
-        let(:result) do
+      it 'sets correct metadata attributes' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
+        allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+
+        instance.instrument_llm_call(params) { 'result' }
+
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.user.id', '123')
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.session.id', '456')
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.trace.tags', '["reply_suggestion"]')
+      end
+
+      it 'sets completion message attributes when result contains message' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
+        allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+
+        result = instance.instrument_llm_call(params) do
+          { message: 'AI response here' }
+        end
+
+        expect(result).to eq({ message: 'AI response here' })
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.completion.0.role', 'assistant')
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.completion.0.content', 'AI response here')
+      end
+
+      it 'sets usage metrics when result contains usage data' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
+        allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+
+        result = instance.instrument_llm_call(params) do
           {
-            message: 'Hello from AI',
             usage: {
-              'prompt_tokens' => 10,
-              'completion_tokens' => 20,
-              'total_tokens' => 30
+              'prompt_tokens' => 150,
+              'completion_tokens' => 200,
+              'total_tokens' => 350
             }
           }
         end
 
-        it 'sets completion attributes' do
-          expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
-          expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_COMPLETION_CONTENT, 'Hello from AI')
-          allow(mock_span).to receive(:set_attribute)
-
-          instance.instrument_llm_call(params) { result }
-        end
-
-        it 'sets usage metrics' do
-          expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_USAGE_INPUT_TOKENS, 10)
-          expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, 20)
-          expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_USAGE_TOTAL_TOKENS, 30)
-          allow(mock_span).to receive(:set_attribute)
-
-          instance.instrument_llm_call(params) { result }
-        end
+        expect(result[:usage]['prompt_tokens']).to eq(150)
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 150)
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.output_tokens', 200)
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.total_tokens', 350)
       end
 
-      context 'when the block returns an error result' do
-        let(:error_result) do
+      it 'sets error attributes when result contains error' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
+        mock_status = instance_double(OpenTelemetry::Trace::Status)
+        allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        allow(OpenTelemetry::Trace::Status).to receive(:error).and_return(mock_status)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+
+        result = instance.instrument_llm_call(params) do
           {
-            error: { 'message' => 'API Error' },
-            error_code: 500
+            error: { message: 'API rate limit exceeded' },
+            error_code: 'rate_limit_exceeded'
           }
         end
 
-        it 'sets error attributes' do
-          expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_RESPONSE_ERROR,
-                                                            error_result[:error].to_json)
-          expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_RESPONSE_ERROR_CODE, 500)
-          expect(mock_span).to receive(:status=).with(instance_of(OpenTelemetry::Trace::Status))
-          allow(mock_span).to receive(:set_attribute)
-
-          instance.instrument_llm_call(params) { error_result }
-        end
-      end
-
-      it 'returns the result from the block' do
-        allow(mock_span).to receive(:set_attribute)
-        result = instance.instrument_llm_call(params) { { message: 'test result' } }
-        expect(result).to eq({ message: 'test result' })
-      end
-
-      it 'handles errors during instrumentation setup gracefully' do
-        allow(instance).to receive(:set_request_attributes).and_raise(StandardError.new('Setup error'))
-        allow(Rails.logger).to receive(:error)
-        allow(mock_span).to receive(:set_attribute)
-
-        expect(Rails.logger).to receive(:error).with('LLM instrumentation setup error: Setup error')
-
-        result = instance.instrument_llm_call(params) { { message: 'test result' } }
-        expect(result).to eq({ message: 'test result' })
-      end
-
-      it 'handles errors during completion attributes gracefully' do
-        allow(instance).to receive(:set_completion_attributes).and_raise(StandardError.new('Completion error'))
-        allow(Rails.logger).to receive(:error)
-        allow(mock_span).to receive(:set_attribute)
-
-        expect(Rails.logger).to receive(:error).with('LLM instrumentation completion error: Completion error')
-
-        result = instance.instrument_llm_call(params) { { message: 'test result' } }
-        expect(result).to eq({ message: 'test result' })
+        expect(result[:error_code]).to eq('rate_limit_exceeded')
+        expect(mock_span).to have_received(:set_attribute)
+          .with('gen_ai.response.error', '{"message":"API rate limit exceeded"}')
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.response.error_code', 'rate_limit_exceeded')
+        expect(mock_span).to have_received(:status=).with(mock_status)
+        expect(OpenTelemetry::Trace::Status).to have_received(:error).with('API Error: rate_limit_exceeded')
       end
     end
   end
