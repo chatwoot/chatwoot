@@ -127,9 +127,16 @@ class Conversation < ApplicationRecord
 
     return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
 
+    Rails.logger.info("inbox.api?, #{inbox.api?}")
+
     return true unless channel&.messaging_window_enabled?
 
+    Rails.logger.info("channel&.messaging_window_enabled?, #{channel&.messaging_window_enabled?}")
+
     messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
+
+    Rails.logger.info("messaging_window, #{messaging_window}")
+
     last_message_in_messaging_window?(messaging_window, is_api: inbox.api?)
   end
 
