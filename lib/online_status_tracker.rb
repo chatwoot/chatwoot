@@ -28,6 +28,10 @@ class OnlineStatusTracker
 
   def self.set_status(account_id, user_id, status)
     ::Redis::Alfred.hset(status_key(account_id), user_id, status)
+
+    if status == 'online'
+      trigger_queue_processing(account_id)
+    end
   end
 
   def self.get_status(account_id, user_id)
@@ -74,4 +78,11 @@ class OnlineStatusTracker
     user_ids += account.account_users.where(auto_offline: false)&.map(&:user_id)&.map(&:to_s)
     user_ids.uniq
   end
+
+  def self.trigger_queue_processing(account_id)
+    account = Account.find_by(id: account_id)
+    return unless account&.queue_enabled?
+  
+    ChatQueue::QueueService.new(account: account).schedule_queue_processing
+  end  
 end
