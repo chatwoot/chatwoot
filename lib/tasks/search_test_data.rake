@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 namespace :search do
   desc 'Create test messages for advanced search manual testing'
   task setup_test_data: :environment do
@@ -63,7 +64,7 @@ namespace :search do
     # Create 500 incoming messages from contact using Faker movie quotes
     500.times do |i|
       content = Faker::Movie.quote
-      random_time = start_time + rand * time_range
+      random_time = start_time + (rand * time_range)
 
       begin
         Message.create!(
@@ -88,7 +89,7 @@ namespace :search do
     # Create 500 outgoing messages from agent using Faker movie quotes
     500.times do |i|
       content = Faker::Movie.quote
-      random_time = start_time + rand * time_range
+      random_time = start_time + (rand * time_range)
 
       begin
         Message.create!(
@@ -119,10 +120,11 @@ namespace :search do
     puts "  - Date range: #{Message.minimum(:created_at)&.strftime('%Y-%m-%d')} to #{Message.maximum(:created_at)&.strftime('%Y-%m-%d')}"
 
     puts "\n🔧 Next steps:"
-    puts "  1. Ensure Elasticsearch is running and OPENSEARCH_URL is set"
-    puts "  2. Run: rails console"
-    puts "  3. Run: Message.reindex"
+    puts '  1. Ensure Elasticsearch is running and OPENSEARCH_URL is set'
+    puts '  2. Run: rails console'
+    puts '  3. Run: Message.reindex'
     puts "  4. Enable feature: Account.first.enable_features('advanced_search')"
     puts "\n💡 Then test the search with filters in Rails console!"
   end
 end
+# rubocop:enable Metrics/BlockLength
