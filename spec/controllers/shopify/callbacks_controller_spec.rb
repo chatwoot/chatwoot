@@ -28,7 +28,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => frontend_url))
     end
 
-    shared_context 'stub happy account' do
+    shared_context 'with stubbed account' do
       before do
         # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(described_class).to receive(:verify_shopify_token).and_return(account.id)
@@ -38,7 +38,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     end
 
     context 'when successful' do
-      include_context 'stub happy account'
+      include_context 'with stubbed account'
       before do
         stub_request(:post, "https://#{shop}/admin/oauth/access_token")
           .to_return(
@@ -67,7 +67,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     end
 
     context 'when the code is missing' do
-      include_context 'stub happy account'
+      include_context 'with stubbed account'
       before do
         # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(described_class)
@@ -84,7 +84,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     end
 
     context 'when the token is invalid' do
-      include_context 'stub happy account'
+      include_context 'with stubbed account'
       before do
         # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(described_class)
