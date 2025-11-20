@@ -34,4 +34,6 @@ Rails.application.config.after_initialize do
   else
     Rails.logger.debug 'OpenTelemetry disabled (set OTEL_PROVIDER=langfuse to enable)'
   end
+rescue StandardError => e
+  Rails.logger.error "Failed to configure OpenTelemetry: #{e.message}"
 end
