@@ -59,6 +59,9 @@ export default {
     },
     debounceSearch(e) {
       this.searchQuery = e.target.value;
+      // Emit the raw input immediately for UI feedback
+      this.$emit('input', this.searchQuery);
+
       clearTimeout(this.debounce);
       this.debounce = setTimeout(async () => {
         // Exception for account ID 1389: allow search with more than 1 character

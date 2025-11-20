@@ -13,7 +13,7 @@
     </div>
     <section class="search-root">
       <header>
-        <search-header @search="onSearch" />
+        <search-header @search="onSearch" @input="onInput" />
         <search-tabs
           v-if="query"
           :tabs="tabs"
@@ -22,8 +22,13 @@
         />
       </header>
       <div class="search-results">
+        <div v-if="isQueryTooShort" class="flex justify-center items-center">
+          <p class="empty-state__text p-4 pb-0 mb-0">
+            {{ $t('SEARCH.INPUT_PLACEHOLDER') }}
+          </p>
+        </div>
         <div
-          v-if="selectedTab === 'contacts'"
+          v-else-if="selectedTab === 'contacts' && query"
           class="flex justify-center items-center"
         >
           <p class="empty-state__text p-4 pb-0 mb-0">
@@ -97,6 +102,7 @@ export default {
     return {
       selectedTab: 'contacts',
       query: '',
+      rawInput: '', // Track what user actually typed
     };
   },
 
@@ -188,15 +194,31 @@ export default {
     isSelectedTabAll() {
       return this.selectedTab === 'all';
     },
+    isQueryTooShort() {
+      // Check if rawInput exists but is too short (less than 5 characters)
+      // Unless it's a number-only query (conversation ID search)
+      return (
+        this.rawInput &&
+        this.rawInput.length > 0 &&
+        this.rawInput.length <= 4 &&
+        !this.rawInput.match(/^[0-9]+$/)
+      );
+    },
   },
   beforeDestroy() {
     this.query = '';
+    this.rawInput = '';
     this.$store.dispatch('conversationSearch/clearSearchResults');
   },
   mounted() {
+    this.rawInput = '';
     this.$store.dispatch('conversationSearch/clearSearchResults');
   },
   methods: {
+    onInput(value) {
+      // Track what user actually typed
+      this.rawInput = value;
+    },
     onSearch(q) {
       // this.selectedTab = 'all';
       this.query = q;
