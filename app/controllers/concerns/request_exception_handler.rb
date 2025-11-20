@@ -10,6 +10,7 @@ module RequestExceptionHandler
   def handle_with_exception
     yield
   rescue ActiveRecord::RecordNotFound => e
+    log_debug_exception(e)
     log_handled_error(e)
     render_not_found_error('Resource could not be found')
   rescue Pundit::NotAuthorizedError => e
@@ -58,5 +59,14 @@ module RequestExceptionHandler
 
   def log_handled_error(exception)
     logger.info("Handled error: #{exception.inspect}")
+  end
+
+  def log_debug_exception(exception)
+    return unless Rails.env.test?
+
+    logger.warn(
+      "[REQUEST_EXCEPTION_HANDLER] #{exception.class}: #{exception.message}\n" \
+      "#{exception.backtrace&.first(5)&.join("\n")}"
+    )
   end
 end
