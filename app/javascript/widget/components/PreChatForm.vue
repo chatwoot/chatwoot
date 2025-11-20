@@ -16,6 +16,31 @@
         </div>
       </div>
 
+      <!-- Custom wrapper for date fields with inline label -->
+      <div
+        v-else-if="
+          item.type === 'date' &&
+          !(item.name === 'phoneNumber' && preChatFormResponse[item.name])
+        "
+        :key="`${item.name}-wrapper`"
+        class="date-field-wrapper"
+      >
+        <span class="date-label">{{ item.label || item.name }}:</span>
+        <FormulateInput
+          :name="item.name"
+          :type="item.type"
+          :value="formValues[item.name]"
+          :placeholder="getPlaceHolder(item)"
+          :validation="getValidation(item)"
+          :input-class="context => dateInputClass(context)"
+          :validation-messages="{
+            required: $t('PRE_CHAT_FORM.REQUIRED'),
+            date: $t('PRE_CHAT_FORM.REGEX_ERROR'),
+          }"
+          :disabled="!!preChatFormResponse[item.name]"
+        />
+      </div>
+
       <!-- Show regular FormulateInput for other fields or when phone number not submitted -->
       <FormulateInput
         v-else-if="
@@ -27,6 +52,7 @@
         :value="formValues[item.name]"
         :placeholder="getPlaceHolder(item)"
         :validation="getValidation(item)"
+        :options="getOptions(item)"
         :input-class="context => inputClass(context)"
         :validation-messages="{
           startsWithPlus: $t(
@@ -135,6 +161,25 @@ export default {
       //     placeholder: 'fullName',
       //     field_type: 'standard',
       //   },
+      //   {
+      //     name: 'birthday',
+      //     type: 'date',
+      //     label: 'Birthday',
+      //     enabled: true,
+      //     required: true,
+      //     field_type: 'standard',
+      //     placeholder: 'Select your birthday',
+      //   },
+      //   {
+      //     name: 'gender',
+      //     type: 'list',
+      //     label: 'Gender',
+      //     placeholder: 'Select your gender',
+      //     values: ['Male', 'Female', 'Other', 'Prefer not to say'],
+      //     enabled: true,
+      //     required: false,
+      //     field_type: 'custom',
+      //   },
       // ],
     };
   },
@@ -209,21 +254,35 @@ export default {
       }
       return `${this.inputStyles} border-red-200 hover:border-red-300 focus:border-red-300 ${this.isInputDarkOrLightMode}`;
     },
+    dateInputClass(context) {
+      const { hasErrors } = context;
+      // For date inputs in the custom wrapper, we don't need full border styling
+      if (!hasErrors) {
+        return `border-0 outline-none flex-1 py-2 px-2 text-slate-700 ${this.$dm(
+          'bg-white',
+          'dark:bg-slate-600'
+        )} ${this.$dm('text-slate-700', 'dark:text-slate-50')}`;
+      }
+      return `border-0 outline-none flex-1 py-2 px-2 text-slate-700 ${this.$dm(
+        'bg-white',
+        'dark:bg-slate-600'
+      )} ${this.$dm('text-red-400', 'dark:text-red-400')}`;
+    },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
     },
-    getPlaceHolder({ name }) {
+    getPlaceHolder({ name, placeholder }) {
       switch (name) {
         case 'emailAddress':
           return 'Email Address';
         case 'fullName':
           return 'Full Name';
-
         case 'phoneNumber':
           return 'Phone Number';
-
+        case 'gender':
+          return 'Select your gender';
         default:
-          return '';
+          return placeholder;
       }
     },
     getValidation({ type, name, field_type }) {
@@ -265,8 +324,43 @@ export default {
 
       return type;
     },
+    getOptions(item) {
+      if (item.type === 'select' || item.type === 'list') {
+        if (item.values && Array.isArray(item.values)) {
+          let options = {};
+          item.values.forEach((value, index) => {
+            options = {
+              ...options,
+              [index]: value,
+            };
+          });
+          return options;
+        }
+      }
+      return null;
+    },
+    getValue(field) {
+      const value = this.formValues[field.name];
+      // For select/list fields, convert index to actual value
+      if ((field.type === 'select' || field.type === 'list') && field.values) {
+        // If empty string or undefined, return null (placeholder was selected)
+        if (value === '' || value === undefined) {
+          return null;
+        }
+        return field.values[value] || value;
+      }
+      return value;
+    },
     async onSubmit() {
       const { emailAddress, fullName, phoneNumber } = this.formValues;
+
+      // Collect all custom field values
+      const customFieldValues = {};
+      this.enabledPreChatFields.forEach(field => {
+        if (!['emailAddress', 'fullName', 'phoneNumber'].includes(field.name)) {
+          customFieldValues[field.name] = this.getValue(field);
+        }
+      });
 
       this.isSubmitting = true;
 
@@ -276,6 +370,7 @@ export default {
             email: emailAddress,
             name: fullName,
             phone_number: phoneNumber,
+            additional_attributes: customFieldValues,
           },
         });
 
@@ -285,6 +380,7 @@ export default {
             emailAddress,
             fullName,
             phoneNumber,
+            ...customFieldValues,
           },
         });
 
@@ -294,6 +390,7 @@ export default {
             emailAddress,
             fullName,
             phoneNumber,
+            ...customFieldValues,
           },
           replyTo: this.messageId,
         });
@@ -308,6 +405,64 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
+
+.date-field-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(215, 219, 223);
+  border-radius: 0.5rem;
+  padding: 0 0.75rem;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  width: 100%;
+
+  &:hover {
+    border-color: rgb(180, 180, 180);
+  }
+
+  &:focus-within {
+    border-color: rgb(180, 180, 180);
+  }
+
+  .date-label {
+    font-size: 0.875rem;
+    color: #64748b;
+    white-space: nowrap;
+    margin-right: 0.5rem;
+    font-weight: 400;
+  }
+
+  ::v-deep .formulate-input {
+    flex: 1;
+    margin-bottom: 0 !important;
+
+    .formulate-input-wrapper {
+      margin-bottom: 0;
+    }
+
+    .formulate-input-element {
+      input[type='date'] {
+        border: none;
+        outline: none;
+        padding: 0;
+        width: 100%;
+        background-color: transparent;
+        color: #334155;
+        font-size: 0.875rem;
+      }
+    }
+
+    .formulate-input-errors {
+      display: none;
+    }
+  }
+
+  // Override the global .wrapper margin for FormulateInput inside date-field-wrapper
+  ::v-deep .wrapper {
+    margin-bottom: 0 !important;
+  }
+}
+
 ::v-deep {
   .wrapper {
     margin-bottom: 1rem !important;
