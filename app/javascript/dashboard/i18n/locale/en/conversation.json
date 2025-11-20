@@ -188,6 +188,13 @@
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
     "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CSAT_PROMPT": {
+      "TITLE": "Send CSAT Survey?",
+      "MESSAGE": "Would you like to send a CSAT survey to the customer for this resolved conversation?",
+      "SEND_CSAT": "Send CSAT",
+      "SKIP_CSAT": "Skip CSAT",
+      "CANCEL": "Cancel"
+    },
     "CHANGE_AGENT": "Conversation Assignee changed",
     "CHANGE_AGENT_FAILED": "Assignee change failed",
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",

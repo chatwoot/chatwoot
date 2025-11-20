@@ -79,18 +79,34 @@ class MessageTemplates::HookExecutionService
     contact.phone_number
   end
 
-  def csat_enabled_conversation?
+  def csat_enabled_conversation? # rubocop:disable Metrics/AbcSize
     return false unless conversation.resolved?
     # should not sent since the link will be public
     return false if conversation.tweet?
     return false unless inbox.csat_survey_enabled?
 
+    # Reload conversation to get latest additional_attributes from DB
+    Rails.logger.info("Before reload - conversation #{conversation.id} additional_attributes: #{conversation.additional_attributes}")
+    conversation.reload
+    Rails.logger.info("After reload - conversation #{conversation.id} additional_attributes: #{conversation.additional_attributes}")
+
+    # Check if agent chose to skip CSAT
+    if conversation.additional_attributes&.[]('skip_csat')
+      Rails.logger.info("Skip CSAT flag found for conversation #{conversation.id}, skipping CSAT")
+      # Schedule flag cleanup for later (after all hooks have executed)
+      schedule_skip_csat_flag_cleanup
+      return false
+    end
+
+    Rails.logger.info("No skip CSAT flag found for conversation #{conversation.id}, will send CSAT")
     true
   end
 
   def should_send_csat_survey?
-    Rails.logger.info("csat_enabled_conversation?, #{csat_enabled_conversation?}")
-    return unless csat_enabled_conversation?
+    # Check once and cache the result to avoid clearing the flag multiple times
+    csat_enabled = csat_enabled_conversation?
+    Rails.logger.info("csat_enabled_conversation?, #{csat_enabled}")
+    return unless csat_enabled
 
     # Get all CSAT messages in conversation
     csat_messages = conversation.messages.where(content_type: :input_csat)
@@ -135,6 +151,26 @@ class MessageTemplates::HookExecutionService
     updated_attributes['ignore_automation_rules'] = true
     csat_message.update!(additional_attributes: updated_attributes)
     Rails.logger.info("Marked previous CSAT message #{csat_message.id} as ignored")
+  end
+
+  def clear_skip_csat_flag
+    return unless conversation.additional_attributes&.[]('skip_csat')
+
+    updated_attributes = conversation.additional_attributes.dup
+    updated_attributes.delete('skip_csat')
+    conversation.update_column(:additional_attributes, updated_attributes) # rubocop:disable Rails/SkipsModelValidations
+    Rails.logger.info("Cleared skip_csat flag for conversation #{conversation.id}")
+  end
+
+  def schedule_skip_csat_flag_cleanup
+    # Clear the flag after a short delay to ensure all hooks have executed
+    # Use perform_later only if Sidekiq is available, otherwise do it synchronously
+    if defined?(Sidekiq)
+      Conversations::ClearSkipCsatFlagJob.set(wait: 5.seconds).perform_later(conversation)
+    else
+      # Fallback: clear immediately (all hooks should have executed by now)
+      clear_skip_csat_flag
+    end
   end
 end
 MessageTemplates::HookExecutionService.prepend_mod_with('MessageTemplates::HookExecutionService')

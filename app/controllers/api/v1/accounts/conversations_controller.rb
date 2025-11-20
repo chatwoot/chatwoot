@@ -134,6 +134,14 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def toggle_status
     # FIXME: move this logic into a service object
+    # Store skip_csat flag in additional_attributes if provided
+    if params[:skip_csat].present? && ActiveModel::Type::Boolean.new.cast(params[:skip_csat])
+      additional_attrs = @conversation.additional_attributes || {}
+      additional_attrs['skip_csat'] = true
+      @conversation.additional_attributes = additional_attrs
+      Rails.logger.info("Setting skip_csat flag for conversation #{@conversation.id}")
+    end
+
     if pending_to_open_by_bot?
       @conversation.bot_handoff!
     elsif params[:status].present?
@@ -142,6 +150,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     else
       @status = @conversation.toggle_status
     end
+
     assign_conversation if should_assign_conversation?
   end
 

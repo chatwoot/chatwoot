@@ -260,6 +260,20 @@
                 {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_EXPIRY_HOURS_HELP') }}
               </p>
             </div>
+
+            <div class="flex items-center gap-2 pb-2 pt-2">
+              <input
+                id="promptAgentForCsat"
+                v-model="promptAgentForCsat"
+                type="checkbox"
+              />
+              <label for="promptAgentForCsat">
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.PROMPT_AGENT_FOR_CSAT') }}
+              </label>
+            </div>
+            <p class="pt-1 text-xs text-slate-600 dark:text-slate-400">
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.PROMPT_AGENT_FOR_CSAT_HELP') }}
+            </p>
           </div>
         </label>
 
@@ -566,6 +580,7 @@ export default {
       csatSurveyEnabled: false,
       csatAllowResendAfterExpiry: false,
       csatExpiryHours: null,
+      promptAgentForCsat: false,
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
@@ -779,6 +794,7 @@ export default {
         this.csatAllowResendAfterExpiry =
           this.inbox.csat_allow_resend_after_expiry || false;
         this.csatExpiryHours = this.inbox.csat_expiry_hours;
+        this.promptAgentForCsat = this.inbox.prompt_agent_for_csat || false;
         this.enableCSATOnWhatsapp =
           this.inbox?.additional_attributes?.enable_csat_on_whatsapp || false;
         this.senderNameType = this.inbox.sender_name_type;
@@ -811,6 +827,7 @@ export default {
           csat_survey_enabled: this.csatSurveyEnabled,
           csat_allow_resend_after_expiry: this.csatAllowResendAfterExpiry,
           csat_expiry_hours: this.csatExpiryHours,
+          prompt_agent_for_csat: this.promptAgentForCsat,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           add_label_to_resolve_conversation: this.addLabelToResolveConversation,
           greeting_enabled: this.greetingEnabled,

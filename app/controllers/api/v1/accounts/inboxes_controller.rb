@@ -71,8 +71,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
   end
 
   def update
-    @inbox.update!(permitted_params.except(:channel, :assign_even_if_offline))
+    @inbox.update!(permitted_params.except(:channel, :assign_even_if_offline, :prompt_agent_for_csat))
     update_auto_assignment_config
+    update_csat_config
     update_inbox_working_hours
     update_channel if channel_update_required?
   end
@@ -181,6 +182,16 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
     end
 
     @inbox.auto_assignment_config = current_config
+    @inbox.save!
+  end
+
+  def update_csat_config
+    return if params[:prompt_agent_for_csat].blank?
+
+    current_config = @inbox.csat_config || {}
+    current_config['prompt_agent_for_csat'] = ActiveModel::Type::Boolean.new.cast(params[:prompt_agent_for_csat])
+
+    @inbox.csat_config = current_config
     @inbox.save!
   end
 

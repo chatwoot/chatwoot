@@ -86,6 +86,13 @@
       @submit="markConversationResolved"
       @cancel="toggleCustomAttributesForm"
     />
+    <csat-prompt-modal
+      v-if="showCsatPromptModal"
+      :show="showCsatPromptModal"
+      @send-csat="onSendCsat"
+      @skip-csat="onSkipCsat"
+      @cancel="toggleCsatPromptModal"
+    />
   </div>
 </template>
 
@@ -97,6 +104,7 @@ import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import ConversationLabelModal from '../widgets/conversation/ConversationLabelModal.vue';
 import CustomAttributesForm from '../widgets/conversation/CustomAttributesForm.vue';
+import CsatPromptModal from '../widgets/conversation/CsatPromptModal.vue';
 
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -111,6 +119,7 @@ export default {
     WootDropdownMenu,
     ConversationLabelModal,
     CustomAttributesForm,
+    CsatPromptModal,
   },
   mixins: [alertMixin, keyboardEventListenerMixins, attributeMixin],
   props: {
@@ -128,7 +137,9 @@ export default {
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       showResolveConversationModal: false,
       showCustomAttributesForm: false,
+      showCsatPromptModal: false,
       attributeType: 'conversation_attribute',
+      shouldSendCsat: false,
     };
   },
   computed: {
@@ -161,6 +172,45 @@ export default {
       return this.attributes.some(
         attribute => attribute.required_before_resolve
       );
+    },
+    shouldShowCsatPrompt() {
+      // Check if inbox has CSAT enabled and agent prompt enabled
+      if (
+        !this.inbox.csat_survey_enabled ||
+        !this.inbox.prompt_agent_for_csat
+      ) {
+        return false;
+      }
+
+      // Check if conversation is being resolved from open state
+      if (!this.isOpen) {
+        return false;
+      }
+
+      // Get CSAT messages from the conversation
+      const csatMessages =
+        this.currentChat.messages?.filter(
+          msg =>
+            msg.content_type === 'input_csat' &&
+            !msg.additional_attributes?.ignore_automation_rules
+        ) || [];
+
+      // If no previous CSAT, show prompt
+      if (csatMessages.length === 0) {
+        return true;
+      }
+
+      // If inbox doesn't allow resend after expiry, don't show prompt
+      if (!this.inbox.csat_allow_resend_after_expiry) {
+        return false;
+      }
+
+      // Check if the latest CSAT message is expired
+      const latestCsat = csatMessages.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      )[0];
+
+      return this.isCsatExpired(latestCsat);
     },
   },
   mounted() {
@@ -235,7 +285,12 @@ export default {
       }
     },
     markConversationResolved() {
-      this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+      // Check if we should prompt for CSAT based on expiry logic
+      if (this.shouldShowCsatPrompt) {
+        this.toggleCsatPromptModal();
+      } else {
+        this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+      }
     },
     showOpenButton() {
       return this.isResolved || this.isSnoozed;
@@ -246,7 +301,7 @@ export default {
     openDropdown() {
       this.showActionsDropdown = true;
     },
-    toggleStatus(status, snoozedUntil) {
+    toggleStatus(status, snoozedUntil, skipCsat = false) {
       this.closeDropdown();
       this.isLoading = true;
       this.$store
@@ -254,6 +309,7 @@ export default {
           conversationId: this.currentChat.id,
           status,
           snoozedUntil,
+          skipCsat,
         })
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
@@ -269,6 +325,45 @@ export default {
     },
     toggleCustomAttributesForm() {
       this.showCustomAttributesForm = !this.showCustomAttributesForm;
+    },
+    toggleCsatPromptModal() {
+      this.showCsatPromptModal = !this.showCsatPromptModal;
+    },
+    onSendCsat() {
+      this.shouldSendCsat = true;
+      this.toggleCsatPromptModal();
+      this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+    },
+    onSkipCsat() {
+      this.shouldSendCsat = false;
+      this.toggleCsatPromptModal();
+      this.toggleStatus(this.STATUS_TYPE.RESOLVED, null, true);
+    },
+    isCsatExpired(csatMessage) {
+      if (!csatMessage || !this.inbox.csat_allow_resend_after_expiry) {
+        return false;
+      }
+
+      if (!this.inbox.csat_expiry_hours) {
+        return false;
+      }
+
+      const expiryHours = this.inbox.csat_expiry_hours;
+      const expiryMilliseconds = expiryHours * 60 * 60 * 1000;
+
+      // Handle both Unix timestamp (seconds) and ISO date string
+      let messageTime;
+      if (typeof csatMessage.created_at === 'number') {
+        // Unix timestamp in seconds - convert to milliseconds
+        messageTime = csatMessage.created_at * 1000;
+      } else {
+        // ISO date string or Date object
+        messageTime = new Date(csatMessage.created_at).getTime();
+      }
+
+      const currentTime = new Date().getTime();
+
+      return currentTime - messageTime > expiryMilliseconds;
     },
   },
 };

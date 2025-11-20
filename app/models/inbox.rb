@@ -88,6 +88,11 @@ class Inbox < ApplicationRecord
     (auto_assignment_config['reopen_pending_conversations'].presence || false)
   end
 
+  # Helper method to check if agents should be prompted before sending CSAT on resolution
+  def prompt_agent_for_csat?
+    (csat_config['prompt_agent_for_csat'].presence || false)
+  end
+
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event
