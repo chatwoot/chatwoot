@@ -151,15 +151,13 @@ class Conversation < ApplicationRecord
   def last_message_in_messaging_window?(time, is_api: false)
     return false if last_incoming_message.nil?
 
-    Rails.logger.info("is_api, #{is_api}")
-
-    Rails.logger.info("last_incoming_message.content_attributes, #{last_incoming_message.content_attributes.inspect}")
-
-    last_incoming_message_created_at = is_api ? last_incoming_message.content_attributes['external_created_at'] : last_incoming_message.created_at
-
-    Rails.logger.info("last_incoming_message_created_at, #{last_incoming_message_created_at}")
-
-    Rails.logger.info("Time.current < last_incoming_message_created_at + time.hours, #{Time.current < last_incoming_message_created_at + time.hours}")
+    last_incoming_message_created_at =
+      if is_api && last_incoming_message.content_attributes['external_created_at']
+        # external_created_at is stored as epoch timestamp (integer), convert to Time
+        Time.at.utc(last_incoming_message.content_attributes['external_created_at'])
+      else
+        last_incoming_message.created_at
+      end
 
     Time.current < last_incoming_message_created_at + time.hours
   end
