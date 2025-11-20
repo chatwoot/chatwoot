@@ -53,7 +53,7 @@ module Integrations::LlmInstrumentation
   private
 
   def otel_enabled?
-    ENV['OTEL_PROVIDER'].present?
+    InstallationConfig.find_by(name: 'OTEL_PROVIDER')&.value.present?
   end
 
   def set_request_attributes(span, params)
