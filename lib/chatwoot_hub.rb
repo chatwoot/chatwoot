@@ -19,15 +19,11 @@ class ChatwootHub
   end
 
   def self.pricing_plan
-    return 'community' unless ChatwootApp.enterprise?
-
-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
+    'premium'
   end
 
   def self.pricing_plan_quantity
-    return 0 unless ChatwootApp.enterprise?
-
-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0
+    100
   end
 
   def self.support_config
@@ -65,17 +61,18 @@ class ChatwootHub
   end
 
   def self.sync_with_hub
-    begin
-      info = instance_config
-      info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
-      response = RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
-      parsed_response = JSON.parse(response)
-    rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-      Rails.logger.error "Exception: #{e.message}"
-    rescue StandardError => e
-      ChatwootExceptionTracker.new(e).capture_exception
-    end
-    parsed_response
+    # begin
+    #   info = instance_config
+    #   info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
+    #   response = RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
+    #   parsed_response = JSON.parse(response)
+    # rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
+    #   Rails.logger.error "Exception: #{e.message}"
+    # rescue StandardError => e
+    #   ChatwootExceptionTracker.new(e).capture_exception
+    # end
+    # parsed_response
+    { 'version' => Chatwoot.config[:version], 'plan' => 'premium', 'plan_quantity' => 100 }
   end
 
   def self.register_instance(company_name, owner_name, owner_email)
