@@ -108,11 +108,20 @@ class MessageTemplates::HookExecutionService
     Rails.logger.info("csat_enabled_conversation?, #{csat_enabled}")
     return unless csat_enabled
 
+    # IMPORTANT FIX: Don't send CSAT when an incoming message arrives on a resolved conversation
+    # This prevents CSAT from being sent when the chat is about to be reopened by the incoming message
+    # CSAT should only be sent when the conversation is actively being marked as resolved (via activity messages)
+    if message.incoming? && conversation.resolved?
+      Rails.logger.info("CSAT blocked: Incoming message on resolved conversation - conversation will be reopened. conversation_id=#{conversation.id}, message_id=#{message.id}") # rubocop:disable Layout/LineLength
+      return false
+    end
+
     # Get all CSAT messages in conversation
     csat_messages = conversation.messages.where(content_type: :input_csat)
     filtered_messages = csat_messages.where("additional_attributes->>'ignore_automation_rules' IS NULL")
 
     # If no previous CSAT, allow sending (original behavior)
+    # This will only happen for activity/outgoing messages since incoming messages are blocked above
     return true if filtered_messages.empty?
 
     # If inbox doesn't allow resend after expiry, block sending (original behavior)

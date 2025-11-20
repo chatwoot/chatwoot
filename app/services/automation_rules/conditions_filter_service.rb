@@ -119,7 +119,12 @@ class AutomationRules::ConditionsFilterService < FilterService
     case current_filter['attribute_type']
     when 'standard'
       if current_filter['data_type'] == 'text'
-        " LOWER(messages.#{attribute_key}) #{filter_operator_value} #{query_operator} "
+        # Normalize apostrophes using nested REPLACE for better matching across different apostrophe types
+        # Replace right single quote (U+2019), left single quote (U+2018), and backtick with straight apostrophe
+        right_quote = "\u2019"
+        left_quote = "\u2018"
+        normalized_field = "REPLACE(REPLACE(REPLACE(messages.#{attribute_key}, '#{right_quote}', ''''), '#{left_quote}', ''''), '`', '''')"
+        " LOWER(#{normalized_field}) #{filter_operator_value} #{query_operator} "
       else
         " messages.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
