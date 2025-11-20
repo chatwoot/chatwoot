@@ -1,7 +1,7 @@
 module Enterprise::SearchService
   def advanced_search
-    where_conditions = { account_id: current_account.id  }
-    where_conditions[:inbox_id] = accessable_inbox_ids unless should_skip_inbox_filtering?
+    where_conditions = build_where_conditions
+    apply_filters(where_conditions)
 
     Message.search(
       search_query,
@@ -11,5 +11,57 @@ module Enterprise::SearchService
       page: params[:page] || 1,
       per_page: 15
     )
+  end
+
+  private
+
+  def build_where_conditions
+    conditions = { account_id: current_account.id }
+    conditions[:inbox_id] = accessable_inbox_ids unless should_skip_inbox_filtering?
+    conditions
+  end
+
+  def apply_filters(where_conditions)
+    apply_from_filter(where_conditions)
+    apply_time_range_filter(where_conditions)
+    apply_inbox_filter(where_conditions)
+  end
+
+  def apply_from_filter(where_conditions)
+    sender_type, sender_id = parse_from_param(params[:from])
+    return unless sender_type && sender_id
+
+    where_conditions[:sender_type] = sender_type
+    where_conditions[:sender_id] = sender_id
+  end
+
+  def parse_from_param(from_param)
+    return [nil, nil] unless from_param&.match?(/\A(contact|agent):\d+\z/)
+
+    type, id = from_param.split(':')
+    sender_type = type == 'agent' ? 'User' : 'Contact'
+    [sender_type, id.to_i]
+  end
+
+  def apply_time_range_filter(where_conditions)
+    time_conditions = {}
+    time_conditions[:gte] = Time.zone.at(params[:since].to_i) if params[:since].present?
+
+    time_conditions[:lte] = Time.zone.at(params[:until].to_i) if params[:until].present?
+
+    where_conditions[:created_at] = time_conditions if time_conditions.any?
+  end
+
+  def apply_inbox_filter(where_conditions)
+    inbox_id = params[:inbox_id].to_i
+    return unless validate_inbox_access(inbox_id)
+
+    where_conditions[:inbox_id] = inbox_id
+  end
+
+  def validate_inbox_access(inbox_id)
+    return true if should_skip_inbox_filtering?
+
+    accessable_inbox_ids.include?(inbox_id)
   end
 end
