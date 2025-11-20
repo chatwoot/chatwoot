@@ -31,8 +31,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     shared_context 'with stubbed account' do
       before do
         # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(described_class).to receive(:verify_shopify_token).and_return(account.id)
-        allow_any_instance_of(described_class).to receive(:account).and_return(account)
+        allow_any_instance_of(Shopify::IntegrationHelper).to receive(:verify_shopify_token).and_return(account.id)
+        # stub Account.find_by so controller loads the same account id in CI
+        allow(Account).to receive(:find_by).with(id: account.id).and_return(account)
         # rubocop:enable RSpec/AnyInstance
       end
     end
