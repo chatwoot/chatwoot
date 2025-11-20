@@ -10,6 +10,14 @@ RSpec.describe Shopify::CallbacksController, type: :request do
   let(:oauth_client) { instance_double(OAuth2::Client) }
   let(:auth_code_strategy) { instance_double(OAuth2::Strategy::AuthCode) }
 
+  def stub_controller
+    allow(described_class).to receive(:new).and_wrap_original do |original, *args|
+      controller = original.call(*args)
+      yield(controller)
+      controller
+    end
+  end
+
   describe 'GET /shopify/callback' do
     let(:access_token) { SecureRandom.hex(10) }
     let(:response_body) do
@@ -25,7 +33,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when successful' do
       before do
-        allow_next_instance_of(described_class) do |controller|
+        stub_controller do |controller|
           allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
         end
 
@@ -56,7 +64,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when the code is missing' do
       before do
-        allow_next_instance_of(described_class) do |controller|
+        stub_controller do |controller|
           allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
           allow(controller).to receive(:oauth_client).and_return(oauth_client)
         end
@@ -71,7 +79,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when the token is invalid' do
       before do
-        allow_next_instance_of(described_class) do |controller|
+        stub_controller do |controller|
           allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
           allow(controller).to receive(:oauth_client).and_return(oauth_client)
         end
@@ -94,7 +102,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when state parameter is invalid' do
       before do
-        allow_next_instance_of(described_class) do |controller|
+        stub_controller do |controller|
           allow(controller).to receive(:verify_shopify_token).with(state).and_return(nil)
           allow(controller).to receive(:account).and_return(nil)
         end
