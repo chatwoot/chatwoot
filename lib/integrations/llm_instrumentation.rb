@@ -3,15 +3,15 @@
 module Integrations::LlmInstrumentation
   # OpenTelemetry attribute names following GenAI semantic conventions
   # https://opentelemetry.io/docs/specs/semconv/gen-ai/
-  ATTR_GEN_AI_SYSTEM = 'gen_ai.system'
+  ATTR_GEN_AI_PROVIDER = 'gen_ai.provider.name'
   ATTR_GEN_AI_REQUEST_MODEL = 'gen_ai.request.model'
   ATTR_GEN_AI_REQUEST_TEMPERATURE = 'gen_ai.request.temperature'
   ATTR_GEN_AI_PROMPT_ROLE = 'gen_ai.prompt.%d.role'
   ATTR_GEN_AI_PROMPT_CONTENT = 'gen_ai.prompt.%d.content'
   ATTR_GEN_AI_COMPLETION_ROLE = 'gen_ai.completion.0.role'
   ATTR_GEN_AI_COMPLETION_CONTENT = 'gen_ai.completion.0.content'
-  ATTR_GEN_AI_USAGE_PROMPT_TOKENS = 'gen_ai.usage.prompt_tokens'
-  ATTR_GEN_AI_USAGE_COMPLETION_TOKENS = 'gen_ai.usage.completion_tokens'
+  ATTR_GEN_AI_USAGE_INPUT_TOKENS = 'gen_ai.usage.input_tokens'
+  ATTR_GEN_AI_USAGE_OUTPUT_TOKENS = 'gen_ai.usage.output_tokens'
   ATTR_GEN_AI_USAGE_TOTAL_TOKENS = 'gen_ai.usage.total_tokens'
   ATTR_GEN_AI_RESPONSE_ERROR = 'gen_ai.response.error'
   ATTR_GEN_AI_RESPONSE_ERROR_CODE = 'gen_ai.response.error_code'
@@ -20,7 +20,7 @@ module Integrations::LlmInstrumentation
   # https://langfuse.com/integrations/native/opentelemetry#property-mapping
   ATTR_LANGFUSE_USER_ID = 'langfuse.user.id'
   ATTR_LANGFUSE_SESSION_ID = 'langfuse.session.id'
-  ATTR_LANGFUSE_TAGS = 'langfuse.tags'
+  ATTR_LANGFUSE_TAGS = 'langfuse.trace.tags'
 
   def tracer
     @tracer ||= OpenTelemetry.tracer_provider.tracer('chatwoot')
@@ -57,7 +57,7 @@ module Integrations::LlmInstrumentation
   end
 
   def set_request_attributes(span, params)
-    span.set_attribute(ATTR_GEN_AI_SYSTEM, 'openai')
+    span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openai')
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
     span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]
   end
@@ -92,8 +92,8 @@ module Integrations::LlmInstrumentation
     return if result[:usage].blank?
 
     usage = result[:usage]
-    span.set_attribute(ATTR_GEN_AI_USAGE_PROMPT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_COMPLETION_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
+    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
+    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
     span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage['total_tokens']) if usage['total_tokens']
   end
 
