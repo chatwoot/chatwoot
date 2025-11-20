@@ -155,7 +155,7 @@ class Conversation < ApplicationRecord
 
     Rails.logger.info("last_incoming_message.content_attributes, #{last_incoming_message.content_attributes.inspect}")
 
-    last_incoming_message_created_at = is_api ? last_incoming_message.content_attributes['external_created_at'].to_time : last_incoming_message.created_at # rubocop:disable Layout/LineLength
+    last_incoming_message_created_at = is_api ? last_incoming_message.content_attributes['external_created_at'] : last_incoming_message.created_at
 
     Rails.logger.info("last_incoming_message_created_at, #{last_incoming_message_created_at}")
 
