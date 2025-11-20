@@ -29,11 +29,16 @@ class Queue::ProcessQueueJob < ApplicationJob
     return if queue_ids.empty?
   
     queue_ids.each do |conv_id|
+      assigned = false
+
       online_agents.each do |agent|
         if queue_service.assign_specific_from_queue!(agent, conv_id)
+          assigned = true
           break
         end
       end
+
+      break unless assigned
     end
   end
 
@@ -42,32 +47,15 @@ class Queue::ProcessQueueJob < ApplicationJob
     $alfred.with { |r| r.zrange(queue_key, 0, MAX_QUEUE_CHECK - 1) }.map(&:to_i)
   end
 
-
-  def assign_first_available_conversation(_queue_ids, online_agents, account, queue_service)
-    conv_id = fetch_first_queue_id(account)
-    return false unless conv_id
-  
-    online_agents.each do |agent|
-      return true if queue_service.assign_specific_from_queue!(agent, conv_id)
-    end
-  
-    false
-  end  
-  
-  def fetch_first_queue_id(account)
-    queue_key = "queue:#{account.id}"
-    $alfred.with { |r| r.zrange(queue_key, 0, 0)&.first }.to_i
-  end  
-
   def get_available_agents(account)
     statuses = OnlineStatusTracker.get_available_users(account.id) || {}
-  online_ids = statuses
-                 .select { |_id, status| status == 'online' }
-                 .keys
-                 .map(&:to_i)
+    online_ids = statuses
+                   .select { |_id, status| status == 'online' }
+                   .keys
+                   .map(&:to_i)
 
-  return [] if online_ids.empty?
+    return [] if online_ids.empty?
 
-  User.where(id: online_ids)
+    User.where(id: online_ids)
   end
 end

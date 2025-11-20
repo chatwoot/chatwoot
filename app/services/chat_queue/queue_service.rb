@@ -11,7 +11,7 @@ class ChatQueue::QueueService
     seq = redis.incr(seq_key)
     redis.zadd(queue_key, seq, conversation.id)
   
-    conversation.update!(status: :queued)
+    conversation.update!(status: :queued, assignee_id: nil)
     send_queue_notification(conversation)
     schedule_queue_processing
   
@@ -27,13 +27,43 @@ class ChatQueue::QueueService
   
   def assign_from_queue(agent)
     return nil unless account.queue_enabled?
+    return nil unless agent_available?(agent)
 
-    conv_id, _score = redis.zrange(queue_key, 0, 0, with_scores: true).first
-    return nil unless conv_id
+    candidate_ids = redis.zrange(queue_key, 0, 50)
 
-    conv_id = conv_id.to_i
+    candidate_ids.each do |conv_id|
+      lock_key = "queue:#{account.id}:lock:conv:#{conv_id}"
+      next unless redis.set(lock_key, 1, nx: true, ex: 5)
 
-    assign_specific_from_queue!(agent, conv_id)
+      conversation = Conversation.lock.find_by(id: conv_id)
+      next unless conversation&.queued?
+      next if conversation.assignee_id.present?
+      next unless conversation_allowed_for_agent?(conversation, agent)
+
+      redis.zrem(queue_key, conv_id)
+
+      updated = Conversation.where(
+        id: conv_id,
+        status: :queued,
+        assignee_id: nil
+      ).update_all(
+        assignee_id: agent.id,
+        status: :open,
+        updated_at: Time.current
+      )
+
+      if updated > 0
+        send_assigned_notification(conversation.reload)
+        reset_caches_after_assign(agent.id)
+        redis.del(lock_key)
+        return conversation
+      else
+        redis.del(lock_key)
+        next
+      end
+    end
+
+    nil
   end
 
   def remove_from_queue(conversation)
@@ -69,6 +99,7 @@ class ChatQueue::QueueService
 
       conversation = Conversation.lock.find_by(id: conv_id)
       return nil unless conversation&.queued?
+      return nil if conversation.assignee_id.present?
 
       return nil unless conversation.inbox_id.in?(
         InboxMember.where(user_id: agent.id).pluck(:inbox_id)
