@@ -36,6 +36,7 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(attrs['conference_sid']).to be_present
       expect(attrs.dig('meta', 'initiated_at')).to be_present
       expect(conversation.contact.phone_number).to eq(from_number)
+      expect(conversation.contact.name).to eq(from_number)
     end
 
     it 'creates a single voice_call message marked as incoming' do

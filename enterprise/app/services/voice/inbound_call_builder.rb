@@ -29,8 +29,8 @@ class Voice::InboundCallBuilder
   private
 
   def ensure_contact!
-    account.contacts.find_or_create_by!(phone_number: from_number) do |contact|
-      contact.name ||= from_number
+    account.contacts.find_or_create_by!(phone_number: from_number) do |record|
+      record.name = from_number if record.name.blank?
     end
   end
 
