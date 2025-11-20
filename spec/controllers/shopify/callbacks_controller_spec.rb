@@ -15,14 +15,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     puts "[SHOPIFY_SPEC] hooks_count=#{Integrations::Hook.count}"
   end
 
-  def stub_controller
-    allow(described_class).to receive(:new).and_wrap_original do |original, *args|
-      controller = original.call(*args)
-      yield(controller)
-      controller
-    end
-  end
-
   describe 'GET /shopify/callback' do
     let(:access_token) { SecureRandom.hex(10) }
     let(:response_body) do
@@ -38,9 +30,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when successful' do
       before do
-        stub_controller do |controller|
-          allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
-        end
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(described_class)
+          .to receive(:verify_shopify_token).with(state).and_return(account.id)
+        # rubocop:enable RSpec/AnyInstance
 
         stub_request(:post, "https://#{shop}/admin/oauth/access_token")
           .to_return(
@@ -70,10 +63,12 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when the code is missing' do
       before do
-        stub_controller do |controller|
-          allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
-          allow(controller).to receive(:oauth_client).and_return(oauth_client)
-        end
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(described_class)
+          .to receive(:verify_shopify_token).with(state).and_return(account.id)
+        allow_any_instance_of(described_class)
+          .to receive(:oauth_client).and_return(oauth_client)
+        # rubocop:enable RSpec/AnyInstance
         allow(oauth_client).to receive(:auth_code).and_raise(StandardError)
       end
 
@@ -86,10 +81,12 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when the token is invalid' do
       before do
-        stub_controller do |controller|
-          allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
-          allow(controller).to receive(:oauth_client).and_return(oauth_client)
-        end
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(described_class)
+          .to receive(:verify_shopify_token).with(state).and_return(account.id)
+        allow_any_instance_of(described_class)
+          .to receive(:oauth_client).and_return(oauth_client)
+        # rubocop:enable RSpec/AnyInstance
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:get_token).and_raise(
           OAuth2::Error.new(
@@ -110,10 +107,12 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when state parameter is invalid' do
       before do
-        stub_controller do |controller|
-          allow(controller).to receive(:verify_shopify_token).with(state).and_return(nil)
-          allow(controller).to receive(:account).and_return(nil)
-        end
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(described_class)
+          .to receive(:verify_shopify_token).with(state).and_return(nil)
+        allow_any_instance_of(described_class)
+          .to receive(:account).and_return(nil)
+        # rubocop:enable RSpec/AnyInstance
       end
 
       it 'redirects to the frontend URL with error' do

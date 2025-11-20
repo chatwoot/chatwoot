@@ -81,12 +81,10 @@ RSpec.describe 'SwitchLocale Concern', type: :controller do
   end
 
   describe '#switch_locale_using_account_locale' do
-    before do
-      routes.draw { get 'account_locale' => 'anonymous#account_locale' }
-    end
-
-    after do
-      Rails.application.reload_routes!
+    routes do
+      ActionDispatch::Routing::RouteSet.new.tap do |set|
+        set.draw { get 'account_locale' => 'anonymous#account_locale' }
+      end
     end
 
     it 'sets locale from account' do
