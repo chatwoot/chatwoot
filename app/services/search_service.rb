@@ -32,22 +32,31 @@ class SearchService
 
   def filter_conversations
     base_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
 
-    # If search query is numeric only, do exact match on display_id
-    # This supports the #[ID] search pattern from the frontend
-    @conversations = if search_query.match?(/^\d+$/)
-                       base_query.where('conversations.display_id = ?', search_query.to_i)
+    # If search query starts with #, do ID-only exact match (no fallback to other fields)
+    # Example: #123 -> only search display_id = 123
+    if search_query.match?(/^#(\d+)$/)
+      conversation_id = search_query.match(/^#(\d+)$/)[1].to_i
+      @conversations = base_query.where('conversations.display_id = ?', conversation_id)
                                  .order('conversations.created_at DESC')
                                  .page(params[:page])
                                  .per(15)
-                     else
-                       base_query.where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+    # If search query is numeric only (without #), do exact match on display_id
+    elsif search_query.match?(/^\d+$/)
+      @conversations = base_query.joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                                 .where('conversations.display_id = ?', search_query.to_i)
+                                 .order('conversations.created_at DESC')
+                                 .page(params[:page])
+                                 .per(15)
+    # Otherwise, search across all fields
+    else
+      @conversations = base_query.joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                                 .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
                             ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
                                  .order('conversations.created_at DESC')
                                  .page(params[:page])
                                  .per(15)
-                     end
+    end
   end
 
   def filter_messages

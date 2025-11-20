@@ -20,11 +20,12 @@ const handler = e => {
 };
 
 const debouncedEmit = debounce(value => {
-  // Strip # prefix if present for conversation ID search
-  const cleanValue = value.replace(/^#/, '');
-  // Emit if length > 1 or if it's a numeric query (including #-prefixed numbers)
-  const shouldEmit = cleanValue.length > 1 || cleanValue.match(/^[0-9]+$/);
-  emit('search', shouldEmit ? cleanValue : '');
+  // Keep # prefix for ID-only conversation search
+  // Check if it's #[number] pattern or plain number
+  const isHashSearch = value.match(/^#\d+$/);
+  const isNumberOnly = value.match(/^[0-9]+$/);
+  const shouldEmit = value.length > 1 || isHashSearch || isNumberOnly;
+  emit('search', shouldEmit ? value : '');
 }, 500);
 
 const onInput = e => {
