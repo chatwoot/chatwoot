@@ -9,9 +9,12 @@ if ENV['OTEL_ENABLED'] == 'true'
 
     # Add OTLP exporter for Langfuse
     # Langfuse expects Basic Auth: base64(public_key:secret_key)
+
+    # default to US region will need to be changed when we have EU region available
+    langfuse_endpoint = ENV.fetch('LANGFUSE_BASE_URL', 'https://us.cloud.langfuse.com')
+    langfuse_api_endpoint = "#{langfuse_endpoint}/api/public/otel"
     # When endpoint is passed as a parameter, the full path including /v1/traces must be provided
-    otel_endpoint = ENV.fetch('OTEL_EXPORTER_OTLP_ENDPOINT', 'https://cloud.langfuse.com/api/public/otel') # This will need to be changed when we have EU region
-    traces_endpoint = "#{otel_endpoint}/v1/traces"
+    traces_endpoint = "#{langfuse_api_endpoint}/v1/traces"
 
     exporter_config = {
       endpoint: traces_endpoint,
