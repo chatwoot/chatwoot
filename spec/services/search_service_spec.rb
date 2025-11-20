@@ -260,4 +260,203 @@ describe SearchService do
       expect(search.send(:use_gin_search)).to be false
     end
   end
+
+  describe '#advanced_search with filters' do
+    let(:params) { { q: 'test' } }
+    let(:search_type) { 'Message' }
+
+    before do
+      allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+      allow(account).to receive(:feature_enabled?).and_call_original
+      allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
+      Message.define_singleton_method(:search) { |*_args| [] }
+    end
+
+    context 'when advanced_search feature flag is disabled' do
+      it 'ignores filters and falls back to standard search' do
+        allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
+        contact = create(:contact, account: account)
+        inbox2 = create(:inbox, account: account)
+
+        params = { q: 'test', from: "contact:#{contact.id}", inbox_id: inbox2.id, since: 3.days.ago.to_i }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(search_service).not_to receive(:advanced_search)
+        search_service.perform
+      end
+    end
+
+    context 'when filtering by from parameter' do
+      let(:contact) { create(:contact, account: account) }
+      let(:agent) { create(:user, account: account) }
+
+      it 'filters messages from specific contact' do
+        params = { q: 'test', from: "contact:#{contact.id}" }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              sender_type: 'Contact',
+              sender_id: contact.id
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+
+      it 'filters messages from specific agent' do
+        params = { q: 'test', from: "agent:#{agent.id}" }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              sender_type: 'User',
+              sender_id: agent.id
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+
+      it 'ignores invalid from parameter format' do
+        params = { q: 'test', from: 'invalid:format' }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_not_including(:sender_type, :sender_id)
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+    end
+
+    context 'when filtering by time range' do
+      it 'filters messages since timestamp' do
+        since_timestamp = 3.days.ago.to_i
+        params = { q: 'test', since: since_timestamp }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              created_at: hash_including(gte: Time.zone.at(since_timestamp))
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+
+      it 'filters messages until timestamp' do
+        until_timestamp = 5.days.ago.to_i
+        params = { q: 'test', until: until_timestamp }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              created_at: hash_including(lte: Time.zone.at(until_timestamp))
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+
+      it 'filters messages within time range' do
+        since_timestamp = 5.days.ago.to_i
+        until_timestamp = 12.hours.ago.to_i
+        params = { q: 'test', since: since_timestamp, until: until_timestamp }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              created_at: hash_including(
+                gte: Time.zone.at(since_timestamp),
+                lte: Time.zone.at(until_timestamp)
+              )
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+    end
+
+    context 'when filtering by inbox_id' do
+      let!(:inbox2) { create(:inbox, account: account) }
+
+      before do
+        create(:inbox_member, user: user, inbox: inbox2)
+      end
+
+      it 'filters messages from specific inbox' do
+        params = { q: 'test', inbox_id: inbox2.id }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(inbox_id: inbox2.id)
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+
+      it 'ignores inbox filter when user lacks access' do
+        restricted_inbox = create(:inbox, account: account)
+        params = { q: 'test', inbox_id: restricted_inbox.id }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_not_including(inbox_id: restricted_inbox.id)
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+    end
+
+    context 'when combining multiple filters' do
+      it 'applies all filters together' do
+        test_contact = create(:contact, account: account)
+        test_inbox = create(:inbox, account: account)
+        create(:inbox_member, user: user, inbox: test_inbox)
+
+        since_timestamp = 3.days.ago.to_i
+        params = { q: 'test', from: "contact:#{test_contact.id}", inbox_id: test_inbox.id, since: since_timestamp }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              sender_type: 'Contact',
+              sender_id: test_contact.id,
+              inbox_id: test_inbox.id,
+              created_at: hash_including(gte: Time.zone.at(since_timestamp))
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+    end
+  end
 end
