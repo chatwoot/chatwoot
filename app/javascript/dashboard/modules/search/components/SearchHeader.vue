@@ -19,11 +19,13 @@ const handler = e => {
   }
 };
 
-const debouncedEmit = debounce(
-  value =>
-    emit('search', value.length > 1 || value.match(/^[0-9]+$/) ? value : ''),
-  500
-);
+const debouncedEmit = debounce(value => {
+  // Strip # prefix if present for conversation ID search
+  const cleanValue = value.replace(/^#/, '');
+  // Emit if length > 1 or if it's a numeric query (including #-prefixed numbers)
+  const shouldEmit = cleanValue.length > 1 || cleanValue.match(/^[0-9]+$/);
+  emit('search', shouldEmit ? cleanValue : '');
+}, 500);
 
 const onInput = e => {
   searchQuery.value = e.target.value;

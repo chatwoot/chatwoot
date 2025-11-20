@@ -31,13 +31,23 @@ class SearchService
   end
 
   def filter_conversations
-    @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                    .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                                    .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+    base_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
+                                .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+
+    # If search query is numeric only, do exact match on display_id
+    # This supports the #[ID] search pattern from the frontend
+    @conversations = if search_query.match?(/^\d+$/)
+                       base_query.where('conversations.display_id = ?', search_query.to_i)
+                                 .order('conversations.created_at DESC')
+                                 .page(params[:page])
+                                 .per(15)
+                     else
+                       base_query.where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
                             ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
-                                    .order('conversations.created_at DESC')
-                                    .page(params[:page])
-                                    .per(15)
+                                 .order('conversations.created_at DESC')
+                                 .page(params[:page])
+                                 .per(15)
+                     end
   end
 
   def filter_messages
