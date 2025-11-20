@@ -1,4 +1,7 @@
-import { CSAT_RATINGS } from '../../../../../shared/constants/messages';
+import {
+  CSAT_RATINGS,
+  CSAT_FORMATS,
+} from '../../../../../shared/constants/messages';
 
 const generateInputSelectContent = contentAttributes => {
   const { submitted_values: submittedValues = [] } = contentAttributes;
@@ -50,16 +53,27 @@ const generateCSATContent = (
 ) => {
   const {
     submitted_values: { csat_survey_response: surveyResponse = {} } = {},
+    csat_format: csatFormat = 'emoji_5_scale',
   } = contentAttributes;
   const { rating, feedback_message } = surveyResponse || {};
 
   let messageContent = '';
   if (rating) {
-    const [ratingObject = {}] = CSAT_RATINGS.filter(
-      csatRating => csatRating.value === rating
-    );
+    const isYesNoFormat = csatFormat === CSAT_FORMATS.YES_NO;
+    let ratingDisplay = '';
+
+    if (isYesNoFormat) {
+      ratingDisplay = rating === 5 ? 'Yes' : 'No';
+    } else {
+      // For emoji format, show emoji
+      const [ratingObject = {}] = CSAT_RATINGS.filter(
+        csatRating => csatRating.value === rating
+      );
+      ratingDisplay = ratingObject.emoji;
+    }
+
     messageContent += `<div><strong>${ratingTitle}</strong></div>`;
-    messageContent += `<p>${ratingObject.emoji}</p>`;
+    messageContent += `<p>${ratingDisplay}</p>`;
   }
   if (feedback_message) {
     messageContent += `<div><strong>${feedbackTitle}</strong></div>`;

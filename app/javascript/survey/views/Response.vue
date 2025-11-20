@@ -30,10 +30,11 @@
           v-if="!isRatingSubmitted"
           class="text-base font-medium text-black-800 mb-4"
         >
-          {{ $t('SURVEY.RATING.LABEL') }}
+          {{ questionText || $t('SURVEY.RATING.LABEL') }}
         </label>
         <rating
           :selected-rating="selectedRating"
+          :csat-format="csatFormat"
           @selectRating="selectRating"
         />
         <feedback
@@ -89,6 +90,8 @@ export default {
       logo: '',
       inboxName: '',
       feedbackSubmitted: false,
+      csatFormat: 'emoji_5_scale',
+      questionText: '',
     };
   },
   computed: {
@@ -149,6 +152,10 @@ export default {
         this.surveyDetails = result?.data?.csat_survey_response;
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
+        // Extract CSAT format and question text from content_attributes
+        this.csatFormat =
+          result.data.content_attributes?.csat_format || 'emoji_5_scale';
+        this.questionText = result.data.content_attributes?.question_text || '';
         // If there's already a survey response, mark feedback as submitted
         this.feedbackSubmitted = !!this.surveyDetails;
         this.setLocale(result.data.locale);

@@ -8,6 +8,10 @@
       "AVERAGE": "😐 Average",
       "GOOD": "😀 Good",
       "EXCELLENT": "😍 Excellent"
+    },
+    "YES_NO": {
+      "YES": "Yes",
+      "NO": "No"
     }
   }
 }

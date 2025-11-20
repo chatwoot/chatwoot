@@ -28,7 +28,8 @@ class CsatSurveyResponse < ApplicationRecord
   belongs_to :message
   belongs_to :assigned_agent, class_name: 'User', optional: true, inverse_of: :csat_survey_responses
 
-  validates :rating, presence: true, inclusion: { in: [1, 2, 3, 4, 5] }
+  validates :rating, presence: true
+  validate :rating_matches_format
   validates :account_id, presence: true
   validates :contact_id, presence: true
   validates :conversation_id, presence: true
@@ -39,4 +40,20 @@ class CsatSurveyResponse < ApplicationRecord
   scope :filter_by_team_id, ->(team_id) { joins(:conversation).where(conversations: { team_id: team_id }) if team_id.present? }
   # filter by rating value
   scope :filter_by_rating, ->(rating) { where(rating: rating) if rating.present? }
+
+  private
+
+  def rating_matches_format
+    return unless conversation&.inbox
+
+    inbox = conversation.inbox
+    case inbox.csat_format
+    when 'yes_no'
+      # Yes/No format: 1 (No) or 5 (Yes)
+      errors.add(:rating, 'must be 1 (No) or 5 (Yes) for yes/no format') unless [1, 5].include?(rating)
+    else
+      # Default emoji_5_scale format: 1-5
+      errors.add(:rating, 'must be between 1 and 5') unless (1..5).cover?(rating)
+    end
+  end
 end

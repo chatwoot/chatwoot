@@ -10,7 +10,17 @@
     >
       {{ title }}
     </h6>
-    <div class="ratings">
+    <div v-if="isYesNoFormat" class="yes-no-buttons flex gap-3">
+      <button
+        v-for="option in yesNoOptions"
+        :key="option.key"
+        :class="yesNoButtonClass(option)"
+        @click="selectRating(option)"
+      >
+        {{ $t(option.translationKey) }}
+      </button>
+    </div>
+    <div v-else class="ratings">
       <button
         v-for="rating in ratings"
         :key="rating.key"
@@ -69,7 +79,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 // import Spinner from 'shared/components/Spinner.vue';
-import { CSAT_RATINGS } from 'shared/constants/messages';
+import {
+  CSAT_RATINGS,
+  CSAT_YES_NO_OPTIONS,
+  CSAT_FORMATS,
+} from 'shared/constants/messages';
 // import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
@@ -96,6 +110,7 @@ export default {
     return {
       email: '',
       ratings: CSAT_RATINGS,
+      yesNoOptions: CSAT_YES_NO_OPTIONS,
       selectedRating: null,
       isUpdating: false,
       feedback: '',
@@ -125,9 +140,17 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     title() {
-      return this.isRatingSubmitted
-        ? this.$t('CSAT.SUBMITTED_TITLE')
-        : 'How was your experience?';
+      if (this.isRatingSubmitted) {
+        return this.$t('CSAT.SUBMITTED_TITLE');
+      }
+      // Use custom question text if provided, otherwise use default
+      if (this.isYesNoFormat && this.messageContentAttributes?.question_text) {
+        return this.messageContentAttributes.question_text;
+      }
+      return 'How was your experience?';
+    },
+    isYesNoFormat() {
+      return this.messageContentAttributes?.csat_format === CSAT_FORMATS.YES_NO;
     },
   },
 
@@ -150,6 +173,22 @@ export default {
         { disabled: this.isRatingSubmitted },
         { hover: this.isRatingSubmitted },
         'emoji-button',
+      ];
+    },
+    yesNoButtonClass(option) {
+      const isSelected = option.value === this.selectedRating;
+      return [
+        'yes-no-button',
+        'px-6 py-2 rounded-lg font-medium transition-all',
+        option.key, // Add key class for styling (yes/no)
+        {
+          'bg-white dark:bg-slate-600 border-2': !isSelected,
+          'shadow-md transform scale-105': isSelected,
+          'hover:shadow-lg hover:transform hover:scale-105':
+            !this.isRatingSubmitted,
+          'cursor-pointer': !this.isRatingSubmitted,
+          'cursor-default opacity-60': this.isRatingSubmitted,
+        },
       ];
     },
     async handleSendMessage(content) {
@@ -244,6 +283,34 @@ export default {
         cursor: default;
         opacity: 0.5;
         pointer-events: none;
+      }
+    }
+  }
+
+  .yes-no-buttons {
+    .yes-no-button {
+      min-width: 100px;
+      border-width: 2px;
+      border-style: solid;
+
+      &.yes {
+        border-color: #44ce4b;
+        color: #44ce4b;
+
+        &.shadow-md {
+          background-color: #44ce4b;
+          color: white;
+        }
+      }
+
+      &.no {
+        border-color: #fdad2a;
+        color: #fdad2a;
+
+        &.shadow-md {
+          background-color: #fdad2a;
+          color: white;
+        }
       }
     }
   }

@@ -5,3 +5,5 @@ json.inbox_name resource.inbox.name
 json.locale resource.account.locale
 json.conversation_id resource.conversation_id
 json.created_at resource.created_at
+json.content resource.content
+json.content_attributes resource.content_attributes

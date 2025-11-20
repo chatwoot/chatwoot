@@ -5,6 +5,10 @@
       "LABEL": "Rate your conversation",
       "SUCCESS_MESSAGE": "Thank you for submitting the rating"
     },
+    "YES_NO": {
+      "YES": "Yes",
+      "NO": "No"
+    },
     "FEEDBACK": {
       "LABEL": "Do you have any thoughts you'd like to share?",
       "PLACEHOLDER": "Your feedback (optional)",

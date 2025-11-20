@@ -93,6 +93,21 @@ class Inbox < ApplicationRecord
     (csat_config['prompt_agent_for_csat'].presence || false)
   end
 
+  # Helper method to get CSAT format type ('emoji_5_scale' or 'yes_no')
+  def csat_format
+    csat_config['format'].presence || 'emoji_5_scale'
+  end
+
+  # Helper method to check if CSAT uses yes/no format
+  def csat_yes_no_format?
+    csat_format == 'yes_no'
+  end
+
+  # Helper method to get custom CSAT question text for yes/no format
+  def csat_question_text
+    csat_config['question_text'].presence
+  end
+
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event

@@ -71,7 +71,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
   end
 
   def update
-    @inbox.update!(permitted_params.except(:channel, :assign_even_if_offline, :prompt_agent_for_csat))
+    @inbox.update!(permitted_params.except(:channel, :assign_even_if_offline, :prompt_agent_for_csat, :csat_format, :csat_question_text))
     update_auto_assignment_config
     update_csat_config
     update_inbox_working_hours
@@ -185,11 +185,18 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
     @inbox.save!
   end
 
-  def update_csat_config
-    return if params[:prompt_agent_for_csat].blank?
+  def update_csat_config # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    return if params[:prompt_agent_for_csat].blank? && params[:csat_format].blank? && params[:csat_question_text].blank?
 
     current_config = @inbox.csat_config || {}
-    current_config['prompt_agent_for_csat'] = ActiveModel::Type::Boolean.new.cast(params[:prompt_agent_for_csat])
+
+    if params[:prompt_agent_for_csat].present?
+      current_config['prompt_agent_for_csat'] = ActiveModel::Type::Boolean.new.cast(params[:prompt_agent_for_csat])
+    end
+
+    current_config['format'] = params[:csat_format] if params[:csat_format].present?
+
+    current_config['question_text'] = params[:csat_question_text] if params[:csat_question_text].present? || params.key?(:csat_question_text)
 
     @inbox.csat_config = current_config
     @inbox.save!
@@ -199,7 +206,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name, :add_label_to_resolve_conversation,
-     :csat_expiry_hours, :csat_allow_resend_after_expiry]
+     :csat_expiry_hours, :csat_allow_resend_after_expiry, :prompt_agent_for_csat, :csat_format, :csat_question_text]
   end
 
   def permitted_params(channel_attributes = [])

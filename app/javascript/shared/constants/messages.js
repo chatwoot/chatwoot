@@ -82,6 +82,11 @@ export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
 // https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
 export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
 
+export const CSAT_FORMATS = {
+  EMOJI_5_SCALE: 'emoji_5_scale',
+  YES_NO: 'yes_no',
+};
+
 export const CSAT_RATINGS = [
   {
     key: 'disappointed',
@@ -115,6 +120,21 @@ export const CSAT_RATINGS = [
     key: 'smiling',
     emoji: '😍',
     translationKey: 'CSAT.RATINGS.EXCELLENT',
+    value: 5,
+    color: '#44CE4B',
+  },
+];
+
+export const CSAT_YES_NO_OPTIONS = [
+  {
+    key: 'no',
+    translationKey: 'SURVEY.YES_NO.NO',
+    value: 1,
+    color: '#FDAD2A',
+  },
+  {
+    key: 'yes',
+    translationKey: 'SURVEY.YES_NO.YES',
     value: 5,
     color: '#44CE4B',
   },

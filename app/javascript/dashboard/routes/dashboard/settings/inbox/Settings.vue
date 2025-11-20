@@ -274,6 +274,59 @@
             <p class="pt-1 text-xs text-slate-600 dark:text-slate-400">
               {{ $t('INBOX_MGMT.SETTINGS_POPUP.PROMPT_AGENT_FOR_CSAT_HELP') }}
             </p>
+
+            <div
+              v-if="!enableCSATOnWhatsapp && !isAWebWidgetInbox"
+              class="mt-4"
+            >
+              <label
+                class="block text-sm font-medium text-slate-700 dark:text-slate-300 pb-1"
+              >
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_FORMAT') }}
+              </label>
+              <select
+                v-model="csatFormat"
+                class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+              >
+                <option value="emoji_5_scale">
+                  {{
+                    $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_FORMAT_EMOJI_5_SCALE')
+                  }}
+                </option>
+                <option value="yes_no">
+                  {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_FORMAT_YES_NO') }}
+                </option>
+              </select>
+              <p class="pt-1 text-xs text-slate-600 dark:text-slate-400">
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_FORMAT_HELP') }}
+              </p>
+            </div>
+
+            <div
+              v-if="
+                !enableCSATOnWhatsapp &&
+                csatFormat === 'yes_no' &&
+                !isAWebWidgetInbox
+              "
+              class="mt-4"
+            >
+              <label
+                class="block text-sm font-medium text-slate-700 dark:text-slate-300 pb-1"
+              >
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_QUESTION_TEXT') }}
+              </label>
+              <input
+                v-model="csatQuestionText"
+                type="text"
+                :placeholder="
+                  $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_QUESTION_TEXT_PLACEHOLDER')
+                "
+                class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+              />
+              <p class="pt-1 text-xs text-slate-600 dark:text-slate-400">
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_QUESTION_TEXT_HELP') }}
+              </p>
+            </div>
           </div>
         </label>
 
@@ -581,6 +634,8 @@ export default {
       csatAllowResendAfterExpiry: false,
       csatExpiryHours: null,
       promptAgentForCsat: false,
+      csatFormat: 'emoji_5_scale',
+      csatQuestionText: '',
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
@@ -795,6 +850,8 @@ export default {
           this.inbox.csat_allow_resend_after_expiry || false;
         this.csatExpiryHours = this.inbox.csat_expiry_hours;
         this.promptAgentForCsat = this.inbox.prompt_agent_for_csat || false;
+        this.csatFormat = this.inbox.csat_format || 'emoji_5_scale';
+        this.csatQuestionText = this.inbox.csat_question_text || '';
         this.enableCSATOnWhatsapp =
           this.inbox?.additional_attributes?.enable_csat_on_whatsapp || false;
         this.senderNameType = this.inbox.sender_name_type;
@@ -828,6 +885,8 @@ export default {
           csat_allow_resend_after_expiry: this.csatAllowResendAfterExpiry,
           csat_expiry_hours: this.csatExpiryHours,
           prompt_agent_for_csat: this.promptAgentForCsat,
+          csat_format: this.csatFormat,
+          csat_question_text: this.csatQuestionText,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           add_label_to_resolve_conversation: this.addLabelToResolveConversation,
           greeting_enabled: this.greetingEnabled,
