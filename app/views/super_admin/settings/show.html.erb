@@ -14,6 +14,30 @@
 </header>
 <section class="main-content__body px-8">
   <div class="bg-white py-2 px-4 xl:px-0">
-    <%= render 'general_settings' %>
+    <div class="flex items-center gap-3 mb-8">
+      <div>
+        <h2 class="text-lg font-semibold text-n-slate-12">Instance Version</h2>
+        <p class="text-sm text-n-slate-11"><%= Chatwoot.config[:version] %></p>
+      </div>
+    </div>
+
+    <div class="border-t border-n-weak pt-8">
+      <h2 class="text-lg font-semibold text-n-slate-12 mb-4">Billing</h2>
+      <p class="text-sm text-n-slate-11 mb-4">
+        <%= SuperAdmin::FeaturesHelper.plan_details.html_safe %>
+      </p>
+      <a href="<%= ChatwootHub.billing_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex gap-2 items-center px-4 py-2 bg-woot-600 text-white rounded-lg hover:bg-woot-700 transition">
+        Access Billing Portal
+        <svg width="16" height="16"><use xlink:href="#icon-arrow-right-line" /></svg>
+      </a>
+    </div>
+
+    <div class="border-t border-n-weak pt-8 mt-8">
+      <div class="flex gap-4 items-center">
+        <button onclick="location.href = '<%= super_admin_settings_refresh_url %>';" class="px-4 py-2 bg-slate-100 text-n-slate-12 rounded-lg hover:bg-slate-200 transition">
+          Refresh Instance Status
+        </button>
+      </div>
+    </div>
   </div>
 </section>

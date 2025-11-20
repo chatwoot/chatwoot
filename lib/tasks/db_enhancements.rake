@@ -5,7 +5,11 @@ Rake::Task['db:migrate'].enhance do
     ConfigLoader.new.process
     # Clear global config cache to ensure fresh values are loaded
     puts 'Clearing global config cache'
-    GlobalConfig.clear_cache
+    begin
+      GlobalConfig.clear_cache
+    rescue StandardError => e
+      puts "Warning: Could not clear cache: #{e.message}"
+    end
   end
 end
 
