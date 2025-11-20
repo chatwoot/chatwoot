@@ -46,7 +46,7 @@ describe('#generateURLParams', () => {
         dateRange: { type: DATE_RANGE_TYPES.LAST_7_DAYS },
       });
       expect(result).toEqual({
-        date_range: 'last_7_days',
+        range: 'last_7_days',
       });
     });
 
@@ -59,7 +59,7 @@ describe('#generateURLParams', () => {
         },
       });
       expect(result).toEqual({
-        date_range: 'between',
+        range: 'between',
         since: 1640995200,
         until: 1672531199,
       });
@@ -74,7 +74,7 @@ describe('#generateURLParams', () => {
         },
       });
       expect(result).toEqual({
-        date_range: 'after',
+        range: 'after',
         since: 1640995200,
       });
     });
@@ -88,7 +88,7 @@ describe('#generateURLParams', () => {
         },
       });
       expect(result).toEqual({
-        date_range: 'before',
+        range: 'before',
         until: 1672531199,
       });
     });
@@ -102,7 +102,7 @@ describe('#generateURLParams', () => {
         },
       });
       expect(result).toEqual({
-        date_range: 'custom',
+        range: 'custom',
         since: 1640995200,
         until: 1672531199,
       });
@@ -117,7 +117,7 @@ describe('#generateURLParams', () => {
         },
       });
       expect(result).toEqual({
-        date_range: 'between',
+        range: 'between',
       });
     });
   });
@@ -135,7 +135,7 @@ describe('#generateURLParams', () => {
     expect(result).toEqual({
       from: 'agent:456',
       inbox_id: 789,
-      date_range: 'between',
+      range: 'between',
       since: 1640995200,
       until: 1672531199,
     });
@@ -182,9 +182,9 @@ describe('#parseURLParams', () => {
     });
   });
 
-  it('parses explicit date_range parameter', () => {
+  it('parses explicit range parameter', () => {
     const result = parseURLParams({
-      date_range: 'last_7_days',
+      range: 'last_7_days',
       since: '1640995200',
       until: '1672531199',
     });
@@ -246,9 +246,9 @@ describe('#parseURLParams', () => {
       });
     });
 
-    it('prioritizes explicit date_range over inferred type', () => {
+    it('prioritizes explicit range over inferred type', () => {
       const result = parseURLParams({
-        date_range: 'custom',
+        range: 'custom',
         since: '1640995200',
         until: '1672531199',
       });
@@ -268,7 +268,7 @@ describe('#parseURLParams', () => {
     const result = parseURLParams({
       from: 'contact:789',
       inbox_id: '123',
-      date_range: 'between',
+      range: 'between',
       since: '1640995200',
       until: '1672531199',
     });

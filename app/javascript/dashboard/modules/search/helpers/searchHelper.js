@@ -19,7 +19,7 @@ export const generateURLParams = ({ from, in: inboxId, dateRange }) => {
 
   if (dateRange?.type) {
     const { type, from: dateFrom, to: dateTo } = dateRange;
-    params.date_range = type;
+    params.range = type;
     if (dateFrom && type !== DATE_RANGE_TYPES.BEFORE) params.since = dateFrom;
     if (dateTo && type !== DATE_RANGE_TYPES.AFTER) params.until = dateTo;
   }
@@ -28,9 +28,9 @@ export const generateURLParams = ({ from, in: inboxId, dateRange }) => {
 };
 
 export const parseURLParams = query => {
-  const { from, inbox_id, since, until, date_range } = query;
+  const { from, inbox_id, since, until, range } = query;
 
-  let type = date_range;
+  let type = range;
   if (!type && (since || until)) {
     if (since && until) type = DATE_RANGE_TYPES.BETWEEN;
     else if (since) type = DATE_RANGE_TYPES.AFTER;

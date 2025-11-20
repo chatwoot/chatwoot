@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useToggle } from '@vueuse/core';
+import { ref } from 'vue';
+import { useToggle, useResizeObserver } from '@vueuse/core';
 
 defineProps({
   text: {
@@ -24,9 +24,7 @@ const checkOverflow = () => {
   needsToggle.value = element.scrollHeight > maxHeight;
 };
 
-onMounted(() => {
-  setTimeout(checkOverflow, 0);
-});
+useResizeObserver(contentElement, checkOverflow);
 </script>
 
 <template>

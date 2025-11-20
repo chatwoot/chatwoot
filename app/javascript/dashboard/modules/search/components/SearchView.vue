@@ -248,7 +248,7 @@ const clearSearchResult = () => {
 const buildSearchPayload = (basePayload = {}) => ({
   ...basePayload,
   ...(filters.value.from && { from: filters.value.from }),
-  ...(filters.value.in && { inbox_id: filters.value.in }),
+  ...(filters.value.in && { inboxId: filters.value.in }),
   ...(filters.value.dateRange.from && { since: filters.value.dateRange.from }),
   ...(filters.value.dateRange.to && { until: filters.value.dateRange.to }),
 });
