@@ -81,5 +81,8 @@ class Shopify::CallbacksController < ApplicationController
     return unless Rails.env.test?
 
     Rails.logger.info("[SHOPIFY_CALLBACK] #{message}")
+    # rubocop:disable Rails/Output
+    puts "[SHOPIFY_CALLBACK] #{message}"
+    # rubocop:enable Rails/Output
   end
 end
