@@ -57,8 +57,9 @@ export const actions = {
       });
     }
   },
-  async fullSearch({ commit, dispatch }, { q }) {
-    if (!q) {
+  async fullSearch({ commit, dispatch }, payload) {
+    const { q, ...filters } = payload;
+    if (!q && !Object.keys(filters).length) {
       return;
     }
     commit(types.FULL_SEARCH_SET_UI_FLAG, {
@@ -69,7 +70,7 @@ export const actions = {
       await Promise.all([
         dispatch('contactSearch', { q }),
         dispatch('conversationSearch', { q }),
-        dispatch('messageSearch', { q }),
+        dispatch('messageSearch', { q, ...filters }),
         dispatch('articleSearch', { q }),
       ]);
     } catch (error) {
@@ -103,10 +104,11 @@ export const actions = {
       commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
-  async messageSearch({ commit }, { q, page = 1 }) {
+  async messageSearch({ commit }, payload) {
+    const { page = 1, ...searchParams } = payload;
     commit(types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await SearchAPI.messages({ q, page });
+      const { data } = await SearchAPI.messages({ ...searchParams, page });
       commit(types.MESSAGE_SEARCH_SET, data.payload.messages);
     } catch (error) {
       // Ignore error

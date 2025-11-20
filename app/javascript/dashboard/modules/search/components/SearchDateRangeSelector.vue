@@ -13,15 +13,16 @@ import {
   getUnixTime,
   fromUnixTime,
 } from 'date-fns';
+import { DATE_RANGE_TYPES } from '../helpers/searchHelper';
+
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const emit = defineEmits(['change']);
-const fromModel = defineModel('from', {
-  type: [Number, String],
-  default: null,
+const modelValue = defineModel({
+  type: Object,
+  default: () => ({ type: null, from: null, to: null }),
 });
-const toModel = defineModel('to', { type: [Number, String], default: null });
 
 const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();
@@ -29,51 +30,32 @@ const [showRangeTypeDropdown, toggleRangeTypeDropdown] = useToggle();
 
 const customFrom = ref('');
 const customTo = ref('');
-const rangeType = ref('between');
-
-const selectedPresetKey = ref('');
+const rangeType = ref(DATE_RANGE_TYPES.BETWEEN);
 
 const DATE_FILTER_ACTIONS = {
   PRESET: 'preset',
   SELECT: 'select',
 };
 
-const PRESET_RANGE_VALUES = {
-  LAST_7_DAYS: 'last_7_days',
-  LAST_30_DAYS: 'last_30_days',
-  LAST_6_MONTHS: 'last_6_months',
-  LAST_YEAR: 'last_year',
-};
-
-const CUSTOM_RANGE_TYPES = {
-  BETWEEN: 'between',
-  BEFORE: 'before',
-  AFTER: 'after',
-};
-
-const SELECTION_TYPES = {
-  CUSTOM: 'custom',
-};
-
 const PRESET_RANGES = computed(() => [
   {
     label: t('SEARCH.DATE_RANGE.LAST_7_DAYS'),
-    value: PRESET_RANGE_VALUES.LAST_7_DAYS,
+    value: DATE_RANGE_TYPES.LAST_7_DAYS,
     days: 7,
   },
   {
     label: t('SEARCH.DATE_RANGE.LAST_30_DAYS'),
-    value: PRESET_RANGE_VALUES.LAST_30_DAYS,
+    value: DATE_RANGE_TYPES.LAST_30_DAYS,
     days: 30,
   },
   {
     label: t('SEARCH.DATE_RANGE.LAST_6_MONTHS'),
-    value: PRESET_RANGE_VALUES.LAST_6_MONTHS,
+    value: DATE_RANGE_TYPES.LAST_6_MONTHS,
     months: 6,
   },
   {
     label: t('SEARCH.DATE_RANGE.LAST_YEAR'),
-    value: PRESET_RANGE_VALUES.LAST_YEAR,
+    value: DATE_RANGE_TYPES.LAST_YEAR,
     years: 1,
   },
 ]);
@@ -81,33 +63,46 @@ const PRESET_RANGES = computed(() => [
 const RANGE_TYPES = computed(() => [
   {
     label: t('SEARCH.DATE_RANGE.BETWEEN'),
-    value: CUSTOM_RANGE_TYPES.BETWEEN,
+    value: DATE_RANGE_TYPES.BETWEEN,
     action: DATE_FILTER_ACTIONS.SELECT,
+
+    isSelected: rangeType.value === DATE_RANGE_TYPES.BETWEEN,
   },
   {
     label: t('SEARCH.DATE_RANGE.BEFORE'),
-    value: CUSTOM_RANGE_TYPES.BEFORE,
+    value: DATE_RANGE_TYPES.BEFORE,
     action: DATE_FILTER_ACTIONS.SELECT,
+
+    isSelected: rangeType.value === DATE_RANGE_TYPES.BEFORE,
   },
   {
     label: t('SEARCH.DATE_RANGE.AFTER'),
-    value: CUSTOM_RANGE_TYPES.AFTER,
+    value: DATE_RANGE_TYPES.AFTER,
     action: DATE_FILTER_ACTIONS.SELECT,
+
+    isSelected: rangeType.value === DATE_RANGE_TYPES.AFTER,
   },
 ]);
 
 const computeDateRange = config => {
   const end = endOfDay(new Date());
   let start;
-  if (config.days) start = startOfDay(subDays(end, config.days));
-  else if (config.months) start = startOfDay(subMonths(end, config.months));
-  else if (config.years) start = startOfDay(subYears(end, config.years));
-  return { from: getUnixTime(start), to: getUnixTime(end) };
+
+  if (config.days) {
+    start = startOfDay(subDays(end, config.days));
+  } else if (config.months) {
+    start = startOfDay(subMonths(end, config.months));
+  } else {
+    start = startOfDay(subYears(end, config.years));
+  }
+
+  return { type: config.value, from: getUnixTime(start), to: getUnixTime(end) };
 };
 
 const selectedValue = computed(() => {
-  if (!fromModel.value && !toModel.value) return '';
-  return selectedPresetKey.value || SELECTION_TYPES.CUSTOM;
+  const { from, to, type } = modelValue.value || {};
+  if (!from && !to && !type) return '';
+  return type || DATE_RANGE_TYPES.CUSTOM;
 });
 
 const menuItems = computed(() =>
@@ -118,15 +113,14 @@ const menuItems = computed(() =>
   }))
 );
 
-const applySelection = ({ from, to }) => {
-  fromModel.value = from;
-  toModel.value = to;
-  emit('change', { from, to });
+const applySelection = ({ type, from, to }) => {
+  const newValue = { type, from, to };
+  modelValue.value = newValue;
+  emit('change', newValue);
 };
 
 const clearFilter = () => {
-  selectedPresetKey.value = '';
-  applySelection({ from: null, to: null });
+  applySelection({ type: null, from: null, to: null });
   customFrom.value = '';
   customTo.value = '';
   toggleDropdown(false);
@@ -137,14 +131,13 @@ const handlePresetAction = item => {
     clearFilter();
     return;
   }
-  selectedPresetKey.value = item.value;
+  customFrom.value = '';
+  customTo.value = '';
   applySelection(computeDateRange(item));
   toggleDropdown(false);
 };
 
 const applyCustomRange = () => {
-  let start = null;
-  let end = null;
   const customFromDate = customFrom.value
     ? startOfDay(new Date(customFrom.value))
     : null;
@@ -152,23 +145,25 @@ const applyCustomRange = () => {
     ? endOfDay(new Date(customTo.value))
     : null;
 
+  let start = null;
+  let end = null;
+
   if (
-    rangeType.value === CUSTOM_RANGE_TYPES.BETWEEN &&
+    rangeType.value === DATE_RANGE_TYPES.BETWEEN &&
     customFromDate &&
     customToDate
   ) {
     start = customFromDate;
     end = customToDate;
-  } else if (rangeType.value === CUSTOM_RANGE_TYPES.BEFORE && customToDate) {
+  } else if (rangeType.value === DATE_RANGE_TYPES.BEFORE && customToDate) {
     end = customToDate;
-  } else if (rangeType.value === CUSTOM_RANGE_TYPES.AFTER && customFromDate) {
+  } else if (rangeType.value === DATE_RANGE_TYPES.AFTER && customFromDate) {
     start = customFromDate;
-    end = endOfDay(new Date());
   }
 
   if (start || end) {
-    selectedPresetKey.value = '';
     applySelection({
+      type: rangeType.value,
       from: start ? getUnixTime(start) : null,
       to: end ? getUnixTime(end) : null,
     });
@@ -176,29 +171,25 @@ const applyCustomRange = () => {
   }
 };
 
-const formatDate = timestamp => {
-  const date = fromUnixTime(timestamp);
-  return format(date, 'MMM d, yyyy'); // (e.g., "Jan 15, 2024")
-};
+const formatDate = timestamp => format(fromUnixTime(timestamp), 'MMM d, yyyy'); // (e.g., "Jan 15, 2024")
 
 const selectedLabel = computed(() => {
   const prefix = t('SEARCH.DATE_RANGE.TIME_RANGE');
   if (!selectedValue.value) return prefix;
 
-  if (selectedValue.value === SELECTION_TYPES.CUSTOM) {
-    const from = fromModel.value;
-    const to = toModel.value;
-
-    if (from && to) return `${prefix}: ${formatDate(from)} - ${formatDate(to)}`;
-    if (to)
-      return `${prefix}: ${t('SEARCH.DATE_RANGE.BEFORE_DATE', { date: formatDate(to) })}`;
-    if (from)
-      return `${prefix}: ${t('SEARCH.DATE_RANGE.AFTER_DATE', { date: formatDate(from) })}`;
-    return `${prefix}: ${t('SEARCH.DATE_RANGE.CUSTOM_RANGE')}`;
-  }
-
+  // Check if it's a preset
   const preset = PRESET_RANGES.value.find(p => p.value === selectedValue.value);
-  return `${prefix}: ${preset?.label || ''}`;
+  if (preset) return `${prefix}: ${preset.label}`;
+
+  // Custom ranges
+  const { from, to } = modelValue.value;
+  if (from && to) return `${prefix}: ${formatDate(from)} - ${formatDate(to)}`;
+  if (to)
+    return `${prefix}: ${t('SEARCH.DATE_RANGE.BEFORE_DATE', { date: formatDate(to) })}`;
+  if (from)
+    return `${prefix}: ${t('SEARCH.DATE_RANGE.AFTER_DATE', { date: formatDate(from) })}`;
+
+  return `${prefix}: ${t('SEARCH.DATE_RANGE.CUSTOM_RANGE')}`;
 });
 
 const selectedRangeTypeLabel = computed(
@@ -206,25 +197,34 @@ const selectedRangeTypeLabel = computed(
 );
 
 const handleRangeTypeAction = item => {
+  customFrom.value = '';
+  customTo.value = '';
   rangeType.value = item.value;
   toggleRangeTypeDropdown(false);
 };
 
+const CUSTOM_RANGE_TYPES = [
+  DATE_RANGE_TYPES.BETWEEN,
+  DATE_RANGE_TYPES.BEFORE,
+  DATE_RANGE_TYPES.AFTER,
+  DATE_RANGE_TYPES.CUSTOM,
+];
+
 const onToggleDropdown = () => {
   if (!showDropdown.value) {
-    if (
-      selectedValue.value === SELECTION_TYPES.CUSTOM &&
-      (fromModel.value || toModel.value)
-    ) {
+    const { type, from, to } = modelValue.value || {};
+
+    rangeType.value = CUSTOM_RANGE_TYPES.includes(type)
+      ? type
+      : DATE_RANGE_TYPES.BETWEEN;
+
+    if (CUSTOM_RANGE_TYPES.includes(type)) {
       try {
-        customFrom.value = fromModel.value
-          ? format(fromUnixTime(fromModel.value), 'yyyy-MM-dd')
-          : '';
-        customTo.value = toModel.value
-          ? format(fromUnixTime(toModel.value), 'yyyy-MM-dd')
-          : '';
-      } catch (e) {
-        // error
+        customFrom.value = from ? format(fromUnixTime(from), 'yyyy-MM-dd') : '';
+        customTo.value = to ? format(fromUnixTime(to), 'yyyy-MM-dd') : '';
+      } catch {
+        customFrom.value = '';
+        customTo.value = '';
       }
     } else {
       customFrom.value = '';
@@ -290,6 +290,7 @@ const onToggleDropdown = () => {
               v-if="rangeType !== 'before'"
               v-model="customFrom"
               type="date"
+              :max="customTo"
               class="!w-[7.75rem] !mb-0 !rounded-md !bg-transparent !outline-n-strong -outline-offset-1 !px-2 !py-1 !text-sm text-n-slate-12 !h-8"
             />
             <span
@@ -302,6 +303,7 @@ const onToggleDropdown = () => {
               v-if="rangeType !== 'after'"
               v-model="customTo"
               type="date"
+              :min="customFrom"
               class="!w-[7.75rem] !mb-0 !rounded-md !bg-transparent !outline-n-strong -outline-offset-1 !px-2 !py-1 !text-sm text-n-slate-12 !h-8"
             />
           </div>

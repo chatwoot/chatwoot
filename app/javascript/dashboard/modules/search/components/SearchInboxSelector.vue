@@ -15,6 +15,7 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['change']);
 const modelValue = defineModel({
   type: [String, Number],
   default: null,
@@ -81,6 +82,7 @@ const selectedLabel = computed(() => {
 const handleAction = item => {
   modelValue.value = item.value;
   toggleDropdown(false);
+  emit('change');
 };
 
 const onToggleDropdown = () => {

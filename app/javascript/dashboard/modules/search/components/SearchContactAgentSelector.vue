@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineModel } from 'vue';
+import { ref, computed, defineModel, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
@@ -7,32 +7,25 @@ import { debounce } from '@chatwoot/utils';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { searchContacts } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
+import { fetchContactDetails } from '../helpers/searchHelper';
+
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
-  label: {
-    type: String,
-    required: true,
-  },
+  label: { type: String, required: true },
 });
 
-const modelValue = defineModel({
-  type: [String, Number],
-  default: null,
-});
+const emit = defineEmits(['change']);
 
-const MENU_ITEM_TYPES = {
-  AGENT: 'agent',
+const FROM_TYPE = {
   CONTACT: 'contact',
+  AGENT: 'agent',
 };
 
-const MENU_ACTIONS = {
-  SELECT: 'select',
-};
+const MENU_ACTIONS_SELECT = 'select';
 
-const SEARCH_KEYS = ['name', 'email', 'phone_number'];
-const DEBOUNCE_DELAY = 300;
+const modelValue = defineModel({ type: String, default: null });
 
 const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();
@@ -40,137 +33,176 @@ const [showDropdown, toggleDropdown] = useToggle();
 const searchQuery = ref('');
 const searchedContacts = ref([]);
 const isSearching = ref(false);
-
 const selectedContact = ref(null);
 
 const agentsList = useMapGetter('agents/getVerifiedAgents');
 
+const createMenuItem = (item, type, isAgent = false) => {
+  const transformed = useCamelCase(item, { deep: true });
+  const value = `${type}:${transformed.id}`;
+  return {
+    label: transformed.name,
+    value,
+    action: MENU_ACTIONS_SELECT,
+    type,
+    thumbnail: {
+      name: transformed.name,
+      src: isAgent ? transformed.avatarUrl : transformed.thumbnail,
+    },
+    ...(isAgent
+      ? {}
+      : { description: transformed.email || transformed.phoneNumber }),
+    isSelected: modelValue.value === value,
+  };
+};
+
 const agentsSection = computed(() => {
-  const agents = agentsList.value?.map(agent => {
-    const transformedAgent = useCamelCase(agent, { deep: true });
-    return {
-      label: transformedAgent.name,
-      value: transformedAgent.id,
-      action: MENU_ACTIONS.SELECT,
-      type: MENU_ITEM_TYPES.AGENT,
-      thumbnail: {
-        name: transformedAgent.name,
-        src: transformedAgent.avatarUrl,
-      },
-      isSelected: modelValue.value === transformedAgent.id,
-    };
-  });
-
-  if (!searchQuery.value) return agents;
-
-  return agents.filter(agent =>
-    agent.label.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  const agents =
+    agentsList.value?.map(agent =>
+      createMenuItem(agent, FROM_TYPE.AGENT, true)
+    ) || [];
+  return searchQuery.value
+    ? agents.filter(agent =>
+        agent.label.toLowerCase().includes(searchQuery.value.toLowerCase())
+      )
+    : agents;
 });
 
-const contactsSection = computed(() => {
-  return searchedContacts.value?.map(contact => {
-    const transformedContact = useCamelCase(contact, { deep: true });
-    const label = transformedContact.name;
-    const description =
-      transformedContact.email || transformedContact.phoneNumber;
+const contactsSection = computed(
+  () =>
+    searchedContacts.value?.map(contact =>
+      createMenuItem(contact, FROM_TYPE.CONTACT)
+    ) || []
+);
 
-    return {
-      label: label,
-      value: transformedContact.id,
-      action: MENU_ACTIONS.SELECT,
-      type: MENU_ITEM_TYPES.CONTACT,
-      thumbnail: {
-        name: transformedContact.name,
-        src: transformedContact.thumbnail,
-      },
-      description,
-      isSelected: modelValue.value === transformedContact.id,
-    };
-  });
-});
-
-const menuSections = computed(() => {
-  return [
-    {
-      title: t('SEARCH.FILTERS.CONTACTS'),
-      items: contactsSection.value,
-      isLoading: isSearching.value,
-      emptyState: t('SEARCH.FILTERS.NO_CONTACTS'),
-    },
-    {
-      title: t('SEARCH.FILTERS.AGENTS'),
-      items: agentsSection.value,
-      emptyState: t('SEARCH.FILTERS.NO_AGENTS'),
-    },
-  ];
-});
+const menuSections = computed(() => [
+  {
+    title: t('SEARCH.FILTERS.CONTACTS'),
+    items: contactsSection.value,
+    isLoading: isSearching.value,
+    emptyState: t('SEARCH.FILTERS.NO_CONTACTS'),
+  },
+  {
+    title: t('SEARCH.FILTERS.AGENTS'),
+    items: agentsSection.value,
+    emptyState: t('SEARCH.FILTERS.NO_AGENTS'),
+  },
+]);
 
 const selectedLabel = computed(() => {
   if (!modelValue.value) return props.label;
 
-  // Check in preserved selected contact
-  if (selectedContact.value && selectedContact.value.id === modelValue.value) {
-    return `${props.label}: ${selectedContact.value.name}`;
+  const [type, id] = modelValue.value.split(':');
+  const numericId = Number(id);
+
+  if (type === FROM_TYPE.CONTACT) {
+    if (selectedContact.value?.id === numericId) {
+      return `${props.label}: ${selectedContact.value.name}`;
+    }
+    const contact = searchedContacts.value?.find(c => c.id === numericId);
+    if (contact) return `${props.label}: ${contact.name}`;
+  } else if (type === FROM_TYPE.AGENT) {
+    const agent = agentsList.value?.find(a => a.id === numericId);
+    if (agent) return `${props.label}: ${agent.name}`;
   }
 
-  // Check in agents
-  const agent = agentsList.value?.find(a => a.id === modelValue.value);
-  if (agent) return `${props.label}: ${agent.name}`;
-
-  // Check in searched contacts
-  const contact = searchedContacts.value?.find(c => c.id === modelValue.value);
-  if (contact) return `${props.label}: ${contact.name}`;
-
-  return `${props.label}: ${modelValue.value}`;
+  return `${props.label}: ${numericId}`;
 });
 
 const debouncedSearch = debounce(async query => {
   if (!query) {
-    searchedContacts.value = [];
+    searchedContacts.value = selectedContact.value
+      ? [selectedContact.value]
+      : [];
     isSearching.value = false;
     return;
   }
 
   try {
     const contacts = await searchContacts({
-      keys: SEARCH_KEYS,
+      keys: ['name', 'email', 'phone_number'],
       query,
     });
-    searchedContacts.value = contacts;
-  } catch (error) {
+
+    // Add selected contact to top if not already in results
+    const allContacts = selectedContact.value
+      ? [
+          selectedContact.value,
+          ...contacts.filter(c => c.id !== selectedContact.value.id),
+        ]
+      : contacts;
+
+    searchedContacts.value = allContacts;
+  } catch {
     // Ignore error
   } finally {
     isSearching.value = false;
   }
-}, DEBOUNCE_DELAY);
+}, 300);
 
 const performSearch = query => {
   searchQuery.value = query;
   if (query) {
-    searchedContacts.value = [];
+    searchedContacts.value = selectedContact.value
+      ? [selectedContact.value]
+      : [];
     isSearching.value = true;
   }
   debouncedSearch(query);
 };
 
-const handleAction = item => {
-  if (item.type === MENU_ITEM_TYPES.CONTACT) {
-    selectedContact.value = { id: item.value, name: item.label };
-  } else {
-    selectedContact.value = null;
-  }
-  modelValue.value = item.value;
-  toggleDropdown(false);
-};
-
 const onToggleDropdown = () => {
   if (!showDropdown.value) {
+    // Reset search when opening dropdown
     searchQuery.value = '';
-    searchedContacts.value = [];
+    searchedContacts.value = selectedContact.value
+      ? [selectedContact.value]
+      : [];
   }
   toggleDropdown();
 };
+
+const handleAction = item => {
+  modelValue.value = item.value;
+
+  if (item.type === FROM_TYPE.CONTACT) {
+    const [, id] = item.value.split(':');
+    selectedContact.value = {
+      id: Number(id),
+      name: item.label,
+      thumbnail: item.thumbnail?.src,
+    };
+  } else if (item.type === FROM_TYPE.AGENT) {
+    selectedContact.value = null;
+  }
+
+  toggleDropdown(false);
+  emit('change');
+};
+
+const resolveContactName = async () => {
+  if (!modelValue.value) return;
+
+  const [type, id] = modelValue.value.split(':');
+  if (type !== FROM_TYPE.CONTACT) return;
+
+  const numericId = Number(id);
+  if (selectedContact.value?.id === numericId) return;
+
+  const contact = await fetchContactDetails(numericId);
+  if (contact) {
+    selectedContact.value = {
+      id: contact.id,
+      name: contact.name,
+      thumbnail: contact.thumbnail,
+    };
+    if (!searchedContacts.value.some(c => c.id === contact.id)) {
+      searchedContacts.value.push(selectedContact.value);
+    }
+  }
+};
+
+watch(() => modelValue.value, resolveContactName, { immediate: true });
 </script>
 
 <template>

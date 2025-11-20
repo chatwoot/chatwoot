@@ -5,6 +5,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
+import { generateURLParams, parseURLParams } from '../helpers/searchHelper';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
@@ -233,30 +234,37 @@ const showViewMore = computed(() => ({
   articles: mappedArticles.value?.length > 5 && isSelectedTabAll.value,
 }));
 
+const filters = ref({
+  from: null,
+  in: null,
+  dateRange: { type: null, from: null, to: null },
+});
+
 const clearSearchResult = () => {
   pages.value = { contacts: 1, conversations: 1, messages: 1, articles: 1 };
   store.dispatch('conversationSearch/clearSearchResults');
 };
 
+const buildSearchPayload = (basePayload = {}) => ({
+  ...basePayload,
+  ...(filters.value.from && { from: filters.value.from }),
+  ...(filters.value.in && { inbox_id: filters.value.in }),
+  ...(filters.value.dateRange.from && { since: filters.value.dateRange.from }),
+  ...(filters.value.dateRange.to && { until: filters.value.dateRange.to }),
+});
+
 const updateURL = () => {
-  // Update route with tab as URL parameter and query as query parameter
-  const params = { accountId: route.params.accountId };
-  const queryParams = {};
+  const params = {
+    accountId: route.params.accountId,
+    ...(selectedTab.value !== 'all' && { tab: selectedTab.value }),
+  };
 
-  // Only add tab param if not 'all'
-  if (selectedTab.value !== 'all') {
-    params.tab = selectedTab.value;
-  }
+  const queryParams = {
+    ...(query.value?.trim() && { q: query.value.trim() }),
+    ...generateURLParams(filters.value),
+  };
 
-  if (query.value?.trim()) {
-    queryParams.q = query.value.trim();
-  }
-
-  router.replace({
-    name: 'search',
-    params,
-    query: queryParams,
-  });
+  router.replace({ name: 'search', params, query: queryParams });
 };
 
 const onSearch = q => {
@@ -265,7 +273,13 @@ const onSearch = q => {
   updateURL();
   if (!q) return;
   useTrack(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
-  store.dispatch('conversationSearch/fullSearch', { q, page: 1 });
+
+  const searchPayload = buildSearchPayload({ q, page: 1 });
+  store.dispatch('conversationSearch/fullSearch', searchPayload);
+};
+
+const onFilterChange = () => {
+  onSearch(query.value);
 };
 
 const onBack = () => {
@@ -286,12 +300,16 @@ const loadMore = () => {
   };
 
   if (uiFlags.value.isFetching || selectedTab.value === 'all') return;
+
   const tab = selectedTab.value;
   pages.value[tab] += 1;
-  store.dispatch(SEARCH_ACTIONS[tab], {
-    q: query.value,
-    page: pages.value[tab],
-  });
+
+  const payload =
+    tab === 'messages'
+      ? buildSearchPayload({ q: query.value, page: pages.value[tab] })
+      : { q: query.value, page: pages.value[tab] };
+
+  store.dispatch(SEARCH_ACTIONS[tab], payload);
 };
 
 const onTabChange = tab => {
@@ -302,6 +320,9 @@ const onTabChange = tab => {
 onMounted(() => {
   store.dispatch('conversationSearch/clearSearchResults');
   store.dispatch('agents/get');
+
+  const parsedFilters = parseURLParams(route.query);
+  filters.value = parsedFilters;
 
   // Auto-execute search if query parameter exists
   if (route.query.q) {
@@ -330,7 +351,12 @@ onUnmounted(() => {
     <section class="flex flex-col flex-grow w-full h-full overflow-hidden">
       <div class="w-full max-w-4xl mx-auto z-[60]">
         <div class="flex flex-col w-full px-4">
-          <SearchHeader :initial-query="query" @search="onSearch" />
+          <SearchHeader
+            v-model:filters="filters"
+            :initial-query="query"
+            @search="onSearch"
+            @filter-change="onFilterChange"
+          />
           <SearchTabs
             v-if="query"
             :tabs="tabs"
