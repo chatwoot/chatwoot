@@ -185,6 +185,37 @@ const handleEdit = () => {
           </section>
         </div>
 
+        <section class="rounded-2xl border border-n-gray-5 p-5">
+          <h3 class="text-xs uppercase tracking-wide text-n-slate-9">
+            {{ t('CONTESTS.TABLE_QUESTIONNAIRE') }}
+          </h3>
+          <div class="mt-3 space-y-3">
+            <div
+              v-if="contest.questionnaire && contest.questionnaire.length"
+              class="space-y-3"
+            >
+              <div
+                v-for="(item, index) in contest.questionnaire"
+                :key="`${contest.id}-question-${index}`"
+                class="rounded-xl border border-n-alpha-3 bg-n-alpha-1 p-4 dark:bg-n-solid-3"
+              >
+                <p class="text-sm font-semibold text-n-slate-12">
+                  {{ item.question }}
+                </p>
+                <p
+                  v-if="item.description"
+                  class="mt-1 text-sm text-n-slate-11 whitespace-pre-wrap"
+                >
+                  {{ item.description }}
+                </p>
+              </div>
+            </div>
+            <p v-else class="text-sm text-n-slate-11">
+              {{ t('CONTESTS.TABLE_QUESTIONNAIRE_EMPTY') }}
+            </p>
+          </div>
+        </section>
+
         <div class="flex justify-end">
           <Button
             icon="i-lucide-pencil"

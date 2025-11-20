@@ -26,15 +26,15 @@ class Api::V1::Accounts::ContestsController < Api::V1::Accounts::BaseController
   end
 
   def contest_params
-    permitted = params.require(:contest).permit(
+    params.require(:contest).permit(
       :name,
       :start_date,
       :end_date,
       :description,
       :terms_and_condition,
-      trigger_words: []
+      trigger_words: [],
+      questionnaire: %i[question description]
     )
-    permitted
   end
 end
 
