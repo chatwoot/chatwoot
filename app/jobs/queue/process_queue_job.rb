@@ -11,6 +11,9 @@ class Queue::ProcessQueueJob < ApplicationJob
     return if queue_service.queue_size.zero?
 
     assign_conversations(account, queue_service)
+    if queue_service.queue_size > 0
+      Queue::ProcessQueueJob.set(wait: 1.second).perform_later(account_id)
+    end
   end
 
   private
