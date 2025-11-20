@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Создать",
       "NAME": {
         "LABEL": "Имя",
-        "PLACEHOLDER": "Руководство пользователя | Sibidesk",
+        "PLACEHOLDER": "Руководство пользователя | doozadesk",
         "MESSAGE": "Выберите имя для вашего портала.",
         "ERROR": "Необходимо указать имя"
       },

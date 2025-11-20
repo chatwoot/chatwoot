@@ -261,16 +261,16 @@ es:
       description: 'Las aplicaciones de panel te permiten crear e incrustar aplicaciones que muestran información de usuario, pedidos o historial de pagos, proporcionando más contexto a tus agentes de soporte al cliente.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Sibidesk.'
-      description: 'Dyte es un producto que integra funcionalidades de audio y video en tu aplicación. Con esta integración, tus agentes pueden iniciar llamadas de video/voz con tus clientes directamente desde Sibidesk.'
+      short_description: 'Start video/voice calls with customers directly from doozadesk.'
+      description: 'Dyte es un producto que integra funcionalidades de audio y video en tu aplicación. Con esta integración, tus agentes pueden iniciar llamadas de video/voz con tus clientes directamente desde doozadesk.'
       meeting_name: '%{agent_name} ha iniciado una reunión'
     slack:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "Integra Sibidesk con Slack para mantener a tu equipo sincronizado. Esta integración te permite recibir notificaciones de nuevas conversaciones y responder directamente desde la interfaz de Slack."
+      description: "Integra doozadesk con Slack para mantener a tu equipo sincronizado. Esta integración te permite recibir notificaciones de nuevas conversaciones y responder directamente desde la interfaz de Slack."
     webhooks:
       name: 'Webhook'
-      description: 'Los eventos de webhook proporcionan actualizaciones en tiempo real sobre las actividades en tu cuenta de Sibidesk. Puedes suscribirte a los eventos que prefieras y Sibidesk te enviará llamadas HTTP con las actualizaciones.'
+      description: 'Los eventos de webhook proporcionan actualizaciones en tiempo real sobre las actividades en tu cuenta de doozadesk. Puedes suscribirte a los eventos que prefieras y doozadesk te enviará llamadas HTTP con las actualizaciones.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Build chatbots to handle initial queries before transferring to agents.'

@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Anda dapat menerima email di domain kustom Anda sekarang."
       }
     },
-    "UPDATE_CHATWOOT": "Pembaharuan Sibidesk {latestSibideskVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda.",
+    "UPDATE_CHATWOOT": "Pembaharuan doozadesk {latestdoozadeskVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda.",
     "LEARN_MORE": "Pelajari lebih lanjut",
-    "PAYMENT_PENDING": "Pembayaran Anda tertunda. Harap perbarui informasi pembayaran Anda untuk melanjutkan menggunakan Sibidesk",
-    "UPGRADE": "Upgrade to continue using Sibidesk",
-    "LIMITS_UPGRADE": "Akun Anda telah melebihi batas penggunaan, harap tingkatkan paket Anda untuk terus menggunakan Sibidesk",
+    "PAYMENT_PENDING": "Pembayaran Anda tertunda. Harap perbarui informasi pembayaran Anda untuk melanjutkan menggunakan doozadesk",
+    "UPGRADE": "Upgrade to continue using doozadesk",
+    "LIMITS_UPGRADE": "Akun Anda telah melebihi batas penggunaan, harap tingkatkan paket Anda untuk terus menggunakan doozadesk",
     "OPEN_BILLING": "Buka tagihan"
   },
   "FORMS": {

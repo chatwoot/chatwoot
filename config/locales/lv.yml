@@ -261,16 +261,16 @@ lv:
       description: 'Informācijas paneļa Lietotnes ļauj izveidot un iegult lietojumprogrammas, kurās tiek parādīta lietotāja informācija, pasūtījumu vai maksājumu vēsture, nodrošinot plašāku kontekstu jūsu klientu atbalsta aģentiem.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Sibidesk.'
-      description: 'Dyte ir produkts, kas integrē audio un video funkcijas jūsu lietojumprogrammā. Izmantojot šo integrāciju, jūsu aģenti var sākt video/balss zvanus ar klientiem tieši no Sibidesk.'
+      short_description: 'Start video/voice calls with customers directly from doozadesk.'
+      description: 'Dyte ir produkts, kas integrē audio un video funkcijas jūsu lietojumprogrammā. Izmantojot šo integrāciju, jūsu aģenti var sākt video/balss zvanus ar klientiem tieši no doozadesk.'
       meeting_name: '%{agent_name} ir sācis sapulci'
     slack:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "Integrējiet Sibidesk ar Slack, lai sinhronizētu savu komandu. Šī integrācija ļauj saņemt paziņojumus par jaunām sarunām un atbildēt uz tām tieši Slack saskarnē."
+      description: "Integrējiet doozadesk ar Slack, lai sinhronizētu savu komandu. Šī integrācija ļauj saņemt paziņojumus par jaunām sarunām un atbildēt uz tām tieši Slack saskarnē."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu Sibidesk kontā. Varat abonēt vēlamos notikumus, un Sibidesk nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem.'
+      description: 'Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu doozadesk kontā. Varat abonēt vēlamos notikumus, un doozadesk nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Build chatbots to handle initial queries before transferring to agents.'

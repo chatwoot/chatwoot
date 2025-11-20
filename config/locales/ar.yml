@@ -261,16 +261,16 @@ ar:
       description: 'تسمح لك تطبيقات لوحة التحكم بإنشاء وتضمين التطبيقات التي تعرض معلومات المستخدم أو الطلبات أو سجل الدفع، مما يوفر المزيد من السياق لوكلاء دعم العملاء الخاص بك.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Sibidesk.'
-      description: 'Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Sibidesk.'
+      short_description: 'Start video/voice calls with customers directly from doozadesk.'
+      description: 'Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من doozadesk.'
       meeting_name: 'بدأ %{agent_name} اجتماعاً'
     slack:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "دمج Sibidesk مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
+      description: "دمج doozadesk مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
     webhooks:
       name: 'Webhook'
-      description: 'أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب Sibidesk الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل Sibidesk لك اتصالات HTTP مع التحديثات.'
+      description: 'أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب doozadesk الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل doozadesk لك اتصالات HTTP مع التحديثات.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Build chatbots to handle initial queries before transferring to agents.'

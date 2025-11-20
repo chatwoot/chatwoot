@@ -145,14 +145,14 @@
   enabled: false
   premium: true
 - name: chatwoot_v4
-  display_name: Sibidesk V4
+  display_name: doozadesk V4
   enabled: true
 - name: report_v4
   display_name: Report V4
   enabled: true
   deprecated: true
 - name: contact_chatwoot_support_team
-  display_name: Contact Sibidesk Support Team
+  display_name: Contact doozadesk Support Team
   enabled: true
   chatwoot_internal: true
 - name: shopify_integration

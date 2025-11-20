@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Se connecter à Sibidesk",
+    "TITLE": "Se connecter à doozadesk",
     "EMAIL": {
       "LABEL": "Courriel",
       "PLACEHOLDER": "example{'@'}companyname.com",

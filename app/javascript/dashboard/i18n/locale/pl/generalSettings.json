@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Możesz teraz odbierać wiadomości e-mail na swojej własnej domenie."
       }
     },
-    "UPDATE_CHATWOOT": "Dostępna jest aktualizacja do wersji {latestSibideskVersion} Sibidesk. Proszę zaktualizować swoją instancję.",
+    "UPDATE_CHATWOOT": "Dostępna jest aktualizacja do wersji {latestdoozadeskVersion} doozadesk. Proszę zaktualizować swoją instancję.",
     "LEARN_MORE": "Dowiedz się więcej",
-    "PAYMENT_PENDING": "Twoja płatność jest w toku. Zaktualizuj informacje o płatności, aby kontynuować korzystanie z Sibidesk.",
-    "UPGRADE": "Upgrade to continue using Sibidesk",
-    "LIMITS_UPGRADE": "Twoje konto przekroczyło limit użytkowania. Zaktualizuj swój plan, aby kontynuować korzystanie z Sibidesk.",
+    "PAYMENT_PENDING": "Twoja płatność jest w toku. Zaktualizuj informacje o płatności, aby kontynuować korzystanie z doozadesk.",
+    "UPGRADE": "Upgrade to continue using doozadesk",
+    "LIMITS_UPGRADE": "Twoje konto przekroczyło limit użytkowania. Zaktualizuj swój plan, aby kontynuować korzystanie z doozadesk.",
     "OPEN_BILLING": "Otwórz fakturę"
   },
   "FORMS": {

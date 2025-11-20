@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Skapa",
       "NAME": {
         "LABEL": "Namn",
-        "PLACEHOLDER": "User Guide | Sibidesk",
+        "PLACEHOLDER": "User Guide | doozadesk",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Name is required"
       },

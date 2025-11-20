@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Alege canalul",
-        "BODY": "Alegeți serviciul pe care doriți să-l integrați cu Sibidesk."
+        "BODY": "Alegeți serviciul pe care doriți să-l integrați cu doozadesk."
       },
       "INBOX": {
         "TITLE": "Crează căsuța",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de Sibidesk.",
+        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de doozadesk.",
         "CHOOSE_PAGE": "Alege pagina",
         "CHOOSE_PLACEHOLDER": "Selectaţi o pagină din listă",
         "INBOX_NAME": "Nume Inbox",
@@ -427,7 +427,7 @@
       },
       "AUTH": {
         "TITLE": "Alege un canal",
-        "DESC": "Sibidesk acceptă widget-uri live-chat, Facebook Messenger, profiluri Twitter, WhatsApp, e-mailuri etc., ca canale. Dacă doriți să construiți un canal personalizat, îl puteți crea folosind canalul API. Pentru a începe, alegeți unul dintre canalele de mai jos.",
+        "DESC": "doozadesk acceptă widget-uri live-chat, Facebook Messenger, profiluri Twitter, WhatsApp, e-mailuri etc., ca canale. Dacă doriți să construiți un canal personalizat, îl puteți crea folosind canalul API. Pentru a începe, alegeți unul dintre canalele de mai jos.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -481,11 +481,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalii inbox",
-        "DESC": "Din meniul derulant de mai jos, selectați pagina Facebook pe care doriți să vă conectați la Sibidesk. Poți de asemenea să dai un nume personalizat inbox-ului pentru o mai bună identificare."
+        "DESC": "Din meniul derulant de mai jos, selectați pagina Facebook pe care doriți să vă conectați la doozadesk. Poți de asemenea să dai un nume personalizat inbox-ului pentru o mai bună identificare."
       },
       "FINISH": {
         "TITLE": "Corect!",
-        "DESC": "Ai reușit să integrezi pagina ta de Facebook cu Sibidesk. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe Sibidesk.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
+        "DESC": "Ai reușit să integrezi pagina ta de Facebook cu doozadesk. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe doozadesk.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Selectați furnizorul de e-mail",
@@ -975,7 +975,7 @@
         "USER_MESSAGE": "Salut",
         "AGENT_MESSAGE": "Bună"
       },
-      "BRANDING_TEXT": "Oferit de Sibidesk",
+      "BRANDING_TEXT": "Oferit de doozadesk",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

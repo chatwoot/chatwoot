@@ -261,16 +261,16 @@ ja:
       description: 'ダッシュボードアプリを使用すると、ユーザー情報、注文、または支払い履歴を表示するアプリケーションを作成して埋め込むことができ、カスタマーサポートエージェントにより多くのコンテキストを提供します。'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Sibidesk.'
-      description: 'Dyteは、オーディオおよびビデオ機能をアプリケーションに統合する製品です。この統合により、エージェントはSibideskから直接顧客とビデオ/音声通話を開始できます。'
+      short_description: 'Start video/voice calls with customers directly from doozadesk.'
+      description: 'Dyteは、オーディオおよびビデオ機能をアプリケーションに統合する製品です。この統合により、エージェントはdoozadeskから直接顧客とビデオ/音声通話を開始できます。'
       meeting_name: '%{agent_name} がミーティングを開始しました'
     slack:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "SibideskとSlackを統合して、チームを同期させます。この統合により、新しい会話の通知を受け取り、Slackのインターフェース内で直接応答することができます。"
+      description: "doozadeskとSlackを統合して、チームを同期させます。この統合により、新しい会話の通知を受け取り、Slackのインターフェース内で直接応答することができます。"
     webhooks:
       name: 'Webhooks'
-      description: 'Webhookイベントは、Sibideskアカウント内のアクティビティに関するリアルタイムの更新を提供します。希望するイベントを購読すると、Sibideskは更新情報を含むHTTPコールバックを送信します。'
+      description: 'Webhookイベントは、doozadeskアカウント内のアクティビティに関するリアルタイムの更新を提供します。希望するイベントを購読すると、doozadeskは更新情報を含むHTTPコールバックを送信します。'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Build chatbots to handle initial queries before transferring to agents.'

@@ -261,7 +261,7 @@ it:
       description: 'Le App Dashboard consentono di creare e incorporare applicazioni che mostrano informazioni sugli utenti, ordini o cronologia dei pagamenti, fornendo maggiore contesto agli operatori.'
     dyte:
       name: 'Dyte'
-      short_description: 'Avvia chiamate/videochiamate con i clienti direttamente da Sibidesk.'
+      short_description: 'Avvia chiamate/videochiamate con i clienti direttamente da doozadesk.'
       description: 'Dyte è un prodotto che integra funzionalità audio e video nella tua applicazione. Grazie a questa integrazione, i tuoi operatori possono avviare videochiamate/chiamate vocali con i tuoi clienti direttamente da qui.'
       meeting_name: '%{agent_name} ha avviato un meeting'
     slack:
@@ -270,7 +270,7 @@ it:
       description: "Integra Slack per mantenere il tuo team sempre aggiornato. Questa integrazione ti consente di ricevere notifiche per le nuove conversazioni e di rispondere direttamente dall'interfaccia di Slack."
     webhooks:
       name: 'Webhook'
-      description: 'Gli eventi Webhook forniscono aggiornamenti in tempo reale sulle attività nel tuo account Sibidesk. Puoi iscriverti ai tuoi eventi preferiti, e Sibidesk ti invierà i callback HTTP con gli aggiornamenti.'
+      description: 'Gli eventi Webhook forniscono aggiornamenti in tempo reale sulle attività nel tuo account doozadesk. Puoi iscriverti ai tuoi eventi preferiti, e doozadesk ti invierà i callback HTTP con gli aggiornamenti.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Configura chatbot per gestire le richieste iniziali prima di trasferire agli operatori.'

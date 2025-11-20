@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Dabar galite gauti el. laiškus pasirinktame domene."
       }
     },
-    "UPDATE_CHATWOOT": "Yra Sibidesk naujinimas {latestSibideskVersion}. Atnaujinkite savo versiją.",
+    "UPDATE_CHATWOOT": "Yra doozadesk naujinimas {latestdoozadeskVersion}. Atnaujinkite savo versiją.",
     "LEARN_MORE": "Sužinoti daugiau",
-    "PAYMENT_PENDING": "Laukiama jūsų mokėjimo. Atnaujinkite savo mokėjimo informaciją, kad galėtumėte toliau naudoti Sibidesk",
-    "UPGRADE": "Upgrade to continue using Sibidesk",
-    "LIMITS_UPGRADE": "Jūsų paskyra viršijo naudojimo apribojimus, atnaujinkite savo planą, kad galėtumėte toliau naudoti Sibidesk",
+    "PAYMENT_PENDING": "Laukiama jūsų mokėjimo. Atnaujinkite savo mokėjimo informaciją, kad galėtumėte toliau naudoti doozadesk",
+    "UPGRADE": "Upgrade to continue using doozadesk",
+    "LIMITS_UPGRADE": "Jūsų paskyra viršijo naudojimo apribojimus, atnaujinkite savo planą, kad galėtumėte toliau naudoti doozadesk",
     "OPEN_BILLING": "Atidaryti mokėjimą"
   },
   "FORMS": {

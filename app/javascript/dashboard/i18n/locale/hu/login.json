@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Sibidesk belépés",
+    "TITLE": "doozadesk belépés",
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "example{'@'}companyname.com",

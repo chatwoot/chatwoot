@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "คุณสามารถรับอีเมล์ในโดเมนเเบบกำหนดเองได้เเล้ว"
       }
     },
-    "UPDATE_CHATWOOT": "Sibidesk เวอร์ชั่น {latestSibideskVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
+    "UPDATE_CHATWOOT": "doozadesk เวอร์ชั่น {latestdoozadeskVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
     "LEARN_MORE": "เรียนรู้เพิ่มเติม",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Sibidesk",
-    "UPGRADE": "Upgrade to continue using Sibidesk",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Sibidesk",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using doozadesk",
+    "UPGRADE": "Upgrade to continue using doozadesk",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using doozadesk",
     "OPEN_BILLING": "Open billing"
   },
   "FORMS": {

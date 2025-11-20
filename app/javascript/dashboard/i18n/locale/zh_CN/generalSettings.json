@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您现在可以在您的自定义域名的电子邮件中接收消息。"
       }
     },
-    "UPDATE_CHATWOOT": "Sibidesk 有可用更新{latestSibideskVersion}，请更新您的应用。",
+    "UPDATE_CHATWOOT": "doozadesk 有可用更新{latestdoozadeskVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
-    "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Sibidesk",
-    "UPGRADE": "升级以继续使用 Sibidesk",
-    "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Sibidesk",
+    "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用doozadesk",
+    "UPGRADE": "升级以继续使用 doozadesk",
+    "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用doozadesk",
     "OPEN_BILLING": "查看计费"
   },
   "FORMS": {

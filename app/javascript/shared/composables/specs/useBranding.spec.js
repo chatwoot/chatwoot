@@ -31,16 +31,16 @@ describe('useBranding', () => {
       expect(result).toBe('Welcome to MyCompany');
     });
 
-    it('should replace "Sibidesk" with installation name when both text and installation name are provided', () => {
+    it('should replace "doozadesk" with installation name when both text and installation name are provided', () => {
       const { replaceInstallationName } = useBranding();
-      const result = replaceInstallationName('Welcome to Sibidesk');
+      const result = replaceInstallationName('Welcome to doozadesk');
 
       expect(result).toBe('Welcome to MyCompany');
     });
 
-    it('should replace "Sibi Desk" with installation name when both text and installation name are provided', () => {
+    it('should replace "Dooza Desk" with installation name when both text and installation name are provided', () => {
       const { replaceInstallationName } = useBranding();
-      const result = replaceInstallationName('Welcome to Sibi Desk');
+      const result = replaceInstallationName('Welcome to Dooza Desk');
 
       expect(result).toBe('Welcome to MyCompany');
     });
@@ -48,7 +48,7 @@ describe('useBranding', () => {
     it('should replace multiple occurrences of default brand names', () => {
       const { replaceInstallationName } = useBranding();
       const result = replaceInstallationName(
-        'Chatwoot is great! Use Sibidesk today.'
+        'Chatwoot is great! Use doozadesk today.'
       );
 
       expect(result).toBe('MyCompany is great! Use MyCompany today.');
@@ -90,10 +90,10 @@ describe('useBranding', () => {
     it('should be case-sensitive for default brand names', () => {
       const { replaceInstallationName } = useBranding();
       const result = replaceInstallationName(
-        'Welcome to chatwoot and CHATWOOT and sibidesk'
+        'Welcome to chatwoot and CHATWOOT and doozadesk'
       );
 
-      expect(result).toBe('Welcome to chatwoot and CHATWOOT and sibidesk');
+      expect(result).toBe('Welcome to chatwoot and CHATWOOT and doozadesk');
     });
 
     it('should handle special characters in installation name', () => {

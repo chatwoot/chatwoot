@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puoi ricevere email nel tuo dominio personalizzato ora."
       }
     },
-    "UPDATE_CHATWOOT": "È disponibile un aggiornamento {latestSibideskVersion} per Sibidesk. Aggiorna la tua istanza.",
+    "UPDATE_CHATWOOT": "È disponibile un aggiornamento {latestdoozadeskVersion} per doozadesk. Aggiorna la tua istanza.",
     "LEARN_MORE": "Scopri di più",
-    "PAYMENT_PENDING": "Il tuo pagamento è in sospeso. Aggiorna le informazioni di pagamento per continuare a utilizzare Sibidesk",
-    "UPGRADE": "Aggiorna per continuare a usare Sibidesk",
-    "LIMITS_UPGRADE": "Il tuo account ha superato i limiti di utilizzo, aggiorna il tuo piano per continuare a utilizzare Sibidesk",
+    "PAYMENT_PENDING": "Il tuo pagamento è in sospeso. Aggiorna le informazioni di pagamento per continuare a utilizzare doozadesk",
+    "UPGRADE": "Aggiorna per continuare a usare doozadesk",
+    "LIMITS_UPGRADE": "Il tuo account ha superato i limiti di utilizzo, aggiorna il tuo piano per continuare a utilizzare doozadesk",
     "OPEN_BILLING": "Apri fatturazione"
   },
   "FORMS": {

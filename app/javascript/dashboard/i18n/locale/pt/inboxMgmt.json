@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Escolher canal",
-        "BODY": "Escolha o provedor que pretende integrar com o Sibidesk."
+        "BODY": "Escolha o provedor que pretende integrar com o doozadesk."
       },
       "INBOX": {
         "TITLE": "Criar caixa de entrada",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Insira o nome do seu site (ex. Acme Inc)"
       },
       "FB": {
-        "HELP": "PS. ao fazer login, só teremos acesso às mensagens da sua página. As suas mensagens privadas nunca poderão ser acedidas pelo Sibidesk.",
+        "HELP": "PS. ao fazer login, só teremos acesso às mensagens da sua página. As suas mensagens privadas nunca poderão ser acedidas pelo doozadesk.",
         "CHOOSE_PAGE": "Escolher página",
         "CHOOSE_PLACEHOLDER": "Selecionar uma página da lista",
         "INBOX_NAME": "Nome da caixa de entrada",
@@ -427,7 +427,7 @@
       },
       "AUTH": {
         "TITLE": "Escolher um canal",
-        "DESC": "O Sibidesk suporta widgets de live-chat, Facebook Messenger, perfis do Twitter, WhatsApp, E-mails, etc., como canais. Se pretende criar um canal personalizado, pode fazê-lo usando o canal API. Para começar, escolha um dos canais abaixo.",
+        "DESC": "O doozadesk suporta widgets de live-chat, Facebook Messenger, perfis do Twitter, WhatsApp, E-mails, etc., como canais. Se pretende criar um canal personalizado, pode fazê-lo usando o canal API. Para começar, escolha um dos canais abaixo.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Pronto!",
         "CHANNEL": {
@@ -481,11 +481,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalhes da caixa de entrada",
-        "DESC": "No menu abaixo, selecione a página do Facebook que pretende conectar ao Sibidesk. Também pode dar um nome personalizado à sua caixa de entrada para uma melhor identificação."
+        "DESC": "No menu abaixo, selecione a página do Facebook que pretende conectar ao doozadesk. Também pode dar um nome personalizado à sua caixa de entrada para uma melhor identificação."
       },
       "FINISH": {
         "TITLE": "Excelente!",
-        "DESC": "A integração da sua página do Facebook com o Sibidesk foi feita com sucesso. Da próxima vez que um cliente enviar mensagens para sua página, a conversa aparecerá automaticamente na sua caixa de entrada.<br>Também fornecemos um script de widget que pode facilmente adicionar ao seu site. Uma vez que isto estiver no seu site, os clientes podem enviar mensagens a partir do site sem a ajuda de qualquer ferramenta externa e a conversa aparecerá aqui, no Sibidesk.<br>"
+        "DESC": "A integração da sua página do Facebook com o doozadesk foi feita com sucesso. Da próxima vez que um cliente enviar mensagens para sua página, a conversa aparecerá automaticamente na sua caixa de entrada.<br>Também fornecemos um script de widget que pode facilmente adicionar ao seu site. Uma vez que isto estiver no seu site, os clientes podem enviar mensagens a partir do site sem a ajuda de qualquer ferramenta externa e a conversa aparecerá aqui, no doozadesk.<br>"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Selecione o seu fornecedor de e-mail",
@@ -975,7 +975,7 @@
         "USER_MESSAGE": "Olá",
         "AGENT_MESSAGE": "Olá"
       },
-      "BRANDING_TEXT": "Desenvolvido por Sibidesk",
+      "BRANDING_TEXT": "Desenvolvido por doozadesk",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

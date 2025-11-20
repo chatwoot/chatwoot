@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "צור",
       "NAME": {
         "LABEL": "שם",
-        "PLACEHOLDER": "User Guide | Sibidesk",
+        "PLACEHOLDER": "User Guide | doozadesk",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "שם שדה חובה"
       },

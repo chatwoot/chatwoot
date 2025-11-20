@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Criar",
       "NAME": {
         "LABEL": "Nome:",
-        "PLACEHOLDER": "User Guide | Sibidesk",
+        "PLACEHOLDER": "User Guide | doozadesk",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Nome é obrigatório"
       },

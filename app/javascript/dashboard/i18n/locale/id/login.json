@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Masuk ke Sibidesk",
+    "TITLE": "Masuk ke doozadesk",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "example{'@'}companyname.com",

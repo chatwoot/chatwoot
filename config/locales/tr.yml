@@ -261,16 +261,16 @@ tr:
       description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
       name: 'Dyte'
-      short_description: 'Müşterilerle doğrudan Sibidesk üzerinden video/sesli arama başlatın.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Sibidesk.'
+      short_description: 'Müşterilerle doğrudan doozadesk üzerinden video/sesli arama başlatın.'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from doozadesk.'
       meeting_name: '%{agent_name} bir toplantı başlattı'
     slack:
       name: 'Slack'
       short_description: 'Doğrudan Slack''te bildirimler alın ve konuşmalara yanıt verin.'
-      description: "Integrate Sibidesk with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      description: "Integrate doozadesk with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook events provide real-time updates about activities in your Sibidesk account. You can subscribe to your preferred events, and Sibidesk will send you HTTP callbacks with the updates.'
+      description: 'Webhook events provide real-time updates about activities in your doozadesk account. You can subscribe to your preferred events, and doozadesk will send you HTTP callbacks with the updates.'
     dialogflow:
       name: 'Dialogflow botu'
       short_description: 'Temsilcilere aktarmadan önce ilk soruları yanıtlayacak sohbet botları oluşturun.'

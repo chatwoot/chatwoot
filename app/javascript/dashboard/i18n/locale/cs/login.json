@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Přihlásit se do Sibidesk",
+    "TITLE": "Přihlásit se do doozadesk",
     "EMAIL": {
       "LABEL": "E-mailová adresa",
       "PLACEHOLDER": "example{'@'}companyname.com",

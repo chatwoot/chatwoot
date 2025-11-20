@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "建立",
       "NAME": {
         "LABEL": "姓名",
-        "PLACEHOLDER": "User Guide | Sibidesk",
+        "PLACEHOLDER": "User Guide | doozadesk",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "名稱為必填"
       },

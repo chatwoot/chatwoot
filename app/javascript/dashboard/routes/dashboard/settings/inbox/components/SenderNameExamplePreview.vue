@@ -2,7 +2,7 @@
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 
-import { mapGetters } from 'vuex';
+import { DEFAULT_INSTALLATION_NAMES } from 'shared/constants/branding.js';
 
 export default {
   components: {
@@ -22,7 +22,8 @@ export default {
   emits: ['update'],
   data() {
     const installationName =
-      this.$store.getters['globalConfig/get']?.installationName || 'Sibi Desk';
+      this.$store.getters['globalConfig/get']?.installationName ||
+      DEFAULT_INSTALLATION_NAMES[0];
     return {
       defaultBusinessName: installationName,
       senderNameKeyOptions: [
@@ -56,9 +57,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   methods: {
     isKeyOptionFriendly(key) {

@@ -123,10 +123,10 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "אתה יכול לקבל אימיילים בדומיין המותאם אישית שלך עכשיו."
       }
     },
-    "UPDATE_CHATWOOT": "עדכון {latestSibideskVersion} עבור Sibidesk זמין. אנא עדכן את המופע שלך.",
+    "UPDATE_CHATWOOT": "עדכון {latestdoozadeskVersion} עבור doozadesk זמין. אנא עדכן את המופע שלך.",
     "LEARN_MORE": "למד עוד",
-    "PAYMENT_PENDING": "התשלום שלך ממתין. אנא עדכן את פרטי התשלום שלך כדי להמשיך להשתמש ב-Sibidesk",
-    "UPGRADE": "Upgrade to continue using Sibidesk",
+    "PAYMENT_PENDING": "התשלום שלך ממתין. אנא עדכן את פרטי התשלום שלך כדי להמשיך להשתמש ב-doozadesk",
+    "UPGRADE": "Upgrade to continue using doozadesk",
     "LIMITS_UPGRADE": "החשבון שלך חרג ממגבלות השימוש. אנא שדרג את המינוי שלך כדי להמשיך להשתמש ב-צ'אטווט",
     "OPEN_BILLING": "Open billing"
   },
