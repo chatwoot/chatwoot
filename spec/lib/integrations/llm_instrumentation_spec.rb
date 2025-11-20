@@ -1,18 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Integrations::LlmInstrumentation do
-  # Create a test class that includes our module
-  # (Since it's a module, we need a class to test it)
   let(:test_class) do
     Class.new do
       include Integrations::LlmInstrumentation
     end
   end
 
-  # Create an instance of our test class
   let(:instance) { test_class.new }
 
-  # Set up the OTEL provider config before each test
   let!(:otel_config) { create(:installation_config, name: 'OTEL_PROVIDER', value: 'langfuse') }
 
   describe '#otel_enabled?' do
@@ -79,7 +75,7 @@ RSpec.describe Integrations::LlmInstrumentation do
       end
 
       it 'creates a span and sets request attributes' do
-        allow(mock_span).to receive(:set_attribute) # Allow any set_attribute calls
+        allow(mock_span).to receive(:set_attribute)
 
         expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_PROVIDER, 'openai')
         expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_REQUEST_MODEL, 'gpt-4o-mini')
@@ -91,7 +87,7 @@ RSpec.describe Integrations::LlmInstrumentation do
       it 'sets prompt messages' do
         expect(mock_span).to receive(:set_attribute).with('gen_ai.prompt.0.role', 'user')
         expect(mock_span).to receive(:set_attribute).with('gen_ai.prompt.0.content', 'Hello')
-        allow(mock_span).to receive(:set_attribute) # Allow other set_attribute calls
+        allow(mock_span).to receive(:set_attribute)
 
         instance.instrument_llm_call(params) { { message: 'test' } }
       end
@@ -100,7 +96,7 @@ RSpec.describe Integrations::LlmInstrumentation do
         expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_LANGFUSE_USER_ID, '123')
         expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_LANGFUSE_SESSION_ID, '456')
         expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_LANGFUSE_TAGS, ['reply_suggestion'].to_json)
-        allow(mock_span).to receive(:set_attribute) # Allow other set_attribute calls
+        allow(mock_span).to receive(:set_attribute)
 
         instance.instrument_llm_call(params) { { message: 'test' } }
       end
@@ -120,7 +116,7 @@ RSpec.describe Integrations::LlmInstrumentation do
         it 'sets completion attributes' do
           expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
           expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_COMPLETION_CONTENT, 'Hello from AI')
-          allow(mock_span).to receive(:set_attribute) # Allow other set_attribute calls
+          allow(mock_span).to receive(:set_attribute)
 
           instance.instrument_llm_call(params) { result }
         end
@@ -129,7 +125,7 @@ RSpec.describe Integrations::LlmInstrumentation do
           expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_USAGE_INPUT_TOKENS, 10)
           expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, 20)
           expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_USAGE_TOTAL_TOKENS, 30)
-          allow(mock_span).to receive(:set_attribute) # Allow other set_attribute calls
+          allow(mock_span).to receive(:set_attribute)
 
           instance.instrument_llm_call(params) { result }
         end
@@ -148,14 +144,14 @@ RSpec.describe Integrations::LlmInstrumentation do
                                                             error_result[:error].to_json)
           expect(mock_span).to receive(:set_attribute).with(Integrations::LlmInstrumentation::ATTR_GEN_AI_RESPONSE_ERROR_CODE, 500)
           expect(mock_span).to receive(:status=).with(instance_of(OpenTelemetry::Trace::Status))
-          allow(mock_span).to receive(:set_attribute) # Allow other set_attribute calls
+          allow(mock_span).to receive(:set_attribute)
 
           instance.instrument_llm_call(params) { error_result }
         end
       end
 
       it 'returns the result from the block' do
-        allow(mock_span).to receive(:set_attribute) # Allow all set_attribute calls
+        allow(mock_span).to receive(:set_attribute)
         result = instance.instrument_llm_call(params) { { message: 'test result' } }
         expect(result).to eq({ message: 'test result' })
       end
@@ -163,7 +159,7 @@ RSpec.describe Integrations::LlmInstrumentation do
       it 'handles errors during instrumentation setup gracefully' do
         allow(instance).to receive(:set_request_attributes).and_raise(StandardError.new('Setup error'))
         allow(Rails.logger).to receive(:error)
-        allow(mock_span).to receive(:set_attribute) # Allow other set_attribute calls
+        allow(mock_span).to receive(:set_attribute)
 
         expect(Rails.logger).to receive(:error).with('LLM instrumentation setup error: Setup error')
 
@@ -174,7 +170,7 @@ RSpec.describe Integrations::LlmInstrumentation do
       it 'handles errors during completion attributes gracefully' do
         allow(instance).to receive(:set_completion_attributes).and_raise(StandardError.new('Completion error'))
         allow(Rails.logger).to receive(:error)
-        allow(mock_span).to receive(:set_attribute) # Allow all set_attribute calls
+        allow(mock_span).to receive(:set_attribute)
 
         expect(Rails.logger).to receive(:error).with('LLM instrumentation completion error: Completion error')
 
