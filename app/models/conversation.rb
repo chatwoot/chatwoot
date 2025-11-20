@@ -130,7 +130,7 @@ class Conversation < ApplicationRecord
     return true unless channel&.messaging_window_enabled?
 
     messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
-    last_message_in_messaging_window?(messaging_window)
+    last_message_in_messaging_window?(messaging_window, inbox.api?)
   end
 
   def last_activity_at
@@ -147,10 +147,12 @@ class Conversation < ApplicationRecord
     messages&.incoming&.last
   end
 
-  def last_message_in_messaging_window?(time)
+  def last_message_in_messaging_window?(time, is_api: false)
     return false if last_incoming_message.nil?
 
-    Time.current < last_incoming_message.created_at + time.hours
+    last_incoming_message_created_at = is_api ? last_incoming_message.content_attributes['external_created_at'] : last_incoming_message.created_at
+
+    Time.current < last_incoming_message_created_at + time.hours
   end
 
   def can_reply_on_instagram?
