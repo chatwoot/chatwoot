@@ -28,13 +28,18 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => frontend_url))
     end
 
-    context 'when successful' do
+    shared_context 'stub happy account' do
       before do
         # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(described_class)
-          .to receive(:verify_shopify_token).with(state).and_return(account.id)
+        allow_any_instance_of(described_class).to receive(:verify_shopify_token).and_return(account.id)
+        allow_any_instance_of(described_class).to receive(:account).and_return(account)
         # rubocop:enable RSpec/AnyInstance
+      end
+    end
 
+    context 'when successful' do
+      include_context 'stub happy account'
+      before do
         stub_request(:post, "https://#{shop}/admin/oauth/access_token")
           .to_return(
             status: 200,
@@ -62,10 +67,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     end
 
     context 'when the code is missing' do
+      include_context 'stub happy account'
       before do
         # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(described_class)
-          .to receive(:verify_shopify_token).with(state).and_return(account.id)
         allow_any_instance_of(described_class)
           .to receive(:oauth_client).and_return(oauth_client)
         # rubocop:enable RSpec/AnyInstance
@@ -80,10 +84,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     end
 
     context 'when the token is invalid' do
+      include_context 'stub happy account'
       before do
         # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(described_class)
-          .to receive(:verify_shopify_token).with(state).and_return(account.id)
         allow_any_instance_of(described_class)
           .to receive(:oauth_client).and_return(oauth_client)
         # rubocop:enable RSpec/AnyInstance
@@ -108,10 +111,8 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     context 'when state parameter is invalid' do
       before do
         # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(described_class)
-          .to receive(:verify_shopify_token).with(state).and_return(nil)
-        allow_any_instance_of(described_class)
-          .to receive(:account).and_return(nil)
+        allow_any_instance_of(described_class).to receive(:verify_shopify_token).and_return(nil)
+        allow_any_instance_of(described_class).to receive(:account).and_return(nil)
         # rubocop:enable RSpec/AnyInstance
       end
 
