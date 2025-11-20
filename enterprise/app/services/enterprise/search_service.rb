@@ -53,6 +53,8 @@ module Enterprise::SearchService
   end
 
   def apply_inbox_filter(where_conditions)
+    return if params[:inbox_id].blank?
+
     inbox_id = params[:inbox_id].to_i
     return unless validate_inbox_access(inbox_id)
 
