@@ -17,11 +17,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     )
   end
 
-  def debug_response(label)
-    puts "[SHOPIFY_SPEC] #{label} status=#{response.status} location=#{response.headers['Location']} body=#{response.body}"
-    puts "[SHOPIFY_SPEC] hooks_count=#{Integrations::Hook.count}"
-  end
-
   describe 'GET /shopify/callback' do
     let(:access_token) { SecureRandom.hex(10) }
     let(:response_body) do
@@ -37,11 +32,13 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     shared_context 'with stubbed account' do
       before do
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(Shopify::IntegrationHelper).to receive(:verify_shopify_token).and_return(account.id)
+        allow(described_class).to receive(:new).and_wrap_original do |original, *args|
+          controller = original.call(*args)
+          allow(controller).to receive(:verify_shopify_token).and_return(account.id)
+          allow(controller).to receive(:oauth_client).and_return(oauth_client)
+          controller
+        end
         allow(Account).to receive(:find_by).and_return(account)
-        allow_any_instance_of(described_class).to receive(:oauth_client).and_return(oauth_client)
-        # rubocop:enable RSpec/AnyInstance
 
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
       end
@@ -62,7 +59,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       it 'creates a new integration hook' do
         expect do
           get shopify_callback_path, params: { code: code, state: state, shop: shop }
-          debug_response('success')
         end.to change(Integrations::Hook, :count).by(1)
 
         hook = Integrations::Hook.last
@@ -87,7 +83,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
       it 'redirects to the shopify_redirect_uri with error' do
         get shopify_callback_path, params: { state: state, shop: shop }
-        debug_response('missing_code')
         expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
     end
@@ -110,22 +105,22 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
       it 'redirects to the shopify_redirect_uri with error' do
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
-        debug_response('invalid_token')
         expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
     end
 
     context 'when state parameter is invalid' do
       before do
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(described_class).to receive(:verify_shopify_token).and_return(nil)
-        allow_any_instance_of(described_class).to receive(:account).and_return(nil)
-        # rubocop:enable RSpec/AnyInstance
+        allow(described_class).to receive(:new).and_wrap_original do |original, *args|
+          controller = original.call(*args)
+          allow(controller).to receive(:verify_shopify_token).and_return(nil)
+          allow(controller).to receive(:account).and_return(nil)
+          controller
+        end
       end
 
       it 'redirects to the frontend URL with error' do
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
-        debug_response('invalid_state')
         expect(response).to redirect_to("#{frontend_url}?error=true")
       end
     end
