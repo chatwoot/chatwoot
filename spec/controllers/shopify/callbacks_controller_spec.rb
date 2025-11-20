@@ -38,7 +38,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           allow(controller).to receive(:oauth_client).and_return(oauth_client)
           controller
         end
-        allow(Account).to receive(:find_by).and_return(account)
+        allow(Account).to receive(:find).and_return(account)
 
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
       end

@@ -10,7 +10,8 @@ class Shopify::CallbacksController < ApplicationController
     )
 
     handle_response
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.error("Shopify callback error: #{e.message}")
     redirect_to "#{redirect_uri}?error=true"
   end
 
@@ -52,7 +53,7 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def account
-    @account ||= Account.find_by(id: @account_id)
+    @account ||= Account.find(@account_id)
   end
 
   def account_id
