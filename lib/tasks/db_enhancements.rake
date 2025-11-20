@@ -3,6 +3,9 @@ Rake::Task['db:migrate'].enhance do
   if ActiveRecord::Base.connection.table_exists? 'installation_configs'
     puts 'Loading Installation config'
     ConfigLoader.new.process
+    # Clear global config cache to ensure fresh values are loaded
+    puts 'Clearing global config cache'
+    GlobalConfig.clear_cache
   end
 end
 
