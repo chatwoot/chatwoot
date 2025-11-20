@@ -9,7 +9,13 @@ RSpec.describe Shopify::CallbacksController, type: :request do
   let(:shopify_redirect_uri) { "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify" }
   let(:oauth_client) { instance_double(OAuth2::Client) }
   let(:auth_code_strategy) { instance_double(OAuth2::Strategy::AuthCode) }
-  let(:token_response) { instance_double(OAuth2::AccessToken, response: double(parsed: response_body), token: access_token) }
+  let(:token_response) do
+    instance_double(
+      OAuth2::AccessToken,
+      response: instance_double(OAuth2::Response, parsed: response_body),
+      token: access_token
+    )
+  end
 
   def debug_response(label)
     puts "[SHOPIFY_SPEC] #{label} status=#{response.status} location=#{response.headers['Location']} body=#{response.body}"

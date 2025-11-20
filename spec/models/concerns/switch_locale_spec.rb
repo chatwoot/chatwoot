@@ -85,7 +85,7 @@ RSpec.describe 'SwitchLocale Concern', type: :controller do
       with_routing do |set|
         set.draw { get 'account_locale' => 'anonymous#account_locale' }
         @routes = set
-        @request.env['action_dispatch.routes'] = set
+        request.env['action_dispatch.routes'] = set
 
         controller.instance_variable_set(:@current_account, account)
         get :account_locale
