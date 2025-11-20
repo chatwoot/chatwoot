@@ -273,7 +273,6 @@ const onToggleDropdown = () => {
               <Button
                 sm
                 slate
-                faded
                 :label="selectedRangeTypeLabel"
                 trailing-icon
                 icon="i-lucide-chevron-down"
