@@ -111,8 +111,8 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when state parameter is invalid' do
       before do
-        allow_any_instance_of(described_class).to receive(:verify_shopify_token).and_return(nil)
-        allow_any_instance_of(described_class).to receive(:account).and_return(nil)
+        allow_any_instance_of(Shopify::CallbacksController).to receive(:verify_shopify_token).and_return(nil)
+        allow_any_instance_of(Shopify::CallbacksController).to receive(:account).and_return(nil)
       end
 
       it 'redirects to the frontend URL with error' do

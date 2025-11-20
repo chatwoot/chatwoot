@@ -81,18 +81,14 @@ RSpec.describe 'SwitchLocale Concern', type: :controller do
   end
 
   describe '#switch_locale_using_account_locale' do
-    it 'sets locale from account' do
-      with_routing do |set|
-        set.draw { get 'account_locale' => 'anonymous#account_locale' }
-        @routes = set
-        request.env['action_dispatch.routes'] = set
-        controller.singleton_class.send(:define_method, :_routes) { set }
-        controller.singleton_class.send(:define_method, :routes) { set }
+    before do
+      routes.draw { get 'account_locale' => 'anonymous#account_locale' }
+    end
 
-        controller.instance_variable_set(:@current_account, account)
-        get :account_locale
-        expect(response.body).to eq('es')
-      end
+    it 'sets locale from account' do
+      controller.instance_variable_set(:@current_account, account)
+      get :account_locale
+      expect(response.body).to eq('es')
     end
   end
 end
