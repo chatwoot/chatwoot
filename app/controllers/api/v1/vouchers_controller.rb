@@ -3,8 +3,14 @@ class Api::V1::VouchersController < ApplicationController
     account = Account.find(params[:account_id]) unless params[:account_id].nil?
     plan_id = params[:subscription_plan_id]
     code = params[:voucher_code]
+    billing_cycle = params[:billing_cycle]
 
-    result =  ::Voucher::VoucherValidator.new(code: code, account: account, subscription_plan_id: plan_id).validate
+    result = ::Voucher::VoucherValidator.new(
+      code: code, 
+      account: account, 
+      subscription_plan_id: plan_id,
+      billing_cycle: billing_cycle
+    ).validate
 
     if result[:valid]
       render json: {
@@ -22,8 +28,9 @@ class Api::V1::VouchersController < ApplicationController
     plan_id = params[:subscription_plan_id]
     code = params[:voucher_code]
     price = params[:price]
+    billing_cycle = params[:billing_cycle]
 
-    result = Voucher::VoucherPreview.new().preview(code, account, plan_id, price)
+    result = Voucher::VoucherPreview.new().preview(code, account, plan_id, price, billing_cycle: billing_cycle)
     if result[:voucher][:valid]
       render json: result
     else

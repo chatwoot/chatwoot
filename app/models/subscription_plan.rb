@@ -34,7 +34,8 @@
 #
 class SubscriptionPlan < ApplicationRecord
   has_many :subscriptions
-  has_and_belongs_to_many :vouchers
+  has_many :subscription_plan_vouchers
+  has_many :vouchers, through: :subscription_plan_vouchers
   belongs_to :owner_account, class_name: 'Account', optional: true
 
   validates :owner_account_id, presence: true, if: :is_custom?

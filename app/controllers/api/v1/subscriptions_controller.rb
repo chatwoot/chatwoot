@@ -29,7 +29,13 @@ class Api::V1::SubscriptionsController < Api::BaseController
 
     # Apply voucher if present
     if voucher_code.present?
-      result = Voucher::VoucherPreview.new.preview(voucher_code, @account, @subscription_plan.id, price)
+      result = Voucher::VoucherPreview.new.preview(
+        voucher_code, 
+        @account, 
+        @subscription_plan.id, 
+        price,
+        billing_cycle: billing_cycle
+      )
       if result[:voucher][:valid]
         voucher = result[:voucher][:voucher]
         price = result[:new_price]

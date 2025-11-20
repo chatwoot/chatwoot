@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_11_06_062528) do
+ActiveRecord::Schema[7.0].define(version: 2025_11_19_074500) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1194,9 +1194,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_11_06_062528) do
     t.index ["owner_account_id"], name: "index_subscription_plans_on_owner_account_id"
   end
 
-  create_table "subscription_plans_vouchers", id: false, force: :cascade do |t|
+  create_table "subscription_plans_vouchers", force: :cascade do |t|
     t.bigint "subscription_plan_id", null: false
     t.bigint "voucher_id", null: false
+    t.text "applicable_billing_cycles", default: ["monthly", "quarterly", "halfyear", "yearly"], array: true
     t.index ["subscription_plan_id", "voucher_id"], name: "index_plan_voucher"
   end
 

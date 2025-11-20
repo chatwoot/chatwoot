@@ -120,6 +120,13 @@ const selectBillingCycle = cycle => {
   isDropdownOpen.value = false;
 };
 
+// Close dropdown saat validating voucher
+watch(() => isValidatingVoucher.value, (newVal) => {
+  if (newVal) {
+    isDropdownOpen.value = false;
+  }
+});
+
 const rules = {
   packageName: { required, minLength: minLength(1) },
 };
@@ -293,7 +300,13 @@ const submit = async () => {
         </div>
       </div>
 
-      <PaymentVoucherInput :subscriptionPlanId="selectedPlan?.id" :selectedPrice="totalPrice" v-model="selectedVoucher" v-model:is-validating-voucher="isValidatingVoucher"/>
+      <PaymentVoucherInput 
+        :subscriptionPlanId="selectedPlan?.id" 
+        :selectedPrice="totalPrice" 
+        :billingCycle="selectedBillingCycle?.id"
+        v-model="selectedVoucher" 
+        v-model:is-validating-voucher="isValidatingVoucher"
+      />
 
       <!-- Total -->
        <div class="flex flex-row justify-end mt-3">

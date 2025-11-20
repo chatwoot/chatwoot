@@ -17,6 +17,10 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    billingCycle: {
+        type: String,
+        default: 'monthly',
+    },
 })
 
 const { accountId } = useAccount();
@@ -37,6 +41,7 @@ async function validateVoucher(abortController) {
             voucher_code: voucherCode.value?.trim() || undefined,
             account_id: accountId.value,
             price: Number(props.selectedPrice),
+            billing_cycle: props.billingCycle,
         })
         if (abortController?.signal?.aborted) {
             return
@@ -44,6 +49,8 @@ async function validateVoucher(abortController) {
         modelVoucher.value = result.data
     }
     catch (err) {
+        // Clear voucher jika error (tidak valid untuk billing cycle ini)
+        clearVoucher()
         useAlert(err?.response?.data?.error || err?.toString())
     }
     finally {
@@ -56,16 +63,19 @@ function clearVoucher() {
     voucherCode.value = ''
 }
 
-watch(() => props.selectedPrice, (v, o, onCleanup) => {
+// Watch price AND billing cycle changes - gabungkan jadi satu watch
+watch(() => [props.selectedPrice, props.billingCycle], ([newPrice, newCycle], [oldPrice, oldCycle], onCleanup) => {
     const abortController = new AbortController()
     onCleanup(() => {
         abortController.abort()
     })
-    isSubmitting.value = false
-    validateVoucher(abortController)
-}, {
-    immediate: true,
-})
+    
+    // Hanya re-validate jika voucher sudah ada
+    if (voucherCode.value) {
+        isSubmitting.value = false
+        validateVoucher(abortController)
+    }
+}, { immediate: false })
 </script>
 
 <template>

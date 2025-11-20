@@ -1,6 +1,12 @@
 class Voucher::VoucherPreview
-  def preview(code, account, subscription_plan_id, price)
-    result = Voucher::VoucherValidator.new(code: code, account: account, subscription_plan_id: subscription_plan_id).validate
+  def preview(code, account, subscription_plan_id, price, billing_cycle: nil)
+    result = Voucher::VoucherValidator.new(
+      code: code, 
+      account: account, 
+      subscription_plan_id: subscription_plan_id,
+      billing_cycle: billing_cycle
+    ).validate
+
     unless result[:valid]
       return {
         voucher: result,
