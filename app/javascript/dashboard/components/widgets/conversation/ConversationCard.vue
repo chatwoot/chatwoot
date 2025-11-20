@@ -312,10 +312,17 @@ const deleteConversation = () => {
         </div>
       </div>
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12 flex items-center gap-2"
         :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
-        {{ currentContact.name }}
+        <span class="text-ellipsis overflow-hidden whitespace-nowrap">
+          {{ currentContact.name }}
+        </span>
+        <span
+          class="inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-medium rounded-full bg-n-teal-3 text-n-teal-text flex-shrink-0"
+        >
+          #{{ chat.id }}
+        </span>
       </h4>
       <div
         v-if="callStatus"
