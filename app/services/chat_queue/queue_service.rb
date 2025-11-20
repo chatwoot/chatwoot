@@ -3,9 +3,18 @@ class ChatQueue::QueueService
 
   MAX_ASSIGN_CHECK = 200
 
+  def schedule_queue_processing
+    redis.set("queue:#{account.id}:process", 1, ex: 2, nx: true)
+    Queue::ProcessQueueJob.perform_later(account.id)
+  end
+
   def add_to_queue(conversation)
     return false unless account.queue_enabled?
-    return false if conversation.assignee_id.present?
+
+    if conversation.assignee_id.present?
+      conversation.update_column(:assignee_id, nil)
+    end
+
     return false if in_queue?(conversation.id)
   
     seq = redis.incr(seq_key)
@@ -29,16 +38,39 @@ class ChatQueue::QueueService
     return nil unless account.queue_enabled?
     return nil unless agent_available?(agent)
 
+    allowed = cached_allowed_resources_for(agent.id)
+    allowed_inboxes = allowed[:inboxes]
+    allowed_teams   = allowed[:teams]
+
     candidate_ids = redis.zrange(queue_key, 0, 50)
 
     candidate_ids.each do |conv_id|
       lock_key = "queue:#{account.id}:lock:conv:#{conv_id}"
+
       next unless redis.set(lock_key, 1, nx: true, ex: 5)
 
       conversation = Conversation.lock.find_by(id: conv_id)
-      next unless conversation&.queued?
-      next if conversation.assignee_id.present?
-      next unless conversation_allowed_for_agent?(conversation, agent)
+
+      unless conversation&.queued?
+        redis.del(lock_key)
+        next
+      end
+
+      if conversation.assignee_id.present?
+        redis.del(lock_key)
+        next
+      end
+
+      unless allowed_inboxes.include?(conversation.inbox_id)
+        redis.del(lock_key)
+        next
+      end
+
+      if conversation.team_id.present? &&
+        !allowed_teams.include?(conversation.team_id)
+        redis.del(lock_key)
+        next
+      end
 
       redis.zrem(queue_key, conv_id)
 
@@ -100,15 +132,25 @@ class ChatQueue::QueueService
       conversation = Conversation.lock.find_by(id: conv_id)
       return nil unless conversation&.queued?
       return nil if conversation.assignee_id.present?
-
-      return nil unless conversation.inbox_id.in?(
-        InboxMember.where(user_id: agent.id).pluck(:inbox_id)
-      )
+      return nil unless conversation_allowed_for_agent?(conversation, agent)
 
       removed = redis.zrem(queue_key, conv_id)
       return nil if removed == 0
 
       return nil unless agent_available?(agent)
+      
+      current_active = Conversation
+      .where(account_id: account.id)
+      .where.not(status: :resolved)
+      .where(assignee_id: agent.id)
+      .count
+
+      limit = effective_limit_for_agent(agent.id)
+
+      if limit && current_active >= limit
+        puts "[QUEUE_LIMIT] Agent #{agent.id} reached limit #{limit}, cannot assign #{conv_id}"
+        return nil
+      end
 
       updated = Conversation.where(
         id: conv_id,
@@ -153,10 +195,18 @@ class ChatQueue::QueueService
   end
 
   def conversation_allowed_for_agent?(conversation, agent)
-    allowed = cached_allowed_resources_for(agent.id)
-
-    allowed[:inboxes].include?(conversation.inbox_id) ||
-      allowed[:teams].include?(conversation.team_id)
+    inbox_id = conversation.inbox_id
+    team_id  = conversation.team_id
+  
+    if team_id.present?
+      return false unless TeamMember.exists?(team_id: team_id, user_id: agent.id)
+    end
+  
+    InboxMember.exists?(inbox_id: inbox_id, user_id: agent.id)
+  end  
+  
+  def in_queue?(conversation_id)
+    redis.zscore(queue_key, conversation_id).present?
   end
 
   private
@@ -171,10 +221,6 @@ class ChatQueue::QueueService
 
   def seq_key
     "queue:#{account.id}:seq"
-  end
-
-  def in_queue?(conversation_id)
-    redis.zscore(queue_key, conversation_id).present?
   end
 
   def effective_limit_for_agent(agent_id)
@@ -195,12 +241,15 @@ class ChatQueue::QueueService
 
   def cached_allowed_resources_for(agent_id)
     @allowed_cache ||= {}
-
+  
     @allowed_cache[agent_id] ||= begin
-      {
-        inboxes: InboxMember.where(user_id: agent_id).pluck(:inbox_id),
-        teams:   TeamMember.where(user_id: agent_id).pluck(:team_id)
-      }
+      inbox_ids = Inbox.joins(:inbox_members)
+                       .where(inbox_members: { user_id: agent_id }, account_id: account.id)
+                       .pluck(:id)
+  
+      team_ids = TeamMember.where(user_id: agent_id).pluck(:team_id)
+  
+      { inboxes: inbox_ids, teams: team_ids }
     end
   end
 
@@ -243,10 +292,5 @@ class ChatQueue::QueueService
     )
   rescue => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
-  end
-
-  def schedule_queue_processing
-    redis.set("queue:#{account.id}:process", 1, ex: 2, nx: true)
-    Queue::ProcessQueueJob.perform_later(account.id)
   end
 end
