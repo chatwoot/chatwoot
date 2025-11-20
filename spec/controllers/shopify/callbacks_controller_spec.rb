@@ -11,17 +11,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
   let(:auth_code_strategy) { instance_double(OAuth2::Strategy::AuthCode) }
 
   describe 'GET /shopify/callback' do
-    def log_route_resolution
-      path = shopify_callback_path
-      puts "\n[SHOPIFY_SPEC] shopify_callback_path => #{path}"
-      begin
-        recognized = Rails.application.routes.recognize_path(path, method: :get)
-        puts "[SHOPIFY_SPEC] route resolves to: #{recognized}"
-      rescue ActionController::RoutingError => e
-        puts "[SHOPIFY_SPEC] routing error: #{e.message}"
-      end
-    end
-
     let(:access_token) { SecureRandom.hex(10) }
     let(:response_body) do
       {
@@ -36,9 +25,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when successful' do
       before do
-        controller = described_class.new
-        allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
-        allow(described_class).to receive(:new).and_return(controller)
+        allow_next_instance_of(described_class) do |controller|
+          allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
+        end
 
         stub_request(:post, "https://#{shop}/admin/oauth/access_token")
           .to_return(
@@ -49,7 +38,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       end
 
       it 'creates a new integration hook' do
-        log_route_resolution
         expect do
           get shopify_callback_path, params: { code: code, state: state, shop: shop }
         end.to change(Integrations::Hook, :count).by(1)
@@ -68,15 +56,14 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when the code is missing' do
       before do
-        controller = described_class.new
-        allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
-        allow(controller).to receive(:oauth_client).and_return(oauth_client)
+        allow_next_instance_of(described_class) do |controller|
+          allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
+          allow(controller).to receive(:oauth_client).and_return(oauth_client)
+        end
         allow(oauth_client).to receive(:auth_code).and_raise(StandardError)
-        allow(described_class).to receive(:new).and_return(controller)
       end
 
       it 'redirects to the shopify_redirect_uri with error' do
-        log_route_resolution
         get shopify_callback_path, params: { state: state, shop: shop }
         expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
@@ -84,9 +71,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when the token is invalid' do
       before do
-        controller = described_class.new
-        allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
-        allow(controller).to receive(:oauth_client).and_return(oauth_client)
+        allow_next_instance_of(described_class) do |controller|
+          allow(controller).to receive(:verify_shopify_token).with(state).and_return(account.id)
+          allow(controller).to receive(:oauth_client).and_return(oauth_client)
+        end
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:get_token).and_raise(
           OAuth2::Error.new(
@@ -96,11 +84,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
             )
           )
         )
-        allow(described_class).to receive(:new).and_return(controller)
       end
 
       it 'redirects to the shopify_redirect_uri with error' do
-        log_route_resolution
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
         expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
@@ -108,14 +94,13 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
     context 'when state parameter is invalid' do
       before do
-        controller = described_class.new
-        allow(controller).to receive(:verify_shopify_token).with(state).and_return(nil)
-        allow(controller).to receive(:account).and_return(nil)
-        allow(described_class).to receive(:new).and_return(controller)
+        allow_next_instance_of(described_class) do |controller|
+          allow(controller).to receive(:verify_shopify_token).with(state).and_return(nil)
+          allow(controller).to receive(:account).and_return(nil)
+        end
       end
 
       it 'redirects to the frontend URL with error' do
-        log_route_resolution
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
         expect(response).to redirect_to("#{frontend_url}?error=true")
       end
