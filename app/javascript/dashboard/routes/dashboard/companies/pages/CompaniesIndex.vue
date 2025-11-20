@@ -1,14 +1,16 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { debounce } from '@chatwoot/utils';
 
 import CompaniesListLayout from 'dashboard/components-next/Companies/CompaniesListLayout.vue';
 import CompaniesCard from 'dashboard/components-next/Companies/CompaniesCard/CompaniesCard.vue';
 
+const DEFAULT_SORT_FIELD = 'created_at';
 const DEBOUNCE_DELAY = 300;
 
 const store = useStore();
@@ -16,19 +18,33 @@ const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 
+const { updateUISettings, uiSettings } = useUISettings();
+
 const searchQuery = computed(() => route.query?.search || '');
 const searchValue = ref(searchQuery.value);
 const pageNumber = computed(() => Number(route.query?.page) || 1);
 
-const activeSort = computed(() => {
-  const sortParam = route.query?.sort || 'name';
-  return sortParam.startsWith('-') ? sortParam.slice(1) : sortParam;
+const parseSortSettings = (sortString = '') => {
+  const hasDescending = sortString.startsWith('-');
+  const sortField = hasDescending ? sortString.slice(1) : sortString;
+  return {
+    sort: sortField || DEFAULT_SORT_FIELD,
+    order: hasDescending ? '-' : '',
+  };
+};
+
+const { companies_sort_by: companySortBy = `-${DEFAULT_SORT_FIELD}` } =
+  uiSettings.value ?? {};
+const { sort: initialSort, order: initialOrder } =
+  parseSortSettings(companySortBy);
+
+const sortState = reactive({
+  activeSort: initialSort,
+  activeOrdering: initialOrder,
 });
 
-const activeOrdering = computed(() => {
-  const sortParam = route.query?.sort || 'name';
-  return sortParam.startsWith('-') ? '-' : '';
-});
+const activeSort = computed(() => sortState.activeSort);
+const activeOrdering = computed(() => sortState.activeOrdering);
 
 const companies = useMapGetter('companies/getCompaniesList');
 const meta = useMapGetter('companies/getMeta');
@@ -36,11 +52,10 @@ const uiFlags = useMapGetter('companies/getUIFlags');
 
 const isFetchingList = computed(() => uiFlags.value.fetchingList);
 
-const sortParam = computed(() => {
-  return activeOrdering.value === '-'
-    ? `-${activeSort.value}`
-    : activeSort.value;
-});
+const buildSortAttr = () =>
+  `${sortState.activeOrdering}${sortState.activeSort}`;
+
+const sortParam = computed(() => buildSortAttr());
 
 const updateURLParams = (page, search = '', sort = '') => {
   const query = {
@@ -96,9 +111,14 @@ const onPageChange = page => {
   fetchCompanies(page, searchValue.value, sortParam.value);
 };
 
-const handleSort = ({ sort, order }) => {
-  const newSortParam = order === '-' ? `-${sort}` : sort;
-  fetchCompanies(1, searchValue.value, newSortParam);
+const handleSort = async ({ sort, order }) => {
+  Object.assign(sortState, { activeSort: sort, activeOrdering: order });
+
+  await updateUISettings({
+    companies_sort_by: buildSortAttr(),
+  });
+
+  fetchCompanies(1, searchValue.value, buildSortAttr());
 };
 
 onMounted(() => {
