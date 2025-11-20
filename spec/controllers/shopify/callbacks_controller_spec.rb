@@ -9,6 +9,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
   let(:shopify_redirect_uri) { "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify" }
   let(:oauth_client) { instance_double(OAuth2::Client) }
   let(:auth_code_strategy) { instance_double(OAuth2::Strategy::AuthCode) }
+  let(:token_response) { instance_double(OAuth2::AccessToken, response: double(parsed: response_body), token: access_token) }
 
   def debug_response(label)
     puts "[SHOPIFY_SPEC] #{label} status=#{response.status} location=#{response.headers['Location']} body=#{response.body}"
@@ -32,15 +33,18 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       before do
         # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(Shopify::IntegrationHelper).to receive(:verify_shopify_token).and_return(account.id)
-        # stub Account.find_by so controller loads the same account id in CI
-        allow(Account).to receive(:find_by).with(id: account.id).and_return(account)
+        allow(Account).to receive(:find_by).and_return(account)
+        allow_any_instance_of(described_class).to receive(:oauth_client).and_return(oauth_client)
         # rubocop:enable RSpec/AnyInstance
+
+        allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
       end
     end
 
     context 'when successful' do
       include_context 'with stubbed account'
       before do
+        allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
         stub_request(:post, "https://#{shop}/admin/oauth/access_token")
           .to_return(
             status: 200,
@@ -70,11 +74,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     context 'when the code is missing' do
       include_context 'with stubbed account'
       before do
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(described_class)
-          .to receive(:oauth_client).and_return(oauth_client)
-        # rubocop:enable RSpec/AnyInstance
-        allow(oauth_client).to receive(:auth_code).and_raise(StandardError)
+        allow(auth_code_strategy).to receive(:get_token).and_raise(StandardError)
+        stub_request(:post, "https://#{shop}/admin/oauth/access_token")
+          .to_return(status: 400, body: { error: 'invalid_grant' }.to_json)
       end
 
       it 'redirects to the shopify_redirect_uri with error' do
@@ -87,11 +89,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     context 'when the token is invalid' do
       include_context 'with stubbed account'
       before do
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(described_class)
-          .to receive(:oauth_client).and_return(oauth_client)
-        # rubocop:enable RSpec/AnyInstance
-        allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:get_token).and_raise(
           OAuth2::Error.new(
             OpenStruct.new(
@@ -100,6 +97,9 @@ RSpec.describe Shopify::CallbacksController, type: :request do
             )
           )
         )
+
+        stub_request(:post, "https://#{shop}/admin/oauth/access_token")
+          .to_return(status: 400, body: { error: 'invalid_grant' }.to_json)
       end
 
       it 'redirects to the shopify_redirect_uri with error' do
