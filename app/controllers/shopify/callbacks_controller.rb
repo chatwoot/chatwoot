@@ -26,6 +26,8 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def handle_response
+    log_debug("creating hook for account_id=#{account.id} shop=#{params[:shop]}")
+
     account.hooks.create!(
       app_id: 'shopify',
       access_token: parsed_body['access_token'],
@@ -56,7 +58,9 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def account
-    @account ||= Account.find(@account_id)
+    @account ||= Account.find_by(id: @account_id).tap do |acct|
+      log_debug("loaded account=#{acct&.id}")
+    end
   end
 
   def account_id

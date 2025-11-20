@@ -10,6 +10,11 @@ RSpec.describe Shopify::CallbacksController, type: :request do
   let(:oauth_client) { instance_double(OAuth2::Client) }
   let(:auth_code_strategy) { instance_double(OAuth2::Strategy::AuthCode) }
 
+  def debug_response(label)
+    puts "[SHOPIFY_SPEC] #{label} status=#{response.status} location=#{response.headers['Location']} body=#{response.body}"
+    puts "[SHOPIFY_SPEC] hooks_count=#{Integrations::Hook.count}"
+  end
+
   def stub_controller
     allow(described_class).to receive(:new).and_wrap_original do |original, *args|
       controller = original.call(*args)
@@ -48,6 +53,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       it 'creates a new integration hook' do
         expect do
           get shopify_callback_path, params: { code: code, state: state, shop: shop }
+          debug_response('success')
         end.to change(Integrations::Hook, :count).by(1)
 
         hook = Integrations::Hook.last
@@ -73,6 +79,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
       it 'redirects to the shopify_redirect_uri with error' do
         get shopify_callback_path, params: { state: state, shop: shop }
+        debug_response('missing_code')
         expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
     end
@@ -96,6 +103,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
       it 'redirects to the shopify_redirect_uri with error' do
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
+        debug_response('invalid_token')
         expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
     end
@@ -110,6 +118,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
       it 'redirects to the frontend URL with error' do
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
+        debug_response('invalid_state')
         expect(response).to redirect_to("#{frontend_url}?error=true")
       end
     end
