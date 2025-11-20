@@ -1,7 +1,7 @@
 class UpdateBrandingDefaultsToSibidesk < ActiveRecord::Migration[7.0]
   BRANDING_OVERRIDES = {
-    'INSTALLATION_NAME' => 'Sibidesk',
-    'BRAND_NAME' => 'Sibidesk',
+    'INSTALLATION_NAME' => 'Sibi Desk',
+    'BRAND_NAME' => 'Sibi Desk',
     'BRAND_URL' => 'https://www.sibidesk.com',
     'WIDGET_BRAND_URL' => 'https://www.sibidesk.com',
     'TERMS_URL' => 'https://www.sibidesk.com/terms-of-service',

@@ -22,7 +22,7 @@ export default {
   emits: ['update'],
   data() {
     const installationName =
-      this.$store.getters['globalConfig/get']?.installationName || 'Sibidesk';
+      this.$store.getters['globalConfig/get']?.installationName || 'Sibi Desk';
     return {
       defaultBusinessName: installationName,
       senderNameKeyOptions: [

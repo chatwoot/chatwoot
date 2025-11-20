@@ -1,5 +1,6 @@
 import { parseBoolean } from '@chatwoot/utils';
 import { resolveMaximumFileUploadSize } from 'shared/helpers/FileHelper';
+import { DEFAULT_INSTALLATION_NAMES } from 'shared/constants/branding.js';
 
 const {
   API_CHANNEL_NAME: apiChannelName,
@@ -54,8 +55,10 @@ const state = {
 export const getters = {
   get: $state => $state,
   isOnChatwootCloud: $state => $state.deploymentEnv === 'cloud',
-  isACustomBrandedInstance: $state => $state.installationName !== 'Sibidesk',
-  isAChatwootInstance: $state => $state.installationName === 'Sibidesk',
+  isACustomBrandedInstance: $state =>
+    !DEFAULT_INSTALLATION_NAMES.includes($state.installationName),
+  isAChatwootInstance: $state =>
+    DEFAULT_INSTALLATION_NAMES.includes($state.installationName),
 };
 
 export const actions = {};

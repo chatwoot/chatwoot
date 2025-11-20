@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useBranding } from 'shared/composables/useBranding';
+import { DEFAULT_INSTALLATION_NAMES } from 'shared/constants/branding.js';
 import { hasCustomBrandAsset } from 'shared/helpers/brandingAssets';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
@@ -22,7 +23,9 @@ export default {
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     isAChatwootInstance() {
-      return this.globalConfig.installationName === 'Sibidesk';
+      return DEFAULT_INSTALLATION_NAMES.includes(
+        this.globalConfig.installationName
+      );
     },
     shouldShowPrimaryLogo() {
       return hasCustomBrandAsset(this.globalConfig.logo);

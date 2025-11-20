@@ -38,6 +38,13 @@ describe('useBranding', () => {
       expect(result).toBe('Welcome to MyCompany');
     });
 
+    it('should replace "Sibi Desk" with installation name when both text and installation name are provided', () => {
+      const { replaceInstallationName } = useBranding();
+      const result = replaceInstallationName('Welcome to Sibi Desk');
+
+      expect(result).toBe('Welcome to MyCompany');
+    });
+
     it('should replace multiple occurrences of default brand names', () => {
       const { replaceInstallationName } = useBranding();
       const result = replaceInstallationName(

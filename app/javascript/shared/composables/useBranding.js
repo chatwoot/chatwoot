@@ -3,8 +3,7 @@
  * Provides methods to customize text with installation-specific branding
  */
 import { useMapGetter } from 'dashboard/composables/store.js';
-
-const DEFAULT_BRAND_NAMES = ['Chatwoot', 'Sibidesk'];
+import { DEFAULT_BRAND_NAMES } from 'shared/constants/branding.js';
 
 export function useBranding() {
   const globalConfig = useMapGetter('globalConfig/get');
