@@ -130,7 +130,7 @@ class Conversation < ApplicationRecord
     return true unless channel&.messaging_window_enabled?
 
     messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
-    last_message_in_messaging_window?(messaging_window, inbox.api?)
+    last_message_in_messaging_window?(messaging_window, is_api: inbox.api?)
   end
 
   def last_activity_at
