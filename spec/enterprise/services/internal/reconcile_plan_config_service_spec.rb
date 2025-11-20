@@ -23,22 +23,27 @@ RSpec.describe Internal::ReconcilePlanConfigService do
       end
 
       it 'creates a premium config reset warning if config was modified' do
+        InstallationConfig.where(name: 'INSTALLATION_NAME').delete_all
         create(:installation_config, name: 'INSTALLATION_NAME', value: 'custom-name')
         service.perform
         expect(Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING)).to eq('true')
       end
 
       it 'will not create a premium config reset warning if config is not modified' do
-        create(:installation_config, name: 'INSTALLATION_NAME', value: 'Chatwoot')
+        allow(service).to receive(:premium_config).and_return([{ 'name' => 'INSTALLATION_NAME', 'value' => 'Dooza Desk' }])
+        InstallationConfig.where(name: 'INSTALLATION_NAME').delete_all
+        create(:installation_config, name: 'INSTALLATION_NAME', value: 'Dooza Desk')
         service.perform
         expect(Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING)).to be_nil
       end
 
       it 'updates the premium configs to default' do
+        InstallationConfig.where(name: 'INSTALLATION_NAME').delete_all
+        InstallationConfig.where(name: 'LOGO').delete_all
         create(:installation_config, name: 'INSTALLATION_NAME', value: 'custom-name')
         create(:installation_config, name: 'LOGO', value: '/custom-path/logo.svg')
         service.perform
-        expect(InstallationConfig.find_by(name: 'INSTALLATION_NAME').value).to eq('Chatwoot')
+        expect(InstallationConfig.find_by(name: 'INSTALLATION_NAME').value).to eq('Dooza Desk')
         expect(InstallationConfig.find_by(name: 'LOGO').value).to eq('/brand-assets/logo.svg')
       end
     end
@@ -68,6 +73,8 @@ RSpec.describe Internal::ReconcilePlanConfigService do
       end
 
       it 'does not update the LOGO config' do
+        InstallationConfig.where(name: 'INSTALLATION_NAME').delete_all
+        InstallationConfig.where(name: 'LOGO').delete_all
         create(:installation_config, name: 'INSTALLATION_NAME', value: 'custom-name')
         create(:installation_config, name: 'LOGO', value: '/custom-path/logo.svg')
         service.perform
