@@ -127,15 +127,9 @@ class Conversation < ApplicationRecord
 
     return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
 
-    Rails.logger.info("inbox.api?, #{inbox.api?}")
-
     return true unless channel&.messaging_window_enabled?
 
-    Rails.logger.info("channel&.messaging_window_enabled?, #{channel&.messaging_window_enabled?}")
-
     messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
-
-    Rails.logger.info("messaging_window, #{messaging_window}")
 
     last_message_in_messaging_window?(messaging_window, is_api: inbox.api?)
   end
@@ -157,7 +151,15 @@ class Conversation < ApplicationRecord
   def last_message_in_messaging_window?(time, is_api: false)
     return false if last_incoming_message.nil?
 
-    last_incoming_message_created_at = is_api ? last_incoming_message.content_attributes['external_created_at'] : last_incoming_message.created_at
+    Rails.logger.info("is_api, #{is_api}")
+
+    Rails.logger.info("last_incoming_message.content_attributes, #{last_incoming_message.content_attributes.inspect}")
+
+    last_incoming_message_created_at = is_api ? last_incoming_message.content_attributes['external_created_at'].to_time : last_incoming_message.created_at # rubocop:disable Layout/LineLength
+
+    Rails.logger.info("last_incoming_message_created_at, #{last_incoming_message_created_at}")
+
+    Rails.logger.info("Time.current < last_incoming_message_created_at + time.hours, #{Time.current < last_incoming_message_created_at + time.hours}")
 
     Time.current < last_incoming_message_created_at + time.hours
   end
