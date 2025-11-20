@@ -40,8 +40,12 @@ const {
   toggleSidebarUIState,
 } = useUISettings();
 
+const store = useStore();
+
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
+
+const accountId = computed(() => store.getters.getCurrentAccountId);
 
 const shopifyIntegration = useFunctionGetter(
   'integrations/getIntegration',
@@ -52,16 +56,25 @@ const isShopifyFeatureEnabled = computed(
   () => shopifyIntegration.value.enabled
 );
 
+const isLinearFeatureEnabled = useFunctionGetter(
+  'accounts/isFeatureEnabledonAccount',
+  accountId,
+  'linear_integration'
+);
+
 const linearIntegration = useFunctionGetter(
   'integrations/getIntegration',
   'linear'
 );
 
-const isLinearIntegrationEnabled = computed(
+const isLinearClientIdConfigured = computed(() => {
+  return !!linearIntegration.value?.id;
+});
+
+const isLinearConnected = computed(
   () => linearIntegration.value?.enabled || false
 );
 
-const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
 const conversationId = computed(() => props.conversationId);
 const conversationMetadataGetter = useMapGetter(
@@ -238,7 +251,13 @@ onMounted(() => {
               <MacrosList :conversation-id="conversationId" />
             </AccordionItem>
           </woot-feature-toggle>
-          <div v-else-if="element.name === 'linear_issues'">
+          <div
+            v-else-if="
+              element.name === 'linear_issues' &&
+              isLinearFeatureEnabled &&
+              isLinearClientIdConfigured
+            "
+          >
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.LINEAR_ISSUES')"
               :is-open="isContactSidebarItemOpen('is_linear_issues_open')"
@@ -247,7 +266,7 @@ onMounted(() => {
                 value => toggleSidebarUIState('is_linear_issues_open', value)
               "
             >
-              <LinearSetupCTA v-if="!isLinearIntegrationEnabled" />
+              <LinearSetupCTA v-if="!isLinearConnected" />
               <LinearIssuesList v-else :conversation-id="conversationId" />
             </AccordionItem>
           </div>
