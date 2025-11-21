@@ -138,7 +138,7 @@ describe CustomMarkdownRenderer do
 
       it 'wraps iframe in responsive container' do
         output = render_markdown_link(arcade_url)
-        expect(output).to include('position: relative; padding-bottom: 62.5%; height: 0;')
+        expect(output).to include('position: relative; padding-bottom: calc(62.793% + 41px); height: 0px; width: 100%;')
         expect(output).to include('position: absolute; top: 0; left: 0; width: 100%; height: 100%;')
       end
     end

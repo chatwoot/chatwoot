@@ -55,7 +55,7 @@ mp4:
 arcade:
   regex: 'https?://(?:www\.)?app\.arcade\.software/share/(?<video_id>[^&/]+)'
   template: |
-    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+    <div style="position: relative; padding-bottom: calc(62.793% + 41px); height: 0px; width: 100%;">
       <iframe
         src="https://app.arcade.software/embed/%{video_id}"
         frameborder="0"
