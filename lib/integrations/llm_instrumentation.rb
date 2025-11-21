@@ -36,7 +36,7 @@ module Integrations::LlmInstrumentation
       result
     end
   rescue StandardError => e
-    Rails.logger.error("LLM instrumentation error: #{e.message}")
+    ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
     yield
   end
 
@@ -50,14 +50,10 @@ module Integrations::LlmInstrumentation
     set_request_attributes(span, params)
     set_prompt_messages(span, params[:messages])
     set_metadata_attributes(span, params)
-  rescue StandardError => e
-    Rails.logger.error("LLM instrumentation setup error: #{e.message}")
   end
 
   def record_completion(span, result)
     set_completion_attributes(span, result) if result.is_a?(Hash)
-  rescue StandardError => e
-    Rails.logger.error("LLM instrumentation completion error: #{e.message}")
   end
 
   def set_request_attributes(span, params)
