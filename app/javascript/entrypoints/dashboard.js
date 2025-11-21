@@ -42,7 +42,6 @@ const i18n = createI18n({
 
 sync(store, router);
 
-// Create Pinia instance
 const pinia = createPinia();
 
 const app = createApp(App);
