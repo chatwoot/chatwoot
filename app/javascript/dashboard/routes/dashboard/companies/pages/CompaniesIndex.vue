@@ -136,6 +136,7 @@ onMounted(() => {
     :active-sort="activeSort"
     :active-ordering="activeOrdering"
     :is-fetching-list="isFetchingList"
+    :show-pagination-footer="!!companies.length"
     @update:current-page="onPageChange"
     @update:sort="handleSort"
     @search="onSearch"
