@@ -19,7 +19,7 @@
     "SEARCH_PLACEHOLDER": "Search companies...",
     "LOADING": "Loading companies...",
     "UNNAMED": "Unnamed Company",
-    "CONTACTS_COUNT": "{count} contacts",
+    "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "EMPTY_STATE": {
       "TITLE": "No companies found"
     }
