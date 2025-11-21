@@ -32,9 +32,19 @@ class DataImportJob < ApplicationJob
   end
 
   def update_contact_tags
-    @csv.each do |row|
-      @tags_manager.build(row.to_h.with_indifferent_access)
-    end
+    tags =
+      @csv.each_with_object([]) do |row, acc|
+        acc.concat(@tags_manager.build(row.to_h.with_indifferent_access))
+      end
+
+    ActsAsTaggableOn::Tagging.import(
+      tags,
+      synchronize: tags,
+      on_duplicate_key_ignore: true,
+      track_validation_failures: true,
+      validate: true,
+      batch_size: 1000
+    )
   end
 
   def parse_csv_and_build_contacts
@@ -53,6 +63,28 @@ class DataImportJob < ApplicationJob
     end
 
     [contacts, rejected_contacts]
+  end
+
+  def detect_delimiter(data)
+    first_lines = data.lines.take(5).join
+
+    comma_count = first_lines.count(',')
+    semicolon_count = first_lines.count(';')
+
+    semicolon_count > comma_count ? ';' : ','
+  end
+
+  def parse_csv
+    # Ensuring that importing non utf-8 characters will not throw error
+    data = @data_import.import_file.download
+    clean_data = data.force_encoding('UTF-8')
+
+    # Ensure that the data is valid UTF-8, preserving valid characters
+    clean_data = clean_data.encode('UTF-16le', invalid: :replace, replace: '').encode('UTF-8') unless clean_data.valid_encoding?
+
+    @csv_delimiter = detect_delimiter(clean_data)
+
+    CSV.parse(clean_data, headers: true, col_sep: @csv_delimiter)
   end
 
   def append_rejected_contact(row, contact, rejected_contacts)

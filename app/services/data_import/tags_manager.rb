@@ -8,25 +8,40 @@ class DataImport::TagsManager
   end
 
   def build(params)
-    return if params[:tags].blank?
+    return [] if params[:tags].blank?
 
     contact = find_existing_contact(params)
-    return if contact.blank?
+    return [] if contact.blank?
 
     tags = normalize_tags(params[:tags])
-    contact.add_labels(tags)
+    return [] if tags.blank?
+
+    initialize_tag(contact, tags)
   end
 
   private
 
-  def find_existing_contact(params)
-    return if params.blank?
+  def initialize_tag(contact, tags)
+    tags.filter_map do |tag|
+      label = ActsAsTaggableOn::Tag.find_by(name: tag)
 
+      if label.present?
+        ActsAsTaggableOn::Tagging.new(
+          tag_id: label.id,
+          taggable_id: contact.id,
+          taggable_type: 'Contact',
+          context: 'labels'
+        )
+      end
+    end
+  end
+
+  def find_existing_contact(params)
     return @account.contacts.find_by(identifier: params[:identifier]) if params[:identifier].present?
     return @account.contacts.from_email(params[:email]) if params[:email].present?
     return @account.contacts.find_by(phone_number: formatted_phone(params[:phone_number])) if params[:phone_number].present?
 
-    nil
+    []
   end
 
   def formatted_phone(phone_number)
