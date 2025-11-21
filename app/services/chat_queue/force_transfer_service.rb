@@ -62,12 +62,10 @@ class ChatQueue::ForceTransferService
 
   def agent_has_access?(agent)
     inbox_ids = InboxMember.where(user_id: agent.id).pluck(:inbox_id)
-    team_ids = TeamMember.where(user_id: agent.id).pluck(:team_id)
 
     has_inbox = inbox_ids.include?(conversation.inbox_id)
-    has_team  = !conversation.team_id.present? || team_ids.include?(conversation.team_id)
 
-    has_inbox && has_team
+    has_inbox
   end
 
   def active_conversations_count(agent_id)
@@ -121,7 +119,6 @@ class ChatQueue::ForceTransferService
       "[FORCE_TRANSFER][NO_AGENTS] Account: #{conversation.account.id}, " \
       "Conversation: #{conversation.id}, " \
       "Inbox: #{conversation.inbox_id}, " \
-      "Team: #{conversation.team_id || 'none'}, " \
       "Initiated by: #{current_user.id}, " \
       "At: #{Time.current}"
     )

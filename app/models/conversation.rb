@@ -120,6 +120,7 @@ class Conversation < ApplicationRecord
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
+  after_update :remove_from_queue_if_status_changed
   after_update_commit :execute_after_update_commit_callbacks
   after_update_commit :process_queue_on_assignment_change
   after_create_commit :notify_conversation_creation
@@ -348,6 +349,17 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def remove_from_queue_if_status_changed
+    return unless saved_change_to_status?
+
+    old_status, new_status = saved_change_to_status
+
+    if old_status == "queued" && new_status != "queued"
+      ChatQueue::QueueService.new(account: account)
+                             .remove_from_queue(self)
+    end
   end
 
   # creating db triggers
