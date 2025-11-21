@@ -50,7 +50,8 @@ class RequestAiResponseJob < ApplicationJob
       return
     end
 
-    messages_for_payload = conversation.messages.last(10).filter_map do |msg|
+    # Send full conversation history to AI engine for complete context
+    messages_for_payload = conversation.messages.chat.filter_map do |msg|
       # Skip messages with nil content
       next if msg.content.blank?
 
