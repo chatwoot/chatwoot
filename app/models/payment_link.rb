@@ -112,13 +112,12 @@ class PaymentLink < ApplicationRecord
   end
 
   def mark_as_failed!(callback_data = {})
-    update_columns(
-      status: PaymentLink.statuses[:failed],
+    update!(
+      status: :failed,
       payload: payload.merge(
         failed_at: Time.current.iso8601,
         payment_callback: callback_data
-      ),
-      updated_at: Time.current
+      )
     )
   end
 
@@ -130,13 +129,12 @@ class PaymentLink < ApplicationRecord
   end
 
   def mark_as_cancelled!(callback_data = {})
-    update_columns(
-      status: PaymentLink.statuses[:cancelled],
+    update!(
+      status: :cancelled,
       payload: payload.merge(
         cancelled_at: Time.current.iso8601,
         payment_callback: callback_data
-      ),
-      updated_at: Time.current
+      )
     )
   end
 
