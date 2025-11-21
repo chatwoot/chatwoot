@@ -24,7 +24,7 @@ const props = defineProps({
   inbox: { type: Object, required: true },
 });
 
-const TEMPLATE_NAME = 'customer_satisfaction_survey_new';
+const TEMPLATE_NAME = 'customer_satisfaction_survey';
 
 const { t } = useI18n();
 const store = useStore();

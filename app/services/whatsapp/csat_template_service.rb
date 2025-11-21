@@ -4,9 +4,12 @@ class Whatsapp::CsatTemplateService
   end
 
   def create_template(template_config)
-    request_body = build_template_request_body(template_config)
+    base_name = template_config[:template_name] || 'customer_satisfaction_survey'
+    template_name = generate_template_name(base_name)
+    template_config_with_name = template_config.merge(template_name: template_name)
+    request_body = build_template_request_body(template_config_with_name)
     response = send_template_creation_request(request_body)
-    process_template_creation_response(response)
+    process_template_creation_response(response, template_config_with_name)
   end
 
   def delete_template(template_name = 'customer_satisfaction_survey')
@@ -39,11 +42,33 @@ class Whatsapp::CsatTemplateService
 
   private
 
+  def generate_template_name(base_name)
+    # Get current template config to check if we already have a version number
+    csat_config = @whatsapp_channel.inbox.csat_config || {}
+    template_config = csat_config['template'] || {}
+
+    current_name = template_config['name']
+
+    return base_name if current_name.blank?
+
+    # Always use customer_satisfaction_survey as the true base, regardless of what's passed in
+    true_base_name = 'customer_satisfaction_survey'
+
+    if current_name.match?(/^customer_satisfaction_survey_(\d+)$/)
+      # Extract current version and increment
+      current_version = current_name.match(/^customer_satisfaction_survey_(\d+)$/)[1].to_i
+      "#{true_base_name}_#{current_version + 1}"
+    else
+      # Second time or fallback - use version 1
+      "#{true_base_name}_1"
+    end
+  end
+
   def build_template_request_body(template_config)
     {
-      name: template_config[:template_name] || 'customer_satisfaction_survey',
+      name: template_config[:template_name],
       language: template_config[:language] || 'en',
-      category: 'UTILITY',
+      category: 'MARKETING',
       components: build_template_components(template_config)
     }
   end
@@ -84,12 +109,13 @@ class Whatsapp::CsatTemplateService
     )
   end
 
-  def process_template_creation_response(response)
+  def process_template_creation_response(response, template_config = {})
     if response.success?
       {
         success: true,
         template_id: response['id'],
-        template_name: response['name'],
+        template_name: response['name'] || template_config[:template_name],
+        language: template_config[:language] || 'en',
         status: 'PENDING'
       }
     else

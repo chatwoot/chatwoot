@@ -83,6 +83,14 @@ export const getters = {
         return false;
       }
 
+      // Filter out CSAT templates (customer_satisfaction_survey and its versions)
+      if (
+        template.name &&
+        template.name.startsWith('customer_satisfaction_survey')
+      ) {
+        return false;
+      }
+
       // Filter out interactive templates (LIST, PRODUCT, CATALOG), location templates, and call permission templates
       const hasUnsupportedComponents = template.components.some(
         component =>

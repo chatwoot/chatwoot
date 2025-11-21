@@ -19,7 +19,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     template_params = extract_template_params
     return render_missing_message_error if template_params[:message].blank?
 
-    # Delete existing template if it exists
+    # Try to delete existing template, but don't fail if deletion fails
     delete_existing_template_if_needed
 
     result = create_template_via_provider(template_params)
@@ -76,10 +76,10 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   def render_successful_template_creation(result)
     render json: {
       template: {
-        name: result[:template_name] || 'customer_satisfaction_survey',
+        name: result[:template_name],
         template_id: result[:template_id],
         status: 'PENDING',
-        language: 'en'
+        language: result[:language] || 'en'
       }
     }, status: :created
   end
@@ -100,15 +100,20 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     template_name = template_config&.dig('name') || 'customer_satisfaction_survey'
 
     template_status = @inbox.channel.provider_service.get_template_status(template_name)
-    return unless template_status[:success]
+    return true unless template_status[:success] # No template exists, so "deletion" is successful
 
     # Delete the existing template
     deletion_result = @inbox.channel.provider_service.delete_csat_template(template_name)
     if deletion_result[:success]
       Rails.logger.info "Deleted existing CSAT template '#{template_name}' for inbox #{@inbox.id}"
+      true
     else
       Rails.logger.warn "Failed to delete existing CSAT template '#{template_name}' for inbox #{@inbox.id}: #{deletion_result[:response_body]}"
+      false
     end
+  rescue StandardError => e
+    Rails.logger.error "Error during template deletion for inbox #{@inbox.id}: #{e.message}"
+    false
   end
 
   def render_template_status_response(status_result, template_name)
