@@ -5,12 +5,25 @@ class ChatQueue::ForceTransferService
     return error_result('Conversation not found') unless conversation
 
     target_agent = find_least_loaded_agent
-    return error_result('No available agents for transfer') unless target_agent
+    unless target_agent
+      log_no_agents_available
+      send_no_agents_activity_message
+      return error_result('No available agents for transfer')
+    end
 
     transfer_to_agent(target_agent)
   end
 
   private
+
+  def send_no_agents_activity_message
+    conversation.messages.create!(
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :activity,
+      content: "Нет доступных операторов для перевода"
+    )
+  end
 
   def find_least_loaded_agent
     available_agents = fetch_available_agents
@@ -103,6 +116,17 @@ class ChatQueue::ForceTransferService
     )
   end
 
+  def log_no_agents_available
+    Rails.logger.warn(
+      "[FORCE_TRANSFER][NO_AGENTS] Account: #{conversation.account.id}, " \
+      "Conversation: #{conversation.id}, " \
+      "Inbox: #{conversation.inbox_id}, " \
+      "Team: #{conversation.team_id || 'none'}, " \
+      "Initiated by: #{current_user.id}, " \
+      "At: #{Time.current}"
+    )
+  end
+  
   def send_transfer_notification(target_agent)
     conversation.messages.create!(
       account_id: conversation.account_id,
