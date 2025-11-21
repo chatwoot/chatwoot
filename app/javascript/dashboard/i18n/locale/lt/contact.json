@@ -559,7 +559,7 @@
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "Pastabų dar nėra. Paspauskite „Pridėti pastabą“, kad sukurtumėte pirmąją."
       }
     },
     "EMPTY_STATE": {
@@ -568,7 +568,7 @@
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "Nė vienas kontaktas neatitinka jūsų paieškos 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "Šiuo metu nėra aktyvių kontaktų 🌙"
     }
   },
   "CONTACTS_BULK_ACTIONS": {
