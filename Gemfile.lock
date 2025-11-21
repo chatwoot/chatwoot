@@ -635,37 +635,6 @@ GEM
       opentelemetry-common (~> 0.20)
       opentelemetry-sdk (~> 1.10)
       opentelemetry-semantic_conventions
-    opentelemetry-instrumentation-action_mailer (0.6.1)
-      opentelemetry-instrumentation-active_support (~> 0.10)
-    opentelemetry-instrumentation-action_pack (0.15.1)
-      opentelemetry-instrumentation-rack (~> 0.29)
-    opentelemetry-instrumentation-action_view (0.11.1)
-      opentelemetry-instrumentation-active_support (~> 0.10)
-    opentelemetry-instrumentation-active_job (0.10.1)
-      opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-active_record (0.11.1)
-      opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-active_storage (0.3.1)
-      opentelemetry-instrumentation-active_support (~> 0.10)
-    opentelemetry-instrumentation-active_support (0.10.1)
-      opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-base (0.25.0)
-      opentelemetry-api (~> 1.7)
-      opentelemetry-common (~> 0.21)
-      opentelemetry-registry (~> 0.1)
-    opentelemetry-instrumentation-concurrent_ruby (0.24.0)
-      opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-rack (0.29.0)
-      opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-rails (0.39.1)
-      opentelemetry-instrumentation-action_mailer (~> 0.6)
-      opentelemetry-instrumentation-action_pack (~> 0.15)
-      opentelemetry-instrumentation-action_view (~> 0.11)
-      opentelemetry-instrumentation-active_job (~> 0.10)
-      opentelemetry-instrumentation-active_record (~> 0.11)
-      opentelemetry-instrumentation-active_storage (~> 0.3)
-      opentelemetry-instrumentation-active_support (~> 0.10)
-      opentelemetry-instrumentation-concurrent_ruby (~> 0.23)
     opentelemetry-registry (0.4.0)
       opentelemetry-api (~> 1.1)
     opentelemetry-sdk (1.10.0)
@@ -1124,7 +1093,6 @@ DEPENDENCIES
   omniauth-saml
   opensearch-ruby
   opentelemetry-exporter-otlp
-  opentelemetry-instrumentation-rails
   opentelemetry-sdk
   pg
   pg_search

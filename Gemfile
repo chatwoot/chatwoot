@@ -199,7 +199,6 @@ gem 'ruby_llm-schema'
 # OpenTelemetry for LLM observability
 gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
-gem 'opentelemetry-instrumentation-rails'
 
 gem 'shopify_api'
 
