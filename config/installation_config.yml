@@ -480,7 +480,7 @@
 - name: OTEL_PROVIDER
   display_title: 'OpenTelemetry Provider'
   description: 'LLM observability provider (langfuse, langsmith, etc.)'
-  value: 'langfuse'
+  value: ''
   locked: false
 - name: LANGFUSE_PUBLIC_KEY
   display_title: 'Langfuse Public Key'
