@@ -38,9 +38,7 @@ class ChatQueue::QueueService
     return nil unless account.queue_enabled?
     return nil unless agent_available?(agent)
 
-    allowed = cached_allowed_resources_for(agent.id)
-    allowed_inboxes = allowed[:inboxes]
-    allowed_teams   = allowed[:teams]
+    allowed_inboxes = InboxMember.where(user_id: agent.id).pluck(:inbox_id)
 
     candidate_ids = redis.zrange(queue_key, 0, 50)
 
@@ -51,23 +49,12 @@ class ChatQueue::QueueService
 
       conversation = Conversation.lock.find_by(id: conv_id)
 
-      unless conversation&.queued?
-        redis.del(lock_key)
-        next
-      end
-
-      if conversation.assignee_id.present?
+      unless conversation&.queued? && conversation.assignee_id.nil?
         redis.del(lock_key)
         next
       end
 
       unless allowed_inboxes.include?(conversation.inbox_id)
-        redis.del(lock_key)
-        next
-      end
-
-      if conversation.team_id.present? &&
-        !allowed_teams.include?(conversation.team_id)
         redis.del(lock_key)
         next
       end
@@ -86,7 +73,6 @@ class ChatQueue::QueueService
 
       if updated > 0
         send_assigned_notification(conversation.reload)
-        reset_caches_after_assign(agent.id)
         redis.del(lock_key)
         return conversation
       else
@@ -196,11 +182,6 @@ class ChatQueue::QueueService
 
   def conversation_allowed_for_agent?(conversation, agent)
     inbox_id = conversation.inbox_id
-    team_id  = conversation.team_id
-  
-    if team_id.present?
-      return false unless TeamMember.exists?(team_id: team_id, user_id: agent.id)
-    end
   
     InboxMember.exists?(inbox_id: inbox_id, user_id: agent.id)
   end  
@@ -247,9 +228,7 @@ class ChatQueue::QueueService
                        .where(inbox_members: { user_id: agent_id }, account_id: account.id)
                        .pluck(:id)
   
-      team_ids = TeamMember.where(user_id: agent_id).pluck(:team_id)
-  
-      { inboxes: inbox_ids, teams: team_ids }
+      { inboxes: inbox_ids }
     end
   end
 
