@@ -13,6 +13,11 @@ RSpec.describe Integrations::LlmInstrumentation do
       config.value = 'langfuse'
     end
   end
+  let!(:langfuse_secret_key) do
+    InstallationConfig.find_or_create_by(name: 'LANGFUSE_SECRET_KEY') do |config|
+      config.value = 'test-secret-key'
+    end
+  end
 
   let(:params) do
     {
@@ -73,19 +78,19 @@ RSpec.describe Integrations::LlmInstrumentation do
         expect(result).to eq('my_result')
       end
 
-      it 'handles errors gracefully and logs them' do
+      it 'handles errors gracefully and captures exceptions' do
         mock_span = instance_double(OpenTelemetry::Trace::Span)
         allow(mock_span).to receive(:status=)
         mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
         allow(instance).to receive(:tracer).and_return(mock_tracer)
         allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
         allow(mock_span).to receive(:set_attribute).and_raise(StandardError.new('Span error'))
-        allow(Rails.logger).to receive(:error)
+        allow(ChatwootExceptionTracker).to receive(:new).and_call_original
 
         result = instance.instrument_llm_call(params) { 'my_result' }
 
         expect(result).to eq('my_result')
-        expect(Rails.logger).to have_received(:error).with(/LLM instrumentation setup error/)
+        expect(ChatwootExceptionTracker).to have_received(:new)
       end
 
       it 'sets correct request attributes on the span' do
