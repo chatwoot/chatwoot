@@ -114,10 +114,13 @@ export default {
         return;
       }
 
+      // Use configured version or fallback to v23.0 if not set
+      const fbVersion = window.chatwootConfig.fbApiVersion || 'v23.0';
+
       FB.init({
         appId: window.chatwootConfig.fbAppId,
         xfbml: true,
-        version: window.chatwootConfig.fbApiVersion,
+        version: fbVersion,
         status: true,
       });
       window.fbSDKLoaded = true;

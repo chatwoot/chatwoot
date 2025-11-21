@@ -75,12 +75,19 @@ class RequestAiResponseJob < ApplicationJob
     ai_conversation_id = generate_ai_conversation_id(conversation)
     Rails.logger.info "Generated AI conversation ID: #{ai_conversation_id} for channel: #{conversation.inbox.channel_type}"
 
+    # Build channel info for channel-specific features (WhatsApp interactive messages, etc.)
+    channel_info = build_channel_info(conversation)
+    Rails.logger.info "[AI_JOB] 📡 Channel info built: #{channel_info.present? ? channel_info.keys : 'none'}"
+
     # Convert to form data as per API documentation
     form_data = {
       agent_key: ai_agent.agent_key,
       messages: messages_for_payload.to_json, # JSON string for messages array
       conversation_id: ai_conversation_id
     }
+
+    # Add channel_info as JSON string if present
+    form_data[:channel_info] = channel_info.to_json if channel_info.present?
 
     # Add query only for text messages, not for audio messages
     audio_attachment = message.attachments.find { |att| att.file_type == 'audio' }
@@ -136,14 +143,18 @@ class RequestAiResponseJob < ApplicationJob
           # Create the audio file with proper multipart format that matches your AI engine expectation
           audio_file = File.new(temp_file.path, 'rb')
 
+          # Build RestClient payload with channel_info if present
+          rest_payload = {
+            agent_key: form_data[:agent_key],
+            messages: form_data[:messages],
+            conversation_id: form_data[:conversation_id],
+            audio_file: audio_file
+          }
+          rest_payload[:channel_info] = form_data[:channel_info] if form_data[:channel_info].present?
+
           rest_response = RestClient.post(
             deployment_url,
-            {
-              agent_key: form_data[:agent_key],
-              messages: form_data[:messages],
-              conversation_id: form_data[:conversation_id],
-              audio_file: audio_file
-            },
+            rest_payload,
             {
               'x-api-token' => api_token,
               'clerk-id' => clerk_id
@@ -419,5 +430,62 @@ class RequestAiResponseJob < ApplicationJob
       temp_file&.close
       temp_file&.unlink
     end
+  end
+
+  # Build channel-specific info for AI Engine to enable channel features
+  def build_channel_info(conversation)
+    inbox = conversation.inbox
+    channel = inbox.channel
+
+    case inbox.channel_type
+    when 'Channel::Whatsapp'
+      build_whatsapp_channel_info(conversation, channel)
+    when 'Channel::Telegram'
+      build_telegram_channel_info(conversation, channel)
+    when 'Channel::Sms'
+      build_sms_channel_info(conversation, channel)
+      # No channel info for other channels (web widget, API, etc.)
+    end
+  rescue StandardError => e
+    Rails.logger.error "[AI_JOB] ❌ Error building channel info: #{e.message}"
+    nil
+  end
+
+  def build_whatsapp_channel_info(conversation, channel)
+    provider_config = channel.provider_config || {}
+    contact = conversation.contact
+
+    {
+      channel: 'whatsapp',
+      access_token: provider_config['api_key'],
+      phone_number_id: provider_config['phone_number_id'],
+      phone_number: channel.phone_number,
+      client_phone_number: contact.phone_number,
+      handoff_email: conversation.account.support_email
+    }.compact
+  end
+
+  def build_telegram_channel_info(conversation, channel)
+    provider_config = channel.provider_config || {}
+    contact_inbox = conversation.contact_inbox
+
+    {
+      channel: 'telegram',
+      bot_token: provider_config['bot_token'],
+      chat_id: contact_inbox.source_id,
+      user_id: contact_inbox.source_id,
+      handoff_email: conversation.account.support_email
+    }.compact
+  end
+
+  def build_sms_channel_info(conversation, channel)
+    contact = conversation.contact
+
+    {
+      channel: 'sms',
+      phone_number: channel.phone_number,
+      client_phone_number: contact.phone_number,
+      handoff_email: conversation.account.support_email
+    }.compact
   end
 end

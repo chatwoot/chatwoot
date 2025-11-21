@@ -5,6 +5,15 @@ metadata:
   namespace: chatwoot-staging
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: 'true'
+    nginx.ingress.kubernetes.io/compute-full-forwarded-for: 'true'
+    nginx.ingress.kubernetes.io/enable-real-ip: 'true'
+    nginx.ingress.kubernetes.io/real-ip-header: 'X-Forwarded-For'
+    nginx.ingress.kubernetes.io/set-real-ip-from: '0.0.0.0/0'
+    # WebSocket support for ActionCable
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/websocket-services: 'chatwoot-rails-staging'
 spec:
   ingressClassName: nginx-staging
   tls:
