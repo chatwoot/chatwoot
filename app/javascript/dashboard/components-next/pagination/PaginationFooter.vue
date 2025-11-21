@@ -1,10 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import {
-  formatCompactNumber,
-  formatFullNumber,
-} from 'shared/helpers/numberFormatterHelper';
+import { useNumberFormatter } from 'shared/composables/useNumberFormatter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -28,6 +25,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:currentPage']);
 const { t } = useI18n();
+const { formatCompactNumber, formatFullNumber } = useNumberFormatter();
 
 const totalPages = computed(() =>
   Math.ceil(props.totalItems / props.itemsPerPage)
@@ -47,8 +45,9 @@ const changePage = newPage => {
 };
 
 const currentPageInformation = computed(() => {
+  const translationKey = props.currentPageInfo || 'PAGINATION_FOOTER.SHOWING';
   return t(
-    props.currentPageInfo ? props.currentPageInfo : 'PAGINATION_FOOTER.SHOWING',
+    translationKey,
     {
       startItem: formatFullNumber(startItem.value),
       endItem: formatFullNumber(endItem.value),
