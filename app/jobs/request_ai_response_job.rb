@@ -51,15 +51,12 @@ class RequestAiResponseJob < ApplicationJob
     end
 
     # Send full conversation history to AI engine for complete context
+    # Differentiate between AI agent, human agent (HITL), and end user messages
     messages_for_payload = conversation.messages.chat.filter_map do |msg|
       # Skip messages with nil content
       next if msg.content.blank?
 
-      {
-        role: msg.sender.is_a?(User) ? 'assistant' : 'user',
-        content: msg.content
-        # timestamp: msg.created_at.iso8601
-      }
+      build_message_payload(msg)
     end
 
     Rails.logger.info "Agent key: #{ai_agent.agent_key.inspect}, Messages count: #{messages_for_payload.length}"
@@ -242,6 +239,57 @@ class RequestAiResponseJob < ApplicationJob
   end
 
   private
+
+  # Build message payload with proper role and metadata differentiation
+  # - AI Agent messages: role='assistant', message_type='ai_agent'
+  # - Human Agent (HITL) messages: role='user', message_type='human_agent', is_human_in_loop=true
+  # - End User messages: role='user', message_type='end_user'
+  def build_message_payload(msg)
+    {
+      role: determine_message_role(msg),
+      content: msg.content,
+      additional_kwargs: determine_message_metadata(msg)
+    }
+  end
+
+  # Determine the role for LangChain compatibility
+  # AI agents use 'assistant', everything else uses 'user'
+  def determine_message_role(msg)
+    return 'assistant' if msg.sender.is_a?(User) && msg.sender.is_ai?
+
+    'user'
+  end
+
+  # Determine additional metadata to differentiate message types
+  def determine_message_metadata(msg)
+    sender = msg.sender
+
+    # AI Agent message
+    if sender.is_a?(User) && sender.is_ai?
+      {
+        message_type: 'ai_agent',
+        agent_id: sender.id,
+        agent_name: sender.name
+      }
+
+    # Human Agent (HITL) message - outgoing message from human user
+    elsif sender.is_a?(User) && !sender.is_ai? && msg.outgoing?
+      {
+        message_type: 'human_agent',
+        is_human_in_loop: true,
+        agent_id: sender.id,
+        agent_name: sender.name,
+        agent_email: sender.email
+      }
+
+    # End User (Customer) message - incoming message
+    else
+      {
+        message_type: 'end_user',
+        contact_id: msg.conversation.contact_id
+      }
+    end
+  end
 
   def generate_ai_conversation_id(conversation)
     inbox = conversation.inbox
