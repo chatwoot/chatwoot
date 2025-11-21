@@ -13,11 +13,6 @@ RSpec.describe Integrations::LlmInstrumentation do
       config.value = 'langfuse'
     end
   end
-  let!(:langfuse_secret_key) do
-    InstallationConfig.find_or_create_by(name: 'LANGFUSE_SECRET_KEY') do |config|
-      config.value = 'test-secret-key'
-    end
-  end
 
   let(:params) do
     {
@@ -29,6 +24,12 @@ RSpec.describe Integrations::LlmInstrumentation do
       messages: [{ 'role' => 'user', 'content' => 'Hello' }],
       temperature: 0.7
     }
+  end
+
+  before do
+    InstallationConfig.find_or_create_by(name: 'LANGFUSE_SECRET_KEY') do |config|
+      config.value = 'test-secret-key'
+    end
   end
 
   describe '#instrument_llm_call' do
