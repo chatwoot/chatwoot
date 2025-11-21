@@ -75,9 +75,23 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     conversation.messages.create!(outgoing_message_params('Thank you for sharing your details!', conversation, false))
     message_parts = ['Pre Chat Form Details:']
 
-    message_parts << "Phone number: #{data['phoneNumber']}" if data['phoneNumber'].present?
-    message_parts << "Email Id: #{data['emailAddress']}" if data['emailAddress'].present?
-    message_parts << "Full name: #{data['fullName']}" if data['fullName'].present?
+    # Define display labels for known fields (for better readability)
+    field_labels = {
+      'phoneNumber' => 'Phone number',
+      'emailAddress' => 'Email Id',
+      'fullName' => 'Full name',
+      'birthday' => 'Date of Birth',
+      'gender' => 'Gender'
+    }
+
+    # Dynamically add all fields from data
+    data.each do |key, value|
+      next if value.blank?
+
+      # Use predefined label if available, otherwise humanize the key
+      label = field_labels[key] || key.to_s.titleize
+      message_parts << "#{label}: #{value}"
+    end
 
     message = message_parts.join("\n")
 
@@ -139,9 +153,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   # rubocop:disable Layout/LineLength
   def permitted_params
     # timestamp parameter is used in create conversation method
+    # pre_chat_form_response accepts any hash to allow dynamic custom fields
 
     params.permit(:id, :before, :after, :website_token, contact: [:name, :email],
-                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private, :product_id_for_more_info, :product_page, :assign_to_agent, :conversation_resolved, { pre_chat_form_response: [:emailAddress, :fullName, :phoneNumber] }])
+                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private, :product_id_for_more_info, :product_page, :assign_to_agent, :conversation_resolved, { pre_chat_form_response: {} }])
   end
 
   # rubocop:enable Layout/LineLength
