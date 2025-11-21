@@ -143,6 +143,27 @@ describe CustomMarkdownRenderer do
       end
     end
 
+    context 'when link is an Arcade tab URL' do
+      let(:arcade_tab_url) { 'https://app.arcade.software/share/ARCADE_TAB_ID?embed_mobile=tab' }
+
+      it 'renders an iframe with Arcade tab embed code' do
+        output = render_markdown_link(arcade_tab_url)
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_TAB_ID?embed&embed_mobile=tab"')
+      end
+
+      it 'supports additional query params after embed_mobile' do
+        url = 'https://app.arcade.software/share/ARCADE_TAB_ID?foo=bar&embed_mobile=tab?user_id=1'
+        output = render_markdown_link(url)
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_TAB_ID?embed&embed_mobile=tab"')
+      end
+
+      it 'wraps iframe in responsive container' do
+        output = render_markdown_link(arcade_tab_url)
+        expect(output).to include('position: relative; padding-bottom: calc(62.793% + 41px); height: 0px; width: 100%;')
+        expect(output).to include('position: absolute; top: 0; left: 0; width: 100%; height: 100%;')
+      end
+    end
+
     context 'when link is a wistia URL' do
       let(:wistia_url) { 'https://chatwoot.wistia.com/medias/kjwjeq6f9i' }
 
