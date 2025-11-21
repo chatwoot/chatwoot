@@ -21,7 +21,8 @@ class Captain::Llm::BaseJangkauService
   def generate_response
     Rails.logger.info '[generate_response] Generating response for Jangkau AI Agent'
 
-    endpoint = feature_enabled_for_ai_agent? ? '/v2/chat/completion/' : '/v2/chat/override/'
+    # endpoint = feature_enabled_for_ai_agent? ? '/v2/chat/completion/' : '/v2/chat/override/'
+    endpoint = '/v2/chat/completion/'
 
     response = self.class.post(
       endpoint,
