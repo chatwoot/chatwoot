@@ -27,7 +27,7 @@ module Integrations::LlmInstrumentation
   end
 
   def instrument_llm_call(params)
-    return yield unless otel_enabled?
+    return yield unless ChatwootApp.otel_enabled?
 
     tracer.in_span(params[:span_name]) do |span|
       setup_span_attributes(span, params)
@@ -41,10 +41,6 @@ module Integrations::LlmInstrumentation
   end
 
   private
-
-  def otel_enabled?
-    InstallationConfig.find_by(name: 'OTEL_PROVIDER')&.value.present?
-  end
 
   def setup_span_attributes(span, params)
     set_request_attributes(span, params)
