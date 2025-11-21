@@ -22,18 +22,24 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def create
-    @user, @account = AccountBuilder.new(
-      account_name: account_params[:account_name],
-      user_full_name: account_params[:user_full_name],
-      email: account_params[:email],
-      user_password: account_params[:password],
-      locale: account_params[:locale],
-      user: current_user
-    ).perform
-    if @user
-      send_auth_headers(@user)
-      render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
-    else
+    begin
+      @user, @account = AccountBuilder.new(
+        account_name: account_params[:account_name],
+        user_full_name: account_params[:user_full_name],
+        email: account_params[:email],
+        user_password: account_params[:password],
+        locale: account_params[:locale],
+        user: current_user
+      ).perform
+      if @user
+        send_auth_headers(@user)
+        render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
+      else
+        render_error_response(CustomExceptions::Account::SignupFailed.new({}))
+      end
+    rescue StandardError => e
+      Rails.logger.error "Account creation failed: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
   end

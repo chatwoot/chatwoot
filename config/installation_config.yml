@@ -60,20 +60,20 @@
 # ------- Signup & Account Related Config ------- #
 - name: ENABLE_ACCOUNT_SIGNUP
   display_title: 'Enable Account Signup'
-  value: false
+  value: true
   description: 'Allow users to signup for new accounts'
-  locked: false
+  locked: true
   type: boolean
 - name: CREATE_NEW_ACCOUNT_FROM_DASHBOARD
-  value: false
+  value: true
   description: 'Allow users to create new accounts from the dashboard'
-  locked: false
+  locked: true
 - name: HCAPTCHA_SITE_KEY
   value:
-  locked: false
+  locked: true
 - name: HCAPTCHA_SERVER_KEY
   value:
-  locked: false
+  locked: true
 - name: INSTALLATION_EVENTS_WEBHOOK_URL
   value:
   display_title: 'System events Webhook URL'
@@ -86,7 +86,7 @@
   locked: false
 - name: DIRECT_UPLOADS_ENABLED
   type: boolean
-  value: false
+  value: true
   description: 'Enable direct uploads to cloud storage'
   locked: false
 - name: MAXIMUM_FILE_UPLOAD_SIZE
@@ -101,41 +101,41 @@
   display_title: 'Inbound Email Domain'
   value:
   description: 'The domain name to be used for generating conversation continuity emails (reply+id@domain.com)'
-  locked: false
+  locked: true
 - name: MAILER_SUPPORT_EMAIL
   display_title: 'Support Email'
   value:
   description: 'The support email address for your installation'
-  locked: false
+  locked: true
 # ------- End of Email Related Config ------- #
 
 # ------- Facebook Channel Related Config ------- #
 - name: FB_APP_ID
   display_title: 'Facebook App ID'
-  locked: false
+  locked: true
 - name: FB_VERIFY_TOKEN
   display_title: 'Facebook Verify Token'
   description: 'The verify token used for Facebook Messenger Webhook'
-  locked: false
+  locked: true
   type: secret
 - name: FB_APP_SECRET
   display_title: 'Facebook App Secret'
-  locked: false
+  locked: true
   type: secret
 - name: IG_VERIFY_TOKEN
   display_title: 'Instagram Verify Token'
   description: 'The verify token used for Instagram Webhook'
-  locked: false
+  locked: true
   type: secret
 - name: FACEBOOK_API_VERSION
   display_title: 'Facebook API Version'
   description: 'Configure this if you want to use a different Facebook API version. Make sure its prefixed with `v`'
   value: 'v18.0'
-  locked: false
+  locked: true
 - name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
   display_title: 'Enable human agent'
-  value: false
-  locked: false
+  value: true
+  locked: true
   description: 'Enable human agent for messenger channel for longer message back period. Needs additional app approval: https://developers.facebook.com/docs/features-reference/human-agent/'
   type: boolean
 # ------- End of Facebook Channel Related Config ------- #
@@ -144,30 +144,30 @@
 - name: WHATSAPP_APP_ID
   display_title: 'WhatsApp App ID'
   description: 'The Facebook App ID for WhatsApp Business API integration'
-  locked: false
+  locked: true
 - name: WHATSAPP_CONFIGURATION_ID
   display_title: 'WhatsApp Configuration ID'
   description: 'The Configuration ID for WhatsApp Embedded Signup flow (required for embedded signup)'
-  locked: false
+  locked: true
 - name: WHATSAPP_APP_SECRET
   display_title: 'WhatsApp App Secret'
   description: 'The App Secret for WhatsApp Embedded Signup flow (required for embedded signup)'
-  locked: false
+  locked: true
 - name: WHATSAPP_API_VERSION
   display_title: 'WhatsApp API Version'
   description: 'Configure this if you want to use a different WhatsApp API version. Make sure its prefixed with `v`'
   value: 'v22.0'
-  locked: false
+  locked: true
 # ------- End of WhatsApp Channel Related Config ------- #
 
 # MARK: Microsoft Email Channel Config
 - name: AZURE_APP_ID
   display_title: 'Azure App ID'
   description: 'The App ID that will be used to authenticate with customer Microsoft accounts. Find more details on setting up Azure here: https://chwt.app/dev/ms'
-  locked: false
+  locked: true
 - name: AZURE_APP_SECRET
   display_title: 'Azure App Secret'
-  locked: false
+  locked: true
   type: secret
 # End of Microsoft Email Channel Config
 
@@ -175,24 +175,24 @@
 - name: CAPTAIN_OPEN_AI_API_KEY
   display_title: 'OpenAI API Key'
   description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
-  locked: false
+  locked: true
   type: secret
 - name: CAPTAIN_OPEN_AI_MODEL
   display_title: 'OpenAI Model'
   description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4o-mini'
-  locked: false
+  locked: true
 - name: CAPTAIN_OPEN_AI_ENDPOINT
   display_title: 'OpenAI API Endpoint (optional)'
   description: 'The OpenAI endpoint configured for use in Captain AI. Default: https://api.openai.com/'
-  locked: false
+  locked: true
 - name: CAPTAIN_EMBEDDING_MODEL
   display_title: 'Embedding Model (optional)'
   description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
-  locked: false
+  locked: true
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'
-  locked: false
+  locked: true
   type: secret
 - name: CAPTAIN_CLOUD_PLAN_LIMITS
   display_title: 'Captain Cloud Plan Limits'
@@ -206,13 +206,13 @@
   value:
   display_title: 'Inbox Token'
   description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
-  locked: false
+  locked: true
   type: secret
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
   display_title: 'Inbox HMAC Key'
   description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
-  locked: false
+  locked: true
   type: secret
 - name: CHATWOOT_CLOUD_PLANS
   display_title: 'Cloud Plans'
@@ -285,7 +285,7 @@
   display_title: 'Instance Admin Email'
   value:
   description: 'The email of the instance administrator to receive compliance-related notifications'
-  locked: false
+  locked: true
 # ------- End of Compliance Related Config ----#
 
 ## ------ Configs added for enterprise clients ------ ##
@@ -297,11 +297,11 @@
   description: 'Custom thumbnail for the API channel'
 - name: LOGOUT_REDIRECT_LINK
   value: /app/login
-  locked: false
+  locked: true
   description: 'Redirect to a different link after logout'
 - name: DISABLE_USER_PROFILE_UPDATE
   value: false
-  locked: false
+  locked: true
   description: 'Disable rendering profile update page for users'
 ## ------ End of Configs added for enterprise clients ------ ##
 
@@ -309,12 +309,12 @@
 - name: FIREBASE_PROJECT_ID
   display_title: 'Firebase Project ID'
   value:
-  locked: false
+  locked: true
   description: 'Firebase project ID'
 - name: FIREBASE_CREDENTIALS
   display_title: 'Firebase Credentials'
   value:
-  locked: false
+  locked: true
   type: secret
   description: 'Contents on your firebase credentials json file'
 ## ------ End of Configs added for FCM v1 notifications ------ ##
@@ -323,12 +323,12 @@
 - name: LINEAR_CLIENT_ID
   display_title: 'Linear Client ID'
   value:
-  locked: false
+  locked: true
   description: 'Linear client ID'
 - name: LINEAR_CLIENT_SECRET
   display_title: 'Linear Client Secret'
   value:
-  locked: false
+  locked: true
   description: 'Linear client secret'
   type: secret
 ## ------ End of Configs added for Linear ------ ##
@@ -337,18 +337,18 @@
 - name: NOTION_CLIENT_ID
   display_title: 'Notion Client ID'
   value:
-  locked: false
+  locked: true
   description: 'Notion client ID'
 - name: NOTION_CLIENT_SECRET
   display_title: 'Notion Client Secret'
   value:
-  locked: false
+  locked: true
   description: 'Notion client secret'
   type: secret
 - name: NOTION_VERSION
   display_title: 'Notion Version'
   value: '2022-06-28'
-  locked: false
+  locked: true
   description: 'Notion version'
 ## ------ End of Configs added for Notion ------ ##
 
@@ -356,12 +356,12 @@
 - name: SLACK_CLIENT_ID
   display_title: 'Slack Client ID'
   value:
-  locked: false
+  locked: true
   description: 'Slack client ID'
 - name: SLACK_CLIENT_SECRET
   display_title: 'Slack Client Secret'
   value:
-  locked: false
+  locked: true
   description: 'Slack client secret'
   type: secret
 ## ------ End of Configs added for Slack ------ ##
@@ -376,7 +376,7 @@
   display_title: 'Shopify Client Secret'
   description: 'The Client Secret (API Secret Key) from your Shopify Partner account'
   locked: false
-  type: secret
+  type: secret  
 # ------- End of Shopify Related Config ------- #
 
 # ------- Instagram Channel Related Config ------- #
@@ -395,7 +395,7 @@
   type: secret
 - name: ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT
   display_title: 'Enable human agent for instagram channel'
-  value: false
+  value: true
   locked: false
   description: 'Enable human agent for instagram channel for longer message back period. Needs additional app approval: https://developers.facebook.com/docs/features-reference/human-agent/'
   type: boolean

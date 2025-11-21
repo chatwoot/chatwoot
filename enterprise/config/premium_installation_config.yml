@@ -20,3 +20,8 @@
 - name: DISPLAY_MANIFEST
   value: true
 # ------- End of Branding Related Config ------- #
+
+# ------- Signup & Account Related Config ------- #
+- name: ENABLE_ACCOUNT_SIGNUP
+  value: true
+# ------- End of Account Related Config ------- #
