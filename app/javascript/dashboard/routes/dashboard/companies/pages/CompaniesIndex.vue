@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -19,6 +19,10 @@ const router = useRouter();
 const { t } = useI18n();
 
 const { updateUISettings, uiSettings } = useUISettings();
+
+const companies = computed(() => companiesStore.getCompaniesList);
+const meta = computed(() => companiesStore.getMeta);
+const uiFlags = computed(() => companiesStore.getUIFlags);
 
 const searchQuery = computed(() => route.query?.search || '');
 const searchValue = ref(searchQuery.value);
@@ -42,13 +46,9 @@ const sortState = reactive({
   activeSort: initialSort,
   activeOrdering: initialOrder,
 });
-  
+
 const activeSort = computed(() => sortState.activeSort);
 const activeOrdering = computed(() => sortState.activeOrdering);
-
-const companies = computed(() => companiesStore.getCompaniesList);
-const meta = computed(() => companiesStore.getMeta);
-const uiFlags = computed(() => companiesStore.getUIFlags);
 
 const isFetchingList = computed(() => uiFlags.value.fetchingList);
 
