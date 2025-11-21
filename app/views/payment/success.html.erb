@@ -1,0 +1,71 @@
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8">
+  <div class="text-center mb-6">
+    <div
+      class="
+        inline-flex items-center justify-center w-16 h-16 bg-green-100
+        dark:bg-green-900 rounded-full mb-4
+      "
+    >
+      <svg
+        class="w-8 h-8 text-green-600 dark:text-green-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 13l4 4L19 7"
+        ></path>
+      </svg>
+    </div>
+
+    <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+      Payment Successful
+    </h1>
+
+    <p class="text-slate-600 dark:text-slate-400">
+      Your payment has been processed successfully.
+    </p>
+  </div>
+
+  <div>
+    <div
+      class="
+        flex justify-between items-center py-3 border-b border-slate-200
+        dark:border-slate-700
+      "
+    >
+      <span class="text-slate-600 dark:text-slate-400 font-medium">Amount</span>
+      <span class="text-slate-900 dark:text-white font-semibold text-lg">
+        <%= @payment_link.amount %>
+        <%= @payment_link.currency %>
+      </span>
+    </div>
+
+    <div
+      class="
+        flex justify-between items-center py-3 border-b border-slate-200
+        dark:border-slate-700
+      "
+    >
+      <span class="text-slate-600 dark:text-slate-400 font-medium">Transaction ID</span>
+      <span class="text-slate-900 dark:text-white font-mono text-sm"><%= @payment_link.external_payment_id %></span>
+    </div>
+
+    <% if @payment_link.paid_at %>
+      <div
+        class="
+          flex justify-between items-center py-3 border-b border-slate-200
+          dark:border-slate-700
+        "
+      >
+        <span class="text-slate-600 dark:text-slate-400 font-medium">Date & Time</span>
+        <span class="text-slate-900 dark:text-white">
+          <%= @payment_link.paid_at.strftime('%B %d, %Y at %I:%M %p') %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -36,6 +36,10 @@ Rails.application.routes.draw do
     resource :slack_uploads, only: [:show]
   end
 
+  # Public payment status pages
+  get 'payment/success', to: 'payment#success', as: :payment_success
+  get 'payment/failure', to: 'payment#failure', as: :payment_failure
+
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -78,6 +82,7 @@ Rails.application.routes.draw do
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
+          resource :payzah_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -133,6 +138,7 @@ Rails.application.routes.draw do
               end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resources :payment_links, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
@@ -180,6 +186,13 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+            end
+          end
+          resources :payment_links, only: [:index] do
+            collection do
+              get :search
+              post :filter
+              post :export
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -334,6 +347,12 @@ Rails.application.routes.draw do
 
       namespace :integrations do
         resources :webhooks, only: [:create]
+      end
+
+      # Payzah payment gateway callbacks
+      namespace :payzah do
+        post 'success', to: 'callbacks#success'
+        post 'error', to: 'callbacks#error'
       end
 
       # Frontend API endpoint to trigger SAML authentication flow

@@ -10,13 +10,21 @@ import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
+import PaymentLinkButton from '../PaymentLinkButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import payzahSettingsAPI from 'dashboard/api/payzahSettings';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
+  components: {
+    NextButton,
+    FileUpload,
+    VideoCallButton,
+    AIAssistanceButton,
+    PaymentLinkButton,
+  },
   mixins: [inboxMixin],
   props: {
     isNote: {
@@ -168,6 +176,7 @@ export default {
   data() {
     return {
       ALLOWED_FILE_TYPES,
+      payzahEnabled: false,
     };
   },
   computed: {
@@ -266,8 +275,17 @@ export default {
   },
   mounted() {
     ActiveStorage.start();
+    this.loadPayzahStatus();
   },
   methods: {
+    async loadPayzahStatus() {
+      try {
+        const response = await payzahSettingsAPI.get();
+        this.payzahEnabled = !!response.data?.enabled;
+      } catch (error) {
+        this.payzahEnabled = false;
+      }
+    },
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
@@ -385,6 +403,11 @@ export default {
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
       />
+
+      <PaymentLinkButton
+        v-if="!isOnPrivateNote && payzahEnabled"
+        :conversation-id="conversationId"
+      />
       <AIAssistanceButton
         v-if="!isFetchingAppIntegrations"
         :conversation-id="conversationId"
@@ -392,6 +415,7 @@ export default {
         :message="message"
         @replace-text="replaceText"
       />
+
       <transition name="modal-fade">
         <div
           v-show="uploadRef && uploadRef.dropActive"

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment Status</title>
+
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'portal' %>
+    <%= csrf_meta_tags %>
+
+    <script>
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+        document.documentElement.classList.add('light')
+      }
+    </script>
+  </head>
+  <body class="antialiased bg-slate-25 dark:bg-slate-900">
+    <div class="min-h-screen flex items-center justify-center px-4 py-12">
+      <div class="w-full max-w-md">
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

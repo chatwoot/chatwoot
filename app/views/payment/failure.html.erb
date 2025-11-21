@@ -1,0 +1,58 @@
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8">
+  <div class="text-center mb-6">
+    <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full mb-4">
+      <svg class="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </div>
+    <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Payment Failed</h1>
+    <p class="text-slate-600 dark:text-slate-400">We were unable to process your payment.</p>
+  </div>
+
+  <% if @error_message %>
+  <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+    <p class="text-red-800 dark:text-red-400 text-sm font-medium">
+      <%= @error_message %>
+    </p>
+  </div>
+  <% end %>
+
+  <% if @payment_link %>
+  <div class="space-y-4 mb-6">
+    <div class="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-700">
+      <span class="text-slate-600 dark:text-slate-400 font-medium">Amount</span>
+      <span class="text-slate-900 dark:text-white font-semibold text-lg"><%= @payment_link.amount %> <%= @payment_link.currency %></span>
+    </div>
+
+    <div class="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-700">
+      <span class="text-slate-600 dark:text-slate-400 font-medium">Transaction ID</span>
+      <span class="text-slate-900 dark:text-white font-mono text-sm"><%= @payment_link.external_payment_id %></span>
+    </div>
+
+    <% if @payment_link.contact %>
+    <div class="flex justify-between items-center py-3">
+      <span class="text-slate-600 dark:text-slate-400 font-medium">Contact</span>
+      <span class="text-slate-900 dark:text-white"><%= @payment_link.contact.name %></span>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
+
+  <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+    <h3 class="text-slate-900 dark:text-white font-semibold mb-2">What to do next?</h3>
+    <ul class="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
+      <li class="flex items-start">
+        <span class="mr-2">•</span>
+        <span>Check your payment details and try again</span>
+      </li>
+      <li class="flex items-start">
+        <span class="mr-2">•</span>
+        <span>Contact your bank if the issue persists</span>
+      </li>
+      <li class="flex items-start">
+        <span class="mr-2">•</span>
+        <span>Reach out to support for assistance</span>
+      </li>
+    </ul>
+  </div>
+</div>

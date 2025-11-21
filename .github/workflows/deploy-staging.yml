@@ -165,6 +165,7 @@ jobs:
             IG_VERIFY_TOKEN: "${{ secrets.STAGING_IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.STAGING_INSTAGRAM_APP_ID }}"
             IP_LOOKUP_API_KEY: "${{ secrets.STAGING_IP_LOOKUP_API_KEY }}"
+            PAYZAH_API_URL: "${{ secrets.STAGING_PAYZAH_API_URL }}"
           EOF
           kubectl apply -f k8s/staging/configmap.yaml
           
@@ -230,6 +231,7 @@ jobs:
             IG_VERIFY_TOKEN: "${{ secrets.STAGING_IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.STAGING_INSTAGRAM_APP_ID }}"
             IP_LOOKUP_API_KEY: "${{ secrets.STAGING_IP_LOOKUP_API_KEY }}"
+            PAYZAH_API_URL: "${{ secrets.STAGING_PAYZAH_API_URL }}"
           EOF
           kubectl create -f k8s/staging/secret.yaml -n chatwoot-staging
           rm k8s/staging/secret.yaml
