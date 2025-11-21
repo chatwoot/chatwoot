@@ -165,6 +165,7 @@ jobs:
             IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
             IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
+            PAYZAH_API_URL: "${{ secrets.DEVELOPMENT_PAYZAH_API_URL }}"
           EOF
           kubectl apply -f k8s/development/configmap.yaml
           
@@ -227,6 +228,7 @@ jobs:
             IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
             IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
+            PAYZAH_API_URL: "${{ secrets.DEVELOPMENT_PAYZAH_API_URL }}"
           EOF
           kubectl create -f k8s/development/secret.yaml -n chatwoot-development
           rm k8s/development/secret.yaml
