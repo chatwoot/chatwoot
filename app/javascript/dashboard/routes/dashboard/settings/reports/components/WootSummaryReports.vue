@@ -114,6 +114,8 @@ export default {
       selectedMetricType: 'Average',
       activeDropdownId: null,
       isLoading: true,
+      selectedLabel: null,
+      selectedInbox: null,
     };
   },
   computed: {

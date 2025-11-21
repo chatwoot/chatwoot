@@ -62,6 +62,8 @@ class CustomReportsAPI extends ApiClient {
     since,
     until,
     businessHours,
+    selectedLabel,
+    selectedInbox,
   } = {}) {
     const params = {
       since,
@@ -69,6 +71,14 @@ class CustomReportsAPI extends ApiClient {
       business_hours: businessHours,
       timezone_offset: getTimeOffset(),
     };
+
+    if (selectedInbox) {
+      params.inboxes = [selectedInbox.id];
+    }
+
+    if (selectedLabel) {
+      params.labels = [selectedLabel.title];
+    }
 
     return axios.get(`${this.url}/label_wise_conversation_states`, { params });
   }
