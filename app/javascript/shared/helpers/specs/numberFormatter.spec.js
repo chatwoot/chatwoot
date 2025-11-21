@@ -23,12 +23,21 @@ describe('numberFormatter', () => {
       expect(formatCompactNumber(999999)).toBe('999k+');
     });
 
-    it('should return millions format for values 1,000,000 and above', () => {
+    it('should return millions/billion/trillion format for values 1,000,000 and above', () => {
       expect(formatCompactNumber(1000000)).toBe('1M');
+      expect(formatCompactNumber(1000001)).toBe('1.0M');
       expect(formatCompactNumber(1200000)).toBe('1.2M');
       expect(formatCompactNumber(1234000)).toBe('1.2M');
       expect(formatCompactNumber(2500000)).toBe('2.5M');
       expect(formatCompactNumber(10000000)).toBe('10M');
+      expect(formatCompactNumber(1000000000)).toBe('1B');
+      expect(formatCompactNumber(1100000000)).toBe('1.1B');
+      expect(formatCompactNumber(10000000000)).toBe('10B');
+      expect(formatCompactNumber(11000000000)).toBe('11B');
+      expect(formatCompactNumber(1000000000000)).toBe('1T');
+      expect(formatCompactNumber(1100000000000)).toBe('1.1T');
+      expect(formatCompactNumber(10000000000000)).toBe('10T');
+      expect(formatCompactNumber(11000000000000)).toBe('11T');
     });
 
     it('should handle edge cases gracefully', () => {
@@ -51,6 +60,8 @@ describe('numberFormatter', () => {
     it('should format numbers with locale-specific formatting', () => {
       expect(formatFullNumber(1000)).toBe('1,000');
       expect(formatFullNumber(1234567)).toBe('1,234,567');
+      expect(formatFullNumber(1234567890)).toBe('1,234,567,890');
+      expect(formatFullNumber(1234567890123)).toBe('1,234,567,890,123');
     });
 
     it('should handle edge cases gracefully', () => {
