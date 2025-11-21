@@ -19,7 +19,7 @@
     "SEARCH_PLACEHOLDER": "Cerca aziende...",
     "LOADING": "Caricamento aziende...",
     "UNNAMED": "Azienda Senza Nome",
-    "CONTACTS_COUNT": "{count} contatti",
+    "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "EMPTY_STATE": {
       "TITLE": "Nessuna azienda trovata"
     }
