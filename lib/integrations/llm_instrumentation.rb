@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'opentelemetry_config'
+
 module Integrations::LlmInstrumentation
   # OpenTelemetry attribute names following GenAI semantic conventions
   # https://opentelemetry.io/docs/specs/semconv/gen-ai/
@@ -23,7 +25,7 @@ module Integrations::LlmInstrumentation
   ATTR_LANGFUSE_TAGS = 'langfuse.trace.tags'
 
   def tracer
-    @tracer ||= OpenTelemetry.tracer_provider.tracer('chatwoot')
+    @tracer ||= OpentelemetryConfig.tracer
   end
 
   def instrument_llm_call(params)
