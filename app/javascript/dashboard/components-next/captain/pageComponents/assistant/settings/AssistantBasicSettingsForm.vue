@@ -24,9 +24,9 @@ const initialState = {
   description: '',
   productName: '',
   features: {
-    conversationFaqs: false,
-    memories: false,
-    citations: false,
+    conversationFaqs: true,
+    memories: true,
+    citations: true,
   },
 };
 
@@ -56,9 +56,9 @@ const updateStateFromAssistant = assistant => {
   state.description = assistant.description;
   state.productName = config.product_name;
   state.features = {
-    conversationFaqs: config.feature_faq || false,
-    memories: config.feature_memory || false,
-    citations: config.feature_citation || false,
+    conversationFaqs: config.feature_faq !== false,
+    memories: config.feature_memory !== false,
+    citations: config.feature_citation !== false,
   };
 };
 
@@ -128,15 +128,21 @@ watch(
       <div class="flex flex-col gap-2">
         <label class="flex items-center gap-2">
           <input v-model="state.features.conversationFaqs" type="checkbox" />
-          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS') }}
+          <span class="text-sm text-n-slate-12">{{
+            t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS')
+          }}</span>
         </label>
         <label class="flex items-center gap-2">
           <input v-model="state.features.memories" type="checkbox" />
-          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}
+          <span class="text-sm text-n-slate-12">{{
+            t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES')
+          }}</span>
         </label>
         <label class="flex items-center gap-2">
           <input v-model="state.features.citations" type="checkbox" />
-          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS') }}
+          <span class="text-sm text-n-slate-12">{{
+            t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS')
+          }}</span>
         </label>
       </div>
     </div>

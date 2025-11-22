@@ -25,8 +25,15 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def playground
     # Ensure the feature is enabled in the config for it to work in playground as well
-    @assistant.config['feature_faq'] = true 
+    # We are cloning the config to avoid modifying the original object in memory
+    playground_config = @assistant.config.dup
+    playground_config['feature_faq'] = true 
+    playground_config['feature_memory'] = true
+    playground_config['feature_citation'] = true
     
+    # Temporarily overriding config for the playground session
+    @assistant.config = playground_config
+
     response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
       additional_message: params[:message_content],
       message_history: message_history
