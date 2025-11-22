@@ -143,7 +143,7 @@ RSpec.describe Integrations::LlmInstrumentation do
         instance.instrument_llm_call(params) { 'result' }
 
         expect(mock_span).to have_received(:set_attribute).with('langfuse.user.id', '123')
-        expect(mock_span).to have_received(:set_attribute).with('langfuse.session.id', '456')
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.session.id', '123_456')
         expect(mock_span).to have_received(:set_attribute).with('langfuse.trace.tags', '["reply_suggestion"]')
       end
 

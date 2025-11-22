@@ -68,8 +68,9 @@ module Integrations::LlmInstrumentation
   end
 
   def set_metadata_attributes(span, params)
+    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
     span.set_attribute(ATTR_LANGFUSE_USER_ID, params[:account_id].to_s) if params[:account_id]
-    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, params[:conversation_id].to_s) if params[:conversation_id]
+    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, session_id) if session_id.present?
     span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json)
   end
 
