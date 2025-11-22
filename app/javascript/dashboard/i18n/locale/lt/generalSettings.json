@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "Viršijote pokalbių limitą. Hacker planas leidžia tik 500 pokalbių.",
+      "INBOXES": "Viršijote gautųjų žinučių dėžučių limitą. Hacker planas palaiko tik svetainės tiesioginį pokalbį. Papildomos gautųjų žinučių dėžutės, tokios kaip el. paštas, WhatsApp ir kt., reikalauja mokamo plano.",
+      "AGENTS": "Viršijote agentų limitą. Jūsų planas leidžia tik {allowedAgents} agentus.",
+      "NON_ADMIN": "Prašome susisiekti su administratoriumi, kad atnaujintumėte planą ir toliau naudotumėtės visomis funkcijomis."
     },
     "TITLE": "Paskyros nustatymai",
     "SUBMIT": "Atnaujinti nustatymai",
@@ -15,23 +15,23 @@
       "SUCCESS": "Sėkmingai atnaujinti paskyros nustatymai"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "Ištrinti savo paskyrą",
+      "NOTE": "Kai ištrinsite savo paskyrą, visi jūsų duomenys bus ištrinti.",
+      "BUTTON_TEXT": "Ištrinti savo paskyrą",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "Ištrinti paskyrą",
+        "MESSAGE": "Paskyros ištrynimas yra negrįžtamas. Įveskite savo paskyros pavadinimą žemiau, kad patvirtintumėte, jog norite ją visam laikui ištrinti.",
         "BUTTON_TEXT": "Ištrinti",
         "DISMISS": "Atšaukti",
         "PLACE_HOLDER": "Įveskite {accountName}, kad patvirtintumėte"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Paskyra pažymėta ištrynimui",
+      "FAILURE": "Nepavyko ištrinti paskyros, bandykite dar kartą!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Paskyra suplanuota ištrynimui",
+        "MESSAGE_MANUAL": "Ši paskyra suplanuota ištrynimui {deletionDate}. Tai užprašė administratorius. Galite atšaukti ištrynimą iki šios datos.",
+        "MESSAGE_INACTIVITY": "Ši paskyra suplanuota ištrynimui {deletionDate} dėl paskyros neveiklumo. Galite atšaukti ištrynimą iki šios datos.",
+        "CLEAR_BUTTON": "Atšaukti suplanuotą ištrynimą"
       }
     },
     "FORM": {
@@ -45,27 +45,27 @@
         "NOTE": "Šis ID reikalingas, jei kuriate API pagrįstą integraciją"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "TITLE": "Automatiškai išspręsti pokalbius",
+        "NOTE": "Ši konfigūracija leis jums automatiškai išspręsti pokalbį po tam tikro neveiklumo laikotarpio.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
-          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "LABEL": "Neveiklumo trukmė",
+          "HELP": "Neveiklumo laikotarpis, po kurio pokalbis automatiškai išsprendžiamas",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Automatinio išsprendimo trukmė turėtų būti nuo 10 minučių iki 999 dienų",
           "API": {
-            "SUCCESS": "Auto resolve settings updated successfully",
-            "ERROR": "Failed to update auto resolve settings"
+            "SUCCESS": "Automatinio išsprendimo nustatymai sėkmingai atnaujinti",
+            "ERROR": "Nepavyko atnaujinti automatinio išsprendimo nustatymų"
           }
         },
         "MESSAGE": {
-          "LABEL": "Custom auto-resolution message",
-          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "LABEL": "Pritaikytas automatinio išsprendimo pranešimas",
+          "PLACEHOLDER": "Pokalbis buvo pažymėtas kaip išspręstas sistemos dėl 15 dienų neveiklumo",
+          "HELP": "Pranešimas išsiųstas klientui po to, kai pokalbis automatiškai išsprendžiamas"
         },
-        "PREFERENCES": "Preferences",
+        "PREFERENCES": "Nuostatos",
         "LABEL": {
-          "LABEL": "Add label after auto-resolution",
-          "PLACEHOLDER": "Select a label"
+          "LABEL": "Pridėti etiketę po automatinio išsprendimo",
+          "PLACEHOLDER": "Pasirinkite etiketę"
         },
         "IGNORE_WAITING": {
           "LABEL": "Skip conversations waiting for agent’s reply"
@@ -108,14 +108,14 @@
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "Automatinio išsprendimo trukmė turėtų būti nuo 10 minučių iki 999 dienų",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
+          "SUCCESS": "Automatinio išsprendimo nustatymai sėkmingai atnaujinti",
+          "ERROR": "Nepavyko atnaujinti automatinio išsprendimo nustatymų"
         },
         "UPDATE_BUTTON": "Atnaujinti",
         "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_PLACEHOLDER": "Pokalbis buvo pažymėtas kaip išspręstas sistemos dėl 15 dienų neveiklumo",
         "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
