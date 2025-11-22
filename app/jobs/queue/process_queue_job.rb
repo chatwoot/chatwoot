@@ -28,7 +28,7 @@ class Queue::ProcessQueueJob < ApplicationJob
     online_agents = get_available_agents(account)
     return if online_agents.empty?
   
-    queue_ids = fetch_queue_ids(account)
+    queue_ids = fetch_queue_ids_sql(account)
     return if queue_ids.empty?
   
     queue_ids.each do |conv_id|
@@ -45,17 +45,21 @@ class Queue::ProcessQueueJob < ApplicationJob
     end
   end
 
-  def fetch_queue_ids(account)
-    queue_key = "queue:#{account.id}"
-    $alfred.with { |r| r.zrange(queue_key, 0, MAX_QUEUE_CHECK - 1) }.map(&:to_i)
+  def fetch_queue_ids_sql(account)
+    ConversationQueue
+      .where(account_id: account.id, status: :waiting)
+      .order(:position, :queued_at)
+      .limit(MAX_QUEUE_CHECK)
+      .pluck(:conversation_id)
   end
 
   def get_available_agents(account)
     statuses = OnlineStatusTracker.get_available_users(account.id) || {}
-    online_ids = statuses
-                   .select { |_id, status| status == 'online' }
-                   .keys
-                   .map(&:to_i)
+
+    online_ids =
+      statuses.select { |_id, status| status == 'online' }
+              .keys
+              .map(&:to_i)
 
     return [] if online_ids.empty?
 
