@@ -17,10 +17,10 @@
     "IP_ADDRESS": "IP Adresas",
     "CREATED_AT_LABEL": "Sukurta",
     "NEW_MESSAGE": "Naujas pranešimas",
-    "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL": "Skambučiai",
+    "CALL_UNDER_DEVELOPMENT": "Skambučių funkcija dar kuriama",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "Pasirinkite balso pašto dėžutę"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Su šiuo kontaktu nėra susietų ankstesnių pokalbių.",
@@ -290,7 +290,7 @@
     "HEADER": {
       "TITLE": "Kontaktai",
       "SEARCH_TITLE": "Search contacts",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "Aktyvūs kontaktai",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Žinutė",
       "SEND_MESSAGE": "Išsiųsti pranešimą",
@@ -465,8 +465,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "Šis veiksmas yra neatšaukiamas ir negrįžtamas.",
+        "BUTTON": "Ištrinti dabar"
       }
     },
     "DETAILS": {
@@ -476,7 +476,7 @@
       "DELETE_CONTACT": "Trinti kontaktą",
       "DELETE_DIALOG": {
         "TITLE": "Patvirtinti Ištrynimą",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "Ar tikrai norite pašalinti šį kontaktą?",
         "CONFIRM": "Taip, Ištrinti",
         "API": {
           "SUCCESS_MESSAGE": "Agentas ištrintas sėkmingai",
@@ -554,10 +554,10 @@
         "WROTE": "parašei",
         "YOU": "Jūs",
         "SAVE": "Save note",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "Pridėti kontakto pastabą",
         "EXPAND": "Išskleisti",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "Suskleisti",
+        "NO_NOTES": "Nėra jokių pastabų. Pastabas galite pridėti kontaktų informacijos puslapyje.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
         "CONVERSATION_EMPTY_STATE": "Pastabų dar nėra. Paspauskite „Pridėti pastabą“, kad sukurtumėte pirmąją."
       }
@@ -574,21 +574,21 @@
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Priskirti etiketes",
     "ASSIGN_LABELS_SUCCESS": "Etiketės sėkmingai priskirtos.",
-    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
-    "NO_LABELS_FOUND": "No labels available yet.",
+    "ASSIGN_LABELS_FAILED": "Nepavyko priskirti žymų",
+    "DESCRIPTION": "Pasirinkite žymas, kurias norite pridėti pasirinktiems kontaktams.",
+    "NO_LABELS_FOUND": "Žymų dar nėra.",
     "SELECTED_COUNT": "{count} selected",
-    "CLEAR_SELECTION": "Clear selection",
-    "SELECT_ALL": "Select all ({count})",
+    "CLEAR_SELECTION": "Išvalyti pasirinkimą",
+    "SELECT_ALL": "Pažymėti visus ({count})",
     "DELETE_CONTACTS": "Ištrinti",
-    "DELETE_SUCCESS": "Contacts deleted successfully.",
-    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_SUCCESS": "Kontaktai sėkmingai ištrinti.",
+    "DELETE_FAILED": "Nepavyko ištrinti kontaktų",
     "DELETE_DIALOG": {
-      "TITLE": "Delete selected contacts",
-      "SINGULAR_TITLE": "Delete selected contact",
-      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
-      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
-      "CONFIRM_MULTIPLE": "Delete contacts",
+      "TITLE": "Ištrinti pasirinktus kontaktus",
+      "SINGULAR_TITLE": "Ištrinti pasirinktą kontaktą",
+      "DESCRIPTION": "Tai negrįžtamai ištrins {count} pasirinktus kontaktus. Šio veiksmo atšaukti negalima.",
+      "SINGULAR_DESCRIPTION": "Tai negrįžtamai ištrins pasirinktą kontaktą. Šio veiksmo atšaukti negalima.",
+      "CONFIRM_MULTIPLE": "Ištrinti kontaktus",
       "CONFIRM_SINGLE": "Trinti kontaktą"
     }
   },
