@@ -18,10 +18,8 @@ class MutexApplicationJob < ApplicationJob
     lock_manager = Redis::LockManager.new
 
     begin
-      lock_acquired = lock_manager.lock(lock_key, timeout)
-      log_attempt(lock_key, executions, lock_acquired)
-
-      if lock_acquired
+      if lock_manager.lock(lock_key, timeout)
+        log_attempt(lock_key, executions)
         yield
         # release the lock after the block has been executed
         lock_manager.unlock(lock_key)
@@ -35,11 +33,8 @@ class MutexApplicationJob < ApplicationJob
 
   private
 
-  def log_attempt(lock_key, attempts, acquired)
-    Rails.logger.info "[#{self.class.name}] lock_key=#{lock_key} attempt=#{attempts} acquired=#{acquired}"
-    # rubocop:disable Rails/Output
-    puts "[MUTEX_JOB_SPEC] lock_key=#{lock_key} attempt=#{attempts} acquired=#{acquired}" if Rails.env.test?
-    # rubocop:enable Rails/Output
+  def log_attempt(lock_key, executions)
+    Rails.logger.info "[#{self.class.name}] Acquired lock for: #{lock_key} on attempt #{executions}"
   end
 
   def handle_error(err, lock_manager, lock_key)
