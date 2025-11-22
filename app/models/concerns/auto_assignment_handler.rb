@@ -2,8 +2,6 @@ module AutoAssignmentHandler
   extend ActiveSupport::Concern
   include Events::Types
 
-  EMPTY_QUEUE_THRESHOLD = 3.freeze
-
   included do
     after_create :run_auto_assignment
   end
@@ -59,11 +57,12 @@ module AutoAssignmentHandler
     queue_service = ChatQueue::QueueService.new(account: account)
 
     if assignee_id.present?
-      self.update_column(:assignee_id, nil)
+      update_column(:assignee_id, nil)
     end
 
     if queue_service.queue_size.zero?
-          assignee = find_available_agent_for(self)
+      assignee = find_available_agent_for(self)
+
       if assignee && assignee_id.nil?
         update!(assignee: assignee, status: :open)
       else

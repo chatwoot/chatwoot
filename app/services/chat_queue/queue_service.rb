@@ -1,35 +1,30 @@
 class ChatQueue::QueueService
   pattr_initialize [:account!]
 
-  MAX_ASSIGN_CHECK = 200
-
-  def schedule_queue_processing
-    redis.set("queue:#{account.id}:process", 1, ex: 2, nx: true)
-    Queue::ProcessQueueJob.perform_later(account.id)
-  end
-
   def add_to_queue(conversation)
     return false unless account.queue_enabled?
-
-    if conversation.assignee_id.present?
-      conversation.update_column(:assignee_id, nil)
-    end
-
     return false if in_queue?(conversation.id)
   
-    seq = redis.incr(seq_key)
-    redis.zadd(queue_key, seq, conversation.id)
-  
-    conversation.update!(status: :queued, assignee_id: nil)
+    conversation.update!(assignee_id: nil) if conversation.assignee_id.present?
+
+    entry = ConversationQueue.create!(
+      conversation: conversation,
+      account: account,
+      queued_at: Time.current,
+      status: :waiting
+    )
+
+    conversation.update!(status: :queued) unless conversation.queued?
+
     send_queue_notification(conversation)
-    schedule_queue_processing
-  
+
+    Queue::ProcessQueueJob.perform_later(account.id)
     true
-  end  
+  end
 
   def online_agents_list
-    online_users_map
-      .select { |_id, status| status == 'online' }
+    (OnlineStatusTracker.get_available_users(account.id) || {})
+      .select { |_id, status| status == "online" }
       .keys
       .map(&:to_i)
   end
@@ -38,217 +33,146 @@ class ChatQueue::QueueService
     return nil unless account.queue_enabled?
     return nil unless agent_available?(agent)
 
-    allowed_inboxes = InboxMember.where(user_id: agent.id).pluck(:inbox_id)
+    entry = find_next_queue_entry(agent)
+    return nil unless entry
 
-    candidate_ids = redis.zrange(queue_key, 0, 50)
-
-    candidate_ids.each do |conv_id|
-      lock_key = "queue:#{account.id}:lock:conv:#{conv_id}"
-
-      next unless redis.set(lock_key, 1, nx: true, ex: 5)
-
-      conversation = Conversation.lock.find_by(id: conv_id)
-
-      unless conversation&.queued? && conversation.assignee_id.nil?
-        redis.del(lock_key)
-        next
-      end
-
-      unless allowed_inboxes.include?(conversation.inbox_id)
-        redis.del(lock_key)
-        next
-      end
-
-      redis.zrem(queue_key, conv_id)
-
-      updated = Conversation.where(
-        id: conv_id,
-        status: :queued,
-        assignee_id: nil
-      ).update_all(
-        assignee_id: agent.id,
-        status: :open,
-        updated_at: Time.current
-      )
-
-      if updated > 0
-        send_assigned_notification(conversation.reload)
-        redis.del(lock_key)
-        return conversation
-      else
-        redis.del(lock_key)
-        next
-      end
-    end
-
-    nil
+    assign_entry(entry, agent)
   end
 
   def remove_from_queue(conversation)
-    redis.zrem(queue_key, conversation.id)
-    conversation.update!(status: :pending) if conversation.queued?
+    entry = ConversationQueue.find_by(conversation_id: conversation.id)
+    return unless entry&.waiting?
+
+    entry.update!(status: :left, left_at: Time.current)
+
+    wait_time = entry.wait_time_seconds
+    QueueStatistic.update_statistics_for(
+      account.id,
+      wait_time_seconds: wait_time,
+      left: true
+    )
   end
 
   def next_in_queue
-    conv_id = redis.zrange(queue_key, 0, 0)&.first
-    Conversation.find_by(id: conv_id)
+    ConversationQueue.for_account(account.id).waiting.first&.conversation
   end
 
   def queue_size
-    redis.zcard(queue_key)
+    ConversationQueue.for_account(account.id).waiting.count
   end
 
   def assign_specific_from_queue!(agent, conv_id)
-    agent_lock_key = "queue:#{account.id}:lock:agent:#{agent.id}"
-    agent_locked = redis.set(agent_lock_key, 1, ex: 3, nx: true)
-    return nil unless agent_locked
-
     return nil unless account.queue_enabled?
     return nil unless agent_available?(agent)
 
-    conv_id = conv_id.to_i
-    lock_key = "queue:#{account.id}:lock:conv:#{conv_id}"
+    entry = ConversationQueue.find_by(conversation_id: conv_id, status: :waiting)
+    return nil unless entry
 
-    locked = redis.set(lock_key, 1, ex: 5, nx: true)
-    return nil unless locked
+    conversation = entry.conversation
+    return nil unless conversation&.queued?
+    return nil if conversation.assignee_id.present?
+    return nil unless conversation_allowed_for_agent?(conversation, agent)
 
-    begin
-      return nil unless in_queue?(conv_id)
-
-      conversation = Conversation.lock.find_by(id: conv_id)
-      return nil unless conversation&.queued?
-      return nil if conversation.assignee_id.present?
-      return nil unless conversation_allowed_for_agent?(conversation, agent)
-
-      removed = redis.zrem(queue_key, conv_id)
-      return nil if removed == 0
-
-      return nil unless agent_available?(agent)
-      
-      current_active = Conversation
-      .where(account_id: account.id)
-      .where.not(status: :resolved)
-      .where(assignee_id: agent.id)
-      .count
-
-      limit = effective_limit_for_agent(agent.id)
-
-      if limit && current_active >= limit
-        puts "[QUEUE_LIMIT] Agent #{agent.id} reached limit #{limit}, cannot assign #{conv_id}"
-        return nil
-      end
-
-      updated = Conversation.where(
-        id: conv_id,
-        status: :queued,
-        assignee_id: nil
-      ).update_all(
-        assignee_id: agent.id,
-        status: :open,
-        updated_at: Time.current
-      )
-
-      return nil if updated.zero?
-
-      send_assigned_notification(conversation.reload)
-      reset_caches_after_assign(agent.id)
-      conversation
-
-    ensure
-      redis.del(lock_key)
-      redis.del(agent_lock_key)
-    end
-  end
-
-  def reset_caches_after_assign(agent_id)
-    @active_counts = nil
-    @online_map = nil
-    @allowed_cache&.delete(agent_id)
-    @limits_cache&.delete(agent_id)
+    assign_entry(entry, agent)
   end
 
   def agent_available?(agent)
     return false if agent.blank?
 
-    online_users = online_users_map
-    return false unless online_users[agent.id.to_s] == 'online'
+    statuses = OnlineStatusTracker.get_available_users(account.id) || {}
+    return false unless statuses[agent.id.to_s] == "online"
 
-    active_counts = cached_active_counts
-    current_count = active_counts[agent.id] || 0
+    active_count = Conversation
+      .where(account_id: account.id, assignee_id: agent.id)
+      .where.not(status: :resolved)
+      .count
 
     limit = effective_limit_for_agent(agent.id)
-    limit.nil? || current_count < limit
+    limit.nil? || active_count < limit
   end
 
   def conversation_allowed_for_agent?(conversation, agent)
-    inbox_id = conversation.inbox_id
-  
-    InboxMember.exists?(inbox_id: inbox_id, user_id: agent.id)
-  end  
+    InboxMember.exists?(inbox_id: conversation.inbox_id, user_id: agent.id)
+  end
   
   def in_queue?(conversation_id)
-    redis.zscore(queue_key, conversation_id).present?
+    ConversationQueue.exists?(conversation_id: conversation_id, status: :waiting)
   end
 
   private
 
-  def redis
-    @redis ||= $alfred.with { |r| r }
-  end
-
-  def queue_key
-    "queue:#{account.id}"
-  end
-
-  def seq_key
-    "queue:#{account.id}:seq"
-  end
-
   def effective_limit_for_agent(agent_id)
-    @limits_cache ||= {}
-    return @limits_cache[agent_id] if @limits_cache.key?(agent_id)
-
     account_user = AccountUser.find_by(account_id: account.id, user_id: agent_id)
 
-    limit =
-      if account_user&.active_chat_limit_enabled? && account_user.active_chat_limit.present?
-        account_user.active_chat_limit.to_i
-      elsif account.active_chat_limit_enabled? && account.active_chat_limit_value.present?
-        account.active_chat_limit_value.to_i
+    if account_user&.active_chat_limit_enabled? && account_user.active_chat_limit.present?
+      return account_user.active_chat_limit.to_i
+    end
+
+    if account.active_chat_limit_enabled? && account.active_chat_limit_value.present?
+      return account.active_chat_limit_value.to_i
+    end
+
+    nil
+  end
+
+  def assign_entry(entry, agent)
+    ConversationQueue.transaction do
+      locked_entry = ConversationQueue.lock.find(entry.id)
+      conversation = locked_entry.conversation
+
+      return conversation if locked_entry.status == "assigned"
+      return conversation if conversation.assignee_id.present?
+
+      unless agent_limit_available?(agent)
+        raise ActiveRecord::Rollback
       end
 
-    @limits_cache[agent_id] = limit
-  end
+      locked_entry.update!(
+        status: :assigned,
+        assigned_at: Time.current
+      )
 
-  def cached_allowed_resources_for(agent_id)
-    @allowed_cache ||= {}
+      conversation.update!(
+        assignee: agent,
+        status: :open,
+        updated_at: Time.current
+      )
+
+      update_statistics(locked_entry)
   
-    @allowed_cache[agent_id] ||= begin
-      inbox_ids = Inbox.joins(:inbox_members)
-                       .where(inbox_members: { user_id: agent_id }, account_id: account.id)
-                       .pluck(:id)
+      send_assigned_notification(conversation)
   
-      { inboxes: inbox_ids }
+      conversation
     end
+  rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+    nil
   end
 
-  def online_users_map
-    @online_map ||= (OnlineStatusTracker.get_available_users(account.id) || {})
-  end
+  def agent_limit_available?(agent)
+    limit = effective_limit_for_agent(agent.id)
+    return true if limit.nil?
 
-  def cached_active_counts
-    Conversation
-      .where(account_id: account.id)
+    active_chats = Conversation
+      .where(account_id: account.id, assignee_id: agent.id)
       .where.not(status: :resolved)
-      .group(:assignee_id)
-      .count
-  end
+      .lock("FOR UPDATE")
+      .pluck(:id)
 
-  def any_available_agents?
-    online_agents_list.any? do |agent_id|
-      agent = User.find_by(id: agent_id)
-      agent_available?(agent)
-    end
+    active_chats.size < limit
+  end  
+
+  def find_next_queue_entry(agent)
+    allowed_inboxes = InboxMember.where(user_id: agent.id).pluck(:inbox_id)
+
+    ConversationQueue
+      .joins(:conversation)
+      .where(account_id: account.id, status: :waiting)
+      .where(
+        "conversations.inbox_id IN (:inboxes)",
+        inboxes: allowed_inboxes
+      )
+      .order(:position, :queued_at)
+      .first
   end
 
   def send_queue_notification(conversation)
@@ -271,5 +195,15 @@ class ChatQueue::QueueService
     )
   rescue => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+  end
+
+  def update_statistics(entry)
+    wait_time = entry.wait_time_seconds
+
+    QueueStatistic.update_statistics_for(
+      account.id,
+      wait_time_seconds: wait_time,
+      assigned: true
+    )
   end
 end
