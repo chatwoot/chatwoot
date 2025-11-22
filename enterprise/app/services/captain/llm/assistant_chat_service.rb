@@ -29,7 +29,10 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
 
   def register_tools
     @tool_registry = Captain::ToolRegistryService.new(@assistant, user: nil)
-    @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
+    # Always register the search tool if we are in a playground context or if explicitly enabled
+    if @assistant.config['feature_faq']
+      @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
+    end
   end
 
   def system_message

@@ -24,6 +24,9 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground
+    # Ensure the feature is enabled in the config for it to work in playground as well
+    @assistant.config['feature_faq'] = true 
+    
     response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
       additional_message: params[:message_content],
       message_history: message_history
