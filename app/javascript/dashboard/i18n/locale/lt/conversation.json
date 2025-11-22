@@ -32,17 +32,17 @@
     "LOADING_CONVERSATIONS": "Pokalbiai parsiunčiami",
     "CANNOT_REPLY": "Jūs negalite atsakyti dėl",
     "24_HOURS_WINDOW": "Pranešimų apribojimas 24 valandoms",
-    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "API_HOURS_WINDOW": "Galite atsakyti į šį pokalbį tik per {hours} valandas.",
     "NOT_ASSIGNED_TO_YOU": "Šis pokalbis jums nepriskirtas. Ar norėtumėte priskirti šį pokalbį sau?",
     "ASSIGN_TO_ME": "Priskirti man",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "Atsakote į pokalbį, kuris šiuo metu yra tvarkomas asistento arba roboto.",
+    "BOT_HANDOFF_ACTION": "Pažymėti kaip atidarytą ir priskirti jums",
+    "BOT_HANDOFF_REOPEN_ACTION": "Pažymėti pokalbį kaip atidarytą",
+    "BOT_HANDOFF_SUCCESS": "Pokalbis perduotas tau",
+    "BOT_HANDOFF_ERROR": "Nepavyko perimti pokalbio. Prašome bandyti dar kartą.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Į šį pokalbį galite atsakyti tik naudodami šablono pranešimą, nes",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pranešimų apribojimas 24 valandoms",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Šis Instagram paskyra buvo perkelta į naują Instagram kanalų gautųjų žinučių dėžutę. Visos naujos žinutės bus rodomos ten. Nebegalėsite siųsti žinučių iš šio pokalbio.Retry",
     "REPLYING_TO": "Jūs atsakote į:",
     "REMOVE_SELECTION": "Pašalinti Pasirinkimą",
     "DOWNLOAD": "Parsisiųsti",
@@ -72,21 +72,21 @@
       "HIDE_LABELS": "Slėpti etiketes"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "Įeinantis skambutis",
+      "OUTGOING_CALL": "Išeinantis skambutis",
+      "CALL_IN_PROGRESS": "Vyksta skambutisRetry",
+      "NO_ANSWER": "Neatsiliepta",
+      "MISSED_CALL": "Praleistas skambutis",
+      "CALL_ENDED": "Skambutis baigtas",
+      "NOT_ANSWERED_YET": "Dar neatsakyta",
+      "THEY_ANSWERED": "Jie atsiliepė",
+      "YOU_ANSWERED": "Jus atsiliepėte"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Išspręsti",
       "REOPEN_ACTION": "Atidarykite iš naujo",
       "OPEN_ACTION": "Atidaryti",
-      "MORE_ACTIONS": "More actions",
+      "MORE_ACTIONS": "Daugiau veiksmų",
       "OPEN": "Daugiau",
       "CLOSE": "Uždaryti",
       "DETAILS": "smulkesnė informacija",
@@ -139,8 +139,8 @@
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "Delete conversation #{conversationId}",
-      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "TITLE": "Ištrinti pokalbį #{conversationId}",
+      "DESCRIPTION": "Ar tikrai norite ištrinti šį pokalbį?",
       "CONFIRM": "Ištrinti"
     },
     "CARD_CONTEXT_MENU": {
@@ -159,10 +159,10 @@
       "ASSIGN_LABEL": "Priskirti etiketę",
       "AGENTS_LOADING": "Agentai užkraunami...",
       "ASSIGN_TEAM": "Priskirti komandą",
-      "DELETE": "Delete conversation",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "DELETE": "Ištrinti pokalbį",
+      "OPEN_IN_NEW_TAB": "Atidaryti naujame skirtuke",
+      "COPY_LINK": "Kopijuoti pokalbio nuorodą",
+      "COPY_LINK_SUCCESS": "Pokalbio nuoroda nukopijuota į iškarpinę",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Pokalbis id {conversationId} priskirtas \"{agentName}\"",
@@ -229,11 +229,11 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "ENABLE_TOOLTIP": "Įtraukti cituojamą el. laiškų giją",
+        "DISABLE_TOOLTIP": "Neįtraukti cituojamos el. laiškų gijos",
+        "REMOVE_PREVIEW": "Pašalinti cituojamą el. laiškų giją",
+        "COLLAPSE": "Suskleisti peržiūrą",
+        "EXPAND": "Išskleisti peržiūrą"
       }
     },
     "VISIBLE_TO_AGENTS": "Privati ​​pastaba: matoma tik jums ir jūsų komandai",
@@ -244,8 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiketė sėkmingai priskirta",
     "ASSIGN_LABEL_FAILED": "Etiketės priskirti nepavyko",
     "CHANGE_TEAM": "Pasikeitė pokalbių komanda",
-    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
-    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "SUCCESS_DELETE_CONVERSATION": "Pokalbis sėkmingai ištrintas",
+    "FAIL_DELETE_CONVERSATION": "Nepavyko ištrinti pokalbio! Bandykite dar kartą",
     "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB priedo apribojimą",
     "MESSAGE_ERROR": "Nepavyko išsiųsti šio pranešimo, bandykite dar kartą vėliau",
     "SENT_BY": "Siuntėjas:",
@@ -334,11 +334,11 @@
       "CONVERSATION_ACTIONS": "Pokalbio veiksmai",
       "CONVERSATION_LABELS": "Pokalbio Etiketės",
       "CONVERSATION_INFO": "Pokalbio Informacija",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "Kontakto užrašai",
       "CONTACT_ATTRIBUTES": "Kontakto Požymiai",
       "PREVIOUS_CONVERSATION": "Ankstesni pokalbiai",
       "MACROS": "Makrokomandos",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "Susietos Linear problemos",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
