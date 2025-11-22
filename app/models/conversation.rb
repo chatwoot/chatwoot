@@ -153,8 +153,9 @@ class Conversation < ApplicationRecord
 
     last_incoming_message_created_at =
       if is_api && last_incoming_message.content_attributes['external_created_at']
-        # external_created_at is stored as epoch timestamp (integer), convert to Time
-        Time.at(last_incoming_message.content_attributes['external_created_at']).utc
+        # external_created_at is stored as epoch timestamp (integer or string), convert to Time
+        external_created_at = last_incoming_message.content_attributes['external_created_at']
+        Time.at(external_created_at.to_f).utc
       else
         last_incoming_message.created_at
       end
