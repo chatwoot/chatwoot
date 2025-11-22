@@ -50,6 +50,11 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     send_notification(subject, to: email_to, action_url: file_url)
   end
 
+  def payment_links_export_complete(file_url, email_to)
+    subject = 'Your payment links export file is available to download.'
+    send_notification(subject, to: email_to, action_url: file_url)
+  end
+
   def automation_rule_disabled(rule)
     subject = 'Automation rule disabled due to validation errors.'
     action_url = settings_url('automation/list')

@@ -161,12 +161,13 @@ jobs:
             FRONTEND_URL: "https://development.cx.aloochat.ai"
             SMTP_OPEN_TIMEOUT: "60"
             SMTP_READ_TIMEOUT: "60"
-            FB_VERIFY_TOKEN: "${{ secrets.STAGING_FB_VERIFY_TOKEN }}"
-            FB_APP_SECRET: "${{ secrets.STAGING_FB_APP_SECRET }}"
-            FB_APP_ID: "${{ secrets.STAGING_FB_APP_ID }}"
-            IG_VERIFY_TOKEN: "${{ secrets.STAGING_IG_VERIFY_TOKEN }}"
-            INSTAGRAM_APP_ID: "${{ secrets.STAGING_INSTAGRAM_APP_ID }}"
-            IP_LOOKUP_API_KEY: "${{ secrets.STAGING_IP_LOOKUP_API_KEY }}"
+            FB_VERIFY_TOKEN: "${{ secrets.FB_VERIFY_TOKEN }}"
+            FB_APP_SECRET: "${{ secrets.FB_APP_SECRET }}"
+            FB_APP_ID: "${{ secrets.FB_APP_ID }}"
+            IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
+            INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
+            IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
+            PAYZAH_API_URL: "${{ secrets.DEVELOPMENT_PAYZAH_API_URL }}"
           EOF
           kubectl apply -f k8s/development/configmap.yaml
           
@@ -225,12 +226,13 @@ jobs:
             FRONTEND_URL: "https://development.cx.aloochat.ai"
             SMTP_OPEN_TIMEOUT: "60"
             SMTP_READ_TIMEOUT: "60"
-            FB_VERIFY_TOKEN: "${{ secrets.STAGING_FB_VERIFY_TOKEN }}"
-            FB_APP_SECRET: "${{ secrets.STAGING_FB_APP_SECRET }}"
-            FB_APP_ID: "${{ secrets.STAGING_FB_APP_ID }}"
-            IG_VERIFY_TOKEN: "${{ secrets.STAGING_IG_VERIFY_TOKEN }}"
-            INSTAGRAM_APP_ID: "${{ secrets.STAGING_INSTAGRAM_APP_ID }}"
-            IP_LOOKUP_API_KEY: "${{ secrets.STAGING_IP_LOOKUP_API_KEY }}"
+            FB_VERIFY_TOKEN: "${{ secrets.FB_VERIFY_TOKEN }}"
+            FB_APP_SECRET: "${{ secrets.FB_APP_SECRET }}"
+            FB_APP_ID: "${{ secrets.FB_APP_ID }}"
+            IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
+            INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
+            IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
+            PAYZAH_API_URL: "${{ secrets.DEVELOPMENT_PAYZAH_API_URL }}"
           EOF
           kubectl create -f k8s/development/secret.yaml -n chatwoot-development
           rm k8s/development/secret.yaml

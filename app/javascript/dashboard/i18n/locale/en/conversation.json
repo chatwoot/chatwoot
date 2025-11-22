@@ -426,5 +426,135 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "PAYMENT_LINK": {
+    "TITLE": "Payment Link",
+    "DESC": "Create a payment link for the customer",
+    "BUTTON_TEXT": "Generate Payment Link",
+    "SENDER_MESSAGE": "{sender} sent a payment request",
+    "SENDER": "Sender",
+    "AMOUNT": "Amount",
+    "CUSTOMER": "Customer",
+    "COPY_LINK": "Copy Link",
+    "LINK_COPIED": "Payment link copied to clipboard",
+    "EXTERNAL_ID": "Payment ID",
+    "PAYMENT_REQUEST": "Payment Request",
+    "CUSTOMER_MESSAGE": "You have a payment request for {amount} {currency}",
+    "PAY_NOW": "Pay Now",
+    "STATUS": {
+      "PENDING": "Pending",
+      "PAID": "Paid",
+      "FAILED": "Failed",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    },
+    "FORM": {
+      "AMOUNT": {
+        "LABEL": "Amount",
+        "PLACEHOLDER": "Enter amount",
+        "ERROR": "Please enter a valid amount"
+      },
+      "CURRENCY": {
+        "LABEL": "Currency",
+        "PLACEHOLDER": "Select currency",
+        "ERROR": "Please select a currency"
+      },
+      "CUSTOMER_INFO": "Customer Information",
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "PHONE": "Phone"
+    },
+    "SUBMIT": "Generate & Send Link",
+    "CANCEL": "Cancel",
+    "SUCCESS": "Payment link sent successfully",
+    "ERROR": "Failed to generate payment link"
+  },
+  "PAYMENT_LINKS": {
+    "HEADER": "Payment Links",
+    "DESCRIPTION": "View and manage all payment links created for your customers. Track payment statuses and access payment details.",
+    "LOADING": "Loading payment links...",
+    "EMPTY_STATE": "No payment links found. Create a payment link from a conversation to see it here.",
+    "TABLE": {
+      "PAYMENT_ID": "Payment ID",
+      "CONTACT": "Contact",
+      "AMOUNT": "Amount",
+      "STATUS": "Status",
+      "CREATED_AT": "Created",
+      "CREATED_BY": "Created By",
+      "CONVERSATION": "Conversation",
+      "ACTIONS": "Actions",
+      "COPY_URL": "Copy payment URL",
+      "VIEW_PAYMENT": "View payment page",
+      "NO_RESULTS_SEARCH": "No payment links found matching your search",
+      "NO_RESULTS_FILTER": "No payment links found matching your filters"
+    },
+    "FILTERS": {
+      "STATUS": "Status",
+      "ALL_STATUS": "All Status",
+      "DATE_RANGE": "Date Range",
+      "ALL_TIME": "All Time",
+      "TODAY": "Today",
+      "THIS_WEEK": "This Week",
+      "THIS_MONTH": "This Month",
+      "CUSTOM": "Custom Range",
+      "DATE_FROM": "From Date",
+      "DATE_TO": "To Date",
+      "SEARCH": "Search",
+      "SEARCH_PLACEHOLDER": "Search by Payment ID, Track ID, or Contact Name",
+      "AMOUNT_MIN": "Min Amount",
+      "AMOUNT_MAX": "Max Amount",
+      "MIN": "Min",
+      "MAX": "Max",
+      "CLEAR_FILTERS": "Clear Filters"
+    },
+    "FILTER": {
+      "TITLE": "Filter Payment Links",
+      "STATUS": "Status",
+      "AMOUNT": "Amount",
+      "CREATED_AT": "Created At",
+      "PAID_AT": "Paid At",
+      "BUTTONS": {
+        "ADD_FILTER": "Add Filter",
+        "CLEAR_FILTERS": "Clear Filters",
+        "APPLY_FILTERS": "Apply Filters"
+      }
+    },
+    "STATUS": {
+      "INITIATED": "Initiated",
+      "PENDING": "Pending",
+      "PAID": "Paid",
+      "FAILED": "Failed",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    }
+  },
+  "PAYMENT_LINKS_LAYOUT": {
+    "HEADER": {
+      "SEARCH_PLACEHOLDER": "Search payment links by ID, contact, or amount",
+      "ACTIONS": {
+        "SORT_BY": {
+          "LABEL": "Sort by",
+          "OPTIONS": {
+            "CREATED_AT": "Created Date",
+            "AMOUNT": "Amount",
+            "STATUS": "Status",
+            "CONTACT_NAME": "Contact Name"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Order",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "EXPORT": "Export",
+        "EXPORT_SUCCESS": "Export is in progress. You will be notified on email when the export file is ready to download.",
+        "EXPORT_ERROR": "Failed to export payment links"
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {from} - {to} of {count} payment links"
+    }
   }
 }

@@ -1,0 +1,6 @@
+json.id account_payzah_settings.id
+json.account_id account_payzah_settings.account_id
+json.api_key account_payzah_settings.api_key
+json.enabled account_payzah_settings.enabled
+json.created_at account_payzah_settings.created_at
+json.updated_at account_payzah_settings.updated_at

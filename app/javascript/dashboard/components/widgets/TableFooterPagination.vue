@@ -19,14 +19,14 @@ const hasLastPage = computed(
 );
 const hasFirstPage = computed(() => props.currentPage === 1);
 const hasNextPage = computed(() => props.currentPage === props.totalPages);
-const hasPrevPage = computed(() => props.currentPage === 1);
+const hasPrevPage = computed(() => props.currentPage !== 1);
 
 function onPageChange(newPage) {
   emit('pageChange', newPage);
 }
 
 const onNextPage = () => {
-  if (!onNextPage.value) {
+  if (!hasNextPage.value) {
     onPageChange(props.currentPage + 1);
   }
 };

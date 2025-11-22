@@ -19,11 +19,14 @@ const handler = e => {
   }
 };
 
-const debouncedEmit = debounce(
-  value =>
-    emit('search', value.length > 1 || value.match(/^[0-9]+$/) ? value : ''),
-  500
-);
+const debouncedEmit = debounce(value => {
+  // Keep # prefix for ID-only conversation search
+  // Check if it's #[number] pattern or plain number
+  const isHashSearch = value.match(/^#\d+$/);
+  const isNumberOnly = value.match(/^[0-9]+$/);
+  const shouldEmit = value.length > 1 || isHashSearch || isNumberOnly;
+  emit('search', shouldEmit ? value : '');
+}, 500);
 
 const onInput = e => {
   searchQuery.value = e.target.value;
