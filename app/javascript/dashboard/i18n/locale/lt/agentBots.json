@@ -2,13 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "Botai",
     "LOADING_EDITOR": "Įkeliama redagavimo priemonė...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "DESCRIPTION": "Agentų botai yra tarsi patys puikiausi jūsų komandos nariai. Jie gali tvarkyti smulkmenas, todėl galite sutelkti dėmesį į tai, kas svarbu. Išbandykite juos. Galite valdyti savo botus iš šio puslapio arba sukurti naujus naudodami mygtuką \"Pridėti botą\".",
     "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT": "Sistemos botas",
     "GLOBAL_BOT_BADGE": "Sistema",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "Boto avataras sėkmingai ištrintas",
+      "ERROR_DELETE": "Klaida trinant boto avatarą, bandykite dar kartą"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Pasirinkite agento botą",
@@ -22,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Pasirinkti Botą"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "Pridėti botą",
       "CANCEL_BUTTON_TEXT": "Atšaukti",
       "API": {
         "SUCCESS_MESSAGE": "Botas pridėtas sėkmingai.",
@@ -30,11 +30,11 @@
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "404": "Botų nerasta. Galite sukurti botą spustelėję mygtuką \"Pridėti botą\".",
       "LOADING": "Gaunami Botai...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
-        "URL": "Webhook URL"
+        "DETAILS": "Boto informacija",
+        "URL": "Webhook nuoroda"
       }
     },
     "DELETE": {
@@ -42,7 +42,7 @@
       "TITLE": "Ištrinti Botą",
       "CONFIRM": {
         "TITLE": "Patvirtinti Ištrynimą",
-        "MESSAGE": "Are you sure you want to delete {name}?",
+        "MESSAGE": "Ar tikrai norite ištrinti {name}?Retry",
         "YES": "Taip, Ištrinti",
         "NO": "Ne, Išsaugoti"
       },
@@ -61,18 +61,18 @@
     },
     "ACCESS_TOKEN": {
       "TITLE": "Prieeigos raktas",
-      "DESCRIPTION": "Copy the access token and save it securely",
-      "COPY_SUCCESSFUL": "Access token copied to clipboard",
-      "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      "DESCRIPTION": "Nukopijuokite prieigos raktą ir išsaugokite jį saugiai",
+      "COPY_SUCCESSFUL": "Prieigos raktas nukopijuotas į iškarpinę",
+      "RESET_SUCCESS": "Prieigos raktas sėkmingai atkurtas",
+      "RESET_ERROR": "Nepavyko atkurti prieigos rakto. Bandykite dar kartą"
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Bot avatar"
+        "LABEL": "Boto avataras"
       },
       "NAME": {
         "LABEL": "Boto Pavadinimas",
-        "PLACEHOLDER": "Enter bot name",
+        "PLACEHOLDER": "Įveskite boto pavadinimą",
         "REQUIRED": "Yra reikalingas Boto vardas"
       },
       "DESCRIPTION": {
@@ -82,19 +82,19 @@
       "WEBHOOK_URL": {
         "LABEL": "Webhook URL",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Webhook URL is required"
+        "REQUIRED": "Webhook nuoroda privaloma"
       },
       "ERRORS": {
         "NAME": "Yra reikalingas Boto vardas",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "URL": "Webhook nuoroda privaloma",
+        "VALID_URL": "Įveskite galiojančią nuorodą, prasidedančią http:// arba https://"
       },
       "CANCEL": "Atšaukti",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "Sukurti botą",
+      "UPDATE": "Atnaujinti botą"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "Sukonfigūruokite webhook botą, kad integruotumėte su savo pritaikytomis paslaugomis. Botas gaus ir apdoros įvykius iš pokalbių ir galės į juos atsakyti."
     },
     "TYPES": {
       "WEBHOOK": "Boto Webhook"
