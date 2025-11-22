@@ -7,11 +7,11 @@
 #   chatwoot_internal: true
 - name: disable_branding
   display_name: Disable Branding
-  enabled: false
+  enabled: true
   premium: true
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
-  enabled: false
+  enabled: true
 - name: help_center
   display_name: Help Center
   enabled: true
@@ -57,7 +57,7 @@
   enabled: true
 - name: mobile_v2
   display_name: Mobile App V2
-  enabled: false
+  enabled: true
   deprecated: true
 - name: channel_website
   display_name: Website Channel
@@ -78,52 +78,52 @@
   enabled: true
 - name: custom_reply_email
   display_name: Custom Reply Email
-  enabled: false
+  enabled: true
 - name: custom_reply_domain
   display_name: Custom Reply Domain
-  enabled: false
+  enabled: true
 - name: audit_logs
   display_name: Audit Logs
-  enabled: false
+  enabled: true
   premium: true
 - name: response_bot
   display_name: Response Bot
-  enabled: false
+  enabled: true
   premium: true
   deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
-  enabled: false
+  enabled: true
   help_url: https://chwt.app/hc/reply-to
   deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
-  enabled: false
+  enabled: true
   deprecated: true
 - name: inbox_view
   display_name: Inbox View
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: sla
   display_name: SLA
-  enabled: false
+  enabled: true
   premium: true
   help_url: https://chwt.app/hc/sla
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: linear_integration
   display_name: Linear Integration
-  enabled: false
+  enabled: true
 - name: captain_integration
   display_name: Captain
   enabled: true
   premium: true
 - name: custom_roles
   display_name: Custom Roles
-  enabled: false
+  enabled: true
   premium: true
 - name: chatwoot_v4
   display_name: doozadesk V4
@@ -138,71 +138,71 @@
   chatwoot_internal: true
 - name: shopify_integration
   display_name: Shopify Integration
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
 - name: crm_integration
   display_name: CRM Integration
-  enabled: false
+  enabled: true
 - name: channel_voice
   display_name: Voice Channel
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: notion_integration
   display_name: Notion Integration
-  enabled: false
+  enabled: true
 - name: captain_integration_v2
   display_name: Captain V2
-  enabled: false
+  enabled: true
   premium: true
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
-  enabled: false
+  enabled: true
   deprecated: true
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
-  enabled: false
+  enabled: true
 - name: crm_v2
   display_name: CRM V2
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: assignment_v2
   display_name: Assignment V2
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: twilio_content_templates
   display_name: Twilio Content Templates
-  enabled: false
+  enabled: true
   deprecated: true
 - name: advanced_search
   display_name: Advanced Search
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: saml
   display_name: SAML
-  enabled: false
+  enabled: true
   premium: true
 - name: advanced_search_indexing
   display_name: Advanced Search Indexing
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: reply_mailer_migration
   # This feature is temporary only to migrate reply mailer to new email builder
   # Once the migration is done, this feature can be removed
   display_name: Reply Mailer Migration
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: quoted_email_reply
   display_name: Quoted Email Reply
-  enabled: false
+  enabled: true
 - name: companies
   display_name: Companies
   enabled: false
