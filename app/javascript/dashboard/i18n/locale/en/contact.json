@@ -131,8 +131,8 @@
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
-          "LABEL": "Twitter"
+          "PLACEHOLDER": "Enter the X username",
+          "LABEL": "X"
         },
         "LINKEDIN": {
           "PLACEHOLDER": "Enter the LinkedIn username",
@@ -141,6 +141,18 @@
         "GITHUB": {
           "PLACEHOLDER": "Enter the Github username",
           "LABEL": "Github"
+        },
+        "THREADS": {
+          "PLACEHOLDER": "Enter the Threads username",
+          "LABEL": "Threads"
+        },
+        "YOUTUBE": {
+          "PLACEHOLDER": "Enter the YouTube username",
+          "LABEL": "YouTube"
+        },
+        "LINE": {
+          "PLACEHOLDER": "Enter the LINE username",
+          "LABEL": "LINE"
         }
       }
     },
@@ -461,7 +473,16 @@
             "PLACEHOLDER": "Add LinkedIn"
           },
           "TWITTER": {
-            "PLACEHOLDER": "Add Twitter"
+            "PLACEHOLDER": "Add X"
+          },
+          "THREADS": {
+            "PLACEHOLDER": "Add Threads"
+          },
+          "YOUTUBE": {
+            "PLACEHOLDER": "Add YouTube"
+          },
+          "LINE": {
+            "PLACEHOLDER": "Add LINE"
           }
         }
       },
