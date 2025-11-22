@@ -5,6 +5,13 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:agent) { create(:user, account: account, role: :agent) }
 
+  def update_installation_config(name, value)
+    InstallationConfig.find_or_initialize_by(name: name).tap do |config|
+      config.value = value
+      config.save!
+    end
+  end
+
   describe 'POST /enterprise/api/v1/accounts/{account.id}/subscription' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -112,6 +119,10 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
   end
 
   describe 'GET /enterprise/api/v1/accounts/{account.id}/limits' do
+    before do
+      allow_any_instance_of(Account).to receive(:feature_enabled?).and_return(false)
+    end
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/enterprise/api/v1/accounts/#{account.id}/limits", as: :json
@@ -120,14 +131,14 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when deployment environment is cloud' do
       before do
-        InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
-        InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_create(value: [{ 'name': 'Hacker' }])
+        update_installation_config('DEPLOYMENT_ENV', 'cloud')
+        update_installation_config('CHATWOOT_CLOUD_PLANS', [{ 'name': 'Hacker' }])
       end
 
       context 'when it is an agent' do
-        it 'returns unauthorized' do
+        it 'returns limits for default plan' do
           get "/enterprise/api/v1/accounts/#{account.id}/limits",
               headers: agent.create_new_auth_token,
               as: :json
@@ -158,8 +169,6 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         before do
           create(:conversation, account: account)
           create(:channel_api, account: account)
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
-          InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_create(value: [{ 'name': 'Hacker' }])
         end
 
         it 'returns the limits if the plan is default' do
@@ -243,6 +252,63 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         end
       end
     end
+
+    context 'when deployment environment is self hosted' do
+      before do
+        update_installation_config('DEPLOYMENT_ENV', 'self_hosted')
+        account.update!(limits: { 'inboxes' => 5, 'agents' => 10 })
+        create(:conversation, account: account)
+        create(:channel_email, account: account)
+      end
+
+      it 'returns usage data for self-hosted installs' do
+        get "/enterprise/api/v1/accounts/#{account.id}/limits",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        json_response = JSON.parse(response.body)
+        expect(json_response['limits']).to include(
+          'conversation' => hash_including('allowed' => ChatwootApp.max_limit, 'consumed' => 1),
+          'non_web_inboxes' => hash_including('allowed' => 5, 'consumed' => 1),
+          'agents' => hash_including('allowed' => 10, 'consumed' => 2)
+        )
+        expect(json_response['limits']['captain']).to include('documents', 'responses')
+      end
+    end
+
+    context 'when a custom provider is configured' do
+      let(:provider_class) do
+        Class.new do
+          def initialize(account)
+            @account = account
+          end
+
+          def limits
+            { 'custom_limits' => @account.id }
+          end
+        end
+      end
+
+      before do
+        stub_const('CustomLimitsProvider', provider_class)
+        update_installation_config('DEPLOYMENT_ENV', 'self_hosted')
+        @original_provider = ENV['SELF_HOSTED_LIMITS_PROVIDER']
+        ENV['SELF_HOSTED_LIMITS_PROVIDER'] = 'CustomLimitsProvider'
+      end
+
+      after do
+        ENV['SELF_HOSTED_LIMITS_PROVIDER'] = @original_provider
+      end
+
+      it 'delegates limit calculation to the provider' do
+        get "/enterprise/api/v1/accounts/#{account.id}/limits",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        json_response = JSON.parse(response.body)
+        expect(json_response['limits']).to eq('custom_limits' => account.id)
+      end
+    end
   end
 
   describe 'POST /enterprise/api/v1/accounts/{account.id}/toggle_deletion' do
@@ -267,8 +333,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
 
       context 'when deployment environment is not cloud' do
         before do
-          # Set deployment environment to something other than cloud
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'self_hosted')
+          update_installation_config('DEPLOYMENT_ENV', 'self_hosted')
         end
 
         it 'returns not found' do
@@ -284,8 +349,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
 
       context 'when it is an admin' do
         before do
-          # Create the installation config for cloud environment
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
+          update_installation_config('DEPLOYMENT_ENV', 'cloud')
         end
 
         it 'marks the account for deletion when action is delete' do
