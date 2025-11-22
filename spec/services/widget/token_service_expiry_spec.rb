@@ -15,11 +15,11 @@ RSpec.describe Widget::TokenService, type: :service do
       end
 
       it 'uses the configured value for token expiry' do
-        freeze_time do
+        travel_to '2025-01-01' do
           token = service.generate_token
           decoded = JWT.decode(token, Rails.application.secret_key_base, true, algorithm: 'HS256').first
-          expect(decoded['iat']).to eq(Time.now.to_i)
-          expect(decoded['exp']).to eq(30.days.from_now.to_i)
+          expect(decoded['iat']).to eq(Time.zone.now.to_i)
+          expect(decoded['exp']).to eq(Time.zone.now.to_i + 30.days.to_i)
         end
       end
     end
@@ -30,11 +30,11 @@ RSpec.describe Widget::TokenService, type: :service do
       end
 
       it 'uses the default expiry' do
-        freeze_time do
+        travel_to '2025-01-01' do
           token = service.generate_token
           decoded = JWT.decode(token, Rails.application.secret_key_base, true, algorithm: 'HS256').first
-          expect(decoded['iat']).to eq(Time.now.to_i)
-          expect(decoded['exp']).to eq(180.days.from_now.to_i)
+          expect(decoded['iat']).to eq(Time.zone.now.to_i)
+          expect(decoded['exp']).to eq(Time.zone.now.to_i + 180.days.to_i)
         end
       end
     end

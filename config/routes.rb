@@ -144,6 +144,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               get :inbox_assistant
+              get :reporting_events if ChatwootApp.enterprise?
             end
           end
 
@@ -156,7 +157,11 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :companies, only: [:index, :show, :create, :update, :destroy]
+          resources :companies, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              get :search
+            end
+          end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
@@ -189,6 +194,7 @@ Rails.application.routes.draw do
               get :download
             end
           end
+          resources :reporting_events, only: [:index] if ChatwootApp.enterprise?
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do

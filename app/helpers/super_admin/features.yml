@@ -9,6 +9,13 @@ captain:
   icon: 'icon-captain'
   config_key: 'captain'
   enterprise: true
+saml:
+  name: 'SAML SSO'
+  description: 'Configuration for controlling SAML Single Sign-On availability'
+  enabled: <%= ChatwootApp.enterprise? %>
+  icon: 'icon-lock-line'
+  config_key: 'saml'
+  enterprise: true
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'

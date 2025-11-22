@@ -78,6 +78,11 @@ export const getters = {
         return false;
       }
 
+      // Filter out authentication templates
+      if (template.category === 'AUTHENTICATION') {
+        return false;
+      }
+
       // Filter out interactive templates (LIST, PRODUCT, CATALOG), location templates, and call permission templates
       const hasUnsupportedComponents = template.components.some(
         component =>
