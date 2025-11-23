@@ -1,33 +1,33 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Twilio šablonai",
+      "SUBTITLE": "Pasirinkite Twilio šabloną, kurį norite išsiųsti",
+      "TEMPLATE_SELECTED_SUBTITLE": "Sukonfigūruoti šabloną: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Ieškoti šablonų",
       "NO_TEMPLATES_FOUND": "Šablonų nerasta",
       "NO_CONTENT": "No content",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "Antraštė",
+      "BODY": "Turinys",
+      "FOOTER": "Poraštė",
+      "BUTTONS": "Mygtukai",
       "CATEGORY": "Kategorija",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "Medijos turinys",
+      "MEDIA_CONTENT_FALLBACK": "medijos turinys",
+      "NO_TEMPLATES_AVAILABLE": "Twilio šablonų nėra. Spustelėkite atnaujinti, kad sinchronizuotumėte šablonus iš Twilio.",
+      "REFRESH_BUTTON": "Atnaujinti šablonus",
+      "REFRESH_SUCCESS": "Šablonų atnaujinimas pradėtas. Atnaujinimas gali užtrukti kelias minutes.",
+      "REFRESH_ERROR": "Nepavyko atnaujinti šablonų. Bandykite dar kartą.",
       "LABELS": {
         "LANGUAGE": "Kalba",
         "TEMPLATE_BODY": "Šablono tekstas",
         "CATEGORY": "Kategorija"
       },
       "TYPES": {
-        "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
+        "MEDIA": "Medija",
+        "QUICK_REPLY": "Greitas atsakymas",
         "TEXT": "Tekstas"
       }
     },
@@ -39,8 +39,8 @@
       "GO_BACK_LABEL": "Grįžti",
       "SEND_MESSAGE_LABEL": "Išsiųsti pranešimą",
       "FORM_ERROR_MESSAGE": "Prieš siųsdami užpildykite visus kintamuosius",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_HEADER_LABEL": "{type} Antraštė",
+      "MEDIA_URL_LABEL": "Įveskite visą medijos URL",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {
