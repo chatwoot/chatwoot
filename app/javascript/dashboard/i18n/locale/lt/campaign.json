@@ -138,11 +138,11 @@
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
+      "HEADER_TITLE": "WhatsApp kampanijos",
       "NEW_CAMPAIGN": "Create campaign",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "WhatsApp kampanijų nėra",
+        "SUBTITLE": "Pradėkite WhatsApp kampaniją, kad tiesiogiai pasiektumėte savo klientus. Lengvai siųskite pasiūlymus arba darykite pranešimus. Spustelėkite „Sukurti kampaniją\", kad pradėtumėte."
       },
       "CARD": {
         "STATUS": {
@@ -155,7 +155,7 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
+        "TITLE": "Sukurti WhatsApp kampaniją",
         "CANCEL_BUTTON_TEXT": "Atšaukti",
         "CREATE_BUTTON_TEXT": "Sukurti",
         "FORM": {
@@ -170,15 +170,15 @@
             "ERROR": "Yra reikalingas gautų laiškų aplankas"
           },
           "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
+            "LABEL": "WhatsApp šablonas",
+            "PLACEHOLDER": "Pasirinkite šabloną",
+            "INFO": "Pasirinkite šabloną, kurį naudosite šiai kampanijai.",
+            "ERROR": "Šablonas būtinas",
             "PREVIEW_TITLE": "Apdoroti {templateName}",
             "LANGUAGE": "Kalba",
             "CATEGORY": "Kategorija",
             "VARIABLES_LABEL": "Kintamieji",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "VARIABLE_PLACEHOLDER": "Įveskite reikšmę {variable}"
           },
           "AUDIENCE": {
             "LABEL": "Auditorija",
@@ -195,7 +195,7 @@
             "CANCEL": "Atšaukti"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "SUCCESS_MESSAGE": "WhatsApp kampanija sėkmingai sukurta",
             "ERROR_MESSAGE": "Įvyko klaida. Prašau, pabandykite dar kartą."
           }
         }
