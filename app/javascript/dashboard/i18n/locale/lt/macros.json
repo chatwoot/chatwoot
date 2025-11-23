@@ -85,20 +85,20 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_TEAM": "Priskirti komandai",
       "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
+      "ADD_LABEL": "Pridėti etiketę",
+      "REMOVE_LABEL": "Pašalinti etiketę",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "SEND_EMAIL_TRANSCRIPT": "Siųsti el. paštu stenogramą",
       "MUTE_CONVERSATION": "Tildyti pokalbį",
       "SNOOZE_CONVERSATION": "Atidėti Pokalbį",
       "RESOLVE_CONVERSATION": "Išspręsti pokalbį",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
+      "SEND_ATTACHMENT": "Siųsti priedą",
+      "SEND_MESSAGE": "Siųsti pranešimą",
       "CHANGE_PRIORITY": "Pakeisti Prioritetą",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "SEND_WEBHOOK_EVENT": "Siųsti Webhook įvykį"
     },
     "PRIORITY_TYPES": {
       "NONE": "Nėra",
