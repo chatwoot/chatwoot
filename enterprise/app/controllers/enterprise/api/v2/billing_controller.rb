@@ -42,7 +42,22 @@ class Enterprise::Api::V2::BillingController < Api::BaseController
   end
 
   def change_pricing_plan
-    raise NotImplementedError, 'Change pricing plan functionality not yet implemented'
+    service = Enterprise::Billing::V2::ChangePlanService.new(account: @account)
+    result = service.change_plan(
+      new_pricing_plan_id: params[:pricing_plan_id],
+      quantity: params[:quantity]&.to_i
+    )
+
+    if result[:success]
+      # Include account ID and updated attributes for frontend store update
+      @account.reload
+      render json: result.merge(
+        id: @account.id,
+        custom_attributes: @account.custom_attributes
+      )
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
   end
 
   private
