@@ -23,6 +23,7 @@
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include MediaCompressable
 
   ACCEPTABLE_FILE_TYPES = %w[
     text/csv text/plain text/rtf
@@ -161,12 +162,16 @@ class Attachment < ApplicationRecord
     validate_file_content_type(file.content_type)
   end
 
+  def max_attachment_size_in_bytes
+    ENV.fetch('MAX_ATTACHMENT_SIZE_MB', 40).to_i.megabytes
+  end
+
   def validate_file_content_type(file_content_type)
     errors.add(:file, 'type not supported') unless media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
   end
 
   def validate_file_size(byte_size)
-    errors.add(:file, 'size is too big') if byte_size > 40.megabytes
+    errors.add(:file, 'size is too big') if byte_size > max_attachment_size_in_bytes
   end
 
   def media_file?(file_content_type)

@@ -5,19 +5,19 @@
 # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
-    resource '/packs/*', headers: :any, methods: [:get, :options]
-    resource '/audio/*', headers: :any, methods: [:get, :options]
-    # Make the public endpoints accessible to the frontend
-    resource '/public/api/*', headers: :any, methods: :any
+    # Ler domínios da variável de ambiente CORS_ALLOWED_ORIGINS
+    cors_origins = ENV.fetch('CORS_ALLOWED_ORIGINS', '*').split(',').map(&:strip)
+    origins *cors_origins
 
-    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false)) || Rails.env.development?
-      resource '*', headers: :any, methods: :any, expose: %w[access-token client uid expiry]
-    end
+    # Liberar TODAS as rotas para os domínios permitidos
+    # Credentials só é habilitado quando não for wildcard (por segurança)
+    is_wildcard = cors_origins.include?('*')
 
-    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_API_CORS', false))
-      resource '/api/*', headers: :any, methods: :any, expose: %w[access-token client uid expiry]
-    end
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      expose: %w[access-token client uid expiry token-type],
+      credentials: !is_wildcard
   end
 end
 

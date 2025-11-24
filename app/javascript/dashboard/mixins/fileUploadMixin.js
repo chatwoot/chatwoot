@@ -9,6 +9,7 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
     }),
   },
 
@@ -16,7 +17,12 @@ export default {
     maxSizeFor(mime) {
       // Use default file size limit for private notes
       if (this.isOnPrivateNote) {
-        return MAXIMUM_FILE_UPLOAD_SIZE;
+        // Use globalConfig value if available, otherwise fallback
+        return (
+          this.globalConfig?.MAX_ATTACHMENT_SIZE_MB ||
+          this.globalConfig?.maxAttachmentSizeMB ||
+          MAXIMUM_FILE_UPLOAD_SIZE
+        );
       }
 
       return getMaxUploadSizeByChannel({

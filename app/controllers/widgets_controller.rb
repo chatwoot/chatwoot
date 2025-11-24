@@ -14,7 +14,9 @@ class WidgetsController < ActionController::Base
   private
 
   def set_global_config
-    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'BRAND_NAME', 'WIDGET_BRAND_URL', 'DIRECT_UPLOADS_ENABLED', 'INSTALLATION_NAME')
+    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'BRAND_NAME', 'WIDGET_BRAND_URL', 'DIRECT_UPLOADS_ENABLED', 'INSTALLATION_NAME').merge(
+      MAX_ATTACHMENT_SIZE_MB: ENV.fetch('MAX_ATTACHMENT_SIZE_MB', 40).to_i
+    )
   end
 
   def set_web_widget

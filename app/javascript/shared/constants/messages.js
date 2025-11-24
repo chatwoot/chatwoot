@@ -35,6 +35,19 @@ export const CONVERSATION_PRIORITY_ORDER = {
 };
 
 // Size in mega bytes
+// Function to get max file upload size dynamically (reads from globalConfig when available)
+export const getMaximumFileUploadSize = () => {
+  if (
+    typeof window !== 'undefined' &&
+    window.globalConfig?.MAX_ATTACHMENT_SIZE_MB
+  ) {
+    return parseInt(window.globalConfig.MAX_ATTACHMENT_SIZE_MB, 10);
+  }
+  return 40;
+};
+
+// Keep for backward compatibility - but this will be 40 on initial load
+// Components should use getMaximumFileUploadSize() or globalConfig directly
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
 
 export const ALLOWED_FILE_TYPES =

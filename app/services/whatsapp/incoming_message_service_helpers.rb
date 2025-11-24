@@ -1,6 +1,13 @@
 module Whatsapp::IncomingMessageServiceHelpers
   def download_attachment_file(attachment_payload)
-    Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
+    # Timeout para download do arquivo (36000 segundos = 10 horas para vídeos grandes)
+    # Evolution API e outros providers podem ter vídeos grandes que demoram para baixar
+    Down.download(
+      inbox.channel.media_url(attachment_payload[:id]),
+      headers: inbox.channel.api_headers,
+      read_timeout: ENV.fetch('WHATSAPP_MEDIA_DOWNLOAD_TIMEOUT', 36000).to_i,
+      open_timeout: ENV.fetch('WHATSAPP_MEDIA_OPEN_TIMEOUT', 60).to_i
+    )
   end
 
   def conversation_params

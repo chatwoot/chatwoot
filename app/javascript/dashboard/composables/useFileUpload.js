@@ -25,7 +25,12 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
   const maxSizeFor = mime => {
     // Use default file size limit for private notes
     if (isPrivateNote) {
-      return MAXIMUM_FILE_UPLOAD_SIZE;
+      // Use globalConfig value if available, otherwise fallback
+      return (
+        globalConfig.value?.MAX_ATTACHMENT_SIZE_MB ||
+        globalConfig.value?.maxAttachmentSizeMB ||
+        MAXIMUM_FILE_UPLOAD_SIZE
+      );
     }
 
     return getMaxUploadSizeByChannel({

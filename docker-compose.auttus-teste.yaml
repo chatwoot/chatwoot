@@ -1,0 +1,180 @@
+x-variaveis:
+  &variaveis
+    INSTALLATION_NAME: "Ottiv Test"
+    ENABLE_ACCOUNT_SIGNUP: "false"
+    INSTALLATION_ENV: "docker"
+    FORCE_SSL: "false"
+    DEFAULT_LOCALE: "pt_BR"
+    SECRET_KEY_BASE: "tMgcsmZTqluAKZ58Aaw4QxFpgRWnmJNz"  # Rode o comando: bundle exec rake secret
+    FRONTEND_URL: "https://chatwoot.ottiv.tech"  # Domínio de teste
+    NODE_ENV: "test"
+    RAILS_ENV: "test"
+
+    RACK_TIMEOUT_SERVICE_TIMEOUT: "36000"
+    SIDEKIQ_CONCURRENCY: "15"
+    WEBHOOKS_TRIGGER_TIMEOUT: "300"
+
+    # Maximum file upload size allowed for attachments (in megabytes)
+    MAX_ATTACHMENT_SIZE_MB: "200"
+
+    # Timeouts para download de mídia do WhatsApp (Evolution API)
+    WHATSAPP_MEDIA_URL_TIMEOUT: "30"          # Timeout para obter URL do media (segundos)
+    WHATSAPP_MEDIA_DOWNLOAD_TIMEOUT: "36000"  # Timeout para download do arquivo (10 horas)
+    WHATSAPP_MEDIA_OPEN_TIMEOUT: "60"         # Timeout para abrir conexão (segundos)
+
+    # SERVIDOR SOMENTE API CW
+    CW_API_ONLY_SERVER: "false"
+
+    # CORS - Domínios permitidos
+    CORS_ALLOWED_ORIGINS: "https://app.auttus.com,https://on.ottiv.io"
+    CORS_ORIGINS: "https://app.auttus.com,https://on.ottiv.io"
+    ENABLE_API_CORS: "true"
+
+    IP_LOOKUP_API_KEY: "${IP_LOOKUP_API_KEY:-}"
+
+    INSTALLATION_ONBOARDING_COMPLETE: "true"
+    SKIP_INSTALLATION_ONBOARDING: "true"
+
+    # Enterprise Features
+    CHATWOOT_EDITION: "enterprise"
+
+    # Licença Enterprise (se você tem uma)
+    ENTERPRISE_LICENSE_KEY: "CHTW-ENT-4C1D-7E7F-A993-9B4D-0A1E3F27D891"
+
+    # Funcionalidades específicas da Enterprise
+    ENABLE_CUSTOM_ROLES: "true"
+    ENABLE_AUDIT_LOGS: "true"
+    ENABLE_TEAM_MANAGEMENT: "true"
+    ENABLE_SLA: "true"
+
+    ENABLE_ADVANCED_REPORTS: "true"
+    ENABLE_SLA_MANAGEMENT: "true"
+    ENABLE_TEAM_HIERARCHIES: "true"
+
+    # Define a edição
+    CW_EDITION: "enterprise"
+
+    # Define o plano
+    INSTALLATION_PRICING_PLAN: "enterprise"
+    INSTALLATION_PRICING_PLAN_QUANTITY: "99999"
+
+    # Desativa telemetria e envio de dados ao hub
+    DISABLE_TELEMETRY: "true"
+
+    # Opcional: Redireciona o hub para seu próprio endpoint
+    CHATWOOT_HUB_URL: "https://google.com"
+
+
+    # Banco de dados de TESTE (conectar ao container do Postgres via Portainer e rodar os comandos "postgres psql -U postgres" e depois "create database chatwoot_test;")
+    POSTGRES_HOST: "pgvector"
+    POSTGRES_USERNAME: "postgres"
+    POSTGRES_DATABASE: "chatwoot_test"
+    POSTGRES_PASSWORD: "PsJgjf0qZz4#p"
+
+    # Configurações do Redis
+    REDIS_URL: "redis://redis:6379"
+
+    ## Armazenamento Minio ou Amazon S3 (pode usar bucket diferente para teste)
+    ACTIVE_STORAGE_SERVICE: "s3_compatible"
+    STORAGE_BUCKET_NAME: "chatwoot_test"  # Bucket separado para testes
+    STORAGE_ACCESS_KEY_ID: "9VR21qq14FZtSDUtEZIr"
+    STORAGE_SECRET_ACCESS_KEY: "LEeUx80dJSqWsMw8ccxAH9GfPhc6JWaDDB5VVibu"
+    STORAGE_REGION: "us-east-1"
+    STORAGE_ENDPOINT: "https://s3.ottiv.tech"
+    STORAGE_FORCE_PATH_STYLE: "true"
+
+    # Configurações do SMTP
+    # SMTP_AUTHENTICATION: login
+    # SMTP_ENABLE_STARTTLS_AUTO: ""
+    # SMTP_ADDRESS: ""
+    # SMTP_DOMAIN: "seusite.com.br"
+    # SMTP_PORT: 587
+    # SMTP_USERNAME: ""
+    # SMTP_PASSWORD: ""
+    # SMTP_SSL: "false" ## Se a porta for 465 = true | Se a porta for 587 = false
+    # SMTP_OPENSSL_VERIFY_MODE: "peer"
+    # MAILER_INBOUND_EMAIL_DOMAIN: "email@seusite.com.br" ## Email SMTP
+    # MAILER_SENDER_EMAIL: "LiveHelp <email@seusite.com.br>" ## Email SMTP
+
+    # ChatGPT
+    # OPENAI_API_KEY: ""
+
+    # Botão AUTH Google na tela de login
+    # GOOGLE_OAUTH_CLIENT_ID: ${G_CLIENT_ID:-example.apps.googleusercontent.com}
+    # GOOGLE_OAUTH_CLIENT_SECRET: ${G_LIENT_SECRET:-GOCSPX-example}
+    # GOOGLE_OAUTH_CALLBACK_URL: ${G_CALLBACK_URL:-https://${SUBDOMAIN}.${DOMAIN}.com.br/omniauth/google_oauth2/callback}
+
+    # Continuidade de emails (Recomendo usar o mandrill)
+    # RAILS_INBOUND_EMAIL_SERVICE: mandrill
+    # MAILER_INBOUND_EMAIL_DOMAIN: seudominio.com.br
+    # RAILS_INBOUND_EMAIL_PASSWORD: your-mandrill-p@ssw0rd
+
+# Backend de Teste
+services:
+  chatwoot_test:
+    command: >
+      sh -c "bundle exec rails db:chatwoot_prepare
+      && bundle exec rails s -p 3000 -b 0.0.0.0"
+    # && bundle exec rails db:migrate
+    environment:
+      <<: *variaveis
+    image: ottiv/chatwoot:${VERSION}
+    entrypoint: docker/entrypoints/rails.sh
+    # Após deploy trocar os comandos comentando, o prepare cria as tabelas do banco de dados e segundo expõe e executa o frontend na porta 3000 do container
+    deploy:
+      labels:
+        - traefik.enable=true
+
+        - traefik.http.routers.chatwoot-test.rule=Host(`chatwoot.ottiv.tech`)  # Ajuste para seu domínio de teste
+        - traefik.http.routers.chatwoot-test.entrypoints=websecure
+        - traefik.http.routers.chatwoot-test.tls.certresolver=le
+        - traefik.http.routers.chatwoot-test.service=chatwoot-test
+        - traefik.http.routers.chatwoot-test.middlewares=upload-buffer-test
+
+        - traefik.http.services.chatwoot-test.loadbalancer.server.port=3000
+        - traefik.http.services.chatwoot-test.loadbalancer.passhostheader=true
+
+        # Middleware inline - Configurado para suportar uploads de até 200MB
+        - traefik.http.middlewares.upload-buffer-test.buffering.maxRequestBodyBytes=209715200
+        - traefik.http.middlewares.upload-buffer-test.buffering.memRequestBodyBytes=4194304
+        - traefik.http.middlewares.upload-buffer-test.buffering.maxResponseBodyBytes=209715200
+        - traefik.http.middlewares.upload-buffer-test.buffering.memResponseBodyBytes=4194304
+        - traefik.http.middlewares.upload-buffer-test.buffering.retryExpression=IsNetworkError() && Attempts() <= 2
+        # Timeouts para uploads grandes (10 horas)
+        - traefik.http.services.chatwoot-test.loadbalancer.responseForwarding.flushInterval=1ms
+
+    volumes:
+      - chatwoot_test_data:/app/storage  # Volume separado para testes
+      - chatwoot_test_app:/app
+      # Pasta com os arquivos do frontend (favicon, logo e outras)
+      # - /root/apps/chatwoot/public:/app/public
+    networks:
+      - traefik
+      - interna
+
+  # Worker de Teste
+  chatwoot_test_worker:
+    environment:
+      <<: *variaveis
+    image: ottiv/chatwoot:${VERSION}
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - chatwoot_test_data:/app/storage  # Volume separado para testes
+      - chatwoot_test_app:/app
+      # Pasta com os arquivos do frontend (favicon, logo e outras)
+      # - /root/apps/chatwoot/public:/app/public
+    networks:
+      - interna
+
+volumes:
+  chatwoot_test_data:  # Volumes separados para não misturar com produção
+  chatwoot_test_app:
+
+networks:
+  traefik:
+    external: true
+    name: externa
+  interna:
+    external: true
+    name: interna
+

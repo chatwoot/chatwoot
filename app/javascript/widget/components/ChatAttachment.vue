@@ -29,7 +29,12 @@ export default {
       shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
     }),
     fileUploadSizeLimit() {
-      return MAXIMUM_FILE_UPLOAD_SIZE;
+      // Try both naming conventions for compatibility
+      return (
+        this.globalConfig?.MAX_ATTACHMENT_SIZE_MB ||
+        this.globalConfig?.maxAttachmentSizeMB ||
+        MAXIMUM_FILE_UPLOAD_SIZE
+      );
     },
     allowedFileTypes() {
       return ALLOWED_FILE_TYPES;
@@ -73,7 +78,7 @@ export default {
       }
       this.isUploading = true;
       try {
-        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        if (checkFileSizeLimit(file, this.fileUploadSizeLimit)) {
           const { websiteToken } = window.chatwootWebChannel;
           const upload = new DirectUpload(
             file.file,
@@ -115,7 +120,7 @@ export default {
       }
       this.isUploading = true;
       try {
-        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        if (checkFileSizeLimit(file, this.fileUploadSizeLimit)) {
           await this.onAttach({
             file: file.file,
             ...this.getLocalFileAttributes(file),

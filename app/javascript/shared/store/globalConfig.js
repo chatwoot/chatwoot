@@ -22,6 +22,7 @@ const {
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
+  MAX_ATTACHMENT_SIZE_MB: maxAttachmentSizeMB,
 } = window.globalConfig || {};
 
 const state = {
@@ -46,6 +47,7 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
+  maxAttachmentSizeMB: maxAttachmentSizeMB || 40,
 };
 
 export const getters = {

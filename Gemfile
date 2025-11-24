@@ -54,6 +54,7 @@ gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
+gem 'streamio-ffmpeg'
 
 ##-- gems for database --#
 gem 'groupdate'
