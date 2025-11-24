@@ -139,7 +139,7 @@ describe('#Inbox Helpers', () => {
 
         it('returns SMS line icon for regular Twilio number', () => {
           expect(getInboxIconByType(INBOX_TYPES.TWILIO, 'sms', 'line')).toBe(
-            'i-woot-sms'
+            'i-ri-chat-1-line'
           );
         });
       });
