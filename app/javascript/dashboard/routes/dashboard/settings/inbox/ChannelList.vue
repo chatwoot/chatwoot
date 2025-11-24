@@ -77,7 +77,7 @@ const channelList = computed(() => {
       key: 'voice',
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.TITLE'),
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.DESCRIPTION'),
-      icon: 'i-ri-phone-fill',
+      icon: 'i-woot-voice',
     },
   ];
 });

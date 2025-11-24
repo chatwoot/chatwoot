@@ -47,8 +47,8 @@ const senderThumbnailSrc = computed(() => props.sender?.thumbnail);
   <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
     {{ t('CAMPAIGN.LIVE_CHAT.CARD.CAMPAIGN_DETAILS.FROM') }}
   </span>
-  <div class="flex items-center gap-1.5 flex-shrink-0">
-    <Icon :icon="inboxIcon" class="flex-shrink-0 text-n-slate-12 size-3" />
+  <div class="flex items-center gap-1 flex-shrink-0">
+    <Icon :icon="inboxIcon" class="flex-shrink-0 text-n-slate-12 size-4" />
     <span class="text-sm font-medium text-n-slate-12">
       {{ inboxName }}
     </span>

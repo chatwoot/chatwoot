@@ -207,7 +207,7 @@ const menuItems = computed(() => {
             name: `${label.title}-${label.id}`,
             label: label.title,
             icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+              class: `size-[8px] rounded-sm`,
               style: { backgroundColor: label.color },
             }),
             to: accountScopedRoute('label_conversations', {
@@ -335,7 +335,7 @@ const menuItems = computed(() => {
             name: `${label.title}-${label.id}`,
             label: label.title,
             icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+              class: `size-[8px] rounded-sm`,
               style: { backgroundColor: label.color },
             }),
             to: accountScopedRoute(
