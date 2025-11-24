@@ -213,14 +213,24 @@ export const colors = {
     black: '#000000',
     brand: '#2781F6',
     background: 'rgb(var(--background-color) / <alpha-value>)',
+    'input-background': 'rgba(var(--background-input-box))',
+    surface: {
+      1: 'rgb(var(--surface-1) / <alpha-value>)',
+      2: 'rgb(var(--surface-2) / <alpha-value>)',
+      active: 'rgb(var(--surface-active) / <alpha-value>)',
+    },
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',
       2: 'rgb(var(--solid-2) / <alpha-value>)',
       3: 'rgb(var(--solid-3) / <alpha-value>)',
       active: 'rgb(var(--solid-active) / <alpha-value>)',
       amber: 'rgb(var(--solid-amber) / <alpha-value>)',
+      'amber-button': 'rgb(var(--solid-amber-button) / <alpha-value>)',
       blue: 'rgb(var(--solid-blue) / <alpha-value>)',
+      'blue-2': 'rgb(var(--solid-blue-2) / <alpha-value>)',
+      red: 'rgb(var(--solid-red) / <alpha-value>)',
       iris: 'rgb(var(--solid-iris) / <alpha-value>)',
+      purple: 'rgb(var(--solid-purple) / <alpha-value>)',
     },
     alpha: {
       1: 'rgba(var(--alpha-1))',
@@ -230,10 +240,20 @@ export const colors = {
       black2: 'rgba(var(--black-alpha-2))',
       white: 'rgba(var(--white-alpha))',
     },
+    // Border colors
     weak: 'rgb(var(--border-weak) / <alpha-value>)',
     container: 'rgba(var(--border-container))',
     strong: 'rgb(var(--border-strong) / <alpha-value>)',
+    'blue-strong': 'rgb(var(--border-blue-strong) / <alpha-value>)',
     'blue-border': 'rgba(var(--border-blue))',
-    'blue-text': 'rgba(var(--text-blue))',
+    // Text colors
+    'blue-text': 'rgb(var(--text-blue) / <alpha-value>)',
+    'purple-text': 'rgb(var(--text-purple) / <alpha-value>)',
+    'amber-text': 'rgb(var(--text-amber) / <alpha-value>)',
+    card: 'rgb(var(--card-color) / <alpha-value>)',
+    overlay: {
+      default: 'rgba(var(--overlay))',
+      avatar: 'rgba(var(--overlay-avatar))',
+    },
   },
 };
