@@ -59,11 +59,11 @@ const onTabClick = event => {
       {{ name }}
       <div
         v-if="showBadge"
-        class="rounded-md h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0 min-w-[20px]"
+        class="rounded-full h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1.5 py-0 min-w-[20px]"
         :class="[
           active
-            ? 'bg-n-brand/10 dark:bg-n-brand/20 text-n-blue-text'
-            : 'bg-n-alpha-black2 dark:bg-n-solid-3 text-n-slate-11',
+            ? 'bg-n-blue-3 text-n-blue-11'
+            : 'bg-n-alpha-1 text-n-slate-10',
         ]"
       >
         <span>
