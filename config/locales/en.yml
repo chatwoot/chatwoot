@@ -64,6 +64,7 @@ en:
       not_found: Assignment policy not found
     saml:
       feature_not_enabled: SAML feature not enabled for this account
+      sso_not_enabled: SAML SSO is not enabled for this installation
     data_import:
       data_type:
         invalid: Invalid data type
@@ -79,6 +80,8 @@ en:
     companies:
       domain:
         invalid: must be a valid domain name
+      search:
+        query_missing: Specify search string with parameter q
     categories:
       locale:
         unique: should be unique in the category and portal

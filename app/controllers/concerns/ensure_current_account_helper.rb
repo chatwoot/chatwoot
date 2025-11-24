@@ -25,6 +25,9 @@ module EnsureCurrentAccountHelper
   end
 
   def account_accessible_for_bot?(account)
-    render_unauthorized('Bot is not authorized to access this account') unless @resource.agent_bot_inboxes.find_by(account_id: account.id)
+    return if @resource.account_id == account.id
+    return if @resource.agent_bot_inboxes.find_by(account_id: account.id)
+
+    render_unauthorized('Bot is not authorized to access this account')
   end
 end
