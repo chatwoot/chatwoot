@@ -139,4 +139,16 @@ class Enterprise::Billing::V2::ChangePlanService < Enterprise::Billing::V2::Base
       }
     )
   end
+
+  def update_account_plan(plan_id, quantity, next_billing_date)
+    plan_definition = Enterprise::Billing::V2::PlanCatalog.definition_for(plan_id)
+    plan_name = plan_definition&.dig(:display_name)
+
+    update_custom_attributes({
+                               'pricing_plan_id' => plan_id,
+                               'subscribed_quantity' => quantity,
+                               'plan_name' => plan_name,
+                               'next_billing_date' => next_billing_date
+                             })
+  end
 end

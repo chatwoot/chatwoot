@@ -60,6 +60,8 @@ module Enterprise::Billing::Concerns::StripeV2ClientHelper
   end
 
   def extract_attribute(object, key)
-    object.respond_to?(key) ? object.public_send(key) : object[key.to_s]
+    return object.public_send(key) if object.respond_to?(key)
+
+    object[key.to_s]
   end
 end

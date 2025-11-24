@@ -119,6 +119,12 @@ en:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    enterprise:
+      billing:
+        topup_amount_invalid: Topup amount must be greater than 0
+        stripe_customer_required: Customer ID required. Please create a Stripe customer first.
+        lookup_key_not_found: Lookup key not found for pricing plan %{pricing_plan_id}
+        v2_configuration_required: V2 billing configuration is required. Please configure STRIPE_HACKER_PLAN_ID.
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -435,3 +441,8 @@ en:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  enterprise:
+    billing:
+      topup_successful: Topup successful
+      subscription_cancelled: Subscription cancelled
+      pricing_plan_changed: Pricing plan changed
