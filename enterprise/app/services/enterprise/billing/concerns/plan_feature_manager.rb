@@ -46,10 +46,7 @@ module Enterprise::Billing::Concerns::PlanFeatureManager
   end
 
   def enable_features_for_current_plan(plan_name)
-    # First disable all premium features to handle downgrades
     disable_all_premium_features
-
-    # Then enable features based on the current plan
     enable_plan_specific_features(plan_name)
   end
 
@@ -58,7 +55,7 @@ module Enterprise::Billing::Concerns::PlanFeatureManager
 
     # Enable features based on plan hierarchy
     case plan_name
-    when 'Startup', 'Startups'
+    when 'Startups'
       # Startup plan gets the basic features
       account.enable_features(*STARTUP_PLAN_FEATURES)
     when 'Business'

@@ -35,6 +35,8 @@ class Enterprise::Webhooks::StripeController < ActionController::API
     parsed_payload = JSON.parse(payload)
     event_type = parsed_payload['type']
 
+    return ENV.fetch('STRIPE_WEBHOOK_SECRET', nil) if event_type.blank?
+
     if v2_billing_event?(event_type)
       ENV.fetch('STRIPE_WEBHOOK_SECRET_V2', nil)
     else
@@ -43,6 +45,8 @@ class Enterprise::Webhooks::StripeController < ActionController::API
   end
 
   def v2_billing_event?(event_type)
+    return false if event_type.blank?
+
     Rails.logger.debug { "V2 billing event: #{event_type}" }
     event_type.start_with?('v2.')
   end

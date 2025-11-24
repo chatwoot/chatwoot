@@ -1,9 +1,10 @@
-module Enterprise::Api::V1::Accounts::Concerns::BillingV2
-  extend ActiveSupport::Concern
+class Enterprise::Api::V2::BillingController < Api::BaseController
+  before_action :fetch_account
+  before_action :check_authorization
+  before_action :validate_topup_amount, only: [:topup]
 
-  included do
-    before_action :validate_topup_amount, only: [:v2_topup]
-  end
+  rescue_from StandardError, with: :render_error
+  rescue_from NotImplementedError, with: :render_not_implemented
 
   def credit_grants
     service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
@@ -12,32 +13,28 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
     render json: { credit_grants: grants }
   end
 
-  def v2_pricing_plans
+  def pricing_plans
     plans = Enterprise::Billing::V2::PlanCatalog.plans
     render json: { pricing_plans: plans }
   end
 
-  def v2_topup_options
+  def topup_options
     options = Enterprise::Billing::V2::TopupCatalog.options
     render json: { topup_options: options }
   end
 
-  def v2_topup
-    render json: { success: true, message: 'Topup successful.' }
+  def topup
+    raise NotImplementedError, 'Topup functionality not yet implemented'
   end
 
-  def v2_subscribe
+  def subscribe
     service = Enterprise::Billing::V2::CheckoutSessionService.new(account: @account)
-    result = service.create_subscription_checkout(
+    redirect_url = service.create_subscription_checkout(
       pricing_plan_id: params[:pricing_plan_id],
       quantity: subscription_quantity
     )
 
-    if result[:success]
-      render json: { success: true, redirect_url: result[:redirect_url], session_id: result[:session_id] }
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
+    render json: { redirect_url: redirect_url }
   end
 
   def cancel_subscription
@@ -77,6 +74,11 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
 
   private
 
+  def fetch_account
+    @account = current_user.accounts.find(params[:account_id])
+    @current_account_user = @account.account_users.find_by(user_id: current_user.id)
+  end
+
   def subscription_quantity
     [params[:quantity].to_i, 1].max
   end
@@ -84,6 +86,22 @@ module Enterprise::Api::V1::Accounts::Concerns::BillingV2
   def validate_topup_amount
     return if params[:credits].to_i.positive?
 
-    render json: { error: 'Topup amount must be greater than 0' }, status: :unprocessable_entity
+    render json: { error: I18n.t('errors.enterprise.billing.topup_amount_invalid') }, status: :unprocessable_entity
+  end
+
+  def pundit_user
+    {
+      user: current_user,
+      account: @account,
+      account_user: @current_account_user
+    }
+  end
+
+  def render_error(exception)
+    render json: { error: exception.message }, status: :unprocessable_entity
+  end
+
+  def render_not_implemented(exception)
+    render json: { error: exception.message }, status: :not_implemented
   end
 end
