@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Integrations::OpenaiBaseService
   include Integrations::LlmInstrumentation
 
