@@ -5,7 +5,7 @@ module Enterprise::Billing::V2::PlanCatalog
   PLAN_DEFINITIONS = [
     {
       key: :free,
-      display_name: 'Chatwoot Hacker',
+      display_name: 'Hacker',
       base_fee: 0.0,
       monthly_credits: 0,
       config_key: 'STRIPE_HACKER_PLAN_ID',
@@ -13,7 +13,7 @@ module Enterprise::Billing::V2::PlanCatalog
     },
     {
       key: :startup,
-      display_name: 'Chatwoot Startup',
+      display_name: 'Startups',
       base_fee: 19.0,
       monthly_credits: 300,
       config_key: 'STRIPE_STARTUP_PLAN_ID',
@@ -21,7 +21,7 @@ module Enterprise::Billing::V2::PlanCatalog
     },
     {
       key: :business,
-      display_name: 'Chatwoot Business',
+      display_name: 'Business',
       base_fee: 39.0,
       monthly_credits: 500,
       config_key: 'STRIPE_BUSINESS_PLAN_ID',
@@ -29,7 +29,7 @@ module Enterprise::Billing::V2::PlanCatalog
     },
     {
       key: :enterprise,
-      display_name: 'Chatwoot Enterprise',
+      display_name: 'Enterprise',
       base_fee: 99.0,
       monthly_credits: 800,
       config_key: 'STRIPE_ENTERPRISE_PLAN_ID',
@@ -51,11 +51,6 @@ module Enterprise::Billing::V2::PlanCatalog
       return definition if plan_id_for(definition) == plan_id
     end
     nil
-  end
-
-  def monthly_credits_for(plan_id)
-    definition = definition_for(plan_id)
-    definition ? definition[:monthly_credits] : nil
   end
 
   def plan_id_for(definition)

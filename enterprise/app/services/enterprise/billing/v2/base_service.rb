@@ -28,7 +28,7 @@ class Enterprise::Billing::V2::BaseService
   # Update response credits (monthly/topup with auto-calculation of total)
   def update_response_credits(monthly: nil, topup: nil)
     # Calculate and update total in limits hash ONLY
-    return unless monthly || topup
+    return if monthly.nil? && topup.nil?
 
     new_monthly = monthly || response_monthly_credits
     new_topup = topup || response_topup_credits
@@ -44,23 +44,13 @@ class Enterprise::Billing::V2::BaseService
   def update_limits(updates)
     return if updates.blank?
 
-    current_limits = account.limits.present? ? account.limits.deep_dup : {}
-    updates.each do |key, value|
-      current_limits[key.to_s] = value
-    end
-
-    account.update!(limits: current_limits)
+    account.update!(limits: (account.limits || {}).merge(updates.transform_keys(&:to_s)))
   end
 
   def update_custom_attributes(updates)
     return if updates.blank?
 
-    current_attributes = account.custom_attributes.present? ? account.custom_attributes.deep_dup : {}
-    updates.each do |key, value|
-      current_attributes[key.to_s] = value
-    end
-
-    account.update!(custom_attributes: current_attributes)
+    account.update!(custom_attributes: (account.custom_attributes || {}).merge(updates.transform_keys(&:to_s)))
   end
 
   def custom_attribute(key)

@@ -9,6 +9,7 @@ class Enterprise::Billing::V2::InvoicePaymentService < Enterprise::Billing::V2::
   # @return [Hash] { success:, invoice_id:, invoice_url:, amount:, status: }
 
   # Validate that customer has a default payment method
+  # If no default is set but payment methods exist, automatically set the first one as default
   # @return [Hash, nil] Returns error hash if validation fails, nil if success
   def validate_payment_method
     return { success: false, message: 'No Stripe customer ID found' } if stripe_customer_id.blank?
@@ -16,16 +17,49 @@ class Enterprise::Billing::V2::InvoicePaymentService < Enterprise::Billing::V2::
     customer = Stripe::Customer.retrieve(stripe_customer_id)
 
     if customer.invoice_settings.default_payment_method.nil? && customer.default_source.nil?
-      return {
-        success: false,
-        message: 'No default payment method found. Please add a default payment method before making a purchase.'
-      }
+      # No default payment method found - try to set one automatically
+      ensure_default_payment_method_result = ensure_default_payment_method(customer)
+      return ensure_default_payment_method_result unless ensure_default_payment_method_result.nil?
     end
 
     nil
   rescue Stripe::StripeError => e
     Rails.logger.error("Failed to check payment method: #{e.message}")
     { success: false, message: "Error validating payment method: #{e.message}" }
+  end
+
+  # Ensure a default payment method is set for the customer
+  # If payment methods exist but none is default, set the first one as default
+  # @param customer [Stripe::Customer] The Stripe customer object
+  # @return [Hash, nil] Returns error hash if no payment methods exist, nil if default is set successfully
+  def ensure_default_payment_method(customer)
+    payment_methods = fetch_customer_payment_methods(customer.id)
+    return no_payment_methods_error if payment_methods.data.empty?
+
+    set_first_payment_method_as_default(customer.id, payment_methods.data.first)
+    nil
+  rescue Stripe::StripeError => e
+    Rails.logger.error("Failed to set default payment method: #{e.message}")
+    { success: false, message: "Error setting default payment method: #{e.message}" }
+  end
+
+  def fetch_customer_payment_methods(customer_id)
+    Stripe::PaymentMethod.list(customer: customer_id, limit: 100)
+  end
+
+  def no_payment_methods_error
+    {
+      success: false,
+      message: 'No payment methods found. Please add a payment method before making a purchase.'
+    }
+  end
+
+  def set_first_payment_method_as_default(customer_id, payment_method)
+    Stripe::Customer.update(
+      customer_id,
+      invoice_settings: { default_payment_method: payment_method.id }
+    )
+    Rails.logger.info("Automatically set payment method #{payment_method.id} as default for customer #{customer_id}")
   end
 
   # Create invoice with line items and charge immediately
