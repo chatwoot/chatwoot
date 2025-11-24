@@ -1,6 +1,6 @@
 class Enterprise::Api::V2::BillingController < Api::BaseController
   before_action :fetch_account
-  before_action :check_authorization
+  before_action -> { check_authorization(:billing) }
   before_action :validate_topup_amount, only: [:topup]
 
   rescue_from StandardError, with: :render_error
