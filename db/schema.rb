@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_24_171357) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -291,6 +291,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.vector "embedding", limit: 1536
+    t.index ["embedding"], name: "index_canned_responses_on_embedding", using: :ivfflat
   end
 
   create_table "captain_assistant_responses", force: :cascade do |t|
@@ -669,6 +671,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
+    t.decimal "priority_score", precision: 5, scale: 2, default: "0.0"
+    t.integer "priority_level", default: 0
+    t.jsonb "priority_factors", default: {}
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -681,6 +686,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["identifier", "account_id"], name: "index_conversations_on_identifier_and_account_id"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["priority"], name: "index_conversations_on_priority"
+    t.index ["priority_level"], name: "index_conversations_on_priority_level"
+    t.index ["priority_score"], name: "index_conversations_on_priority_score"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["status", "priority"], name: "index_conversations_on_status_and_priority"
     t.index ["team_id"], name: "index_conversations_on_team_id"

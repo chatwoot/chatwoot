@@ -141,6 +141,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               get :inbox_assistant
+              get :suggested_responses
               get :reporting_events if ChatwootApp.enterprise?
             end
           end
@@ -169,6 +170,7 @@ Rails.application.routes.draw do
             end
             member do
               get :contactable_inboxes
+              get :insights
               post :destroy_custom_attributes
               delete :avatar
             end

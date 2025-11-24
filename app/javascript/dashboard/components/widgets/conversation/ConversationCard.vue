@@ -12,6 +12,7 @@ import ConversationContextMenu from './contextMenu/Index.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
+import PriorityScoreBadge from './PriorityScoreBadge.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 
@@ -308,6 +309,11 @@ const deleteConversation = () => {
             <fluent-icon icon="person" size="12" class="text-n-slate-11" />
             {{ assignee.name }}
           </span>
+          <PriorityScoreBadge
+            :priority-score="chat.priority_score"
+            :priority-level="chat.priority_level"
+            class="flex-shrink-0"
+          />
           <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
         </div>
       </div>

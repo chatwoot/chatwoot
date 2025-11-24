@@ -5,6 +5,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
+  before_action :set_conversation_for_suggestions, only: [:suggested_responses]
 
   ATTACHMENT_RESULTS_PER_PAGE = 100
 
@@ -130,7 +131,17 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def suggested_responses
+    suggestions = CannedResponseSuggestionService.new(@conversation).suggest_responses(limit: 5)
+    render json: { suggestions: suggestions }
+  end
+
   private
+
+  def set_conversation_for_suggestions
+    @conversation = Current.account.conversations.find_by!(display_id: params[:id])
+    authorize @conversation, :show?
+  end
 
   def permitted_update_params
     # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute

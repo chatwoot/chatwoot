@@ -13,6 +13,9 @@
 #  identifier             :string
 #  last_activity_at       :datetime         not null
 #  priority               :integer
+#  priority_factors       :jsonb
+#  priority_level         :integer          default("normal")
+#  priority_score         :decimal(5, 2)    default(0.0)
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
 #  uuid                   :uuid             not null
@@ -44,6 +47,8 @@
 #  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
+#  index_conversations_on_priority_level              (priority_level)
+#  index_conversations_on_priority_score              (priority_score)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
@@ -74,8 +79,10 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
+  enum priority_level: { normal: 0, elevated: 1, high_priority: 2, critical: 3 }, _prefix: :priority_level
 
   scope :unassigned, -> { where(assignee_id: nil) }
+  scope :by_priority_score, -> { order(priority_score: :desc) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
@@ -121,6 +128,8 @@ class Conversation < ApplicationRecord
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
+  after_create_commit :schedule_priority_calculation
+  after_update_commit :schedule_priority_recalculation, if: :should_recalculate_priority?
 
   delegate :auto_resolve_after, to: :account
 
@@ -330,6 +339,21 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def schedule_priority_calculation
+    ConversationPriorityUpdateJob.perform_later(id)
+  end
+
+  def schedule_priority_recalculation
+    ConversationPriorityUpdateJob.perform_later(id)
+  end
+
+  def should_recalculate_priority?
+    return false unless open?
+
+    # Recalculate if status changed, assignee changed, or waiting_since changed
+    saved_change_to_status? || saved_change_to_assignee_id? || saved_change_to_waiting_since?
   end
 
   # creating db triggers

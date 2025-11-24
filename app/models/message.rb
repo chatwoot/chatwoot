@@ -133,6 +133,7 @@ class Message < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
+  after_create_commit :schedule_conversation_priority_update, if: :should_update_priority?
 
   after_update_commit :dispatch_update_event
   after_commit :reindex_for_search, if: :should_index?, on: [:create, :update]
@@ -392,6 +393,15 @@ class Message < ApplicationRecord
 
   def reindex_for_search
     reindex(mode: :async)
+  end
+
+  def schedule_conversation_priority_update
+    ConversationPriorityUpdateJob.perform_later(conversation_id)
+  end
+
+  def should_update_priority?
+    # Only update priority for incoming messages in open conversations
+    incoming? && conversation&.open?
   end
 end
 
