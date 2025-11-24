@@ -23,10 +23,28 @@ class ChatQueue::QueueService
   end
 
   def online_agents_list
-    (OnlineStatusTracker.get_available_users(account.id) || {})
-      .select { |_id, status| status == "online" }
-      .keys
-      .map(&:to_i)
+    agent_ids = (OnlineStatusTracker.get_available_users(account.id) || {})
+                 .select { |_id, status| status == "online" }
+                 .keys
+                 .map(&:to_i)
+  
+    stats = agent_ids.map do |id|
+      active_count = Conversation
+                       .where(account_id: account.id, assignee_id: id)
+                       .where.not(status: :resolved)
+                       .count
+  
+      last_closed = Conversation
+                      .where(account_id: account.id, assignee_id: id, status: :resolved)
+                      .order(updated_at: :desc)
+                      .pick(:updated_at) || Time.at(0)
+  
+      { id: id, active: active_count, last_closed: last_closed }
+    end
+  
+    stats
+      .sort_by { |a| [a[:active], a[:last_closed]] }
+      .map { |a| a[:id] }
   end
   
   def assign_from_queue(agent)
