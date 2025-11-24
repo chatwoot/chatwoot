@@ -1,0 +1,80 @@
+class Enterprise::Api::V2::BillingController < Api::BaseController
+  before_action :fetch_account
+  before_action :check_authorization
+  before_action :validate_topup_amount, only: [:topup]
+
+  rescue_from StandardError, with: :render_error
+  rescue_from NotImplementedError, with: :render_not_implemented
+
+  def credit_grants
+    service = Enterprise::Billing::V2::CreditManagementService.new(account: @account)
+    grants = service.fetch_credit_grants
+
+    render json: { credit_grants: grants }
+  end
+
+  def pricing_plans
+    plans = Enterprise::Billing::V2::PlanCatalog.plans
+    render json: { pricing_plans: plans }
+  end
+
+  def topup_options
+    options = Enterprise::Billing::V2::TopupCatalog.options
+    render json: { topup_options: options }
+  end
+
+  def topup
+    raise NotImplementedError, 'Topup functionality not yet implemented'
+  end
+
+  def subscribe
+    service = Enterprise::Billing::V2::CheckoutSessionService.new(account: @account)
+    redirect_url = service.create_subscription_checkout(
+      pricing_plan_id: params[:pricing_plan_id],
+      quantity: subscription_quantity
+    )
+
+    render json: { redirect_url: redirect_url }
+  end
+
+  def cancel_subscription
+    raise NotImplementedError, 'Cancel subscription functionality not yet implemented'
+  end
+
+  def change_pricing_plan
+    raise NotImplementedError, 'Change pricing plan functionality not yet implemented'
+  end
+
+  private
+
+  def fetch_account
+    @account = current_user.accounts.find(params[:account_id])
+    @current_account_user = @account.account_users.find_by(user_id: current_user.id)
+  end
+
+  def subscription_quantity
+    [params[:quantity].to_i, 1].max
+  end
+
+  def validate_topup_amount
+    return if params[:credits].to_i.positive?
+
+    render json: { error: I18n.t('errors.enterprise.billing.topup_amount_invalid') }, status: :unprocessable_entity
+  end
+
+  def pundit_user
+    {
+      user: current_user,
+      account: @account,
+      account_user: @current_account_user
+    }
+  end
+
+  def render_error(exception)
+    render json: { error: exception.message }, status: :unprocessable_entity
+  end
+
+  def render_not_implemented(exception)
+    render json: { error: exception.message }, status: :not_implemented
+  end
+end

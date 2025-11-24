@@ -49,6 +49,8 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
 
   def cancel_subscription
     hacker_plan_config = InstallationConfig.find_by(name: 'STRIPE_HACKER_PLAN_ID')
+    return if hacker_plan_config.nil?
+
     pricing_plan_id = hacker_plan_config.value
 
     # Update subscription status and plan details
@@ -63,7 +65,9 @@ class Enterprise::Billing::V2::SubscriptionProvisioningService < Enterprise::Bil
     update_custom_attributes(attributes)
 
     # Sync credits for Hacker plan (0 credits)
-    sync_plan_credits(pricing_plan_id)
+    Enterprise::Billing::V2::CreditManagementService
+      .new(account: account)
+      .sync_monthly_response_credits(0)
 
     # Disable all premium features and save
     disable_all_premium_features

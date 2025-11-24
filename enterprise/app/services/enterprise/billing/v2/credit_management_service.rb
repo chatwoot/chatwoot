@@ -32,7 +32,7 @@ class Enterprise::Billing::V2::CreditManagementService < Enterprise::Billing::V2
     end
     grants.reject { |grant| grant[:credits].zero? }
   rescue Stripe::StripeError => e
-    Rails.logger.error("Failed to fetch credit grants: #{e.message}")
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
     []
   end
 

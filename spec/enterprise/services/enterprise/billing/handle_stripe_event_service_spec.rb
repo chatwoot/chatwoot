@@ -328,7 +328,7 @@ describe Enterprise::Billing::HandleStripeEventService do
 
     context 'when handling monthly credit grant' do
       it 'adds credits from Stripe' do
-        allow(credit_service).to receive(:add_response_topup_credits)
+        allow(credit_service).to receive(:sync_monthly_response_credits)
 
         # Webhook event object (minimal, just has ID)
         grant_event_object = OpenStruct.new(
@@ -355,13 +355,13 @@ describe Enterprise::Billing::HandleStripeEventService do
 
         stripe_event_service.new.perform(event: event)
 
-        expect(credit_service).to have_received(:add_response_topup_credits).with(2000)
+        expect(credit_service).to have_received(:sync_monthly_response_credits).with(2000)
       end
     end
 
     context 'when handling topup credit grant' do
       it 'adds topup credits' do
-        allow(credit_service).to receive(:add_response_topup_credits)
+        allow(credit_service).to receive(:sync_monthly_response_credits)
 
         # Webhook event object (minimal, just has ID)
         grant_event_object = OpenStruct.new(
@@ -388,7 +388,7 @@ describe Enterprise::Billing::HandleStripeEventService do
 
         stripe_event_service.new.perform(event: event)
 
-        expect(credit_service).to have_received(:add_response_topup_credits).with(500)
+        expect(credit_service).to have_received(:sync_monthly_response_credits).with(500)
       end
     end
 

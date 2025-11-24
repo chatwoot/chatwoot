@@ -35,7 +35,7 @@ class Enterprise::Billing::CreateStripeCustomerService
   end
 
   def raise_config_error
-    raise StandardError, 'V2 billing configuration is required. Please configure STRIPE_HACKER_PLAN_ID.'
+    raise StandardError, I18n.t('errors.enterprise.billing.v2_configuration_required')
   end
 
   def existing_subscription?
