@@ -75,7 +75,11 @@
         "INDUSTRY": "Industry",
         "PRICE": "Price",
         "MEDIA": "Media",
-        "ACTIONS": "Actions"
+        "ACTIONS": "Actions",
+        "HIDE_PRODUCT": "Hide product",
+        "SHOW_PRODUCT": "Show product",
+        "DELETE_PRODUCT": "Delete product",
+        "HIDDEN": "Hidden"
       },
       "VISIBILITY": {
         "HIDDEN": "Product hidden successfully",

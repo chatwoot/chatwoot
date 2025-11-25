@@ -202,10 +202,12 @@ const documentMedia = computed(() => {
 
 const formatPrice = (price) => {
   if (!price) return '-';
-  return new Intl.NumberFormat('en-US', {
+  const formatted = new Intl.NumberFormat('es-MX', {
     style: 'currency',
-    currency: 'USD'
+    currency: 'MXN',
+    minimumFractionDigits: 2
   }).format(price);
+  return `${formatted} MXN`;
 };
 
 const formatDate = (dateString) => {
