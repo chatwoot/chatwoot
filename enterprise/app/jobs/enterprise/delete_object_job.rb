@@ -1,10 +1,16 @@
 module Enterprise::DeleteObjectJob
+  def self.prepended(base)
+    base.const_set(:HEAVY_ASSOCIATIONS, base.const_get(:HEAVY_ASSOCIATIONS).merge(
+      SlaPolicy => %i[applied_slas]
+    ).freeze)
+  end
+
   def process_post_deletion_tasks(object, user, ip)
     create_audit_entry(object, user, ip)
   end
 
   def create_audit_entry(object, user, ip)
-    return unless %w[Inbox Conversation].include?(object.class.to_s) && user.present?
+    return unless %w[Inbox Conversation SlaPolicy].include?(object.class.to_s) && user.present?
 
     Enterprise::AuditLog.create(
       auditable: object,
