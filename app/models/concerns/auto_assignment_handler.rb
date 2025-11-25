@@ -3,7 +3,7 @@ module AutoAssignmentHandler
   include Events::Types
 
   included do
-    after_create :run_auto_assignment
+    after_save :run_auto_assignment
   end
 
   private
@@ -11,6 +11,7 @@ module AutoAssignmentHandler
   def run_auto_assignment
     # Round robin kicks in on conversation create & update
     # run it only when conversation status changes to open
+    return unless conversation_status_changed_to_open?
     return unless should_run_auto_assignment?
 
     if account.queue_enabled?
@@ -55,11 +56,11 @@ module AutoAssignmentHandler
 
   def handle_queue_assignment
     queue_service = ChatQueue::QueueService.new(account: account)
-
-    if assignee_id.present?
-      update_column(:assignee_id, nil)
-    end
-
+  
+    return if queued? || assignee.present? 
+  
+    update_column(:assignee_id, nil) if assignee_id.present?
+  
     if queue_service.queue_size.zero?
       assignee = find_available_agent_for(self)
 
