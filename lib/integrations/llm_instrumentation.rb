@@ -54,13 +54,9 @@ module Integrations::LlmInstrumentation
 
     tracer.in_span(params[:span_name]) do |span|
       set_metadata_attributes(span, params)
-      input_json = params[:messages].to_json
-      span.set_attribute(ATTR_LANGFUSE_TRACE_INPUT, input_json)
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, input_json)
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
       result = yield
-      output_json = result.to_json
-      span.set_attribute(ATTR_LANGFUSE_TRACE_OUTPUT, output_json)
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, output_json)
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
 
       result
     end
