@@ -110,6 +110,14 @@ const showLabelsSection = computed(() => {
   return props.chat.labels?.length > 0 || hasSlaPolicyId.value;
 });
 
+const isCommentConversation = computed(() => {
+  const conversationType = props.chat.additional_attributes?.type;
+  return (
+    conversationType === 'instagram_comments' ||
+    conversationType === 'feed_comments'
+  );
+});
+
 const messagePreviewClass = computed(() => {
   return [
     hasUnread.value ? 'font-medium text-n-slate-12' : 'text-n-slate-11',
@@ -284,7 +292,18 @@ const deleteConversation = () => {
           'mx-2': compact,
         }"
       >
-        <InboxName v-if="showInboxName" :inbox="inbox" class="flex-1 min-w-0" />
+        <div
+          v-if="showInboxName"
+          class="flex items-center gap-1.5 flex-1 min-w-0"
+        >
+          <InboxName :inbox="inbox" class="flex-1 min-w-0" />
+          <span
+            v-if="isCommentConversation"
+            class="inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold tracking-wide rounded-xl bg-n-blue-3 text-n-slate-11 dark:bg-n-blue-3 flex-shrink-0"
+          >
+            {{ $t('CHAT_LIST.COMMENT_TAG') }}
+          </span>
+        </div>
         <div
           class="flex items-center gap-2 flex-shrink-0"
           :class="{

@@ -59,13 +59,15 @@ class Messages::Messenger::MessageBuilder
 
     return if result.blank?
 
-    story_id = result['story']['mention']['id']
-    story_sender = result['from']['username']
-    message.content_attributes[:story_sender] = story_sender
-    message.content_attributes[:story_id] = story_id
-    message.content_attributes[:image_type] = 'story_mention'
-    message.content = I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender)
-    message.save!
+    story_payload = {
+      'id' => result.dig('story', 'mention', 'id'),
+      'url' => result.dig('story', 'mention', 'link'),
+      'story_sender' => result.dig('from', 'username')
+    }
+
+    message.save_story_info(story_payload)
+    story_sender = message.content_attributes[:story_sender]
+    message.update!(content: I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender))
   end
 
   # This is a placeholder method to be overridden by child classes
