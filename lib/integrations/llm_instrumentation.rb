@@ -54,6 +54,8 @@ module Integrations::LlmInstrumentation
 
     tracer.in_span(params[:span_name]) do |span|
       set_metadata_attributes(span, params)
+
+      # By default, the input and output of a trace are set from the root observation
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
       result = yield
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
@@ -147,8 +149,9 @@ module Integrations::LlmInstrumentation
     error = result[:error] || result['error']
     return if error.blank?
 
+    error_code = result[:error_code] || result['error_code']
     span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, error.to_json)
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR_CODE, error['error_code']) if error['error_code']
-    span.status = OpenTelemetry::Trace::Status.error("API Error: #{error['error_code']}")
+    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR_CODE, error_code) if error_code
+    span.status = OpenTelemetry::Trace::Status.error("API Error: #{error_code}")
   end
 end
