@@ -104,6 +104,7 @@ export default {
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
+      class="-mt-px"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item

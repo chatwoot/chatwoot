@@ -50,7 +50,7 @@ const onTabClick = event => {
       class="flex items-center flex-row border-b select-none cursor-pointer text-sm relative top-[1px] transition-[border-color] duration-[150ms] ease-[cubic-bezier(0.37,0,0.63,1)]"
       :class="[
         active
-          ? 'border-b border-n-brand text-n-blue-text'
+          ? 'border-b border-n-brand text-n-blue-11'
           : 'border-transparent text-n-slate-11',
         isCompact ? 'py-2 text-sm' : 'text-base py-3',
       ]"
