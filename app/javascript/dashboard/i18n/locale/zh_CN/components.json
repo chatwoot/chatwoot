@@ -1,7 +1,7 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "显示第 {startItem} - {endItem} 项，共 {totalItems} 项",
-    "CURRENT_PAGE_INFO": "第 {currentPage} 页，共 {totalPages} 页"
+    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} item | Showing {startItem} - {endItem} of {totalItems} items",
+    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} page | {currentPage} of {totalPages} pages"
   },
   "COMBOBOX": {
     "PLACEHOLDER": "请选择一个选项……",
