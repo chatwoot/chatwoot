@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Créé",
     "NEW_MESSAGE": "Nouveau message",
     "CALL": "Appel",
-    "CALL_UNDER_DEVELOPMENT": "Appel en cours de développement",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choisir une boîte de réception vocale"
     },
@@ -375,7 +376,7 @@
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "FILTER": {
       "NAME": "Nom",
