@@ -595,6 +595,11 @@ function resetAndFetchData() {
 }
 
 function loadMoreConversations() {
+  // Don't load more if on board view - board loads all conversations at once
+  if (isOnBoard.value) {
+    return;
+  }
+
   if (hasCurrentPageEndReached.value || chatListLoading.value) {
     return;
   }
@@ -609,8 +614,50 @@ function loadMoreConversations() {
   }
 }
 
+// Load all conversations for board view
+async function loadAllConversationsForBoard() {
+  // Keep fetching until we reach the end
+  let maxIterations = 50; // Safety limit to prevent infinite loops
+  let iteration = 0;
+
+  while (!hasCurrentPageEndReached.value && iteration < maxIterations) {
+    iteration++;
+
+    try {
+      if (!hasAppliedFiltersOrActiveFolders.value) {
+        await store.dispatch('updateChatListFilters', conversationFilters.value);
+        await store.dispatch('fetchAllConversations');
+      } else if (hasActiveFolders.value) {
+        const payload = activeFolder.value.query;
+        let page = currentFiltersPage.value + 1;
+        await store.dispatch('fetchFilteredConversations', {
+          queryData: payload,
+          page,
+        });
+      } else if (hasAppliedFilters.value) {
+        let page = currentFiltersPage.value + 1;
+        await store.dispatch('fetchFilteredConversations', {
+          queryData: filterQueryGenerator(appliedFilters.value),
+          page,
+        });
+      }
+
+      // Small delay to prevent overwhelming the API
+      await new Promise(resolve => setTimeout(resolve, 100));
+    } catch (error) {
+      // Stop loading on error
+      break;
+    }
+  }
+}
+
 // Add a method to handle scroll events
 function handleScroll() {
+  // Don't trigger scroll loading on board view
+  if (isOnBoard.value) {
+    return;
+  }
+
   const scroller = conversationDynamicScroller.value;
   if (scroller && scroller.hasScrollbar) {
     const { scrollTop, scrollHeight, clientHeight } = scroller.$el;
@@ -781,6 +828,10 @@ onMounted(() => {
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }
+  // Load all conversations if board view is active on mount
+  if (isOnBoard.value) {
+    loadAllConversationsForBoard();
+  }
 });
 
 const deleteConversationDialogRef = ref(null);
@@ -845,6 +896,13 @@ watch(chatLists, () => {
 watch(conversationFilters, (newVal, oldVal) => {
   if (newVal !== oldVal) {
     store.dispatch('updateChatListFilters', newVal);
+  }
+});
+
+watch(isOnBoard, (newVal, oldVal) => {
+  // When switching to board view, load all conversations
+  if (newVal && !oldVal) {
+    loadAllConversationsForBoard();
   }
 });
 </script>
