@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Sukurta",
     "NEW_MESSAGE": "Naujas pranešimas",
     "CALL": "Skambučiai",
-    "CALL_UNDER_DEVELOPMENT": "Skambučių funkcija dar kuriama",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Pasirinkite balso pašto dėžutę"
     },
@@ -375,7 +376,7 @@
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "FILTER": {
       "NAME": "Vardas",
