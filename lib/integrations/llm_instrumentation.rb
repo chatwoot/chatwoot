@@ -18,12 +18,19 @@ module Integrations::LlmInstrumentation
   ATTR_GEN_AI_RESPONSE_ERROR = 'gen_ai.response.error'
   ATTR_GEN_AI_RESPONSE_ERROR_CODE = 'gen_ai.response.error_code'
 
+  TOOL_SPAN_NAME = 'tool.%s'
+
   # Langfuse-specific attributes
   # https://langfuse.com/integrations/native/opentelemetry#property-mapping
   ATTR_LANGFUSE_USER_ID = 'langfuse.user.id'
   ATTR_LANGFUSE_SESSION_ID = 'langfuse.session.id'
   ATTR_LANGFUSE_TAGS = 'langfuse.trace.tags'
   ATTR_LANGFUSE_METADATA = 'langfuse.trace.metadata.%s'
+  ATTR_LANGFUSE_TRACE_INPUT = 'langfuse.trace.input'
+  ATTR_LANGFUSE_TRACE_OUTPUT = 'langfuse.trace.output'
+  ATTR_LANGFUSE_OBSERVATION_INPUT = 'langfuse.observation.input'
+  ATTR_LANGFUSE_OBSERVATION_OUTPUT = 'langfuse.observation.output'
+
   def tracer
     @tracer ||= OpentelemetryConfig.tracer
   end
@@ -39,6 +46,40 @@ module Integrations::LlmInstrumentation
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
+    yield
+  end
+
+  def instrument_agent_session(params)
+    return yield unless ChatwootApp.otel_enabled?
+
+    tracer.in_span(params[:span_name]) do |span|
+      set_metadata_attributes(span, params)
+      input_json = params[:messages].to_json
+      span.set_attribute(ATTR_LANGFUSE_TRACE_INPUT, input_json)
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, input_json)
+      result = yield
+      output_json = result.to_json
+      span.set_attribute(ATTR_LANGFUSE_TRACE_OUTPUT, output_json)
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, output_json)
+
+      result
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
+    yield
+  end
+
+  def instrument_tool_call(tool_name, arguments)
+    return yield unless ChatwootApp.otel_enabled?
+
+    tracer.in_span(format(TOOL_SPAN_NAME, tool_name)) do |span|
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, arguments.to_json)
+      result = yield
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
+      result
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e).capture_exception
     yield
   end
 

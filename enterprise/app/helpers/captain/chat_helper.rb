@@ -4,13 +4,14 @@ module Captain::ChatHelper
   def request_chat_completion
     log_chat_completion_request
 
-    response = instrument_llm_call(instrumentation_params) do
-      @client.chat(
-        parameters: chat_parameters
-      )
+    with_agent_session do
+      response = instrument_llm_call(instrumentation_params) do
+        @client.chat(
+          parameters: chat_parameters
+        )
+      end
+      handle_response(response)
     end
-
-    handle_response(response)
   rescue StandardError => e
     Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
     raise e
@@ -50,6 +51,16 @@ module Captain::ChatHelper
   end
 
   private
+
+  def with_agent_session(&)
+    already_active = @agent_session_active
+    return yield if already_active
+
+    @agent_session_active = true
+    instrument_agent_session(instrumentation_params, &)
+  ensure
+    @agent_session_active = false unless already_active
+  end
 
   def feature_name
     return 'copilot' if self.class.name.include?('Copilot')
