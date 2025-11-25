@@ -2,7 +2,6 @@
 // utils and composables
 import { login } from '../../api/auth';
 import { mapGetters } from 'vuex';
-import { parseBoolean } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
@@ -85,14 +84,20 @@ export default {
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    allowedLoginMethods() {
+      return window.chatwootConfig.allowedLoginMethods || ['email'];
+    },
     showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
+      return (
+        this.allowedLoginMethods.includes('google_oauth') &&
+        Boolean(window.chatwootConfig.googleOAuthClientId)
+      );
     },
     showSignupLink() {
-      return parseBoolean(window.chatwootConfig.signupEnabled);
+      return window.chatwootConfig.signupEnabled === 'true';
     },
     showSamlLogin() {
-      return this.globalConfig.isEnterprise;
+      return this.allowedLoginMethods.includes('saml');
     },
   },
   created() {

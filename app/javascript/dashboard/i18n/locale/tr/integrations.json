@@ -351,7 +351,8 @@
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistants",
       "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant"
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "Asistan bulunamadı, başlamak için bir tane oluşturun"
     },
     "COPILOT": {
       "TITLE": "Copilot",
