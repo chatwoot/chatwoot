@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Creato il",
     "NEW_MESSAGE": "Nuovo messaggio",
     "CALL": "Chiama",
-    "CALL_UNDER_DEVELOPMENT": "Le chiamate sono in fase di sviluppo",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Scegli una inbox vocale"
     },
@@ -375,7 +376,7 @@
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Mostrando {startItem} - {endItem} di {totalItems} contatti"
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "FILTER": {
       "NAME": "Nome",
