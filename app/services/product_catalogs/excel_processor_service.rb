@@ -230,6 +230,8 @@ class ProductCatalogs::ExcelProcessorService
       row_data['photoLinks'],         # photoLinks
       row_data['videoLinks'],         # videoLinks
       @bulk_request.id,               # bulk_processing_request_id
+      @user.id,                       # user_id (who created the product)
+      @user.id,                       # last_updated_by_id (who last updated)
       Time.current,                   # created_at
       Time.current                    # updated_at
     ]
@@ -242,7 +244,8 @@ class ProductCatalogs::ExcelProcessorService
     columns = %w[
       account_id product_id industry productName type subcategory
       listPrice description payment_options link pdfLinks photoLinks
-      videoLinks bulk_processing_request_id created_at updated_at
+      videoLinks bulk_processing_request_id user_id last_updated_by_id
+      created_at updated_at
     ]
 
     column_list = columns.map { |c| %("#{c}") }.join(', ')
@@ -260,11 +263,13 @@ class ProductCatalogs::ExcelProcessorService
       end
 
       # Upsert from temp table to real table
-      # ON CONFLICT: update all fields except id, account_id, product_id, created_at
+      # ON CONFLICT: update all fields except id, account_id, product_id, user_id (creator), created_at
+      # Note: user_id is NOT updated on conflict (keeps original creator)
+      # last_updated_by_id IS updated on conflict (tracks who made this update)
       update_columns = %w[
         industry productName type subcategory listPrice description
         payment_options link pdfLinks photoLinks videoLinks
-        bulk_processing_request_id updated_at
+        bulk_processing_request_id last_updated_by_id updated_at
       ]
       update_set = update_columns.map { |c| %("#{c}" = EXCLUDED."#{c}") }.join(', ')
 

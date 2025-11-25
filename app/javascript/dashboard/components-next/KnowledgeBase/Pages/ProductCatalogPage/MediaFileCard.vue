@@ -52,7 +52,10 @@
       <div class="flex items-center gap-3 text-xs text-n-slate-11">
         <span v-if="media.mime_type">{{ media.mime_type }}</span>
         <span v-if="media.file_size">{{ formatFileSize(media.file_size) }}</span>
-        <span v-if="media.created_at">{{ formatDate(media.created_at) }}</span>
+        <span v-if="mostRecentDate" class="flex items-center gap-1">
+          <i class="i-lucide-clock w-3 h-3" />
+          {{ formatDate(mostRecentDate) }}
+        </span>
       </div>
     </div>
 
@@ -72,7 +75,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   media: {
     type: Object,
     required: true
@@ -84,6 +89,16 @@ defineProps({
 });
 
 const emit = defineEmits(['click', 'set-primary']);
+
+// Show the most recent date (updated_at if exists and different from created_at, otherwise created_at)
+const mostRecentDate = computed(() => {
+  const updated = props.media.updated_at;
+  const created = props.media.created_at;
+  if (updated && updated !== created) {
+    return updated;
+  }
+  return created;
+});
 
 const formatFileSize = (bytes) => {
   if (!bytes) return '-';

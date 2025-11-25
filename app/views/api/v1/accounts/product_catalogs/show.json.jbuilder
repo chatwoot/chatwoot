@@ -25,4 +25,6 @@ json.product_media @product_catalog.product_media.ordered do |media|
   json.file_size media.file_size
   json.is_primary media.is_primary
   json.display_order media.display_order
+  json.created_at media.created_at
+  json.updated_at media.updated_at
 end

@@ -142,7 +142,9 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
           file_url: url,
           file_name: filename,
           is_primary: index.zero?, # First photo is primary
-          display_order: display_order
+          display_order: display_order,
+          user_id: @user.id,
+          last_updated_by_id: @user.id
         )
         Rails.logger.info "Successfully created IMAGE media with ID=#{media.id}"
       rescue ActiveRecord::RecordInvalid => e
@@ -160,7 +162,9 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
         file_type: :video,
         file_url: url,
         file_name: extract_filename_from_url(url, 'video', index),
-        display_order: display_order
+        display_order: display_order,
+        user_id: @user.id,
+        last_updated_by_id: @user.id
       )
       display_order += 1
     end
@@ -171,7 +175,9 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
         file_type: :document,
         file_url: url,
         file_name: extract_filename_from_url(url, 'document', index),
-        display_order: display_order
+        display_order: display_order,
+        user_id: @user.id,
+        last_updated_by_id: @user.id
       )
       display_order += 1
     end

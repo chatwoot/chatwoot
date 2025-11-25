@@ -9,8 +9,9 @@ class ProductCatalogs::MediaProcessorService
     'DOCUMENT' => %w[pdf doc docx xls xlsx txt]
   }.freeze
 
-  def initialize(bulk_request:)
+  def initialize(bulk_request:, user: nil)
     @bulk_request = bulk_request
+    @user = user || bulk_request.user
     @errors = []
   end
 
@@ -81,7 +82,9 @@ class ProductCatalogs::MediaProcessorService
       file_size: nil, # Would be set if downloading
       mime_type: determine_mime_type(extension),
       display_order: index,
-      is_primary: index.zero?
+      is_primary: index.zero?,
+      user_id: @user&.id,
+      last_updated_by_id: @user&.id
     )
   rescue StandardError => e
     @errors << {

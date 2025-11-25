@@ -46,9 +46,13 @@
           <span class="text-n-slate-11">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.MEDIA_DRAWER.PRICE') }}:</span>
           <span class="text-n-slate-12 ml-2">{{ formatPrice(product.listPrice) }}</span>
         </div>
-        <div class="col-span-2">
+        <div>
           <span class="text-n-slate-11">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.MEDIA_DRAWER.CREATED_AT') }}:</span>
           <span class="text-n-slate-12 ml-2">{{ formatDate(product.created_at) }}</span>
+        </div>
+        <div>
+          <span class="text-n-slate-11">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.MEDIA_DRAWER.UPDATED_AT') }}:</span>
+          <span class="text-n-slate-12 ml-2">{{ formatDate(product.updated_at) }}</span>
         </div>
       </div>
 

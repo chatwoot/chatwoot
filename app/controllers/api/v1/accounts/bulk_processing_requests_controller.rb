@@ -6,6 +6,7 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
     page = params[:page] || 1
     per_page = params[:per_page] || 50
     entity_type = params[:entity_type]
+    operation_type = params[:operation_type]
     include_dismissed = ActiveModel::Type::Boolean.new.cast(params[:include_dismissed])
 
     base_query = Current.account.bulk_processing_requests.includes(:user)
@@ -14,16 +15,15 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
     # Pass include_dismissed=true to get all records (for upload history page)
     base_query = base_query.where(dismissed_at: nil) unless include_dismissed
 
-    @bulk_processing_requests = if entity_type.present?
-                                  base_query.where(entity_type: entity_type)
-                                            .order(created_at: :desc)
-                                            .page(page)
-                                            .per(per_page)
-                                else
-                                  base_query.order(created_at: :desc)
-                                            .page(page)
-                                            .per(per_page)
-                                end
+    # Filter by entity_type if provided
+    base_query = base_query.where(entity_type: entity_type) if entity_type.present?
+
+    # Filter by operation_type if provided (UPLOAD, EXPORT, DELETE)
+    base_query = base_query.where(operation_type: operation_type) if operation_type.present?
+
+    @bulk_processing_requests = base_query.order(created_at: :desc)
+                                          .page(page)
+                                          .per(per_page)
 
     @total_count = @bulk_processing_requests.total_count
     @total_pages = (@total_count.to_f / per_page.to_i).ceil

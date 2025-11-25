@@ -120,6 +120,15 @@
                 </span>
               </div>
 
+              <div v-if="media.updated_at && media.updated_at !== media.created_at" class="flex justify-between items-start">
+                <span class="text-sm text-n-slate-11">
+                  {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.MEDIA_DETAIL.UPDATED_AT') }}
+                </span>
+                <span class="text-sm text-n-slate-12">
+                  {{ formatDateTime(media.updated_at) }}
+                </span>
+              </div>
+
               <div class="flex justify-between items-start">
                 <span class="text-sm text-n-slate-11">
                   {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.MEDIA_DETAIL.DISPLAY_ORDER') }}

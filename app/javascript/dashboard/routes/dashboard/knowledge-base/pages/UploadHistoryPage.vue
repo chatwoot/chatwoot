@@ -268,7 +268,9 @@ const fetchBulkRequests = async (page = 1) => {
     const response = await BulkProcessingRequestsAPI.getAll({
       page,
       per_page: 50,
-      entity_type: 'ProductCatalog'
+      entity_type: 'ProductCatalog',
+      operation_type: 'UPLOAD',
+      include_dismissed: true
     });
 
     bulkRequests.value = response.data.data;

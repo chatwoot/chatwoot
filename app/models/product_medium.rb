@@ -13,21 +13,29 @@
 #  thumbnail_url      :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  last_updated_by_id :bigint
 #  product_catalog_id :bigint           not null
+#  user_id            :bigint
 #
 # Indexes
 #
 #  index_product_media_on_file_type                             (file_type)
 #  index_product_media_on_is_primary                            (is_primary)
+#  index_product_media_on_last_updated_by_id                    (last_updated_by_id)
 #  index_product_media_on_product_catalog_id                    (product_catalog_id)
 #  index_product_media_on_product_catalog_id_and_display_order  (product_catalog_id,display_order)
+#  index_product_media_on_user_id                               (user_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (last_updated_by_id => users.id)
 #  fk_rails_...  (product_catalog_id => product_catalogs.id)
+#  fk_rails_...  (user_id => users.id)
 #
 class ProductMedium < ApplicationRecord
   belongs_to :product_catalog
+  belongs_to :user, optional: true
+  belongs_to :last_updated_by, class_name: 'User', optional: true
 
   validates :product_catalog_id, presence: true
   validates :file_type, presence: true
@@ -105,3 +113,5 @@ class ProductMedium < ApplicationRecord
     ).where.not(id: id).update_all(is_primary: false)
   end
 end
+
+ProductMedium.include_mod_with('Audit::ProductMedium')

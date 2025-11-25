@@ -9,6 +9,7 @@
 #  error_message     :text
 #  failed_records    :integer          default(0)
 #  file_name         :string
+#  operation_type    :string           default("upload")
 #  processed_records :integer          default(0)
 #  progress          :decimal(5, 2)    default(0.0)
 #  status            :string           default("pending"), not null
@@ -21,10 +22,11 @@
 #
 # Indexes
 #
-#  index_bulk_processing_requests_on_account_id  (account_id)
-#  index_bulk_processing_requests_on_created_at  (created_at)
-#  index_bulk_processing_requests_on_status      (status)
-#  index_bulk_processing_requests_on_user_id     (user_id)
+#  index_bulk_processing_requests_on_account_id      (account_id)
+#  index_bulk_processing_requests_on_created_at      (created_at)
+#  index_bulk_processing_requests_on_operation_type  (operation_type)
+#  index_bulk_processing_requests_on_status          (status)
+#  index_bulk_processing_requests_on_user_id         (user_id)
 #
 # Foreign Keys
 #

@@ -1224,10 +1224,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_184157) do
     t.text "videoLinks"
     t.string "product_id"
     t.boolean "is_visible", default: true, null: false
+    t.bigint "user_id"
+    t.bigint "last_updated_by_id"
     t.index ["account_id", "product_id"], name: "index_product_catalogs_on_account_id_and_product_id", unique: true
     t.index ["account_id"], name: "index_product_catalogs_on_account_id"
     t.index ["bulk_processing_request_id"], name: "index_product_catalogs_on_bulk_processing_request_id"
     t.index ["created_at"], name: "index_product_catalogs_on_created_at"
+    t.index ["last_updated_by_id"], name: "index_product_catalogs_on_last_updated_by_id"
+    t.index ["user_id"], name: "index_product_catalogs_on_user_id"
   end
 
   create_table "product_media", force: :cascade do |t|
@@ -1242,10 +1246,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_184157) do
     t.boolean "is_primary", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "last_updated_by_id"
     t.index ["file_type"], name: "index_product_media_on_file_type"
     t.index ["is_primary"], name: "index_product_media_on_is_primary"
+    t.index ["last_updated_by_id"], name: "index_product_media_on_last_updated_by_id"
     t.index ["product_catalog_id", "display_order"], name: "index_product_media_on_product_catalog_id_and_display_order"
     t.index ["product_catalog_id"], name: "index_product_media_on_product_catalog_id"
+    t.index ["user_id"], name: "index_product_media_on_user_id"
   end
 
   create_table "related_categories", force: :cascade do |t|
@@ -1497,7 +1505,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_184157) do
   add_foreign_key "meta_campaign_interactions", "messages"
   add_foreign_key "product_catalogs", "accounts"
   add_foreign_key "product_catalogs", "bulk_processing_requests"
+  add_foreign_key "product_catalogs", "users"
+  add_foreign_key "product_catalogs", "users", column: "last_updated_by_id"
   add_foreign_key "product_media", "product_catalogs"
+  add_foreign_key "product_media", "users"
+  add_foreign_key "product_media", "users", column: "last_updated_by_id"
   add_foreign_key "survey_answers", "accounts"
   add_foreign_key "survey_answers", "contacts"
   add_foreign_key "survey_answers", "survey_question_options"
