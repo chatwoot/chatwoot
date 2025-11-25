@@ -285,12 +285,12 @@ RSpec.describe Integrations::LlmInstrumentation do
           expect(result).to eq('tool_result')
         end
 
-        it 'returns the block result even if instrumentation has errors' do
+        it 'propagates instrumentation errors' do
           allow(mock_tracer).to receive(:in_span).and_raise(StandardError.new('Instrumentation failed'))
 
-          result = instance.instrument_tool_call(tool_name, arguments) { 'tool_result' }
-
-          expect(result).to eq('tool_result')
+          expect do
+            instance.instrument_tool_call(tool_name, arguments) { 'tool_result' }
+          end.to raise_error(StandardError, 'Instrumentation failed')
         end
 
         it 'creates a span with tool name and sets observation attributes' do
