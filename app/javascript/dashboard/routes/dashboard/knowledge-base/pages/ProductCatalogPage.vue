@@ -3,23 +3,36 @@
     <KnowledgeBaseLayout
       :header-title="$t('KNOWLEDGE_BASE.PRODUCT_CATALOG.HEADER_TITLE')"
       :button-label="$t('KNOWLEDGE_BASE.PRODUCT_CATALOG.NEW_PRODUCT')"
-      :button-disabled="isProcessing"
+      :button-disabled="hasActiveDialog"
+      :button-loading="isProcessing && isUploadOperation"
+      :show-button="!isInitialLoading"
       @click="toggleUploadDialog()"
     >
-      <template #header-actions>
+      <template v-if="!isInitialLoading" #header-actions>
         <button
-          class="flex-shrink-0 px-4 py-2 bg-n-slate-3 text-n-slate-12 rounded-lg hover:bg-n-slate-4 transition-colors text-sm font-medium flex items-center gap-2"
+          class="h-8 px-3 bg-n-slate-3 text-n-slate-12 rounded-lg hover:bg-n-slate-4 transition-colors text-sm font-medium flex items-center gap-2"
           @click="navigateToUploadHistory"
         >
-          <i class="i-lucide-history w-4 h-4" />
-          {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD_HISTORY') }}
+          <i class="i-lucide-history w-4 h-4 flex-shrink-0" />
+          <span class="hidden sm:inline">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD_HISTORY') }}</span>
         </button>
         <button
-          class="flex-shrink-0 px-4 py-2 bg-n-blue-9 text-white rounded-lg hover:bg-n-blue-10 transition-colors text-sm font-medium flex items-center gap-2"
+          class="h-8 px-3 bg-n-slate-3 text-n-slate-12 rounded-lg hover:bg-n-slate-4 transition-colors text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          :disabled="hasActiveDialog || hasNoProducts"
+          @click="handleExportAll"
+        >
+          <i class="i-lucide-file-down w-4 h-4 flex-shrink-0" />
+          <span class="hidden sm:inline">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.BUTTON') }}</span>
+          <Spinner v-if="isProcessing && isExportOperation" class="!w-4 !h-4 flex-shrink-0" />
+        </button>
+        <button
+          class="h-8 px-3 bg-n-blue-9 text-white rounded-lg hover:bg-n-blue-10 transition-colors text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          :disabled="isDownloadingTemplate"
           @click="handleDownloadTemplate"
         >
-          <i class="i-lucide-download w-4 h-4" />
-          {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DOWNLOAD_TEMPLATE') }}
+          <i class="i-lucide-download w-4 h-4 flex-shrink-0" />
+          <span class="hidden sm:inline">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DOWNLOAD_TEMPLATE') }}</span>
+          <Spinner v-if="isDownloadingTemplate" class="!w-4 !h-4 flex-shrink-0" />
         </button>
       </template>
 
@@ -51,15 +64,17 @@
         :error-message="activeProcessing.error_message"
         :error-details="activeProcessing.error_details"
         :bulk-request-id="activeProcessing.id"
+        :operation-type="activeProcessing.operation_type"
         class="mb-6"
         @cancel="handleCancelProcessing"
         @close="handleCloseProcessingStatus"
+        @download-complete="handleExportDownloadComplete"
       />
 
-      <div v-if="!hasNoProducts || activeProcessing" class="space-y-6">
+      <div v-if="!hasNoProducts || activeProcessing || searchQuery || isSearching" class="space-y-6">
 
         <!-- Search Bar and Bulk Actions -->
-        <div v-if="!hasNoProducts || (activeProcessing && products.length > 0)" class="flex items-center gap-2">
+        <div v-if="!hasNoProducts || activeProcessing || searchQuery || isSearching" class="flex items-center gap-2">
           <Input
             :model-value="searchQuery"
             type="search"
@@ -70,6 +85,7 @@
             :disabled="!!activeProcessing"
             class="w-full"
             @input="searchQuery = $event.target.value"
+            @enter="handleSearchEnter"
           >
             <template #prefix>
               <Icon
@@ -106,9 +122,22 @@
           </div>
         </div>
 
+        <!-- Loading State while searching -->
+        <div v-if="isSearching" class="flex items-center justify-center py-16">
+          <Spinner />
+        </div>
+
+        <!-- No Search Results Message -->
+        <div v-else-if="hasNoSearchResults" class="flex flex-col items-center justify-center py-16 text-center">
+          <i class="i-lucide-search-x w-12 h-12 text-n-slate-9 mb-4" />
+          <p class="text-n-slate-11 text-sm">
+            {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.NO_SEARCH_RESULTS') }}
+          </p>
+        </div>
+
         <!-- Product Table -->
         <ProductTable
-          v-if="!hasNoProducts || (activeProcessing && products.length > 0)"
+          v-else-if="filteredProducts.length > 0"
           :products="filteredProducts"
           :selected-product-id="selectedProductForMedia?.id"
           :selected-product-ids="selectedProductIds"
@@ -236,7 +265,6 @@ import { useRouter } from 'vue-router';
 import { useToggle } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { useDebounceFn } from '@vueuse/core';
 
 import KnowledgeBaseLayout from 'dashboard/components-next/KnowledgeBase/KnowledgeBaseLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -265,18 +293,44 @@ const pollingInterval = ref(null);
 const searchQuery = ref('');
 const searchAbortController = ref(null);
 const isInitialLoading = ref(true);
+const isDownloadingTemplate = ref(false);
+const isSearching = ref(false);
 
 const uiFlags = useMapGetter('productCatalogs/getUIFlags');
 
 const products = computed(() => store.getters['productCatalogs/getProductCatalogs']);
 const meta = computed(() => store.getters['productCatalogs/getMeta']);
-const hasNoProducts = computed(() => products.value?.length === 0 && !isInitialLoading.value);
+
+// Check if there are no products at all (not searching)
+const hasNoProducts = computed(() => {
+  return products.value?.length === 0 && !isInitialLoading.value && !searchQuery.value && !isSearching.value;
+});
+
+// Check if search returned no results
+const hasNoSearchResults = computed(() => {
+  return products.value?.length === 0 && !isInitialLoading.value && !!searchQuery.value && !isSearching.value;
+});
 
 // Use products directly - search is now handled by the backend
 const filteredProducts = computed(() => products.value);
 
 const isProcessing = computed(() => {
-  return activeProcessing.value && ['PENDING', 'PROCESSING'].includes(activeProcessing.value.status);
+  return activeProcessing.value && ['PENDING', 'PROCESSING'].includes(activeProcessing.value.status?.toUpperCase());
+});
+
+// Block buttons when there's any active dialog (pending dismissal)
+const hasActiveDialog = computed(() => {
+  return !!activeProcessing.value;
+});
+
+// Check if current operation is export
+const isExportOperation = computed(() => {
+  return activeProcessing.value?.operation_type?.toUpperCase() === 'EXPORT';
+});
+
+// Check if current operation is upload
+const isUploadOperation = computed(() => {
+  return activeProcessing.value?.operation_type?.toUpperCase() === 'UPLOAD';
 });
 
 const visiblePages = computed(() => {
@@ -337,8 +391,13 @@ onUnmounted(() => {
   }
 });
 
-// Debounced search function - waits 1.5s after user stops typing
-const performSearch = useDebounceFn(async (query) => {
+// Core search function
+const executeSearch = async (query) => {
+  // If already searching, ignore this request
+  if (isSearching.value) {
+    return;
+  }
+
   // Cancel previous search request if it exists
   if (searchAbortController.value) {
     searchAbortController.value.abort();
@@ -346,6 +405,7 @@ const performSearch = useDebounceFn(async (query) => {
 
   // Create new abort controller for this search
   searchAbortController.value = new AbortController();
+  isSearching.value = true;
 
   try {
     // Perform search with query parameter
@@ -359,8 +419,38 @@ const performSearch = useDebounceFn(async (query) => {
     if (error.name !== 'AbortError' && error.name !== 'CanceledError') {
       console.error('Search error:', error);
     }
+  } finally {
+    isSearching.value = false;
   }
-}, 1500);
+};
+
+// Debounce timer reference
+const searchDebounceTimer = ref(null);
+
+// Debounced search function - waits 1.5s after user stops typing
+const performSearch = (query) => {
+  // Clear any existing timer
+  if (searchDebounceTimer.value) {
+    clearTimeout(searchDebounceTimer.value);
+  }
+
+  // Set new timer
+  searchDebounceTimer.value = setTimeout(() => {
+    executeSearch(query);
+    searchDebounceTimer.value = null;
+  }, 1500);
+};
+
+// Immediate search on Enter key
+const handleSearchEnter = () => {
+  // Cancel the debounced search
+  if (searchDebounceTimer.value) {
+    clearTimeout(searchDebounceTimer.value);
+    searchDebounceTimer.value = null;
+  }
+  // Execute search immediately
+  executeSearch(searchQuery.value);
+};
 
 // Watch for search query changes
 watch(searchQuery, (newQuery) => {
@@ -440,15 +530,22 @@ const startPolling = () => {
 
         // Show completion message
         if (statusUpper === 'COMPLETED') {
-          useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.SUCCESS_MESSAGE'));
-          // Auto-dismiss successful uploads
-          const requestId = activeProcessing.value.id;
-          activeProcessing.value = null;
+          const operationType = updated.operation_type?.toUpperCase();
 
-          // Mark as dismissed in background
-          store.dispatch('bulkProcessingRequests/dismiss', requestId).catch(error => {
-            console.error('Error dismissing bulk request:', error);
-          });
+          if (operationType === 'EXPORT') {
+            // For EXPORT operations, keep dialog open so user can download
+            useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.COMPLETED'));
+          } else {
+            // For UPLOAD operations, auto-dismiss
+            useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.SUCCESS_MESSAGE'));
+            const requestId = activeProcessing.value.id;
+            activeProcessing.value = null;
+
+            // Mark as dismissed in background
+            store.dispatch('bulkProcessingRequests/dismiss', requestId).catch(error => {
+              console.error('Error dismissing bulk request:', error);
+            });
+          }
         } else if (statusUpper === 'FAILED') {
           useAlert(updated.error_message || t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.ERROR'));
           // Keep activeProcessing so user can download errors
@@ -478,10 +575,35 @@ const handleUploadSuccess = (bulkRequestId) => {
     total_records: 0,
     processed_records: 0,
     failed_records: 0,
-    file_name: 'Processing...'
+    file_name: 'Processing...',
+    operation_type: 'UPLOAD'
   };
 
   startPolling();
+};
+
+const handleExportAll = async () => {
+  try {
+    const response = await store.dispatch('productCatalogs/exportAll');
+
+    // Set active processing for export
+    activeProcessing.value = {
+      id: response.bulk_request_id,
+      status: 'PENDING',
+      progress: 0,
+      total_records: 0,
+      processed_records: 0,
+      failed_records: 0,
+      file_name: `product_catalog_full_export_${new Date().toISOString().split('T')[0]}.xlsx`,
+      operation_type: 'EXPORT'
+    };
+
+    startPolling();
+
+    useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.STARTED'));
+  } catch (error) {
+    useAlert(error.message || t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.ERROR'));
+  }
 };
 
 const handleCancelProcessing = async () => {
@@ -634,6 +756,7 @@ const handleExport = async () => {
 };
 
 const handleDownloadTemplate = async () => {
+  isDownloadingTemplate.value = true;
   try {
     const response = await ProductCatalogAPI.downloadTemplate();
 
@@ -654,6 +777,8 @@ const handleDownloadTemplate = async () => {
   } catch (error) {
     console.error('Error downloading template:', error);
     useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.TEMPLATE_DOWNLOAD_ERROR'));
+  } finally {
+    isDownloadingTemplate.value = false;
   }
 };
 
@@ -670,5 +795,12 @@ const handlePageChange = async (page) => {
 
 const navigateToUploadHistory = () => {
   router.push({ name: 'knowledge_base_upload_history' });
+};
+
+const handleExportDownloadComplete = () => {
+  // Close the dialog immediately after download starts
+  // The backend handles file cleanup and marking as dismissed
+  activeProcessing.value = null;
+  useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_SUCCESS', { count: '' }));
 };
 </script>

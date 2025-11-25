@@ -132,6 +132,28 @@ export const actions = {
       commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isUpdating: false });
     }
   },
+
+  exportAll: async ({ commit }) => {
+    commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isExporting: true });
+    try {
+      const response = await ProductCatalogAPI.exportAll();
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || error.message || 'Export failed';
+      throw new Error(errorMessage);
+    } finally {
+      commit(types.SET_PRODUCT_CATALOG_UI_FLAG, { isExporting: false });
+    }
+  },
+
+  downloadExport: async (_, bulkRequestId) => {
+    try {
+      const response = await ProductCatalogAPI.downloadExport(bulkRequestId);
+      return response.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export const mutations = {

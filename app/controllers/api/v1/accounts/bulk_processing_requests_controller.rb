@@ -6,8 +6,13 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
     page = params[:page] || 1
     per_page = params[:per_page] || 50
     entity_type = params[:entity_type]
+    include_dismissed = ActiveModel::Type::Boolean.new.cast(params[:include_dismissed])
 
     base_query = Current.account.bulk_processing_requests.includes(:user)
+
+    # By default, exclude dismissed requests (for polling use case)
+    # Pass include_dismissed=true to get all records (for upload history page)
+    base_query = base_query.where(dismissed_at: nil) unless include_dismissed
 
     @bulk_processing_requests = if entity_type.present?
                                   base_query.where(entity_type: entity_type)
@@ -115,6 +120,12 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
   end
 
   def dismiss
+    # If this is an export operation with an attached file, purge it first
+    if @bulk_processing_request.operation_export? && @bulk_processing_request.export_file.attached?
+      @bulk_processing_request.export_file.purge
+      Rails.logger.info "Export file purged for bulk_request_id=#{@bulk_processing_request.id}"
+    end
+
     @bulk_processing_request.update!(dismissed_at: Time.current)
     head :ok
   end

@@ -49,17 +49,54 @@ class ProductCatalogs::ExcelProcessorService
       total_rows: total_rows,
       errors: @errors
     }
+  rescue Zip::Error => e
+    # Invalid or corrupted Excel file (not a valid zip/xlsx)
+    error_msg = "Invalid Excel file: The file appears to be corrupted or is not a valid .xlsx file. #{e.message}"
+    handle_processing_error(error_msg, e)
+  rescue Roo::Error => e
+    # Roo-specific errors (wrong format, can't read file, etc.)
+    error_msg = "Invalid Excel file: #{e.message}"
+    handle_processing_error(error_msg, e)
+  rescue Errno::ENOENT => e
+    # File not found
+    error_msg = "File not found: The uploaded file could not be located. Please try uploading again."
+    handle_processing_error(error_msg, e)
+  rescue PG::Error => e
+    # PostgreSQL errors (constraint violations, connection issues, etc.)
+    error_msg = "Database error while importing products: #{extract_pg_error_message(e)}"
+    handle_processing_error(error_msg, e)
   rescue StandardError => e
-    Rails.logger.error("Excel processing error: #{e.message}")
-    Rails.logger.error(e.backtrace.join("\n"))
-    @bulk_request.update!(
-      status: 'FAILED',
-      error_message: e.message
-    )
-    { success: false, error: e.message }
+    # Generic error with full message
+    error_msg = "Excel processing failed: #{e.message}"
+    handle_processing_error(error_msg, e)
   end
 
   private
+
+  def handle_processing_error(error_msg, original_error)
+    Rails.logger.error("Excel processing error: #{error_msg}")
+    Rails.logger.error("Original error: #{original_error.message}")
+    Rails.logger.error(original_error.backtrace.join("\n"))
+    { success: false, error: error_msg, errors: @errors }
+  end
+
+  def extract_pg_error_message(pg_error)
+    # Extract a more user-friendly message from PostgreSQL errors
+    message = pg_error.message
+    if message.include?('duplicate key')
+      'A product with the same ID already exists'
+    elsif message.include?('violates check constraint')
+      'One or more values violate database constraints'
+    elsif message.include?('null value in column')
+      match = message.match(/null value in column "([^"]+)"/)
+      column = match ? match[1] : 'unknown'
+      "Required field '#{column}' is missing"
+    elsif message.include?('value too long')
+      'One or more field values exceed the maximum allowed length'
+    else
+      message.split("\n").first # Return first line of error
+    end
+  end
 
   def process_with_copy_streaming(conn)
     Rails.logger.info("ExcelProcessor: Opening Excel file with Roo streaming...")
@@ -209,12 +246,37 @@ class ProductCatalogs::ExcelProcessorService
     ]
 
     column_list = columns.map { |c| %("#{c}") }.join(', ')
+    temp_table = "temp_products_#{SecureRandom.hex(8)}"
 
-    # Execute COPY FROM STDIN using pg gem's put_copy_data
-    conn.copy_data("COPY product_catalogs (#{column_list}) FROM STDIN WITH (FORMAT csv)") do
-      rows.each do |tuple|
-        conn.put_copy_data(CSV.generate_line(tuple, force_quotes: true))
+    begin
+      # Create temporary table with same structure (no ON COMMIT DROP)
+      conn.exec("CREATE TEMP TABLE #{temp_table} (LIKE product_catalogs INCLUDING DEFAULTS)")
+
+      # COPY data into temporary table
+      conn.copy_data("COPY #{temp_table} (#{column_list}) FROM STDIN WITH (FORMAT csv)") do
+        rows.each do |tuple|
+          conn.put_copy_data(CSV.generate_line(tuple, force_quotes: true))
+        end
       end
+
+      # Upsert from temp table to real table
+      # ON CONFLICT: update all fields except id, account_id, product_id, created_at
+      update_columns = %w[
+        industry productName type subcategory listPrice description
+        payment_options link pdfLinks photoLinks videoLinks
+        bulk_processing_request_id updated_at
+      ]
+      update_set = update_columns.map { |c| %("#{c}" = EXCLUDED."#{c}") }.join(', ')
+
+      conn.exec(<<~SQL)
+        INSERT INTO product_catalogs (#{column_list})
+        SELECT #{column_list} FROM #{temp_table}
+        ON CONFLICT (account_id, product_id)
+        DO UPDATE SET #{update_set}
+      SQL
+    ensure
+      # Always drop the temp table
+      conn.exec("DROP TABLE IF EXISTS #{temp_table}")
     end
   end
 

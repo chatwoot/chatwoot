@@ -1,5 +1,5 @@
 class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseController
-  before_action :product_catalog, except: [:index, :create, :bulk_upload, :bulk_delete, :export, :download_template]
+  before_action :product_catalog, except: [:index, :create, :bulk_upload, :bulk_delete, :export, :export_all, :download_export, :download_template]
   before_action :check_authorization
 
   def index
@@ -138,6 +138,75 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
 
     send_data excel_data,
               filename: 'product_catalog_template.xlsx',
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  end
+
+  def export_all
+    # Check if there's already an active export request for this account
+    active_request = Current.account.bulk_processing_requests
+                            .where(entity_type: 'ProductCatalog', operation_type: 'EXPORT')
+                            .where(status: %w[PENDING PROCESSING])
+                            .first
+
+    if active_request
+      render json: {
+        error: 'An export is already being processed. Please wait for it to complete.',
+        active_request_id: active_request.id
+      }, status: :unprocessable_entity
+      return
+    end
+
+    # Dismiss all previous export requests for ProductCatalog
+    Current.account.bulk_processing_requests
+           .where(entity_type: 'ProductCatalog', operation_type: 'EXPORT')
+           .where(dismissed_at: nil)
+           .update_all(dismissed_at: Time.current)
+
+    # Create bulk processing request for export
+    @bulk_request = Current.account.bulk_processing_requests.create!(
+      user: current_user,
+      entity_type: 'ProductCatalog',
+      operation_type: 'EXPORT',
+      file_name: "product_catalog_full_export_#{Time.current.strftime('%Y%m%d_%H%M%S')}.xlsx",
+      status: 'PENDING'
+    )
+
+    # Queue the background job
+    job = ProductCatalogs::ProcessFullExportJob.perform_later(@bulk_request.id)
+
+    # Get the actual Sidekiq JID from the job
+    sidekiq_jid = job.provider_job_id
+    @bulk_request.update!(job_id: sidekiq_jid)
+
+    render json: { bulk_request_id: @bulk_request.id }, status: :accepted
+  end
+
+  def download_export
+    bulk_request = Current.account.bulk_processing_requests.find(params[:id])
+
+    unless bulk_request.operation_export? && bulk_request.completed?
+      render json: { error: 'Export not ready or not found' }, status: :not_found
+      return
+    end
+
+    unless bulk_request.export_file.attached?
+      render json: { error: 'Export file not found' }, status: :not_found
+      return
+    end
+
+    # Download file data before cleanup
+    file_data = bulk_request.export_file.download
+    file_name = bulk_request.file_name
+
+    # Mark as dismissed and cleanup immediately (file downloaded successfully)
+    bulk_request.update!(dismissed_at: Time.current)
+    bulk_request.export_file.purge
+
+    Rails.logger.info "Export file downloaded and cleaned up for bulk_request_id=#{bulk_request.id}"
+
+    # Send the file
+    send_data file_data,
+              filename: file_name,
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   end
 

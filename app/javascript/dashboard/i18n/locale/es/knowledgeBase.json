@@ -84,16 +84,30 @@
       },
       "SEARCH_PLACEHOLDER": "Buscar productos...",
       "RESULTS": "resultados",
+      "NO_SEARCH_RESULTS": "No se encontraron productos que coincidan con tu búsqueda",
       "REFRESH": "Actualizar productos",
       "REFRESHED": "Productos actualizados exitosamente",
       "DOWNLOAD_ERRORS": "Descargar Errores",
       "ALL_PROCESSED_SUCCESSFULLY": "¡Todos los registros procesados exitosamente!",
+      "ERROR_DETAIL": {
+        "TITLE": "Detalles del Error:"
+      },
+      "EXPORT_ALL": {
+        "BUTTON": "Exportar Todo",
+        "STARTED": "Exportación iniciada. Podrás descargar el archivo una vez que se complete el procesamiento.",
+        "PROCESSING_MESSAGE": "Tu exportación se está generando. Esto puede tomar algunos minutos dependiendo del número de productos.",
+        "COMPLETED": "¡Exportación completada! Haz clic en el botón Descargar para obtener tu archivo.",
+        "SUCCESS_MESSAGE": "¡Tu exportación está lista! Haz clic en el botón de abajo para descargar tu archivo.",
+        "ERROR": "Error al exportar productos",
+        "DOWNLOAD_BUTTON": "Descargar Exportación"
+      },
       "MEDIA_DRAWER": {
         "TITLE": "Multimedia del Producto",
         "PRODUCT_ID": "ID del Producto",
         "TYPE": "Tipo",
         "INDUSTRY": "Industria",
         "PRICE": "Precio",
+        "CREATED_AT": "Creado",
         "DESCRIPTION": "Descripción",
         "NO_MEDIA": "No se encontraron archivos multimedia para este producto",
         "IMAGES": "Imágenes",

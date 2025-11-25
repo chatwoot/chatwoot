@@ -31,6 +31,14 @@ class ProductCatalogPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def export_all?
+    @account_user.administrator?
+  end
+
+  def download_export?
+    @account_user.administrator?
+  end
+
   def download_template?
     @account_user.administrator?
   end

@@ -1,6 +1,7 @@
 json.id @bulk_processing_request.id
 json.status @bulk_processing_request.status
 json.entity_type @bulk_processing_request.entity_type
+json.operation_type @bulk_processing_request.operation_type
 json.file_name @bulk_processing_request.file_name
 json.total_records @bulk_processing_request.total_records
 json.processed_records @bulk_processing_request.processed_records

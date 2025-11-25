@@ -293,8 +293,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_184157) do
     t.jsonb "error_details", default: []
     t.string "job_id"
     t.datetime "dismissed_at"
+    t.string "operation_type", default: "UPLOAD"
     t.index ["account_id"], name: "index_bulk_processing_requests_on_account_id"
     t.index ["created_at"], name: "index_bulk_processing_requests_on_created_at"
+    t.index ["operation_type"], name: "index_bulk_processing_requests_on_operation_type"
     t.index ["status"], name: "index_bulk_processing_requests_on_status"
     t.index ["user_id"], name: "index_bulk_processing_requests_on_user_id"
   end

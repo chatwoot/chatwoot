@@ -54,6 +54,14 @@ class BulkProcessingRequest < ApplicationRecord
     cancelled: 'CANCELLED'
   }
 
+  enum operation_type: {
+    upload: 'UPLOAD',
+    export: 'EXPORT',
+    bulk_delete: 'DELETE'
+  }, _prefix: :operation
+
+  has_one_attached :export_file
+
   def update_progress(processed:, failed: 0)
     increment!(:processed_records, processed)
     increment!(:failed_records, failed)

@@ -120,7 +120,9 @@ Rails.application.routes.draw do
               post :bulk_upload
               post :bulk_delete
               post :export
+              post :export_all
               get :download_template
+              get 'download_export/:id', action: :download_export, as: :download_export
             end
 
             resources :product_media, only: [] do

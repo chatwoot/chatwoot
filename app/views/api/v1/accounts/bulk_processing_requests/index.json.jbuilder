@@ -2,6 +2,7 @@ json.data @bulk_processing_requests do |bulk_request|
   json.id bulk_request.id
   json.status bulk_request.status
   json.entity_type bulk_request.entity_type
+  json.operation_type bulk_request.operation_type
   json.file_name bulk_request.file_name
   json.total_records bulk_request.total_records
   json.processed_records bulk_request.processed_records

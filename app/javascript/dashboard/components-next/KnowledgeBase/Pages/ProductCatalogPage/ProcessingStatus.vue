@@ -76,13 +76,14 @@
           </div>
         </div>
 
-        <!-- Error Message -->
-        <div v-if="statusUpper === 'FAILED' && hasErrors" class="mt-4 p-3 bg-n-red-2 border border-n-red-6 rounded-lg">
-          <p class="text-sm text-n-red-11">{{ errorMessage }}</p>
+        <!-- Error Message - Always show when FAILED and there's an error message -->
+        <div v-if="statusUpper === 'FAILED' && errorMessage" class="mt-4 p-3 bg-n-red-2 border border-n-red-6 rounded-lg">
+          <p class="text-sm text-n-red-11 font-medium mb-1">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.ERROR_DETAIL.TITLE') }}</p>
+          <p class="text-sm text-n-red-11 whitespace-pre-wrap">{{ errorMessage }}</p>
         </div>
 
-        <!-- Download Errors Button -->
-        <div v-if="hasErrors" class="mt-4">
+        <!-- Download Errors Button - Only show when there are actual error details -->
+        <div v-if="hasDownloadableErrors" class="mt-4">
           <button
             class="inline-flex items-center gap-2 px-4 py-2 bg-n-red-9 text-white rounded-lg hover:bg-n-red-10 transition-colors text-sm font-medium"
             @click="downloadErrors"
@@ -93,8 +94,24 @@
         </div>
 
         <!-- Success Message -->
-        <div v-if="statusUpper === 'COMPLETED' && !hasErrors" class="mt-4 p-3 bg-n-green-2 border border-n-green-6 rounded-lg">
+        <div v-if="statusUpper === 'COMPLETED' && !hasErrors && operationTypeUpper !== 'EXPORT'" class="mt-4 p-3 bg-n-green-2 border border-n-green-6 rounded-lg">
           <p class="text-sm text-n-green-11">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.ALL_PROCESSED_SUCCESSFULLY') }}</p>
+        </div>
+
+        <!-- Export Success Message -->
+        <div v-if="statusUpper === 'COMPLETED' && operationTypeUpper === 'EXPORT'" class="mt-4 p-3 bg-n-green-2 border border-n-green-6 rounded-lg">
+          <p class="text-sm text-n-green-11">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.SUCCESS_MESSAGE') }}</p>
+        </div>
+
+        <!-- Download Export Button (for EXPORT operations) -->
+        <div v-if="operationTypeUpper === 'EXPORT' && statusUpper === 'COMPLETED'" class="mt-4">
+          <button
+            class="inline-flex items-center gap-2 px-4 py-2 bg-n-blue-9 text-white rounded-lg hover:bg-n-blue-10 transition-colors text-sm font-medium"
+            @click="downloadExportFile"
+          >
+            <i class="i-lucide-download w-4 h-4" />
+            {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.DOWNLOAD_BUTTON') }}
+          </button>
         </div>
       </div>
 
@@ -153,13 +170,20 @@ const props = defineProps({
   bulkRequestId: {
     type: Number,
     required: true
+  },
+  operationType: {
+    type: String,
+    default: 'UPLOAD',
+    validator: value => ['UPLOAD', 'EXPORT', 'DELETE', 'upload', 'export', 'delete'].includes(value)
   }
 });
 
-defineEmits(['cancel', 'close']);
+const emit = defineEmits(['cancel', 'close', 'download-complete']);
 
 const { t } = useI18n();
 const store = useStore();
+
+const operationTypeUpper = computed(() => props.operationType?.toUpperCase());
 
 const statusUpper = computed(() => props.status?.toUpperCase());
 
@@ -168,17 +192,27 @@ const statusTitle = computed(() => {
 });
 
 const statusMessage = computed(() => {
+  const isExport = operationTypeUpper.value === 'EXPORT';
+
   switch (statusUpper.value) {
     case 'PENDING':
-      return t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.PROCESSING_MESSAGE');
+      return isExport
+        ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.PROCESSING_MESSAGE')
+        : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.PROCESSING_MESSAGE');
     case 'PROCESSING':
-      return t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.PROCESSING_MESSAGE');
+      return isExport
+        ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.PROCESSING_MESSAGE')
+        : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.PROCESSING_MESSAGE');
     case 'COMPLETED':
-      return t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.SUCCESS_MESSAGE');
+      return isExport
+        ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.SUCCESS_MESSAGE')
+        : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.SUCCESS_MESSAGE');
     case 'PARTIALLY_COMPLETED':
       return `${props.processedRecords} of ${props.totalRecords} records processed successfully`;
     case 'FAILED':
-      return t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.ERROR');
+      return isExport
+        ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.ERROR')
+        : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.ERROR');
     case 'CANCELLED':
       return t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.CANCELLED');
     default:
@@ -198,7 +232,16 @@ const canCancel = computed(() => {
   return ['PENDING', 'PROCESSING'].includes(statusUpper.value);
 });
 
+// Check if there are errors (for showing success message or not)
 const hasErrors = computed(() => {
+  if (!['FAILED', 'PARTIALLY_COMPLETED'].includes(statusUpper.value)) {
+    return false;
+  }
+  return props.failedRecords > 0 || !!props.errorMessage;
+});
+
+// Check if there are downloadable error details (for showing download button)
+const hasDownloadableErrors = computed(() => {
   if (!['FAILED', 'PARTIALLY_COMPLETED'].includes(statusUpper.value)) {
     return false;
   }
@@ -223,8 +266,7 @@ const hasErrors = computed(() => {
     }
   }
 
-  // Fallback to failedRecords check
-  return props.failedRecords > 0;
+  return false;
 });
 
 const downloadErrors = async () => {
@@ -242,6 +284,26 @@ const downloadErrors = async () => {
     URL.revokeObjectURL(url);
   } catch (error) {
     console.error('Failed to download errors:', error);
+  }
+};
+
+const downloadExportFile = async () => {
+  try {
+    const blob = await store.dispatch('productCatalogs/downloadExport', props.bulkRequestId);
+
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('download', props.fileName);
+    link.setAttribute('href', url);
+    link.click();
+    URL.revokeObjectURL(url);
+
+    // Emit event to notify parent that download completed
+    // The backend will handle file cleanup and marking as dismissed
+    emit('download-complete', props.bulkRequestId);
+  } catch (error) {
+    console.error('Failed to download export:', error);
   }
 };
 </script>

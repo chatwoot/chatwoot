@@ -23,7 +23,7 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
     unless ['PENDING', 'PROCESSING'].include?(current_status)
       Rails.logger.info("Skipping processing for bulk request #{@bulk_request.id} - status is #{current_status}")
       # Cleanup temp file even if we're not processing
-      File.delete(@file_path) if File.exist?(@file_path)
+      cleanup_temp_file
       return
     end
 
@@ -33,10 +33,18 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
     excel_result = process_excel(@file_path)
 
     unless excel_result[:success]
+      # Capture detailed error message and error details from Excel processing
+      error_msg = excel_result[:error].presence || 'Excel processing failed'
+      error_details = excel_result[:errors] || []
+
       @bulk_request.update!(
         status: 'FAILED',
-        error_message: 'Excel processing failed'
+        error_message: error_msg,
+        error_details: error_details
       )
+
+      # Cleanup temp file on failure
+      cleanup_temp_file
       return
     end
 
@@ -47,7 +55,7 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
     update_final_status(excel_result, media_result)
 
     # Cleanup temp file
-    File.delete(@file_path) if File.exist?(@file_path)
+    cleanup_temp_file
 
     # Broadcast completion notification
     broadcast_completion_notification
@@ -271,12 +279,24 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
       error_message: error.message
     )
 
+    # Cleanup temp file on error
+    cleanup_temp_file
+
     # Log error for debugging
     Rails.logger.error("Product catalog bulk upload failed: #{error.message}")
     Rails.logger.error(error.backtrace.join("\n"))
 
     # Broadcast error notification
     broadcast_error_notification(error)
+  end
+
+  def cleanup_temp_file
+    return unless @file_path.present?
+
+    File.delete(@file_path) if File.exist?(@file_path)
+    Rails.logger.info("Cleaned up temp file: #{@file_path}")
+  rescue StandardError => e
+    Rails.logger.warn("Failed to cleanup temp file #{@file_path}: #{e.message}")
   end
 
   def broadcast_completion_notification

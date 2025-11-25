@@ -84,16 +84,30 @@
       },
       "SEARCH_PLACEHOLDER": "Search products...",
       "RESULTS": "results",
+      "NO_SEARCH_RESULTS": "No products found matching your search",
       "REFRESH": "Refresh products",
       "REFRESHED": "Products refreshed successfully",
       "DOWNLOAD_ERRORS": "Download Errors",
       "ALL_PROCESSED_SUCCESSFULLY": "All records processed successfully!",
+      "ERROR_DETAIL": {
+        "TITLE": "Error Details:"
+      },
+      "EXPORT_ALL": {
+        "BUTTON": "Export All",
+        "STARTED": "Export started. You'll be able to download the file once processing is complete.",
+        "PROCESSING_MESSAGE": "Your export is being generated. This may take a few minutes depending on the number of products.",
+        "COMPLETED": "Export completed! Click the Download button to get your file.",
+        "SUCCESS_MESSAGE": "Your export is ready! Click the button below to download your file.",
+        "ERROR": "Failed to export products",
+        "DOWNLOAD_BUTTON": "Download Export"
+      },
       "MEDIA_DRAWER": {
         "TITLE": "Product Media",
         "PRODUCT_ID": "Product ID",
         "TYPE": "Type",
         "INDUSTRY": "Industry",
         "PRICE": "Price",
+        "CREATED_AT": "Created",
         "DESCRIPTION": "Description",
         "NO_MEDIA": "No media files found for this product",
         "IMAGES": "Images",
