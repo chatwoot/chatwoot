@@ -26,7 +26,7 @@
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Rodoma nuo {startItem} iki {endItem} iš {totalItems} įmonių"
+      "SHOWING": "Showing {startItem} – {endItem} of {totalItems} company | Showing {startItem} – {endItem} of {totalItems} companies"
     }
   }
 }
