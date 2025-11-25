@@ -4,7 +4,7 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   before_action :agent_bot, except: [:index, :create]
 
   def index
-    @agent_bots = AgentBot.where(account_id: [nil, Current.account.id])
+    @agent_bots = AgentBot.accessible_to(Current.account)
   end
 
   def show; end
@@ -37,7 +37,7 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   private
 
   def agent_bot
-    @agent_bot = AgentBot.where(account_id: [nil, Current.account.id]).find(params[:id]) if params[:action] == 'show'
+    @agent_bot = AgentBot.accessible_to(Current.account).find(params[:id]) if params[:action] == 'show'
     @agent_bot ||= Current.account.agent_bots.find(params[:id])
   end
 
