@@ -1,7 +1,7 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Tiek rādīts {startItem} - {endItem} no {totalItems} vienumiem",
-    "CURRENT_PAGE_INFO": "{currentPage} no {totalPages} lapām"
+    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} item | Showing {startItem} - {endItem} of {totalItems} items",
+    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} page | {currentPage} of {totalPages} pages"
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Izvēlieties opciju...",
