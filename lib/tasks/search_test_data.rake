@@ -83,6 +83,7 @@ namespace :search do
     created_count = 0
     failed_count = 0
     conversations_per_inbox = total_conversations / inboxes.count
+    conversation_statuses = [:open, :resolved]
 
     inboxes.each do |inbox|
       conversations_per_inbox.times do
@@ -104,7 +105,7 @@ namespace :search do
           contact: contact,
           inbox: inbox,
           contact_inbox: contact_inbox,
-          status: [:open, :resolved].sample
+          status: conversation_statuses.sample
         )
 
         # Create messages for this conversation (50 incoming, 50 outgoing)
@@ -158,7 +159,10 @@ namespace :search do
     puts "\n📊 Summary:"
     puts "  - Total messages: #{Message.where(account: account).count}"
     puts "  - Total conversations: #{Conversation.where(account: account).count}"
-    puts "  - Date range: #{Message.where(account: account).minimum(:created_at)&.strftime('%Y-%m-%d')} to #{Message.where(account: account).maximum(:created_at)&.strftime('%Y-%m-%d')}"
+
+    min_date = Message.where(account: account).minimum(:created_at)&.strftime('%Y-%m-%d')
+    max_date = Message.where(account: account).maximum(:created_at)&.strftime('%Y-%m-%d')
+    puts "  - Date range: #{min_date} to #{max_date}"
     puts "\nBreakdown by inbox:"
     inboxes.each do |inbox|
       msg_count = Message.where(inbox: inbox).count
