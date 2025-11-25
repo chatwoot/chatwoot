@@ -109,8 +109,13 @@ module Captain::ChatHelper
       },
       'assistant_thinking'
     )
-    result = instrument_tool_call(function_name, arguments) do
-      @tool_registry.send(function_name, arguments)
+    result = begin
+      instrument_tool_call(function_name, arguments) do
+        @tool_registry.send(function_name, arguments)
+      end
+    rescue StandardError => e
+      Rails.logger.error "Tool #{function_name} failed: #{e.message}"
+      "Error executing #{function_name}: #{e.message}"
     end
 
     persist_message(

@@ -76,9 +76,6 @@ module Integrations::LlmInstrumentation
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
       result
     end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
-    yield
   end
 
   private
