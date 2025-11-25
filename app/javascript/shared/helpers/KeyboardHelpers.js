@@ -11,7 +11,7 @@ export const hasPressedShift = e => {
 };
 
 export const hasPressedCommand = e => {
-  return e.metaKey;
+  return e.metaKey || e.ctrlKey;
 };
 
 export const hasPressedEnterAndNotCmdOrShift = e => {
