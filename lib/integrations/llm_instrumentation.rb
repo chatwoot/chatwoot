@@ -43,6 +43,8 @@ module Integrations::LlmInstrumentation
   end
 
   def instrument_tool_call(tool_name, arguments)
+    # There is no error handling because tools can fail and LLMs should be
+    # aware of those failures and factor them into their response.
     return yield unless ChatwootApp.otel_enabled?
 
     tracer.in_span(format(TOOL_SPAN_NAME, tool_name)) do |span|
