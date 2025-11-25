@@ -149,6 +149,22 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).not_to include('_')
         expect(result).not_to include('[')
       end
+
+      it 'preserves bullet list markers' do
+        content = "- first item\n- second item\n- third item"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('- first item')
+        expect(result).to include('- second item')
+        expect(result).to include('- third item')
+      end
+
+      it 'preserves ordered list markers with numbering' do
+        content = "1. first step\n2. second step\n3. third step"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('1. first step')
+        expect(result).to include('2. second step')
+        expect(result).to include('3. third step')
+      end
     end
 
     context 'when channel is Channel::Telegram' do
