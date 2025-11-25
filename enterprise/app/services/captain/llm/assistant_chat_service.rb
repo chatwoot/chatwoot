@@ -43,4 +43,8 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
   def persist_message(message, message_type = 'assistant')
     # No need to implement
   end
+
+  def feature_name
+    'assistant'
+  end
 end

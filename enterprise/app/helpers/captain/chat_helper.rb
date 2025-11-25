@@ -69,11 +69,10 @@ module Captain::ChatHelper
     @agent_session_active = false unless already_active
   end
 
+  # Must be implemented by including class to identify the feature for instrumentation.
+  # Used for Langfuse tagging and span naming.
   def feature_name
-    return 'copilot' if self.class.name.include?('Copilot')
-    return 'assistant' if self.class.name.include?('Assistant')
-
-    'captain'
+    raise NotImplementedError, "#{self.class.name} must implement #feature_name"
   end
 
   def log_chat_completion_request

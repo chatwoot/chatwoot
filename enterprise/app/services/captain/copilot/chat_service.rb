@@ -114,4 +114,8 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
       message_type: message_type
     )
   end
+
+  def feature_name
+    'copilot'
+  end
 end
