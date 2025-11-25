@@ -47,35 +47,6 @@ const messages = ref([]);
 const sessionId = ref(crypto.randomUUID());
 const loadingChat = ref(false);
 const chatContainer = ref(null);
-const knowledgeSources = ref([]);
-
-// Fetch knowledge sources on mount or when agent data changes
-watch(
-  () => props.data,
-  async v => {
-    chatflowId.value = v?.chat_flow_id;
-    if (v?.id) {
-      try {
-        const res = await aiAgents.getKnowledgeSources(v.id);
-        knowledgeSources.value = res.data?.knowledge_source_texts || [];
-      } catch (err) {
-        console.error('Failed to fetch knowledge sources:', err);
-        knowledgeSources.value = [];
-      }
-    }
-  },
-  { immediate: true }
-);
-
-watch(
-  () => props.data,
-  v => {
-    chatflowId.value = v?.chat_flow_id;
-  },
-  {
-    immediate: true,
-  }
-);
 
 const state = reactive({
   name: '',
@@ -104,63 +75,26 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-// Inside the watch on props.data, after fetching knowledgeSources
-// 🔁 Replace both watches with this single one:
-
 watch(
   () => props.data,
-  async v => {
+  v => {
     if (!v) return;
 
-    // Sync chatflowId immediately
     chatflowId.value = v?.chat_flow_id;
-    console.log("v:")
-    console.log(v)
-    // Start populating state from props.data
+    
     state.name = v.name || '';
-    // state.description = v.description || '';
-    state.welcoming_message = v.display_flow_data.agents_config[0].bot_prompt.persona;
-    state.routing_conditions = v.display_flow_data.agents_config[0].bot_prompt.handover_conditions;
     
-    // 🚫 Do NOT set state.business_info from v.business_info!
-    // Why? Because the real source of truth is knowledge_sources (tab:1)
-    // If we set it here, it might get overwritten later — or worse, overwrite the real data.
-    
-    if (v.id) {
-      try {
-        const res = await aiAgents.getKnowledgeSources(v.id);
-        knowledgeSources.value = res.data?.knowledge_source_texts || [];
-        console.log("knowledgeSources value:")
-        console.log(knowledgeSources.value)
-        console.log("props.data:")
-        console.log(props.data)
-        console.log(props.data.display_flow_data)
-        const flowData = props.data.display_flow_data;
-        console.log("flowData:")
-        console.log(flowData)
-        const agents_config = flowData.agents_config;
-        console.log(agents_config)
-        // ✅ STEP 2: Update bot_prompt for every agent that is customer_service
-        agents_config.forEach(agent_config => {
-          if (agent_config.bot_prompt) {
-            console.log(agents_config)
-            state.welcoming_message = agent_config.bot_prompt.persona;
-            state.routing_conditions = agent_config.bot_prompt.handover_conditions;
-            state.instructions = agent_config.bot_prompt.instructions || '';
-          }
-        });
-        // Now look for tab:1 content
-        const knowledgeTab1 = knowledgeSources.value.find(k => k.tab === 1);
-        if (knowledgeTab1) {
-          state.business_info = knowledgeTab1.text;
-        } else {
-          // If no knowledge source for tab:1 exists, leave as empty (or set default)
-          state.business_info = '';
+    const flowData = v.display_flow_data;
+    console.log("flowData:", flowData);
+    if (flowData?.agents_config) {
+      flowData.agents_config.forEach(agent_config => {
+        if (agent_config.bot_prompt) {
+          state.welcoming_message = agent_config.bot_prompt.persona || '';
+          state.routing_conditions = agent_config.bot_prompt.handover_conditions || '';
+          state.instructions = agent_config.bot_prompt.instructions || '';
+          state.business_info = agent_config.bot_prompt.business_info || '';
         }
-      } catch (err) {
-        console.error('Failed to fetch knowledge sources:', err);
-        state.business_info = ''; // fallback on error
-      }
+      });
     }
   },
   { immediate: true }
@@ -178,64 +112,27 @@ async function submit() {
     loadingSave.value = true;
 
     const agentId = props.data.id;
-    const request = { ...state };
-    console.log("state:")
-    console.log(state)
-
-    // 🔎 Find existing knowledge source for tab: 1
-    const existingKnowledge = knowledgeSources.value.find(k => k.tab === 1);
-
-    let knowledgeId = existingKnowledge?.id;
-
-    // 🟡 If no knowledge source for tab:1 exists → create one
-    if (!knowledgeId) {
-      const createRes = await aiAgents.addKnowledgeText(agentId, {
-        id: null,
-        tab: 1,
-        text: state.business_info || '<br>',
-      });
-      knowledgeId = createRes.data?.id;
-
-      // 🛠 Also update local list so future edits work
-      if (knowledgeId) {
-        knowledgeSources.value.push({
-          id: knowledgeId,
-          tab: 1,
-          text: state.business_info || '<br>',
-        });
-      }
-    }
-
-    // ✅ Now safely update with real `id`
-    await aiAgents.updateKnowledgeText(agentId, {
-      id: knowledgeId,
-      tab: 1,
-      text: state.business_info,
-    });
-
-    // ✅ Update agent info
-    // ✅ STEP 1: Deep clone flowData to avoid mutating props
+    
+    // Deep clone flowData to avoid mutating props
     const flowData = JSON.parse(JSON.stringify(props.data.display_flow_data));
 
-    // ✅ STEP 2: Update bot_prompt for every agent that is customer_service
+    // Update bot_prompt for every agent
     flowData.agents_config.forEach(agent_config => {
       if (agent_config.bot_prompt) {
         agent_config.bot_prompt.persona = state.welcoming_message || agent_config.bot_prompt.persona;
         agent_config.bot_prompt.handover_conditions = state.routing_conditions || '';
         agent_config.bot_prompt.instructions = state.instructions || '';
-        // Optionally reset to default if empty:
-        // if (!state.routing_conditions) agent_config.bot_prompt.handover_conditions = '...default...'
+        agent_config.bot_prompt.business_info = state.business_info || '';
       }
     });
-    console.log(flowData);
-    console.log(props.config);
+
     const payload = {
       flow_data: flowData,
     };
-    // ✅ Properly await the API call
+    
     await aiAgents.updateAgent(props.data.id, payload);
 
-    // 🔄 Refresh agent data to get latest chat_flow_id
+    // Refresh agent data to get latest chat_flow_id
     const detailAgent = await aiAgents.detailAgent(agentId).then(v => v?.data);
     chatflowId.value = undefined;
     nextTick(() => {
