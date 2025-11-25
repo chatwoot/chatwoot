@@ -104,5 +104,4 @@ class ContactInboxBuilder
   end
 end
 
-# Enterprise can extend behavior
 ContactInboxBuilder.prepend_mod_with('ContactInboxBuilder')

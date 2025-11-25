@@ -1,79 +1,90 @@
-module Voice
-  class CallMessageBuilder
-    pattr_initialize [:conversation!, :direction!, :call_sid!, :conference_sid!, :from_number!, :to_number!, :user]
+class Voice::CallMessageBuilder
+  def self.perform!(conversation:, direction:, payload:, user: nil, timestamps: {})
+    new(
+      conversation: conversation,
+      direction: direction,
+      payload: payload,
+      user: user,
+      timestamps: timestamps
+    ).perform!
+  end
 
-    def perform
-      validate_sender!
+  def initialize(conversation:, direction:, payload:, user:, timestamps:)
+    @conversation = conversation
+    @direction = direction
+    @payload = payload
+    @user = user
+    @timestamps = timestamps
+  end
 
-      timestamp = Time.current.to_i
-      existing_message = find_existing_message
-      return update_existing_message(existing_message, timestamp) if existing_message
+  def perform!
+    validate_sender!
+    message = latest_message
+    message ? update_message!(message) : create_message!
+  end
 
-      Messages::MessageBuilder.new(
-        sender_for_direction,
-        conversation,
-        build_message_params(timestamp)
-      ).perform
-    end
+  private
 
-    private
+  attr_reader :conversation, :direction, :payload, :user, :timestamps
 
-    def find_existing_message
-      conversation.messages.voice_calls.order(created_at: :desc).first
-    end
+  def latest_message
+    conversation.messages.voice_calls.order(created_at: :desc).first
+  end
 
-    def update_existing_message(message, timestamp)
-      attrs = (message.content_attributes || {}).deep_dup
-      attrs['data'] ||= {}
-      merge_payload!(attrs['data'], timestamp)
+  def update_message!(message)
+    message.update!(
+      message_type: message_type,
+      content_attributes: { 'data' => base_payload },
+      sender: sender
+    )
+  end
 
-      message.update!(
-        message_type: direction == 'inbound' ? :incoming : :outgoing,
-        content_attributes: attrs,
-        sender: sender_for_direction
-      )
-    end
+  def create_message!
+    params = {
+      content: 'Voice Call',
+      message_type: message_type,
+      content_type: 'voice_call',
+      content_attributes: { 'data' => base_payload }
+    }
+    Messages::MessageBuilder.new(sender, conversation, params).perform
+  end
 
-    def build_message_params(timestamp)
-      {
-        content: 'Voice Call',
-        message_type: direction == 'inbound' ? :incoming : :outgoing,
-        content_type: 'voice_call',
-        content_attributes: { data: build_payload(timestamp) }
-      }
-    end
-
-    def build_payload(timestamp)
-      payload = {}
-      merge_payload!(payload, timestamp)
-      payload
-    end
-
-    def merge_payload!(data, timestamp)
-      data['call_sid'] = call_sid
-      data['status'] ||= 'ringing'
-      data['conversation_id'] = conversation.display_id
+  def base_payload
+    @base_payload ||= begin
+      data = payload.slice(
+        :call_sid,
+        :status,
+        :call_direction,
+        :conference_sid,
+        :from_number,
+        :to_number
+      ).stringify_keys
       data['call_direction'] = direction
-      data['conference_sid'] = conference_sid
-      data['from_number'] = from_number
-      data['to_number'] = to_number
-      data['meta'] ||= {}
-      data['meta']['created_at'] ||= timestamp
-      data['meta']['ringing_at'] ||= timestamp
+      data['meta'] = {
+        'created_at' => timestamps[:created_at] || current_timestamp,
+        'ringing_at' => timestamps[:ringing_at] || current_timestamp
+      }.compact
+      data
     end
+  end
 
-    def sender_for_direction
-      return user if direction == 'outbound'
+  def message_type
+    direction == 'outbound' ? 'outgoing' : 'incoming'
+  end
 
-      return conversation.contact if direction == 'inbound'
+  def sender
+    return user if direction == 'outbound'
 
-      nil
-    end
+    conversation.contact
+  end
 
-    def validate_sender!
-      return unless direction == 'outbound'
+  def validate_sender!
+    return unless direction == 'outbound'
 
-      raise ArgumentError, 'Agent sender required for outbound calls' unless user
-    end
+    raise ArgumentError, 'Agent sender required for outbound calls' unless user
+  end
+
+  def current_timestamp
+    @current_timestamp ||= Time.zone.now.to_i
   end
 end

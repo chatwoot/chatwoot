@@ -203,12 +203,12 @@ RSpec.describe Account do
     context 'when using with_auto_resolve scope' do
       it 'finds accounts with auto_resolve_after set' do
         account.update(auto_resolve_after: 40 * 24 * 60)
-        expect(described_class.with_auto_resolve).to include(account)
+        expect(described_class.with_auto_resolve.pluck(:id)).to include(account.id)
       end
 
       it 'does not find accounts without auto_resolve_after' do
         account.update(auto_resolve_after: nil)
-        expect(described_class.with_auto_resolve).not_to include(account)
+        expect(described_class.with_auto_resolve.pluck(:id)).not_to include(account.id)
       end
     end
   end

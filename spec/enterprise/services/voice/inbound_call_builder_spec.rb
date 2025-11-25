@@ -16,13 +16,12 @@ RSpec.describe Voice::InboundCallBuilder do
   end
 
   def perform_builder
-    described_class.new(
+    described_class.perform!(
       account: account,
       inbox: inbox,
       from_number: from_number,
-      to_number: to_number,
       call_sid: call_sid
-    ).perform
+    )
   end
 
   context 'when no existing conversation matches call_sid' do
@@ -30,9 +29,12 @@ RSpec.describe Voice::InboundCallBuilder do
       conversation = nil
       expect { conversation = perform_builder }.to change(account.conversations, :count).by(1)
 
+      attrs = conversation.additional_attributes
       expect(conversation.identifier).to eq(call_sid)
-      expect(conversation.additional_attributes['call_direction']).to eq('inbound')
-      expect(conversation.additional_attributes['call_status']).to eq('ringing')
+      expect(attrs['call_direction']).to eq('inbound')
+      expect(attrs['call_status']).to eq('ringing')
+      expect(attrs['conference_sid']).to be_present
+      expect(attrs.dig('meta', 'initiated_at')).to be_present
       expect(conversation.contact.phone_number).to eq(from_number)
     end
 
@@ -42,8 +44,32 @@ RSpec.describe Voice::InboundCallBuilder do
 
       expect(voice_message).to be_present
       expect(voice_message.message_type).to eq('incoming')
-      expect(voice_message.content_attributes.dig('data', 'call_sid')).to eq(call_sid)
-      expect(voice_message.content_attributes.dig('data', 'status')).to eq('ringing')
+      data = voice_message.content_attributes['data']
+      expect(data).to include(
+        'call_sid' => call_sid,
+        'status' => 'ringing',
+        'call_direction' => 'inbound',
+        'conference_sid' => conversation.additional_attributes['conference_sid'],
+        'from_number' => from_number,
+        'to_number' => inbox.channel.phone_number
+      )
+      expect(data['meta']['created_at']).to be_present
+      expect(data['meta']['ringing_at']).to be_present
+    end
+
+    it 'sets the contact name to the phone number for new callers' do
+      conversation = perform_builder
+
+      expect(conversation.contact.name).to eq(from_number)
+    end
+
+    it 'ensures the conversation has a display_id before building the conference SID' do
+      allow(Voice::Conference::Name).to receive(:for).and_wrap_original do |original, conversation|
+        expect(conversation.display_id).to be_present
+        original.call(conversation)
+      end
+
+      perform_builder
     end
   end
 
@@ -61,7 +87,7 @@ RSpec.describe Voice::InboundCallBuilder do
         additional_attributes: { 'call_direction' => 'outbound', 'conference_sid' => nil }
       )
     end
-    let!(:existing_message) do
+    let(:existing_message) do
       create(
         :message,
         account: account,
@@ -75,16 +101,21 @@ RSpec.describe Voice::InboundCallBuilder do
     end
 
     it 'reuses the conversation without creating a duplicate' do
+      existing_message
       expect { perform_builder }.not_to change(account.conversations, :count)
-      expect(existing_conversation.reload.additional_attributes['call_direction']).to eq('inbound')
+      existing_conversation.reload
+      expect(existing_conversation.additional_attributes['call_direction']).to eq('inbound')
+      expect(existing_conversation.additional_attributes['call_status']).to eq('ringing')
     end
 
     it 'updates the existing voice call message instead of creating a new one' do
-      expect { perform_builder }.not_to change { existing_conversation.reload.messages.voice_calls.count }
+      existing_message
+      expect { perform_builder }.not_to(change { existing_conversation.reload.messages.voice_calls.count })
       updated_message = existing_conversation.reload.messages.voice_calls.last
 
-      expect(updated_message.content_attributes.dig('data', 'status')).to eq('ringing')
-      expect(updated_message.content_attributes.dig('data', 'call_direction')).to eq('inbound')
+      data = updated_message.content_attributes['data']
+      expect(data['status']).to eq('ringing')
+      expect(data['call_direction']).to eq('inbound')
     end
   end
 end

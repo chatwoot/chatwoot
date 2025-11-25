@@ -296,17 +296,17 @@
           "WAITING_FOR_AUTH": "Waiting for authentication...",
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
           "SIGNUP_ERROR": "Signup error occurred",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow"
+          "AUTH_NOT_COMPLETED": "Authentifizierung nicht abgeschlossen. Bitte starte den Prozess neu.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account wurde erfolgreich konfiguriert",
+          "MANUAL_FALLBACK": "Wenn Ihre Nummer bereits mit der WhatsApp Business Plattform (API) verbunden ist, oder wenn Sie als Technologieanbieter Ihre eigene Nummer an Bord haben, verwenden Sie bitte den {link} Flow",
+          "MANUAL_LINK_TEXT": "Manueller Einrichtungsablauf"
         },
         "API": {
           "ERROR_MESSAGE": "Wir konnten den WhatsApp-Kanal nicht speichern"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
+        "TITLE": "Sprachkanal",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",

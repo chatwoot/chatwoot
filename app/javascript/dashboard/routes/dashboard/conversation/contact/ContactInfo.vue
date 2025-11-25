@@ -4,7 +4,6 @@ import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
-import inboxMixin from 'shared/mixins/inboxMixin';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
@@ -32,7 +31,6 @@ export default {
     ContactMergeModal,
     VoiceCallButton,
   },
-  mixins: [inboxMixin],
   props: {
     contact: {
       type: Object,
@@ -58,9 +56,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      uiFlags: 'contacts/getUIFlags',
-    }),
+    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
@@ -268,15 +264,6 @@ export default {
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
-        <VoiceCallButton
-          :phone="contact.phone_number"
-          :contact-id="String(contact.id)"
-          icon="i-ri-phone-fill"
-          size="sm"
-          :tooltip-label="$t('CONTACT_PANEL.CALL')"
-          slate
-          faded
-        />
         <ComposeConversation
           :contact-id="String(contact.id)"
           is-modal
@@ -293,6 +280,15 @@ export default {
             />
           </template>
         </ComposeConversation>
+        <VoiceCallButton
+          :phone="contact.phone_number"
+          :contact-id="contact.id"
+          icon="i-ri-phone-fill"
+          size="sm"
+          :tooltip-label="$t('CONTACT_PANEL.CALL')"
+          slate
+          faded
+        />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"
