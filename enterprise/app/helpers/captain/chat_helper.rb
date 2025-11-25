@@ -17,7 +17,7 @@ module Captain::ChatHelper
   end
 
   def instrumentation_params
-    params = {
+    {
       span_name: "llm.captain.#{feature_name}",
       account_id: resolved_account_id,
       conversation_id: @conversation_id,
@@ -29,8 +29,6 @@ module Captain::ChatHelper
         assistant_id: @assistant&.id
       }
     }
-    Rails.logger("####Params: #{params}")
-    params
   end
 
   def chat_parameters
@@ -100,7 +98,10 @@ module Captain::ChatHelper
       },
       'assistant_thinking'
     )
-    result = @tool_registry.send(function_name, arguments)
+    result = instrument_tool_call(function_name, arguments) do
+      @tool_registry.send(function_name, arguments)
+    end
+
     persist_message(
       {
         content: I18n.t('captain.copilot.completed_tool_call', function_name: function_name),
