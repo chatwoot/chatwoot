@@ -23,7 +23,7 @@ module Integrations::LlmInstrumentation
   ATTR_LANGFUSE_USER_ID = 'langfuse.user.id'
   ATTR_LANGFUSE_SESSION_ID = 'langfuse.session.id'
   ATTR_LANGFUSE_TAGS = 'langfuse.trace.tags'
-
+  ATTR_LANGFUSE_METADATA = 'langfuse.trace.metadata.%s'
   def tracer
     @tracer ||= OpentelemetryConfig.tracer
   end
@@ -62,8 +62,11 @@ module Integrations::LlmInstrumentation
 
   def set_prompt_messages(span, messages)
     messages.each_with_index do |msg, idx|
-      span.set_attribute(format(ATTR_GEN_AI_PROMPT_ROLE, idx), msg['role'])
-      span.set_attribute(format(ATTR_GEN_AI_PROMPT_CONTENT, idx), msg['content'])
+      role = msg[:role] || msg['role']
+      content = msg[:content] || msg['content']
+
+      span.set_attribute(format(ATTR_GEN_AI_PROMPT_ROLE, idx), role)
+      span.set_attribute(format(ATTR_GEN_AI_PROMPT_CONTENT, idx), content.to_s)
     end
   end
 
@@ -72,6 +75,12 @@ module Integrations::LlmInstrumentation
     span.set_attribute(ATTR_LANGFUSE_USER_ID, params[:account_id].to_s) if params[:account_id]
     span.set_attribute(ATTR_LANGFUSE_SESSION_ID, session_id) if session_id.present?
     span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json)
+
+    return unless params[:metadata].is_a?(Hash)
+
+    params[:metadata].each do |key, value|
+      span.set_attribute(format(ATTR_LANGFUSE_METADATA, key), value.to_s)
+    end
   end
 
   def set_completion_attributes(span, result)
@@ -81,26 +90,28 @@ module Integrations::LlmInstrumentation
   end
 
   def set_completion_message(span, result)
-    return if result[:message].blank?
+    message = result[:message] || result.dig('choices', 0, 'message', 'content')
+    return if message.blank?
 
     span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
-    span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result[:message])
+    span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message)
   end
 
   def set_usage_metrics(span, result)
-    return if result[:usage].blank?
+    usage = result[:usage] || result['usage']
+    return if usage.blank?
 
-    usage = result[:usage]
     span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
     span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
     span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage['total_tokens']) if usage['total_tokens']
   end
 
   def set_error_attributes(span, result)
-    return if result[:error].blank?
+    error = result[:error] || result['error']
+    return if error.blank?
 
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, result[:error].to_json)
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR_CODE, result[:error_code]) if result[:error_code]
-    span.status = OpenTelemetry::Trace::Status.error("API Error: #{result[:error_code]}")
+    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, error.to_json)
+    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR_CODE, error['error_code']) if error['error_code']
+    span.status = OpenTelemetry::Trace::Status.error("API Error: #{error['error_code']}")
   end
 end

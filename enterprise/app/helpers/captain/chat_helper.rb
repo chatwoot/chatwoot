@@ -1,16 +1,14 @@
 module Captain::ChatHelper
+  include Integrations::LlmInstrumentation
+
   def request_chat_completion
     log_chat_completion_request
 
-    response = @client.chat(
-      parameters: {
-        model: @model,
-        messages: @messages,
-        tools: @tool_registry&.registered_tools || [],
-        response_format: { type: 'json_object' },
-        temperature: @assistant&.config&.[]('temperature').to_f || 1
-      }
-    )
+    response = instrument_llm_call(instrumentation_params) do
+      @client.chat(
+        parameters: chat_parameters
+      )
+    end
 
     handle_response(response)
   rescue StandardError => e
@@ -18,7 +16,49 @@ module Captain::ChatHelper
     raise e
   end
 
+  def instrumentation_params
+    params = {
+      span_name: "llm.captain.#{feature_name}",
+      account_id: resolved_account_id,
+      conversation_id: @conversation_id,
+      feature_name: feature_name,
+      model: @model,
+      messages: @messages,
+      temperature: temperature,
+      metadata: {
+        assistant_id: @assistant&.id
+      }
+    }
+    Rails.logger("####Params: #{params}")
+    params
+  end
+
+  def chat_parameters
+    {
+      model: @model,
+      messages: @messages,
+      tools: @tool_registry&.registered_tools || [],
+      response_format: { type: 'json_object' },
+      temperature: temperature
+    }
+  end
+
+  def temperature
+    @assistant&.config&.[]('temperature').to_f || 1
+  end
+
+  def resolved_account_id
+    @account&.id || @assistant&.account_id
+  end
+
   private
+
+  def feature_name
+    return 'copilot' if self.class.name.include?('Copilot')
+    return 'assistant' if self.class.name.include?('Assistant')
+
+    'captain'
+  end
 
   def handle_response(response)
     Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
