@@ -394,6 +394,10 @@
       "LOCALES": "Idiomas",
       "SETTINGS": "Ajustes"
     },
+    "KNOWLEDGE_BASE": {
+      "TITLE": "Base de Conocimientos",
+      "PRODUCT_CATALOG": "Catálogo de Productos"
+    },
     "CHANNELS": "Canales",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar como desconectado automáticamente",
