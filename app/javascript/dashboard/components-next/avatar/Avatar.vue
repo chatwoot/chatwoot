@@ -75,6 +75,12 @@ const AVATAR_COLORS = {
   default: { bg: '#E8E8E8', text: '#60646C' },
 };
 
+const BORDER_RADIUS = {
+  FULL: '9999px',
+  MIN: 4, // Minimum radius in pixels
+  RATIO: 0.25, // 25% of size (1/4)
+};
+
 const STATUS_CLASSES = computed(() => ({
   online: 'bg-n-teal-10',
   busy: 'bg-n-amber-10',
@@ -111,6 +117,17 @@ const containerStyles = computed(() => ({
   width: `${props.size}px`,
   height: `${props.size}px`,
 }));
+
+const borderRadiusClass = computed(() => {
+  if (props.roundedFull) {
+    return 'rounded-full';
+  }
+
+  // Calculate radius as 25% of size, with minimum of 4px
+  const calculatedRadius = props.size * BORDER_RADIUS.RATIO;
+  const radius = Math.max(Math.round(calculatedRadius), BORDER_RADIUS.MIN);
+  return `rounded-[${radius}px]`;
+});
 
 const avatarStyles = computed(() => ({
   ...containerStyles.value,
@@ -218,7 +235,7 @@ watch(
       role="img"
       class="relative inline-flex items-center justify-center object-cover overflow-hidden font-medium"
       :class="[
-        roundedFull ? 'rounded-full' : 'rounded-xl',
+        borderRadiusClass,
         {
           'dark:!bg-[var(--dark-bg)] dark:!text-[var(--dark-text)]':
             !showDefaultAvatar && (!src || !isImageValid),

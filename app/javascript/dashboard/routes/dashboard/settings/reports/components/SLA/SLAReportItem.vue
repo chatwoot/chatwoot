@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
-import CardLabels from 'dashboard/components/widgets/conversation/conversationCardComponents/CardLabels.vue';
+import CardLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
 import SLAViewDetails from './SLAViewDetails.vue';
 const props = defineProps({
   slaName: {

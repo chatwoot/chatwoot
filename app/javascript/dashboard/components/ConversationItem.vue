@@ -1,50 +1,46 @@
-<script>
-import ConversationCard from './widgets/conversation/ConversationCard.vue';
-export default {
-  components: {
-    ConversationCard,
+<script setup>
+import { inject } from 'vue';
+import ConversationCard from 'dashboard/components-next/Conversation/ConversationCard/ConversationCard.vue';
+
+defineProps({
+  source: {
+    type: Object,
+    required: true,
   },
-  inject: [
-    'selectConversation',
-    'deSelectConversation',
-    'assignAgent',
-    'assignTeam',
-    'assignLabels',
-    'updateConversationStatus',
-    'toggleContextMenu',
-    'markAsUnread',
-    'markAsRead',
-    'assignPriority',
-    'isConversationSelected',
-    'deleteConversation',
-  ],
-  props: {
-    source: {
-      type: Object,
-      required: true,
-    },
-    teamId: {
-      type: [String, Number],
-      default: 0,
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    conversationType: {
-      type: String,
-      default: '',
-    },
-    foldersId: {
-      type: [String, Number],
-      default: 0,
-    },
-    showAssignee: {
-      type: Boolean,
-      default: false,
-    },
+  teamId: {
+    type: [String, Number],
+    default: 0,
   },
-};
+  label: {
+    type: String,
+    default: '',
+  },
+  conversationType: {
+    type: String,
+    default: '',
+  },
+  foldersId: {
+    type: [String, Number],
+    default: 0,
+  },
+  showAssignee: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const selectConversation = inject('selectConversation');
+const deSelectConversation = inject('deSelectConversation');
+const assignAgent = inject('assignAgent');
+const assignTeam = inject('assignTeam');
+const assignLabels = inject('assignLabels');
+const updateConversationStatus = inject('updateConversationStatus');
+const toggleContextMenu = inject('toggleContextMenu');
+const markAsUnread = inject('markAsUnread');
+const markAsRead = inject('markAsRead');
+const assignPriority = inject('assignPriority');
+const isConversationSelected = inject('isConversationSelected');
+const deleteConversation = inject('deleteConversation');
 </script>
 
 <template>

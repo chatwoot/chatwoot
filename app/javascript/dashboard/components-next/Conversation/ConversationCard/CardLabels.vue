@@ -1,95 +1,118 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch, onMounted, nextTick, useSlots } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
+
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   conversationLabels: {
     type: Array,
     required: true,
   },
-  accountLabels: {
-    type: Array,
-    required: true,
-  },
 });
 
-const WIDTH_CONFIG = Object.freeze({
-  DEFAULT_WIDTH: 80,
-  CHAR_WIDTH: {
-    SHORT: 8, // For labels <= 5 chars
-    LONG: 6, // For labels > 5 chars
-  },
-  BASE_WIDTH: 12, // dot + gap
-  THRESHOLD: 5, // character length threshold
-});
-
-const containerRef = ref(null);
-const maxLabels = ref(1);
+const slots = useSlots();
+const accountLabels = useMapGetter('labels/getLabels');
 
 const activeLabels = computed(() => {
-  const labelSet = new Set(props.conversationLabels);
-  return props.accountLabels?.filter(({ title }) => labelSet.has(title));
+  return accountLabels.value.filter(({ title }) =>
+    props.conversationLabels.includes(title)
+  );
 });
 
-const calculateLabelWidth = ({ title = '' }) => {
-  const charWidth =
-    title.length > WIDTH_CONFIG.THRESHOLD
-      ? WIDTH_CONFIG.CHAR_WIDTH.LONG
-      : WIDTH_CONFIG.CHAR_WIDTH.SHORT;
+const showAllLabels = ref(false);
+const showExpandLabelButton = ref(false);
+const labelPosition = ref(-1);
+const labelContainer = ref(null);
 
-  return title.length * charWidth + WIDTH_CONFIG.BASE_WIDTH;
+const computeVisibleLabelPosition = () => {
+  const beforeSlot = slots.before ? 100 : 0;
+  if (!labelContainer.value) return;
+
+  const labels = labelContainer.value.querySelectorAll('[data-label]');
+  if (labels.length === 0) return;
+
+  let labelOffset = 0;
+  showExpandLabelButton.value = false;
+  const buttonWidth = 40; // Approximate width for +N button
+  const gapWidth = 6; // gap-1.5 = 6px
+  const availableWidth =
+    labelContainer.value.clientWidth - buttonWidth - beforeSlot;
+
+  labels.forEach((label, index) => {
+    labelOffset += label.offsetWidth + gapWidth;
+
+    if (labelOffset < availableWidth) {
+      labelPosition.value = index;
+    } else {
+      showExpandLabelButton.value = labels.length > 1;
+    }
+  });
 };
 
-const getAverageWidth = labels => {
-  if (!labels.length) return WIDTH_CONFIG.DEFAULT_WIDTH;
+watch(activeLabels, () => {
+  nextTick(() => computeVisibleLabelPosition());
+});
 
-  const totalWidth = labels.reduce(
-    (sum, label) => sum + calculateLabelWidth(label),
-    0
-  );
+onMounted(() => {
+  nextTick(() => computeVisibleLabelPosition());
+});
 
-  return totalWidth / labels.length;
-};
+const hiddenLabelsCount = computed(() => {
+  if (!showExpandLabelButton.value || showAllLabels.value) return 0;
+  return activeLabels.value.length - labelPosition.value - 1;
+});
 
-const visibleLabels = computed(() =>
-  activeLabels.value?.slice(0, maxLabels.value)
-);
-
-const updateVisibleLabels = () => {
-  if (!containerRef.value) return;
-
-  const containerWidth = containerRef.value.offsetWidth;
-  const avgWidth = getAverageWidth(activeLabels.value);
-
-  maxLabels.value = Math.max(1, Math.floor(containerWidth / avgWidth));
+const onShowLabels = e => {
+  e.stopPropagation();
+  showAllLabels.value = !showAllLabels.value;
+  nextTick(() => computeVisibleLabelPosition());
 };
 </script>
 
 <template>
-  <div
-    ref="containerRef"
-    v-resize="updateVisibleLabels"
-    class="flex items-center gap-2.5 w-full min-w-0 h-6 overflow-hidden"
-  >
-    <template v-for="(label, index) in visibleLabels" :key="label.id">
+  <div ref="labelContainer" v-resize="computeVisibleLabelPosition">
+    <div
+      v-if="activeLabels.length || $slots.before"
+      class="flex items-end flex-shrink min-w-0 gap-x-1.5 gap-y-1"
+      :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
+    >
       <div
-        class="flex items-center gap-1.5 min-w-0"
-        :class="[
-          index !== visibleLabels.length - 1
-            ? 'flex-shrink-0 text-ellipsis'
-            : 'flex-shrink',
-        ]"
+        v-for="(label, index) in activeLabels"
+        :key="label ? label.id : index"
+        data-label
+        :title="label.description"
+        class="bg-n-button-color px-1.5 h-6 gap-1 rounded-md outline outline-1 outline-n-container inline-flex items-center flex-shrink-0"
+        :class="{
+          'invisible absolute': !showAllLabels && index > labelPosition,
+        }"
       >
-        <div
-          :style="{ backgroundColor: label.color }"
-          class="size-1.5 rounded-full flex-shrink-0"
-        />
         <span
-          class="text-sm text-n-slate-10 whitespace-nowrap"
-          :class="{ truncate: index === visibleLabels.length - 1 }"
-        >
-          {{ label.title }}
-        </span>
+          class="rounded-sm size-1.5 flex-shrink-0"
+          :style="{ background: label.color }"
+        />
+        <span class="font-440 text-xs text-n-slate-12 whitespace-nowrap">{{
+          label.title
+        }}</span>
       </div>
-    </template>
+      <Button
+        v-if="showExpandLabelButton"
+        :title="
+          showAllLabels
+            ? $t('CONVERSATION.CARD.HIDE_LABELS')
+            : $t('CONVERSATION.CARD.SHOW_LABELS')
+        "
+        :label="
+          !showAllLabels && hiddenLabelsCount > 0 ? `+${hiddenLabelsCount}` : ''
+        "
+        xs
+        slate
+        :icon="
+          !showAllLabels && hiddenLabelsCount > 0 ? '' : 'i-lucide-chevron-left'
+        "
+        class="!py-0 !px-1.5 flex-shrink-0 !rounded-md !bg-n-button-color"
+        @click="onShowLabels"
+      />
+    </div>
   </div>
 </template>

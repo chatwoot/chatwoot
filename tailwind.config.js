@@ -45,6 +45,7 @@ const tailwindConfig = {
       },
       fontWeight: {
         420: '420',
+        440: '440',
         460: '460',
       },
       typography: {

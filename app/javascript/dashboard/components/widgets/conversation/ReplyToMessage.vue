@@ -1,6 +1,7 @@
 <script setup>
-import MessagePreview from 'dashboard/components/widgets/conversation/MessagePreview.vue';
+import MessagePreview from 'dashboard/components-next/Conversation/ConversationCard/MessagePreview.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 defineProps({
   message: {
@@ -16,14 +17,16 @@ const emit = defineEmits(['dismiss']);
   <div
     class="reply-editor bg-n-slate-9/10 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2"
   >
-    <fluent-icon class="flex-shrink-0 icon" icon="arrow-reply" size="14" />
-    <div class="flex-grow gap-1 mt-px text-xs truncate">
+    <Icon class="flex-shrink-0 size-3.5" icon="i-lucide-reply" />
+    <div
+      class="flex-grow gap-1 mt-px text-xs truncate inline-flex items-center"
+    >
       {{ $t('CONVERSATION.REPLYBOX.REPLYING_TO') }}
       <MessagePreview
         :message="message"
         :show-message-type="false"
         :default-empty-message="$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND')"
-        class="inline"
+        class="text-xs"
       />
     </div>
     <Button
@@ -32,6 +35,7 @@ const emit = defineEmits(['dismiss']);
       xs
       slate
       icon="i-lucide-x"
+      class="flex-shrink-0"
       @click.stop="emit('dismiss')"
     />
   </div>
