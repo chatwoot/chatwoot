@@ -47,7 +47,7 @@ const onSelectConversation = checked => {
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full cursor-pointer group transition-all duration-200"
     :class="{
       'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3': isActiveChat,
-      'bg-n-slate-2 dark:bg-n-slate-3': selected,
+      'selected bg-n-slate-2 dark:bg-n-slate-3': selected,
       'px-0 py-3': compact,
       'px-2 pt-2.5 pb-3 hover:bg-n-alpha-1 rounded-lg': !compact,
     }"
