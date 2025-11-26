@@ -116,10 +116,6 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
-    isAVoiceChannel() {
-      // Use inbox.channel_type to match backend conventions
-      return this.inbox?.channel_type === 'Channel::Voice';
-    },
     typingUsersList() {
       const userList = this.$store.getters[
         'conversationTypingStatus/getUserList'
