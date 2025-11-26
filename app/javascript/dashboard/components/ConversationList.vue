@@ -1,7 +1,7 @@
 <script setup>
-import { computed, provide, useTemplateRef } from 'vue';
+import { provide, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useVirtualizer } from '@tanstack/vue-virtual';
+import { Virtualizer } from 'virtua/vue';
 import { useInfiniteScroll } from '@vueuse/core';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import ConversationItem from './ConversationItem.vue';
@@ -27,34 +27,6 @@ const parentRef = useTemplateRef('parentRef');
 
 provide('contextMenuElementTarget', parentRef);
 
-// Virtual scrolling configuration
-const virtualizerOptions = computed(() => ({
-  count: props.items.length,
-  getScrollElement: () => parentRef.value,
-  // Accurate size estimate reduces scroll jumps
-  estimateSize: () => 100,
-  // Balanced overscan for smooth scrolling without performance hit
-  overscan: 4,
-  // Stable keys for optimal Vue reconciliation
-  getItemKey: index => props.items[index]?.uuid || index,
-  // Wrap ResizeObserver in RAF to reduce layout thrashing
-  useAnimationFrameWithResizeObserver: true,
-  // Fix for backward scroll stutter
-  shouldAdjustScrollPositionOnItemSizeChange: (item, delta, instance) => {
-    return instance.scrollDirection === 'backward';
-  },
-}));
-
-const rowVirtualizer = useVirtualizer(virtualizerOptions);
-
-const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
-const totalSize = computed(() => rowVirtualizer.value.getTotalSize());
-
-const measureElement = el => {
-  if (!el) return;
-  rowVirtualizer.value.measureElement(el);
-};
-
 useInfiniteScroll(
   parentRef,
   () => {
@@ -70,26 +42,23 @@ useInfiniteScroll(
 const handleConversationNavigation = direction => {
   if (!parentRef.value) return;
 
-  const allConversations = Array.from(
-    parentRef.value.querySelectorAll('[data-index] > div')
-  );
+  // Get all wrapper divs with data-id
+  const allWrappers = Array.from(parentRef.value.querySelectorAll('[data-id]'));
 
-  if (allConversations.length === 0) return;
+  if (allWrappers.length === 0) return;
 
-  const activeIndex = allConversations.findIndex(conv =>
-    conv.classList.contains('active')
+  const activeIndex = allWrappers.findIndex(wrapper =>
+    wrapper.querySelector('.active')
   );
 
   const delta = direction === 'previous' ? -1 : 1;
   const newIndex = activeIndex + delta;
 
   // Clamp index to valid range [0, length-1]
-  const targetIndex = Math.max(
-    0,
-    Math.min(newIndex, allConversations.length - 1)
-  );
+  const targetIndex = Math.max(0, Math.min(newIndex, allWrappers.length - 1));
 
-  allConversations[targetIndex]?.click();
+  // Click the first child (ConversationItem root element)
+  allWrappers[targetIndex]?.firstElementChild?.click();
 };
 
 useKeyboardEvents({
@@ -107,29 +76,27 @@ useKeyboardEvents({
 <template>
   <div
     ref="parentRef"
-    class="conversation-list flex-1 w-full h-full px-2 touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch] [contain:strict] pt-2"
+    class="conversation-list flex-1 w-full h-full touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch] [contain:strict] px-2 pt-2.5"
     :class="isContextMenuOpen ? 'overflow-hidden' : 'overflow-y-auto'"
   >
-    <div class="relative w-full" :style="{ height: `${totalSize}px` }">
-      <div
-        v-for="virtualRow in virtualRows"
-        :key="virtualRow.key"
-        :ref="measureElement"
-        :data-index="virtualRow.index"
-        class="absolute top-0 ltr:left-0 rtl:right-0 w-full will-change-transform after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-n-weak after:pointer-events-none after:transition-colors after:duration-150 hover:after:bg-n-surface-1 has-[.active]:after:bg-n-surface-1 has-[+_:hover]:after:bg-n-surface-1 has-[+_*_.active]:after:bg-n-surface-1"
-        :style="{ transform: `translate3d(0, ${virtualRow.start}px, 0)` }"
-      >
-        <ConversationItem
-          :source="items[virtualRow.index]"
-          :label="label"
-          :team-id="teamId"
-          :folders-id="foldersId"
-          :conversation-type="conversationType"
-          :show-assignee="showAssignee"
-          :is-expanded-layout="isExpandedLayout"
-        />
-      </div>
-    </div>
+    <Virtualizer
+      :data="items"
+      class="[&>div]:after:content-[''] [&>div]:after:absolute [&>div]:after:bottom-0 [&>div]:after:left-0 [&>div]:after:right-0 [&>div]:after:h-px [&>div]:after:bg-n-weak [&>div]:after:pointer-events-none [&>div]:after:transition-colors [&>div]:after:duration-150 [&>div:has(*:hover)]:after:!bg-n-surface-1 [&>div:has(+_*:hover)]:after:!bg-n-surface-1 [&>div:has(.active)]:after:!bg-n-surface-1 [&>div:has(+_*_.active)]:after:!bg-n-surface-1"
+    >
+      <template #default="{ item }">
+        <div :data-id="item.id">
+          <ConversationItem
+            :source="item"
+            :label="label"
+            :team-id="teamId"
+            :folders-id="foldersId"
+            :conversation-type="conversationType"
+            :show-assignee="showAssignee"
+            :is-expanded-layout="isExpandedLayout"
+          />
+        </div>
+      </template>
+    </Virtualizer>
 
     <div class="py-2">
       <div v-if="isLoading" class="flex justify-center my-4">
