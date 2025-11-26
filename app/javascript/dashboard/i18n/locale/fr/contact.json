@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Adresse IP",
     "CREATED_AT_LABEL": "Créé",
     "NEW_MESSAGE": "Nouveau message",
+    "CALL": "Appel",
+    "CALL_UNDER_DEVELOPMENT": "Appel en cours de développement",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choisir une boîte de réception vocale"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Il n'y a aucune conversation précédente associée à ce contact.",
       "TITLE": "Conversations précédentes"
@@ -285,7 +290,7 @@
     "HEADER": {
       "TITLE": "Contacts",
       "SEARCH_TITLE": "Search contacts",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "Contacts actifs",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Message",
       "SEND_MESSAGE": "Envoyer un message",
@@ -460,8 +465,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "Cette action est permanente et irréversible.",
+        "BUTTON": "Supprimer maintenant"
       }
     },
     "DETAILS": {
@@ -471,7 +476,7 @@
       "DELETE_CONTACT": "Supprimer le contact",
       "DELETE_DIALOG": {
         "TITLE": "Confirmer la suppression",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer ce contact ?",
         "CONFIRM": "Oui, supprimer",
         "API": {
           "SUCCESS_MESSAGE": "Contact supprimé avec succès",
@@ -549,10 +554,12 @@
         "WROTE": "wrote",
         "YOU": "Vous",
         "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Développer",
         "COLLAPSE": "Réduire",
         "NO_NOTES": "Pas de notes, vous pouvez en ajouter depuis la page des détails du contact.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -561,7 +568,28 @@
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "Aucun contact ne correspond à votre recherche 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "Aucun contact n'est actif pour le moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assigner des étiquettes",
+    "ASSIGN_LABELS_SUCCESS": "Étiquettes attribuées avec succès.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Supprimer",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Supprimer le contact"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -601,6 +629,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variables",
+          "BACK": "Retour",
+          "SEND_MESSAGE": "Envoyer un message"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "Retour",
           "SEND_MESSAGE": "Envoyer un message"
         }

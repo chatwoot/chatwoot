@@ -48,7 +48,8 @@
       "CREATED_AT": "Tạo vào lúc",
       "LAST_ACTIVITY": "Hành động cuối cùng",
       "REFERER_LINK": "Liên kết người gới thiệu",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Nhãn"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",

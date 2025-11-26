@@ -68,6 +68,32 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'thumb_url' do
+    it 'returns empty string for non-image attachments' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+
+      expect(attachment.thumb_url).to eq('')
+    end
+
+    it 'generates thumb_url for image attachments' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: StringIO.new('fake image'), filename: 'test.jpg', content_type: 'image/jpeg')
+
+      expect(attachment.thumb_url).to be_present
+    end
+
+    it 'handles unrepresentable images gracefully' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: StringIO.new('fake image'), filename: 'test.jpg', content_type: 'image/jpeg')
+
+      allow(attachment.file).to receive(:representation).and_raise(ActiveStorage::UnrepresentableError.new('Cannot represent'))
+
+      expect(Rails.logger).to receive(:warn).with(/Unrepresentable image attachment: #{attachment.id}/)
+      expect(attachment.thumb_url).to eq('')
+    end
+  end
+
   describe 'meta data handling' do
     let(:message) { create(:message) }
 
@@ -126,6 +152,41 @@ RSpec.describe Attachment do
       it 'preserves meta data with file attachments' do
         expect(image_attachment.meta['description']).to eq('Test image')
       end
+    end
+  end
+
+  describe 'file size validation' do
+    let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }
+
+    before do
+      allow(GlobalConfigService).to receive(:load).and_call_original
+    end
+
+    it 'respects configured limit' do
+      allow(GlobalConfigService).to receive(:load)
+        .with('MAXIMUM_FILE_UPLOAD_SIZE', 40)
+        .and_return('5')
+
+      attachment.errors.clear
+      attachment.send(:validate_file_size, 4.megabytes)
+
+      expect(attachment.errors[:file]).to be_empty
+
+      attachment.errors.clear
+      attachment.send(:validate_file_size, 6.megabytes)
+
+      expect(attachment.errors[:file]).to include('size is too big')
+    end
+
+    it 'falls back to default when configured limit is invalid' do
+      allow(GlobalConfigService).to receive(:load)
+        .with('MAXIMUM_FILE_UPLOAD_SIZE', 40)
+        .and_return('-10')
+
+      attachment.errors.clear
+      attachment.send(:validate_file_size, 41.megabytes)
+
+      expect(attachment.errors[:file]).to include('size is too big')
     end
   end
 end

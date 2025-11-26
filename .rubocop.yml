@@ -23,7 +23,7 @@ Metrics/MethodLength:
     - 'enterprise/lib/captain/agent.rb'
 
 RSpec/ExampleLength:
-  Max: 25
+  Max: 50
 
 Style/Documentation:
   Enabled: false
@@ -283,7 +283,7 @@ Rails/RedundantActiveRecordAllMethod:
   Enabled: false
 
 Layout/TrailingEmptyLines:
-  Enabled: false
+  Enabled: true
 
 Style/SafeNavigationChainLength:
   Enabled: false

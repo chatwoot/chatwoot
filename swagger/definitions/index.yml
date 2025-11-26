@@ -74,6 +74,8 @@ integrations_app:
   $ref: ./resource/integrations/app.yml
 integrations_hook:
   $ref: ./resource/integrations/hook.yml
+audit_log:
+  $ref: ./resource/audit_log.yml
 
 ## public resources
 public_contact:
@@ -246,3 +248,9 @@ contact_conversations_response:
   $ref: ./resource/contact_conversations_response.yml
 contactable_inboxes_response:
   $ref: ./resource/contactable_inboxes_response.yml
+reporting_event:
+  $ref: ./resource/reporting_event.yml
+reporting_event_meta:
+  $ref: ./resource/reporting_event_meta.yml
+reporting_events_list_response:
+  $ref: ./resource/reporting_events_list_response.yml

@@ -46,15 +46,18 @@ RSpec.describe MailPresenter do
                                 :message_id,
                                 :multipart,
                                 :number_of_attachments,
+                                :references,
                                 :subject,
                                 :text_content,
-                                :to
+                                :to,
+                                :auto_reply
                               ])
       expect(data[:content_type]).to include('multipart/alternative')
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')
       expect(data[:message_id]).to eq(mail.message_id)
       expect(data[:multipart]).to be(true)
       expect(data[:subject]).to eq(decorated_mail.subject)
+      expect(data[:auto_reply]).to eq(decorated_mail.auto_reply?)
     end
 
     it 'give email from in downcased format' do
@@ -100,6 +103,31 @@ RSpec.describe MailPresenter do
       end
     end
 
+    describe '#references' do
+      let(:references_mail) { create_inbound_email_from_fixture('references.eml').mail }
+      let(:mail_presenter_with_references) { described_class.new(references_mail) }
+
+      context 'when mail has references' do
+        it 'returns an array of reference IDs' do
+          expect(mail_presenter_with_references.references).to eq(['4e6e35f5a38b4_479f13bb90078178@small-app-01.mail', 'test-reference-id'])
+        end
+      end
+
+      context 'when mail has no references' do
+        it 'returns an empty array' do
+          mail_presenter = described_class.new(mail_without_in_reply_to)
+          expect(mail_presenter.references).to eq([])
+        end
+      end
+
+      context 'when references are included in serialized_data' do
+        it 'includes references in the serialized data' do
+          data = mail_presenter_with_references.serialized_data
+          expect(data[:references]).to eq(['4e6e35f5a38b4_479f13bb90078178@small-app-01.mail', 'test-reference-id'])
+        end
+      end
+    end
+
     describe 'auto_reply?' do
       let(:auto_reply_mail) { create_inbound_email_from_fixture('auto_reply.eml').mail }
       let(:auto_reply_with_auto_submitted_mail) { create_inbound_email_from_fixture('auto_reply_with_auto_submitted.eml').mail }
@@ -109,6 +137,11 @@ RSpec.describe MailPresenter do
       it 'returns true for auto-reply emails' do
         expect(decorated_auto_reply_mail.auto_reply?).to be true
         expect(decorated_auto_reply_with_auto_submitted_mail.auto_reply?).to be true
+      end
+
+      it 'includes auto_reply status in serialized_data' do
+        expect(decorated_auto_reply_mail.serialized_data[:auto_reply]).to be true
+        expect(decorated_mail.serialized_data[:auto_reply]).to be_falsey
       end
     end
   end

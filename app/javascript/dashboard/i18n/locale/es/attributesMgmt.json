@@ -5,6 +5,18 @@
     "LOADING": "Obtener atributos personalizados",
     "DESCRIPTION": "Un atributo personalizado rastrea detalles adicionales sobre tus contactos o conversaciones, como el plan de suscripción o la fecha de su primera compra. Puede agregar diferentes tipos de atributos personalizados, como textos, listas o números, para capturar la información específica que necesita.",
     "LEARN_MORE": "Aprende más sobre los atributos personalizados",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Conversación",
+      "CONTACT": "Contacto"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Texto",
+      "NUMBER": "Número",
+      "LINK": "Enlace",
+      "DATE": "Fecha",
+      "LIST": "Lista",
+      "CHECKBOX": "Casilla"
+    },
     "ADD": {
       "TITLE": "Añadir atributo personalizado",
       "SUBMIT": "Crear",

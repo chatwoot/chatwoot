@@ -74,6 +74,9 @@ const inboxTypes = computed(() => ({
   isTwilioSMS:
     props.targetInbox?.channelType === INBOX_TYPES.TWILIO &&
     props.targetInbox?.medium === 'sms',
+  isTwilioWhatsapp:
+    props.targetInbox?.channelType === INBOX_TYPES.TWILIO &&
+    props.targetInbox?.medium === 'whatsapp',
 }));
 
 const whatsappMessageTemplates = computed(() =>
@@ -145,10 +148,21 @@ const isAnyDropdownActive = computed(() => {
 
 const handleContactSearch = value => {
   showContactsDropdown.value = true;
-  emit('searchContacts', {
-    keys: ['email', 'phone_number', 'name'],
-    query: value,
+  const query = typeof value === 'string' ? value.trim() : '';
+  const hasAlphabet = Array.from(query).some(char => {
+    const lower = char.toLowerCase();
+    const upper = char.toUpperCase();
+    return lower !== upper;
   });
+  const isEmailLike = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(query);
+
+  const keys = ['email', 'phone_number', 'name'].filter(key => {
+    if (key === 'phone_number' && hasAlphabet) return false;
+    if (key === 'name' && isEmailLike) return false;
+    return true;
+  });
+
+  emit('searchContacts', { keys, query: value });
 };
 
 const handleDropdownUpdate = (type, value) => {
@@ -185,16 +199,20 @@ const handleInboxAction = ({ value, action, ...rest }) => {
   state.attachedFiles = [];
 };
 
-const removeTargetInbox = value => {
-  v$.value.$reset();
-  // Remove the signature from message content
-  // Based on the Advance Editor (used in isEmailOrWebWidget) and Plain editor(all other inboxes except WhatsApp)
-  if (props.sendWithSignature) {
-    const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
-      ? props.messageSignature
-      : extractTextFromMarkdown(props.messageSignature);
+const removeSignatureFromMessage = () => {
+  // Always remove the signature from message content when inbox/contact is removed
+  // to ensure no leftover signature content remains
+  const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
+    ? props.messageSignature
+    : extractTextFromMarkdown(props.messageSignature);
+  if (signatureToRemove) {
     state.message = removeSignature(state.message, signatureToRemove);
   }
+};
+
+const removeTargetInbox = value => {
+  v$.value.$reset();
+  removeSignatureFromMessage();
   emit('updateTargetInbox', value);
   state.attachedFiles = [];
 };
@@ -202,6 +220,7 @@ const removeTargetInbox = value => {
 const clearSelectedContact = () => {
   emit('clearSelectedContact');
   state.attachedFiles = [];
+  removeSignatureFromMessage();
 };
 
 const onClickInsertEmoji = emoji => {
@@ -261,11 +280,33 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     isFromWhatsApp: true,
   });
 };
+
+const handleSendTwilioMessage = async ({ message, templateParams }) => {
+  const twilioMessagePayload = prepareWhatsAppMessagePayload({
+    targetInbox: props.targetInbox,
+    selectedContact: props.selectedContact,
+    message,
+    templateParams,
+    currentUser: props.currentUser,
+  });
+  await emit('createConversation', {
+    payload: twilioMessagePayload,
+    isFromWhatsApp: true,
+  });
+};
+
+const shouldShowMessageEditor = computed(() => {
+  return (
+    !inboxTypes.value.isWhatsapp &&
+    !showNoInboxAlert.value &&
+    !inboxTypes.value.isTwilioWhatsapp
+  );
+});
 </script>
 
 <template>
   <div
-    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
+    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0"
   >
     <ContactSelector
       :contacts="contacts"
@@ -311,13 +352,14 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     />
 
     <MessageEditor
-      v-if="!inboxTypes.isWhatsapp && !showNoInboxAlert"
+      v-if="shouldShowMessageEditor"
       v-model="state.message"
       :message-signature="messageSignature"
       :send-with-signature="sendWithSignature"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
       :has-attachments="state.attachedFiles.length > 0"
+      :channel-type="inboxChannelType"
     />
 
     <AttachmentPreviews
@@ -331,11 +373,13 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"
+      :is-twilio-whats-app-inbox="inboxTypes.isTwilioWhatsapp"
       :message-templates="whatsappMessageTemplates"
       :channel-type="inboxChannelType"
       :is-loading="isCreating"
       :disable-send-button="isCreating"
       :has-selected-inbox="!!targetInbox"
+      :inbox-id="targetInbox?.id"
       :has-no-inbox="showNoInboxAlert"
       :is-dropdown-active="isAnyDropdownActive"
       :message-signature="messageSignature"
@@ -346,6 +390,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       @discard="$emit('discard')"
       @send-message="handleSendMessage"
       @send-whatsapp-message="handleSendWhatsappMessage"
+      @send-twilio-message="handleSendTwilioMessage"
     />
   </div>
 </template>

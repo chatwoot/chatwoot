@@ -5,6 +5,18 @@
     "LOADING": "A obter atributos personalizados",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Conversa",
+      "CONTACT": "Contacto"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Texto",
+      "NUMBER": "Número",
+      "LINK": "Endereço",
+      "DATE": "Date",
+      "LIST": "Lista",
+      "CHECKBOX": "Caixa de seleção"
+    },
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
       "SUBMIT": "Criar",

@@ -904,4 +904,229 @@ RSpec.describe 'Inboxes API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/sync_templates' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+    end
+    let(:whatsapp_inbox) { create(:inbox, account: account, channel: whatsapp_channel) }
+    let(:non_whatsapp_inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/sync_templates"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized for agent' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/sync_templates",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      context 'with WhatsApp inbox' do
+        it 'successfully initiates template sync' do
+          expect(Channels::Whatsapp::TemplatesSyncJob).to receive(:perform_later).with(whatsapp_channel)
+
+          post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/sync_templates",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response['message']).to eq('Template sync initiated successfully')
+        end
+
+        it 'handles job errors gracefully' do
+          allow(Channels::Whatsapp::TemplatesSyncJob).to receive(:perform_later).and_raise(StandardError, 'Job failed')
+
+          post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/sync_templates",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:internal_server_error)
+          json_response = response.parsed_body
+          expect(json_response['error']).to eq('Job failed')
+        end
+      end
+
+      context 'with non-WhatsApp inbox' do
+        it 'returns unprocessable entity error' do
+          post "/api/v1/accounts/#{account.id}/inboxes/#{non_whatsapp_inbox.id}/sync_templates",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          json_response = response.parsed_body
+          expect(json_response['error']).to eq('Template sync is only available for WhatsApp channels')
+        end
+      end
+
+      context 'with non-existent inbox' do
+        it 'returns not found error' do
+          post "/api/v1/accounts/#{account.id}/inboxes/999999/sync_templates",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/health' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+    end
+    let(:whatsapp_inbox) { create(:inbox, account: account, channel: whatsapp_channel) }
+    let(:non_whatsapp_inbox) { create(:inbox, account: account) }
+    let(:health_service) { instance_double(Whatsapp::HealthService) }
+    let(:health_data) do
+      {
+        display_phone_number: '+1234567890',
+        verified_name: 'Test Business',
+        name_status: 'APPROVED',
+        quality_rating: 'GREEN',
+        messaging_limit_tier: 'TIER_1000',
+        account_mode: 'LIVE',
+        business_id: 'business123'
+      }
+    end
+
+    before do
+      allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
+      allow(health_service).to receive(:fetch_health_status).and_return(health_data)
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      context 'with WhatsApp inbox' do
+        it 'returns health data for administrator' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response).to include(
+            'display_phone_number' => '+1234567890',
+            'verified_name' => 'Test Business',
+            'name_status' => 'APPROVED',
+            'quality_rating' => 'GREEN',
+            'messaging_limit_tier' => 'TIER_1000',
+            'account_mode' => 'LIVE',
+            'business_id' => 'business123'
+          )
+        end
+
+        it 'returns health data for agent with inbox access' do
+          create(:inbox_member, user: agent, inbox: whatsapp_inbox)
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response['display_phone_number']).to eq('+1234567890')
+        end
+
+        it 'returns unauthorized for agent without inbox access' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+
+        it 'calls the health service with correct channel' do
+          expect(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
+          expect(health_service).to receive(:fetch_health_status)
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'handles service errors gracefully' do
+          allow(health_service).to receive(:fetch_health_status).and_raise(StandardError, 'API Error')
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          json_response = response.parsed_body
+          expect(json_response['error']).to include('API Error')
+        end
+      end
+
+      context 'with non-WhatsApp inbox' do
+        it 'returns bad request error for administrator' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{non_whatsapp_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:bad_request)
+          json_response = response.parsed_body
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+        end
+
+        it 'returns bad request error for agent' do
+          create(:inbox_member, user: agent, inbox: non_whatsapp_inbox)
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{non_whatsapp_inbox.id}/health",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:bad_request)
+          json_response = response.parsed_body
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+        end
+      end
+
+      context 'with WhatsApp non-cloud inbox' do
+        let(:whatsapp_default_channel) do
+          create(:channel_whatsapp, account: account, provider: 'default', sync_templates: false, validate_provider_config: false)
+        end
+        let(:whatsapp_default_inbox) { create(:inbox, account: account, channel: whatsapp_default_channel) }
+
+        it 'returns bad request error for non-cloud provider' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_default_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:bad_request)
+          json_response = response.parsed_body
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+        end
+      end
+
+      context 'with non-existent inbox' do
+        it 'returns not found error' do
+          get "/api/v1/accounts/#{account.id}/inboxes/999999/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+  end
 end

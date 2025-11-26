@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "전송하지 못했습니다. 다시 시도해보세요."
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "사용 불가"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "온라인",
-    "OFFLINE": "부재중"
+    "OFFLINE": "부재중",
+    "BACK_AS_SOON_AS_POSSIBLE": "가능한 한 빨리 돌아오겠습니다"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답",
     "IN_A_FEW_HOURS": "보통 몇 시간 내에 응답",
     "IN_A_DAY": "보통 하루 안에 응답",
-    "BACK_IN": "곧 돌아오겠습니다."
+    "BACK_IN_HOURS": "{n}시간 후에 서비스를 재개할 예정입니다 | {n}시간 후에 서비스를 재개할 예정입니다",
+    "BACK_IN_MINUTES": "{time}분 후에 다시 접속 가능합니다.",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
     "SUNDAY": "일요일",

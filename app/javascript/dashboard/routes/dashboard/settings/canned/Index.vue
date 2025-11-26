@@ -141,14 +141,11 @@ const tableHeaders = computed(() => {
       />
       <p
         v-else-if="!records.length"
-        class="flex flex-col items-center justify-center h-full text-base text-slate-600 dark:text-slate-300 py-8"
+        class="flex flex-col items-center justify-center h-full text-base text-n-slate-11 py-8"
       >
         {{ $t('CANNED_MGMT.LIST.404') }}
       </p>
-      <table
-        v-else
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"

@@ -33,6 +33,7 @@ end
 json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
 
 ## WebWidget Attributes
+json.allowed_domains resource.channel.try(:allowed_domains)
 json.widget_color resource.channel.try(:widget_color)
 json.website_url resource.channel.try(:website_url)
 json.hmac_mandatory resource.channel.try(:hmac_mandatory)
@@ -63,15 +64,19 @@ json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
-if resource.twilio? && Current.account_user&.administrator?
-  json.auth_token resource.channel.try(:auth_token)
-  json.account_sid resource.channel.try(:account_sid)
+if resource.twilio?
+  json.content_templates resource.channel.try(:content_templates)
+  if Current.account_user&.administrator?
+    json.auth_token resource.channel.try(:auth_token)
+    json.account_sid resource.channel.try(:account_sid)
+  end
 end
 
 if resource.email?
   ## Email Channel Attributes
-  json.forward_to_email resource.channel.try(:forward_to_email)
   json.email resource.channel.try(:email)
+  json.forwarding_enabled ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
+  json.forward_to_email resource.channel.try(:forward_to_email) if ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
 
   ## IMAP
   if Current.account_user&.administrator?
@@ -112,8 +117,18 @@ end
 
 json.provider resource.channel.try(:provider)
 
+## Telegram Attributes
+json.bot_name resource.channel.try(:bot_name) if resource.telegram?
+
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  json.reauthorization_required resource.channel.try(:reauthorization_required?)
+end
+
+## Voice Channel Attributes
+if resource.channel_type == 'Channel::Voice'
+  json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
+  json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
 end
