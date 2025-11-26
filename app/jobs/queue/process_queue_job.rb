@@ -1,68 +1,72 @@
 class Queue::ProcessQueueJob < ApplicationJob
   queue_as :default
 
-  MAX_QUEUE_CHECK = 200
+  LOCK_TTL = 3
 
   def perform(account_id)
+    return unless lock!(account_id)
+
     account = find_active_account(account_id)
     return unless account
 
     queue_service = ChatQueue::QueueService.new(account: account)
     return if queue_service.queue_size.zero?
 
-    assign_conversations(account, queue_service)
-    if queue_service.queue_size > 0
+    conv = ConversationQueue
+             .where(account_id: account.id, status: :waiting)
+             .order(:position, :queued_at)
+             .limit(1)
+             .first
+
+    return unless conv
+
+    agent_ids_sorted = queue_service.online_agents_list
+    return if agent_ids_sorted.empty?
+
+    agents = User.where(id: agent_ids_sorted).index_by(&:id)
+
+    assigned = false
+    agent_ids_sorted.each do |agent_id|
+      agent = agents[agent_id]
+      next unless agent
+
+      if queue_service.assign_specific_from_queue!(agent, conv.conversation_id)
+        assigned = true
+        break
+      end
+    end
+
+    if assigned && queue_service.queue_size.positive?
       Queue::ProcessQueueJob.set(wait: 1.second).perform_later(account_id)
     end
+
+  ensure
+    unlock!(account_id)
   end
 
   private
+
+  def lock!(account_id)
+    key = lock_key(account_id)
+    result = redis.set(key, "1", nx: true, ex: LOCK_TTL)
+    !!result
+  end
+
+  def unlock!(account_id)
+    redis.del(lock_key(account_id))
+  end
+
+  def lock_key(account_id)
+    "queue:process_lock:account:#{account_id}"
+  end
+
+  def redis
+    @redis ||= Redis.new(url: ENV["REDIS_URL"])
+  end
 
   def find_active_account(account_id)
     account = Account.find_by(id: account_id)
     return nil unless account&.queue_enabled?
     account
-  end
-
-  def assign_conversations(account, queue_service)
-    online_agents = get_available_agents(account)
-    return if online_agents.empty?
-  
-    queue_ids = fetch_queue_ids_sql(account)
-    return if queue_ids.empty?
-  
-    queue_ids.each do |conv_id|
-      assigned = false
-
-      online_agents.each do |agent|
-        if queue_service.assign_specific_from_queue!(agent, conv_id)
-          assigned = true
-          break
-        end
-      end
-
-      break unless assigned
-    end
-  end
-
-  def fetch_queue_ids_sql(account)
-    ConversationQueue
-      .where(account_id: account.id, status: :waiting)
-      .order(:position, :queued_at)
-      .limit(MAX_QUEUE_CHECK)
-      .pluck(:conversation_id)
-  end
-
-  def get_available_agents(account)
-    statuses = OnlineStatusTracker.get_available_users(account.id) || {}
-
-    online_ids =
-      statuses.select { |_id, status| status == 'online' }
-              .keys
-              .map(&:to_i)
-
-    return [] if online_ids.empty?
-
-    User.where(id: online_ids)
   end
 end
