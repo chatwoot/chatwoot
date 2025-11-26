@@ -93,8 +93,39 @@ class Integrations::OpenaiBaseService
     instrumentation_params = build_instrumentation_params(parsed_body)
 
     instrument_llm_call(instrumentation_params) do
-      execute_api_request(body, parsed_body['messages'])
+      execute_ruby_llm_request(parsed_body)
     end
+  end
+
+  def execute_ruby_llm_request(parsed_body)
+    messages = parsed_body['messages']
+    model = parsed_body['model']
+
+    Llm::Config.with_api_key(hook.settings['api_key'], api_base: api_url) do
+      chat = RubyLLM.chat(model: model)
+
+      system_msg = messages.find { |m| m['role'] == 'system' }
+      chat.with_instructions(system_msg['content']) if system_msg
+
+      user_msg = messages.find { |m| m['role'] == 'user' }
+
+      response = chat.ask(user_msg['content'])
+      build_ruby_llm_response(response, messages)
+    end
+  rescue RubyLLM::Error => e
+    build_error_response_from_exception(e, messages)
+  end
+
+  def build_ruby_llm_response(response, messages)
+    {
+      message: response.content,
+      usage: {
+        'prompt_tokens' => response.input_tokens,
+        'completion_tokens' => response.output_tokens,
+        'total_tokens' => (response.input_tokens || 0) + (response.output_tokens || 0)
+      },
+      request_messages: messages
+    }
   end
 
   def build_instrumentation_params(parsed_body)
@@ -109,37 +140,7 @@ class Integrations::OpenaiBaseService
     }
   end
 
-  def execute_api_request(body, messages)
-    Rails.logger.info("OpenAI API request: #{body}")
-    response = HTTParty.post(api_url, headers: api_headers, body: body)
-    Rails.logger.info("OpenAI API response: #{response.body}")
-
-    parse_api_response(response, messages)
-  end
-
-  def api_headers
-    {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{hook.settings['api_key']}"
-    }
-  end
-
-  def parse_api_response(response, messages)
-    return build_error_response(response, messages) unless response.success?
-
-    parsed_response = JSON.parse(response.body)
-    build_success_response(parsed_response, messages)
-  end
-
-  def build_error_response(response, messages)
-    { error: response.parsed_response, error_code: response.code, request_messages: messages }
-  end
-
-  def build_success_response(parsed_response, messages)
-    choices = parsed_response['choices']
-    usage = parsed_response['usage']
-    message_content = choices.present? ? choices.first['message']['content'] : nil
-
-    { message: message_content, usage: usage, request_messages: messages }
+  def build_error_response_from_exception(error, messages)
+    { error: error.message, error_code: 500, request_messages: messages }
   end
 end
