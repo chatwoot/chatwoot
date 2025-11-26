@@ -56,17 +56,6 @@ class Channel::Voice < ApplicationRecord
     end
   end
 
-  def initiate_call(to:)
-    case provider
-    when 'twilio'
-      Voice::Provider::TwilioAdapter.new(self).initiate_call(
-        to: to
-      )
-    else
-      raise "Unsupported voice provider: #{provider}"
-    end
-  end
-
   # Public URLs used to configure Twilio webhooks
   def voice_call_webhook_url
     digits = phone_number.delete_prefix('+')
