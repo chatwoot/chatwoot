@@ -236,7 +236,7 @@ class Message < ApplicationRecord
 
   # For voice calls - check if this is an active call
   def active_voice_call?
-    voice_call? && !%w[completed failed busy no-answer canceled missed ended].include?(voice_call_status)
+    voice_call? && %w[completed failed busy no-answer canceled missed ended].exclude?(voice_call_status)
   end
 
   def send_update_event

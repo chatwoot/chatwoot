@@ -1,45 +1,49 @@
-module Voice
-  module Provider
-    class TwilioAdapter
-      def initialize(channel)
-        @channel = channel
-      end
+class Voice::Provider::TwilioAdapter
+  def initialize(channel)
+    @channel = channel
+  end
 
-      def initiate_call(to:, conference_sid: nil, agent_id: nil)
-        cfg = @channel.provider_config_hash
+  def initiate_call(to:, conference_sid: nil, agent_id: nil)
+    call = twilio_client.calls.create(**call_params(to))
 
-        host = ENV.fetch('FRONTEND_URL')
-        phone_digits = @channel.phone_number.delete_prefix('+')
-        callback_url = "#{host}/twilio/voice/call/#{phone_digits}"
+    {
+      provider: 'twilio',
+      call_sid: call.sid,
+      status: call.status,
+      call_direction: 'outbound',
+      requires_agent_join: true,
+      agent_id: agent_id,
+      conference_sid: conference_sid
+    }
+  end
 
-        params = {
-          from: @channel.phone_number,
-          to: to,
-          url: callback_url,
-          status_callback: "#{host}/twilio/voice/status/#{phone_digits}",
-          status_callback_event: %w[initiated ringing answered completed failed busy no-answer canceled],
-          status_callback_method: 'POST'
-        }
+  private
 
-        call = twilio_client(cfg).calls.create(**params)
+  def call_params(to)
+    host = callback_host
+    phone_digits = @channel.phone_number.delete_prefix('+')
 
-        {
-          provider: 'twilio',
-          call_sid: call.sid,
-          status: call.status,
-          call_direction: 'outbound',
-          requires_agent_join: true,
-          agent_id: agent_id,
-          conference_sid: conference_sid
-        }
-      end
+    {
+      from: @channel.phone_number,
+      to: to,
+      url: "#{host}/twilio/voice/call/#{phone_digits}",
+      status_callback: "#{host}/twilio/voice/status/#{phone_digits}",
+      status_callback_event: %w[
+        initiated ringing answered completed failed busy no-answer canceled
+      ],
+      status_callback_method: 'POST'
+    }
+  end
 
-      private
+  def callback_host
+    ENV.fetch('FRONTEND_URL')
+  end
 
-      def twilio_client(config)
-        Twilio::REST::Client.new(config['account_sid'], config['auth_token'])
-      end
-    end
+  def twilio_client
+    Twilio::REST::Client.new(config['account_sid'], config['auth_token'])
+  end
+
+  def config
+    @config ||= @channel.provider_config_hash
   end
 end
-

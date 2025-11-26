@@ -19,32 +19,19 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   # POST /api/v1/accounts/:account_id/inboxes/:inbox_id/conference
   def conference_join
     conversation = fetch_conversation_by_display_id
-    # Deterministic conference SID from account + call_sid
-    call_sid = conversation.identifier
-    if call_sid.blank?
-      incoming_sid = params[:call_sid].to_s
-      if incoming_sid.blank?
-        return render json: { error: 'conference_not_ready', code: 'not_ready', details: 'call_sid missing' }, status: :conflict
-      end
-      call_sid = incoming_sid
-      conversation.update!(identifier: call_sid)
-    end
-    conference_sid = conversation.additional_attributes&.dig('conference_sid')
-    if conference_sid.blank?
-      conference_sid = Voice::Conference::Name.for(conversation)
-      conversation.update!(
-        additional_attributes:
-          (conversation.additional_attributes || {}).merge('conference_sid' => conference_sid)
-      )
-    end
+    ensure_call_sid!(conversation)
+    return if performed?
 
+    conference_sid = ensure_conference_sid!(conversation)
     @conversation = conversation
-    update_join_metadata!(conversation.identifier)
+
+    update_join_metadata!
+
     render json: {
       status: 'success',
       conversation_id: conversation.display_id,
       conference_sid: conference_sid,
-      using_webrtc: true,
+      using_webrtc: true
     }
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found
@@ -84,14 +71,40 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     { id: current_user.id, name: current_user.name }
   end
 
-  def update_join_metadata!(call_sid)
+  def update_join_metadata!
     attrs = convo_attrs.merge(
       'agent_joined' => true,
-      'joined_at'    => Time.current.to_i,
-      'joined_by'    => user_meta
+      'joined_at' => Time.current.to_i,
+      'joined_by' => user_meta
     )
 
     @conversation.update!(additional_attributes: attrs)
+  end
+
+  def ensure_call_sid!(conversation)
+    return conversation.identifier if conversation.identifier.present?
+
+    incoming_sid = params[:call_sid].to_s
+    return render_not_ready if incoming_sid.blank?
+
+    conversation.update!(identifier: incoming_sid)
+    incoming_sid
+  end
+
+  def ensure_conference_sid!(conversation)
+    existing = conversation.additional_attributes&.dig('conference_sid')
+    return existing if existing.present?
+
+    sid = Voice::Conference::Name.for(conversation)
+    conversation.update!(
+      additional_attributes:
+        (conversation.additional_attributes || {}).merge('conference_sid' => sid)
+    )
+    sid
+  end
+
+  def render_not_ready
+    render json: { error: 'conference_not_ready', code: 'not_ready', details: 'call_sid missing' }, status: :conflict
   end
 
   def set_voice_inbox_for_conference
@@ -102,6 +115,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   def fetch_conversation_by_display_id
     cid = params[:conversation_id] || params[:conversationId]
     raise ActiveRecord::RecordNotFound, 'conversation_id required' if cid.blank?
+
     Current.account.conversations.find_by!(display_id: cid)
   end
 end
