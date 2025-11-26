@@ -66,16 +66,30 @@
                     </div>
                   </td>
                   <td class="px-4 py-4">
-                    <span
-                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-                      :class="getStatusClass(request.status)"
-                    >
-                      <i
-                        class="w-3 h-3"
-                        :class="getStatusIcon(request.status)"
-                      />
-                      {{ $t(`KNOWLEDGE_BASE.BULK_REQUESTS.STATUS.${request.status.toUpperCase()}`) }}
-                    </span>
+                    <div class="space-y-2">
+                      <span
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
+                        :class="getStatusClass(request.status)"
+                      >
+                        <i
+                          class="w-3 h-3"
+                          :class="getStatusIcon(request.status)"
+                        />
+                        {{ $t(`KNOWLEDGE_BASE.BULK_REQUESTS.STATUS.${request.status.toUpperCase()}`) }}
+                      </span>
+                      <!-- Progress bar for active requests -->
+                      <div v-if="isActiveRequest(request)" class="w-32">
+                        <div class="flex items-center justify-between text-xs text-n-slate-11 mb-1">
+                          <span>{{ request.progress || 0 }}%</span>
+                        </div>
+                        <div class="w-full bg-n-slate-3 rounded-full h-1.5">
+                          <div
+                            class="h-1.5 rounded-full bg-n-blue-9 transition-all duration-300"
+                            :style="{ width: `${request.progress || 0}%` }"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td class="px-4 py-4">
                     <div class="text-sm text-n-slate-12">
@@ -204,7 +218,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import KnowledgeBaseLayout from 'dashboard/components-next/KnowledgeBase/KnowledgeBaseLayout.vue';
@@ -216,6 +230,7 @@ const store = useStore();
 
 const isInitialLoading = ref(true);
 const bulkRequests = ref([]);
+const pollingInterval = ref(null);
 const meta = ref({
   current_page: 1,
   total_pages: 1,
@@ -259,11 +274,45 @@ const visiblePages = computed(() => {
   return pages;
 });
 
-onMounted(async () => {
-  await fetchBulkRequests(1);
+// Check if there are any active (in-progress) requests
+const hasActiveRequests = computed(() => {
+  return bulkRequests.value.some(req => {
+    const status = req.status?.toUpperCase();
+    return ['PENDING', 'PROCESSING'].includes(status);
+  });
 });
 
-const fetchBulkRequests = async (page = 1) => {
+onMounted(async () => {
+  await fetchBulkRequests(1);
+  startPollingIfNeeded();
+});
+
+onUnmounted(() => {
+  stopPolling();
+});
+
+const startPollingIfNeeded = () => {
+  // Start polling if there are active requests
+  if (hasActiveRequests.value && !pollingInterval.value) {
+    pollingInterval.value = setInterval(async () => {
+      await fetchBulkRequests(meta.value.current_page, false);
+
+      // Stop polling if no more active requests
+      if (!hasActiveRequests.value) {
+        stopPolling();
+      }
+    }, 3000); // Poll every 3 seconds
+  }
+};
+
+const stopPolling = () => {
+  if (pollingInterval.value) {
+    clearInterval(pollingInterval.value);
+    pollingInterval.value = null;
+  }
+};
+
+const fetchBulkRequests = async (page = 1, showLoading = true) => {
   try {
     const response = await BulkProcessingRequestsAPI.getAll({
       page,
@@ -275,11 +324,16 @@ const fetchBulkRequests = async (page = 1) => {
 
     bulkRequests.value = response.data.data;
     meta.value = response.data.meta;
+
+    // Check if we need to start polling after fetching
+    if (!pollingInterval.value && hasActiveRequests.value) {
+      startPollingIfNeeded();
+    }
   } catch (error) {
     console.error('Error fetching bulk requests:', error);
   } finally {
     // Only show initial loading spinner on first load
-    if (isInitialLoading.value) {
+    if (isInitialLoading.value && showLoading) {
       isInitialLoading.value = false;
     }
   }
@@ -291,6 +345,11 @@ const handlePageChange = async (page) => {
   }
   await fetchBulkRequests(page);
   window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const isActiveRequest = (request) => {
+  const status = request.status?.toUpperCase();
+  return ['PENDING', 'PROCESSING'].includes(status);
 };
 
 const getStatusClass = (status) => {

@@ -1,6 +1,115 @@
 <template>
-  <div class="bg-n-blue-2 border border-n-blue-6 rounded-xl p-6 mb-6">
-    <div class="flex items-start gap-4">
+  <div class="bg-n-blue-2 border border-n-blue-6 rounded-xl p-4 sm:p-6 mb-6">
+    <!-- Mobile Layout -->
+    <div class="flex flex-col gap-4 sm:hidden">
+      <!-- Header Row: Icon + Title + Cancel Button -->
+      <div class="flex items-center gap-3">
+        <i
+          class="w-8 h-8 flex-shrink-0"
+          :class="{
+            'i-lucide-loader-circle animate-spin text-n-blue-11': statusUpper === 'PROCESSING',
+            'i-lucide-check-circle text-n-green-11': statusUpper === 'COMPLETED',
+            'i-lucide-x-circle text-n-red-11': statusUpper === 'FAILED',
+            'i-lucide-clock text-n-orange-11': statusUpper === 'PENDING',
+            'i-lucide-ban text-n-slate-11': statusUpper === 'CANCELLED'
+          }"
+        />
+        <div class="flex-1 min-w-0">
+          <h3 class="text-sm font-medium text-n-slate-12">{{ statusTitle }}</h3>
+          <p class="text-xs text-n-slate-11 truncate">{{ fileName }}</p>
+        </div>
+        <button
+          v-if="canCancel"
+          class="flex-shrink-0 p-2 text-n-slate-11 hover:text-n-red-11 hover:bg-n-red-2 rounded-lg transition-colors"
+          @click="$emit('cancel')"
+        >
+          <i class="i-lucide-x w-5 h-5" />
+        </button>
+        <button
+          v-else-if="['COMPLETED', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(statusUpper)"
+          class="flex-shrink-0 p-2 text-n-slate-11 hover:text-n-slate-12 hover:bg-n-slate-3 rounded-lg transition-colors"
+          @click="$emit('close')"
+        >
+          <i class="i-lucide-x w-5 h-5" />
+        </button>
+      </div>
+
+      <!-- Status Message -->
+      <p class="text-xs text-n-slate-11">{{ statusMessage }}</p>
+
+      <!-- Progress Bar -->
+      <div v-if="showProgress">
+        <div class="flex items-center justify-between text-xs text-n-slate-11 mb-1">
+          <span>{{ $t('KNOWLEDGE_BASE.BULK_REQUESTS.PROGRESS') }}</span>
+          <span>{{ progress }}%</span>
+        </div>
+        <div class="w-full bg-n-slate-3 rounded-full h-2">
+          <div
+            class="h-2 rounded-full transition-all duration-300"
+            :class="{
+              'bg-n-blue-9': statusUpper === 'PROCESSING' || statusUpper === 'PENDING',
+              'bg-n-green-9': statusUpper === 'COMPLETED',
+              'bg-n-red-9': statusUpper === 'FAILED',
+              'bg-n-slate-9': statusUpper === 'CANCELLED'
+            }"
+            :style="{ width: `${progress}%` }"
+          />
+        </div>
+      </div>
+
+      <!-- Stats - Stacked on mobile -->
+      <div v-if="showStats" class="flex flex-wrap gap-x-4 gap-y-1 text-xs">
+        <div>
+          <span class="text-n-slate-11">{{ $t('KNOWLEDGE_BASE.BULK_REQUESTS.TOTAL_RECORDS') }}:</span>
+          <span class="text-n-slate-12 font-medium ml-1">{{ totalRecords }}</span>
+        </div>
+        <div>
+          <span class="text-n-slate-11">{{ $t('KNOWLEDGE_BASE.BULK_REQUESTS.PROCESSED') }}:</span>
+          <span class="text-n-green-11 font-medium ml-1">{{ processedRecords }}</span>
+        </div>
+        <div v-if="failedRecords > 0">
+          <span class="text-n-slate-11">{{ $t('KNOWLEDGE_BASE.BULK_REQUESTS.FAILED') }}:</span>
+          <span class="text-n-red-11 font-medium ml-1">{{ failedRecords }}</span>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div v-if="statusUpper === 'FAILED' && errorMessage" class="p-3 bg-n-red-2 border border-n-red-6 rounded-lg">
+        <p class="text-xs text-n-red-11 font-medium mb-1">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.ERROR_DETAIL.TITLE') }}</p>
+        <p class="text-xs text-n-red-11 whitespace-pre-wrap break-words">{{ errorMessage }}</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div v-if="hasDownloadableErrors || (statusUpper === 'COMPLETED' && operationTypeUpper === 'EXPORT')" class="flex flex-col gap-2">
+        <button
+          v-if="hasDownloadableErrors"
+          class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-n-red-9 text-white rounded-lg hover:bg-n-red-10 transition-colors text-sm font-medium"
+          @click="downloadErrors"
+        >
+          <i class="i-lucide-download w-4 h-4" />
+          {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DOWNLOAD_ERRORS') }}
+        </button>
+        <button
+          v-if="operationTypeUpper === 'EXPORT' && statusUpper === 'COMPLETED'"
+          class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-n-blue-9 text-white rounded-lg hover:bg-n-blue-10 transition-colors text-sm font-medium"
+          @click="downloadExportFile"
+        >
+          <i class="i-lucide-download w-4 h-4" />
+          {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.DOWNLOAD_BUTTON') }}
+        </button>
+      </div>
+
+      <!-- Success Messages -->
+      <div v-if="statusUpper === 'COMPLETED' && !hasErrors && operationTypeUpper !== 'EXPORT'" class="p-3 bg-n-green-2 border border-n-green-6 rounded-lg">
+        <p class="text-xs text-n-green-11">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.ALL_PROCESSED_SUCCESSFULLY') }}</p>
+      </div>
+      <div v-if="statusUpper === 'COMPLETED' && operationTypeUpper === 'EXPORT'" class="p-3 bg-n-green-2 border border-n-green-6 rounded-lg">
+        <p class="text-xs text-n-green-11">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.SUCCESS_MESSAGE') }}</p>
+      </div>
+    </div>
+
+    <!-- Desktop Layout -->
+    <div class="hidden sm:flex items-start gap-4">
       <!-- Icon -->
       <div class="flex-shrink-0">
         <i
@@ -22,7 +131,7 @@
             {{ statusTitle }}
           </h3>
           <div class="flex items-center gap-2">
-            <span class="text-sm text-n-slate-11">
+            <span class="text-sm text-n-slate-11 truncate max-w-xs">
               {{ fileName }}
             </span>
             <!-- Close button for completed/failed/cancelled statuses -->
@@ -61,7 +170,7 @@
         </div>
 
         <!-- Stats -->
-        <div v-if="showStats" class="flex gap-6 text-sm">
+        <div v-if="showStats" class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
           <div>
             <span class="text-n-slate-11">{{ $t('KNOWLEDGE_BASE.BULK_REQUESTS.TOTAL_RECORDS') }}:</span>
             <span class="text-n-slate-12 font-medium ml-1">{{ totalRecords }}</span>
@@ -79,7 +188,7 @@
         <!-- Error Message - Always show when FAILED and there's an error message -->
         <div v-if="statusUpper === 'FAILED' && errorMessage" class="mt-4 p-3 bg-n-red-2 border border-n-red-6 rounded-lg">
           <p class="text-sm text-n-red-11 font-medium mb-1">{{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.ERROR_DETAIL.TITLE') }}</p>
-          <p class="text-sm text-n-red-11 whitespace-pre-wrap">{{ errorMessage }}</p>
+          <p class="text-sm text-n-red-11 whitespace-pre-wrap break-words">{{ errorMessage }}</p>
         </div>
 
         <!-- Download Errors Button - Only show when there are actual error details -->
@@ -118,7 +227,7 @@
       <!-- Cancel Button (only for PENDING/PROCESSING) -->
       <button
         v-if="canCancel"
-        class="flex-shrink-0 text-n-slate-11 hover:text-n-red-11 transition-colors"
+        class="flex-shrink-0 p-2 text-n-slate-11 hover:text-n-red-11 hover:bg-n-red-2 rounded-lg transition-colors"
         @click="$emit('cancel')"
       >
         <i class="i-lucide-x w-5 h-5" />
@@ -200,6 +309,10 @@ const statusMessage = computed(() => {
         ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.PROCESSING_MESSAGE')
         : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.PROCESSING_MESSAGE');
     case 'PROCESSING':
+      // For exports, show real-time status from errorMessage if available
+      if (isExport && props.errorMessage) {
+        return props.errorMessage;
+      }
       return isExport
         ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.PROCESSING_MESSAGE')
         : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.PROCESSING_MESSAGE');
@@ -214,7 +327,9 @@ const statusMessage = computed(() => {
         ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.ERROR')
         : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.ERROR');
     case 'CANCELLED':
-      return t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.CANCELLED');
+      return isExport
+        ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.CANCELLED')
+        : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.CANCELLED');
     default:
       return '';
   }

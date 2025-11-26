@@ -63,6 +63,7 @@ class BulkProcessingRequest < ApplicationRecord
   }, _prefix: :operation
 
   has_one_attached :export_file
+  has_many_attached :export_files
 
   def update_progress(processed:, failed: 0)
     increment!(:processed_records, processed)

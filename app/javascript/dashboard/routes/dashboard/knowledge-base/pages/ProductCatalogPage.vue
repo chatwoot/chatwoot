@@ -625,6 +625,9 @@ const handleCancelProcessing = async () => {
       return;
     }
 
+    // Save operation type before clearing
+    const wasExport = activeProcessing.value.operation_type?.toUpperCase() === 'EXPORT';
+
     // Now attempt to cancel
     await store.dispatch('bulkProcessingRequests/cancel', activeProcessing.value.id);
 
@@ -634,7 +637,11 @@ const handleCancelProcessing = async () => {
     // Clear active processing
     activeProcessing.value = null;
 
-    useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.CANCELLED'));
+    // Show appropriate message based on operation type
+    const cancelMessage = wasExport
+      ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.CANCELLED')
+      : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.CANCELLED');
+    useAlert(cancelMessage);
   } catch (error) {
     // Handle 422 error (status changed between check and cancel)
     if (error.response?.status === 422) {

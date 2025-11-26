@@ -110,6 +110,11 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
       end
     end
 
+    # If this is an export operation, purge any attached files created during processing
+    if @bulk_processing_request.operation_export?
+      purge_export_files
+    end
+
     @bulk_processing_request.update!(
       status: 'CANCELLED',
       error_message: 'Cancelled by user',
@@ -120,10 +125,9 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
   end
 
   def dismiss
-    # If this is an export operation with an attached file, purge it first
-    if @bulk_processing_request.operation_export? && @bulk_processing_request.export_file.attached?
-      @bulk_processing_request.export_file.purge
-      Rails.logger.info "Export file purged for bulk_request_id=#{@bulk_processing_request.id}"
+    # If this is an export operation, purge attached files
+    if @bulk_processing_request.operation_export?
+      purge_export_files
     end
 
     @bulk_processing_request.update!(dismissed_at: Time.current)
@@ -134,5 +138,20 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
 
   def bulk_processing_request
     @bulk_processing_request ||= Current.account.bulk_processing_requests.find(params[:id])
+  end
+
+  def purge_export_files
+    # Purge multiple export files (new format)
+    if @bulk_processing_request.export_files.attached?
+      count = @bulk_processing_request.export_files.count
+      @bulk_processing_request.export_files.purge
+      Rails.logger.info "#{count} export files purged for bulk_request_id=#{@bulk_processing_request.id}"
+    end
+
+    # Purge legacy single export file
+    if @bulk_processing_request.export_file.attached?
+      @bulk_processing_request.export_file.purge
+      Rails.logger.info "Legacy export file purged for bulk_request_id=#{@bulk_processing_request.id}"
+    end
   end
 end

@@ -189,11 +189,19 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       return
     end
 
-    unless bulk_request.export_file.attached?
+    # Check for new multiple files format first, then fall back to legacy single file
+    if bulk_request.export_files.attached? && bulk_request.export_files.any?
+      download_multiple_export_files(bulk_request)
+    elsif bulk_request.export_file.attached?
+      download_single_export_file(bulk_request)
+    else
       render json: { error: 'Export file not found' }, status: :not_found
-      return
     end
+  end
 
+  private
+
+  def download_single_export_file(bulk_request)
     # Download file data before cleanup
     file_data = bulk_request.export_file.download
     file_name = bulk_request.file_name
@@ -210,7 +218,51 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   end
 
-  private
+  def download_multiple_export_files(bulk_request)
+    require 'zip'
+
+    files_count = bulk_request.export_files.count
+
+    if files_count == 1
+      # Single file - download directly as xlsx
+      attachment = bulk_request.export_files.first
+      file_data = attachment.download
+      file_name = attachment.filename.to_s
+
+      # Mark as dismissed and cleanup
+      bulk_request.update!(dismissed_at: Time.current)
+      bulk_request.export_files.purge
+
+      Rails.logger.info "Export file downloaded and cleaned up for bulk_request_id=#{bulk_request.id}"
+
+      send_data file_data,
+                filename: file_name,
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    else
+      # Multiple files - create ZIP
+      timestamp = Time.current.strftime('%Y%m%d_%H%M%S')
+      zip_filename = "product_catalog_export_#{timestamp}.zip"
+
+      # Create ZIP file in memory
+      zip_data = Zip::OutputStream.write_buffer do |zip|
+        bulk_request.export_files.each do |attachment|
+          zip.put_next_entry(attachment.filename.to_s)
+          zip.write(attachment.download)
+        end
+      end
+      zip_data.rewind
+
+      # Mark as dismissed and cleanup all files
+      bulk_request.update!(dismissed_at: Time.current)
+      bulk_request.export_files.purge
+
+      Rails.logger.info "Export files (#{files_count}) downloaded as ZIP and cleaned up for bulk_request_id=#{bulk_request.id}"
+
+      send_data zip_data.read,
+                filename: zip_filename,
+                type: 'application/zip'
+    end
+  end
 
   def product_catalog
     @product_catalog ||= Current.account.product_catalogs.find(params[:id])

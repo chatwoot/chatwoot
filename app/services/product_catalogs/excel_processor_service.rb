@@ -103,8 +103,10 @@ class ProductCatalogs::ExcelProcessorService
 
     # Use Roo::Excelx for streaming (much faster than Creek)
     xlsx = Roo::Excelx.new(@file_path)
+    @roo_temp_dir = xlsx.instance_variable_get(:@tmpdir) # Store temp dir path for cleanup
 
     Rails.logger.info("ExcelProcessor: Excel opened, starting row iteration...")
+    Rails.logger.info("ExcelProcessor: Roo temp dir: #{@roo_temp_dir}")
 
     row_index = 0
     buffer = []
@@ -193,8 +195,22 @@ class ProductCatalogs::ExcelProcessorService
     @bulk_request.update!(total_records: total)
 
     total
+  ensure
+    # Always cleanup Roo temp directory to prevent disk space issues
+    cleanup_roo_temp_dir
   end
 
+  # Cleanup Roo's temporary directory (safe for parallel processes - each has unique dir)
+  def cleanup_roo_temp_dir
+    return unless defined?(@roo_temp_dir) && @roo_temp_dir.present?
+
+    if Dir.exist?(@roo_temp_dir)
+      FileUtils.rm_rf(@roo_temp_dir)
+      Rails.logger.info("ExcelProcessor: Cleaned up Roo temp dir: #{@roo_temp_dir}")
+    end
+  rescue StandardError => e
+    Rails.logger.warn("ExcelProcessor: Failed to cleanup Roo temp dir: #{e.message}")
+  end
 
   def normalize_value(value)
     case value

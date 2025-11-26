@@ -103,7 +103,8 @@
         "COMPLETED": "Export completed! Click the Download button to get your file.",
         "SUCCESS_MESSAGE": "Your export is ready! Click the button below to download your file.",
         "ERROR": "Failed to export products",
-        "DOWNLOAD_BUTTON": "Download Export"
+        "DOWNLOAD_BUTTON": "Download Export",
+        "CANCELLED": "Export cancelled successfully"
       },
       "MEDIA_DRAWER": {
         "TITLE": "Product Media",
