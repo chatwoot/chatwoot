@@ -10,7 +10,7 @@ class ProductCatalogMailer < ApplicationMailer
     @file_name = bulk_request.file_name
 
     subject = "#{@user.available_name}, Your product catalog export is ready!"
-    @action_url = frontend_url("accounts/#{bulk_request.account_id}/knowledge-base/product-catalog")
+    @action_url = frontend_url("accounts/#{bulk_request.account_id}/knowledge-base/products")
 
     send_mail_with_liquid(to: @user.email, subject: subject)
   end
@@ -19,7 +19,12 @@ class ProductCatalogMailer < ApplicationMailer
 
   def liquid_droppables
     super.merge({
-      user: @user,
+      user: @user
+    })
+  end
+
+  def liquid_locals
+    super.merge({
       total_records: @total_records,
       file_name: @file_name
     })
