@@ -24,6 +24,14 @@ module Integrations::LlmInstrumentation
   ATTR_LANGFUSE_SESSION_ID = 'langfuse.session.id'
   ATTR_LANGFUSE_TAGS = 'langfuse.trace.tags'
 
+  PROVIDER_PREFIXES = {
+    'openai' => %w[gpt- o1 o3 o4 text-embedding- whisper- tts-],
+    'anthropic' => %w[claude-],
+    'google' => %w[gemini-],
+    'mistral' => %w[mistral- codestral-],
+    'deepseek' => %w[deepseek-]
+  }.freeze
+
   def tracer
     @tracer ||= OpentelemetryConfig.tracer
   end
@@ -42,6 +50,18 @@ module Integrations::LlmInstrumentation
     yield
   end
 
+  def determine_provider(model_name)
+    return 'openai' if model_name.blank?
+
+    model = model_name.to_s.downcase
+
+    PROVIDER_PREFIXES.each do |provider, prefixes|
+      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+    end
+
+    'openai'
+  end
+
   private
 
   def setup_span_attributes(span, params)
@@ -55,7 +75,8 @@ module Integrations::LlmInstrumentation
   end
 
   def set_request_attributes(span, params)
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openai')
+    provider = determine_provider(params[:model])
+    span.set_attribute(ATTR_GEN_AI_PROVIDER, provider)
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
     span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]
   end
