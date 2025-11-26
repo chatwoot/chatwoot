@@ -229,16 +229,6 @@ class Message < ApplicationRecord
     save!
   end
 
-  # For voice calls - convenience method to get status from content attributes
-  def voice_call_status
-    content_attributes.dig('data', 'status')
-  end
-
-  # For voice calls - check if this is an active call
-  def active_voice_call?
-    voice_call? && %w[completed failed busy no-answer canceled missed ended].exclude?(voice_call_status)
-  end
-
   def send_update_event
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
                                                                             previous_changes: previous_changes)

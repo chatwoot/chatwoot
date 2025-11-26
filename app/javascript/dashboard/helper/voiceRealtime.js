@@ -1,5 +1,9 @@
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
+
+const VOICE_CALL_TYPES = [CONTENT_TYPES.VOICE_CALL, 12];
+
 const isVoiceCallMessage = data =>
-  data?.content_type === 12 || data?.content_type === 'voice_call';
+  VOICE_CALL_TYPES.includes(data?.content_type);
 
 const buildIncomingCallPayload = (data, inboxFromStore) => {
   const contentData = data.content_attributes?.data || {};

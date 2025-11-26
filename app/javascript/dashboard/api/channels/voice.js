@@ -9,6 +9,7 @@ class VoiceAPI extends ApiClient {
     this.activeConnection = null;
     this.initialized = false;
     this.store = null;
+    this.lastInboxId = null;
   }
 
   // ------------------- Server APIs -------------------
@@ -54,10 +55,24 @@ class VoiceAPI extends ApiClient {
 
   // ------------------- Client (Twilio) APIs -------------------
   async initializeDevice(inboxId, { store } = {}) {
-    if (this.initialized && this.device && this.device.state !== 'error')
-      return this.device;
     if (!inboxId) throw new Error('Inbox ID is required to initialize');
     if (store) this.store = store;
+
+    const canReuseDevice =
+      this.initialized &&
+      this.device &&
+      this.device.state !== 'error' &&
+      this.lastInboxId === inboxId;
+
+    if (canReuseDevice) return this.device;
+
+    if (this.device && this.device.state === 'error') {
+      this.destroyDevice();
+    }
+
+    if (this.device && this.lastInboxId !== inboxId) {
+      this.destroyDevice();
+    }
 
     const { Device } = await import('@twilio/voice-sdk');
     const response = await this.getToken(inboxId);
@@ -92,7 +107,7 @@ class VoiceAPI extends ApiClient {
     });
     this.device.on('tokenWillExpire', async () => {
       try {
-        const r = await this.getToken(inboxId);
+        const r = await this.getToken(this.lastInboxId || inboxId);
         if (r?.token) this.device.updateToken(r.token);
       } catch (error) {
         // Token refresh failed
@@ -101,6 +116,7 @@ class VoiceAPI extends ApiClient {
 
     await this.device.register();
     this.initialized = true;
+    this.lastInboxId = inboxId;
     return this.device;
   }
 
@@ -139,6 +155,7 @@ class VoiceAPI extends ApiClient {
       this.activeConnection = null;
       this.device = null;
       this.initialized = false;
+      this.lastInboxId = null;
     }
   }
 

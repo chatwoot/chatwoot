@@ -18,7 +18,6 @@
 #
 class Channel::Voice < ApplicationRecord
   include Channelable
-  include Rails.application.routes.url_helpers
 
   self.table_name = 'channel_voice'
 

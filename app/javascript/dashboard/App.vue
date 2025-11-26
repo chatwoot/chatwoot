@@ -14,7 +14,6 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
-import { useRingtone } from 'dashboard/composables/useRingtone';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -45,7 +44,6 @@ export default {
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
     const { uiSettings } = useUISettings();
-    const { start: startRingTone, stop: stopRingTone } = useRingtone();
 
     return {
       router,
@@ -53,8 +51,6 @@ export default {
       currentAccountId: accountId,
       currentFontSize,
       uiSettings,
-      startRingTone,
-      stopRingTone,
     };
   },
   data() {
@@ -71,7 +67,6 @@ export default {
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
       hasActiveCall: 'calls/hasActiveCall',
-      incomingCall: 'calls/getIncomingCall',
       hasIncomingCall: 'calls/hasIncomingCall',
     }),
     hideOnOnboardingView() {
@@ -80,24 +75,6 @@ export default {
   },
 
   watch: {
-    hasIncomingCall(newVal) {
-      // Drive ringtone globally based on incoming state; widget does not show for incoming per UX
-      try {
-        const call = this.incomingCall;
-        const isOutboundCall =
-          call?.callDirection === 'outbound' ||
-          (call?.callDirection == null && call?.isOutbound);
-        const shouldRing = Boolean(newVal && !isOutboundCall);
-
-        if (shouldRing) {
-          this.startRingTone();
-        } else {
-          this.stopRingTone();
-        }
-      } catch (e) {
-        // ignore ringtone errors
-      }
-    },
     currentAccountId: {
       immediate: true,
       handler() {
@@ -133,11 +110,6 @@ export default {
   unmounted() {
     if (this.reconnectService) {
       this.reconnectService.disconnect();
-    }
-    try {
-      this.stopRingTone();
-    } catch (e) {
-      // ignore ringtone errors
     }
   },
   methods: {
