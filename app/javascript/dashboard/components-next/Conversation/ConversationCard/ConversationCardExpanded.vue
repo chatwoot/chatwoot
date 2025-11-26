@@ -86,7 +86,10 @@ const selectedModel = computed({
       <div class="w-4 flex items-center justify-center flex-shrink-0">
         <Avatar
           v-if="showAssignee && assignee.name"
-          v-tooltip.top="assignee.name"
+          v-tooltip.top="{
+            content: assignee.name,
+            delay: { show: 1000, hide: 0 },
+          }"
           :name="assignee.name"
           :src="assignee.thumbnail"
           :size="16"
