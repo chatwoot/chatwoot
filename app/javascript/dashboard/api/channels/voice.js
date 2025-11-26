@@ -12,6 +12,7 @@ class VoiceAPI extends ApiClient {
   }
 
   // ------------------- Server APIs -------------------
+  // eslint-disable-next-line class-methods-use-this
   initiateCall(contactId, inboxId) {
     return ContactsAPI.initiateCall(contactId, inboxId).then(r => r.data);
   }
@@ -21,7 +22,9 @@ class VoiceAPI extends ApiClient {
     if (!conversationId)
       throw new Error('Conversation ID is required to leave a conference');
     return axios
-      .delete(`${this.baseUrl()}/inboxes/${inboxId}/conference`, { params: { conversation_id: conversationId } })
+      .delete(`${this.baseUrl()}/inboxes/${inboxId}/conference`, {
+        params: { conversation_id: conversationId },
+      })
       .then(r => r.data);
   }
 

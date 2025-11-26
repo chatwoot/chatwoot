@@ -118,7 +118,11 @@ export default {
             return this.$t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
           }
 
-          if (status === 'no-answer' || status === 'busy' || status === 'failed') {
+          if (
+            status === 'no-answer' ||
+            status === 'busy' ||
+            status === 'failed'
+          ) {
             return this.$t('CONVERSATION.VOICE_CALL.NO_ANSWER');
           }
 
@@ -163,15 +167,22 @@ export default {
         class="-mt-0.5 align-middle inline-block mr-1"
         :class="{
           'text-red-600 dark:text-red-400':
-            callStatus === 'no-answer' || callStatus === 'busy' || callStatus === 'failed',
+            callStatus === 'no-answer' ||
+            callStatus === 'busy' ||
+            callStatus === 'failed',
           'text-green-600 dark:text-green-400':
             callStatus === 'in-progress' || callStatus === 'ringing',
-          'text-n-slate-11': callStatus === 'completed' || callStatus === 'canceled',
+          'text-n-slate-11':
+            callStatus === 'completed' || callStatus === 'canceled',
         }"
       >
         <!-- Missed call icon -->
         <i
-          v-if="callStatus === 'no-answer' || callStatus === 'busy' || callStatus === 'failed'"
+          v-if="
+            callStatus === 'no-answer' ||
+            callStatus === 'busy' ||
+            callStatus === 'failed'
+          "
           class="i-ph-phone-x text-base"
         />
         <!-- Active call icon -->
@@ -182,7 +193,9 @@ export default {
         <!-- Incoming call icon -->
         <i
           v-else-if="
-            ((callStatus === 'completed' || callStatus === 'canceled') && isIncomingCall) || isIncomingCall
+            ((callStatus === 'completed' || callStatus === 'canceled') &&
+              isIncomingCall) ||
+            isIncomingCall
           "
           class="i-ph-phone-incoming text-base"
         />
@@ -205,15 +218,22 @@ export default {
           class="-mt-0.5 align-middle inline-block mr-1"
           :class="{
             'text-red-600 dark:text-red-400':
-              callStatus === 'no-answer' || callStatus === 'busy' || callStatus === 'failed',
+              callStatus === 'no-answer' ||
+              callStatus === 'busy' ||
+              callStatus === 'failed',
             'text-green-600 dark:text-green-400':
               callStatus === 'in-progress' || callStatus === 'ringing',
-            'text-n-slate-11': callStatus === 'completed' || callStatus === 'canceled',
+            'text-n-slate-11':
+              callStatus === 'completed' || callStatus === 'canceled',
           }"
         >
           <!-- Missed call icon -->
           <i
-            v-if="callStatus === 'no-answer' || callStatus === 'busy' || callStatus === 'failed'"
+            v-if="
+              callStatus === 'no-answer' ||
+              callStatus === 'busy' ||
+              callStatus === 'failed'
+            "
             class="i-ph-phone-x text-base"
           />
           <!-- Active call icon -->
