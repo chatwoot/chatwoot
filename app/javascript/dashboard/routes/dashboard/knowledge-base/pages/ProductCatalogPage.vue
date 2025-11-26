@@ -148,8 +148,8 @@
         />
 
         <!-- Pagination -->
-        <div v-if="!searchQuery && meta.total_pages > 1" class="flex items-center justify-between mt-6 px-4 py-3 bg-n-solid-1 rounded-lg">
-          <div class="text-sm text-n-slate-11">
+        <div v-if="!searchQuery && meta.total_pages > 1" class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6 px-4 py-3 bg-n-solid-1 rounded-lg">
+          <div class="hidden sm:block text-sm text-n-slate-11">
             {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.PAGINATION.SHOWING') }}
             <span class="font-medium text-n-slate-12">{{ (meta.current_page - 1) * meta.per_page + 1 }}</span>
             {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.PAGINATION.TO') }}
@@ -158,8 +158,12 @@
             <span class="font-medium text-n-slate-12">{{ meta.total_count }}</span>
             {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.PAGINATION.RESULTS') }}
           </div>
+          <!-- Mobile: show compact info -->
+          <div class="sm:hidden text-xs text-n-slate-11">
+            {{ meta.current_page }} / {{ meta.total_pages }}
+          </div>
 
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1 sm:gap-2 flex-wrap justify-center">
             <button
               :disabled="meta.current_page === 1"
               :class="[

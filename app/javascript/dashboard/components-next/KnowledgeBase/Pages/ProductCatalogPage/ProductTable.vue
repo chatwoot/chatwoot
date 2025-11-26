@@ -1,7 +1,11 @@
 <template>
-  <div class="bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak overflow-hidden">
-    <!-- Desktop Table Header (hidden on mobile) -->
-    <div class="hidden lg:grid grid-cols-12 gap-4 px-6 py-4 bg-n-slate-2 border-b border-n-weak">
+  <div
+    class="bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak overflow-auto max-h-[calc(100vh-320px)]"
+    style="scrollbar-width: thin; scrollbar-color: #6b7280 transparent;"
+  >
+    <div class="min-w-[900px]">
+      <!-- Desktop Table Header (hidden on mobile) -->
+      <div class="hidden lg:grid grid-cols-12 gap-4 px-6 py-4 bg-n-slate-2 border-b border-n-weak sticky top-0 z-10">
       <div class="col-span-1"></div>
       <div class="col-span-3 text-xs font-medium text-n-slate-11 uppercase">
         {{ $t('KNOWLEDGE_BASE.PRODUCT_CATALOG.TABLE.PRODUCT') }}
@@ -172,6 +176,7 @@
           </div>
         </div>
       </button>
+    </div>
     </div>
   </div>
 </template>

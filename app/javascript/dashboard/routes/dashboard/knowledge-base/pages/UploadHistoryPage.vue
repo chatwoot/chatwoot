@@ -22,10 +22,13 @@
 
       <div v-else class="space-y-6">
         <!-- Upload History Table -->
-        <div class="bg-n-background rounded-lg border border-n-weak overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="bg-n-slate-2 border-b border-n-weak">
+        <div class="bg-n-background rounded-lg border border-n-weak">
+          <div
+            class="overflow-auto max-h-[calc(100vh-280px)]"
+            style="scrollbar-width: thin; scrollbar-color: #6b7280 transparent;"
+          >
+            <table class="w-full min-w-[900px]">
+              <thead class="bg-n-slate-2 border-b border-n-weak sticky top-0 z-10">
                 <tr>
                   <th class="px-4 py-3 text-left text-xs font-medium text-n-slate-11 uppercase tracking-wider">
                     {{ $t('KNOWLEDGE_BASE.UPLOAD_HISTORY.TABLE.FILE_NAME') }}
@@ -129,8 +132,8 @@
         </div>
 
         <!-- Pagination -->
-        <div v-if="meta.total_pages > 1" class="flex items-center justify-between px-4 py-3 bg-n-solid-1 rounded-lg">
-          <div class="text-sm text-n-slate-11">
+        <div v-if="meta.total_pages > 1" class="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 bg-n-solid-1 rounded-lg">
+          <div class="hidden sm:block text-sm text-n-slate-11">
             {{ $t('KNOWLEDGE_BASE.UPLOAD_HISTORY.PAGINATION.SHOWING') }}
             <span class="font-medium text-n-slate-12">{{ (meta.current_page - 1) * meta.per_page + 1 }}</span>
             {{ $t('KNOWLEDGE_BASE.UPLOAD_HISTORY.PAGINATION.TO') }}
@@ -139,8 +142,12 @@
             <span class="font-medium text-n-slate-12">{{ meta.total_count }}</span>
             {{ $t('KNOWLEDGE_BASE.UPLOAD_HISTORY.PAGINATION.RESULTS') }}
           </div>
+          <!-- Mobile: show compact info -->
+          <div class="sm:hidden text-xs text-n-slate-11">
+            {{ meta.current_page }} / {{ meta.total_pages }}
+          </div>
 
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1 sm:gap-2 flex-wrap justify-center">
             <button
               :disabled="meta.current_page === 1"
               :class="[
