@@ -33,9 +33,8 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
   def show; end
 
   def download_errors
-    require 'csv'
-
-    csv_data = CSV.generate(headers: true) do |csv|
+    # Use CSVSafe to prevent CSV injection (formula injection in Excel)
+    csv_data = CSVSafe.generate do |csv|
       csv << ['Row', 'Product ID', 'Product Name', 'Error']
 
       (@bulk_processing_request.error_details || []).each do |error|

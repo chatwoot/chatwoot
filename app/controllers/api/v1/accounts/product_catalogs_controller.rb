@@ -58,64 +58,97 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       return
     end
 
-    # Security validation: Only allow Excel files (.xlsx)
-    allowed_content_types = [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-excel.sheet.macroEnabled.12'
-    ]
-    file_extension = File.extname(uploaded_file.original_filename).downcase
-
-    unless file_extension == '.xlsx' && allowed_content_types.include?(uploaded_file.content_type)
-      render json: { error: 'Invalid file type. Only Excel files (.xlsx) are allowed.' }, status: :unprocessable_entity
+    # Acquire validation lock atomically via Redis to prevent concurrent uploads for this account
+    unless ProductCatalogs::RateLimiterService.acquire_validation_lock(Current.account.id)
+      render json: { error: 'Another upload is being validated. Please wait a moment and try again.' }, status: :too_many_requests
       return
     end
 
-    # Security validation: Filename max 100 characters
-    if uploaded_file.original_filename.length > 100
-      render json: { error: 'Filename too long. Maximum 100 characters allowed.' }, status: :unprocessable_entity
-      return
+    temp_file = nil
+    begin
+      # Security validation: Max file size 50MB
+      max_file_size = 50.megabytes
+      if uploaded_file.size > max_file_size
+        render json: { error: 'File too large. Maximum size is 50MB.' }, status: :unprocessable_entity
+        return
+      end
+
+      # Security validation: Only allow Excel files (.xlsx)
+      allowed_content_types = [
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-excel.sheet.macroEnabled.12'
+      ]
+      file_extension = File.extname(uploaded_file.original_filename).downcase
+
+      unless file_extension == '.xlsx' && allowed_content_types.include?(uploaded_file.content_type)
+        render json: { error: 'Invalid file type. Only Excel files (.xlsx) are allowed.' }, status: :unprocessable_entity
+        return
+      end
+
+      # Security validation: Verify file magic bytes (xlsx files are ZIP archives starting with PK)
+      uploaded_file.rewind
+      magic_bytes = uploaded_file.read(4)
+      uploaded_file.rewind
+      unless magic_bytes == "PK\x03\x04"
+        render json: { error: 'Invalid file format. The file does not appear to be a valid Excel file.' }, status: :unprocessable_entity
+        return
+      end
+
+      # Security validation: Filename max 100 characters
+      if uploaded_file.original_filename.length > 100
+        render json: { error: 'Filename too long. Maximum 100 characters allowed.' }, status: :unprocessable_entity
+        return
+      end
+
+      # Check if there's already an active processing request for this account
+      active_request = Current.account.bulk_processing_requests
+                              .where(entity_type: 'ProductCatalog')
+                              .where(status: %w[PENDING PROCESSING])
+                              .first
+
+      if active_request
+        render json: {
+          error: 'A file is already being processed. Please wait for it to complete or cancel it first.',
+          active_request_id: active_request.id
+        }, status: :unprocessable_entity
+        return
+      end
+
+      # Dismiss all previous bulk requests for ProductCatalog
+      Current.account.bulk_processing_requests
+             .where(entity_type: 'ProductCatalog')
+             .where(dismissed_at: nil)
+             .update_all(dismissed_at: Time.current)
+
+      # Save file temporarily
+      temp_file = save_uploaded_file(uploaded_file)
+
+      # Create bulk processing request atomically
+      @bulk_request = Current.account.bulk_processing_requests.create!(
+        user: current_user,
+        entity_type: 'ProductCatalog',
+        file_name: uploaded_file.original_filename,
+        status: 'PENDING'
+      )
+
+      # Queue the background job and extract the Sidekiq JID from the provider_job_id
+      job = ProductCatalogs::ProcessBulkUploadJob.perform_later(@bulk_request.id, temp_file)
+
+      # Get the actual Sidekiq JID from the job
+      sidekiq_jid = job.provider_job_id
+      @bulk_request.update!(job_id: sidekiq_jid)
+
+      render json: { bulk_request_id: @bulk_request.id }, status: :accepted
+    ensure
+      # Always release the validation lock
+      ProductCatalogs::RateLimiterService.release_validation_lock(Current.account.id)
+
+      # Clean up temp file if operation failed (response already rendered with error)
+      if temp_file && response.status != 202 && File.exist?(temp_file)
+        FileUtils.rm_f(temp_file)
+        Rails.logger.info "Cleaned up temp file after validation failure: #{temp_file}"
+      end
     end
-
-    # Check if there's already an active processing request for this account
-    active_request = Current.account.bulk_processing_requests
-                            .where(entity_type: 'ProductCatalog')
-                            .where(status: %w[PENDING PROCESSING])
-                            .first
-
-    if active_request
-      render json: {
-        error: 'A file is already being processed. Please wait for it to complete or cancel it first.',
-        active_request_id: active_request.id
-      }, status: :unprocessable_entity
-      return
-    end
-
-    # Dismiss all previous bulk requests for ProductCatalog
-    Current.account.bulk_processing_requests
-           .where(entity_type: 'ProductCatalog')
-           .where(dismissed_at: nil)
-           .update_all(dismissed_at: Time.current)
-
-    # Create bulk processing request
-    @bulk_request = Current.account.bulk_processing_requests.create!(
-      user: current_user,
-      entity_type: 'ProductCatalog',
-      file_name: uploaded_file.original_filename,
-      status: 'PENDING'
-    )
-
-    # Save file temporarily and trigger background job
-    temp_file = save_uploaded_file(uploaded_file)
-
-    # Queue the background job and extract the Sidekiq JID from the provider_job_id
-    job = ProductCatalogs::ProcessBulkUploadJob.perform_later(@bulk_request.id, temp_file)
-
-    # Get the actual Sidekiq JID from the job
-    # ActiveJob wraps Sidekiq, so we need to extract the real Sidekiq JID
-    sidekiq_jid = job.provider_job_id
-    @bulk_request.update!(job_id: sidekiq_jid)
-
-    render json: { bulk_request_id: @bulk_request.id }, status: :accepted
   end
 
   def bulk_delete
@@ -318,7 +351,9 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
     temp_dir = Rails.root.join('tmp', 'uploads')
     FileUtils.mkdir_p(temp_dir)
 
-    temp_file_path = temp_dir.join("#{SecureRandom.uuid}_#{uploaded_file.original_filename}")
+    # Sanitize filename to prevent path traversal attacks
+    safe_filename = File.basename(uploaded_file.original_filename)
+    temp_file_path = temp_dir.join("#{SecureRandom.uuid}_#{safe_filename}")
 
     File.open(temp_file_path, 'wb') do |file|
       file.write(uploaded_file.read)
