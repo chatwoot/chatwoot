@@ -103,17 +103,36 @@ class Integrations::OpenaiBaseService
 
     Llm::Config.with_api_key(hook.settings['api_key'], api_base: api_base) do
       chat = RubyLLM.chat(model: model)
-
-      system_msg = messages.find { |m| m['role'] == 'system' }
-      chat.with_instructions(system_msg['content']) if system_msg
-
-      user_msg = messages.find { |m| m['role'] == 'user' }
-
-      response = chat.ask(user_msg['content'])
-      build_ruby_llm_response(response, messages)
+      setup_chat_with_messages(chat, messages)
     end
   rescue RubyLLM::Error => e
     build_error_response_from_exception(e, messages)
+  end
+
+  def setup_chat_with_messages(chat, messages)
+    apply_system_instructions(chat, messages)
+    response = send_conversation_messages(chat, messages)
+    build_ruby_llm_response(response, messages)
+  end
+
+  def apply_system_instructions(chat, messages)
+    system_msg = messages.find { |m| m['role'] == 'system' }
+    chat.with_instructions(system_msg['content']) if system_msg
+  end
+
+  def send_conversation_messages(chat, messages)
+    conversation_messages = messages.reject { |m| m['role'] == 'system' }
+
+    return chat.ask(conversation_messages.first['content']) if conversation_messages.length == 1
+
+    add_conversation_history(chat, conversation_messages[0...-1])
+    chat.ask(conversation_messages.last['content'])
+  end
+
+  def add_conversation_history(chat, messages)
+    messages.each do |msg|
+      chat.add_message(role: msg['role'].to_sym, content: msg['content'])
+    end
   end
 
   def build_ruby_llm_response(response, messages)
