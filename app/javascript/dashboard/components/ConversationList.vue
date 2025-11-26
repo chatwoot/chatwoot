@@ -34,11 +34,11 @@ const virtualizerOptions = computed(() => ({
   // Accurate size estimate reduces scroll jumps
   estimateSize: () => 88,
   // Balanced overscan for smooth scrolling without performance hit
-  overscan: 2,
+  overscan: 4,
   // Stable keys for optimal Vue reconciliation
   getItemKey: index => props.items[index]?.uuid || index,
   // Faster scrolling state reset
-  isScrollingResetDelay: 100,
+  isScrollingResetDelay: 150,
   // Use native scrollend event for better performance
   useScrollendEvent: true,
   // Wrap ResizeObserver in RAF to reduce layout thrashing
@@ -110,7 +110,7 @@ useKeyboardEvents({
 <template>
   <div
     ref="parentRef"
-    class="flex-1 overflow-y-auto w-full h-full px-2"
+    class="flex-1 overflow-y-auto w-full h-full px-2 touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch]"
     :class="{ 'overflow-hidden': isContextMenuOpen }"
   >
     <div class="relative w-full" :style="{ height: `${totalSize}px` }">
