@@ -1,6 +1,6 @@
 <script setup>
 import { computed, useTemplateRef } from 'vue';
-
+import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import CardAvatar from './CardAvatar.vue';
 import CardContent from './CardContent.vue';
 import CardLabels from './CardLabels.vue';
@@ -23,10 +23,7 @@ const props = defineProps({
   isActiveChat: { type: Boolean, default: false },
   showAssignee: { type: Boolean, default: false },
   showInboxName: { type: Boolean, default: false },
-  showLabelsSection: { type: Boolean, default: false },
-  lastMessageInChat: { type: Object, default: () => ({}) },
-  voiceCallData: { type: Object, default: () => ({}) },
-  unreadCount: { type: Number, default: 0 },
+  isInboxView: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -35,6 +32,16 @@ const emit = defineEmits([
   'click',
   'contextmenu',
 ]);
+
+const lastMessageInChat = computed(() => getLastMessage(props.chat));
+const showLabelsSection = computed(() => props.chat.labels?.length > 0);
+
+const voiceCallData = computed(() => ({
+  status: props.chat.additional_attributes?.call_status,
+  direction: props.chat.additional_attributes?.call_direction,
+}));
+
+const unreadCount = computed(() => props.chat.unread_count);
 
 const slaCardLabel = useTemplateRef('slaCardLabel');
 
@@ -110,7 +117,7 @@ const selectedModel = computed({
 
       <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
 
-      <div class="w-20 flex-shrink-0">
+      <div v-if="!isInboxView" class="w-20 flex-shrink-0">
         <InboxName v-if="showInboxName" :inbox="inbox" class="min-w-0" />
       </div>
 

@@ -1,11 +1,13 @@
 <script setup>
+import { computed } from 'vue';
+import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import CardMetaSection from './CardMetaSection.vue';
 import CardAvatar from './CardAvatar.vue';
 import CardHeader from './CardHeader.vue';
 import CardContent from './CardContent.vue';
 import CardLabels from './CardLabels.vue';
 
-defineProps({
+const props = defineProps({
   chat: { type: Object, required: true },
   currentContact: { type: Object, required: true },
   assignee: { type: Object, default: () => ({}) },
@@ -15,16 +17,25 @@ defineProps({
   compact: { type: Boolean, default: false },
   showAssignee: { type: Boolean, default: false },
   showInboxName: { type: Boolean, default: false },
-  showLabelsSection: { type: Boolean, default: false },
   hideThumbnail: { type: Boolean, default: false },
   enableSelection: { type: Boolean, default: true },
-  lastMessageInChat: { type: Object, default: () => ({}) },
-  voiceCallData: { type: Object, default: () => ({}) },
-  unreadCount: { type: Number, default: 0 },
-  showExpandedPreview: { type: Boolean, default: false },
+  isInboxView: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['selectConversation', 'click', 'contextmenu']);
+
+const lastMessageInChat = computed(() => getLastMessage(props.chat));
+const showLabelsSection = computed(() => props.chat.labels?.length > 0);
+const showExpandedPreview = computed(
+  () => props.compact && !showLabelsSection.value
+);
+
+const voiceCallData = computed(() => ({
+  status: props.chat.additional_attributes?.call_status,
+  direction: props.chat.additional_attributes?.call_direction,
+}));
+
+const unreadCount = computed(() => props.chat?.unread_count);
 
 const onSelectConversation = checked => {
   emit('selectConversation', checked);
@@ -45,6 +56,7 @@ const onSelectConversation = checked => {
   >
     <div class="min-w-0 w-full">
       <CardMetaSection
+        v-if="!isInboxView"
         :chat="chat"
         :inbox="inbox"
         :show-inbox-name="showInboxName"
@@ -68,7 +80,7 @@ const onSelectConversation = checked => {
           @select-conversation="onSelectConversation"
         />
 
-        <div class="min-w-0 flex flex-col gap-1">
+        <div class="min-w-0 flex flex-col gap-1.5">
           <div class="min-w-0 flex flex-col gap-px">
             <CardHeader
               v-if="!compact"
@@ -87,10 +99,20 @@ const onSelectConversation = checked => {
           </div>
 
           <CardLabels
-            v-if="showLabelsSection"
+            v-if="showLabelsSection || isInboxView"
             :conversation-labels="chat.labels"
-            class="mt-0.5 mb-0"
-          />
+          >
+            <template v-if="isInboxView" #before>
+              <CardMetaSection
+                :chat="chat"
+                :inbox="inbox"
+                :show-assignee="showAssignee"
+                :assignee="assignee"
+                :is-labels-empty="chat.labels.length === 0"
+                inline
+              />
+            </template>
+          </CardLabels>
         </div>
       </div>
     </div>

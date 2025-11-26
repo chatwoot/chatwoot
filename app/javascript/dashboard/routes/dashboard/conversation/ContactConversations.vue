@@ -47,7 +47,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="!uiFlags.isFetching" class="">
+  <div v-if="!uiFlags.isFetching" class="max-h-96 overflow-y-auto">
     <div v-if="!previousConversations.length" class="no-label-message px-4 p-3">
       <span>
         {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
@@ -58,11 +58,11 @@ onMounted(() => {
         v-for="conversation in previousConversations"
         :key="conversation.id"
         :chat="conversation"
-        :hide-inbox-name="false"
         show-assignee
         hide-thumbnail
         enable-context-menu
         compact
+        is-previous-conversations
         :allowed-context-menu-options="['open-new-tab', 'copy-link']"
       />
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, nextTick, useSlots } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 
@@ -16,8 +16,8 @@ const props = defineProps({
   },
 });
 
-const slots = useSlots();
 const { t } = useI18n();
+
 const accountLabels = useMapGetter('labels/getLabels');
 
 const activeLabels = computed(() => {
@@ -32,18 +32,29 @@ const labelPosition = ref(-1);
 const labelContainer = ref(null);
 
 const computeVisibleLabelPosition = () => {
-  const beforeSlot = slots.before ? 100 : 0;
   if (!labelContainer.value) return;
 
-  const labels = labelContainer.value.querySelectorAll('[data-label]');
+  const containerElement = labelContainer.value.querySelector(
+    '[data-labels-container]'
+  );
+  if (!containerElement) return;
+
+  const labels = containerElement.querySelectorAll('[data-label]');
   if (labels.length === 0) return;
+
+  // Calculate before slot width dynamically
+  const beforeSlotElement =
+    containerElement.querySelector('[data-before-slot]');
+  const beforeSlotWidth = beforeSlotElement
+    ? beforeSlotElement.offsetWidth + 6
+    : 0; // +6 for gap
 
   let labelOffset = 0;
   showExpandLabelButton.value = false;
   const buttonWidth = 40; // Approximate width for +N button
   const gapWidth = 6; // gap-1.5 = 6px
   const availableWidth =
-    labelContainer.value.clientWidth - buttonWidth - beforeSlot;
+    containerElement.clientWidth - buttonWidth - beforeSlotWidth;
 
   labels.forEach((label, index) => {
     labelOffset += label.offsetWidth + gapWidth;
@@ -96,9 +107,12 @@ const onShowLabels = e => {
   <div ref="labelContainer" v-resize="computeVisibleLabelPosition">
     <div
       v-if="activeLabels.length || $slots.before"
-      class="flex items-end flex-shrink min-w-0 gap-x-1.5 gap-y-1"
+      data-labels-container
+      class="flex items-center flex-shrink min-w-0 gap-x-1.5 gap-y-1"
       :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
     >
+      <slot name="before" />
+
       <div
         v-for="(label, index) in activeLabels"
         :key="label ? label.id : index"
@@ -128,6 +142,7 @@ const onShowLabels = e => {
         "
         xs
         slate
+        :no-animation="disableToggle"
         :icon="
           !showAllLabels && hiddenLabelsCount > 0 ? '' : 'i-lucide-chevron-left'
         "

@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
-import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import ConversationContextMenu from 'dashboard/components/widgets/conversation/contextMenu/Index.vue';
@@ -12,7 +11,6 @@ import ConversationCardCompact from './ConversationCardCompact.vue';
 const props = defineProps({
   activeLabel: { type: String, default: '' },
   chat: { type: Object, default: () => ({}) },
-  hideInboxName: { type: Boolean, default: false },
   hideThumbnail: { type: Boolean, default: false },
   teamId: { type: [String, Number], default: 0 },
   foldersId: { type: [String, Number], default: 0 },
@@ -24,6 +22,7 @@ const props = defineProps({
   allowedContextMenuOptions: { type: Array, default: () => [] },
   enableSelection: { type: Boolean, default: true },
   isExpandedLayout: { type: Boolean, default: false },
+  isPreviousConversations: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -55,40 +54,18 @@ const inboxGetter = useMapGetter('inboxes/getInbox');
 const chatMetadata = computed(() => props.chat.meta || {});
 const assignee = computed(() => chatMetadata.value.assignee || {});
 const senderId = computed(() => chatMetadata.value.sender?.id);
-
-const currentContact = computed(() => {
-  return senderId.value ? contactGetter.value(senderId.value) : {};
-});
+const currentContact = computed(() =>
+  senderId.value ? contactGetter.value(senderId.value) : {}
+);
+const hasActiveInbox = computed(() => activeInbox.value);
 
 const isActiveChat = computed(() => currentChat.value.id === props.chat.id);
-const unreadCount = computed(() => props.chat.unread_count);
-const isInboxNameVisible = computed(() => !activeInbox.value);
-const lastMessageInChat = computed(() => getLastMessage(props.chat));
-
-const voiceCallData = computed(() => ({
-  status: props.chat.additional_attributes?.call_status,
-  direction: props.chat.additional_attributes?.call_direction,
-}));
-
-const inboxId = computed(() => props.chat.inbox_id);
-
-const inbox = computed(() =>
-  inboxId.value ? inboxGetter.value(inboxId.value) : {}
-);
-
-const showInboxName = computed(() => {
-  return (
-    !props.hideInboxName &&
-    isInboxNameVisible.value &&
-    inboxesList.value.length > 1
-  );
+const inbox = computed(() => {
+  const inboxId = props.chat.inbox_id;
+  return inboxId ? inboxGetter.value(inboxId) : {};
 });
 
-const showLabelsSection = computed(() => props.chat.labels?.length > 0);
-
-const showExpandedPreview = computed(() => {
-  return props.compact && !showLabelsSection.value;
-});
+const showInboxName = computed(() => inboxesList.value.length > 1);
 
 const conversationPath = computed(() => {
   return frontendURL(
@@ -197,10 +174,7 @@ const deleteConversation = () => {
     :is-active-chat="isActiveChat"
     :show-assignee="showAssignee"
     :show-inbox-name="showInboxName"
-    :show-labels-section="showLabelsSection"
-    :last-message-in-chat="lastMessageInChat"
-    :voice-call-data="voiceCallData"
-    :unread-count="unreadCount"
+    :is-inbox-view="hasActiveInbox && !isPreviousConversations"
     :class="{
       'lg:grid hidden': isExpandedLayout,
       hidden: !isExpandedLayout,
@@ -221,13 +195,9 @@ const deleteConversation = () => {
     :compact="compact"
     :show-assignee="showAssignee"
     :show-inbox-name="showInboxName"
-    :show-labels-section="showLabelsSection"
     :hide-thumbnail="hideThumbnail"
     :enable-selection="enableSelection"
-    :last-message-in-chat="lastMessageInChat"
-    :voice-call-data="voiceCallData"
-    :unread-count="unreadCount"
-    :show-expanded-preview="showExpandedPreview"
+    :is-inbox-view="hasActiveInbox && !isPreviousConversations"
     :class="{ 'lg:hidden': isExpandedLayout }"
     @select-conversation="onSelectConversation"
     @click="onCardClick"
@@ -245,7 +215,7 @@ const deleteConversation = () => {
       :inbox-id="inbox.id"
       :priority="chat.priority"
       :chat-id="chat.id"
-      :has-unread-messages="unreadCount > 0"
+      :has-unread-messages="chat.unread_count > 0"
       :conversation-url="conversationPath"
       :allowed-options="allowedContextMenuOptions"
       @update-conversation="onUpdateConversation"
