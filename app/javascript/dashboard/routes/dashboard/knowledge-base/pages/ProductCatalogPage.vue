@@ -606,7 +606,12 @@ const handleExportAll = async () => {
 
     useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.STARTED'));
   } catch (error) {
-    useAlert(error.message || t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.ERROR'));
+    // Handle rate limit error
+    if (error.isRateLimited) {
+      useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.RATE_LIMITED', { seconds: error.retryAfter }));
+    } else {
+      useAlert(error.message || t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.ERROR'));
+    }
   }
 };
 

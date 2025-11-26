@@ -113,6 +113,14 @@ export const actions = {
       const response = await ProductCatalogAPI.bulkUpload(file);
       return response.data;
     } catch (error) {
+      // Handle rate limit error (429)
+      if (error.response?.status === 429) {
+        const retryAfter = error.response?.data?.retry_after || 15;
+        const rateLimitError = new Error(`RATE_LIMITED:${retryAfter}`);
+        rateLimitError.isRateLimited = true;
+        rateLimitError.retryAfter = retryAfter;
+        throw rateLimitError;
+      }
       // Extract error message from response if available
       const errorMessage = error.response?.data?.error || error.message || 'Upload failed';
       throw new Error(errorMessage);
@@ -139,6 +147,14 @@ export const actions = {
       const response = await ProductCatalogAPI.exportAll();
       return response.data;
     } catch (error) {
+      // Handle rate limit error (429)
+      if (error.response?.status === 429) {
+        const retryAfter = error.response?.data?.retry_after || 15;
+        const rateLimitError = new Error(`RATE_LIMITED:${retryAfter}`);
+        rateLimitError.isRateLimited = true;
+        rateLimitError.retryAfter = retryAfter;
+        throw rateLimitError;
+      }
       const errorMessage = error.response?.data?.error || error.message || 'Export failed';
       throw new Error(errorMessage);
     } finally {

@@ -1,6 +1,7 @@
 class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseController
   before_action :product_catalog, except: [:index, :create, :bulk_upload, :bulk_delete, :export, :export_all, :download_export, :download_template]
   before_action :check_authorization
+  before_action :check_rate_limit, only: [:bulk_upload, :export_all]
 
   def index
     page = params[:page] || 1
@@ -324,5 +325,20 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
     end
 
     temp_file_path.to_s
+  end
+
+  def check_rate_limit
+    operation_type = action_name == 'bulk_upload' ? 'UPLOAD' : 'EXPORT'
+
+    unless ProductCatalogs::RateLimiterService.acquire_lock(Current.account.id, operation_type)
+      lock_info = ProductCatalogs::RateLimiterService.lock_info(Current.account.id)
+      remaining = lock_info&.dig(:remaining_seconds) || ProductCatalogs::RateLimiterService::RATE_LIMIT_SECONDS
+
+      render json: {
+        error: "Rate limit exceeded. Please wait #{remaining} seconds before trying again.",
+        retry_after: remaining,
+        current_operation: lock_info&.dig(:operation_type)
+      }, status: :too_many_requests
+    end
   end
 end

@@ -247,7 +247,12 @@ const handleUpload = async () => {
     emit('upload-success', response.bulk_request_id);
   } catch (error) {
     uploadStatus.value = 'error';
-    errorMessage.value = error.message || t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.ERROR');
+    // Handle rate limit error
+    if (error.isRateLimited) {
+      errorMessage.value = t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.RATE_LIMITED', { seconds: error.retryAfter });
+    } else {
+      errorMessage.value = error.message || t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.ERROR');
+    }
     useAlert(errorMessage.value);
   }
 };

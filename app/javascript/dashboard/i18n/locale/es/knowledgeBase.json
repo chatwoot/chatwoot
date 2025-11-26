@@ -33,7 +33,8 @@
         "ERROR": "Error al subir el archivo",
         "CANCELLED": "Carga cancelada exitosamente",
         "CANCEL_ERROR": "Error al cancelar la carga",
-        "ALREADY_PROCESSING": "No se puede subir - ya hay un archivo siendo procesado. Por favor espera a que se complete o cancélalo primero."
+        "ALREADY_PROCESSING": "No se puede subir - ya hay un archivo siendo procesado. Por favor espera a que se complete o cancélalo primero.",
+        "RATE_LIMITED": "Por favor espera {seconds} segundos antes de subir de nuevo."
       },
       "DELETE": {
         "TITLE": "Eliminar Producto",
@@ -104,7 +105,8 @@
         "SUCCESS_MESSAGE": "¡Tu exportación está lista! Haz clic en el botón de abajo para descargar tu archivo.",
         "ERROR": "Error al exportar productos",
         "DOWNLOAD_BUTTON": "Descargar Exportación",
-        "CANCELLED": "Exportación cancelada exitosamente"
+        "CANCELLED": "Exportación cancelada exitosamente",
+        "RATE_LIMITED": "Por favor espera {seconds} segundos antes de exportar de nuevo."
       },
       "MEDIA_DRAWER": {
         "TITLE": "Multimedia del Producto",

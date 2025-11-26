@@ -33,7 +33,8 @@
         "ERROR": "Failed to upload file",
         "CANCELLED": "Upload cancelled successfully",
         "CANCEL_ERROR": "Failed to cancel upload",
-        "ALREADY_PROCESSING": "Cannot upload - there is already a file being processed. Please wait for it to complete or cancel it first."
+        "ALREADY_PROCESSING": "Cannot upload - there is already a file being processed. Please wait for it to complete or cancel it first.",
+        "RATE_LIMITED": "Please wait {seconds} seconds before uploading again."
       },
       "DELETE": {
         "TITLE": "Delete Product",
@@ -104,7 +105,8 @@
         "SUCCESS_MESSAGE": "Your export is ready! Click the button below to download your file.",
         "ERROR": "Failed to export products",
         "DOWNLOAD_BUTTON": "Download Export",
-        "CANCELLED": "Export cancelled successfully"
+        "CANCELLED": "Export cancelled successfully",
+        "RATE_LIMITED": "Please wait {seconds} seconds before exporting again."
       },
       "MEDIA_DRAWER": {
         "TITLE": "Product Media",
