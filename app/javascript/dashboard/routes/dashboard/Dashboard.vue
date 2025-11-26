@@ -122,7 +122,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-grow overflow-hidden text-n-slate-12 my-3 ltr:mr-3 rtl:ml-3"
+    class="flex flex-grow overflow-hidden text-n-slate-12 md:my-3 md:ltr:mr-3 md:rtl:ml-3"
   >
     <NextSidebar
       :is-mobile-sidebar-open="isMobileSidebarOpen"
@@ -134,7 +134,7 @@ export default {
     />
 
     <main
-      class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden rounded-lg border border-n-weak bg-n-surface-1"
+      class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden md:rounded-lg md:border md:border-n-weak bg-n-surface-1"
     >
       <UpgradePage
         v-show="showUpgradePage"
