@@ -32,18 +32,17 @@ const virtualizerOptions = computed(() => ({
   count: props.items.length,
   getScrollElement: () => parentRef.value,
   // Accurate size estimate reduces scroll jumps
-  estimateSize: () => 88,
+  estimateSize: () => 100,
   // Balanced overscan for smooth scrolling without performance hit
   overscan: 4,
   // Stable keys for optimal Vue reconciliation
   getItemKey: index => props.items[index]?.uuid || index,
-  // Faster scrolling state reset
-  isScrollingResetDelay: 150,
-  // Use native scrollend event for better performance
-  useScrollendEvent: true,
   // Wrap ResizeObserver in RAF to reduce layout thrashing
   useAnimationFrameWithResizeObserver: true,
-  paddingStart: 10,
+  // Fix for backward scroll stutter
+  shouldAdjustScrollPositionOnItemSizeChange: (item, delta, instance) => {
+    return instance.scrollDirection === 'backward';
+  },
 }));
 
 const rowVirtualizer = useVirtualizer(virtualizerOptions);
@@ -51,13 +50,11 @@ const rowVirtualizer = useVirtualizer(virtualizerOptions);
 const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
 const totalSize = computed(() => rowVirtualizer.value.getTotalSize());
 
-// Optimized measure function
 const measureElement = el => {
   if (!el) return;
   rowVirtualizer.value.measureElement(el);
 };
 
-// Load more conversations when scrolling near bottom
 useInfiniteScroll(
   parentRef,
   () => {
@@ -110,8 +107,8 @@ useKeyboardEvents({
 <template>
   <div
     ref="parentRef"
-    class="flex-1 overflow-y-auto w-full h-full px-2 touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch]"
-    :class="{ 'overflow-hidden': isContextMenuOpen }"
+    class="conversation-list flex-1 w-full h-full px-2 touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch] [contain:strict] pt-2"
+    :class="isContextMenuOpen ? 'overflow-hidden' : 'overflow-y-auto'"
   >
     <div class="relative w-full" :style="{ height: `${totalSize}px` }">
       <div
@@ -119,7 +116,7 @@ useKeyboardEvents({
         :key="virtualRow.key"
         :ref="measureElement"
         :data-index="virtualRow.index"
-        class="absolute top-0 ltr:left-0 rtl:right-0 w-full contain-layout after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-n-weak after:pointer-events-none after:transition-colors after:duration-150 hover:after:bg-n-surface-1 has-[.active]:after:bg-n-surface-1 has-[+_:hover]:after:bg-n-surface-1 has-[+_*_.active]:after:bg-n-surface-1"
+        class="absolute top-0 ltr:left-0 rtl:right-0 w-full will-change-transform after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-n-weak after:pointer-events-none after:transition-colors after:duration-150 hover:after:bg-n-surface-1 has-[.active]:after:bg-n-surface-1 has-[+_:hover]:after:bg-n-surface-1 has-[+_*_.active]:after:bg-n-surface-1"
         :style="{ transform: `translate3d(0, ${virtualRow.start}px, 0)` }"
       >
         <ConversationItem
@@ -147,3 +144,9 @@ useKeyboardEvents({
     </div>
   </div>
 </template>
+
+<style scoped>
+.conversation-list {
+  overflow-anchor: none;
+}
+</style>
