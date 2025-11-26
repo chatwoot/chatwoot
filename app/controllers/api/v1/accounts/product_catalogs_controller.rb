@@ -57,6 +57,24 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       return
     end
 
+    # Security validation: Only allow Excel files (.xlsx)
+    allowed_content_types = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel.sheet.macroEnabled.12'
+    ]
+    file_extension = File.extname(uploaded_file.original_filename).downcase
+
+    unless file_extension == '.xlsx' && allowed_content_types.include?(uploaded_file.content_type)
+      render json: { error: 'Invalid file type. Only Excel files (.xlsx) are allowed.' }, status: :unprocessable_entity
+      return
+    end
+
+    # Security validation: Filename max 100 characters
+    if uploaded_file.original_filename.length > 100
+      render json: { error: 'Filename too long. Maximum 100 characters allowed.' }, status: :unprocessable_entity
+      return
+    end
+
     # Check if there's already an active processing request for this account
     active_request = Current.account.bulk_processing_requests
                             .where(entity_type: 'ProductCatalog')
@@ -142,15 +160,18 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
   end
 
   def export_all
-    # Check if there's already an active export request for this account
+    # Check if there's already an active request (upload or export) for this account
     active_request = Current.account.bulk_processing_requests
-                            .where(entity_type: 'ProductCatalog', operation_type: 'EXPORT')
+                            .where(entity_type: 'ProductCatalog')
                             .where(status: %w[PENDING PROCESSING])
                             .first
 
     if active_request
+      error_msg = active_request.operation_type == 'EXPORT' ?
+        'An export is already being processed. Please wait for it to complete.' :
+        'An upload is already being processed. Please wait for it to complete before exporting.'
       render json: {
-        error: 'An export is already being processed. Please wait for it to complete.',
+        error: error_msg,
         active_request_id: active_request.id
       }, status: :unprocessable_entity
       return

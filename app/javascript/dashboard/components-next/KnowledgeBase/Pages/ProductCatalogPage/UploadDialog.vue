@@ -44,10 +44,10 @@
           </p>
         </div>
 
-        <div v-else class="flex items-center gap-3">
-          <i class="i-lucide-file-spreadsheet w-8 h-8 text-n-green-11" />
-          <div class="flex-1 text-left">
-            <p class="text-sm font-medium text-n-slate-12">
+        <div v-else class="flex items-center gap-3 min-w-0">
+          <i class="i-lucide-file-spreadsheet w-8 h-8 text-n-green-11 flex-shrink-0" />
+          <div class="flex-1 text-left min-w-0">
+            <p class="text-sm font-medium text-n-slate-12 truncate" :title="selectedFile.name">
               {{ selectedFile.name }}
             </p>
             <p class="text-xs text-n-slate-11">
