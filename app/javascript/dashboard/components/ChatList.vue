@@ -892,6 +892,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :folders-id="foldersId"
       :conversation-type="conversationType"
       :show-assignee="showAssigneeInConversationCard"
+      :is-expanded-layout="isOnExpandedLayout"
       @load-more="loadMoreConversations"
     />
 

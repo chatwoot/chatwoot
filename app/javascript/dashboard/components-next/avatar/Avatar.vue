@@ -75,12 +75,6 @@ const AVATAR_COLORS = {
   default: { bg: '#E8E8E8', text: '#60646C' },
 };
 
-const BORDER_RADIUS = {
-  FULL: '9999px',
-  MIN: 4, // Minimum radius in pixels
-  RATIO: 0.25, // 25% of size (1/4)
-};
-
 const STATUS_CLASSES = computed(() => ({
   online: 'bg-n-teal-10',
   busy: 'bg-n-amber-10',
@@ -123,10 +117,12 @@ const borderRadiusClass = computed(() => {
     return 'rounded-full';
   }
 
-  // Calculate radius as 25% of size, with minimum of 4px
-  const calculatedRadius = props.size * BORDER_RADIUS.RATIO;
-  const radius = Math.max(Math.round(calculatedRadius), BORDER_RADIUS.MIN);
-  return `rounded-[${radius}px]`;
+  // Approximates 25% of size
+  if (props.size <= 16) return 'rounded'; // 4px
+  if (props.size <= 24) return 'rounded-md'; // 6px
+  if (props.size <= 32) return 'rounded-lg'; // 8px
+  if (props.size <= 48) return 'rounded-xl'; // 12px
+  return 'rounded-2xl'; // 16px
 });
 
 const avatarStyles = computed(() => ({
@@ -201,7 +197,7 @@ watch(
 
 <template>
   <span
-    class="relative inline-flex group/avatar z-0 flex-shrink-0"
+    class="relative inline-flex group/avatar z-0 flex-shrink-0 align-middle"
     :style="containerStyles"
   >
     <!-- Status Badge -->

@@ -17,6 +17,7 @@ const props = defineProps({
   foldersId: { type: [String, Number], default: 0 },
   conversationType: { type: String, default: '' },
   showAssignee: { type: Boolean, default: false },
+  isExpandedLayout: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['loadMore']);
@@ -128,6 +129,7 @@ useKeyboardEvents({
           :folders-id="foldersId"
           :conversation-type="conversationType"
           :show-assignee="showAssignee"
+          :is-expanded-layout="isExpandedLayout"
         />
       </div>
     </div>

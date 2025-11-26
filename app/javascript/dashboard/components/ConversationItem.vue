@@ -27,6 +27,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isExpandedLayout: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const selectConversation = inject('selectConversation');
@@ -53,6 +57,7 @@ const deleteConversation = inject('deleteConversation');
     :conversation-type="conversationType"
     :selected="isConversationSelected(source.id)"
     :show-assignee="showAssignee"
+    :is-expanded-layout="isExpandedLayout"
     enable-context-menu
     @select-conversation="selectConversation"
     @de-select-conversation="deSelectConversation"

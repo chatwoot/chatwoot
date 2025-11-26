@@ -1,5 +1,6 @@
 <script setup>
-import { ref, computed, watch, onMounted, nextTick, useSlots } from 'vue';
+import { ref, computed, watch, nextTick, useSlots } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -9,9 +10,14 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  disableToggle: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const slots = useSlots();
+const { t } = useI18n();
 const accountLabels = useMapGetter('labels/getLabels');
 
 const activeLabels = computed(() => {
@@ -50,21 +56,37 @@ const computeVisibleLabelPosition = () => {
   });
 };
 
-watch(activeLabels, () => {
-  nextTick(() => computeVisibleLabelPosition());
-});
-
-onMounted(() => {
-  nextTick(() => computeVisibleLabelPosition());
-});
+watch(
+  activeLabels,
+  () => {
+    nextTick(computeVisibleLabelPosition);
+  },
+  { immediate: true }
+);
 
 const hiddenLabelsCount = computed(() => {
   if (!showExpandLabelButton.value || showAllLabels.value) return 0;
   return activeLabels.value.length - labelPosition.value - 1;
 });
 
+const hiddenLabelsTooltip = computed(() => {
+  if (!props.disableToggle || !showExpandLabelButton.value) return '';
+  const hiddenLabels = activeLabels.value.slice(labelPosition.value + 1);
+  return hiddenLabels.map(label => label.title).join(', ');
+});
+
+const tooltipText = computed(() => {
+  if (props.disableToggle && hiddenLabelsTooltip.value) {
+    return hiddenLabelsTooltip.value;
+  }
+  return showAllLabels.value
+    ? t('CONVERSATION.CARD.HIDE_LABELS')
+    : t('CONVERSATION.CARD.SHOW_LABELS');
+});
+
 const onShowLabels = e => {
   e.stopPropagation();
+  if (props.disableToggle) return;
   showAllLabels.value = !showAllLabels.value;
   nextTick(() => computeVisibleLabelPosition());
 };
@@ -82,7 +104,7 @@ const onShowLabels = e => {
         :key="label ? label.id : index"
         data-label
         :title="label.description"
-        class="bg-n-button-color px-1.5 h-6 gap-1 rounded-md outline outline-1 outline-n-container inline-flex items-center flex-shrink-0"
+        class="bg-n-button-color px-1.5 h-6 gap-1 rounded-md -outline-offset-1 outline outline-1 outline-n-container inline-flex items-center flex-shrink-0"
         :class="{
           'invisible absolute': !showAllLabels && index > labelPosition,
         }"
@@ -97,11 +119,10 @@ const onShowLabels = e => {
       </div>
       <Button
         v-if="showExpandLabelButton"
-        :title="
-          showAllLabels
-            ? $t('CONVERSATION.CARD.HIDE_LABELS')
-            : $t('CONVERSATION.CARD.SHOW_LABELS')
-        "
+        v-tooltip.top="{
+          content: tooltipText,
+          delay: { show: 1000, hide: 0 },
+        }"
         :label="
           !showAllLabels && hiddenLabelsCount > 0 ? `+${hiddenLabelsCount}` : ''
         "
@@ -110,7 +131,8 @@ const onShowLabels = e => {
         :icon="
           !showAllLabels && hiddenLabelsCount > 0 ? '' : 'i-lucide-chevron-left'
         "
-        class="!py-0 !px-1.5 flex-shrink-0 !rounded-md !bg-n-button-color"
+        class="!py-0 !px-1.5 flex-shrink-0 !rounded-md !bg-n-button-color -outline-offset-1"
+        :class="{ 'cursor-default': disableToggle }"
         @click="onShowLabels"
       />
     </div>

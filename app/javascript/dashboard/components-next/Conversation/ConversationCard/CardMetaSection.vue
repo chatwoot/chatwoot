@@ -3,6 +3,7 @@ import { computed, useTemplateRef } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
 import CardPriorityIcon from './CardPriorityIcon.vue';
+import CardStatusIcon from './CardStatusIcon.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
 
 const props = defineProps({
@@ -23,7 +24,8 @@ const showSection = computed(() => {
   return (
     props.showInboxName ||
     (props.showAssignee && props.assignee.name) ||
-    props.chat.priority
+    props.chat.priority ||
+    hasSlaPolicyId.value
   );
 });
 </script>
@@ -56,6 +58,11 @@ const showSection = computed(() => {
         :status="assignee.availability_status"
         hide-offline-status
         rounded-full
+      />
+      <CardStatusIcon
+        v-if="chat.status"
+        :status="chat.status"
+        class="[&>svg]:size-[1.18rem]"
       />
     </div>
   </div>
