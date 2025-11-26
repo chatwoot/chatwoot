@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useBreakpoints } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
@@ -40,6 +41,14 @@ const emit = defineEmits([
 ]);
 
 const router = useRouter();
+
+const breakpoints = useBreakpoints({ lg: 1024 });
+const isLargeScreen = breakpoints.greaterOrEqual('lg');
+
+// Show expanded only when: isExpandedLayout=true AND screen >= 1024px
+const showExpanded = computed(() => {
+  return props.isExpandedLayout && isLargeScreen.value;
+});
 
 const showContextMenu = ref(false);
 const contextMenu = ref({ x: null, y: null });
@@ -165,7 +174,9 @@ const deleteConversation = () => {
 </script>
 
 <template>
+  <!-- Expanded: Only when isExpandedLayout=true AND screen >= 1024px -->
   <ConversationCardExpanded
+    v-if="showExpanded"
     :chat="chat"
     :current-contact="currentContact"
     :assignee="assignee"
@@ -175,17 +186,15 @@ const deleteConversation = () => {
     :show-assignee="showAssignee"
     :show-inbox-name="showInboxName"
     :is-inbox-view="hasActiveInbox && !isPreviousConversations"
-    :class="{
-      'lg:grid hidden': isExpandedLayout,
-      hidden: !isExpandedLayout,
-    }"
     @select-conversation="onSelectConversation"
     @de-select-conversation="onSelectConversation"
     @click="onCardClick"
     @contextmenu="openContextMenu"
   />
 
+  <!-- Compact: All other cases (mobile OR isExpandedLayout=false) -->
   <ConversationCardCompact
+    v-else
     :chat="chat"
     :current-contact="currentContact"
     :assignee="assignee"
@@ -198,7 +207,6 @@ const deleteConversation = () => {
     :hide-thumbnail="hideThumbnail"
     :enable-selection="enableSelection"
     :is-inbox-view="hasActiveInbox && !isPreviousConversations"
-    :class="{ 'lg:hidden': isExpandedLayout }"
     @select-conversation="onSelectConversation"
     @click="onCardClick"
     @contextmenu="openContextMenu"
