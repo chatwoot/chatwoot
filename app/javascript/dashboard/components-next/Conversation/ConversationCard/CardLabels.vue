@@ -127,9 +127,9 @@ const onShowLabels = e => {
           class="rounded-sm size-1.5 flex-shrink-0"
           :style="{ background: label.color }"
         />
-        <span class="font-440 text-xs text-n-slate-12 whitespace-nowrap">{{
-          label.title
-        }}</span>
+        <span class="font-440 text-xs text-n-slate-12 whitespace-nowrap">
+          {{ label.title }}
+        </span>
       </div>
       <Button
         v-if="showExpandLabelButton"
