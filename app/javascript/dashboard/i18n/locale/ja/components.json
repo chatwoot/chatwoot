@@ -1,7 +1,7 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} item | Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} page | {currentPage} of {totalPages} pages"
+    "SHOWING": "{startItem} - {endItem} 件を表示中（全 {totalItems} 件）",
+    "CURRENT_PAGE_INFO": "{currentPage} ページ中 {totalPages} ページ"
   },
   "COMBOBOX": {
     "PLACEHOLDER": "オプションを選択...",
