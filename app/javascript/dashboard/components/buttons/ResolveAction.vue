@@ -53,12 +53,14 @@ const showOpenButton = computed(() => {
 });
 
 const getConversationParams = () => {
+  // Get all conversation wrapper divs with data-id attribute
   const allConversations = document.querySelectorAll(
-    '.conversations-list .conversation'
+    '.conversation-list [data-id]'
   );
 
+  // Find the wrapper that contains the active conversation card
   const activeConversation = document.querySelector(
-    'div.conversations-list div.conversation.active'
+    '.conversation-list [data-id]:has(.active)'
   );
   const activeConversationIndex = [...allConversations].indexOf(
     activeConversation
@@ -116,10 +118,12 @@ const keyboardEvents = {
       await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
 
       if (activeIndex < lastIndex) {
-        all[activeIndex + 1].click();
+        // Click the first child (ConversationItem) of the next wrapper
+        all[activeIndex + 1]?.firstElementChild?.click();
       } else if (all.length > 1) {
-        all[0].click();
-        document.querySelector('.conversations-list').scrollTop = 0;
+        // Click the first child of the first wrapper and scroll to top
+        all[0]?.firstElementChild?.click();
+        document.querySelector('.conversation-list').scrollTop = 0;
       }
       event.preventDefault();
     },
