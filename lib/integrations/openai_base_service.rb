@@ -82,10 +82,10 @@ class Integrations::OpenaiBaseService
     self.class::CACHEABLE_EVENTS.include?(event_name)
   end
 
-  def api_url
+  def api_base
     endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
     endpoint = endpoint.chomp('/')
-    "#{endpoint}/v1/chat/completions"
+    "#{endpoint}/v1"
   end
 
   def make_api_call(body)
@@ -101,7 +101,7 @@ class Integrations::OpenaiBaseService
     messages = parsed_body['messages']
     model = parsed_body['model']
 
-    Llm::Config.with_api_key(hook.settings['api_key'], api_base: api_url) do
+    Llm::Config.with_api_key(hook.settings['api_key'], api_base: api_base) do
       chat = RubyLLM.chat(model: model)
 
       system_msg = messages.find { |m| m['role'] == 'system' }
