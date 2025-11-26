@@ -64,10 +64,9 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
     describe 'conversation-based operations' do
       let!(:conversation) { create(:conversation, account: account) }
-      let!(:customer_message) do
+
+      before do
         create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent')
-      end
-      let!(:agent_message) do
         create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer')
       end
 
