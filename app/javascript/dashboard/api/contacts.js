@@ -48,10 +48,9 @@ class ContactAPI extends ApiClient {
   }
 
   initiateCall(contactId, inboxId) {
-    if (!contactId) throw new Error('Contact ID is required');
-    const payload = {};
-    if (inboxId) payload.inbox_id = inboxId;
-    return axios.post(`${this.url}/${contactId}/call`, payload);
+    return axios.post(`${this.url}/${contactId}/call`, {
+      inbox_id: inboxId,
+    });
   }
 
   updateContactLabels(contactId, labels) {
