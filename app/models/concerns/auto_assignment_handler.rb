@@ -11,6 +11,10 @@ module AutoAssignmentHandler
   def run_auto_assignment
     # Round robin kicks in on conversation create & update
     # run it only when conversation status changes to open
+    if saved_change_to_status? && status == "open" && status_before_last_save == "queued"
+      return
+    end
+  
     return unless conversation_status_changed_to_open?
     return unless should_run_auto_assignment?
 
