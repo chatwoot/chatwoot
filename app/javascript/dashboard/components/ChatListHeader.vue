@@ -57,7 +57,7 @@ const toggleConversationLayout = () => {
 
 <template>
   <div
-    class="flex items-center justify-between gap-2 px-3 h-[3.25rem]"
+    class="flex items-center justify-between gap-2 px-4 h-[3.25rem]"
     :class="{
       'border-b border-n-strong': hasAppliedFiltersOrActiveFolders,
     }"
@@ -73,7 +73,7 @@ const toggleConversationLayout = () => {
         v-if="
           allCount > 0 && hasAppliedFiltersOrActiveFolders && !isListLoading
         "
-        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
+        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize -outline-offset-1 outline outline-1 outline-n-container text-xxs text-n-slate-12 shrink-0"
         :title="allCount"
       >
         {{ formattedAllCount }}
@@ -85,7 +85,7 @@ const toggleConversationLayout = () => {
         {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
       </span>
     </div>
-    <div class="flex items-center gap-1">
+    <div class="flex items-center gap-2">
       <template v-if="hasAppliedFilters && !hasActiveFolders">
         <div class="relative">
           <NextButton
@@ -111,6 +111,11 @@ const toggleConversationLayout = () => {
           @click="emit('resetFilters')"
         />
       </template>
+      <ConversationBasicFilter
+        v-if="!hasAppliedFiltersOrActiveFolders"
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @change-filter="onBasicFilterChange"
+      />
       <template v-if="hasActiveFolders">
         <div class="relative">
           <NextButton
@@ -154,11 +159,6 @@ const toggleConversationLayout = () => {
           :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
         />
       </div>
-      <ConversationBasicFilter
-        v-if="!hasAppliedFiltersOrActiveFolders"
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @change-filter="onBasicFilterChange"
-      />
       <SwitchLayout
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle="toggleConversationLayout"

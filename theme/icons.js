@@ -113,6 +113,16 @@ export const icons = {
     width: 16,
     height: 20,
   },
+  party: {
+    body: `<g fill="currentColor" stroke="none"><path d="M8.023 2.426a.6.6 0 0 1 .4.748l-.562 1.85a.6.6 0 0 1-1.15-.348l.563-1.85a.6.6 0 0 1 .75-.4M12.8 3a.6.6 0 1 0-1.2 0v.2h-.2a.6.6 0 0 0 0 1.2h.2v.2a.6.6 0 0 0 1.2 0v-.2h.2a.6.6 0 1 0 0-1.2h-.2z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6.645 6.197a1.4 1.4 0 0 0-2.268.416L2.703 10.35a2.2 2.2 0 0 0 .452 2.456l.04.04a2.2 2.2 0 0 0 2.457.452l3.734-1.675a1.4 1.4 0 0 0 .417-2.267zm-1.172.908a.2.2 0 0 1 .324-.06l3.158 3.158a.2.2 0 0 1-.06.324l-3.734 1.674a1 1 0 0 1-1.116-.205l-.041-.04a1 1 0 0 1-.206-1.117z"/><path d="M4.6 2.4a.6.6 0 0 1 .6.6v.2h.2a.6.6 0 0 1 0 1.2h-.2v.2a.6.6 0 0 1-1.2 0v-.2h-.2a.6.6 0 1 1 0-1.2H4V3a.6.6 0 0 1 .6-.6m8.2 8.2a.6.6 0 0 0-1.2 0v.2h-.2a.6.6 0 1 0 0 1.2h.2v.2a.6.6 0 0 0 1.2 0V12h.2a.6.6 0 1 0 0-1.2h-.2zm-1.976-4.576a.6.6 0 0 0-.848-.848l-.8.8a.6.6 0 0 0 .848.848zm2.438 2.802a.6.6 0 1 0-.33-1.154l-1.874.538a.6.6 0 1 0 .33 1.153z"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  'expand-list': {
+    body: `<g fill="none" stroke="currentColor"><path d="M1.333 12V4a2 2 0 0 1 2-2h1.334a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3.333a2 2 0 0 1-2-2Z" stroke-width="1.2"/><path d="M10.667 2H12a2.667 2.667 0 0 1 2.667 2.667v6.666A2.667 2.667 0 0 1 12 14h-1.333m-4-6H12m0 0-2-2m2 2-2 2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
   /** Channels Starts */
   website: {
     body: `<g fill="none" stroke="currentColor"><path d="M12 10.1755L12.0083 10.1663" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.333 10.1755L15.3413 10.1663" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.66699 10.1755L8.67533 10.1663" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.0424 13.9838V7.56679C20.0424 6.14919 18.9729 5 17.3687 5H6.67374C5.0695 5 4 6.14919 4 7.56679V15.2672C4 16.6848 4.53475 17.8339 6.67374 17.8339H12.0212" stroke-width="1.60424" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.9345 16.8695C20.3746 17.1402 20.3475 17.7991 19.8942 17.8505L17.6067 18.1098L16.5807 20.1706C16.3774 20.579 15.749 20.3791 15.6451 19.8729L14.5263 14.4221C14.4385 13.9943 14.823 13.725 15.1949 13.9539L19.9345 16.8695Z" stroke-width="1.60424"/></g>`,

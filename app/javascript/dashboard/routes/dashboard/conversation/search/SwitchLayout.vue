@@ -23,15 +23,15 @@ export default {
 <template>
   <NextButton
     v-tooltip.left="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
-    :icon="
-      isOnExpandedLayout
-        ? 'i-lucide-arrow-left-to-line'
-        : 'i-lucide-arrow-right-to-line'
-    "
+    icon="i-woot-expand-list"
     slate
     xs
     faded
-    class="flex-shrink-0 rtl:rotate-180 ltr:rotate-0 md:inline-flex hidden"
+    class="flex-shrink-0 md:inline-flex hidden"
+    :class="{
+      'ltr:!rotate-180 rtl:!rotate-0': isOnExpandedLayout,
+      'ltr:!rotate-0 rtl:!rotate-180': !isOnExpandedLayout,
+    }"
     @click="toggle"
   />
 </template>

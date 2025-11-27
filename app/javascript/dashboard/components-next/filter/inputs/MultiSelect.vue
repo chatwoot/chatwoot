@@ -117,9 +117,11 @@ const toggleOption = option => {
       </button>
       <Button v-else sm slate faded @click="toggle">
         <template #icon>
-          <Icon icon="i-lucide-plus" class="text-n-slate-11" />
+          <Icon icon="i-lucide-plus" class="text-n-slate-11 flex-shrink-0" />
         </template>
-        <span class="text-n-slate-11">{{ t('COMBOBOX.PLACEHOLDER') }}</span>
+        <span class="text-n-slate-11 truncate">{{
+          t('COMBOBOX.PLACEHOLDER')
+        }}</span>
       </Button>
     </template>
     <DropdownBody class="top-0 min-w-48 z-50" strong>
