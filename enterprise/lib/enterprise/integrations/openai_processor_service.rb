@@ -65,7 +65,7 @@ module Enterprise::Integrations::OpenaiProcessorService
     return value_from_cache if content.blank?
 
     {
-      model: self.class::LABEL_SUGGESTION_MODEL,
+      model: self.class::GPT_MODEL,
       messages: [
         {
           role: 'system',
