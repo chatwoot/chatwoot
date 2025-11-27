@@ -1,5 +1,6 @@
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed, nextTick, useSlots } from 'vue';
+import { useMutationObserver } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 
@@ -16,6 +17,7 @@ const props = defineProps({
   },
 });
 
+const slots = useSlots();
 const { t } = useI18n();
 
 const accountLabels = useMapGetter('labels/getLabels');
@@ -31,49 +33,54 @@ const showExpandLabelButton = ref(false);
 const labelPosition = ref(-1);
 const labelContainer = ref(null);
 
+// Show if there are labels OR if before slot exists
+const showSection = computed(
+  () => activeLabels.value.length > 0 || !!slots.before
+);
+
 const computeVisibleLabelPosition = () => {
-  if (!labelContainer.value) return;
+  const container = labelContainer.value;
+  if (!container || activeLabels.value.length === 0) {
+    showExpandLabelButton.value = false;
+    return;
+  }
 
-  const containerElement = labelContainer.value.querySelector(
-    '[data-labels-container]'
-  );
-  if (!containerElement) return;
+  const labels = container.querySelectorAll('[data-label]');
+  if (labels.length === 0) {
+    showExpandLabelButton.value = false;
+    return;
+  }
 
-  const labels = containerElement.querySelectorAll('[data-label]');
-  if (labels.length === 0) return;
+  // Early exit if all labels are visible
+  if (showAllLabels.value) return;
 
-  // Calculate before slot width dynamically
-  const beforeSlotElement =
-    containerElement.querySelector('[data-before-slot]');
-  const beforeSlotWidth = beforeSlotElement
-    ? beforeSlotElement.offsetWidth + 6
-    : 0; // +6 for gap
+  const beforeSlot = container.querySelector('[data-before-slot]');
+  const beforeSlotWidth = beforeSlot?.offsetWidth ?? 0;
+  const availableWidth = container.clientWidth - 46 - beforeSlotWidth;
 
-  let labelOffset = 0;
-  showExpandLabelButton.value = false;
-  const buttonWidth = 40; // Approximate width for +N button
-  const gapWidth = 6; // gap-1.5 = 6px
-  const availableWidth =
-    containerElement.clientWidth - buttonWidth - beforeSlotWidth;
+  let totalWidth = 0;
+  const labelsArray = Array.from(labels);
 
-  labels.forEach((label, index) => {
-    labelOffset += label.offsetWidth + gapWidth;
-
-    if (labelOffset < availableWidth) {
-      labelPosition.value = index;
-    } else {
-      showExpandLabelButton.value = labels.length > 1;
-    }
+  // Find last visible label index using some() - stops early on overflow
+  const overflowIndex = labelsArray.findIndex(label => {
+    totalWidth += label.offsetWidth + 6;
+    return totalWidth > availableWidth;
   });
+
+  const visibleIndex =
+    overflowIndex === -1 ? labelsArray.length - 1 : overflowIndex - 1;
+
+  labelPosition.value = visibleIndex;
+  showExpandLabelButton.value = visibleIndex < labelsArray.length - 1;
 };
 
-watch(
-  activeLabels,
-  () => {
-    nextTick(computeVisibleLabelPosition);
-  },
-  { immediate: true }
-);
+// Observe DOM mutations (handles labels and before slot changes)
+useMutationObserver(labelContainer, () => computeVisibleLabelPosition(), {
+  childList: true,
+  subtree: true,
+  attributes: false,
+  characterData: false,
+});
 
 const hiddenLabelsCount = computed(() => {
   if (!showExpandLabelButton.value || showAllLabels.value) return 0;
@@ -104,52 +111,53 @@ const onShowLabels = e => {
 </script>
 
 <template>
-  <div ref="labelContainer" v-resize="computeVisibleLabelPosition">
-    <div
-      v-if="activeLabels.length || $slots.before"
-      data-labels-container
-      class="flex items-center flex-shrink min-w-0 gap-x-1.5 gap-y-1"
-      :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
-    >
-      <slot name="before" />
+  <div
+    v-if="showSection"
+    ref="labelContainer"
+    v-resize="computeVisibleLabelPosition"
+    data-labels-container
+    class="flex items-center flex-shrink min-w-0 min-h-6 gap-x-1.5 gap-y-1 [&:not(:has([data-label],[data-before-slot]))]:hidden"
+    :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
+  >
+    <slot name="before" />
 
-      <div
-        v-for="(label, index) in activeLabels"
-        :key="label ? label.id : index"
-        data-label
-        :title="label.description"
-        class="bg-n-button-color px-1.5 h-6 gap-1 rounded-md -outline-offset-1 outline outline-1 outline-n-container inline-flex items-center flex-shrink-0"
-        :class="{
-          'invisible absolute': !showAllLabels && index > labelPosition,
-        }"
-      >
-        <span
-          class="rounded-sm size-1.5 flex-shrink-0"
-          :style="{ background: label.color }"
-        />
-        <span class="font-440 text-xs text-n-slate-12 whitespace-nowrap">
-          {{ label.title }}
-        </span>
-      </div>
-      <Button
-        v-if="showExpandLabelButton"
-        v-tooltip.top="{
-          content: tooltipText,
-          delay: { show: 1000, hide: 0 },
-        }"
-        :label="
-          !showAllLabels && hiddenLabelsCount > 0 ? `+${hiddenLabelsCount}` : ''
-        "
-        xs
-        slate
-        :no-animation="disableToggle"
-        :icon="
-          !showAllLabels && hiddenLabelsCount > 0 ? '' : 'i-lucide-chevron-left'
-        "
-        class="!py-0 !px-1.5 flex-shrink-0 !rounded-md !bg-n-button-color -outline-offset-1"
-        :class="{ 'cursor-default': disableToggle }"
-        @click="onShowLabels"
+    <div
+      v-for="(label, index) in activeLabels"
+      :key="label ? label.id : index"
+      data-label
+      :title="label.description"
+      class="bg-n-button-color px-1.5 h-6 gap-1 rounded-md -outline-offset-1 outline outline-1 outline-n-container inline-flex items-center flex-shrink-0"
+      :class="{
+        'invisible absolute': !showAllLabels && index > labelPosition,
+      }"
+    >
+      <span
+        class="rounded-sm size-1.5 flex-shrink-0"
+        :style="{ background: label.color }"
       />
+      <span class="font-440 text-xs text-n-slate-12 whitespace-nowrap">
+        {{ label.title }}
+      </span>
     </div>
+    <Button
+      v-if="showExpandLabelButton"
+      v-tooltip.top="{
+        content: tooltipText,
+        delay: { show: 1000, hide: 0 },
+      }"
+      :label="
+        !showAllLabels && hiddenLabelsCount > 0 ? `+${hiddenLabelsCount}` : ''
+      "
+      xs
+      slate
+      :no-animation="disableToggle"
+      :icon="
+        !showAllLabels && hiddenLabelsCount > 0 ? '' : 'i-lucide-chevron-left'
+      "
+      class="!py-0 !px-1.5 flex-shrink-0 !rounded-md !bg-n-button-color -outline-offset-1"
+      :class="{ 'cursor-default': disableToggle }"
+      @click="onShowLabels"
+    />
   </div>
+  <template v-else />
 </template>
