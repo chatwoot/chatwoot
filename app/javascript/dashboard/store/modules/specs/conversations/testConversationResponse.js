@@ -26,7 +26,7 @@ export const dataReceived = {
           availability_status: 'online',
           auto_offline: true,
           confirmed: true,
-          email: 'john@acme.inc',
+          email: 'admin@example.com',
           available_name: 'John',
           name: 'John',
           role: 'administrator',

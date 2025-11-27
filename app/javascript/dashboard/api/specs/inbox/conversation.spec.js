@@ -165,12 +165,12 @@ describe('#ConversationAPI', () => {
     it('#sendEmailTranscript', () => {
       conversationAPI.sendEmailTranscript({
         conversationId: 45,
-        email: 'john@acme.inc',
+        email: 'admin@example.com',
       });
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/45/transcript',
         {
-          email: 'john@acme.inc',
+          email: 'admin@example.com',
         }
       );
     });

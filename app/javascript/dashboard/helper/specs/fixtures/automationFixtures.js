@@ -303,7 +303,7 @@ export const agents = [
     availability_status: 'online',
     auto_offline: true,
     confirmed: true,
-    email: 'john@acme.inc',
+    email: 'admin@example.com',
     available_name: 'Fayaz',
     name: 'Fayaz',
     role: 'administrator',
