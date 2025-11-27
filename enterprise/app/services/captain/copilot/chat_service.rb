@@ -15,7 +15,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @previous_history = []
     setup_user(config)
     setup_message_history(config)
-    register_tools
+    @tools = build_tools
     @messages = build_messages(config)
   end
 
@@ -59,16 +59,14 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
                         end
   end
 
-  def register_tools
-    @tool_registry = Captain::ToolRegistryService.new(@assistant, user: @user)
-    @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::GetArticleService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::GetContactService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::GetConversationService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::SearchArticlesService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::SearchContactsService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::SearchConversationsService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::SearchLinearIssuesService)
+  def build_tools
+    tools = []
+
+    tools << Captain::Tools::SearchDocumentationService.new(@assistant, user: @user)
+    tools << Captain::Tools::Copilot::GetConversationService.new(@assistant, user: @user)
+    tools << Captain::Tools::Copilot::SearchConversationsService.new(@assistant, user: @user)
+
+    tools.select(&:active?)
   end
 
   def system_message
@@ -76,10 +74,14 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
       role: 'system',
       content: Captain::Llm::SystemPromptsService.copilot_response_generator(
         @assistant.config['product_name'],
-        @tool_registry.tools_summary,
+        tools_summary,
         @assistant.config
       )
     }
+  end
+
+  def tools_summary
+    @tools.map { |tool| "- #{tool.class.name}: #{tool.class.description}" }.join("\n")
   end
 
   def account_id_context

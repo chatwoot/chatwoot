@@ -5,98 +5,38 @@ module Captain::ChatHelper
     chat = RubyLLM.chat(model: @model)
     chat.with_temperature(@assistant&.config&.[]('temperature').to_f || 1)
 
-    @tool_registry&.registered_tools&.each do |tool|
+    @tools&.each do |tool|
       chat.with_tool(tool)
     end
 
-    @messages.each do |msg|
+    system_msg = @messages.find { |m| m[:role] == 'system' || m[:role] == :system }
+    chat.with_instructions(system_msg[:content]) if system_msg
+
+    conversation_messages = @messages.reject { |m| m[:role] == 'system' || m[:role] == :system }
+    conversation_messages[0...-1].each do |msg|
       chat.add_message(role: msg[:role].to_sym, content: msg[:content])
     end
 
-    response = chat.ask(@messages.last[:content])
-    handle_response(response)
-  rescue StandardError => e
-    Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
-    raise e
+    last_message = conversation_messages.last
+    response = chat.ask(last_message[:content])
+
+    build_response(response)
   end
 
   private
 
-  def handle_response(response)
+  def build_response(response)
     Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
-    message = response.dig('choices', 0, 'message')
-    if message['tool_calls']
-      process_tool_calls(message['tool_calls'])
-    else
-      message = JSON.parse(message['content'].strip)
-      persist_message(message, 'assistant')
-      message
-    end
-  end
 
-  def process_tool_calls(tool_calls)
-    append_tool_calls(tool_calls)
-    tool_calls.each do |tool_call|
-      process_tool_call(tool_call)
-    end
-    request_chat_completion
-  end
-
-  def process_tool_call(tool_call)
-    arguments = JSON.parse(tool_call['function']['arguments'])
-    function_name = tool_call['function']['name']
-    tool_call_id = tool_call['id']
-
-    if @tool_registry.respond_to?(function_name)
-      execute_tool(function_name, arguments, tool_call_id)
-    else
-      process_invalid_tool_call(function_name, tool_call_id)
-    end
-  end
-
-  def execute_tool(function_name, arguments, tool_call_id)
-    persist_message(
-      {
-        content: I18n.t('captain.copilot.using_tool', function_name: function_name),
-        function_name: function_name
-      },
-      'assistant_thinking'
-    )
-    result = @tool_registry.send(function_name, arguments)
-    persist_message(
-      {
-        content: I18n.t('captain.copilot.completed_tool_call', function_name: function_name),
-        function_name: function_name
-      },
-      'assistant_thinking'
-    )
-    append_tool_response(result, tool_call_id)
-  end
-
-  def append_tool_calls(tool_calls)
-    @messages << {
-      role: 'assistant',
-      tool_calls: tool_calls
-    }
-  end
-
-  def process_invalid_tool_call(function_name, tool_call_id)
-    persist_message({ content: I18n.t('captain.copilot.invalid_tool_call'), function_name: function_name }, 'assistant_thinking')
-    append_tool_response(I18n.t('captain.copilot.tool_not_available'), tool_call_id)
-  end
-
-  def append_tool_response(content, tool_call_id)
-    @messages << {
-      role: 'tool',
-      tool_call_id: tool_call_id,
-      content: content
-    }
+    result = { 'response' => response.content }
+    persist_message({ 'content' => response.content }, 'assistant')
+    result
   end
 
   def log_chat_completion_request
     Rails.logger.info(
       "#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion
-      for messages #{@messages} with #{@tool_registry&.registered_tools&.length || 0} tools
+      for messages #{@messages} with #{@tools&.length || 0} tools
       "
     )
   end
