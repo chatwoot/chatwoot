@@ -1,19 +1,18 @@
-class Captain::Tools::Copilot::SearchConversationsService < RubyLLM::Tool
+class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::BaseTool
+  def self.name
+    'search_conversation'
+  end
   description 'Search conversations based on parameters'
 
   params do
     string :status, description: 'Status of the conversation'
-    int :contact_id, description: 'Contact id'
+    number :contact_id, description: 'Contact id'
     string :priority, description: 'Priority of conversation'
     string :labels, description: 'Labels available'
   end
 
-  def execute(arguments)
-    status = arguments['status']
-    contact_id = arguments['contact_id']
-    priority = arguments['priority']
-    labels = arguments['labels']
-
+  def execute(status:, contact_id:, priority:, labels:)
+    Rails.logger.info("Searching conversations for status: #{status}, contact_id: #{contact_id}, priority: #{priority}, labels: #{labels}")
     conversations = get_conversations(status, contact_id, priority, labels)
 
     return 'No conversations found' unless conversations.exists?

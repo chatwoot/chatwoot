@@ -1,10 +1,13 @@
-class Captain::Tools::Copilot::GetConversationService < RubyLLM::Tool
+class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseTool
+  def self.name
+    'get_conversation'
+  end
   description 'Get details of a conversation including messages and contact information'
 
-  param :conversation_id, desc: 'ID of the conversation to retrieve'
+  param :conversation_id, type: :integer, desc: 'ID of the conversation to retrieve'
 
   def execute(conversation_id:)
-    Rails.logger.info "#{self.class.name}: Conversation ID: #{conversation_id}"
+    Rails.logger.info "FOUND CONVERSATION: #{self.class.name}: Conversation ID: #{conversation_id}"
 
     return 'Missing required parameters' if conversation_id.blank?
 

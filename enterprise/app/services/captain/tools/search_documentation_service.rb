@@ -1,4 +1,7 @@
-class Captain::Tools::SearchDocumentationService < RubyLLM::Tool
+class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseTool
+  def self.name
+    'search_documentation'
+  end
   description 'Search and retrieve documentation from knowledge base'
 
   param :query, desc: 'Search Query'
