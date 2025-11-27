@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useBreakpoints } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import wootConstants from 'dashboard/constants/globals';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import ConversationContextMenu from 'dashboard/components/widgets/conversation/contextMenu/Index.vue';
 import ConversationCardExpanded from './ConversationCardExpanded.vue';
@@ -42,7 +43,9 @@ const emit = defineEmits([
 
 const router = useRouter();
 
-const breakpoints = useBreakpoints({ lg: 1024 });
+const breakpoints = useBreakpoints({
+  lg: wootConstants.LARGE_SCREEN_BREAKPOINT,
+});
 const isLargeScreen = breakpoints.greaterOrEqual('lg');
 
 // Show expanded only when: isExpandedLayout=true AND screen >= 1024px
