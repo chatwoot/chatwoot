@@ -293,11 +293,11 @@ const handleShowEdit = contest => {
           <article
             v-for="contest in contests"
             :key="contest.id"
-            class="flex flex-wrap items-center gap-3 rounded-2xl border border-n-gray-4 bg-white px-5 py-2 shadow-sm transition-colors hover:border-n-alpha-4 hover:bg-n-alpha-1 cursor-pointer dark:bg-n-solid-2 dark:hover:bg-n-solid-3"
+            class="flex flex-wrap items-start gap-3 rounded-2xl border border-n-gray-4 bg-white px-5 py-3 shadow-sm transition-colors hover:border-n-alpha-4 hover:bg-n-alpha-1 cursor-pointer dark:bg-n-solid-2 dark:hover:bg-n-solid-3 xl:grid xl:grid-cols-[1.3fr_1fr_0.9fr_1.2fr_1.2fr_auto] xl:gap-3"
             @click="handleContestClick(contest)"
           >
             <div
-              class="min-w-[10rem] flex-1 space-y-1 pb-5 overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5"
+              class="min-w-[10rem] flex-1 space-y-1 pb-4 overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 xl:pb-0 xl:overflow-visible"
             >
               <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
                 {{ t('CONTESTS.TABLE_NAME') }}
@@ -310,7 +310,7 @@ const handleShowEdit = contest => {
             </div>
 
             <div
-              class="min-w-[9rem] flex-1 space-y-1 pb-4 overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5"
+              class="min-w-[9rem] flex-1 space-y-1 pb-4 overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 xl:pb-0 xl:overflow-visible"
             >
               <p class="text-[11px] uppercase text-n-slate-10">
                 {{ t('CONTESTS.TABLE_TRIGGER_WORDS') }}
@@ -333,7 +333,7 @@ const handleShowEdit = contest => {
             </div>
 
             <div
-              class="min-w-[5rem] flex-1 pb-5 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11"
+              class="min-w-[5rem] flex-1 pb-4 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11 xl:pb-0 xl:overflow-visible"
             >
               <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
                 {{ t('CONTESTS.TABLE_DATES') }}
@@ -349,7 +349,7 @@ const handleShowEdit = contest => {
             </div>
 
             <div
-              class="min-w-[14rem] md:min-w-[18rem] flex-1 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1"
+              class="min-w-[12rem] md:min-w-[14rem] flex-1 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1 xl:overflow-visible"
             >
               <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
                 {{ t('CONTESTS.TABLE_DESCRIPTION') }}
@@ -362,7 +362,7 @@ const handleShowEdit = contest => {
             </div>
 
             <div
-              class="min-w-[14rem] flex-1 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1"
+              class="min-w-[12rem] flex-1 space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1 xl:overflow-visible"
             >
               <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
                 {{ t('CONTESTS.TABLE_TERMS') }}
@@ -374,7 +374,10 @@ const handleShowEdit = contest => {
               </span>
             </div>
 
-            <div class="ml-auto flex items-center gap-1" @click.stop>
+            <div
+              class="ml-auto flex items-center gap-1 xl:justify-end"
+              @click.stop
+            >
               <Button
                 icon="i-lucide-pencil"
                 slate
@@ -391,6 +394,40 @@ const handleShowEdit = contest => {
                 :aria-label="t('CONTESTS.TABLE_DELETE_ACTION')"
                 @click="openDeleteDialog(contest)"
               />
+            </div>
+
+            <div
+              class="w-full space-y-1 overflow-y-auto overflow-x-hidden text-sm text-n-slate-11 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden xl:col-span-full"
+            >
+              <span class="text-[11px] uppercase tracking-wide text-n-slate-10">
+                {{ t('CONTESTS.TABLE_QUESTIONNAIRE') }}
+              </span>
+              <div
+                class="flex max-h-28 flex-col gap-1 overflow-y-auto overflow-x-hidden rounded-xl border border-n-alpha-3 bg-n-alpha-1/40 p-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden dark:border-n-alpha-4 dark:bg-n-solid-2/40"
+              >
+                <template
+                  v-if="contest.questionnaire && contest.questionnaire.length"
+                >
+                  <div
+                    v-for="(item, index) in contest.questionnaire"
+                    :key="`${contest.id}-question-${index}`"
+                    class="rounded-lg bg-white/80 px-3 py-2 text-sm font-medium text-n-slate-12 dark:bg-n-solid-3"
+                  >
+                    <p class="text-sm font-semibold text-n-slate-12">
+                      {{ item.question }}
+                    </p>
+                    <p
+                      v-if="item.description"
+                      class="text-[11px] text-n-slate-11"
+                    >
+                      {{ item.description }}
+                    </p>
+                  </div>
+                </template>
+                <span v-else>
+                  {{ t('CONTESTS.TABLE_QUESTIONNAIRE_EMPTY') }}
+                </span>
+              </div>
             </div>
           </article>
 

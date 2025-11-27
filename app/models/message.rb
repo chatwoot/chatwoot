@@ -245,13 +245,14 @@ class Message < ApplicationRecord
   end
 
   def save_story_info(story_info)
-    self.content_attributes = content_attributes.merge(
-      {
-        story_id: story_info['id'],
-        story_sender: inbox.channel.instagram_id,
-        story_url: story_info['url']
-      }
-    )
+    attributes_to_merge = {
+      story_id: story_info['id'],
+      story_sender: story_info['story_sender'] || inbox.channel.instagram_id,
+      story_url: story_info['url'],
+      image_type: 'story_mention'
+    }.compact
+
+    self.content_attributes = content_attributes.merge(attributes_to_merge)
     save!
   end
 

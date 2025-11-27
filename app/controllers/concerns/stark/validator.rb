@@ -8,7 +8,7 @@ module Stark
     end
 
     def can_process_message?
-      valid_event_name? && valid_bot_url? && incoming_message?
+      valid_event_name? && valid_bot_url? && incoming_message? && unassigned_conversation?
     end
 
     def valid_event_name?
@@ -21,6 +21,10 @@ module Stark
 
     def incoming_message?
       event_data[:message].incoming?
+    end
+
+    def unassigned_conversation?
+      event_data[:message].conversation.assignee_id.blank?
     end
 
     def valid_dealership_id?(dealership_id)

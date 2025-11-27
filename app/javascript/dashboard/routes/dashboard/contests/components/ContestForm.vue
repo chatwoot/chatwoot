@@ -35,6 +35,7 @@ const defaultForm = {
   end_date: '',
   description: '',
   terms: '',
+  questionnaire: [],
 };
 
 const form = reactive({ ...defaultForm, ...props.contest });
@@ -45,15 +46,46 @@ const errors = reactive({
   end_date: '',
   description: '',
   terms: '',
+  questionnaire: [],
 });
+
+const ensureQuestionnaireEntry = () => {
+  if (!Array.isArray(form.questionnaire)) {
+    form.questionnaire = [];
+  }
+  if (!form.questionnaire.length) {
+    form.questionnaire.push({
+      question: '',
+      description: '',
+    });
+  }
+};
+
+const syncQuestionnaireErrors = () => {
+  if (!Array.isArray(errors.questionnaire)) {
+    errors.questionnaire = [];
+  }
+  ensureQuestionnaireEntry();
+  while (errors.questionnaire.length < form.questionnaire.length) {
+    errors.questionnaire.push('');
+  }
+  while (errors.questionnaire.length > form.questionnaire.length) {
+    errors.questionnaire.pop();
+  }
+};
+
+ensureQuestionnaireEntry();
+syncQuestionnaireErrors();
 
 watch(
   () => props.contest,
   value => {
     Object.assign(form, defaultForm, value);
+    ensureQuestionnaireEntry();
     Object.keys(errors).forEach(key => {
-      errors[key] = '';
+      errors[key] = key === 'questionnaire' ? [] : '';
     });
+    syncQuestionnaireErrors();
   },
   { deep: true }
 );
@@ -173,6 +205,15 @@ const validateForm = () => {
     errors.terms = t('CONTESTS.FORM_VALIDATION_REQUIRED');
     isValid = false;
   }
+  syncQuestionnaireErrors();
+  form.questionnaire.forEach((item, index) => {
+    if (!item?.question?.trim()) {
+      errors.questionnaire[index] = t(
+        'CONTESTS.FORM_VALIDATION_QUESTION_REQUIRED'
+      );
+      isValid = false;
+    }
+  });
   return isValid;
 };
 
@@ -185,12 +226,57 @@ const handleSubmit = () => {
     trigger_words: [...form.trigger_words]
       .map(word => word.trim())
       .filter(Boolean),
+    questionnaire: form.questionnaire
+      .map(entry => ({
+        question: entry?.question?.trim(),
+        description: entry?.description?.trim(),
+      }))
+      .filter(entry => entry.question),
   });
 };
 
 const handleCancel = () => {
   emit('cancel');
 };
+
+const addQuestion = () => {
+  form.questionnaire.push({
+    question: '',
+    description: '',
+  });
+  syncQuestionnaireErrors();
+};
+
+const removeQuestion = index => {
+  if (form.questionnaire.length <= index) {
+    return;
+  }
+  if (form.questionnaire.length === 1) {
+    form.questionnaire[0] = {
+      question: '',
+      description: '',
+    };
+    errors.questionnaire[0] = '';
+    return;
+  }
+  form.questionnaire.splice(index, 1);
+  ensureQuestionnaireEntry();
+  syncQuestionnaireErrors();
+};
+
+watch(
+  () => form.questionnaire,
+  () => {
+    ensureQuestionnaireEntry();
+    syncQuestionnaireErrors();
+    form.questionnaire.forEach((entry, index) => {
+      if (entry?.question?.trim()) {
+        errors.questionnaire[index] = '';
+      }
+    });
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -310,6 +396,79 @@ const handleCancel = () => {
               :message="errors.terms"
               :message-type="errors.terms ? 'error' : 'info'"
             />
+          </div>
+        </section>
+
+        <section
+          class="grid gap-3 rounded-2xl border border-n-alpha-2 p-4 dark:border-n-alpha-3 dark:bg-[#1f2129]"
+        >
+          <header class="flex flex-col gap-1">
+            <h3
+              class="text-xs font-semibold uppercase tracking-wide text-n-slate-10"
+            >
+              {{ t('CONTESTS.FORM_SECTION_QUESTIONNAIRE') }}
+            </h3>
+            <p class="text-sm text-n-slate-11">
+              {{ t('CONTESTS.FORM_SECTION_QUESTIONNAIRE_HELP') }}
+            </p>
+          </header>
+
+          <div class="space-y-4">
+            <div
+              v-for="(item, index) in form.questionnaire"
+              :key="`question-${index}`"
+              class="rounded-xl border border-n-alpha-1 bg-n-gray-1 p-4 dark:bg-[#1c1f25]"
+            >
+              <div class="flex items-center justify-between gap-2 pb-2">
+                <h4 class="text-sm font-semibold text-n-slate-12">
+                  {{
+                    t('CONTESTS.FORM_QUESTIONNAIRE_ITEM_LABEL', {
+                      number: index + 1,
+                    })
+                  }}
+                </h4>
+                <Button
+                  v-if="form.questionnaire.length > 1"
+                  slate
+                  ghost
+                  icon="i-lucide-trash-2"
+                  type="button"
+                  xs
+                  :aria-label="t('CONTESTS.FORM_QUESTIONNAIRE_REMOVE')"
+                  @click="removeQuestion(index)"
+                />
+              </div>
+              <div class="space-y-3">
+                <Input
+                  v-model="item.question"
+                  required
+                  :label="t('CONTESTS.FORM_QUESTION_LABEL')"
+                  :placeholder="t('CONTESTS.FORM_QUESTION_PLACEHOLDER')"
+                  :message="errors.questionnaire[index]"
+                  :message-type="errors.questionnaire[index] ? 'error' : 'info'"
+                />
+                <TextArea
+                  v-model="item.description"
+                  auto-height
+                  resize
+                  :label="t('CONTESTS.FORM_QUESTION_DESCRIPTION_LABEL')"
+                  :placeholder="
+                    t('CONTESTS.FORM_QUESTION_DESCRIPTION_PLACEHOLDER')
+                  "
+                />
+              </div>
+            </div>
+            <div
+              v-if="!form.questionnaire.length"
+              class="rounded-xl border border-dashed border-n-alpha-3 bg-white p-4 text-sm text-n-slate-11 dark:bg-[#1c1f25]"
+            >
+              {{ t('CONTESTS.FORM_QUESTIONNAIRE_EMPTY') }}
+            </div>
+            <div class="flex">
+              <Button type="button" icon="i-lucide-plus" @click="addQuestion">
+                {{ t('CONTESTS.FORM_QUESTIONNAIRE_ADD') }}
+              </Button>
+            </div>
           </div>
         </section>
 

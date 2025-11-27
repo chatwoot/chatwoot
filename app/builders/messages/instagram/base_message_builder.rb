@@ -132,12 +132,32 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     attachments.each do |attachment|
       process_attachment(attachment)
     end
+
+    ensure_story_mention_content
   end
 
   def save_story_id
     return if story_reply_attributes.blank?
 
-    @message.save_story_info(story_reply_attributes)
+    story_payload = {
+      'id' => story_reply_attributes['id'],
+      'url' => story_reply_attributes['url'],
+      'story_sender' => story_sender_label
+    }.compact
+
+    @message.save_story_info(story_payload)
+    ensure_story_attachment(story_payload['url'])
+
+    # Set default content for story reply (tags back) case
+    if @message.content.blank? && @message.outgoing?
+      # For outgoing echo messages (tags back), get the contact from the conversation
+      conversation_contact = @conversation&.contact
+      instagram_username = conversation_contact&.additional_attributes&.dig('social_instagram_user_name') ||
+                           conversation_contact&.additional_attributes&.dig('social_profiles', 'instagram') ||
+                           conversation_contact&.name ||
+                           conversation_contact&.identifier ||
+      @message.update!(content: I18n.t('conversations.messages.instagram_story_reply_content', username: instagram_username))
+    end
   end
 
   def build_conversation
@@ -198,6 +218,46 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   def handle_error(error)
     ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
     true
+  end
+
+  def ensure_story_mention_content
+    return unless @message.present?
+    return unless @message.content.blank?
+    return unless @message.content_attributes[:image_type] == 'story_mention'
+
+    Rails.logger.info(
+      "[InstagramStoryMentionFallback] message_id=#{@message.id} content missing. attributes=#{@message.content_attributes}"
+    )
+
+    @message.update!(content: I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender_label))
+  end
+
+  def story_sender_label
+    story_sender_attr = @message.content_attributes[:story_sender]
+    raw_sender = story_sender_attr.to_s.strip
+    contact_name = contact&.name.presence || contact&.identifier.presence
+
+    if raw_sender.blank? || raw_sender =~ /\A\d+\z/
+      contact_name.presence || I18n.t('conversations.messages.instagram_story_unknown_sender')
+    else
+      raw_sender
+    end
+  end
+
+  def ensure_story_attachment(story_url)
+    return if story_url.blank?
+    return if @message.attachments.exists?
+
+    @message.attachments.create!(
+      account_id: @message.account_id,
+      file_type: :story_mention,
+      external_url: story_url
+    )
+  end
+
+  def process_attachment(attachment)
+    super(attachment)
+    ensure_story_mention_content if attachment['type'].to_s == 'story_mention'
   end
 
   # Abstract methods to be implemented by subclasses

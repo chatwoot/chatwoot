@@ -28,6 +28,24 @@ const getters = {
   hasLoaded: _state => _state.hasLoaded,
 };
 
+const normalizeQuestionnaire = (entries = [], fallback = []) => {
+  if (Array.isArray(entries) && entries.length) {
+    return entries.map(item => ({
+      question: item?.question || '',
+      description: item?.description || '',
+    }));
+  }
+
+  if (Array.isArray(fallback) && fallback.length) {
+    return fallback.map(item => ({
+      question: item?.question || '',
+      description: item?.description || '',
+    }));
+  }
+
+  return [];
+};
+
 const serializeContest = payload => {
   const data = {
     name: payload.name,
@@ -48,6 +66,15 @@ const serializeContest = payload => {
 
   if (payload.terms) {
     data.terms_and_condition = payload.terms;
+  }
+
+  if (Array.isArray(payload.questionnaire)) {
+    data.questionnaire = payload.questionnaire
+      .filter(item => item?.question?.trim())
+      .map(item => ({
+        question: item.question.trim(),
+        description: item?.description?.trim() || undefined,
+      }));
   }
 
   return data;
@@ -87,6 +114,10 @@ const normalizeContest = (record = {}, fallback = {}) => ({
   ),
   description: record.description || fallback.description || '',
   terms: record.terms || record.terms_and_condition || fallback.terms || '',
+  questionnaire: normalizeQuestionnaire(
+    record.questionnaire,
+    fallback.questionnaire
+  ),
   entries: cloneEntries(record.entries || fallback.entries || []),
   created_at: record.created_at || fallback.created_at,
   updated_at: record.updated_at || fallback.updated_at,
