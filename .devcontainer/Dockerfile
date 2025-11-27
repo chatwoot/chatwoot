@@ -1,13 +1,13 @@
-# The below image is created out of the Dockerfile.base
-# It has the dependencies already installed so that codespace will boot up fast
 FROM ghcr.io/chatwoot/chatwoot_codespace:latest
+
+USER vscode
 
 # Do the set up required for chatwoot app
 WORKDIR /workspace
 
-# Copy dependency files first for better caching
-COPY package.json pnpm-lock.yaml ./
-COPY Gemfile Gemfile.lock ./
+# Copy dependency files with correct ownership
+COPY --chown=vscode:vscode package.json pnpm-lock.yaml ./
+COPY --chown=vscode:vscode Gemfile Gemfile.lock ./
 
 # Install dependencies (will be cached if files don't change)
 RUN pnpm install --frozen-lockfile && \
