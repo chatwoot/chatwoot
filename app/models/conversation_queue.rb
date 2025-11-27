@@ -12,6 +12,7 @@
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
 #  conversation_id :bigint           not null
+#  inbox_id        :bigint
 #
 # Indexes
 #
@@ -19,6 +20,7 @@
 #  idx_on_account_id_status_queued_at_960ec2cf36  (account_id,status,queued_at)
 #  index_conversation_queues_on_account_id        (account_id)
 #  index_conversation_queues_on_conversation_id   (conversation_id) UNIQUE
+#  index_conversation_queues_on_inbox_id          (inbox_id)
 #
 # Foreign Keys
 #
@@ -33,9 +35,11 @@ class ConversationQueue < ApplicationRecord
 
   scope :waiting, -> { where(status: :waiting).order(:position, :queued_at) }
   scope :for_account, ->(account_id) { where(account_id: account_id) }
+  scope :for_inbox, ->(inbox_id) { where(inbox_id: inbox_id) }
 
   validates :conversation_id, uniqueness: true
   validates :position, presence: true
+  validates :inbox_id, presence: true
 
   before_validation :set_position, on: :create
 
@@ -55,6 +59,7 @@ class ConversationQueue < ApplicationRecord
   def next_position
     max_position = ConversationQueue
                    .for_account(account_id)
+                   .for_inbox(inbox_id)
                    .waiting
                    .maximum(:position) || 0
     max_position + 1
