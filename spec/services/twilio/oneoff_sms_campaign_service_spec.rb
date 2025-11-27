@@ -70,5 +70,36 @@ describe Twilio::OneoffSmsCampaignService do
 
       sms_campaign_service.perform
     end
+
+    it 'continues processing contacts when Twilio raises an error' do
+      contact_error, contact_success = FactoryBot.create_list(:contact, 2, :with_phone_number, account: account)
+      contact_error.update_labels([label1.title])
+      contact_success.update_labels([label1.title])
+
+      error = Twilio::REST::TwilioError.new("The 'To' number #{contact_error.phone_number} is not a valid phone number.")
+
+      allow(twilio_messages).to receive(:create).and_return(nil)
+
+      expect(twilio_messages).to receive(:create).with(
+        body: campaign.message,
+        messaging_service_sid: twilio_sms.messaging_service_sid,
+        to: contact_error.phone_number,
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
+      ).and_raise(error)
+
+      expect(twilio_messages).to receive(:create).with(
+        body: campaign.message,
+        messaging_service_sid: twilio_sms.messaging_service_sid,
+        to: contact_success.phone_number,
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
+      ).once
+
+      expect(Rails.logger).to receive(:error).with(
+        "[Twilio Campaign #{campaign.id}] Failed to send to #{contact_error.phone_number}: #{error.message}"
+      )
+
+      sms_campaign_service.perform
+      expect(campaign.reload.completed?).to be true
+    end
   end
 end

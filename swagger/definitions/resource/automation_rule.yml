@@ -10,4 +10,4 @@ properties:
       - type: object
         description: Single automation rule (for show/create/update endpoints)
         allOf:
-          - $ref: '#/components/schemas/automation_rule_item' 
+          - $ref: '#/components/schemas/automation_rule_item'

@@ -20,6 +20,11 @@ const props = defineProps({
   enableVariables: { type: Boolean, default: false },
   enableCannedResponses: { type: Boolean, default: true },
   enabledMenuOptions: { type: Array, default: () => [] },
+  enableCaptainTools: { type: Boolean, default: false },
+  signature: { type: String, default: '' },
+  allowSignature: { type: Boolean, default: false },
+  sendWithSignature: { type: Boolean, default: false },
+  channelType: { type: String, default: '' },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -98,6 +103,11 @@ watch(
         :enable-variables="enableVariables"
         :enable-canned-responses="enableCannedResponses"
         :enabled-menu-options="enabledMenuOptions"
+        :enable-captain-tools="enableCaptainTools"
+        :signature="signature"
+        :allow-signature="allowSignature"
+        :send-with-signature="sendWithSignature"
+        :channel-type="channelType"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"

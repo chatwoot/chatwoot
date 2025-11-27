@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { useInstallationName } from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -18,6 +18,7 @@ const store = useStore();
 const { t } = useI18n();
 
 const { formatMessage } = useMessageFormatter();
+const { replaceInstallationName } = useBranding();
 
 const selectedChannelId = ref('');
 const availableChannels = ref([]);
@@ -29,16 +30,9 @@ const errorDescription = computed(() => {
     ? t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.DESCRIPTION')
     : t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.EXPIRED');
 });
-const globalConfig = computed(() => store.getters['globalConfig/get']);
 
 const formattedErrorMessage = computed(() => {
-  return formatMessage(
-    useInstallationName(
-      errorDescription.value,
-      globalConfig.value.installationName
-    ),
-    false
-  );
+  return formatMessage(replaceInstallationName(errorDescription.value), false);
 });
 
 const fetchChannels = async () => {

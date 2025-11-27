@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "您已经超过对话限制。黑客计划只允许500次对话。",
       "INBOXES": "您已超过收件箱限制。Hacker 计划只支持网站在线聊天。其他收件箱如电子邮件、WhatsApp 等需要付费计划。",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "AGENTS": "您已超过席位限制。当前计划只允许 {allowedAgents} 个席位。",
       "NON_ADMIN": "请联系您的管理员升级计划并继续使用所有功能。"
     },
     "TITLE": "帐户设置",
@@ -134,7 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "按回车键选择",
       "ENTER_TO_REMOVE": "按回车键删除",
-      "NO_OPTIONS": "List is empty",
+      "NO_OPTIONS": "列表为空",
       "SELECT_ONE": "请选择一个",
       "SELECT": "选择"
     }

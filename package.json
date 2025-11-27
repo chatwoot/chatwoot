@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "4.4.0",
+  "version": "4.8.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -33,14 +33,13 @@
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
-    "@chatwoot/prosemirror-schema": "1.1.6-next",
-    "@chatwoot/utils": "^0.0.47",
+    "@chatwoot/prosemirror-schema": "1.2.3",
+    "@chatwoot/utils": "^0.0.51",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@iconify-json/material-symbols": "^1.2.10",
-    "@june-so/analytics-next": "^2.0.0",
     "@lk77/vue3-color": "^3.0.6",
     "@radix-ui/colors": "^3.0.0",
     "@rails/actioncable": "6.1.3",
@@ -80,6 +79,8 @@
     "md5": "^2.3.0",
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
+    "qrcode": "^1.5.4",
+    "posthog-js": "^1.260.2",
     "semver": "7.6.3",
     "snakecase-keys": "^8.0.1",
     "timezone-phone-codes": "^0.0.2",
@@ -93,7 +94,7 @@
     "vue-chartjs": "5.3.1",
     "vue-datepicker-next": "^1.0.3",
     "vue-dompurify-html": "^5.1.0",
-    "vue-i18n": "9.14.3",
+    "vue-i18n": "9.14.5",
     "vue-letter": "^0.2.1",
     "vue-multiselect": "3.1.0",
     "vue-router": "~4.4.5",
@@ -109,7 +110,7 @@
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@histoire/plugin-vue": "0.17.15",
     "@iconify-json/logos": "^1.2.3",
-    "@iconify-json/lucide": "^1.2.11",
+    "@iconify-json/lucide": "^1.2.68",
     "@iconify-json/ph": "^1.2.1",
     "@iconify-json/ri": "^1.2.3",
     "@iconify-json/teenyicons": "^1.2.1",
@@ -138,7 +139,7 @@
     "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
-    "vite": "^5.4.19",
+    "vite": "^5.4.21",
     "vite-plugin-ruby": "^5.0.0",
     "vitest": "3.0.5"
   },
@@ -154,7 +155,7 @@
   "pnpm": {
     "overrides": {
       "vite-node": "2.0.1",
-      "vite": "5.4.19",
+      "vite": "5.4.21",
       "vitest": "3.0.5"
     }
   },

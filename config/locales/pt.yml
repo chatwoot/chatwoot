@@ -18,9 +18,21 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 pt:
   hello: 'Olá, mundo'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Por favor, insira um endereço de e-mail válido'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Legal! Pedido de redefinição de senha bem sucedido. Verifique o seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum uutilizador com o e-mail especificado.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: O seu pedido de eliminação de caixa de entrada será processado mais tarde.
   errors:
     validations:
@@ -34,6 +46,10 @@ pt:
       email_already_exists: 'Já existe uma conta com o %{email}'
       invalid_params: 'Inválido, por favor, verifique os parâmetros de subscrição e tente novamente'
       failed: Falha na inscrição
+    assignment_policy:
+      not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Tipo de dados inválido
@@ -46,6 +62,9 @@ pt:
         invalid: Email inválido
       phone_number:
         invalid: deve estar no formato e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: deve ser único na categoria e no portal
@@ -53,6 +72,14 @@ pt:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: Por favor, verifique a ligação à rede, endereço IMAP e tente novamente.
@@ -63,13 +90,27 @@ pt:
       validations:
         name: não deve iniciar ou terminar com símbolos, nem deve ter < > / \ @ caracteres.
     custom_filters:
-      number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um utilizador por conta é de 50.
+      number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um utilizador por conta é de 1000.
       invalid_attribute: Chave de atributo inválida - [%{key}]. A chave deve ser uma das [%{allowed_keys}] ou um atributo personalizado definido na conta.
       invalid_operator: Operador inválido. Os operadores permitidos para %{attribute_name} são [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Período do relatório de %{since} a %{until}
     utc_warning: O relatório gerado está no fuso horário UTC
@@ -148,6 +189,8 @@ pt:
       captain:
         resolved: 'A conversa foi marcada como resolvida por %{user_name} devido à inatividade'
         open: 'A conversa foi marcada como aberta por %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'Conversa foi resolvida por %{contact_name}'
@@ -195,6 +238,7 @@ pt:
     reply:
       email:
         header:
+          notifications: 'Notificações'
           from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} de %{business_name} <%{from_email}>'
@@ -264,6 +308,28 @@ pt:
       completed_tool_call: 'Chamada da ferramenta %{function_name} concluída'
       invalid_tool_call: 'Chamada de ferramenta incorreta'
       tool_not_available: 'Ferramenta não disponível'
+    documents:
+      limit_exceeded: 'Document limit exceeded'
+      pdf_format_error: 'must be a PDF file'
+      pdf_size_error: 'must be less than 10MB'
+      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
+      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
+      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
+      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      openai_api_error: 'OpenAI API Error: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
+      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
+      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: Pesquisar artigo por título ou corpo...
@@ -332,3 +398,14 @@ pt:
       Nova conversa iniciada em %{brand_name}\n\nCanal: %{channel_info}\nCriado: %{formatted_creation_time}\nID da conversa: %{display_id}\nVer em %{brand_name}: %{url}
     transcript_activity: |
       Transcrição da conversa de %{brand_name}\n\nCanal: %{channel_info}\nID da conversa: %{display_id}\nVer em %{brand_name}: %{url}\n\nTranscrição:\n%{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+  portals:
+    send_instructions:
+      email_required: 'E-mail é necessário'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

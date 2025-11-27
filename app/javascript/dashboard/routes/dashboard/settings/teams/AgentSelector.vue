@@ -1,11 +1,11 @@
 <script>
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 
 export default {
   components: {
     NextButton,
-    Thumbnail,
+    Avatar,
   },
   props: {
     agentList: {
@@ -115,11 +115,13 @@ export default {
           </td>
           <td>
             <div class="flex items-center gap-2">
-              <Thumbnail
+              <Avatar
                 :src="agent.thumbnail"
-                size="24px"
-                :username="agent.name"
+                :name="agent.name"
                 :status="agent.availability_status"
+                :size="24"
+                hide-offline-status
+                rounded-full
               />
               <h4 class="text-base mb-0 text-n-slate-12">
                 {{ agent.name }}

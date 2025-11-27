@@ -1,10 +1,11 @@
 class Integrations::OpenaiBaseService
+  include Integrations::LlmInstrumentation
+
   # gpt-4o-mini supports 128,000 tokens
   # 1 token is approx 4 characters
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
-  API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
   GPT_MODEL = ENV.fetch('OPENAI_GPT_MODEL', 'gpt-4o-mini').freeze
 
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
@@ -81,22 +82,64 @@ class Integrations::OpenaiBaseService
     self.class::CACHEABLE_EVENTS.include?(event_name)
   end
 
+  def api_url
+    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
+    endpoint = endpoint.chomp('/')
+    "#{endpoint}/v1/chat/completions"
+  end
+
   def make_api_call(body)
-    headers = {
+    parsed_body = JSON.parse(body)
+    instrumentation_params = build_instrumentation_params(parsed_body)
+
+    instrument_llm_call(instrumentation_params) do
+      execute_api_request(body, parsed_body['messages'])
+    end
+  end
+
+  def build_instrumentation_params(parsed_body)
+    {
+      span_name: "llm.#{event_name}",
+      account_id: hook.account_id,
+      conversation_id: conversation&.display_id,
+      feature_name: event_name,
+      model: parsed_body['model'],
+      messages: parsed_body['messages'],
+      temperature: parsed_body['temperature']
+    }
+  end
+
+  def execute_api_request(body, messages)
+    Rails.logger.info("OpenAI API request: #{body}")
+    response = HTTParty.post(api_url, headers: api_headers, body: body)
+    Rails.logger.info("OpenAI API response: #{response.body}")
+
+    parse_api_response(response, messages)
+  end
+
+  def api_headers
+    {
       'Content-Type' => 'application/json',
       'Authorization' => "Bearer #{hook.settings['api_key']}"
     }
+  end
 
-    Rails.logger.info("OpenAI API request: #{body}")
-    response = HTTParty.post(API_URL, headers: headers, body: body)
-    Rails.logger.info("OpenAI API response: #{response.body}")
+  def parse_api_response(response, messages)
+    return build_error_response(response, messages) unless response.success?
 
-    return { error: response.parsed_response, error_code: response.code } unless response.success?
+    parsed_response = JSON.parse(response.body)
+    build_success_response(parsed_response, messages)
+  end
 
-    choices = JSON.parse(response.body)['choices']
+  def build_error_response(response, messages)
+    { error: response.parsed_response, error_code: response.code, request_messages: messages }
+  end
 
-    return { message: choices.first['message']['content'] } if choices.present?
+  def build_success_response(parsed_response, messages)
+    choices = parsed_response['choices']
+    usage = parsed_response['usage']
+    message_content = choices.present? ? choices.first['message']['content'] : nil
 
-    { message: nil }
+    { message: message_content, usage: usage, request_messages: messages }
   end
 end

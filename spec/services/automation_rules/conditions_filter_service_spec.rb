@@ -134,5 +134,86 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
       end
     end
+
+    context 'when conditions based on labels' do
+      before do
+        conversation.add_labels(['bug'])
+      end
+
+      context 'when filter_operator is equal_to' do
+        before do
+          rule.conditions = [
+            { 'values': ['bug'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'equal_to' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when conversation has the label' do
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when conversation does not have the label' do
+          rule.conditions = [
+            { 'values': ['feature'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'equal_to' }
+          ]
+          rule.save
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
+      context 'when filter_operator is not_equal_to' do
+        before do
+          rule.conditions = [
+            { 'values': ['feature'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'not_equal_to' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when conversation does not have the label' do
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when conversation has the label' do
+          conversation.add_labels(['feature'])
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
+      context 'when filter_operator is is_present' do
+        before do
+          rule.conditions = [
+            { 'values': [], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'is_present' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when conversation has any labels' do
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when conversation has no labels' do
+          conversation.update_labels([])
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
+      context 'when filter_operator is is_not_present' do
+        before do
+          rule.conditions = [
+            { 'values': [], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'is_not_present' }
+          ]
+          rule.save
+        end
+
+        it 'will return false when conversation has any labels' do
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+
+        it 'will return true when conversation has no labels' do
+          conversation.update_labels([])
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+      end
+    end
   end
 end

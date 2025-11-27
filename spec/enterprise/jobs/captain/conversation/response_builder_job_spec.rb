@@ -9,6 +9,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   describe '#perform' do
     let(:conversation) { create(:conversation, inbox: inbox, account: account) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
+    let(:mock_agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
 
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
@@ -16,19 +17,79 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(inbox).to receive(:captain_active?).and_return(true)
       allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
+      allow(Captain::Assistant::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
+      allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
     end
 
-    it 'generates and processes response' do
-      described_class.perform_now(conversation, assistant)
-      expect(conversation.messages.count).to eq(2)
-      expect(conversation.messages.outgoing.count).to eq(1)
-      expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
+    context 'when captain_v2 is disabled' do
+      before do
+        allow(account).to receive(:feature_enabled?).and_return(false)
+        allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(false)
+      end
+
+      it 'uses Captain::Llm::AssistantChatService' do
+        expect(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant)
+        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
+
+        described_class.perform_now(conversation, assistant)
+        expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
+      end
+
+      it 'generates and processes response' do
+        described_class.perform_now(conversation, assistant)
+        expect(conversation.messages.count).to eq(2)
+        expect(conversation.messages.outgoing.count).to eq(1)
+        expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
+      end
+
+      it 'increments usage response' do
+        described_class.perform_now(conversation, assistant)
+        account.reload
+        expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
+      end
     end
 
-    it 'increments usage response' do
-      described_class.perform_now(conversation, assistant)
-      account.reload
-      expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
+    context 'when captain_v2 is enabled' do
+      before do
+        allow(account).to receive(:feature_enabled?).and_return(false)
+        allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
+      end
+
+      it 'uses Captain::Assistant::AgentRunnerService' do
+        expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
+          assistant: assistant,
+          conversation: conversation
+        )
+        expect(Captain::Llm::AssistantChatService).not_to receive(:new)
+
+        described_class.perform_now(conversation, assistant)
+        expect(conversation.messages.last.content).to eq('Hey, welcome to Captain V2')
+      end
+
+      it 'passes message history to agent runner service' do
+        expected_messages = [
+          { content: 'Hello', role: 'user' }
+        ]
+
+        expect(mock_agent_runner_service).to receive(:generate_response).with(
+          message_history: expected_messages
+        )
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'generates and processes response' do
+        described_class.perform_now(conversation, assistant)
+        expect(conversation.messages.count).to eq(2)
+        expect(conversation.messages.outgoing.count).to eq(1)
+        expect(conversation.messages.last.content).to eq('Hey, welcome to Captain V2')
+      end
+
+      it 'increments usage response' do
+        described_class.perform_now(conversation, assistant)
+        account.reload
+        expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
+      end
     end
 
     context 'when message contains an image' do

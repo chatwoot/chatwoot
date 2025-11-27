@@ -1,20 +1,16 @@
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-export default {
-  components: {
-    Thumbnail,
+<script setup>
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+
+defineProps({
+  option: {
+    type: Object,
+    default: () => {},
   },
-  props: {
-    option: {
-      type: Object,
-      default: () => {},
-    },
-    variant: {
-      type: String,
-      default: 'default',
-    },
+  variant: {
+    type: String,
+    default: 'default',
   },
-};
+});
 </script>
 
 <template>
@@ -30,12 +26,12 @@ export default {
       class="label-pill flex-shrink-0"
       :style="{ backgroundColor: option.color }"
     />
-    <Thumbnail
+    <Avatar
       v-if="variant === 'agent'"
-      :username="option.label"
+      :name="option.label"
       :src="option.thumbnail"
-      :status="option.status"
-      size="20px"
+      :status="option.status === 'online' ? option.status : null"
+      :size="20"
       class="flex-shrink-0"
     />
     <p class="menu-label truncate min-w-0 flex-1">

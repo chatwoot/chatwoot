@@ -14,9 +14,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
     return process_successful_response(response) if response.success?
 
-    handle_error_response(response)
-    {}
+    handle_error_response(response, ig_scope_id) || {}
   end
+
+  private
 
   def process_successful_response(response)
     result = JSON.parse(response.body).with_indifferent_access
@@ -32,8 +33,9 @@ class Instagram::MessageText < Instagram::BaseMessageText
     }.with_indifferent_access
   end
 
-  def handle_error_response(response)
+  def handle_error_response(response, ig_scope_id)
     parsed_response = response.parsed_response
+    parsed_response = JSON.parse(parsed_response) if parsed_response.is_a?(String)
     error_message = parsed_response.dig('error', 'message')
     error_code = parsed_response.dig('error', 'code')
 
@@ -50,10 +52,17 @@ class Instagram::MessageText < Instagram::BaseMessageText
     # We can safely ignore this error.
     return if error_code == 230
 
-    Rails.logger.warn("[InstagramUserFetchError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
+    # The error occurs when Facebook tries to validate the Facebook App created to authorize Instagram integration.
+    # The Facebook's agent uses a Bot to make tests on the App where is not a valid user via API,
+    # returning `{"error"=>{"message"=>"No matching Instagram user", "type"=>"IGApiException", "code"=>9010}}`.
+    # Then Facebook rejects the request saying this app is still not ready once the integration with Instagram didn't work.
+    # We can safely create an unknown contact, making this integration work.
+    return unknown_user(ig_scope_id) if error_code == 9010
+
+    Rails.logger.warn("[InstagramUserFetchError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id} ig_scope_id #{ig_scope_id}")
     Rails.logger.warn("[InstagramUserFetchError]: #{error_message} #{error_code}")
 
-    exception = StandardError.new("#{error_message} (Code: #{error_code})")
+    exception = StandardError.new("#{error_message} (Code: #{error_code}, IG Scope ID: #{ig_scope_id})")
     ChatwootExceptionTracker.new(exception, account: @inbox.account).capture_exception
   end
 
@@ -65,5 +74,12 @@ class Instagram::MessageText < Instagram::BaseMessageText
     return unless @contact_inbox
 
     Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
+  end
+
+  def unknown_user(ig_scope_id)
+    {
+      'name' => "Unknown (IG: #{ig_scope_id})",
+      'id' => ig_scope_id
+    }.with_indifferent_access
   end
 end

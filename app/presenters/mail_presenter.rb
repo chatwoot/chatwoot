@@ -100,9 +100,11 @@ class MailPresenter < SimpleDelegator
       message_id: message_id,
       multipart: multipart?,
       number_of_attachments: number_of_attachments,
+      references: references,
       subject: subject,
       text_content: text_content,
-      to: to
+      to: to,
+      auto_reply: auto_reply?
     }
   end
 
@@ -115,9 +117,15 @@ class MailPresenter < SimpleDelegator
     @mail.in_reply_to.is_a?(Array) ? @mail.in_reply_to.first : @mail.in_reply_to
   end
 
+  def references
+    return [] if @mail.references.blank?
+
+    Array.wrap(@mail.references)
+  end
+
   def from
     # changing to downcase to avoid case mismatch while finding contact
-    (@mail.reply_to.presence || @mail.from).map(&:downcase)
+    Array.wrap(@mail.reply_to.presence || @mail.from).map(&:downcase)
   end
 
   def sender_name
@@ -148,6 +156,10 @@ class MailPresenter < SimpleDelegator
 
   def auto_reply?
     auto_submitted? || x_auto_reply?
+  end
+
+  def bounced?
+    @mail.bounced? || @mail['X-Failed-Recipients'].try(:value).present?
   end
 
   def notification_email_from_chatwoot?

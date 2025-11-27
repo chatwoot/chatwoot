@@ -1,14 +1,14 @@
 <script>
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
-    Thumbnail,
+    Avatar,
     NextButton,
   },
 
@@ -105,13 +105,14 @@ export default {
                   {{ option.name }}
                 </span>
               </div>
-              <Thumbnail
+              <Avatar
                 v-if="hasThumbnail"
                 :src="option.thumbnail"
-                size="24px"
-                :username="option.name"
+                :name="option.name"
                 :status="option.availability_status"
-                has-border
+                :size="24"
+                hide-offline-status
+                rounded-full
               />
             </NextButton>
           </WootDropdownItem>

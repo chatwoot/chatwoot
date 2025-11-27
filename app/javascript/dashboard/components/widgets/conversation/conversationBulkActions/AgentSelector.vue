@@ -1,12 +1,12 @@
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    Thumbnail,
+    Avatar,
     Spinner,
     NextButton,
   },
@@ -123,11 +123,13 @@ export default {
           </li>
           <li v-for="agent in filteredAgents" :key="agent.id">
             <div class="agent-list-item" @click="assignAgent(agent)">
-              <Thumbnail
+              <Avatar
+                :name="agent.name"
                 :src="agent.thumbnail"
                 :status="agent.availability_status"
-                :username="agent.name"
-                size="22px"
+                :size="22"
+                hide-offline-status
+                rounded-full
               />
               <span class="my-0 text-n-slate-12">
                 {{ agent.name }}

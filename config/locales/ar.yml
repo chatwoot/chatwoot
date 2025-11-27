@@ -18,9 +18,21 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 ar:
   hello: 'مرحباً بالعالم'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'الرجاء إدخال عنوان بريد إلكتروني صحيح'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
     reset_password_failure: المعذرة! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: سيتم معالجة طلب حذف صندوق الوارد الخاص بك في بعض الوقت.
   errors:
     validations:
@@ -34,6 +46,10 @@ ar:
       email_already_exists: 'لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}'
       invalid_params: 'غير صالح، الرجاء التحقق من خانات التسجيل وحاول مرة أخرى'
       failed: فشلت عملية التسجيل
+    assignment_policy:
+      not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: نوع البيانات غير صالح
@@ -46,6 +62,9 @@ ar:
         invalid: إيميل غير صالح
       phone_number:
         invalid: يجب أن يكون بصيغة e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
@@ -53,6 +72,14 @@ ar:
       invalid_message_type: 'نوع الرسالة غير صالح. الإجراء غير مسموح به'
     slack:
       invalid_channel_id: 'قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة وعنوان IMAP ثم حاول مرة أخرى.
@@ -63,13 +90,27 @@ ar:
       validations:
         name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
     custom_filters:
-      number_of_records: تم الوصول إلى الحد الأقصى. الحد الأقصى لعدد عوامل التصفية المخصصة المسموح به للمستخدم لكل حساب هو 50.
+      number_of_records: تم الوصول إلى الحد الأقصى. الحد الأقصى لعدد عوامل التصفية المخصصة المسموح به للمستخدم لكل حساب هو 1000.
       invalid_attribute: مفتاح السمة غير صالح - [%{key}]. يجب أن يكون المفتاح واحد من [%{allowed_keys}] أو سمة مخصصة محددة في الحساب.
       invalid_operator: مشغل غير صالح. المشغل المسموح به لـ %{attribute_name} هو [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: قيمة غير صالحة. القيم المقدمة ل %{attribute_name} غير صالحة
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     utc_warning: التقرير الذي تم إنشاؤه في التوقيت العالمي الموحّد
@@ -91,7 +132,7 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
-      avg_reply_time: Avg reply time
+      avg_reply_time: معدل وقت الرد
       resolution_count: عدد مرات الإغلاق
     team_csv:
       team_name: اسم الفريق
@@ -135,19 +176,21 @@ ar:
     no_content: 'لا يوجد محتوى'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: 'تحويل إلى وكيل آخر لمزيد من المساعدة.'
     messages:
       instagram_story_content: 'أشار %{story_sender} إليك في القصة: '
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: 'اختر عنصر'
       delivery_status:
         error_code: 'رمز الخطأ: %{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
-        open: 'Conversation was marked open by %{user_name}'
+        resolved: 'تم تحديد هذه المحادثة كمحلولة بواسطة %{user_name} بسبب عدم النشاط'
+        open: 'تم تحديد هذه المحادثة كمفتوحة بواسطة %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'تم تحديث حالة المحادثة لـ"مغلقة" بواسطة %{user_name}'
         contact_resolved: 'تم حل المحادثة بواسطة %{contact_name}'
@@ -155,8 +198,8 @@ ar:
         pending: 'تم تحديث حالة المحادثة لـ"معلقة" بواسطة %{user_name}'
         snoozed: 'تم تأجيل المحادثة بواسطة %{user_name}'
         auto_resolved_days: 'تم وضع علامة على المحادثة كمحلولة من قبل النظام بسبب %{count} أيام من عدم النشاط'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
+        auto_resolved_hours: 'تم تحديد هذه المحادثة كمحلولة بواسطة النظام بسبب عدم النشاط لمدة %{count} ساعات'
+        auto_resolved_minutes: 'تم تحديد هذه المحادثة كمحلولة بواسطة النظام بسبب عدم النشاط لمدة %{count} دقائق'
         system_auto_open: أعاد النظام فتح المحادثة بسبب رسالة واردة جديدة.
       priority:
         added: '%{user_name} حدد الأولوية إلى %{new_priority}'
@@ -195,6 +238,7 @@ ar:
     reply:
       email:
         header:
+          notifications: 'الإشعارات'
           from_with_name: '%{assignee_name} من %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} من %{inbox_name} <%{reply_email}>'
           friendly_name: '%{sender_name} من %{business_name} <%{from_email}>'
@@ -244,7 +288,7 @@ ar:
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'إنشاء مشكلات في Linear مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط مشكلات Linear القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة.'
     notion:
-      name: 'Notion'
+      name: 'نوشن'
       short_description: 'Integrate databases, documents and pages directly with Captain.'
       description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
@@ -264,6 +308,28 @@ ar:
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
+    documents:
+      limit_exceeded: 'Document limit exceeded'
+      pdf_format_error: 'must be a PDF file'
+      pdf_size_error: 'must be less than 10MB'
+      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
+      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
+      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
+      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      openai_api_error: 'OpenAI API Error: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
+      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
+      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:
       search_placeholder: البحث عن مقالة حسب العنوان أو الجسم...
@@ -360,3 +426,14 @@ ar:
 
       Transcript:
       %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+  portals:
+    send_instructions:
+      email_required: 'البريد الإلكتروني مطلوب'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

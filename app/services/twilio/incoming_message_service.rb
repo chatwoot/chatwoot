@@ -44,6 +44,12 @@ class Twilio::IncomingMessageService
     twilio_channel.sms? ? params[:From] : params[:From].gsub('whatsapp:', '')
   end
 
+  def normalized_phone_number
+    return phone_number unless twilio_channel.whatsapp?
+
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider("whatsapp:#{phone_number}", :twilio)
+  end
+
   def formatted_phone_number
     TelephoneNumber.parse(phone_number).international_number
   end
@@ -53,14 +59,19 @@ class Twilio::IncomingMessageService
   end
 
   def set_contact
+    source_id = twilio_channel.whatsapp? ? normalized_phone_number : params[:From]
+
     contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: params[:From],
+      source_id: source_id,
       inbox: inbox,
       contact_attributes: contact_attributes
     ).perform
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+
+    # Update existing contact name if ProfileName is available and current name is just phone number
+    update_contact_name_if_needed
   end
 
   def conversation_params
@@ -88,10 +99,14 @@ class Twilio::IncomingMessageService
 
   def contact_attributes
     {
-      name: formatted_phone_number,
+      name: contact_name,
       phone_number: phone_number,
       additional_attributes: additional_attributes
     }
+  end
+
+  def contact_name
+    params[:ProfileName].presence || formatted_phone_number
   end
 
   def additional_attributes
@@ -168,5 +183,19 @@ class Twilio::IncomingMessageService
       coordinates_lat: params[:Latitude].to_f,
       coordinates_long: params[:Longitude].to_f
     )
+  end
+
+  def update_contact_name_if_needed
+    return if params[:ProfileName].blank?
+    return if @contact.name == params[:ProfileName]
+
+    # Only update if current name exactly matches the phone number or formatted phone number
+    return unless contact_name_matches_phone_number?
+
+    @contact.update!(name: params[:ProfileName])
+  end
+
+  def contact_name_matches_phone_number?
+    @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end

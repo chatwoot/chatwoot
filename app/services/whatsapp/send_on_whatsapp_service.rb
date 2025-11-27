@@ -23,14 +23,17 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
 
     name, namespace, lang_code, processed_parameters = processor.call
 
-    return if name.blank?
+    if name.blank?
+      message.update!(status: :failed, external_error: 'Template not found or invalid template name')
+      return
+    end
 
     message_id = channel.send_template(message.conversation.contact_inbox.source_id, {
                                          name: name,
                                          namespace: namespace,
                                          lang_code: lang_code,
                                          parameters: processed_parameters
-                                       })
+                                       }, message)
     message.update!(source_id: message_id) if message_id.present?
   end
 

@@ -165,19 +165,17 @@ describe Whatsapp::Providers::WhatsappCloudService do
     let(:template_body) do
       {
         messaging_product: 'whatsapp',
+        recipient_type: 'individual', # Added recipient_type field
         to: '+123456789',
+        type: 'template',
         template: {
           name: template_info[:name],
           language: {
             policy: 'deterministic',
             code: template_info[:lang_code]
           },
-          components: [
-            { type: 'body',
-              parameters: template_info[:parameters] }
-          ]
-        },
-        type: 'template'
+          components: template_info[:parameters] # Changed to use parameters directly (enhanced format)
+        }
       }
     end
 
@@ -189,7 +187,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
 
-        expect(service.send_template('+123456789', template_info)).to eq('message_id')
+        expect(service.send_template('+123456789', template_info, message)).to eq('message_id')
       end
     end
   end
@@ -289,7 +287,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     context 'when there is a message' do
       it 'logs error and updates message status' do
         service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).to eq('failed')
         expect(message.reload.external_error).to eq(error_message)
@@ -307,7 +305,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
       it 'logs error but does not update message' do
         service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).not_to eq('failed')
         expect(message.reload.external_error).to be_nil

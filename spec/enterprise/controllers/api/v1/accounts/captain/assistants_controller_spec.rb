@@ -64,7 +64,13 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           name: 'New Assistant',
           description: 'Assistant Description',
           response_guidelines: ['Be helpful', 'Be concise'],
-          guardrails: ['No harmful content', 'Stay on topic']
+          guardrails: ['No harmful content', 'Stay on topic'],
+          config: {
+            product_name: 'Chatwoot',
+            feature_faq: true,
+            feature_memory: false,
+            feature_citation: true
+          }
         }
       }
     end
@@ -100,6 +106,23 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(json_response[:name]).to eq('New Assistant')
         expect(json_response[:response_guidelines]).to eq(['Be helpful', 'Be concise'])
         expect(json_response[:guardrails]).to eq(['No harmful content', 'Stay on topic'])
+        expect(json_response[:config][:product_name]).to eq('Chatwoot')
+        expect(json_response[:config][:feature_citation]).to be(true)
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'creates an assistant with feature_citation disabled' do
+        attributes_with_disabled_citation = valid_attributes.deep_dup
+        attributes_with_disabled_citation[:assistant][:config][:feature_citation] = false
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/assistants",
+               params: attributes_with_disabled_citation,
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.to change(Captain::Assistant, :count).by(1)
+
+        expect(json_response[:config][:feature_citation]).to be(false)
         expect(response).to have_http_status(:success)
       end
     end
@@ -112,7 +135,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         assistant: {
           name: 'Updated Assistant',
           response_guidelines: ['Updated guideline'],
-          guardrails: ['Updated guardrail']
+          guardrails: ['Updated guardrail'],
+          config: {
+            feature_citation: false
+          }
         }
       }
     end
@@ -177,6 +203,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(json_response[:name]).to eq(original_name)
         expect(json_response[:response_guidelines]).to eq(['Original guideline'])
         expect(json_response[:guardrails]).to eq(['New guardrail only'])
+      end
+
+      it 'updates feature_citation config' do
+        assistant.update!(config: { 'feature_citation' => true })
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { feature_citation: false } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:config][:feature_citation]).to be(false)
       end
     end
   end

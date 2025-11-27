@@ -73,7 +73,6 @@ const saveEdit = () => {
       v-if="isEditing"
       v-model="editedContent"
       focus-on-mount
-      custom-input-class="flex items-center gap-2 text-sm text-n-slate-12"
       @keyup.enter="saveEdit"
     />
     <span v-else class="flex items-center gap-2 text-sm text-n-slate-12">

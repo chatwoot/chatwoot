@@ -57,14 +57,14 @@ export default {
     isALineChannel() {
       return this.channelType === INBOX_TYPES.LINE;
     },
+    isAVoiceChannel() {
+      return this.channelType === INBOX_TYPES.VOICE;
+    },
     isAnEmailChannel() {
       return this.channelType === INBOX_TYPES.EMAIL;
     },
     isATelegramChannel() {
       return this.channelType === INBOX_TYPES.TELEGRAM;
-    },
-    isAVoiceChannel() {
-      return this.channelType === INBOX_TYPES.VOICE;
     },
     isATwilioSMSChannel() {
       const { medium: medium = '' } = this.inbox;

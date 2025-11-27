@@ -35,6 +35,11 @@
     "API_HOURS_WINDOW": "Sie können auf diese Unterhaltung nur innerhalb von {hours} Stunden antworten",
     "NOT_ASSIGNED_TO_YOU": "Diese Konversation ist Ihnen nicht zugeordnet. Möchten Sie dieses Gespräch sich selbst zuordnen?",
     "ASSIGN_TO_ME": "Mir zuweisen",
+    "BOT_HANDOFF_MESSAGE": "Sie antworten auf eine Unterhaltung, die derzeit von einem Assistenten oder einem Bot bearbeitet wird.",
+    "BOT_HANDOFF_ACTION": "Als geöffnet markieren und Ihnen zuweisen",
+    "BOT_HANDOFF_REOPEN_ACTION": "Gespräch als geöffnet markieren",
+    "BOT_HANDOFF_SUCCESS": "Die Unterhaltung wurde dir übergeben",
+    "BOT_HANDOFF_ERROR": "Die Unterhaltung konnte nicht übernommen werden. Bitte versuche es erneut.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sie können auf diese Konversation nur mit einer Nachrichtenvorlage antworten wegen",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Dieser Instagram-Account wurde in den neuen Instagram-Kanal übertragen. Alle neuen Nachrichten werden dort erscheinen. Sie werden keine Nachrichten mehr von dieser Unterhaltung senden können.",
@@ -65,6 +70,17 @@
     "CARD": {
       "SHOW_LABELS": "Labels anzeigen",
       "HIDE_LABELS": "Labels ausblenden"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Eingehender Anruf",
+      "OUTGOING_CALL": "Ausgehender Anruf",
+      "CALL_IN_PROGRESS": "Anruf läuft",
+      "NO_ANSWER": "Keine Antwort",
+      "MISSED_CALL": "Entgangener Anruf",
+      "CALL_ENDED": "Anruf beendet",
+      "NOT_ANSWERED_YET": "Noch nicht beantwortet",
+      "THEY_ANSWERED": "Sie antworteten",
+      "YOU_ANSWERED": "Sie haben beantwortet"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
@@ -144,6 +160,9 @@
       "AGENTS_LOADING": "Agenten werden geladen...",
       "ASSIGN_TEAM": "Team zuweisen",
       "DELETE": "Unterhaltung löschen",
+      "OPEN_IN_NEW_TAB": "In neuem Tab öffnen",
+      "COPY_LINK": "Konversationslink kopieren",
+      "COPY_LINK_SUCCESS": "Konversationslink in Zwischenablage kopiert",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Konversations-ID {conversationId} zugewiesen zu \"{agentName}\"",
@@ -208,6 +227,13 @@
           "YES": "Senden",
           "CANCEL": "Abbrechen"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Zitierten E-Mail-Thread einbeziehen",
+        "DISABLE_TOOLTIP": "Zitierten E-Mail-Thread nicht einbeziehen",
+        "REMOVE_PREVIEW": "Zitierte E-Mail-Themen entfernen",
+        "COLLAPSE": "Vorschau ausblenden",
+        "EXPAND": "Vorschau erweitern"
       }
     },
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
@@ -312,7 +338,7 @@
       "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
       "PREVIOUS_CONVERSATION": "Vorherige Konversationen",
       "MACROS": "Makros",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "Verknüpfte lineare Probleme",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

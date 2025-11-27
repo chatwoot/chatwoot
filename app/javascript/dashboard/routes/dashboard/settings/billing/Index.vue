@@ -1,9 +1,11 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { format } from 'date-fns';
+import sessionStorage from 'shared/helpers/sessionStorage';
 
 import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
@@ -13,7 +15,8 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
-const { currentAccount } = useAccount();
+const router = useRouter();
+const { currentAccount, isOnChatwootCloud } = useAccount();
 const {
   captainEnabled,
   captainLimits,
@@ -24,6 +27,12 @@ const {
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
+
+const BILLING_REFRESH_ATTEMPTED = 'billing_refresh_attempted';
+
+// State for handling refresh attempts and loading
+const isWaitingForBilling = ref(false);
+
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
 });
@@ -61,8 +70,42 @@ const hasABillingPlan = computed(() => {
 
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
-    store.dispatch('accounts/subscription');
+    await store.dispatch('accounts/subscription');
     fetchLimits();
+  }
+};
+
+const handleBillingPageLogic = async () => {
+  // If self-hosted, redirect to dashboard
+  if (!isOnChatwootCloud.value) {
+    router.push({ name: 'home' });
+    return;
+  }
+
+  // Check if we've already attempted a refresh for billing setup
+  const billingRefreshAttempted = sessionStorage.get(BILLING_REFRESH_ATTEMPTED);
+
+  // If cloud user, fetch account details first
+  await fetchAccountDetails();
+
+  // If still no billing plan after fetch
+  if (!hasABillingPlan.value) {
+    // If we haven't attempted refresh yet, do it once
+    if (!billingRefreshAttempted) {
+      isWaitingForBilling.value = true;
+      sessionStorage.set(BILLING_REFRESH_ATTEMPTED, true);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
+    } else {
+      // We've already tried refreshing, so just show the no billing message
+      // Clear the flag for future visits
+      sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
+    }
+  } else {
+    // Billing plan found, clear any existing refresh flag
+    sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
   }
 };
 
@@ -76,14 +119,18 @@ const onToggleChatWindow = () => {
   }
 };
 
-onMounted(fetchAccountDetails);
+onMounted(handleBillingPageLogic);
 </script>
 
 <template>
   <SettingsLayout
-    :is-loading="uiFlags.isFetchingItem"
-    :loading-message="$t('ATTRIBUTES_MGMT.LOADING')"
-    :no-records-found="!hasABillingPlan"
+    :is-loading="uiFlags.isFetchingItem || isWaitingForBilling"
+    :loading-message="
+      isWaitingForBilling
+        ? $t('BILLING_SETTINGS.NO_BILLING_USER')
+        : $t('ATTRIBUTES_MGMT.LOADING')
+    "
+    :no-records-found="!hasABillingPlan && !isWaitingForBilling"
     :no-records-message="$t('BILLING_SETTINGS.NO_BILLING_USER')"
   >
     <template #header>
@@ -170,7 +217,7 @@ onMounted(fetchAccountDetails);
             solid
             slate
             icon="i-lucide-life-buoy"
-            @open="onToggleChatWindow"
+            @click="onToggleChatWindow"
           >
             {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
           </ButtonV4>

@@ -5,6 +5,8 @@
     "LEARN_MORE": "Узнать больше о «Входящих»",
     "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения пока не пройдете авторизацию повторно.",
     "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Ваша регистрация в WhatsApp Business не завершена. Пожалуйста, проверьте статус отображения в Meta Business Manager перед повторным подключением.",
+    "COMPLETE_REGISTRATION": "Завершить регистрацию",
     "LIST": {
       "404": "У вас пока нет источников."
     },
@@ -47,13 +49,13 @@
         "CREATE_INBOX": "Создать источник"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Продолжить в Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Подключить ваш профиль Instagram",
+        "HELP": "Чтобы добавить ваш профиль в Instagram в качестве источника, вам нужно авторизоваться в вашем Instagram профиле, нажав на 'Продолжить в Instagram' ",
+        "ERROR_MESSAGE": "Произошла ошибка при подключении к Instagram, попробуйте еще раз",
+        "ERROR_AUTH": "Произошла ошибка при подключении к Instagram, попробуйте еще раз",
+        "NEW_INBOX_SUGGESTION": "Ранее эта учетная запись Instagram была связана с другой папкой \"Входящие\" и теперь была перенесена сюда. Здесь появятся все новые сообщения. Старая папка \"Входящие\" больше не сможет отправлять или получать сообщения для этой учетной записи.",
+        "DUPLICATE_INBOX_BANNER": "Этот аккаунт Instagram был перенесен в новый почтовый ящик Instagram. Вы больше не сможете отправлять и получать сообщения Instagram из этого ящика."
       },
       "TWITTER": {
         "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
@@ -222,9 +224,16 @@
         "DESC": "Начните поддерживать своих клиентов через WhatsApp.",
         "PROVIDERS": {
           "LABEL": "Поставщик API",
+          "WHATSAPP_EMBEDDED": "WhatsApp Бизнес",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Быстрая настройка через Meta",
+          "TWILIO_DESC": "Подключиться через Twilio",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Выберите провайдера API",
+          "DESCRIPTION": "Выберите своего провайдера WhatsApp. Вы можете подключиться напрямую через Meta без установки, или подключиться через Twilio, используя учетные данные вашего аккаунта."
         },
         "INBOX_NAME": {
           "LABEL": "Имя источника",
@@ -264,48 +273,77 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Токен авторизации Webhook"
         },
         "SUBMIT_BUTTON": "Создать канал WhatsApp",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Быстрая настройка с Meta",
+          "DESC": "Используйте WhatsApp Embedded Signup, чтобы быстро связать новые номера. Вы будете перенаправлены в Meta для входа в Вашу учетную запись WhatsApp Business. Наличие доступа к админке поможет сделать установку более удобной и лёгкой.",
+          "BENEFITS": {
+            "TITLE": "Преимущества Embedded Signup:",
+            "EASY_SETUP": "Не требуется ручная настройка",
+            "SECURE_AUTH": "Аутентификация на основе Secure OAuth",
+            "AUTO_CONFIG": "Автоматическая настройка webhook и номера телефона"
+          },
+          "LEARN_MORE": {
+            "TEXT": "Чтобы узнать больше о Embedded Signup, ценах и ограничениях, посетите {link}.",
+            "LINK_TEXT": "данную ссылку"
+          },
+          "SUBMIT_BUTTON": "Связать с WhatsApp Business",
+          "AUTH_PROCESSING": "Аутентификация с помощью Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Пожалуйста, завершите настройку бизнеса в окне Meta...",
+          "PROCESSING": "Настройте свой WhatsApp Business аккаунт",
+          "LOADING_SDK": "Загрузка Facebook SDK...",
+          "CANCELLED": "Регистрация WhatsApp была отменена",
+          "SUCCESS_TITLE": "Аккаунт WhatsApp Business был подключен!",
+          "WAITING_FOR_AUTH": "Ожидание аутентификации...",
+          "INVALID_BUSINESS_DATA": "Получены неверные данные из Facebook. Пожалуйста, попробуйте еще раз.",
+          "SIGNUP_ERROR": "Произошла ошибка регистрации",
+          "AUTH_NOT_COMPLETED": "Аутентификация не завершена. Пожалуйста, перезапустите процесс.",
+          "SUCCESS_FALLBACK": "Аккаунт WhatsApp Business был успешно настроен",
+          "MANUAL_FALLBACK": "Если ваш номер уже подключен к WhatsApp Business Platform (API), или, если вы используете технологический провайдер, используйте ссылку {link} ",
+          "MANUAL_LINK_TEXT": "для ручной настройки"
+        },
         "API": {
           "ERROR_MESSAGE": "Не удалось сохранить канал WhatsApp"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "Голосовой канал",
+        "DESC": "Интегрируйте Twilio Voice и начните поддерживать ваших клиентов по телефонным звонкам.",
         "PHONE_NUMBER": {
           "LABEL": "Номер телефона",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "PLACEHOLDER": "Введите ваш номер телефона (напр. +1234567890)",
+          "ERROR": "Пожалуйста, введите правильный номер телефона в формате E.164 (например, +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "SID аккаунта",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "PLACEHOLDER": "Введите SID аккаунта Twilio",
+            "REQUIRED": "Аккаунт SID обязателен"
           },
           "AUTH_TOKEN": {
             "LABEL": "Токен авторизации",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "PLACEHOLDER": "Введите ваш Twilio токен авторизации",
+            "REQUIRED": "Токен авторизации обязателен"
           },
           "API_KEY_SID": {
             "LABEL": "API Ключ SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "PLACEHOLDER": "Введите ваш Twilio API ключ SID",
+            "REQUIRED": "API Key SID обязателен"
           },
           "API_KEY_SECRET": {
             "LABEL": "Секретный ключ API",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
-          },
-          "TWIML_APP_SID": {
-            "LABEL": "TwiML App SID",
-            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
-            "REQUIRED": "TwiML App SID is required"
+            "PLACEHOLDER": "Введите ваш Twilio API Key Secret",
+            "REQUIRED": "API Key Secret обязателен"
           }
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Настройте этот URL как Voice URL на вашем Twilio телефонном номере и TwiML приложения.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Настройте этот URL как Status Callback URL на ваш Twilio номер телефона."
+        },
+        "SUBMIT_BUTTON": "Создать источник Голосовой канал",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "Не удалось создать источник голосовой канал"
         }
       },
       "API_CHANNEL": {
@@ -389,7 +427,51 @@
       },
       "AUTH": {
         "TITLE": "Выберите источник",
-        "DESC": "Chatwoot поддерживает виджет чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."
+        "DESC": "Chatwoot поддерживает виджет чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить.",
+        "TITLE_NEXT": "Завершить установку",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Сайт",
+            "DESCRIPTION": "Создать виджет онлайн-чата"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook",
+            "DESCRIPTION": "Подключить страницу Facebook"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Поддержка ваших клиентов через WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "Email",
+            "DESCRIPTION": "Подключить Gmail, Outlook, или других провайдеров"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Интегрировать SMS канала с Twilio или другим провайдером"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Сделать кастомный канал, используя свой API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Настроить канал Telegram с помощью Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Интегрировать ваш канал Line"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Подключите ваш аккаунт Instagram"
+          },
+          "VOICE": {
+            "TITLE": "Голосовая связь",
+            "DESCRIPTION": "Интегрировать Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "Операторы",
@@ -443,7 +525,10 @@
       "MESSAGE": "Теперь вы можете взаимодействовать с вашими клиентами через ваш новый канал. Удачной поддержки",
       "BUTTON_TEXT": "Перейти",
       "MORE_SETTINGS": "Больше параметров",
-      "WEBSITE_SUCCESS": "Вы успешно создали источник-сайт. Скопируйте указанный ниже код и вставьте его на ваш сайт. В следующий раз, когда клиент напишет в чат, диалог автоматически появится здесь."
+      "WEBSITE_SUCCESS": "Вы успешно создали источник-сайт. Скопируйте указанный ниже код и вставьте его на ваш сайт. В следующий раз, когда клиент напишет в чат, диалог автоматически появится здесь.",
+      "WHATSAPP_QR_INSTRUCTION": "Отсканируйте QR-код выше, чтобы быстро протестировать ваш почтовый ящик WhatsApp",
+      "MESSENGER_QR_INSTRUCTION": "Отсканируйте QR-код выше, чтобы быстро протестировать ваш почтовый ящик Facebook Messenger",
+      "TELEGRAM_QR_INSTRUCTION": "Отсканируйте QR-код выше, чтобы быстро протестировать ваш почтовый ящик Telegram"
     },
     "REAUTH": "Войти заново",
     "VIEW": "Просмотр",
@@ -522,7 +607,63 @@
       "BUSINESS_HOURS": "Время работы",
       "WIDGET_BUILDER": "Конструктор виджетов",
       "BOT_CONFIGURATION": "Конфигурация бота",
+      "ACCOUNT_HEALTH": "Здоровье аккаунта",
       "CSAT": "CSAT"
+    },
+    "ACCOUNT_HEALTH": {
+      "TITLE": "Управление учетной записью WhatsApp",
+      "DESCRIPTION": "Проверьте состояние учетной записи WhatsApp, ограничения на сообщения и качество. Обновите настройки или решите проблемы при необходимости",
+      "GO_TO_SETTINGS": "Перейти к Meta Business Manager",
+      "NO_DATA": "Данные о здоровье отсутствуют",
+      "FIELDS": {
+        "DISPLAY_PHONE_NUMBER": {
+          "LABEL": "Показать номер телефона",
+          "TOOLTIP": "Номер телефона, отображаемый покупателям"
+        },
+        "VERIFIED_NAME": {
+          "LABEL": "Название компании",
+          "TOOLTIP": "Название компании, подтвержденные WhatsApp"
+        },
+        "DISPLAY_NAME_STATUS": {
+          "LABEL": "Отображаемое имя статуса",
+          "TOOLTIP": "Состояние проверки вашего названия компании"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Рейтинг качества",
+          "TOOLTIP": "Оценка качества WhatsApp для вашего аккаунта"
+        },
+        "MESSAGING_LIMIT_TIER": {
+          "LABEL": "Лимит сообщений",
+          "TOOLTIP": "Лимит ежедневных сообщений для вашего аккаунта"
+        },
+        "ACCOUNT_MODE": {
+          "LABEL": "Режим аккаунта",
+          "TOOLTIP": "Текущий режим работы вашей учетной записи WhatsApp"
+        }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 клиентов в сутки",
+          "TIER_1000": "1тыс. клиентов в сутки",
+          "TIER_1K": "1тыс. клиентов в сутки",
+          "TIER_10K": "10тыс. клиентов в сутки",
+          "TIER_100K": "100тыс. клиентов в сутки",
+          "TIER_UNLIMITED": "Неограниченно клиентов в сутки",
+          "UNKNOWN": "Рейтинг не доступен"
+        },
+        "STATUSES": {
+          "APPROVED": "Одобрено",
+          "PENDING_REVIEW": "Ожидает проверки",
+          "AVAILABLE_WITHOUT_REVIEW": "Доступно без проверки",
+          "REJECTED": "Отклонено",
+          "DECLINED": "Отказано",
+          "NON_EXISTS": "Не существует"
+        },
+        "MODES": {
+          "SANDBOX": "Песочница",
+          "LIVE": "Онлайн"
+        }
+      }
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
@@ -535,6 +676,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт",
       "MESSENGER_SUB_HEAD": "Поместите эту кнопку внутри тега <body>",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Разрешенные домены",
+        "SUBTITLE": "Добавьте подстановочные или обычные домены, разделенные запятыми (оставьте пустым, чтобы разрешить всем), например *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Введите домены, разделенные запятыми (например: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Операторы",
       "INBOX_AGENTS_SUB_TEXT": "Добавить или удалить агентов из этого источника",
       "AGENT_ASSIGNMENT": "Назначения для беседы",
@@ -569,8 +715,27 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Обновить ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введите сюда новый ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Обновить",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Этот почтовый ящик подключён через WhatsApp Embedded Signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Вы можете перенастроить этот почтовый ящик для обновления параметров WhatsApp Business.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Изменить настройки",
+      "WHATSAPP_CONNECT_TITLE": "Подключение к WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Обновитесь до WhatsApp embedded signup, чтобы облегчить управление.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Подключите этот почтовый ящик к WhatsApp Business для расширения функций и упрощения управления.",
+      "WHATSAPP_CONNECT_BUTTON": "Подключить",
+      "WHATSAPP_CONNECT_SUCCESS": "Успешно подключено к WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Не удалось подключиться WhatsApp Business. Пожалуйста, попробуйте еще раз.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Успешная перенастройка WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Не удалось перенастроить WhatsApp Business. Пожалуйста, попробуйте еще раз.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID не настроен. Пожалуйста, обратитесь к администратору.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID не настроен. Пожалуйста, обратитесь к администратору.",
+      "WHATSAPP_LOGIN_CANCELLED": "Вход в WhatsApp был отменен. Пожалуйста, попробуйте еще раз.",
       "WHATSAPP_WEBHOOK_TITLE": "Токен авторизации Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Этот токен используется для проверки подлинности конечной точки веб-хука.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Синхронизировать шаблоны",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Вручную синхронизируйте шаблоны сообщений из WhatsApp, чтобы обновить доступные шаблоны.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Синхронизировать шаблоны",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Синхронизация шаблонов успешно запущена. Обновление может занять несколько минут.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Обновить настройки формы для чата"
     },
     "HELP_CENTER": {
@@ -621,7 +786,7 @@
       "TITLE": "Включить CSAT",
       "SUBTITLE": "Автоматически отправляйте CSAT-опросы в конце диалога, чтобы оценить уровень удовлетворенности клиентов. Отслеживайте динамику и находите точки роста для улучшения сервиса.",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "Тип отображения"
       },
       "MESSAGE": {
         "LABEL": "Сообщение",
@@ -639,8 +804,8 @@
       },
       "NOTE": "Примечание: опросы CSAT отправляются только один раз для диалога",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "Настройки CSAT успешно обновлены",
+        "ERROR_MESSAGE": "Не удалось обновить CSAT настройки. Повторите попытку позже."
       }
     },
     "BUSINESS_HOURS": {
@@ -814,9 +979,18 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "Другие провайдеры"
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "Подключить Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Подключить Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "Другие провайдеры",
+        "DESCRIPTION": "Подключить других провайдеров"
+      }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
@@ -830,7 +1004,7 @@
       "LINE": "Line",
       "API": "Источник API",
       "INSTAGRAM": "Instagram",
-      "VOICE": "Voice"
+      "VOICE": "Голосовая связь"
     }
   }
 }

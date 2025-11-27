@@ -1,10 +1,14 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
+
 defineProps({
   title: { type: String, required: true },
   description: { type: String, required: true },
   withBorder: { type: Boolean, default: false },
   hideContent: { type: Boolean, default: false },
+  beta: { type: Boolean, default: false },
 });
+const { t } = useI18n();
 </script>
 
 <template>
@@ -17,8 +21,15 @@ defineProps({
   >
     <header class="grid grid-cols-4">
       <div class="col-span-3">
-        <h4 class="text-lg font-medium text-n-slate-12">
+        <h4 class="text-lg font-medium text-n-slate-12 flex items-center gap-2">
           <slot name="title">{{ title }}</slot>
+          <div
+            v-if="beta"
+            v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
+            class="text-xs uppercase text-n-iris-11 border border-1 border-n-iris-10 leading-none rounded-lg px-1 py-0.5"
+          >
+            {{ t('GENERAL.BETA') }}
+          </div>
         </h4>
         <p class="text-n-slate-11 text-sm mt-2">
           <slot name="description">{{ description }}</slot>

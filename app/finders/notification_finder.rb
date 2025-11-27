@@ -15,7 +15,13 @@ class NotificationFinder
   end
 
   def unread_count
-    @notifications.where(read_at: nil).count
+    if type_included?('read')
+      # If we're including read notifications, filter to unread
+      @notifications.where(read_at: nil).count
+    else
+      # Already filtered to unread notifications, just count
+      @notifications.count
+    end
   end
 
   def count
@@ -27,7 +33,7 @@ class NotificationFinder
   def set_up
     find_all_notifications
     filter_snoozed_notifications
-    fitler_read_notifications
+    filter_read_notifications
   end
 
   def find_all_notifications
@@ -38,7 +44,7 @@ class NotificationFinder
     @notifications = @notifications.where(snoozed_until: nil) unless type_included?('snoozed')
   end
 
-  def fitler_read_notifications
+  def filter_read_notifications
     @notifications = @notifications.where(read_at: nil) unless type_included?('read')
   end
 

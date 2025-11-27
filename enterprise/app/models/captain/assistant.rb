@@ -18,6 +18,8 @@
 #
 class Captain::Assistant < ApplicationRecord
   include Avatarable
+  include Concerns::CaptainToolsHelpers
+  include Concerns::Agentable
 
   self.table_name = 'captain_assistants'
 
@@ -34,6 +36,8 @@ class Captain::Assistant < ApplicationRecord
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :product_name
+
   validates :name, presence: true
   validates :description, presence: true
   validates :account_id, presence: true
@@ -44,6 +48,19 @@ class Captain::Assistant < ApplicationRecord
 
   def available_name
     name
+  end
+
+  def available_agent_tools
+    tools = self.class.built_in_agent_tools.dup
+
+    custom_tools = account.captain_custom_tools.enabled.map(&:to_tool_metadata)
+    tools.concat(custom_tools)
+
+    tools
+  end
+
+  def available_tool_ids
+    available_agent_tools.pluck(:id)
   end
 
   def push_event_data
@@ -69,6 +86,34 @@ class Captain::Assistant < ApplicationRecord
   end
 
   private
+
+  def agent_name
+    name.parameterize(separator: '_')
+  end
+
+  def agent_tools
+    [
+      self.class.resolve_tool_class('faq_lookup').new(self),
+      self.class.resolve_tool_class('handoff').new(self)
+    ]
+  end
+
+  def prompt_context
+    {
+      name: name,
+      description: description,
+      product_name: config['product_name'] || 'this product',
+      scenarios: scenarios.enabled.map do |scenario|
+        {
+          title: scenario.title,
+          key: scenario.title.parameterize.underscore,
+          description: scenario.description
+        }
+      end,
+      response_guidelines: response_guidelines || [],
+      guardrails: guardrails || []
+    }
+  end
 
   def default_avatar_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"

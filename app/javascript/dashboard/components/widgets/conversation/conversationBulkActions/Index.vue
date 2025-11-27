@@ -263,7 +263,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__container {
-  @apply p-4 relative border-b border-solid border-n-strong dark:border-n-weak;
+  @apply p-3 relative border-b border-solid border-n-strong dark:border-n-weak;
 }
 
 .bulk-action__panel {

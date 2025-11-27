@@ -28,12 +28,16 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  isRTL: ($state, _, rootState) => {
-    const accountId = rootState.route?.params?.accountId;
-    if (!accountId) return false;
+  isRTL: ($state, _getters, rootState, rootGetters) => {
+    const accountId = Number(rootState.route?.params?.accountId);
+    const userLocale = rootGetters?.getUISettings?.locale;
+    const accountLocale =
+      accountId && findRecordById($state, accountId)?.locale;
 
-    const { locale } = findRecordById($state, Number(accountId));
-    return locale ? getLanguageDirection(locale) : false;
+    // Prefer user locale; fallback to account locale
+    const effectiveLocale = userLocale ?? accountLocale;
+
+    return effectiveLocale ? getLanguageDirection(effectiveLocale) : false;
   },
   isTrialAccount: $state => id => {
     const account = findRecordById($state, id);

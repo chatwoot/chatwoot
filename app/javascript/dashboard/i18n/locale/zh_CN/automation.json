@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "对话创建",
       "CONVERSATION_UPDATED": "对话已更新",
       "MESSAGE_CREATED": "消息已创建",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "对话已打开"
     },
     "ACTIONS": {
@@ -146,6 +147,7 @@
       "SEND_WEBHOOK_EVENT": "发送 Webhook 事件",
       "SEND_ATTACHMENT": "发送附件",
       "SEND_MESSAGE": "发送消息",
+      "ADD_PRIVATE_NOTE": "添加私密注释",
       "CHANGE_PRIORITY": "更改优先级",
       "ADD_SLA": "添加SLA",
       "OPEN_CONVERSATION": "打开对话"
@@ -175,7 +177,8 @@
       "REFERER_LINK": "引荐链接",
       "ASSIGNEE_NAME": "负责人",
       "TEAM_NAME": "团队",
-      "PRIORITY": "优先级"
+      "PRIORITY": "优先级",
+      "LABELS": "标签"
     }
   }
 }

@@ -19,6 +19,226 @@
     }
   ],
   "paths": {
+    "/api/v1/accounts/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "operationId": "get-account-details",
+        "summary": "Get account details",
+        "description": "Get the details of the current account",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account_show_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "operationId": "update-account",
+        "summary": "Update account",
+        "description": "Update account details, settings, and custom attributes",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/account_update_payload"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/account_update_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/account_detail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (requires administrator role)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/audit_logs": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Audit Logs"
+        ],
+        "operationId": "get-account-audit-logs",
+        "summary": "List Audit Logs in Account",
+        "description": "Get Details of Audit Log entries for an Account. This endpoint is only available in Enterprise editions and requires the audit_logs feature to be enabled.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "per_page": {
+                      "type": "integer",
+                      "description": "Number of items per page",
+                      "example": 15
+                    },
+                    "total_entries": {
+                      "type": "integer",
+                      "description": "Total number of audit log entries",
+                      "example": 150
+                    },
+                    "current_page": {
+                      "type": "integer",
+                      "description": "Current page number",
+                      "example": 1
+                    },
+                    "audit_logs": {
+                      "type": "array",
+                      "description": "Array of audit log entries",
+                      "items": {
+                        "$ref": "#/components/schemas/audit_log"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Feature not enabled or not available in current plan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/agent_bots": {
       "parameters": [
         {
@@ -1601,6 +1821,152 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/contacts/{id}/contact_inboxes": {
+      "post": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactInboxCreation",
+        "description": "Create a contact inbox record for an inbox",
+        "summary": "Create contact inbox",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "description": "ID of the contact",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "inbox_id"
+                ],
+                "properties": {
+                  "inbox_id": {
+                    "type": "number",
+                    "description": "The ID of the inbox",
+                    "example": 1
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "description": "Contact Inbox Source Id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contact_inboxes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Incorrect payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactableInboxesGet",
+        "description": "Get List of contactable Inboxes",
+        "summary": "Get Contactable Inboxes",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "description": "ID of the contact",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contactable_inboxes_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Incorrect payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/automation_rules": {
       "parameters": [
         {
@@ -2850,7 +3216,7 @@
         ],
         "operationId": "toggle-status-of-a-conversation",
         "summary": "Toggle Status",
-        "description": "Toggles the status of the conversation between open and resolved",
+        "description": "Toggle the status of a conversation. Pass `status` to explicitly set the\nconversation state. Use `snoozed` along with `snoozed_until` to snooze a\nconversation until a specific time. If `snoozed_until` is omitted, the\nconversation is snoozed until the next reply from the contact. Regardless\nof the value provided, snoozed conversations always reopen on the next\nreply from the contact.",
         "security": [
           {
             "userApiKey": []
@@ -2874,10 +3240,16 @@
                     "enum": [
                       "open",
                       "resolved",
-                      "pending"
+                      "pending",
+                      "snoozed"
                     ],
                     "description": "The status of the conversation",
                     "example": "open"
+                  },
+                  "snoozed_until": {
+                    "type": "number",
+                    "description": "When status is `snoozed`, schedule the reopen time as a Unix timestamp in seconds. If not provided, the conversation is snoozed until the next customer reply. The conversation always reopens when the customer replies.",
+                    "example": 1757506877
                   }
                 }
               }
@@ -2890,7 +3262,32 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/conversation_status_toggle"
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object"
+                    },
+                    "payload": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean"
+                        },
+                        "current_status": {
+                          "type": "string",
+                          "enum": [
+                            "open",
+                            "resolved",
+                            "pending",
+                            "snoozed"
+                          ]
+                        },
+                        "conversation_id": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -3275,6 +3672,65 @@
           },
           "401": {
             "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/reporting_events": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "$ref": "#/components/parameters/conversation_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "get-conversation-reporting-events",
+        "summary": "Conversation Reporting Events",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get reporting events for a specific conversation. This endpoint returns events such as first response time, resolution time, and other metrics for the conversation, sorted by creation time in ascending order.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/reporting_event"
+                  },
+                  "description": "Array of reporting events for the conversation"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversation not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -4114,7 +4570,7 @@
         ],
         "operationId": "create-a-new-message-in-a-conversation",
         "summary": "Create New Message",
-        "description": "Create a new message in the conversation",
+        "description": "Create a new message in the conversation.\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
         "security": [
           {
             "userApiKey": []
@@ -5446,6 +5902,93 @@
           },
           "404": {
             "description": "The webhook does not exist in the account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/reporting_events": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-account-reporting-events",
+        "summary": "Account Reporting Events",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get paginated reporting events for the account. This endpoint returns reporting events such as first response time, resolution time, and other metrics. Only administrators can access this endpoint. Results are paginated with 25 items per page.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "in": "query",
+            "name": "since",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The timestamp from where events should start (Unix timestamp in seconds)"
+          },
+          {
+            "in": "query",
+            "name": "until",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The timestamp from where events should stop (Unix timestamp in seconds)"
+          },
+          {
+            "in": "query",
+            "name": "inbox_id",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter events by inbox ID"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter events by user/agent ID"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter events by event name (e.g., first_response, resolution, reply_time)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reporting_events_list_response"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied - Only administrators can access this endpoint",
             "content": {
               "application/json": {
                 "schema": {
@@ -7091,6 +7634,10 @@
             "type": "string",
             "description": "The url to which the events will be send"
           },
+          "name": {
+            "type": "string",
+            "description": "The name of the webhook"
+          },
           "subscriptions": {
             "type": "array",
             "items": {
@@ -7403,6 +7950,82 @@
           "settings": {
             "type": "object",
             "description": "The associated settings for the integration"
+          }
+        }
+      },
+      "audit_log": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the audit log entry"
+          },
+          "auditable_id": {
+            "type": "integer",
+            "description": "The ID of the audited object"
+          },
+          "auditable_type": {
+            "type": "string",
+            "description": "The type of the audited object (e.g., Conversation, Contact, User)"
+          },
+          "auditable": {
+            "type": "object",
+            "description": "The audited object data"
+          },
+          "associated_id": {
+            "type": "integer",
+            "description": "The ID of the associated object (typically the account ID)"
+          },
+          "associated_type": {
+            "type": "string",
+            "description": "The type of the associated object"
+          },
+          "user_id": {
+            "type": "integer",
+            "description": "The ID of the user who performed the action"
+          },
+          "user_type": {
+            "type": "string",
+            "description": "The type of user who performed the action"
+          },
+          "username": {
+            "type": "string",
+            "description": "The email/username of the user who performed the action"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "create",
+              "update",
+              "destroy"
+            ],
+            "description": "The action performed on the object"
+          },
+          "audited_changes": {
+            "type": "object",
+            "description": "JSON object containing the changes made to the audited object"
+          },
+          "version": {
+            "type": "integer",
+            "description": "Version number of the audit log entry"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional comment associated with the audit log entry"
+          },
+          "request_uuid": {
+            "type": "string",
+            "description": "UUID to identify the request that generated this audit log"
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Unix timestamp when the audit log entry was created"
+          },
+          "remote_address": {
+            "type": "string",
+            "nullable": true,
+            "description": "IP address from which the action was performed"
           }
         }
       },
@@ -8213,28 +8836,96 @@
           },
           "template_params": {
             "type": "object",
-            "description": "The template params for the message in case of whatsapp Channel",
+            "description": "WhatsApp template parameters for sending structured messages",
+            "required": [
+              "name",
+              "category",
+              "language",
+              "processed_params"
+            ],
             "properties": {
               "name": {
                 "type": "string",
-                "description": "Name of the template",
-                "example": "sample_issue_resolution"
+                "description": "Name of the WhatsApp template (must be approved in WhatsApp Business Manager)",
+                "example": "purchase_receipt"
               },
               "category": {
                 "type": "string",
+                "enum": [
+                  "UTILITY",
+                  "MARKETING",
+                  "SHIPPING_UPDATE",
+                  "TICKET_UPDATE",
+                  "ISSUE_RESOLUTION"
+                ],
                 "description": "Category of the template",
                 "example": "UTILITY"
               },
               "language": {
                 "type": "string",
-                "description": "Language of the template",
+                "description": "Language code of the template (BCP 47 format)",
                 "example": "en_US"
               },
               "processed_params": {
                 "type": "object",
-                "description": "The processed param values for template variables in template",
-                "example": {
-                  "1": "Chatwoot"
+                "description": "Processed template parameters organized by component type",
+                "properties": {
+                  "body": {
+                    "type": "object",
+                    "description": "Body component parameters with variable placeholders",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "example": {
+                      "1": "Visa",
+                      "2": "Nike",
+                      "3": "Bill"
+                    }
+                  },
+                  "header": {
+                    "type": "object",
+                    "description": "Header component parameters for media templates",
+                    "properties": {
+                      "media_url": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "Publicly accessible URL for IMAGE, VIDEO, or DOCUMENT headers",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      },
+                      "media_type": {
+                        "type": "string",
+                        "enum": [
+                          "image",
+                          "video",
+                          "document"
+                        ],
+                        "description": "Type of media for the header",
+                        "example": "document"
+                      }
+                    }
+                  },
+                  "buttons": {
+                    "type": "array",
+                    "description": "Button component parameters for interactive templates",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "url",
+                            "copy_code"
+                          ],
+                          "description": "Type of button parameter"
+                        },
+                        "parameter": {
+                          "type": "string",
+                          "description": "Dynamic parameter value for the button",
+                          "example": "SSFSDFSD"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -8526,6 +9217,10 @@
             "description": "The url where the events should be sent",
             "example": "https://example.com/webhook"
           },
+          "name": {
+            "type": "string",
+            "description": "The name of the webhook"
+          },
           "subscriptions": {
             "type": "array",
             "items": {
@@ -8607,6 +9302,7 @@
             "enum": [
               "conversation_created",
               "conversation_updated",
+              "conversation_resolved",
               "message_created"
             ],
             "example": "message_created",
@@ -10031,6 +10727,100 @@
             "description": "List of contactable inboxes for the contact"
           }
         }
+      },
+      "reporting_event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the reporting event"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the event (e.g., first_response, resolution, reply_time)"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "description": "Value of the metric in seconds"
+          },
+          "value_in_business_hours": {
+            "type": "number",
+            "format": "double",
+            "description": "Value of the metric in seconds, calculated only for business hours"
+          },
+          "event_start_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the event started"
+          },
+          "event_end_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the event ended"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "ID of the account"
+          },
+          "conversation_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the conversation"
+          },
+          "inbox_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the inbox"
+          },
+          "user_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the user/agent"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the reporting event was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the reporting event was last updated"
+          }
+        }
+      },
+      "reporting_event_meta": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of reporting events"
+          },
+          "current_page": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "Total number of pages"
+          }
+        }
+      },
+      "reporting_events_list_response": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/reporting_event_meta"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/reporting_event"
+            },
+            "description": "List of reporting events"
+          }
+        }
       }
     },
     "parameters": {
@@ -10345,7 +11135,9 @@
       "name": "Application",
       "tags": [
         "Account AgentBots",
+        "Account",
         "Agents",
+        "Audit Logs",
         "Canned Responses",
         "Contacts",
         "Contact Labels",

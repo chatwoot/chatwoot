@@ -1,6 +1,7 @@
 class Captain::Llm::FaqGeneratorService < Llm::BaseOpenAiService
-  def initialize(content)
+  def initialize(content, language = 'english')
     super()
+    @language = language
     @content = content
   end
 
@@ -14,10 +15,10 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseOpenAiService
 
   private
 
-  attr_reader :content
+  attr_reader :content, :language
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.faq_generator
+    prompt = Captain::Llm::SystemPromptsService.faq_generator(language)
     {
       model: @model,
       response_format: { type: 'json_object' },
