@@ -28,9 +28,17 @@ module Captain::ChatHelper
   def build_response(response)
     Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
 
-    result = { 'response' => response.content }
-    persist_message({ 'content' => response.content }, 'assistant')
-    result
+    parsed = parse_json_response(response.content)
+
+    persist_message(parsed, 'assistant')
+    { 'response' => parsed }
+  end
+
+  def parse_json_response(content)
+    JSON.parse(content)
+  rescue JSON::ParserError => e
+    Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error parsing JSON response: #{e.message}"
+    { 'content' => content }
   end
 
   def log_chat_completion_request
