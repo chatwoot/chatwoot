@@ -24,6 +24,7 @@ class ChatQueue::QueueService
     entry = ConversationQueue.create!(
       conversation: conversation,
       account: account,
+      inbox_id: conversation.inbox_id,
       queued_at: Time.current,
       status: :waiting
     )
@@ -37,7 +38,7 @@ class ChatQueue::QueueService
     send_queue_notification(conversation)
 
     Rails.logger.info("[QUEUE][add][conv=#{cid}] Enqueue ProcessQueueJob")
-    Queue::ProcessQueueJob.perform_later(account.id)
+    Queue::ProcessQueueJob.perform_later(account.id, conversation.inbox_id)
 
     Rails.logger.info("[QUEUE][add][conv=#{cid}] Completed successfully")
     true
@@ -77,7 +78,7 @@ class ChatQueue::QueueService
     sorted
   end
 
-  def assign_from_queue(_agent = nil)
+  def assign_from_queue(inbox_id, _agent = nil)
     Rails.logger.info("[QUEUE][assign] Start assign_from_queue")
 
     unless account.queue_enabled?
@@ -85,7 +86,7 @@ class ChatQueue::QueueService
       return nil
     end
 
-    entry = ConversationQueue.for_account(account.id).waiting.order(:position, :queued_at).first
+    entry = ConversationQueue.for_account(account.id).for_inbox(inbox_id).waiting.order(:position, :queued_at).first
 
     unless entry
       Rails.logger.info("[QUEUE][assign] Skip: no queue entries")
@@ -151,13 +152,13 @@ class ChatQueue::QueueService
     )
   end
 
-  def next_in_queue
+  def next_in_queue(inbox_id)
     Rails.logger.info("[QUEUE][next] Fetching next conversation in queue for account #{account.id}")
-    ConversationQueue.for_account(account.id).waiting.first&.conversation
+    ConversationQueue.for_account(account.id).for_inbox(inbox_id).waiting.first&.conversation
   end
 
-  def queue_size
-    size = ConversationQueue.for_account(account.id).waiting.count
+  def queue_size(inbox_id)
+    size = ConversationQueue.for_account(account.id).for_inbox(inbox_id).waiting.count
     Rails.logger.info("[QUEUE][size] Queue size=#{size} for account #{account.id}")
     size
   end
