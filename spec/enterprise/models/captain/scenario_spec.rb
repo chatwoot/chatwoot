@@ -23,8 +23,8 @@ RSpec.describe Captain::Scenario, type: :model do
         enabled_scenario = create(:captain_scenario, assistant: assistant, account: account, enabled: true)
         disabled_scenario = create(:captain_scenario, assistant: assistant, account: account, enabled: false)
 
-        expect(described_class.enabled).to include(enabled_scenario)
-        expect(described_class.enabled).not_to include(disabled_scenario)
+        expect(described_class.enabled.pluck(:id)).to include(enabled_scenario.id)
+        expect(described_class.enabled.pluck(:id)).not_to include(disabled_scenario.id)
       end
     end
   end

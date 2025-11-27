@@ -14,7 +14,7 @@ import {
 } from 'dashboard/constants/automation';
 
 /**
- * This is a shared composables that holds utilites used to build dropdown and file options
+ * This is a shared composables that holds utilities used to build dropdown and file options
  * @returns {Object} An object containing various automation-related functions and computed properties.
  */
 export default function useAutomationValues() {

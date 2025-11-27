@@ -571,6 +571,27 @@
       "ACTIVE_EMPTY_STATE_TITLE": "目前没有联系人在线 🌙"
     }
   },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "分配标签",
+    "ASSIGN_LABELS_SUCCESS": "已成功分配标签.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} 已选择",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "全选 ({count})",
+    "DELETE_CONTACTS": "删除",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "删除联系人"
+    }
+  },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "我们无法完成搜索。请稍后再试。"
