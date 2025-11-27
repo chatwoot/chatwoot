@@ -5,7 +5,9 @@ import {
   useFunctionGetter,
   useStore,
 } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
@@ -40,12 +42,8 @@ const {
   toggleSidebarUIState,
 } = useUISettings();
 
-const store = useStore();
-
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
-
-const accountId = computed(() => store.getters.getCurrentAccountId);
 
 const shopifyIntegration = useFunctionGetter(
   'integrations/getIntegration',
@@ -56,10 +54,10 @@ const isShopifyFeatureEnabled = computed(
   () => shopifyIntegration.value.enabled
 );
 
-const isLinearFeatureEnabled = useFunctionGetter(
-  'accounts/isFeatureEnabledonAccount',
-  accountId,
-  'linear_integration'
+const { isCloudFeatureEnabled } = useAccount();
+
+const isLinearFeatureEnabled = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.LINEAR)
 );
 
 const linearIntegration = useFunctionGetter(
@@ -75,6 +73,7 @@ const isLinearConnected = computed(
   () => linearIntegration.value?.enabled || false
 );
 
+const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
 const conversationId = computed(() => props.conversationId);
 const conversationMetadataGetter = useMapGetter(
