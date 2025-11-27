@@ -669,10 +669,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_12_092041) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "inbox_id"
     t.index ["account_id", "status", "position"], name: "idx_on_account_id_status_position_c5e04b77ac"
     t.index ["account_id", "status", "queued_at"], name: "idx_on_account_id_status_queued_at_960ec2cf36"
     t.index ["account_id"], name: "index_conversation_queues_on_account_id"
     t.index ["conversation_id"], name: "index_conversation_queues_on_conversation_id", unique: true
+    t.index ["inbox_id"], name: "index_conversation_queues_on_inbox_id"
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
