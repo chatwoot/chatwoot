@@ -5,7 +5,7 @@ import CardAvatar from './CardAvatar.vue';
 import CardContent from './CardContent.vue';
 import CardLabels from './CardLabels.vue';
 import CardPriorityIcon from './CardPriorityIcon.vue';
-import InboxName from 'dashboard/components/widgets/InboxName.vue';
+import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
@@ -169,7 +169,7 @@ const selectedModel = computed({
         <SLACardLabel ref="slaCardLabel" :chat="chat" />
       </div>
 
-      <div class="flex-shrink-0 w-[4.375rem] text-right">
+      <div class="flex-shrink-0 w-[4.375rem] text-end">
         <TimeAgo
           :last-activity-timestamp="chat.timestamp"
           :created-at-timestamp="chat.created_at"

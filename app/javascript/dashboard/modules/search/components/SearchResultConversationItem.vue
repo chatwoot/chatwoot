@@ -3,7 +3,7 @@ import { computed } from 'vue';
 
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime } from 'shared/helpers/timeHelper';
-import InboxName from 'dashboard/components/widgets/InboxName.vue';
+import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({

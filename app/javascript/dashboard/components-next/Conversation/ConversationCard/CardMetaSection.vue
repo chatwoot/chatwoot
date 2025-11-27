@@ -1,7 +1,7 @@
 <script setup>
 import { computed, useTemplateRef } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
-import InboxName from 'dashboard/components/widgets/InboxName.vue';
+import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
 import CardPriorityIcon from './CardPriorityIcon.vue';
 import CardStatusIcon from './CardStatusIcon.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
