@@ -1,7 +1,7 @@
 class Queue::ProcessQueueJob < ApplicationJob
   queue_as :default
 
-  def perform(account_id)
+  def perform(account_id, inbox_id)
     Rails.logger.info "[QUEUE][JOB] Start for account=#{account_id}"
 
     account = find_active_account(account_id)
@@ -11,12 +11,12 @@ class Queue::ProcessQueueJob < ApplicationJob
     end
 
     queue_service = ChatQueue::QueueService.new(account: account)
-    size = queue_service.queue_size
+    size = queue_service.queue_size(inbox_id)
     Rails.logger.info "[QUEUE][JOB] Current queue_size=#{size} for account=#{account.id}"
     return if size.zero?
 
     conv = ConversationQueue
-             .where(account_id: account.id, status: :waiting)
+             .where(account_id: account.id, inbox_id: inbox_id, status: :waiting)
              .order(:position, :queued_at)
              .limit(1)
              .first
@@ -60,7 +60,7 @@ class Queue::ProcessQueueJob < ApplicationJob
 
     if queue_service.queue_size.positive?
       Rails.logger.info "[QUEUE][JOB] Queue still has items, scheduling next run"
-      Queue::ProcessQueueJob.set(wait: 1.second).perform_later(account_id)
+      Queue::ProcessQueueJob.set(wait: 1.second).perform_later(account_id, inbox_id)
     else
       Rails.logger.info "[QUEUE][JOB] Queue empty after assign, stopping"
     end
