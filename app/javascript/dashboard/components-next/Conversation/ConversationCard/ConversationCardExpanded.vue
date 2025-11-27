@@ -10,7 +10,6 @@ import Avatar from 'next/avatar/Avatar.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
 import CardStatusIcon from './CardStatusIcon.vue';
-import UnreadBadge from './UnreadBadge.vue';
 import CardAssigneeEmptyState from './CardAssigneeEmptyState.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
@@ -142,17 +141,13 @@ const selectedModel = computed({
         {{ currentContact.name }}
       </h4>
 
-      <div class="min-w-0 flex-1 flex items-center gap-0.5">
-        <CardContent
-          :last-message="lastMessageInChat"
-          :voice-call-status="voiceCallData.status"
-          :voice-call-direction="voiceCallData.direction"
-          :unread-count="0"
-          :show-expanded-preview="false"
-        />
-
-        <UnreadBadge :count="unreadCount" />
-      </div>
+      <CardContent
+        :last-message="lastMessageInChat"
+        :voice-call-status="voiceCallData.status"
+        :voice-call-direction="voiceCallData.direction"
+        :unread-count="unreadCount"
+        :show-expanded-preview="false"
+      />
     </div>
 
     <!-- RIGHT SECTION -->
