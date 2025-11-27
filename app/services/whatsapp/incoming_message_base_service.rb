@@ -54,6 +54,43 @@ class Whatsapp::IncomingMessageBaseService
       message.external_error = "#{error[:code]}: #{error[:title]}"
     end
     message.save!
+
+    # Update campaign contact status if this is a campaign message
+    update_campaign_contact_status(message, status)
+  end
+
+  def update_campaign_contact_status(message, status)
+    # Only process outgoing campaign messages
+    return unless message.outgoing?
+
+    # Check for campaign_id in content_attributes or additional_attributes
+    campaign_id = message.content_attributes&.dig('campaign_id') || message.additional_attributes&.dig('campaign_id')
+    return unless campaign_id
+
+    # Find the campaign contact
+    contact = message.conversation&.contact
+    return unless contact
+
+    campaign_contact = CampaignContact.find_by(campaign_id: campaign_id, contact_id: contact.id)
+    return unless campaign_contact
+
+    # Update campaign contact based on message status
+    case status[:status]
+    when 'failed'
+      # Only update if not already failed to avoid unnecessary updates
+      return if campaign_contact.failed?
+
+      error = status[:errors]&.first
+      error_message = error ? "#{error[:code]}: #{error[:title]}" : 'Unknown error'
+      campaign_contact.mark_as_failed!(error_message)
+      Rails.logger.info "Campaign message failed - Updated campaign_contact #{campaign_contact.id} for campaign #{campaign_id}: #{error_message}"
+    when 'sent', 'delivered', 'read'
+      # Ensure campaign_contact is marked as sent if it was pending
+      campaign_contact.mark_as_sent! if campaign_contact.pending?
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error updating campaign contact status: #{e.class.name}: #{e.message}"
+    Rails.logger.error e.backtrace.first(3).join("\n")
   end
 
   def create_messages
