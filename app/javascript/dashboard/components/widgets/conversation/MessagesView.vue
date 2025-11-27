@@ -496,12 +496,13 @@ export default {
         </li>
       </template>
       <template #after>
-        <ConversationLabelSuggestion
+        <!-- Heycommerce: Conversation label suggestions hidden - using contact labels instead -->
+        <!-- <ConversationLabelSuggestion
           v-if="shouldShowLabelSuggestions"
           :suggested-labels="labelSuggestions"
           :chat-labels="currentChat.labels"
           :conversation-id="currentChat.id"
-        />
+        /> -->
       </template>
     </MessageList>
     <div

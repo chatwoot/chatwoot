@@ -101,11 +101,12 @@ const newReportRoutes = () => [
     to: accountScopedRoute('agent_reports_index'),
     activeOn: ['agent_reports_show'],
   },
-  {
-    name: 'Reports Label',
-    label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports_index'),
-  },
+  // Heycommerce: Labels de conversa desabilitados - usamos contact_labels agora
+  // {
+  //   name: 'Reports Label',
+  //   label: t('SIDEBAR.REPORTS_LABEL'),
+  //   to: accountScopedRoute('label_reports_index'),
+  // },
   {
     name: 'Reports Inbox',
     label: t('SIDEBAR.REPORTS_INBOX'),

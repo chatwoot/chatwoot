@@ -117,8 +117,11 @@ const showMetaSection = computed(() => {
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
+// Heycommerce: Use contact labels instead of conversation labels
+const contactLabels = computed(() => props.chat.meta?.sender?.labels || []);
+
 const showLabelsSection = computed(() => {
-  return props.chat.labels?.length > 0 || hasSlaPolicyId.value;
+  return contactLabels.value.length > 0 || hasSlaPolicyId.value;
 });
 
 const messagePreviewClass = computed(() => {
@@ -370,9 +373,10 @@ const deleteConversation = () => {
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
+      <!-- Heycommerce: Using contact labels instead of conversation labels -->
       <CardLabels
         v-if="showLabelsSection"
-        :conversation-labels="chat.labels"
+        :conversation-labels="contactLabels"
         class="mt-0.5 mx-2 mb-0"
       >
         <template v-if="hasSlaPolicyId" #before>

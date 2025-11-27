@@ -268,7 +268,12 @@ export const mutations = {
   [types.UPDATE_CONVERSATION_CONTACT](_state, { conversationId, ...payload }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     if (chat) {
-      chat.meta.sender = payload;
+      // Heycommerce: Ensure labels is always an array to prevent re-render issues
+      const updatedSender = {
+        ...payload,
+        labels: Array.isArray(payload.labels) ? payload.labels : []
+      };
+      chat.meta.sender = updatedSender;
     }
   },
 
@@ -285,7 +290,7 @@ export const mutations = {
 
   [types.CLEAR_CONTACT_CONVERSATIONS](_state, contactId) {
     const chats = _state.allConversations.filter(
-      c => c.meta.sender.id !== contactId
+      c => c.meta?.sender?.id !== contactId
     );
     _state.allConversations = chats;
   },

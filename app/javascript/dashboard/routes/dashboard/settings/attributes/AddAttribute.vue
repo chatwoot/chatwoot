@@ -34,7 +34,8 @@ export default {
       // Using the prop as default. There is no side effect here as the component
       // is destroyed completely when the modal is closed. The prop doesn't change
       // dynamically when the modal is active.
-      attributeModel: this.selectedAttributeModelTab || 0,
+      // HeyCommerce: forçando sempre Contact (1)
+      attributeModel: 1, // this.selectedAttributeModelTab || 0,
       attributeType: 0,
       attributeKey: '',
       regexPattern: null,
@@ -179,7 +180,8 @@ export default {
 
       <form class="flex w-full" @submit.prevent="addAttributes">
         <div class="w-full">
-          <label :class="{ error: v$.attributeModel.$error }">
+          <!-- HeyCommerce: escondendo dropdown de model, forçando sempre Contact -->
+          <!-- <label :class="{ error: v$.attributeModel.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
             <select v-model="attributeModel">
               <option v-for="model in models" :key="model.id" :value="model.id">
@@ -189,7 +191,7 @@ export default {
             <span v-if="v$.attributeModel.$error" class="message">
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.ERROR') }}
             </span>
-          </label>
+          </label> -->
           <woot-input
             v-model="displayName"
             :label="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.LABEL')"

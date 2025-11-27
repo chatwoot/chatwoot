@@ -42,14 +42,28 @@ const queryOperator = defineModel('queryOperator', {
   validator: value => ['and', 'or'].includes(value),
 });
 
-const getFilterFromFilterTypes = key =>
-  filterTypes.find(filterObj => filterObj.attributeKey === key);
+const getFilterFromFilterTypes = key => {
+  // First try exact match
+  let filter = filterTypes.find(filterObj => filterObj.attributeKey === key);
+
+  // Heycommerce: If not found and key is 'labels', try 'contact_labels' (migration from conversation labels to contact labels)
+  if (!filter && key === 'labels') {
+    filter = filterTypes.find(filterObj => filterObj.attributeKey === 'contact_labels');
+  }
+
+  return filter;
+};
 
 const currentFilter = computed(() =>
   getFilterFromFilterTypes(attributeKey.value)
 );
 
 const getOperator = (filter, selectedOperator) => {
+  // Defensive check: if filter is undefined, return a default operator
+  if (!filter || !filter.filterOperators) {
+    return { value: 'equal_to', label: 'Equal to' };
+  }
+
   const operatorFromOptions = filter.filterOperators.find(
     operator => operator.value === selectedOperator
   );
@@ -61,9 +75,12 @@ const getOperator = (filter, selectedOperator) => {
   return operatorFromOptions;
 };
 
-const currentOperator = computed(() =>
-  getOperator(currentFilter.value, filterOperator.value)
-);
+const currentOperator = computed(() => {
+  if (!currentFilter.value) {
+    return { value: 'equal_to', label: 'Equal to' };
+  }
+  return getOperator(currentFilter.value, filterOperator.value);
+});
 
 const getInputType = (operator, filter) =>
   operator.inputOverride ?? filter.inputType;

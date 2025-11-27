@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useContactLabels } from 'dashboard/composables/useContactLabels';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Spinner from 'shared/components/Spinner.vue';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
@@ -17,13 +17,14 @@ export default {
   setup() {
     const { isAdmin } = useAdmin();
 
+    // Heycommerce: Use contact labels instead of conversation labels
     const {
       savedLabels,
       activeLabels,
       accountLabels,
-      addLabelToConversation,
-      removeLabelFromConversation,
-    } = useConversationLabels();
+      addLabelToContact,
+      removeLabelFromContact,
+    } = useContactLabels();
 
     const showSearchDropdownLabel = ref(false);
 
@@ -57,8 +58,8 @@ export default {
       savedLabels,
       activeLabels,
       accountLabels,
-      addLabelToConversation,
-      removeLabelFromConversation,
+      addLabelToConversation: addLabelToContact,
+      removeLabelFromConversation: removeLabelFromContact,
       showSearchDropdownLabel,
       closeDropdownLabel,
       toggleLabels,
@@ -72,7 +73,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      conversationUiFlags: 'conversationLabels/getUIFlags',
+      conversationUiFlags: 'contactLabels/getUIFlags',
     }),
   },
 };

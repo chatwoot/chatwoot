@@ -49,6 +49,9 @@
 import jsonLogic from 'json-logic-js';
 import { coerceToDate } from '@chatwoot/utils';
 
+// Static empty array to prevent infinite re-renders caused by creating new array references
+const EMPTY_LABELS_ARRAY = Object.freeze([]);
+
 /**
  * Gets a value from a conversation based on the attribute key
  * @param {Object} conversation - The conversation object
@@ -69,8 +72,9 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'last_activity_at':
       return conversation[attributeKey];
     case 'contact_labels':
-      // Get labels from the contact (sender) associated with the conversation
-      return conversation.meta?.sender?.labels || [];
+      // Heycommerce: Get labels from the contact (sender) associated with the conversation
+      // Use static empty array to prevent infinite re-renders
+      return conversation.meta?.sender?.labels || EMPTY_LABELS_ARRAY;
     case 'display_id':
       // Frontend uses 'id' but backend expects 'display_id'
       return conversation.display_id || conversation.id;

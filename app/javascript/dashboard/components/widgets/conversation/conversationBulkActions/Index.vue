@@ -173,14 +173,15 @@ export default {
         </span>
       </label>
       <div class="flex items-center gap-1 bulk-action__actions">
-        <NextButton
+        <!-- Heycommerce: Conversation labels hidden - using contact labels instead -->
+        <!-- <NextButton
           v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
           icon="i-lucide-tags"
           slate
           xs
           faded
           @click="toggleLabelActions"
-        />
+        /> -->
         <NextButton
           v-tooltip="$t('BULK_ACTION.UPDATE.CHANGE_STATUS')"
           icon="i-lucide-repeat"
@@ -206,14 +207,15 @@ export default {
           @click="toggleTeamsList"
         />
       </div>
-      <transition name="popover-animation">
+      <!-- HIDDEN: Conversation labels hidden - using contact labels instead -->
+      <!-- <transition name="popover-animation">
         <LabelActions
           v-if="showLabelActions"
           class="label-actions-box"
           @assign="assignLabels"
           @close="showLabelActions = false"
         />
-      </transition>
+      </transition> -->
       <transition name="popover-animation">
         <UpdateActions
           v-if="showUpdateActions"

@@ -68,12 +68,13 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
       },
-      {
-        key: 'labels',
-        name: 'LABELS',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
+      // Heycommerce: Labels de conversa desabilitados - usamos contact_labels agora
+      // {
+      //   key: 'labels',
+      //   name: 'LABELS',
+      //   inputType: 'multi_select',
+      //   filterOperators: OPERATOR_TYPES_3,
+      // },
     ],
     actions: [
       {
@@ -84,14 +85,15 @@ export const AUTOMATIONS = {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
       },
-      {
-        key: 'add_label',
-        name: 'ADD_LABEL',
-      },
-      {
-        key: 'remove_label',
-        name: 'REMOVE_LABEL',
-      },
+      // Heycommerce: Labels desabilitados - usamos contact_labels agora
+      // {
+      //   key: 'add_label',
+      //   name: 'ADD_LABEL',
+      // },
+      // {
+      //   key: 'remove_label',
+      //   name: 'REMOVE_LABEL',
+      // },
       {
         key: 'send_email_to_team',
         name: 'SEND_EMAIL_TO_TEAM',
@@ -192,12 +194,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
-      {
-        key: 'labels',
-        name: 'LABELS',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
+      // Heycommerce: Labels de conversa desabilitados - usamos contact_labels agora
+      // {
+      //   key: 'labels',
+      //   name: 'LABELS',
+      //   inputType: 'multi_select',
+      //   filterOperators: OPERATOR_TYPES_3,
+      // },
     ],
     actions: [
       {
@@ -320,12 +323,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
-      {
-        key: 'labels',
-        name: 'LABELS',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
+      // Heycommerce: Labels de conversa desabilitados - usamos contact_labels agora
+      // {
+      //   key: 'labels',
+      //   name: 'LABELS',
+      //   inputType: 'multi_select',
+      //   filterOperators: OPERATOR_TYPES_3,
+      // },
     ],
     actions: [
       {
@@ -442,12 +446,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
-      {
-        key: 'labels',
-        name: 'LABELS',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
+      // Heycommerce: Labels de conversa desabilitados - usamos contact_labels agora
+      // {
+      //   key: 'labels',
+      //   name: 'LABELS',
+      //   inputType: 'multi_select',
+      //   filterOperators: OPERATOR_TYPES_3,
+      // },
     ],
     actions: [
       {
@@ -628,16 +633,17 @@ export const AUTOMATION_ACTION_TYPES = [
     label: 'ASSIGN_TEAM',
     inputType: 'search_select',
   },
-  {
-    key: 'add_label',
-    label: 'ADD_LABEL',
-    inputType: 'multi_select',
-  },
-  {
-    key: 'remove_label',
-    label: 'REMOVE_LABEL',
-    inputType: 'multi_select',
-  },
+  // Heycommerce: Labels desabilitados - usamos contact_labels agora
+  // {
+  //   key: 'add_label',
+  //   label: 'ADD_LABEL',
+  //   inputType: 'multi_select',
+  // },
+  // {
+  //   key: 'remove_label',
+  //   label: 'REMOVE_LABEL',
+  //   inputType: 'multi_select',
+  // },
   {
     key: 'send_email_to_team',
     label: 'SEND_EMAIL_TO_TEAM',

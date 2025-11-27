@@ -68,15 +68,16 @@ const GO_TO_COMMANDS = [
     path: accountId => `accounts/${accountId}/reports/agent`,
     role: ['administrator'],
   },
-  {
-    id: 'open_label_reports',
-    section: 'COMMAND_BAR.SECTIONS.REPORTS',
-    title: 'COMMAND_BAR.COMMANDS.GO_TO_LABEL_REPORTS',
-    featureFlag: FEATURE_FLAGS.REPORTS,
-    icon: ICON_LABEL_REPORTS,
-    path: accountId => `accounts/${accountId}/reports/label`,
-    role: ['administrator'],
-  },
+  // Heycommerce: Labels de conversa desabilitados - usamos contact_labels agora
+  // {
+  //   id: 'open_label_reports',
+  //   section: 'COMMAND_BAR.SECTIONS.REPORTS',
+  //   title: 'COMMAND_BAR.COMMANDS.GO_TO_LABEL_REPORTS',
+  //   featureFlag: FEATURE_FLAGS.REPORTS,
+  //   icon: ICON_LABEL_REPORTS,
+  //   path: accountId => `accounts/${accountId}/reports/label`,
+  //   role: ['administrator'],
+  // },
   {
     id: 'open_inbox_reports',
     section: 'COMMAND_BAR.SECTIONS.REPORTS',

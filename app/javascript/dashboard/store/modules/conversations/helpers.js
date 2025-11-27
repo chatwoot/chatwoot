@@ -1,5 +1,8 @@
 import { CONVERSATION_PRIORITY_ORDER } from 'shared/constants/messages';
 
+// Static empty array to prevent infinite re-renders caused by creating new array references
+const EMPTY_LABELS_ARRAY = Object.freeze([]);
+
 export const findPendingMessageIndex = (chat, message) => {
   const { echo_id: tempMessageId } = message;
   return chat.messages.findIndex(
@@ -21,7 +24,10 @@ export const filterByTeam = (shouldFilter, teamId, chatTeamId) => {
 };
 
 export const filterByLabel = (shouldFilter, labels, chatLabels) => {
-  const isOnLabel = labels.every(label => chatLabels.includes(label));
+  // Ensure chatLabels is always an array to prevent errors
+  // Use static empty array to prevent infinite re-renders
+  const normalizedChatLabels = Array.isArray(chatLabels) ? chatLabels : EMPTY_LABELS_ARRAY;
+  const isOnLabel = labels.every(label => normalizedChatLabels.includes(label));
   return labels.length ? isOnLabel && shouldFilter : shouldFilter;
 };
 export const filterByUnattended = (
@@ -46,8 +52,11 @@ export const applyPageFilters = (conversation, filters) => {
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
-  // Use contact labels instead of conversation labels
-  const contactLabels = meta.sender?.labels || [];
+  // Heycommerce: Use contact labels instead of conversation labels
+  // Ensure it's always an array to prevent errors
+  // Use static empty array to prevent infinite re-renders
+  const senderLabels = meta.sender?.labels;
+  const contactLabels = Array.isArray(senderLabels) ? senderLabels : EMPTY_LABELS_ARRAY;
 
   let shouldFilter = filterByStatus(chatStatus, status);
   shouldFilter = filterByInbox(shouldFilter, inboxId, chatInboxId);

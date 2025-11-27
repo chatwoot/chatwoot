@@ -14,7 +14,8 @@ const getters = useStoreGetters();
 const store = useStore();
 
 const showAddPopup = ref(false);
-const selectedTabIndex = ref(0);
+// HeyCommerce: forçando sempre Contact (1) como padrão
+const selectedTabIndex = ref(1);
 const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
 
 const openAddPopup = () => {
@@ -26,10 +27,11 @@ const hideAddPopup = () => {
 
 const tabs = computed(() => {
   return [
-    {
-      key: 0,
-      name: t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
-    },
+    // HeyCommerce: escondendo aba de conversation attributes
+    // {
+    //   key: 0,
+    //   name: t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
+    // },
     {
       key: 1,
       name: t('ATTRIBUTES_MGMT.TABS.CONTACT'),
@@ -50,7 +52,9 @@ const attributes = computed(() =>
 );
 
 const onClickTabChange = index => {
-  selectedTabIndex.value = index;
+  // HeyCommerce: como removemos a aba de conversation, o index do loop sempre será 0
+  // mas precisamos manter o valor 1 (contact_attribute)
+  selectedTabIndex.value = tabs.value[index]?.key ?? 1;
 };
 </script>
 
