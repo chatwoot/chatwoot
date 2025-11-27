@@ -9,6 +9,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
   # Mock RubyLLM objects
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_context) { instance_double(RubyLLM::Context) }
+  let(:mock_config) { OpenStruct.new }
   let(:mock_response) do
     instance_double(
       RubyLLM::Message,
@@ -27,7 +28,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
   end
 
   before do
-    allow(RubyLLM).to receive(:context).and_yield(double('config').as_null_object).and_return(mock_context)
+    allow(RubyLLM).to receive(:context).and_yield(mock_config).and_return(mock_context)
     allow(mock_context).to receive(:chat).and_return(mock_chat)
 
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
