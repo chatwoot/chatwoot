@@ -19,10 +19,9 @@ saml:
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: true
   icon: 'icon-paint-brush-line'
   config_key: 'custom_branding'
-  enterprise: true
 agent_capacity:
   name: 'Agent Capacity'
   description: 'Set limits to auto-assigning conversations to your agents.'
@@ -38,9 +37,8 @@ audit_logs:
 disable_branding:
   name: 'Disable Branding'
   description: 'Disable branding on live-chat widget and external emails.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: true
   icon: 'icon-sailbot-fill'
-  enterprise: true
 
 # ------- Product Features ------- #
 help_center:
