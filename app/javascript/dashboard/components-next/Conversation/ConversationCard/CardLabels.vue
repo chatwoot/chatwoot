@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, nextTick, useSlots } from 'vue';
-import { useMutationObserver } from '@vueuse/core';
+import { ref, computed, inject, nextTick, useSlots, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useThrottleFn } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -74,13 +74,17 @@ const computeVisibleLabelPosition = () => {
   showExpandLabelButton.value = visibleIndex < labelsArray.length - 1;
 };
 
-// Observe DOM mutations (handles labels and before slot changes)
-useMutationObserver(labelContainer, () => computeVisibleLabelPosition(), {
-  childList: true,
-  subtree: true,
-  attributes: false,
-  characterData: false,
-});
+const throttledCalculate = useThrottleFn(computeVisibleLabelPosition, 16);
+
+watch(activeLabels, () => nextTick(throttledCalculate), { immediate: true });
+
+// Recalculate when parent triggers (e.g., tab changes in ChatList)
+// Needed because inbox conversation view shows metadata inside CardLabels, affecting available width
+const recalculateKey = inject('recalculateLabelsKey', null);
+
+if (recalculateKey) {
+  watch(recalculateKey, () => nextTick(throttledCalculate));
+}
 
 const hiddenLabelsCount = computed(() => {
   if (!showExpandLabelButton.value || showAllLabels.value) return 0;
@@ -114,7 +118,7 @@ const onShowLabels = e => {
   <div
     v-if="showSection"
     ref="labelContainer"
-    v-resize="computeVisibleLabelPosition"
+    v-resize="throttledCalculate"
     data-labels-container
     class="flex items-center flex-shrink min-w-0 min-h-6 gap-x-1.5 gap-y-1 [&:not(:has([data-label],[data-before-slot]))]:hidden"
     :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
