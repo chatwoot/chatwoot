@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useNumberFormatter } from 'shared/composables/useNumberFormatter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -24,6 +25,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:currentPage']);
 const { t } = useI18n();
+const { formatCompactNumber, formatFullNumber } = useNumberFormatter();
 
 const totalPages = computed(() =>
   Math.ceil(props.totalItems / props.itemsPerPage)
@@ -43,21 +45,27 @@ const changePage = newPage => {
 };
 
 const currentPageInformation = computed(() => {
+  const translationKey = props.currentPageInfo || 'PAGINATION_FOOTER.SHOWING';
   return t(
-    props.currentPageInfo ? props.currentPageInfo : 'PAGINATION_FOOTER.SHOWING',
+    translationKey,
     {
-      startItem: startItem.value,
-      endItem: endItem.value,
-      totalItems: props.totalItems,
-    }
+      startItem: formatFullNumber(startItem.value),
+      endItem: formatFullNumber(endItem.value),
+      totalItems: formatCompactNumber(props.totalItems),
+    },
+    Number(props.totalItems)
   );
 });
 
 const pageInfo = computed(() => {
-  return t('PAGINATION_FOOTER.CURRENT_PAGE_INFO', {
-    currentPage: '',
-    totalPages: totalPages.value,
-  });
+  return t(
+    'PAGINATION_FOOTER.CURRENT_PAGE_INFO',
+    {
+      currentPage: '',
+      totalPages: formatCompactNumber(totalPages.value),
+    },
+    Number(totalPages.value)
+  );
 });
 </script>
 
@@ -91,9 +99,11 @@ const pageInfo = computed(() => {
       />
       <div class="inline-flex items-center gap-2 text-sm text-n-slate-11">
         <span class="px-3 tabular-nums py-0.5 bg-n-alpha-black2 rounded-md">
-          {{ currentPage }}
+          {{ formatFullNumber(currentPage) }}
         </span>
-        <span class="truncate">{{ pageInfo }}</span>
+        <span class="truncate">
+          {{ pageInfo }}
+        </span>
       </div>
       <Button
         icon="i-lucide-chevron-right"
