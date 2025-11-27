@@ -18,43 +18,53 @@
   value: 'Chatwoot'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
+  locked: false
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
   display_title: 'Logo Thumbnail'
   description: 'The thumbnail that would be used for favicon (512px X 512px)'
+  locked: false
 - name: LOGO
   value: '/brand-assets/logo.svg'
   display_title: 'Logo'
   description: 'The logo that would be used on the dashboard, login page etc.'
+  locked: false
 - name: LOGO_DARK
   value: '/brand-assets/logo_dark.svg'
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
+  locked: false
 - name: BRAND_URL
   value: 'https://www.chatwoot.com'
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
+  locked: false
 - name: WIDGET_BRAND_URL
   value: 'https://www.chatwoot.com'
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
+  locked: false
 - name: BRAND_NAME
   value: 'Chatwoot'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
+  locked: false
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
+  locked: false
 - name: PRIVACY_URL
   value: 'https://www.chatwoot.com/privacy-policy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
+  locked: false
 - name: DISPLAY_MANIFEST
   value: true
   display_title: 'Chatwoot Metadata'
   description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
   type: boolean
+  locked: false
 # ------- End of Branding Related Config ------- #
 
 # ------- Signup & Account Related Config ------- #
@@ -403,7 +413,7 @@
   display_title: 'Instagram API Version'
   description: 'Configure this if you want to use a different Instagram API version. Make sure its prefixed with `v`'
   value: 'v22.0'
-  locked: true
+  locked: false
 # ------- End of Instagram Channel Related Config ------- #
 
 # ------- OG Image Related Config ------- #
