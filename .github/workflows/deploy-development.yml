@@ -35,7 +35,7 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base-dev:v1.0.51
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base-dev:v1.0.52
 
       - name: Build and push Rails image (development)
         uses: docker/build-push-action@v4
@@ -43,7 +43,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/rails.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-dev:v1.0.51
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-dev:v1.0.52
 
       - name: Build and push Vite image (development)
         uses: docker/build-push-action@v4
@@ -51,7 +51,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/vite.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-dev:v1.0.51
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-dev:v1.0.52
 
   deploy:
     needs: build-and-push
@@ -165,6 +165,7 @@ jobs:
             IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
             IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
+            ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
           EOF
           kubectl apply -f k8s/development/configmap.yaml
           
@@ -227,6 +228,7 @@ jobs:
             IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
             IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
+            ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
           EOF
           kubectl create -f k8s/development/secret.yaml -n chatwoot-development
           rm k8s/development/secret.yaml
