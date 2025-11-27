@@ -65,7 +65,7 @@ module AutoAssignmentHandler
   
     update_column(:assignee_id, nil) if assignee_id.present?
   
-    if queue_service.queue_size.zero?
+    if queue_service.queue_size(inbox_id).zero?
       assignee = find_available_agent_for(self)
 
       if assignee && assignee_id.nil?
