@@ -58,11 +58,6 @@ class Queue::ProcessQueueJob < ApplicationJob
       end
     end
 
-    unless assigned
-      Rails.logger.info "[QUEUE][JOB] Could not assign conv_id=#{conv.conversation_id} to any agent"
-      return
-    end
-
     if queue_service.queue_size.positive?
       Rails.logger.info "[QUEUE][JOB] Queue still has items, scheduling next run"
       Queue::ProcessQueueJob.set(wait: 1.second).perform_later(account_id)
