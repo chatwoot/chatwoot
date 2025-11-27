@@ -376,7 +376,7 @@
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "FILTER": {
       "NAME": "Name",
