@@ -174,7 +174,12 @@ export default {
       return false;
     },
     showWhatsappTemplates() {
-      return this.isAWhatsAppCloudChannel && !this.isPrivate;
+      // We support WhatsApp templates for API channels if someone updates templates manually via API
+      // That's why we don't explicitly check for WhatsApp channel type here
+      const templates = this.$store.getters['inboxes/getWhatsAppTemplates'](
+        this.inboxId
+      );
+      return !!(templates && templates.length) && !this.isPrivate;
     },
     showContentTemplates() {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
