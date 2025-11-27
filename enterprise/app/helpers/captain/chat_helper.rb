@@ -2,16 +2,18 @@ module Captain::ChatHelper
   def request_chat_completion
     log_chat_completion_request
 
-    response = @client.chat(
-      parameters: {
-        model: @model,
-        messages: @messages,
-        tools: @tool_registry&.registered_tools || [],
-        response_format: { type: 'json_object' },
-        temperature: @assistant&.config&.[]('temperature').to_f || 1
-      }
-    )
+    chat = RubyLLM.chat(model: @model)
+    chat.with_temperature(@assistant&.config&.[]('temperature').to_f || 1)
 
+    @tool_registry&.registered_tools&.each do |tool|
+      chat.with_tool(tool)
+    end
+
+    @messages.each do |msg|
+      chat.add_message(role: msg[:role].to_sym, content: msg[:content])
+    end
+
+    response = chat.ask(@messages.last[:content])
     handle_response(response)
   rescue StandardError => e
     Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"

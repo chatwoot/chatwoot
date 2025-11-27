@@ -1,18 +1,11 @@
-class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::BaseService
-  def name
-    'search_conversations'
-  end
+class Captain::Tools::Copilot::SearchConversationsService < RubyLLM::Tool
+  description 'Search conversations based on parameters'
 
-  def description
-    'Search conversations based on parameters'
-  end
-
-  def parameters
-    {
-      type: 'object',
-      properties: properties,
-      required: []
-    }
+  params do
+    string :status, description: 'Status of the conversation'
+    int :contact_id, description: 'Contact id'
+    string :priority, description: 'Priority of conversation'
+    string :labels, description: 'Labels available'
   end
 
   def execute(arguments)

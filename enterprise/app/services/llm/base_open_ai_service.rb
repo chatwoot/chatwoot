@@ -1,16 +1,14 @@
 class Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o-mini'.freeze
-  attr_reader :client, :model
+  DEFAULT_MODEL = Llm::Config::DEFAULT_MODEL
+  attr_reader :model
 
   def initialize
-    @client = OpenAI::Client.new(
-      access_token: InstallationConfig.find_by!(name: 'CAPTAIN_OPEN_AI_API_KEY').value,
-      uri_base: uri_base,
-      log_errors: Rails.env.development?
-    )
+    Llm::Config.initialize!
     setup_model
-  rescue StandardError => e
-    raise "Failed to initialize OpenAI client: #{e.message}"
+  end
+
+  def chat(model: @model)
+    RubyLLM.chat(model: model)
   end
 
   private
