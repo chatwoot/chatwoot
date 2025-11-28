@@ -1,4 +1,4 @@
-class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
+class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer # rubocop:disable Metrics/ClassLength
   def slack_disconnect
     return unless smtp_config_set_or_development?
 
@@ -266,6 +266,15 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     @meta['rule_name'] = rule.name
 
     send_mail_with_liquid(to: admin_emails, subject: subject) and return
+  end
+
+  def message_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Message Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    recipients = ['jay@procedure.tech']
+    send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
   private

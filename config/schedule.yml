@@ -83,3 +83,9 @@ weekly_inbox_channel_report_job:
   cron: '*/5 * * * *'
   class: 'WeeklyInboxChannelReportJob'
   queue: scheduled_jobs
+
+# executed every 48 hours (at 01:00 UTC on odd days: 1st, 3rd, 5th, etc.)
+message_report_job:
+  cron: '0 1 1-31/2 * *'
+  class: 'MessageReportJob'
+  queue: scheduled_jobs
