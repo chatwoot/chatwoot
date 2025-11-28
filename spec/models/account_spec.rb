@@ -22,6 +22,12 @@ RSpec.describe Account do
   describe 'length validations' do
     let(:account) { create(:account) }
 
+    it 'validates name presence' do
+      account.name = ''
+      account.valid?
+      expect(account.errors[:name]).to include("can't be blank")
+    end
+
     it 'validates name length' do
       account.name = 'a' * 256
       account.valid?
