@@ -7,6 +7,10 @@
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
+    "PRIORITY_GROUPS": {
+      "LABEL": "Priority groups",
+      "SELECT_PLACEHOLDER": "Select a group"
+    },
     "LIST": {
       "404": "There are no inboxes attached to this account."
     },

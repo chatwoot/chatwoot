@@ -86,8 +86,10 @@ class ChatQueue::QueueService
       return nil
     end
 
-    entry = ConversationQueue.for_account(account.id).for_inbox(inbox_id).waiting.order(:position, :queued_at).first
+    group = priority_group_for_inbox(inbox_id)
 
+    entry = ConversationQueue.for_account(account.id).for_priority_group(group).waiting.order(:position, :queued_at).first
+    
     unless entry
       Rails.logger.info("[QUEUE][assign] Skip: no queue entries")
       return nil
@@ -153,12 +155,16 @@ class ChatQueue::QueueService
   end
 
   def next_in_queue(inbox_id)
+    group = priority_group_for_inbox(inbox_id)
+
     Rails.logger.info("[QUEUE][next] Fetching next conversation in queue for account #{account.id}")
-    ConversationQueue.for_account(account.id).for_inbox(inbox_id).waiting.first&.conversation
+    ConversationQueue.for_account(account.id).for_priority_group(group).waiting.first&.conversation
   end
 
   def queue_size(inbox_id)
-    size = ConversationQueue.for_account(account.id).for_inbox(inbox_id).waiting.count
+    group = priority_group_for_inbox(inbox_id)
+
+    size = ConversationQueue.for_account(account.id).for_priority_group(group).waiting.count
     Rails.logger.info("[QUEUE][size] Queue size=#{size} for account #{account.id}")
     size
   end
@@ -242,6 +248,11 @@ class ChatQueue::QueueService
   end
 
   private
+
+  def priority_group_for_inbox(inbox_id)
+    @priority_groups ||= {}
+    @priority_groups[inbox_id] ||= Inbox.find(inbox_id).priority_group
+  end  
 
   def effective_limit_for_agent(agent_id)
     Rails.logger.info("[QUEUE][limit][agent=#{agent_id}] Fetching limits")

@@ -332,7 +332,7 @@ Rails.application.routes.draw do
             end
           end
           resources :working_hours, only: [:update]
-
+          resources :priority_groups, only: [:index]
           resources :portals do
             member do
               patch :archive

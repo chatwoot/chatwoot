@@ -7,6 +7,10 @@
     "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Ваша регистрация в WhatsApp Business не завершена. Пожалуйста, проверьте статус отображения в Meta Business Manager перед повторным подключением.",
     "COMPLETE_REGISTRATION": "Завершить регистрацию",
+    "PRIORITY_GROUPS": {
+      "LABEL": "Приоритетные группы",
+      "SELECT_PLACEHOLDER": "Выберите группу"
+    },
     "LIST": {
       "404": "У вас пока нет источников."
     },
