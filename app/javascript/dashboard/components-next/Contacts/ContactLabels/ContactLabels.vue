@@ -1,6 +1,7 @@
 <script setup>
 import { computed, watch, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+// Heycommerce: Removed useRoute - was causing bug where labels didn't load on F5
+// because route.params.contactId is undefined in conversation sidebar context
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 import LabelItem from 'dashboard/components-next/Label/LabelItem.vue';
@@ -14,7 +15,6 @@ const props = defineProps({
 });
 
 const store = useStore();
-const route = useRoute();
 
 const showDropdown = ref(false);
 
@@ -99,8 +99,10 @@ watch(
   }
 );
 onMounted(() => {
-  if (route.params.contactId) {
-    fetchLabels(route.params.contactId);
+  // Heycommerce: Use props.contactId instead of route.params.contactId
+  // route.params.contactId is undefined when viewing from conversation sidebar
+  if (props.contactId) {
+    fetchLabels(props.contactId);
   }
 });
 

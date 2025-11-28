@@ -58,13 +58,9 @@ const translateValue = computed(() => {
 </script>
 
 <template>
+  <!-- HeyCommerce: transformado em badge não clicável, removido modo privado -->
   <div
-    class="flex items-center w-auto h-8 p-1 transition-all border rounded-full bg-n-alpha-2 group relative duration-300 ease-in-out z-0"
-    :disabled="disabled"
-    :class="{
-      'cursor-not-allowed': disabled,
-    }"
-    @click="$emit('toggleMode')"
+    class="flex items-center w-auto h-8 p-1 border rounded-full bg-n-alpha-2 relative z-0"
   >
     <div ref="wootEditorReplyMode" class="flex items-center gap-1 px-2 z-20">
       {{ $t('CONVERSATION.REPLYBOX.REPLY') }}

@@ -160,18 +160,20 @@ export default {
       );
     },
     showRichContentEditor() {
-      if (this.isOnPrivateNote || this.isRichEditorEnabled) {
-        return true;
-      }
-
-      if (this.isAPIInbox) {
-        const {
-          display_rich_content_editor: displayRichContentEditor = false,
-        } = this.uiSettings;
-        return displayRichContentEditor;
-      }
-
+      // HeyCommerce: sempre mostrar rich text editor por padrão
       return true;
+      // if (this.isOnPrivateNote || this.isRichEditorEnabled) {
+      //   return true;
+      // }
+
+      // if (this.isAPIInbox) {
+      //   const {
+      //     display_rich_content_editor: displayRichContentEditor = false,
+      //   } = this.uiSettings;
+      //   return displayRichContentEditor;
+      // }
+
+      // return true;
     },
     showWhatsappTemplates() {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
@@ -1289,7 +1291,7 @@ export default {
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
       :show-audio-recorder="showAudioRecorder"
-      :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
+      :show-editor-toggle="false /* HeyCommerce: sempre false pq rich editor é padrão */"
       :show-emoji-picker="showEmojiPicker"
       :show-file-upload="showFileUpload"
       :show-quoted-reply-toggle="shouldShowQuotedReplyToggle"
