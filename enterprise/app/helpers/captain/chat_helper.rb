@@ -9,6 +9,10 @@ module Captain::ChatHelper
       chat.with_tool(tool)
     end
 
+    chat.on_tool_call do |tool_call|
+      persist_thinking_message(tool_call)
+    end
+
     system_msg = @messages.find { |m| m[:role] == 'system' || m[:role] == :system }
     chat.with_instructions(system_msg[:content]) if system_msg
 
@@ -24,6 +28,20 @@ module Captain::ChatHelper
   end
 
   private
+
+  def persist_thinking_message(tool_call)
+    return unless defined?(@copilot_thread) && @copilot_thread.present?
+
+    tool_name = tool_call.name.to_s
+
+    persist_message(
+      {
+        'content' => "Using #{tool_name}",
+        'function_name' => tool_name
+      },
+      'assistant_thinking'
+    )
+  end
 
   def build_response(response)
     Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
