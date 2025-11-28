@@ -137,7 +137,6 @@ module Stark
       @conversation.messages
                    .not_activity
                    .not_template
-                   .where.missing(:attachments)
                    .where.not(content: [nil, ''])
                    .reorder(created_at: :desc)
                    .limit(10)
@@ -148,9 +147,16 @@ module Stark
           content: message.content,
           created_at: message.created_at,
           is_follow_up_message: message.content_attributes['follow_up'] || false,
+          is_image_attached: message_has_image?(message),
           metadata: message.metadata
         }
       end
+    end
+
+    def message_has_image?(message)
+      return false if message.nil?
+
+      message.attachments.exists?(file_type: :image)
     end
 
     def log_and_notify_slack(message)

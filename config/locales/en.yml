@@ -168,7 +168,7 @@ en:
       handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
-      instagram_story_reply_content: 'you mentioned (%{username}) in the story:'
+      instagram_story_reply_content: 'You mentioned %{username} in your story:'
       instagram_story_unknown_sender: 'Someone'
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted

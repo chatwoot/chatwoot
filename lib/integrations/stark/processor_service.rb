@@ -42,7 +42,7 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
     return if current_conversation.assignee_id.present?
     return unless current_conversation.pending?
 
-    response = get_stark_response(current_conversation, event_data[:message].content)
+    response = get_stark_response(current_conversation, event_data[:message].content, event_data[:message])
     return if response.nil? # Response is nil if there was an error (already handled by StarkRetryable)
 
     current_conversation.update_column(:stop_follow_up, response['stop_follow_up'])
