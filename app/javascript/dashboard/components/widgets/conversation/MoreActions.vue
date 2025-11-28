@@ -91,7 +91,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative flex items-center gap-2 actions--container">
+  <div class="relative flex items-center gap-1">
     <ResolveAction
       :conversation-id="currentChat.id"
       :status="currentChat.status"
