@@ -148,16 +148,6 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     @message.save_story_info(story_payload)
     ensure_story_attachment(story_payload['url'])
 
-    # Set default content for story reply (tags back) case
-    if @message.content.blank? && @message.outgoing?
-      # For outgoing echo messages (tags back), get the contact from the conversation
-      conversation_contact = @conversation&.contact
-      instagram_username = conversation_contact&.additional_attributes&.dig('social_instagram_user_name') ||
-                           conversation_contact&.additional_attributes&.dig('social_profiles', 'instagram') ||
-                           conversation_contact&.name ||
-                           conversation_contact&.identifier ||
-      @message.update!(content: I18n.t('conversations.messages.instagram_story_reply_content', username: instagram_username))
-    end
   end
 
   def build_conversation
@@ -222,14 +212,29 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
 
   def ensure_story_mention_content
     return unless @message.present?
-    return unless @message.content.blank?
     return unless @message.content_attributes[:image_type] == 'story_mention'
 
     Rails.logger.info(
       "[InstagramStoryMentionFallback] message_id=#{@message.id} content missing. attributes=#{@message.content_attributes}"
     )
 
-    @message.update!(content: I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender_label))
+    if @message.outgoing?
+      reply_content = I18n.t(
+        'conversations.messages.instagram_story_reply_content',
+        username: story_reply_username
+      )
+      @message.update!(content: reply_content) unless @message.content == reply_content
+    elsif @message.content.blank?
+      @message.update!(content: I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender_label))
+    end
+  end
+
+  def story_reply_username
+    contact_name = contact&.additional_attributes&.dig('social_instagram_user_name') ||
+                   contact&.additional_attributes&.dig('social_profiles', 'instagram') ||
+                   contact&.name ||
+                   contact&.identifier
+    contact_name.presence || I18n.t('conversations.messages.instagram_story_unknown_sender')
   end
 
   def story_sender_label

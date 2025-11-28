@@ -99,6 +99,7 @@ const showInboxName = computed(() => {
 const showMetaSection = computed(() => {
   return (
     showInboxName.value ||
+    isCommentConversation.value ||
     (props.showAssignee && assignee.value.name) ||
     props.chat.priority
   );
@@ -293,14 +294,18 @@ const deleteConversation = () => {
         }"
       >
         <div
-          v-if="showInboxName"
+          v-if="showInboxName || isCommentConversation"
           class="flex items-center gap-1.5 flex-1 min-w-0"
         >
-          <InboxName :inbox="inbox" class="flex-1 min-w-0" />
+          <InboxName
+            v-if="showInboxName"
+            :inbox="inbox"
+            class="flex-1 min-w-0"
+          />
           <span
-            v-if="isCommentConversation"
-            class="inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold tracking-wide rounded-xl bg-n-blue-3 text-n-slate-11 dark:bg-n-blue-3 flex-shrink-0"
-          >
+      v-if="isCommentConversation"
+      class="absolute right-0 inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold tracking-wide rounded-xl bg-n-blue-3 text-n-slate-11 dark:bg-n-blue-3"
+    >
             {{ $t('CHAT_LIST.COMMENT_TAG') }}
           </span>
         </div>

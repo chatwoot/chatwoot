@@ -8,11 +8,11 @@ module Stark
       include StarkRetryable
     end
 
-    def get_stark_response(conversation, content)
+    def get_stark_response(conversation, content, message = nil)
       return nil unless valid_dealership_id?(conversation.account&.dealership_id)
 
       with_stark_retry(conversation) do
-        response = make_api_request(conversation, content)
+        response = make_api_request(conversation, content, message)
 
         return nil if response.nil?
 
@@ -43,10 +43,10 @@ module Stark
 
     private
 
-    def make_api_request(conversation, content)
+    def make_api_request(conversation, content, message = nil)
       response = HTTParty.post(
         agent_bot.outgoing_url,
-        body: build_request_payload(conversation, content).to_json,
+        body: build_request_payload(conversation, content, message).to_json,
         headers: build_request_headers,
         timeout: 60
       )
@@ -64,9 +64,10 @@ module Stark
       raise StandardError, 'Invalid response format from Stark server'
     end
 
-    def build_request_payload(conversation, content)
+    def build_request_payload(conversation, content, message = nil)
       {
         question: content,
+        is_image_attached: message_has_image?(message),
         session_id: conversation.id,
         dealership_id: conversation.account&.dealership_id,
         account_id: conversation.account_id,
@@ -80,8 +81,6 @@ module Stark
       conversation.messages
                   .not_activity
                   .not_template
-                  .left_outer_joins(:attachments)
-                  .where(attachments: { id: nil })
                   .where.not(content: [nil, ''])
                   .reorder(created_at: :desc)
                   .limit(10)
@@ -92,9 +91,16 @@ module Stark
           content: message.content,
           created_at: message.created_at,
           is_follow_up_message: message.content_attributes['follow_up'] || false,
+          is_image_attached: message_has_image?(message),
           metadata: message.metadata
         }
       end
+    end
+
+    def message_has_image?(message)
+      return false if message.nil?
+
+      message.attachments.exists?(file_type: :image)
     end
 
     def build_request_headers
