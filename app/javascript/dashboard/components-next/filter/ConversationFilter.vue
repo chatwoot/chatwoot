@@ -122,7 +122,7 @@ const outsideClickHandler = [
     <div
       v-on-click-outside="viewInModal ? [] : outsideClickHandler"
       class="z-40 max-w-3xl xl:w-[750px] w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
-      :class="{ 'overflow-x-auto': viewInModal, 'overflow-auto': !viewInModal }"
+      :class="{ 'overflow-x-auto': viewInModal }"
     >
       <h3 class="text-base font-medium leading-6 text-n-slate-12">
         {{ filterModalHeaderTitle }}

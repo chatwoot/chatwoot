@@ -39,21 +39,28 @@ const formatFilterValue = value => {
 
   // Case 2: array → map each item, use name if present, else the item itself
   if (Array.isArray(value)) {
+    // Empty array
+    if (value.length === 0) return '';
     return value.map(item => item?.name ?? item).join(', ');
   }
 
-  // Case 3: object with a "name" property → return name
-  // Case 4: primitive (string, number, etc.) → return as is
+  // Case 3: empty object
+  if (typeof value === 'object' && Object.keys(value).length === 0) {
+    return '';
+  }
+
+  // Case 4: object with a "name" property → return name
+  // Case 5: primitive (string, number, etc.) → return as is
   return value?.name ?? value;
 };
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center w-full gap-2 mx-auto">
+  <div class="flex flex-wrap items-center w-full gap-x-1.5 gap-y-2 mx-auto">
     <template v-for="(filter, index) in appliedFilters" :key="index">
       <div
         v-if="index < maxVisibleFilters"
-        class="inline-flex items-center gap-2 h-7"
+        class="inline-flex items-center gap-1.5 h-7"
       >
         <div
           class="flex items-center h-full min-w-0 gap-1 px-2 py-1 text-xs border rounded-lg hover:bg-n-solid-2 max-w-72 border-n-weak hover:cursor-pointer"
@@ -68,7 +75,7 @@ const formatFilterValue = value => {
             {{ formatOperatorLabel(filter.filterOperator) }}
           </span>
           <span
-            v-if="filter.values"
+            v-if="formatFilterValue(filter.values)"
             :title="formatFilterValue(filter.values)"
             class="lowercase truncate text-n-slate-12"
             :class="{
@@ -105,9 +112,10 @@ const formatFilterValue = value => {
       v-if="showClearButton"
       :label="clearButtonLabel"
       size="xs"
-      class="!px-1"
-      variant="ghost"
+      class="!px-1 hover:!no-underline"
+      link
       @click="emit('clearFilters')"
     />
+    <slot name="actions" />
   </div>
 </template>

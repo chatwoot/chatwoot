@@ -12,6 +12,7 @@ import ConversationList from './ConversationList.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import ChatListFilters from './ChatListFilters.vue';
+import ConversationActiveFiltersPreview from './widgets/conversation/ConversationActiveFiltersPreview.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useI18n } from 'vue-i18n';
@@ -425,11 +426,19 @@ watch(
   () => resetAndFetchData()
 );
 watch(
+  computed(() => props.teamId),
+  () => resetAndFetchData()
+);
+watch(
   computed(() => props.label),
   () => resetAndFetchData()
 );
 watch(
   computed(() => props.conversationType),
+  () => resetAndFetchData()
+);
+watch(
+  computed(() => props.foldersId),
   () => resetAndFetchData()
 );
 
@@ -468,10 +477,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :is-on-expanded-layout="isOnExpandedLayout"
       :conversation-stats="conversationStats"
       :is-list-loading="chatListLoading && !conversationList.length"
-      @add-folders="chatListFiltersRef?.onClickOpenAddFoldersModal"
-      @delete-folders="chatListFiltersRef?.onClickOpenDeleteFoldersModal"
       @filters-modal="chatListFiltersRef?.onToggleAdvanceFiltersModal"
-      @reset-filters="resetAndFetchData"
       @basic-filter-change="onBasicFilterChange"
     />
 
@@ -498,13 +504,15 @@ watch(conversationFilters, (newVal, oldVal) => {
       is-compact
       @chat-tab-change="updateAssigneeTab"
     />
-
-    <p
-      v-if="!chatListLoading && !conversationList.length"
-      class="flex items-center justify-center p-4 overflow-auto"
-    >
-      {{ $t('CHAT_LIST.LIST.404') }}
-    </p>
+    <ConversationActiveFiltersPreview
+      :active-folder="activeFolder"
+      :has-active-folders="hasActiveFolders"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @clear-filters="resetAndFetchData"
+      @open-filter="chatListFiltersRef?.onToggleAdvanceFiltersModal"
+      @save-folder="chatListFiltersRef?.onClickOpenAddFoldersModal"
+      @delete-folder="chatListFiltersRef?.onClickOpenDeleteFoldersModal"
+    />
     <ConversationBulkActions
       v-if="selectedConversations.length"
       :conversations="selectedConversations"
@@ -515,6 +523,14 @@ watch(conversationFilters, (newVal, oldVal) => {
       :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
       @select-all-conversations="toggleSelectAll"
     />
+
+    <p
+      v-if="!chatListLoading && !conversationList.length"
+      class="flex items-center justify-center p-4 overflow-auto"
+    >
+      {{ $t('CHAT_LIST.LIST.404') }}
+    </p>
+
     <ConversationList
       :items="conversationList"
       :is-loading="chatListLoading"

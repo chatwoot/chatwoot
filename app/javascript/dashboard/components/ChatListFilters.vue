@@ -254,8 +254,11 @@ defineExpose({
   onToggleAdvanceFiltersModal,
   onClickOpenAddFoldersModal,
   onClickOpenDeleteFoldersModal,
+  onCloseAddFoldersModal,
+  onCloseDeleteFoldersModal,
   foldersQuery,
   activeFolder,
+  appliedFilter,
 });
 </script>
 
@@ -273,14 +276,18 @@ defineExpose({
       />
     </TeleportWithDirection>
 
-    <DeleteCustomViews
+    <TeleportWithDirection
       v-if="showDeleteFoldersModal"
-      v-model:show="showDeleteFoldersModal"
-      :active-custom-view="activeFolder"
-      :custom-views-id="foldersId"
-      :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
-      @close="onCloseDeleteFoldersModal"
-    />
+      to="#deleteFilterTeleportTarget"
+    >
+      <DeleteCustomViews
+        v-model:show="showDeleteFoldersModal"
+        :active-custom-view="activeFolder"
+        :custom-views-id="foldersId"
+        :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
+        @close="onCloseDeleteFoldersModal"
+      />
+    </TeleportWithDirection>
 
     <TeleportWithDirection
       v-if="showAdvancedFilters"

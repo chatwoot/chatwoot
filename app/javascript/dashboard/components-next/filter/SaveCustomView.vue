@@ -108,7 +108,9 @@ export default {
       <NextInput
         v-model="name"
         :placeholder="$t('FILTER.CUSTOM_VIEWS.ADD.PLACEHOLDER')"
-        :message="v$.name.$error && $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE')"
+        :message="
+          v$.name.$error ? $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE') : ''
+        "
         :message-type="v$.name.$error ? 'error' : 'info'"
         @blur="v$.name.$touch"
       />
