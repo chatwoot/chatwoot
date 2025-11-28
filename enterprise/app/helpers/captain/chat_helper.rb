@@ -2,9 +2,29 @@ module Captain::ChatHelper
   def request_chat_completion
     log_chat_completion_request
 
+    chat = build_chat
+
+    add_messages_to_chat(chat)
+
+    response = chat.ask(conversation_messages.last[:content])
+    build_response(response)
+  end
+
+  private
+
+  def build_chat
     chat = RubyLLM.chat(model: @model)
     chat.with_temperature(@assistant&.config&.[]('temperature').to_f || 1)
 
+    chat = setup_tools(chat)
+
+    system_msg = @messages.find { |m| m[:role] == 'system' || m[:role] == :system }
+    chat.with_instructions(system_msg[:content]) if system_msg
+
+    chat
+  end
+
+  def setup_tools(chat)
     @tools&.each do |tool|
       chat.with_tool(tool)
     end
@@ -12,22 +32,18 @@ module Captain::ChatHelper
     chat.on_tool_call do |tool_call|
       persist_thinking_message(tool_call)
     end
+    chat
+  end
 
-    system_msg = @messages.find { |m| m[:role] == 'system' || m[:role] == :system }
-    chat.with_instructions(system_msg[:content]) if system_msg
-
-    conversation_messages = @messages.reject { |m| m[:role] == 'system' || m[:role] == :system }
+  def add_messages_to_chat(chat)
     conversation_messages[0...-1].each do |msg|
       chat.add_message(role: msg[:role].to_sym, content: msg[:content])
     end
-
-    last_message = conversation_messages.last
-    response = chat.ask(last_message[:content])
-
-    build_response(response)
   end
 
-  private
+  def conversation_messages
+    @messages.reject { |m| m[:role] == 'system' || m[:role] == :system }
+  end
 
   def persist_thinking_message(tool_call)
     return unless defined?(@copilot_thread) && @copilot_thread.present?
