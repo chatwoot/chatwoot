@@ -102,7 +102,8 @@ const handleAssign = () => {
       :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
       class="top-8 w-60 max-h-80 overflow-y-auto"
       :class="{
-        'ltr:left-0 rtl:right-0': !isTypeContact,
+        'ltr:-right-[6.5rem] rtl:-left-[6.5rem] ltr:2xl:right-0 rtl:2xl:left-0':
+          !isTypeContact,
         'ltr:right-0 rtl:left-0 mt-1': isTypeContact,
       }"
       @action="item => toggleLabelSelection(item.value)"

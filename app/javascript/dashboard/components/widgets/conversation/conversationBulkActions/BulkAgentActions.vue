@@ -122,7 +122,7 @@ const handleToggleDropdown = () => {
       :is-loading="isLoading"
       show-search
       :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-      class="ltr:left-0 rtl:right-0 top-8 w-60 max-h-80 overflow-y-auto"
+      class="ltr:-right-10 rtl:-left-10 ltr:2xl:right-0 rtl:2xl:left-0 top-8 w-60 max-h-80 overflow-y-auto"
       @action="handleSelectAgent"
     >
       <template #footer>

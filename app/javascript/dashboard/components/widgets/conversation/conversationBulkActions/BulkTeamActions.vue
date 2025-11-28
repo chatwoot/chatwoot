@@ -91,7 +91,7 @@ onMounted(() => {
       :menu-items="teamMenuItems"
       show-search
       :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-      class="ltr:left-0 rtl:right-0 top-8 w-60 max-h-80 overflow-y-auto"
+      class="ltr:-right-2 rtl:-left-2 top-8 w-60 max-h-80 overflow-y-auto"
       @action="handleSelectTeam"
     >
       <template #footer>
