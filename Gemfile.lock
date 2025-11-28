@@ -625,6 +625,25 @@ GEM
       faraday (>= 1.0, < 3)
       multi_json (>= 1.0)
     openssl (3.2.0)
+    opentelemetry-api (1.7.0)
+    opentelemetry-common (0.23.0)
+      opentelemetry-api (~> 1.0)
+    opentelemetry-exporter-otlp (0.31.1)
+      google-protobuf (>= 3.18)
+      googleapis-common-protos-types (~> 1.3)
+      opentelemetry-api (~> 1.1)
+      opentelemetry-common (~> 0.20)
+      opentelemetry-sdk (~> 1.10)
+      opentelemetry-semantic_conventions
+    opentelemetry-registry (0.4.0)
+      opentelemetry-api (~> 1.1)
+    opentelemetry-sdk (1.10.0)
+      opentelemetry-api (~> 1.1)
+      opentelemetry-common (~> 0.20)
+      opentelemetry-registry (~> 0.2)
+      opentelemetry-semantic_conventions
+    opentelemetry-semantic_conventions (1.36.0)
+      opentelemetry-api (~> 1.0)
     orm_adapter (0.5.0)
     os (1.1.4)
     ostruct (0.6.1)
@@ -1073,6 +1092,8 @@ DEPENDENCIES
   omniauth-rails_csrf_protection (~> 1.0, >= 1.0.2)
   omniauth-saml
   opensearch-ruby
+  opentelemetry-exporter-otlp
+  opentelemetry-sdk
   pg
   pg_search
   pgvector

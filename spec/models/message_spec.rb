@@ -45,6 +45,48 @@ RSpec.describe Message do
         end
       end
     end
+
+    context 'when it validates source_id length' do
+      it 'valid when source_id is within text limit (20000 chars)' do
+        long_source_id = 'a' * 10_000
+        message.source_id = long_source_id
+        expect(message.valid?).to be true
+      end
+
+      it 'valid when source_id is exactly 20000 characters' do
+        long_source_id = 'a' * 20_000
+        message.source_id = long_source_id
+        expect(message.valid?).to be true
+      end
+
+      it 'invalid when source_id exceeds text limit (20000 chars)' do
+        long_source_id = 'a' * 20_001
+        message.source_id = long_source_id
+        message.valid?
+
+        expect(message.errors[:source_id]).to include('is too long (maximum is 20000 characters)')
+      end
+
+      it 'handles long email Message-ID headers correctly' do
+        # Simulate a long Message-ID like some email systems generate
+        long_message_id = "msg-#{SecureRandom.hex(240)}@verylongdomainname.example.com"[0...500]
+        message.source_id = long_message_id
+        message.content_type = 'incoming_email'
+
+        expect(message.valid?).to be true
+        expect(message.source_id.length).to eq(500)
+      end
+
+      it 'allows nil source_id' do
+        message.source_id = nil
+        expect(message.valid?).to be true
+      end
+
+      it 'allows empty string source_id' do
+        message.source_id = ''
+        expect(message.valid?).to be true
+      end
+    end
   end
 
   describe 'concerns' do
