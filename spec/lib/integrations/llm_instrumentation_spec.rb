@@ -213,5 +213,95 @@ RSpec.describe Integrations::LlmInstrumentation do
         expect(OpenTelemetry::Trace::Status).to have_received(:error).with('API Error: rate_limit_exceeded')
       end
     end
+
+    describe '#instrument_agent_session' do
+      context 'when OTEL provider is not configured' do
+        before { otel_config.update(value: '') }
+
+        it 'executes the block without tracing' do
+          result = instance.instrument_agent_session(params) { 'my_result' }
+          expect(result).to eq('my_result')
+        end
+      end
+
+      context 'when OTEL provider is configured' do
+        let(:mock_span) { instance_double(OpenTelemetry::Trace::Span) }
+        let(:mock_tracer) { instance_double(OpenTelemetry::Trace::Tracer) }
+
+        before do
+          allow(mock_span).to receive(:set_attribute)
+          allow(instance).to receive(:tracer).and_return(mock_tracer)
+          allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+        end
+
+        it 'executes the block and returns the result' do
+          result = instance.instrument_agent_session(params) { 'my_result' }
+          expect(result).to eq('my_result')
+        end
+
+        it 'returns the block result even if instrumentation has errors' do
+          allow(mock_tracer).to receive(:in_span).and_raise(StandardError.new('Instrumentation failed'))
+
+          result = instance.instrument_agent_session(params) { 'my_result' }
+
+          expect(result).to eq('my_result')
+        end
+
+        it 'sets trace input and output attributes' do
+          result_data = { content: 'AI response' }
+          instance.instrument_agent_session(params) { result_data }
+
+          expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.input', params[:messages].to_json)
+          expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.output', result_data.to_json)
+        end
+      end
+    end
+
+    describe '#instrument_tool_call' do
+      let(:tool_name) { 'search_documents' }
+      let(:arguments) { { query: 'test query' } }
+
+      context 'when OTEL provider is not configured' do
+        before { otel_config.update(value: '') }
+
+        it 'executes the block without tracing' do
+          result = instance.instrument_tool_call(tool_name, arguments) { 'tool_result' }
+          expect(result).to eq('tool_result')
+        end
+      end
+
+      context 'when OTEL provider is configured' do
+        let(:mock_span) { instance_double(OpenTelemetry::Trace::Span) }
+        let(:mock_tracer) { instance_double(OpenTelemetry::Trace::Tracer) }
+
+        before do
+          allow(mock_span).to receive(:set_attribute)
+          allow(instance).to receive(:tracer).and_return(mock_tracer)
+          allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+        end
+
+        it 'executes the block and returns the result' do
+          result = instance.instrument_tool_call(tool_name, arguments) { 'tool_result' }
+          expect(result).to eq('tool_result')
+        end
+
+        it 'propagates instrumentation errors' do
+          allow(mock_tracer).to receive(:in_span).and_raise(StandardError.new('Instrumentation failed'))
+
+          expect do
+            instance.instrument_tool_call(tool_name, arguments) { 'tool_result' }
+          end.to raise_error(StandardError, 'Instrumentation failed')
+        end
+
+        it 'creates a span with tool name and sets observation attributes' do
+          tool_result = { documents: ['doc1'] }
+          instance.instrument_tool_call(tool_name, arguments) { tool_result }
+
+          expect(mock_tracer).to have_received(:in_span).with('tool.search_documents')
+          expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.input', arguments.to_json)
+          expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.output', tool_result.to_json)
+        end
+      end
+    end
   end
 end
