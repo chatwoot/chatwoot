@@ -219,6 +219,8 @@ Rails.application.routes.draw do
             end
           end
           resource :notification_settings, only: [:show, :update]
+          resource :ottiv_notification_settings, only: [:show, :update]
+          resources :ottiv_notifications, only: [:create]
 
           resources :teams do
             resources :team_members, only: [:index, :create] do
@@ -354,6 +356,9 @@ Rails.application.routes.draw do
 
       resource :notification_subscriptions, only: [:create, :destroy]
 
+      # Ottiv custom notification subscriptions endpoints (simplified, no VAPID validation)
+      resource :ottiv_notification_subscription, only: [:create, :destroy], controller: 'ottiv_notification_subscriptions'
+
       namespace :widget do
         resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
@@ -464,6 +469,7 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :ottiv_notification_settings, only: [:index]
       end
     end
   end

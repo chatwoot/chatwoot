@@ -113,6 +113,10 @@ class User < ApplicationRecord
   has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
   # rubocop:enable Rails/HasManyOrHasOneDependent
 
+  has_many :ottiv_notification_subscriptions, class_name: 'OttivNotificationSubscription', dependent: :destroy_async
+  has_many :ottiv_notification_settings, class_name: 'OttivNotificationSetting', dependent: :destroy_async
+  has_many :ottiv_notifications, class_name: 'OttivNotification', dependent: :destroy_async
+
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
 
