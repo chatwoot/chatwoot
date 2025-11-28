@@ -19,14 +19,14 @@
     "SEARCH_PLACEHOLDER": "Cerca aziende...",
     "LOADING": "Caricamento aziende...",
     "UNNAMED": "Azienda Senza Nome",
-    "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "CONTACTS_COUNT": "{n} contatto | {n} contatti",
     "EMPTY_STATE": {
       "TITLE": "Nessuna azienda trovata"
     }
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} – {endItem} of {totalItems} company | Showing {startItem} – {endItem} of {totalItems} companies"
+      "SHOWING": "Mostrando {startItem} – {endItem} di {totalItems} azienda | Mostrando {startItem} – {endItem} di {totalItems} aziende"
     }
   }
 }
