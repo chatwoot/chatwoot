@@ -11,12 +11,16 @@ class Queue::ProcessQueueJob < ApplicationJob
     end
 
     queue_service = ChatQueue::QueueService.new(account: account)
+    group = queue_service.send(:priority_group_for_inbox, inbox_id)
+
     size = queue_service.queue_size(inbox_id)
     Rails.logger.info "[QUEUE][JOB] Current queue_size=#{size} for account=#{account.id}"
     return if size.zero?
 
     conv = ConversationQueue
-             .where(account_id: account.id, inbox_id: inbox_id, status: :waiting)
+             .for_account(account.id)
+             .for_priority_group(group)
+             .where(status: :waiting)
              .order(:position, :queued_at)
              .limit(1)
              .first
@@ -58,7 +62,7 @@ class Queue::ProcessQueueJob < ApplicationJob
       end
     end
 
-    if queue_service.queue_size.positive?
+    if queue_service.queue_size(inbox_id).positive?
       Rails.logger.info "[QUEUE][JOB] Queue still has items, scheduling next run"
       Queue::ProcessQueueJob.set(wait: 1.second).perform_later(account_id, inbox_id)
     else
