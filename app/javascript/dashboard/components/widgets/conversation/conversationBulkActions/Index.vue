@@ -152,7 +152,10 @@ onUnmounted(() => {
         />
       </div>
     </div>
-    <div v-if="allConversationsSelected" class="bulk-action__alert">
+    <div
+      v-if="allConversationsSelected"
+      class="bg-n-amber-2 outline -outline-offset-1 outline-1 outline-n-amber-5 rounded-lg text-sm mt-2 py-1.5 px-2 text-n-amber-text"
+    >
       {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
     </div>
     <woot-modal
@@ -166,44 +169,3 @@ onUnmounted(() => {
     </woot-modal>
   </div>
 </template>
-
-<style scoped lang="scss">
-.bulk-action__alert {
-  @apply bg-n-amber-3 text-n-amber-12 rounded text-xs mt-2 py-1 px-2 border border-solid border-n-amber-5;
-}
-
-.popover-animation-enter-active,
-.popover-animation-leave-active {
-  transition: transform ease-out 0.1s;
-}
-
-.popover-animation-enter {
-  transform: scale(0.95);
-  @apply opacity-0;
-}
-
-.popover-animation-enter-to {
-  transform: scale(1);
-  @apply opacity-100;
-}
-
-.popover-animation-leave {
-  transform: scale(1);
-  @apply opacity-100;
-}
-
-.popover-animation-leave-to {
-  transform: scale(0.95);
-  @apply opacity-0;
-}
-
-.update-actions-box {
-  --triangle-position: 3.5rem;
-}
-.agent-actions-box {
-  --triangle-position: 1.75rem;
-}
-.team-actions-box {
-  --triangle-position: 0.125rem;
-}
-</style>

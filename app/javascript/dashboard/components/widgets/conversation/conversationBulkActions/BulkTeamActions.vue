@@ -82,74 +82,83 @@ onMounted(() => {
       :class="{ 'bg-n-alpha-2': showDropdown }"
       @click="toggleDropdown()"
     />
-    <DropdownMenu
-      v-if="showDropdown"
-      v-on-click-outside="[
-        () => toggleDropdown(false),
-        { ignore: [containerRef] },
-      ]"
-      :menu-items="teamMenuItems"
-      show-search
-      :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-      class="ltr:-right-2 rtl:-left-2 top-8 w-60 max-h-80 overflow-y-auto"
-      @action="handleSelectTeam"
+    <Transition
+      enter-active-class="transition-all duration-150 ease-out origin-top"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition-all duration-100 ease-in origin-top"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
     >
-      <template #footer>
-        <div
-          v-if="selectedTeam"
-          class="pt-2 pb-2 border-t border-n-weak sticky bottom-0 rounded-b-md z-20 bg-n-alpha-3 backdrop-blur-[4px] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-2 after:bg-n-alpha-3 after:backdrop-blur-[4px]"
-        >
-          <div class="flex flex-col gap-2">
-            <I18nT
-              v-if="selectedTeam.id"
-              keypath="BULK_ACTION.TEAMS.ASSIGN_CONFIRMATION_LABEL"
-              tag="p"
-              class="text-xs text-n-slate-11 px-1 mb-0"
-              :plural="props.conversationCount"
-            >
-              <template #conversationCount>
-                <strong class="text-n-slate-12">
-                  {{ props.conversationCount }}
-                </strong>
-              </template>
-              <template #teamName>
-                <strong class="text-n-slate-12">
-                  {{ selectedTeam.name }}
-                </strong>
-              </template>
-            </I18nT>
-            <I18nT
-              v-else
-              keypath="BULK_ACTION.TEAMS.UNASSIGN_CONFIRMATION_LABEL"
-              tag="p"
-              class="text-xs text-n-slate-11 px-1 mb-0"
-              :plural="props.conversationCount"
-            >
-              <template #n>
-                <strong class="text-n-slate-12">
-                  {{ props.conversationCount }}
-                </strong>
-              </template>
-            </I18nT>
-            <div class="flex gap-2">
-              <Button
-                sm
-                faded
-                slate
-                class="flex-1"
-                :label="t('BULK_ACTION.CANCEL')"
-                @click="handleCancel"
-              />
-              <Button
-                sm
-                class="flex-1"
-                :label="t('BULK_ACTION.YES')"
-                @click="handleAssign"
-              />
+      <DropdownMenu
+        v-if="showDropdown"
+        v-on-click-outside="[
+          () => toggleDropdown(false),
+          { ignore: [containerRef] },
+        ]"
+        :menu-items="teamMenuItems"
+        show-search
+        :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
+        class="ltr:-right-2 rtl:-left-2 top-8 w-60 max-h-80 overflow-y-auto"
+        @action="handleSelectTeam"
+      >
+        <template #footer>
+          <div
+            v-if="selectedTeam"
+            class="pt-2 pb-2 border-t border-n-weak sticky bottom-0 rounded-b-md z-20 bg-n-alpha-3 backdrop-blur-[4px] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-2 after:bg-n-alpha-3 after:backdrop-blur-[4px]"
+          >
+            <div class="flex flex-col gap-2">
+              <I18nT
+                v-if="selectedTeam.id"
+                keypath="BULK_ACTION.TEAMS.ASSIGN_CONFIRMATION_LABEL"
+                tag="p"
+                class="text-xs text-n-slate-11 px-1 mb-0"
+                :plural="props.conversationCount"
+              >
+                <template #conversationCount>
+                  <strong class="text-n-slate-12">
+                    {{ props.conversationCount }}
+                  </strong>
+                </template>
+                <template #teamName>
+                  <strong class="text-n-slate-12">
+                    {{ selectedTeam.name }}
+                  </strong>
+                </template>
+              </I18nT>
+              <I18nT
+                v-else
+                keypath="BULK_ACTION.TEAMS.UNASSIGN_CONFIRMATION_LABEL"
+                tag="p"
+                class="text-xs text-n-slate-11 px-1 mb-0"
+                :plural="props.conversationCount"
+              >
+                <template #n>
+                  <strong class="text-n-slate-12">
+                    {{ props.conversationCount }}
+                  </strong>
+                </template>
+              </I18nT>
+              <div class="flex gap-2">
+                <Button
+                  sm
+                  faded
+                  slate
+                  class="flex-1"
+                  :label="t('BULK_ACTION.CANCEL')"
+                  @click="handleCancel"
+                />
+                <Button
+                  sm
+                  class="flex-1"
+                  :label="t('BULK_ACTION.YES')"
+                  @click="handleAssign"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-    </DropdownMenu>
+        </template>
+      </DropdownMenu>
+    </Transition>
   </div>
 </template>

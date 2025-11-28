@@ -86,15 +86,24 @@ const handleUpdate = item => {
       :class="{ 'bg-n-alpha-2': showDropdown }"
       @click="toggleDropdown()"
     />
-    <DropdownMenu
-      v-if="showDropdown"
-      v-on-click-outside="[
-        () => toggleDropdown(false),
-        { ignore: [containerRef] },
-      ]"
-      :menu-items="updateMenuItems"
-      class="ltr:-right-[4.5rem] rtl:-left-[4.5rem] ltr:2xl:right-0 rtl:2xl:left-0 top-8 w-36"
-      @action="handleUpdate"
-    />
+    <Transition
+      enter-active-class="transition-all duration-150 ease-out origin-top"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition-all duration-100 ease-in origin-top"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
+    >
+      <DropdownMenu
+        v-if="showDropdown"
+        v-on-click-outside="[
+          () => toggleDropdown(false),
+          { ignore: [containerRef] },
+        ]"
+        :menu-items="updateMenuItems"
+        class="ltr:-right-[4.5rem] rtl:-left-[4.5rem] ltr:2xl:right-0 rtl:2xl:left-0 top-8 w-36"
+        @action="handleUpdate"
+      />
+    </Transition>
   </div>
 </template>
