@@ -78,7 +78,7 @@ const maxVisibleFilters = computed(() => {
   <div
     v-if="showPreview"
     ref="containerRef"
-    class="flex items-center justify-between gap-2 mx-2 px-2 py-2 border-b-[1.2px] border-dashed border-n-strong"
+    class="flex items-center justify-between gap-2 mx-2 px-2 pb-2 pt-0.5 border-b-[1.2px] border-dashed border-n-strong"
   >
     <ActiveFilterPreview
       :applied-filters="activeFilterQueryData"

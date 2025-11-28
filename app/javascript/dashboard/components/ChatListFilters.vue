@@ -237,6 +237,8 @@ function onToggleAdvanceFiltersModal() {
     return;
   }
 
+  appliedFilter.value = [];
+
   if (!props.hasAppliedFilters && !props.hasActiveFolders) {
     initializeExistingFilterToModal();
   }
