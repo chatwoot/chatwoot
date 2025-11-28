@@ -85,6 +85,7 @@ export default {
       healthData: null,
       isLoadingHealth: false,
       healthError: null,
+      selectedPriorityGroup: '',
     };
   },
   computed: {
@@ -93,6 +94,7 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
+      priorityGroups: 'priorityGroups/allPriorityGroups',
     }),
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
@@ -318,6 +320,7 @@ export default {
     this.fetchInboxSettings();
     this.fetchPortals();
     this.fetchHealthData();
+    this.$store.dispatch('priorityGroups/get');
   },
   methods: {
     fetchPortals() {
@@ -401,6 +404,7 @@ export default {
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
+        this.selectedPriorityGroup = this.inbox.priority_group_id || '';
         this.allowMessagesAfterResolved =
           this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
@@ -426,6 +430,7 @@ export default {
           enable_email_collect: this.emailCollectEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
+          priority_group_id: this.selectedPriorityGroup || null,
           greeting_message: this.greetingMessage || '',
           portal_id: this.selectedPortalSlug
             ? this.portals.find(
@@ -633,6 +638,26 @@ export default {
             {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
             <woot-color-picker v-model="inbox.widget_color" />
           </label>
+
+          <div class="pb-4">
+            <label>
+              {{ $t('INBOX_MGMT.PRIORITY_GROUPS.LABEL') }}
+            </label>
+
+            <select v-model="selectedPriorityGroup">
+              <option value="">
+                {{ $t('INBOX_MGMT.PRIORITY_GROUPS.SELECT_PLACEHOLDER') }}
+              </option>
+
+              <option
+                v-for="group in priorityGroups"
+                :key="group.id"
+                :value="group.id"
+              >
+                {{ group.name }}
+              </option>
+            </select>
+          </div>
 
           <label v-if="isAWhatsAppChannel" class="pb-4">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
