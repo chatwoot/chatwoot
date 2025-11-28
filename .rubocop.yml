@@ -7,6 +7,7 @@ plugins:
 require:
   - ./rubocop/use_from_email.rb
   - ./rubocop/custom_cop_location.rb
+  - ./rubocop/one_class_per_file.rb
 
 Layout/LineLength:
   Max: 150
@@ -203,6 +204,9 @@ UseFromEmail:
     - 'app/models/contact.rb'
 
 CustomCopLocation:
+  Enabled: true
+
+Style/OneClassPerFile:
   Enabled: true
 
 AllCops:
