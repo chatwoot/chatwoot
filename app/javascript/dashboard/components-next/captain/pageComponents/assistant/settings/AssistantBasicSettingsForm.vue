@@ -118,6 +118,7 @@ watch(
       :placeholder="t('CAPTAIN.ASSISTANTS.FORM.DESCRIPTION.PLACEHOLDER')"
       :message="formErrors.description"
       :message-type="formErrors.description ? 'error' : 'info'"
+      class="z-0"
     />
 
     <div class="flex flex-col gap-2">
