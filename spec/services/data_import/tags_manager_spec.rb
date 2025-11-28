@@ -29,25 +29,22 @@ RSpec.describe DataImport::TagsManager do
     end
 
     context 'when tags are valid' do
-      it 'builds taggings for valid tags' do
-        # Create tags that exist in the system
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'ruby')
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'invalid_tag')
-
+      it 'builds taggings for valid tags only' do
+        # 'ruby' and 'rails' labels already created in before block
+        # ActsAsTaggableOn::Tags are created automatically via callback
         taggings = manager.build(identifier: '123', tags: 'ruby, invalid_tag')
 
-        expect(taggings.size).to eq(2)
+        expect(taggings.size).to eq(1)
         expect(taggings.all?(ActsAsTaggableOn::Tagging)).to be true
         expect(taggings.map(&:taggable_id).uniq).to eq([contact.id])
+        expect(taggings.first.tag_id).to eq(ActsAsTaggableOn::Tag.find_by(name: 'ruby').id)
       end
     end
 
     context 'when tags have spaces and case differences' do
       it 'normalizes tags before building taggings' do
-        # Create tags that exist in the system
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'ruby')
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'rails')
-
+        # Labels 'ruby' and 'rails' already created in before block
+        # ActsAsTaggableOn::Tags are created automatically via callback
         taggings = manager.build(identifier: '123', tags: ' Ruby ,  RAILS ')
 
         expect(taggings.size).to eq(2)
@@ -60,7 +57,7 @@ RSpec.describe DataImport::TagsManager do
       let!(:email_contact) { create(:contact, account: account, email: 'test@example.com') }
 
       it 'finds and builds tagging for contact by email' do
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'ruby')
+        # Label 'ruby' already created in before block
         taggings = manager.build(email: 'test@example.com', tags: 'ruby')
 
         expect(taggings).not_to be_empty
@@ -72,7 +69,7 @@ RSpec.describe DataImport::TagsManager do
       let!(:phone_contact) { create(:contact, account: account, phone_number: '+1234567890') }
 
       it 'finds and builds tagging for contact by phone number with plus sign' do
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'ruby')
+        # Label 'ruby' already created in before block
         taggings = manager.build(phone_number: '+1234567890', tags: 'ruby')
 
         expect(taggings).not_to be_empty
@@ -80,7 +77,7 @@ RSpec.describe DataImport::TagsManager do
       end
 
       it 'finds and builds tagging for contact by phone number without plus sign' do
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'ruby')
+        # Label 'ruby' already created in before block
         taggings = manager.build(phone_number: '1234567890', tags: 'ruby')
 
         expect(taggings).not_to be_empty
@@ -98,8 +95,7 @@ RSpec.describe DataImport::TagsManager do
 
     context 'when tags string has multiple formats' do
       it 'handles empty tags correctly' do
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'ruby')
-        ActsAsTaggableOn::Tag.find_or_create_by!(name: 'rails')
+        # Labels 'ruby' and 'rails' already created in before block
         taggings = manager.build(identifier: '123', tags: 'ruby, , rails')
 
         expect(taggings.size).to eq(2)

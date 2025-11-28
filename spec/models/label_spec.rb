@@ -40,6 +40,28 @@ RSpec.describe Label do
     end
   end
 
+  describe '.after_create_commit' do
+    it 'creates ActsAsTaggableOn::Tag when label is created' do
+      account = create(:account)
+
+      expect do
+        create(:label, account: account, title: 'customer')
+      end.to change(ActsAsTaggableOn::Tag, :count).by(1)
+
+      acts_tag = ActsAsTaggableOn::Tag.find_by(name: 'customer')
+      expect(acts_tag).to be_present
+    end
+
+    it 'reuses existing ActsAsTaggableOn::Tag if it already exists' do
+      account = create(:account)
+      ActsAsTaggableOn::Tag.create!(name: 'existing')
+
+      expect do
+        create(:label, account: account, title: 'existing')
+      end.not_to change(ActsAsTaggableOn::Tag, :count)
+    end
+  end
+
   describe '.after_update_commit' do
     let(:label) { create(:label) }
 

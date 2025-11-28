@@ -22,17 +22,18 @@ class DataImport::TagsManager
   private
 
   def initialize_tag(contact, tags)
-    tags.filter_map do |tag|
-      label = ActsAsTaggableOn::Tag.find_by(name: tag)
+    labels = Label.where(account_id: @account.id, title: tags).pluck(:title)
+    return [] if labels.empty?
 
-      if label.present?
-        ActsAsTaggableOn::Tagging.new(
-          tag_id: label.id,
-          taggable_id: contact.id,
-          taggable_type: 'Contact',
-          context: 'labels'
-        )
-      end
+    acts_tags = ActsAsTaggableOn::Tag.where(name: labels)
+
+    acts_tags.filter_map do |acts_tag|
+      ActsAsTaggableOn::Tagging.new(
+        tag_id: acts_tag.id,
+        taggable_id: contact.id,
+        taggable_type: 'Contact',
+        context: 'labels'
+      )
     end
   end
 
