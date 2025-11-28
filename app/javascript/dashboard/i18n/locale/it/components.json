@@ -1,7 +1,7 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} item | Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} page | {currentPage} of {totalPages} pages"
+    "SHOWING": "Mostrando {startItem} - {endItem} di {totalItems} elemento | Mostrando {startItem} - {endItem} di {totalItems} elementi",
+    "CURRENT_PAGE_INFO": "{currentPage} di {totalPages} pagina | {currentPage} di {totalPages} pagine"
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Seleziona un'opzione...",
