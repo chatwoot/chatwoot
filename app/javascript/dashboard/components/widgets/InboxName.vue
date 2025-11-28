@@ -13,7 +13,7 @@ defineProps({
   <div class="flex items-center text-n-slate-11 text-xs min-w-0">
     <ChannelIcon
       :inbox="inbox"
-      class="size-3 ltr:mr-1 rtl:ml-1 flex-shrink-0"
+      class="size-3.5 ltr:mr-0.5 rtl:ml-0.5 flex-shrink-0"
     />
     <span class="truncate">
       {{ inbox.name }}

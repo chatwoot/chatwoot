@@ -7,6 +7,7 @@ import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Policy from 'dashboard/components/policy.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { INBOX_TYPES, getInboxIconByType } from 'dashboard/helper/inbox';
 
 const props = defineProps({
@@ -59,7 +60,7 @@ const menuItems = computed(() => [
 
 const icon = computed(() => {
   const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium, 'outline');
+  return getInboxIconByType(type, medium, 'line');
 });
 
 const handleAction = ({ action, value }) => {
@@ -74,7 +75,7 @@ const handleAction = ({ action, value }) => {
       <span
         class="text-base text-n-slate-12 line-clamp-1 flex items-center gap-2"
       >
-        <span :class="icon" />
+        <Icon :icon="icon" class="size-5" />
         {{ inboxName }}
       </span>
       <div class="flex items-center gap-2">

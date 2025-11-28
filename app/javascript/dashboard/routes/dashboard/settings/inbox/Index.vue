@@ -103,20 +103,21 @@ const openDelete = inbox => {
               <div class="flex items-center flex-row gap-4">
                 <div
                   v-if="inbox.avatar_url"
-                  class="bg-n-alpha-3 rounded-full size-12 p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
+                  class="bg-n-alpha-3 rounded-full size-10 ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
                 >
                   <Avatar
                     :src="inbox.avatar_url"
                     :name="inbox.name"
-                    :size="30"
+                    :size="24"
                     rounded-full
                   />
                 </div>
+
                 <div
                   v-else
-                  class="size-12 flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
+                  class="size-10 justify-center bg-n-alpha-3 rounded-full ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
                 >
-                  <ChannelIcon class="size-5 text-n-slate-10" :inbox="inbox" />
+                  <ChannelIcon class="size-6 text-n-slate-10" :inbox="inbox" />
                 </div>
                 <div>
                   <span class="block font-medium capitalize">

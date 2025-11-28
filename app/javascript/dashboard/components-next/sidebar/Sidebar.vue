@@ -207,7 +207,7 @@ const menuItems = computed(() => {
             name: `${label.title}-${label.id}`,
             label: label.title,
             icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+              class: `size-[8px] rounded-sm`,
               style: { backgroundColor: label.color },
             }),
             to: accountScopedRoute('label_conversations', {
@@ -335,7 +335,7 @@ const menuItems = computed(() => {
             name: `${label.title}-${label.id}`,
             label: label.title,
             icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+              class: `size-[8px] rounded-sm`,
               style: { backgroundColor: label.color },
             }),
             to: accountScopedRoute(
@@ -589,7 +589,7 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak flex flex-col text-sm pb-1 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 transition-transform duration-200 ease-in-out md:static w-[200px] basis-[200px] md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:-translate-x-0"
+    class="bg-n-background flex flex-col text-sm pb-0.5 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 transition-transform duration-200 ease-in-out md:static w-[200px] basis-[200px] md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:-translate-x-0"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
@@ -597,7 +597,7 @@ const menuItems = computed(() => {
       },
     ]"
   >
-    <section class="grid gap-2 mt-2 mb-4">
+    <section class="grid gap-2 mt-1 mb-4">
       <div class="flex gap-2 items-center px-2 min-w-0">
         <div class="grid flex-shrink-0 place-content-center size-6">
           <Logo class="size-4" />
@@ -649,13 +649,13 @@ const menuItems = computed(() => {
       class="flex flex-col flex-shrink-0 relative gap-1 justify-between items-center"
     >
       <div
-        class="pointer-events-none absolute inset-x-0 -top-[31px] h-8 bg-gradient-to-t from-n-solid-2 to-transparent"
+        class="pointer-events-none absolute inset-x-0 -top-[31px] h-8 bg-gradient-to-t from-n-background to-transparent"
       />
       <SidebarChangelogCard
         v-if="isOnChatwootCloud && !isACustomBrandedInstance"
       />
       <div
-        class="p-1 flex-shrink-0 flex w-full justify-between z-10 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+        class="px-1 pt-1 flex-shrink-0 flex w-full justify-between z-10 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
       >
         <SidebarProfileMenu
           @open-key-shortcut-modal="emit('openKeyShortcutModal')"

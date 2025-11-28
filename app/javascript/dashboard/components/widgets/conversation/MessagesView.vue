@@ -508,7 +508,7 @@ export default {
       class="flex relative flex-col"
       :class="{
         'modal-mask': isPopOutReplyBox,
-        'bg-n-background': !isPopOutReplyBox,
+        'bg-n-surface-1': !isPopOutReplyBox,
       }"
     >
       <div

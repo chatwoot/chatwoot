@@ -121,7 +121,9 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-grow overflow-hidden text-n-slate-12">
+  <div
+    class="flex flex-grow overflow-hidden text-n-slate-12 md:my-3 md:ltr:mr-3 md:rtl:ml-3"
+  >
     <NextSidebar
       :is-mobile-sidebar-open="isMobileSidebarOpen"
       @toggle-account-modal="toggleAccountModal"
@@ -131,7 +133,9 @@ export default {
       @close-mobile-sidebar="closeMobileSidebar"
     />
 
-    <main class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden">
+    <main
+      class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden md:rounded-lg md:border md:border-n-weak bg-n-surface-1"
+    >
       <UpgradePage
         v-show="showUpgradePage"
         ref="upgradePageRef"

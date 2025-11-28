@@ -55,7 +55,7 @@ const onToggle = () => {
     </button>
     <div
       v-if="isOpen"
-      class="bg-n-background outline outline-1 outline-n-weak -mt-[-1px] border-t-0 rounded-br-lg rounded-bl-lg"
+      class="outline outline-1 outline-n-weak -mt-[-1px] border-t-0 rounded-br-lg rounded-bl-lg"
       :class="compact ? 'p-0' : 'px-2 py-4'"
     >
       <slot />
