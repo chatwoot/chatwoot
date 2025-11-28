@@ -36,6 +36,9 @@ class ConversationQueue < ApplicationRecord
   scope :waiting, -> { where(status: :waiting).order(:position, :queued_at) }
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_inbox, ->(inbox_id) { where(inbox_id: inbox_id) }
+  scope :for_priority_group, ->(group) {
+    joins(conversation: :inbox).where(inboxes: { priority_group_id: group.id })
+  }  
 
   validates :conversation_id, uniqueness: true
   validates :position, presence: true
@@ -57,9 +60,11 @@ class ConversationQueue < ApplicationRecord
   end
 
   def next_position
+    group = conversation.inbox.priority_group
+
     max_position = ConversationQueue
                    .for_account(account_id)
-                   .for_inbox(inbox_id)
+                   .for_priority_group(group)
                    .waiting
                    .maximum(:position) || 0
     max_position + 1

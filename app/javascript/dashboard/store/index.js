@@ -58,6 +58,7 @@ import copilotMessages from './captain/copilotMessages';
 import captainScenarios from './captain/scenarios';
 import captainTools from './captain/tools';
 import captainCustomTools from './captain/customTools';
+import priorityGroups from './modules/priorityGroups';
 
 const plugins = [];
 
@@ -103,6 +104,7 @@ export default createStore({
     macros,
     notifications,
     portals,
+    priorityGroups,
     reports,
     sla,
     slaReports,
