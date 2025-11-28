@@ -1,5 +1,5 @@
 import CaptainResponseAPI from 'dashboard/api/captain/response';
-import { createStore } from './storeFactory';
+import { createStore } from '../storeFactory';
 
 const SET_PENDING_COUNT = 'SET_PENDING_COUNT';
 
