@@ -1,36 +1,22 @@
-class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseService
-  def name
+class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseTool
+  def self.name
     'search_articles'
   end
-
-  def description
-    'Search articles based on parameters'
+  description 'Search articles based on parameters'
+  params do
+    string :query, description: 'Search articles by title or content (partial match)'
+    number :category_id, description: 'Filter articles by category ID'
+    any_of :status, description: 'Filter articles by status' do
+      string enum: %w[draft published archived]
+    end
   end
 
-  def parameters
-    {
-      type: 'object',
-      properties: properties,
-      required: ['query']
-    }
-  end
-
-  def execute(arguments)
-    query = arguments['query']
-    category_id = arguments['category_id']
-    status = arguments['status']
-
-    Rails.logger.info "#{self.class.name}: Query: #{query}, Category ID: #{category_id}, Status: #{status}"
-
-    return 'Missing required parameters' if query.blank?
-
+  def execute(query:, category_id:, status:)
     articles = fetch_articles(query, category_id, status)
-
     return 'No articles found' unless articles.exists?
 
     total_count = articles.count
     articles = articles.limit(100)
-
     <<~RESPONSE
       #{total_count > 100 ? "Found #{total_count} articles (showing first 100)" : "Total number of articles: #{total_count}"}
       #{articles.map(&:to_llm_text).join("\n---\n")}
@@ -49,23 +35,5 @@ class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseServi
     articles = articles.where(category_id: category_id) if category_id.present?
     articles = articles.where(status: status) if status.present?
     articles
-  end
-
-  def properties
-    {
-      query: {
-        type: 'string',
-        description: 'Search articles by title or content (partial match)'
-      },
-      category_id: {
-        type: 'number',
-        description: 'Filter articles by category ID'
-      },
-      status: {
-        type: 'string',
-        enum: %w[draft published archived],
-        description: 'Filter articles by status'
-      }
-    }
   end
 end

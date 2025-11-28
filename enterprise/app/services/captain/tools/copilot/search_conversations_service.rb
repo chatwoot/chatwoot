@@ -11,7 +11,7 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
     string :labels, description: 'Labels available'
   end
 
-  def execute(status:, contact_id:, priority:, labels:)
+  def execute(status: nil, contact_id: nil, priority: nil, labels: nil)
     Rails.logger.info("Searching conversations for status: #{status}, contact_id: #{contact_id}, priority: #{priority}, labels: #{labels}")
     conversations = get_conversations(status, contact_id, priority, labels)
 

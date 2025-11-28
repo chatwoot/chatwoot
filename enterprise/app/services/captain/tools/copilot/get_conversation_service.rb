@@ -4,7 +4,7 @@ class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseTool
   end
   description 'Get details of a conversation including messages and contact information'
 
-  param :conversation_id, type: :integer, desc: 'ID of the conversation to retrieve'
+  param :conversation_id, type: :integer, desc: 'ID of the conversation to retrieve', required: true
 
   def execute(conversation_id:)
     Rails.logger.info "FOUND CONVERSATION: #{self.class.name}: Conversation ID: #{conversation_id}"

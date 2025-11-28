@@ -65,6 +65,11 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     tools << Captain::Tools::SearchDocumentationService.new(@assistant, user: @user)
     tools << Captain::Tools::Copilot::GetConversationService.new(@assistant, user: @user)
     tools << Captain::Tools::Copilot::SearchConversationsService.new(@assistant, user: @user)
+    tools << Captain::Tools::Copilot::GetContactService.new(@assistant, user: @user)
+    tools << Captain::Tools::Copilot::GetArticleService.new(@assistant, user: @user)
+    tools << Captain::Tools::Copilot::SearchArticlesService.new(@assistant, user: @user)
+    tools << Captain::Tools::Copilot::SearchContactsService.new(@assistant, user: @user)
+    tools << Captain::Tools::Copilot::SearchLinearIssuesService.new(@assistant, user: @user)
 
     tools.select(&:active?)
   end
