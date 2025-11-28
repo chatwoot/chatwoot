@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_27_063045) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_28_082645) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -884,9 +884,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_27_063045) do
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
     t.jsonb "csat_config", default: {}, null: false
+    t.bigint "priority_group_id"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
+    t.index ["priority_group_id"], name: "index_inboxes_on_priority_group_id"
   end
 
   create_table "installation_configs", force: :cascade do |t|
@@ -1100,6 +1102,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_27_063045) do
     t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
+  create_table "priority_groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_priority_groups_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_priority_groups_on_account_id"
+  end
+
   create_table "queue_statistics", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.date "date", null: false
@@ -1294,6 +1305,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_27_063045) do
   add_foreign_key "conversation_queues", "accounts"
   add_foreign_key "conversation_queues", "conversations"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "inboxes", "priority_groups"
+  add_foreign_key "priority_groups", "accounts"
   add_foreign_key "queue_statistics", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
