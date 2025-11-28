@@ -27,6 +27,7 @@ class Label < ApplicationRecord
             format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
             uniqueness: { scope: :account_id }
 
+  after_create_commit :create_acts_as_taggable_tag
   after_update_commit :update_associated_models
   default_scope { order(:title) }
 
@@ -47,6 +48,10 @@ class Label < ApplicationRecord
   end
 
   private
+
+  def create_acts_as_taggable_tag
+    ActsAsTaggableOn::Tag.find_or_create_by!(name: title)
+  end
 
   def update_associated_models
     return unless title_previously_changed?
