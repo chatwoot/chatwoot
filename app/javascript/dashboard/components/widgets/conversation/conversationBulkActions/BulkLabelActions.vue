@@ -6,7 +6,7 @@ import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const props = defineProps({
@@ -41,6 +41,10 @@ const buttonLabel = computed(() => {
   return '';
 });
 
+const isLabelSelected = labelTitle => {
+  return selectedLabels.value.includes(labelTitle);
+};
+
 const labelMenuItems = computed(() => {
   return labels.value.map(label => ({
     action: 'select',
@@ -48,12 +52,9 @@ const labelMenuItems = computed(() => {
     label: label.title,
     color: label.color,
     id: label.id,
+    isSelected: isLabelSelected(label.title),
   }));
 });
-
-const isLabelSelected = labelTitle => {
-  return selectedLabels.value.includes(labelTitle);
-};
 
 const toggleLabelSelection = labelTitle => {
   const index = selectedLabels.value.indexOf(labelTitle);
@@ -117,10 +118,17 @@ const handleAssign = () => {
         @action="item => toggleLabelSelection(item.value)"
       >
         <template #thumbnail="{ item }">
-          <Checkbox :model-value="isLabelSelected(item.value)" />
           <span
             class="rounded-md h-3 w-3 flex-shrink-0 border border-solid border-n-weak"
             :style="{ backgroundColor: item.color }"
+          />
+        </template>
+
+        <template #trailing-icon="{ item }">
+          <Icon
+            v-if="isLabelSelected(item.value)"
+            icon="i-lucide-check"
+            class="size-4 text-n-blue-11 flex-shrink-0"
           />
         </template>
 

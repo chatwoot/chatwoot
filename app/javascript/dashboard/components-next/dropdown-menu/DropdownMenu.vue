@@ -210,6 +210,7 @@ onMounted(() => {
           >
             {{ item.label }}
           </span>
+          <slot name="trailing-icon" :item="item" />
         </button>
         <div
           v-if="sectionIndex < filteredMenuSections.length - 1"
@@ -256,6 +257,7 @@ onMounted(() => {
         >
           {{ item.label }}
         </span>
+        <slot name="trailing-icon" :item="item" />
       </button>
     </template>
     <div
