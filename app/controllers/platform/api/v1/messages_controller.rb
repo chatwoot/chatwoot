@@ -64,7 +64,7 @@ class Platform::Api::V1::MessagesController < PlatformController
       booking_date: params[:booking_date],
       phone: params[:phone],
       email: params[:email]
-    ).deliver_now
+    ).perform
 
     render json: {
       success: true,
