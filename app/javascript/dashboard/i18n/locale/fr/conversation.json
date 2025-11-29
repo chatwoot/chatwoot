@@ -229,7 +229,7 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "ENABLE_TOOLTIP": "Inclure les e-mails cités",
         "DISABLE_TOOLTIP": "Don't include quoted email thread",
         "REMOVE_PREVIEW": "Remove quoted email thread",
         "COLLAPSE": "Collapse preview",
