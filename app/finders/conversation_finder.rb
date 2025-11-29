@@ -9,6 +9,8 @@ class ConversationFinder
     'created_at_desc' => %w[sort_on_created_at desc],
     'priority_asc' => %w[sort_on_priority asc],
     'priority_desc' => %w[sort_on_priority desc],
+    'priority_score_asc' => %w[sort_on_priority_score asc],
+    'priority_score_desc' => %w[sort_on_priority_score desc],
     'waiting_since_asc' => %w[sort_on_waiting_since asc],
     'waiting_since_desc' => %w[sort_on_waiting_since desc],
 

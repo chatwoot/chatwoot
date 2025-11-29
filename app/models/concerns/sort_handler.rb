@@ -14,6 +14,10 @@ module SortHandler
       order(generate_sql_query("priority #{sort_direction.to_s.upcase} NULLS LAST, last_activity_at DESC"))
     end
 
+    def sort_on_priority_score(sort_direction = :desc)
+      order(generate_sql_query("priority_score #{sort_direction.to_s.upcase} NULLS LAST, priority #{sort_direction.to_s.upcase} NULLS LAST, last_activity_at DESC"))
+    end
+
     def sort_on_waiting_since(sort_direction = :asc)
       order(generate_sql_query("waiting_since #{sort_direction.to_s.upcase} NULLS LAST, created_at ASC"))
     end
