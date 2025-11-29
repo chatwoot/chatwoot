@@ -34,7 +34,7 @@
       },
       "SUBMIT": "Continue with SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "L’authentification SSO a échoué. Veuillez vérifier vos identifiants et réessayer."
       }
     }
   }
