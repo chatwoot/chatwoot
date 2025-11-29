@@ -2,29 +2,6 @@
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-
-const priorityLevels = [
-  {
-    key: 'urgent',
-    icon: 'priority-urgent',
-    colorClass: 'bg-n-ruby-4 text-n-ruby-10',
-  },
-  {
-    key: 'high',
-    icon: 'priority-high',
-    colorClass: 'bg-n-slate-4 text-n-slate-11',
-  },
-  {
-    key: 'medium',
-    icon: 'priority-medium',
-    colorClass: 'bg-n-slate-4 text-n-slate-11',
-  },
-  {
-    key: 'low',
-    icon: 'priority-low',
-    colorClass: 'bg-n-slate-4 text-n-slate-11',
-  },
-];
 </script>
 
 <template>
@@ -33,27 +10,70 @@ const priorityLevels = [
       {{ t('CHAT_LIST.PRIORITY_LEGEND.TITLE') }}
     </span>
     <div class="flex flex-col gap-1.5">
-      <div
-        v-for="priority in priorityLevels"
-        :key="priority.key"
-        class="flex items-center gap-2"
-      >
+      <!-- Urgent -->
+      <div class="flex items-center gap-2">
         <span
-          class="shrink-0 rounded-sm inline-flex items-center justify-center w-3.5 h-3.5"
-          :class="priority.colorClass"
+          class="shrink-0 rounded-sm inline-flex items-center justify-center w-3.5 h-3.5 bg-n-ruby-4 text-n-ruby-10"
         >
           <fluent-icon
-            :icon="priority.icon"
-            :size="priority.key === 'urgent' ? 12 : 14"
+            icon="priority-urgent"
+            :size="12"
             class="flex-shrink-0"
             view-box="0 0 14 14"
           />
         </span>
         <span class="text-xs text-n-slate-11">
-          {{ t(`CHAT_LIST.PRIORITY_LEGEND.${priority.key.toUpperCase()}`) }}
+          {{ t('CHAT_LIST.PRIORITY_LEGEND.URGENT') }}
+        </span>
+      </div>
+      <!-- High -->
+      <div class="flex items-center gap-2">
+        <span
+          class="shrink-0 rounded-sm inline-flex items-center justify-center w-3.5 h-3.5 bg-n-slate-4 text-n-slate-11"
+        >
+          <fluent-icon
+            icon="priority-high"
+            :size="14"
+            class="flex-shrink-0"
+            view-box="0 0 14 14"
+          />
+        </span>
+        <span class="text-xs text-n-slate-11">
+          {{ t('CHAT_LIST.PRIORITY_LEGEND.HIGH') }}
+        </span>
+      </div>
+      <!-- Medium -->
+      <div class="flex items-center gap-2">
+        <span
+          class="shrink-0 rounded-sm inline-flex items-center justify-center w-3.5 h-3.5 bg-n-slate-4 text-n-slate-11"
+        >
+          <fluent-icon
+            icon="priority-medium"
+            :size="14"
+            class="flex-shrink-0"
+            view-box="0 0 14 14"
+          />
+        </span>
+        <span class="text-xs text-n-slate-11">
+          {{ t('CHAT_LIST.PRIORITY_LEGEND.MEDIUM') }}
+        </span>
+      </div>
+      <!-- Low -->
+      <div class="flex items-center gap-2">
+        <span
+          class="shrink-0 rounded-sm inline-flex items-center justify-center w-3.5 h-3.5 bg-n-slate-4 text-n-slate-11"
+        >
+          <fluent-icon
+            icon="priority-low"
+            :size="14"
+            class="flex-shrink-0"
+            view-box="0 0 14 14"
+          />
+        </span>
+        <span class="text-xs text-n-slate-11">
+          {{ t('CHAT_LIST.PRIORITY_LEGEND.LOW') }}
         </span>
       </div>
     </div>
   </div>
 </template>
-

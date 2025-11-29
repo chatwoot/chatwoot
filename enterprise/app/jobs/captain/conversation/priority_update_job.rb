@@ -57,4 +57,3 @@ class Captain::Conversation::PriorityUpdateJob < ApplicationJob
     ChatwootExceptionTracker.new(error, account: @account).capture_exception
   end
 end
-

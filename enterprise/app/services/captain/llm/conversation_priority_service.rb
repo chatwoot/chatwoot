@@ -144,4 +144,3 @@ class Captain::Llm::ConversationPriorityService < Llm::BaseOpenAiService
     )
   end
 end
-
