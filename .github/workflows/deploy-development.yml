@@ -29,13 +29,13 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
 
-      - name: Build and push base image (development)
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./docker/Dockerfile
-          push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base-dev:v1.0.53
+      # - name: Build and push base image (development)
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: .
+      #     file: ./docker/Dockerfile
+      #     push: true
+      #     tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base-dev:v1.0.54
 
       - name: Build and push Rails image (development)
         uses: docker/build-push-action@v4
@@ -43,7 +43,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/rails.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-dev:v1.0.53
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-dev:v1.0.54
 
       - name: Build and push Vite image (development)
         uses: docker/build-push-action@v4
@@ -51,7 +51,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/vite.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-dev:v1.0.53
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-dev:v1.0.54
 
   deploy:
     needs: build-and-push
@@ -150,6 +150,8 @@ jobs:
             SMTP_OPENSSL_VERIFY_MODE: "${{ secrets.SMTP_OPENSSL_VERIFY_MODE }}"
             MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
             RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
+            RAILS_INBOUND_EMAIL_PASSWORD: "${{ secrets.RAILS_INBOUND_EMAIL_PASSWORD }}"
+            MAILGUN_INGRESS_SIGNING_KEY: "${{ secrets.MAILGUN_INGRESS_SIGNING_KEY }}"
             MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
             ALOOSTUDIO_BACKEND_URL: "${{ secrets.DEV_ALOOSTUDIO_BACKEND_URL }}"
             ALOOSTUDIO_FRONTEND_URL: "${{ secrets.DEV_ALOOSTUDIO_FRONTEND_URL }}"
@@ -165,6 +167,7 @@ jobs:
             IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
             IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
+            PAYZAH_API_URL: "${{ secrets.DEVELOPMENT_PAYZAH_API_URL }}"
             ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
           EOF
           kubectl apply -f k8s/development/configmap.yaml
@@ -213,6 +216,8 @@ jobs:
             SMTP_OPENSSL_VERIFY_MODE: "${{ secrets.SMTP_OPENSSL_VERIFY_MODE }}"
             MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
             RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
+            RAILS_INBOUND_EMAIL_PASSWORD: "${{ secrets.RAILS_INBOUND_EMAIL_PASSWORD }}"
+            MAILGUN_INGRESS_SIGNING_KEY: "${{ secrets.MAILGUN_INGRESS_SIGNING_KEY }}"
             MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
             ALOOSTUDIO_BACKEND_URL: "${{ secrets.DEV_ALOOSTUDIO_BACKEND_URL }}"
             ALOOSTUDIO_FRONTEND_URL: "${{ secrets.DEV_ALOOSTUDIO_FRONTEND_URL }}"
@@ -228,6 +233,7 @@ jobs:
             IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
             INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
             IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
+            PAYZAH_API_URL: "${{ secrets.DEVELOPMENT_PAYZAH_API_URL }}"
             ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
           EOF
           kubectl create -f k8s/development/secret.yaml -n chatwoot-development

@@ -230,3 +230,38 @@ messages:
       - "does_not_contain"
 
 ### ----- End of Message Filters ----- ###
+
+### ----- Payment Link Filters ----- ###
+payment_links:
+  status:
+    attribute_type: "standard"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  amount:
+    attribute_type: "standard"
+    data_type: "number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+      - "is_greater_than"
+      - "is_less_than"
+  created_at:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
+  paid_at:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
+
+### ----- End of Payment Link Filters ----- ###

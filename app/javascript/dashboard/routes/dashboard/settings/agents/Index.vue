@@ -50,7 +50,16 @@ const findCustomRole = agent =>
   customRoles.value.find(role => role.id === agent.custom_role_id);
 
 const getAgentRoleName = agent => {
+  // Handle AI agents
+  if (agent.is_ai) {
+    return t('AGENT_MGMT.AGENT_TYPES.AI_AGENT') || 'AI Agent';
+  }
+
   if (!agent.custom_role_id) {
+    // Ensure role exists before calling toUpperCase
+    if (!agent.role) {
+      return t('AGENT_MGMT.AGENT_TYPES.AGENT') || 'Agent';
+    }
     return t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`);
   }
   const customRole = findCustomRole(agent);

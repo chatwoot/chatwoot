@@ -8,7 +8,19 @@
     "LIST": {
       "404": "Il n'y a aucune équipe créée sur ce compte.",
       "EDIT_TEAM": "Modifier l'équipe",
-      "NONE": "Aucun"
+      "NONE": "Aucun",
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "AUTO_ASSIGN": "Attribution Automatique",
+        "ACTIONS": "Actions"
+      }
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Attribution automatique activée pour l'équipe",
+      "DISABLED": "Attribution automatique désactivée pour l'équipe",
+      "ERROR": "Échec de la mise à jour du paramètre d'attribution automatique",
+      "BULK_SUCCESS": "Attribution automatique mise à jour pour toutes les équipes",
+      "BULK_ERROR": "Échec de la mise à jour de l'attribution automatique pour toutes les équipes"
     },
     "CREATE_FLOW": {
       "CREATE": {

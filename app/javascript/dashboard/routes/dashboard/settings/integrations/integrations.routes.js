@@ -11,6 +11,7 @@ import Linear from './Linear.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
 import WhatsappSettings from './WhatsappSettings.vue';
+import PayzahSettings from './PayzahSettings.vue';
 
 export default {
   routes: [
@@ -115,6 +116,14 @@ export default {
           path: 'whatsapp',
           name: 'settings_integrations_whatsapp',
           component: WhatsappSettings,
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'payzah',
+          name: 'settings_integrations_payzah',
+          component: PayzahSettings,
           meta: {
             permissions: ['administrator'],
           },

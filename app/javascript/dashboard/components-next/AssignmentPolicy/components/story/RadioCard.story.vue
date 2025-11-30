@@ -6,7 +6,7 @@ const selectedOption = ref('round_robin');
 
 const handleSelect = value => {
   selectedOption.value = value;
-  console.log('Selected:', value);
+  // console.log('Selected:', value);
 };
 </script>
 

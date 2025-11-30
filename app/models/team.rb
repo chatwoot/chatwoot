@@ -27,6 +27,8 @@ class Team < ApplicationRecord
             presence: { message: I18n.t('errors.validations.presence') },
             uniqueness: { scope: :account_id }
 
+  scope :with_auto_assign_enabled, -> { where(allow_auto_assign: true) }
+
   before_validation do
     self.name = name.downcase if attribute_present?('name')
   end

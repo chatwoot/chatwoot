@@ -54,8 +54,19 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def validate_provider_config?
-    response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
+    url = "#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}"
+    Rails.logger.info "[WHATSAPP_VALIDATION] Validating credentials for business_account_id: #{whatsapp_channel.provider_config['business_account_id']}"
+    Rails.logger.info "[WHATSAPP_VALIDATION] Request URL: #{url.gsub(/access_token=[^&]+/, 'access_token=[FILTERED]')}"
+
+    response = HTTParty.get(url)
+
+    Rails.logger.info "[WHATSAPP_VALIDATION] Response status: #{response.code}"
+    Rails.logger.info "[WHATSAPP_VALIDATION] Response body: #{response.body}" unless response.success?
+
     response.success?
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP_VALIDATION] Validation error: #{e.message}"
+    false
   end
 
   def api_headers

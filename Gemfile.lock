@@ -1009,7 +1009,7 @@ DEPENDENCIES
   csv-safe
   database_cleaner
   datadog (~> 2.0)
-  debug (~> 1.8)
+  debug
   devise (>= 4.9.4)
   devise-secure_password!
   devise-two-factor (>= 5.0.0)
@@ -1089,6 +1089,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   ruby-openai
+  ruby_llm
   ruby_llm-schema
   scout_apm
   scss_lint

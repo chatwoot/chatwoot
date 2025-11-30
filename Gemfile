@@ -187,6 +187,7 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
+gem 'ruby_llm'
 gem 'ai-agents', '>= 0.4.3'
 
 # TODO: Move this gem as a dependency of ai-agents
@@ -244,11 +245,12 @@ group :development, :test do
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
-  gem 'debug', '~> 1.8'
+  # gem 'debug', '~> 1.8'
   gem 'factory_bot_rails', '>= 6.4.3'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
+  gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 6.1.5'
   gem 'rubocop', require: false

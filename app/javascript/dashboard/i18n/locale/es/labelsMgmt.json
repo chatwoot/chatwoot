@@ -6,6 +6,16 @@
     "DESCRIPTION": "Las etiquetas le ayudan a clasificar y priorizar conversaciones y clientes potenciales. Puede asignar una etiqueta a una conversación o contacto usando el panel lateral.",
     "LEARN_MORE": "Aprende más sobre etiquetas",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
+    "AUTO_CLASSIFICATION": {
+      "LABEL_TITLE": "Etiquetado Automático con IA",
+      "LABEL_DESCRIPTION": "Asignar automáticamente etiquetas a las conversaciones mediante análisis de IA basado en el contenido y contexto de la conversación.",
+      "TEAM_TITLE": "Asignación Automática de Equipo con IA",
+      "TEAM_DESCRIPTION": "Asignar automáticamente equipos a las conversaciones mediante análisis de IA basado en el contenido de la conversación y descripciones del equipo.",
+      "THRESHOLD_LABEL": "Mensajes mínimos antes de procesar",
+      "THRESHOLD_HINT": "Esperar esta cantidad de mensajes entrantes antes de aplicar sugerencias de IA",
+      "UPDATE_SUCCESS": "Configuración de clasificación automática actualizada correctamente",
+      "UPDATE_FAILED": "Error al actualizar la configuración de clasificación automática"
+    },
     "LIST": {
       "404": "No hay etiquetas disponibles en esta cuenta.",
       "TITLE": "Gestionar etiquetas",
@@ -13,7 +23,8 @@
       "TABLE_HEADER": {
         "NAME": "Nombre",
         "DESCRIPTION": "Descripción",
-        "COLOR": "Color"
+        "COLOR": "Color",
+        "AUTO_CLASSIFY": "Clasificación Automática"
       }
     },
     "FORM": {
@@ -34,10 +45,20 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Mostrar etiqueta en la barra lateral"
       },
+      "ALLOW_AUTO_ASSIGN": {
+        "LABEL": "Habilitar clasificación automática con IA para esta etiqueta"
+      },
       "EDIT": "Editar",
       "CREATE": "Crear",
       "DELETE": "Eliminar",
       "CANCEL": "Cancelar"
+    },
+    "AUTO_CLASSIFY": {
+      "ENABLED": "Clasificación automática habilitada para la etiqueta",
+      "DISABLED": "Clasificación automática deshabilitada para la etiqueta",
+      "ERROR": "Error al actualizar la configuración de clasificación automática",
+      "BULK_SUCCESS": "Clasificación automática actualizada para todas las etiquetas",
+      "BULK_ERROR": "Error al actualizar la clasificación automática para todas las etiquetas"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {

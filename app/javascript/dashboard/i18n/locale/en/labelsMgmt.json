@@ -6,6 +6,16 @@
     "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
     "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "There are no items matching this query",
+    "AUTO_CLASSIFICATION": {
+      "LABEL_TITLE": "AI-Powered Auto-Labeling",
+      "LABEL_DESCRIPTION": "Automatically assign labels to conversations using AI analysis based on conversation content and context.",
+      "TEAM_TITLE": "AI-Powered Auto-Team Assignment",
+      "TEAM_DESCRIPTION": "Automatically assign teams to conversations using AI analysis based on conversation content and team descriptions.",
+      "THRESHOLD_LABEL": "Minimum messages before processing",
+      "THRESHOLD_HINT": "Wait for this many incoming messages before applying AI suggestions",
+      "UPDATE_SUCCESS": "Auto-classification settings updated successfully",
+      "UPDATE_FAILED": "Failed to update auto-classification settings"
+    },
     "LIST": {
       "404": "There are no labels available in this account.",
       "TITLE": "Manage labels",
@@ -13,7 +23,8 @@
       "TABLE_HEADER": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
-        "COLOR": "Color"
+        "COLOR": "Color",
+        "AUTO_CLASSIFY": "Auto-Classification"
       }
     },
     "FORM": {
@@ -34,10 +45,20 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Show label on sidebar"
       },
+      "ALLOW_AUTO_ASSIGN": {
+        "LABEL": "Enable AI auto-classification for this label"
+      },
       "EDIT": "Edit",
       "CREATE": "Create",
       "DELETE": "Delete",
       "CANCEL": "Cancel"
+    },
+    "AUTO_CLASSIFY": {
+      "ENABLED": "Auto-classification enabled for label",
+      "DISABLED": "Auto-classification disabled for label",
+      "ERROR": "Failed to update auto-classification setting",
+      "BULK_SUCCESS": "Auto-classification updated for all labels",
+      "BULK_ERROR": "Failed to update auto-classification for all labels"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {

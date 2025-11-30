@@ -81,6 +81,39 @@
         "BUTTON": "Configure WhatsApp"
       }
     },
+    "PAYZAH": {
+      "TITLE": "Payzah Payment Gateway",
+      "DESCRIPTION": "Enable payment link generation for your conversations with Payzah payment gateway integration.",
+      "FORM": {
+        "TITLE": "Payzah Payment Gateway",
+        "DESCRIPTION": "Configure Payzah payment gateway to enable payment link generation for your conversations",
+        "API_KEY": {
+          "LABEL": "Payzah API Key",
+          "PLACEHOLDER": "••••••••••••••••",
+          "HELP": "Your Payzah API key for payment gateway authentication",
+          "ERROR": "Payzah API Key is required"
+        },
+        "SUBMIT": "Save Configuration"
+      },
+      "SETUP_INSTRUCTIONS": {
+        "TITLE": "Setup Instructions",
+        "CONFIGURATION_INFO": {
+          "TITLE": "Configuration Info",
+          "TEXT": "The Payzah API URL is configured at the system level via environment variables. Only the API key needs to be set per account."
+        },
+        "STEP_1": "Obtain your Payzah API key from your Payzah merchant account",
+        "STEP_2": "Enter the API key in the field above",
+        "STEP_3": "Save the configuration",
+        "STEP_4": "You can now generate payment links from conversations using the payment link button"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Payzah settings saved successfully",
+        "UPDATE_SUCCESS": "Payzah settings updated successfully",
+        "ERROR_MESSAGE": "Failed to save Payzah settings",
+        "LOAD_ERROR": "Failed to load Payzah settings",
+        "DELETE_SUCCESS": "Payzah settings disabled"
+      }
+    },
     "SHOPIFY": {
       "DELETE": {
         "TITLE": "Delete Shopify Integration",

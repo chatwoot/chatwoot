@@ -50,15 +50,13 @@ class RequestAiResponseJob < ApplicationJob
       return
     end
 
-    messages_for_payload = conversation.messages.last(10).filter_map do |msg|
+    # Send full conversation history to AI engine for complete context
+    # Differentiate between AI agent, human agent (HITL), and end user messages
+    messages_for_payload = conversation.messages.chat.filter_map do |msg|
       # Skip messages with nil content
       next if msg.content.blank?
 
-      {
-        role: msg.sender.is_a?(User) ? 'assistant' : 'user',
-        content: msg.content
-        # timestamp: msg.created_at.iso8601
-      }
+      build_message_payload(msg)
     end
 
     Rails.logger.info "Agent key: #{ai_agent.agent_key.inspect}, Messages count: #{messages_for_payload.length}"
@@ -77,12 +75,19 @@ class RequestAiResponseJob < ApplicationJob
     ai_conversation_id = generate_ai_conversation_id(conversation)
     Rails.logger.info "Generated AI conversation ID: #{ai_conversation_id} for channel: #{conversation.inbox.channel_type}"
 
+    # Build channel info for channel-specific features (WhatsApp interactive messages, etc.)
+    channel_info = build_channel_info(conversation)
+    Rails.logger.info "[AI_JOB] 📡 Channel info built: #{channel_info.present? ? channel_info.keys : 'none'}"
+
     # Convert to form data as per API documentation
     form_data = {
       agent_key: ai_agent.agent_key,
       messages: messages_for_payload.to_json, # JSON string for messages array
       conversation_id: ai_conversation_id
     }
+
+    # Add channel_info as JSON string if present
+    form_data[:channel_info] = channel_info.to_json if channel_info.present?
 
     # Add query only for text messages, not for audio messages
     audio_attachment = message.attachments.find { |att| att.file_type == 'audio' }
@@ -138,14 +143,18 @@ class RequestAiResponseJob < ApplicationJob
           # Create the audio file with proper multipart format that matches your AI engine expectation
           audio_file = File.new(temp_file.path, 'rb')
 
+          # Build RestClient payload with channel_info if present
+          rest_payload = {
+            agent_key: form_data[:agent_key],
+            messages: form_data[:messages],
+            conversation_id: form_data[:conversation_id],
+            audio_file: audio_file
+          }
+          rest_payload[:channel_info] = form_data[:channel_info] if form_data[:channel_info].present?
+
           rest_response = RestClient.post(
             deployment_url,
-            {
-              agent_key: form_data[:agent_key],
-              messages: form_data[:messages],
-              conversation_id: form_data[:conversation_id],
-              audio_file: audio_file
-            },
+            rest_payload,
             {
               'x-api-token' => api_token,
               'clerk-id' => clerk_id
@@ -241,6 +250,57 @@ class RequestAiResponseJob < ApplicationJob
   end
 
   private
+
+  # Build message payload with proper role and metadata differentiation
+  # - AI Agent messages: role='assistant', message_type='ai_agent'
+  # - Human Agent (HITL) messages: role='user', message_type='human_agent', is_human_in_loop=true
+  # - End User messages: role='user', message_type='end_user'
+  def build_message_payload(msg)
+    {
+      role: determine_message_role(msg),
+      content: msg.content,
+      additional_kwargs: determine_message_metadata(msg)
+    }
+  end
+
+  # Determine the role for LangChain compatibility
+  # AI agents use 'assistant', everything else uses 'user'
+  def determine_message_role(msg)
+    return 'assistant' if msg.sender.is_a?(User) && msg.sender.is_ai?
+
+    'user'
+  end
+
+  # Determine additional metadata to differentiate message types
+  def determine_message_metadata(msg)
+    sender = msg.sender
+
+    # AI Agent message
+    if sender.is_a?(User) && sender.is_ai?
+      {
+        message_type: 'ai_agent',
+        agent_id: sender.id,
+        agent_name: sender.name
+      }
+
+    # Human Agent (HITL) message - outgoing message from human user
+    elsif sender.is_a?(User) && !sender.is_ai? && msg.outgoing?
+      {
+        message_type: 'human_agent',
+        is_human_in_loop: true,
+        agent_id: sender.id,
+        agent_name: sender.name,
+        agent_email: sender.email
+      }
+
+    # End User (Customer) message - incoming message
+    else
+      {
+        message_type: 'end_user',
+        contact_id: msg.conversation.contact_id
+      }
+    end
+  end
 
   def generate_ai_conversation_id(conversation)
     inbox = conversation.inbox
@@ -370,5 +430,62 @@ class RequestAiResponseJob < ApplicationJob
       temp_file&.close
       temp_file&.unlink
     end
+  end
+
+  # Build channel-specific info for AI Engine to enable channel features
+  def build_channel_info(conversation)
+    inbox = conversation.inbox
+    channel = inbox.channel
+
+    case inbox.channel_type
+    when 'Channel::Whatsapp'
+      build_whatsapp_channel_info(conversation, channel)
+    when 'Channel::Telegram'
+      build_telegram_channel_info(conversation, channel)
+    when 'Channel::Sms'
+      build_sms_channel_info(conversation, channel)
+      # No channel info for other channels (web widget, API, etc.)
+    end
+  rescue StandardError => e
+    Rails.logger.error "[AI_JOB] ❌ Error building channel info: #{e.message}"
+    nil
+  end
+
+  def build_whatsapp_channel_info(conversation, channel)
+    provider_config = channel.provider_config || {}
+    contact = conversation.contact
+
+    {
+      channel: 'whatsapp',
+      access_token: provider_config['api_key'],
+      phone_number_id: provider_config['phone_number_id'],
+      phone_number: channel.phone_number,
+      client_phone_number: contact.phone_number,
+      handoff_email: conversation.account.support_email
+    }.compact
+  end
+
+  def build_telegram_channel_info(conversation, channel)
+    provider_config = channel.provider_config || {}
+    contact_inbox = conversation.contact_inbox
+
+    {
+      channel: 'telegram',
+      bot_token: provider_config['bot_token'],
+      chat_id: contact_inbox.source_id,
+      user_id: contact_inbox.source_id,
+      handoff_email: conversation.account.support_email
+    }.compact
+  end
+
+  def build_sms_channel_info(conversation, channel)
+    contact = conversation.contact
+
+    {
+      channel: 'sms',
+      phone_number: channel.phone_number,
+      client_phone_number: contact.phone_number,
+      handoff_email: conversation.account.support_email
+    }.compact
   end
 end

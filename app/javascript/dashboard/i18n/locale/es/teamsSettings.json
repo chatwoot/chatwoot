@@ -8,7 +8,19 @@
     "LIST": {
       "404": "No hay equipos creados en ésta cuenta.",
       "EDIT_TEAM": "Editar equipo",
-      "NONE": "Ninguna"
+      "NONE": "Ninguna",
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "AUTO_ASSIGN": "Asignación Automática",
+        "ACTIONS": "Acciones"
+      }
+    },
+    "AUTO_ASSIGN": {
+      "ENABLED": "Asignación automática habilitada para el equipo",
+      "DISABLED": "Asignación automática deshabilitada para el equipo",
+      "ERROR": "Error al actualizar la configuración de asignación automática",
+      "BULK_SUCCESS": "Asignación automática actualizada para todos los equipos",
+      "BULK_ERROR": "Error al actualizar la asignación automática para todos los equipos"
     },
     "CREATE_FLOW": {
       "CREATE": {

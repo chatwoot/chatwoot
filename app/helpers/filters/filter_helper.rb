@@ -63,6 +63,8 @@ module Filters::FilterHelper
       tag_filter_query(query_hash, current_index)
     when 'text_case_insensitive'
       text_case_insensitive_filter(query_hash, filter_operator_value)
+    when 'number'
+      number_filter(query_hash, filter_operator_value)
     else
       default_filter(query_hash, filter_operator_value)
     end
@@ -76,6 +78,15 @@ module Filters::FilterHelper
   def text_case_insensitive_filter(query_hash, filter_operator_value)
     "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) " \
       "#{filter_operator_value} #{query_hash[:query_operator]}"
+  end
+
+  def number_filter(query_hash, filter_operator_value)
+    # For numeric standard attributes with comparison operators,
+    # the parent's lt_gt_filter_values generates broken SQL with incomplete type casting.
+    # We fix this by removing the trailing '::' that's meant for type casting.
+    cleaned_operator_value = filter_operator_value.sub(/::$/, '')
+
+    "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{cleaned_operator_value} #{query_hash[:query_operator]}"
   end
 
   def default_filter(query_hash, filter_operator_value)

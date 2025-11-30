@@ -1,5 +1,5 @@
 <script setup>
-import { h, computed, onMounted } from 'vue';
+import { h, computed, onMounted, ref } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
+import payzahSettingsAPI from 'dashboard/api/payzahSettings';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -72,6 +73,17 @@ const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
 
+const isPayzahEnabled = ref(false);
+
+const loadPayzahStatus = async () => {
+  try {
+    const response = await payzahSettingsAPI.get();
+    isPayzahEnabled.value = !!response.data?.enabled;
+  } catch (error) {
+    isPayzahEnabled.value = false;
+  }
+};
+
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
@@ -80,6 +92,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
+  loadPayzahStatus();
 });
 
 const sortedInboxes = computed(() =>
@@ -302,6 +315,17 @@ const menuItems = computed(() => {
         },
       ],
     },
+    ...(isPayzahEnabled.value
+      ? [
+          {
+            name: 'Payment Links',
+            label: t('SIDEBAR.PAYMENT_LINKS'),
+            icon: 'i-lucide-credit-card',
+            to: accountScopedRoute('payment_links'),
+            activeOn: ['payment_links'],
+          },
+        ]
+      : []),
     {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),

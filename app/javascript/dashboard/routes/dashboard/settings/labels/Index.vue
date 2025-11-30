@@ -72,8 +72,49 @@ const tableHeaders = computed(() => {
     t('LABEL_MGMT.LIST.TABLE_HEADER.NAME'),
     t('LABEL_MGMT.LIST.TABLE_HEADER.DESCRIPTION'),
     t('LABEL_MGMT.LIST.TABLE_HEADER.COLOR'),
+    t('LABEL_MGMT.LIST.TABLE_HEADER.AUTO_CLASSIFY'),
   ];
 });
+
+const selectAllChecked = computed(() => {
+  if (!records.value.length) return false;
+  return records.value.every(label => label.allow_auto_assign);
+});
+
+const toggleAutoAssign = async (labelId, currentValue) => {
+  loading.value[labelId] = true;
+  try {
+    await store.dispatch('labels/update', {
+      id: labelId,
+      allow_auto_assign: !currentValue,
+    });
+    useAlert(
+      !currentValue
+        ? t('LABEL_MGMT.AUTO_CLASSIFY.ENABLED')
+        : t('LABEL_MGMT.AUTO_CLASSIFY.DISABLED')
+    );
+  } catch (error) {
+    useAlert(t('LABEL_MGMT.AUTO_CLASSIFY.ERROR'));
+  } finally {
+    loading.value[labelId] = false;
+  }
+};
+
+const toggleSelectAll = async () => {
+  const newValue = !selectAllChecked.value;
+  try {
+    const updatePromises = records.value.map(label =>
+      store.dispatch('labels/update', {
+        id: label.id,
+        allow_auto_assign: newValue,
+      })
+    );
+    await Promise.all(updatePromises);
+    useAlert(t('LABEL_MGMT.AUTO_CLASSIFY.BULK_SUCCESS'));
+  } catch (error) {
+    useAlert(t('LABEL_MGMT.AUTO_CLASSIFY.BULK_ERROR'));
+  }
+};
 
 onBeforeMount(() => {
   store.dispatch('labels/get');
@@ -107,11 +148,24 @@ onBeforeMount(() => {
       <table class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
-            v-for="thHeader in tableHeaders"
+            v-for="(thHeader, index) in tableHeaders"
             :key="thHeader"
             class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
           >
-            {{ thHeader }}
+            <template v-if="index === tableHeaders.length - 1">
+              <div class="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  :checked="selectAllChecked"
+                  class="w-4 h-4 rounded cursor-pointer"
+                  @change="toggleSelectAll"
+                />
+                <span>{{ thHeader }}</span>
+              </div>
+            </template>
+            <template v-else>
+              {{ thHeader }}
+            </template>
           </th>
         </thead>
         <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
@@ -130,6 +184,15 @@ onBeforeMount(() => {
                 />
                 {{ label.color }}
               </div>
+            </td>
+            <td class="py-4 ltr:pr-4 rtl:pl-4">
+              <input
+                type="checkbox"
+                :checked="label.allow_auto_assign"
+                :disabled="loading[label.id]"
+                class="w-4 h-4 rounded cursor-pointer disabled:opacity-50"
+                @change="toggleAutoAssign(label.id, label.allow_auto_assign)"
+              />
             </td>
             <td class="py-4 min-w-xs">
               <div class="flex gap-1 justify-end">

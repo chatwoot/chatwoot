@@ -100,6 +100,7 @@ class User < ApplicationRecord
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify, inverse_of: :assignee
   alias_attribute :conversations, :assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify, inverse_of: :assigned_agent
+  has_many :created_payment_links, foreign_key: 'created_by_id', class_name: 'PaymentLink', dependent: :nullify, inverse_of: :created_by
   has_many :conversation_participants, dependent: :destroy_async
   has_many :participating_conversations, through: :conversation_participants, source: :conversation
 

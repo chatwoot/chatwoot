@@ -95,6 +95,7 @@ yarn-debug.log*
 .claude/settings.local.json
 .cursor
 CLAUDE.local.md
+plans/
 
 # Histoire deployment
 .netlify
