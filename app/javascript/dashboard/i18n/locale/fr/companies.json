@@ -13,7 +13,7 @@
       "LABEL": "Order",
       "OPTIONS": {
         "ASCENDING": "Ascending",
-        "DESCENDING": "Descending"
+        "DESCENDING": "Décroissant"
       }
     },
     "SEARCH_PLACEHOLDER": "Search companies...",
