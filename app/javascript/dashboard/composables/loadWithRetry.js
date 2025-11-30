@@ -9,7 +9,7 @@ export const useLoadWithRetry = (config = {}) => {
   const hasError = ref(false);
 
   const loadWithRetry = async url => {
-    const attemptLoad = async () => {
+    const attemptLoad = () => {
       return new Promise((resolve, reject) => {
         let media;
         if (type === 'image') {
