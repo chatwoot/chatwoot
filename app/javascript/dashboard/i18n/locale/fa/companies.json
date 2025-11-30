@@ -1,6 +1,6 @@
 {
   "COMPANIES": {
-    "HEADER": "Companies",
+    "HEADER": "شرکت ها",
     "SORT_BY": {
       "LABEL": "مرتب‌سازی براساس",
       "OPTIONS": {
@@ -10,16 +10,16 @@
       }
     },
     "ORDER": {
-      "LABEL": "Order",
+      "LABEL": "ترتیب",
       "OPTIONS": {
         "ASCENDING": "Ascending",
         "DESCENDING": "Descending"
       }
     },
-    "SEARCH_PLACEHOLDER": "Search companies...",
-    "LOADING": "Loading companies...",
+    "SEARCH_PLACEHOLDER": "جستجوی شرکت ها...",
+    "LOADING": "در حال بارگزاری شرکت ها...",
     "UNNAMED": "Unnamed Company",
-    "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "CONTACTS_COUNT": "{n} تماس | {n} تماس ها",
     "EMPTY_STATE": {
       "TITLE": "No companies found"
     }
