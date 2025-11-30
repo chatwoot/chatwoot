@@ -20,7 +20,9 @@ const attachment = computed(() => {
   return attachments.value[0];
 });
 
-const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry();
+const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry({
+  type: 'image',
+});
 
 const showGallery = ref(false);
 const isDownloading = ref(false);
