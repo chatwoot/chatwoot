@@ -55,9 +55,6 @@ const playbackSpeedLabel = computed(() => {
   return `${playbackSpeed.value}x`;
 });
 
-// There maybe a chance that the audioPlayer ref is not available
-// When the onLoadMetadata is called, so we need to set the duration
-// value when the component is mounted
 onMounted(() => {
   if (attachment.dataUrl) {
     loadWithRetry(attachment.dataUrl);
