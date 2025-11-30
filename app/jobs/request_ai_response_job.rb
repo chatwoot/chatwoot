@@ -448,7 +448,9 @@ class RequestAiResponseJob < ApplicationJob
     channel = inbox.channel
 
     # Get base human handoff info (common to all channels)
+    # This should ALWAYS be present regardless of channel type
     base_info = build_base_handoff_info(conversation)
+    Rails.logger.info "[AI_JOB] 📋 Base handoff info: #{base_info.present? ? base_info.keys : 'empty'}"
 
     # Add channel-specific info
     channel_specific_info = case inbox.channel_type
@@ -465,15 +467,24 @@ class RequestAiResponseJob < ApplicationJob
                             when 'Channel::Api', 'Channel::WebWidget'
                               build_web_channel_info(conversation, inbox)
                             else
-                              # For any other channel type, just return base info
+                              # For any other channel type, just return empty hash
+                              Rails.logger.info "[AI_JOB] ℹ️  Unknown channel type: #{inbox.channel_type}, using base info only"
                               {}
                             end
 
     # Merge base handoff info with channel-specific info
-    base_info.merge(channel_specific_info || {})
+    merged_info = base_info.merge(channel_specific_info || {})
+    Rails.logger.info "[AI_JOB] ✅ Final channel info keys: #{merged_info.keys}"
+    merged_info
   rescue StandardError => e
     Rails.logger.error "[AI_JOB] ❌ Error building channel info: #{e.message}"
-    nil
+    Rails.logger.error e.backtrace.join("\n")
+    # Return at least base info even if there's an error
+    begin
+      build_base_handoff_info(conversation)
+    rescue StandardError
+      {}
+    end
   end
 
   # Base human handoff information (common to all channels)
@@ -559,11 +570,19 @@ class RequestAiResponseJob < ApplicationJob
   end
 
   def build_web_channel_info(_conversation, inbox)
-    {
-      channel: inbox.channel_type.demodulize.underscore,
+    channel_name = inbox.channel_type.demodulize.underscore
+
+    info = {
+      channel: channel_name,
       inbox_id: inbox.id,
-      website_url: inbox.website_url
-    }.compact
+      inbox_name: inbox.name
+    }
+
+    # Add website_url if available (for web widget)
+    info[:website_url] = inbox.website_url if inbox.respond_to?(:website_url) && inbox.website_url.present?
+
+    Rails.logger.info "[AI_JOB] 🌐 Built #{channel_name} channel info: #{info.keys}"
+    info.compact
   end
 
   def hide_ai_typing_indicator(conversation, ai_agent)
