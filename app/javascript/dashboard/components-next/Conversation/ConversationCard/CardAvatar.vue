@@ -44,11 +44,10 @@ const selectedModel = computed({
       :status="contact.availability_status"
       hide-offline-status
     >
-      <template v-if="enableSelection" #overlay="{ size }">
+      <template v-if="enableSelection" #overlay>
         <div
           v-if="hovered || selected"
-          class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px]"
-          :style="{ width: `${size}px`, height: `${size}px` }"
+          class="flex items-center justify-center rounded-md cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px] size-6"
           @click.stop
         >
           <Checkbox v-model="selectedModel" />

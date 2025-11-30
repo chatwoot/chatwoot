@@ -221,7 +221,6 @@ onBeforeMount(contextMenuActions.close);
         <CardPriorityIcon
           v-if="primaryActor?.priority"
           :priority="primaryActor?.priority"
-          class="[&>svg]:size-4"
         />
         <div
           v-if="inboxIcon"
