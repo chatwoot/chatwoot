@@ -27,11 +27,16 @@ class Api::V1::Ai::HandoffsController < ApplicationController
       return render json: { error: 'Agent not found' }, status: :not_found
     end
 
+    # Set Current.user to the agent for activity tracking
+    # This ensures notifications and activity messages are created
+    Current.user = agent
+
     # Assign conversation to human agent
     conversation.assignee = agent
     conversation.save!
 
     Rails.logger.info "[AI_HANDOFF] ✅ Conversation #{conversation.id} successfully handed off to agent #{agent.id} (#{agent.name})"
+    Rails.logger.info '[AI_HANDOFF] 📬 Notifications and activity messages should be triggered'
 
     render json: {
       success: true,
