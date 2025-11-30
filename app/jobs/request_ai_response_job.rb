@@ -447,25 +447,58 @@ class RequestAiResponseJob < ApplicationJob
     inbox = conversation.inbox
     channel = inbox.channel
 
-    case inbox.channel_type
-    when 'Channel::Whatsapp'
-      build_whatsapp_channel_info(conversation, channel)
-    when 'Channel::Telegram'
-      build_telegram_channel_info(conversation, channel)
-    when 'Channel::Sms'
-      build_sms_channel_info(conversation, channel)
-      # No channel info for other channels (web widget, API, etc.)
-    end
+    # Get base human handoff info (common to all channels)
+    base_info = build_base_handoff_info(conversation)
+
+    # Add channel-specific info
+    channel_specific_info = case inbox.channel_type
+                            when 'Channel::Whatsapp'
+                              build_whatsapp_channel_info(conversation, channel)
+                            when 'Channel::Telegram'
+                              build_telegram_channel_info(conversation, channel)
+                            when 'Channel::Sms'
+                              build_sms_channel_info(conversation, channel)
+                            when 'Channel::FacebookPage'
+                              build_facebook_channel_info(conversation, channel)
+                            when 'Channel::InstagramDirect'
+                              build_instagram_channel_info(conversation, channel)
+                            when 'Channel::Api', 'Channel::WebWidget'
+                              build_web_channel_info(conversation, inbox)
+                            else
+                              # For any other channel type, just return base info
+                              {}
+                            end
+
+    # Merge base handoff info with channel-specific info
+    base_info.merge(channel_specific_info || {})
   rescue StandardError => e
     Rails.logger.error "[AI_JOB] ❌ Error building channel info: #{e.message}"
     nil
   end
 
+  # Base human handoff information (common to all channels)
+  def build_base_handoff_info(conversation)
+    ai_agent = conversation.assignee
+    human_agent = ai_agent&.human_agent
+
+    {
+      conversation_id: conversation.id,
+      conversation_display_id: conversation.display_id,
+      human_agent: if human_agent
+                     {
+                       id: human_agent.id,
+                       name: human_agent.name,
+                       email: human_agent.email,
+                       available_name: human_agent.available_name
+                     }
+                   end,
+      handoff_email: human_agent&.email || conversation.account.support_email
+    }.compact
+  end
+
   def build_whatsapp_channel_info(conversation, channel)
     provider_config = channel.provider_config || {}
     contact = conversation.contact
-    ai_agent = conversation.assignee
-    human_agent = ai_agent&.human_agent
 
     {
       channel: 'whatsapp',
@@ -477,27 +510,13 @@ class RequestAiResponseJob < ApplicationJob
         webhook_verify_token: provider_config['webhook_verify_token']
       },
       phone_number: channel.phone_number,
-      client_phone_number: contact.phone_number,
-      # Human handoff information
-      conversation_id: conversation.id,
-      conversation_display_id: conversation.display_id,
-      human_agent: if human_agent
-                     {
-                       id: human_agent.id,
-                       name: human_agent.name,
-                       email: human_agent.email,
-                       available_name: human_agent.available_name
-                     }
-                   end,
-      handoff_email: human_agent&.email || conversation.account.support_email
+      client_phone_number: contact.phone_number
     }.compact
   end
 
   def build_telegram_channel_info(conversation, channel)
     provider_config = channel.provider_config || {}
     contact_inbox = conversation.contact_inbox
-    ai_agent = conversation.assignee
-    human_agent = ai_agent&.human_agent
 
     {
       channel: 'telegram',
@@ -505,43 +524,45 @@ class RequestAiResponseJob < ApplicationJob
         bot_token: provider_config['bot_token']
       },
       chat_id: contact_inbox.source_id,
-      user_id: contact_inbox.source_id,
-      # Human handoff information
-      conversation_id: conversation.id,
-      conversation_display_id: conversation.display_id,
-      human_agent: if human_agent
-                     {
-                       id: human_agent.id,
-                       name: human_agent.name,
-                       email: human_agent.email,
-                       available_name: human_agent.available_name
-                     }
-                   end,
-      handoff_email: human_agent&.email || conversation.account.support_email
+      user_id: contact_inbox.source_id
     }.compact
   end
 
   def build_sms_channel_info(conversation, channel)
     contact = conversation.contact
-    ai_agent = conversation.assignee
-    human_agent = ai_agent&.human_agent
 
     {
       channel: 'sms',
       phone_number: channel.phone_number,
-      client_phone_number: contact.phone_number,
-      # Human handoff information
-      conversation_id: conversation.id,
-      conversation_display_id: conversation.display_id,
-      human_agent: if human_agent
-                     {
-                       id: human_agent.id,
-                       name: human_agent.name,
-                       email: human_agent.email,
-                       available_name: human_agent.available_name
-                     }
-                   end,
-      handoff_email: human_agent&.email || conversation.account.support_email
+      client_phone_number: contact.phone_number
+    }.compact
+  end
+
+  def build_facebook_channel_info(conversation, channel)
+    contact_inbox = conversation.contact_inbox
+
+    {
+      channel: 'facebook',
+      page_id: channel.page_id,
+      user_id: contact_inbox.source_id
+    }.compact
+  end
+
+  def build_instagram_channel_info(conversation, channel)
+    contact_inbox = conversation.contact_inbox
+
+    {
+      channel: 'instagram',
+      instagram_id: channel.instagram_id,
+      user_id: contact_inbox.source_id
+    }.compact
+  end
+
+  def build_web_channel_info(_conversation, inbox)
+    {
+      channel: inbox.channel_type.demodulize.underscore,
+      inbox_id: inbox.id,
+      website_url: inbox.website_url
     }.compact
   end
 
