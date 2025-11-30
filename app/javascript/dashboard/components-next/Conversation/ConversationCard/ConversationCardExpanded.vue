@@ -10,8 +10,8 @@ import Avatar from 'next/avatar/Avatar.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
 import CardStatusIcon from './CardStatusIcon.vue';
-import CardAssigneeEmptyState from './CardAssigneeEmptyState.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -82,11 +82,7 @@ const selectedModel = computed({
       <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
 
       <div class="w-4 flex items-center justify-center flex-shrink-0">
-        <CardPriorityIcon
-          :priority="chat.priority"
-          show-empty
-          class="[&>svg]:size-4"
-        />
+        <CardPriorityIcon :priority="chat.priority" show-empty />
       </div>
 
       <div class="w-4 flex items-center justify-center flex-shrink-0">
@@ -94,24 +90,24 @@ const selectedModel = computed({
           v-if="showAssignee && assignee.name"
           v-tooltip.top="{
             content: assignee.name,
-            delay: { show: 1000, hide: 0 },
+            delay: { show: 500, hide: 0 },
           }"
           :name="assignee.name"
           :src="assignee.thumbnail"
-          :size="16"
+          :size="14"
           :status="assignee.availability_status"
           hide-offline-status
           rounded-full
         />
-        <CardAssigneeEmptyState v-else />
+        <Icon
+          v-else
+          icon="i-woot-empty-assignee"
+          class="size-4 text-n-slate-7"
+        />
       </div>
 
       <div class="w-4 flex items-center justify-center flex-shrink-0">
-        <CardStatusIcon
-          :status="chat.status"
-          show-empty
-          class="[&>svg]:size-[1.18rem]"
-        />
+        <CardStatusIcon :status="chat.status" show-empty />
       </div>
 
       <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />

@@ -58,26 +58,22 @@ const showSection = computed(() => {
       <CardPriorityIcon
         v-if="chat.priority"
         :priority="chat.priority"
-        class="flex-shrink-0 [&>svg]:size-4"
+        class="flex-shrink-0"
       />
       <Avatar
         v-if="showAssignee && assignee.name"
         v-tooltip.top="{
           content: assignee.name,
-          delay: { show: 1000, hide: 0 },
+          delay: { show: 500, hide: 0 },
         }"
         :name="assignee.name"
         :src="assignee.thumbnail"
-        :size="16"
+        :size="14"
         :status="assignee.availability_status"
         hide-offline-status
         rounded-full
       />
-      <CardStatusIcon
-        v-if="chat.status"
-        :status="chat.status"
-        class="[&>svg]:size-[1.18rem]"
-      />
+      <CardStatusIcon v-if="chat.status" :status="chat.status" />
     </div>
   </div>
 
@@ -91,23 +87,19 @@ const showSection = computed(() => {
       <CardPriorityIcon
         v-if="chat.priority"
         :priority="chat.priority"
-        class="flex-shrink-0 [&>svg]:size-4"
+        class="flex-shrink-0"
       />
       <Avatar
         v-if="showAssignee && assignee.name"
         v-tooltip.top="assignee.name"
         :name="assignee.name"
         :src="assignee.thumbnail"
-        :size="16"
+        :size="14"
         :status="assignee.availability_status"
         hide-offline-status
         rounded-full
       />
-      <CardStatusIcon
-        v-if="chat.status"
-        :status="chat.status"
-        class="[&>svg]:size-[1.18rem]"
-      />
+      <CardStatusIcon v-if="chat.status" :status="chat.status" />
     </div>
     <div v-if="hasSlaPolicyId" class="rounded-lg h-2 w-px bg-n-strong mx-0.5" />
     <SLACardLabel v-if="hasSlaPolicyId" ref="slaCardLabel" :chat="chat" />
