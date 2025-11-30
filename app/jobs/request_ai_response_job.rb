@@ -2,6 +2,8 @@ require 'base64'
 require 'tempfile'
 
 class RequestAiResponseJob < ApplicationJob
+  include Events::Types
+
   queue_as :default
 
   def perform(message)
@@ -228,18 +230,26 @@ class RequestAiResponseJob < ApplicationJob
         # Send the AI response back through the appropriate channel
         if ai_message.persisted?
           Rails.logger.info "[AI_JOB] ✅ AI message #{ai_message.id} created successfully, sending to channel"
+
+          # Hide typing indicator before sending response
+          hide_ai_typing_indicator(conversation, ai_agent)
+
           send_ai_response_to_channel(ai_message)
           Rails.logger.info "[AI_JOB] ✅ RequestAiResponseJob completed for message #{message.id}"
         else
           Rails.logger.error "[AI_JOB] ❌ Failed to persist AI message for original message #{message.id}"
+          hide_ai_typing_indicator(conversation, ai_agent)
         end
       else
         Rails.logger.error "Failed to get response from AI agent for conversation #{conversation.id}: #{response.code} #{response.body}"
+        hide_ai_typing_indicator(conversation, ai_agent)
       end
     rescue HTTParty::Error => e
       Rails.logger.error "AI agent connection error for conversation #{conversation.id}: #{e.message}"
+      hide_ai_typing_indicator(conversation, ai_agent)
     rescue StandardError => e
       Rails.logger.error "An unexpected error occurred while requesting AI response for conversation #{conversation.id}: #{e.message}"
+      hide_ai_typing_indicator(conversation, ai_agent)
     ensure
       # Clean up job lock using same key strategy
       dedup_key = (message.source_id.presence || "msg_#{message.id}")
@@ -454,38 +464,101 @@ class RequestAiResponseJob < ApplicationJob
   def build_whatsapp_channel_info(conversation, channel)
     provider_config = channel.provider_config || {}
     contact = conversation.contact
+    ai_agent = conversation.assignee
+    human_agent = ai_agent&.human_agent
 
     {
       channel: 'whatsapp',
-      access_token: provider_config['api_key'],
-      phone_number_id: provider_config['phone_number_id'],
+      # Full provider config for AI to access templates and messages
+      provider_config: {
+        api_key: provider_config['api_key'],
+        phone_number_id: provider_config['phone_number_id'],
+        business_account_id: provider_config['business_account_id'],
+        webhook_verify_token: provider_config['webhook_verify_token']
+      },
       phone_number: channel.phone_number,
       client_phone_number: contact.phone_number,
-      handoff_email: conversation.account.support_email
+      # Human handoff information
+      conversation_id: conversation.id,
+      conversation_display_id: conversation.display_id,
+      human_agent: if human_agent
+                     {
+                       id: human_agent.id,
+                       name: human_agent.name,
+                       email: human_agent.email,
+                       available_name: human_agent.available_name
+                     }
+                   end,
+      account_support_email: conversation.account.support_email
     }.compact
   end
 
   def build_telegram_channel_info(conversation, channel)
     provider_config = channel.provider_config || {}
     contact_inbox = conversation.contact_inbox
+    ai_agent = conversation.assignee
+    human_agent = ai_agent&.human_agent
 
     {
       channel: 'telegram',
-      bot_token: provider_config['bot_token'],
+      provider_config: {
+        bot_token: provider_config['bot_token']
+      },
       chat_id: contact_inbox.source_id,
       user_id: contact_inbox.source_id,
-      handoff_email: conversation.account.support_email
+      # Human handoff information
+      conversation_id: conversation.id,
+      conversation_display_id: conversation.display_id,
+      human_agent: if human_agent
+                     {
+                       id: human_agent.id,
+                       name: human_agent.name,
+                       email: human_agent.email,
+                       available_name: human_agent.available_name
+                     }
+                   end,
+      account_support_email: conversation.account.support_email
     }.compact
   end
 
   def build_sms_channel_info(conversation, channel)
     contact = conversation.contact
+    ai_agent = conversation.assignee
+    human_agent = ai_agent&.human_agent
 
     {
       channel: 'sms',
       phone_number: channel.phone_number,
       client_phone_number: contact.phone_number,
-      handoff_email: conversation.account.support_email
+      # Human handoff information
+      conversation_id: conversation.id,
+      conversation_display_id: conversation.display_id,
+      human_agent: if human_agent
+                     {
+                       id: human_agent.id,
+                       name: human_agent.name,
+                       email: human_agent.email,
+                       available_name: human_agent.available_name
+                     }
+                   end,
+      account_support_email: conversation.account.support_email
     }.compact
+  end
+
+  def hide_ai_typing_indicator(conversation, ai_agent)
+    return unless conversation && ai_agent&.is_ai?
+
+    Rails.logger.info "[AI_JOB] 💬 Hiding typing indicator for AI agent #{ai_agent.id} in conversation #{conversation.id}"
+
+    # Trigger typing_off event for the AI agent
+    Rails.configuration.dispatcher.dispatch(
+      CONVERSATION_TYPING_OFF,
+      Time.zone.now,
+      conversation: conversation,
+      user: ai_agent,
+      is_private: false
+    )
+  rescue StandardError => e
+    Rails.logger.error "[AI_JOB] ❌ Failed to hide typing indicator: #{e.message}"
   end
 end
