@@ -498,7 +498,7 @@ provideMessageContext({
           'w-full': variant === MESSAGE_VARIANTS.EMAIL,
         },
       ]"
-      class="gap-x-2"
+      class="gap-x-3"
       :style="{
         gridTemplateAreas: gridTemplate,
       }"
@@ -508,7 +508,7 @@ provideMessageContext({
         v-tooltip.left-end="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
-        <Avatar v-bind="avatarInfo" :size="24" />
+        <Avatar v-bind="avatarInfo" :size="24" rounded-full />
       </div>
       <div
         class="[grid-area:bubble] flex"
