@@ -1,4 +1,4 @@
-class Api::V1::Ai::HandoffController < ApplicationController
+class Api::V1::Ai::HandoffsController < ApplicationController
   before_action :authenticate_ai_request
 
   # POST /api/v1/ai/handoff
