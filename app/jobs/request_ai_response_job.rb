@@ -489,7 +489,7 @@ class RequestAiResponseJob < ApplicationJob
                        available_name: human_agent.available_name
                      }
                    end,
-      account_support_email: conversation.account.support_email
+      handoff_email: human_agent&.email || conversation.account.support_email
     }.compact
   end
 
@@ -517,7 +517,7 @@ class RequestAiResponseJob < ApplicationJob
                        available_name: human_agent.available_name
                      }
                    end,
-      account_support_email: conversation.account.support_email
+      handoff_email: human_agent&.email || conversation.account.support_email
     }.compact
   end
 
@@ -541,7 +541,7 @@ class RequestAiResponseJob < ApplicationJob
                        available_name: human_agent.available_name
                      }
                    end,
-      account_support_email: conversation.account.support_email
+      handoff_email: human_agent&.email || conversation.account.support_email
     }.compact
   end
 
