@@ -135,7 +135,7 @@ export default {
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
         icon="i-ph-magic-wand"
         slate
-        faded
+        ghost
         sm
         @click="openAIAssist"
       />

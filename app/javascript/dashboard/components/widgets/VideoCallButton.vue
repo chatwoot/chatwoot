@@ -54,7 +54,7 @@ export default {
     "
     icon="i-ph-video-camera"
     slate
-    faded
+    ghost
     sm
     @click="onClick"
   />
