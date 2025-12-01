@@ -104,7 +104,7 @@ class Integrations::LlmBaseService
       chat = context.chat(model: model)
       setup_chat_with_messages(chat, messages)
     end
-  rescue RubyLLM::Error => e
+  rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: hook.account).capture_exception
     build_error_response_from_exception(e, messages)
   end
