@@ -275,7 +275,8 @@
     --bubble-radius-sm: calc(0.125rem * var(--bubble-spacing-ratio));
     --bubble-radius-md: calc(0.375rem * var(--bubble-spacing-ratio));
     --bubble-radius-lg: calc(0.5rem * var(--bubble-spacing-ratio));
-    --bubble-padding: calc(0.75rem * var(--bubble-spacing-ratio));
+    --bubble-padding-x: calc(1rem * var(--bubble-spacing-ratio));
+    --bubble-padding-y: calc(0.75rem * var(--bubble-spacing-ratio));
 
     // Bubble meta text colors (per variant)
     --bubble-agent-meta: var(--slate-11);

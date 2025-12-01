@@ -37,7 +37,10 @@ const onVideoLoadError = () => {
 </script>
 
 <template>
-  <BaseBubble class="p-3 overflow-hidden" data-bubble-name="ig-story">
+  <BaseBubble
+    class="p-[var(--bubble-padding-y)] overflow-hidden"
+    data-bubble-name="ig-story"
+  >
     <div v-if="content" v-dompurify-html="formattedContent" class="mb-2" />
     <img
       v-if="!hasImgStoryError"

@@ -48,7 +48,10 @@ const formValues = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="px-4 py-3" data-bubble-name="csat">
+  <BaseBubble
+    class="px-[var(--bubble-padding-x)] py-[var(--bubble-padding-y)]"
+    data-bubble-name="form"
+  >
     <span v-dompurify-html="content" :title="content" />
     <dl v-if="formValues.length" class="mt-4">
       <template v-for="item in formValues" :key="item.title">

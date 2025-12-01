@@ -29,7 +29,7 @@ const isReel = computed(() => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden p-3"
+    class="overflow-hidden p-[var(--bubble-padding-y)]"
     data-bubble-name="video"
     @click="toggleGallery(true)"
   >

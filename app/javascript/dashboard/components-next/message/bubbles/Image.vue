@@ -51,7 +51,7 @@ const handleImageError = () => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden p-3"
+    class="overflow-hidden p-[var(--bubble-padding-y)]"
     data-bubble-name="image"
     @click="toggleGallery(true)"
   >
