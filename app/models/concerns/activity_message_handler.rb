@@ -113,16 +113,40 @@ module ActivityMessageHandler
   end
 
   def create_assignee_change_activity(user_name)
-    user_name = activity_message_owner(user_name)
+    Rails.logger.info "[ACTIVITY_MESSAGE] 📨 create_assignee_change_activity called for conversation #{id}"
+    Rails.logger.info "[ACTIVITY_MESSAGE] Input user_name: #{user_name.inspect}"
+    Rails.logger.info "[ACTIVITY_MESSAGE] Current.user: #{Current.user&.id} (#{Current.user&.name})"
+    Rails.logger.info "[ACTIVITY_MESSAGE] Current.executed_by: #{Current.executed_by.inspect}"
 
-    return unless user_name
+    user_name = activity_message_owner(user_name)
+    Rails.logger.info "[ACTIVITY_MESSAGE] Resolved user_name: #{user_name.inspect}"
+
+    unless user_name
+      Rails.logger.info '[ACTIVITY_MESSAGE] ❌ No user_name, skipping activity message'
+      return
+    end
 
     content = generate_assignee_change_activity_content(user_name)
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    Rails.logger.info "[ACTIVITY_MESSAGE] Generated content: #{content.inspect}"
+
+    if content
+      Rails.logger.info '[ACTIVITY_MESSAGE] ✅ Enqueuing ActivityMessageJob'
+      ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content))
+    else
+      Rails.logger.info '[ACTIVITY_MESSAGE] ❌ No content generated, skipping job'
+    end
   end
 
   def activity_message_owner(user_name)
-    user_name = I18n.t('automation.system_name') if !user_name && Current.executed_by.present?
+    Rails.logger.info "[ACTIVITY_MESSAGE] 🔍 activity_message_owner - input: #{user_name.inspect}, Current.executed_by: #{Current.executed_by.inspect}"
+
+    if !user_name && Current.executed_by.present?
+      automation_name = I18n.t('automation.system_name')
+      Rails.logger.info "[ACTIVITY_MESSAGE] 🤖 Using automation system name: #{automation_name}"
+      user_name = automation_name
+    end
+
+    Rails.logger.info "[ACTIVITY_MESSAGE] 🔍 activity_message_owner - output: #{user_name.inspect}"
     user_name
   end
 end
