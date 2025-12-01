@@ -1,6 +1,5 @@
 module Captain::ChatHelper
   include Integrations::LlmInstrumentation
-  include Captain::ToolExecutionHelper
 
   def request_chat_completion
     log_chat_completion_request
@@ -22,11 +21,11 @@ module Captain::ChatHelper
   def build_chat
     chat = RubyLLM.chat(model: @model)
     chat.with_temperature(@assistant&.config&.[]('temperature').to_f || 1)
+    chat.with_params(response_format: { type: 'json_object' })
 
     chat = setup_tools(chat)
-
-    system_msg = @messages.find { |m| m[:role] == 'system' || m[:role] == :system }
-    chat.with_instructions(system_msg[:content]) if system_msg
+    setup_system_instructions(chat)
+    setup_event_handlers(chat)
 
     chat
   end
@@ -35,26 +34,30 @@ module Captain::ChatHelper
     @tools&.each do |tool|
       chat.with_tool(tool)
     end
+    chat
+  end
 
-    llm_span_name = "llm.captain.#{feature_name}"
+  def setup_system_instructions(chat)
+    system_msg = @messages.find { |m| m[:role] == 'system' || m[:role] == :system }
+    chat.with_instructions(system_msg[:content]) if system_msg
+  end
 
-    chat.on_new_message do
-      start_llm_turn_span(llm_span_name)
-    end
-
-    chat.on_end_message do |message|
-      end_llm_turn_span(message)
-    end
-    chat.on_tool_call do |tool_call|
-      persist_thinking_message(tool_call)
-      start_tool_span(tool_call)
-    end
-
-    chat.on_tool_result do |result|
-      end_tool_span(result)
-    end
+  def setup_event_handlers(chat)
+    chat.on_new_message { start_llm_turn_span(instrumentation_params(chat)) }
+    chat.on_end_message { |message| end_llm_turn_span(message) }
+    chat.on_tool_call { |tool_call| handle_tool_call(tool_call) }
+    chat.on_tool_result { |result| handle_tool_result(result) }
 
     chat
+  end
+
+  def handle_tool_call(tool_call)
+    persist_thinking_message(tool_call)
+    start_tool_span(tool_call)
+  end
+
+  def handle_tool_result(result)
+    end_tool_span(result)
   end
 
   def add_messages_to_chat(chat)
@@ -63,28 +66,18 @@ module Captain::ChatHelper
     end
   end
 
-  def instrumentation_params
+  def instrumentation_params(chat = nil)
     {
       span_name: "llm.captain.#{feature_name}",
       account_id: resolved_account_id,
       conversation_id: @conversation_id,
       feature_name: feature_name,
       model: @model,
-      messages: @messages,
+      messages: chat ? chat.messages.map { |m| { role: m.role.to_s, content: m.content.to_s } } : @messages,
       temperature: temperature,
       metadata: {
         assistant_id: @assistant&.id
       }
-    }
-  end
-
-  def chat_parameters
-    {
-      model: @model,
-      messages: @messages,
-      tools: @tool_registry&.registered_tools || [],
-      response_format: { type: 'json_object' },
-      temperature: temperature
     }
   end
 

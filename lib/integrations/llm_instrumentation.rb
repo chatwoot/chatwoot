@@ -43,6 +43,7 @@ module Integrations::LlmInstrumentation
     result = nil
     executed = false
     tracer.in_span(params[:span_name]) do |span|
+      set_request_attributes(span, params)
       set_metadata_attributes(span, params)
 
       # By default, the input and output of a trace are set from the root observation
@@ -58,24 +59,24 @@ module Integrations::LlmInstrumentation
     executed ? result : yield
   end
 
-  #TODO: remove
-  def instrument_tool_call(tool_name, arguments)
-    # There is no error handling because tools can fail and LLMs should be
-    # aware of those failures and factor them into their response.
-    return yield unless ChatwootApp.otel_enabled?
-
-    tracer.in_span(format(TOOL_SPAN_NAME, tool_name)) do |span|
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, arguments.to_json)
-      result = yield
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
-      result
-    end
-  end
-
-  def start_llm_turn_span(span_name)
+  def start_llm_turn_span(params)
     return unless ChatwootApp.otel_enabled?
 
-    span = tracer.start_span(span_name)
+    span = tracer.start_span(params[:span_name])
+
+    provider = determine_provider(params[:model])
+    span.set_attribute(ATTR_GEN_AI_PROVIDER, provider)
+    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model]) if params[:model]
+    span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]
+
+    if params[:messages]
+      params[:messages].each_with_index do |msg, idx|
+        span.set_attribute(format(ATTR_GEN_AI_PROMPT_ROLE, idx), msg[:role])
+        span.set_attribute(format(ATTR_GEN_AI_PROMPT_CONTENT, idx), msg[:content])
+      end
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
+
+    end
     @pending_llm_turn_spans ||= []
     @pending_llm_turn_spans.push(span)
   rescue StandardError => e
@@ -91,14 +92,10 @@ module Integrations::LlmInstrumentation
     if message
       span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, message.role.to_s) if message.respond_to?(:role)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message.content.to_s) if message.respond_to?(:content)
-      if message.respond_to?(:usage_input_tokens) && message.usage_input_tokens
-        span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS,
-                           message.usage_input_tokens)
-      end
-      if message.respond_to?(:usage_output_tokens) && message.usage_output_tokens
-        span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS,
-                           message.usage_output_tokens)
-      end
+      span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, message.input_tokens) if message.respond_to?(:input_tokens) && message.input_tokens
+      span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, message.output_tokens) if message.respond_to?(:output_tokens) && message.output_tokens
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, message.content.to_s) if message.respond_to?(:content)
+
     end
     span.finish
   rescue StandardError => e
