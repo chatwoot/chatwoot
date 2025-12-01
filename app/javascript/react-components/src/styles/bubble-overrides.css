@@ -36,6 +36,22 @@
   --bubble-bot-bg: var(--chatwoot-bubble-bot-bg, var(--solid-iris));
   --bubble-bot-text: var(--chatwoot-bubble-bot-text, var(--slate-12));
 
+  /* Meta text colors (per variant) */
+  --bubble-agent-meta: var(--chatwoot-bubble-agent-meta, var(--slate-11));
+  --bubble-user-meta: var(--chatwoot-bubble-user-meta, var(--slate-11));
+  --bubble-private-meta: var(--chatwoot-bubble-private-meta, var(--amber-12));
+  --bubble-bot-meta: var(--chatwoot-bubble-bot-meta, var(--slate-11));
+
+  /* Message status icon colors (per variant) */
+  --bubble-agent-status: var(--chatwoot-bubble-agent-status, var(--slate-10));
+  --bubble-agent-status-read: var(--chatwoot-bubble-agent-status-read, 126 182 255);
+  --bubble-user-status: var(--chatwoot-bubble-user-status, var(--slate-10));
+  --bubble-user-status-read: var(--chatwoot-bubble-user-status-read, 126 182 255);
+  --bubble-private-status: var(--chatwoot-bubble-private-status, var(--amber-11));
+  --bubble-private-status-read: var(--chatwoot-bubble-private-status-read, 126 182 255);
+  --bubble-bot-status: var(--chatwoot-bubble-bot-status, var(--slate-10));
+  --bubble-bot-status-read: var(--chatwoot-bubble-bot-status-read, 126 182 255);
+
   /* Spacing - 1 = default */
   --bubble-spacing-ratio: var(--chatwoot-bubble-spacing-ratio, 1);
 }

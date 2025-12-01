@@ -79,6 +79,19 @@ const shouldShowMeta = computed(
     variant.value !== MESSAGE_VARIANTS.ACTIVITY
 );
 
+const metaColorClass = computed(() => {
+  const metaClassMap = {
+    [MESSAGE_VARIANTS.AGENT]: 'text-[rgb(var(--bubble-agent-meta))]',
+    [MESSAGE_VARIANTS.USER]: 'text-[rgb(var(--bubble-user-meta))]',
+    [MESSAGE_VARIANTS.PRIVATE]:
+      'text-[rgb(var(--bubble-private-meta))] opacity-50',
+    [MESSAGE_VARIANTS.BOT]: 'text-[rgb(var(--bubble-bot-meta))]',
+    [MESSAGE_VARIANTS.TEMPLATE]: 'text-[rgb(var(--bubble-bot-meta))]',
+    [MESSAGE_VARIANTS.EMAIL]: 'text-[rgb(var(--bubble-agent-meta))]',
+  };
+  return metaClassMap[variant.value] || 'text-[rgb(var(--bubble-agent-meta))]';
+});
+
 const replyToPreview = computed(() => {
   if (!inReplyTo) return '';
 
@@ -121,9 +134,7 @@ const replyToPreview = computed(() => {
       :class="[
         flexOrientationClass,
         variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
-        variant === MESSAGE_VARIANTS.PRIVATE
-          ? 'text-n-amber-12/50'
-          : 'text-n-slate-11',
+        metaColorClass,
       ]"
       class="mt-2"
     />

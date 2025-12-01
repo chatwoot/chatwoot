@@ -49,7 +49,7 @@ const tailwindConfig = {
       typography: {
         bubble: {
           css: {
-            color: 'rgb(var(--slate-12))',
+            color: 'inherit', // Inherit from parent bubble for theme customization
             lineHeight: '1.6',
             fontSize: '14px',
             '*': {
@@ -60,17 +60,17 @@ const tailwindConfig = {
             overflowWrap: 'anywhere',
 
             strong: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
             },
 
             b: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
             },
 
             h1: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
               fontSize: '1.25rem',
               '&:first-child': {
@@ -78,7 +78,7 @@ const tailwindConfig = {
               },
             },
             h2: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
               fontSize: '1rem',
               '&:first-child': {
@@ -86,7 +86,7 @@ const tailwindConfig = {
               },
             },
             h3: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
               fontSize: '1rem',
               '&:first-child': {
@@ -98,7 +98,7 @@ const tailwindConfig = {
               marginBottom: '1.5em',
             },
             a: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               textDecoration: 'underline',
             },
             ul: {
@@ -161,7 +161,7 @@ const tailwindConfig = {
             },
             th: {
               padding: '0.75em',
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               border: `none`,
               textAlign: 'start',
               fontWeight: '600',

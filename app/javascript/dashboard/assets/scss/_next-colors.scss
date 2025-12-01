@@ -125,7 +125,24 @@
     --bubble-radius-sm: calc(0.125rem * var(--bubble-spacing-ratio));
     --bubble-radius-md: calc(0.375rem * var(--bubble-spacing-ratio));
     --bubble-radius-lg: calc(0.5rem * var(--bubble-spacing-ratio));
-    --bubble-padding: calc(0.75rem * var(--bubble-spacing-ratio));
+    --bubble-padding-x: calc(1rem * var(--bubble-spacing-ratio));
+    --bubble-padding-y: calc(0.75rem * var(--bubble-spacing-ratio));
+
+    // Bubble meta text colors (per variant)
+    --bubble-agent-meta: var(--slate-11);
+    --bubble-user-meta: var(--slate-11);
+    --bubble-private-meta: var(--amber-12);
+    --bubble-bot-meta: var(--slate-11);
+
+    // Message status colors (per variant)
+    --bubble-agent-status: var(--slate-10);
+    --bubble-agent-status-read: 126 182 255;
+    --bubble-user-status: var(--slate-10);
+    --bubble-user-status-read: 126 182 255;
+    --bubble-private-status: var(--amber-11);
+    --bubble-private-status-read: 126 182 255;
+    --bubble-bot-status: var(--slate-10);
+    --bubble-bot-status-read: 126 182 255;
 
     --alpha-1: 67, 67, 67, 0.06;
     --alpha-2: 201, 202, 207, 0.15;
@@ -259,6 +276,22 @@
     --bubble-radius-md: calc(0.375rem * var(--bubble-spacing-ratio));
     --bubble-radius-lg: calc(0.5rem * var(--bubble-spacing-ratio));
     --bubble-padding: calc(0.75rem * var(--bubble-spacing-ratio));
+
+    // Bubble meta text colors (per variant)
+    --bubble-agent-meta: var(--slate-11);
+    --bubble-user-meta: var(--slate-11);
+    --bubble-private-meta: var(--amber-12);
+    --bubble-bot-meta: var(--slate-11);
+
+    // Message status colors (per variant)
+    --bubble-agent-status: var(--slate-10);
+    --bubble-agent-status-read: 126 182 255;
+    --bubble-user-status: var(--slate-10);
+    --bubble-user-status-read: 126 182 255;
+    --bubble-private-status: var(--amber-11);
+    --bubble-private-status-read: 126 182 255;
+    --bubble-bot-status: var(--slate-10);
+    --bubble-bot-status-read: 126 182 255;
 
     --alpha-1: 36, 36, 36, 0.8;
     --alpha-2: 139, 147, 182, 0.15;

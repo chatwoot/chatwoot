@@ -421,6 +421,28 @@ The Web Component supports runtime theming via CSS custom properties. These vari
 | `--chatwoot-bubble-bot-bg` | Bot/template message background | `--solid-iris` |
 | `--chatwoot-bubble-bot-text` | Bot message text | `--slate-12` |
 
+#### Meta (timestamp) - Per Variant
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `--chatwoot-bubble-agent-meta` | Meta text for agent messages | `--slate-11` |
+| `--chatwoot-bubble-user-meta` | Meta text for user messages | `--slate-11` |
+| `--chatwoot-bubble-private-meta` | Meta text for private notes (50% opacity applied) | `--amber-12` |
+| `--chatwoot-bubble-bot-meta` | Meta text for bot messages | `--slate-11` |
+
+#### Message Status Icons - Per Variant
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `--chatwoot-bubble-agent-status` | Agent: sent/delivered/progress color | `--slate-10` |
+| `--chatwoot-bubble-agent-status-read` | Agent: read receipt color | `126 182 255` |
+| `--chatwoot-bubble-user-status` | User: sent/delivered/progress color | `--slate-10` |
+| `--chatwoot-bubble-user-status-read` | User: read receipt color | `126 182 255` |
+| `--chatwoot-bubble-private-status` | Private: sent/delivered/progress color | `--amber-11` |
+| `--chatwoot-bubble-private-status-read` | Private: read receipt color | `126 182 255` |
+| `--chatwoot-bubble-bot-status` | Bot: sent/delivered/progress color | `--slate-10` |
+| `--chatwoot-bubble-bot-status-read` | Bot: read receipt color | `126 182 255` |
+
 #### Spacing
 
 | Variable | Description | Default |
