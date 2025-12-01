@@ -48,17 +48,22 @@ class Whatsapp::CsatTemplateService
 
     current_name = template['name']
 
+    # First time creating a template - use the base name as-is
     return base_name if current_name.blank?
 
     # Always use customer_satisfaction_survey as the true base, regardless of what's passed in
+    # This ensures consistent naming even if different base names are provided
     true_base_name = 'customer_satisfaction_survey'
 
+    # Check if current template follows versioned naming pattern (e.g., customer_satisfaction_survey_1)
     if current_name.match?(/^customer_satisfaction_survey_(\d+)$/)
-      # Extract current version and increment
+      # Extract current version number and increment for next template
+      # This handles cases like customer_satisfaction_survey_1 -> customer_satisfaction_survey_2
       current_version = current_name.match(/^customer_satisfaction_survey_(\d+)$/)[1].to_i
       "#{true_base_name}_#{current_version + 1}"
     else
-      # Second time or fallback - use version 1
+      # Template exists but doesn't follow versioned pattern (likely first template named 'customer_satisfaction_survey')
+      # Start versioning from 1 for the next template
       "#{true_base_name}_1"
     end
   end
