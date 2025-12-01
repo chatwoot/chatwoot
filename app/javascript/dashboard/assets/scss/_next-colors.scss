@@ -109,6 +109,16 @@
     --solid-blue: 218 236 255;
     --solid-iris: 230 231 255;
 
+    // Bubble-specific colors (override these for custom theming)
+    --bubble-agent-bg: var(--solid-blue);
+    --bubble-agent-text: var(--slate-12);
+    --bubble-user-bg: var(--slate-4);
+    --bubble-user-text: var(--slate-12);
+    --bubble-private-bg: var(--solid-amber);
+    --bubble-private-text: var(--amber-12);
+    --bubble-bot-bg: var(--solid-iris);
+    --bubble-bot-text: var(--slate-12);
+
     --alpha-1: 67, 67, 67, 0.06;
     --alpha-2: 201, 202, 207, 0.15;
     --alpha-3: 255, 255, 255, 0.96;
@@ -223,6 +233,16 @@
     --solid-blue: 16 49 91;
     --solid-iris: 38 42 101;
     --text-blue: 126 182 255;
+
+    // Bubble-specific colors (override these for custom theming)
+    --bubble-agent-bg: var(--solid-blue);
+    --bubble-agent-text: var(--slate-12);
+    --bubble-user-bg: var(--slate-4);
+    --bubble-user-text: var(--slate-12);
+    --bubble-private-bg: var(--solid-amber);
+    --bubble-private-text: var(--amber-12);
+    --bubble-bot-bg: var(--solid-iris);
+    --bubble-bot-text: var(--slate-12);
 
     --alpha-1: 36, 36, 36, 0.8;
     --alpha-2: 139, 147, 182, 0.15;
