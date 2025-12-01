@@ -1,450 +1,462 @@
-<script>
-import { ref, provide } from 'vue';
-// composable
+<script setup>
+import {
+  ref,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  provide,
+  getCurrentInstance,
+} from 'vue';
+
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import {
+  useInbox,
+  INBOX_FEATURES,
+  INBOX_FEATURE_MAP,
+} from 'dashboard/composables/useInbox';
+import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
-// components
 import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
-// stores and apis
-import { mapGetters } from 'vuex';
-
-// mixins
-import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-
-// utils
 import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
   filterDuplicateSourceMessages,
-  getReadMessages,
   getUnreadMessages,
 } from 'dashboard/helper/conversationHelper';
 
-// constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
-export default {
-  components: {
-    MessageList,
-    ReplyBox,
-    Banner,
-    ConversationLabelSuggestion,
-    Spinner,
-  },
-  mixins: [inboxMixin],
-  setup() {
-    const isPopOutReplyBox = ref(false);
-    const conversationPanelRef = ref(null);
-    const { isEnterprise } = useConfig();
+const store = useStore();
+const route = useRoute();
+const { t } = useI18n();
+const instance = getCurrentInstance();
+const { isEnterprise } = useConfig();
 
-    const keyboardEvents = {
-      Escape: {
-        action: () => {
-          isPopOutReplyBox.value = false;
-        },
-      },
-    };
+const {
+  isAIIntegrationEnabled,
+  isLabelSuggestionFeatureEnabled,
+  fetchIntegrationsIfRequired,
+  fetchLabelSuggestions,
+} = useAI();
 
-    useKeyboardEvents(keyboardEvents);
+const isPopOutReplyBox = ref(false);
+const conversationPanelRef = ref(null);
+const isLoadingPrevious = ref(true);
+const heightBeforeLoad = ref(null);
+const scrollTopBeforeLoad = ref(null);
+const conversationPanel = ref(null);
+const hasUserScrolled = ref(false);
+const isProgrammaticScroll = ref(false);
+const messageSentSinceOpened = ref(false);
+const labelSuggestions = ref([]);
 
-    const {
-      isAIIntegrationEnabled,
-      isLabelSuggestionFeatureEnabled,
-      fetchIntegrationsIfRequired,
-      fetchLabelSuggestions,
-    } = useAI();
-
-    provide('contextMenuElementTarget', conversationPanelRef);
-
-    return {
-      isEnterprise,
-      isPopOutReplyBox,
-      isAIIntegrationEnabled,
-      isLabelSuggestionFeatureEnabled,
-      fetchIntegrationsIfRequired,
-      fetchLabelSuggestions,
-      conversationPanelRef,
-    };
-  },
-  data() {
-    return {
-      isLoadingPrevious: true,
-      heightBeforeLoad: null,
-      conversationPanel: null,
-      hasUserScrolled: false,
-      isProgrammaticScroll: false,
-      messageSentSinceOpened: false,
-      labelSuggestions: [],
-    };
-  },
-
-  computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-      currentUserId: 'getCurrentUserID',
-      listLoadingStatus: 'getAllMessagesLoaded',
-      currentAccountId: 'getCurrentAccountId',
-    }),
-    isOpen() {
-      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
-    },
-    shouldShowLabelSuggestions() {
-      return (
-        this.isOpen &&
-        this.isEnterprise &&
-        this.isAIIntegrationEnabled &&
-        !this.messageSentSinceOpened
-      );
-    },
-    inboxId() {
-      return this.currentChat.inbox_id;
-    },
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.inboxId);
-    },
-    typingUsersList() {
-      const userList = this.$store.getters[
-        'conversationTypingStatus/getUserList'
-      ](this.currentChat.id);
-      return userList;
-    },
-    isAnyoneTyping() {
-      const userList = this.typingUsersList;
-      return userList.length !== 0;
-    },
-    typingUserNames() {
-      const userList = this.typingUsersList;
-      if (this.isAnyoneTyping) {
-        const [i18nKey, params] = getTypingUsersText(userList);
-        return this.$t(i18nKey, params);
-      }
-
-      return '';
-    },
-    getMessages() {
-      const messages = this.currentChat.messages || [];
-      if (this.isAWhatsAppChannel) {
-        return filterDuplicateSourceMessages(messages);
-      }
-      return messages;
-    },
-    readMessages() {
-      return getReadMessages(
-        this.getMessages,
-        this.currentChat.agent_last_seen_at
-      );
-    },
-    unReadMessages() {
-      return getUnreadMessages(
-        this.getMessages,
-        this.currentChat.agent_last_seen_at
-      );
-    },
-    shouldShowSpinner() {
-      return (
-        (this.currentChat && this.currentChat.dataFetched === undefined) ||
-        (!this.listLoadingStatus && this.isLoadingPrevious)
-      );
-    },
-    // Check there is a instagram inbox exists with the same instagram_id
-    hasDuplicateInstagramInbox() {
-      const instagramId = this.inbox.instagram_id;
-      const { additional_attributes: additionalAttributes = {} } = this.inbox;
-      const instagramInbox =
-        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
-          instagramId
-        );
-
-      return (
-        this.inbox.channel_type === INBOX_TYPES.FB &&
-        additionalAttributes.type === 'instagram_direct_message' &&
-        instagramInbox
-      );
-    },
-
-    replyWindowBannerMessage() {
-      if (this.isAWhatsAppChannel) {
-        return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
-      }
-      if (this.isAPIInbox) {
-        const { additional_attributes: additionalAttributes = {} } = this.inbox;
-        if (additionalAttributes) {
-          const {
-            agent_reply_time_window_message: agentReplyTimeWindowMessage,
-            agent_reply_time_window: agentReplyTimeWindow,
-          } = additionalAttributes;
-          return (
-            agentReplyTimeWindowMessage ||
-            this.$t('CONVERSATION.API_HOURS_WINDOW', {
-              hours: agentReplyTimeWindow,
-            })
-          );
-        }
-        return '';
-      }
-      return this.$t('CONVERSATION.CANNOT_REPLY');
-    },
-    replyWindowLink() {
-      if (this.isAFacebookInbox || this.isAnInstagramChannel) {
-        return REPLY_POLICY.FACEBOOK;
-      }
-      if (this.isAWhatsAppCloudChannel) {
-        return REPLY_POLICY.WHATSAPP_CLOUD;
-      }
-      if (!this.isAPIInbox) {
-        return REPLY_POLICY.TWILIO_WHATSAPP;
-      }
-      return '';
-    },
-    replyWindowLinkText() {
-      if (
-        this.isAWhatsAppChannel ||
-        this.isAFacebookInbox ||
-        this.isAnInstagramChannel
-      ) {
-        return this.$t('CONVERSATION.24_HOURS_WINDOW');
-      }
-      if (!this.isAPIInbox) {
-        return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
-      }
-      return '';
-    },
-    unreadMessageCount() {
-      return this.currentChat.unread_count || 0;
-    },
-    unreadMessageLabel() {
-      const count =
-        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
-      const label =
-        this.unreadMessageCount > 1
-          ? 'CONVERSATION.UNREAD_MESSAGES'
-          : 'CONVERSATION.UNREAD_MESSAGE';
-      return `${count} ${this.$t(label)}`;
-    },
-    inboxSupportsReplyTo() {
-      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
-      const outgoing =
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
-        !this.is360DialogWhatsAppChannel;
-
-      return { incoming, outgoing };
-    },
-  },
-
-  watch: {
-    currentChat(newChat, oldChat) {
-      if (newChat.id === oldChat.id) {
-        return;
-      }
-      this.fetchAllAttachmentsFromCurrentChat();
-      this.fetchSuggestions();
-      this.messageSentSinceOpened = false;
-    },
-  },
-
-  created() {
-    emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-    // when a new message comes in, we refetch the label suggestions
-    emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
-    // when a message is sent we set the flag to true this hides the label suggestions,
-    // until the chat is changed and the flag is reset in the watch for currentChat
-    emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
-      this.messageSentSinceOpened = true;
-    });
-  },
-
-  mounted() {
-    this.addScrollListener();
-    this.fetchAllAttachmentsFromCurrentChat();
-    this.fetchSuggestions();
-  },
-
-  unmounted() {
-    this.removeBusListeners();
-    this.removeScrollListener();
-  },
-
-  methods: {
-    async fetchSuggestions() {
-      // start empty, this ensures that the label suggestions are not shown
-      this.labelSuggestions = [];
-
-      if (this.isLabelSuggestionDismissed()) {
-        return;
-      }
-
-      if (!this.isEnterprise) {
-        return;
-      }
-
-      // method available in mixin, need to ensure that integrations are present
-      await this.fetchIntegrationsIfRequired();
-
-      if (!this.isLabelSuggestionFeatureEnabled) {
-        return;
-      }
-
-      this.labelSuggestions = await this.fetchLabelSuggestions({
-        conversationId: this.currentChat.id,
-      });
-
-      // once the labels are fetched, we need to scroll to bottom
-      // but we need to wait for the DOM to be updated
-      // so we use the nextTick method
-      this.$nextTick(() => {
-        // this param is added to route, telling the UI to navigate to the message
-        // it is triggered by the SCROLL_TO_MESSAGE method
-        // see setActiveChat on ConversationView.vue for more info
-        const { messageId } = this.$route.query;
-
-        // only trigger the scroll to bottom if the user has not scrolled
-        // and there's no active messageId that is selected in view
-        if (!messageId && !this.hasUserScrolled) {
-          this.scrollToBottom();
-        }
-      });
-    },
-    isLabelSuggestionDismissed() {
-      return LocalStorage.getFlag(
-        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
-        this.currentAccountId,
-        this.currentChat.id
-      );
-    },
-    fetchAllAttachmentsFromCurrentChat() {
-      this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
-    },
-    removeBusListeners() {
-      emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-    },
-    onScrollToMessage({ messageId = '' } = {}) {
-      this.$nextTick(() => {
-        const messageElement = document.getElementById('message' + messageId);
-        if (messageElement) {
-          this.isProgrammaticScroll = true;
-          messageElement.scrollIntoView({ behavior: 'smooth' });
-          this.fetchPreviousMessages();
-        } else {
-          this.scrollToBottom();
-        }
-      });
-      this.makeMessagesRead();
-    },
-    addScrollListener() {
-      this.conversationPanel = this.$el.querySelector('.conversation-panel');
-      this.setScrollParams();
-      this.conversationPanel.addEventListener('scroll', this.handleScroll);
-      this.$nextTick(() => this.scrollToBottom());
-      this.isLoadingPrevious = false;
-    },
-    removeScrollListener() {
-      this.conversationPanel.removeEventListener('scroll', this.handleScroll);
-    },
-    scrollToBottom() {
-      this.isProgrammaticScroll = true;
-      let relevantMessages = [];
-
-      // label suggestions are not part of the messages list
-      // so we need to handle them separately
-      let labelSuggestions =
-        this.conversationPanel.querySelector('.label-suggestion');
-
-      // if there are unread messages, scroll to the first unread message
-      if (this.unreadMessageCount > 0) {
-        // capturing only the unread messages
-        relevantMessages =
-          this.conversationPanel.querySelectorAll('.message--unread');
-      } else if (labelSuggestions) {
-        // when scrolling to the bottom, the label suggestions is below the last message
-        // so we scroll there if there are no unread messages
-        // Unread messages always take the highest priority
-        relevantMessages = [labelSuggestions];
-      } else {
-        // if there are no unread messages or label suggestion, scroll to the last message
-        // capturing last message from the messages list
-        relevantMessages = Array.from(
-          this.conversationPanel.querySelectorAll('.message--read')
-        ).slice(-1);
-      }
-
-      this.conversationPanel.scrollTop = calculateScrollTop(
-        this.conversationPanel.scrollHeight,
-        this.$el.scrollHeight,
-        relevantMessages
-      );
-    },
-    setScrollParams() {
-      this.heightBeforeLoad = this.conversationPanel.scrollHeight;
-      this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
-    },
-
-    async fetchPreviousMessages(scrollTop = 0) {
-      this.setScrollParams();
-      const shouldLoadMoreMessages =
-        this.currentChat.dataFetched === true &&
-        !this.listLoadingStatus &&
-        !this.isLoadingPrevious;
-
-      if (
-        scrollTop < 100 &&
-        !this.isLoadingPrevious &&
-        shouldLoadMoreMessages
-      ) {
-        this.isLoadingPrevious = true;
-        try {
-          await this.$store.dispatch('fetchPreviousMessages', {
-            conversationId: this.currentChat.id,
-            before: this.currentChat.messages[0].id,
-          });
-          const heightDifference =
-            this.conversationPanel.scrollHeight - this.heightBeforeLoad;
-          this.conversationPanel.scrollTop =
-            this.scrollTopBeforeLoad + heightDifference;
-          this.setScrollParams();
-        } catch (error) {
-          // Ignore Error
-        } finally {
-          this.isLoadingPrevious = false;
-        }
-      }
-    },
-
-    handleScroll(e) {
-      if (this.isProgrammaticScroll) {
-        // Reset the flag
-        this.isProgrammaticScroll = false;
-        this.hasUserScrolled = false;
-      } else {
-        this.hasUserScrolled = true;
-      }
-      emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
-      this.fetchPreviousMessages(e.target.scrollTop);
-    },
-
-    makeMessagesRead() {
-      this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
-    },
-    async handleMessageRetry(message) {
-      if (!message) return;
-      const payload = useSnakeCase(message);
-      await this.$store.dispatch('sendMessageWithData', payload);
+const keyboardEvents = {
+  Escape: {
+    action: () => {
+      isPopOutReplyBox.value = false;
     },
   },
 };
+
+useKeyboardEvents(keyboardEvents);
+
+provide('contextMenuElementTarget', conversationPanelRef);
+
+const currentChat = useMapGetter('getSelectedChat');
+const currentUserId = useMapGetter('getCurrentUserID');
+const listLoadingStatus = useMapGetter('getAllMessagesLoaded');
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const instagramInboxByIdGetter = useMapGetter(
+  'inboxes/getInstagramInboxByInstagramId'
+);
+const inboxGetter = useMapGetter('inboxes/getInbox');
+const typingUsersListGetter = useMapGetter(
+  'conversationTypingStatus/getUserList'
+);
+
+const isOpen = computed(() => {
+  return currentChat.value?.status === wootConstants.STATUS_TYPE.OPEN;
+});
+
+const shouldShowLabelSuggestions = computed(() => {
+  return (
+    isOpen.value &&
+    isEnterprise &&
+    isAIIntegrationEnabled.value &&
+    !messageSentSinceOpened.value
+  );
+});
+
+const inboxId = computed(() => {
+  return currentChat.value?.inbox_id;
+});
+
+const inbox = computed(() => {
+  return inboxGetter.value(inboxId.value);
+});
+
+const {
+  isAPIInbox,
+  isAFacebookInbox,
+  isAWhatsAppChannel,
+  isAWhatsAppCloudChannel,
+  isAnInstagramChannel,
+  is360DialogWhatsAppChannel,
+  isAnEmailChannel,
+} = useInbox();
+
+const inboxHasFeature = feature => {
+  const channelType = inbox.value?.channel_type;
+  return INBOX_FEATURE_MAP[feature]?.includes(channelType) ?? false;
+};
+
+const typingUsersList = computed(() => {
+  const userList = typingUsersListGetter.value(currentChat.value.id);
+  return userList;
+});
+
+const isAnyoneTyping = computed(() => {
+  const userList = typingUsersList.value;
+  return userList.length !== 0;
+});
+
+const typingUserNames = computed(() => {
+  const userList = typingUsersList.value;
+  if (isAnyoneTyping.value) {
+    const [i18nKey, params] = getTypingUsersText(userList);
+    return t(i18nKey, params);
+  }
+
+  return '';
+});
+
+const getMessages = computed(() => {
+  const messages = currentChat.value.messages || [];
+  if (isAWhatsAppChannel.value) {
+    return filterDuplicateSourceMessages(messages);
+  }
+  return messages;
+});
+
+const unReadMessages = computed(() => {
+  return getUnreadMessages(
+    getMessages.value,
+    currentChat.value.agent_last_seen_at
+  );
+});
+
+const shouldShowSpinner = computed(() => {
+  return (
+    (currentChat.value && currentChat.value.dataFetched === undefined) ||
+    (!listLoadingStatus.value && isLoadingPrevious.value)
+  );
+});
+
+// Check there is a instagram inbox exists with the same instagram_id
+const hasDuplicateInstagramInbox = computed(() => {
+  const instagramId = inbox.value.instagram_id;
+  const { additional_attributes: additionalAttributes = {} } = inbox.value;
+  const instagramInbox = instagramInboxByIdGetter.value(instagramId);
+
+  return (
+    inbox.value.channel_type === INBOX_TYPES.FB &&
+    additionalAttributes.type === 'instagram_direct_message' &&
+    instagramInbox
+  );
+});
+
+const replyWindowBannerMessage = computed(() => {
+  if (isAWhatsAppChannel.value) {
+    return t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
+  }
+  if (isAPIInbox.value) {
+    const { additional_attributes: additionalAttributes = {} } = inbox.value;
+    if (additionalAttributes) {
+      const {
+        agent_reply_time_window_message: agentReplyTimeWindowMessage,
+        agent_reply_time_window: agentReplyTimeWindow,
+      } = additionalAttributes;
+      return (
+        agentReplyTimeWindowMessage ||
+        t('CONVERSATION.API_HOURS_WINDOW', {
+          hours: agentReplyTimeWindow,
+        })
+      );
+    }
+    return '';
+  }
+  return t('CONVERSATION.CANNOT_REPLY');
+});
+
+const replyWindowLink = computed(() => {
+  if (isAFacebookInbox.value || isAnInstagramChannel.value) {
+    return REPLY_POLICY.FACEBOOK;
+  }
+  if (isAWhatsAppCloudChannel.value) {
+    return REPLY_POLICY.WHATSAPP_CLOUD;
+  }
+  if (!isAPIInbox.value) {
+    return REPLY_POLICY.TWILIO_WHATSAPP;
+  }
+  return '';
+});
+
+const replyWindowLinkText = computed(() => {
+  if (
+    isAWhatsAppChannel.value ||
+    isAFacebookInbox.value ||
+    isAnInstagramChannel.value
+  ) {
+    return t('CONVERSATION.24_HOURS_WINDOW');
+  }
+  if (!isAPIInbox.value) {
+    return t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
+  }
+  return '';
+});
+
+const unreadMessageCount = computed(() => {
+  return currentChat.value.unread_count || 0;
+});
+
+const unreadMessageLabel = computed(() => {
+  const count = unreadMessageCount.value > 9 ? '9+' : unreadMessageCount.value;
+  const label =
+    unreadMessageCount.value > 1
+      ? 'CONVERSATION.UNREAD_MESSAGES'
+      : 'CONVERSATION.UNREAD_MESSAGE';
+  return `${count} ${t(label)}`;
+});
+
+const inboxSupportsReplyTo = computed(() => {
+  const incoming = inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+  const outgoing =
+    inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
+    !is360DialogWhatsAppChannel.value;
+
+  return { incoming, outgoing };
+});
+
+const isLabelSuggestionDismissed = () => {
+  return LocalStorage.getFlag(
+    LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
+    currentAccountId.value,
+    currentChat.value.id
+  );
+};
+
+const fetchAllAttachmentsFromCurrentChat = () => {
+  store.dispatch('fetchAllAttachments', currentChat.value.id);
+};
+
+const makeMessagesRead = () => {
+  store.dispatch('markMessagesRead', { id: currentChat.value.id });
+};
+
+const setScrollParams = () => {
+  heightBeforeLoad.value = conversationPanel.value.scrollHeight;
+  scrollTopBeforeLoad.value = conversationPanel.value.scrollTop;
+};
+
+const scrollToBottom = () => {
+  isProgrammaticScroll.value = true;
+  let relevantMessages = [];
+
+  // label suggestions are not part of the messages list
+  // so we need to handle them separately
+  let labelSuggestionsEl =
+    conversationPanel.value.querySelector('.label-suggestion');
+
+  // if there are unread messages, scroll to the first unread message
+  if (unreadMessageCount.value > 0) {
+    // capturing only the unread messages
+    relevantMessages =
+      conversationPanel.value.querySelectorAll('.message--unread');
+  } else if (labelSuggestionsEl) {
+    // when scrolling to the bottom, the label suggestions is below the last message
+    // so we scroll there if there are no unread messages
+    // Unread messages always take the highest priority
+    relevantMessages = [labelSuggestionsEl];
+  } else {
+    // if there are no unread messages or label suggestion, scroll to the last message
+    // capturing last message from the messages list
+    relevantMessages = Array.from(
+      conversationPanel.value.querySelectorAll('.message--read')
+    ).slice(-1);
+  }
+
+  conversationPanel.value.scrollTop = calculateScrollTop(
+    conversationPanel.value.scrollHeight,
+    instance.proxy.$el.scrollHeight,
+    relevantMessages
+  );
+};
+
+const fetchPreviousMessages = async (scrollTop = 0) => {
+  setScrollParams();
+  const shouldLoadMoreMessages =
+    currentChat.value.dataFetched === true &&
+    !listLoadingStatus.value &&
+    !isLoadingPrevious.value;
+
+  if (scrollTop < 100 && !isLoadingPrevious.value && shouldLoadMoreMessages) {
+    isLoadingPrevious.value = true;
+    try {
+      await store.dispatch('fetchPreviousMessages', {
+        conversationId: currentChat.value.id,
+        before: currentChat.value.messages[0].id,
+      });
+      const heightDifference =
+        conversationPanel.value.scrollHeight - heightBeforeLoad.value;
+      conversationPanel.value.scrollTop =
+        scrollTopBeforeLoad.value + heightDifference;
+      setScrollParams();
+    } catch (error) {
+      // Ignore Error
+    } finally {
+      isLoadingPrevious.value = false;
+    }
+  }
+};
+
+const onScrollToMessage = ({ messageId = '' } = {}) => {
+  nextTick(() => {
+    const messageElement = document.getElementById('message' + messageId);
+    if (messageElement) {
+      isProgrammaticScroll.value = true;
+      messageElement.scrollIntoView({ behavior: 'smooth' });
+      fetchPreviousMessages();
+    } else {
+      scrollToBottom();
+    }
+  });
+  makeMessagesRead();
+};
+
+const handleScroll = e => {
+  if (isProgrammaticScroll.value) {
+    // Reset the flag
+    isProgrammaticScroll.value = false;
+    hasUserScrolled.value = false;
+  } else {
+    hasUserScrolled.value = true;
+  }
+  emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+  fetchPreviousMessages(e.target.scrollTop);
+};
+
+const addScrollListener = () => {
+  conversationPanel.value = instance.proxy.$el.querySelector(
+    '.conversation-panel'
+  );
+  setScrollParams();
+  conversationPanel.value.addEventListener('scroll', handleScroll);
+  nextTick(() => scrollToBottom());
+  isLoadingPrevious.value = false;
+};
+
+const removeScrollListener = () => {
+  conversationPanel.value.removeEventListener('scroll', handleScroll);
+};
+
+const removeBusListeners = () => {
+  emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, onScrollToMessage);
+};
+
+const fetchSuggestions = async () => {
+  // start empty, this ensures that the label suggestions are not shown
+  labelSuggestions.value = [];
+
+  if (isLabelSuggestionDismissed()) {
+    return;
+  }
+
+  if (!isEnterprise) {
+    return;
+  }
+
+  // Early exit if conversation already has labels - no need to suggest more
+  const existingLabels = currentChat.value?.labels || [];
+  if (existingLabels.length > 0) return;
+
+  // method available in mixin, need to ensure that integrations are present
+  await fetchIntegrationsIfRequired();
+
+  if (!isLabelSuggestionFeatureEnabled.value) {
+    return;
+  }
+
+  labelSuggestions.value = await fetchLabelSuggestions({
+    conversationId: currentChat.value.id,
+  });
+
+  // once the labels are fetched, we need to scroll to bottom
+  // but we need to wait for the DOM to be updated
+  // so we use the nextTick method
+  nextTick(() => {
+    // this param is added to route, telling the UI to navigate to the message
+    // it is triggered by the SCROLL_TO_MESSAGE method
+    // see setActiveChat on ConversationView.vue for more info
+    const { messageId } = route.query;
+
+    // only trigger the scroll to bottom if the user has not scrolled
+    // and there's no active messageId that is selected in view
+    if (!messageId && !hasUserScrolled.value) {
+      scrollToBottom();
+    }
+  });
+};
+
+const handleMessageRetry = async message => {
+  if (!message) return;
+  const payload = useSnakeCase(message);
+  await store.dispatch('sendMessageWithData', payload);
+};
+
+watch(currentChat, (newChat, oldChat) => {
+  if (newChat.id === oldChat.id) {
+    return;
+  }
+  fetchAllAttachmentsFromCurrentChat();
+  fetchSuggestions();
+  messageSentSinceOpened.value = false;
+});
+
+onMounted(() => {
+  emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, onScrollToMessage);
+  // when a message is sent we set the flag to true this hides the label suggestions,
+  // until the chat is changed and the flag is reset in the watch for currentChat
+  emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
+    messageSentSinceOpened.value = true;
+  });
+
+  addScrollListener();
+  fetchAllAttachmentsFromCurrentChat();
+  fetchSuggestions();
+});
+
+onUnmounted(() => {
+  removeBusListeners();
+  removeScrollListener();
+});
 </script>
 
 <template>
@@ -461,7 +473,7 @@ export default {
       v-else-if="hasDuplicateInstagramInbox"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
+      :banner-message="t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
     <MessageList
       ref="conversationPanelRef"
