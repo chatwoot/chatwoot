@@ -1,6 +1,6 @@
 class Enterprise::Api::V2::BillingController < Api::BaseController
   before_action :fetch_account
-  before_action :check_authorization
+  before_action :check_billing_authorization
   before_action :validate_topup_amount, only: [:topup]
 
   rescue_from StandardError, with: :render_error
@@ -46,7 +46,10 @@ class Enterprise::Api::V2::BillingController < Api::BaseController
 
   def cancel_subscription
     service = Enterprise::Billing::V2::CancelSubscriptionService.new(account: @account)
-    result = service.cancel_subscription
+    result = service.cancel_subscription(
+      reason: params[:reason],
+      feedback: params[:feedback]
+    )
 
     if result[:success]
       # Include account ID and updated attributes for frontend store update
@@ -110,5 +113,9 @@ class Enterprise::Api::V2::BillingController < Api::BaseController
 
   def render_not_implemented(exception)
     render json: { error: exception.message }, status: :not_implemented
+  end
+
+  def check_billing_authorization
+    authorize(@account, "#{action_name}?".to_sym)
   end
 end
