@@ -72,6 +72,39 @@ module Integrations::LlmInstrumentation
     end
   end
 
+  def start_llm_turn_span(span_name)
+    return unless ChatwootApp.otel_enabled?
+
+    span = tracer.start_span(span_name)
+    @pending_llm_turn_spans ||= []
+    @pending_llm_turn_spans.push(span)
+  rescue StandardError => e
+    Rails.logger.warn "Failed to start LLM turn span: #{e.message}"
+  end
+
+  def end_llm_turn_span(message)
+    return unless ChatwootApp.otel_enabled?
+
+    span = @pending_llm_turn_spans&.pop
+    return unless span
+
+    if message
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, message.role.to_s) if message.respond_to?(:role)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message.content.to_s) if message.respond_to?(:content)
+      if message.respond_to?(:usage_input_tokens) && message.usage_input_tokens
+        span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS,
+                           message.usage_input_tokens)
+      end
+      if message.respond_to?(:usage_output_tokens) && message.usage_output_tokens
+        span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS,
+                           message.usage_output_tokens)
+      end
+    end
+    span.finish
+  rescue StandardError => e
+    Rails.logger.warn "Failed to end LLM turn span: #{e.message}"
+  end
+
   def start_tool_span(tool_call)
     return unless ChatwootApp.otel_enabled?
 

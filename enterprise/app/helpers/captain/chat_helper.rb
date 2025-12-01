@@ -9,9 +9,7 @@ module Captain::ChatHelper
 
     add_messages_to_chat(chat)
     with_agent_session do
-      response = instrument_llm_call(instrumentation_params) do
-        response = chat.ask(conversation_messages.last[:content])
-      end
+      response = chat.ask(conversation_messages.last[:content])
       build_response(response)
     end
   rescue StandardError => e
@@ -38,6 +36,15 @@ module Captain::ChatHelper
       chat.with_tool(tool)
     end
 
+    llm_span_name = "llm.captain.#{feature_name}"
+
+    chat.on_new_message do
+      start_llm_turn_span(llm_span_name)
+    end
+
+    chat.on_end_message do |message|
+      end_llm_turn_span(message)
+    end
     chat.on_tool_call do |tool_call|
       persist_thinking_message(tool_call)
       start_tool_span(tool_call)
