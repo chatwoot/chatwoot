@@ -8,16 +8,11 @@ module Captain::ChatHelper
     chat = build_chat
 
     add_messages_to_chat(chat)
-
-    response = chat.ask(conversation_messages.last[:content])
-    build_response(response)
     with_agent_session do
       response = instrument_llm_call(instrumentation_params) do
-        @client.chat(
-          parameters: chat_parameters
-        )
+        response = chat.ask(conversation_messages.last[:content])
       end
-      handle_response(response)
+      build_response(response)
     end
   rescue StandardError => e
     Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
@@ -45,7 +40,13 @@ module Captain::ChatHelper
 
     chat.on_tool_call do |tool_call|
       persist_thinking_message(tool_call)
+      start_tool_span(tool_call)
     end
+
+    chat.on_tool_result do |result|
+      end_tool_span(result)
+    end
+
     chat
   end
 
@@ -53,6 +54,8 @@ module Captain::ChatHelper
     conversation_messages[0...-1].each do |msg|
       chat.add_message(role: msg[:role].to_sym, content: msg[:content])
     end
+  end
+
   def instrumentation_params
     {
       span_name: "llm.captain.#{feature_name}",
@@ -112,6 +115,8 @@ module Captain::ChatHelper
   rescue JSON::ParserError => e
     Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error parsing JSON response: #{e.message}"
     { 'content' => content }
+  end
+
   def temperature
     @assistant&.config&.[]('temperature').to_f || 1
   end
@@ -119,8 +124,6 @@ module Captain::ChatHelper
   def resolved_account_id
     @account&.id || @assistant&.account_id
   end
-
-  private
 
   # Ensures all LLM calls and tool executions within an agentic loop
   # are grouped under a single trace/session in Langfuse.
