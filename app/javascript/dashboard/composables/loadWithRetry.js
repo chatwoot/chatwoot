@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 
 export const useLoadWithRetry = (config = {}) => {
   const maxRetry = config.maxRetry || 3;
@@ -42,9 +43,7 @@ export const useLoadWithRetry = (config = {}) => {
 
     const retry = async (attempt = 0) => {
       try {
-        const urlObj = new URL(url);
-        urlObj.searchParams.set('t', Date.now());
-        const urlWithTimestamp = urlObj.toString();
+        const urlWithTimestamp = timeStampAppendedURL(url);
 
         await attemptLoad(urlWithTimestamp);
 
