@@ -37,18 +37,29 @@ class ActionService
   end
 
   def assign_agent(agent_ids = [])
+    Rails.logger.info "[ACTION_SERVICE] 🎯 assign_agent called with agent_ids: #{agent_ids.inspect}"
+    Rails.logger.info "[ACTION_SERVICE] Conversation: #{@conversation.id}, Current.executed_by: #{Current.executed_by.inspect}"
+
     return @conversation.update!(assignee_id: nil) if agent_ids[0] == 'nil'
 
     return unless agent_belongs_to_inbox?(agent_ids)
 
     @agent = @account.users.find_by(id: agent_ids)
+    Rails.logger.info "[ACTION_SERVICE] Found agent: #{@agent&.id} (#{@agent&.name}), is_ai: #{@agent&.is_ai?}"
 
     return unless @agent.present?
 
+    Rails.logger.info "[ACTION_SERVICE] 💾 Updating conversation #{@conversation.id} assignee to #{@agent.id}"
     @conversation.update!(assignee_id: @agent.id)
+    Rails.logger.info "[ACTION_SERVICE] ✅ Conversation updated, assignee_id: #{@conversation.assignee_id}"
 
     # Trigger AI response if assigned agent is AI and last message is from customer
-    trigger_ai_response_if_needed if @agent.is_ai?
+    if @agent.is_ai?
+      Rails.logger.info '[ACTION_SERVICE] 🤖 Agent is AI, checking if response needed'
+      trigger_ai_response_if_needed
+    else
+      Rails.logger.info '[ACTION_SERVICE] 👤 Agent is human, skipping AI response trigger'
+    end
   end
 
   def remove_label(labels)
@@ -87,23 +98,18 @@ class ActionService
   private
 
   def trigger_ai_response_if_needed
-    # Get the last non-activity message in the conversation
-    # Exclude activity messages (system messages like "Get notified by email", etc.)
-    last_message = @conversation.messages.where.not(message_type: :activity).last
+    # Get the last incoming message from the customer
+    # Exclude activity and template messages (system messages like "Get notified by email", "Give the team a way to reach you", etc.)
+    last_message = @conversation.messages.where(message_type: :incoming).last
 
     Rails.logger.info "[AUTOMATION] 🤖 AI agent assigned to conversation #{@conversation.id}, checking if AI response needed"
+    Rails.logger.info "[AUTOMATION] Last incoming message: #{last_message&.id} (content: '#{last_message&.content&.truncate(50)}')"
 
     # Only trigger AI response if:
-    # 1. There is a last message (excluding activity messages)
-    # 2. The last message is incoming (from customer)
-    # 3. The conversation is not resolved or snoozed
+    # 1. There is a last incoming message from customer
+    # 2. The conversation is not resolved or snoozed
     unless last_message
-      Rails.logger.info "[AUTOMATION] ❌ No non-activity messages in conversation #{@conversation.id}, skipping AI response"
-      return
-    end
-
-    unless last_message.incoming?
-      Rails.logger.info "[AUTOMATION] ❌ Last message #{last_message.id} is not incoming (type: #{last_message.message_type}), skipping AI response"
+      Rails.logger.info "[AUTOMATION] ❌ No incoming messages in conversation #{@conversation.id}, skipping AI response"
       return
     end
 
