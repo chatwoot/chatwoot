@@ -12,6 +12,6 @@ class V2::Reports::BaseSummaryBuilder
   end
 
   def average_value_key
-    params[:business_hours].present? ? :value_in_business_hours : :value
+    params[:business_hours] == true ? :value_in_business_hours : :value
   end
 end

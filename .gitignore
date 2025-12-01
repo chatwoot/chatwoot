@@ -76,3 +76,7 @@ yarn-debug.log*
 .yarn-integrity
 
 /storybook-static
+
+# Claude Code
+CLAUDE.md
+.claude/

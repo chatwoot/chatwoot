@@ -43,6 +43,6 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
   end
 
   def average_value_key
-    @average_value_key ||= params[:business_hours].present? ? :value_in_business_hours : :value
+    @average_value_key ||= params[:business_hours] == true ? :value_in_business_hours : :value
   end
 end

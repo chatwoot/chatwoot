@@ -26,36 +26,66 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   end
 
   def scope_for_conversations_count
-    scope.conversations.where(account_id: account.id, created_at: range)
+    conversations_scope = scope.conversations.where(account_id: account.id, created_at: range)
+    if params[:business_hours] == true
+      conversations_scope.where("additional_attributes->>'working_hours' = 'true'")
+    else
+      conversations_scope
+    end
   end
 
   def scope_for_incoming_messages_count
-    scope.messages.where(account_id: account.id, created_at: range).incoming.unscope(:order)
+    messages_scope = scope.messages.where(account_id: account.id, created_at: range).incoming.unscope(:order)
+    if params[:business_hours] == true
+      messages_scope.joins(:conversation).where("conversations.additional_attributes->>'working_hours' = 'true'")
+    else
+      messages_scope
+    end
   end
 
   def scope_for_outgoing_messages_count
-    scope.messages.where(account_id: account.id, created_at: range).outgoing.unscope(:order)
+    messages_scope = scope.messages.where(account_id: account.id, created_at: range).outgoing.unscope(:order)
+    if params[:business_hours] == true
+      messages_scope.joins(:conversation).where("conversations.additional_attributes->>'working_hours' = 'true'")
+    else
+      messages_scope
+    end
   end
 
   def scope_for_resolutions_count
-    scope.reporting_events.joins(:conversation).select(:conversation_id).where(
+    resolutions_scope = scope.reporting_events.joins(:conversation).select(:conversation_id).where(
       name: :conversation_resolved,
       conversations: { status: :resolved }, created_at: range
     ).distinct
+    if params[:business_hours] == true
+      resolutions_scope.where("conversations.additional_attributes->>'working_hours' = 'true'")
+    else
+      resolutions_scope
+    end
   end
 
   def scope_for_bot_resolutions_count
-    scope.reporting_events.joins(:conversation).select(:conversation_id).where(
+    bot_resolutions_scope = scope.reporting_events.joins(:conversation).select(:conversation_id).where(
       name: :conversation_bot_resolved,
       conversations: { status: :resolved }, created_at: range
     ).distinct
+    if params[:business_hours] == true
+      bot_resolutions_scope.where("conversations.additional_attributes->>'working_hours' = 'true'")
+    else
+      bot_resolutions_scope
+    end
   end
 
   def scope_for_bot_handoffs_count
-    scope.reporting_events.joins(:conversation).select(:conversation_id).where(
+    bot_handoffs_scope = scope.reporting_events.joins(:conversation).select(:conversation_id).where(
       name: :conversation_bot_handoff,
       created_at: range
     ).distinct
+    if params[:business_hours] == true
+      bot_handoffs_scope.joins(:conversation).where("conversations.additional_attributes->>'working_hours' = 'true'")
+    else
+      bot_handoffs_scope
+    end
   end
 
   def grouped_count

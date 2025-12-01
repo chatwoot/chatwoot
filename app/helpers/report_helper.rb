@@ -138,7 +138,7 @@ module ReportHelper
                                 created_at: range
                               )
                        end
-    avg_rt = if params[:business_hours].present?
+    avg_rt = if params[:business_hours] == true
                reporting_events.average(:value_in_business_hours)
              else
                reporting_events.average(:value)
@@ -154,7 +154,7 @@ module ReportHelper
   def reply_time_summary
     reporting_events = scope.reporting_events
                             .where(name: 'reply_time', account_id: account.id, created_at: range)
-    reply_time = params[:business_hours] ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
+    reply_time = params[:business_hours] == true ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
 
     return 0 if reply_time.blank?
 
@@ -169,7 +169,7 @@ module ReportHelper
       reporting_events = scope.reporting_events
                               .where(name: 'first_response', account_id: account.id, created_at: range)
     end
-    avg_frt = if params[:business_hours].present?
+    avg_frt = if params[:business_hours] == true
                 reporting_events.average(:value_in_business_hours)
               else
                 reporting_events.average(:value)
