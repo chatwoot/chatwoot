@@ -43,7 +43,12 @@ class ActionService
 
     @agent = @account.users.find_by(id: agent_ids)
 
-    @conversation.update!(assignee_id: @agent.id) if @agent.present?
+    return unless @agent.present?
+
+    @conversation.update!(assignee_id: @agent.id)
+
+    # Trigger AI response if assigned agent is AI and last message is from customer
+    trigger_ai_response_if_needed if @agent.is_ai?
   end
 
   def remove_label(labels)
@@ -80,6 +85,40 @@ class ActionService
   end
 
   private
+
+  def trigger_ai_response_if_needed
+    # Get the last message in the conversation
+    last_message = @conversation.messages.chat.last
+
+    Rails.logger.info "[AUTOMATION] 🤖 AI agent assigned to conversation #{@conversation.id}, checking if AI response needed"
+
+    # Only trigger AI response if:
+    # 1. There is a last message
+    # 2. The last message is incoming (from customer)
+    # 3. The conversation is not resolved or snoozed
+    unless last_message
+      Rails.logger.info "[AUTOMATION] ❌ No messages in conversation #{@conversation.id}, skipping AI response"
+      return
+    end
+
+    unless last_message.incoming?
+      Rails.logger.info "[AUTOMATION] ❌ Last message #{last_message.id} is not incoming (type: #{last_message.message_type}), skipping AI response"
+      return
+    end
+
+    if @conversation.resolved? || @conversation.snoozed?
+      Rails.logger.info "[AUTOMATION] ❌ Conversation #{@conversation.id} is resolved or snoozed, skipping AI response"
+      return
+    end
+
+    Rails.logger.info "[AUTOMATION] ✅ Triggering AI response for message #{last_message.id} in conversation #{@conversation.id}"
+
+    # Trigger AI response service
+    Messages::AiResponseTriggerService.new(message: last_message).perform
+  rescue StandardError => e
+    Rails.logger.error "[AUTOMATION] ❌ Error triggering AI response: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+  end
 
   def agent_belongs_to_inbox?(agent_ids)
     member_ids = @conversation.inbox.members.pluck(:user_id)
