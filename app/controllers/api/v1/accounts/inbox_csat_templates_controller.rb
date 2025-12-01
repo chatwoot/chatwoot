@@ -6,7 +6,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     template = @inbox.csat_config&.dig('template')
     return render json: { template_exists: false } unless template
 
-    template_name = template_config['name'] || 'customer_satisfaction_survey'
+    template_name = template['name'] || 'customer_satisfaction_survey'
     status_result = @inbox.channel.provider_service.get_template_status(template_name)
 
     render_template_status_response(status_result, template_name)
