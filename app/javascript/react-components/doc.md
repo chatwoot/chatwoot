@@ -9,7 +9,7 @@ This document provides comprehensive context for the embeddable chat UI componen
 3. [Build System](#build-system)
 4. [Component Hierarchy](#component-hierarchy)
 5. [Key Patterns](#key-patterns)
-6. [Global State & Configuration](#global-state--configuration)
+6. [Runtime Theme Customization](#runtime-theme-customization)
 7. [Real-time Communication](#real-time-communication)
 8. [File Structure](#file-structure)
 9. [Extension Guide](#extension-guide)
@@ -379,6 +379,141 @@ element.addEventListener('chatwoot:loaded', handleLoad);
 element.addEventListener('chatwoot:error', handleError);
 ```
 
+### 7. CSS Variable Theming for Bubbles
+
+Message bubble styles use CSS custom properties that can be overridden from outside the Shadow DOM:
+
+```javascript
+// In Base.vue - uses CSS variables for colors
+const varaintBaseMap = {
+  [MESSAGE_VARIANTS.AGENT]: 'bg-[rgb(var(--bubble-agent-bg))] text-[rgb(var(--bubble-agent-text))]',
+  [MESSAGE_VARIANTS.USER]: 'bg-[rgb(var(--bubble-user-bg))] text-[rgb(var(--bubble-user-text))]',
+  // ...
+};
+
+// Border radius also uses variables
+const orientationMap = {
+  [ORIENTATION.LEFT]: 'rounded-[var(--bubble-radius)] ltr:rounded-bl-[var(--bubble-radius-sm)]...',
+  // ...
+};
+```
+
+Variables are defined in `_next-colors.scss` and can be overridden via `bubble-overrides.css`.
+
+---
+
+## Runtime Theme Customization
+
+The Web Component supports runtime theming via CSS custom properties. These variables **inherit through the Shadow DOM boundary**, allowing consumers to customize bubble appearance without modifying the source.
+
+### Available CSS Variables
+
+#### Colors (RGB values without commas)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `--chatwoot-bubble-agent-bg` | Agent message background | `--solid-blue` |
+| `--chatwoot-bubble-agent-text` | Agent message text | `--slate-12` |
+| `--chatwoot-bubble-user-bg` | User/customer message background | `--slate-4` |
+| `--chatwoot-bubble-user-text` | User message text | `--slate-12` |
+| `--chatwoot-bubble-private-bg` | Private note background | `--solid-amber` |
+| `--chatwoot-bubble-private-text` | Private note text | `--amber-12` |
+| `--chatwoot-bubble-bot-bg` | Bot/template message background | `--solid-iris` |
+| `--chatwoot-bubble-bot-text` | Bot message text | `--slate-12` |
+
+#### Spacing
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `--chatwoot-bubble-spacing-ratio` | Scale factor for border radius | `1` |
+
+### Usage Examples
+
+#### Option 1: Global CSS
+
+```css
+/* In your app's CSS file */
+:root {
+  --chatwoot-bubble-agent-bg: 59 130 246;    /* Blue */
+  --chatwoot-bubble-user-bg: 243 244 246;    /* Light gray */
+  --chatwoot-bubble-spacing-ratio: 1.5;      /* 50% more rounded */
+}
+```
+
+#### Option 2: Wrapper with Inline Styles
+
+```jsx
+function App() {
+  return (
+    <div
+      style={{
+        '--chatwoot-bubble-agent-bg': '59 130 246',
+        '--chatwoot-bubble-user-bg': '243 244 246',
+        '--chatwoot-bubble-spacing-ratio': '1.5',
+      }}
+    >
+      <ChatwootProvider {...props}>
+        <ChatwootConversation />
+      </ChatwootProvider>
+    </div>
+  );
+}
+```
+
+#### Option 3: Dynamic Theming
+
+```jsx
+function App() {
+  const [theme, setTheme] = useState({
+    '--chatwoot-bubble-agent-bg': '59 130 246',
+  });
+
+  return (
+    <div style={theme}>
+      <button onClick={() => setTheme({
+        '--chatwoot-bubble-agent-bg': '34 197 94',  // Switch to green
+      })}>
+        Change Theme
+      </button>
+      <ChatwootProvider {...props}>
+        <ChatwootConversation />
+      </ChatwootProvider>
+    </div>
+  );
+}
+```
+
+### How It Works
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Consumer's CSS                                                  │
+│  :root { --chatwoot-bubble-agent-bg: 59 130 246; }             │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼ (CSS inheritance)
+┌─────────────────────────────────────────────────────────────────┐
+│  Shadow DOM (:host)                                              │
+│  bubble-overrides.css:                                          │
+│    --bubble-agent-bg: var(--chatwoot-bubble-agent-bg,           │
+│                           var(--solid-blue));                   │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼ (used by components)
+┌─────────────────────────────────────────────────────────────────┐
+│  Base.vue                                                        │
+│  class="bg-[rgb(var(--bubble-agent-bg))]"                       │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `src/styles/bubble-overrides.css` | Defines `:host` overrides that bridge external variables |
+| `dashboard/assets/scss/_next-colors.scss` | Default theme values |
+| `dashboard/components-next/message/bubbles/Base.vue` | Consumes CSS variables |
+
 ---
 
 ## Real-time Communication
@@ -439,7 +574,8 @@ app/javascript/
 │   │   │   ├── registerWebComponents.js  # WC registration
 │   │   │   └── ChatwootMessageListWebComponent.vue
 │   │   └── styles/
-│   │       └── upload.css                # File upload styles
+│   │       ├── upload.css                # File upload styles
+│   │       └── bubble-overrides.css      # Runtime theme customization
 │   └── doc.md                            # This file
 │
 ├── ui/
@@ -550,10 +686,10 @@ Currently, only one conversation can be displayed at a time due to global state 
 
 ### 2. Style Isolation
 Shadow DOM prevents parent CSS from affecting components, but also means:
-- Parent theme variables don't cascade
 - Global CSS resets don't apply
+- Most parent styles don't cascade
 
-**Workaround**: Pass theme configuration via props/globals.
+**Solution**: Message bubble colors and border radius can be customized via CSS custom properties (see [Runtime Theme Customization](#runtime-theme-customization)). CSS custom properties DO inherit through Shadow DOM boundaries.
 
 ### 3. React DevTools
 Web Components don't appear in React DevTools component tree. Use browser's native Custom Elements inspector.
