@@ -7,15 +7,16 @@ import {
 } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
-import ConversationParticipant from './ConversationParticipant.vue';
 import ContactInfo from './contact/ContactInfo.vue';
 import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
+import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
@@ -83,6 +84,9 @@ const contactAdditionalAttributes = computed(
   () => contact.value.additional_attributes || {}
 );
 
+const inboxGetter = useMapGetter('inboxes/getInbox');
+const inbox = computed(() => inboxGetter.value(props.inboxId));
+
 const getContactDetails = () => {
   if (contactId.value) {
     store.dispatch('contacts/show', { id: contactId.value });
@@ -122,17 +126,37 @@ onMounted(() => {
   <div class="w-full">
     <SidebarActionsHeader
       :title="$t('CONVERSATION.SIDEBAR.CONTACT')"
+      :show-close-button="false"
+      class="border-b-0"
       @close="closeContactPanel"
-    />
+    >
+      <div class="flex items-center gap-1.5">
+        <div
+          class="ltr:pl-1.5 ltr:pr-2 rtl:pl-2 rtl:pr-1.5 h-6 rounded-md bg-n-button-color outline outline-1 outline-n-container flex items-center"
+        >
+          <InboxName
+            v-if="inbox?.id"
+            :inbox="inbox"
+            class="gap-1 [&>span]:text-n-slate-12"
+          />
+        </div>
+        <div
+          class="px-1.5 h-6 rounded-md bg-n-button-color outline outline-1 outline-n-container flex items-center gap-0.6"
+        >
+          <Icon icon="i-lucide-hash" class="size-3.5 text-n-slate-10" />
+          <span class="text-xs font-440">{{ conversationId }}</span>
+        </div>
+      </div>
+    </SidebarActionsHeader>
     <ContactInfo :contact="contact" :channel-type="channelType" />
-    <div class="px-2 pb-8 list-group">
+    <div class="pb-8 list-group border-t border-n-weak">
       <Draggable
         :list="conversationSidebarItems"
         animation="200"
         ghost-class="ghost"
         handle=".drag-handle"
         item-key="name"
-        class="flex flex-col gap-3"
+        class="flex flex-col divide-y divide-n-weak"
         @start="dragging = true"
         @end="onDragEnd"
       >
@@ -154,29 +178,10 @@ onMounted(() => {
               />
             </AccordionItem>
           </div>
-          <div
-            v-else-if="element.name === 'conversation_participants'"
-            class="conversation--actions"
-          >
-            <AccordionItem
-              :title="$t('CONVERSATION_PARTICIPANTS.SIDEBAR_TITLE')"
-              :is-open="isContactSidebarItemOpen('is_conv_participants_open')"
-              @toggle="
-                value =>
-                  toggleSidebarUIState('is_conv_participants_open', value)
-              "
-            >
-              <ConversationParticipant
-                :conversation-id="conversationId"
-                :inbox-id="inboxId"
-              />
-            </AccordionItem>
-          </div>
           <div v-else-if="element.name === 'conversation_info'">
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
               :is-open="isContactSidebarItemOpen('is_conv_details_open')"
-              compact
               @toggle="
                 value => toggleSidebarUIState('is_conv_details_open', value)
               "
@@ -191,7 +196,6 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
               :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
-              compact
               @toggle="
                 value =>
                   toggleSidebarUIState('is_contact_attributes_open', value)
@@ -214,7 +218,6 @@ onMounted(() => {
                 $t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')
               "
               :is-open="isContactSidebarItemOpen('is_previous_conv_open')"
-              compact
               @toggle="
                 value => toggleSidebarUIState('is_previous_conv_open', value)
               "
@@ -232,7 +235,6 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.MACROS')"
               :is-open="isContactSidebarItemOpen('is_macro_open')"
-              compact
               @toggle="value => toggleSidebarUIState('is_macro_open', value)"
             >
               <MacrosList :conversation-id="conversationId" />
@@ -242,7 +244,6 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.LINEAR_ISSUES')"
               :is-open="isContactSidebarItemOpen('is_linear_issues_open')"
-              compact
               @toggle="
                 value => toggleSidebarUIState('is_linear_issues_open', value)
               "
@@ -259,7 +260,6 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SHOPIFY_ORDERS')"
               :is-open="isContactSidebarItemOpen('is_shopify_orders_open')"
-              compact
               @toggle="
                 value => toggleSidebarUIState('is_shopify_orders_open', value)
               "
@@ -271,7 +271,6 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_NOTES')"
               :is-open="isContactSidebarItemOpen('is_contact_notes_open')"
-              compact
               @toggle="
                 value => toggleSidebarUIState('is_contact_notes_open', value)
               "

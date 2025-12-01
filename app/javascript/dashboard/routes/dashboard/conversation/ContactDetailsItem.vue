@@ -1,11 +1,9 @@
-<script>
-export default {
-  props: {
-    title: { type: String, required: true },
-    value: { type: [String, Number], default: '' },
-    compact: { type: Boolean, default: false },
-  },
-};
+<script setup>
+defineProps({
+  title: { type: String, required: true },
+  value: { type: [String, Number], default: '' },
+  compact: { type: Boolean, default: false },
+});
 </script>
 
 <template>

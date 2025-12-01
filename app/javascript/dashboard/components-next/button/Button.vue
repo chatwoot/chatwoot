@@ -191,7 +191,7 @@ const STYLE_CONFIG = {
     center: 'justify-center',
     end: 'justify-end',
   },
-  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0 rounded-lg outline-1 outline disabled:opacity-50',
+  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0 rounded-lg outline-1 outline -outline-offset-1 disabled:opacity-50',
 };
 
 const variantClasses = computed(() => {
@@ -255,7 +255,7 @@ const animationClasses = computed(() => {
     <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />
 
     <slot v-if="label || $slots.default" name="default">
-      <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
+      <span v-if="label" class="min-w-0 font-420 truncate">{{ label }}</span>
     </slot>
   </button>
 </template>
