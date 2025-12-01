@@ -119,7 +119,7 @@ const tooltip = useHeatmapTooltip();
 <!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <div
-    class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[80px_1fr] min-h-72"
+    class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[80px_1fr]"
   >
     <template v-if="isLoading">
       <div class="grid gap-[5px] flex-shrink-0">

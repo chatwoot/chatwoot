@@ -3,10 +3,11 @@ require 'openai'
 class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
   include Captain::ChatHelper
 
-  def initialize(assistant: nil)
+  def initialize(assistant: nil, conversation_id: nil)
     super()
 
     @assistant = assistant
+    @conversation_id = conversation_id
     @messages = [system_message]
     @response = ''
     register_tools
@@ -41,5 +42,9 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
 
   def persist_message(message, message_type = 'assistant')
     # No need to implement
+  end
+
+  def feature_name
+    'assistant'
   end
 end

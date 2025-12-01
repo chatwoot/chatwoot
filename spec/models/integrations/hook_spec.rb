@@ -68,13 +68,13 @@ RSpec.describe Integrations::Hook do
     end
 
     it 'returns account hooks' do
-      expect(described_class.account_hooks).to include(account_hook)
-      expect(described_class.account_hooks).not_to include(inbox_hook)
+      expect(described_class.account_hooks.pluck(:id)).to include(account_hook.id)
+      expect(described_class.account_hooks.pluck(:id)).not_to include(inbox_hook.id)
     end
 
     it 'returns inbox hooks' do
-      expect(described_class.inbox_hooks).to include(inbox_hook)
-      expect(described_class.inbox_hooks).not_to include(account_hook)
+      expect(described_class.inbox_hooks.pluck(:id)).to include(inbox_hook.id)
+      expect(described_class.inbox_hooks.pluck(:id)).not_to include(account_hook.id)
     end
   end
 

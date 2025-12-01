@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { useLoadWithRetry } from 'dashboard/composables/loadWithRetry';
 import BaseBubble from './Base.vue';
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -12,7 +13,6 @@ import { downloadFile } from '@chatwoot/utils';
 
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
-const emit = defineEmits(['error']);
 const { t } = useI18n();
 
 const { filteredCurrentChatAttachments, attachments } = useMessageContext();
@@ -21,14 +21,17 @@ const attachment = computed(() => {
   return attachments.value[0];
 });
 
-const hasError = ref(false);
+const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry();
+
+const showGallery = ref(false);
 const isDownloading = ref(false);
 const { showGallery, isGalleryAllowed, toggleGallery } = useGallery();
 
-const handleError = () => {
-  hasError.value = true;
-  emit('error');
-};
+onMounted(() => {
+  if (attachment.value?.dataUrl) {
+    loadWithRetry(attachment.value.dataUrl);
+  }
+});
 
 const downloadAttachment = async () => {
   const { fileType, dataUrl, extension } = attachment.value;
@@ -40,6 +43,10 @@ const downloadAttachment = async () => {
   } finally {
     isDownloading.value = false;
   }
+};
+
+const handleImageError = () => {
+  hasError.value = true;
 };
 </script>
 
@@ -55,14 +62,12 @@ const downloadAttachment = async () => {
         {{ $t('COMPONENTS.MEDIA.IMAGE_UNAVAILABLE') }}
       </p>
     </div>
-    <div v-else class="relative group rounded-lg overflow-hidden">
+    <div v-else-if="isLoaded" class="relative group rounded-lg overflow-hidden">
       <img
         class="skip-context-menu"
         :src="attachment.dataUrl"
         :width="attachment.width"
         :height="attachment.height"
-        @click="onClick"
-        @error="handleError"
       />
       <div
         class="inset-0 p-2 pointer-events-none absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex"
@@ -87,7 +92,7 @@ const downloadAttachment = async () => {
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
-    @error="handleError"
+    @error="handleImageError"
     @close="() => (showGallery = false)"
   />
 </template>

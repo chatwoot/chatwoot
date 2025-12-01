@@ -41,28 +41,31 @@ RSpec.describe ApplicationMailbox do
     describe 'Support' do
       let!(:channel_email) { create(:channel_email) }
 
-      it 'routes support emails to Support Mailbox when mail is to channel email' do
+      it 'routes support emails to Reply Mailbox when mail is to channel email' do
         # this email is hardcoded in the support.eml, that's why we are updating this
+        # With NewConversationStrategy, all channel emails route to ReplyMailbox
         channel_email.update(email: 'care@example.com')
         dbl = double
-        expect(SupportMailbox).to receive(:new).and_return(dbl)
+        expect(ReplyMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
         described_class.route support_mail
       end
 
-      it 'routes support emails to Support Mailbox when mail is to channel forward to email' do
+      it 'routes support emails to Reply Mailbox when mail is to channel forward to email' do
         # this email is hardcoded in the support.eml, that's why we are updating this
+        # With NewConversationStrategy, all channel emails route to ReplyMailbox
         channel_email.update(forward_to_email: 'care@example.com')
         dbl = double
-        expect(SupportMailbox).to receive(:new).and_return(dbl)
+        expect(ReplyMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
         described_class.route support_mail
       end
 
-      it 'routes support emails to Support Mailbox with cc email' do
+      it 'routes support emails to Reply Mailbox with cc email' do
+        # With NewConversationStrategy, all channel emails route to ReplyMailbox
         channel_email.update(email: 'test@example.com')
         dbl = double
-        expect(SupportMailbox).to receive(:new).and_return(dbl)
+        expect(ReplyMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
         described_class.route reply_cc_mail
       end

@@ -20,7 +20,7 @@
 #  conversation_id           :integer          not null
 #  inbox_id                  :integer          not null
 #  sender_id                 :bigint
-#  source_id                 :string
+#  source_id                 :text
 #
 # Indexes
 #
@@ -153,15 +153,6 @@ class Message < ApplicationRecord
     merge_sender_attributes(data)
   end
 
-  def search_data
-    data = attributes.symbolize_keys
-    data[:conversation] = conversation.present? ? conversation_push_event_data : nil
-    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
-    data[:sender] = sender.push_event_data if sender
-    data[:inbox] = inbox
-    data
-  end
-
   def conversation_push_event_data
     {
       assignee_id: conversation.assignee_id,
@@ -257,6 +248,10 @@ class Message < ApplicationRecord
     return false if ChatwootApp.chatwoot_cloud? && !account.feature_enabled?('advanced_search_indexing')
 
     true
+  end
+
+  def search_data
+    Messages::SearchDataPresenter.new(self).search_data
   end
 
   private

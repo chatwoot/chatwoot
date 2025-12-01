@@ -14,17 +14,11 @@ describe Messages::SendEmailNotificationService do
       before do
         conversation.contact.update!(email: 'test@example.com')
         allow(Redis::Alfred).to receive(:set).and_return(true)
-        allow(ConversationReplyEmailWorker).to receive(:perform_in)
+        ActiveJob::Base.queue_adapter = :test
       end
 
-      it 'schedules ConversationReplyEmailWorker' do
-        service.perform
-
-        expect(ConversationReplyEmailWorker).to have_received(:perform_in).with(
-          2.minutes,
-          conversation.id,
-          message.id
-        )
+      it 'enqueues ConversationReplyEmailJob' do
+        expect { service.perform }.to have_enqueued_job(ConversationReplyEmailJob).with(conversation.id, message.id).on_queue('mailers')
       end
 
       it 'atomically sets redis key to prevent duplicate emails' do
@@ -40,10 +34,8 @@ describe Messages::SendEmailNotificationService do
           allow(Redis::Alfred).to receive(:set).and_return(false)
         end
 
-        it 'does not schedule worker' do
-          service.perform
-
-          expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+        it 'does not enqueue job' do
+          expect { service.perform }.not_to have_enqueued_job(ConversationReplyEmailJob)
         end
 
         it 'attempts atomic set once' do
@@ -62,7 +54,7 @@ describe Messages::SendEmailNotificationService do
         conversation.contact.update!(email: 'test@example.com')
       end
 
-      it 'prevents duplicate workers under race conditions' do
+      it 'prevents duplicate jobs under race conditions' do
         # Create 5 threads that simultaneously try to enqueue workers for the same conversation
         threads = Array.new(5) do
           Thread.new do
@@ -73,24 +65,24 @@ describe Messages::SendEmailNotificationService do
 
         threads.each(&:join)
 
-        # Only ONE worker should be scheduled despite 5 concurrent attempts
-        jobs_for_conversation = ConversationReplyEmailWorker.jobs.select { |job| job['args'].first == conversation.id }
+        # Only ONE job should be scheduled despite 5 concurrent attempts
+        jobs_for_conversation = ActiveJob::Base.queue_adapter.enqueued_jobs.select do |job|
+          job[:job] == ConversationReplyEmailJob && job[:args].first == conversation.id
+        end
         expect(jobs_for_conversation.size).to eq(1)
       end
     end
 
     context 'when email notification should not be sent' do
       before do
-        allow(ConversationReplyEmailWorker).to receive(:perform_in)
+        ActiveJob::Base.queue_adapter = :test
       end
 
       context 'when message is not email notifiable' do
         let(:message) { create(:message, conversation: conversation, message_type: 'incoming') }
 
-        it 'does not schedule worker' do
-          service.perform
-
-          expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+        it 'does not enqueue job' do
+          expect { service.perform }.not_to have_enqueued_job(ConversationReplyEmailJob)
         end
       end
 
@@ -102,10 +94,8 @@ describe Messages::SendEmailNotificationService do
           conversation.contact.update!(email: nil)
         end
 
-        it 'does not schedule worker' do
-          service.perform
-
-          expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+        it 'does not enqueue job' do
+          expect { service.perform }.not_to have_enqueued_job(ConversationReplyEmailJob)
         end
       end
 
@@ -117,10 +107,8 @@ describe Messages::SendEmailNotificationService do
           conversation.contact.update!(email: 'test@example.com')
         end
 
-        it 'does not schedule worker' do
-          service.perform
-
-          expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+        it 'does not enqueue job' do
+          expect { service.perform }.not_to have_enqueued_job(ConversationReplyEmailJob)
         end
       end
     end

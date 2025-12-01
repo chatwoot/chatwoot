@@ -12,7 +12,7 @@ class Messages::SendEmailNotificationService
     # the worker never manages to clean up.
     return unless Redis::Alfred.set(conversation_mail_key, message.id, nx: true, ex: 1.hour.to_i)
 
-    ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, message.id)
+    ConversationReplyEmailJob.set(wait: 2.minutes).perform_later(conversation.id, message.id)
   end
 
   private

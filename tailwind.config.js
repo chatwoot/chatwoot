@@ -32,6 +32,7 @@ const tailwindConfig = {
     './app/javascript/ui/**/*.vue',
     './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
+    './app/javascript/dashboard/composables/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
     './app/javascript/react-components/**/*.{js,jsx,vue}',

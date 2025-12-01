@@ -13,6 +13,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @user = nil
     @copilot_thread = nil
     @previous_history = []
+    @conversation_id = config[:conversation_id]
     setup_user(config)
     setup_message_history(config)
     register_tools
@@ -112,5 +113,9 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
       message: message,
       message_type: message_type
     )
+  end
+
+  def feature_name
+    'copilot'
   end
 end

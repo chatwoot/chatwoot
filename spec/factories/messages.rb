@@ -27,6 +27,13 @@ FactoryBot.define do
       end
     end
 
+    trait :bot_message do
+      message_type { 'outgoing' }
+      after(:build) do |message|
+        message.sender = nil
+      end
+    end
+
     after(:build) do |message|
       message.sender ||= message.outgoing? ? create(:user, account: message.account) : create(:contact, account: message.account)
       message.inbox ||= message.conversation&.inbox || create(:inbox, account: message.account)

@@ -53,6 +53,8 @@
       "LAST_7_DAYS": "Son 7 gün",
       "LAST_14_DAYS": "Son 14 gün",
       "LAST_30_DAYS": "Son 30 gün",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Son 3 ay",
       "LAST_6_MONTHS": "Son 6 ay",
       "LAST_YEAR": "Geçen yıl",
@@ -194,7 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Etiketler Genel Bakış",
-    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülmüş vakalar gibi temel ölçümlerle etiket performansını takip edin. Ayrıntılı içgörüler için bir etiket adına tıklayın.",
+    "DESCRIPTION": "Etiket performansını; konuşmalar, yanıt süreleri, çözüm süreleri ve çözümlenen vakalar dahil olmak üzere temel metriklerle takip edin. Ayrıntılı analizler için bir etiket adına tıklayın.",
     "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "DOWNLOAD_LABEL_REPORTS": "Etiket raporlarını indir",

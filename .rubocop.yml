@@ -7,6 +7,7 @@ plugins:
 require:
   - ./rubocop/use_from_email.rb
   - ./rubocop/custom_cop_location.rb
+  - ./rubocop/one_class_per_file.rb
 
 Layout/LineLength:
   Max: 150
@@ -23,7 +24,7 @@ Metrics/MethodLength:
     - 'enterprise/lib/captain/agent.rb'
 
 RSpec/ExampleLength:
-  Max: 25
+  Max: 50
 
 Style/Documentation:
   Enabled: false
@@ -87,7 +88,7 @@ Metrics/ModuleLength:
 Rails/HelperInstanceVariable:
   Exclude:
     - enterprise/app/helpers/captain/chat_helper.rb
-
+    - 'enterprise/app/helpers/captain/tool_execution_helper.rb'
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
@@ -203,6 +204,9 @@ UseFromEmail:
     - 'app/models/contact.rb'
 
 CustomCopLocation:
+  Enabled: true
+
+Style/OneClassPerFile:
   Enabled: true
 
 AllCops:
