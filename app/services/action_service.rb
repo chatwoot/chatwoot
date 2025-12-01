@@ -87,17 +87,18 @@ class ActionService
   private
 
   def trigger_ai_response_if_needed
-    # Get the last message in the conversation
-    last_message = @conversation.messages.chat.last
+    # Get the last non-activity message in the conversation
+    # Exclude activity messages (system messages like "Get notified by email", etc.)
+    last_message = @conversation.messages.where.not(message_type: :activity).last
 
     Rails.logger.info "[AUTOMATION] 🤖 AI agent assigned to conversation #{@conversation.id}, checking if AI response needed"
 
     # Only trigger AI response if:
-    # 1. There is a last message
+    # 1. There is a last message (excluding activity messages)
     # 2. The last message is incoming (from customer)
     # 3. The conversation is not resolved or snoozed
     unless last_message
-      Rails.logger.info "[AUTOMATION] ❌ No messages in conversation #{@conversation.id}, skipping AI response"
+      Rails.logger.info "[AUTOMATION] ❌ No non-activity messages in conversation #{@conversation.id}, skipping AI response"
       return
     end
 
