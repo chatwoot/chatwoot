@@ -11,7 +11,13 @@ const props = defineProps({
     type: Array,
     default: () => [],
     validator: value => {
-      return value.every(item => item.action && item.value && item.label);
+      return value.every(
+        item =>
+          item.action &&
+          item.value !== undefined &&
+          item.value !== null &&
+          item.label
+      );
     },
   },
   menuSections: {
@@ -21,6 +27,10 @@ const props = defineProps({
   thumbnailSize: {
     type: Number,
     default: 20,
+  },
+  roundedThumbnail: {
+    type: Boolean,
+    default: true,
   },
   showSearch: {
     type: Boolean,
@@ -194,22 +204,26 @@ onMounted(() => {
               :name="item.thumbnail.name"
               :src="item.thumbnail.src"
               :size="thumbnailSize"
-              rounded-full
+              :rounded-full="roundedThumbnail"
             />
           </slot>
-          <Icon
-            v-if="item.icon"
-            :icon="item.icon"
-            class="flex-shrink-0 size-3.5"
-          />
+          <slot name="icon" :item="item">
+            <Icon
+              v-if="item.icon"
+              :icon="item.icon"
+              class="flex-shrink-0 size-3.5"
+            />
+          </slot>
           <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
-          <span
-            v-if="item.label"
-            class="min-w-0 text-sm truncate"
-            :class="labelClass"
-          >
-            {{ item.label }}
-          </span>
+          <slot name="label" :item="item">
+            <span
+              v-if="item.label"
+              class="min-w-0 text-sm font-420 truncate"
+              :class="labelClass"
+            >
+              {{ item.label }}
+            </span>
+          </slot>
           <slot name="trailing-icon" :item="item" />
         </button>
         <div
@@ -241,22 +255,26 @@ onMounted(() => {
             :name="item.thumbnail.name"
             :src="item.thumbnail.src"
             :size="thumbnailSize"
-            rounded-full
+            :rounded-full="roundedThumbnail"
           />
         </slot>
-        <Icon
-          v-if="item.icon"
-          :icon="item.icon"
-          class="flex-shrink-0 size-3.5"
-        />
+        <slot name="icon" :item="item">
+          <Icon
+            v-if="item.icon"
+            :icon="item.icon"
+            class="flex-shrink-0 size-3.5"
+          />
+        </slot>
         <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
-        <span
-          v-if="item.label"
-          class="min-w-0 text-sm truncate"
-          :class="labelClass"
-        >
-          {{ item.label }}
-        </span>
+        <slot name="label" :item="item">
+          <span
+            v-if="item.label"
+            class="min-w-0 text-sm font-420 truncate"
+            :class="labelClass"
+          >
+            {{ item.label }}
+          </span>
+        </slot>
         <slot name="trailing-icon" :item="item" />
       </button>
     </template>

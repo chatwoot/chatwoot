@@ -273,7 +273,7 @@
       }
     },
     "SIDEBAR": {
-      "CONTACT": "Contact",
+      "CONTACT": "Contact info",
       "COPILOT": "Copilot"
     }
   },
@@ -323,9 +323,10 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Agent",
+    "SELF_ASSIGN": "Self-assign",
+    "TEAM_LABEL": "Team",
+    "PARTICIPANTS_LABEL": "Participants",
     "SELECT": {
       "PLACEHOLDER": "None"
     },
@@ -398,10 +399,10 @@
     "ADD_PARTICIPANTS": "Select participants",
     "REMANING_PARTICIPANTS_TEXT": "+{count} others",
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "TOTAL_PARTICIPANT_TEXT": "{n} person participating | {n} people participating",
+    "NO_PARTICIPANTS_TEXT": "No participants",
     "WATCH_CONVERSATION": "Join conversation",
+    "JOIN": "Join",
     "YOU_ARE_WATCHING": "You are participating",
     "API": {
       "ERROR_MESSAGE": "Could not update, try again!",
