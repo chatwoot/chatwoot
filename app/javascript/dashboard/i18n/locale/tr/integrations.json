@@ -34,7 +34,7 @@
         "SUBSCRIPTIONS": {
           "LABEL": "Olaylar",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Görüşme Oluşturuldu",
+            "CONVERSATION_CREATED": "Konuşma Oluşturuldu",
             "CONVERSATION_STATUS_CHANGED": "Görüşme Durumu Değişti",
             "CONVERSATION_UPDATED": "Görüşme Güncellendi",
             "MESSAGE_CREATED": "Mesaj Oluşturuldu",
@@ -42,9 +42,13 @@
             "WEBWIDGET_TRIGGERED": "Kullanıcı tarafından canlı sohbet widget'ı açıldı",
             "CONTACT_CREATED": "Kişi Oluşturuldu",
             "CONTACT_UPDATED": "Kişi Güncellendi",
-            "CONVERSATION_TYPING_ON": "Sohbet Yazıyor Açık",
-            "CONVERSATION_TYPING_OFF": "Sohbet Yazıyor Kapalı"
+            "CONVERSATION_TYPING_ON": "Konuşmada Yazıyor Açık",
+            "CONVERSATION_TYPING_OFF": "Konuşmada Yazıyor Kapalı"
           }
+        },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
           "LABEL": "Web kancası URL'si",
@@ -327,7 +331,7 @@
       },
       "CTA": {
         "TITLE": "Linear'a bağlan",
-        "AGENT_DESCRIPTION": "Doğrusal çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için yöneticinizden bir çalışma alanı bağlamasını isteyin.",
+        "AGENT_DESCRIPTION": "Linear çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için yöneticinizden bir çalışma alanı bağlamasını isteyin.",
         "DESCRIPTION": "Linear çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için çalışma alanınızı bağlamak üzere aşağıdaki düğmeye tıklayın.",
         "BUTTON_TEXT": "Linear çalışma alanını bağlayın"
       }
@@ -344,11 +348,17 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistants",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "Asistan bulunamadı, başlamak için bir tane oluşturun"
+    },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
       "PANEL_TITLE": "Copilot ile başlayın",
-      "KICK_OFF_MESSAGE": "Hızlı bir özet mi lazım, geçmiş sohbetleri mi kontrol etmek istiyorsunuz ya da daha iyi bir yanıt mı yazmak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
+      "KICK_OFF_MESSAGE": "Hızlı bir özet mi gerekiyor, geçmiş konuşmaları mı kontrol etmek istiyorsunuz, yoksa daha iyi bir yanıt mı tasarlamak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
       "SEND_MESSAGE": "Mesajı Gönder...",
       "EMPTY_MESSAGE": "Yanıt oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
       "LOADER": "Captain is thinking",
@@ -371,8 +381,8 @@
           "CONTENT": "Sohbetin müşterinin ihtiyaçlarını ne kadar karşıladığını gözden geçirin. Ton, açıklık ve etkililik açısından 5 üzerinden bir puan verin."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "Yüksek öncelikli sohbetler",
-          "CONTENT": "Tüm yüksek öncelikli açık sohbetlerin bir özetini verin. Sohbet kimliği, müşteri adı (varsa), son mesaj içeriği ve atanan temsilciyi ekleyin. Gerekirse duruma göre gruplayın."
+          "LABEL": "Yüksek öncelikli konuşmalar",
+          "CONTENT": "Tüm yüksek öncelikli açık konuşmaların bir özetini verin. Konuşma kimliği, müşteri adı (varsa), son mesaj içeriği ve atanan temsilciyi ekleyin. Gerekirse duruma göre gruplayın."
         },
         "LIST_CONTACTS": {
           "LABEL": "Kişileri listele",
@@ -383,7 +393,7 @@
     "PLAYGROUND": {
       "USER": "Sen",
       "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Mesajınız...",
+      "MESSAGE_PLACEHOLDER": "Mesajınızı yazın...",
       "HEADER": "Oyun Alanı",
       "DESCRIPTION": "Bu oyun alanını asistanınıza mesaj göndermek ve yanıtlarının doğru, hızlı ve beklediğiniz tonda olup olmadığını kontrol etmek için kullanın.",
       "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
@@ -483,9 +493,7 @@
         "NOT_FOUND": "Asistan bulunamadı. Lütfen tekrar deneyin."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Assistant"
-        },
+        "HEADER": "Ayarlar",
         "BASIC_SETTINGS": {
           "TITLE": "Temel ayarlar",
           "DESCRIPTION": "Konuşmayı sonlandırırken veya bir operatöre aktarırken asistanın söyleyeceği sözleri özelleştirin."
@@ -502,15 +510,16 @@
               "TITLE": "Guardrails",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Response guidelines",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Delete Assistant",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,11 +538,8 @@
       "GUARDRAILS": {
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
           "SELECT_ALL": "Tümünü seç ({count})",
           "UNSELECT_ALL": "Tümünü kaldır ({count})",
           "BULK_DELETE_BUTTON": "Sil"
@@ -577,9 +583,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
           "SELECT_ALL": "Tümünü seç ({count})",
@@ -625,11 +628,8 @@
       "SCENARIOS": {
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
           "SELECT_ALL": "Tümünü seç ({count})",
           "UNSELECT_ALL": "Tümünü kaldır ({count})",
           "BULK_DELETE_BUTTON": "Sil"
@@ -725,11 +725,6 @@
         "NAME": {
           "LABEL": "Belge Adı (İsteğe Bağlı)",
           "PLACEHOLDER": "Belgeye bir ad girin"
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select the assistant",
-          "ERROR": "The assistant field is required"
         }
       },
       "DELETE": {
@@ -759,37 +754,37 @@
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "Özel Araçlar",
+          "NOTE": "Özel araçlar, asistanınızın harici API'ler ve hizmetlerle etkileşim kurmasını sağlar. Asistanınızın yeteneklerini artırmak için veri çekme, eylemler gerçekleştirme veya mevcut sistemlerinizle entegrasyon sağlama amaçlı araçlar oluşturun."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "Harici API'lere bağlanmak için özel aracınızı yapılandırın",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "Aracı Düzenle",
+        "DELETE_TOOL": "Aracı Sil"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "Özel Araç Oluştur",
+        "SUCCESS_MESSAGE": "Özel araç başarıyla oluşturuldu",
+        "ERROR_MESSAGE": "Özel araç oluşturulamadı"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "Özel Aracı Düzenle",
+        "SUCCESS_MESSAGE": "Özel araç başarıyla güncellendi",
+        "ERROR_MESSAGE": "Özel araç güncellenemedi"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "TITLE": "Özel Aracı Sil",
+        "DESCRIPTION": "Bu özel aracı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
         "CONFIRM": "Evet, sil",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "SUCCESS_MESSAGE": "Özel araç başarıyla silindi",
+        "ERROR_MESSAGE": "Özel araç silinemedi"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
+          "LABEL": "Araç Adı",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Araç adı zorunludur"
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama",
@@ -863,6 +858,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -902,6 +898,10 @@
         "APPROVED": "Approved",
         "ALL": "Hepsi"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
         "TITLE": "Add an FAQ",
@@ -918,11 +918,6 @@
           "LABEL": "Answer",
           "PLACEHOLDER": "Enter the answer here",
           "ERROR": "Please provide a valid answer."
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select an assistant",
-          "ERROR": "Please select an assistant."
         }
       },
       "EDIT": {
@@ -932,13 +927,15 @@
         "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
       },
       "OPTIONS": {
-        "APPROVE": "Mark as approved",
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Düzenle",
+        "DELETE_RESPONSE": "Sil"
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

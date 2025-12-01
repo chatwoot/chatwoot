@@ -10,6 +10,7 @@ defineProps({
   fallbackThumbnail: { type: String, default: '' },
   fallbackThumbnailDark: { type: String, default: '' },
   learnMoreUrl: { type: String, default: '' },
+  hideActions: { type: Boolean, default: false },
 });
 
 const imageError = ref(false);
@@ -65,7 +66,7 @@ const openLink = link => {
       <div class="flex flex-col flex-1 gap-3 ltr:pr-8 rtl:pl-8">
         <p v-if="note" class="text-n-slate-12 text-sm mb-0">{{ note }}</p>
 
-        <div class="flex gap-3">
+        <div v-if="!hideActions" class="flex gap-3">
           <slot name="actions">
             <Button
               v-if="videoUrl"

@@ -86,7 +86,7 @@
     },
     "ACTIONS": {
       "ASSIGN_TEAM": "Назначить команду",
-      "ASSIGN_AGENT": "Assign an Agent",
+      "ASSIGN_AGENT": "Назначить сотрудника",
       "ADD_LABEL": "Добавить метку",
       "REMOVE_LABEL": "Удалить метку",
       "REMOVE_ASSIGNED_TEAM": "Удалить назначенную команду",
@@ -97,7 +97,7 @@
       "SEND_ATTACHMENT": "Отправить вложение",
       "SEND_MESSAGE": "Отправить сообщение",
       "CHANGE_PRIORITY": "Изменить приоритет",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "ADD_PRIVATE_NOTE": "Добавить заметку",
       "SEND_WEBHOOK_EVENT": "Отправить событие Webhook"
     },
     "PRIORITY_TYPES": {

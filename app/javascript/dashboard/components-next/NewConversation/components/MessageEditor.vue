@@ -17,6 +17,7 @@ const props = defineProps({
   hasAttachments: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
+  channelType: { type: String, default: '' },
 });
 
 const { t } = useI18n();
@@ -90,6 +91,10 @@ const replaceText = async message => {
         "
         enable-variables
         :show-character-count="false"
+        :signature="messageSignature"
+        allow-signature
+        :send-with-signature="sendWithSignature"
+        :channel-type="channelType"
       />
     </template>
     <template v-else>

@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "לא נצאו תוויות עבור",
+      "NO_LABELS_FOUND": "לא נמצאו תוויות",
       "ASSIGN_SELECTED_LABELS": "שייך תוויות נבחרות",
       "ASSIGN_SUCCESFUL": "תוויות שוייכו בהצלחה.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

@@ -251,6 +251,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Log out"
     }
   },
   "COMPONENTS": {
@@ -305,6 +311,10 @@
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Saapuneet-kansiot",
+    "CAPTAIN_SETTINGS": "Asetukset",
     "HOME": "Koti",
     "AGENTS": "Edustajat",
     "AGENT_BOTS": "Bots",

@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "URL Webhook",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
@@ -344,6 +348,12 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistants",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
@@ -483,9 +493,7 @@
         "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Assistant"
-        },
+        "HEADER": "Setări",
         "BASIC_SETTINGS": {
           "TITLE": "Basic settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
@@ -502,15 +510,16 @@
               "TITLE": "Guardrails",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Response guidelines",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Delete Assistant",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,9 +538,6 @@
       "GUARDRAILS": {
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -577,9 +583,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -625,9 +628,6 @@
       "SCENARIOS": {
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -725,11 +725,6 @@
         "NAME": {
           "LABEL": "Document Name (Optional)",
           "PLACEHOLDER": "Enter a name for the document"
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select the assistant",
-          "ERROR": "The assistant field is required"
         }
       },
       "DELETE": {
@@ -863,6 +858,7 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -902,6 +898,10 @@
         "APPROVED": "Approved",
         "ALL": "Toate"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
         "TITLE": "Add an FAQ",
@@ -918,11 +918,6 @@
           "LABEL": "Answer",
           "PLACEHOLDER": "Enter the answer here",
           "ERROR": "Please provide a valid answer."
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select an assistant",
-          "ERROR": "Please select an assistant."
         }
       },
       "EDIT": {
@@ -932,13 +927,15 @@
         "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
       },
       "OPTIONS": {
-        "APPROVE": "Mark as approved",
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Editare",
+        "DELETE_RESPONSE": "Şterge"
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

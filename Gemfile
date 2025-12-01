@@ -21,6 +21,7 @@ gem 'telephone_number'
 gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
+gem 'email-provider-info'
 # compress javascript config.assets.js_compressor
 gem 'uglifier'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
@@ -53,6 +54,9 @@ gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
+
+##-- for actionmailbox --##
+gem 'aws-actionmailbox-ses', '~> 0'
 
 ##-- gems for database --#
 gem 'groupdate'

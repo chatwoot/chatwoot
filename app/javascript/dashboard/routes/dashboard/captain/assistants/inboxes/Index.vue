@@ -1,14 +1,9 @@
 <script setup>
-import { computed, onBeforeMount, onMounted, ref, nextTick } from 'vue';
-import {
-  useMapGetter,
-  useStore,
-  useStoreGetters,
-} from 'dashboard/composables/store';
+import { computed, onMounted, ref, nextTick } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
-import BackButton from 'dashboard/components/widgets/BackButton.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import ConnectInboxDialog from 'dashboard/components-next/captain/pageComponents/inbox/ConnectInboxDialog.vue';
@@ -52,13 +47,7 @@ const handleCreateClose = () => {
   selectedInbox.value = null;
 };
 
-const getters = useStoreGetters();
 const assistantId = Number(route.params.assistantId);
-const assistant = computed(() =>
-  getters['captainAssistants/getRecord'].value(assistantId)
-);
-onBeforeMount(() => store.dispatch('captainAssistants/show', assistantId));
-
 onMounted(() =>
   store.dispatch('captainInboxes/get', {
     assistantId: assistantId,
@@ -68,27 +57,16 @@ onMounted(() =>
 
 <template>
   <PageLayout
+    :header-title="$t('CAPTAIN.INBOXES.HEADER')"
     :button-label="$t('CAPTAIN.INBOXES.ADD_NEW')"
     :button-policy="['administrator']"
     :is-fetching="isFetchingAssistant || isFetching"
     :is-empty="!captainInboxes.length"
     :show-pagination-footer="false"
+    :show-know-more="false"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @click="handleCreate"
   >
-    <template v-if="!isFetchingAssistant" #headerTitle>
-      <div class="flex flex-row items-center gap-4">
-        <BackButton compact />
-        <span
-          class="flex items-center gap-1 text-lg font-medium text-n-slate-12"
-        >
-          {{ assistant.name }}
-          <span class="i-lucide-chevron-right text-xl text-n-slate-10" />
-          {{ $t('CAPTAIN.INBOXES.HEADER') }}
-        </span>
-      </div>
-    </template>
-
     <template #emptyState>
       <InboxPageEmptyState @click="handleCreate" />
     </template>

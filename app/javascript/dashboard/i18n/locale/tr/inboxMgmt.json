@@ -5,8 +5,8 @@
     "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "WhatsApp Business kaydınız tamamlanmadı. Yeniden bağlanmadan önce lütfen Meta Business Manager'da görünen adınızın (display name) durumunu kontrol edin.",
+    "COMPLETE_REGISTRATION": "Kaydı Tamamla",
     "LIST": {
       "404": "Bu hesaba bağlı gelen kutusu yok."
     },
@@ -51,10 +51,10 @@
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Instagram ile devam et",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Instagram profilinizi bağlayın",
-        "HELP": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız ",
+        "HELP": "Instagram profilinizi kanal olarak eklemek için, 'Instagram ile Devam Et' seçeneğine tıklayarak Instagram Profilinizin kimliğini doğrulamanız gerekmektedir. ",
         "ERROR_MESSAGE": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
         "ERROR_AUTH": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
-        "NEW_INBOX_SUGGESTION": "Bu Instagram hesabı daha önce farklı bir gelen kutusuna bağlıydı ve şimdi buraya taşındı. Tüm yeni mesajlar burada görünecek. Eski gelen kutusu artık bu hesap için mesaj gönderip alamayacak.",
+        "NEW_INBOX_SUGGESTION": "Bu Instagram hesabı daha önce farklı bir gelen kutusuna bağlıydı ve şimdi buraya taşındı. Tüm yeni mesajlar burada görünecektir. Eski gelen kutusu, bu hesap için artık mesaj gönderemeyecek veya alamayacaktır.",
         "DUPLICATE_INBOX_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız."
       },
       "TWITTER": {
@@ -337,13 +337,13 @@
         },
         "CONFIGURATION": {
           "TWILIO_VOICE_URL_TITLE": "Twilio Ses URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_VOICE_URL_SUBTITLE": "Bu URL'yi Twilio telefon numaranızda ve TwiML Uygulamanızda Sesli Görüşme URL'si (Voice URL) olarak yapılandırın.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Durum Geri Çağırma URL'si (Status Callback URL)",
+          "TWILIO_STATUS_URL_SUBTITLE": "Bu URL'yi Twilio telefon numaranızda Durum Geri Çağırma URL'si (Status Callback URL) olarak yapılandırın."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "Ses Kanalı Oluştur",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "Ses kanalı oluşturulamadı"
         }
       },
       "API_CHANNEL": {
@@ -437,39 +437,39 @@
           },
           "FACEBOOK": {
             "TITLE": "Facebook\n",
-            "DESCRIPTION": "Connect your Facebook page"
+            "DESCRIPTION": "Facebook sayfanızı bağlayın"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "DESCRIPTION": "Müşterilerinize WhatsApp üzerinden destek sağlayın"
           },
           "EMAIL": {
             "TITLE": "E-Posta",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "DESCRIPTION": "Gmail, Outlook veya diğer sağlayıcılarla bağlantı kurun"
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "DESCRIPTION": "SMS kanalını Twilio veya Bandwidth ile entegre edin"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "API'mizi kullanarak özel bir kanal oluşturun"
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "Bot token kullanarak Telegram kanalını yapılandırın"
           },
           "LINE": {
             "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "DESCRIPTION": "Line kanalınızı entegre edin"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "DESCRIPTION": "Instagram hesabınızı bağlayın"
           },
           "VOICE": {
             "TITLE": "Ses",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "DESCRIPTION": "Twilio Voice ile entegre edin"
           }
         }
       },
@@ -526,9 +526,9 @@
       "BUTTON_TEXT": "Beni oraya götür",
       "MORE_SETTINGS": "Daha fazla ayar",
       "WEBSITE_SUCCESS": "Bir web sitesi kanalı oluşturmayı başarıyla tamamladınız. Aşağıda gösterilen kodu kopyalayın ve web sitenize yapıştırın. Bir müşteri canlı sohbeti bir dahaki sefere kullandığında, konuşma otomatik olarak gelen kutunuzda görünecektir.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "WHATSAPP_QR_INSTRUCTION": "WhatsApp gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın",
+      "MESSENGER_QR_INSTRUCTION": "Facebook Messenger gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın",
+      "TELEGRAM_QR_INSTRUCTION": "Telegram gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın"
     },
     "REAUTH": "Yeniden yetkilendir",
     "VIEW": "Görünüm",
@@ -607,56 +607,56 @@
       "BUSINESS_HOURS": "İş Saatleri",
       "WIDGET_BUILDER": "Widget Oluşturucu",
       "BOT_CONFIGURATION": "Bot Yapılandırma",
-      "ACCOUNT_HEALTH": "Account Health",
+      "ACCOUNT_HEALTH": "Hesap Sağlığı",
       "CSAT": "CSAT"
     },
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "TITLE": "WhatsApp hesabınızı yönetin",
+      "DESCRIPTION": "WhatsApp hesap durumunuzu, mesajlaşma limitlerinizi ve kalitesini inceleyin. Gerekirse ayarları güncelleyin veya sorunları çözün",
+      "GO_TO_SETTINGS": "Meta Business Manager'a gidin",
+      "NO_DATA": "Sağlık verisi mevcut değil",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "Telefon numarasını göster",
+          "TOOLTIP": "Müşterilere gösterilen telefon numarası"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "İşletme adı",
+          "TOOLTIP": "WhatsApp tarafından onaylanmış işletme adı"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "LABEL": "Görünen adın durumu",
+          "TOOLTIP": "İşletme adı doğrulamanızın durumu"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "LABEL": "Kalite puanı",
+          "TOOLTIP": "Hesabınız için WhatsApp kalite puanı"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "LABEL": "Mesajlaşma limiti seviyesi",
+          "TOOLTIP": "Hesabınız için günlük mesajlaşma limiti"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "LABEL": "Hesap modu",
+          "TOOLTIP": "WhatsApp hesabınızın mevcut çalışma modu"
         }
       },
       "VALUES": {
         "TIERS": {
-          "TIER_250": "250 customers per 24h",
-          "TIER_1000": "1K customers per 24h",
-          "TIER_1K": "1K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
+          "TIER_250": "24 saatte 250 müşteri",
+          "TIER_1000": "24 saatte 1000 müşteri",
+          "TIER_1K": "24 saatte 1000 müşteri",
+          "TIER_10K": "24 saatte 10000 müşteri",
+          "TIER_100K": "24 saatte 100000 müşteri",
+          "TIER_UNLIMITED": "24 saatte sınırsız müşteri",
           "UNKNOWN": "Değerlendirme mevcut değil"
         },
         "STATUSES": {
           "APPROVED": "Approved",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
+          "PENDING_REVIEW": "İnceleme Bekliyor",
+          "AVAILABLE_WITHOUT_REVIEW": "İnceleme Olmadan Kullanılabilir",
+          "REJECTED": "Reddedildi",
+          "DECLINED": "Reddedildi",
           "NON_EXISTS": "Mevcut değil"
         },
         "MODES": {
@@ -678,8 +678,8 @@
       "MESSENGER_SUB_HEAD": "Bu düğmeyi gövde etiketinizin içine yerleştirin",
       "ALLOWED_DOMAINS": {
         "TITLE": "İzin Verilen Alan Adları",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "SUBTITLE": "Virgülle ayrılmış joker karakterli veya normal alan adları ekleyin (hepsine izin vermek için boş bırakın), örneğin *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Virgülle ayrılmış alan adlarını girin (ör: *.chatwoot.dev, chatwoot.com)"
       },
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",
@@ -716,26 +716,26 @@
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Yeni API Anahtarını buraya girin",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Güncelleme",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Bu gelen kutusu, WhatsApp embedded signup yoluyla bağlandı.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "WhatsApp Business ayarlarınızı güncellemek için bu gelen kutusunu yeniden yapılandırabilirsiniz.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Yeniden yapılandır",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_TITLE": "WhatsApp Business'a Bağlan",
+      "WHATSAPP_CONNECT_SUBHEADER": "Daha kolay yönetim için WhatsApp gömülü kayda (embedded signup) yükseltin.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Gelişmiş özellikler ve daha kolay yönetim için bu gelen kutusunu WhatsApp Business'a bağlayın.",
       "WHATSAPP_CONNECT_BUTTON": "Bağlan",
-      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
-      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_CONNECT_SUCCESS": "WhatsApp Business'a başarıyla bağlandı!",
+      "WHATSAPP_CONNECT_ERROR": "WhatsApp Business'a bağlanılamadı. Lütfen tekrar deneyin.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "WhatsApp Business başarıyla yeniden yapılandırıldı!",
+      "WHATSAPP_RECONFIGURE_ERROR": "WhatsApp Business yeniden yapılandırılamadı. Lütfen tekrar deneyin.",
       "WHATSAPP_APP_ID_MISSING": "WhatsApp Uygulama Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Yapılandırma Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp oturum açma işlemi iptal edildi. Lütfen tekrar deneyin.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Onay Anahtarı",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Bu belirteç, webhook uç noktasının gerçekliğini doğrulamak için kullanılır.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Şablonları Senkronize Et",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "WhatsApp'tan mesaj şablonlarını manuel olarak senkronize ederek mevcut şablonlarınızı güncelleyin.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Şablonları Senkronize Et",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Şablon senkronizasyonu başarıyla başlatıldı. Güncellenmesi birkaç dakika sürebilir.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Sohbet Öncesi Form Ayarlarını Güncelleme"
     },
     "HELP_CENTER": {
@@ -784,7 +784,7 @@
     },
     "CSAT": {
       "TITLE": "CSAT'yi etkinleştir",
-      "SUBTITLE": "Müşterilerin destek deneyimleri hakkında ne hissettiklerini anlamak için sohbetlerin sonunda otomatik olarak CSAT anketleri başlatın. Memnuniyet eğilimlerini takip edin ve zaman içinde iyileştirme alanlarını belirleyin.",
+      "SUBTITLE": "Müşterilerin destek deneyimleri hakkındaki düşüncelerini anlamak için konuşma sonunda CSAT anketlerini (Müşteri Memnuniyeti Anketleri) otomatik olarak tetikleyin. Memnuniyet eğilimlerini takip edin ve zaman içinde iyileştirme alanlarını belirleyin.",
       "DISPLAY_TYPE": {
         "LABEL": "Görüntüleme türü"
       },
@@ -802,7 +802,7 @@
         },
         "SELECT_PLACEHOLDER": "etiketleri seç"
       },
-      "NOTE": "Not: CSAT anketleri her sohbet için yalnızca bir kez gönderilir",
+      "NOTE": "Not: CSAT anketleri, konuşma başına yalnızca bir kez gönderilir",
       "API": {
         "SUCCESS_MESSAGE": "CSAT ayarları başarıyla güncellendi",
         "ERROR_MESSAGE": "CSAT ayarları güncellenemedi. Lütfen daha sonra tekrar deneyin."
@@ -981,15 +981,15 @@
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "Microsoft ile giriş yap"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "Google ile giriş yap"
       },
       "OTHER_PROVIDERS": {
         "TITLE": "Diğer Sağlayıcılar",
-        "DESCRIPTION": "Connect with Other Providers"
+        "DESCRIPTION": "Diğer Sağlayıcılar ile giriş yap"
       }
     },
     "CHANNELS": {

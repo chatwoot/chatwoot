@@ -18,9 +18,9 @@
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CALL": "Вызов",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL_UNDER_DEVELOPMENT": "Звонки находятся в разработке",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "Выберите голосовую почту"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
@@ -476,7 +476,7 @@
       "DELETE_CONTACT": "Удалить контакт",
       "DELETE_DIALOG": {
         "TITLE": "Подтвердите удаление",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "Вы уверены, что хотите удалить этот контакт?",
         "CONFIRM": "Да, удалить",
         "API": {
           "SUCCESS_MESSAGE": "Кампания успешно удалена",
@@ -554,12 +554,12 @@
         "WROTE": "написал",
         "YOU": "Вы",
         "SAVE": "Сохранить заметку",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "Добавить примечание",
         "EXPAND": "Развернуть",
         "COLLAPSE": "Свернуть",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "NO_NOTES": "Нет заметок, вы можете добавить заметки на странице контактов.",
         "EMPTY_STATE": "Нет заметок, связанных с этим контактом. Вы можете добавить заметку в поле выше.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "Пока нет заметок. Используйте кнопку \"Добавить заметку\", чтобы создать ее."
       }
     },
     "EMPTY_STATE": {
@@ -568,7 +568,28 @@
       "BUTTON_LABEL": "Добавить контакт",
       "SEARCH_EMPTY_STATE_TITLE": "Нет контактов по вашему запросу 🔍",
       "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "В данный момент нет активных контактов 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Назначить метки",
+    "ASSIGN_LABELS_SUCCESS": "Метки успешно назначены.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "Выбрано {count}",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Выбрать все ({count})",
+    "DELETE_CONTACTS": "Удалить",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Удалить контакт"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

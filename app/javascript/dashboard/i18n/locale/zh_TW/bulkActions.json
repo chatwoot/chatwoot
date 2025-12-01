@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "標記標籤",
-      "NO_LABELS_FOUND": "No labels found for",
+      "NO_LABELS_FOUND": "查無標籤",
       "ASSIGN_SELECTED_LABELS": "Assign selected labels",
       "ASSIGN_SUCCESFUL": "Labels assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

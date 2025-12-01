@@ -175,7 +175,7 @@ describe('storeFactory', () => {
         expect(commit).toHaveBeenCalledWith(mutationTypes.SET_UI_FLAG, {
           fetchingItem: true,
         });
-        expect(commit).toHaveBeenCalledWith(mutationTypes.ADD, data);
+        expect(commit).toHaveBeenCalledWith(mutationTypes.UPSERT, data);
         expect(commit).toHaveBeenCalledWith(mutationTypes.SET_UI_FLAG, {
           fetchingItem: false,
         });

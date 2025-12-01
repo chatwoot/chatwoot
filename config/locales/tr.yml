@@ -62,6 +62,9 @@ tr:
         invalid: Hatalı e-posta
       phone_number:
         invalid: e164 formatında olmalı
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: kategori ve portalde tekil olmalı
@@ -73,6 +76,7 @@ tr:
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Bu telefon numarası için zaten bir kanal mevcut: %{phone_number}, hata devam ederse lütfen destek ile iletişime geçin'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
@@ -183,17 +187,19 @@ tr:
         error_code: 'Hata kodu: %{error_code}'
     activity:
       captain:
-        resolved: 'Sohbet, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
-        open: 'Sohbet, %{user_name} tarafından açık olarak işaretlendi'
+        resolved: 'Konuşma, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
+        open: 'Konuşma, %{user_name} tarafından açık olarak işaretlendi'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Konuşma %{user_name} tarafından çözümlendi olarak işaretlendi'
         contact_resolved: 'Konuşma %{contact_name} tarafından çözümlendi olarak işaretlendi'
         open: 'Konuşma %{user_name} tarafından açık olarak işaretlendi'
         pending: 'Konuşma, %{user_name} tarafından bekleyen olarak işaretlendi'
         snoozed: 'Konuşma, %{user_name} tarafından erteledi olarak işaretlendi'
-        auto_resolved_days: ' %{count} günlük hareketsizlik nedeniyle konuşma, sistem tarafından çözümlendi olarak işaretlendi'
-        auto_resolved_hours: 'Sohbet, sistem tarafından %{count} saat etkinlik olmadığı için çözüldü olarak işaretlendi'
-        auto_resolved_minutes: 'Sohbet, sistem tarafından %{count} dakika etkinlik olmadığı için çözüldü olarak işaretlendi'
+        auto_resolved_days: 'Konuşma, %{count} günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
+        auto_resolved_hours: 'Konuşma, %{count} saatlik hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
+        auto_resolved_minutes: 'Konuşma, %{count} dakikalık hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
         system_auto_open: Sistem, yeni gelen bir mesaj nedeniyle konuşmayı tekrar açtı.
       priority:
         added: '%{user_name} önceliği %{new_priority} olarak ayarladı'
@@ -212,7 +218,7 @@ tr:
         removed: '%{user_name}, %{labels} kaldırdı'
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
-        removed: '%{user_name} removed SLA policy %{sla_name}'
+        removed: '%{user_name}, %{sla_name} adlı SLA politikasını kaldırdı'
       linear:
         issue_created: 'Linear sorun %{issue_id} %{user_name} tarafından oluşturuldu'
         issue_linked: 'Linear sorun %{issue_id} %{user_name} tarafından bağlandı'
@@ -260,7 +266,7 @@ tr:
       meeting_name: '%{agent_name} bir toplantı başlattı'
     slack:
       name: 'Slack'
-      short_description: 'Slack üzerinden doğrudan bildirim alın ve sohbetlere yanıt verin.'
+      short_description: 'Doğrudan Slack''te bildirimler alın ve konuşmalara yanıt verin.'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: 'Webhooks'
@@ -385,21 +391,21 @@ tr:
   automation:
     system_name: 'Otomasyon Sistemi'
   crm:
-    no_message: 'Sohbette mesaj yok'
+    no_message: 'Konuşmada mesaj yok'
     attachment: '[Ek: %{type}]'
-    no_content: '[No content]'
+    no_content: '[İçerik yok]'
     created_activity: |
-      Yeni sohbet başlatıldı: %{brand_name}
+      Yeni konuşma başlatıldı: %{brand_name}
 
       Kanal: %{channel_info}
       Oluşturulma: %{formatted_creation_time}
-      Sohbet Kimliği: %{display_id}
+      Konuşma Kimliği: %{display_id}
       %{brand_name}'de görüntüle: %{url}
     transcript_activity: |
       %{brand_name} sohbet dökümü
 
       Kanal: %{channel_info}
-      Sohbet Kimliği: %{display_id}
+      Konuşma Kimliği: %{display_id}
       %{brand_name}'de görüntüle: %{url}
 
       Döküm:

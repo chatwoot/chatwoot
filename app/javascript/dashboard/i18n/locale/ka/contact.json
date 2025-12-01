@@ -17,10 +17,10 @@
     "IP_ADDRESS": "IP Address",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
-    "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL": "დარეკვა",
+    "CALL_UNDER_DEVELOPMENT": "ზარის ფუნქცია დამუშავების პროცესშია",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "აირჩიეთ ხმოვანი საფოსტო ყუთი"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
@@ -290,7 +290,7 @@
     "HEADER": {
       "TITLE": "Contacts",
       "SEARCH_TITLE": "Search contacts",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "აქტიური კონტაქტები",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Message",
       "SEND_MESSAGE": "Send message",
@@ -465,8 +465,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "ეს ქმედება სამუდამო და შეუქცევადია.",
+        "BUTTON": "წაშლა ახლავე"
       }
     },
     "DETAILS": {
@@ -476,7 +476,7 @@
       "DELETE_CONTACT": "Delete contact",
       "DELETE_DIALOG": {
         "TITLE": "Confirm Deletion",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "ნამდვილად გსურთ ამ კონტაქტის წაშლა?",
         "CONFIRM": "Yes, Delete",
         "API": {
           "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -554,12 +554,12 @@
         "WROTE": "wrote",
         "YOU": "You",
         "SAVE": "Save note",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "კონტაქტის შენიშვნის დამატება",
         "EXPAND": "Expand",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "ჩაკეცვა",
+        "NO_NOTES": "შენიშვნები არ არის, შეგიძლიათ შენიშვნების დამატება კონტაქტის დეტალების გვერდიდან.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "შენიშვნები ჯერ არ არის. შენიშვნის შესაქმნელად გამოიყენეთ შენიშვნის დამატების ღილაკი."
       }
     },
     "EMPTY_STATE": {
@@ -568,7 +568,28 @@
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "No contacts matches your search 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "ამ მომენტისთვის არცერთი კონტაქტი არ არის აქტიური 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Delete",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Delete contact"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

@@ -82,13 +82,13 @@
       "ERROR": "WhatsApp'a yeniden bağlanılamadı. Lütfen tekrar deneyin.",
       "WHATSAPP_APP_ID_MISSING": "WhatsApp Uygulama Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Yapılandırma Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
-      "CONFIGURATION_ERROR": "Configuration error occurred during reauthorization.",
-      "FACEBOOK_LOAD_ERROR": "Failed to load Facebook SDK. Please try again.",
+      "CONFIGURATION_ERROR": "Yeniden yetkilendirme sırasında yapılandırma hatası oluştu.",
+      "FACEBOOK_LOAD_ERROR": "Facebook SDK yüklenemedi. Lütfen tekrar deneyin.",
       "TROUBLESHOOTING": {
-        "TITLE": "Troubleshooting",
-        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
-        "COOKIES": "Third-party cookies must be enabled",
-        "ADMIN_ACCESS": "You need admin access to the WhatsApp Business Account"
+        "TITLE": "Sorun Giderme",
+        "POPUP_BLOCKED": "Bu site için açılır pencerelere izin verildiğinden emin olun",
+        "COOKIES": "Üçüncü taraf çerezlerin etkinleştirilmesi gerekir",
+        "ADMIN_ACCESS": "WhatsApp Business Hesabına yönetici erişiminizin olması gerekir"
       }
     }
   }

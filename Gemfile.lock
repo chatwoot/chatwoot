@@ -136,9 +136,13 @@ GEM
     audited (5.4.1)
       activerecord (>= 5.0, < 7.7)
       activesupport (>= 5.0, < 7.7)
+    aws-actionmailbox-ses (0.1.0)
+      actionmailbox (>= 7.1.0)
+      aws-sdk-s3 (~> 1, >= 1.123.0)
+      aws-sdk-sns (~> 1, >= 1.61.0)
     aws-eventstream (1.2.0)
     aws-partitions (1.760.0)
-    aws-sdk-core (3.171.1)
+    aws-sdk-core (3.188.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -146,10 +150,13 @@ GEM
     aws-sdk-kms (1.64.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.122.0)
-      aws-sdk-core (~> 3, >= 3.165.0)
+    aws-sdk-s3 (1.126.0)
+      aws-sdk-core (~> 3, >= 3.174.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
+    aws-sdk-sns (1.70.0)
+      aws-sdk-core (~> 3, >= 3.188.0)
+      aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     barnes (0.0.9)
@@ -270,6 +277,7 @@ GEM
       concurrent-ruby (~> 1.0)
       http (>= 3.0)
       ruby2_keywords
+    email-provider-info (0.0.1)
     email_reply_trimmer (0.1.13)
     erubi (1.13.0)
     et-orbi (1.2.11)
@@ -594,7 +602,7 @@ GEM
     oj (3.16.10)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
-    omniauth (2.1.3)
+    omniauth (2.1.4)
       hashie (>= 3.4.6)
       logger
       rack (>= 2.2.3)
@@ -653,7 +661,7 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (3.2.0)
       rack (>= 1.2.0)
-    rack-protection (4.1.1)
+    rack-protection (4.2.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
@@ -994,6 +1002,7 @@ DEPENDENCIES
   annotate
   attr_extras
   audited (~> 5.4, >= 5.4.1)
+  aws-actionmailbox-ses (~> 0)
   aws-sdk-s3
   azure-storage-blob!
   barnes
@@ -1016,6 +1025,7 @@ DEPENDENCIES
   dotenv-rails (>= 3.0.0)
   down
   elastic-apm
+  email-provider-info
   email_reply_trimmer
   facebook-messenger
   factory_bot_rails (>= 6.4.3)
