@@ -413,6 +413,11 @@ Rails.application.routes.draw do
       end
 
       resources :aloostudio_agents, only: [:index]
+
+      # AI Agent API endpoints (protected by ALOOSTUDIO_API_TOKEN)
+      namespace :ai do
+        resource :handoff, only: [:create]
+      end
     end
 
     namespace :v2 do

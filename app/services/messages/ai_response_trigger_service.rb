@@ -1,10 +1,15 @@
 class Messages::AiResponseTriggerService
+  include Events::Types
+
   pattr_initialize [:message!]
 
   def perform
     Rails.logger.info "[AI_TRIGGER] 🎯 STARTING AI TRIGGER CHECK for message #{message.id} (source_id: #{message.source_id}, content: '#{message.content&.truncate(50)}', sender: #{message.sender_type})"
 
     return false unless should_trigger_ai_response?
+
+    # Show typing indicator for AI agent
+    show_ai_typing_indicator
 
     Rails.logger.info "[AI_TRIGGER] 🚀 TRIGGERING AI RESPONSE JOB for message #{message.id} (source_id: #{message.source_id})"
     RequestAiResponseJob.perform_later(message)
@@ -70,5 +75,25 @@ class Messages::AiResponseTriggerService
                       "status=#{message.conversation.status}"
 
     true
+  end
+
+  def show_ai_typing_indicator
+    conversation = message.conversation
+    ai_agent = conversation.assignee
+
+    return unless ai_agent&.is_ai?
+
+    Rails.logger.info "[AI_TRIGGER] 💬 Showing typing indicator for AI agent #{ai_agent.id} in conversation #{conversation.id}"
+
+    # Trigger typing_on event for the AI agent
+    Rails.configuration.dispatcher.dispatch(
+      CONVERSATION_TYPING_ON,
+      Time.zone.now,
+      conversation: conversation,
+      user: ai_agent,
+      is_private: false
+    )
+  rescue StandardError => e
+    Rails.logger.error "[AI_TRIGGER] ❌ Failed to show typing indicator: #{e.message}"
   end
 end

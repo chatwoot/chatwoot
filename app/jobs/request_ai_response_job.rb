@@ -2,6 +2,8 @@ require 'base64'
 require 'tempfile'
 
 class RequestAiResponseJob < ApplicationJob
+  include Events::Types
+
   queue_as :default
 
   def perform(message)
@@ -228,18 +230,26 @@ class RequestAiResponseJob < ApplicationJob
         # Send the AI response back through the appropriate channel
         if ai_message.persisted?
           Rails.logger.info "[AI_JOB] ✅ AI message #{ai_message.id} created successfully, sending to channel"
+
+          # Hide typing indicator before sending response
+          hide_ai_typing_indicator(conversation, ai_agent)
+
           send_ai_response_to_channel(ai_message)
           Rails.logger.info "[AI_JOB] ✅ RequestAiResponseJob completed for message #{message.id}"
         else
           Rails.logger.error "[AI_JOB] ❌ Failed to persist AI message for original message #{message.id}"
+          hide_ai_typing_indicator(conversation, ai_agent)
         end
       else
         Rails.logger.error "Failed to get response from AI agent for conversation #{conversation.id}: #{response.code} #{response.body}"
+        hide_ai_typing_indicator(conversation, ai_agent)
       end
     rescue HTTParty::Error => e
       Rails.logger.error "AI agent connection error for conversation #{conversation.id}: #{e.message}"
+      hide_ai_typing_indicator(conversation, ai_agent)
     rescue StandardError => e
       Rails.logger.error "An unexpected error occurred while requesting AI response for conversation #{conversation.id}: #{e.message}"
+      hide_ai_typing_indicator(conversation, ai_agent)
     ensure
       # Clean up job lock using same key strategy
       dedup_key = (message.source_id.presence || "msg_#{message.id}")
@@ -437,18 +447,64 @@ class RequestAiResponseJob < ApplicationJob
     inbox = conversation.inbox
     channel = inbox.channel
 
-    case inbox.channel_type
-    when 'Channel::Whatsapp'
-      build_whatsapp_channel_info(conversation, channel)
-    when 'Channel::Telegram'
-      build_telegram_channel_info(conversation, channel)
-    when 'Channel::Sms'
-      build_sms_channel_info(conversation, channel)
-      # No channel info for other channels (web widget, API, etc.)
-    end
+    # Get base human handoff info (common to all channels)
+    # This should ALWAYS be present regardless of channel type
+    base_info = build_base_handoff_info(conversation)
+    Rails.logger.info "[AI_JOB] 📋 Base handoff info: #{base_info.present? ? base_info.keys : 'empty'}"
+
+    # Add channel-specific info
+    channel_specific_info = case inbox.channel_type
+                            when 'Channel::Whatsapp'
+                              build_whatsapp_channel_info(conversation, channel)
+                            when 'Channel::Telegram'
+                              build_telegram_channel_info(conversation, channel)
+                            when 'Channel::Sms'
+                              build_sms_channel_info(conversation, channel)
+                            when 'Channel::FacebookPage'
+                              build_facebook_channel_info(conversation, channel)
+                            when 'Channel::InstagramDirect'
+                              build_instagram_channel_info(conversation, channel)
+                            when 'Channel::Api', 'Channel::WebWidget'
+                              build_web_channel_info(conversation, inbox)
+                            else
+                              # For any other channel type, just return empty hash
+                              Rails.logger.info "[AI_JOB] ℹ️  Unknown channel type: #{inbox.channel_type}, using base info only"
+                              {}
+                            end
+
+    # Merge base handoff info with channel-specific info
+    merged_info = base_info.merge(channel_specific_info || {})
+    Rails.logger.info "[AI_JOB] ✅ Final channel info keys: #{merged_info.keys}"
+    merged_info
   rescue StandardError => e
     Rails.logger.error "[AI_JOB] ❌ Error building channel info: #{e.message}"
-    nil
+    Rails.logger.error e.backtrace.join("\n")
+    # Return at least base info even if there's an error
+    begin
+      build_base_handoff_info(conversation)
+    rescue StandardError
+      {}
+    end
+  end
+
+  # Base human handoff information (common to all channels)
+  def build_base_handoff_info(conversation)
+    ai_agent = conversation.assignee
+    human_agent = ai_agent&.human_agent
+
+    {
+      conversation_id: conversation.id,
+      conversation_display_id: conversation.display_id,
+      human_agent: if human_agent
+                     {
+                       id: human_agent.id,
+                       name: human_agent.name,
+                       email: human_agent.email,
+                       available_name: human_agent.available_name
+                     }
+                   end,
+      handoff_email: human_agent&.email || conversation.account.support_email
+    }.compact
   end
 
   def build_whatsapp_channel_info(conversation, channel)
@@ -457,11 +513,15 @@ class RequestAiResponseJob < ApplicationJob
 
     {
       channel: 'whatsapp',
-      access_token: provider_config['api_key'],
-      phone_number_id: provider_config['phone_number_id'],
+      # Full provider config for AI to access templates and messages
+      provider_config: {
+        api_key: provider_config['api_key'],
+        phone_number_id: provider_config['phone_number_id'],
+        business_account_id: provider_config['business_account_id'],
+        webhook_verify_token: provider_config['webhook_verify_token']
+      },
       phone_number: channel.phone_number,
-      client_phone_number: contact.phone_number,
-      handoff_email: conversation.account.support_email
+      client_phone_number: contact.phone_number
     }.compact
   end
 
@@ -471,10 +531,11 @@ class RequestAiResponseJob < ApplicationJob
 
     {
       channel: 'telegram',
-      bot_token: provider_config['bot_token'],
+      provider_config: {
+        bot_token: provider_config['bot_token']
+      },
       chat_id: contact_inbox.source_id,
-      user_id: contact_inbox.source_id,
-      handoff_email: conversation.account.support_email
+      user_id: contact_inbox.source_id
     }.compact
   end
 
@@ -484,8 +545,60 @@ class RequestAiResponseJob < ApplicationJob
     {
       channel: 'sms',
       phone_number: channel.phone_number,
-      client_phone_number: contact.phone_number,
-      handoff_email: conversation.account.support_email
+      client_phone_number: contact.phone_number
     }.compact
+  end
+
+  def build_facebook_channel_info(conversation, channel)
+    contact_inbox = conversation.contact_inbox
+
+    {
+      channel: 'facebook',
+      page_id: channel.page_id,
+      user_id: contact_inbox.source_id
+    }.compact
+  end
+
+  def build_instagram_channel_info(conversation, channel)
+    contact_inbox = conversation.contact_inbox
+
+    {
+      channel: 'instagram',
+      instagram_id: channel.instagram_id,
+      user_id: contact_inbox.source_id
+    }.compact
+  end
+
+  def build_web_channel_info(_conversation, inbox)
+    channel_name = inbox.channel_type.demodulize.underscore
+
+    info = {
+      channel: channel_name,
+      inbox_id: inbox.id,
+      inbox_name: inbox.name
+    }
+
+    # Add website_url if available (for web widget)
+    info[:website_url] = inbox.website_url if inbox.respond_to?(:website_url) && inbox.website_url.present?
+
+    Rails.logger.info "[AI_JOB] 🌐 Built #{channel_name} channel info: #{info.keys}"
+    info.compact
+  end
+
+  def hide_ai_typing_indicator(conversation, ai_agent)
+    return unless conversation && ai_agent&.is_ai?
+
+    Rails.logger.info "[AI_JOB] 💬 Hiding typing indicator for AI agent #{ai_agent.id} in conversation #{conversation.id}"
+
+    # Trigger typing_off event for the AI agent
+    Rails.configuration.dispatcher.dispatch(
+      CONVERSATION_TYPING_OFF,
+      Time.zone.now,
+      conversation: conversation,
+      user: ai_agent,
+      is_private: false
+    )
+  rescue StandardError => e
+    Rails.logger.error "[AI_JOB] ❌ Failed to hide typing indicator: #{e.message}"
   end
 end
