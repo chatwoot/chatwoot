@@ -26,7 +26,7 @@ const onToggle = () => {
 <template>
   <div class="text-sm py-4 grid gap-2">
     <button
-      class="flex items-center select-none w-full m-0 cursor-grab justify-between drag-handle px-4 py-0"
+      class="flex items-center select-none w-full m-0 cursor-grab justify-between drag-handle px-4 py-0 focus-visible:outline-none outline-none !transition-none"
       @click.stop="onToggle"
     >
       <h5 class="text-n-slate-12 text-sm font-medium mb-0 py-0 pr-2 pl-0">

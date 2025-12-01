@@ -53,7 +53,7 @@ onMounted(() => {
         {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
       </span>
     </div>
-    <div v-else class="divide-y divide-n-weak">
+    <div v-else>
       <ConversationCard
         v-for="conversation in previousConversations"
         :key="conversation.id"

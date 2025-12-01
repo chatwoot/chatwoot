@@ -272,6 +272,7 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_NOTES')"
               :is-open="isContactSidebarItemOpen('is_contact_notes_open')"
+              compact
               @toggle="
                 value => toggleSidebarUIState('is_contact_notes_open', value)
               "
