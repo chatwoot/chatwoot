@@ -218,6 +218,7 @@ onMounted(() => {
                 $t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')
               "
               :is-open="isContactSidebarItemOpen('is_previous_conv_open')"
+              compact
               @toggle="
                 value => toggleSidebarUIState('is_previous_conv_open', value)
               "

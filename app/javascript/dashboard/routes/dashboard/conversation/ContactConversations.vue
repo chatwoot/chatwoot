@@ -47,13 +47,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="!uiFlags.isFetching" class="max-h-96 overflow-y-auto">
-    <div v-if="!previousConversations.length" class="no-label-message px-4 p-3">
+  <div v-if="!uiFlags.isFetching" class="max-h-96 overflow-y-auto px-3">
+    <div v-if="!previousConversations.length" class="text-n-slate-11 mb-4 p-3">
       <span>
         {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
       </span>
     </div>
-    <div v-else class="px-3 divide-y divide-n-weak">
+    <div v-else class="divide-y divide-n-weak">
       <ConversationCard
         v-for="conversation in previousConversations"
         :key="conversation.id"
@@ -71,9 +71,3 @@ onMounted(() => {
     <Spinner />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.no-label-message {
-  @apply text-n-slate-11 mb-4;
-}
-</style>

@@ -10,6 +10,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  compact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['toggle']);
@@ -20,9 +24,9 @@ const onToggle = () => {
 </script>
 
 <template>
-  <div class="text-sm p-4 grid gap-2">
+  <div class="text-sm py-4 grid gap-2">
     <button
-      class="flex items-center select-none w-full m-0 cursor-grab justify-between drag-handle p-0"
+      class="flex items-center select-none w-full m-0 cursor-grab justify-between drag-handle px-4 py-0"
       @click.stop="onToggle"
     >
       <h5 class="text-n-slate-12 text-sm font-medium mb-0 py-0 pr-2 pl-0">
@@ -43,7 +47,7 @@ const onToggle = () => {
         />
       </div>
     </button>
-    <div v-if="isOpen">
+    <div v-if="isOpen" :class="compact ? 'px-1' : 'px-4'">
       <slot />
     </div>
   </div>
