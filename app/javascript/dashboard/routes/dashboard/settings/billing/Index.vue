@@ -79,7 +79,9 @@ const subscriptionEndsAt = computed(() => {
 
 const subscriptionCancelledAt = computed(() => {
   if (!customAttributes.value.subscription_cancelled_at) return '';
-  const cancelledDate = new Date(customAttributes.value.subscription_cancelled_at);
+  const cancelledDate = new Date(
+    customAttributes.value.subscription_cancelled_at
+  );
   return format(cancelledDate, 'dd MMM, yyyy');
 });
 
@@ -333,6 +335,7 @@ onMounted(handleBillingPageLogic);
             />
 
             <SubscriptionRow
+              v-if="hasActiveSubscription"
               :label="
                 isCancelled
                   ? $t('BILLING_SETTINGS.SUBSCRIPTION.ENDS_ON')
@@ -340,7 +343,7 @@ onMounted(handleBillingPageLogic);
               "
               :value="subscriptionEndsAt"
               :action-text="
-                isCancelled || !hasActiveSubscription
+                isCancelled
                   ? ''
                   : $t('BILLING_SETTINGS.SUBSCRIPTION.CANCEL_SUBSCRIPTION')
               "
