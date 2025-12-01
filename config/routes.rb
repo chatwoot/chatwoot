@@ -444,7 +444,7 @@ Rails.application.routes.draw do
 
         namespace :v2 do
           resources :accounts, only: [] do
-            resource :billing, only: [] do
+            resource :billing, only: [], controller: 'billing' do
               get :credit_grants
               get :pricing_plans
               get :topup_options

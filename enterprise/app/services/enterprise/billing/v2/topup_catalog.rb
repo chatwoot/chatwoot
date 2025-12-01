@@ -1,9 +1,9 @@
 module Enterprise::Billing::V2::TopupCatalog
   DEFAULT_TOPUPS = [
     { credits: 1000, amount: 20.0 },
-    { credits: 2000, amount: 40.0 },
-    { credits: 3000, amount: 60.0 },
-    { credits: 4000, amount: 80.0 }
+    { credits: 2500, amount: 50.0 },
+    { credits: 5000, amount: 100.0 },
+    { credits: 10_000, amount: 200.0 }
   ].freeze
 
   module_function

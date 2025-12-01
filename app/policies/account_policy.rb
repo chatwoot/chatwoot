@@ -58,4 +58,21 @@ class AccountPolicy < ApplicationPolicy
   def change_pricing_plan?
     @account_user.administrator?
   end
+
+  # V2 Billing API actions
+  def pricing_plans?
+    @account_user.administrator?
+  end
+
+  def topup_options?
+    @account_user.administrator?
+  end
+
+  def topup?
+    @account_user.administrator?
+  end
+
+  def subscribe?
+    @account_user.administrator?
+  end
 end

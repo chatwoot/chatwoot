@@ -5,8 +5,10 @@ if resource.custom_attributes.present?
     json.plan_name resource.custom_attributes['plan_name']
     json.subscribed_quantity resource.custom_attributes['subscribed_quantity']
     json.subscription_status resource.custom_attributes['subscription_status']
-    json.subscription_ends_on resource.custom_attributes['subscription_ends_on']
+    json.subscription_ends_at resource.custom_attributes['subscription_ends_at']
+    json.subscription_cancelled_at resource.custom_attributes['subscription_cancelled_at'] if resource.custom_attributes['subscription_cancelled_at'].present?
     json.stripe_subscription_id resource.custom_attributes['stripe_subscription_id'] if resource.custom_attributes['stripe_subscription_id'].present?
+    json.stripe_plan_id resource.custom_attributes['stripe_plan_id'] if resource.custom_attributes['stripe_plan_id'].present?
     json.stripe_billing_version resource.custom_attributes['stripe_billing_version'] if resource.custom_attributes['stripe_billing_version'].present?
     json.stripe_customer_id resource.custom_attributes['stripe_customer_id'] if resource.custom_attributes['stripe_customer_id'].present?
     if resource.custom_attributes['pending_stripe_pricing_plan_id'].present?
