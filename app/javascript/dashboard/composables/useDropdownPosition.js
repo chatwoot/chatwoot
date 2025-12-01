@@ -9,6 +9,7 @@ import { useElementBounding, useWindowSize } from '@vueuse/core';
  */
 export function useDropdownPosition(triggerRef, dropdownRef) {
   const SAFE_MARGIN = 16;
+  const RTL = 'rtl';
 
   const triggerBounds = useElementBounding(triggerRef);
   const dropdownBounds = useElementBounding(dropdownRef);
@@ -19,19 +20,29 @@ export function useDropdownPosition(triggerRef, dropdownRef) {
       return 'top-full mt-2 ltr:left-0 rtl:right-0';
 
     const spaceBelow = windowHeight.value - triggerBounds.bottom.value;
-    const spaceRight = windowWidth.value - triggerBounds.left.value;
     const dropdownHeight = dropdownBounds.height.value || 200;
     const dropdownWidth = dropdownBounds.width.value || 200;
+
+    // Check if RTL by checking app div with dir attribute
+    const appDiv = document.querySelector('#app[dir]');
+    const isRTL = appDiv?.getAttribute('dir') === RTL;
+
+    // Use appropriate edge based on text direction
+    const triggerEdge = isRTL
+      ? triggerBounds.right.value
+      : triggerBounds.left.value;
+    const wouldOverflow = isRTL
+      ? triggerEdge - dropdownWidth - SAFE_MARGIN < 0
+      : triggerEdge + dropdownWidth + SAFE_MARGIN > windowWidth.value;
 
     const vertical =
       spaceBelow >= dropdownHeight + SAFE_MARGIN
         ? 'top-full mt-2'
         : 'bottom-full mb-2';
 
-    const horizontal =
-      spaceRight >= dropdownWidth + SAFE_MARGIN
-        ? 'ltr:left-0 rtl:right-0'
-        : 'ltr:right-0 rtl:left-0';
+    const horizontal = wouldOverflow
+      ? 'ltr:right-0 rtl:left-0'
+      : 'ltr:left-0 rtl:right-0';
 
     return `${vertical} ${horizontal}`;
   });
