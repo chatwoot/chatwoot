@@ -18,6 +18,7 @@
     "CREATED_AT_LABEL": "Created",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL": "Call",
     "BUTTON_LABEL": {
       "NEW_MESSAGE": "Message",
       "CALL": "Call",
