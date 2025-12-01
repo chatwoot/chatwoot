@@ -34,7 +34,7 @@ module Integrations::LlmInstrumentation
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
-    executed
+    executed ? result : yield
   end
 
   def instrument_agent_session(params)
@@ -58,6 +58,7 @@ module Integrations::LlmInstrumentation
     executed ? result : yield
   end
 
+  #TODO: remove
   def instrument_tool_call(tool_name, arguments)
     # There is no error handling because tools can fail and LLMs should be
     # aware of those failures and factor them into their response.
@@ -69,6 +70,32 @@ module Integrations::LlmInstrumentation
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
       result
     end
+  end
+
+  def start_tool_span(tool_call)
+    return unless ChatwootApp.otel_enabled?
+
+    tool_name = tool_call.name.to_s
+    span = tracer.start_span(format(TOOL_SPAN_NAME, tool_name))
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, tool_call.arguments.to_json)
+
+    @pending_tool_spans ||= []
+    @pending_tool_spans.push(span)
+  rescue StandardError => e
+    Rails.logger.warn "Failed to start tool span: #{e.message}"
+  end
+
+  def end_tool_span(result)
+    return unless ChatwootApp.otel_enabled?
+
+    span = @pending_tool_spans&.pop
+    return unless span
+
+    output = result.is_a?(String) ? result : result.to_json
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, output)
+    span.finish
+  rescue StandardError => e
+    Rails.logger.warn "Failed to end tool span: #{e.message}"
   end
 
   def determine_provider(model_name)
@@ -92,7 +119,12 @@ module Integrations::LlmInstrumentation
   end
 
   def record_completion(span, result)
-    set_completion_attributes(span, result) if result.is_a?(Hash)
+    if result.respond_to?(:content)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
+    elsif result.is_a?(Hash)
+      set_completion_attributes(span, result) if result.is_a?(Hash)
+    end
   end
 
   def set_request_attributes(span, params)
