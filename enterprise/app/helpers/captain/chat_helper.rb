@@ -38,8 +38,9 @@ module Captain::ChatHelper
   end
 
   def setup_system_instructions(chat)
-    system_msg = @messages.find { |m| m[:role] == 'system' || m[:role] == :system }
-    chat.with_instructions(system_msg[:content]) if system_msg
+    system_messages = @messages.select { |m| m[:role] == 'system' || m[:role] == :system }
+    combined_instructions = system_messages.pluck(:content).join("\n\n")
+    chat.with_instructions(combined_instructions)
   end
 
   def setup_event_handlers(chat)
@@ -54,10 +55,13 @@ module Captain::ChatHelper
   def handle_tool_call(tool_call)
     persist_thinking_message(tool_call)
     start_tool_span(tool_call)
+    @pending_tool_calls ||= []
+    @pending_tool_calls.push(tool_call)
   end
 
   def handle_tool_result(result)
     end_tool_span(result)
+    persist_tool_completion
   end
 
   def add_messages_to_chat(chat)
@@ -93,6 +97,23 @@ module Captain::ChatHelper
     persist_message(
       {
         'content' => "Using #{tool_name}",
+        'function_name' => tool_name
+      },
+      'assistant_thinking'
+    )
+  end
+
+  def persist_tool_completion
+    return unless defined?(@copilot_thread) && @copilot_thread.present?
+
+    tool_call = @pending_tool_calls&.pop
+    return unless tool_call
+
+    tool_name = tool_call.name.to_s
+
+    persist_message(
+      {
+        'content' => "Completed #{tool_name}",
         'function_name' => tool_name
       },
       'assistant_thinking'
