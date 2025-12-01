@@ -119,6 +119,14 @@
     --bubble-bot-bg: var(--solid-iris);
     --bubble-bot-text: var(--slate-12);
 
+    // Bubble spacing (ratio of 1 = default, 1.5 = 50% larger, 0.5 = 50% smaller)
+    --bubble-spacing-ratio: 1;
+    --bubble-radius: calc(0.75rem * var(--bubble-spacing-ratio));
+    --bubble-radius-sm: calc(0.125rem * var(--bubble-spacing-ratio));
+    --bubble-radius-md: calc(0.375rem * var(--bubble-spacing-ratio));
+    --bubble-radius-lg: calc(0.5rem * var(--bubble-spacing-ratio));
+    --bubble-padding: calc(0.75rem * var(--bubble-spacing-ratio));
+
     --alpha-1: 67, 67, 67, 0.06;
     --alpha-2: 201, 202, 207, 0.15;
     --alpha-3: 255, 255, 255, 0.96;
@@ -243,6 +251,14 @@
     --bubble-private-text: var(--amber-12);
     --bubble-bot-bg: var(--solid-iris);
     --bubble-bot-text: var(--slate-12);
+
+    // Bubble spacing (inherited from light mode, can be overridden)
+    --bubble-spacing-ratio: 1;
+    --bubble-radius: calc(0.75rem * var(--bubble-spacing-ratio));
+    --bubble-radius-sm: calc(0.125rem * var(--bubble-spacing-ratio));
+    --bubble-radius-md: calc(0.375rem * var(--bubble-spacing-ratio));
+    --bubble-radius-lg: calc(0.5rem * var(--bubble-spacing-ratio));
+    --bubble-padding: calc(0.75rem * var(--bubble-spacing-ratio));
 
     --alpha-1: 36, 36, 36, 0.8;
     --alpha-2: 139, 147, 182, 0.15;

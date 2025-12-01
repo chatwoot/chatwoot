@@ -23,7 +23,6 @@ const attachment = computed(() => {
 
 const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry();
 
-const showGallery = ref(false);
 const isDownloading = ref(false);
 const { showGallery, isGalleryAllowed, toggleGallery } = useGallery();
 

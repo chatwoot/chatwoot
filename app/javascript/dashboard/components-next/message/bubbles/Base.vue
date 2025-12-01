@@ -38,10 +38,10 @@ const varaintBaseMap = {
 
 const orientationMap = {
   [ORIENTATION.LEFT]:
-    'left-bubble rounded-xl ltr:rounded-bl-sm rtl:rounded-br-sm',
+    'left-bubble rounded-[var(--bubble-radius)] ltr:rounded-bl-[var(--bubble-radius-sm)] rtl:rounded-br-[var(--bubble-radius-sm)]',
   [ORIENTATION.RIGHT]:
-    'right-bubble rounded-xl ltr:rounded-br-sm rtl:rounded-bl-sm',
-  [ORIENTATION.CENTER]: 'rounded-md',
+    'right-bubble rounded-[var(--bubble-radius)] ltr:rounded-br-[var(--bubble-radius-sm)] rtl:rounded-bl-[var(--bubble-radius-sm)]',
+  [ORIENTATION.CENTER]: 'rounded-[var(--bubble-radius-md)]',
 };
 
 const flexOrientationClass = computed(() => {
@@ -60,7 +60,7 @@ const messageClass = computed(() => {
   if (variant.value !== MESSAGE_VARIANTS.ACTIVITY) {
     classToApply.push(orientationMap[orientation.value]);
   } else {
-    classToApply.push('rounded-lg');
+    classToApply.push('rounded-[var(--bubble-radius-lg)]');
   }
 
   return classToApply;

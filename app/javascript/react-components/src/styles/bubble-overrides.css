@@ -1,0 +1,41 @@
+/*
+ * Runtime Theme Customization for Chatwoot Web Components
+ *
+ * Consumers can override bubble styles from outside the Shadow DOM.
+ * Set these CSS variables on :root or any ancestor element:
+ *
+ * COLORS (RGB values without commas, e.g., "59 130 246"):
+ *   --chatwoot-bubble-agent-bg: Agent message background
+ *   --chatwoot-bubble-agent-text: Agent message text
+ *   --chatwoot-bubble-user-bg: User message background
+ *   --chatwoot-bubble-user-text: User message text
+ *   --chatwoot-bubble-private-bg: Private note background
+ *   --chatwoot-bubble-private-text: Private note text
+ *   --chatwoot-bubble-bot-bg: Bot message background
+ *   --chatwoot-bubble-bot-text: Bot message text
+ *
+ * SPACING:
+ *   --chatwoot-bubble-spacing-ratio: Scale factor for border radius (1 = default)
+ *
+ * Example usage in consumer's CSS:
+ *   :root {
+ *     --chatwoot-bubble-agent-bg: 59 130 246;
+ *     --chatwoot-bubble-user-bg: 243 244 246;
+ *     --chatwoot-bubble-spacing-ratio: 1.5;
+ *   }
+ */
+
+:host {
+  /* Colors - falls back to theme defaults from _next-colors.scss */
+  --bubble-agent-bg: var(--chatwoot-bubble-agent-bg, var(--solid-blue));
+  --bubble-agent-text: var(--chatwoot-bubble-agent-text, var(--slate-12));
+  --bubble-user-bg: var(--chatwoot-bubble-user-bg, var(--slate-4));
+  --bubble-user-text: var(--chatwoot-bubble-user-text, var(--slate-12));
+  --bubble-private-bg: var(--chatwoot-bubble-private-bg, var(--solid-amber));
+  --bubble-private-text: var(--chatwoot-bubble-private-text, var(--amber-12));
+  --bubble-bot-bg: var(--chatwoot-bubble-bot-bg, var(--solid-iris));
+  --bubble-bot-text: var(--chatwoot-bubble-bot-text, var(--slate-12));
+
+  /* Spacing - 1 = default */
+  --bubble-spacing-ratio: var(--chatwoot-bubble-spacing-ratio, 1);
+}
