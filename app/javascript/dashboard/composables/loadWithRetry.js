@@ -7,9 +7,10 @@ export const useLoadWithRetry = (config = {}) => {
 
   const isLoaded = ref(false);
   const hasError = ref(false);
+  const loadedUrl = ref('');
 
   const loadWithRetry = async url => {
-    const attemptLoad = () => {
+    const attemptLoad = urlToLoad => {
       return new Promise((resolve, reject) => {
         let media;
         if (type === 'image') {
@@ -21,7 +22,7 @@ export const useLoadWithRetry = (config = {}) => {
           media.onloadedmetadata = () => resolve();
           media.onerror = () => reject(new Error('Failed to load audio'));
         } else {
-          fetch(url)
+          fetch(urlToLoad)
             .then(res => {
               if (res.ok) resolve();
               else reject(new Error('Failed to load resource'));
@@ -29,7 +30,7 @@ export const useLoadWithRetry = (config = {}) => {
             .catch(err => reject(err));
           return;
         }
-        media.src = url;
+        media.src = urlToLoad;
       });
     };
 
@@ -41,8 +42,14 @@ export const useLoadWithRetry = (config = {}) => {
 
     const retry = async (attempt = 0) => {
       try {
-        await attemptLoad();
+        const urlObj = new URL(url);
+        urlObj.searchParams.set('t', Date.now());
+        const urlWithTimestamp = urlObj.toString();
+
+        await attemptLoad(urlWithTimestamp);
+
         hasError.value = false;
+        loadedUrl.value = urlWithTimestamp;
         isLoaded.value = true;
       } catch (error) {
         if (attempt + 1 >= maxRetry) {
@@ -62,5 +69,6 @@ export const useLoadWithRetry = (config = {}) => {
     isLoaded,
     hasError,
     loadWithRetry,
+    loadedUrl,
   };
 };

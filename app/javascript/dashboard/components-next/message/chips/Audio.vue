@@ -9,7 +9,6 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useLoadWithRetry } from 'dashboard/composables/loadWithRetry';
 import Icon from 'next/icon/Icon.vue';
-import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 import { downloadFile } from '@chatwoot/utils';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { emitter } from 'shared/helpers/mitt';
@@ -26,12 +25,8 @@ defineOptions({
 });
 
 const { t } = useI18n();
-const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry({
+const { isLoaded, hasError, loadWithRetry, loadedUrl } = useLoadWithRetry({
   type: 'audio',
-});
-
-const timeStampURL = computed(() => {
-  return timeStampAppendedURL(attachment.dataUrl);
 });
 
 const audioPlayer = useTemplateRef('audioPlayer');
@@ -149,7 +144,7 @@ const downloadAudio = async () => {
       @timeupdate="onTimeUpdate"
       @ended="onEnd"
     >
-      <source :src="timeStampURL" />
+      <source :src="loadedUrl" />
     </audio>
     <div
       v-bind="$attrs"
