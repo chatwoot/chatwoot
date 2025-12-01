@@ -65,12 +65,4 @@ class InboxPolicy < ApplicationPolicy
   def health?
     @account_user.administrator?
   end
-
-  def csat_template_status?
-    @account_user.administrator?
-  end
-
-  def create_csat_template?
-    @account_user.administrator?
-  end
 end

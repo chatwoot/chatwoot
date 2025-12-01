@@ -25,7 +25,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     result = create_template_via_provider(template_params)
     render_template_creation_result(result)
   rescue ActionController::ParameterMissing
-    render json: { error: 'Template parameters are required' }, status: :unprocessable_content
+    render json: { error: 'Template parameters are required' }, status: :unprocessable_entity
   rescue StandardError => e
     Rails.logger.error "Error creating CSAT template: #{e.message}"
     render json: { error: 'Template creation failed' }, status: :internal_server_error
@@ -50,7 +50,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   end
 
   def render_missing_message_error
-    render json: { error: 'Message is required' }, status: :unprocessable_content
+    render json: { error: 'Message is required' }, status: :unprocessable_entity
   end
 
   def create_template_via_provider(template_params)
@@ -91,13 +91,16 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     render json: {
       error: error_message,
       details: whatsapp_error[:technical_details]
-    }, status: :unprocessable_content
+    }, status: :unprocessable_entity
   end
 
   def delete_existing_template_if_needed
-    # Check if template exists first to avoid unnecessary deletion attempts
+    # Only attempt deletion if inbox has a configured template
     template = @inbox.csat_config&.dig('template')
-    template_name = template&.dig('name') || 'customer_satisfaction_survey'
+    return true if template.blank?
+
+    template_name = template['name']
+    return true if template_name.blank?
 
     template_status = @inbox.channel.provider_service.get_template_status(template_name)
     return true unless template_status[:success]
