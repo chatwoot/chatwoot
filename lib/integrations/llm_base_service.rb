@@ -111,6 +111,8 @@ class Integrations::LlmBaseService
   def setup_chat_with_messages(chat, messages)
     apply_system_instructions(chat, messages)
     response = send_conversation_messages(chat, messages)
+    return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if response.nil?
+
     build_ruby_llm_response(response, messages)
   end
 
@@ -121,6 +123,8 @@ class Integrations::LlmBaseService
 
   def send_conversation_messages(chat, messages)
     conversation_messages = messages.reject { |m| m['role'] == 'system' }
+
+    return nil if conversation_messages.empty?
 
     return chat.ask(conversation_messages.first['content']) if conversation_messages.length == 1
 
