@@ -55,6 +55,9 @@ gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby',
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
+##-- for actionmailbox --##
+gem 'aws-actionmailbox-ses', '~> 0'
+
 ##-- gems for database --#
 gem 'groupdate'
 gem 'pg'
@@ -192,6 +195,10 @@ gem 'ai-agents', '>= 0.4.3'
 
 # TODO: Move this gem as a dependency of ai-agents
 gem 'ruby_llm-schema'
+
+# OpenTelemetry for LLM observability
+gem 'opentelemetry-sdk'
+gem 'opentelemetry-exporter-otlp'
 
 gem 'shopify_api'
 

@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Digitazione conversazione disattiva"
           }
         },
+        "NAME": {
+          "LABEL": "Nome Webhook",
+          "PLACEHOLDER": "Inserisci un nome per il webhook"
+        },
         "END_POINT": {
           "LABEL": "URL del webhook",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
@@ -344,6 +348,12 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Scopri di più",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistenti",
+      "SWITCH_ASSISTANT": "Cambia assistenti",
+      "NEW_ASSISTANT": "Crea Assistente",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Prova questi prompt",
@@ -413,7 +423,7 @@
       "NO_ASSISTANTS_AVAILABLE": "Non ci sono assistenti disponibili nel tuo account.",
       "ADD_NEW": "Crea un nuovo assistente",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
+        "TITLE": "Sei sicuro di voler eliminare l'assistente?",
         "DESCRIPTION": "Questa azione è permanente. L'eliminazione di questo assistente la rimuoverà da tutte le inbox connesse e cancellerà definitivamente tutte le knowledge generate.",
         "CONFIRM": "Sì, elimina",
         "SUCCESS_MESSAGE": "L'assistente è stato eliminato con successo",
@@ -483,9 +493,7 @@
         "NOT_FOUND": "Impossibile trovare l'assistente. Riprova."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Assistente"
-        },
+        "HEADER": "Impostazioni",
         "BASIC_SETTINGS": {
           "TITLE": "Impostazioni di base",
           "DESCRIPTION": "Personalizza ciò che l'assistente dice quando termina una conversazione o la trasferisce a un umano."
@@ -502,15 +510,16 @@
               "TITLE": "Guardrail",
               "DESCRIPTION": "Mantieni l’assistente concentrato: risponde solo ai tipi di domande che desideri, evitando argomenti fuori tema o non consentiti."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenari",
-              "DESCRIPTION": "Fornisci contesto aggiuntivo al tuo assistente, ad esempio “cosa fare quando un utente è bloccato” o “come comportarsi durante una richiesta di rimborso”."
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Linee guida per le risposte",
               "DESCRIPTION": "Imposta il tono e la struttura delle risposte del tuo assistente: chiare e amichevoli? Brevi e dirette? Dettagliate e formali?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Elimina Assistente",
+          "DESCRIPTION": "Questa azione è permanente. L'eliminazione di questo assistente la rimuoverà da tutte le inbox connesse e cancellerà definitivamente tutte le knowledge generate.",
+          "BUTTON_TEXT": "Elimina {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,9 +538,6 @@
       "GUARDRAILS": {
         "TITLE": "Guardrail",
         "DESCRIPTION": "Mantieni l’assistente concentrato: risponde solo ai tipi di domande che desideri, evitando argomenti fuori tema o non consentiti.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrail"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} elemento selezionato | {count} elementi selezionati",
           "SELECT_ALL": "Seleziona tutto ({count})",
@@ -577,9 +583,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Linee Guida per le Risposte",
         "DESCRIPTION": "Imposta il tono e la struttura delle risposte del tuo assistente: chiare e amichevoli? Brevi e dirette? Dettagliate e formali?",
-        "BREADCRUMB": {
-          "TITLE": "Linee Guida per le Risposte"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} elemento selezionato | {count} elementi selezionati",
           "SELECT_ALL": "Seleziona tutto ({count})",
@@ -625,9 +628,6 @@
       "SCENARIOS": {
         "TITLE": "Scenari",
         "DESCRIPTION": "Fornisci contesto aggiuntivo al tuo assistente, ad esempio “cosa fare quando un utente è bloccato” o “come comportarsi durante una richiesta di rimborso”.",
-        "BREADCRUMB": {
-          "TITLE": "Scenari"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} elemento selezionato | {count} elementi selezionati",
           "SELECT_ALL": "Seleziona tutto ({count})",
@@ -691,17 +691,17 @@
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
+      "HEADER": "Documenti",
+      "ADD_NEW": "Crea un nuovo documento",
       "RELATED_RESPONSES": {
         "TITLE": "FAQ Correlate",
         "DESCRIPTION": "Queste FAQ vengono generate direttamente dai Documenti."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "FORM_DESCRIPTION": "Inserisci l'URL del documento per aggiungerlo come fonte e scegli l'assistente con cui associarlo.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Aggiungi un documento",
+        "SUCCESS_MESSAGE": "Il documento è stato creato correttamente",
+        "ERROR_MESSAGE": "Si è verificato un errore durante la creazione del documento, riprova."
       },
       "FORM": {
         "TYPE": {
@@ -711,8 +711,8 @@
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "Inserisci l'URL del documento",
+          "ERROR": "Inserisci un URL valido per il documento"
         },
         "PDF_FILE": {
           "LABEL": "File PDF",
@@ -725,11 +725,6 @@
         "NAME": {
           "LABEL": "Nome Documento (Opzionale)",
           "PLACEHOLDER": "Inserisci un nome per il documento"
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistente",
-          "PLACEHOLDER": "Seleziona l'assistente",
-          "ERROR": "Il campo assistente è richiesto"
         }
       },
       "DELETE": {
@@ -923,11 +918,6 @@
           "LABEL": "Risposta",
           "PLACEHOLDER": "Inserisci qui la risposta",
           "ERROR": "Inserisci una risposta valida."
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistente",
-          "PLACEHOLDER": "Seleziona un assistente",
-          "ERROR": "Seleziona un assistente."
         }
       },
       "EDIT": {

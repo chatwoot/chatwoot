@@ -2,9 +2,9 @@
 import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { usePolicy } from 'dashboard/composables/usePolicy';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import BackButton from 'dashboard/components/widgets/BackButton.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
@@ -70,6 +70,8 @@ const props = defineProps({
 
 const emit = defineEmits(['click', 'close', 'update:currentPage']);
 
+const { t } = useI18n();
+
 const route = useRoute();
 const { shouldShowPaywall } = usePolicy();
 
@@ -77,14 +79,16 @@ const showAssistantSwitcherDropdown = ref(false);
 const createAssistantDialogRef = ref(null);
 
 const assistants = useMapGetter('captainAssistants/getRecords');
+const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 
 const currentAssistantId = computed(() => route.params.assistantId);
+const isFetchingAssistants = computed(() => uiFlags.value?.fetchingList);
 
 const activeAssistantName = computed(() => {
   return (
     assistants.value?.find(
       assistant => assistant.id === Number(currentAssistantId.value)
-    )?.name || ''
+    )?.name || t('CAPTAIN.ASSISTANT_SWITCHER.NEW_ASSISTANT')
   );
 });
 
@@ -117,58 +121,62 @@ const handleCreateAssistant = () => {
         <div
           class="flex items-start lg:items-center justify-between w-full py-6 lg:py-0 lg:h-20 gap-4 lg:gap-2 flex-col lg:flex-row"
         >
-          <div class="flex gap-4 items-center">
+          <div class="flex gap-3 items-center">
             <BackButton v-if="backUrl" :back-url="backUrl" />
-            <slot name="headerTitle">
-              <div v-if="showAssistantSwitcher" class="flex items-center gap-2">
-                <div class="flex items-center gap-1">
-                  <span
-                    v-if="activeAssistantName"
-                    class="text-xl font-medium truncate text-n-slate-12"
-                  >
-                    {{ activeAssistantName }}
-                  </span>
-                  <div v-if="activeAssistantName" class="relative group">
-                    <OnClickOutside
-                      @trigger="showAssistantSwitcherDropdown = false"
-                    >
-                      <Button
-                        icon="i-lucide-chevron-down"
-                        variant="ghost"
-                        color="slate"
-                        size="xs"
-                        class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3 [&>span]:size-4"
-                        @click="toggleAssistantSwitcher"
-                      />
-
-                      <AssistantSwitcher
-                        v-if="showAssistantSwitcherDropdown"
-                        class="absolute ltr:left-0 rtl:right-0 top-9"
-                        @close="showAssistantSwitcherDropdown = false"
-                        @create-assistant="handleCreateAssistant"
-                      />
-                    </OnClickOutside>
-                  </div>
-                  <Icon
-                    v-if="activeAssistantName"
-                    icon="i-lucide-chevron-right"
-                    class="size-6 text-n-slate-11"
-                  />
-                  <span class="text-xl font-medium text-n-slate-11">
-                    {{ headerTitle }}
-                  </span>
-                </div>
-              </div>
-              <span v-else class="text-xl font-medium text-n-slate-12">
-                {{ headerTitle }}
-              </span>
-            </slot>
             <div
-              v-if="!isEmpty && showKnowMore"
+              v-if="showAssistantSwitcher && !showPaywall"
               class="flex items-center gap-2"
             >
-              <div class="w-0.5 h-4 rounded-2xl bg-n-weak" />
-              <slot name="knowMore" />
+              <div class="flex items-center gap-2">
+                <span
+                  v-if="!isFetchingAssistants"
+                  class="text-xl font-medium truncate text-n-slate-12"
+                >
+                  {{ activeAssistantName }}
+                </span>
+                <div class="relative group">
+                  <OnClickOutside
+                    @trigger="showAssistantSwitcherDropdown = false"
+                  >
+                    <Button
+                      icon="i-lucide-chevron-down"
+                      variant="ghost"
+                      color="slate"
+                      size="xs"
+                      :disabled="isFetchingAssistants"
+                      :is-loading="isFetchingAssistants"
+                      class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3 [&>span]:size-4"
+                      @click="toggleAssistantSwitcher"
+                    />
+
+                    <AssistantSwitcher
+                      v-if="showAssistantSwitcherDropdown"
+                      class="absolute ltr:left-0 rtl:right-0 top-9"
+                      @close="showAssistantSwitcherDropdown = false"
+                      @create-assistant="handleCreateAssistant"
+                    />
+                  </OnClickOutside>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div
+                v-if="showAssistantSwitcher && !showPaywall && headerTitle"
+                class="w-0.5 h-4 rounded-2xl bg-n-weak"
+              />
+              <span
+                v-if="headerTitle"
+                class="text-xl font-medium text-n-slate-12"
+              >
+                {{ headerTitle }}
+              </span>
+              <div
+                v-if="!isEmpty && showKnowMore"
+                class="flex items-center gap-2"
+              >
+                <div class="w-0.5 h-4 rounded-2xl bg-n-weak" />
+                <slot name="knowMore" />
+              </div>
             </div>
           </div>
 

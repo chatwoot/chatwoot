@@ -44,6 +44,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
   include AccountCacheRevalidator
+  include InboxAgentAvailability
 
   # Not allowing characters:
   validates :name, presence: true
@@ -188,6 +189,10 @@ class Inbox < ApplicationRecord
 
   def member_ids_with_assignment_capacity
     members.ids
+  end
+
+  def auto_assignment_v2_enabled?
+    account.feature_enabled?('assignment_v2')
   end
 
   private

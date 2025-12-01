@@ -139,5 +139,10 @@ const openCreateAssistantDialog = () => {
         />
       </Button>
     </div>
+    <div v-else class="flex flex-col items-center gap-2 px-4 py-3">
+      <p class="text-sm text-n-slate-11">
+        {{ t('CAPTAIN.ASSISTANT_SWITCHER.EMPTY_LIST') }}
+      </p>
+    </div>
   </div>
 </template>

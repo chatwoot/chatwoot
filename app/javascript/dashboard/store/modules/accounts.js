@@ -18,7 +18,17 @@ const state = {
     isFetchingItem: false,
     isUpdating: false,
     isCheckoutInProcess: false,
+    isFetchingPricingPlans: false,
+    isFetchingTopupOptions: false,
+    isFetchingCreditGrants: false,
+    isChangingPlan: false,
+    isCancellingSubscription: false,
+    isPurchasingCredits: false,
+    isSubscribing: false,
   },
+  pricingPlans: [],
+  topupOptions: [],
+  creditGrants: [],
 };
 
 export const getters = {
@@ -27,6 +37,15 @@ export const getters = {
   },
   getUIFlags($state) {
     return $state.uiFlags;
+  },
+  getPricingPlans($state) {
+    return $state.pricingPlans;
+  },
+  getTopupOptions($state) {
+    return $state.topupOptions;
+  },
+  getCreditGrants($state) {
+    return $state.creditGrants;
   },
   isRTL: ($state, _getters, rootState, rootGetters) => {
     const accountId = Number(rootState.route?.params?.accountId);
@@ -152,6 +171,120 @@ export const actions = {
   getCacheKeys: async () => {
     return AccountAPI.getCacheKeys();
   },
+
+  // V2 Billing Actions
+  fetchPricingPlans: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingPricingPlans: true });
+    try {
+      const response = await EnterpriseAccountAPI.getPricingPlans();
+      commit(types.default.SET_PRICING_PLANS, response.data.pricing_plans);
+    } catch (error) {
+      // silent error
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingPricingPlans: false,
+      });
+    }
+  },
+
+  fetchTopupOptions: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingTopupOptions: true });
+    try {
+      const response = await EnterpriseAccountAPI.getTopupOptions();
+      commit(types.default.SET_TOPUP_OPTIONS, response.data.topup_options);
+    } catch (error) {
+      // silent error
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingTopupOptions: false,
+      });
+    }
+  },
+
+  fetchCreditGrants: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingCreditGrants: true });
+    try {
+      const response = await EnterpriseAccountAPI.getCreditGrants();
+      commit(types.default.SET_CREDIT_GRANTS, response.data.credit_grants);
+    } catch (error) {
+      // silent error
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingCreditGrants: false,
+      });
+    }
+  },
+
+  changePricingPlan: async ({ commit }, { pricingPlanId, quantity }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isChangingPlan: true });
+    try {
+      const response = await EnterpriseAccountAPI.changePricingPlan(
+        pricingPlanId,
+        quantity
+      );
+      commit(types.default.EDIT_ACCOUNT, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isChangingPlan: false });
+    }
+  },
+
+  cancelAccountSubscription: async ({ commit }, { reason, feedback }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, {
+      isCancellingSubscription: true,
+    });
+    try {
+      const response = await EnterpriseAccountAPI.cancelSubscription(
+        reason,
+        feedback
+      );
+      commit(types.default.EDIT_ACCOUNT, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isCancellingSubscription: false,
+      });
+    }
+  },
+
+  purchaseCredits: async ({ commit }, { credits }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isPurchasingCredits: true });
+    try {
+      const response = await EnterpriseAccountAPI.topupCredits(credits);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isPurchasingCredits: false });
+    }
+  },
+
+  subscribeToPlan: async ({ commit }, { pricingPlanId, quantity }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isSubscribing: true });
+    try {
+      const response = await EnterpriseAccountAPI.subscribeToPlan(
+        pricingPlanId,
+        quantity
+      );
+      // Redirect to Stripe checkout
+      if (response.data.redirect_url) {
+        window.location = response.data.redirect_url;
+      }
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isSubscribing: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -164,6 +297,15 @@ export const mutations = {
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
   [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
+  [types.default.SET_PRICING_PLANS]($state, data) {
+    $state.pricingPlans = data;
+  },
+  [types.default.SET_TOPUP_OPTIONS]($state, data) {
+    $state.topupOptions = data;
+  },
+  [types.default.SET_CREDIT_GRANTS]($state, data) {
+    $state.creditGrants = data;
+  },
 };
 
 export default {

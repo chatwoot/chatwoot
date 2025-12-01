@@ -86,7 +86,7 @@
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Titolo di benvenuto",
-          "PLACEHOLDER": "Rendiamo semplice connetterci con noi. Chiedete qualsiasi cosa o condividete il vostro feedback."
+          "PLACEHOLDER": "Siamo qui per aiutarti. Facci una domanda o condividi il tuo feedback."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Messaggio di saluto del canale",
@@ -523,8 +523,8 @@
     "FINISH": {
       "TITLE": "L'Inbox è pronta!",
       "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza",
-      "BUTTON_TEXT": "Portami lì",
-      "MORE_SETTINGS": "Altre impostazioni",
+      "BUTTON_TEXT": "Fatto",
+      "MORE_SETTINGS": "Impostazioni Aggiuntive",
       "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua inbox.",
       "WHATSAPP_QR_INSTRUCTION": "Scansiona il QR Code qui sopra per testare rapidamente la tua Inbox WhatsApp",
       "MESSENGER_QR_INSTRUCTION": "Scansiona il QR Code qui sopra per testare rapidamente la tua Inbox Facebook Messenger",
@@ -918,7 +918,7 @@
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Titolo di benvenuto",
-          "PLACE_HOLDER": "Rendiamo semplice connetterci con noi. Chiedete qualsiasi cosa o condividete il vostro feedback."
+          "PLACE_HOLDER": "Siamo qui per aiutarti. Facci una domanda o condividi il tuo feedback."
         },
         "REPLY_TIME": {
           "LABEL": "Tempo di risposta",

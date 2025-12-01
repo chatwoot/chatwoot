@@ -85,7 +85,7 @@
     "HEADER": {
       "RESOLVE_ACTION": "Risolvi",
       "REOPEN_ACTION": "Riapri",
-      "OPEN_ACTION": "Aperte",
+      "OPEN_ACTION": "Apri",
       "MORE_ACTIONS": "Più azioni",
       "OPEN": "Altro",
       "CLOSE": "Chiudi",
@@ -208,7 +208,7 @@
       "": "",
       "EMAIL_HEAD": {
         "TO": "A",
-        "ADD_BCC": "Aggiungi Bcc",
+        "ADD_BCC": "Aggiungi Ccn",
         "CC": {
           "LABEL": "Cc",
           "PLACEHOLDER": "Email separate da virgole",
@@ -296,7 +296,7 @@
   },
   "ONBOARDING": {
     "TITLE": "Ciao👋 Benvenuto in {installationName}!",
-    "DESCRIPTION": "Grazie per esserti registrato. Vogliamo che tu ottenga il massimo da {installationName}. Ecco alcune cose che puoi fare in {installationName} per rendere l'esperienza migliore.",
+    "DESCRIPTION": "Grazie per averci scelto! Vogliamo che tu ottenga il massimo da {installationName}. Ecco alcune cose che puoi fare in {installationName} per massimizzare la tua esperienza.",
     "GREETING_MORNING": "👋 Buongiorno, {name}. Benvenuto in {installationName}.",
     "GREETING_AFTERNOON": "👋 Buon pomeriggio, {name}. Benvenuto in {installationName}.",
     "GREETING_EVENING": "👋 Buona sera, {name}. Benvenuto su {installationName}.",

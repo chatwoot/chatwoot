@@ -251,6 +251,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Hesap Askıya Alındı",
       "MESSAGE": "Hesabınız askıya alındı. Daha fazla bilgi için lütfen destek ekibine ulaşın."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "Hesap bulunamadı",
+      "MESSAGE_CLOUD": "Şu anda herhangi bir hesabın parçası değilsiniz. Bunun bir hata olduğunu düşünüyorsanız, lütfen destek ekibimizle iletişime geçin.",
+      "MESSAGE_SELF_HOSTED": "Şu anda herhangi bir hesabın parçası değilsiniz. Lütfen yöneticinizle iletişime geçin.",
+      "LOGOUT": "Log out"
     }
   },
   "COMPONENTS": {
@@ -305,6 +311,10 @@
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Araçlar",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Oyun Alanı",
+    "CAPTAIN_INBOXES": "Gelen kutuları",
+    "CAPTAIN_SETTINGS": "Ayarlar",
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
     "AGENT_BOTS": "Botlar",
@@ -419,8 +429,8 @@
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "Parmak izi",
+        "TOOLTIP": "Sertifikanın SHA-1 parmak izi – Bunu, Kimlik Sağlayıcısı (IdP) yapılandırmanızda sertifikayı doğrulamak için kullanın"
       },
       "COPY_SUCCESS": "Kod başarıyla panoya kopyalandı",
       "SP_ENTITY_ID": {

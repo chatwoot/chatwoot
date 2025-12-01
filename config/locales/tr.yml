@@ -76,6 +76,7 @@ tr:
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Bu telefon numarası için zaten bir kanal mevcut: %{phone_number}, hata devam ederse lütfen destek ile iletişime geçin'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'

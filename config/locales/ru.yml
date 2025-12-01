@@ -76,6 +76,7 @@ ru:
       token_exchange_failed: 'Не удалось обменять код на токена доступа. Пожалуйста, попробуйте еще раз.'
       invalid_token_permissions: 'Токен доступа не имеет необходимых прав для WhatsApp.'
       phone_info_fetch_failed: 'Не удалось получить информацию о номере телефона. Пожалуйста, попробуйте еще раз.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       reauthorization:
         generic: 'Не удалось повторно авторизовать WhatsApp. Пожалуйста, попробуйте еще раз.'
         not_supported: 'Повторная авторизация не поддерживается для данного типа канала WhatsApp.'

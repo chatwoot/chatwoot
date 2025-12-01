@@ -306,6 +306,8 @@
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
     "ACTIVE": "Active",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -380,6 +382,8 @@
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
     "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "BILLING_PORTAL": "Billing Portal",
+    "VIEW_ALL_PLANS": "View all plans",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
@@ -392,6 +396,25 @@
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },
+    "SUBSCRIPTION": {
+      "TITLE": "Subscription",
+      "DESCRIPTION": "Manage your current plan, seats, and billing cycle.",
+      "CURRENT_PLAN": "Current plan",
+      "NUMBER_OF_SEATS": "Number of seats",
+      "RENEWS_ON": "Renews on",
+      "ENDS_ON": "Ends on",
+      "CANCELLED_ON": "Cancelled on",
+      "CHANGE_PLAN": "Change",
+      "CHANGE_SEATS": "Change",
+      "CANCEL_SUBSCRIPTION": "Cancel"
+    },
+    "CAPTAIN_AI": {
+      "TITLE": "Captain AI",
+      "DESCRIPTION": "Purchase and manage credits for Captain AI features.",
+      "AI_CREDITS": "AI credits",
+      "PURCHASE_CREDITS": "Purchase credits",
+      "VIEW_HISTORY": "View credit history"
+    },
     "CAPTAIN": {
       "TITLE": "Captain",
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
@@ -399,6 +422,78 @@
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
       "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+    },
+    "CHANGE_PLAN_MODAL": {
+      "TITLE": "Change plan",
+      "DESCRIPTION": "Select a plan that best fits your needs.",
+      "SUBSCRIBE_TITLE": "Choose a plan",
+      "SUBSCRIBE_DESCRIPTION": "Select a plan to subscribe and unlock all features.",
+      "CURRENT_PLAN": "Current plan",
+      "CREDITS_MONTH": "{credits} credits/month",
+      "PER_USER_MONTH": "/user/month",
+      "AI_CREDITS_MONTH": "AI credits/month",
+      "CANCEL": "Cancel",
+      "SELECT_PLAN": "Select plan",
+      "CHANGE_PLAN": "Change plan",
+      "SUBSCRIBE": "Subscribe"
+    },
+    "CANCEL_MODAL": {
+      "TITLE": "Cancel subscription",
+      "WARNING_TITLE": "You're about to cancel your {plan} plan",
+      "WARNING_DESCRIPTION": "Your subscription will remain active until {date}. After that, you'll lose access to:",
+      "FEATURE_AI_CREDITS": "AI credits for Captain features",
+      "FEATURE_TEAM_COLLABORATION": "Team collaboration tools",
+      "FEATURE_PRIORITY_SUPPORT": "Priority customer support",
+      "KEEP_SUBSCRIPTION": "Keep subscription",
+      "CANCEL_SUBSCRIPTION": "Cancel subscription"
+    },
+    "FEEDBACK_MODAL": {
+      "TITLE": "Help us improve",
+      "DESCRIPTION": "We're sorry to see you go. Please help us improve by sharing your reason for cancelling.",
+      "REASON_LABEL": "Why are you cancelling?",
+      "REASONS": {
+        "TOO_EXPENSIVE": "It's too expensive",
+        "NOT_USING": "I'm not using it enough",
+        "MISSING_FEATURES": "Missing features I need",
+        "BETTER_ALTERNATIVE": "Found a better alternative",
+        "TECHNICAL_ISSUES": "Technical issues",
+        "OTHER": "Other reason"
+      },
+      "FEEDBACK_LABEL": "Additional feedback (optional)",
+      "FEEDBACK_PLACEHOLDER": "Tell us more about your experience...",
+      "GO_BACK": "Go back",
+      "SUBMIT_CANCEL": "Submit and cancel"
+    },
+    "PURCHASE_MODAL": {
+      "TITLE": "Purchase AI credits",
+      "DESCRIPTION": "Choose a credit package that suits your needs.",
+      "MOST_POPULAR": "Most popular",
+      "CREDITS": "credits",
+      "NOTE": "Credits will be added to your account immediately and are non-refundable. Unused credits expire after 12 months.",
+      "CANCEL": "Cancel",
+      "PURCHASE": "Purchase"
+    },
+    "CREDIT_HISTORY": {
+      "TITLE": "Credit history",
+      "DESCRIPTION": "View your credit purchases and allocations.",
+      "NAME": "Name",
+      "CREDITS": "Credits",
+      "SOURCE": "Source",
+      "EFFECTIVE_AT": "Effective at",
+      "EXPIRES_AT": "Expires at",
+      "NO_RECORDS": "No credit history found.",
+      "CLOSE": "Close"
+    },
+    "HELP": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "CHAT": "Chat with us"
+    },
+    "ALERTS": {
+      "PLAN_CHANGED": "Your plan has been changed successfully.",
+      "SEATS_UPDATED": "Number of seats updated successfully.",
+      "SUBSCRIPTION_CANCELLED": "Your subscription has been scheduled for cancellation.",
+      "CREDITS_PURCHASED": "Credits purchased successfully."
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
@@ -411,6 +506,7 @@
     "TITLE": "Security",
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
