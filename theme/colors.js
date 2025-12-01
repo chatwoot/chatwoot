@@ -255,5 +255,9 @@ export const colors = {
       default: 'rgba(var(--overlay))',
       avatar: 'rgba(var(--overlay-avatar))',
     },
+    button: {
+      color: 'rgb(var(--button-color) / <alpha-value>)',
+      hover: 'rgb(var(--button-hover-color) / <alpha-value>)',
+    },
   },
 };

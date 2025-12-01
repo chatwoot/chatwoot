@@ -17,25 +17,21 @@ import {
   useFunctionGetter,
 } from 'dashboard/composables/store.js';
 
-// [VITE] [TODO] We are using vue-virtual-scroll for now, since that seemed the simplest way to migrate
-// from the current one. But we should consider using tanstack virtual in the future
-// https://tanstack.com/virtual/latest/docs/framework/vue/examples/variable
-import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import ChatListHeader from './ChatListHeader.vue';
+import ConversationList from './ConversationList.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConversationFilter from 'next/filter/ConversationFilter.vue';
 import SaveCustomView from 'next/filter/SaveCustomView.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
-import ConversationItem from './ConversationItem.vue';
+
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
-import IntersectionObserver from './IntersectionObserver.vue';
+
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
-import { useChatListKeyboardEvents } from 'dashboard/composables/chatlist/useChatListKeyboardEvents';
+
 import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
 import { useFilter } from 'shared/composables/useFilter';
 import { useTrack } from 'dashboard/composables';
@@ -45,7 +41,6 @@ import {
   useSnakeCase,
 } from 'dashboard/composables/useTransformKeys';
 import { useEmitter } from 'dashboard/composables/emitter';
-import { useEventListener } from '@vueuse/core';
 
 import { emitter } from 'shared/helpers/mitt';
 
@@ -68,8 +63,6 @@ import { matchesFilters } from '../store/modules/conversations/helpers/filterHel
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
-
 const props = defineProps({
   conversationInbox: { type: [String, Number], default: 0 },
   teamId: { type: [String, Number], default: 0 },
@@ -87,14 +80,14 @@ const router = useRouter();
 const route = useRoute();
 const store = useStore();
 
-const conversationListRef = ref(null);
-const conversationDynamicScroller = ref(null);
-
-provide('contextMenuElementTarget', conversationDynamicScroller);
-
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
+
+// Provide trigger for label recalculation (parent → child pattern)
+const recalculateLabelsKey = ref(0);
+provide('recalculateLabelsKey', recalculateLabelsKey);
+
 const showAdvancedFilters = ref(false);
 // chatsOnView is to store the chats that are currently visible on the screen,
 // which mirrors the conversationList.
@@ -130,7 +123,6 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 // We can't useFunctionGetter here since it needs to be called on setup?
 const getTeamFn = useMapGetter('teams/getTeam');
 
-useChatListKeyboardEvents(conversationListRef);
 const {
   selectedConversations,
   selectedInboxes,
@@ -154,12 +146,7 @@ const {
 });
 
 // computed
-const intersectionObserverOptions = computed(() => {
-  return {
-    root: conversationListRef.value,
-    rootMargin: '100px 0px 100px 0px',
-  };
-});
+// computed
 
 const hasAppliedFilters = computed(() => {
   return appliedFilters.value.length !== 0;
@@ -343,7 +330,7 @@ const conversationList = computed(() => {
 });
 
 const showEndOfListMessage = computed(() => {
-  return (
+  return !!(
     conversationList.value.length &&
     hasCurrentPageEndReached.value &&
     !chatListLoading.value
@@ -600,17 +587,6 @@ function loadMoreConversations() {
   }
 }
 
-// Add a method to handle scroll events
-function handleScroll() {
-  const scroller = conversationDynamicScroller.value;
-  if (scroller && scroller.hasScrollbar) {
-    const { scrollTop, scrollHeight, clientHeight } = scroller.$el;
-    if (scrollHeight - (scrollTop + clientHeight) < 100) {
-      loadMoreConversations();
-    }
-  }
-}
-
 function updateAssigneeTab(selectedTab) {
   if (activeAssigneeTab.value !== selectedTab) {
     resetBulkActions();
@@ -619,6 +595,8 @@ function updateAssigneeTab(selectedTab) {
     if (!currentPage.value) {
       fetchConversations();
     }
+    // Trigger label position recalculation
+    recalculateLabelsKey.value += 1;
   }
 }
 
@@ -760,8 +738,6 @@ useEmitter('fetch_conversation_stats', () => {
   if (hasAppliedFiltersOrActiveFolders.value) return;
   store.dispatch('conversationStats/get', conversationFilters.value);
 });
-
-useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
 
 onMounted(() => {
   store.dispatch('setChatListFilters', conversationFilters.value);
@@ -913,64 +889,20 @@ watch(conversationFilters, (newVal, oldVal) => {
       @assign-labels="onAssignLabels"
       @assign-team="onAssignTeamsForBulk"
     />
-    <div
-      ref="conversationListRef"
-      class="flex-1 overflow-hidden conversations-list hover:overflow-y-auto"
-      :class="{ 'overflow-hidden': isContextMenuOpen }"
-    >
-      <DynamicScroller
-        ref="conversationDynamicScroller"
-        :items="conversationList"
-        :min-item-size="24"
-        class="w-full h-full overflow-auto"
-      >
-        <template #default="{ item, index, active }">
-          <!--
-            If we encounter resizing issues, we can set the `watchData` prop to true
-            this will deeply watch the entire object instead of just size dependencies
-            But it can impact performance
-          -->
-          <DynamicScrollerItem
-            :item="item"
-            :active="active"
-            :data-index="index"
-            :size-dependencies="[
-              item.messages,
-              item.labels,
-              item.uuid,
-              item.inbox_id,
-            ]"
-          >
-            <ConversationItem
-              :source="item"
-              :label="label"
-              :team-id="teamId"
-              :folders-id="foldersId"
-              :conversation-type="conversationType"
-              :show-assignee="showAssigneeInConversationCard"
-              @select-conversation="selectConversation"
-              @de-select-conversation="deSelectConversation"
-            />
-          </DynamicScrollerItem>
-        </template>
-        <template #after>
-          <div v-if="chatListLoading" class="flex justify-center my-4">
-            <Spinner class="text-n-brand" />
-          </div>
-          <p
-            v-else-if="showEndOfListMessage"
-            class="p-4 text-center text-n-slate-11"
-          >
-            {{ $t('CHAT_LIST.EOF') }}
-          </p>
-          <IntersectionObserver
-            v-else
-            :options="intersectionObserverOptions"
-            @observed="loadMoreConversations"
-          />
-        </template>
-      </DynamicScroller>
-    </div>
+    <ConversationList
+      :items="conversationList"
+      :is-loading="chatListLoading"
+      :show-end-of-list-message="showEndOfListMessage"
+      :is-context-menu-open="isContextMenuOpen"
+      :label="label"
+      :team-id="teamId"
+      :folders-id="foldersId"
+      :conversation-type="conversationType"
+      :show-assignee="showAssigneeInConversationCard"
+      :is-expanded-layout="isOnExpandedLayout"
+      @load-more="loadMoreConversations"
+    />
+
     <Dialog
       ref="deleteConversationDialogRef"
       type="alert"

@@ -9,7 +9,6 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 const props = defineProps({
   status: { type: String, default: '' },
   direction: { type: String, default: '' },
-  messagePreviewClass: { type: [String, Array, Object], default: '' },
 });
 
 const LABEL_KEYS = {
@@ -61,16 +60,9 @@ const statusColor = computed(
 </script>
 
 <template>
-  <div
-    class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
-    :class="messagePreviewClass"
-  >
-    <Icon
-      class="inline-block -mt-0.5 align-middle size-4"
-      :icon="iconName"
-      :class="statusColor"
-    />
-    <span class="mx-1" :class="statusColor">
+  <div class="grid grid-cols-[auto_1fr] items-center gap-1 min-w-0 text-sm">
+    <Icon class="size-3.5" :icon="iconName" :class="statusColor" />
+    <span class="truncate text-sm font-420" :class="statusColor">
       {{ $t(labelKey) }}
     </span>
   </div>
