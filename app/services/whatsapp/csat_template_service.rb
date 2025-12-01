@@ -43,11 +43,10 @@ class Whatsapp::CsatTemplateService
   private
 
   def generate_template_name(base_name)
-    # Get current template config to check if we already have a version number
-    csat_config = @whatsapp_channel.inbox.csat_config || {}
-    template_config = csat_config['template'] || {}
+    # Get current template to check if we already have a version number
+    template = @whatsapp_channel.inbox.csat_config&.dig('template') || {}
 
-    current_name = template_config['name']
+    current_name = template['name']
 
     return base_name if current_name.blank?
 

@@ -3,8 +3,8 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   before_action :validate_whatsapp_channel
 
   def show
-    template_config = @inbox.csat_config&.dig('template')
-    return render json: { template_exists: false } unless template_config
+    template = @inbox.csat_config&.dig('template')
+    return render json: { template_exists: false } unless template
 
     template_name = template_config['name'] || 'customer_satisfaction_survey'
     status_result = @inbox.channel.provider_service.get_template_status(template_name)
@@ -96,13 +96,12 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
 
   def delete_existing_template_if_needed
     # Check if template exists first to avoid unnecessary deletion attempts
-    template_config = @inbox.csat_config&.dig('template')
-    template_name = template_config&.dig('name') || 'customer_satisfaction_survey'
+    template = @inbox.csat_config&.dig('template')
+    template_name = template&.dig('name') || 'customer_satisfaction_survey'
 
     template_status = @inbox.channel.provider_service.get_template_status(template_name)
-    return true unless template_status[:success] # No template exists, so "deletion" is successful
+    return true unless template_status[:success]
 
-    # Delete the existing template
     deletion_result = @inbox.channel.provider_service.delete_csat_template(template_name)
     if deletion_result[:success]
       Rails.logger.info "Deleted existing CSAT template '#{template_name}' for inbox #{@inbox.id}"
