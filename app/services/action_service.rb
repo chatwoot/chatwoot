@@ -114,11 +114,28 @@ class ActionService
 
     Rails.logger.info "[AUTOMATION] ✅ Triggering AI response for message #{last_message.id} in conversation #{@conversation.id}"
 
+    # Clear Redis lock to allow AI response trigger
+    # This is needed because the message may have been processed before AI was assigned
+    clear_ai_response_lock(last_message)
+
     # Trigger AI response service
     Messages::AiResponseTriggerService.new(message: last_message).perform
   rescue StandardError => e
     Rails.logger.error "[AUTOMATION] ❌ Error triggering AI response: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
+  end
+
+  def clear_ai_response_lock(message)
+    # Clear the Redis lock that prevents duplicate AI responses
+    # This allows automation to trigger AI response even if message was already processed
+    dedup_key = (message.source_id.presence || "msg_#{message.id}")
+    redis_key = "ai_response_triggered:#{dedup_key}"
+
+    Rails.logger.info "[AUTOMATION] 🔓 Clearing Redis lock for message #{message.id}: #{redis_key}"
+    Redis::Alfred.del(redis_key)
+  rescue StandardError => e
+    Rails.logger.error "[AUTOMATION] ⚠️  Failed to clear Redis lock: #{e.message}"
+    # Don't raise - this is not critical, AI trigger will just fail if lock exists
   end
 
   def agent_belongs_to_inbox?(agent_ids)
