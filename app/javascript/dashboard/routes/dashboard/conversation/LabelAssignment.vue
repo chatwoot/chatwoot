@@ -119,7 +119,7 @@ const handleLabelAction = ({ value }) => {
           sm
           icon="i-lucide-plus"
           :variant="openLabelsList ? 'faded' : 'solid'"
-          class="font-460"
+          class="font-460 !-outline-offset-1"
           @click="toggleLabels()"
         />
         <DropdownMenu
