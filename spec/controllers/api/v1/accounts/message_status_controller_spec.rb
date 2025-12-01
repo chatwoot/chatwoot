@@ -62,6 +62,23 @@ RSpec.describe 'Api::V1::Accounts::MessageStatusController', type: :request do
           expect(json_response['messages'].first['ID']).to eq(message1.id)
         end
 
+        it 'returns only messages from inboxes the agent has access to' do
+          other_inbox = create(:inbox, account: account)
+          other_conversation = create(:conversation, account: account, inbox: other_inbox)
+          other_message = create(:message, account: account, conversation: other_conversation)
+
+          post "/api/v1/accounts/#{account.id}/message_status",
+               params: { ids: [message1.id, other_message.id] },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response['messages'].length).to eq(1)
+          expect(json_response['messages'].first['ID']).to eq(message1.id)
+          expect(json_response['messages'].first['ID']).not_to eq(other_message.id)
+        end
+
         it 'returns empty array when no matching messages found' do
           post "/api/v1/accounts/#{account.id}/message_status",
                params: { ids: [99_999, 99_998] },
@@ -147,6 +164,21 @@ RSpec.describe 'Api::V1::Accounts::MessageStatusController', type: :request do
       it 'returns message statuses successfully' do
         post "/api/v1/accounts/#{account.id}/message_status",
              params: { ids: [message1.id, message2.id] },
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['messages'].length).to eq(2)
+      end
+
+      it 'can access messages from all inboxes' do
+        other_inbox = create(:inbox, account: account)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox)
+        other_message = create(:message, account: account, conversation: other_conversation)
+
+        post "/api/v1/accounts/#{account.id}/message_status",
+             params: { ids: [message1.id, other_message.id] },
              headers: administrator.create_new_auth_token,
              as: :json
 
