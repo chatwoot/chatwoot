@@ -20,7 +20,7 @@ module Captain::ChatResponseHelper
   end
 
   def persist_thinking_message(tool_call)
-    return unless copilot_thread_present?
+    return if @copilot_thread.blank?
 
     tool_name = tool_call.name.to_s
 
@@ -34,7 +34,7 @@ module Captain::ChatResponseHelper
   end
 
   def persist_tool_completion
-    return unless copilot_thread_present?
+    return if @copilot_thread.blank?
 
     tool_call = @pending_tool_calls&.pop
     return unless tool_call
@@ -48,9 +48,5 @@ module Captain::ChatResponseHelper
       },
       'assistant_thinking'
     )
-  end
-
-  def copilot_thread_present?
-    @copilot_thread.present?
   end
 end
