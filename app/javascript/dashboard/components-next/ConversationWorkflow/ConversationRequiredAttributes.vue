@@ -123,7 +123,7 @@ const handleDelete = attribute => {
                 'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.ADD.SEARCH_PLACEHOLDER'
               )
             "
-            class="top-full mt-1 ltr:right-0 rtl:left-0"
+            class="top-full mt-1 w-52 ltr:right-0 rtl:left-0"
             @action="handleAttributeAction"
           />
         </div>
