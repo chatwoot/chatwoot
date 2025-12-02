@@ -8,6 +8,7 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ContactNoteItem from 'next/Contacts/ContactsSidebar/components/ContactNoteItem.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import SidePanelEmptyState from 'dashboard/routes/dashboard/conversation/SidePanelEmptyState.vue';
 
 const props = defineProps({
   contactId: { type: [String, Number], required: true },
@@ -130,9 +131,11 @@ watch(
         @delete="onDelete"
       />
     </div>
-    <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">
-      {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.CONVERSATION_EMPTY_STATE') }}
-    </p>
+    <div v-else class="mt-2 px-3">
+      <SidePanelEmptyState
+        :message="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.CONVERSATION_EMPTY_STATE')"
+      />
+    </div>
 
     <woot-modal
       v-model:show="shouldShowCreateModal"

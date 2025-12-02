@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { getLanguageName } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
+import SidePanelEmptyState from 'dashboard/routes/dashboard/conversation/SidePanelEmptyState.vue';
 
 const props = defineProps({
   conversationAttributes: {
@@ -110,6 +111,11 @@ const staticElements = computed(() =>
         </a>
       </ContactDetailsItem>
     </div>
+  </div>
+  <div v-else class="mt-2">
+    <SidePanelEmptyState
+      :message="$t('CONVERSATION_ATTRIBUTES.NO_RECORDS_FOUND')"
+    />
   </div>
 
   <!-- Custom Attributes -->

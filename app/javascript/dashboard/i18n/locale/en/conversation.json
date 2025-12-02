@@ -362,6 +362,9 @@
       }
     }
   },
+  "CONVERSATION_ATTRIBUTES": {
+    "NO_RECORDS_FOUND": "No conversation info found"
+  },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
     "NO_RECORDS_FOUND": "No attributes found",

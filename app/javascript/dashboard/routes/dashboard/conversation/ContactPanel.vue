@@ -245,6 +245,7 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.LINEAR_ISSUES')"
               :is-open="isContactSidebarItemOpen('is_linear_issues_open')"
+              compact
               @toggle="
                 value => toggleSidebarUIState('is_linear_issues_open', value)
               "
@@ -261,6 +262,7 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SHOPIFY_ORDERS')"
               :is-open="isContactSidebarItemOpen('is_shopify_orders_open')"
+              compact
               @toggle="
                 value => toggleSidebarUIState('is_shopify_orders_open', value)
               "

@@ -4,6 +4,7 @@ import { useFunctionGetter } from 'dashboard/composables/store';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ShopifyAPI from '../../../api/integrations/shopify';
 import ShopifyOrderItem from './ShopifyOrderItem.vue';
+import SidePanelEmptyState from 'dashboard/routes/dashboard/conversation/SidePanelEmptyState.vue';
 
 const props = defineProps({
   contactId: {
@@ -47,7 +48,7 @@ watch(
 </script>
 
 <template>
-  <div class="px-4 py-2 text-n-slate-12">
+  <div class="py-2 px-3 text-n-slate-12">
     <div v-if="!hasSearchableInfo" class="text-center text-n-slate-12">
       {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.NO_SHOPIFY_ORDERS') }}
     </div>
@@ -57,8 +58,10 @@ watch(
     <div v-else-if="error" class="text-center text-n-ruby-12">
       {{ error }}
     </div>
-    <div v-else-if="!orders.length" class="text-center text-n-slate-12">
-      {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.NO_SHOPIFY_ORDERS') }}
+    <div v-else-if="!orders.length" class="mt-2">
+      <SidePanelEmptyState
+        :message="$t('CONVERSATION_SIDEBAR.SHOPIFY.NO_SHOPIFY_ORDERS')"
+      />
     </div>
     <div v-else>
       <ShopifyOrderItem

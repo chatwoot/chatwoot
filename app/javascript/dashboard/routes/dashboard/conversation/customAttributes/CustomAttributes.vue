@@ -14,7 +14,7 @@ import ListAttribute from 'dashboard/components-next/CustomAttributes/ListAttrib
 import CheckboxAttribute from 'dashboard/components-next/CustomAttributes/CheckboxAttribute.vue';
 import DateAttribute from 'dashboard/components-next/CustomAttributes/DateAttribute.vue';
 import OtherAttribute from 'dashboard/components-next/CustomAttributes/OtherAttribute.vue';
-import SidepanelEmptyState from 'dashboard/routes/dashboard/conversation/SidepanelEmptyState.vue';
+import SidePanelEmptyState from 'dashboard/routes/dashboard/conversation/SidePanelEmptyState.vue';
 
 const props = defineProps({
   attributeType: {
@@ -300,7 +300,7 @@ onMounted(() => {
   </div>
 
   <!-- Empty state -->
-  <SidepanelEmptyState
+  <SidePanelEmptyState
     v-if="!displayedCustomAttributes.length && emptyStateMessage"
     :message="emptyStateMessage"
   />

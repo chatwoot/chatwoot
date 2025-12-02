@@ -8,6 +8,7 @@ import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import LinearIssueItem from './LinearIssueItem.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import SidePanelEmptyState from 'dashboard/routes/dashboard/conversation/SidePanelEmptyState.vue';
 import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 
@@ -86,10 +87,10 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="px-4 pt-3 pb-2">
+    <div class="pt-3 px-3 pb-2">
       <NextButton
-        ghost
-        xs
+        sm
+        slate
         icon="i-lucide-plus"
         :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')"
         @click="openCreateModal"
@@ -100,17 +101,17 @@ onMounted(() => {
       <Spinner />
     </div>
 
-    <div v-else-if="!hasIssues" class="flex justify-center p-4">
-      <p class="text-sm text-n-slate-11">
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES') }}
-      </p>
+    <div v-else-if="!hasIssues" class="mt-2">
+      <SidePanelEmptyState
+        :message="$t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES')"
+      />
     </div>
 
-    <div v-else class="max-h-[300px] overflow-y-auto">
+    <div v-else class="max-h-[300px] overflow-y-auto px-2">
       <LinearIssueItem
         v-for="linkedIssue in linkedIssues"
         :key="linkedIssue.id"
-        class="px-4 pt-3 pb-4 border-b border-n-weak last:border-b-0"
+        class="px-1 pt-3 pb-4 border-b border-n-weak last:border-b-0"
         :linked-issue="linkedIssue"
         @unlink-issue="unlinkIssue"
       />
