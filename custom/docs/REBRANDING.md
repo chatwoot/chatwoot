@@ -654,6 +654,55 @@ docker-compose restart chatwoot sidekiq
 
 ---
 
+## CommMate Version vs Chatwoot Base Version
+
+**Starting with CommMate v4.8.0.1**, the system tracks two versions:
+
+### CommMate Version
+- **What**: CommMate release version with customizations
+- **Format**: `X.Y.Z.P` where P is CommMate patch number
+- **Examples**: `4.8.0` (matches downstream), `4.8.0.1` (first patch), `4.8.0.2` (second patch)
+- **Displayed**: Super Admin Console navigation, Instance Health page
+- **File**: `custom/config/commmate_version.yml`
+
+### Base Chatwoot Version
+- **What**: Upstream Chatwoot version this CommMate is based on
+- **Format**: `X.Y.Z` (matches upstream tag)
+- **Examples**: `4.7.0`, `4.8.0`
+- **Displayed**: Instance Health page only
+- **Purpose**: Track which Chatwoot release we're based on
+
+### Where Versions Are Displayed
+
+**Super Admin Console (Top Navigation):**
+- Logo: CommMate logo (PNG)
+- Version: "CommMate 4.8.0.1"
+- Text: "CommMate Admin Console"
+
+**Instance Health Page:**
+- CommMate version: 4.8.0.1
+- Base Chatwoot version: 4.8.0
+- CommMate Git SHA: [your commit]
+- Chatwoot Git SHA: [upstream commit]
+
+### Incrementing Versions
+
+**For downstream releases** (new Chatwoot version):
+```yaml
+# Match the new Chatwoot version
+commmate_version: '4.9.0'
+base_chatwoot_version: '4.9.0'
+```
+
+**For CommMate patches** (branding, fixes, features):
+```yaml
+# Increment patch number
+commmate_version: '4.8.0.1'  # or 4.8.0.2, 4.8.0.3, etc.
+base_chatwoot_version: '4.8.0'  # Keep the same
+```
+
+---
+
 ## Related Documentation
 
 - **Release Process**: 

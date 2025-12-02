@@ -93,6 +93,7 @@ COPY custom/assets/favicons/* /app/public/
 
 # Copy CommMate configurations
 COPY custom/config/branding.yml /app/config/commmate/
+COPY custom/config/commmate_version.yml /app/custom/config/
 COPY custom/locales/*.yml /app/config/locales/
 COPY custom/config/docker-entrypoint.sh /app/custom/config/
 COPY custom/config/installation_config.yml /app/custom/config/
@@ -101,6 +102,9 @@ COPY custom/config/installation_config.yml /app/custom/config/
 COPY custom/config/initializers/commmate_branding.rb /app/config/initializers/
 COPY custom/config/initializers/commmate_i18n.rb /app/config/initializers/
 COPY custom/config/initializers/commmate_config_overrides.rb /app/config/initializers/
+COPY custom/config/initializers/commmate_version.rb /app/config/initializers/
+COPY custom/config/initializers/commmate_paths.rb /app/config/initializers/
+COPY custom/config/initializers/commmate_instance_status.rb /app/config/initializers/
 
 # Copy CommMate styles (will be compiled during asset precompilation)
 COPY custom/styles /app/custom/styles
@@ -161,7 +165,8 @@ RUN SECRET_KEY_BASE=precompile_placeholder \
     bundle exec rails assets:precompile
 
 # Generate .git_sha file with current commit hash
-RUN git rev-parse HEAD > /app/.git_sha
+RUN git rev-parse HEAD > /app/.git_sha && \
+    git rev-parse HEAD > /app/.commmate_git_sha
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \

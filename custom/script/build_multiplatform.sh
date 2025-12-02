@@ -35,9 +35,11 @@ fi
 # Detect current branch/tag
 CURRENT_BRANCH=$(git branch --show-current)
 CURRENT_COMMIT=$(git rev-parse --short HEAD)
+CURRENT_COMMIT_FULL=$(git rev-parse HEAD)
 
 echo -e "${GREEN}Current branch: $CURRENT_BRANCH${NC}"
 echo -e "${GREEN}Current commit: $CURRENT_COMMIT${NC}"
+echo -e "${GREEN}CommMate SHA: $CURRENT_COMMIT_FULL${NC}"
 echo ""
 
 # Create manifest
@@ -57,9 +59,11 @@ podman build \
     -f docker/Dockerfile.commmate \
     --build-arg RAILS_ENV=production \
     --build-arg NODE_OPTIONS="--max-old-space-size=4096" \
+    --build-arg CACHE_BUST=$(date +%s) \
     --label "version=$VERSION" \
     --label "build-date=$BUILD_DATE" \
     --label "vcs-ref=$CURRENT_COMMIT" \
+    --label "commmate-sha=$CURRENT_COMMIT_FULL" \
     --label "branch=$CURRENT_BRANCH" \
     --label "platform=amd64" \
     .
@@ -86,6 +90,7 @@ podman build \
     --label "version=$VERSION" \
     --label "build-date=$BUILD_DATE" \
     --label "vcs-ref=$CURRENT_COMMIT" \
+    --label "commmate-sha=$CURRENT_COMMIT_FULL" \
     --label "branch=$CURRENT_BRANCH" \
     --label "platform=arm64" \
     .

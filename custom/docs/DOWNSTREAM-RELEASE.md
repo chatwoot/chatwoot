@@ -651,6 +651,46 @@ podman manifest push commmate/commmate:v4.8.0 docker://commmate/commmate:latest
 
 ---
 
+## Version Numbering
+
+### CommMate Version Strategy
+
+CommMate uses a patch-increment strategy to track customizations:
+
+| Chatwoot Version | CommMate Version | Git Tag | Docker Tag | Notes |
+|------------------|------------------|---------|------------|-------|
+| v4.7.0 | v4.7.0 | v4.7.0-commmate | v4.7.0 | Initial downstream |
+| v4.7.0 | v4.7.0.1 | v4.7.0.1-commmate | v4.7.0.1 | CommMate patch |
+| v4.8.0 | v4.8.0 | v4.8.0-commmate | v4.8.0 | New downstream |
+| v4.8.0 | v4.8.0.1 | v4.8.0.1-commmate | v4.8.0.1 | Admin console branding |
+
+**Version Configuration File**: `custom/config/commmate_version.yml`
+
+```yaml
+# For downstream release (new Chatwoot version)
+commmate_version: '4.9.0'
+base_chatwoot_version: '4.9.0'
+
+# For CommMate patch (customization only)
+commmate_version: '4.8.0.1'
+base_chatwoot_version: '4.8.0'
+```
+
+### When to Increment
+
+**Downstream Release** (Major.Minor.Patch):
+- New Chatwoot version downstreamed
+- Both versions match: `4.9.0` based on `4.9.0`
+- Update both fields in `commmate_version.yml`
+
+**CommMate Patch** (Major.Minor.Patch.CommMatePatch):
+- CommMate-only changes (branding, features, fixes)
+- Increment: `4.8.0` → `4.8.0.1` → `4.8.0.2`
+- Only update `commmate_version`, keep `base_chatwoot_version` same
+- Examples: admin branding, custom features, bug fixes
+
+---
+
 ## Troubleshooting
 
 ### Issue: "Merge conflict in 500+ files"

@@ -44,7 +44,43 @@ podman manifest push commmate/commmate:v4.8.0 docker://commmate/commmate:latest
 
 ## Phase 1: Pre-Build Verification
 
-### A. Verify Branch State
+### A. Update CommMate Version
+
+**CRITICAL**: Update version BEFORE building each new image.
+
+```bash
+# Edit version file
+code custom/config/commmate_version.yml
+
+# Update to your new version:
+# commmate_version: '4.8.0.1'  # Increment patch for CommMate-only changes
+# base_chatwoot_version: '4.8.0'  # Keep base Chatwoot version
+```
+
+**Version Numbering Rules:**
+
+| Scenario | CommMate Version | Base Version | Example |
+|----------|------------------|--------------|---------|
+| New downstream | Match Chatwoot | New Chatwoot | v4.9.0 based on v4.9.0 |
+| CommMate patch | Increment patch | Keep same | v4.8.0.1 based on v4.8.0 |
+| Second patch | Increment again | Keep same | v4.8.0.2 based on v4.8.0 |
+
+**After updating, verify:**
+```bash
+cat custom/config/commmate_version.yml
+# Expected: Shows your new version numbers
+
+# Verify version will be used in build
+grep "commmate_version" custom/config/commmate_version.yml
+# Expected: commmate_version: '4.8.0.1' (or your target version)
+```
+
+**Expected Outcome:**
+- ✅ Version file updated
+- ✅ CommMate version incremented correctly
+- ✅ Base version matches Chatwoot base
+
+### B. Verify Branch State
 
 ```bash
 cd /Users/schimuneck/projects/commmmate/chatwoot
@@ -72,27 +108,39 @@ git log --oneline -3
 ### B. Verify CommMate Customizations
 
 ```bash
-# 1. Check critical files exist
+# 1. Check version file exists
+ls -la custom/config/commmate_version.yml
+# Expected: File exists with correct version
+
+# 2. Check critical files exist
 ls -la custom/config/initializers/commmate_config_overrides.rb
+ls -la custom/config/initializers/commmate_version.rb
 ls -la custom/config/installation_config.yml
 ls -la db/migrate/*apply_commmate_branding*
 
 # Expected: All files present
 
-# 2. Check assets exist
+# 3. Check assets exist
 ls -la custom/assets/logos/*.png | wc -l
 # Expected: 3 (logo-full.png, logo-full-dark.png, logo-icon.png)
 
 ls -la custom/assets/favicons/*.png | wc -l
 # Expected: 4+ (favicon files)
 
-# 3. Verify branding script exists
+# 4. Verify custom controllers and views
+ls -la custom/controllers/super_admin/instance_statuses_controller.rb
+ls -la custom/views/super_admin/application/_navigation.html.erb
+# Expected: Both files exist (for admin console branding)
+
+# 5. Verify branding script exists
 ls -la custom/script/apply_commmate_branding.sh
 # Expected: -rwxr-xr-x (executable)
 ```
 
 **Expected Outcome:**
+- ✅ Version file present
 - ✅ All custom files present
+- ✅ Admin console overrides exist
 - ✅ Assets complete
 - ✅ Scripts executable
 

@@ -13,4 +13,17 @@ def fetch_git_sha
   end
 end
 
-GIT_HASH = fetch_git_sha
+# CommMate: Check for CommMate-specific git SHA first
+def fetch_commmate_git_sha
+  if File.exist?('.commmate_git_sha')
+    File.read('.commmate_git_sha').strip
+  else
+    fetch_git_sha
+  end
+end
+
+# CommMate git SHA (from CommMate repository)
+GIT_HASH = fetch_commmate_git_sha
+
+# Chatwoot base git SHA (for reference)
+CHATWOOT_GIT_HASH = File.exist?('.git_sha') ? File.read('.git_sha').strip : GIT_HASH

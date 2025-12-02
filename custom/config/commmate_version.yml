@@ -1,0 +1,12 @@
+# CommMate Version Configuration
+# Update this file before building new CommMate releases
+#
+# Version Format:
+#   - For downstream releases: match Chatwoot version (e.g., 4.8.0)
+#   - For CommMate patches: increment patch (e.g., 4.8.0.1, 4.8.0.2)
+#
+# Last Updated: December 2025
+
+commmate_version: '4.8.0.1'
+base_chatwoot_version: '4.8.0'
+
