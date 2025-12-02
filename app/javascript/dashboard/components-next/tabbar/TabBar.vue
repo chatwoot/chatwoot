@@ -20,7 +20,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['tabChanged']);
+const emit = defineEmits(['change', 'tabChanged']);
 
 const activeTab = computed(() => props.initialActiveTab);
 
@@ -51,6 +51,7 @@ onMounted(() => {
 });
 
 const selectTab = index => {
+  emit('change', index);
   emit('tabChanged', props.tabs[index]);
 };
 

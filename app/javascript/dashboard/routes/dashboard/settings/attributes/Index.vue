@@ -2,9 +2,11 @@
 import { computed, onMounted, ref } from 'vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
-import CustomAttribute from './CustomAttribute.vue';
+import EditAttribute from './EditAttribute.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import AttributeListItem from 'dashboard/components-next/ConversationWorkflow/AttributeListItem.vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
@@ -16,12 +18,23 @@ const store = useStore();
 const showAddPopup = ref(false);
 const selectedTabIndex = ref(0);
 const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
+const showEditPopup = ref(false);
+const showDeletePopup = ref(false);
+const selectedAttribute = ref({});
 
 const openAddPopup = () => {
   showAddPopup.value = true;
 };
 const hideAddPopup = () => {
   showAddPopup.value = false;
+};
+const hideEditPopup = () => {
+  showEditPopup.value = false;
+  selectedAttribute.value = {};
+};
+const closeDelete = () => {
+  showDeletePopup.value = false;
+  selectedAttribute.value = {};
 };
 
 const tabs = computed(() => {
@@ -49,9 +62,23 @@ const attributes = computed(() =>
   getters['attributes/getAttributesByModel'].value(attributeModel.value)
 );
 
-const onClickTabChange = index => {
-  selectedTabIndex.value = index;
+const onClickTabChange = payload => {
+  selectedTabIndex.value = typeof payload === 'number' ? payload : payload?.key;
 };
+
+const handleEditAttribute = attribute => {
+  selectedAttribute.value = attribute;
+  showEditPopup.value = true;
+};
+
+const handleDeleteAttribute = attribute => {
+  selectedAttribute.value = attribute;
+  showDeletePopup.value = true;
+};
+
+const badges = computed(() => {
+  return ['pre-chat', 'resolution'];
+});
 </script>
 
 <template>
@@ -77,33 +104,70 @@ const onClickTabChange = index => {
         </template>
       </BaseSettingsHeader>
     </template>
-    <template #preBody>
-      <woot-tabs
-        class="font-medium [&_ul]:p-0 mb-4"
-        :index="selectedTabIndex"
-        @change="onClickTabChange"
-      >
-        <woot-tabs-item
-          v-for="(tab, index) in tabs"
-          :key="tab.key"
-          :index="index"
-          :name="tab.name"
-          :show-badge="false"
-          is-compact
-        />
-      </woot-tabs>
-    </template>
     <template #body>
-      <CustomAttribute
-        :key="attributeModel"
-        :attribute-model="attributeModel"
-      />
+      <div class="flex flex-col gap-6">
+        <TabBar
+          :tabs="tabs.map(tab => ({ label: tab.name, key: tab.key }))"
+          :initial-active-tab="selectedTabIndex"
+          class="max-w-xl"
+          @change="onClickTabChange"
+        />
+        <div class="grid gap-3">
+          <AttributeListItem
+            v-for="attribute in attributes"
+            :key="attribute.id"
+            :attribute="{
+              ...attribute,
+              label: attribute.attribute_display_name,
+              type: attribute.attribute_display_type,
+              value: attribute.attribute_key,
+            }"
+            :badges="badges"
+            @edit="handleEditAttribute"
+            @delete="handleDeleteAttribute"
+          />
+        </div>
+      </div>
     </template>
     <AddAttribute
       v-if="showAddPopup"
       v-model:show="showAddPopup"
       :on-close="hideAddPopup"
       :selected-attribute-model-tab="selectedTabIndex"
+    />
+    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
+      <EditAttribute
+        :selected-attribute="selectedAttribute"
+        :is-updating="uiFlags.isUpdating"
+        @on-close="hideEditPopup"
+      />
+    </woot-modal>
+    <woot-confirm-delete-modal
+      v-if="showDeletePopup"
+      v-model:show="showDeletePopup"
+      :title="
+        $t('ATTRIBUTES_MGMT.DELETE.CONFIRM.TITLE', {
+          attributeName: selectedAttribute.attribute_display_name,
+        })
+      "
+      :message="$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :confirm-text="`${$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.YES')} ${
+        selectedAttribute.attribute_display_name || ''
+      }`"
+      :reject-text="$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.NO')"
+      :confirm-value="selectedAttribute.attribute_display_name"
+      :confirm-place-holder-text="
+        $t('ATTRIBUTES_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
+          attributeName: selectedAttribute.attribute_display_name,
+        })
+      "
+      @on-confirm="
+        () => {
+          store.dispatch('attributes/delete', selectedAttribute.id);
+          closeDelete();
+        }
+      "
+      @on-close="closeDelete"
     />
   </SettingsLayout>
 </template>
