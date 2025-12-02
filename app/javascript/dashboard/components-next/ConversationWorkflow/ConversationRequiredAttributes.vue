@@ -1,6 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -13,8 +16,10 @@ defineProps({
 });
 
 const emit = defineEmits(['click']);
-
+const { t } = useI18n();
+const { currentAccount, updateAccount } = useAccount();
 const showDropdown = ref(false);
+const isSaving = ref(false);
 const conversationAttributes = useMapGetter(
   'attributes/getConversationAttributes'
 );
@@ -23,7 +28,11 @@ const handleClick = () => {
   emit('click');
 };
 
-const attributeOptions = computed(() =>
+const selectedAttributeKeys = computed(
+  () => currentAccount.value?.settings?.conversation_required_attributes || []
+);
+
+const allAttributeOptions = computed(() =>
   (conversationAttributes.value || []).map(attribute => ({
     ...attribute,
     action: 'add',
@@ -33,8 +42,18 @@ const attributeOptions = computed(() =>
   }))
 );
 
+const attributeOptions = computed(() =>
+  allAttributeOptions.value.filter(
+    attribute => !selectedAttributeKeys.value.includes(attribute.value)
+  )
+);
+
 const conversationRequiredAttributes = computed(() =>
-  attributeOptions.value.slice(0, 4)
+  selectedAttributeKeys.value
+    .map(key =>
+      allAttributeOptions.value.find(attribute => attribute.value === key)
+    )
+    .filter(Boolean)
 );
 
 const handleAddAttributesClick = event => {
@@ -42,15 +61,41 @@ const handleAddAttributesClick = event => {
   showDropdown.value = !showDropdown.value;
 };
 
-const handleAttributeAction = () => {
-  showDropdown.value = false;
+const saveRequiredAttributes = async keys => {
+  try {
+    isSaving.value = true;
+    await updateAccount(
+      { conversation_required_attributes: keys },
+      { silent: true }
+    );
+    useAlert(t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.SAVE.SUCCESS'));
+  } catch (error) {
+    useAlert(t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.SAVE.ERROR'));
+  } finally {
+    isSaving.value = false;
+    showDropdown.value = false;
+  }
+};
+
+const handleAttributeAction = ({ value }) => {
+  if (!value || isSaving.value) return;
+  const updatedKeys = Array.from(
+    new Set([...selectedAttributeKeys.value, value])
+  );
+  saveRequiredAttributes(updatedKeys);
 };
 
 const closeDropdown = () => {
   showDropdown.value = false;
 };
 
-const handleDelete = () => {};
+const handleDelete = attribute => {
+  if (isSaving.value) return;
+  const updatedKeys = selectedAttributeKeys.value.filter(
+    key => key !== attribute.value
+  );
+  saveRequiredAttributes(updatedKeys);
+};
 </script>
 
 <template>
@@ -65,6 +110,8 @@ const handleDelete = () => {};
           <Button
             icon="i-lucide-circle-plus"
             :label="$t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.ADD.TITLE')"
+            :is-loading="isSaving"
+            :disabled="isSaving || attributeOptions.length === 0"
             @click="handleAddAttributesClick"
           />
           <DropdownMenu

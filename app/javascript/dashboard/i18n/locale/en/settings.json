@@ -496,6 +496,10 @@
       "ADD": {
         "TITLE": "Add Attributes",
         "SEARCH_PLACEHOLDER": "Search attributes"
+      },
+      "SAVE": {
+        "SUCCESS": "Required attributes updated",
+        "ERROR": "Could not update required attributes, please try again"
       }
     }
   },
