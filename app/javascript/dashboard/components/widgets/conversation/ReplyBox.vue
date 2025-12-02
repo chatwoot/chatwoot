@@ -174,19 +174,31 @@ export default {
       return false;
     },
     showWhatsappTemplates() {
-      return this.isAWhatsAppCloudChannel && !this.isPrivate;
+      // We support templates for API channels if someone updates templates manually via API
+      // That's why we don't explicitly check for channel type here
+      const templates = this.$store.getters['inboxes/getWhatsAppTemplates'](
+        this.inboxId
+      );
+      return !!(templates && templates.length) && !this.isPrivate;
     },
     showContentTemplates() {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
+      if (
+        this.currentChat.can_reply ||
+        this.isAWhatsAppChannel ||
+        this.isAPIInbox
+      ) {
         return this.isOnPrivateNote;
       }
       return true;
     },
     isReplyRestricted() {
-      return !this.currentChat?.can_reply && !this.isAWhatsAppChannel;
+      return (
+        !this.currentChat?.can_reply &&
+        !(this.isAWhatsAppChannel || this.isAPIInbox)
+      );
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -445,7 +457,7 @@ export default {
       // Voice channels only allow private notes
       if (this.isAVoiceChannel) {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
-      } else if (canReply || this.isAWhatsAppChannel) {
+      } else if (canReply || this.isAWhatsAppChannel || this.isAPIInbox) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -867,7 +879,7 @@ export default {
       // Voice channels are restricted to private notes only
       if (this.isAVoiceChannel) {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
-      } else if (canReply || this.isAWhatsAppChannel) {
+      } else if (canReply || this.isAWhatsAppChannel || this.isAPIInbox) {
         this.replyType = mode;
       }
       if (this.showRichContentEditor) {
