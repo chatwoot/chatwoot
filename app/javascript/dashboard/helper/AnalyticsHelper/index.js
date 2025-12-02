@@ -10,8 +10,9 @@ export class AnalyticsHelper {
    * @param {Object} [options={}] - options for analytics
    * @param {string} [options.token] - analytics token
    */
-  constructor({ token: analyticsToken } = {}) {
+  constructor({ token: analyticsToken, host: analyticsHost } = {}) {
     this.analyticsToken = analyticsToken;
+    this.analyticsHost = analyticsHost || 'https://eu.i.posthog.com';
     this.analytics = null;
     this.user = {};
   }
@@ -27,7 +28,7 @@ export class AnalyticsHelper {
     }
 
     posthog.init(this.analyticsToken, {
-      api_host: 'https://app.posthog.com',
+      api_host: this.analyticsHost,
       capture_pageview: false,
       persistence: 'localStorage+cookie',
     });
