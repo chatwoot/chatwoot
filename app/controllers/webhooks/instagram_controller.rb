@@ -26,7 +26,6 @@ class Webhooks::InstagramController < ActionController::API
 
   def handle_changes(entry)
     page = Channel::Instagram.find_by(instagram_id: entry[:id])
-    puts "================page===============#{page.inspect}==================="
     return unless page
 
     entry['changes'].each do |changes|
