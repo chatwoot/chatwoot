@@ -294,20 +294,13 @@ const deleteConversation = () => {
         }"
       >
         <div
-          v-if="showInboxName || isCommentConversation"
+          v-if="showInboxName"
           class="flex items-center gap-1.5 flex-1 min-w-0"
         >
           <InboxName
-            v-if="showInboxName"
             :inbox="inbox"
             class="flex-1 min-w-0"
           />
-          <span
-      v-if="isCommentConversation"
-      class="absolute right-0 inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold tracking-wide rounded-xl bg-n-blue-3 text-n-slate-11 dark:bg-n-blue-3"
-    >
-            {{ $t('CHAT_LIST.COMMENT_TAG') }}
-          </span>
         </div>
         <div
           class="flex items-center gap-2 flex-shrink-0"
@@ -324,6 +317,12 @@ const deleteConversation = () => {
           </span>
           <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
         </div>
+        <span
+          v-if="isCommentConversation"
+          class="ml-auto self-start inline-flex items-center px-3 py-0.5 text-[10px] font-semibold tracking-wide rounded-xl bg-n-blue-3 text-n-slate-11 dark:bg-n-blue-3"
+        >
+          {{ $t('CHAT_LIST.COMMENT_TAG') }}
+        </span>
       </div>
       <h4
         class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
