@@ -51,6 +51,6 @@ module Captain::ChatResponseHelper
   end
 
   def copilot_thread_present?
-    defined?(@copilot_thread) && @copilot_thread.present?
+    @copilot_thread.present?
   end
 end

@@ -6,8 +6,6 @@ class Captain::Tools::Copilot::GetArticleService < Captain::Tools::BaseTool
   param :article_id, type: :number, desc: 'The ID of the article to retrieve', required: true
 
   def execute(article_id:)
-    Rails.logger.info "FOUND ARTICLE: #{self.class.name}: Article ID: #{article_id}"
-
     article = Article.find_by(id: article_id, account_id: @assistant.account_id)
     return 'Article not found' if article.nil?
 

@@ -9,8 +9,6 @@ class Captain::Tools::Copilot::SearchContactsService < Captain::Tools::BaseTool
   param :name, type: :string, desc: 'Filter contacts by name (partial match)'
 
   def execute(email: nil, phone_number: nil, name: nil)
-    Rails.logger.info "#{self.class.name} Email: #{email}, Phone Number: #{phone_number}, Name: #{name}"
-
     contacts = Contact.where(account_id: @assistant.account_id)
     contacts = contacts.where(email: email) if email.present?
     contacts = contacts.where(phone_number: phone_number) if phone_number.present?

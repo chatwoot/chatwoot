@@ -7,10 +7,6 @@ class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseTool
   param :conversation_id, type: :integer, desc: 'ID of the conversation to retrieve', required: true
 
   def execute(conversation_id:)
-    Rails.logger.info "FOUND CONVERSATION: #{self.class.name}: Conversation ID: #{conversation_id}"
-
-    return 'Missing required parameters' if conversation_id.blank?
-
     conversation = Conversation.find_by(display_id: conversation_id, account_id: @assistant.account_id)
     return 'Conversation not found' if conversation.blank?
 

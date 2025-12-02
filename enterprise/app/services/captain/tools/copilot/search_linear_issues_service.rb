@@ -9,8 +9,6 @@ class Captain::Tools::Copilot::SearchLinearIssuesService < Captain::Tools::BaseT
   def execute(term:)
     return 'Linear integration is not enabled' unless active?
 
-    Rails.logger.info "FOUND LINEAR ISSUES: #{self.class.name}: Search Term: #{term}"
-
     linear_service = Integrations::Linear::ProcessorService.new(account: @assistant.account)
     result = linear_service.search_issue(term)
 

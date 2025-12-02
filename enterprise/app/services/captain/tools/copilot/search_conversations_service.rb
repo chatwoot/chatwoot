@@ -10,7 +10,6 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
   param :labels, type: :string, desc: 'Labels available'
 
   def execute(status: nil, contact_id: nil, priority: nil, labels: nil)
-    Rails.logger.info("Searching conversations for status: #{status}, contact_id: #{contact_id}, priority: #{priority}, labels: #{labels}")
     conversations = get_conversations(status, contact_id, priority, labels)
 
     return 'No conversations found' unless conversations.exists?
