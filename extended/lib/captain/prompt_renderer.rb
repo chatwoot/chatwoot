@@ -1,32 +1,28 @@
 require 'liquid'
 
 class Captain::PromptRenderer
-  class << self
-    def render(template_name, context = {})
-      template = load_template(template_name)
-      liquid_template = Liquid::Template.parse(template)
-      liquid_template.render(stringify_keys(context))
-    end
+  def self.render(template_name, context = {})
+    new(template_name, context).render
+  end
 
-    private
+  attr_reader :template_name, :context
 
-    def load_template(template_name)
-      # -------------- Reason ---------------
-      # Updated path to point to 'extended' directory
-      # ------------ Original -----------------------
-      # template_path = Rails.root.join('enterprise', 'lib', 'captain', 'prompts', "#{template_name}.liquid")
-      # ---------------------------------------------
-      # ---------------------- Modification Begin ----------------------
-      template_path = Rails.root.join('extended', 'lib', 'captain', 'prompts', "#{template_name}.liquid")
-      # ---------------------- Modification End ------------------------
+  def initialize(template_name, context)
+    @template_name = template_name
+    @context = context
+  end
 
-      raise "Template not found: #{template_name}" unless File.exist?(template_path)
+  def render
+    template = File.read(template_path)
+    liquid_template = Liquid::Template.parse(template)
+    liquid_template.render(context.deep_stringify_keys)
+  rescue Errno::ENOENT
+    raise "Template not found: #{template_name}"
+  end
 
-      File.read(template_path)
-    end
+  private
 
-    def stringify_keys(hash)
-      hash.deep_stringify_keys
-    end
+  def template_path
+    Rails.root.join('extended', 'lib', 'captain', 'prompts', "#{template_name}.liquid")
   end
 end

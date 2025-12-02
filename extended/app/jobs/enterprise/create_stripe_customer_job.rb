@@ -2,6 +2,6 @@ class Enterprise::CreateStripeCustomerJob < ApplicationJob
   queue_as :default
 
   def perform(account)
-    Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+    # No-op: Billing is disabled
   end
 end

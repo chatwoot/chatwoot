@@ -365,23 +365,21 @@ RSpec.describe Captain::CustomTool, type: :model do
         tool = create(:captain_custom_tool, :with_params, account: account)
 
         tool_instance = tool.tool(assistant)
-        params = tool_instance.parameters
+        schema = tool_instance.to_registry_format
+        params = schema[:parameters][:properties]
 
         expect(params.keys).to contain_exactly(:order_id, :include_details)
-        expect(params[:order_id].name).to eq(:order_id)
-        expect(params[:order_id].type).to eq('string')
-        expect(params[:order_id].description).to eq('The order ID')
-        expect(params[:order_id].required).to be true
-
-        expect(params[:include_details].name).to eq(:include_details)
-        expect(params[:include_details].required).to be false
+        expect(params[:order_id][:type]).to eq('string')
+        expect(params[:order_id][:description]).to eq('The order ID')
+        expect(schema[:parameters][:required]).to include(:order_id)
       end
 
       it 'works with empty param_schema' do
         tool = create(:captain_custom_tool, account: account, param_schema: [])
 
         tool_instance = tool.tool(assistant)
-        expect(tool_instance.parameters).to be_empty
+        schema = tool_instance.to_registry_format
+        expect(schema[:parameters][:properties]).to be_empty
       end
     end
   end

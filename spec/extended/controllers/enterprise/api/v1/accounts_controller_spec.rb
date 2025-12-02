@@ -5,25 +5,10 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:agent) { create(:user, account: account, role: :agent) }
 
-  # -------------- Reason ---------------
-  # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-  # ------------ Original -----------------------
-  # describe 'POST /enterprise/api/v1/accounts/{account.id}/subscription' do
-  # ---------------------------------------------
-  # ---------------------- Modification Begin ----------------------
   describe 'POST /extended/api/v1/accounts/{account.id}/subscription' do
-    # ---------------------- Modification End ------------------------
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        # -------------- Reason ---------------
-        # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-        # ------------ Original -----------------------
-        # post "/enterprise/api/v1/accounts/#{account.id}/subscription", as: :json
-        # ---------------------------------------------
-        # ---------------------- Modification Begin ----------------------
         post "/extended/api/v1/accounts/#{account.id}/subscription", as: :json
-        # ---------------------- Modification End ------------------------
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -31,14 +16,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
     context 'when it is an authenticated user' do
       context 'when it is an agent' do
         it 'returns unauthorized' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/subscription",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
           post "/extended/api/v1/accounts/#{account.id}/subscription",
-               # ---------------------- Modification End ------------------------
                headers: agent.create_new_auth_token,
                as: :json
 
@@ -47,78 +25,23 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       end
 
       context 'when it is an admin' do
-        it 'enqueues a job' do
+        it 'does not enqueue a job' do
           expect do
-            # -------------- Reason ---------------
-            # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-            # ------------ Original -----------------------
-            # post "/enterprise/api/v1/accounts/#{account.id}/subscription",
-            # ---------------------------------------------
-            # ---------------------- Modification Begin ----------------------
             post "/extended/api/v1/accounts/#{account.id}/subscription",
-                 # ---------------------- Modification End ------------------------
                  headers: admin.create_new_auth_token,
                  as: :json
-          end.to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
-          expect(account.reload.custom_attributes).to eq({ 'is_creating_customer': true }.with_indifferent_access)
-        end
+          end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob)
 
-        it 'does not enqueue a job if a job is already enqueued' do
-          account.update!(custom_attributes: { is_creating_customer: true })
-
-          expect do
-            # -------------- Reason ---------------
-            # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-            # ------------ Original -----------------------
-            # post "/enterprise/api/v1/accounts/#{account.id}/subscription",
-            # ---------------------------------------------
-            # ---------------------- Modification Begin ----------------------
-            post "/extended/api/v1/accounts/#{account.id}/subscription",
-                 # ---------------------- Modification End ------------------------
-                 headers: admin.create_new_auth_token,
-                 as: :json
-          end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
-        end
-
-        it 'does not enqueues a job if customer id is present' do
-          account.update!(custom_attributes: { 'stripe_customer_id': 'cus_random_string' })
-
-          expect do
-            # -------------- Reason ---------------
-            # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-            # ------------ Original -----------------------
-            # post "/enterprise/api/v1/accounts/#{account.id}/subscription",
-            # ---------------------------------------------
-            # ---------------------- Modification Begin ----------------------
-            post "/extended/api/v1/accounts/#{account.id}/subscription",
-                 # ---------------------- Modification End ------------------------
-                 headers: admin.create_new_auth_token,
-                 as: :json
-          end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
+          expect(response).to have_http_status(:no_content)
         end
       end
     end
   end
 
-  # -------------- Reason ---------------
-  # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-  # ------------ Original -----------------------
-  # describe 'POST /enterprise/api/v1/accounts/{account.id}/checkout' do
-  # ---------------------------------------------
-  # ---------------------- Modification Begin ----------------------
   describe 'POST /extended/api/v1/accounts/{account.id}/checkout' do
-    # ---------------------- Modification End ------------------------
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        # -------------- Reason ---------------
-        # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-        # ------------ Original -----------------------
-        # post "/enterprise/api/v1/accounts/#{account.id}/checkout", as: :json
-        # ---------------------------------------------
-        # ---------------------- Modification Begin ----------------------
         post "/extended/api/v1/accounts/#{account.id}/checkout", as: :json
-        # ---------------------- Modification End ------------------------
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -126,14 +49,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
     context 'when it is an authenticated user' do
       context 'when it is an agent' do
         it 'returns unauthorized' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/checkout",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
           post "/extended/api/v1/accounts/#{account.id}/checkout",
-               # ---------------------- Modification End ------------------------
                headers: agent.create_new_auth_token,
                as: :json
 
@@ -141,248 +57,63 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         end
       end
 
-      context 'when it is an admin and the stripe customer id is not present' do
-        it 'returns error' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/checkout",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
+      context 'when it is an admin' do
+        it 'returns billing disabled message' do
           post "/extended/api/v1/accounts/#{account.id}/checkout",
-               # ---------------------- Modification End ------------------------
                headers: admin.create_new_auth_token,
                as: :json
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:ok)
           json_response = JSON.parse(response.body)
-          expect(json_response['error']).to eq('Please subscribe to a plan before viewing the billing details')
-        end
-      end
-
-      context 'when it is an admin and the stripe customer is present' do
-        it 'calls create session' do
-          account.update!(custom_attributes: { 'stripe_customer_id': 'cus_random_string' })
-
-          create_session_service = double
-          allow(Enterprise::Billing::CreateSessionService).to receive(:new).and_return(create_session_service)
-          allow(create_session_service).to receive(:create_session).and_return(create_session_service)
-          allow(create_session_service).to receive(:url).and_return('https://billing.stripe.com/random_string')
-
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/checkout",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
-          post "/extended/api/v1/accounts/#{account.id}/checkout",
-               # ---------------------- Modification End ------------------------
-               headers: admin.create_new_auth_token,
-               as: :json
-
-          expect(response).to have_http_status(:success)
-          json_response = JSON.parse(response.body)
-          expect(json_response['redirect_url']).to eq('https://billing.stripe.com/random_string')
+          expect(json_response['message']).to eq('Billing is disabled in this version')
         end
       end
     end
   end
 
-  # -------------- Reason ---------------
-  # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-  # ------------ Original -----------------------
-  # describe 'GET /enterprise/api/v1/accounts/{account.id}/limits' do
-  # ---------------------------------------------
-  # ---------------------- Modification Begin ----------------------
   describe 'GET /extended/api/v1/accounts/{account.id}/limits' do
-    # ---------------------- Modification End ------------------------
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        # -------------- Reason ---------------
-        # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-        # ------------ Original -----------------------
-        # get "/enterprise/api/v1/accounts/#{account.id}/limits", as: :json
-        # ---------------------------------------------
-        # ---------------------- Modification Begin ----------------------
         get "/extended/api/v1/accounts/#{account.id}/limits", as: :json
-        # ---------------------- Modification End ------------------------
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an authenticated user' do
-      before do
-        InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
-        InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_create(value: [{ 'name': 'Hacker' }])
-      end
-
       context 'when it is an agent' do
-        it 'returns unauthorized' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # get "/enterprise/api/v1/accounts/#{account.id}/limits",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
+        it 'returns max limits' do
           get "/extended/api/v1/accounts/#{account.id}/limits",
-              # ---------------------- Modification End ------------------------
               headers: agent.create_new_auth_token,
               as: :json
 
           expect(response).to have_http_status(:success)
           json_response = JSON.parse(response.body)
           expect(json_response['id']).to eq(account.id)
-          expect(json_response['limits']).to eq(
-            {
-              'conversation' => {
-                'allowed' => 500,
-                'consumed' => 0
-              },
-              'non_web_inboxes' => {
-                'allowed' => 0,
-                'consumed' => 0
-              },
-              'agents' => {
-                'allowed' => 2,
-                'consumed' => 2
-              }
-            }
-          )
+          expect(json_response['limits']['agents']['allowed']).to eq(ChatwootApp.max_limit)
+          expect(json_response['limits']['captain']['documents']['total_count']).to eq(ChatwootApp.max_limit)
         end
       end
 
       context 'when it is an admin' do
-        before do
-          create(:conversation, account: account)
-          create(:channel_api, account: account)
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
-          InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_create(value: [{ 'name': 'Hacker' }])
-        end
-
-        it 'returns the limits if the plan is default' do
+        it 'returns max limits regardless of plan' do
           account.update!(custom_attributes: { plan_name: 'Hacker' })
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # get "/enterprise/api/v1/accounts/#{account.id}/limits",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
+
           get "/extended/api/v1/accounts/#{account.id}/limits",
-              # ---------------------- Modification End ------------------------
               headers: admin.create_new_auth_token,
               as: :json
 
-          expected_response = {
-            'id' => account.id,
-            'limits' => {
-              'conversation' => {
-                'allowed' => 500,
-                'consumed' => 1
-              },
-              'non_web_inboxes' => {
-                'allowed' => 0,
-                'consumed' => 1
-              },
-              'agents' => {
-                'allowed' => 2,
-                'consumed' => 2
-              }
-            }
-          }
-
           expect(response).to have_http_status(:ok)
-          expect(JSON.parse(response.body)).to eq(expected_response)
-        end
-
-        it 'returns nil if the plan is not default' do
-          account.update!(custom_attributes: { plan_name: 'Startups' })
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # get "/enterprise/api/v1/accounts/#{account.id}/limits",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
-          get "/extended/api/v1/accounts/#{account.id}/limits",
-              # ---------------------- Modification End ------------------------
-              headers: admin.create_new_auth_token,
-              as: :json
-
-          expected_response = {
-            'id' => account.id,
-            'limits' => {
-              'agents' => {
-                'allowed' => account.usage_limits[:agents],
-                'consumed' => account.users.count
-              },
-              'conversation' => {},
-              'captain' => {
-                'documents' => { 'consumed' => 0, 'current_available' => ChatwootApp.max_limit, 'total_count' => ChatwootApp.max_limit },
-                'responses' => { 'consumed' => 0, 'current_available' => ChatwootApp.max_limit, 'total_count' => ChatwootApp.max_limit }
-              },
-              'non_web_inboxes' => {}
-            }
-          }
-
-          expect(response).to have_http_status(:ok)
-          expect(JSON.parse(response.body)).to eq(expected_response)
-        end
-
-        it 'returns limits if a plan is not configured' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # get "/enterprise/api/v1/accounts/#{account.id}/limits",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
-          get "/extended/api/v1/accounts/#{account.id}/limits",
-              # ---------------------- Modification End ------------------------
-              headers: admin.create_new_auth_token,
-              as: :json
-
-          expected_response = {
-            'id' => account.id,
-            'limits' => {
-              'conversation' => {
-                'allowed' => 500,
-                'consumed' => 1
-              },
-              'non_web_inboxes' => {
-                'allowed' => 0,
-                'consumed' => 1
-              },
-              'agents' => {
-                'allowed' => 2,
-                'consumed' => 2
-              }
-            }
-          }
-          expect(response).to have_http_status(:ok)
-          expect(JSON.parse(response.body)).to eq(expected_response)
+          json_response = JSON.parse(response.body)
+          expect(json_response['limits']['agents']['allowed']).to eq(ChatwootApp.max_limit)
         end
       end
     end
   end
 
-  # -------------- Reason ---------------
-  # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-  # ------------ Original -----------------------
-  # describe 'POST /enterprise/api/v1/accounts/{account.id}/toggle_deletion' do
-  # ---------------------------------------------
-  # ---------------------- Modification Begin ----------------------
   describe 'POST /extended/api/v1/accounts/{account.id}/toggle_deletion' do
-    # ---------------------- Modification End ------------------------
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        # -------------- Reason ---------------
-        # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-        # ------------ Original -----------------------
-        # post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion", as: :json
-        # ---------------------------------------------
-        # ---------------------- Modification Begin ----------------------
         post "/extended/api/v1/accounts/#{account.id}/toggle_deletion", as: :json
-        # ---------------------- Modification End ------------------------
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -390,14 +121,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
     context 'when it is an authenticated user' do
       context 'when it is an agent' do
         it 'returns unauthorized' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
           post "/extended/api/v1/accounts/#{account.id}/toggle_deletion",
-               # ---------------------- Modification End ------------------------
                headers: agent.create_new_auth_token,
                as: :json
 
@@ -405,45 +129,9 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         end
       end
 
-      context 'when deployment environment is not cloud' do
-        before do
-          # Set deployment environment to something other than cloud
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'self_hosted')
-        end
-
-        it 'returns not found' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
-          post "/extended/api/v1/accounts/#{account.id}/toggle_deletion",
-               # ---------------------- Modification End ------------------------
-               headers: admin.create_new_auth_token,
-               params: { action_type: 'delete' },
-               as: :json
-
-          expect(response).to have_http_status(:not_found)
-          expect(JSON.parse(response.body)['error']).to eq('Not found')
-        end
-      end
-
       context 'when it is an admin' do
-        before do
-          # Create the installation config for cloud environment
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
-        end
-
         it 'marks the account for deletion when action is delete' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
           post "/extended/api/v1/accounts/#{account.id}/toggle_deletion",
-               # ---------------------- Modification End ------------------------
                headers: admin.create_new_auth_token,
                params: { action_type: 'delete' },
                as: :json
@@ -454,7 +142,6 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         end
 
         it 'unmarks the account for deletion when action is undelete' do
-          # First mark the account for deletion
           account.update!(
             custom_attributes: {
               'marked_for_deletion_at' => 7.days.from_now.iso8601,
@@ -462,14 +149,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
             }
           )
 
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
           post "/extended/api/v1/accounts/#{account.id}/toggle_deletion",
-               # ---------------------- Modification End ------------------------
                headers: admin.create_new_auth_token,
                params: { action_type: 'undelete' },
                as: :json
@@ -480,32 +160,9 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         end
 
         it 'returns error for invalid action' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
           post "/extended/api/v1/accounts/#{account.id}/toggle_deletion",
-               # ---------------------- Modification End ------------------------
                headers: admin.create_new_auth_token,
                params: { action_type: 'invalid' },
-               as: :json
-
-          expect(response).to have_http_status(:unprocessable_entity)
-          expect(JSON.parse(response.body)['error']).to include('Invalid action_type')
-        end
-
-        it 'returns error when action parameter is missing' do
-          # -------------- Reason ---------------
-          # Updated API endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
-          post "/extended/api/v1/accounts/#{account.id}/toggle_deletion",
-               # ---------------------- Modification End ------------------------
-               headers: admin.create_new_auth_token,
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)

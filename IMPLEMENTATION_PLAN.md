@@ -23,38 +23,41 @@
 
 ## 🗺️ Roadmap
 
-### Phase 1: Captain (AI) Features [NEXT]
+### Phase 1: Captain (AI) Core Libs [NEXT]
 
-Rewrite AI features to be original work.
+Rewrite core AI library files in `extended/lib/captain/`.
 
-- [ ] `extended/lib/captain/llm_service.rb`
-- [ ] `extended/app/services/captain/llm/contact_notes_service.rb`
-- [ ] `extended/app/services/captain/llm/faq_generator_service.rb`
-- [ ] `extended/app/services/captain/llm/paginated_faq_generator_service.rb`
-- [ ] `extended/app/services/internal/account_analysis/content_evaluator_service.rb`
-- [ ] `extended/app/services/captain/onboarding/website_analyzer_service.rb`
+### Phase 2: Captain (AI) Services
 
-### Phase 2: Agent Capacity
+Rewrite AI service layers in `extended/app/services/captain/`.
 
-- [ ] Rewrite logic for agent limits (currently unlimited)
+### Phase 3: Captain (AI) Models & Jobs
 
-### Phase 3: Audit Logs
+Rewrite AI data models and background jobs.
 
-- [ ] Rewrite audit logging service
+### Phase 4: Captain (AI) Controllers
 
-### Phase 4: SAML SSO
+Rewrite API endpoints for AI features.
 
-- [ ] Rewrite SAML authentication logic
+### Phase 5: Enterprise Core Models
 
-### Phase 5: Custom Branding
+Rewrite enterprise data models and concerns.
 
-- [ ] Rewrite custom branding implementation
+### Phase 6: Enterprise Core Services
 
-### Phase 6: Cleanup & Verification
+Rewrite enterprise business logic services.
 
-- [ ] Remove unused original enterprise code
-- [ ] Final license verification
-- [ ] Comprehensive test suite run
+### Phase 7: Enterprise Core Controllers
+
+Rewrite enterprise API and UI controllers.
+
+### Phase 8: Remaining Components
+
+Rewrite policies, mailers, helpers, and builders.
+
+### Phase 9: Verification
+
+Comprehensive test suite run and license verification.
 
 ## 🛠️ Technical Strategy
 

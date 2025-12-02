@@ -9,12 +9,12 @@ class Captain::LlmService
     @logger = Rails.logger
   end
 
-  def call(messages, functions = [], model: 'gpt-4o-mini')
+  def call(messages, functions = [], model: 'gpt-4o-mini', json_mode: true)
     openai_params = {
       model: model,
-      response_format: { type: 'json_object' },
       messages: messages
     }
+    openai_params[:response_format] = { type: 'json_object' } if json_mode
     openai_params[:tools] = functions if functions.any?
 
     response = @client.chat(parameters: openai_params)

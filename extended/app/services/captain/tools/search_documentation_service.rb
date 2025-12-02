@@ -1,49 +1,60 @@
-class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseService
-  def name
-    'search_documentation'
-  end
+module Captain
+  module Tools
+    class SearchDocumentationService < BaseService
+      def name
+        'search_documentation'
+      end
 
-  def description
-    'Search and retrieve documentation from knowledge base'
-  end
+      def description
+        'Search and retrieve documentation from knowledge base'
+      end
 
-  def parameters
-    {
-      type: 'object',
-      properties: {
-        search_query: {
-          type: 'string',
-          description: 'The search query to look up in the documentation.'
+      def parameters
+        {
+          type: 'object',
+          properties: {
+            search_query: {
+              type: 'string',
+              description: 'The search query to look up in the documentation.'
+            }
+          },
+          required: ['search_query']
         }
-      },
-      required: ['search_query']
-    }
-  end
+      end
 
-  def execute(arguments)
-    query = arguments['search_query']
-    Rails.logger.info { "#{self.class.name}: #{query}" }
+      def execute(args)
+        query = args['search_query']
+        Rails.logger.info("Searching documentation for: #{query}")
 
-    responses = assistant.responses.approved.search(query)
+        results = @assistant.responses.approved.search(query)
 
-    return 'No FAQs found for the given query' if responses.empty?
+        return 'No FAQs found for the given query' if results.empty?
 
-    responses.map { |response| format_response(response) }.join
-  end
+        format_results(results)
+      end
 
-  private
+      private
 
-  def format_response(response)
-    formatted_response = "
-        Question: #{response.question}
-        Answer: #{response.answer}
-        "
-    if response.documentable.present? && response.documentable.try(:external_link)
-      formatted_response += "
-          Source: #{response.documentable.external_link}
-          "
+      def perform_search(query)
+        # Assuming assistant has a responses association that supports search
+        @assistant.responses.approved.search(query)
+      end
+
+      def format_results(results)
+        results.map do |item|
+          format_item(item)
+        end.join("\n\n")
+      end
+
+      def format_item(item)
+        text = "Q: #{item.question}\nA: #{item.answer}"
+
+        if item.documentable.present? && item.documentable.respond_to?(:external_link) && item.documentable.external_link.present?
+          text += "\nSource: #{item.documentable.external_link}"
+        end
+
+        text
+      end
     end
-
-    formatted_response
   end
 end

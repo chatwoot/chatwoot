@@ -1,26 +1,33 @@
-class Captain::Tools::AddContactNoteTool < Captain::Tools::BasePublicTool
-  description 'Add a note to a contact profile'
-  param :note, type: 'string', desc: 'The note content to add to the contact'
+module Captain
+  module Tools
+    class AddContactNoteTool < BasePublicTool
+      description 'Append a new note to the contact profile'
+      param :note, type: 'string', desc: 'Content of the note to be added'
 
-  def perform(tool_context, note:)
-    contact = find_contact(tool_context.state)
-    return 'Contact not found' unless contact
+      def perform(context, note:)
+        contact = find_contact(context.state)
+        return 'Error: Contact context missing' unless contact
+        return 'Error: Note content cannot be empty' if note.blank?
 
-    return 'Note content is required' if note.blank?
+        log_tool_usage('contact_note_creation', {
+                         contact_id: contact.id,
+                         length: note.length
+                       })
 
-    log_tool_usage('add_contact_note', { contact_id: contact.id, note_length: note.length })
+        persist_note(contact, note)
 
-    create_contact_note(contact, note)
-    "Note added successfully to contact #{contact.name} (ID: #{contact.id})"
-  end
+        "Successfully added note to contact: #{contact.name}"
+      end
 
-  private
+      def permissions
+        %w[contact_manage]
+      end
 
-  def create_contact_note(contact, note)
-    contact.notes.create!(content: note)
-  end
+      private
 
-  def permissions
-    %w[contact_manage]
+      def persist_note(contact, content)
+        contact.notes.create!(content: content)
+      end
+    end
   end
 end

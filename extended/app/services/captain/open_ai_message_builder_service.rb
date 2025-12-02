@@ -1,60 +1,85 @@
-class Captain::OpenAiMessageBuilderService
-  pattr_initialize [:message!]
-
-  def generate_content
-    parts = []
-    parts << text_part(@message.content) if @message.content.present?
-    parts.concat(attachment_parts(@message.attachments)) if @message.attachments.any?
-
-    return 'Message without content' if parts.blank?
-    return parts.first[:text] if parts.one? && parts.first[:type] == 'text'
-
-    parts
-  end
-
-  private
-
-  def text_part(text)
-    { type: 'text', text: text }
-  end
-
-  def image_part(image_url)
-    { type: 'image_url', image_url: { url: image_url } }
-  end
-
-  def attachment_parts(attachments)
-    image_attachments = attachments.where(file_type: :image)
-    image_content = image_parts(image_attachments)
-
-    transcription = extract_audio_transcriptions(attachments)
-    transcription_part = text_part(transcription) if transcription.present?
-
-    attachment_part = text_part('User has shared an attachment') if attachments.where.not(file_type: %i[image audio]).exists?
-
-    [image_content, transcription_part, attachment_part].flatten.compact
-  end
-
-  def image_parts(image_attachments)
-    image_attachments.each_with_object([]) do |attachment, parts|
-      url = get_attachment_url(attachment)
-      parts << image_part(url) if url.present?
+module Captain
+  class OpenAiMessageBuilderService
+    def initialize(message:)
+      @message = message
     end
-  end
 
-  def get_attachment_url(attachment)
-    return attachment.download_url if attachment.download_url.present?
-    return attachment.external_url if attachment.external_url.present?
+    def generate_content
+      components = []
 
-    attachment.file.attached? ? attachment.file_url : nil
-  end
+      # Add text content if present
+      components << build_text_block(@message.content) if @message.content.present?
 
-  def extract_audio_transcriptions(attachments)
-    audio_attachments = attachments.where(file_type: :audio)
-    return '' if audio_attachments.blank?
+      # Process attachments if any
+      components.concat(process_attachments(@message.attachments)) if @message.attachments.any?
 
-    audio_attachments.map do |attachment|
-      result = Messages::AudioTranscriptionService.new(attachment).perform
-      result[:success] ? result[:transcriptions] : ''
-    end.join
+      return fallback_message if components.empty?
+
+      # Return simple string if only one text component
+      return components.first[:text] if components.one? && components.first[:type] == 'text'
+
+      components
+    end
+
+    private
+
+    def build_text_block(content)
+      { type: 'text', text: content }
+    end
+
+    def build_image_block(url)
+      { type: 'image_url', image_url: { url: url } }
+    end
+
+    def process_attachments(attachments)
+      parts = []
+
+      # Handle images
+      images = attachments.where(file_type: :image)
+      parts.concat(extract_image_parts(images))
+
+      # Handle audio transcriptions
+      transcription = transcribe_audio(attachments)
+      parts << build_text_block(transcription) if transcription.present?
+
+      # Handle other file types
+      parts << build_text_block('User has shared an attachment') if attachments.where.not(file_type: %i[image audio]).exists?
+
+      parts
+    end
+
+    def extract_image_parts(images)
+      images.map do |img|
+        url = resolve_url(img)
+        url.present? ? build_image_block(url) : nil
+      end.compact
+    end
+
+    def resolve_url(attachment)
+      return attachment.download_url if attachment.download_url.present?
+      return attachment.external_url if attachment.external_url.present?
+
+      attachment.file.attached? ? attachment.file_url : nil
+    end
+
+    def transcribe_audio(attachments)
+      audio_attachments = attachments.select(&:audio?)
+      return nil if audio_attachments.empty?
+
+      results = audio_attachments.filter_map do |attachment|
+        result = Messages::AudioTranscriptionService.new(attachment).perform
+        next nil if result.is_a?(Hash) && result[:error].present?
+        next nil if result.is_a?(Hash) && result[:transcriptions].blank?
+
+        text = result.is_a?(Hash) ? result[:transcriptions] : result
+        text.to_s.strip
+      end
+
+      results.join(' ').presence
+    end
+
+    def fallback_message
+      'Message without content'
+    end
   end
 end

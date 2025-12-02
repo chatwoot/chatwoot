@@ -1,34 +1,44 @@
-class Captain::Tools::AddLabelToConversationTool < Captain::Tools::BasePublicTool
-  description 'Add a label to a conversation'
-  param :label_name, type: 'string', desc: 'The name of the label to add'
+module Captain
+  module Tools
+    class AddLabelToConversationTool < BasePublicTool
+      description 'Attach a label to the current conversation'
+      param :label_name, type: 'string', desc: 'Name of the label to apply'
 
-  def perform(tool_context, label_name:)
-    conversation = find_conversation(tool_context.state)
-    return 'Conversation not found' unless conversation
+      def perform(context, label_name:)
+        conversation = find_conversation(context.state)
+        return 'Error: Conversation context missing' unless conversation
 
-    label_name = label_name&.strip&.downcase
-    return 'Label name is required' if label_name.blank?
+        normalized_name = normalize_label(label_name)
+        return 'Error: Label name required' if normalized_name.blank?
 
-    label = find_label(label_name)
-    return 'Label not found' unless label
+        return "Error: Label '#{normalized_name}' does not exist" unless label_exists?(normalized_name)
 
-    add_label_to_conversation(conversation, label_name)
+        apply_label(conversation, normalized_name)
 
-    log_tool_usage('added_label', conversation_id: conversation.id, label: label_name)
+        log_tool_usage('label_applied', {
+                         conversation_id: conversation.id,
+                         label: normalized_name
+                       })
 
-    "Label '#{label_name}' added to conversation ##{conversation.display_id}"
-  end
+        "Label '#{normalized_name}' successfully applied to conversation"
+      end
 
-  private
+      private
 
-  def find_label(label_name)
-    account_scoped(Label).find_by(title: label_name)
-  end
+      def normalize_label(name)
+        name&.strip&.downcase
+      end
 
-  def add_label_to_conversation(conversation, label_name)
-    conversation.add_labels(label_name)
-  rescue StandardError => e
-    Rails.logger.error "Failed to add label to conversation: #{e.message}"
-    raise
+      def label_exists?(name)
+        account_scoped(Label).exists?(title: name)
+      end
+
+      def apply_label(conversation, name)
+        conversation.add_labels(name)
+      rescue StandardError => e
+        Rails.logger.error("Label application failed: #{e.message}")
+        raise
+      end
+    end
   end
 end

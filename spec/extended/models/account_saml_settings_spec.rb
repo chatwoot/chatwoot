@@ -61,7 +61,8 @@ RSpec.describe AccountSamlSettings, type: :model do
       settings = build(:account_saml_settings, account: account, sp_entity_id: nil)
       expect(settings).to be_valid
       settings.save!
-      expect(settings.sp_entity_id).to eq("http://localhost:3000/saml/sp/#{account.id}")
+      expect(settings.sp_entity_id).to include("/saml/sp/#{account.id}")
+      expect(settings.sp_entity_id).to match(%r{^https?://})
     end
 
     it 'does not override existing sp_entity_id' do

@@ -1,60 +1,74 @@
-class Captain::Tools::SimplePageCrawlService
-  attr_reader :external_link
+require 'net/http'
+require 'nokogiri'
+require 'reverse_markdown'
 
-  def initialize(external_link)
-    @external_link = external_link
-    @doc = Nokogiri::HTML(HTTParty.get(external_link).body)
-  end
+module Captain
+  module Tools
+    class SimplePageCrawlService
+      attr_reader :url
 
-  def page_links
-    sitemap? ? extract_links_from_sitemap : extract_links_from_html
-  end
+      def initialize(url)
+        @url = url
+        @uri = URI(url)
+        fetch_content
+      end
 
-  def page_title
-    title_element = @doc.at_xpath('//title')
-    title_element&.text&.strip
-  end
+      def page_links
+        xml_sitemap? ? parse_sitemap_links : parse_html_links
+      end
 
-  def body_text_content
-    ReverseMarkdown.convert @doc.at_xpath('//body'), unknown_tags: :bypass, github_flavored: true
-  end
+      def page_title
+        @doc.at_xpath('//title')&.text&.strip
+      end
 
-  def meta_description
-    meta_desc = @doc.at_css('meta[name="description"]')
-    return nil unless meta_desc && meta_desc['content']
+      def body_text_content
+        body = @doc.at_xpath('//body')
+        return '' unless body
 
-    meta_desc['content'].strip
-  end
+        ReverseMarkdown.convert(body, unknown_tags: :bypass, github_flavored: true)
+      end
 
-  def favicon_url
-    favicon_link = @doc.at_css('link[rel*="icon"]')
-    return nil unless favicon_link && favicon_link['href']
+      def meta_description
+        @doc.at_css('meta[name="description"]')&.[]('content')&.strip
+      end
 
-    resolve_url(favicon_link['href'])
-  end
+      def favicon_url
+        link = @doc.at_css('link[rel*="icon"]')
+        return nil unless link && link['href']
 
-  private
+        absolute_url(link['href'])
+      end
 
-  def sitemap?
-    @external_link.end_with?('.xml')
-  end
+      private
 
-  def extract_links_from_sitemap
-    @doc.xpath('//loc').to_set(&:text)
-  end
+      def fetch_content
+        response = Net::HTTP.get_response(@uri)
+        raise "Failed to fetch content: #{response.code}" unless response.is_a?(Net::HTTPSuccess)
 
-  def extract_links_from_html
-    @doc.xpath('//a/@href').to_set do |link|
-      absolute_url = URI.join(@external_link, link.value).to_s
-      absolute_url
+        @doc = Nokogiri::HTML(response.body)
+      end
+
+      def xml_sitemap?
+        @url.end_with?('.xml')
+      end
+
+      def parse_sitemap_links
+        @doc.xpath('//loc').map(&:text).to_set
+      end
+
+      def parse_html_links
+        @doc.xpath('//a/@href').map do |href|
+          absolute_url(href.value)
+        end.compact.to_set
+      end
+
+      def absolute_url(href)
+        return href if href.start_with?('http')
+
+        URI.join(@url, href).to_s
+      rescue URI::InvalidURIError
+        nil
+      end
     end
-  end
-
-  def resolve_url(url)
-    return url if url.start_with?('http')
-
-    URI.join(@external_link, url).to_s
-  rescue StandardError
-    url
   end
 end

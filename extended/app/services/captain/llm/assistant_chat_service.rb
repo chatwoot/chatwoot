@@ -1,50 +1,63 @@
-require 'openai'
+module Captain
+  module Llm
+    class AssistantChatService
+      def initialize(assistant:, conversation_id: nil)
+        @assistant = assistant
+        @conversation_id = conversation_id
+        @llm = Captain::LlmService.new(api_key: ENV.fetch('OPENAI_API_KEY', nil)) # Or from assistant config
+        @tool_registry = Captain::ToolRegistryService.new(@assistant)
+        setup_tools
+      end
 
-class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
-  include Captain::ChatHelper
+      def generate_response(additional_message: nil, message_history: [], role: 'user')
+        messages = prepare_messages(additional_message, message_history, role)
 
-  def initialize(assistant: nil, conversation_id: nil)
-    super()
+        response = @llm.call(messages, @tool_registry.registered_tools)
 
-    @assistant = assistant
-    @conversation_id = conversation_id
-    @messages = [system_message]
-    @response = ''
-    register_tools
-  end
+        # Handle tool calls if any (simple implementation for now)
+        if response[:tool_call]
+          handle_tool_call(response[:tool_call], messages)
+        else
+          response[:output]
+        end
+      end
 
-  # additional_message: A single message (String) from the user that should be appended to the chat.
-  #                    It can be an empty String or nil when you only want to supply historical messages.
-  # message_history:   An Array of already formatted messages that provide the previous context.
-  # role:              The role for the additional_message (defaults to `user`).
-  #
-  # NOTE: Parameters are provided as keyword arguments to improve clarity and avoid relying on
-  # positional ordering.
-  def generate_response(additional_message: nil, message_history: [], role: 'user')
-    @messages += message_history
-    @messages << { role: role, content: additional_message } if additional_message.present?
-    request_chat_completion
-  end
+      private
 
-  private
+      def setup_tools
+        @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
+      end
 
-  def register_tools
-    @tool_registry = Captain::ToolRegistryService.new(@assistant, user: nil)
-    @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
-  end
+      def prepare_messages(new_msg, history, role)
+        msgs = [{ role: 'system', content: system_prompt }]
+        msgs += history
+        msgs << { role: role, content: new_msg } if new_msg.present?
+        msgs
+      end
 
-  def system_message
-    {
-      role: 'system',
-      content: Captain::Llm::SystemPromptsService.assistant_response_generator(@assistant.name, @assistant.config['product_name'], @assistant.config)
-    }
-  end
+      def system_prompt
+        Captain::Llm::SystemPromptsService.assistant_response_generator(
+          @assistant.name,
+          @assistant.config['product_name'],
+          @assistant.config
+        )
+      end
 
-  def persist_message(message, message_type = 'assistant')
-    # No need to implement
-  end
+      def handle_tool_call(tool_call, messages)
+        # Execute tool
+        function = tool_call['function']
+        name = function['name']
+        args = JSON.parse(function['arguments'])
 
-  def feature_name
-    'assistant'
+        result = @tool_registry.send(name, args)
+
+        # Append result and recurse (one turn for now)
+        messages << { role: 'assistant', content: nil, tool_calls: [tool_call] }
+        messages << { role: 'tool', tool_call_id: tool_call['id'], name: name, content: result.to_json }
+
+        final_response = @llm.call(messages, @tool_registry.registered_tools)
+        final_response[:output]
+      end
+    end
   end
 end

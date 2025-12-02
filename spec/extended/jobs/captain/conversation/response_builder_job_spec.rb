@@ -9,7 +9,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   describe '#perform' do
     let(:conversation) { create(:conversation, inbox: inbox, account: account) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
-    let(:mock_agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
+    let(:mock_agent_runner_service) { instance_double(Captain::Assistants::AgentRunnerService) }
 
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
@@ -17,7 +17,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(inbox).to receive(:captain_active?).and_return(true)
       allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
-      allow(Captain::Assistant::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
+      allow(Captain::Assistants::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
       allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
     end
 
@@ -29,7 +29,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
       it 'uses Captain::Llm::AssistantChatService' do
         expect(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant, conversation_id: conversation.id)
-        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
+        expect(Captain::Assistants::AgentRunnerService).not_to receive(:new)
 
         described_class.perform_now(conversation, assistant)
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
@@ -55,8 +55,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
       end
 
-      it 'uses Captain::Assistant::AgentRunnerService' do
-        expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
+      it 'uses Captain::Assistants::AgentRunnerService' do
+        expect(Captain::Assistants::AgentRunnerService).to receive(:new).with(
           assistant: assistant,
           conversation: conversation
         )

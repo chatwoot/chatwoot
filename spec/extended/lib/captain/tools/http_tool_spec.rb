@@ -165,47 +165,47 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
     end
 
     context 'when handling errors' do
-      it 'returns generic error message on network failure' do
+      it 'returns error message on network failure' do
         custom_tool.update!(endpoint_url: 'https://example.com/data')
         stub_request(:get, 'https://example.com/data').to_raise(SocketError.new('Failed to connect'))
 
         result = tool.perform(tool_context)
 
-        expect(result).to eq('An error occurred while executing the request')
+        expect(result).to include('Error executing tool: Failed to connect')
       end
 
-      it 'returns generic error message on timeout' do
+      it 'returns error message on timeout' do
         custom_tool.update!(endpoint_url: 'https://example.com/data')
         stub_request(:get, 'https://example.com/data').to_timeout
 
         result = tool.perform(tool_context)
 
-        expect(result).to eq('An error occurred while executing the request')
+        expect(result).to include('Error executing tool')
       end
 
-      it 'returns generic error message on HTTP 404' do
+      it 'returns error message on HTTP 404' do
         custom_tool.update!(endpoint_url: 'https://example.com/data')
         stub_request(:get, 'https://example.com/data').to_return(status: 404, body: 'Not found')
 
         result = tool.perform(tool_context)
 
-        expect(result).to eq('An error occurred while executing the request')
+        expect(result).to include('Error executing tool: Remote service returned error: 404')
       end
 
-      it 'returns generic error message on HTTP 500' do
+      it 'returns error message on HTTP 500' do
         custom_tool.update!(endpoint_url: 'https://example.com/data')
         stub_request(:get, 'https://example.com/data').to_return(status: 500, body: 'Server error')
 
         result = tool.perform(tool_context)
 
-        expect(result).to eq('An error occurred while executing the request')
+        expect(result).to include('Error executing tool: Remote service returned error: 500')
       end
 
       it 'logs error details' do
         custom_tool.update!(endpoint_url: 'https://example.com/data')
         stub_request(:get, 'https://example.com/data').to_raise(StandardError.new('Test error'))
 
-        expect(Rails.logger).to receive(:error).with(/HttpTool execution error.*Test error/)
+        expect(Rails.logger).to receive(:error).with(/Custom Tool Error.*Test error/)
 
         tool.perform(tool_context)
       end

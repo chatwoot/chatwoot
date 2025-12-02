@@ -12,6 +12,18 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
     WebMock.allow_net_connect!
   end
 
+  describe '#initialize' do
+    it 'fetches content on initialization' do
+      stub_request(:get, base_url).to_return(body: '<html></html>')
+      expect { described_class.new(base_url) }.not_to raise_error
+    end
+
+    it 'raises error on failure' do
+      stub_request(:get, base_url).to_return(status: 404)
+      expect { described_class.new(base_url) }.to raise_error(/Failed to fetch content: 404/)
+    end
+  end
+
   describe '#page_title' do
     context 'when title exists' do
       before do

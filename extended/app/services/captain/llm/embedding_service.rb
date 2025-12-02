@@ -1,22 +1,37 @@
 require 'openai'
 
-class Captain::Llm::EmbeddingService < Llm::BaseOpenAiService
-  class EmbeddingsError < StandardError; end
+module Captain
+  module Llm
+    class EmbeddingService
+      DEFAULT_MODEL = 'text-embedding-3-small'.freeze
 
-  def self.embedding_model
-    @embedding_model = InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || OpenAiConstants::DEFAULT_EMBEDDING_MODEL
-  end
+      def initialize(api_key: nil)
+        @api_key = api_key || ENV.fetch('OPENAI_API_KEY', nil)
+        @client = OpenAI::Client.new(access_token: @api_key, log_errors: Rails.env.development?)
+      end
 
-  def get_embedding(content, model: self.class.embedding_model)
-    response = @client.embeddings(
-      parameters: {
-        model: model,
-        input: content
-      }
-    )
+      def generate(text, model: DEFAULT_MODEL)
+        response = @client.embeddings(
+          parameters: {
+            model: model,
+            input: text
+          }
+        )
 
-    response.dig('data', 0, 'embedding')
-  rescue StandardError => e
-    raise EmbeddingsError, "Failed to create an embedding: #{e.message}"
+        extract_embedding(response)
+      rescue StandardError => e
+        Rails.logger.error("EmbeddingService Error: #{e.message}")
+        raise e
+      end
+
+      # Alias for backward compatibility with existing code
+      alias get_embedding generate
+
+      private
+
+      def extract_embedding(response)
+        response.dig('data', 0, 'embedding') || []
+      end
+    end
   end
 end

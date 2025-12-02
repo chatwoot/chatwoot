@@ -4,28 +4,22 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
   let(:website_url) { 'https://example.com' }
   let(:service) { described_class.new(website_url) }
   let(:mock_crawler) { instance_double(Captain::Tools::SimplePageCrawlService) }
-  let(:mock_client) { instance_double(OpenAI::Client) }
+  let(:mock_llm_service) { instance_double(Captain::LlmService) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     allow(Captain::Tools::SimplePageCrawlService).to receive(:new).and_return(mock_crawler)
-    allow(service).to receive(:client).and_return(mock_client)
-    allow(service).to receive(:model).and_return('gpt-3.5-turbo')
+    allow(Captain::LlmService).to receive(:new).and_return(mock_llm_service)
   end
 
   describe '#analyze' do
     context 'when website content is available and OpenAI call is successful' do
-      let(:openai_response) do
+      let(:llm_response) do
         {
-          'choices' => [{
-            'message' => {
-              'content' => {
-                'business_name' => 'Example Corp',
-                'suggested_assistant_name' => 'Alex from Example Corp',
-                'description' => 'You specialize in helping customers with business solutions and support'
-              }.to_json
-            }
-          }]
+          output: {
+            'business_name' => 'Example Corp',
+            'suggested_assistant_name' => 'Alex from Example Corp',
+            'description' => 'You specialize in helping customers with business solutions and support'
+          }.to_json
         }
       end
 
@@ -34,7 +28,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
         allow(mock_crawler).to receive(:page_title).and_return('Example Corp - Home')
         allow(mock_crawler).to receive(:meta_description).and_return('Leading provider of business solutions')
         allow(mock_crawler).to receive(:favicon_url).and_return('https://example.com/favicon.ico')
-        allow(mock_client).to receive(:chat).and_return(openai_response)
+        allow(mock_llm_service).to receive(:call).and_return(llm_response)
       end
 
       it 'returns success' do
@@ -85,7 +79,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
         allow(mock_crawler).to receive(:page_title).and_return('Example Corp - Home')
         allow(mock_crawler).to receive(:meta_description).and_return('Leading provider of business solutions')
         allow(mock_crawler).to receive(:favicon_url).and_return('https://example.com/favicon.ico')
-        allow(mock_client).to receive(:chat).and_raise(StandardError, 'API error')
+        allow(mock_llm_service).to receive(:call).and_raise(StandardError, 'API error')
       end
 
       it 'returns error' do

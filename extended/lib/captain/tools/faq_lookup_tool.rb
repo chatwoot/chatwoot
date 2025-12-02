@@ -1,48 +1,50 @@
-class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
-  description 'Search FAQ responses using semantic similarity to find relevant answers'
-  param :query, type: 'string', desc: 'The question or topic to search for in the FAQ database'
+module Captain
+  module Tools
+    class FaqLookupTool < BasePublicTool
+      description 'Find relevant answers from the FAQ knowledge base using semantic search'
+      param :query, type: 'string', desc: 'The search term or question to find answers for'
 
-  def perform(_tool_context, query:)
-    log_tool_usage('searching', { query: query })
+      def perform(_context, query:)
+        log_tool_usage('search_initiated', { search_term: query })
 
-    # Use existing vector search on approved responses
-    responses = @assistant.responses.approved.search(query).to_a
+        results = search_knowledge_base(query)
 
-    if responses.empty?
-      log_tool_usage('no_results', { query: query })
-      "No relevant FAQs found for: #{query}"
-    else
-      log_tool_usage('found_results', { query: query, count: responses.size })
-      format_responses(responses)
+        if results.any?
+          log_tool_usage('results_found', { count: results.size })
+          compile_responses(results)
+        else
+          log_tool_usage('no_results_found', { search_term: query })
+          "No matching FAQs found for: #{query}"
+        end
+      end
+
+      private
+
+      def search_knowledge_base(term)
+        @assistant.responses.approved.search(term).to_a
+      end
+
+      def compile_responses(items)
+        items.map { |item| build_response_text(item) }.join("\n")
+      end
+
+      def build_response_text(item)
+        text = <<~RESPONSE
+          Question: #{item.question}
+          Answer: #{item.answer}
+        RESPONSE
+
+        text += "Source: #{item.documentable.external_link}\n" if include_source?(item)
+
+        text
+      end
+
+      def include_source?(item)
+        doc = item.documentable
+        return false unless doc&.external_link.present?
+
+        !doc.external_link.start_with?('PDF:')
+      end
     end
-  end
-
-  private
-
-  def format_responses(responses)
-    responses.map { |response| format_response(response) }.join
-  end
-
-  def format_response(response)
-    formatted_response = "
-        Question: #{response.question}
-        Answer: #{response.answer}
-        "
-    if should_show_source?(response)
-      formatted_response += "
-          Source: #{response.documentable.external_link}
-          "
-    end
-
-    formatted_response
-  end
-
-  def should_show_source?(response)
-    return false if response.documentable.blank?
-    return false unless response.documentable.try(:external_link)
-
-    # Don't show source if it's a PDF placeholder
-    external_link = response.documentable.external_link
-    !external_link.start_with?('PDF:')
   end
 end

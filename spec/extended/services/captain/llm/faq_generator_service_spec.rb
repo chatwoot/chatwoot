@@ -4,11 +4,10 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
   let(:content) { 'Sample content for FAQ generation' }
   let(:language) { 'english' }
   let(:service) { described_class.new(content, language) }
-  let(:client) { instance_double(OpenAI::Client) }
+  let(:llm_service) { instance_double(Captain::LlmService) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
-    allow(OpenAI::Client).to receive(:new).and_return(client)
+    allow(Captain::LlmService).to receive(:new).and_return(llm_service)
   end
 
   describe '#generate' do
@@ -19,21 +18,13 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       ]
     end
 
-    let(:openai_response) do
-      {
-        'choices' => [
-          {
-            'message' => {
-              'content' => { faqs: sample_faqs }.to_json
-            }
-          }
-        ]
-      }
+    let(:llm_response) do
+      { output: { 'faqs' => sample_faqs }.to_json }
     end
 
     context 'when successful' do
       before do
-        allow(client).to receive(:chat).and_return(openai_response)
+        allow(llm_service).to receive(:call).and_return(llm_response)
         allow(Captain::Llm::SystemPromptsService).to receive(:faq_generator).and_return('system prompt')
       end
 
@@ -42,15 +33,15 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
         expect(result).to eq(sample_faqs)
       end
 
-      it 'calls OpenAI client with chat parameters' do
-        expect(client).to receive(:chat).with(parameters: hash_including(
-          model: 'gpt-4o-mini',
-          response_format: { type: 'json_object' },
-          messages: array_including(
-            hash_including(role: 'system'),
+      it 'calls LLM service with correct messages' do
+        expect(llm_service).to receive(:call).with(
+          array_including(
+            hash_including(role: 'system', content: 'system prompt'),
             hash_including(role: 'user', content: content)
-          )
-        ))
+          ),
+          [],
+          json_mode: true
+        )
         service.generate
       end
 
@@ -64,7 +55,7 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       let(:language) { 'spanish' }
 
       before do
-        allow(client).to receive(:chat).and_return(openai_response)
+        allow(llm_service).to receive(:call).and_return(llm_response)
       end
 
       it 'passes the correct language to SystemPromptsService' do
@@ -73,13 +64,13 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       end
     end
 
-    context 'when OpenAI API fails' do
+    context 'when LLM call fails' do
       before do
-        allow(client).to receive(:chat).and_raise(OpenAI::Error.new('API Error'))
+        allow(llm_service).to receive(:call).and_raise(StandardError.new('API Error'))
       end
 
       it 'handles the error and returns empty array' do
-        expect(Rails.logger).to receive(:error).with('OpenAI API Error: API Error')
+        expect(Rails.logger).to receive(:error).with('FaqGeneratorService Error: API Error')
         expect(service.generate).to eq([])
       end
     end

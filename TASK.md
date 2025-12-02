@@ -26,15 +26,45 @@
 
 **Important**: When rewriting code in `extended/`, also update corresponding tests in `spec/extended/`.
 
-- [ ] **Phase 1: Captain (AI) Features**
-  - [ ] Rewrite `extended/lib/captain/llm_service.rb` + update tests
-  - [ ] Rewrite `extended/app/services/captain/llm/contact_notes_service.rb` + update tests
-  - [ ] Rewrite `extended/app/services/captain/llm/faq_generator_service.rb` + update tests
-  - [ ] Rewrite `extended/app/services/captain/llm/paginated_faq_generator_service.rb` + update tests
-  - [ ] Rewrite `extended/app/services/internal/account_analysis/content_evaluator_service.rb` + update tests
-  - [ ] Rewrite `extended/app/services/captain/onboarding/website_analyzer_service.rb` + update tests
-- [ ] **Phase 2: Agent Capacity**
-- [ ] **Phase 3: Audit Logs**
-- [ ] **Phase 4: SAML SSO**
-- [ ] **Phase 5: Custom Branding**
-- [ ] **Phase 6: Cleanup & Verification**
+- [x] **Phase 1: Captain (AI) Core Libs**
+
+  - [x] `extended/lib/captain/llm_service.rb`
+  - [x] `extended/lib/captain/agent.rb`
+  - [x] `extended/lib/captain/prompt_renderer.rb`
+  - [x] `extended/lib/captain/tool.rb`
+  - [x] `extended/lib/captain/response_schema.rb`
+  - [x] `extended/lib/captain/tools/*.rb` (10 files)
+
+- [ ] **Phase 2: Captain (AI) Services**
+
+  - [ ] `extended/app/services/captain/llm/*.rb`
+  - [ ] `extended/app/services/captain/tools/*.rb`
+  - [ ] `extended/app/services/captain/*.rb`
+
+- [ ] **Phase 3: Captain (AI) Models & Jobs**
+
+  - [ ] `extended/app/models/captain/*.rb`
+  - [ ] `extended/app/jobs/captain/*.rb`
+
+- [ ] **Phase 4: Captain (AI) Controllers**
+
+  - [ ] `extended/app/controllers/api/v1/accounts/captain/*.rb`
+
+- [ ] **Phase 5: Enterprise Core Models**
+
+  - [ ] `extended/app/models/enterprise/*.rb`
+  - [ ] `extended/app/models/enterprise/concerns/*.rb`
+
+- [ ] **Phase 6: Enterprise Core Services**
+
+  - [ ] `extended/app/services/enterprise/*.rb`
+
+- [ ] **Phase 7: Enterprise Core Controllers**
+
+  - [ ] `extended/app/controllers/enterprise/*.rb`
+
+- [ ] **Phase 8: Remaining Components**
+  - [ ] Policies
+  - [ ] Mailers
+  - [ ] Helpers
+  - [ ] Views/Builders

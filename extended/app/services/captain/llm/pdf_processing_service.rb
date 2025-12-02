@@ -1,40 +1,46 @@
-class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
-  def initialize(document)
-    super()
-    @document = document
-  end
+require 'openai'
 
-  def process
-    return if document.openai_file_id.present?
+module Captain
+  module Llm
+    class PdfProcessingService
+      def initialize(document)
+        @document = document
+        @client = OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY', nil), log_errors: Rails.env.development?)
+      end
 
-    file_id = upload_pdf_to_openai
-    raise CustomExceptions::PdfUploadError, I18n.t('captain.documents.pdf_upload_failed') if file_id.blank?
+      def process
+        return if @document.openai_file_id.present?
 
-    document.store_openai_file_id(file_id)
-  end
+        file_id = upload_file
+        raise 'PDF Upload Failed' if file_id.blank?
 
-  private
+        @document.store_openai_file_id(file_id)
+      rescue StandardError => e
+        Rails.logger.error("PdfProcessingService Error: #{e.message}")
+        raise e
+      end
 
-  attr_reader :document
+      private
 
-  def upload_pdf_to_openai
-    with_tempfile do |temp_file|
-      response = @client.files.upload(
-        parameters: {
-          file: temp_file,
-          purpose: 'assistants'
-        }
-      )
-      response['id']
-    end
-  end
+      def upload_file
+        download_and_upload do |file|
+          response = @client.files.upload(
+            parameters: {
+              file: file,
+              purpose: 'assistants'
+            }
+          )
+          response['id']
+        end
+      end
 
-  def with_tempfile(&)
-    Tempfile.create(['pdf_upload', '.pdf'], binmode: true) do |temp_file|
-      temp_file.write(document.pdf_file.download)
-      temp_file.close
-
-      File.open(temp_file.path, 'rb', &)
+      def download_and_upload
+        Tempfile.create(['captain_pdf', '.pdf'], binmode: true) do |temp|
+          temp.write(@document.pdf_file.download)
+          temp.rewind
+          yield temp
+        end
+      end
     end
   end
 end
