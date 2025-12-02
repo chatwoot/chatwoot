@@ -106,6 +106,7 @@ class Enterprise::Billing::HandleStripeEventService
     amount_cents = metadata['amount_cents'].to_i
     currency = metadata['currency'] || 'usd'
 
+    Rails.logger.info("Processing topup for account #{topup_account.id}: #{credits} credits, #{amount_cents} cents")
     Enterprise::Billing::TopupFulfillmentService.new(account: topup_account).fulfill(
       credits: credits,
       amount_cents: amount_cents,
@@ -144,25 +145,22 @@ class Enterprise::Billing::HandleStripeEventService
     enable_plan_specific_features
   end
 
-  # Recalculates credits on renewal: deducts usage exceeding free allowance, then adds new plan credits.
-  # Formula: new_credits = current - max(usage - monthly_free, 0) - monthly_free + new_plan_allowance
   def handle_subscription_credits(plan, previous_usage)
-    new_plan_credits = get_plan_credits(plan['name'])[:responses]
     current_limits = account.limits || {}
-    total_credits = current_limits['captain_responses'].to_i
 
-    topup_deduct = [previous_usage[:responses] - previous_usage[:monthly], 0].max
-    total_credits = total_credits - topup_deduct - previous_usage[:monthly] + new_plan_credits
+    current_credits = current_limits['captain_responses'].to_i
+    new_plan_credits = get_plan_credits(plan['name'])[:responses]
 
-    account.update!(limits: current_limits.merge('captain_responses' => total_credits))
+    consumed_topup_credits = [previous_usage[:responses] - previous_usage[:monthly], 0].max
+    updated_credits = current_credits - consumed_topup_credits - previous_usage[:monthly] + new_plan_credits
+
+    Rails.logger.info("Updating subscription credits for account #{account.id}: #{current_credits} -> #{updated_credits}")
+    account.update!(limits: current_limits.merge('captain_responses' => updated_credits))
   end
 
   def get_plan_credits(plan_name)
-    config = InstallationConfig.find_by(name: CAPTAIN_CLOUD_PLAN_LIMITS)&.value
-    return { responses: 0, documents: 0 } if config.blank? || plan_name.blank?
-
-    plan_quota = JSON.parse(config)
-    plan_quota[plan_name.downcase]&.symbolize_keys || { responses: 0, documents: 0 }
+    config = InstallationConfig.find_by(name: CAPTAIN_CLOUD_PLAN_LIMITS)
+    config.value[plan_name.downcase]&.symbolize_keys
   end
 
   def enable_plan_specific_features

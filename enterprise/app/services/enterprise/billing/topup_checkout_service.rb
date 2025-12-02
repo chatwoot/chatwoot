@@ -1,4 +1,7 @@
 class Enterprise::Billing::TopupCheckoutService
+  include BillingHelper
+  include Rails.application.routes.url_helpers
+
   class Error < StandardError; end
 
   TOPUP_OPTIONS = [
@@ -8,11 +11,7 @@ class Enterprise::Billing::TopupCheckoutService
     { credits: 10_000, amount: 200.0, currency: 'usd' }
   ].freeze
 
-  attr_reader :account
-
-  def initialize(account:)
-    @account = account
-  end
+  pattr_initialize [:account!]
 
   def create_checkout_session(credits:)
     topup_option = validate_and_find_topup_option(credits)
@@ -23,24 +22,13 @@ class Enterprise::Billing::TopupCheckoutService
   private
 
   def validate_and_find_topup_option(credits)
-    raise Error, 'Invalid credits amount' unless credits.to_i.positive?
-
-    validate_plan_eligibility!
+    raise Error, I18n.t('errors.topup.invalid_credits') unless credits.to_i.positive?
+    raise Error, I18n.t('errors.topup.plan_not_eligible') if default_plan?(account)
 
     topup_option = find_topup_option(credits)
-    raise Error, 'Invalid topup option' unless topup_option
-
-    raise Error, 'Stripe customer not configured' if stripe_customer_id.blank?
+    raise Error, I18n.t('errors.topup.invalid_option') unless topup_option
 
     topup_option
-  end
-
-  def validate_plan_eligibility!
-    plan_name = account.custom_attributes&.[]('plan_name')
-
-    return if plan_name.present? && plan_name.downcase != 'hacker'
-
-    raise Error, 'Top-ups are only available for Startup, Business, and Enterprise plans. Please upgrade your plan first.'
   end
 
   def create_stripe_session(topup_option, credits)
@@ -66,7 +54,7 @@ class Enterprise::Billing::TopupCheckoutService
     {
       enabled: true,
       invoice_data: {
-        description: "Credit Topup: #{credits} credits",
+        description: "AI Credit Topup: #{credits} credits",
         metadata: session_metadata(credits, topup_option)
       }
     }
@@ -77,7 +65,7 @@ class Enterprise::Billing::TopupCheckoutService
       price_data: {
         currency: topup_option[:currency],
         unit_amount: (topup_option[:amount] * 100).to_i,
-        product_data: { name: "Credit Topup: #{credits} credits" }
+        product_data: { name: "AI Credit Topup: #{credits} credits" }
       },
       quantity: 1
     }
@@ -94,19 +82,15 @@ class Enterprise::Billing::TopupCheckoutService
   end
 
   def success_url
-    "#{base_url}/app/accounts/#{account.id}/settings/billing?topup=success"
+    app_account_billing_settings_url(account_id: account.id, topup: 'success')
   end
 
   def cancel_url
-    "#{base_url}/app/accounts/#{account.id}/settings/billing"
-  end
-
-  def base_url
-    ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+    app_account_billing_settings_url(account_id: account.id)
   end
 
   def stripe_customer_id
-    account.custom_attributes&.[]('stripe_customer_id')
+    account.custom_attributes[:stripe_customer_id]
   end
 
   def find_topup_option(credits)

@@ -1,9 +1,5 @@
 class Enterprise::Billing::TopupFulfillmentService
-  attr_reader :account
-
-  def initialize(account:)
-    @account = account
-  end
+  pattr_initialize [:account!]
 
   def fulfill(credits:, amount_cents:, currency:)
     account.with_lock do
@@ -47,6 +43,6 @@ class Enterprise::Billing::TopupFulfillmentService
   end
 
   def stripe_customer_id
-    account.custom_attributes&.[]('stripe_customer_id')
+    account.custom_attributes[:stripe_customer_id]
   end
 end
