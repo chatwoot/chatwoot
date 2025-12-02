@@ -52,6 +52,7 @@ class Enterprise::Billing::HandleStripeEventService
     update_account_attributes(subscription, plan)
     update_plan_features
     handle_subscription_credits(plan)
+    account.reset_response_usage
   end
 
   def update_account_attributes(subscription, plan)
@@ -147,9 +148,6 @@ class Enterprise::Billing::HandleStripeEventService
         'captain_documents' => plan_credits[:documents]
       )
     )
-
-    # Reset the usage counter for the new billing period
-    account.reset_response_usage
   end
 
   def get_plan_credits(plan_name)
