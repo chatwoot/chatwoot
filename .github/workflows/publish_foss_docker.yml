@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_REPO: chatwoot/chatwoot
+  DOCKER_REPO: ghcr.io/nighttech-services/chatwoot
 
 jobs:
   build:
@@ -26,8 +26,15 @@ jobs:
         include:
           - platform: linux/amd64
             runner: ubuntu-latest
-          - platform: linux/arm64
-            runner: ubuntu-22.04-arm
+          # -------------- Reason ---------------
+          # Disabled ARM64 build to reduce build time and resource usage
+          # ------------ Original -----------------------
+          # - platform: linux/arm64
+          #   runner: ubuntu-22.04-arm
+          # ---------------------------------------------
+          # ---------------------- Modification Begin ----------------------
+          # ARM64 build disabled
+          # ---------------------- Modification End ------------------------
     runs-on: ${{ matrix.runner }}
     env:
       GIT_REF: ${{ github.head_ref || github.ref_name }}
@@ -64,12 +71,25 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to DockerHub
+      # -------------- Reason ---------------
+      # Changed login from DockerHub to GitHub Container Registry
+      # ------------ Original -----------------------
+      # - name: Login to DockerHub
+      #   if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # ---------------------------------------------
+      # ---------------------- Modification Begin ----------------------
+      - name: Login to GitHub Container Registry
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # ---------------------- Modification End ------------------------
 
       - name: Build and push by digest
         id: build
@@ -80,6 +100,8 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           outputs: type=image,name=${{ env.DOCKER_REPO }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Export digest
         run: |
@@ -107,11 +129,12 @@ jobs:
           pattern: digests-*
           merge-multiple: true
 
-      - name: Login to DockerHub
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -127,7 +150,7 @@ jobs:
           else
             TAG="${DOCKER_REPO}:${SANITIZED_REF}-ce"
           fi
-          
+
           docker buildx imagetools create -t $TAG \
             $(printf '${{ env.DOCKER_REPO }}@sha256:%s ' *)
 
@@ -141,5 +164,6 @@ jobs:
           else
             TAG="${DOCKER_REPO}:${SANITIZED_REF}-ce"
           fi
-          
+
           docker buildx imagetools inspect $TAG
+          

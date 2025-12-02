@@ -28,13 +28,18 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
   describe '#perform' do
     context 'when conversation exists' do
       context 'with valid note content' do
-        it 'creates a private note and returns success message' do
+        it 'creates a private note' do
           note_content = 'This is a private note'
 
           expect do
             result = tool.perform(tool_context, note: note_content)
             expect(result).to eq('Private note successfully recorded')
           end.to change(Message, :count).by(1)
+        end
+
+        it 'creates a private note with correct attributes' do
+          note_content = 'This is a private note'
+          tool.perform(tool_context, note: note_content)
 
           created_message = Message.last
           expect(created_message.content).to eq(note_content)

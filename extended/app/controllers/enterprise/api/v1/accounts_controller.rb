@@ -9,29 +9,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def limits
-    limits = {
-      'conversation' => {},
-      'non_web_inboxes' => {},
-      'agents' => {
-        'allowed' => ChatwootApp.max_limit,
-        'consumed' => agents(@account)
-      },
-      'captain' => {
-        'documents' => {
-          'total_count' => ChatwootApp.max_limit,
-          'current_available' => ChatwootApp.max_limit,
-          'consumed' => 0
-        },
-        'responses' => {
-          'total_count' => ChatwootApp.max_limit,
-          'current_available' => ChatwootApp.max_limit,
-          'consumed' => 0
-        }
-      }
-    }
-
-    # include id in response to ensure that the store can be updated on the frontend
-    render json: { id: @account.id, limits: limits }, status: :ok
+    render json: { id: @account.id, limits: build_limits_hash }, status: :ok
   end
 
   def checkout
@@ -100,6 +78,37 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def render_redirect_url(redirect_url)
     render json: { redirect_url: redirect_url }
+  end
+
+  def build_limits_hash
+    {
+      'conversation' => {},
+      'non_web_inboxes' => {},
+      'agents' => agent_limits,
+      'captain' => captain_limits
+    }
+  end
+
+  def agent_limits
+    {
+      'allowed' => ChatwootApp.max_limit,
+      'consumed' => agents(@account)
+    }
+  end
+
+  def captain_limits
+    {
+      'documents' => captain_resource_limit,
+      'responses' => captain_resource_limit
+    }
+  end
+
+  def captain_resource_limit
+    {
+      'total_count' => ChatwootApp.max_limit,
+      'current_available' => ChatwootApp.max_limit,
+      'consumed' => 0
+    }
   end
 
   def pundit_user

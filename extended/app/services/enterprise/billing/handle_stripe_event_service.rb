@@ -25,7 +25,7 @@ class Enterprise::Billing::HandleStripeEventService
   # Additional features available only in the Enterprise plan
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
 
-  def perform(event:)
+  def perform(_event:)
     Rails.logger.info 'Billing is disabled in this version of Chatwoot.'
   end
 

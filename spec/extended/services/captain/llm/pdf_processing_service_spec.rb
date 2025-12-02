@@ -27,7 +27,7 @@ RSpec.describe Captain::Llm::PdfProcessingService do
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)
 
-        pdf_file = double('pdf_file', download: pdf_content)
+        pdf_file = instance_double(ActiveStorage::Blob, download: pdf_content)
         allow(document).to receive(:pdf_file).and_return(pdf_file)
 
         files_api = double('files_api')

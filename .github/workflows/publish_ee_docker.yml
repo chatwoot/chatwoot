@@ -6,14 +6,22 @@
 
 name: Publish Chatwoot EE docker images
 
+# -------------- Reason ---------------
+# Workflow disabled to prevent automatic EE docker image publishing
+# ------------ Original -----------------------
+# on:
+#   push:
+#     branches:
+#       - develop
+#       - master
+#     tags:
+#       - v*
+#   workflow_dispatch:
+# ---------------------------------------------
+# ---------------------- Modification Begin ----------------------
 on:
-  push:
-    branches:
-      - develop
-      - master
-    tags:
-      - v*
   workflow_dispatch:
+# ---------------------- Modification End ------------------------
 
 env:
   DOCKER_REPO: chatwoot/chatwoot
@@ -138,3 +146,4 @@ jobs:
           fi
           
           docker buildx imagetools inspect $TAG
+          

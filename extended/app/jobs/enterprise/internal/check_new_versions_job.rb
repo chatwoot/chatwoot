@@ -1,9 +1,4 @@
 module Enterprise::Internal::CheckNewVersionsJob
-  def perform
-    super
-    # No-op: Plan info and premium config reconciliation disabled
-  end
-
   private
 
   def update_plan_info

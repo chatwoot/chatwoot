@@ -65,12 +65,10 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       it 'respects max iterations limit' do
         allow(llm_service).to receive(:call).and_return(faq_response)
 
-        # We can't easily force internal state on the new implementation without exposing it,
-        # but we can verify it stops eventually or mock the loop behavior if needed.
-        # For now, let's just ensure it calls the service.
+        service.generate
 
-        # To test max iterations, we'd need to mock call to return content many times.
-        # Let's trust the loop logic for now or add a specific test if critical.
+        # Verify the service was called (it will stop at max iterations)
+        expect(llm_service).to have_received(:call).exactly(20).times
       end
     end
   end

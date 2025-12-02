@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Captain::Llm::ContactAttributesService do
   let(:contact) { create(:contact) }
   let(:conversation) { create(:conversation, contact: contact) }
-  let(:assistant) { double('Assistant') }
+  let(:assistant) { instance_double(Captain::Assistant) }
   let(:service) { described_class.new(assistant, conversation) }
   let(:llm_service) { instance_double(Captain::LlmService) }
 
