@@ -9,7 +9,6 @@ module Enterprise::SuperAdmin::AppConfigsController
     # ---------------------------------------------
     # ---------------------- Modification Begin ----------------------
     # ---------------------- Modification End ------------------------
-
     case @config
     when 'custom_branding'
       @allowed_configs = custom_branding_options
