@@ -1,4 +1,6 @@
 class Enterprise::Billing::TopupCheckoutService
+  class Error < StandardError; end
+
   TOPUP_OPTIONS = [
     { credits: 1000, amount: 20.0, currency: 'usd' },
     { credits: 2500, amount: 50.0, currency: 'usd' },
@@ -13,45 +15,32 @@ class Enterprise::Billing::TopupCheckoutService
   end
 
   def create_checkout_session(credits:)
-    validation_result = validate_request(credits)
-    return validation_result unless validation_result[:valid]
-
-    topup_option = validation_result[:topup_option]
+    topup_option = validate_and_find_topup_option(credits)
     session = create_stripe_session(topup_option, credits)
-
-    { success: true, redirect_url: session.url }
-  rescue Stripe::StripeError => e
-    { success: false, message: "Stripe error: #{e.message}" }
+    session.url
   end
 
   private
 
-  def validate_request(credits)
-    return { valid: false, success: false, message: 'Invalid credits amount' } unless credits.to_i.positive?
+  def validate_and_find_topup_option(credits)
+    raise Error, 'Invalid credits amount' unless credits.to_i.positive?
 
-    plan_validation = validate_plan_eligibility
-    return plan_validation unless plan_validation[:valid]
+    validate_plan_eligibility!
 
     topup_option = find_topup_option(credits)
-    return { valid: false, success: false, message: 'Invalid topup option' } unless topup_option
+    raise Error, 'Invalid topup option' unless topup_option
 
-    return { valid: false, success: false, message: 'Stripe customer not configured' } if stripe_customer_id.blank?
+    raise Error, 'Stripe customer not configured' if stripe_customer_id.blank?
 
-    { valid: true, topup_option: topup_option }
+    topup_option
   end
 
-  def validate_plan_eligibility
+  def validate_plan_eligibility!
     plan_name = account.custom_attributes&.[]('plan_name')
 
-    if plan_name.blank? || plan_name.downcase == 'hacker'
-      return {
-        valid: false,
-        success: false,
-        message: 'Top-ups are only available for Startup, Business, and Enterprise plans. Please upgrade your plan first.'
-      }
-    end
+    return if plan_name.present? && plan_name.downcase != 'hacker'
 
-    { valid: true }
+    raise Error, 'Top-ups are only available for Startup, Business, and Enterprise plans. Please upgrade your plan first.'
   end
 
   def create_stripe_session(topup_option, credits)

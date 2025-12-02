@@ -59,13 +59,10 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     return render json: { error: 'Credits amount is required' }, status: :unprocessable_entity if params[:credits].blank?
 
     service = Enterprise::Billing::TopupCheckoutService.new(account: @account)
-    result = service.create_checkout_session(credits: params[:credits].to_i)
-
-    if result[:success]
-      render json: { redirect_url: result[:redirect_url] }
-    else
-      render json: { error: result[:message] }, status: :unprocessable_entity
-    end
+    redirect_url = service.create_checkout_session(credits: params[:credits].to_i)
+    render json: { redirect_url: redirect_url }
+  rescue Enterprise::Billing::TopupCheckoutService::Error => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private
