@@ -2,9 +2,13 @@ module Enterprise::SuperAdmin::AppConfigsController
   private
 
   def allowed_configs
-
-    # --
-    return super if ChatwootHub.pricing_plan == 'community'
+    # -------------- Reason ---------------
+    # Remove the community check to allow all configs to be accessible in the super admin
+    # ------------ Original -----------------------
+    # return super if ChatwootHub.pricing_plan == 'community'
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    # ---------------------- Modification End ------------------------
 
     case @config
     when 'custom_branding'
