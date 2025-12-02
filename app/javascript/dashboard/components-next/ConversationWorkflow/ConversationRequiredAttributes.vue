@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import ConversationRequiredAttributeItem from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributeItem.vue';
+import ConversationRequiredEmpty from 'dashboard/components-next/Conversation/ConversationRequiredEmpty.vue';
 
 defineProps({
   title: { type: String, default: '' },
@@ -17,11 +19,21 @@ const handleClick = () => {
   emit('click');
 };
 
+const conversationRequiredAttributes = [
+  {
+    action: 'add',
+    value: 'installation_type',
+    label: 'Installation Type',
+    type: 'Text',
+  },
+];
+
 const attributeOptions = [
   {
     action: 'add',
     value: 'installation_type',
     label: 'Installation Type',
+    type: 'Text',
   },
   {
     action: 'add',
@@ -62,11 +74,16 @@ const handleAttributeAction = () => {
 const closeDropdown = () => {
   showDropdown.value = false;
 };
+
+const handleDelete = () => {};
 </script>
 
 <template>
-  <CardLayout class="[&>div]:px-5" @click="handleClick">
-    <div class="flex flex-col gap-2 items-start">
+  <CardLayout
+    class="[&>div]:px-0 [&>div]:py-0 [&>div]:divide-y [&>div]:divide-n-weak"
+    @click="handleClick"
+  >
+    <div class="flex flex-col gap-2 items-start px-5 py-4">
       <div class="flex justify-between items-center w-full">
         <h3 class="text-base font-medium text-n-slate-12">{{ title }}</h3>
         <div v-on-clickaway="closeDropdown" class="relative">
@@ -91,5 +108,16 @@ const closeDropdown = () => {
       </div>
       <p class="mb-0 text-sm text-n-slate-11">{{ description }}</p>
     </div>
+
+    <ConversationRequiredEmpty
+      v-if="conversationRequiredAttributes.length === 0"
+    />
+
+    <ConversationRequiredAttributeItem
+      v-for="attribute in conversationRequiredAttributes"
+      :key="attribute.value"
+      :attribute="attribute"
+      @delete="handleDelete"
+    />
   </CardLayout>
 </template>

@@ -492,6 +492,7 @@
     "REQUIRED_ATTRIBUTES": {
       "TITLE": "Attributes required on resolution",
       "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
+      "NO_ATTRIBUTES": "No attributes added yet",
       "ADD": {
         "TITLE": "Add Attributes",
         "SEARCH_PLACEHOLDER": "Search attributes"
