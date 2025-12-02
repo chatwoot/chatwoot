@@ -144,6 +144,8 @@ class Enterprise::Billing::HandleStripeEventService
     enable_plan_specific_features
   end
 
+  # Recalculates credits on renewal: deducts usage exceeding free allowance, then adds new plan credits.
+  # Formula: new_credits = current - max(usage - monthly_free, 0) - monthly_free + new_plan_allowance
   def handle_subscription_credits(plan, previous_usage)
     new_plan_credits = get_plan_credits(plan['name'])[:responses]
     current_limits = account.limits || {}
