@@ -3,20 +3,31 @@ class AutomationRules::ActionService < ActionService
     super(conversation)
     @rule = rule
     @account = account
+    Rails.logger.info '[AUTOMATION_RULES] 🤖 Initializing AutomationRules::ActionService'
+    Rails.logger.info "[AUTOMATION_RULES] Rule: #{rule.id} (#{rule.name})"
+    Rails.logger.info "[AUTOMATION_RULES] Conversation: #{conversation.id}"
+    Rails.logger.info '[AUTOMATION_RULES] Setting Current.executed_by to rule'
     Current.executed_by = rule
   end
 
   def perform
-    @rule.actions.each do |action|
+    Rails.logger.info "[AUTOMATION_RULES] 🚀 Performing #{@rule.actions.count} actions for rule #{@rule.id}"
+
+    @rule.actions.each_with_index do |action, index|
       @conversation.reload
       action = action.with_indifferent_access
+      Rails.logger.info "[AUTOMATION_RULES] Action #{index + 1}: #{action[:action_name]} with params: #{action[:action_params].inspect}"
+
       begin
         send(action[:action_name], action[:action_params])
+        Rails.logger.info "[AUTOMATION_RULES] ✅ Action #{action[:action_name]} completed"
       rescue StandardError => e
+        Rails.logger.error "[AUTOMATION_RULES] ❌ Action #{action[:action_name]} failed: #{e.message}"
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
   ensure
+    Rails.logger.info '[AUTOMATION_RULES] 🔄 Resetting Current context'
     Current.reset
   end
 

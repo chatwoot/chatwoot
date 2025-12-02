@@ -37,13 +37,29 @@ class ActionService
   end
 
   def assign_agent(agent_ids = [])
+    Rails.logger.info "[ACTION_SERVICE] 🎯 assign_agent called with agent_ids: #{agent_ids.inspect}"
+    Rails.logger.info "[ACTION_SERVICE] Conversation: #{@conversation.id}, Current.executed_by: #{Current.executed_by.inspect}"
+
     return @conversation.update!(assignee_id: nil) if agent_ids[0] == 'nil'
 
     return unless agent_belongs_to_inbox?(agent_ids)
 
     @agent = @account.users.find_by(id: agent_ids)
+    Rails.logger.info "[ACTION_SERVICE] Found agent: #{@agent&.id} (#{@agent&.name}), is_ai: #{@agent&.is_ai?}"
 
-    @conversation.update!(assignee_id: @agent.id) if @agent.present?
+    return unless @agent.present?
+
+    Rails.logger.info "[ACTION_SERVICE] 💾 Updating conversation #{@conversation.id} assignee to #{@agent.id}"
+    @conversation.update!(assignee_id: @agent.id)
+    Rails.logger.info "[ACTION_SERVICE] ✅ Conversation updated, assignee_id: #{@conversation.assignee_id}"
+
+    # Trigger AI response if assigned agent is AI and last message is from customer
+    if @agent.is_ai?
+      Rails.logger.info '[ACTION_SERVICE] 🤖 Agent is AI, checking if response needed'
+      trigger_ai_response_if_needed
+    else
+      Rails.logger.info '[ACTION_SERVICE] 👤 Agent is human, skipping AI response trigger'
+    end
   end
 
   def remove_label(labels)
@@ -80,6 +96,53 @@ class ActionService
   end
 
   private
+
+  def trigger_ai_response_if_needed
+    # Get the last incoming message from the customer
+    # Exclude activity and template messages (system messages like "Get notified by email", "Give the team a way to reach you", etc.)
+    last_message = @conversation.messages.where(message_type: :incoming).last
+
+    Rails.logger.info "[AUTOMATION] 🤖 AI agent assigned to conversation #{@conversation.id}, checking if AI response needed"
+    Rails.logger.info "[AUTOMATION] Last incoming message: #{last_message&.id} (content: '#{last_message&.content&.truncate(50)}')"
+
+    # Only trigger AI response if:
+    # 1. There is a last incoming message from customer
+    # 2. The conversation is not resolved or snoozed
+    unless last_message
+      Rails.logger.info "[AUTOMATION] ❌ No incoming messages in conversation #{@conversation.id}, skipping AI response"
+      return
+    end
+
+    if @conversation.resolved? || @conversation.snoozed?
+      Rails.logger.info "[AUTOMATION] ❌ Conversation #{@conversation.id} is resolved or snoozed, skipping AI response"
+      return
+    end
+
+    Rails.logger.info "[AUTOMATION] ✅ Triggering AI response for message #{last_message.id} in conversation #{@conversation.id}"
+
+    # Clear Redis lock to allow AI response trigger
+    # This is needed because the message may have been processed before AI was assigned
+    clear_ai_response_lock(last_message)
+
+    # Trigger AI response service
+    Messages::AiResponseTriggerService.new(message: last_message).perform
+  rescue StandardError => e
+    Rails.logger.error "[AUTOMATION] ❌ Error triggering AI response: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+  end
+
+  def clear_ai_response_lock(message)
+    # Clear the Redis lock that prevents duplicate AI responses
+    # This allows automation to trigger AI response even if message was already processed
+    dedup_key = (message.source_id.presence || "msg_#{message.id}")
+    redis_key = "ai_response_triggered:#{dedup_key}"
+
+    Rails.logger.info "[AUTOMATION] 🔓 Clearing Redis lock for message #{message.id}: #{redis_key}"
+    Redis::Alfred.del(redis_key)
+  rescue StandardError => e
+    Rails.logger.error "[AUTOMATION] ⚠️  Failed to clear Redis lock: #{e.message}"
+    # Don't raise - this is not critical, AI trigger will just fail if lock exists
+  end
 
   def agent_belongs_to_inbox?(agent_ids)
     member_ids = @conversation.inbox.members.pluck(:user_id)
