@@ -34,7 +34,14 @@ describe('useConfig', () => {
     expect(config.hostURL).toBeUndefined();
     expect(config.vapidPublicKey).toBeUndefined();
     expect(config.enabledLanguages).toBeUndefined();
-    expect(config.isEnterprise).toBe(false);
+    // -------------- Reason ---------------
+    // isEnterprise is now hardcoded to true in useConfig.js
+    // ------------ Original -----------------------
+    // expect(config.isEnterprise).toBe(false);
+    // ---------------------------------------------
+    // ---------------------- Modification Begin ----------------------
+    expect(config.isEnterprise).toBe(true);
+    // ---------------------- Modification End ------------------------
     expect(config.enterprisePlanName).toBeUndefined();
   });
 
@@ -45,7 +52,14 @@ describe('useConfig', () => {
     expect(config.hostURL).toBeUndefined();
     expect(config.vapidPublicKey).toBeUndefined();
     expect(config.enabledLanguages).toBeUndefined();
-    expect(config.isEnterprise).toBe(false);
+    // -------------- Reason ---------------
+    // isEnterprise is now hardcoded to true in useConfig.js
+    // ------------ Original -----------------------
+    // expect(config.isEnterprise).toBe(false);
+    // ---------------------------------------------
+    // ---------------------- Modification Begin ----------------------
+    expect(config.isEnterprise).toBe(true);
+    // ---------------------- Modification End ------------------------
     expect(config.enterprisePlanName).toBeUndefined();
   });
 });

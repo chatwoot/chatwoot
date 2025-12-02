@@ -38,25 +38,25 @@ module Chatwoot
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    config.eager_load_paths << Rails.root.join('lib')
     # -------------- Reason ---------------
+    # Use concat instead of << and += to avoid FrozenError in Ruby 3.4+
     # Modified to load from 'extended' directory
     # ------------ Original -----------------------
+    # config.eager_load_paths << Rails.root.join('lib')
     # config.eager_load_paths << Rails.root.join('enterprise/lib')
     # config.eager_load_paths << Rails.root.join('enterprise/listeners')
-    #
     # config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
-    #     # # Add enterprise views to the view paths
     # config.paths['app/views'].unshift('enterprise/app/views')
-    #
-    # # Load enterprise initializers alongside standard initializers
     # enterprise_initializers = Rails.root.join('enterprise/config/initializers')
     # ---------------------------------------------
     # ---------------------- Modification Begin ----------------------
-    config.eager_load_paths << Rails.root.join('extended/lib')
-    config.eager_load_paths << Rails.root.join('extended/listeners')
+    config.eager_load_paths.concat([
+                                     Rails.root.join('lib'),
+                                     Rails.root.join('extended/lib'),
+                                     Rails.root.join('extended/listeners')
+                                   ])
     # rubocop:disable Rails/FilePath
-    config.eager_load_paths += Dir["#{Rails.root}/extended/app/**"]
+    config.eager_load_paths.concat(Dir["#{Rails.root}/extended/app/**"])
     # rubocop:enable Rails/FilePath
     # Add enterprise views to the view paths
     config.paths['app/views'].unshift('extended/app/views')
