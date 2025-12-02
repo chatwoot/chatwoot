@@ -6,7 +6,7 @@ RSpec.describe Captain::Llm::EmbeddingService do
   let(:client) { instance_double(OpenAI::Client) }
 
   before do
-    allow(OpenAI::Client).to receive(:new).with(access_token: api_key, log_errors: anything).and_return(client)
+    allow(OpenAI::Client).to receive(:new).with(hash_including(access_token: api_key)).and_return(client)
   end
 
   describe '#generate' do

@@ -36,7 +36,7 @@ class Captain::Llm::Providers::GeminiProvider < Captain::Llm::Providers::BasePro
     convert_response(response)
   end
 
-  def embedding(text:, model: nil)
+  def embedding(text:, model: nil) # rubocop:disable Lint/UnusedMethodArgument
     # Gemini uses text-embedding-004 model
     response = @client.embed_content({
                                        model: 'models/text-embedding-004',
