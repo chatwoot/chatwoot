@@ -1,14 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Firecrawl Webhooks', type: :request do
-  # -------------- Reason ---------------
-  # Updated webhook endpoint URL to point to 'extended' instead of 'enterprise'
-  # ------------ Original -----------------------
-  # describe 'POST /enterprise/webhooks/firecrawl?assistant_id=:assistant_id&token=:token' do
-  # ---------------------------------------------
-  # ---------------------- Modification Begin ----------------------
-  describe 'POST /extended/webhooks/firecrawl?assistant_id=:assistant_id&token=:token' do
-    # ---------------------- Modification End ------------------------
+  describe 'POST /enterprise/webhooks/firecrawl?assistant_id=:assistant_id&token=:token' do
     let!(:api_key) { create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: 'test_api_key_123') }
     let!(:account) { create(:account) }
     let!(:assistant) { create(:captain_assistant, account: account) }
@@ -43,14 +36,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
             )
 
           post(
-            # -------------- Reason ---------------
-            # Updated webhook endpoint URL to point to 'extended' instead of 'enterprise'
-            # ------------ Original -----------------------
-            # "/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
-            # ---------------------------------------------
-            # ---------------------- Modification Begin ----------------------
-            "/extended/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
-            # ---------------------- Modification End ------------------------
+            "/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
             params: valid_params,
             as: :json
           )
@@ -69,14 +55,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
         it 'returns success without enqueuing job' do
           expect(Captain::Tools::FirecrawlParserJob).not_to receive(:perform_later)
 
-          # -------------- Reason ---------------
-          # Updated webhook endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
-          post("/extended/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
-               # ---------------------- Modification End ------------------------
+          post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
                params: valid_params,
                as: :json)
 
@@ -95,14 +74,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
       end
 
       it 'returns unauthorized status' do
-        # -------------- Reason ---------------
-        # Updated webhook endpoint URL to point to 'extended' instead of 'enterprise'
-        # ------------ Original -----------------------
-        # post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=invalid_token",
-        # ---------------------------------------------
-        # ---------------------- Modification Begin ----------------------
-        post("/extended/webhooks/firecrawl?assistant_id=#{assistant.id}&token=invalid_token",
-             # ---------------------- Modification End ------------------------
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=invalid_token",
              params: invalid_params,
              as: :json)
 
@@ -113,14 +85,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
     context 'with invalid assistant_id' do
       context 'with non-existent assistant_id' do
         it 'returns not found status' do
-          # -------------- Reason ---------------
-          # Updated webhook endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post("/enterprise/webhooks/firecrawl?assistant_id=invalid_id&token=#{valid_token}",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
-          post("/extended/webhooks/firecrawl?assistant_id=invalid_id&token=#{valid_token}",
-               # ---------------------- Modification End ------------------------
+          post("/enterprise/webhooks/firecrawl?assistant_id=invalid_id&token=#{valid_token}",
                params: { type: 'crawl.page', data: [payload_data] },
                as: :json)
 
@@ -130,14 +95,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
 
       context 'with nil assistant_id' do
         it 'returns not found status' do
-          # -------------- Reason ---------------
-          # Updated webhook endpoint URL to point to 'extended' instead of 'enterprise'
-          # ------------ Original -----------------------
-          # post("/enterprise/webhooks/firecrawl?token=#{valid_token}",
-          # ---------------------------------------------
-          # ---------------------- Modification Begin ----------------------
-          post("/extended/webhooks/firecrawl?token=#{valid_token}",
-               # ---------------------- Modification End ------------------------
+          post("/enterprise/webhooks/firecrawl?token=#{valid_token}",
                params: { type: 'crawl.page', data: [payload_data] },
                as: :json)
 
@@ -152,14 +110,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
       end
 
       it 'returns unauthorized status' do
-        # -------------- Reason ---------------
-        # Updated webhook endpoint URL to point to 'extended' instead of 'enterprise'
-        # ------------ Original -----------------------
-        # post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
-        # ---------------------------------------------
-        # ---------------------- Modification Begin ----------------------
-        post("/extended/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
-             # ---------------------- Modification End ------------------------
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
              params: { type: 'crawl.page', data: [payload_data] },
              as: :json)
 
