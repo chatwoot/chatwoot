@@ -173,7 +173,7 @@ const getStatusBadgeClasses = status => {
             @click="
               navigateToConversation(
                 $store.state.auth.currentAccountId,
-                paymentLink.conversation.id
+                paymentLink.conversation.display_id
               )
             "
           >

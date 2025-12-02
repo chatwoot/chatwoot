@@ -62,6 +62,8 @@ gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
 
+gem 'appsignal'
+
 gem 'searchkick'
 gem 'opensearch-ruby'
 gem 'faraday_middleware-aws-sigv4'
@@ -250,7 +252,7 @@ group :development, :test do
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
-  gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
+  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 6.1.5'
   gem 'rubocop', require: false
