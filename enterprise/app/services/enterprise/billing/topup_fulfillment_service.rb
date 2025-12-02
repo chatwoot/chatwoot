@@ -10,9 +10,6 @@ class Enterprise::Billing::TopupFulfillmentService
       create_stripe_credit_grant(credits, amount_cents, currency)
       update_account_credits(credits)
     end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: account).capture_exception
-    raise
   end
 
   private
@@ -44,6 +41,7 @@ class Enterprise::Billing::TopupFulfillmentService
 
     new_topup = current_topup + credits
     new_total = current_monthly + new_topup
+
     account.update!(
       limits: current_limits.merge(
         'captain_responses_topup' => new_topup,

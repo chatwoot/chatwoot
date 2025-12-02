@@ -24,6 +24,7 @@ const {
   documentLimits,
   responseLimits,
   fetchLimits,
+  isFetchingLimits,
 } = useCaptain();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
@@ -190,15 +191,27 @@ onMounted(handleBillingPageLogic);
           :description="$t('BILLING_SETTINGS.CAPTAIN.DESCRIPTION')"
         >
           <template #action>
-            <ButtonV4
-              v-if="canPurchaseCredits"
-              sm
-              solid
-              blue
-              @click="openPurchaseCreditsModal"
-            >
-              {{ $t('BILLING_SETTINGS.TOPUP.BUY_CREDITS') }}
-            </ButtonV4>
+            <div class="flex gap-2">
+              <ButtonV4
+                sm
+                flushed
+                slate
+                icon="i-lucide-refresh-cw"
+                :is-loading="isFetchingLimits"
+                @click="fetchLimits"
+              >
+                {{ $t('BILLING_SETTINGS.CAPTAIN.REFRESH_CREDITS') }}
+              </ButtonV4>
+              <ButtonV4
+                v-if="canPurchaseCredits"
+                sm
+                solid
+                blue
+                @click="openPurchaseCreditsModal"
+              >
+                {{ $t('BILLING_SETTINGS.TOPUP.BUY_CREDITS') }}
+              </ButtonV4>
+            </div>
           </template>
           <div v-if="captainLimits && responseLimits" class="px-5">
             <BillingMeter

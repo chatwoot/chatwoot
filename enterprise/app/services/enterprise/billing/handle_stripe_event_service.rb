@@ -49,9 +49,12 @@ class Enterprise::Billing::HandleStripeEventService
     # skipping self hosted plan events
     return if plan.blank? || account.blank?
 
+    # Capture usage before updating attributes
+    current_usage = account.custom_attributes['captain_responses_usage'].to_i
+
     update_account_attributes(subscription, plan)
     update_plan_features
-    handle_subscription_credits(plan)
+    handle_subscription_credits(plan, current_usage)
     account.reset_response_usage
   end
 
@@ -90,11 +93,15 @@ class Enterprise::Billing::HandleStripeEventService
     credits = metadata['credits'].to_i
     amount_cents = metadata['amount_cents'].to_i
     currency = metadata['currency'] || 'usd'
+
     Enterprise::Billing::TopupFulfillmentService.new(account: topup_account).fulfill(
       credits: credits,
       amount_cents: amount_cents,
       currency: currency
     )
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: topup_account).capture_exception
+    raise
   end
 
   def update_plan_features
@@ -125,18 +132,16 @@ class Enterprise::Billing::HandleStripeEventService
     enable_plan_specific_features
   end
 
-  def handle_subscription_credits(plan)
-    plan_name = plan['name']
-    plan_credits = get_plan_credits(plan_name)
-
-    # Get current limits
+  def handle_subscription_credits(plan, current_usage)
+    plan_credits = get_plan_credits(plan['name'])
     current_limits = account.limits || {}
     current_topup = current_limits['captain_responses_topup'].to_i
+    current_monthly = current_limits['captain_responses_monthly'].to_i
 
-    # On subscription renewal/update:
-    # 1. Reset monthly credits to plan allocation
-    # 2. Preserve topup credits (they don't expire)
-    # 3. Reset usage counter
+    # Deduct overused credits from topup if usage exceeded monthly limit
+    remaining = current_monthly - current_usage
+    current_topup += remaining if remaining.negative? && current_topup.positive?
+
     monthly_credits = plan_credits[:responses]
     total_credits = monthly_credits + current_topup
 
