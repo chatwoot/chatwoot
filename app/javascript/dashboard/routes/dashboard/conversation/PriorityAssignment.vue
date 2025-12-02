@@ -7,6 +7,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useTrack } from 'dashboard/composables';
 import { useDropdownPosition } from 'dashboard/composables/useDropdownPosition';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { CONVERSATION_PRIORITY } from 'shared/constants/messages';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
@@ -28,6 +29,18 @@ const { positionClasses } = useDropdownPosition(
   dropdownRef,
   openPriorityList
 );
+
+const keyboardEvents = {
+  Escape: {
+    action: () => {
+      if (openPriorityList.value) {
+        togglePriorityList();
+      }
+    },
+    allowOnFocusedInput: true,
+  },
+};
+useKeyboardEvents(keyboardEvents);
 
 const currentChat = useMapGetter('getSelectedChat');
 

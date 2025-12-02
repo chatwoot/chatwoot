@@ -6,6 +6,7 @@ import { useToggle } from '@vueuse/core';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useDropdownPosition } from 'dashboard/composables/useDropdownPosition';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -32,6 +33,18 @@ const { positionClasses } = useDropdownPosition(
   dropdownRef,
   openAgentsList
 );
+
+const keyboardEvents = {
+  Escape: {
+    action: () => {
+      if (openAgentsList.value) {
+        toggleAgentsList();
+      }
+    },
+    allowOnFocusedInput: true,
+  },
+};
+useKeyboardEvents(keyboardEvents);
 
 const currentChat = useMapGetter('getSelectedChat');
 const currentUser = useMapGetter('getCurrentUser');

@@ -7,6 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useDropdownPosition } from 'dashboard/composables/useDropdownPosition';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import AvatarGroup from 'dashboard/components-next/avatar/AvatarGroup.vue';
@@ -35,6 +36,18 @@ const { positionClasses } = useDropdownPosition(
   dropdownRef,
   openParticipantsList
 );
+
+const keyboardEvents = {
+  Escape: {
+    action: () => {
+      if (openParticipantsList.value) {
+        toggleParticipantsList();
+      }
+    },
+    allowOnFocusedInput: true,
+  },
+};
+useKeyboardEvents(keyboardEvents);
 
 const currentUser = useMapGetter('getCurrentUser');
 

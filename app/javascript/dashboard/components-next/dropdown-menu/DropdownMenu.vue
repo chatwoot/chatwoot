@@ -58,7 +58,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['action', 'search']);
+const emit = defineEmits(['action', 'search', 'empty']);
 
 const { t } = useI18n();
 
@@ -110,9 +110,13 @@ const filteredMenuSections = computed(() => {
 });
 
 const handleSearchInput = event => {
-  if (props.disableLocalFiltering) {
-    emit('search', event.target.value);
-  }
+  emit('search', event.target.value);
+
+  const isEmpty = hasSections.value
+    ? filteredMenuSections.value.length === 0
+    : filteredMenuItems.value.length === 0;
+
+  if (isEmpty) emit('empty');
 };
 
 const handleAction = item => {

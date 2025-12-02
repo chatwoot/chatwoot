@@ -2,15 +2,20 @@
 import { ref, computed, watch, nextTick } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import { useToggle } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useDropdownPosition } from 'dashboard/composables/useDropdownPosition';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
+
+const { t } = useI18n();
 
 const {
   activeLabels,
@@ -19,12 +24,17 @@ const {
   removeLabelFromConversation,
 } = useConversationLabels();
 
+const { isAdmin } = useAdmin();
+
 const conversationUiFlags = useMapGetter('conversationLabels/getUIFlags');
 
 const triggerRef = ref(null);
 const dropdownRef = ref(null);
+const searchQuery = ref('');
 
 const [openLabelsList, toggleLabels] = useToggle(false);
+const [createModalVisible, toggleCreateModal] = useToggle(false);
+const [hasEmptySearchResults, setEmptySearchResults] = useToggle(false);
 
 const { positionClasses, updatePosition } = useDropdownPosition(
   triggerRef,
@@ -72,6 +82,10 @@ const labelMenuItems = computed(() => {
   }));
 });
 
+const shouldShowCreateButton = computed(() => {
+  return isAdmin.value && searchQuery.value && hasEmptySearchResults.value;
+});
+
 const handleLabelAction = ({ value }) => {
   const label = accountLabels.value.find(l => l.id === value);
   if (!label) return;
@@ -83,6 +97,23 @@ const handleLabelAction = ({ value }) => {
   } else {
     addLabelToConversation(label);
   }
+};
+
+const handleSearchUpdate = query => {
+  searchQuery.value = query;
+  setEmptySearchResults(false);
+};
+
+const handleEmptyResults = () => {
+  setEmptySearchResults(true);
+};
+
+const showCreateModal = () => {
+  toggleCreateModal(true);
+};
+
+const hideCreateModal = () => {
+  toggleCreateModal(false);
 };
 </script>
 
@@ -134,6 +165,8 @@ const handleLabelAction = ({ value }) => {
           class="z-[100] w-56 overflow-y-auto max-h-60"
           :class="positionClasses"
           @action="handleLabelAction"
+          @search="handleSearchUpdate"
+          @empty="handleEmptyResults"
         >
           <template #thumbnail="{ item }">
             <span
@@ -148,7 +181,32 @@ const handleLabelAction = ({ value }) => {
               class="size-4 text-n-blue-11 flex-shrink-0"
             />
           </template>
+          <template #footer>
+            <div
+              v-if="shouldShowCreateButton"
+              class="flex pt-1 w-full border-t border-n-weak"
+            >
+              <Button
+                icon="i-lucide-plus"
+                slate
+                sm
+                ghost
+                :label="`${t('CONTACT_PANEL.LABELS.LABEL_SELECT.CREATE_LABEL')}: ${searchQuery}`"
+                class="w-full"
+                @click="showCreateModal"
+              />
+            </div>
+          </template>
         </DropdownMenu>
+        <woot-modal
+          v-model:show="createModalVisible"
+          :on-close="hideCreateModal"
+        >
+          <AddLabelModal
+            :prefill-title="searchQuery"
+            @close="hideCreateModal"
+          />
+        </woot-modal>
       </div>
     </div>
   </div>
