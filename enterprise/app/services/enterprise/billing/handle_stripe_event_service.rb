@@ -1,6 +1,6 @@
 class Enterprise::Billing::HandleStripeEventService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
-  CAPTAIN_PLAN_LIMITS_CONFIG = 'CAPTAIN_CLOUD_PLAN_LIMITS'.freeze
+  CAPTAIN_CLOUD_PLAN_LIMITS = 'CAPTAIN_CLOUD_PLAN_LIMITS'.freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
@@ -153,8 +153,9 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def get_plan_credits(plan_name)
-    config = InstallationConfig.find_by(name: CAPTAIN_PLAN_LIMITS_CONFIG)&.value
-    config&.dig(plan_name.downcase)&.symbolize_keys || { responses: 0, documents: 0 }
+    config = InstallationConfig.find_by(name: CAPTAIN_CLOUD_PLAN_LIMITS)&.value
+    plan_quota = JSON.parse(config) if config.present?
+    plan_quota[plan_name.downcase]&.symbolize_keys || { responses: 0, documents: 0 }
   end
 
   def enable_plan_specific_features
