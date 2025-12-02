@@ -19,48 +19,101 @@ const handleClick = () => {
   emit('click');
 };
 
-const conversationRequiredAttributes = [
-  {
-    action: 'add',
-    value: 'installation_type',
-    label: 'Installation Type',
-    type: 'Text',
-  },
-];
-
 const attributeOptions = [
   {
-    action: 'add',
-    value: 'installation_type',
-    label: 'Installation Type',
-    type: 'Text',
+    id: 1,
+    attribute_display_name: 'Severity',
+    attribute_display_type: 'text',
+    attribute_description:
+      'Status used by Pranav to check the quality of the conversations.',
+    attribute_key: 'severity',
+    regex_pattern: null,
+    regex_cue: null,
+    attribute_values: [],
+    attribute_model: 'conversation_attribute',
+    default_value: null,
+    created_at: '2023-12-19T02:18:08.226Z',
+    updated_at: '2024-04-29T08:45:12.660Z',
   },
   {
-    action: 'add',
-    value: 'follow_up',
-    label: 'Follow up with the customer',
+    id: 3,
+    attribute_display_name: 'Cloud customer',
+    attribute_display_type: 'checkbox',
+    attribute_description: 'Cloud customer',
+    attribute_key: 'cloud_customer',
+    regex_pattern: null,
+    regex_cue: null,
+    attribute_values: [],
+    attribute_model: 'conversation_attribute',
+    default_value: null,
+    created_at: '2023-12-20T05:33:32.866Z',
+    updated_at: '2023-12-20T05:33:32.866Z',
   },
   {
-    action: 'add',
-    value: 'review_status',
-    label: 'Review Status',
+    id: 4,
+    attribute_display_name: 'Plan',
+    attribute_display_type: 'list',
+    attribute_description: 'Plan',
+    attribute_key: 'plan',
+    regex_pattern: null,
+    regex_cue: null,
+    attribute_values: ['gold', 'silver', 'bronze'],
+    attribute_model: 'conversation_attribute',
+    default_value: null,
+    created_at: '2024-03-11T07:19:56.016Z',
+    updated_at: '2024-03-11T07:19:56.016Z',
   },
   {
-    action: 'add',
-    value: 'priority',
-    label: 'Priority',
+    id: 5,
+    attribute_display_name: 'Signup date',
+    attribute_display_type: 'date',
+    attribute_description: 'Signup',
+    attribute_key: 'signup_date',
+    regex_pattern: null,
+    regex_cue: null,
+    attribute_values: [],
+    attribute_model: 'conversation_attribute',
+    default_value: null,
+    created_at: '2024-03-11T07:20:14.864Z',
+    updated_at: '2024-03-11T07:20:14.864Z',
   },
   {
-    action: 'add',
-    value: 'department',
-    label: 'Department',
+    id: 6,
+    attribute_display_name: 'Home page',
+    attribute_display_type: 'link',
+    attribute_description: 'home page\n',
+    attribute_key: 'home_page',
+    regex_pattern: null,
+    regex_cue: null,
+    attribute_values: [],
+    attribute_model: 'conversation_attribute',
+    default_value: null,
+    created_at: '2024-03-11T07:20:31.415Z',
+    updated_at: '2024-03-11T07:20:31.415Z',
   },
   {
-    action: 'add',
-    value: 'customer_type',
-    label: 'Customer Type',
+    id: 7,
+    attribute_display_name: 'Reg number',
+    attribute_display_type: 'number',
+    attribute_description: 'Reg number\n',
+    attribute_key: 'reg_number',
+    regex_pattern: null,
+    regex_cue: null,
+    attribute_values: [],
+    attribute_model: 'conversation_attribute',
+    default_value: null,
+    created_at: '2024-03-11T07:21:00.514Z',
+    updated_at: '2024-03-11T07:21:00.514Z',
   },
-];
+].map(attribute => ({
+  ...attribute,
+  action: 'add',
+  value: attribute.attribute_key,
+  label: attribute.attribute_display_name,
+  type: attribute.attribute_display_type,
+}));
+
+const conversationRequiredAttributes = attributeOptions.slice(0, 4);
 
 const handleAddAttributesClick = event => {
   event.stopPropagation();
@@ -80,7 +133,7 @@ const handleDelete = () => {};
 
 <template>
   <CardLayout
-    class="[&>div]:px-0 [&>div]:py-0 [&>div]:divide-y [&>div]:divide-n-weak"
+    class="[&>div]:px-0 [&>div]:py-0 [&>div]:gap-0 [&>div]:divide-y [&>div]:divide-n-weak"
     @click="handleClick"
   >
     <div class="flex flex-col gap-2 items-start px-5 py-4">
