@@ -1,4 +1,3 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ref, nextTick } from 'vue';
 import { useDropdownPosition } from '../useDropdownPosition';
 
@@ -51,6 +50,7 @@ describe('useDropdownPosition', () => {
   let triggerRef;
   let dropdownRef;
   let enabled;
+  let querySelectorSpy;
 
   beforeEach(() => {
     // Create mock DOM elements
@@ -78,10 +78,14 @@ describe('useDropdownPosition', () => {
 
     enabled = ref(true);
 
-    // Mock document.querySelector for RTL check
-    document.querySelector = vi.fn(() => ({
+    // Spy on document.querySelector for RTL check
+    querySelectorSpy = vi.spyOn(document, 'querySelector').mockReturnValue({
       getAttribute: () => 'ltr',
-    }));
+    });
+  });
+
+  afterEach(() => {
+    querySelectorSpy.mockRestore();
   });
 
   it('should return default position classes when disabled', () => {
@@ -177,9 +181,9 @@ describe('useDropdownPosition', () => {
     // Trigger left: 50, Dropdown width: 250, SAFE_MARGIN: 16
     // Would overflow: 50 + 250 + 16 = 316 < 1024 = false
     // So should align left (ltr:left-0)
-    document.querySelector = vi.fn(() => ({
+    querySelectorSpy.mockReturnValue({
       getAttribute: () => 'ltr',
-    }));
+    });
 
     const { positionClasses } = useDropdownPosition(
       triggerRef,
@@ -217,9 +221,9 @@ describe('useDropdownPosition', () => {
   });
 
   it('should handle RTL layout', () => {
-    document.querySelector = vi.fn(() => ({
+    querySelectorSpy.mockReturnValue({
       getAttribute: () => 'rtl',
-    }));
+    });
 
     const { positionClasses } = useDropdownPosition(
       triggerRef,
