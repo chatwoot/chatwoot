@@ -4,16 +4,20 @@
 # New features should inherit from this class.
 class Llm::BaseAiService
   DEFAULT_MODEL = Llm::Config::DEFAULT_MODEL
+  DEFAULT_TEMPERATURE = 1.0
 
-  attr_reader :model
+  attr_reader :model, :temperature
 
   def initialize
     Llm::Config.initialize!
     setup_model
+    setup_temperature
   end
 
-  def chat(model: @model)
-    RubyLLM.chat(model: model)
+  # Returns a configured RubyLLM chat instance.
+  # Subclasses can override model/temperature via instance variables or pass them explicitly.
+  def chat(model: @model, temperature: @temperature)
+    RubyLLM.chat(model: model).with_temperature(temperature)
   end
 
   private
@@ -21,5 +25,9 @@ class Llm::BaseAiService
   def setup_model
     config_value = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
     @model = (config_value.presence || DEFAULT_MODEL)
+  end
+
+  def setup_temperature
+    @temperature = DEFAULT_TEMPERATURE
   end
 end

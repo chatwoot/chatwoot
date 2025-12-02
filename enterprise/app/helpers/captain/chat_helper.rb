@@ -20,15 +20,14 @@ module Captain::ChatHelper
   private
 
   def build_chat
-    chat = RubyLLM.chat(model: @model)
-    chat.with_temperature(@assistant&.config&.[]('temperature').to_f || 1)
-    chat.with_params(response_format: { type: 'json_object' })
+    llm_chat = chat(model: @model, temperature: temperature)
+    llm_chat.with_params(response_format: { type: 'json_object' })
 
-    chat = setup_tools(chat)
-    setup_system_instructions(chat)
-    setup_event_handlers(chat)
+    llm_chat = setup_tools(llm_chat)
+    setup_system_instructions(llm_chat)
+    setup_event_handlers(llm_chat)
 
-    chat
+    llm_chat
   end
 
   def setup_tools(chat)
