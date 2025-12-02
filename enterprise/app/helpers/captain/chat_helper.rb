@@ -126,7 +126,7 @@ module Captain::ChatHelper
     parsed = parse_json_response(response.content)
 
     persist_message(parsed, 'assistant')
-    { 'response' => parsed['response'] }
+    { 'response' => parsed['content'] }
   end
 
   def parse_json_response(content)

@@ -23,10 +23,7 @@ RSpec.describe Captain::Copilot::ChatService do
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_response) do
     # Copilot system prompt expects: content, reasoning, reply_suggestion
-    # build_response returns { 'response' => parsed['response'] } - extracting the 'response' key
-    # NOTE: The CopilotMessage validation only allows: content, reasoning, function_name, reply_suggestion
-    # So we include 'content' for persistence and test expects 'response' to be nil
-    # since copilot_response_generator prompt uses 'content' not 'response'
+    # build_response extracts 'content' key and returns { 'response' => parsed['content'] }
     instance_double(RubyLLM::Message, content: '{ "content": "Hey", "reasoning": "Test reasoning" }')
   end
 
@@ -92,10 +89,8 @@ RSpec.describe Captain::Copilot::ChatService do
     it 'returns the response from request_chat_completion' do
       result = service.generate_response('Hello')
 
-      # NOTE: build_response returns { 'response' => parsed['response'] }
-      # but copilot_response_generator prompt uses 'content' not 'response' key
-      # so this returns nil. This is a known inconsistency between prompts.
-      expect(result).to eq({ 'response' => nil })
+      # build_response extracts 'content' key from parsed JSON and returns { 'response' => parsed['content'] }
+      expect(result).to eq({ 'response' => 'Hey' })
     end
 
     it 'increments response usage for the account' do
