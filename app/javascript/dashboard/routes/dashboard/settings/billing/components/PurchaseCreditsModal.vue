@@ -11,35 +11,22 @@ const emit = defineEmits(['close']);
 
 const { t } = useI18n();
 
-const dialogRef = ref(null);
-const topupOptions = ref([]);
-const selectedCredits = ref(null);
-const isLoading = ref(false);
-const isFetchingOptions = ref(false);
+const TOPUP_OPTIONS = [
+  { credits: 1000, amount: 20.0, currency: 'usd' },
+  { credits: 2500, amount: 50.0, currency: 'usd' },
+  { credits: 5000, amount: 100.0, currency: 'usd' },
+  { credits: 10000, amount: 200.0, currency: 'usd' },
+];
 
 const POPULAR_CREDITS_AMOUNT = 5000;
 
-const selectedOption = computed(() => {
-  return topupOptions.value.find(o => o.credits === selectedCredits.value);
-});
+const dialogRef = ref(null);
+const selectedCredits = ref(null);
+const isLoading = ref(false);
 
-const fetchTopupOptions = async () => {
-  isFetchingOptions.value = true;
-  try {
-    const response = await EnterpriseAccountAPI.getTopupOptions();
-    topupOptions.value = response.data.topup_options || [];
-    // Pre-select the most popular option
-    const popularOption = topupOptions.value.find(
-      o => o.credits === POPULAR_CREDITS_AMOUNT
-    );
-    selectedCredits.value =
-      popularOption?.credits || topupOptions.value[0]?.credits;
-  } catch (error) {
-    useAlert(t('BILLING_SETTINGS.TOPUP.FETCH_ERROR'));
-  } finally {
-    isFetchingOptions.value = false;
-  }
-};
+const selectedOption = computed(() => {
+  return TOPUP_OPTIONS.find(o => o.credits === selectedCredits.value);
+});
 
 const handlePackageSelect = credits => {
   selectedCredits.value = credits;
@@ -70,7 +57,11 @@ const handleClose = () => {
 };
 
 const open = () => {
-  fetchTopupOptions();
+  // Pre-select the most popular option
+  const popularOption = TOPUP_OPTIONS.find(
+    o => o.credits === POPULAR_CREDITS_AMOUNT
+  );
+  selectedCredits.value = popularOption?.credits || TOPUP_OPTIONS[0]?.credits;
   dialogRef.value?.open();
 };
 
@@ -91,14 +82,9 @@ defineExpose({ open, close });
     :show-cancel-button="false"
     @close="handleClose"
   >
-    <div v-if="isFetchingOptions" class="flex items-center justify-center py-8">
-      <span class="text-n-slate-11">{{
-        $t('BILLING_SETTINGS.TOPUP.LOADING')
-      }}</span>
-    </div>
-    <div v-else class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 gap-4">
       <CreditPackageCard
-        v-for="option in topupOptions"
+        v-for="option in TOPUP_OPTIONS"
         :key="option.credits"
         :credits="option.credits"
         :amount="option.amount"

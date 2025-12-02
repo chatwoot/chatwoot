@@ -55,11 +55,6 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     end
   end
 
-  def topup_options
-    options = Enterprise::Billing::TopupCatalog.options
-    render json: { topup_options: options }
-  end
-
   def topup_checkout
     return render json: { error: 'Credits amount is required' }, status: :unprocessable_entity if params[:credits].blank?
 

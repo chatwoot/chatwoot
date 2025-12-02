@@ -7,14 +7,12 @@ class Enterprise::Billing::TopupFulfillmentService
 
   def fulfill(credits:, amount_cents:, currency:)
     account.with_lock do
-      credit_grant = create_stripe_credit_grant(credits, amount_cents, currency)
+      create_stripe_credit_grant(credits, amount_cents, currency)
       update_account_credits(credits)
-
-      { success: true, credit_grant_id: credit_grant.id, credits_added: credits }
     end
-  rescue Stripe::StripeError => e
-    Rails.logger.error("Failed to create credit grant for account #{account.id}: #{e.message}")
-    { success: false, message: "Stripe error: #{e.message}" }
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
+    raise
   end
 
   private

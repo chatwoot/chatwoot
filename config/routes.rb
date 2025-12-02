@@ -438,7 +438,6 @@ Rails.application.routes.draw do
               post :subscription
               get :limits
               post :toggle_deletion
-              get :topup_options
               post :topup_checkout
             end
           end

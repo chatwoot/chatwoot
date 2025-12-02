@@ -1,4 +1,11 @@
 class Enterprise::Billing::TopupCheckoutService
+  TOPUP_OPTIONS = [
+    { credits: 1000, amount: 20.0, currency: 'usd' },
+    { credits: 2500, amount: 50.0, currency: 'usd' },
+    { credits: 5000, amount: 100.0, currency: 'usd' },
+    { credits: 10_000, amount: 200.0, currency: 'usd' }
+  ].freeze
+
   attr_reader :account
 
   def initialize(account:)
@@ -25,7 +32,7 @@ class Enterprise::Billing::TopupCheckoutService
     plan_validation = validate_plan_eligibility
     return plan_validation unless plan_validation[:valid]
 
-    topup_option = Enterprise::Billing::TopupCatalog.find_option(credits)
+    topup_option = find_topup_option(credits)
     return { valid: false, success: false, message: 'Invalid topup option' } unless topup_option
 
     return { valid: false, success: false, message: 'Stripe customer not configured' } if stripe_customer_id.blank?
@@ -91,7 +98,7 @@ class Enterprise::Billing::TopupCheckoutService
     {
       account_id: account.id.to_s,
       credits: credits.to_s,
-      amount_cents: (topup_option[:amount] * 100).to_i.to_s,
+      amount_cents: (topup_option[:amount] * 100).to_s,
       currency: topup_option[:currency],
       topup: 'true'
     }
@@ -111,5 +118,9 @@ class Enterprise::Billing::TopupCheckoutService
 
   def stripe_customer_id
     account.custom_attributes&.[]('stripe_customer_id')
+  end
+
+  def find_topup_option(credits)
+    TOPUP_OPTIONS.find { |opt| opt[:credits] == credits.to_i }
   end
 end
