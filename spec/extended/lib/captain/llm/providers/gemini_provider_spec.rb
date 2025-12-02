@@ -4,7 +4,7 @@ require 'gemini-ai'
 RSpec.describe Captain::Llm::Providers::GeminiProvider do
   let(:api_key) { 'test_api_key' }
   let(:provider) { described_class.new(api_key: api_key) }
-  let(:client) { instance_double(Gemini::Client) }
+  let(:client) { double('GeminiClient') }
 
   before do
     allow(Gemini).to receive(:new).and_return(client)
@@ -44,11 +44,14 @@ RSpec.describe Captain::Llm::Providers::GeminiProvider do
         'candidates' => [
           {
             'content' => {
-              'parts' => [],
-              'functionCall' => {
-                'name' => 'test_tool',
-                'args' => { 'param' => 'value' }
-              }
+              'parts' => [
+                {
+                  'functionCall' => {
+                    'name' => 'test_tool',
+                    'args' => { 'param' => 'value' }
+                  }
+                }
+              ]
             }
           }
         ]
