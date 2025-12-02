@@ -53,7 +53,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
     # path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
     # ---------------------------------------------
     # ---------------------- Modification Begin ----------------------
-    path = enterprise ? 'extended/lib/extended/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
+    path = enterprise ? 'extended/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
     # ---------------------- Modification End ------------------------
     Rails.root.join(path, "#{file_name}.txt").read
   end
