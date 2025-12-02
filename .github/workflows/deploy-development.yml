@@ -169,6 +169,8 @@ jobs:
             IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
             PAYZAH_API_URL: "${{ secrets.DEVELOPMENT_PAYZAH_API_URL }}"
             ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
+            POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
+            POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
           EOF
           kubectl apply -f k8s/development/configmap.yaml
           
@@ -235,6 +237,8 @@ jobs:
             IP_LOOKUP_API_KEY: "${{ secrets.DEVELOPMENT_IP_LOOKUP_API_KEY }}"
             PAYZAH_API_URL: "${{ secrets.DEVELOPMENT_PAYZAH_API_URL }}"
             ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
+            POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
+            POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
           EOF
           kubectl create -f k8s/development/secret.yaml -n chatwoot-development
           rm k8s/development/secret.yaml
