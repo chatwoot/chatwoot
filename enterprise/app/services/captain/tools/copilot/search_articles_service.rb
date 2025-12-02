@@ -11,8 +11,8 @@ class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseTool
     end
   end
 
-  def execute(query:, category_id:, status:)
-    articles = fetch_articles(query, category_id, status)
+  def execute(query: nil, category_id: nil, status: nil)
+    articles = fetch_articles(query: query, category_id: category_id, status: status)
     return 'No articles found' unless articles.exists?
 
     total_count = articles.count

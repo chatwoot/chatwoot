@@ -4,7 +4,7 @@ class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseTool
   end
   description 'Search and retrieve documentation from knowledge base'
 
-  param :query, desc: 'Search Query'
+  param :query, desc: 'Search Query', required: true
 
   def execute(query:)
     Rails.logger.info { "#{self.class.name}: #{query}" }

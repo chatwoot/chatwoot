@@ -4,7 +4,7 @@ class Captain::Tools::Copilot::SearchLinearIssuesService < Captain::Tools::BaseT
   end
 
   description 'Search Linear issues based on a search term'
-  param :term, type: :string, desc: 'The search term to find Linear issues'
+  param :term, type: :string, desc: 'The search term to find Linear issues', required: true
 
   def execute(term:)
     return 'Linear integration is not enabled' unless active?
