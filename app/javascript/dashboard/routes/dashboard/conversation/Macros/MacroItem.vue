@@ -84,8 +84,9 @@ const closeMacroPreview = () => {
     <NextButton
       :label="$t('MACROS.EXECUTE.RUN')"
       slate
-      ghost
+      link
       sm
+      class="hover:!no-underline !text-n-slate-11 !py-2"
       :is-loading="isExecuting"
       @click="executeMacro(macro)"
     />

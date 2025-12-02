@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import Draggable from 'vuedraggable';
 import { useToggle } from '@vueuse/core';
 import { useRoute } from 'vue-router';
@@ -136,17 +136,27 @@ const displayedCustomAttributes = computed(() =>
     : orderedCustomAttributes.value.slice(0, 5)
 );
 
-const draggableList = ref([]);
+const localOrder = ref([]);
 
-const syncDraggableList = () => {
-  draggableList.value = [...displayedCustomAttributes.value];
-};
+const draggableList = computed({
+  get() {
+    const saved = uiSettings.value[orderKey.value] ?? [];
+    if (localOrder.value.length && saved.length) {
+      return localOrder.value;
+    }
+    return displayedCustomAttributes.value;
+  },
+  set(newOrder) {
+    localOrder.value = newOrder;
+  },
+});
 
 const onDragEnd = () => {
   dragging.value = false;
   updateUISettings({
-    [orderKey.value]: draggableList.value.map(({ key }) => key),
+    [orderKey.value]: localOrder.value.map(({ key }) => key),
   });
+  localOrder.value = [];
 };
 
 const initializeSettings = () => {
@@ -158,8 +168,6 @@ const initializeSettings = () => {
 
   showAllAttributes.value =
     uiSettings.value[`show_all_attributes_${props.attributeFrom}`] || false;
-
-  syncDraggableList();
 };
 
 const onClickToggle = () => {
@@ -167,7 +175,6 @@ const onClickToggle = () => {
   updateUISettings({
     [`show_all_attributes_${props.attributeFrom}`]: showAllAttributes.value,
   });
-  nextTick(syncDraggableList);
 };
 
 const onUpdate = async (key, value) => {
@@ -179,7 +186,7 @@ const onUpdate = async (key, value) => {
         customAttributes: updatedAttributes,
       });
     } else {
-      store.dispatch('contacts/update', {
+      await store.dispatch('contacts/update', {
         id: props.contactId,
         customAttributes: updatedAttributes,
       });
@@ -201,7 +208,7 @@ const onDelete = async key => {
         customAttributes: updatedAttributes,
       });
     } else {
-      store.dispatch('contacts/deleteCustomAttributes', {
+      await store.dispatch('contacts/deleteCustomAttributes', {
         id: props.contactId,
         customAttributes: [key],
       });
