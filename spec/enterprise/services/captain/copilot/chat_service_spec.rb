@@ -22,9 +22,7 @@ RSpec.describe Captain::Copilot::ChatService do
   # RubyLLM mocks
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_response) do
-    # Copilot system prompt expects: content, reasoning, reply_suggestion
-    # build_response extracts 'content' key and returns { 'response' => parsed['content'] }
-    instance_double(RubyLLM::Message, content: '{ "content": "Hey", "reasoning": "Test reasoning" }')
+    instance_double(RubyLLM::Message, content: '{ "content": "Hey", "reasoning": "Test reasoning", "reply_suggestion": false }')
   end
 
   before do
@@ -89,8 +87,7 @@ RSpec.describe Captain::Copilot::ChatService do
     it 'returns the response from request_chat_completion' do
       result = service.generate_response('Hello')
 
-      # build_response extracts 'content' key from parsed JSON and returns { 'response' => parsed['content'] }
-      expect(result).to eq({ 'response' => 'Hey' })
+      expect(result).to eq({ 'content' => 'Hey', 'reasoning' => 'Test reasoning', 'reply_suggestion' => false })
     end
 
     it 'increments response usage for the account' do
