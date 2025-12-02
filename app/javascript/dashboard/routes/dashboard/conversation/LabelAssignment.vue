@@ -28,7 +28,8 @@ const [openLabelsList, toggleLabels] = useToggle(false);
 
 const { positionClasses, updatePosition } = useDropdownPosition(
   triggerRef,
-  dropdownRef
+  dropdownRef,
+  openLabelsList
 );
 
 // Update position of dropdown when labels change

@@ -23,7 +23,11 @@ const dropdownRef = ref(null);
 
 const [openPriorityList, togglePriorityList] = useToggle(false);
 
-const { positionClasses } = useDropdownPosition(triggerRef, dropdownRef);
+const { positionClasses } = useDropdownPosition(
+  triggerRef,
+  dropdownRef,
+  openPriorityList
+);
 
 const currentChat = useMapGetter('getSelectedChat');
 
@@ -110,7 +114,7 @@ const handlePriorityAction = ({ value }) => {
   } else {
     assignedPriority.value = selectedPriority;
   }
-  openPriorityList.value = false;
+  togglePriorityList(false);
 };
 </script>
 

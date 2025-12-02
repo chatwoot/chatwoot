@@ -30,7 +30,11 @@ const dropdownRef = ref(null);
 
 const [openParticipantsList, toggleParticipantsList] = useToggle(false);
 
-const { positionClasses } = useDropdownPosition(triggerRef, dropdownRef);
+const { positionClasses } = useDropdownPosition(
+  triggerRef,
+  dropdownRef,
+  openParticipantsList
+);
 
 const currentUser = useMapGetter('getCurrentUser');
 

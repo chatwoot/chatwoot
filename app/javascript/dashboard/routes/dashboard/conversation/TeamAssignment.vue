@@ -27,7 +27,11 @@ const dropdownRef = ref(null);
 
 const [openTeamsList, toggleTeamsList] = useToggle(false);
 
-const { positionClasses } = useDropdownPosition(triggerRef, dropdownRef);
+const { positionClasses } = useDropdownPosition(
+  triggerRef,
+  dropdownRef,
+  openTeamsList
+);
 
 const currentChat = useMapGetter('getSelectedChat');
 
@@ -85,7 +89,7 @@ const handleTeamAction = ({ action, value }) => {
   if (action === 'unassignTeam') {
     // Unassign team (set to null)
     assignedTeam.value = null;
-    openTeamsList.value = false;
+    toggleTeamsList(false);
   } else if (action === 'assignTeam') {
     // Assign selected team
     const selectedTeam = props.teamsList.find(team => team.id === value);
@@ -94,7 +98,7 @@ const handleTeamAction = ({ action, value }) => {
     } else {
       assignedTeam.value = selectedTeam;
     }
-    openTeamsList.value = false;
+    toggleTeamsList(false);
   }
 };
 </script>

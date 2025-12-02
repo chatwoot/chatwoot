@@ -5,9 +5,10 @@ import { useElementBounding, useWindowSize } from '@vueuse/core';
  * Auto-position dropdown based on available space
  * @param {Ref} triggerRef - Trigger element ref
  * @param {Ref} dropdownRef - Dropdown element ref
+ * @param {Ref} enabled - Whether to calculate position
  * @returns {Object} { positionClasses, updatePosition }
  */
-export function useDropdownPosition(triggerRef, dropdownRef) {
+export function useDropdownPosition(triggerRef, dropdownRef, enabled) {
   const SAFE_MARGIN = 16;
   const RTL = 'rtl';
 
@@ -16,8 +17,14 @@ export function useDropdownPosition(triggerRef, dropdownRef) {
   const { height: windowHeight, width: windowWidth } = useWindowSize();
 
   const positionClasses = computed(() => {
-    if (!triggerRef.value || !dropdownRef.value)
+    // Don't calculate if not enabled
+    if (!enabled?.value) {
       return 'top-full mt-2 ltr:left-0 rtl:right-0';
+    }
+
+    if (!triggerRef.value || !dropdownRef.value) {
+      return 'top-full mt-2 ltr:left-0 rtl:right-0';
+    }
 
     const spaceBelow = windowHeight.value - triggerBounds.bottom.value;
     const dropdownHeight = dropdownBounds.height.value || 200;

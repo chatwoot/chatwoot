@@ -27,7 +27,11 @@ const dropdownRef = ref(null);
 
 const [openAgentsList, toggleAgentsList] = useToggle(false);
 
-const { positionClasses } = useDropdownPosition(triggerRef, dropdownRef);
+const { positionClasses } = useDropdownPosition(
+  triggerRef,
+  dropdownRef,
+  openAgentsList
+);
 
 const currentChat = useMapGetter('getSelectedChat');
 const currentUser = useMapGetter('getCurrentUser');
@@ -137,13 +141,13 @@ const onSelfAssign = () => {
     thumbnail: avatar_url,
   };
   assignedAgent.value = selfAssign;
-  openAgentsList.value = false;
+  toggleAgentsList(false);
 };
 
 const handleAgentAction = ({ action, value }) => {
   if (action === 'unassignAgent') {
     assignedAgent.value = null;
-    openAgentsList.value = false;
+    toggleAgentsList(false);
   } else if (action === 'selfAssign') {
     // Self assign current user
     onSelfAssign();
@@ -155,7 +159,7 @@ const handleAgentAction = ({ action, value }) => {
     } else {
       assignedAgent.value = selectedAgent;
     }
-    openAgentsList.value = false;
+    toggleAgentsList(false);
   }
 };
 </script>
