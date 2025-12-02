@@ -358,7 +358,7 @@ CommMate branding uses 4 layers:
 ## 🔗 **Related Documentation**
 
 - **Development:** `DEVELOPMENT.md`
-- **Building Images:** `DOCKER-BUILD.md`
+- **Building Images:** `IMAGE-RELEASE.md`
 - **Branding Details:** `REBRANDING.md`
 - **Upgrading:** `UPGRADE.md`
 

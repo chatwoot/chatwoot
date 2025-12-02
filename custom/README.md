@@ -46,10 +46,11 @@ git merge upstream/v4.8.0
 
 **Essential guides:**
 
+- **[DOWNSTREAM-RELEASE.md](docs/DOWNSTREAM-RELEASE.md)** - **Step 1:** Downstream & create release branches
+- **[IMAGE-RELEASE.md](docs/IMAGE-RELEASE.md)** - **Step 2:** Build & publish Docker images
+- **[UPGRADE.md](docs/UPGRADE.md)** - How to upgrade existing installations
+- **[REBRANDING.md](docs/REBRANDING.md)** - Branding system & environment variables
 - **[DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Setup and run locally
-- **[REBRANDING.md](docs/REBRANDING.md)** - How branding works  
-- **[UPGRADE.md](docs/UPGRADE.md)** - How to upgrade Chatwoot
-- **[DOCKER-BUILD.md](docs/DOCKER-BUILD.md)** - How to build Docker images
 
 ### Also See
 
