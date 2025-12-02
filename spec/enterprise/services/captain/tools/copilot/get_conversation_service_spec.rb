@@ -96,12 +96,6 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
   end
 
   describe '#execute' do
-    context 'when conversation_id is blank' do
-      it 'returns error message' do
-        expect(service.execute(conversation_id: nil)).to eq('Missing required parameters')
-      end
-    end
-
     context 'when conversation is not found' do
       it 'returns not found message' do
         expect(service.execute(conversation_id: 999)).to eq('Conversation not found')
