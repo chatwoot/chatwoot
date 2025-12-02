@@ -1,4 +1,4 @@
-class Captain::Llm::AssistantChatService
+class Captain::Llm::AssistantChatService < Llm::BaseAiService
   include Captain::ChatHelper
 
   def initialize(assistant: nil, conversation_id: nil)
@@ -6,7 +6,6 @@ class Captain::Llm::AssistantChatService
 
     @assistant = assistant
     @conversation_id = conversation_id
-    @model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || Llm::Config::DEFAULT_MODEL
 
     @messages = [system_message]
     @response = ''
