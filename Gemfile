@@ -268,3 +268,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
+gem "gemini-ai", "~> 4.2"

@@ -1,21 +1,17 @@
 require 'openai'
 
-class Captain::Llm::EmbeddingService
-  DEFAULT_MODEL = 'text-embedding-3-small'.freeze
+require_relative '../../../../../lib/captain/llm/providers/openai_provider'
+require_relative '../../../../../lib/captain/llm/providers/gemini_provider'
 
-  def initialize(api_key: nil)
-    @api_key = api_key || ENV.fetch('OPENAI_API_KEY', nil)
-    @client = OpenAI::Client.new(access_token: @api_key, log_errors: Rails.env.development?)
+class Captain::Llm::EmbeddingService
+  def initialize(api_key: nil, provider: nil)
+    @provider = provider || ENV['CAPTAIN_LLM_PROVIDER'] || 'openai'
+    @api_key = api_key || default_api_key
+    @client = create_client
   end
 
-  def generate(text, model: DEFAULT_MODEL)
-    response = @client.embeddings(
-      parameters: {
-        model: model,
-        input: text
-      }
-    )
-
+  def generate(text, model: default_model)
+    response = @client.embedding(text: text, model: model)
     extract_embedding(response)
   rescue StandardError => e
     Rails.logger.error("EmbeddingService Error: #{e.message}")
@@ -26,6 +22,33 @@ class Captain::Llm::EmbeddingService
   alias get_embedding generate
 
   private
+
+  def default_api_key
+    case @provider
+    when 'gemini'
+      ENV.fetch('GEMINI_API_KEY', nil)
+    else
+      ENV.fetch('OPENAI_API_KEY', nil)
+    end
+  end
+
+  def default_model
+    case @provider
+    when 'gemini'
+      'text-embedding-004'
+    else
+      'text-embedding-3-small'
+    end
+  end
+
+  def create_client
+    case @provider
+    when 'gemini'
+      Captain::Llm::Providers::GeminiProvider.new(api_key: @api_key)
+    else
+      Captain::Llm::Providers::OpenaiProvider.new(api_key: @api_key)
+    end
+  end
 
   def extract_embedding(response)
     response.dig('data', 0, 'embedding') || []

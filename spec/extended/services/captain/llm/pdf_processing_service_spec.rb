@@ -29,8 +29,8 @@ RSpec.describe Captain::Llm::PdfProcessingService do
 
         pdf_file = instance_double(ActiveStorage::Blob, download: pdf_content)
         allow(document).to receive(:pdf_file).and_return(pdf_file)
-
-        files_api = double('files_api')
+        # Use a simple double for OpenAI::Files as it may not be loaded
+        files_api = double('files_api') # rubocop:disable RSpec/VerifiedDoubles
         allow(files_api).to receive(:upload).and_return({ 'id' => 'file-abc123' })
         allow(mock_client).to receive(:files).and_return(files_api)
       end

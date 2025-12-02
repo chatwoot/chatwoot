@@ -1,0 +1,26 @@
+development:
+  default_provider: openai
+  providers:
+    openai:
+      enabled: true
+      models:
+        - gpt-4o
+        - gpt-4o-mini
+        - gpt-4-turbo
+        - gpt-3.5-turbo
+      embedding_model: text-embedding-3-small
+    gemini:
+      enabled: true
+      models:
+        - gemini-1.5-pro
+        - gemini-1.5-flash
+        - gemini-1.0-pro
+      embedding_model: text-embedding-004
+
+production:
+  default_provider: <%= ENV['CAPTAIN_LLM_PROVIDER'] || 'openai' %>
+  providers:
+    openai:
+      enabled: <%= ENV['OPENAI_API_KEY'].present? %>
+    gemini:
+      enabled: <%= ENV['GEMINI_API_KEY'].present? %>
