@@ -166,4 +166,3 @@ jobs:
           fi
 
           docker buildx imagetools inspect $TAG
-          
