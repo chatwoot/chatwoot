@@ -3,10 +3,12 @@
 require 'opentelemetry_config'
 require_relative 'llm_instrumentation_constants'
 require_relative 'llm_instrumentation_helpers'
+require_relative 'llm_instrumentation_spans'
 
 module Integrations::LlmInstrumentation
   include Integrations::LlmInstrumentationConstants
   include Integrations::LlmInstrumentationHelpers
+  include Integrations::LlmInstrumentationSpans
 
   PROVIDER_PREFIXES = {
     'openai' => %w[gpt- o1 o3 o4 text-embedding- whisper- tts-],
@@ -15,10 +17,6 @@ module Integrations::LlmInstrumentation
     'mistral' => %w[mistral- codestral-],
     'deepseek' => %w[deepseek-]
   }.freeze
-
-  def tracer
-    @tracer ||= OpentelemetryConfig.tracer
-  end
 
   def instrument_llm_call(params)
     return yield unless ChatwootApp.otel_enabled?
@@ -57,75 +55,6 @@ module Integrations::LlmInstrumentation
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
     executed ? result : yield
-  end
-
-  def start_llm_turn_span(params)
-    return unless ChatwootApp.otel_enabled?
-
-    span = tracer.start_span(params[:span_name])
-
-    provider = determine_provider(params[:model])
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, provider)
-    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model]) if params[:model]
-    span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]
-
-    if params[:messages]
-      params[:messages].each_with_index do |msg, idx|
-        span.set_attribute(format(ATTR_GEN_AI_PROMPT_ROLE, idx), msg[:role])
-        span.set_attribute(format(ATTR_GEN_AI_PROMPT_CONTENT, idx), msg[:content])
-      end
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
-
-    end
-    @pending_llm_turn_spans ||= []
-    @pending_llm_turn_spans.push(span)
-  rescue StandardError => e
-    Rails.logger.warn "Failed to start LLM turn span: #{e.message}"
-  end
-
-  def end_llm_turn_span(message)
-    return unless ChatwootApp.otel_enabled?
-
-    span = @pending_llm_turn_spans&.pop
-    return unless span
-
-    if message
-      span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, message.role.to_s) if message.respond_to?(:role)
-      span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message.content.to_s) if message.respond_to?(:content)
-      span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, message.input_tokens) if message.respond_to?(:input_tokens) && message.input_tokens
-      span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, message.output_tokens) if message.respond_to?(:output_tokens) && message.output_tokens
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, message.content.to_s) if message.respond_to?(:content)
-
-    end
-    span.finish
-  rescue StandardError => e
-    Rails.logger.warn "Failed to end LLM turn span: #{e.message}"
-  end
-
-  def start_tool_span(tool_call)
-    return unless ChatwootApp.otel_enabled?
-
-    tool_name = tool_call.name.to_s
-    span = tracer.start_span(format(TOOL_SPAN_NAME, tool_name))
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, tool_call.arguments.to_json)
-
-    @pending_tool_spans ||= []
-    @pending_tool_spans.push(span)
-  rescue StandardError => e
-    Rails.logger.warn "Failed to start tool span: #{e.message}"
-  end
-
-  def end_tool_span(result)
-    return unless ChatwootApp.otel_enabled?
-
-    span = @pending_tool_spans&.pop
-    return unless span
-
-    output = result.is_a?(String) ? result : result.to_json
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, output)
-    span.finish
-  rescue StandardError => e
-    Rails.logger.warn "Failed to end tool span: #{e.message}"
   end
 
   def determine_provider(model_name)
