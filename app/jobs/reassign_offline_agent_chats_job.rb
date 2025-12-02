@@ -14,6 +14,13 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
     account = Account.find_by(id: account_id)
     return unless account
 
+    current_status = OnlineStatusTracker.get_status(account_id, agent.id)
+
+    if current_status.to_s == 'online'
+      Rails.logger.info "Agent #{agent_id} is online again - skipping reassignment"
+      return
+    end
+
     agent_statuses = agent_statuses_for(account)
 
     online_agent_ids = agent_statuses.select { |_, status| status.to_s == 'online' }.keys
@@ -33,23 +40,51 @@ class ReassignOfflineAgentChatsJob < ApplicationJob
 
   private
 
+  def create_system_message(conversation)
+    system_user = AccountUser.where(account_id: conversation.account_id, role: :system).first
+    agent = User.find_by(id: conversation.assignee_id)
+    name = agent&.name || "неизвестного оператора"
+
+    conversation.messages.create!(
+      message_type: :activity,
+      content: "Чат был снят с оператора #{name}, так как он перешёл в офлайн",
+      account: conversation.account,
+      inbox: conversation.inbox,
+      sender: system_user
+    )
+  end
+
   def reassign_conversation(conversation, agent_statuses)
     allowed_agent_ids = online_agents_for(conversation, agent_statuses)
-
+  
     if allowed_agent_ids.empty?
       Rails.logger.warn("No online agents for conversation #{conversation.id} — unassigning")
-      conversation.update!(assignee_id: nil)
+      conversation.update_columns(assignee_id: nil, updated_at: Time.current)
       return
     end
-
-    AutoAssignment::AgentAssignmentService.new(
+  
+    create_system_message(conversation)
+  
+    service = AutoAssignment::AgentAssignmentService.new(
       conversation: conversation,
       allowed_agent_ids: allowed_agent_ids
-    ).perform
-
+    )
+  
+    assignee_before = conversation.assignee_id
+  
+    service.perform
+  
+    if conversation.assignee_id == assignee_before
+      Rails.logger.warn("All agents reached limit for conversation #{conversation.id} — unassigning")
+      conversation.update_columns(assignee_id: nil, updated_at: Time.current)
+      return
+    end
+  
     Rails.logger.info("Conversation #{conversation.id} reassigned")
+  
   rescue StandardError => e
     Rails.logger.error("Failed to reassign conversation #{conversation.id}: #{e.message}")
+    conversation.update_columns(assignee_id: nil, updated_at: Time.current)
   end
 
   def online_agents_for(conversation, agent_statuses)
