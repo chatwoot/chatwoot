@@ -97,7 +97,7 @@ class Enterprise::Billing::HandleStripeEventService
     metadata = session.metadata
 
     # Only process topup checkout sessions
-    return unless metadata&.[]('topup') == 'true'
+    return unless metadata.present? && metadata['topup'] == 'true'
 
     topup_account = Account.find_by(id: metadata['account_id'])
     return if topup_account.blank?
@@ -160,8 +160,7 @@ class Enterprise::Billing::HandleStripeEventService
 
   def get_plan_credits(plan_name)
     config = InstallationConfig.find_by(name: CAPTAIN_CLOUD_PLAN_LIMITS)
-    config = JSON.parse(config.value) if config.value.is_a?(String)
-    config[plan_name.downcase]&.symbolize_keys
+    config.value[plan_name.downcase]&.symbolize_keys
   end
 
   def enable_plan_specific_features
