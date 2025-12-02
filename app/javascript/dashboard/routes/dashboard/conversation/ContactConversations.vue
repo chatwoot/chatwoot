@@ -3,6 +3,7 @@ import { computed, watch, onMounted } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import ConversationCard from 'dashboard/components-next/Conversation/ConversationCard/ConversationCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import SidepanelEmptyState from 'dashboard/routes/dashboard/conversation/SidepanelEmptyState.vue';
 
 const props = defineProps({
   contactId: {
@@ -48,11 +49,12 @@ onMounted(() => {
 
 <template>
   <div v-if="!uiFlags.isFetching" class="max-h-96 overflow-y-auto px-3">
-    <div v-if="!previousConversations.length" class="text-n-slate-11 mb-4 p-3">
-      <span>
-        {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
-      </span>
+    <div v-if="!previousConversations.length">
+      <SidepanelEmptyState
+        :message="$t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND')"
+      />
     </div>
+
     <div v-else>
       <ConversationCard
         v-for="conversation in previousConversations"
