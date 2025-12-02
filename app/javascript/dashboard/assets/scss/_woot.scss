@@ -46,14 +46,14 @@ body {
 }
 
 .custom-dashed-border {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23E2E3E7' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='1' y='1' width='calc(100%25 - 2px)' height='calc(100%25 - 2px)' fill='none' rx='12' ry='12' stroke='%23E2E3E7' stroke-width='1.5' stroke-dasharray='6 4' stroke-linecap='butt'/%3E%3C/svg%3E");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
 
 .dark .custom-dashed-border {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23343434' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='1' y='1' width='calc(100%25 - 2px)' height='calc(100%25 - 2px)' fill='none' rx='12' ry='12' stroke='%23343434' stroke-width='1.5' stroke-dasharray='6 4' stroke-linecap='butt'/%3E%3C/svg%3E");
 }
 
 @layer utilities {

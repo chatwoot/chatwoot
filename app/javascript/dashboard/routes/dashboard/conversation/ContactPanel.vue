@@ -126,7 +126,6 @@ onMounted(() => {
   <div class="w-full">
     <SidebarActionsHeader
       :title="$t('CONVERSATION.SIDEBAR.CONTACT')"
-      :show-close-button="false"
       class="border-b-0"
       @close="closeContactPanel"
     >

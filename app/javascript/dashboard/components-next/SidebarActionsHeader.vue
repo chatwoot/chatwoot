@@ -9,10 +9,6 @@ defineProps({
     type: Array,
     default: () => [],
   },
-  showCloseButton: {
-    type: Boolean,
-    default: true,
-  },
 });
 
 const emit = defineEmits(['click', 'close']);
@@ -24,11 +20,11 @@ const handleButtonClick = button => {
 
 <template>
   <div
-    class="flex flex-col items-start gap-3 justify-between px-4 my-2 py-2 border-b border-n-weak"
+    class="flex flex-col items-start gap-3 justify-between ltr:pl-4 ltr:pr-2 rtl:pl-2 rtl:pr-4 my-2 py-2"
   >
-    <div class="flex items-center justify-between gap-2 flex-1">
+    <div class="flex items-center justify-between gap-2 flex-1 w-full">
       <span class="font-medium text-base text-n-slate-12">{{ title }}</span>
-      <div class="flex items-center">
+      <div class="flex items-center h-6">
         <Button
           v-for="button in buttons"
           :key="button.key"
@@ -39,7 +35,6 @@ const handleButtonClick = button => {
           @click="handleButtonClick(button)"
         />
         <Button
-          v-if="showCloseButton"
           v-tooltip="$t('GENERAL.CLOSE')"
           icon="i-lucide-x"
           ghost

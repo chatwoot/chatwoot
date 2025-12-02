@@ -49,7 +49,7 @@ onMounted(() => {
 
 <template>
   <div v-if="!uiFlags.isFetching" class="max-h-96 overflow-y-auto px-3">
-    <div v-if="!previousConversations.length">
+    <div v-if="!previousConversations.length" class="mt-2">
       <SidepanelEmptyState
         :message="$t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND')"
       />
