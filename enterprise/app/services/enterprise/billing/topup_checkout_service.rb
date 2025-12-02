@@ -90,7 +90,7 @@ class Enterprise::Billing::TopupCheckoutService
   end
 
   def stripe_customer_id
-    account.custom_attributes[:stripe_customer_id]
+    account.custom_attributes['stripe_customer_id']
   end
 
   def find_topup_option(credits)
