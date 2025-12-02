@@ -93,7 +93,9 @@ class AccountUser < ApplicationRecord
     return unless account.queue_enabled?
     return unless online?
 
-    Queue::ProcessQueueJob.perform_later(account.id)
+    account.inboxes.pluck(:id).each do |inbox_id|
+      Queue::ProcessQueueJob.perform_later(account.id, inbox_id)
+    end
   end
 end
 
