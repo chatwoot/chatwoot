@@ -407,7 +407,20 @@
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Purchase Credits",
+      "MODAL_DESCRIPTION": "Select a credit package to add to your account.",
+      "CREDITS": "credits",
+      "POPULAR": "Popular",
+      "NOTE": "Credits are added to your account immediately after purchase and never expire.",
+      "CANCEL": "Cancel",
+      "PURCHASE": "Purchase",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again."
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",

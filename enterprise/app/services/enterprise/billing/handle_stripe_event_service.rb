@@ -1,5 +1,6 @@
 class Enterprise::Billing::HandleStripeEventService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
+  CAPTAIN_PLAN_LIMITS_CONFIG = 'CAPTAIN_CLOUD_PLAN_LIMITS'.freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
@@ -33,6 +34,8 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
+    when 'checkout.session.completed'
+      process_checkout_session_completed
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -48,7 +51,7 @@ class Enterprise::Billing::HandleStripeEventService
 
     update_account_attributes(subscription, plan)
     update_plan_features
-    reset_captain_usage
+    handle_subscription_credits(plan)
   end
 
   def update_account_attributes(subscription, plan)
@@ -71,6 +74,26 @@ class Enterprise::Billing::HandleStripeEventService
     return if account.blank?
 
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+  end
+
+  def process_checkout_session_completed
+    session = @event.data.object
+    metadata = session.metadata
+
+    # Only process topup checkout sessions
+    return unless metadata&.[]('topup') == 'true'
+
+    topup_account = Account.find_by(id: metadata['account_id'])
+    return if topup_account.blank?
+
+    credits = metadata['credits'].to_i
+    amount_cents = metadata['amount_cents'].to_i
+    currency = metadata['currency'] || 'usd'
+    Enterprise::Billing::TopupFulfillmentService.new(account: topup_account).fulfill(
+      credits: credits,
+      amount_cents: amount_cents,
+      currency: currency
+    )
   end
 
   def update_plan_features
@@ -101,8 +124,37 @@ class Enterprise::Billing::HandleStripeEventService
     enable_plan_specific_features
   end
 
-  def reset_captain_usage
+  def handle_subscription_credits(plan)
+    plan_name = plan['name']
+    plan_credits = get_plan_credits(plan_name)
+
+    # Get current limits
+    current_limits = account.limits || {}
+    current_topup = current_limits['captain_responses_topup'].to_i
+
+    # On subscription renewal/update:
+    # 1. Reset monthly credits to plan allocation
+    # 2. Preserve topup credits (they don't expire)
+    # 3. Reset usage counter
+    monthly_credits = plan_credits[:responses]
+    total_credits = monthly_credits + current_topup
+
+    account.update!(
+      limits: current_limits.merge(
+        'captain_responses_monthly' => monthly_credits,
+        'captain_responses_topup' => current_topup,
+        'captain_responses' => total_credits,
+        'captain_documents' => plan_credits[:documents]
+      )
+    )
+
+    # Reset the usage counter for the new billing period
     account.reset_response_usage
+  end
+
+  def get_plan_credits(plan_name)
+    config = InstallationConfig.find_by(name: CAPTAIN_PLAN_LIMITS_CONFIG)&.value
+    config&.dig(plan_name.downcase)&.symbolize_keys || { responses: 0, documents: 0 }
   end
 
   def enable_plan_specific_features
