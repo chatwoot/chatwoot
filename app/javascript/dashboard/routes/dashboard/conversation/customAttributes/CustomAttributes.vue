@@ -85,7 +85,7 @@ const filteredCustomAttributes = computed(() =>
     );
 
     return {
-      ...attribute,
+      id: attribute.id,
       type: 'custom_attribute',
       key: attribute.attribute_key,
       attributeKey: attribute.attribute_key,

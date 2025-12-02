@@ -130,12 +130,13 @@ const handleInputUpdate = async () => {
         :message-type="hasError ? 'error' : 'info'"
         autofocus
         custom-input-class="h-7 py-1 ltr:rounded-r-none rtl:rounded-l-none"
-        @keyup.enter="handleInputUpdate"
+        @enter="handleInputUpdate"
       />
       <Button
         icon="i-lucide-check"
         :color="hasError ? 'ruby' : 'blue'"
         size="sm"
+        type="button"
         class="flex-shrink-0 ltr:rounded-l-none rtl:rounded-r-none !h-7"
         @click="handleInputUpdate"
       />

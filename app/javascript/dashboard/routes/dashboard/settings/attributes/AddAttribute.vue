@@ -153,9 +153,8 @@ export default {
           attribute_display_type: this.attributeType,
           attribute_key: this.attributeKey,
           attribute_values: this.attributeListValues,
-          regex_pattern: this.regexPattern
-            ? new RegExp(this.regexPattern).toString()
-            : null,
+          // Store as plain string - new RegExp().toString() causes double escaping
+          regex_pattern: this.regexPattern || null,
           regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
