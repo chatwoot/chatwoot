@@ -31,8 +31,8 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
   def process_conversation
     return unless should_run_processor?(event_data[:message])
     return if handle_missing_dealership_id
-    return if event_data[:message].content.blank?
-
+    return if event_data[:message].content.blank? && !message_has_image?(event_data[:message])
+  
     process_stark_response
   end
 

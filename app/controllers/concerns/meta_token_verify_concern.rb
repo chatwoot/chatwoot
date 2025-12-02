@@ -3,7 +3,6 @@
 
 module MetaTokenVerifyConcern
   def verify
-    puts "========verify=========#{self.class.name}======================"
     service =
       if is_a?(Webhooks::FacebookController)
         'facebook'
@@ -15,7 +14,6 @@ module MetaTokenVerifyConcern
         'unknown'
       end
 
-      puts "=============params['hub.verify_token']==================#{params['hub.verify_token']}======================="
       if valid_token?(params['hub.verify_token'])
         Rails.logger.info("#{service.capitalize} webhook verified")
         render json: params['hub.challenge']

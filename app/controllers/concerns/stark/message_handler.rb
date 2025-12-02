@@ -15,7 +15,6 @@ module Stark
 
     def create_bot_response_message(conversation, content, attachments = nil, metadata = {})
       if instagram_channel?(conversation) && attachments.is_a?(Array) && attachments.any?
-        puts '=================== Instagram with attachments ================='
 
         # 1. Send main content only once
         if content.present?
@@ -72,7 +71,6 @@ module Stark
         end
 
       else
-        puts '=================== Non-Instagram or no attachments ================='
         # Non-Instagram: default behavior
         create_text_message(conversation, content, metadata) if content.present?
         create_attachment_messages(conversation, attachments) if attachments.is_a?(Array)

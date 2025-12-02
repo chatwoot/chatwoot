@@ -80,8 +80,6 @@ module Stark
     end
 
     def build_follow_up_payload
-      puts "format_recent_messages: #{format_recent_messages.map { |message| message[:conversation_id] }}"
-      puts "format_recent_messages: #{format_recent_messages}"
       {
         follow_up: true,
         follow_up_number: @follow_up_number,
@@ -147,6 +145,7 @@ module Stark
           created_at: message.created_at,
           is_follow_up_message: message.content_attributes['follow_up'] || false,
           is_image_attached: message_has_image?(message),
+          is_story_mentioned: is_story_mentioned?(message),
           metadata: message.metadata
         }
       end
@@ -156,6 +155,12 @@ module Stark
       return false if message.nil?
 
       message.attachments.exists?(file_type: :image)
+    end
+
+    def is_story_mentioned?(message)
+      return false if message.nil?
+
+      message.content_attributes[:image_type] == 'story_mention'
     end
 
     def log_and_notify_slack(message)
