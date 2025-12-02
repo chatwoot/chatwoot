@@ -232,7 +232,7 @@ class Conversation < ApplicationRecord
     return unless account.queue_enabled?
     return unless saved_change_to_assignee_id? || saved_change_to_status?
 
-    Queue::ProcessQueueJob.perform_later(account.id) if resolved? || assignee_id.blank?
+    Queue::ProcessQueueJob.perform_later(account.id, inbox_id) if resolved? || assignee_id.blank?
   end
 
   def handle_resolved_status_change
