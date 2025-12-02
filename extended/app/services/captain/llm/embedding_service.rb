@@ -1,7 +1,7 @@
 require 'openai'
 
-require_relative '../../../../../lib/captain/llm/providers/openai_provider'
-require_relative '../../../../../lib/captain/llm/providers/gemini_provider'
+require_relative '../../../../lib/captain/llm/providers/openai_provider'
+require_relative '../../../../lib/captain/llm/providers/gemini_provider'
 
 class Captain::Llm::EmbeddingService
   def initialize(api_key: nil, provider: nil)
