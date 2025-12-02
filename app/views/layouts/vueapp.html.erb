@@ -61,10 +61,11 @@
       }
       window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_FRONTEND_DSN', '') || ENV.fetch('SENTRY_DSN', '') %>'
     </script>
-    <% if @global_config['ANALYTICS_TOKEN'].present? %>
+    <% if ENV['POSTHOG_API_KEY'].present? || @global_config['ANALYTICS_TOKEN'].present? %>
     <script>
       window.analyticsConfig = {
-        token: '<%= @global_config['ANALYTICS_TOKEN'] %>',
+        token: '<%= ENV.fetch('POSTHOG_API_KEY', nil) || @global_config['ANALYTICS_TOKEN'] %>',
+        host: '<%= ENV.fetch('POSTHOG_API_HOST', 'https://eu.i.posthog.com') %>',
       }
     </script>
     <% end %>
