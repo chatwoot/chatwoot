@@ -1,4 +1,6 @@
 <script setup>
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
 defineProps({
   message: {
     type: String,
@@ -8,16 +10,12 @@ defineProps({
 </script>
 
 <template>
-  <div class="relative group w-[inherit] whitespace-normal z-20">
-    <fluent-icon
-      icon="info"
-      size="14"
-      class="mt-0.5 text-n-slate-11 absolute"
-    />
+  <div class="relative group flex-shrink-0 flex items-center">
+    <Icon icon="i-lucide-info" class="text-n-slate-11 size-3.5 cursor-help" />
     <div
-      class="bg-n-background w-fit ltr:left-4 rtl:right-4 top-0 border p-2.5 group-hover:flex items-center hidden absolute border-n-weak rounded-lg shadow-md"
+      class="hidden group-hover:block absolute z-50 ltr:left-5 rtl:right-5 top-0 w-max max-w-64 bg-n-alpha-3 backdrop-blur-[50px] border border-n-weak rounded-xl shadow-lg px-3 py-2"
     >
-      <p class="text-n-slate-12 mb-0 text-xs">
+      <p class="text-n-slate-12 text-xs leading-relaxed mb-0 whitespace-normal">
         {{ message }}
       </p>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, nextTick } from 'vue';
 import Draggable from 'vuedraggable';
 import { useToggle } from '@vueuse/core';
 import { useRoute } from 'vue-router';
@@ -7,9 +7,14 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
+
+import ListAttribute from 'dashboard/components-next/CustomAttributes/ListAttribute.vue';
+import CheckboxAttribute from 'dashboard/components-next/CustomAttributes/CheckboxAttribute.vue';
+import DateAttribute from 'dashboard/components-next/CustomAttributes/DateAttribute.vue';
+import OtherAttribute from 'dashboard/components-next/CustomAttributes/OtherAttribute.vue';
+import SidepanelEmptyState from 'dashboard/routes/dashboard/conversation/SidepanelEmptyState.vue';
 
 const props = defineProps({
   attributeType: {
@@ -25,11 +30,9 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  // Combine static elements with custom attributes components
-  // To allow for custom ordering
-  staticElements: {
-    type: Array,
-    default: () => [],
+  showTitle: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -85,112 +88,78 @@ const filteredCustomAttributes = computed(() =>
       ...attribute,
       type: 'custom_attribute',
       key: attribute.attribute_key,
+      attributeKey: attribute.attribute_key,
+      attributeDisplayName: attribute.attribute_display_name,
+      attributeDisplayType: attribute.attribute_display_type,
+      attributeValues: attribute.attribute_values,
+      attributeDescription: attribute.attribute_description,
+      regexPattern: attribute.regex_pattern,
+      regexCue: attribute.regex_cue,
       // Set value from customAttributes if it exists, otherwise use ''
       value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
     };
   })
 );
 
-// Order key name for UI settings
+const componentMap = {
+  list: ListAttribute,
+  checkbox: CheckboxAttribute,
+  date: DateAttribute,
+  default: OtherAttribute,
+};
+
+const getAttributeComponent = attributeType =>
+  componentMap[attributeType] || componentMap.default;
+
 const orderKey = computed(
   () => `conversation_elements_order_${props.attributeFrom}`
 );
 
-const combinedElements = computed(() => {
-  // Get saved order from UI settings
+const orderedCustomAttributes = computed(() => {
   const savedOrder = uiSettings.value[orderKey.value] ?? [];
-  const allElements = [
-    ...props.staticElements,
-    ...filteredCustomAttributes.value,
-  ];
+  if (!savedOrder.length) return filteredCustomAttributes.value;
 
-  // If no saved order exists, return in default order
-  if (!savedOrder.length) return allElements;
-
-  return allElements.sort((a, b) => {
-    // Find positions of elements in saved order
-    const aPosition = savedOrder.indexOf(a.key);
-    const bPosition = savedOrder.indexOf(b.key);
-
-    // Handle cases where elements are not in saved order:
-    // - New elements (not in saved order) go to the end
-    // - If both elements are new, maintain their relative order
-    if (aPosition === -1 && bPosition === -1) return 0;
-    if (aPosition === -1) return 1;
-    if (bPosition === -1) return -1;
-
-    return aPosition - bPosition;
+  return [...filteredCustomAttributes.value].sort((a, b) => {
+    const aPos = savedOrder.indexOf(a.key);
+    const bPos = savedOrder.indexOf(b.key);
+    // Both new: maintain relative order, new items go to end, otherwise sort by saved position
+    if (aPos === -1 && bPos === -1) return 0;
+    if (aPos === -1) return 1;
+    if (bPos === -1) return -1;
+    return aPos - bPos;
   });
 });
 
-const displayedElements = computed(() => {
-  if (showAllAttributes.value || combinedElements.value.length <= 5) {
-    return combinedElements.value;
-  }
+const displayedCustomAttributes = computed(() =>
+  showAllAttributes.value || orderedCustomAttributes.value.length <= 5
+    ? orderedCustomAttributes.value
+    : orderedCustomAttributes.value.slice(0, 5)
+);
 
-  // Show first 5 elements in the order they appear
-  return combinedElements.value.slice(0, 5);
-});
+const draggableList = ref([]);
 
-// Reorder elements with static elements position preserved
-// There is case where all the static elements will not be available (API, Email channels, etc).
-// In that case, we need to preserve the order of the static elements and
-// insert them in the correct position.
-const reorderElementsWithStaticPreservation = (
-  savedOrder = [],
-  currentOrder = []
-) => {
-  const finalOrder = [...currentOrder];
-  const visibleKeys = new Set(currentOrder);
-
-  // Process hidden static elements from saved order
-  savedOrder
-    // Find static elements that aren't currently visible
-    .filter(key => key.startsWith('static-') && !visibleKeys.has(key))
-    .forEach(staticKey => {
-      // Find next visible element after this static element in saved order
-      const nextVisible = savedOrder
-        .slice(savedOrder.indexOf(staticKey))
-        .find(key => visibleKeys.has(key));
-
-      // If next visible element found, insert before it; otherwise add to end
-      if (nextVisible) {
-        finalOrder.splice(finalOrder.indexOf(nextVisible), 0, staticKey);
-      } else {
-        finalOrder.push(staticKey);
-      }
-    });
-
-  return finalOrder;
+const syncDraggableList = () => {
+  draggableList.value = [...displayedCustomAttributes.value];
 };
 
 const onDragEnd = () => {
   dragging.value = false;
-  // Get the saved and current saved order
-  const savedOrder = uiSettings.value[orderKey.value] ?? [];
-  const currentOrder = combinedElements.value.map(({ key }) => key);
-
-  const finalOrder = reorderElementsWithStaticPreservation(
-    savedOrder,
-    currentOrder
-  );
-
   updateUISettings({
-    [orderKey.value]: finalOrder,
+    [orderKey.value]: draggableList.value.map(({ key }) => key),
   });
 };
 
 const initializeSettings = () => {
-  const currentOrder = uiSettings.value[orderKey.value];
-  if (!currentOrder) {
-    const initialOrder = combinedElements.value.map(element => element.key);
+  if (!uiSettings.value[orderKey.value]) {
     updateUISettings({
-      [orderKey.value]: initialOrder,
+      [orderKey.value]: orderedCustomAttributes.value.map(({ key }) => key),
     });
   }
 
   showAllAttributes.value =
     uiSettings.value[`show_all_attributes_${props.attributeFrom}`] || false;
+
+  syncDraggableList();
 };
 
 const onClickToggle = () => {
@@ -198,6 +167,7 @@ const onClickToggle = () => {
   updateUISettings({
     [`show_all_attributes_${props.attributeFrom}`]: showAllAttributes.value,
   });
+  nextTick(syncDraggableList);
 };
 
 const onUpdate = async (key, value) => {
@@ -244,89 +214,89 @@ const onDelete = async key => {
   }
 };
 
-const onCopy = async attributeValue => {
-  await copyTextToClipboard(attributeValue);
-  useAlert(t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
-};
-
 onMounted(() => {
   initializeSettings();
 });
-
-const evenClass = [
-  '[&>*:nth-child(odd)]:!bg-n-surface-1 [&>*:nth-child(even)]:!bg-n-slate-1',
-  'dark:[&>*:nth-child(odd)]:!bg-n-surface-2 dark:[&>*:nth-child(even)]:!bg-n-surface-1',
-];
 </script>
 
 <template>
-  <div class="conversation--details">
+  <div
+    v-if="displayedCustomAttributes.length > 0"
+    :class="{ 'mt-2': !showTitle }"
+  >
+    <div v-if="showTitle" class="py-4 flex items-center gap-2">
+      <h3 class="text-xs font-medium uppercase text-n-slate-10">
+        {{ $t('CUSTOM_ATTRIBUTES.TITLE') }}
+      </h3>
+      <div class="flex-1 border-b border-dashed border-n-strong" />
+    </div>
+
     <Draggable
-      :list="displayedElements"
+      v-model="draggableList"
       :disabled="!showAllAttributes"
       animation="200"
       ghost-class="ghost"
       handle=".drag-handle"
       item-key="key"
-      class="last:rounded-b-lg"
-      :class="evenClass"
+      class="mb-1"
       @start="dragging = true"
       @end="onDragEnd"
     >
       <template #item="{ element }">
         <div
-          class="drag-handle relative border-b border-n-weak/50 dark:border-n-weak/90"
+          class="drag-handle relative"
           :class="{
             'cursor-grab': showAllAttributes,
-            'last:border-transparent dark:last:border-transparent':
-              combinedElements.length <= 5,
           }"
         >
-          <template v-if="element.type === 'static_attribute'">
-            <slot name="staticItem" :element="element" />
-          </template>
+          <div
+            class="grid grid-cols-[140px,1fr] group/attribute items-center w-full gap-2 min-h-10"
+          >
+            <div class="flex items-center gap-1.5 min-w-0">
+              <HelperTextPopup
+                v-if="element.attributeDescription"
+                :message="element.attributeDescription"
+              />
+              <span class="text-sm font-420 truncate text-n-slate-12">
+                {{ element.attributeDisplayName }}
+              </span>
+            </div>
 
-          <template v-else>
-            <CustomAttribute
-              :key="element.id"
-              :attribute-key="element.attribute_key"
-              :attribute-type="element.attribute_display_type"
-              :values="element.attribute_values"
-              :label="element.attribute_display_name"
-              :description="element.attribute_description"
-              :value="element.value"
-              show-actions
-              :attribute-regex="element.regex_pattern"
-              :regex-cue="element.regex_cue"
-              :contact-id="contactId"
-              @update="onUpdate"
-              @delete="onDelete"
-              @copy="onCopy"
+            <component
+              :is="getAttributeComponent(element.attributeDisplayType)"
+              :attribute="element"
+              is-editing-view
+              @update="value => onUpdate(element.attributeKey, value)"
+              @delete="onDelete(element.attributeKey)"
             />
-          </template>
+          </div>
         </div>
       </template>
     </Draggable>
 
-    <p
-      v-if="!displayedElements.length && emptyStateMessage"
-      class="p-3 text-center"
+    <!-- Show more and show less buttons -->
+    <div
+      v-if="orderedCustomAttributes.length > 5"
+      class="flex items-center h-10"
     >
-      {{ emptyStateMessage }}
-    </p>
-    <!-- Show more and show less buttons show it if the combinedElements length is greater than 5 -->
-    <div v-if="combinedElements.length > 5" class="flex items-center px-2 py-2">
       <NextButton
-        ghost
-        xs
+        link
+        sm
         :icon="
           showAllAttributes ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
         "
         :label="toggleButtonText"
+        class="!text-n-slate-11 hover:!text-n-slate-12 hover:!no-underline !py-2"
         @click="onClickToggle"
       />
     </div>
   </div>
+
+  <!-- Empty state -->
+  <SidepanelEmptyState
+    v-if="!displayedCustomAttributes.length && emptyStateMessage"
+    :message="emptyStateMessage"
+  />
 </template>
 
 <style lang="scss" scoped>

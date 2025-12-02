@@ -203,6 +203,7 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Custom Attributes",
     "BUTTON": "Add custom attribute",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "SHOW_MORE": "Show all attributes",

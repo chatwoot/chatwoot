@@ -114,24 +114,24 @@ const handleInputUpdate = async () => {
 </script>
 
 <template>
-  <div
-    class="flex items-center w-full min-w-0 gap-2"
-    :class="{
-      'justify-start': isEditingView,
-      'justify-end': !isEditingView,
-    }"
-  >
+  <div class="flex items-center w-full min-w-0 gap-1.5 justify-end">
     <span
       v-if="!isEditingValue"
-      class="min-w-0 text-sm"
-      :class="{
-        'cursor-pointer text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
-          !isEditingView,
-        'text-n-slate-12 truncate': isEditingView && !isAttributeTypeLink,
-        'truncate hover:text-n-brand text-n-blue-text':
-          isEditingView && isAttributeTypeLink,
+      v-tooltip.top="{
+        content: !isAttributeTypeLink ? attribute.value : '',
+        delay: { show: 1000, hide: 0 },
       }"
-      @click="toggleEditValue(!isEditingView)"
+      class="min-w-0 text-sm cursor-pointer font-420"
+      :class="{
+        'text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
+          !isEditingView,
+        'text-n-slate-12 truncate':
+          isEditingView && !isAttributeTypeLink && attribute.value,
+        'text-n-slate-10 truncate': isEditingView && !attribute.value,
+        'truncate hover:text-n-brand text-n-blue-10':
+          isEditingView && isAttributeTypeLink && attribute.value,
+      }"
+      @click="toggleEditValue(true)"
     >
       <a
         v-if="isAttributeTypeLink && attribute.value && isEditingView"
@@ -156,19 +156,20 @@ const handleInputUpdate = async () => {
       class="flex items-center gap-1"
     >
       <Button
-        variant="faded"
-        color="slate"
-        icon="i-lucide-pencil"
-        size="xs"
-        class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
+        ghost
+        slate
+        icon="i-lucide-pen-line"
+        xs
+        class="flex-shrink-0 !size-5 !rounded"
         @click="toggleEditValue(true)"
       />
       <Button
-        variant="faded"
-        color="ruby"
+        v-if="attribute.value"
+        ghost
+        ruby
         icon="i-lucide-trash"
-        size="xs"
-        class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
+        xs
+        class="flex-shrink-0 !size-5 !rounded"
         @click="emit('delete')"
       />
     </div>
@@ -182,18 +183,18 @@ const handleInputUpdate = async () => {
         v-model="editedValue"
         :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.INPUT')"
         :type="getInputType"
-        class="w-full [&>p]:absolute [&>p]:mt-0.5 [&>p]:top-8 ltr:[&>p]:left-0 rtl:[&>p]:right-0"
+        class="w-full [&>p]:absolute [&>p]:mt-1 [&>p]:top-6 ltr:[&>p]:left-0 rtl:[&>p]:right-0"
         autofocus
         :message="attributeErrorMessage"
         :message-type="hasError ? 'error' : 'info'"
-        custom-input-class="h-8 ltr:rounded-r-none rtl:rounded-l-none"
+        custom-input-class="h-7 py-1 ltr:rounded-r-none rtl:rounded-l-none"
         @keyup.enter="handleInputUpdate"
       />
       <Button
         icon="i-lucide-check"
         :color="hasError ? 'ruby' : 'blue'"
         size="sm"
-        class="flex-shrink-0 ltr:rounded-l-none rtl:rounded-r-none"
+        class="flex-shrink-0 ltr:rounded-l-none rtl:rounded-r-none !h-7"
         @click="handleInputUpdate"
       />
     </div>
