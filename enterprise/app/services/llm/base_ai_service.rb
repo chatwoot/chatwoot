@@ -1,5 +1,10 @@
-class Llm::BaseOpenAiService
+# frozen_string_literal: true
+
+# Base service for LLM operations using RubyLLM.
+# New features should inherit from this class.
+class Llm::BaseAiService
   DEFAULT_MODEL = Llm::Config::DEFAULT_MODEL
+
   attr_reader :model
 
   def initialize
@@ -12,11 +17,6 @@ class Llm::BaseOpenAiService
   end
 
   private
-
-  def uri_base
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
-    endpoint.presence || 'https://api.openai.com/'
-  end
 
   def setup_model
     config_value = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
