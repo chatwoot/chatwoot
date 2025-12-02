@@ -7,8 +7,8 @@ class Enterprise::Billing::TopupCheckoutService
   TOPUP_OPTIONS = [
     { credits: 1000, amount: 20.0, currency: 'usd' },
     { credits: 2500, amount: 50.0, currency: 'usd' },
-    { credits: 5000, amount: 100.0, currency: 'usd' },
-    { credits: 10_000, amount: 200.0, currency: 'usd' }
+    { credits: 6000, amount: 100.0, currency: 'usd' },
+    { credits: 12_000, amount: 200.0, currency: 'usd' }
   ].freeze
 
   pattr_initialize [:account!]
