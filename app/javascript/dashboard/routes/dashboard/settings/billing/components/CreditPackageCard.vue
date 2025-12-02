@@ -20,6 +20,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  name: {
+    type: String,
+    required: true,
+  },
 });
 
 const emit = defineEmits(['select']);
@@ -38,16 +42,22 @@ const formatAmount = (amount, currency) => {
 </script>
 
 <template>
-  <button
-    type="button"
+  <label
     class="relative flex flex-col items-center p-4 border-2 rounded-lg transition-all cursor-pointer"
     :class="[
       isSelected
         ? 'border-woot-500 bg-woot-500/10 dark:bg-woot-500/20'
         : 'border-n-weak bg-n-solid-2 hover:border-n-strong',
     ]"
-    @click="emit('select')"
   >
+    <input
+      type="radio"
+      :name="name"
+      :value="credits"
+      :checked="isSelected"
+      class="sr-only"
+      @change="emit('select')"
+    />
     <span
       v-if="isPopular"
       class="absolute -top-2.5 px-2 py-0.5 text-xs font-medium rounded-full bg-woot-500 text-white"
@@ -63,5 +73,5 @@ const formatAmount = (amount, currency) => {
     <span class="mt-2 text-lg font-semibold text-n-slate-12">
       {{ formatAmount(amount, currency) }}
     </span>
-  </button>
+  </label>
 </template>

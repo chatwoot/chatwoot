@@ -86,6 +86,7 @@ defineExpose({ open, close });
       <CreditPackageCard
         v-for="option in TOPUP_OPTIONS"
         :key="option.credits"
+        name="credit-package"
         :credits="option.credits"
         :amount="option.amount"
         :currency="option.currency"
