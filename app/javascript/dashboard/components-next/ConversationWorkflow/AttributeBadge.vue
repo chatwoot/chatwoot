@@ -37,6 +37,6 @@ const displayLabel = computed(() => {
     class="flex gap-1 justify-center items-center px-1.5 py-1 rounded-md shadow outline-1 outline outline-n-container bg-n-solid-2"
   >
     <Icon :icon="iconName" class="size-4" :class="colorClass" />
-    <span class="text-sm" :class="colorClass">{{ displayLabel }}</span>
+    <span class="text-xs" :class="colorClass">{{ displayLabel }}</span>
   </div>
 </template>
