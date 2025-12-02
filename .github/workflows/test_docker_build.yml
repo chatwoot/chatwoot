@@ -5,6 +5,15 @@ on:
       - develop
       - master
   workflow_dispatch:
+# -------------- Reason ---------------
+# Required for pushing test images to GitHub Container Registry
+# ------------ Original -----------------------
+# ---------------------------------------------
+# ---------------------- Modification Begin ----------------------
+permissions:
+  contents: read
+  packages: write
+# ---------------------- Modification End ------------------------
 jobs:
   test-build:
     strategy:
@@ -21,7 +30,7 @@ jobs:
           # ---------------------------------------------
           # ---------------------- Modification Begin ----------------------
           # ---------------------- Modification End ------------------------
-            
+
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
@@ -72,4 +81,3 @@ jobs:
             type=gha,scope=develop-${{ matrix.platform }}
           # ---------------------- Modification End ------------------------
           cache-to: type=gha,mode=max,scope=${{ matrix.platform }}
-          
