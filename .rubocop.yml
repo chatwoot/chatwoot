@@ -21,7 +21,14 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Max: 19
   Exclude:
-    - 'enterprise/lib/captain/agent.rb'
+    # -------------- Reason ---------------
+    # Updated paths to point to 'extended' directory
+    # ------------ Original -----------------------
+    # - 'enterprise/lib/captain/agent.rb'
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    - 'extended/lib/captain/agent.rb'
+    # ---------------------- Modification End ----------------------
 
 RSpec/ExampleLength:
   Max: 50
@@ -87,8 +94,17 @@ Metrics/ModuleLength:
 
 Rails/HelperInstanceVariable:
   Exclude:
-    - enterprise/app/helpers/captain/chat_helper.rb
-    - 'enterprise/app/helpers/captain/tool_execution_helper.rb'
+    # -------------- Reason ---------------
+    # Updated paths to point to 'extended' directory
+    # ------------ Original -----------------------
+    # - enterprise/app/helpers/captain/chat_helper.rb
+    # - 'enterprise/app/helpers/captain/tool_execution_helper.rb'
+    # ---------------------------------------------
+
+    # ---------------------- Modification Begin ----------------------
+    - extended/app/helpers/captain/chat_helper.rb
+    - 'extended/app/helpers/captain/tool_execution_helper.rb'
+    # ---------------------- Modification End ------------------------
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
@@ -118,13 +134,13 @@ Rails/RedundantPresenceValidationOnBelongsTo:
 
 Rails/InverseOf:
   Exclude:
-    - enterprise/app/models/captain/assistant.rb
+    - extended/app/models/captain/assistant.rb
 
 Rails/UniqueValidationWithoutIndex:
   Exclude:
     - app/models/canned_response.rb
     - app/models/telegram_bot.rb
-    - enterprise/app/models/captain_inbox.rb
+    - extended/app/models/captain_inbox.rb
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
     - 'app/models/contact.rb'

@@ -10,7 +10,7 @@
     "test:coverage": "TZ=UTC vitest --no-watch --no-cache --coverage",
     "start:dev": "foreman start -f ./Procfile.dev",
     "start:test": "RAILS_ENV=test foreman start -f ./Procfile.test",
-    "dev": "overmind start -f ./Procfile.dev",
+    "dev": "rm -f .overmind.sock && overmind start -f ./Procfile.dev",
     "ruby:prettier": "bundle exec rubocop -a",
     "build:sdk": "BUILD_MODE=library vite build",
     "prepare": "husky install",

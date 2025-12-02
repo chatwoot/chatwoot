@@ -27,7 +27,14 @@ export function useConfig() {
    * Indicates whether the current instance is an enterprise version.
    * @type {boolean}
    */
-  const isEnterprise = config.isEnterprise === 'true';
+  // -------------- Reason ---------------
+  // Forces frontend components to unlock Enterprise features
+  // ------------ Original -----------------------
+  // const isEnterprise = config.isEnterprise === 'true';
+  // ---------------------------------------------
+  // ---------------------- Modification Begin ----------------------
+  const isEnterprise = true;
+  // ---------------------- Modification End ------------------------
 
   /**
    * The name of the enterprise plan, if applicable.

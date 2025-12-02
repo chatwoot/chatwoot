@@ -82,7 +82,14 @@ RSpec.describe Captain::PromptRenderer do
     end
 
     it 'constructs correct template path' do
-      expected_path = Rails.root.join('enterprise/lib/captain/prompts/my_template.liquid')
+      # -------------- Reason ---------------
+      # Modified to check for 'extended' directory instead of 'enterprise'
+      # ------------ Original -----------------------
+      # expected_path = Rails.root.join('enterprise/lib/captain/prompts/my_template.liquid')
+      # ---------------------------------------------
+      # ---------------------- Modification Begin ----------------------
+      expected_path = Rails.root.join('extended/lib/captain/prompts/my_template.liquid')
+      # ---------------------- Modification End ------------------------
       allow(File).to receive(:exist?).with(expected_path).and_return(true)
       allow(File).to receive(:read).with(expected_path).and_return('test content')
 

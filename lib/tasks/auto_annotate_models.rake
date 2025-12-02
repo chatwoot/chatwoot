@@ -20,10 +20,21 @@ if Rails.env.development?
       'show_complete_foreign_keys' => 'false',
       'show_indexes' => 'true',
       'simple_indexes' => 'false',
+      # -------------- Reason ---------------
+      # Updated model directory to point to 'extended'
+      # ------------ Original -----------------------
+      # 'model_dir' => [
+      #   'app/models',
+      #   'enterprise/app/models',
+      # ],
+      # ---------------------------------------------
+
+      # ---------------------- Modification Begin ----------------------
       'model_dir' => [
         'app/models',
-        'enterprise/app/models',
+        'extended/app/models',
       ],
+      # ---------------------- Modification End ------------------------
       'root_dir' => '',
       'include_version' => 'false',
       'require' => '',

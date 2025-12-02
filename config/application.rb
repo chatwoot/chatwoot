@@ -39,16 +39,31 @@ module Chatwoot
     config.load_defaults 7.0
 
     config.eager_load_paths << Rails.root.join('lib')
-    config.eager_load_paths << Rails.root.join('enterprise/lib')
-    config.eager_load_paths << Rails.root.join('enterprise/listeners')
+    # -------------- Reason ---------------
+    # Modified to load from 'extended' directory
+    # ------------ Original -----------------------
+    # config.eager_load_paths << Rails.root.join('enterprise/lib')
+    # config.eager_load_paths << Rails.root.join('enterprise/listeners')
+    #
+    # config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
+    #     # # Add enterprise views to the view paths
+    # config.paths['app/views'].unshift('enterprise/app/views')
+    #
+    # # Load enterprise initializers alongside standard initializers
+    # enterprise_initializers = Rails.root.join('enterprise/config/initializers')
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    config.eager_load_paths << Rails.root.join('extended/lib')
+    config.eager_load_paths << Rails.root.join('extended/listeners')
     # rubocop:disable Rails/FilePath
-    config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
+    config.eager_load_paths += Dir["#{Rails.root}/extended/app/**"]
     # rubocop:enable Rails/FilePath
     # Add enterprise views to the view paths
-    config.paths['app/views'].unshift('enterprise/app/views')
+    config.paths['app/views'].unshift('extended/app/views')
 
     # Load enterprise initializers alongside standard initializers
-    enterprise_initializers = Rails.root.join('enterprise/config/initializers')
+    enterprise_initializers = Rails.root.join('extended/config/initializers')
+    # ---------------------- Modification End ------------------------
     Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
 
     # Settings in config/environments/* take precedence over those specified here.

@@ -76,7 +76,13 @@ class DashboardController < ActionController::Base
       FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v18.0'),
       WHATSAPP_APP_ID: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
       WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
-      IS_ENTERPRISE: ChatwootApp.enterprise?,
+      # -------------- Reason ---------------
+      # Keep the IS_ENTERPRISE as false to ensure it displays as the community plan
+      # ------------ Original -----------------------
+      # IS_ENTERPRISE: ChatwootApp.enterprise?,
+      # ------------ Modification Begin ---------------
+      IS_ENTERPRISE: false,
+      # ------------ Modification End ---------------
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH,
       ALLOWED_LOGIN_METHODS: allowed_login_methods
@@ -86,7 +92,14 @@ class DashboardController < ActionController::Base
   def allowed_login_methods
     methods = ['email']
     methods << 'google_oauth' if GlobalConfigService.load('ENABLE_GOOGLE_OAUTH_LOGIN', 'true').to_s != 'false'
-    methods << 'saml' if ChatwootHub.pricing_plan != 'community' && GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s != 'false'
+    # -------------- Reason ---------------
+    # Allows SAML login to be enabled via config even on Community plan
+    # ------------ Original -----------------------
+    # methods << 'saml' if ChatwootHub.pricing_plan != 'community' && GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s != 'false'
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    methods << 'saml' if GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s != 'false'
+    # ---------------------- Modification End ------------------------
     methods
   end
 
