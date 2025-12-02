@@ -14,11 +14,11 @@ const { t } = useI18n();
 const TOPUP_OPTIONS = [
   { credits: 1000, amount: 20.0, currency: 'usd' },
   { credits: 2500, amount: 50.0, currency: 'usd' },
-  { credits: 5000, amount: 100.0, currency: 'usd' },
-  { credits: 10000, amount: 200.0, currency: 'usd' },
+  { credits: 6000, amount: 100.0, currency: 'usd' },
+  { credits: 12000, amount: 200.0, currency: 'usd' },
 ];
 
-const POPULAR_CREDITS_AMOUNT = 5000;
+const POPULAR_CREDITS_AMOUNT = 6000;
 
 const dialogRef = ref(null);
 const selectedCredits = ref(null);
@@ -96,9 +96,12 @@ defineExpose({ open, close });
       />
     </div>
 
-    <div class="p-4 mt-4 border rounded-lg bg-n-alpha-1 border-n-weak">
+    <div class="p-4 mt-6 rounded-lg bg-n-solid-2 border border-n-weak">
       <p class="text-sm text-n-slate-11">
-        {{ $t('BILLING_SETTINGS.TOPUP.NOTE') }}
+        <span class="font-semibold text-n-slate-12">{{
+          $t('BILLING_SETTINGS.TOPUP.NOTE_TITLE')
+        }}</span>
+        {{ $t('BILLING_SETTINGS.TOPUP.NOTE_DESCRIPTION') }}
       </p>
     </div>
 
