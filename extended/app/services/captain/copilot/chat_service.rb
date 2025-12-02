@@ -1,17 +1,19 @@
 require 'openai'
 
-class Captain::Copilot::ChatService
+class Captain::Copilot::ChatService < Llm::BaseOpenAiService
+  include Captain::ChatHelper
+
   attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
 
   def initialize(assistant, config)
+    super()
+
     @assistant = assistant
     @account = assistant.account
     @user = nil
     @copilot_thread = nil
     @previous_history = []
     @conversation_id = config[:conversation_id]
-    @llm = Captain::LlmService.new(api_key: ENV.fetch('OPENAI_API_KEY', nil))
-
     setup_user(config)
     setup_message_history(config)
     register_tools
@@ -38,7 +40,7 @@ class Captain::Copilot::ChatService
   end
 
   def build_messages(config)
-    messages = [system_message]
+    messages= [system_message]
     messages << account_id_context
     messages += @previous_history if @previous_history.present?
     messages += current_viewing_history(config[:conversation_id]) if config[:conversation_id].present?
@@ -47,7 +49,7 @@ class Captain::Copilot::ChatService
 
   def setup_message_history(config)
     Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Previous History: #{config[:previous_history]&.length || 0}"
+      "#{self.class.name} Assistant: #{@assistant.id}, Previous History: #{config[:previous_history]&.length || 0}, Language: #{config[:language]}"
     )
 
     @copilot_thread = @account.copilot_threads.find_by(id: config[:copilot_thread_id]) if config[:copilot_thread_id].present?
@@ -104,50 +106,16 @@ class Captain::Copilot::ChatService
     }]
   end
 
-  def request_chat_completion
-    response = @llm.call(@messages, @tool_registry.registered_tools, json_mode: false)
-
-    # Handle tool calls if present
-    if response[:tool_call]
-      handle_tool_call(response)
-    else
-      output = response[:output]
-      persist_message(output) if output.present?
-      output
-    end
-  end
-
-  def handle_tool_call(response)
-    tool_call = response[:tool_call]
-    function = tool_call['function']
-    name = function['name']
-
-    begin
-      args = JSON.parse(function['arguments'])
-      # Execute tool
-      result = @tool_registry.send(name, args)
-    rescue NoMethodError
-      result = 'Tool not available'
-    end
-
-    # Append tool call and result
-    @messages << { role: 'assistant', content: nil, tool_calls: [tool_call] }
-    @messages << { role: 'tool', tool_call_id: tool_call['id'], name: name, content: result.to_s }
-
-    # Request final response
-    final_response = @llm.call(@messages, @tool_registry.registered_tools, json_mode: false)
-    output = final_response[:output]
-    persist_message(output) if output.present?
-    output
-  end
-
   def persist_message(message, message_type = 'assistant')
     return if @copilot_thread.blank?
-    return if message.blank?
 
     @copilot_thread.copilot_messages.create!(
       message: message,
       message_type: message_type
     )
+  end
+
+  def feature_name
+    'copilot'
   end
 end

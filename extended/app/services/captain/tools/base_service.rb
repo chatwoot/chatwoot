@@ -1,5 +1,5 @@
 class Captain::Tools::BaseService
-  attr_reader :assistant, :user
+  attr_accessor :assistant
 
   def initialize(assistant, user: nil)
     @assistant = assistant
@@ -7,19 +7,19 @@ class Captain::Tools::BaseService
   end
 
   def name
-    raise NotImplementedError, "#{self.class.name} must implement #name"
+    raise NotImplementedError, "#{self.class} must implement name"
   end
 
   def description
-    raise NotImplementedError, "#{self.class.name} must implement #description"
+    raise NotImplementedError, "#{self.class} must implement description"
   end
 
   def parameters
-    raise NotImplementedError, "#{self.class.name} must implement #parameters"
+    raise NotImplementedError, "#{self.class} must implement parameters"
   end
 
-  def execute(args)
-    raise NotImplementedError, "#{self.class.name} must implement #execute"
+  def execute(arguments)
+    raise NotImplementedError, "#{self.class} must implement execute"
   end
 
   def to_registry_format
@@ -37,26 +37,17 @@ class Captain::Tools::BaseService
     true
   end
 
-  protected
-
-  def authorized_for?(permission_key)
-    return false unless @user
-
-    member = find_account_user
-    return false unless member
-
-    # Check custom role permissions if present
-    return member.custom_role.permissions.include?(permission_key) if member.custom_role.present?
-
-    # Default to admin/agent check
-    member.administrator? || member.agent?
-  end
-
-  alias user_has_permission authorized_for?
-
   private
 
-  def find_account_user
-    AccountUser.find_by(account_id: @assistant.account_id, user_id: @user.id)
+  def user_has_permission(permission)
+    return false if @user.blank?
+
+    account_user = AccountUser.find_by(account_id: @assistant.account_id, user_id: @user.id)
+    return false if account_user.blank?
+
+    return account_user.custom_role.permissions.include?(permission) if account_user.custom_role.present?
+
+    # Default permission for agents without custom roles
+    account_user.administrator? || account_user.agent?
   end
 end

@@ -1,70 +1,60 @@
-require 'net/http'
-require 'nokogiri'
-require 'reverse_markdown'
-
 class Captain::Tools::SimplePageCrawlService
-  attr_reader :url
+  attr_reader :external_link
 
-  def initialize(url)
-    @url = url
-    @uri = URI(url)
-    fetch_content
+  def initialize(external_link)
+    @external_link = external_link
+    @doc = Nokogiri::HTML(HTTParty.get(external_link).body)
   end
 
   def page_links
-    xml_sitemap? ? parse_sitemap_links : parse_html_links
+    sitemap? ? extract_links_from_sitemap : extract_links_from_html
   end
 
   def page_title
-    @doc.at_xpath('//title')&.text&.strip
+    title_element = @doc.at_xpath('//title')
+    title_element&.text&.strip
   end
 
   def body_text_content
-    body = @doc.at_xpath('//body')
-    return '' unless body
-
-    ReverseMarkdown.convert(body, unknown_tags: :bypass, github_flavored: true)
+    ReverseMarkdown.convert @doc.at_xpath('//body'), unknown_tags: :bypass, github_flavored: true
   end
 
   def meta_description
-    @doc.at_css('meta[name="description"]')&.[]('content')&.strip
+    meta_desc = @doc.at_css('meta[name="description"]')
+    return nil unless meta_desc && meta_desc['content']
+
+    meta_desc['content'].strip
   end
 
   def favicon_url
-    link = @doc.at_css('link[rel*="icon"]')
-    return nil unless link && link['href']
+    favicon_link = @doc.at_css('link[rel*="icon"]')
+    return nil unless favicon_link && favicon_link['href']
 
-    absolute_url(link['href'])
+    resolve_url(favicon_link['href'])
   end
 
   private
 
-  def fetch_content
-    response = Net::HTTP.get_response(@uri)
-    raise "Failed to fetch content: #{response.code}" unless response.is_a?(Net::HTTPSuccess)
-
-    @doc = Nokogiri::HTML(response.body)
+  def sitemap?
+    @external_link.end_with?('.xml')
   end
 
-  def xml_sitemap?
-    @url.end_with?('.xml')
-  end
-
-  def parse_sitemap_links
+  def extract_links_from_sitemap
     @doc.xpath('//loc').to_set(&:text)
   end
 
-  def parse_html_links
-    @doc.xpath('//a/@href').filter_map do |href|
-      absolute_url(href.value)
-    end.to_set
+  def extract_links_from_html
+    @doc.xpath('//a/@href').to_set do |link|
+      absolute_url = URI.join(@external_link, link.value).to_s
+      absolute_url
+    end
   end
 
-  def absolute_url(href)
-    return href if href.start_with?('http')
+  def resolve_url(url)
+    return url if url.start_with?('http')
 
-    URI.join(@url, href).to_s
-  rescue URI::InvalidURIError
-    nil
+    URI.join(@external_link, url).to_s
+  rescue StandardError
+    url
   end
 end

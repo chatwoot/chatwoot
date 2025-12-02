@@ -51,7 +51,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
     end
   end
 
-  describe '#process_attachments' do
+  describe '#attachment_parts' do
     let(:message) { create(:message, content: nil) }
     let(:attachments) { message.attachments }
 
@@ -62,7 +62,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
       end
 
       it 'includes image parts' do
-        result = service.send(:process_attachments, attachments)
+        result = service.send(:attachment_parts, attachments)
         expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
       end
     end
@@ -82,7 +82,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
 
       it 'includes transcription text part' do
         audio_attachment # trigger creation
-        result = service.send(:process_attachments, attachments)
+        result = service.send(:attachment_parts, attachments)
         expect(result).to include({ type: 'text', text: 'Audio transcription text' })
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
       end
 
       it 'includes generic attachment message' do
-        result = service.send(:process_attachments, attachments)
+        result = service.send(:attachment_parts, attachments)
         expect(result).to include({ type: 'text', text: 'User has shared an attachment' })
       end
     end
@@ -129,7 +129,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
         audio_attachment    # trigger creation
         document_attachment # trigger creation
 
-        result = service.send(:process_attachments, attachments)
+        result = service.send(:attachment_parts, attachments)
         expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
         expect(result).to include({ type: 'text', text: 'Audio text' })
         expect(result).to include({ type: 'text', text: 'User has shared an attachment' })
@@ -137,7 +137,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
     end
   end
 
-  describe '#extract_image_parts' do
+  describe '#image_parts' do
     let(:message) { create(:message, content: nil) }
 
     context 'with valid image attachments' do
@@ -158,7 +158,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
         image2 # trigger creation
 
         image_attachments = message.attachments.where(file_type: :image)
-        result = service.send(:extract_image_parts, image_attachments)
+        result = service.send(:image_parts, image_attachments)
 
         expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image1.jpg' } })
         expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image2.jpg' } })
@@ -180,14 +180,14 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
         image_attachment # trigger creation
 
         image_attachments = message.attachments.where(file_type: :image)
-        result = service.send(:extract_image_parts, image_attachments)
+        result = service.send(:image_parts, image_attachments)
 
         expect(result).to be_empty
       end
     end
   end
 
-  describe '#resolve_url' do
+  describe '#get_attachment_url' do
     let(:attachment) do
       attachment = message.attachments.build(account_id: message.account_id, file_type: :image)
       attachment.save!
@@ -198,7 +198,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
       before { attachment.update(external_url: 'https://example.com/image.jpg') }
 
       it 'returns external_url' do
-        expect(service.send(:resolve_url, attachment)).to eq('https://example.com/image.jpg')
+        expect(service.send(:get_attachment_url, attachment)).to eq('https://example.com/image.jpg')
       end
     end
 
@@ -211,7 +211,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
       end
 
       it 'returns file_url' do
-        expect(service.send(:resolve_url, attachment)).to eq('https://local.com/file.jpg')
+        expect(service.send(:get_attachment_url, attachment)).to eq('https://local.com/file.jpg')
       end
     end
 
@@ -222,18 +222,18 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
       end
 
       it 'returns nil' do
-        expect(service.send(:resolve_url, attachment)).to be_nil
+        expect(service.send(:get_attachment_url, attachment)).to be_nil
       end
     end
   end
 
-  describe '#transcribe_audio' do
+  describe '#extract_audio_transcriptions' do
     let(:message) { create(:message, content: nil) }
 
     context 'with no audio attachments' do
-      it 'returns nil' do
-        result = service.send(:transcribe_audio, message.attachments)
-        expect(result).to be_nil
+      it 'returns empty string' do
+        result = service.send(:extract_audio_transcriptions, message.attachments)
+        expect(result).to eq('')
       end
     end
 
@@ -264,7 +264,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
         audio2 # trigger creation
 
         attachments = message.attachments
-        result = service.send(:transcribe_audio, attachments)
+        result = service.send(:extract_audio_transcriptions, attachments)
         expect(result).to eq('First audio text. Second audio text.')
       end
     end
@@ -282,27 +282,27 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
         )
       end
 
-      it 'returns nil for failed transcriptions' do
+      it 'returns empty string for failed transcriptions' do
         audio_attachment # trigger creation
 
         attachments = message.attachments
-        result = service.send(:transcribe_audio, attachments)
-        expect(result).to be_nil
+        result = service.send(:extract_audio_transcriptions, attachments)
+        expect(result).to eq('')
       end
     end
   end
 
   describe 'private helper methods' do
-    describe '#build_text_block' do
+    describe '#text_part' do
       it 'returns correct text part format' do
-        result = service.send(:build_text_block, 'Hello world')
+        result = service.send(:text_part, 'Hello world')
         expect(result).to eq({ type: 'text', text: 'Hello world' })
       end
     end
 
-    describe '#build_image_block' do
+    describe '#image_part' do
       it 'returns correct image part format' do
-        result = service.send(:build_image_block, 'https://example.com/image.jpg')
+        result = service.send(:image_part, 'https://example.com/image.jpg')
         expect(result).to eq({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
       end
     end

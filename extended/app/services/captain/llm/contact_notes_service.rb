@@ -1,50 +1,57 @@
-class Captain::Llm::ContactNotesService
+class Captain::Llm::ContactNotesService < Llm::BaseOpenAiService
   def initialize(assistant, conversation)
+    super()
     @assistant = assistant
     @conversation = conversation
     @contact = conversation.contact
-    @llm = Captain::LlmService.new(api_key: ENV.fetch('OPENAI_API_KEY', nil)) # Or from assistant config
+    @content = "#Contact\n\n#{@contact.to_llm_text} \n\n#Conversation\n\n#{@conversation.to_llm_text}"
   end
 
   def generate_and_update_notes
-    notes = extract_notes
-    notes.each do |note|
+    generate_notes.each do |note|
       @contact.notes.create!(content: note)
     end
   end
 
   private
 
-  def extract_notes
-    language = @conversation.account.locale_english_name
-    messages = [
-      { role: 'system', content: Captain::Llm::SystemPromptsService.notes_generator(language) },
-      { role: 'user', content: conversation_context }
-    ]
+  attr_reader :content
 
-    response = @llm.call(messages, [], json_mode: true)
-    parse_result(response[:output])
-  rescue StandardError => e
-    Rails.logger.error("ContactNotesService Error: #{e.message}")
+  def generate_notes
+    response = @client.chat(parameters: chat_parameters)
+    parse_response(response)
+  rescue OpenAI::Error => e
+    Rails.logger.error "OpenAI API Error: #{e.message}"
     []
   end
 
-  def conversation_context
-    <<~TEXT
-      # Contact
-      #{@contact.try(:to_llm_text) || @contact.name}
+  def chat_parameters
+    account_language = @conversation.account.locale_english_name
+    prompt = Captain::Llm::SystemPromptsService.notes_generator(account_language)
 
-      # Conversation
-      #{@conversation.try(:to_llm_text) || @conversation.messages.pluck(:content).join("\n")}
-    TEXT
+    {
+      model: @model,
+      response_format: { type: 'json_object' },
+      messages: [
+        {
+          role: 'system',
+          content: prompt
+        },
+        {
+          role: 'user',
+          content: content
+        }
+      ]
+    }
   end
 
-  def parse_result(output)
-    return [] if output.blank?
+  def parse_response(response)
+    content = response.dig('choices', 0, 'message', 'content')
+    return [] if content.nil?
 
-    data = JSON.parse(output)
-    data['notes'] || []
-  rescue JSON::ParserError
+    JSON.parse(content.strip).fetch('notes', [])
+  rescue JSON::ParserError => e
+    Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []
   end
 end

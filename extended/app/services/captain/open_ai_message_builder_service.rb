@@ -1,91 +1,60 @@
 class Captain::OpenAiMessageBuilderService
-  def initialize(message:)
-    @message = message
-  end
+  pattr_initialize [:message!]
 
   def generate_content
-    components = []
-
-    # Add text content if present
-    components << build_text_block(@message.content) if @message.content.present?
-
-    # Process attachments if any
-    components.concat(process_attachments(@message.attachments)) if @message.attachments.any?
-
-    return fallback_message if components.empty?
-
-    # Return simple string if only one text component
-    return components.first[:text] if components.one? && components.first[:type] == 'text'
-
-    components
-  end
-
-  private
-
-  def build_text_block(content)
-    { type: 'text', text: content }
-  end
-
-  def build_image_block(url)
-    { type: 'image_url', image_url: { url: url } }
-  end
-
-  def process_attachments(attachments)
     parts = []
+    parts << text_part(@message.content) if @message.content.present?
+    parts.concat(attachment_parts(@message.attachments)) if @message.attachments.any?
 
-    # Handle images
-    images = attachments.where(file_type: :image)
-    parts.concat(extract_image_parts(images))
-
-    # Handle audio transcriptions
-    transcription = transcribe_audio(attachments)
-    parts << build_text_block(transcription) if transcription.present?
-
-    # Handle other file types
-    parts << build_text_block('User has shared an attachment') if attachments.where.not(file_type: %i[image audio]).exists?
+    return 'Message without content' if parts.blank?
+    return parts.first[:text] if parts.one? && parts.first[:type] == 'text'
 
     parts
   end
 
-  def extract_image_parts(images)
-    images.filter_map do |img|
-      url = resolve_url(img)
-      url.present? ? build_image_block(url) : nil
+  private
+
+  def text_part(text)
+    { type: 'text', text: text }
+  end
+
+  def image_part(image_url)
+    { type: 'image_url', image_url: { url: image_url } }
+  end
+
+  def attachment_parts(attachments)
+    image_attachments = attachments.where(file_type: :image)
+    image_content = image_parts(image_attachments)
+
+    transcription = extract_audio_transcriptions(attachments)
+    transcription_part = text_part(transcription) if transcription.present?
+
+    attachment_part = text_part('User has shared an attachment') if attachments.where.not(file_type: %i[image audio]).exists?
+
+    [image_content, transcription_part, attachment_part].flatten.compact
+  end
+
+  def image_parts(image_attachments)
+    image_attachments.each_with_object([]) do |attachment, parts|
+      url = get_attachment_url(attachment)
+      parts << image_part(url) if url.present?
     end
   end
 
-  def resolve_url(attachment)
+  def get_attachment_url(attachment)
     return attachment.download_url if attachment.download_url.present?
     return attachment.external_url if attachment.external_url.present?
 
     attachment.file.attached? ? attachment.file_url : nil
   end
 
-  def transcribe_audio(attachments)
-    audio_attachments = attachments.select(&:audio?)
-    return nil if audio_attachments.empty?
+  def extract_audio_transcriptions(attachments)
+    audio_attachments = attachments.where(file_type: :audio)
+    return '' if audio_attachments.blank?
 
-    results = audio_attachments.filter_map { |attachment| process_audio_transcription(attachment) }
-    results.join(' ').presence
-  end
-
-  def process_audio_transcription(attachment)
-    result = Messages::AudioTranscriptionService.new(attachment).perform
-    return nil if transcription_failed?(result)
-
-    extract_transcription_text(result)
-  end
-
-  def transcription_failed?(result)
-    result.is_a?(Hash) && (result[:error].present? || result[:transcriptions].blank?)
-  end
-
-  def extract_transcription_text(result)
-    text = result.is_a?(Hash) ? result[:transcriptions] : result
-    text.to_s.strip
-  end
-
-  def fallback_message
-    'Message without content'
+    audio_attachments.map do |attachment|
+      result = Messages::AudioTranscriptionService.new(attachment).perform
+      result[:success] ? result[:transcriptions] : ''
+    end.join
   end
 end

@@ -9,7 +9,6 @@ class Captain::Agent
     @messages = config[:messages] || []
     @max_iterations = config[:max_iterations] || 10
     @llm = Captain::LlmService.new(api_key: config[:secrets][:OPENAI_API_KEY])
-    @model = config[:model]
     @logger = Rails.logger
 
     @logger.info(@prompt)
@@ -21,7 +20,7 @@ class Captain::Agent
     @max_iterations.times do |iteration|
       push_to_messages(role: 'system', content: 'Provide a final answer') if iteration == @max_iterations - 1
 
-      result = @model ? @llm.call(@messages, functions, model: @model) : @llm.call(@messages, functions)
+      result = @llm.call(@messages, functions)
       handle_llm_result(result)
 
       break if result[:stop]

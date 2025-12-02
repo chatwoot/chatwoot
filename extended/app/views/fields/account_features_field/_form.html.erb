@@ -26,15 +26,7 @@
           </span>
           <span class="text-sm text-slate-700"><%= display_name %></span>
         </div>
-        <%# -------------- Reason --------------- %>
-        <%# Allows toggling premium features in Super Admin account settings %>
-        <%# ------------ Original ----------------------- %>
-        <%# should_disable = ChatwootHub.pricing_plan == 'community' %>
-        <%# --------------------------------------------- %>
-
-        <%# ---------------------- Modification Begin ---------------------- %>
-        <% should_disable = false %>
-        <%# ---------------------- Modification End ------------------------ %>
+        <% should_disable = ChatwootHub.pricing_plan == 'community' %>
         <span><%= check_box "enabled_features", "feature_#{feature_key}", { checked: val, disabled: should_disable, class: "h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-600" }, true, false %></span>
       </div>
     <% end %>

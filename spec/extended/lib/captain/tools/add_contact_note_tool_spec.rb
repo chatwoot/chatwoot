@@ -12,16 +12,16 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
 
   describe '#description' do
     it 'returns the correct description' do
-      expect(tool.description).to eq('Append a new note to the contact profile')
+      expect(tool.description).to eq('Add a note to a contact profile')
     end
   end
 
-  describe '#to_registry_format' do
-    it 'returns the correct parameters schema' do
-      schema = tool.to_registry_format
-      expect(schema[:parameters][:properties]).to have_key(:note)
-      expect(schema[:parameters][:properties][:note][:type]).to eq('string')
-      expect(schema[:parameters][:properties][:note][:description]).to eq('Content of the note to be added')
+  describe '#parameters' do
+    it 'returns the correct parameters' do
+      expect(tool.parameters).to have_key(:note)
+      expect(tool.parameters[:note].name).to eq(:note)
+      expect(tool.parameters[:note].type).to eq('string')
+      expect(tool.parameters[:note].description).to eq('The note content to add to the contact')
     end
   end
 
@@ -33,7 +33,7 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
 
           expect do
             result = tool.perform(tool_context, note: note_content)
-            expect(result).to eq("Successfully added note to contact: #{contact.name}")
+            expect(result).to eq("Note added successfully to contact #{contact.name} (ID: #{contact.id})")
           end.to change(Note, :count).by(1)
 
           created_note = Note.last
@@ -45,8 +45,8 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
 
         it 'logs tool usage' do
           expect(tool).to receive(:log_tool_usage).with(
-            'contact_note_creation',
-            { contact_id: contact.id, length: 19 }
+            'add_contact_note',
+            { contact_id: contact.id, note_length: 19 }
           )
 
           tool.perform(tool_context, note: 'This is a test note')
@@ -56,7 +56,7 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
       context 'with blank note content' do
         it 'returns error message' do
           result = tool.perform(tool_context, note: '')
-          expect(result).to eq('Error: Note content cannot be empty')
+          expect(result).to eq('Note content is required')
         end
 
         it 'does not create a note' do
@@ -69,7 +69,7 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
       context 'with nil note content' do
         it 'returns error message' do
           result = tool.perform(tool_context, note: nil)
-          expect(result).to eq('Error: Note content cannot be empty')
+          expect(result).to eq('Note content is required')
         end
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
 
       it 'returns error message' do
         result = tool.perform(tool_context, note: 'Some note')
-        expect(result).to eq('Error: Contact context missing')
+        expect(result).to eq('Contact not found')
       end
 
       it 'does not create a note' do
@@ -94,7 +94,7 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
 
       it 'returns error message' do
         result = tool.perform(tool_context, note: 'Some note')
-        expect(result).to eq('Error: Contact context missing')
+        expect(result).to eq('Contact not found')
       end
     end
 
@@ -103,7 +103,7 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
 
       it 'returns error message' do
         result = tool.perform(tool_context, note: 'Some note')
-        expect(result).to eq('Error: Contact context missing')
+        expect(result).to eq('Contact not found')
       end
     end
   end

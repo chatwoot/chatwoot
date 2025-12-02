@@ -1,11 +1,11 @@
-class Captain::Onboarding::WebsiteAnalyzerService
+class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseOpenAiService
   MAX_CONTENT_LENGTH = 8000
 
   def initialize(website_url)
+    super()
     @website_url = normalize_url(website_url)
     @website_content = nil
     @favicon_url = nil
-    @llm = Captain::LlmService.new(api_key: ENV.fetch('OPENAI_API_KEY', nil))
   end
 
   def analyze
@@ -59,14 +59,17 @@ class Captain::Onboarding::WebsiteAnalyzerService
   def extract_business_info
     prompt = build_analysis_prompt
 
-    response = @llm.call(
-      [{ role: 'user', content: prompt }],
-      [],
-      model: 'gpt-4o-mini',
-      json_mode: true
+    response = client.chat(
+      parameters: {
+        model: model,
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' },
+        temperature: 0.1,
+        max_tokens: 1000
+      }
     )
 
-    parse_llm_response(response[:output])
+    parse_llm_response(response.dig('choices', 0, 'message', 'content'))
   end
 
   def build_analysis_prompt

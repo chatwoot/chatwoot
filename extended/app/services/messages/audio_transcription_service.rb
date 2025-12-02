@@ -1,13 +1,8 @@
-require 'openai'
-
-class Messages::AudioTranscriptionService
+class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
   attr_reader :attachment, :message, :account
 
   def initialize(attachment)
-    @client = OpenAI::Client.new(
-      access_token: ENV.fetch('OPENAI_API_KEY', nil),
-      log_errors: Rails.env.development?
-    )
+    super()
     @attachment = attachment
     @message = attachment.message
     @account = message.account

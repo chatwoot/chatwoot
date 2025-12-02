@@ -12,48 +12,49 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
 
   describe '#description' do
     it 'returns the correct description' do
-      expect(tool.description).to eq('Create a private internal note on the conversation')
+      expect(tool.description).to eq('Add a private note to a conversation')
     end
   end
 
-  describe '#to_registry_format' do
-    it 'returns the correct parameters schema' do
-      schema = tool.to_registry_format
-      expect(schema[:parameters][:properties]).to have_key(:note)
-      expect(schema[:parameters][:properties][:note][:type]).to eq('string')
-      expect(schema[:parameters][:properties][:note][:description]).to eq('Text content of the private note')
+  describe '#parameters' do
+    it 'returns the correct parameters' do
+      expect(tool.parameters).to have_key(:note)
+      expect(tool.parameters[:note].name).to eq(:note)
+      expect(tool.parameters[:note].type).to eq('string')
+      expect(tool.parameters[:note].description).to eq('The private note content')
     end
   end
 
   describe '#perform' do
     context 'when conversation exists' do
       context 'with valid note content' do
-        it 'creates a private note' do
+        it 'creates a private note and returns success message' do
           note_content = 'This is a private note'
 
           expect do
             result = tool.perform(tool_context, note: note_content)
-            expect(result).to eq('Private note successfully recorded')
+            expect(result).to eq('Private note added successfully')
           end.to change(Message, :count).by(1)
         end
 
         it 'creates a private note with correct attributes' do
           note_content = 'This is a private note'
+
           tool.perform(tool_context, note: note_content)
 
           created_message = Message.last
           expect(created_message.content).to eq(note_content)
-          expect(created_message.private).to be true
           expect(created_message.message_type).to eq('outgoing')
-          expect(created_message.sender).to eq(assistant)
+          expect(created_message.private).to be true
           expect(created_message.account).to eq(account)
           expect(created_message.inbox).to eq(inbox)
+          expect(created_message.conversation).to eq(conversation)
         end
 
         it 'logs tool usage' do
           expect(tool).to receive(:log_tool_usage).with(
-            'private_note_created',
-            { conversation_id: conversation.id, length: 19 }
+            'add_private_note',
+            { conversation_id: conversation.id, note_length: 19 }
           )
 
           tool.perform(tool_context, note: 'This is a test note')
@@ -63,7 +64,7 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
       context 'with blank note content' do
         it 'returns error message' do
           result = tool.perform(tool_context, note: '')
-          expect(result).to eq('Error: Note content cannot be empty')
+          expect(result).to eq('Note content is required')
         end
 
         it 'does not create a message' do
@@ -76,7 +77,7 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
       context 'with nil note content' do
         it 'returns error message' do
           result = tool.perform(tool_context, note: nil)
-          expect(result).to eq('Error: Note content cannot be empty')
+          expect(result).to eq('Note content is required')
         end
       end
     end
@@ -86,7 +87,7 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
 
       it 'returns error message' do
         result = tool.perform(tool_context, note: 'Some note')
-        expect(result).to eq('Error: Conversation context missing')
+        expect(result).to eq('Conversation not found')
       end
 
       it 'does not create a message' do
@@ -101,7 +102,7 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
 
       it 'returns error message' do
         result = tool.perform(tool_context, note: 'Some note')
-        expect(result).to eq('Error: Conversation context missing')
+        expect(result).to eq('Conversation not found')
       end
     end
 
@@ -110,7 +111,7 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
 
       it 'returns error message' do
         result = tool.perform(tool_context, note: 'Some note')
-        expect(result).to eq('Error: Conversation context missing')
+        expect(result).to eq('Conversation not found')
       end
     end
   end

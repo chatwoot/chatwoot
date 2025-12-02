@@ -2,15 +2,7 @@ module Enterprise::SuperAdmin::AppConfigsController
   private
 
   def allowed_configs
-    # -------------- Reason ---------------
-    # Allows access to premium configuration pages (SAML, Captain, etc.)
-    # ------------ Original -----------------------
-    # return super if ChatwootHub.pricing_plan == 'community'
-    # ---------------------------------------------
-
-    # ---------------------- Modification Begin ----------------------
-    # Check removed
-    # ---------------------- Modification End ------------------------
+    return super if ChatwootHub.pricing_plan == 'community'
 
     case @config
     when 'custom_branding'

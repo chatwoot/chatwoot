@@ -1,30 +1,27 @@
-require 'openai'
-
-class Captain::Llm::PdfProcessingService
+class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
   def initialize(document)
+    super()
     @document = document
-    @client = OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY', nil), log_errors: Rails.env.development?)
   end
 
   def process
-    return if @document.openai_file_id.present?
+    return if document.openai_file_id.present?
 
-    file_id = upload_file
-    raise 'PDF Upload Failed' if file_id.blank?
+    file_id = upload_pdf_to_openai
+    raise CustomExceptions::PdfUploadError, I18n.t('captain.documents.pdf_upload_failed') if file_id.blank?
 
-    @document.store_openai_file_id(file_id)
-  rescue StandardError => e
-    Rails.logger.error("PdfProcessingService Error: #{e.message}")
-    raise e
+    document.store_openai_file_id(file_id)
   end
 
   private
 
-  def upload_file
-    download_and_upload do |file|
+  attr_reader :document
+
+  def upload_pdf_to_openai
+    with_tempfile do |temp_file|
       response = @client.files.upload(
         parameters: {
-          file: file,
+          file: temp_file,
           purpose: 'assistants'
         }
       )
@@ -32,11 +29,12 @@ class Captain::Llm::PdfProcessingService
     end
   end
 
-  def download_and_upload
-    Tempfile.create(['captain_pdf', '.pdf'], binmode: true) do |temp|
-      temp.write(@document.pdf_file.download)
-      temp.rewind
-      yield temp
+  def with_tempfile(&)
+    Tempfile.create(['pdf_upload', '.pdf'], binmode: true) do |temp_file|
+      temp_file.write(document.pdf_file.download)
+      temp_file.close
+
+      File.open(temp_file.path, 'rb', &)
     end
   end
 end

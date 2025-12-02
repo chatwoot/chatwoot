@@ -1,36 +1,33 @@
 class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
-  description 'Create a private internal note on the conversation'
-  param :note, type: 'string', desc: 'Text content of the private note'
+  description 'Add a private note to a conversation'
+  param :note, type: 'string', desc: 'The private note content'
 
-  def perform(context, note:)
-    conversation = find_conversation(context.state)
-    return 'Error: Conversation context missing' unless conversation
-    return 'Error: Note content cannot be empty' if note.blank?
+  def perform(tool_context, note:)
+    conversation = find_conversation(tool_context.state)
+    return 'Conversation not found' unless conversation
 
-    log_tool_usage('private_note_created', {
-                     conversation_id: conversation.id,
-                     length: note.length
-                   })
+    return 'Note content is required' if note.blank?
 
-    save_private_note(conversation, note)
+    log_tool_usage('add_private_note', { conversation_id: conversation.id, note_length: note.length })
+    create_private_note(conversation, note)
 
-    'Private note successfully recorded'
-  end
-
-  def permissions
-    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
+    'Private note added successfully'
   end
 
   private
 
-  def save_private_note(conversation, content)
+  def create_private_note(conversation, note)
     conversation.messages.create!(
       account: @assistant.account,
       inbox: conversation.inbox,
       sender: @assistant,
       message_type: :outgoing,
-      content: content,
+      content: note,
       private: true
     )
+  end
+
+  def permissions
+    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
   end
 end

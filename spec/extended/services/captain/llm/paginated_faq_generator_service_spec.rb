@@ -1,12 +1,19 @@
 require 'rails_helper'
+require 'custom_exceptions/pdf_processing_error'
 
 RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
   let(:document) { create(:captain_document) }
   let(:service) { described_class.new(document, pages_per_chunk: 5) }
-  let(:llm_service) { instance_double(Captain::LlmService) }
+  let(:openai_client) { instance_double(OpenAI::Client) }
 
   before do
-    allow(Captain::LlmService).to receive(:new).and_return(llm_service)
+    # Mock OpenAI configuration
+    installation_config = instance_double(InstallationConfig, value: 'test-api-key')
+    allow(InstallationConfig).to receive(:find_by!)
+      .with(name: 'CAPTAIN_OPEN_AI_API_KEY')
+      .and_return(installation_config)
+
+    allow(OpenAI::Client).to receive(:new).and_return(openai_client)
   end
 
   describe '#generate' do
@@ -16,28 +23,36 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       end
 
       it 'raises an error' do
-        expect { service.generate }.to raise_error('Missing OpenAI File ID')
+        expect { service.generate }.to raise_error(CustomExceptions::PdfFaqGenerationError)
       end
     end
 
     context 'when generating FAQs from PDF pages' do
       let(:faq_response) do
         {
-          output: {
-            'faqs' => [
-              { 'question' => 'What is this document about?', 'answer' => 'It explains key concepts.' }
-            ],
-            'has_content' => true
-          }.to_json
+          'choices' => [{
+            'message' => {
+              'content' => JSON.generate({
+                                           'faqs' => [
+                                             { 'question' => 'What is this document about?', 'answer' => 'It explains key concepts.' }
+                                           ],
+                                           'has_content' => true
+                                         })
+            }
+          }]
         }
       end
 
       let(:empty_response) do
         {
-          output: {
-            'faqs' => [],
-            'has_content' => false
-          }.to_json
+          'choices' => [{
+            'message' => {
+              'content' => JSON.generate({
+                                           'faqs' => [],
+                                           'has_content' => false
+                                         })
+            }
+          }]
         }
       end
 
@@ -46,16 +61,16 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       end
 
       it 'generates FAQs from paginated content' do
-        allow(llm_service).to receive(:call).and_return(faq_response, empty_response)
+        allow(openai_client).to receive(:chat).and_return(faq_response, empty_response)
 
         faqs = service.generate
 
-        expect(faqs.size).to eq(1)
+        expect(faqs).to have_attributes(size: 1)
         expect(faqs.first['question']).to eq('What is this document about?')
       end
 
       it 'stops when no more content' do
-        allow(llm_service).to receive(:call).and_return(empty_response)
+        allow(openai_client).to receive(:chat).and_return(empty_response)
 
         faqs = service.generate
 
@@ -63,13 +78,29 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       end
 
       it 'respects max iterations limit' do
-        allow(llm_service).to receive(:call).and_return(faq_response)
+        allow(openai_client).to receive(:chat).and_return(faq_response)
+
+        # Force max iterations
+        service.instance_variable_set(:@iterations_completed, 19)
 
         service.generate
-
-        # Verify the service was called (it will stop at max iterations)
-        expect(llm_service).to have_received(:call).exactly(20).times
+        expect(service.iterations_completed).to eq(20)
       end
+    end
+  end
+
+  describe '#should_continue_processing?' do
+    it 'stops at max iterations' do
+      service.instance_variable_set(:@iterations_completed, 20)
+      expect(service.should_continue_processing?(faqs: ['faq'], has_content: true)).to be false
+    end
+
+    it 'stops when no FAQs returned' do
+      expect(service.should_continue_processing?(faqs: [], has_content: true)).to be false
+    end
+
+    it 'continues when FAQs exist and under limits' do
+      expect(service.should_continue_processing?(faqs: ['faq'], has_content: true)).to be true
     end
   end
 end

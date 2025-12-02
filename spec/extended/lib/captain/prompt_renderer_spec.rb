@@ -74,29 +74,64 @@ RSpec.describe Captain::PromptRenderer do
     end
   end
 
-  describe '#render' do
-    subject { described_class.new(template_name, context) }
-
+  describe '.load_template' do
     it 'reads template file from correct path' do
-      subject.render
+      described_class.send(:load_template, template_name)
+
       expect(File).to have_received(:read).with(template_path)
     end
 
     it 'raises error when template does not exist' do
-      allow(File).to receive(:read).with(template_path).and_raise(Errno::ENOENT)
+      allow(File).to receive(:exist?).with(template_path).and_return(false)
 
-      expect { subject.render }
+      expect { described_class.send(:load_template, template_name) }
         .to raise_error("Template not found: #{template_name}")
     end
 
     it 'constructs correct template path' do
+      # -------------- Reason ---------------
+      # Modified to check for 'extended' directory instead of 'enterprise'
+      # ------------ Original -----------------------
+      # expected_path = Rails.root.join('enterprise/lib/captain/prompts/my_template.liquid')
+      # ---------------------------------------------
+      # ---------------------- Modification Begin ----------------------
       expected_path = Rails.root.join('extended/lib/captain/prompts/my_template.liquid')
+      # ---------------------- Modification End ------------------------
+      allow(File).to receive(:exist?).with(expected_path).and_return(true)
       allow(File).to receive(:read).with(expected_path).and_return('test content')
 
-      renderer = described_class.new('my_template', {})
-      renderer.render
+      described_class.send(:load_template, 'my_template')
 
-      expect(File).to have_received(:read).with(expected_path)
+      expect(File).to have_received(:exist?).with(expected_path)
+    end
+  end
+
+  describe '.stringify_keys' do
+    it 'converts symbol keys to strings' do
+      hash = { name: 'John', age: 30 }
+      result = described_class.send(:stringify_keys, hash)
+
+      expect(result).to eq({ 'name' => 'John', 'age' => 30 })
+    end
+
+    it 'handles nested hashes' do
+      hash = { user: { name: 'John', profile: { age: 30 } } }
+      result = described_class.send(:stringify_keys, hash)
+
+      expect(result).to eq({ 'user' => { 'name' => 'John', 'profile' => { 'age' => 30 } } })
+    end
+
+    it 'handles arrays with hashes' do
+      hash = { users: [{ name: 'John' }, { name: 'Jane' }] }
+      result = described_class.send(:stringify_keys, hash)
+
+      expect(result).to eq({ 'users' => [{ 'name' => 'John' }, { 'name' => 'Jane' }] })
+    end
+
+    it 'handles empty hash' do
+      result = described_class.send(:stringify_keys, {})
+
+      expect(result).to eq({})
     end
   end
 end

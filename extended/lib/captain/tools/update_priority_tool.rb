@@ -1,50 +1,50 @@
 class Captain::Tools::UpdatePriorityTool < Captain::Tools::BasePublicTool
-  description 'Modify the priority level of the active conversation'
-  param :priority, type: 'string', desc: 'New priority: low, medium, high, urgent, or nil to clear'
+  description 'Update the priority of a conversation'
+  param :priority, type: 'string', desc: 'The priority level: low, medium, high, urgent, or nil to remove priority'
 
-  def perform(context, priority:)
-    conversation = find_conversation(context.state)
-    return 'Error: Conversation context missing' unless conversation
+  def perform(tool_context, priority:)
+    @conversation = find_conversation(tool_context.state)
+    return 'Conversation not found' unless @conversation
 
-    normalized = normalize_priority(priority)
+    @normalized_priority = normalize_priority(priority)
+    return "Invalid priority. Valid options: #{valid_priority_options}" unless valid_priority?(@normalized_priority)
 
-    return "Error: Invalid priority '#{priority}'. Allowed: #{allowed_priorities_list}" unless valid_priority?(normalized)
+    log_tool_usage('update_priority', { conversation_id: @conversation.id, priority: priority })
 
-    log_tool_usage('priority_update', {
-                     conversation_id: conversation.id,
-                     new_priority: normalized
-                   })
-
-    update_priority(conversation, normalized)
-
-    "Priority successfully changed to '#{normalized || 'none'}' for conversation ##{conversation.display_id}"
-  end
-
-  def permissions
-    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
+    execute_priority_update
   end
 
   private
 
-  def normalize_priority(value)
-    return nil if value.blank? || value == 'nil'
-
-    value.downcase
+  def execute_priority_update
+    update_conversation_priority(@conversation, @normalized_priority)
+    priority_text = @normalized_priority || 'none'
+    "Priority updated to '#{priority_text}' for conversation ##{@conversation.display_id}"
   end
 
-  def valid_priority?(value)
-    allowed_priorities.include?(value)
+  def normalize_priority(priority)
+    return nil if priority == 'nil' || priority.blank?
+
+    priority.downcase
   end
 
-  def allowed_priorities
-    [nil] + ::Conversation.priorities.keys
+  def valid_priority?(priority)
+    valid_priorities.include?(priority)
   end
 
-  def allowed_priorities_list
-    (allowed_priorities.compact + ['nil']).join(', ')
+  def valid_priorities
+    @valid_priorities ||= [nil] + Conversation.priorities.keys
   end
 
-  def update_priority(conversation, value)
-    conversation.update!(priority: value)
+  def valid_priority_options
+    (valid_priorities.compact + ['nil']).join(', ')
+  end
+
+  def update_conversation_priority(conversation, priority)
+    conversation.update!(priority: priority)
+  end
+
+  def permissions
+    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
   end
 end

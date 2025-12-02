@@ -1,28 +1,25 @@
 require 'liquid'
 
 class Captain::PromptRenderer
-  def self.render(template_name, context = {})
-    new(template_name, context).render
-  end
+  class << self
+    def render(template_name, context = {})
+      template = load_template(template_name)
+      liquid_template = Liquid::Template.parse(template)
+      liquid_template.render(stringify_keys(context))
+    end
 
-  attr_reader :template_name, :context
+    private
 
-  def initialize(template_name, context)
-    @template_name = template_name
-    @context = context
-  end
+    def load_template(template_name)
+      template_path = Rails.root.join('enterprise', 'lib', 'captain', 'prompts', "#{template_name}.liquid")
 
-  def render
-    template = File.read(template_path)
-    liquid_template = Liquid::Template.parse(template)
-    liquid_template.render(context.deep_stringify_keys)
-  rescue Errno::ENOENT
-    raise "Template not found: #{template_name}"
-  end
+      raise "Template not found: #{template_name}" unless File.exist?(template_path)
 
-  private
+      File.read(template_path)
+    end
 
-  def template_path
-    Rails.root.join('extended', 'lib', 'captain', 'prompts', "#{template_name}.liquid")
+    def stringify_keys(hash)
+      hash.deep_stringify_keys
+    end
   end
 end

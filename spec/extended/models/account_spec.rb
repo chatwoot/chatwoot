@@ -64,7 +64,7 @@ RSpec.describe Account, type: :model do
         document_limits = account.usage_limits[:captain][:documents]
 
         expect(document_limits[:consumed]).to eq 3
-        expect(document_limits[:current_available]).to eq ChatwootApp.max_limit - 3
+        expect(document_limits[:current_available]).to eq captain_limits[:startups][:documents] - 3
       end
 
       ## Responses
@@ -75,7 +75,7 @@ RSpec.describe Account, type: :model do
 
         expect(account.custom_attributes['captain_responses_usage']).to eq 1
         expect(responses_limits[:consumed]).to eq 1
-        expect(responses_limits[:current_available]).to eq ChatwootApp.max_limit - 1
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 1
       end
 
       it 'reseting responses limits updates usage_limits' do
@@ -85,21 +85,21 @@ RSpec.describe Account, type: :model do
         responses_limits = account.usage_limits[:captain][:responses]
 
         expect(responses_limits[:consumed]).to eq 30
-        expect(responses_limits[:current_available]).to eq ChatwootApp.max_limit - 30
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 30
 
         account.reset_response_usage
         responses_limits = account.usage_limits[:captain][:responses]
 
         expect(account.custom_attributes['captain_responses_usage']).to eq 0
         expect(responses_limits[:consumed]).to eq 0
-        expect(responses_limits[:current_available]).to eq ChatwootApp.max_limit
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses]
       end
 
       it 'returns monthly limit accurately' do
         %w[startups business enterprise].each do |plan|
           account.custom_attributes = { 'plan_name': plan }
           account.save!
-          expect(account.captain_monthly_limit).to eq({ documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access)
+          expect(account.captain_monthly_limit).to eq captain_limits[plan]
         end
       end
 
@@ -109,14 +109,14 @@ RSpec.describe Account, type: :model do
 
         responses_limits = account.usage_limits[:captain][:responses]
         expect(responses_limits[:consumed]).to eq 3000
-        expect(responses_limits[:current_available]).to eq ChatwootApp.max_limit - 3000
+        expect(responses_limits[:current_available]).to eq 0
 
         account.custom_attributes['captain_responses_usage'] = -100
         account.save!
 
         responses_limits = account.usage_limits[:captain][:responses]
         expect(responses_limits[:consumed]).to eq 0
-        expect(responses_limits[:current_available]).to eq ChatwootApp.max_limit
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses]
       end
     end
 
@@ -137,8 +137,8 @@ RSpec.describe Account, type: :model do
 
       it 'returns limits based on custom attributes' do
         usage_limits = account.usage_limits
-        expect(usage_limits[:captain][:documents][:total_count]).to eq(ChatwootApp.max_limit)
-        expect(usage_limits[:captain][:responses][:total_count]).to eq(ChatwootApp.max_limit)
+        expect(usage_limits[:captain][:documents][:total_count]).to eq(5555)
+        expect(usage_limits[:captain][:responses][:total_count]).to eq(9999)
       end
     end
 
@@ -195,32 +195,29 @@ RSpec.describe Account, type: :model do
     end
 
     context 'when plan_name is hacker' do
-      it 'returns all features regardless of plan' do
+      it 'returns the features for the hacker plan' do
         account.custom_attributes = { 'plan_name': 'hacker' }
         account.save!
 
-        expect(account.subscribed_features).to include('audit_logs', 'agent_bots', 'campaigns', 'reports', 'help_center', 'sla', 'macros',
-                                                       'automations', 'captain')
+        expect(account.subscribed_features).to eq(%w[feature1 feature2])
       end
     end
 
     context 'when plan_name is startups' do
-      it 'returns all features regardless of plan' do
+      it 'returns the features for the startups plan' do
         account.custom_attributes = { 'plan_name': 'startups' }
         account.save!
 
-        expect(account.subscribed_features).to include('audit_logs', 'agent_bots', 'campaigns', 'reports', 'help_center', 'sla', 'macros',
-                                                       'automations', 'captain')
+        expect(account.subscribed_features).to eq(%w[feature1 feature2 feature3 feature4])
       end
     end
 
     context 'when plan_features is blank' do
-      it 'returns all features' do
+      it 'returns an empty array' do
         account.custom_attributes = {}
         account.save!
 
-        expect(account.subscribed_features).to include('audit_logs', 'agent_bots', 'campaigns', 'reports', 'help_center', 'sla', 'macros',
-                                                       'automations', 'captain')
+        expect(account.subscribed_features).to be_nil
       end
     end
   end

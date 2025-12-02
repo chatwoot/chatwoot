@@ -1,59 +1,29 @@
-require_relative 'llm/providers/openai_provider'
-require_relative 'llm/providers/gemini_provider'
+require 'openai'
 
 class Captain::LlmService
-  def initialize(api_key: nil, provider: nil)
-    @provider = determine_provider(provider)
-    @api_key = api_key || default_api_key
-    @client = create_client
+  def initialize(config)
+    @client = OpenAI::Client.new(
+      access_token: config[:api_key],
+      log_errors: Rails.env.development?
+    )
     @logger = Rails.logger
   end
 
-  def call(messages, functions = [], model: default_model, json_mode: true)
-    response = @client.chat(
-      messages: messages,
-      functions: functions,
-      model: model,
-      json_mode: json_mode
-    )
+  def call(messages, functions = [])
+    openai_params = {
+      model: 'gpt-4o',
+      response_format: { type: 'json_object' },
+      messages: messages
+    }
+    openai_params[:tools] = functions if functions.any?
+
+    response = @client.chat(parameters: openai_params)
     handle_response(response)
   rescue StandardError => e
     handle_error(e)
   end
 
   private
-
-  def determine_provider(provider)
-    provider || ENV['CAPTAIN_LLM_PROVIDER'] || 'openai'
-  end
-
-  def default_api_key
-    case @provider
-    when 'gemini'
-      ENV['GEMINI_API_KEY'] || InstallationConfig.find_by(name: 'CAPTAIN_GEMINI_API_KEY')&.value
-    else
-      ENV['OPENAI_API_KEY'] || InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-    end
-  end
-
-  def default_model
-    case @provider
-    when 'gemini'
-      'gemini-1.5-flash'
-    else
-      'gpt-4o-mini'
-    end
-  end
-
-  def create_client
-    case @provider
-    when 'gemini'
-      Captain::Llm::Providers::GeminiProvider.new(api_key: @api_key)
-    else
-      endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
-      Captain::Llm::Providers::OpenaiProvider.new(api_key: @api_key, endpoint: endpoint)
-    end
-  end
 
   def handle_response(response)
     if response['choices'][0]['message']['tool_calls']

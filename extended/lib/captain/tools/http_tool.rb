@@ -1,112 +1,105 @@
-require 'net/http'
-require 'resolv'
+require 'agents'
 
-class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
-  # Constants for security limits
-  MAX_BODY_SIZE = 1.megabyte
-
-  # Blocked IP ranges (RFC 1918, Loopback, Link-Local)
-  BLOCKED_NETWORKS = [
-    IPAddr.new('127.0.0.0/8'),
-    IPAddr.new('10.0.0.0/8'),
-    IPAddr.new('172.16.0.0/12'),
-    IPAddr.new('192.168.0.0/16'),
-    IPAddr.new('169.254.0.0/16'),
-    IPAddr.new('::1'),
-    IPAddr.new('fc00::/7'),
-    IPAddr.new('fe80::/10')
-  ].freeze
-
-  def initialize(assistant, custom_tool_record)
-    @custom_tool = custom_tool_record
-    super(assistant)
+class Captain::Tools::HttpTool < Agents::Tool
+  def initialize(assistant, custom_tool)
+    @assistant = assistant
+    @custom_tool = custom_tool
+    super()
   end
 
   def active?
     @custom_tool.enabled?
   end
 
-  def perform(_context, **args)
-    target_url = @custom_tool.build_request_url(args)
-    payload = @custom_tool.build_request_body(args)
+  def perform(_tool_context, **params)
+    url = @custom_tool.build_request_url(params)
+    body = @custom_tool.build_request_body(params)
 
-    response = send_request(target_url, payload)
-
+    response = execute_http_request(url, body)
     @custom_tool.format_response(response.body)
   rescue StandardError => e
-    Rails.logger.error("Custom Tool Error [#{@custom_tool.slug}]: #{e.message}")
-    "Error executing tool: #{e.message}"
+    Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
+    'An error occurred while executing the request'
   end
 
   private
 
-  def send_request(url, body)
+  PRIVATE_IP_RANGES = [
+    IPAddr.new('127.0.0.0/8'),    # IPv4 Loopback
+    IPAddr.new('10.0.0.0/8'),     # IPv4 Private network
+    IPAddr.new('172.16.0.0/12'),  # IPv4 Private network
+    IPAddr.new('192.168.0.0/16'), # IPv4 Private network
+    IPAddr.new('169.254.0.0/16'), # IPv4 Link-local
+    IPAddr.new('::1'),            # IPv6 Loopback
+    IPAddr.new('fc00::/7'),       # IPv6 Unique local addresses
+    IPAddr.new('fe80::/10')       # IPv6 Link-local
+  ].freeze
+
+  # Limit response size to prevent memory exhaustion and match LLM token limits
+  # 1MB of text ≈ 250K tokens, which exceeds most LLM context windows
+  MAX_RESPONSE_SIZE = 1.megabyte
+
+  def execute_http_request(url, body)
     uri = URI.parse(url)
-    ensure_public_address!(uri.host)
 
-    http_client = Net::HTTP.new(uri.host, uri.port)
-    configure_client(http_client, uri)
+    # Check if resolved IP is private
+    check_private_ip!(uri.host)
 
-    request = create_request(uri, body)
-    add_auth_headers(request)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = uri.scheme == 'https'
+    http.read_timeout = 30
+    http.open_timeout = 10
+    http.max_retries = 0 # Disable redirects
 
-    response = http_client.request(request)
-    verify_response!(response)
+    request = build_http_request(uri, body)
+    apply_authentication(request)
+
+    response = http.request(request)
+
+    raise "HTTP request failed with status #{response.code}" unless response.is_a?(Net::HTTPSuccess)
+
+    validate_response!(response)
 
     response
   end
 
-  def ensure_public_address!(host)
-    ips = Resolv.getaddresses(host)
+  def check_private_ip!(hostname)
+    ip_address = IPAddr.new(Resolv.getaddress(hostname))
 
-    ips.each do |ip|
-      addr = IPAddr.new(ip)
-      raise "Access denied to private IP: #{ip}" if BLOCKED_NETWORKS.any? { |net| net.include?(addr) }
-    end
-  rescue Resolv::ResolvError
-    raise "Could not resolve hostname: #{host}"
+    raise 'Request blocked: hostname resolves to private IP address' if PRIVATE_IP_RANGES.any? { |range| range.include?(ip_address) }
+  rescue Resolv::ResolvError, SocketError => e
+    raise "DNS resolution failed: #{e.message}"
   end
 
-  def configure_client(http, uri)
-    http.use_ssl = (uri.scheme == 'https')
-    http.open_timeout = 5
-    http.read_timeout = 15
-  end
-
-  def create_request(uri, body)
-    method_class = Net::HTTP.const_get(@custom_tool.http_method.capitalize)
-    req = method_class.new(uri)
-
-    if body.present?
-      req.body = body
-      req['Content-Type'] = 'application/json'
+  def validate_response!(response)
+    content_length = response['content-length']&.to_i
+    if content_length && content_length > MAX_RESPONSE_SIZE
+      raise "Response size #{content_length} bytes exceeds maximum allowed #{MAX_RESPONSE_SIZE} bytes"
     end
 
-    req
+    return unless response.body && response.body.bytesize > MAX_RESPONSE_SIZE
+
+    raise "Response body size #{response.body.bytesize} bytes exceeds maximum allowed #{MAX_RESPONSE_SIZE} bytes"
   end
 
-  def add_auth_headers(req)
-    # Add custom headers
-    @custom_tool.build_auth_headers.each do |k, v|
-      req[k] = v
+  def build_http_request(uri, body)
+    if @custom_tool.http_method == 'POST'
+      request = Net::HTTP::Post.new(uri.request_uri)
+      if body
+        request.body = body
+        request['Content-Type'] = 'application/json'
+      end
+    else
+      request = Net::HTTP::Get.new(uri.request_uri)
     end
-
-    # Add Basic Auth if needed
-    creds = @custom_tool.build_basic_auth_credentials
-    req.basic_auth(*creds) if creds
+    request
   end
 
-  def verify_response!(resp)
-    raise "Remote service returned error: #{resp.code}" unless resp.is_a?(Net::HTTPSuccess)
+  def apply_authentication(request)
+    headers = @custom_tool.build_auth_headers
+    headers.each { |key, value| request[key] = value }
 
-    check_size!(resp)
-  end
-
-  def check_size!(resp)
-    size = resp['content-length']&.to_i || resp.body&.bytesize || 0
-
-    return unless size > MAX_BODY_SIZE
-
-    raise "Response too large (#{size} bytes). Limit is #{MAX_BODY_SIZE} bytes."
+    credentials = @custom_tool.build_basic_auth_credentials
+    request.basic_auth(*credentials) if credentials
   end
 end

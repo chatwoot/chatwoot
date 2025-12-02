@@ -1,11 +1,7 @@
-require 'openai'
-
-class Internal::AccountAnalysis::ContentEvaluatorService
+class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseOpenAiService
   def initialize
-    @client = OpenAI::Client.new(
-      access_token: ENV.fetch('OPENAI_API_KEY', nil),
-      log_errors: Rails.env.development?
-    )
+    super()
+
     @model = 'gpt-4o-mini'.freeze
   end
 

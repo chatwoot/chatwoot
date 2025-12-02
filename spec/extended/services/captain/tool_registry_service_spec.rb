@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 # Test tool implementation
-class TestTool < Captain::Tools::BasePublicTool
+class TestTool < Captain::Tools::BaseService
   attr_accessor :tool_active
 
   def initialize(assistant, user: nil)
@@ -17,16 +17,12 @@ class TestTool < Captain::Tools::BasePublicTool
     'A test tool for specs'
   end
 
-  def to_registry_format
+  def parameters
     {
-      name: name,
-      description: description,
-      parameters: {
-        type: 'object',
-        properties: {
-          test_param: {
-            type: 'string'
-          }
+      type: 'object',
+      properties: {
+        test_param: {
+          type: 'string'
         }
       }
     }
@@ -127,7 +123,7 @@ RSpec.describe Captain::ToolRegistryService do
 
     context 'when multiple tools are registered' do
       let(:another_tool_class) do
-        Class.new(Captain::Tools::BasePublicTool) do
+        Class.new(Captain::Tools::BaseService) do
           def name
             'another_tool'
           end
@@ -136,14 +132,10 @@ RSpec.describe Captain::ToolRegistryService do
             'Another test tool'
           end
 
-          def to_registry_format
+          def parameters
             {
-              name: name,
-              description: description,
-              parameters: {
-                type: 'object',
-                properties: {}
-              }
+              type: 'object',
+              properties: {}
             }
           end
 
