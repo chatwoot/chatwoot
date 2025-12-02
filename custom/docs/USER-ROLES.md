@@ -166,6 +166,136 @@ Campaigns:
 
 **Note**: Permissions are dynamically loaded. New permissions added to `CustomRole::PERMISSIONS` automatically appear in the Super Admin UI.
 
+---
+
+## 🔧 How Permissions Work (For Developers)
+
+### Architecture
+
+**Permissions are defined in CODE, stored in DATABASE:**
+
+**1. Permission Definition (Code):**
+```ruby
+# enterprise/app/models/custom_role.rb
+class CustomRole < ApplicationRecord
+  PERMISSIONS = %w[
+    conversation_manage
+    conversation_unassigned_manage
+    conversation_participating_manage
+    contact_manage
+    report_manage
+    knowledge_base_manage
+    campaign_manage
+  ].freeze
+end
+```
+
+**2. Permission Storage (Database):**
+```sql
+-- Table: custom_roles
+-- Column: permissions (text array)
+-- Example: ["conversation_manage", "report_manage"]
+```
+
+**3. Permission Enforcement (Policies):**
+```ruby
+# app/policies/campaign_policy.rb
+def index?
+  @account_user.administrator? || 
+  @account_user.custom_role&.permissions&.include?('campaign_manage')
+end
+```
+
+### Why This Design?
+
+**Code-defined permissions:**
+- ✅ Permissions are application features (not data)
+- ✅ Policies check specific permission strings
+- ✅ Type-safe and predictable
+- ✅ Automatically appear in Super Admin UI
+
+**Database-stored selections:**
+- ✅ Each role can have different subset
+- ✅ User assignments reference role ID
+- ✅ Flexible per-account customization
+
+### Adding New Permission
+
+**Step 1: Add to PERMISSIONS constant**
+```ruby
+# enterprise/app/models/custom_role.rb
+PERMISSIONS = %w[
+  conversation_manage
+  ...existing permissions...
+  your_new_permission  # ADD HERE
+].freeze
+```
+
+**Step 2: Add to frontend constants**
+```javascript
+// app/javascript/dashboard/constants/permissions.js
+export const AVAILABLE_CUSTOM_ROLE_PERMISSIONS = [
+  'conversation_manage',
+  ...
+  'your_new_permission',  // ADD HERE
+];
+```
+
+**Step 3: Add translation**
+```json
+// app/javascript/dashboard/i18n/locale/en/customRole.json
+"PERMISSIONS": {
+  "YOUR_NEW_PERMISSION": "Description of permission"
+}
+```
+
+**Step 4: Update Policy**
+```ruby
+# app/policies/your_feature_policy.rb
+def index?
+  @account_user.administrator? || 
+  @account_user.custom_role&.permissions&.include?('your_new_permission')
+end
+```
+
+**Step 5: (Optional) Migration to add to existing roles**
+```ruby
+# db/migrate/YYYYMMDDHHMMSS_add_new_permission_to_roles.rb
+CustomRole.where(name: 'Manager').find_each do |role|
+  role.permissions << 'your_new_permission' unless role.permissions.include?('your_new_permission')
+  role.save!
+end
+```
+
+**Result:** Permission automatically appears in Super Admin UI checkboxes!
+
+### Database Structure
+
+```sql
+CREATE TABLE custom_roles (
+  id BIGINT PRIMARY KEY,
+  account_id BIGINT NOT NULL,
+  name VARCHAR NOT NULL,
+  description VARCHAR,
+  permissions TEXT[] DEFAULT '{}',  -- Array of permission strings
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP,
+  
+  UNIQUE(account_id, name)  -- Name must be unique per account
+);
+```
+
+**Example Data:**
+```ruby
+#<CustomRole 
+  id: 1, 
+  name: "Manager", 
+  account_id: 1,
+  permissions: ["conversation_manage", "contact_manage", "report_manage", "campaign_manage"],
+  ...
+>
+```
+
 ### Create Custom Role via Database
 
 ```sql

@@ -1,0 +1,10 @@
+<% if field.data.present? %>
+  <ul class="list-disc pl-4">
+    <% field.data.each do |permission| %>
+      <li><%= t("custom_role.permissions.#{permission}", default: permission.humanize) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <span class="text-slate-400">No permissions</span>
+<% end %>
+

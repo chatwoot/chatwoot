@@ -38,6 +38,6 @@ class CustomRole < ApplicationRecord
     campaign_manage
   ].freeze
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { scope: :account_id, message: 'already exists for this account' }
   validates :permissions, inclusion: { in: PERMISSIONS }
 end

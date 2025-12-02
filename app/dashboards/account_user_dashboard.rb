@@ -11,6 +11,7 @@ class AccountUserDashboard < Administrate::BaseDashboard
     account: Field::BelongsToSearch.with_options(class_name: 'Account', searchable: true, searchable_field: [:name, :id], order: 'id DESC'),
     user: Field::BelongsToSearch.with_options(class_name: 'User', searchable: true, searchable_field: [:name, :email, :id], order: 'id DESC'),
     inviter: Field::BelongsToSearch.with_options(class_name: 'User', searchable: true, searchable_field: [:name, :email, :id], order: 'id DESC'),
+    custom_role: Field::BelongsTo.with_options(class_name: 'CustomRole'),
     id: Field::Number,
     role: Field::Select.with_options(collection: AccountUser.roles.keys),
     created_at: Field::DateTime,
@@ -27,6 +28,7 @@ class AccountUserDashboard < Administrate::BaseDashboard
     user
     inviter
     role
+    custom_role
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -37,6 +39,7 @@ class AccountUserDashboard < Administrate::BaseDashboard
     inviter
     id
     role
+    custom_role
     created_at
     updated_at
   ].freeze

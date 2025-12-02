@@ -8,10 +8,7 @@ class CustomRoleDashboard < Administrate::BaseDashboard
     account: Field::BelongsTo,
     name: Field::String,
     description: Field::Text,
-    permissions: Field::Select.with_options(
-      collection: proc { CustomRole::PERMISSIONS },
-      multiple: true
-    ),
+    permissions: PermissionsField,
     account_users: Field::HasMany,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
@@ -45,7 +42,7 @@ class CustomRoleDashboard < Administrate::BaseDashboard
   COLLECTION_FILTERS = {}.freeze
 
   def display_resource(custom_role)
-    "CustomRole ##{custom_role.id} - #{custom_role.name}"
+    "##{custom_role.id} - #{custom_role.name}"
   end
 end
 

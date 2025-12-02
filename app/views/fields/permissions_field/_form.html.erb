@@ -1,0 +1,27 @@
+<div class="field-unit field-unit--array">
+  <%= f.label field.attribute, class: "field-unit__label" %>
+  <div class="field-unit__field">
+    <div class="grid grid-cols-2 gap-x-12 gap-y-3 mb-4 mt-2">
+      <% field.available_permissions.each do |permission| %>
+        <% is_required = permission == 'contact_manage' %>
+        <% is_checked = is_required || field.data&.include?(permission) %>
+        <div class="flex items-center">
+          <%= check_box_tag "#{f.object_name}[#{field.attribute}][]", 
+              permission, 
+              is_checked,
+              id: "#{f.object_name}_#{field.attribute}_#{permission}",
+              disabled: is_required,
+              class: "ltr:mr-2 rtl:ml-2 flex-shrink-0 #{is_required ? 'opacity-50 cursor-not-allowed' : ''}" %>
+          <%= label_tag "#{f.object_name}_#{field.attribute}_#{permission}", 
+              t("custom_role.permissions.#{permission}", default: permission.humanize),
+              class: "text-sm font-normal #{is_required ? 'text-slate-500' : ''}" %>
+        </div>
+        <% if is_required %>
+          <%= hidden_field_tag "#{f.object_name}[#{field.attribute}][]", permission %>
+        <% end %>
+      <% end %>
+    </div>
+    <%= hidden_field_tag "#{f.object_name}[#{field.attribute}][]", "" %>
+  </div>
+</div>
+
