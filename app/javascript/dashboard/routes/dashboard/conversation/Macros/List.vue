@@ -8,6 +8,7 @@ import Draggable from 'vuedraggable';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import MacroItem from './MacroItem.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SidepanelEmptyState from 'dashboard/routes/dashboard/conversation/SidepanelEmptyState.vue';
 
 defineProps({
   conversationId: {
@@ -68,16 +69,14 @@ onMounted(() => {
 <template>
   <div>
     <div v-if="!uiFlags.isFetching && !macros.length" class="p-3">
-      <p class="flex flex-col items-center justify-center h-full">
-        {{ $t('MACROS.LIST.404') }}
-      </p>
+      <SidepanelEmptyState :message="$t('MACROS.LIST.404')" class="mb-2" />
       <router-link :to="accountScopedUrl('settings/macros')">
         <NextButton
-          faded
-          xs
+          link
+          sm
           icon="i-lucide-plus"
-          class="mt-1"
           :label="$t('MACROS.HEADER_BTN_TXT')"
+          class="!text-n-slate-11 hover:!text-n-slate-12 hover:!no-underline !py-2"
         />
       </router-link>
     </div>
