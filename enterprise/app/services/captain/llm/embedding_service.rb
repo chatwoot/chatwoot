@@ -1,3 +1,5 @@
+require 'openai'
+
 class Captain::Llm::EmbeddingService < Llm::BaseOpenAiService
   class EmbeddingsError < StandardError; end
 
@@ -6,12 +8,14 @@ class Captain::Llm::EmbeddingService < Llm::BaseOpenAiService
   end
 
   def get_embedding(content, model: self.class.embedding_model)
-    response = RubyLLM.embed(
-      content,
-      model: model
+    response = @client.embeddings(
+      parameters: {
+        model: model,
+        input: content
+      }
     )
 
-    response.vectors
+    response.dig('data', 0, 'embedding')
   rescue StandardError => e
     raise EmbeddingsError, "Failed to create an embedding: #{e.message}"
   end
