@@ -1,12 +1,7 @@
 <script setup>
-// import { computed } from 'vue';
-// import { useI18n } from 'vue-i18n';
-// import { useRouter } from 'vue-router';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
-
-// const router = useRouter();
-// const { t } = useI18n();
+import ConversationRequiredAttributes from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributes.vue';
 </script>
 
 <template>
@@ -20,8 +15,13 @@ import SettingsLayout from '../SettingsLayout.vue';
     </template>
 
     <template #body>
-      <div class="grid grid-cols-1 gap-6 2xl:grid-cols-2">
-        <span>{{ $t('CONVERSATION_WORKFLOW.INDEX.HEADER.TITLE') }}</span>
+      <div class="flex">
+        <ConversationRequiredAttributes
+          :title="$t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE')"
+          :description="
+            $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.DESCRIPTION')
+          "
+        />
       </div>
     </template>
   </SettingsLayout>
