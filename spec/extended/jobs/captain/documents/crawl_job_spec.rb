@@ -3,7 +3,14 @@ require 'rails_helper'
 RSpec.describe Captain::Documents::CrawlJob, type: :job do
   let(:document) { create(:captain_document, external_link: 'https://example.com/page') }
   let(:assistant_id) { document.assistant_id }
-  let(:webhook_url) { Rails.application.routes.url_helpers.enterprise_webhooks_firecrawl_url }
+  # -------------- Reason ---------------
+  # Updated route helper to match 'extended' namespace
+  # ------------ Original -----------------------
+  # let(:webhook_url) { Rails.application.routes.url_helpers.enterprise_webhooks_firecrawl_url }
+  # ---------------------------------------------
+  # ---------------------- Modification Begin ----------------------
+  let(:webhook_url) { Rails.application.routes.url_helpers.extended_webhooks_firecrawl_url }
+  # ---------------------- Modification End ------------------------
 
   describe '#perform' do
     context 'when CAPTAIN_FIRECRAWL_API_KEY is configured' do

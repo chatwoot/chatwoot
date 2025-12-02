@@ -436,7 +436,7 @@ Rails.application.routes.draw do
     # ---------------------------------------------
     # ---------------------- Modification Begin ----------------------
     scope path: :extended, module: :enterprise, as: :extended, defaults: { format: 'json' } do
-    # ---------------------- Modification End ------------------------
+      # ---------------------- Modification End ------------------------
       namespace :api do
         namespace :v1 do
           resources :accounts do

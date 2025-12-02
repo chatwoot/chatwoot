@@ -66,6 +66,13 @@ This document tracks all modifications made to the original Chatwoot codebase to
   - `config.paths['app/views'].unshift('extended/app/views')`
   - `enterprise_initializers = Rails.root.join('extended/config/initializers')`
 
+### `config/routes.rb`
+
+- **Change**: Updated route namespace from `:enterprise` to `scope path: :extended, module: :enterprise`.
+- **Reason**: Maps the `/extended` URL path to the `Enterprise` module namespace, matching our new branding and directory structure while keeping the internal module references working.
+- **Original**: `namespace :enterprise, defaults: { format: 'json' } do`
+- **Modified**: `scope path: :extended, module: :enterprise, as: :extended, defaults: { format: 'json' } do`
+
 ### `config/initializers/01_inject_enterprise_edition_module.rb`
 
 - **Change 1**: Added mapping to convert `'extended'` extension name to `'Enterprise'` module namespace.
@@ -157,6 +164,13 @@ This document tracks all modifications made to the original Chatwoot codebase to
 - **Original**: `path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'`
 - **Modified**: `path = enterprise ? 'extended/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'`
 
+### `extended/lib/captain/prompt_renderer.rb`
+
+- **Change**: Updated template path from `enterprise/` to `extended/`.
+- **Reason**: Ensures the renderer looks for liquid templates in the correct `extended` directory.
+- **Original**: `template_path = Rails.root.join('enterprise', 'lib', 'captain', 'prompts', "#{template_name}.liquid")`
+- **Modified**: `template_path = Rails.root.join('extended', 'lib', 'captain', 'prompts', "#{template_name}.liquid")`
+
 ## Tasks & Configuration
 
 ### `lib/tasks/auto_annotate_models.rake`
@@ -174,8 +188,19 @@ This document tracks all modifications made to the original Chatwoot codebase to
   - `extended/lib/captain/agent.rb`
   - `extended/app/helpers/captain/chat_helper.rb`
   - `extended/app/models/captain/assistant.rb`
+- **Change 2**: Added explicit exclusion for `enterprise/` directory.
+- **Reason**: Prevents linting errors from the original enterprise code which is not being used/maintained.
+- **Modified**: Added `- 'enterprise/**/*'` to `Exclude` list.
+
+### `.rspec`
+
+- **Change**: Added exclusion for `spec/enterprise/**/*_spec.rb`.
+- **Reason**: Prevents running the original enterprise specs which would fail due to path changes. We now run specs in `spec/extended/`.
+- **Modified**: Added `--exclude-pattern 'spec/enterprise/**/*_spec.rb'`
 
 ## Specs (Test Files)
+
+**Note**: A new `spec/extended/` directory was created to house tests for the extended functionality. The original `spec/enterprise/` directory is excluded from test runs.
 
 All spec files that referenced `/enterprise/` API endpoints or paths were updated to `/extended/`:
 

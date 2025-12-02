@@ -5,7 +5,14 @@ require 'rails_helper'
 RSpec.describe Captain::PromptRenderer do
   let(:template_name) { 'test_template' }
   let(:template_content) { 'Hello {{name}}, your balance is {{balance}}' }
-  let(:template_path) { Rails.root.join('enterprise', 'lib', 'captain', 'prompts', "#{template_name}.liquid") }
+  # -------------- Reason ---------------
+  # Updated path to point to 'extended' directory
+  # ------------ Original -----------------------
+  # let(:template_path) { Rails.root.join('enterprise', 'lib', 'captain', 'prompts', "#{template_name}.liquid") }
+  # ---------------------------------------------
+  # ---------------------- Modification Begin ----------------------
+  let(:template_path) { Rails.root.join('extended', 'lib', 'captain', 'prompts', "#{template_name}.liquid") }
+  # ---------------------- Modification End ------------------------
   let(:context) { { name: 'John', balance: 100 } }
 
   before do
