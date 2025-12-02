@@ -52,10 +52,8 @@ const attributeIcon = computed(() => {
       <div class="flex gap-2 items-center">
         <AttributeBadge
           v-for="badge in badges"
-          :key="badge.label || badge"
-          :label="badge.label || badge"
-          :icon="badge.icon"
-          :color="badge.color"
+          :key="badge.label"
+          :type="badge.type"
         />
         <div class="w-px h-3 bg-n-strong" />
         <Button

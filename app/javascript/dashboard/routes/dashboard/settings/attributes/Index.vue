@@ -8,12 +8,19 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import AttributeListItem from 'dashboard/components-next/ConversationWorkflow/AttributeListItem.vue';
 import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import {
+  useStoreGetters,
+  useStore,
+  useMapGetter,
+} from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 const { t } = useI18n();
 
 const getters = useStoreGetters();
 const store = useStore();
+const { currentAccount } = useAccount();
+const inboxes = useMapGetter('inboxes/getInboxes');
 
 const showAddPopup = ref(false);
 const selectedTabIndex = ref(0);
@@ -76,9 +83,49 @@ const handleDeleteAttribute = attribute => {
   showDeletePopup.value = true;
 };
 
-const badges = computed(() => {
-  return ['pre-chat', 'resolution'];
-});
+const requiredAttributeKeys = computed(
+  () => currentAccount.value?.settings?.conversation_required_attributes || []
+);
+
+const hasPreChatBadge = attribute => {
+  return (inboxes.value || []).some(inbox => {
+    const fields =
+      inbox?.pre_chat_form_options?.pre_chat_fields ||
+      inbox?.channel?.pre_chat_form_options?.pre_chat_fields ||
+      [];
+    return fields.some(field => field.name === attribute.attribute_key);
+  });
+};
+
+const buildBadges = attribute => {
+  const badges = [];
+  if (hasPreChatBadge(attribute)) {
+    badges.push({
+      type: 'pre-chat',
+    });
+  }
+
+  if (
+    attribute.attribute_model === 'conversation_attribute' &&
+    requiredAttributeKeys.value.includes(attribute.attribute_key)
+  ) {
+    badges.push({
+      type: 'resolution',
+    });
+  }
+
+  return badges;
+};
+
+const derivedAttributes = computed(() =>
+  attributes.value.map(attribute => ({
+    ...attribute,
+    label: attribute.attribute_display_name,
+    type: attribute.attribute_display_type,
+    value: attribute.attribute_key,
+    badges: buildBadges(attribute),
+  }))
+);
 </script>
 
 <template>
@@ -114,15 +161,10 @@ const badges = computed(() => {
         />
         <div class="grid gap-3">
           <AttributeListItem
-            v-for="attribute in attributes"
+            v-for="attribute in derivedAttributes"
             :key="attribute.id"
-            :attribute="{
-              ...attribute,
-              label: attribute.attribute_display_name,
-              type: attribute.attribute_display_type,
-              value: attribute.attribute_key,
-            }"
-            :badges="badges"
+            :attribute="attribute"
+            :badges="attribute.badges"
             @edit="handleEditAttribute"
             @delete="handleDeleteAttribute"
           />
