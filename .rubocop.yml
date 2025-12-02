@@ -237,6 +237,15 @@ AllCops:
     - 'config/environments/**/*'
     - 'tmp/**/*'
     - 'storage/**/*'
+    # -------------- Reason ---------------
+    # Exclude enterprise and extended directories from linting
+    # ------------ Original -----------------------
+    # (no exclusion)
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    - 'enterprise/**/*'
+    - 'extended/**/*'
+    # ---------------------- Modification End ------------------------
     - 'db/migrate/20230426130150_init_schema.rb'
 
 FactoryBot/SyntaxMethods:

@@ -72,7 +72,8 @@ module InjectEnterpriseEditionModule
       # -------------- Reason ---------------
       # Maps 'extended' directory to 'Enterprise' module namespace for compatibility
       # ------------ Original -----------------------
-      # extension_namespace = const_get_maybe_false(namespace, extension_name.camelize)
+      # extension_namespace =
+      const_get_maybe_false(namespace, extension_name.camelize)
       # ---------------------------------------------
       # ---------------------- Modification Begin ----------------------
       module_name = extension_name == 'extended' ? 'Enterprise' : extension_name.camelize
