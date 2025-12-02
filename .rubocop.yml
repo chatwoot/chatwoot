@@ -100,7 +100,6 @@ Rails/HelperInstanceVariable:
     # - enterprise/app/helpers/captain/chat_helper.rb
     # - 'enterprise/app/helpers/captain/tool_execution_helper.rb'
     # ---------------------------------------------
-
     # ---------------------- Modification Begin ----------------------
     - extended/app/helpers/captain/chat_helper.rb
     - 'extended/app/helpers/captain/tool_execution_helper.rb'

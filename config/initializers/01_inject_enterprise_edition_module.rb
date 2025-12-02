@@ -69,15 +69,14 @@ module InjectEnterpriseEditionModule
 
   def each_extension_for(constant_name, namespace)
     ChatwootApp.extensions.each do |extension_name|
-      extension_namespace =
-        # -------------- Reason ---------------
-        # Maps 'extended' directory to 'Enterprise' module namespace for compatibility
-        # ------------ Original -----------------------
-        # const_get_maybe_false(namespace, extension_name.camelize)
-        # ---------------------------------------------
-        # ---------------------- Modification Begin ----------------------
-        module_name = extension_name == 'extended' ? 'Enterprise' : extension_name.camelize
-      const_get_maybe_false(namespace, module_name)
+      # -------------- Reason ---------------
+      # Maps 'extended' directory to 'Enterprise' module namespace for compatibility
+      # ------------ Original -----------------------
+      # extension_namespace = const_get_maybe_false(namespace, extension_name.camelize)
+      # ---------------------------------------------
+      # ---------------------- Modification Begin ----------------------
+      module_name = extension_name == 'extended' ? 'Enterprise' : extension_name.camelize
+      extension_namespace = const_get_maybe_false(namespace, module_name)
       # ---------------------- Modification End ------------------------
 
       extension_module =
