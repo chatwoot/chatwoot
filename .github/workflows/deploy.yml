@@ -170,6 +170,10 @@ jobs:
             IP_LOOKUP_API_KEY: "${{ secrets.IP_LOOKUP_API_KEY }}"
             PAYZAH_API_URL: "${{ secrets.PAYZAH_API_URL }}"
             ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
+            APPSIGNAL_PUSH_API_KEY: "${{ secrets.PRODUCTION_APP_SIGNAL_PUSH_API_KEY }}"
+            APPSIGNAL_APP_NAME: "${{ secrets.PRODUCTION_APP_SIGNAL_APP_NAME }}"
+            POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
+            POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
           EOF
           kubectl apply -f k8s/production/configmap.yaml
       
@@ -234,6 +238,10 @@ jobs:
             IP_LOOKUP_API_KEY: "${{ secrets.IP_LOOKUP_API_KEY }}"
             PAYZAH_API_URL: "${{ secrets.PAYZAH_API_URL }}"
             ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
+            APPSIGNAL_PUSH_API_KEY: "${{ secrets.PRODUCTION_APP_SIGNAL_PUSH_API_KEY }}"
+            APPSIGNAL_APP_NAME: "${{ secrets.PRODUCTION_APP_SIGNAL_APP_NAME }}"
+            POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
+            POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
           EOF
           kubectl apply -f k8s/production/secret.yaml -n default
           rm k8s/production/secret.yaml

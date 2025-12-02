@@ -11,6 +11,16 @@ class Payzah::CreatePaymentLinkService
   DEFAULT_CURRENCY = 'KWD'.freeze
   DEFAULT_LANGUAGE = 'en'.freeze
 
+  # ISO 4217 numeric currency codes required by Payzah API
+  CURRENCY_CODES = {
+    'KWD' => 414,
+    'USD' => 840,
+    'EUR' => 978,
+    'GBP' => 826,
+    'SAR' => 682,
+    'AED' => 784
+  }.freeze
+
   attr_reader :trackid, :amount, :currency, :language, :customer, :api_key
 
   # rubocop:disable Metrics/ParameterLists
@@ -50,17 +60,15 @@ class Payzah::CreatePaymentLinkService
       success_url: success_url,
       error_url: error_url,
       language: language,
-      currency: currency,
+      currency: numeric_currency_code,
       payment_type: PAYMENT_TYPE_ALL,
       customer_name: customer[:name],
       customer_email: customer[:email]
-      # customer_phone: customer[:phone] # avoid adding the phone number
     }
   end
 
   def format_amount(value)
-    # Ensure amount is formatted as a string with 2 decimal places
-    format('%.2f', value.to_f)
+    value.to_f.round(3)
   end
 
   def success_url
@@ -73,6 +81,10 @@ class Payzah::CreatePaymentLinkService
 
   def base_url
     ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+  end
+
+  def numeric_currency_code
+    CURRENCY_CODES[currency.to_s.upcase] || currency
   end
 
   def validate_params!

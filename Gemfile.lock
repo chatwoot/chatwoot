@@ -131,6 +131,9 @@ GEM
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
+    appsignal (4.7.5)
+      logger
+      rack (>= 2.0.0)
     ast (2.4.3)
     attr_extras (7.1.0)
     audited (5.4.1)
@@ -993,6 +996,7 @@ DEPENDENCIES
   administrate-field-belongs_to_search (>= 0.9.0)
   ai-agents (>= 0.4.3)
   annotate
+  appsignal
   attr_extras
   audited (~> 5.4, >= 5.4.1)
   aws-sdk-s3
