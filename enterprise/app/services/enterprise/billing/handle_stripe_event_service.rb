@@ -49,13 +49,25 @@ class Enterprise::Billing::HandleStripeEventService
     # skipping self hosted plan events
     return if plan.blank? || account.blank?
 
-    # Capture usage before updating attributes
-    current_usage = account.custom_attributes['captain_responses_usage'].to_i
-
+    previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     update_plan_features
-    handle_subscription_credits(plan, current_usage)
+    handle_subscription_credits(plan, previous_usage)
     account.reset_response_usage
+  end
+
+  def capture_previous_usage
+    {
+      responses: account.custom_attributes['captain_responses_usage'].to_i,
+      monthly: current_plan_credits[:responses]
+    }
+  end
+
+  def current_plan_credits
+    plan_name = account.custom_attributes['plan_name']
+    return { responses: 0, documents: 0 } if plan_name.blank?
+
+    get_plan_credits(plan_name)
   end
 
   def update_account_attributes(subscription, plan)
@@ -132,27 +144,15 @@ class Enterprise::Billing::HandleStripeEventService
     enable_plan_specific_features
   end
 
-  def handle_subscription_credits(plan, current_usage)
-    plan_credits = get_plan_credits(plan['name'])
+  def handle_subscription_credits(plan, previous_usage)
+    new_plan_credits = get_plan_credits(plan['name'])[:responses]
     current_limits = account.limits || {}
-    current_topup = current_limits['captain_responses_topup'].to_i
-    current_monthly = current_limits['captain_responses_monthly'].to_i
+    total_credits = current_limits['captain_responses'].to_i
 
-    # Deduct overused credits from topup if usage exceeded monthly limit
-    remaining = current_monthly - current_usage
-    current_topup += remaining if remaining.negative? && current_topup.positive?
+    topup_deduct = [previous_usage[:responses] - previous_usage[:monthly], 0].max
+    total_credits = total_credits - topup_deduct - previous_usage[:monthly] + new_plan_credits
 
-    monthly_credits = plan_credits[:responses]
-    total_credits = monthly_credits + current_topup
-
-    account.update!(
-      limits: current_limits.merge(
-        'captain_responses_monthly' => monthly_credits,
-        'captain_responses_topup' => current_topup,
-        'captain_responses' => total_credits,
-        'captain_documents' => plan_credits[:documents]
-      )
-    )
+    account.update!(limits: current_limits.merge('captain_responses' => total_credits))
   end
 
   def get_plan_credits(plan_name)

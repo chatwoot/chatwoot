@@ -119,9 +119,7 @@ module Enterprise::Account::PlanUsageAndLimits
         'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
         'captain_responses' => { 'type': 'number' },
-        'captain_documents' => { 'type': 'number' },
-        'captain_responses_topup' => { 'type': 'number' },
-        'captain_responses_monthly' => { 'type': 'number' }
+        'captain_documents' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

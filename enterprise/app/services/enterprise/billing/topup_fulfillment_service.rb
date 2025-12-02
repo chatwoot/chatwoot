@@ -36,15 +36,11 @@ class Enterprise::Billing::TopupFulfillmentService
 
   def update_account_credits(credits)
     current_limits = account.limits || {}
-    current_topup = current_limits['captain_responses_topup'].to_i
-    current_monthly = current_limits['captain_responses_monthly'].to_i
-
-    new_topup = current_topup + credits
-    new_total = current_monthly + new_topup
+    current_total = current_limits['captain_responses'].to_i
+    new_total = current_total + credits
 
     account.update!(
       limits: current_limits.merge(
-        'captain_responses_topup' => new_topup,
         'captain_responses' => new_total
       )
     )
