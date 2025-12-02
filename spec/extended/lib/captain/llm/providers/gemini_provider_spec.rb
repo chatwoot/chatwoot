@@ -4,7 +4,8 @@ require 'gemini-ai'
 RSpec.describe Captain::Llm::Providers::GeminiProvider do
   let(:api_key) { 'test_api_key' }
   let(:provider) { described_class.new(api_key: api_key) }
-  let(:client) { double('GeminiClient') }
+  # Use a simple double for OpenAI::Files as it may not be loaded
+  let(:client) { double('GeminiClient') } # rubocop:disable RSpec/VerifiedDoubles
 
   before do
     allow(Gemini).to receive(:new).and_return(client)
