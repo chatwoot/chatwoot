@@ -20,7 +20,8 @@
       "CHANGE_STATUS": "Change status",
       "SNOOZE_UNTIL": "Snooze",
       "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
-      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+      "UPDATE_FAILED": "Failed to update conversations. Please try again.",
+      "REQUIRED_ATTRIBUTES_MISSING": "Some conversations need required attributes before resolving and were skipped."
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import TextArea from 'next/textarea/TextArea.vue';
@@ -7,75 +7,16 @@ import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ChoiceToggle from 'dashboard/components-next/input/ChoiceToggle.vue';
 
+const emit = defineEmits(['submit']);
+
 const { t } = useI18n();
 
 const dialogRef = ref(null);
-
-const attributes = [
-  {
-    id: 1,
-    attribute_display_name: 'Severity',
-    attribute_display_type: 'text',
-    attribute_key: 'severity',
-  },
-  {
-    id: 3,
-    attribute_display_name: 'Cloud customer',
-    attribute_display_type: 'checkbox',
-    attribute_key: 'cloud_customer',
-  },
-  {
-    id: 4,
-    attribute_display_name: 'Plan',
-    attribute_display_type: 'list',
-    attribute_key: 'plan',
-    attribute_values: ['gold', 'silver', 'bronze'],
-  },
-  {
-    id: 5,
-    attribute_display_name: 'Signup date',
-    attribute_display_type: 'date',
-    attribute_key: 'signup_date',
-  },
-  {
-    id: 6,
-    attribute_display_name: 'Home page',
-    attribute_display_type: 'link',
-    attribute_key: 'home_page',
-  },
-  {
-    id: 7,
-    attribute_display_name: 'Reg number',
-    attribute_display_type: 'number',
-    attribute_key: 'reg_number',
-  },
-].map(attribute => ({
-  ...attribute,
-  value: attribute.attribute_key,
-  label: attribute.attribute_display_name,
-  type: attribute.attribute_display_type,
-}));
-
+const visibleAttributes = ref([]);
 const formValues = ref({});
-
-const resetForm = () => {
-  formValues.value = attributes.reduce((acc, attribute) => {
-    acc[attribute.value] = '';
-    return acc;
-  }, {});
-};
-
-const open = () => {
-  resetForm();
-  dialogRef.value?.open();
-};
 
 const close = () => {
   dialogRef.value?.close();
-};
-
-const handleConfirm = () => {
-  close();
 };
 
 const getPlaceholder = type => {
@@ -100,6 +41,28 @@ const getPlaceholder = type => {
   return placeholders[type] || '';
 };
 
+const isFormComplete = computed(() =>
+  visibleAttributes.value.every(attribute => {
+    const value = formValues.value?.[attribute.value];
+    return value !== undefined && value !== null && String(value).trim() !== '';
+  })
+);
+
+const open = (attributes = [], initialValues = {}) => {
+  visibleAttributes.value = attributes;
+  formValues.value = attributes.reduce((acc, attribute) => {
+    const presetValue = initialValues[attribute.value];
+    acc[attribute.value] =
+      presetValue !== undefined && presetValue !== null ? presetValue : '';
+    return acc;
+  }, {});
+  dialogRef.value?.open();
+};
+
+const handleConfirm = () => {
+  emit('submit', { ...formValues.value });
+};
+
 defineExpose({ open, close });
 </script>
 
@@ -117,11 +80,12 @@ defineExpose({ open, close });
     :cancel-button-label="
       t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.ACTIONS.CANCEL')
     "
+    :show-confirm-button="isFormComplete"
     @confirm="handleConfirm"
   >
     <div class="flex flex-col gap-4">
       <div
-        v-for="attribute in attributes"
+        v-for="attribute in visibleAttributes"
         :key="attribute.value"
         class="flex flex-col gap-2"
       >
@@ -170,7 +134,11 @@ defineExpose({ open, close });
           <ComboBox
             v-model="formValues[attribute.value]"
             :options="
-              (attribute.attribute_values || []).map(option => ({
+              (
+                attribute.attribute_values ||
+                attribute.attributeValues ||
+                []
+              ).map(option => ({
                 value: option,
                 label: option,
               }))
