@@ -35,6 +35,7 @@ class CustomRole < ApplicationRecord
     contact_manage
     report_manage
     knowledge_base_manage
+    campaign_manage
   ].freeze
 
   validates :name, presence: true

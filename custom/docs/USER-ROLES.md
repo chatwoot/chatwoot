@@ -1,6 +1,9 @@
-# Chatwoot User Roles & Permissions
+# CommMate User Roles & Permissions
 
-Complete guide for managing user roles and permissions in Chatwoot.
+Complete guide for managing user roles and permissions in CommMate.
+
+**Last Updated**: December 2, 2025  
+**Version**: CommMate v4.8.0.1
 
 ## 🎭 Available User Roles
 
@@ -56,13 +59,14 @@ Your Chatwoot installation now has **5 user levels** available:
 - ✅ View all conversations (assigned/unassigned)
 - ✅ Manage contacts
 - ✅ Access all reports & analytics
+- ✅ Manage marketing campaigns
 - ✅ Add/remove agents
 - ✅ Manage teams
 - ✅ Manage labels & tags
 - ❌ Cannot change account settings
 - ❌ Cannot configure inboxes/integrations
 
-**Best for:** Team leads, department managers
+**Best for:** Team leads, department managers, marketing coordinators
 
 ---
 
@@ -115,39 +119,52 @@ ssh root@200.98.72.137 'docker exec postgres-chatwoot psql -U chatwoot_user -d c
 
 ---
 
-## 🆕 Creating New Custom Roles
+## 🆕 Managing Custom Roles
+
+### Via Super Admin Console (Recommended)
+
+**Access**: http://localhost:3333/super_admin/custom_roles
+
+1. Navigate to Super Admin Console
+2. Click **"Custom Roles"** in the main navigation
+3. Click **"New Custom Role"** button
+4. Fill in:
+   - **Name**: Role name (e.g., "QA Specialist")
+   - **Description**: What this role does
+   - **Permissions**: Check boxes for permissions to grant
+5. Click **Save**
+
+**Features**:
+- ✅ View all existing custom roles
+- ✅ Create new roles with checkbox permissions
+- ✅ Edit role permissions anytime
+- ✅ Delete unused roles
+- ✅ See which accounts use each role
 
 ### Available Permissions
 
+All permissions are automatically loaded from `CustomRole::PERMISSIONS`:
+
 ```
 Conversations:
-- conversation_view          # View conversations
-- conversation_manage        # Reply, assign, resolve
-- conversation_unassigned_manage  # Access unassigned queue
+- conversation_manage                  # Manage all conversations
+- conversation_unassigned_manage       # Manage unassigned conversations
+- conversation_participating_manage    # Manage participating conversations
 
 Contacts:
-- contact_view              # View contact details
-- contact_manage            # Edit contacts
-
-Team:
-- agent_manage              # Add/remove agents
-- team_manage               # Manage teams
+- contact_manage                       # Manage contacts (edit, merge, delete)
 
 Reports:
-- report_manage             # Access analytics/reports
+- report_manage                        # Access analytics and reports
 
-Inbox:
-- inbox_manage              # Configure inboxes
+Knowledge Base:
+- knowledge_base_manage                # Manage help center articles and portals
 
-Labels:
-- label_manage              # Create/edit labels
-
-Automation:
-- automation_manage         # Configure automation rules
-
-Settings:
-- account_setting_manage    # Change account settings
+Campaigns:
+- campaign_manage                      # Manage marketing campaigns (NEW in v4.8.0.1)
 ```
+
+**Note**: Permissions are dynamically loaded. New permissions added to `CustomRole::PERMISSIONS` automatically appear in the Super Admin UI.
 
 ### Create Custom Role via Database
 
