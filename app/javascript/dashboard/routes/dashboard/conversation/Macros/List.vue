@@ -91,7 +91,6 @@ onMounted(() => {
     <Draggable
       v-if="!uiFlags.isFetching && macros.length"
       v-model="orderedMacros"
-      class="p-1"
       animation="200"
       ghost-class="ghost"
       handle=".drag-handle"

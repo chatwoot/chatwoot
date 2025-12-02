@@ -236,6 +236,7 @@ onMounted(() => {
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.MACROS')"
               :is-open="isContactSidebarItemOpen('is_macro_open')"
+              compact
               @toggle="value => toggleSidebarUIState('is_macro_open', value)"
             >
               <MacrosList :conversation-id="conversationId" />
