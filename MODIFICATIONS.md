@@ -155,7 +155,7 @@ This document tracks all modifications made to the original Chatwoot codebase to
 - **Change**: Updated path for enterprise OpenAI prompts from `enterprise/` to `extended/`.
 - **Reason**: Points to the correct directory for prompt files.
 - **Original**: `path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'`
-- **Modified**: `path = enterprise ? 'extended/lib/extended/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'`
+- **Modified**: `path = enterprise ? 'extended/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'`
 
 ## Tasks & Configuration
 
@@ -201,7 +201,7 @@ All spec files that referenced `/enterprise/` API endpoints or paths were update
 
 ### `spec/lib/integrations/openai/processor_service_spec.rb`
 
-- **Change**: Updated prompt file path from `enterprise/lib/enterprise/integrations/openai_prompts/` to `extended/lib/extended/integrations/openai_prompts/`.
+- **Change**: Updated prompt file path from `enterprise/lib/enterprise/integrations/openai_prompts/` to `extended/lib/enterprise/integrations/openai_prompts/`.
 - **Reason**: Tests need to reference the correct file paths.
 
 ## Miscellaneous

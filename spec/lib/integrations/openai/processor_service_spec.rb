@@ -117,7 +117,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
             # Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
             # ---------------------------------------------
             # ---------------------- Modification Begin ----------------------
-            Rails.root.join('extended/lib/extended/integrations/openai_prompts/summary.txt').read
+            Rails.root.join('extended/lib/enterprise/integrations/openai_prompts/summary.txt').read
             # ---------------------- Modification End ------------------------
           else
             'Please summarize the key points from the following conversation between support agents and customer as bullet points ' \
