@@ -566,6 +566,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('sla_list'),
         },
         {
+          name: ' Conversation Workflow',
+          label: t('SIDEBAR.CONVERSATION_WORKFLOW'),
+          icon: 'i-lucide-workflow',
+          to: accountScopedRoute('conversation_workflow_index'),
+        },
+        {
           name: 'Settings Security',
           label: t('SIDEBAR.SECURITY'),
           icon: 'i-lucide-shield',
@@ -646,7 +652,7 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="flex flex-col flex-shrink-0 relative gap-1 justify-between items-center"
+      class="flex relative flex-col flex-shrink-0 gap-1 justify-between items-center"
     >
       <div
         class="pointer-events-none absolute inset-x-0 -top-[31px] h-8 bg-gradient-to-t from-n-solid-2 to-transparent"
