@@ -157,7 +157,9 @@ class Enterprise::Billing::HandleStripeEventService
 
   def get_plan_credits(plan_name)
     config = InstallationConfig.find_by(name: CAPTAIN_CLOUD_PLAN_LIMITS)&.value
-    plan_quota = JSON.parse(config) if config.present?
+    return { responses: 0, documents: 0 } if config.blank? || plan_name.blank?
+
+    plan_quota = JSON.parse(config)
     plan_quota[plan_name.downcase]&.symbolize_keys || { responses: 0, documents: 0 }
   end
 

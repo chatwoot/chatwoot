@@ -415,7 +415,7 @@
       "MODAL_DESCRIPTION": "Select a credit package to add to your account.",
       "CREDITS": "credits",
       "POPULAR": "Popular",
-      "NOTE": "Credits are added to your account immediately after purchase and never expire.",
+      "NOTE": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
       "CANCEL": "Cancel",
       "PURCHASE": "Purchase",
       "LOADING": "Loading options...",
