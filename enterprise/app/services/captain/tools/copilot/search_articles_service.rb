@@ -29,7 +29,7 @@ class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseTool
 
   private
 
-  def fetch_articles(query, category_id, status)
+  def fetch_articles(query:, category_id:, status:)
     articles = Article.where(account_id: @assistant.account_id)
     articles = articles.where('title ILIKE :query OR content ILIKE :query', query: "%#{query}%") if query.present?
     articles = articles.where(category_id: category_id) if category_id.present?
