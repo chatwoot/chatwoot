@@ -54,7 +54,14 @@ class Captain::Documents::CrawlJob < ApplicationJob
   end
 
   def firecrawl_webhook_url(document)
-    webhook_url = Rails.application.routes.url_helpers.enterprise_webhooks_firecrawl_url
+    # -------------- Reason ---------------
+    # Updated webhook_url to use extended_webhooks_firecrawl_url
+    # ------------ Original -----------------------
+    # webhook_url = Rails.application.routes.url_helpers.enterprise_webhooks_firecrawl_url
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    webhook_url = Rails.application.routes.url_helpers.extended_webhooks_firecrawl_url
+    # ---------------------- Modification End ------------------------
 
     "#{webhook_url}?assistant_id=#{document.assistant_id}&token=#{generate_firecrawl_token(document.assistant_id, document.account_id)}"
   end

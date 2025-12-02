@@ -1,12 +1,10 @@
 name: Test Docker Build
-
 on:
   pull_request:
     branches:
       - develop
       - master
   workflow_dispatch:
-
 jobs:
   test-build:
     strategy:
@@ -22,32 +20,19 @@ jobs:
           #   runner: ubuntu-22.04-arm
           # ---------------------------------------------
           # ---------------------- Modification Begin ----------------------
-          # ARM64 build disabled
           # ---------------------- Modification End ------------------------
+            
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
       # -------------- Reason ---------------
-      # Changed push from false to true to enable pushing to GitHub Container Registry
+      # Added GitHub Container Registry authentication to enable pushing test images
       # ------------ Original -----------------------
-      # - name: Build Docker image
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     file: docker/Dockerfile
-      #     platforms: ${{ matrix.platform }}
-      #     push: false
-      #     load: false
-      #     cache-from: type=gha,scope=${{ matrix.platform }}
-      #     cache-to: type=gha,mode=max,scope=${{ matrix.platform }}
       # ---------------------------------------------
       # ---------------------- Modification Begin ----------------------
       - name: Login to GitHub Container Registry
@@ -56,19 +41,35 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+      # ---------------------- Modification End ------------------------
+      # -------------- Reason ---------------
+      # Added step to convert repository name to lowercase (required by ghcr.io)
+      # ------------ Original -----------------------
+      # ---------------------------------------------
+      # ---------------------- Modification Begin ----------------------
       - name: Set lowercase repository name
         id: repo
         run: echo "repository=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
-
+      # ---------------------- Modification End ------------------------
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: docker/Dockerfile
           platforms: ${{ matrix.platform }}
+          # -------------- Reason ---------------
+          # Changed to push test images to GHCR with tags and enhanced caching
+          # ------------ Original -----------------------
+          # push: false
+          # load: false
+          # cache-from: type=gha,scope=${{ matrix.platform }}
+          # ---------------------------------------------
+          # ---------------------- Modification Begin ----------------------
           push: true
           tags: ghcr.io/${{ steps.repo.outputs.repository }}:test-${{ github.sha }}
-          cache-from: type=gha,scope=${{ matrix.platform }}
+          cache-from: |
+            type=gha,scope=${{ matrix.platform }}
+            type=gha,scope=develop-${{ matrix.platform }}
+          # ---------------------- Modification End ------------------------
           cache-to: type=gha,mode=max,scope=${{ matrix.platform }}
-      # ---------------------- Modification End ------------------------
+          
