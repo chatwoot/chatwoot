@@ -4,12 +4,10 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
   end
   description 'Search conversations based on parameters'
 
-  params do
-    string :status, description: 'Status of the conversation'
-    number :contact_id, description: 'Contact id'
-    string :priority, description: 'Priority of conversation'
-    string :labels, description: 'Labels available'
-  end
+  param :status, type: :string, desc: 'Status of the conversation'
+  param :contact_id, type: :number, desc: 'Contact id'
+  param :priority, type: :string, desc: 'Priority of conversation'
+  param :labels, type: :string, desc: 'Labels available'
 
   def execute(status: nil, contact_id: nil, priority: nil, labels: nil)
     Rails.logger.info("Searching conversations for status: #{status}, contact_id: #{contact_id}, priority: #{priority}, labels: #{labels}")
@@ -49,14 +47,5 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
       @user,
       @assistant.account
     ).perform
-  end
-
-  def properties
-    {
-      contact_id: { type: 'number', description: 'Filter conversations by contact ID' },
-      status: { type: 'string', enum: %w[open resolved pending snoozed], description: 'Filter conversations by status' },
-      priority: { type: 'string', enum: %w[low medium high urgent], description: 'Filter conversations by priority' },
-      labels: { type: 'array', items: { type: 'string' }, description: 'Filter conversations by labels' }
-    }
   end
 end
