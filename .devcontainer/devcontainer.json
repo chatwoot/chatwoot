@@ -2,7 +2,13 @@
   "name": "Chatwoot Development Codespace",
   "service": "app",
   "dockerComposeFile": "docker-compose.yml",
-
+  // -------------- Reason ---------------
+  // Explicitly sets the workspace directory
+  // ------------ Original -----------------------
+  // ---------------------------------------------
+  // ---------------------- Modification Begin ----------------------
+  "workspaceFolder": "/workspace",
+  // ---------------------- Modification End ------------------------
   "settings": {
     "terminal.integrated.shell.linux": "/bin/zsh",
     "extensions.showRecommendationsOnlyOnDemand": true,

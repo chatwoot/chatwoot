@@ -17,8 +17,14 @@ export function usePolicy() {
   const isACustomBrandedInstance = useMapGetter(
     'globalConfig/isACustomBrandedInstance'
   );
-
-  const { isEnterprise, enterprisePlanName } = useConfig();
+  // -------------- Reason ---------------
+  // Removes the enterprise plan name from the config since it is not used
+  // ------------ Original -----------------------
+  // const { isEnterprise, enterprisePlanName } = useConfig();
+  // ---------------------------------------------
+  // ---------------------- Modification Begin ----------------------
+  const { isEnterprise } = useConfig();
+  // ---------------------- Modification End ------------------------
   const { accountId } = useAccount();
 
   const getUserPermissionsForAccount = () => {
@@ -39,7 +45,15 @@ export function usePolicy() {
   const checkInstallationType = config => {
     if (Array.isArray(config) && config.length > 0) {
       const installationCheck = {
-        [INSTALLATION_TYPES.ENTERPRISE]: isEnterprise,
+        // -------------- Reason ---------------
+        // Shows Enterprise-only features even when running in Community mode
+        // ------------ Original -----------------------
+        // [INSTALLATION_TYPES.ENTERPRISE]: isEnterprise,
+        // ---------------------------------------------
+
+        // ---------------------- Modification Begin ----------------------
+        [INSTALLATION_TYPES.ENTERPRISE]: true,
+        // ---------------------- Modification End ------------------------
         [INSTALLATION_TYPES.CLOUD]: isOnChatwootCloud.value,
         [INSTALLATION_TYPES.COMMUNITY]: true,
       };
@@ -56,9 +70,15 @@ export function usePolicy() {
   };
 
   const hasPremiumEnterprise = computed(() => {
-    if (isEnterprise) return enterprisePlanName !== 'community';
+    // -------------- Reason ---------------
+    // Removes paywalls from Enterprise features
+    // ------------ Original -----------------------
+    // if (isEnterprise) return enterprisePlanName !== 'community';
+    // ---------------------------------------------
 
+    // ---------------------- Modification Begin ----------------------
     return true;
+    // ---------------------- Modification End ------------------------
   });
 
   const shouldShow = (featureFlag, permissions, installationTypes) => {

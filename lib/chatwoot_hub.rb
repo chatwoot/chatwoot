@@ -19,15 +19,29 @@ class ChatwootHub
   end
 
   def self.pricing_plan
-    return 'community' unless ChatwootApp.enterprise?
-
-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
+    # -------------- Reason ---------------
+    # Extended features are available by default in this Community edition
+    # ------------ Original -----------------------
+    # return 'community' unless ChatwootApp.enterprise?
+    #
+    # InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    'community'
+    # ---------------------- Modification End ------------------------
   end
 
   def self.pricing_plan_quantity
-    return 0 unless ChatwootApp.enterprise?
-
-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0
+    # -------------- Reason ---------------
+    # Community edition has no seat limits
+    # ------------ Original -----------------------
+    # return 0 unless ChatwootApp.enterprise?
+    #
+    # InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    0
+    # ---------------------- Modification End ------------------------
   end
 
   def self.support_config

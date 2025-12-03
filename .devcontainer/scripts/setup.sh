@@ -12,5 +12,16 @@ if [ -n "$CLAUDE_CODE_API_KEY" ]; then
   chmod +x ~/.claude/anthropic_key.sh
 fi
 
-# codespaces make the ports public
-gh codespace ports visibility 3000:public 3036:public 8025:public -c $CODESPACE_NAME
+
+# codespaces make the ports public (only if running in GitHub Codespaces)
+# -------------- Reason ---------------
+# Prevents script failure when running in local devcontainer (not GitHub Codespaces)
+# ------------ Original -----------------------
+# gh codespace ports visibility 3000:public 3036:public 8025:public -c $CODESPACE_NAME || true
+# ---------------------------------------------
+# ---------------------- Modification Begin ----------------------
+if [ -n "$CODESPACE_NAME" ]; then
+  gh codespace ports visibility 3000:public 3036:public 8025:public -c $CODESPACE_NAME || true
+fi
+# ---------------------- Modification End ------------------------
+

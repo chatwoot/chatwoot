@@ -429,7 +429,14 @@ Rails.application.routes.draw do
   end
 
   if ChatwootApp.enterprise?
-    namespace :enterprise, defaults: { format: 'json' } do
+    # -------------- Reason ---------------
+    # Updated route namespace to 'extended' to match new branding
+    # ------------ Original -----------------------
+    # namespace :enterprise, defaults: { format: 'json' } do
+    # ---------------------------------------------
+    # ---------------------- Modification Begin ----------------------
+    scope path: :extended, module: :enterprise, as: :extended, defaults: { format: 'json' } do
+      # ---------------------- Modification End ------------------------
       namespace :api do
         namespace :v1 do
           resources :accounts do

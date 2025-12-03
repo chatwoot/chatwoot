@@ -111,7 +111,14 @@ RSpec.describe Integrations::Openai::ProcessorService do
         end
         let(:summary_prompt) do
           if ChatwootApp.enterprise?
-            Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
+            # -------------- Reason ---------------
+            # Modified to check for 'extended' directory instead of 'enterprise'
+            # ------------ Original -----------------------
+            # Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
+            # ---------------------------------------------
+            # ---------------------- Modification Begin ----------------------
+            Rails.root.join('extended/lib/enterprise/integrations/openai_prompts/summary.txt').read
+            # ---------------------- Modification End ------------------------
           else
             'Please summarize the key points from the following conversation between support agents and customer as bullet points ' \
               "for the next support agent looking into the conversation. Reply in the user's language."

@@ -1,1 +1,8 @@
 --require spec_helper
+# -------------- Reason ---------------
+# Exclude enterprise specs from running
+# ------------ Original -----------------------
+# ---------------------------------------------
+# ---------------------- Modification Begin ----------------------
+--exclude-pattern 'spec/enterprise/**/*_spec.rb'
+# ---------------------- Modification End ------------------------
