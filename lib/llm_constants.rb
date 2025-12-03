@@ -41,12 +41,12 @@ module LlmConstants
   # @return [Hash] Provider-specific defaults
   def self.defaults_for(provider)
     case provider.to_s.downcase
-    when 'openai'
+    when 'openai', ''
       OPENAI
     when 'gemini'
       GEMINI
     else
-      OPENAI
+      raise ArgumentError, "Unknown LLM provider: #{provider}. Supported providers: openai, gemini"
     end
   end
 end

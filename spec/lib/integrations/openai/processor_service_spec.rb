@@ -219,16 +219,15 @@ RSpec.describe Integrations::Openai::ProcessorService do
         end
       end
 
-      context 'without CAPTAIN_OPEN_AI_ENDPOINT configured' do
-        before { InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy }
+      context 'without CAPTAIN_LLM_ENDPOINT configured' do
+        before { InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.destroy }
 
         it_behaves_like 'endpoint request', 'https://api.openai.com'
       end
 
-      context 'with CAPTAIN_OPEN_AI_ENDPOINT configured' do
+      context 'with CAPTAIN_LLM_ENDPOINT configured' do
         before do
-          InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy
-          create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://custom.azure.com/')
+          create(:installation_config, name: 'CAPTAIN_LLM_ENDPOINT', value: 'https://custom.azure.com')
         end
 
         it_behaves_like 'endpoint request', 'https://custom.azure.com'

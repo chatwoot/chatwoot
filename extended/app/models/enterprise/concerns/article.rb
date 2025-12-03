@@ -79,7 +79,8 @@ module Enterprise::Concerns::Article
   private
 
   def openai_api_url
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value
+    defaults = LlmConstants.current_defaults
+    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value || defaults[:endpoint]
     endpoint = endpoint.chomp('/')
     "#{endpoint}/v1/chat/completions"
   end

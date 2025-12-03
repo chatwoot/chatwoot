@@ -83,7 +83,8 @@ class Integrations::OpenaiBaseService
   end
 
   def api_url
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence
+    defaults = LlmConstants.current_defaults
+    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value || defaults[:endpoint]
     endpoint = endpoint.chomp('/')
     "#{endpoint}/v1/chat/completions"
   end
