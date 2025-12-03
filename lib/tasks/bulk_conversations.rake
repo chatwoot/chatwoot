@@ -1,10 +1,10 @@
 namespace :conversations do
   desc 'Generate bulk conversations with contacts and movie dialogue messages'
   task :generate_bulk, [:count, :account_id, :inbox_id] => :environment do |_t, args|
-    if Rails.env.production?
-      puts 'Generating bulk data in production can have serious performance implications.'
-      puts 'Exiting to avoid impacting a live environment.'
-      exit
+    unless Rails.env.development?
+      puts 'This task can only be run in the development environment.'
+      puts 'Current environment: #{Rails.env}'
+      exit(1)
     end
 
     count = (args[:count] || ENV['COUNT'] || 10).to_i
