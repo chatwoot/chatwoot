@@ -30,7 +30,7 @@ module Integrations::LlmInstrumentation
       result
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
+    ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
     yield
   end
 
@@ -44,11 +44,10 @@ module Integrations::LlmInstrumentation
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
       result = yield
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
-
       result
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
+    ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
     yield
   end
 
@@ -78,6 +77,13 @@ module Integrations::LlmInstrumentation
   end
 
   private
+
+  def resolve_account(params)
+    return params[:account] if params[:account].is_a?(Account)
+    return Account.find_by(id: params[:account_id]) if params[:account_id].present?
+
+    nil
+  end
 
   def setup_span_attributes(span, params)
     set_request_attributes(span, params)
