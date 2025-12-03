@@ -90,11 +90,12 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
+  <div
+    class="flex justify-between items-center h-[3.5rem] gap-2 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2"
+  >
     <EditorModeToggle
       :mode="mode"
       :disabled="isReplyRestricted"
-      class="mt-3"
       @toggle-mode="handleModeToggle"
     />
     <div class="flex items-center mx-4 my-0">
@@ -106,7 +107,7 @@ export default {
     </div>
     <NextButton
       ghost
-      class="ltr:rounded-bl-md rtl:rounded-br-md ltr:rounded-br-none rtl:rounded-bl-none ltr:rounded-tl-none rtl:rounded-tr-none text-n-slate-11 ltr:rounded-tr-[11px] rtl:rounded-tl-[11px]"
+      sm
       icon="i-lucide-maximize-2"
       @click="$emit('togglePopout')"
     />

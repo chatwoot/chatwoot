@@ -134,6 +134,7 @@ export const useInbox = (inboxId = null) => {
 
   return {
     inbox,
+    channelType,
     isAFacebookInbox,
     isALineChannel,
     isAPIInbox,

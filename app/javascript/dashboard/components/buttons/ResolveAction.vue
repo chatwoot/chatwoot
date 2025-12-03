@@ -139,8 +139,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
     <ButtonGroup
-      class="rounded-lg shadow outline-1 outline flex-shrink-0"
-      :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
+      class="rounded-lg shadow outline-1 outline outline-n-weak flex-shrink-0"
     >
       <Button
         v-if="isOpen"
@@ -178,7 +177,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :disabled="isLoading"
         size="sm"
         no-animation
-        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
+        class="ltr:rounded-l-none rtl:rounded-r-none !outline-n-weak"
         color="slate"
         trailing-icon
         @click="openDropdown"
