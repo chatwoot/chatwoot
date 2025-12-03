@@ -691,7 +691,7 @@
       "AGENT_ASSIGNMENT_SUB_TEXT": "Aggiorna le impostazioni di assegnazione della conversazione",
       "UPDATE": "Aggiorna",
       "ENABLE_EMAIL_COLLECT_BOX": "Abilita raccolta indirizzi email",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Abilita o disabilita una casella/modulo di raccolta indirizzi email nelle nuove conversazioni",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Abilita o disabilita il form di raccolta indirizzi email nelle nuove conversazioni",
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
       "SENDER_NAME_SECTION": "Abilita il Nome Operatore nelle Email",
       "SENDER_NAME_SECTION_TEXT": "Abilita/Disabilita la visualizzazione del nome dell'Operatore nelle email. Se disabilitato, verrà mostrato il nome dell'azienda",
@@ -741,7 +741,7 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Sincronizza manualmente i modelli di messaggi da WhatsApp per aggiornare i modelli disponibili.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sincronizza Modelli",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sincronizzazione modelli iniziata. Potrebbe volerci qualche minuto per aggiornare.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Aggiorna le Impostazioni del Modulo Pre Chat"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Aggiorna le Impostazioni del Modulo Pre-Chat"
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",
