@@ -58,11 +58,54 @@ module Integrations::LlmInstrumentation
   end
 
   def instrument_embedding_call(params)
-    # TODO: implement embedding instrumentation
+    return yield unless ChatwootApp.otel_enabled?
+
+    instrument_with_span(params[:span_name] || 'llm.embedding', params) do |span, track_result|
+      set_embedding_span_attributes(span, params)
+      result = yield
+      track_result.call(result)
+      set_embedding_result_attributes(span, result)
+      result
+    end
   end
 
   def instrument_audio_transcription(params)
-    # TODO: implement audio transcription instrumentation
+    return yield unless ChatwootApp.otel_enabled?
+
+    instrument_with_span(params[:span_name] || 'llm.audio.transcription', params) do |span, track_result|
+      set_audio_transcription_span_attributes(span, params)
+      result = yield
+      track_result.call(result)
+      set_transcription_result_attributes(span, result)
+      result
+    end
+  end
+
+  def instrument_moderation_call(params)
+    return yield unless ChatwootApp.otel_enabled?
+
+    instrument_with_span(params[:span_name] || 'llm.moderation', params) do |span, track_result|
+      set_moderation_span_attributes(span, params)
+      result = yield
+      track_result.call(result)
+      set_moderation_result_attributes(span, result)
+      result
+    end
+  end
+
+  def instrument_with_span(span_name, params)
+    result = nil
+    executed = false
+    tracer.in_span(span_name) do |span|
+      track_result = lambda do |r|
+        executed = true
+        result = r
+      end
+      yield(span, track_result)
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
+    executed ? result : yield
   end
 
   def determine_provider(model_name)
