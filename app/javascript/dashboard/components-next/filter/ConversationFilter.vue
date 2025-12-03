@@ -128,7 +128,7 @@ const outsideClickHandler = [
         {{ filterModalHeaderTitle }}
       </h3>
       <div v-if="props.isFolderView" class="px-6">
-        <div class="border-b border-n-weak pb-6">
+        <div class="border-b border-n-strong pb-6">
           <Input
             v-model="folderNameLocal"
             :label="t('FILTER.FOLDER_LABEL')"
