@@ -399,15 +399,31 @@
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "RESPONSES": "Credits",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "Ανανέωση"
     },
     "CHAT_WITH_US": {
       "TITLE": "Χρειάζεστε βοήθεια;",
       "DESCRIPTION": "Αντιμετωπίζετε οποιαδήποτε προβλήματα στην τιμολόγηση? Είμαστε εδώ για να βοηθήσουμε.",
       "BUTTON_TXT": "Συνομιλήστε μαζί μας"
     },
-    "NO_BILLING_USER": "Ο λογαριασμός χρέωσης έχει ρυθμιστεί. Παρακαλώ ανανεώστε τη σελίδα και προσπαθήστε ξανά."
+    "NO_BILLING_USER": "Ο λογαριασμός χρέωσης έχει ρυθμιστεί. Παρακαλώ ανανεώστε τη σελίδα και προσπαθήστε ξανά.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Σημείωση:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "Άκυρο",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again."
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
