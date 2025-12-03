@@ -460,7 +460,7 @@ data:
       ],
       "schemaVersion": 27,
       "style": "dark",
-      "tags": ["aloochat", "staging", "application"],
+      "tags": ["aloochat", "production", "application"],
       "templating": {
         "list": []
       },
