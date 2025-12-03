@@ -10,7 +10,7 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
     # Mock OpenAI configuration
     installation_config = instance_double(InstallationConfig, value: 'test-api-key')
     allow(InstallationConfig).to receive(:find_by!)
-      .with(name: 'CAPTAIN_OPEN_AI_API_KEY')
+      .with(name: 'CAPTAIN_LLM_API_KEY')
       .and_return(installation_config)
 
     allow(OpenAI::Client).to receive(:new).and_return(openai_client)

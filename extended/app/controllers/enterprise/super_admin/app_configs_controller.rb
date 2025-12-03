@@ -47,10 +47,11 @@ module Enterprise::SuperAdmin::AppConfigsController
 
   def captain_config_options
     %w[
-      CAPTAIN_OPEN_AI_API_KEY
-      CAPTAIN_OPEN_AI_MODEL
-      CAPTAIN_OPEN_AI_ENDPOINT
-      CAPTAIN_EMBEDDING_MODEL
+      CAPTAIN_LLM_PROVIDER
+      CAPTAIN_LLM_API_KEY
+      CAPTAIN_LLM_MODEL
+      CAPTAIN_LLM_ENDPOINT
+      CAPTAIN_LLM_EMBEDDING_MODEL
       CAPTAIN_FIRECRAWL_API_KEY
     ]
   end

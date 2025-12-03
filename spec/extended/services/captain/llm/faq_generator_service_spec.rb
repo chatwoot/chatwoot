@@ -7,7 +7,7 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
   let(:client) { instance_double(OpenAI::Client) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'test-key')
     allow(OpenAI::Client).to receive(:new).and_return(client)
   end
 

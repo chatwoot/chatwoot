@@ -7,7 +7,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
   let(:mock_client) { instance_double(OpenAI::Client) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'test-key')
     allow(Captain::Tools::SimplePageCrawlService).to receive(:new).and_return(mock_crawler)
     allow(service).to receive(:client).and_return(mock_client)
     allow(service).to receive(:model).and_return('gpt-3.5-turbo')

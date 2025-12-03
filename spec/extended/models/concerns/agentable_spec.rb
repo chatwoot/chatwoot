@@ -36,7 +36,7 @@ RSpec.describe Concerns::Agentable do
 
   before do
     allow(Agents::Agent).to receive(:new).and_return(mock_agents_agent)
-    allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_OPEN_AI_MODEL').and_return(mock_installation_config)
+    allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_LLM_MODEL').and_return(mock_installation_config)
     allow(Captain::PromptRenderer).to receive(:render).and_return('rendered_template')
   end
 

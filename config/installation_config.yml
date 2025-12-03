@@ -172,20 +172,29 @@
 # End of Microsoft Email Channel Config
 
 # MARK: Captain Config
-- name: CAPTAIN_OPEN_AI_API_KEY
-  display_title: 'OpenAI API Key'
-  description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
+- name: CAPTAIN_LLM_PROVIDER
+  display_title: 'LLM Provider'
+  description: 'The LLM provider to use for Captain AI (openai, gemini)'
+  value: 'openai'
+  locked: false
+  type: select
+  options:
+    openai: 'OpenAI'
+    gemini: 'Google Gemini'
+- name: CAPTAIN_LLM_API_KEY
+  display_title: 'LLM API Key'
+  description: 'The API key used to authenticate requests to the LLM provider.'
   locked: false
   type: secret
-- name: CAPTAIN_OPEN_AI_MODEL
-  display_title: 'OpenAI Model'
-  description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4o-mini'
+- name: CAPTAIN_LLM_MODEL
+  display_title: 'LLM Model'
+  description: 'The LLM model configured for use in Captain AI. Default: gpt-4o-mini'
   locked: false
-- name: CAPTAIN_OPEN_AI_ENDPOINT
-  display_title: 'OpenAI API Endpoint (optional)'
-  description: 'The OpenAI endpoint configured for use in Captain AI. Default: https://api.openai.com/'
+- name: CAPTAIN_LLM_ENDPOINT
+  display_title: 'LLM API Endpoint (optional)'
+  description: 'The endpoint configured for use in Captain AI. Default to the selected LLM provider'
   locked: false
-- name: CAPTAIN_EMBEDDING_MODEL
+- name: CAPTAIN_LLM_EMBEDDING_MODEL
   display_title: 'Embedding Model (optional)'
   description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
   locked: false
