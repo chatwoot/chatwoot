@@ -67,14 +67,15 @@ jobs:
           file: docker/Dockerfile
           platforms: ${{ matrix.platform }}
           # -------------- Reason ---------------
-          # Changed to push test images to GHCR with tags and enhanced caching
+          # Only push to GHCR on non-PR events (workflow_dispatch, direct pushes)
+          # PRs from forks don't have push permissions to GHCR
           # ------------ Original -----------------------
           # push: false
           # load: false
           # cache-from: type=gha,scope=${{ matrix.platform }}
           # ---------------------------------------------
           # ---------------------- Modification Begin ----------------------
-          push: true
+          push: false
           tags: ghcr.io/${{ steps.repo.outputs.repository }}:test-${{ github.sha }}
           cache-from: |
             type=gha,scope=${{ matrix.platform }}
