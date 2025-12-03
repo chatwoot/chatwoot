@@ -112,6 +112,10 @@ class RequestAiResponseJob < ApplicationJob
     begin
       Rails.logger.info "Sending AI request for conversation #{conversation.id} to #{deployment_url}"
 
+      # Start typing heartbeat to keep typing indicator alive during long AI requests
+      # Frontend auto-cancels typing after 30 seconds, so we send heartbeat every 25 seconds
+      typing_heartbeat_thread = start_typing_heartbeat(conversation, ai_agent)
+
       # Prepare multipart request if audio file is present
       if audio_attachment.present?
         Rails.logger.info "[AI_JOB] 🎵 Including audio file in AI request: #{audio_attachment.file.filename}"
@@ -154,13 +158,16 @@ class RequestAiResponseJob < ApplicationJob
           }
           rest_payload[:channel_info] = form_data[:channel_info] if form_data[:channel_info].present?
 
-          rest_response = RestClient.post(
-            deployment_url,
-            rest_payload,
-            {
+          rest_response = RestClient::Request.execute(
+            method: :post,
+            url: deployment_url,
+            payload: rest_payload,
+            headers: {
               'x-api-token' => api_token,
               'clerk-id' => clerk_id
-            }
+            },
+            timeout: 180, # 3 minutes for AI response
+            open_timeout: 30 # 30 seconds to establish connection
           )
 
           Rails.logger.info "[AI_JOB] 🎵 RestClient response received: #{rest_response.code}"
@@ -188,7 +195,8 @@ class RequestAiResponseJob < ApplicationJob
         response = HTTParty.post(
           deployment_url,
           body: form_data,
-          headers: headers
+          headers: headers,
+          timeout: 180 # 3 minutes for AI response
         )
       end
 
@@ -251,6 +259,9 @@ class RequestAiResponseJob < ApplicationJob
       Rails.logger.error "An unexpected error occurred while requesting AI response for conversation #{conversation.id}: #{e.message}"
       hide_ai_typing_indicator(conversation, ai_agent)
     ensure
+      # Stop typing heartbeat thread
+      stop_typing_heartbeat(typing_heartbeat_thread)
+
       # Clean up job lock using same key strategy
       dedup_key = (message.source_id.presence || "msg_#{message.id}")
       job_redis_key = "ai_job_running:#{dedup_key}"
@@ -600,5 +611,48 @@ class RequestAiResponseJob < ApplicationJob
     )
   rescue StandardError => e
     Rails.logger.error "[AI_JOB] ❌ Failed to hide typing indicator: #{e.message}"
+  end
+
+  # Start a background thread that sends typing_on events every 25 seconds
+  # This keeps the typing indicator alive during long AI requests
+  # Frontend auto-cancels typing after 30 seconds, so 25s interval ensures continuity
+  def start_typing_heartbeat(conversation, ai_agent)
+    return nil unless conversation && ai_agent&.is_ai?
+
+    Rails.logger.info "[AI_JOB] 💓 Starting typing heartbeat for conversation #{conversation.id}"
+
+    Thread.new do
+      loop do
+        sleep 25 # Send heartbeat every 25 seconds (before 30s frontend timeout)
+
+        begin
+          Rails.logger.info "[AI_JOB] 💓 Sending typing heartbeat for conversation #{conversation.id}"
+          Rails.configuration.dispatcher.dispatch(
+            CONVERSATION_TYPING_ON,
+            Time.zone.now,
+            conversation: conversation,
+            user: ai_agent,
+            is_private: false
+          )
+        rescue StandardError => e
+          Rails.logger.error "[AI_JOB] ❌ Typing heartbeat error: #{e.message}"
+          break
+        end
+      end
+    end
+  rescue StandardError => e
+    Rails.logger.error "[AI_JOB] ❌ Failed to start typing heartbeat: #{e.message}"
+    nil
+  end
+
+  # Stop the typing heartbeat thread
+  def stop_typing_heartbeat(thread)
+    return unless thread&.alive?
+
+    Rails.logger.info '[AI_JOB] 💓 Stopping typing heartbeat'
+    thread.kill
+    thread.join(1) # Wait up to 1 second for thread to terminate
+  rescue StandardError => e
+    Rails.logger.error "[AI_JOB] ❌ Failed to stop typing heartbeat: #{e.message}"
   end
 end
