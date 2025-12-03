@@ -4,14 +4,13 @@
 export const FORMATTING = {
   // Channel formatting
   'Channel::Email': {
-    marks: ['strong', 'em', 'code', 'link', 'strike'],
+    marks: ['strong', 'em', 'code', 'link'],
     nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],
     menu: [
       'strong',
       'em',
       'code',
       'link',
-      'strike',
       'bulletList',
       'orderedList',
       'undo',
