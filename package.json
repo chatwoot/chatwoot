@@ -45,7 +45,7 @@
     "@rails/actioncable": "6.1.3",
     "@rails/ujs": "^7.1.400",
     "@scmmishra/pico-search": "0.5.4",
-    "@sentry/vue": "^8.31.0",
+    "@sentry/vue": "^8.55.0",
     "@sindresorhus/slugify": "2.2.1",
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/vue-table": "^8.20.5",
