@@ -100,11 +100,13 @@ const handlePurchase = async () => {
       selectedOption.value.credits
     );
 
-    if (response.data.success) {
-      close();
-      emit('success', response.data);
-      useAlert(response.data.message);
-    }
+    close();
+    emit('success', response.data);
+    useAlert(
+      t('BILLING_SETTINGS.TOPUP.PURCHASE_SUCCESS', {
+        credits: response.data.credits,
+      })
+    );
   } catch (error) {
     const errorMessage =
       error.response?.data?.error || t('BILLING_SETTINGS.TOPUP.PURCHASE_ERROR');

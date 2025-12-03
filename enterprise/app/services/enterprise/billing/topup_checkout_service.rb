@@ -18,8 +18,6 @@ class Enterprise::Billing::TopupCheckoutService
     fulfill_credits(credits, topup_option)
 
     {
-      success: true,
-      message: "Successfully added #{credits} credits to your account",
       credits: credits,
       amount: topup_option[:amount],
       currency: topup_option[:currency]
@@ -31,7 +29,7 @@ class Enterprise::Billing::TopupCheckoutService
   def validate_and_find_topup_option(credits)
     raise Error, I18n.t('errors.topup.invalid_credits') unless credits.to_i.positive?
     raise Error, I18n.t('errors.topup.plan_not_eligible') if default_plan?(account)
-    raise Error, 'Stripe customer not configured' if stripe_customer_id.blank?
+    raise Error, I18n.t('errors.topup.stripe_customer_not_configured') if stripe_customer_id.blank?
 
     topup_option = find_topup_option(credits)
     raise Error, I18n.t('errors.topup.invalid_option') unless topup_option
@@ -49,11 +47,9 @@ class Enterprise::Billing::TopupCheckoutService
 
     # Auto-set first payment method as default if available
     payment_methods = Stripe::PaymentMethod.list(customer: stripe_customer_id, limit: 1)
-    raise Error, 'No payment methods found. Please add a payment method before making a purchase.' if payment_methods.data.empty?
+    raise Error, I18n.t('errors.topup.no_payment_method') if payment_methods.data.empty?
 
     Stripe::Customer.update(stripe_customer_id, invoice_settings: { default_payment_method: payment_methods.data.first.id })
-  rescue Stripe::StripeError => e
-    raise Error, "Error validating payment method: #{e.message}"
   end
 
   def charge_customer(topup_option, credits)
