@@ -72,7 +72,10 @@ class Account < ApplicationRecord
             'help_center_search': { 'type': %w[boolean null] }
           },
           'additionalProperties': false
-        }
+        },
+        'auto_resolve_message_agent': { 'type': %w[string null] },
+        'auto_resolve_message_client': { 'type': %w[string null] },
+        'auto_resolve_split_reasons': { 'type': %w[boolean null] }
       },
     'required': [],
     'additionalProperties': true
@@ -91,7 +94,8 @@ class Account < ApplicationRecord
                  attribute_resolver: ->(record) { record.settings }
   validate :validate_reporting_timezone
 
-  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
+  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, 
+                            :auto_resolve_message_agent, :auto_resolve_message_client, :auto_resolve_split_reasons
 
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
   store_accessor :settings, :captain_models, :captain_features
