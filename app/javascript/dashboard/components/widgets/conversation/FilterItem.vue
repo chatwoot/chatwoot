@@ -47,6 +47,8 @@ export default {
           'setConversationReadStatusFilter',
           this.activeValue
         );
+      } else if (this.type === 'agent') {
+        this.$store.dispatch('setAgentFilter', this.activeValue);
       } else {
         this.$store.dispatch('setChatSortFilter', this.activeValue);
       }

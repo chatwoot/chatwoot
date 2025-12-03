@@ -96,6 +96,7 @@ const getters = {
   getConversationReadStatusFilter: ({ conversationReadStatusFilter }) =>
     conversationReadStatusFilter,
   getChatSortFilter: ({ chatSortFilter }) => chatSortFilter,
+  getAgentFilter: ({ agentFilter }) => agentFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getConversationById: _state => conversationId => {
     return _state.allConversations.find(

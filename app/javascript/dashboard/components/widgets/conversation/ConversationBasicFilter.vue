@@ -37,6 +37,17 @@
           @onChangeFilter="onChangeFilter"
         />
       </div>
+      <div class="items-center flex justify-between mt-4">
+        <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">
+          {{ $t('CHAT_LIST.FILTER_AGENT') }}
+        </span>
+        <filter-item
+          type="agent"
+          :selected-value="activeAgent"
+          :items="agentFilterItems"
+          @onChangeFilter="onChangeFilter"
+        />
+      </div>
       <div class="items-center flex justify-between last:mt-4">
         <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
           $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
@@ -87,6 +98,8 @@ export default {
       chatStatusFilter: 'getChatStatusFilter',
       chatSortFilter: 'getChatSortFilter',
       conversationReadStatusFilter: 'getConversationReadStatusFilter',
+      agentFilter: 'getAgentFilter',
+      agents: 'agents/getAgents',
     }),
     chatStatus() {
       return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
@@ -101,6 +114,26 @@ export default {
       return (
         this.chatSortFilter || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC
       );
+    },
+    activeAgent() {
+      return this.agentFilter || wootConstants.AGENT_FILTER_TYPE.ALL;
+    },
+    agentFilterItems() {
+      const agents = this.agents || [];
+      const items = {
+        all: { TEXT: this.$t('CHAT_LIST.AGENT_FILTER_ITEMS.all.TEXT') },
+        unassigned: {
+          TEXT: this.$t('CHAT_LIST.AGENT_FILTER_ITEMS.unassigned.TEXT'),
+        },
+      };
+
+      agents.forEach(agent => {
+        items[agent.id] = {
+          TEXT: agent.available_name || agent.name || 'Agent',
+        };
+      });
+
+      return items;
     },
   },
   methods: {

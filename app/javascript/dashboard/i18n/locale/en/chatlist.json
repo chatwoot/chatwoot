@@ -36,6 +36,15 @@
       }
     },
     "VIEW_FILTER": "View",
+    "FILTER_AGENT": "Agent",
+    "AGENT_FILTER_ITEMS": {
+      "all": {
+        "TEXT": "All"
+      },
+      "unassigned": {
+        "TEXT": "Unassigned"
+      }
+    },
     "SORT_TOOLTIP_LABEL": "Sort conversations",
     "CHAT_SORT": {
       "STATUS": "Status",

@@ -68,6 +68,7 @@ class ConversationFinder
     filter_by_query
     filter_by_source_id
     filter_by_conversation_read_status
+    filter_by_assignee_id
   end
 
   def set_inboxes
@@ -157,6 +158,18 @@ class ConversationFinder
                      .select(:id)
                      .distinct)
     end
+  end
+
+  def filter_by_assignee_id
+    return if params[:assignee_id].blank?
+
+    return if params[:assignee_id] == 'all'
+
+    @conversations = if params[:assignee_id] == 'unassigned'
+                       @conversations.where(assignee_id: nil)
+                     else
+                       @conversations.where(assignee_id: params[:assignee_id])
+                     end
   end
 
   def filter_by_labels

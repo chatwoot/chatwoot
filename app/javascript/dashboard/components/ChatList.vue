@@ -251,6 +251,7 @@ export default {
       activeSortBy: wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC,
       activeConversationReadStatus:
         wootConstants.CONVERSATION_READ_STATUS_TYPE.ALL,
+      activeAgentId: wootConstants.AGENT_FILTER_TYPE.ALL,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
@@ -402,6 +403,8 @@ export default {
       return {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
+        assigneeId:
+          this.activeAgentId !== 'all' ? this.activeAgentId : undefined,
         status: this.activeStatus,
         sortBy: this.activeSortBy,
         conversationReadStatus: this.activeConversationReadStatus,
@@ -822,6 +825,8 @@ export default {
         this.activeStatus = value;
       } else if (type === 'readState') {
         this.activeConversationReadStatus = value;
+      } else if (type === 'agent') {
+        this.activeAgentId = value;
       } else {
         this.activeSortBy = value;
       }

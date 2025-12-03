@@ -27,6 +27,10 @@ export default {
     UNREAD: 'unread',
     READ: 'read',
   },
+  AGENT_FILTER_TYPE: {
+    ALL: 'all',
+    UNASSIGNED: 'unassigned',
+  },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,
     PUBLISH: 1,
