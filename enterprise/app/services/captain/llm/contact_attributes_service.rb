@@ -33,21 +33,15 @@ class Captain::Llm::ContactAttributesService < Llm::BaseAiService
   def instrumentation_params
     {
       span_name: 'llm.captain.contact_attributes',
-      account_id: hook.account_id,
-      conversation_id: conversation&.display_id,
-      feature_name: 'contact_attributes',
       model: @model,
       temperature: @temperature,
+      account_id: @conversation.account_id,
+      feature_name: 'contact_attributes',
       messages: [
-        {
-          role: 'system',
-          content: system_prompt
-        },
-        {
-          role: 'user',
-          content: @content
-        }
-      ]
+        { role: 'system', content: system_prompt },
+        { role: 'user', content: @content }
+      ],
+      metadata: { assistant_id: @assistant.id, contact_id: @contact.id }
     }
   end
 

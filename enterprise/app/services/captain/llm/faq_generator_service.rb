@@ -32,20 +32,12 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
   def instrumentation_params
     {
       span_name: 'llm.captain.faq_generator',
-      account_id: hook.account_id,
-      conversation_id: conversation&.display_id,
-      feature_name: 'faq_generator',
       model: @model,
       temperature: @temperature,
+      feature_name: 'faq_generator',
       messages: [
-        {
-          role: 'system',
-          content: system_prompt
-        },
-        {
-          role: 'user',
-          content: @content
-        }
+        { role: 'system', content: system_prompt },
+        { role: 'user', content: @content }
       ]
     }
   end

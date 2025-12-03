@@ -97,21 +97,16 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def instrumentation_params
     {
       span_name: 'llm.captain.conversation_faq',
-      account_id: hook.account_id,
-      conversation_id: conversation&.display_id,
-      feature_name: 'conversation_faq',
       model: @model,
       temperature: @temperature,
+      account_id: @conversation.account_id,
+      conversation_id: @conversation.id,
+      feature_name: 'conversation_faq',
       messages: [
-        {
-          role: 'system',
-          content: system_prompt
-        },
-        {
-          role: 'user',
-          content: @content
-        }
-      ]
+        { role: 'system', content: system_prompt },
+        { role: 'user', content: @content }
+      ],
+      metadata: { assistant_id: @assistant.id }
     }
   end
 
