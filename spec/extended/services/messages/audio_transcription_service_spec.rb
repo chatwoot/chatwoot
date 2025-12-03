@@ -16,24 +16,26 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
   end
 
   describe '#perform' do
+    let(:service) { described_class.new(attachment) }
+
     context 'when captain_integration feature is not enabled' do
       before do
         account.disable_features!('captain_integration')
       end
 
       it 'returns transcription limit exceeded' do
-        service = described_class.new(attachment)
         expect(service.perform).to eq({ error: 'Transcription limit exceeded' })
       end
     end
 
     context 'when transcription is successful' do
-      it 'returns successful transcription' do
-        service = described_class.new(attachment)
+      before do
         # Mock can_transcribe? to return true and transcribe_audio method
         allow(service).to receive(:can_transcribe?).and_return(true)
         allow(service).to receive(:transcribe_audio).and_return('Hello world transcription')
+      end
 
+      it 'returns successful transcription' do
         result = service.perform
         expect(result).to eq({ success: true, transcriptions: 'Hello world transcription' })
       end
@@ -45,7 +47,6 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       end
 
       it 'returns error for transcription limit exceeded' do
-        service = described_class.new(attachment)
         result = service.perform
         expect(result).to eq({ error: 'Transcription limit exceeded' })
       end
@@ -54,12 +55,10 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
     context 'when attachment already has transcribed text' do
       before do
         attachment.update!(meta: { transcribed_text: 'Existing transcription' })
+        allow(service).to receive(:can_transcribe?).and_return(true)
       end
 
       it 'returns existing transcription without calling API' do
-        service = described_class.new(attachment)
-        allow(service).to receive(:can_transcribe?).and_return(true)
-
         result = service.perform
         expect(result).to eq({ success: true, transcriptions: 'Existing transcription' })
       end
