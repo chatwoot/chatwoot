@@ -130,9 +130,9 @@ RSpec.describe Captain::Providers::OpenaiProvider do
   end
 
   describe '#transcribe' do
-    let(:file) { double('file') }
+    let(:file) { instance_double(File) }
     let(:model) { 'whisper-1' }
-    let(:mock_audio) { instance_double('OpenAI::Audio') }
+    let(:mock_audio) { instance_double(OpenAI::Audio) }
     let(:mock_response) { { 'text' => 'Transcribed text' } }
 
     before do
@@ -160,9 +160,9 @@ RSpec.describe Captain::Providers::OpenaiProvider do
   end
 
   describe '#upload_file' do
-    let(:file) { double('file') }
+    let(:file) { instance_double(File) }
     let(:purpose) { 'assistants' }
-    let(:mock_files) { instance_double('OpenAI::Files') }
+    let(:mock_files) { instance_double(OpenAI::Files) }
     let(:mock_response) { { 'id' => 'file-123' } }
 
     before do

@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# rubocop:disable RSpec/VerifiedDoubles
 RSpec.describe Captain::Providers::GeminiProvider do
   let(:config) do
     {
@@ -11,11 +12,11 @@ RSpec.describe Captain::Providers::GeminiProvider do
     }
   end
 
+  let(:gemini_client) { double('Gemini') }
   let(:provider) { described_class.new(config) }
-  let(:mock_client) { double('Gemini') }
 
   before do
-    allow(Gemini).to receive(:new).and_return(mock_client)
+    allow(Gemini).to receive(:new).and_return(gemini_client)
   end
 
   describe '#initialize' do
@@ -29,7 +30,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
           model: 'gemini-2.5-flash',
           server_sent_events: true
         }
-      )
+      ).and_return(gemini_client)
 
       described_class.new(config)
     end
@@ -54,7 +55,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
         ]
       }
 
-      expect(mock_client).to receive(:stream_generate_content).with(expected_params).and_return(mock_response)
+      expect(gemini_client).to receive(:stream_generate_content).with(expected_params).and_return(mock_response)
 
       result = provider.chat(messages: messages, model: model)
       expect(result[:choices][0][:message][:content]).to eq('Hi there!')
@@ -66,7 +67,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
         { role: 'assistant', content: 'Hi' }
       ]
 
-      expect(mock_client).to receive(:stream_generate_content) do |params|
+      expect(gemini_client).to receive(:stream_generate_content) do |params|
         expect(params[:contents][0][:role]).to eq('user')
         expect(params[:contents][1][:role]).to eq('model')
         mock_response
@@ -76,7 +77,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
     end
 
     it 'includes temperature in generation_config when provided' do
-      expect(mock_client).to receive(:stream_generate_content) do |params|
+      expect(gemini_client).to receive(:stream_generate_content) do |params|
         expect(params[:generation_config][:temperature]).to eq(0.7)
         mock_response
       end
@@ -85,7 +86,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
     end
 
     it 'includes max_tokens as max_output_tokens when provided' do
-      expect(mock_client).to receive(:stream_generate_content) do |params|
+      expect(gemini_client).to receive(:stream_generate_content) do |params|
         expect(params[:generation_config][:max_output_tokens]).to eq(1000)
         mock_response
       end
@@ -94,7 +95,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
     end
 
     it 'handles errors gracefully' do
-      allow(mock_client).to receive(:stream_generate_content).and_raise(StandardError.new('API Error'))
+      allow(gemini_client).to receive(:stream_generate_content).and_raise(StandardError.new('API Error'))
 
       result = provider.chat(messages: messages, model: model)
       expect(result).to eq({ error: 'API Error' })
@@ -118,14 +119,14 @@ RSpec.describe Captain::Providers::GeminiProvider do
         content: { parts: [{ text: 'Test text' }] }
       }
 
-      expect(mock_client).to receive(:embed_content).with(expected_params).and_return(mock_response)
+      expect(gemini_client).to receive(:embed_content).with(expected_params).and_return(mock_response)
 
       result = provider.embeddings(input: input, model: model)
       expect(result[:data][0][:embedding]).to eq([0.1, 0.2, 0.3])
     end
 
     it 'handles errors gracefully' do
-      allow(mock_client).to receive(:embed_content).and_raise(StandardError.new('API Error'))
+      allow(gemini_client).to receive(:embed_content).and_raise(StandardError.new('API Error'))
 
       result = provider.embeddings(input: input, model: model)
       expect(result).to eq({ error: 'API Error' })
@@ -133,7 +134,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
   end
 
   describe '#transcribe' do
-    let(:file) { double('file', read: 'audio data') }
+    let(:file) { instance_double(File, read: 'audio data') }
     let(:model) { 'gemini-2.5-flash' }
     let(:mock_response) do
       {
@@ -144,7 +145,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
     end
 
     it 'makes transcription request with audio data' do
-      expect(mock_client).to receive(:generate_content) do |params|
+      expect(gemini_client).to receive(:generate_content) do |params|
         expect(params[:model]).to eq('models/gemini-2.5-flash')
         expect(params[:contents][:parts][0][:inline_data][:mime_type]).to eq('audio/wav')
         mock_response
@@ -155,7 +156,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
     end
 
     it 'handles errors gracefully' do
-      allow(mock_client).to receive(:generate_content).and_raise(StandardError.new('API Error'))
+      allow(gemini_client).to receive(:generate_content).and_raise(StandardError.new('API Error'))
 
       result = provider.transcribe(file: file, model: model)
       expect(result).to eq({ error: 'API Error' })
@@ -163,7 +164,7 @@ RSpec.describe Captain::Providers::GeminiProvider do
   end
 
   describe '#upload_file' do
-    let(:file) { double('file', content_type: 'application/pdf', original_filename: 'test.pdf') }
+    let(:file) { instance_double(ActionDispatch::Http::UploadedFile, content_type: 'application/pdf', original_filename: 'test.pdf') }
     let(:purpose) { 'assistants' }
     let(:mock_response) do
       {
@@ -172,21 +173,22 @@ RSpec.describe Captain::Providers::GeminiProvider do
     end
 
     it 'makes file upload request' do
-      expect(mock_client).to receive(:upload_file) do |params|
+      expect(gemini_client).to receive(:upload_file) do |params|
         expect(params[:file][:data]).to eq(file)
         expect(params[:display_name]).to eq('test.pdf')
         mock_response
       end
 
-      result = provider.upload_file(file: file, purpose: purpose)
+      result = provider.upload_file(file: file, _purpose: purpose)
       expect(result[:file][:id]).to eq('files/abc123')
     end
 
     it 'handles errors gracefully' do
-      allow(mock_client).to receive(:upload_file).and_raise(StandardError.new('API Error'))
+      allow(gemini_client).to receive(:upload_file).and_raise(StandardError.new('API Error'))
 
-      result = provider.upload_file(file: file, purpose: purpose)
+      result = provider.upload_file(file: file, _purpose: purpose)
       expect(result).to eq({ error: 'API Error' })
     end
   end
 end
+# rubocop:enable RSpec/VerifiedDoubles

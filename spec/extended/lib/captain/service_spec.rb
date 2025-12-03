@@ -21,7 +21,7 @@ RSpec.describe Captain::Service do
 
     before do
       service.instance_variable_set(:@config, config)
-      service.instance_variable_set(:@client, double('client'))
+      service.instance_variable_set(:@client, instance_double(OpenAI::Client))
     end
 
     it 'raises NotImplementedError for #chat' do
@@ -37,13 +37,13 @@ RSpec.describe Captain::Service do
     end
 
     it 'raises NotImplementedError for #transcribe' do
-      expect { service.transcribe(file: double, model: 'test') }.to raise_error(
+      expect { service.transcribe(file: instance_double(File), model: 'test') }.to raise_error(
         NotImplementedError, /must implement #transcribe/
       )
     end
 
     it 'raises NotImplementedError for #upload_file' do
-      expect { service.upload_file(file: double, purpose: 'test') }.to raise_error(
+      expect { service.upload_file(file: instance_double(File), purpose: 'test') }.to raise_error(
         NotImplementedError, /must implement #upload_file/
       )
     end
