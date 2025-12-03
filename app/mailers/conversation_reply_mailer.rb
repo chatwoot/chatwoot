@@ -4,6 +4,7 @@ class ConversationReplyMailer < ApplicationMailer
   attr_reader :large_attachments
 
   include ConversationReplyMailerHelper
+  include ReferencesHeaderBuilder
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'AlooChat <accounts@aloochat.ai>')
   layout :choose_layout
 
