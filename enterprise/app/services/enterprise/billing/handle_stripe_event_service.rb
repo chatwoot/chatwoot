@@ -1,5 +1,6 @@
 class Enterprise::Billing::HandleStripeEventService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
+  CAPTAIN_CLOUD_PLAN_LIMITS = 'CAPTAIN_CLOUD_PLAN_LIMITS'.freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
@@ -33,6 +34,8 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
+    when 'checkout.session.completed'
+      process_checkout_session_completed
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -46,9 +49,25 @@ class Enterprise::Billing::HandleStripeEventService
     # skipping self hosted plan events
     return if plan.blank? || account.blank?
 
+    previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     update_plan_features
-    reset_captain_usage
+    handle_subscription_credits(plan, previous_usage)
+    account.reset_response_usage
+  end
+
+  def capture_previous_usage
+    {
+      responses: account.custom_attributes['captain_responses_usage'].to_i,
+      monthly: current_plan_credits[:responses]
+    }
+  end
+
+  def current_plan_credits
+    plan_name = account.custom_attributes['plan_name']
+    return { responses: 0, documents: 0 } if plan_name.blank?
+
+    get_plan_credits(plan_name)
   end
 
   def update_account_attributes(subscription, plan)
@@ -71,6 +90,31 @@ class Enterprise::Billing::HandleStripeEventService
     return if account.blank?
 
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+  end
+
+  def process_checkout_session_completed
+    session = @event.data.object
+    metadata = session.metadata
+
+    # Only process topup checkout sessions
+    return unless metadata.present? && metadata['topup'] == 'true'
+
+    topup_account = Account.find_by(id: metadata['account_id'])
+    return if topup_account.blank?
+
+    credits = metadata['credits'].to_i
+    amount_cents = metadata['amount_cents'].to_i
+    currency = metadata['currency'] || 'usd'
+
+    Rails.logger.info("Processing topup for account #{topup_account.id}: #{credits} credits, #{amount_cents} cents")
+    Enterprise::Billing::TopupFulfillmentService.new(account: topup_account).fulfill(
+      credits: credits,
+      amount_cents: amount_cents,
+      currency: currency
+    )
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: topup_account).capture_exception
+    raise
   end
 
   def update_plan_features
@@ -101,8 +145,23 @@ class Enterprise::Billing::HandleStripeEventService
     enable_plan_specific_features
   end
 
-  def reset_captain_usage
-    account.reset_response_usage
+  def handle_subscription_credits(plan, previous_usage)
+    current_limits = account.limits || {}
+
+    current_credits = current_limits['captain_responses'].to_i
+    new_plan_credits = get_plan_credits(plan['name'])[:responses]
+
+    consumed_topup_credits = [previous_usage[:responses] - previous_usage[:monthly], 0].max
+    updated_credits = current_credits - consumed_topup_credits - previous_usage[:monthly] + new_plan_credits
+
+    Rails.logger.info("Updating subscription credits for account #{account.id}: #{current_credits} -> #{updated_credits}")
+    account.update!(limits: current_limits.merge('captain_responses' => updated_credits))
+  end
+
+  def get_plan_credits(plan_name)
+    config = InstallationConfig.find_by(name: CAPTAIN_CLOUD_PLAN_LIMITS).value
+    config = JSON.parse(config) if config.is_a?(String)
+    config[plan_name.downcase]&.symbolize_keys
   end
 
   def enable_plan_specific_features
