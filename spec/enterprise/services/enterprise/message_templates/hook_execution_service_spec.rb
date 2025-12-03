@@ -1,0 +1,138 @@
+require 'rails_helper'
+
+RSpec.describe MessageTemplates::HookExecutionService do
+  let(:account) { create(:account, custom_attributes: { plan_name: 'startups' }) }
+  let(:inbox) { create(:inbox, account: account) }
+  let(:contact) { create(:contact, account: account) }
+  let(:conversation) { create(:conversation, inbox: inbox, account: account, contact: contact, status: :pending) }
+  let(:assistant) { create(:captain_assistant, account: account) }
+
+  before do
+    create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+  end
+
+  describe 'captain assistant business hours behavior' do
+    context 'when captain assistant is configured' do
+      context 'when within business hours' do
+        before do
+          inbox.update!(working_hours_enabled: true)
+          inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+            open_all_day: true,
+            closed_all_day: false
+          )
+        end
+
+        it 'schedules captain response job for incoming messages on pending conversations' do
+          expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+
+          create(:message, conversation: conversation, message_type: :incoming)
+        end
+      end
+
+      context 'when outside business hours' do
+        before do
+          inbox.update!(
+            working_hours_enabled: true,
+            out_of_office_message: 'We are currently closed'
+          )
+          inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+            closed_all_day: true,
+            open_all_day: false
+          )
+        end
+
+        it 'does not schedule captain response job' do
+          expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+          create(:message, conversation: conversation, message_type: :incoming)
+        end
+
+        it 'does not trigger captain handoff even when quota is exceeded' do
+          account.update!(custom_attributes: account.custom_attributes.merge(
+            'captain_usage' => { 'responses_consumed' => account.usage_limits[:captain][:responses][:allowed] }
+          ))
+
+          expect(conversation).not_to receive(:bot_handoff!)
+
+          create(:message, conversation: conversation, message_type: :incoming)
+        end
+
+        it 'still sends out of office message via base class' do
+          out_of_office_service = instance_double(MessageTemplates::Template::OutOfOffice)
+          allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+          allow(out_of_office_service).to receive(:perform).and_return(true)
+
+          create(:message, conversation: conversation, message_type: :incoming)
+
+          expect(MessageTemplates::Template::OutOfOffice).to have_received(:new).with(conversation: conversation)
+          expect(out_of_office_service).to have_received(:perform)
+        end
+      end
+
+      context 'when business hours are not enabled' do
+        before do
+          inbox.update!(working_hours_enabled: false)
+        end
+
+        it 'schedules captain response job regardless of time' do
+          expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+
+          create(:message, conversation: conversation, message_type: :incoming)
+        end
+      end
+
+      context 'when captain quota is exceeded within business hours' do
+        before do
+          inbox.update!(working_hours_enabled: true)
+          inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+            open_all_day: true,
+            closed_all_day: false
+          )
+
+          account.update!(
+            limits: { 'captain_responses' => 100 },
+            custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
+          )
+        end
+
+        it 'performs handoff within business hours when quota exceeded' do
+          create(:message, conversation: conversation, message_type: :incoming)
+
+          expect(conversation.reload.status).to eq('open')
+        end
+      end
+    end
+
+    context 'when no captain assistant is configured' do
+      before do
+        CaptainInbox.where(inbox: inbox).destroy_all
+      end
+
+      it 'does not schedule captain response job' do
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :incoming)
+      end
+    end
+
+    context 'when conversation is not pending' do
+      before do
+        conversation.update!(status: :open)
+      end
+
+      it 'does not schedule captain response job' do
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :incoming)
+      end
+    end
+
+    context 'when message is outgoing' do
+      it 'does not schedule captain response job' do
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :outgoing)
+      end
+    end
+  end
+end
