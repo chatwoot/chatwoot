@@ -19,4 +19,15 @@ class Messages::MarkdownRenderers::BaseMarkdownRenderer < CommonMarker::Renderer
   def linebreak(_node)
     out("\n")
   end
+
+  def method_missing(method_name, node = nil, *args, **kwargs, &)
+    return super unless node.is_a?(CommonMarker::Node)
+
+    out(:children)
+    cr unless %i[text softbreak linebreak].include?(node.type)
+  end
+
+  def respond_to_missing?(_method_name, _include_private = false)
+    true
+  end
 end

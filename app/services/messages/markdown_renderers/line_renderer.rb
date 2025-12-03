@@ -28,4 +28,9 @@ class Messages::MarkdownRenderers::LineRenderer < Messages::MarkdownRenderers::B
   def code_block(node)
     out(' ```', "\n", node.string_content, '``` ', "\n")
   end
+
+  def blockquote(_node)
+    out(:children)
+    cr
+  end
 end

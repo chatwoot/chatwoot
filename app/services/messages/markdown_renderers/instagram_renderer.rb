@@ -24,4 +24,9 @@ class Messages::MarkdownRenderers::InstagramRenderer < Messages::MarkdownRendere
     out(:children)
     cr
   end
+
+  def blockquote(_node)
+    out(:children)
+    cr
+  end
 end
