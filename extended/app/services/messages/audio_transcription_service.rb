@@ -40,9 +40,13 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
 
     temp_file_path = fetch_audio_file
 
+    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+    defaults = LlmConstants.defaults_for(provider)
+    transcription_model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_TRANSCRIPTION_MODEL')&.value.presence || defaults[:transcription_model]
+
     response = @client.audio.transcribe(
       parameters: {
-        model: 'whisper-1',
+        model: transcription_model,
         file: File.open(temp_file_path),
         temperature: 0.4
       }

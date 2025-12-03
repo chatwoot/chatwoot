@@ -187,17 +187,29 @@
   locked: false
   type: secret
 - name: CAPTAIN_LLM_MODEL
-  display_title: 'LLM Model'
-  description: 'The LLM model configured for use in Captain AI. Default: gpt-4o-mini'
+  display_title: 'LLM Chat Model'
+  description: 'The model to use for chat/text generation (Defaults: gpt-4o-mini for OpenAI, gemini-2.5-flash for Gemini)'
+  value: ''
   locked: false
-- name: CAPTAIN_LLM_ENDPOINT
-  display_title: 'LLM API Endpoint (optional)'
-  description: 'The endpoint configured for use in Captain AI. Default to the selected LLM provider'
-  locked: false
+  type: string
 - name: CAPTAIN_LLM_EMBEDDING_MODEL
-  display_title: 'Embedding Model (optional)'
-  description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
+  display_title: 'LLM Embedding Model'
+  description: 'The model to use for generating embeddings (Defaults: text-embedding-3-small for OpenAI, text-embedding-004 for Gemini)'
+  value: ''
   locked: false
+  type: string
+- name: CAPTAIN_LLM_TRANSCRIPTION_MODEL
+  display_title: 'LLM Transcription Model'
+  description: 'The model to use for audio transcription (Defaults: whisper-1 for OpenAI, gemini-2.5-flash for Gemini)'
+  value: ''
+  locked: false
+  type: string
+- name: CAPTAIN_LLM_ENDPOINT
+  display_title: 'LLM API Endpoint'
+  description: 'The endpoint configured for use in Captain AI. Defaults to the selected LLM provider endpoint'
+  value: ''
+  locked: false
+  type: string
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'

@@ -1,0 +1,35 @@
+# frozen_string_literal: true
+
+module LlmConstants
+  # OpenAI provider defaults
+  OPENAI = {
+    endpoint: 'https://api.openai.com',
+    chat_model: 'gpt-4o-mini',
+    embedding_model: 'text-embedding-3-small',
+    transcription_model: 'whisper-1',
+    pdf_processing_model: 'gpt-4o-mini'
+  }.freeze
+
+  # Google Gemini provider defaults
+  GEMINI = {
+    endpoint: 'https://generativelanguage.googleapis.com',
+    chat_model: 'gemini-2.5-flash',
+    embedding_model: 'text-embedding-004',
+    transcription_model: 'gemini-2.5-flash',
+    pdf_processing_model: 'gemini-2.5-pro'
+  }.freeze
+
+  # Get defaults for a specific provider
+  # @param provider [String, Symbol] The provider name ('openai', 'gemini')
+  # @return [Hash] Provider-specific defaults
+  def self.defaults_for(provider)
+    case provider.to_s.downcase
+    when 'openai'
+      OPENAI
+    when 'gemini'
+      GEMINI
+    else
+      OPENAI # Default fallback to OpenAI
+    end
+  end
+end

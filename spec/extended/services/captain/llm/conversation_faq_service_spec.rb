@@ -8,7 +8,8 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
 
   before do
-    create(:installation_config) { create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'test-key') }
+    create(:installation_config, name: 'CAPTAIN_LLM_PROVIDER', value: 'openai')
+    create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'test-key')
     allow(OpenAI::Client).to receive(:new).and_return(client)
     allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
   end
@@ -131,8 +132,10 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
   describe '#chat_parameters' do
     it 'includes correct model and response format' do
+      provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+      defaults = LlmConstants.defaults_for(provider)
       params = service.send(:chat_parameters)
-      expect(params[:model]).to eq('gpt-4o-mini')
+      expect(params[:model]).to eq(defaults[:chat_model])
       expect(params[:response_format]).to eq({ type: 'json_object' })
     end
 

@@ -4,7 +4,9 @@ class Captain::Llm::EmbeddingService < Llm::BaseOpenAiService
   class EmbeddingsError < StandardError; end
 
   def self.embedding_model
-    @embedding_model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_EMBEDDING_MODEL')&.value.presence || OpenAiConstants::DEFAULT_EMBEDDING_MODEL
+    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+    defaults = LlmConstants.defaults_for(provider)
+    @embedding_model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_EMBEDDING_MODEL')&.value.presence || defaults[:embedding_model]
   end
 
   def get_embedding(content, model: self.class.embedding_model)

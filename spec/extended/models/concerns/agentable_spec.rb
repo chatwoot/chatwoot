@@ -33,9 +33,11 @@ RSpec.describe Concerns::Agentable do
   let(:dummy_instance) { dummy_class.new }
   let(:mock_agents_agent) { instance_double(Agents::Agent) }
   let(:mock_installation_config) { instance_double(InstallationConfig, value: 'gpt-4-turbo') }
+  let(:mock_provider_config) { instance_double(InstallationConfig, value: 'openai') }
 
   before do
     allow(Agents::Agent).to receive(:new).and_return(mock_agents_agent)
+    allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_LLM_PROVIDER').and_return(mock_provider_config)
     allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_LLM_MODEL').and_return(mock_installation_config)
     allow(Captain::PromptRenderer).to receive(:render).and_return('rendered_template')
   end
@@ -142,15 +144,20 @@ RSpec.describe Concerns::Agentable do
     end
 
     it 'returns default model when config not found' do
-      allow(InstallationConfig).to receive(:find_by).and_return(nil)
+      allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_LLM_PROVIDER').and_return(mock_provider_config)
+      allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_LLM_MODEL').and_return(nil)
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-mini')
+      provider = mock_provider_config.value
+      defaults = LlmConstants.defaults_for(provider)
+      expect(dummy_instance.send(:agent_model)).to eq(defaults[:chat_model])
     end
 
     it 'returns default model when config value is nil' do
       allow(mock_installation_config).to receive(:value).and_return(nil)
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-mini')
+      provider = mock_provider_config.value
+      defaults = LlmConstants.defaults_for(provider)
+      expect(dummy_instance.send(:agent_model)).to eq(defaults[:chat_model])
     end
   end
 

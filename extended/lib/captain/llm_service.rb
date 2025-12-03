@@ -10,8 +10,12 @@ class Captain::LlmService
   end
 
   def call(messages, functions = [])
+    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+    defaults = LlmConstants.defaults_for(provider)
+    model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
+
     openai_params = {
-      model: 'gpt-4o',
+      model: model,
       response_format: { type: 'json_object' },
       messages: messages
     }

@@ -66,7 +66,11 @@ module Enterprise::Concerns::Article
       { role: 'user', content: "title: #{title} \n description: #{description} \n content: #{content}" }
     ]
     headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{InstallationConfig.find_by(name: 'CAPTAIN_LLM_API_KEY')&.value}" }
-    body = { model: 'gpt-4o', messages: messages, response_format: { type: 'json_object' } }.to_json
+    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+    defaults = LlmConstants.defaults_for(provider)
+    model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
+
+    body = { model: model, messages: messages, response_format: { type: 'json_object' } }.to_json
     Rails.logger.info "Requesting Chat GPT with body: #{body}"
     response = HTTParty.post(openai_api_url, headers: headers, body: body)
     Rails.logger.info "Chat GPT response: #{response.body}"

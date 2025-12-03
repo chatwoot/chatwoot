@@ -1,5 +1,4 @@
 class Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o-mini'.freeze
   attr_reader :client, :model
 
   def initialize
@@ -21,7 +20,9 @@ class Llm::BaseOpenAiService
   end
 
   def setup_model
+    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+    defaults = LlmConstants.defaults_for(provider)
     config_value = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value
-    @model = (config_value.presence || DEFAULT_MODEL)
+    @model = (config_value.presence || defaults[:chat_model])
   end
 end

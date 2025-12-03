@@ -2,7 +2,9 @@ class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseOpenAiServic
   def initialize
     super()
 
-    @model = 'gpt-4o-mini'.freeze
+    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+    defaults = LlmConstants.defaults_for(provider)
+    @model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
   end
 
   def evaluate(content)
