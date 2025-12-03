@@ -168,7 +168,7 @@ const outsideClickHandler = [
           {{ $t('FILTER.ADD_NEW_FILTER') }}
         </Button>
         <div class="flex gap-2">
-          <Button sm faded slate @click="resetFilter">
+          <Button sm solid slate @click="resetFilter">
             {{ t('FILTER.CLEAR_BUTTON_LABEL') }}
           </Button>
           <Button

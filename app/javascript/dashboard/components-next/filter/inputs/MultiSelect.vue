@@ -91,7 +91,7 @@ const toggleOption = option => {
     <template #trigger="{ toggle }">
       <button
         v-if="hasItems"
-        class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center px-0"
+        class="bg-n-button-color outline outline-1 outline-n-container py-2 rounded-lg h-8 flex items-center px-0"
         @click="toggle"
       >
         <div
@@ -115,7 +115,7 @@ const toggleOption = option => {
           <Icon icon="i-lucide-plus" />
         </div>
       </button>
-      <Button v-else sm slate faded @click="toggle">
+      <Button v-else sm slate solid @click="toggle">
         <template #icon>
           <Icon icon="i-lucide-plus" class="text-n-slate-11 flex-shrink-0" />
         </template>
