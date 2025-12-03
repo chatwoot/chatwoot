@@ -171,6 +171,26 @@
   type: secret
 # End of Microsoft Email Channel Config
 
+# MARK: Legacy OpenAI Integration (Hook-based)
+- name: LEGACY_OPENAI_ENDPOINT
+  display_title: 'Legacy OpenAI Endpoint'
+  description: 'API endpoint for legacy OpenAI hook integration (default: https://api.openai.com)'
+  value: 'https://api.openai.com'
+  locked: false
+  type: string
+- name: LEGACY_OPENAI_MODEL
+  display_title: 'Legacy OpenAI Model'
+  description: 'Model for legacy OpenAI hook integration (default: gpt-4o-mini)'
+  value: 'gpt-4o-mini'
+  locked: false
+  type: string
+- name: LEGACY_OPENAI_AGENTS_API_KEY
+  display_title: 'Legacy OpenAI Agents SDK API Key'
+  description: 'API key for AI Agents SDK (used for legacy agent features)'
+  locked: false
+  type: secret
+# End of Legacy OpenAI Integration
+
 # MARK: Captain Config
 - name: CAPTAIN_LLM_PROVIDER
   display_title: 'LLM Provider'

@@ -70,9 +70,18 @@ RSpec.describe Integrations::Openai::ProcessorService do
     context 'when event name is label_suggestion with no labels' do
       let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
 
-      it 'returns nil' do
-        result = subject.perform
-        expect(result).to be_nil
+      context 'without LEGACY_OPENAI_ENDPOINT configured' do
+        before { InstallationConfig.find_by(name: 'LEGACY_OPENAI_ENDPOINT')&.destroy }
+
+        it_behaves_like 'endpoint request', 'https://api.openai.com'
+      end
+
+      context 'with LEGACY_OPENAI_ENDPOINT configured' do
+        before do
+          create(:installation_config, name: 'LEGACY_OPENAI_ENDPOINT', value: 'https://custom.azure.com')
+        end
+
+        it_behaves_like 'endpoint request', 'https://custom.azure.com'
       end
     end
 

@@ -3,10 +3,9 @@
 require 'agents'
 
 Rails.application.config.after_initialize do
-  defaults = LlmConstants.current_defaults
-  api_key = InstallationConfig.find_by(name: 'CAPTAIN_LLM_API_KEY')&.value
-  model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
-  api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value || defaults[:endpoint]
+  api_key = InstallationConfig.find_by(name: 'LEGACY_OPENAI_AGENTS_API_KEY')&.value
+  model = Integrations::OpenaiConstants.model
+  api_endpoint = Integrations::OpenaiConstants.endpoint
 
   if api_key.present?
     Agents.configure do |config|
