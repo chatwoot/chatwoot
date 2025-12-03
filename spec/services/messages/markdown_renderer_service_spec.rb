@@ -87,6 +87,20 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result.strip).to eq('https://example.com')
       end
+
+      it 'preserves bullet list markers' do
+        content = "- first item\n- second item"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('- first item')
+        expect(result).to include('- second item')
+      end
+
+      it 'preserves ordered list markers with numbering' do
+        content = "1. first step\n2. second step"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('1. first step')
+        expect(result).to include('2. second step')
+      end
     end
 
     context 'when channel is Channel::Line' do
@@ -235,6 +249,20 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result.strip).to eq('code ~~strike~~')
       end
+
+      it 'preserves bullet list markers like Instagram' do
+        content = "- first item\n- second item"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('- first item')
+        expect(result).to include('- second item')
+      end
+
+      it 'preserves ordered list markers with numbering like Instagram' do
+        content = "1. first step\n2. second step"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('1. first step')
+        expect(result).to include('2. second step')
+      end
     end
 
     context 'when channel is Channel::TwilioSms' do
@@ -250,16 +278,22 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
     context 'when channel is Channel::Api' do
       let(:channel_type) { 'Channel::Api' }
 
-      it 'strips all markdown to plain text' do
+      it 'preserves markdown as-is' do
         content = '**bold** _italic_ `code`'
         result = described_class.new(content, channel_type).render
-        expect(result.strip).to eq('bold italic code')
+        expect(result).to eq('**bold** _italic_ `code`')
       end
 
-      it 'preserves URLs from links' do
+      it 'preserves links with markdown syntax' do
         content = '[Click here](https://example.com)'
         result = described_class.new(content, channel_type).render
-        expect(result).to eq('Click here https://example.com')
+        expect(result).to eq('[Click here](https://example.com)')
+      end
+
+      it 'preserves lists with markdown syntax' do
+        content = "- Item 1\n- Item 2"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("- Item 1\n- Item 2")
       end
     end
 

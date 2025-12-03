@@ -7,7 +7,6 @@ class Messages::MarkdownRendererService
     'Channel::FacebookPage' => :render_instagram,
     'Channel::Instagram' => :render_instagram,
     'Channel::Line' => :render_line,
-    'Channel::Api' => :render_plain_text,
     'Channel::TwitterProfile' => :render_plain_text,
     'Channel::Sms' => :render_plain_text,
     'Channel::TwilioSms' => :render_plain_text
