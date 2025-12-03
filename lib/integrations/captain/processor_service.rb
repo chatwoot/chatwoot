@@ -45,7 +45,7 @@ class Integrations::Captain::ProcessorService < Integrations::BotProcessorServic
       previous_messages: previous_messages
     }
 
-    response = HTTParty.post(url, headers: headers, body: body.to_json)
+    response = HTTParty.post(url, headers: headers, body: body.to_json, timeout: 180) # 3 minutes for AI response
     response.parsed_response['message']
   end
 

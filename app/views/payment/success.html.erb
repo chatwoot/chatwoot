@@ -62,10 +62,28 @@
         "
       >
         <span class="text-slate-600 dark:text-slate-400 font-medium">Date & Time</span>
-        <span class="text-slate-900 dark:text-white">
-          <%= @payment_link.paid_at.strftime('%B %d, %Y at %I:%M %p') %>
+        <span class="text-slate-900 dark:text-white" data-timestamp="<%= @payment_link.paid_at.iso8601 %>" data-format="datetime">
+          <%= @payment_link.paid_at.strftime('%B %d, %Y at %I:%M %p') %> UTC
         </span>
       </div>
     <% end %>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll('[data-format="datetime"]').forEach(function(el) {
+    var timestamp = el.dataset.timestamp;
+    if (timestamp) {
+      var date = new Date(timestamp);
+      el.textContent = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: '2-digit'
+      }) + ' at ' + date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+  });
+</script>
