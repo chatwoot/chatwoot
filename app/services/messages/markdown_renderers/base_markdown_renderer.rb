@@ -20,6 +20,12 @@ class Messages::MarkdownRenderers::BaseMarkdownRenderer < CommonMarker::Renderer
     out("\n")
   end
 
+  def strikethrough(_node)
+    out('<del>')
+    out(:children)
+    out('</del>')
+  end
+
   def method_missing(method_name, node = nil, *args, **kwargs, &)
     return super unless node.is_a?(CommonMarker::Node)
 

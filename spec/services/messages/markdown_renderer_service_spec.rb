@@ -234,6 +234,12 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include('<ol>')
         expect(result).to include('<li>first</li>')
       end
+
+      it 'converts strikethrough to HTML' do
+        content = '~~strikethrough text~~'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<del>strikethrough text</del>')
+      end
     end
 
     context 'when channel is Channel::WebWidget' do
@@ -245,6 +251,12 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include('<strong>bold</strong>')
         expect(result).to include('<em>italic</em>')
         expect(result).to include('<code>code</code>')
+      end
+
+      it 'converts strikethrough to HTML' do
+        content = '~~strikethrough text~~'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<del>strikethrough text</del>')
       end
     end
 
