@@ -11,7 +11,6 @@ if [ -n "$CLAUDE_CODE_API_KEY" ]; then
   chmod +x ~/.claude/anthropic_key.sh
 fi
 
-
 # codespaces make the ports public (only if running in GitHub Codespaces)
 # -------------- Reason ---------------
 # Prevents script failure when running in local devcontainer (not GitHub Codespaces)
