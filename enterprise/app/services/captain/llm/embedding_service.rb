@@ -5,8 +5,9 @@ class Captain::Llm::EmbeddingService
 
   DEFAULT_EMBEDDING_MODEL = 'text-embedding-3-small'.freeze
 
-  def initialize
+  def initialize(account_id: nil)
     Llm::Config.initialize!
+    @account_id = account_id
     @embedding_model = InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || DEFAULT_EMBEDDING_MODEL
   end
 
@@ -32,7 +33,8 @@ class Captain::Llm::EmbeddingService
       span_name: 'llm.captain.embedding',
       model: model,
       input: content,
-      feature_name: 'embedding'
+      feature_name: 'embedding',
+      account_id: @account_id
     }
   end
 end

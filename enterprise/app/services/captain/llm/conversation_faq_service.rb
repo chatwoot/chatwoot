@@ -36,7 +36,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
     faqs.each do |faq|
       combined_text = "#{faq['question']}: #{faq['answer']}"
-      embedding = Captain::Llm::EmbeddingService.new.get_embedding(combined_text)
+      embedding = Captain::Llm::EmbeddingService.new(account_id: @conversation.account_id).get_embedding(combined_text)
       similar_faqs = find_similar_faqs(embedding)
 
       if similar_faqs.any?

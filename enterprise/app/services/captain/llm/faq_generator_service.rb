@@ -1,10 +1,11 @@
 class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
 
-  def initialize(content, language = 'english')
+  def initialize(content, language = 'english', account_id: nil)
     super()
     @language = language
     @content = content
+    @account_id = account_id
   end
 
   def generate
@@ -35,6 +36,7 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
       model: @model,
       temperature: @temperature,
       feature_name: 'faq_generator',
+      account_id: @account_id,
       messages: [
         { role: 'system', content: system_prompt },
         { role: 'user', content: @content }

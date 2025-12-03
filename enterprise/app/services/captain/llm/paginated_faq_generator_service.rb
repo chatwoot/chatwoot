@@ -1,4 +1,6 @@
 class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
+  include Integrations::LlmInstrumentation
+
   # Default pages per chunk - easily configurable
   DEFAULT_PAGES_PER_CHUNK = 10
   MAX_ITERATIONS = 20 # Safety limit to prevent infinite loops
