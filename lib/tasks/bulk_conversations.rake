@@ -1,15 +1,16 @@
+# rubocop:disable Metrics/BlockLength
 namespace :conversations do
   desc 'Generate bulk conversations with contacts and movie dialogue messages'
   task :generate_bulk, [:count, :account_id, :inbox_id] => :environment do |_t, args|
     unless Rails.env.development?
       puts 'This task can only be run in the development environment.'
-      puts 'Current environment: #{Rails.env}'
+      puts "Current environment: #{Rails.env}"
       exit(1)
     end
 
     count = (args[:count] || ENV['COUNT'] || 10).to_i
-    account_id = args[:account_id] || ENV['ACCOUNT_ID']
-    inbox_id = args[:inbox_id] || ENV['INBOX_ID']
+    account_id = args[:account_id] || ENV.fetch('ACCOUNT_ID', nil)
+    inbox_id = args[:inbox_id] || ENV.fetch('INBOX_ID', nil)
 
     if account_id.blank?
       puts 'Error: ACCOUNT_ID is required'
@@ -56,7 +57,7 @@ namespace :conversations do
       add_messages(conversation)
 
       created_count += 1
-      puts "Created conversation #{i + 1}/#{count} (ID: #{conversation.id})" if (i + 1) % 10 == 0
+      puts "Created conversation #{i + 1}/#{count} (ID: #{conversation.id})" if ((i + 1) % 10).zero?
     rescue StandardError => e
       puts "Error creating conversation #{i + 1}: #{e.message}"
       puts e.backtrace.first(5).join("\n")
@@ -140,3 +141,4 @@ namespace :conversations do
     Faker::Movie.quote
   end
 end
+# rubocop:enable Metrics/BlockLength
