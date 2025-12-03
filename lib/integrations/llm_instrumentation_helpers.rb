@@ -39,7 +39,7 @@ module Integrations::LlmInstrumentationHelpers
       span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
     elsif result.is_a?(Hash)
-      set_completion_attributes(span, result) if result.is_a?(Hash)
+      set_completion_attributes(span, result)
     end
   end
 

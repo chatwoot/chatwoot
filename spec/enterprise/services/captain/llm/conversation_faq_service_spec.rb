@@ -5,8 +5,6 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   let(:conversation) { create(:conversation, first_reply_created_at: Time.zone.now) }
   let(:service) { described_class.new(captain_assistant, conversation) }
   let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
-
-  # RubyLLM mocks
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:sample_faqs) do
     [
@@ -93,7 +91,6 @@ RSpec.describe Captain::Llm::ConversationFaqService do
     context 'when LLM API fails' do
       before do
         allow(mock_chat).to receive(:ask).and_raise(RubyLLM::Error.new(nil, 'API Error'))
-        # Allow any error logging from instrumentation layer
         allow(Rails.logger).to receive(:error)
       end
 

@@ -4,8 +4,6 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
   let(:content) { 'Sample content for FAQ generation' }
   let(:language) { 'english' }
   let(:service) { described_class.new(content, language) }
-
-  # RubyLLM mocks
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:sample_faqs) do
     [
@@ -56,7 +54,6 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
     context 'when LLM API fails' do
       before do
         allow(mock_chat).to receive(:ask).and_raise(RubyLLM::Error.new(nil, 'API Error'))
-        # Allow any error logging from instrumentation layer
         allow(Rails.logger).to receive(:error)
       end
 

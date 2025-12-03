@@ -4,8 +4,6 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
   let(:website_url) { 'https://example.com' }
   let(:service) { described_class.new(website_url) }
   let(:mock_crawler) { instance_double(Captain::Tools::SimplePageCrawlService) }
-
-  # RubyLLM mocks
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:business_info) do
     {

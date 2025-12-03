@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe Internal::AccountAnalysis::ContentEvaluatorService do
   let(:service) { described_class.new }
   let(:content) { 'This is some test content' }
-
-  # RubyLLM moderation mock - using the actual RubyLLM::Moderation class structure
   let(:mock_moderation_result) do
     instance_double(
       RubyLLM::Moderation,
