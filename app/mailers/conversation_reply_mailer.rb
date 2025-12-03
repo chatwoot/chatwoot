@@ -25,8 +25,10 @@ class ConversationReplyMailer < ApplicationMailer
     new_messages   = @conversation.messages
                                   .where('id >= ?', last_queued_id)
                                   .order(:id)
+                                  .to_a
 
-    @messages = (recap_messages + new_messages).select(&:email_reply_summarizable?)
+    selected_messages = filtered_recap_messages(recap_messages + new_messages)
+    @messages = preload_messages(selected_messages)
     prepare_mail(true)
   end
 
@@ -36,10 +38,11 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
-    @messages = @messages.reject { |m| m.template? && !m.input_csat? }
-    return false if @messages.count.zero?
+    scoped_messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
+    filtered_messages = scoped_messages.reject { |m| (m.template? && !m.input_csat?) || m.private? }
+    return false if filtered_messages.empty?
 
+    @messages = preload_messages(filtered_messages)
     prepare_mail(false)
   end
 
@@ -48,6 +51,8 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(message.conversation)
     @message = message
+    recap_messages = recap_messages_for_email_reply(message)
+    @messages = preload_messages(filtered_recap_messages(recap_messages))
     prepare_mail(true)
   end
 
@@ -56,7 +61,8 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(conversation)
 
-    @messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
+    transcript_messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
+    @messages = preload_messages(transcript_messages)
 
     Rails.logger.info("Email sent from #{from_email_with_name} \
       to #{to_email} with subject #{@conversation.display_id} \
@@ -80,7 +86,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def should_use_conversation_email_address?
-    @inbox.inbox_type == 'Email' || inbound_email_enabled?
+    inbound_email_enabled? && @inbox.email_address.blank?
   end
 
   def conversation_already_viewed?
@@ -133,10 +139,12 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def reply_email
+    return @inbox.email_address if @inbox.email_address.present?
+
     if should_use_conversation_email_address?
       sender_name("reply+#{@conversation.uuid}@#{@account.inbound_email_domain}")
     else
-      @inbox.email_address || @agent&.email
+      @agent&.email || inbox_from_email_address
     end
   end
 
@@ -156,6 +164,18 @@ class ConversationReplyMailer < ApplicationMailer
     return @inbox.email_address if @inbox.email_address
 
     @account.support_email
+  end
+
+  def preload_messages(messages)
+    records = Array(messages).compact
+    return records if records.empty?
+
+    ActiveRecord::Associations::Preloader.new(
+      records: records,
+      associations: [:sender, :attachments, { conversation: :inbox }]
+    ).call
+
+    records
   end
 
   def custom_message_id
@@ -209,6 +229,22 @@ class ConversationReplyMailer < ApplicationMailer
   def inbound_email_enabled?
     @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && @account.inbound_email_domain
                                                                                       .present? && @account.support_email.present?
+  end
+
+  def filtered_recap_messages(messages)
+    Array(messages).select(&:email_reply_summarizable?).reject(&:private?)
+  end
+
+  def recap_messages_for_email_reply(message)
+    return [] unless message&.id
+
+    recap_messages = @conversation.messages
+                                  .where('id < ?', message.id)
+                                  .order(id: :desc)
+                                  .limit(RECAP_LIMIT)
+                                  .to_a
+    recap_messages.reverse!
+    recap_messages
   end
 
   def choose_layout
