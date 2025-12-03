@@ -60,7 +60,7 @@ module Enterprise::Concerns::Article
     SYSTEM_PROMPT_MESSAGE
   end
 
-  def generate_article_search_terms
+  def generate_article_search_terms # rubocop:disable Metrics/AbcSize
     messages = [
       { role: 'system', content: article_to_search_terms_prompt },
       { role: 'user', content: "title: #{title} \n description: #{description} \n content: #{content}" }
@@ -79,7 +79,7 @@ module Enterprise::Concerns::Article
   private
 
   def openai_api_url
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value || 'https://api.openai.com/'
+    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value
     endpoint = endpoint.chomp('/')
     "#{endpoint}/v1/chat/completions"
   end

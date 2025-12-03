@@ -20,7 +20,7 @@ class Llm::BaseOpenAiService
   def uri_base
     defaults = LlmConstants.current_defaults
     endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value
-    endpoint.presence || (defaults&.[](:endpoint) || 'https://api.openai.com/')
+    endpoint.presence || defaults&.[](:endpoint)
   end
 
   def setup_model
