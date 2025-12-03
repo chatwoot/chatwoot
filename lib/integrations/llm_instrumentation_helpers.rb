@@ -1,89 +1,75 @@
 # frozen_string_literal: true
 
+require_relative 'llm_instrumentation_completion_helpers'
+
 module Integrations::LlmInstrumentationHelpers
   include Integrations::LlmInstrumentationConstants
+  include Integrations::LlmInstrumentationCompletionHelpers
+
+  PROVIDER_PREFIXES = {
+    'openai' => %w[gpt- o1 o3 o4 text-embedding- whisper- tts-],
+    'anthropic' => %w[claude-],
+    'google' => %w[gemini-],
+    'mistral' => %w[mistral- codestral-],
+    'deepseek' => %w[deepseek-]
+  }.freeze
+
+  def determine_provider(model_name)
+    return 'openai' if model_name.blank?
+
+    model = model_name.to_s.downcase
+
+    PROVIDER_PREFIXES.each do |provider, prefixes|
+      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+    end
+
+    'openai'
+  end
 
   private
 
-  def set_embedding_span_attributes(span, params)
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, determine_provider(params[:model]))
+  def setup_span_attributes(span, params)
+    set_request_attributes(span, params)
+    set_prompt_messages(span, params[:messages])
+    set_metadata_attributes(span, params)
+  end
+
+  def record_completion(span, result)
+    if result.respond_to?(:content)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
+    elsif result.is_a?(Hash)
+      set_completion_attributes(span, result) if result.is_a?(Hash)
+    end
+  end
+
+  def set_request_attributes(span, params)
+    provider = determine_provider(params[:model])
+    span.set_attribute(ATTR_GEN_AI_PROVIDER, provider)
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
-    span.set_attribute('embedding.input_length', params[:input]&.length || 0)
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:input].to_s)
-    set_common_span_metadata(span, params)
+    span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]
   end
 
-  def set_audio_transcription_span_attributes(span, params)
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openai')
-    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model] || 'whisper-1')
-    span.set_attribute('audio.duration_seconds', params[:duration]) if params[:duration]
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:file_path].to_s) if params[:file_path]
-    set_common_span_metadata(span, params)
+  def set_prompt_messages(span, messages)
+    messages.each_with_index do |msg, idx|
+      role = msg[:role] || msg['role']
+      content = msg[:content] || msg['content']
+
+      span.set_attribute(format(ATTR_GEN_AI_PROMPT_ROLE, idx), role)
+      span.set_attribute(format(ATTR_GEN_AI_PROMPT_CONTENT, idx), content.to_s)
+    end
   end
 
-  def set_moderation_span_attributes(span, params)
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openai')
-    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model] || 'text-moderation-latest')
-    span.set_attribute('moderation.input_length', params[:input]&.length || 0)
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:input].to_s)
-    set_common_span_metadata(span, params)
-  end
-
-  def set_common_span_metadata(span, params)
+  def set_metadata_attributes(span, params)
+    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
     span.set_attribute(ATTR_LANGFUSE_USER_ID, params[:account_id].to_s) if params[:account_id]
-    span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json) if params[:feature_name]
-  end
+    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, session_id) if session_id.present?
+    span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json)
 
-  def set_embedding_result_attributes(span, result)
-    span.set_attribute('embedding.dimensions', result&.length || 0) if result.is_a?(Array)
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, "[#{result&.length || 0} dimensions]")
-  end
+    return unless params[:metadata].is_a?(Hash)
 
-  def set_transcription_result_attributes(span, result)
-    span.set_attribute('transcription.length', result&.length || 0) if result.is_a?(String)
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_s)
-  end
-
-  def set_moderation_result_attributes(span, result)
-    span.set_attribute('moderation.flagged', result.flagged?) if result.respond_to?(:flagged?)
-    span.set_attribute('moderation.categories', result.flagged_categories.to_json) if result.respond_to?(:flagged_categories)
-    output = {
-      flagged: result.respond_to?(:flagged?) ? result.flagged? : nil,
-      categories: result.respond_to?(:flagged_categories) ? result.flagged_categories : []
-    }
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, output.to_json)
-  end
-
-  def set_completion_attributes(span, result)
-    set_completion_message(span, result)
-    set_usage_metrics(span, result)
-    set_error_attributes(span, result)
-  end
-
-  def set_completion_message(span, result)
-    message = result[:message] || result.dig('choices', 0, 'message', 'content')
-    return if message.blank?
-
-    span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
-    span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message)
-  end
-
-  def set_usage_metrics(span, result)
-    usage = result[:usage] || result['usage']
-    return if usage.blank?
-
-    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage['total_tokens']) if usage['total_tokens']
-  end
-
-  def set_error_attributes(span, result)
-    error = result[:error] || result['error']
-    return if error.blank?
-
-    error_code = result[:error_code] || result['error_code']
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, error.to_json)
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR_CODE, error_code) if error_code
-    span.status = OpenTelemetry::Trace::Status.error("API Error: #{error_code}")
+    params[:metadata].each do |key, value|
+      span.set_attribute(format(ATTR_LANGFUSE_METADATA, key), value.to_s)
+    end
   end
 end
