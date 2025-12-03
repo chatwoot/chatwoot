@@ -86,6 +86,8 @@ spec:
               mountPath: /var/lib/grafana/dashboards/kubernetes
             - name: grafana-dashboard-aloochat
               mountPath: /var/lib/grafana/dashboards/aloochat
+            - name: grafana-dashboard-logs
+              mountPath: /var/lib/grafana/dashboards/logs
           resources:
             requests:
               memory: "512Mi"
@@ -123,6 +125,9 @@ spec:
         - name: grafana-dashboard-aloochat
           configMap:
             name: grafana-dashboard-aloochat
+        - name: grafana-dashboard-logs
+          configMap:
+            name: grafana-dashboard-logs
 ---
 apiVersion: v1
 kind: Service

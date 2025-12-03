@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: promtail-config
+  namespace: default
+data:
+  promtail.yaml: |
+    server:
+      http_listen_port: 9080
+      grpc_listen_port: 0
+
+    positions:
+      filename: /tmp/positions.yaml
+
+    clients:
+      - url: http://loki.default.svc.cluster.local:3100/loki/api/v1/push
+
+    scrape_configs:
+      - job_name: kubernetes-pods-static
+        static_configs:
+          - targets:
+              - localhost
+            labels:
+              job: kubernetes-pods
+              __path__: /var/log/pods/default_*/*/*.log
+        pipeline_stages:
+          - cri: {}
+          - regex:
+              expression: '/var/log/pods/(?P<namespace>[^_]+)_(?P<pod>[^_]+)_[^/]+/(?P<container>[^/]+)/.*\.log'
+          - labels:
+              namespace:
+              pod:
+              container:
+          - match:
+              selector: '{pod=~"chatwoot-rails.*"}'
+              stages:
+                - static_labels:
+                    app: chatwoot-rails
+          - match:
+              selector: '{pod=~"chatwoot-sidekiq.*"}'
+              stages:
+                - static_labels:
+                    app: chatwoot-sidekiq
+          - match:
+              selector: '{pod=~"chatwoot-vite.*"}'
+              stages:
+                - static_labels:
+                    app: chatwoot-vite
+          - match:
+              selector: '{pod=~"redis.*"}'
+              stages:
+                - static_labels:
+                    app: redis
+          - match:
+              selector: '{pod=~"grafana.*"}'
+              stages:
+                - static_labels:
+                    app: grafana
+          - match:
+              selector: '{pod=~"prometheus.*"}'
+              stages:
+                - static_labels:
+                    app: prometheus
+          - match:
+              selector: '{pod=~"loki.*"}'
+              stages:
+                - static_labels:
+                    app: loki
