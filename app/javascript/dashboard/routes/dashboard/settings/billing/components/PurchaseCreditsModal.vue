@@ -7,7 +7,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import CreditPackageCard from './CreditPackageCard.vue';
 import EnterpriseAccountAPI from 'dashboard/api/enterprise/account';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'success']);
 
 const { t } = useI18n();
 
@@ -32,30 +32,6 @@ const handlePackageSelect = credits => {
   selectedCredits.value = credits;
 };
 
-const handlePurchase = async () => {
-  if (!selectedOption.value) return;
-
-  isLoading.value = true;
-  try {
-    const response = await EnterpriseAccountAPI.createTopupCheckout(
-      selectedOption.value.credits
-    );
-    if (response.data.redirect_url) {
-      window.location.href = response.data.redirect_url;
-    }
-  } catch (error) {
-    const errorMessage =
-      error.response?.data?.error || t('BILLING_SETTINGS.TOPUP.PURCHASE_ERROR');
-    useAlert(errorMessage);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-const handleClose = () => {
-  emit('close');
-};
-
 const open = () => {
   // Pre-select the most popular option
   const popularOption = TOPUP_OPTIONS.find(
@@ -67,6 +43,34 @@ const open = () => {
 
 const close = () => {
   dialogRef.value?.close();
+};
+
+const handleClose = () => {
+  emit('close');
+};
+
+const handlePurchase = async () => {
+  if (!selectedOption.value) return;
+
+  isLoading.value = true;
+  try {
+    const response = await EnterpriseAccountAPI.createTopupCheckout(
+      selectedOption.value.credits
+    );
+
+    // Payment successful - show success message and close modal
+    if (response.data.success) {
+      useAlert(response.data.message);
+      close();
+      emit('success', response.data);
+    }
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.error || t('BILLING_SETTINGS.TOPUP.PURCHASE_ERROR');
+    useAlert(errorMessage);
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 defineExpose({ open, close });
