@@ -44,7 +44,7 @@ class Messages::AudioTranscriptionService
 
     temp_file_path = fetch_audio_file
 
-    response = instrument_audio_transcription(instrumentation_params) do
+    response = instrument_audio_transcription(instrumentation_params(temp_file_path)) do
       RubyLLM.transcribe(temp_file_path, model: WHISPER_MODEL)
     end
 
@@ -55,12 +55,13 @@ class Messages::AudioTranscriptionService
     transcribed_text
   end
 
-  def instrumentation_params
+  def instrumentation_params(file_path)
     {
       span_name: 'llm.messages.audio_transcription',
       model: WHISPER_MODEL,
       account_id: account&.id,
-      feature_name: 'audio_transcription'
+      feature_name: 'audio_transcription',
+      file_path: file_path
     }
   end
 

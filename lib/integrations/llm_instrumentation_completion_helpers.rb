@@ -40,8 +40,9 @@ module Integrations::LlmInstrumentationCompletionHelpers
   end
 
   def set_transcription_result_attributes(span, result)
-    span.set_attribute('transcription.length', result&.length || 0) if result.is_a?(String)
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_s)
+    transcribed_text = result.respond_to?(:text) ? result.text : result.to_s
+    span.set_attribute('transcription.length', transcribed_text&.length || 0)
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, transcribed_text.to_s)
   end
 
   def set_moderation_result_attributes(span, result)
