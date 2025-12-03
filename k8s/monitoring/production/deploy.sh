@@ -55,32 +55,49 @@ if grep -q "AlooChat2025!Production#Secure" grafana-deployment.yaml; then
     fi
 fi
 
-echo "Step 1/6: Deploying Prometheus configuration..."
+echo "Step 1/9: Deploying Prometheus configuration..."
 kubectl apply -f prometheus-config.yaml
 echo -e "${GREEN}✓ Prometheus configuration deployed${NC}"
 echo ""
 
-echo "Step 2/6: Deploying Prometheus..."
+echo "Step 2/9: Deploying Prometheus..."
 kubectl apply -f prometheus-deployment.yaml
 echo -e "${GREEN}✓ Prometheus deployed${NC}"
 echo ""
 
-echo "Step 3/6: Deploying Prometheus ingress..."
+echo "Step 3/9: Deploying Prometheus ingress..."
 kubectl apply -f prometheus-ingress.yaml
 echo -e "${GREEN}✓ Prometheus ingress deployed${NC}"
 echo ""
 
-echo "Step 4/6: Deploying Grafana configuration..."
+echo "Step 4/9: Deploying Loki configuration..."
+kubectl apply -f loki-config.yaml
+echo -e "${GREEN}✓ Loki configuration deployed${NC}"
+echo ""
+
+echo "Step 5/9: Deploying Loki..."
+kubectl apply -f loki-deployment.yaml
+echo -e "${GREEN}✓ Loki deployed${NC}"
+echo ""
+
+echo "Step 6/9: Deploying Promtail (log collector)..."
+kubectl apply -f promtail-config.yaml
+kubectl apply -f promtail-daemonset.yaml
+echo -e "${GREEN}✓ Promtail deployed${NC}"
+echo ""
+
+echo "Step 7/9: Deploying Grafana configuration..."
 kubectl apply -f grafana-config.yaml
 echo -e "${GREEN}✓ Grafana configuration deployed${NC}"
 echo ""
 
-echo "Step 5/6: Deploying Grafana dashboards..."
+echo "Step 8/9: Deploying Grafana dashboards..."
 kubectl apply -f grafana-dashboard-aloochat.yaml
+kubectl apply -f grafana-dashboard-logs.yaml
 echo -e "${GREEN}✓ Grafana dashboards deployed${NC}"
 echo ""
 
-echo "Step 6/6: Deploying Grafana..."
+echo "Step 9/9: Deploying Grafana..."
 kubectl apply -f grafana-deployment.yaml
 echo -e "${GREEN}✓ Grafana deployed${NC}"
 echo ""
@@ -98,6 +115,16 @@ kubectl wait --for=condition=available --timeout=300s deployment/prometheus -n d
     exit 1
 }
 echo -e "${GREEN}✓ Prometheus is ready${NC}"
+echo ""
+
+# Wait for Loki
+echo "Waiting for Loki..."
+kubectl wait --for=condition=available --timeout=300s deployment/loki -n default || {
+    echo -e "${RED}Error: Loki deployment failed${NC}"
+    echo "Check logs with: kubectl logs -f deployment/loki -n default"
+    exit 1
+}
+echo -e "${GREEN}✓ Loki is ready${NC}"
 echo ""
 
 # Wait for Grafana
@@ -118,12 +145,15 @@ echo ""
 # Get pod status
 echo "Pod Status:"
 kubectl get pods -n default -l app=prometheus
+kubectl get pods -n default -l app=loki
+kubectl get pods -n default -l app=promtail
 kubectl get pods -n default -l app=grafana
 echo ""
 
 # Get service status
 echo "Service Status:"
 kubectl get svc -n default -l app=prometheus
+kubectl get svc -n default -l app=loki
 kubectl get svc -n default -l app=grafana
 echo ""
 
