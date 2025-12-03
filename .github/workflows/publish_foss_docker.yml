@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_REPO: ghcr.io/nighttech-services/chatwoot
+  DOCKER_REPO: ghcr.io/${{ github.repository_owner }}/chatwoot
 
 jobs:
   build:
