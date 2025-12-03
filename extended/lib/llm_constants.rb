@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+# ============================================================================
+# MARK: TO BE DELETED
+# This file will be replaced by captain_config.rb once the new implementation
+# is complete and all services have been migrated.
+# ============================================================================
+
 module LlmConstants
   # OpenAI provider defaults
   OPENAI = {
