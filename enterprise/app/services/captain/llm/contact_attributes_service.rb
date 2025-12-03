@@ -1,4 +1,5 @@
-class Captain::Llm::ContactAttributesService < Llm::LegacyBaseOpenAiService
+class Captain::Llm::ContactAttributesService < Llm::BaseAiService
+  include Integrations::LlmInstrumentation
   def initialize(assistant, conversation)
     super()
     @assistant = assistant
@@ -17,33 +18,44 @@ class Captain::Llm::ContactAttributesService < Llm::LegacyBaseOpenAiService
   attr_reader :content
 
   def generate_attributes
-    response = @client.chat(parameters: chat_parameters)
-    parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
+    response = instrument_llm_call(instrumentation_params) do
+      chat
+        .with_params(response_format: { type: 'json_object' })
+        .with_instructions(system_prompt)
+        .ask(@content)
+    end
+    parse_response(response.content)
+  rescue RubyLLM::Error => e
+    Rails.logger.error "LLM API Error: #{e.message}"
     []
   end
 
-  def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.attributes_generator
+  def instrumentation_params
     {
+      span_name: 'llm.captain.contact_attributes',
+      account_id: hook.account_id,
+      conversation_id: conversation&.display_id,
+      feature_name: 'contact_attributes',
       model: @model,
-      response_format: { type: 'json_object' },
+      temperature: @temperature,
       messages: [
         {
           role: 'system',
-          content: prompt
+          content: system_prompt
         },
         {
           role: 'user',
-          content: content
+          content: @content
         }
       ]
     }
   end
 
-  def parse_response(response)
-    content = response.dig('choices', 0, 'message', 'content')
+  def system_prompt
+    Captain::Llm::SystemPromptsService.attributes_generator
+  end
+
+  def parse_response(content)
     return [] if content.nil?
 
     JSON.parse(content.strip).fetch('attributes', [])

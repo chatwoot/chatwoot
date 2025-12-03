@@ -1,4 +1,6 @@
-class Captain::Llm::FaqGeneratorService < Llm::LegacyBaseOpenAiService
+class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
+  include Integrations::LlmInstrumentation
+
   def initialize(content, language = 'english')
     super()
     @language = language
@@ -6,10 +8,16 @@ class Captain::Llm::FaqGeneratorService < Llm::LegacyBaseOpenAiService
   end
 
   def generate
-    response = @client.chat(parameters: chat_parameters)
-    parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
+    response = instrument_llm_call(instrumentation_params) do
+      chat
+        .with_params(response_format: { type: 'json_object' })
+        .with_instructions(system_prompt)
+        .ask(@content)
+    end
+
+    parse_response(response.content)
+  rescue RubyLLM::Error => e
+    Rails.logger.error "LLM API Error: #{e.message}"
     []
   end
 
@@ -17,26 +25,32 @@ class Captain::Llm::FaqGeneratorService < Llm::LegacyBaseOpenAiService
 
   attr_reader :content, :language
 
-  def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.faq_generator(language)
+  def system_prompt
+    Captain::Llm::SystemPromptsService.faq_generator(language)
+  end
+
+  def instrumentation_params
     {
+      span_name: 'llm.captain.faq_generator',
+      account_id: hook.account_id,
+      conversation_id: conversation&.display_id,
+      feature_name: 'faq_generator',
       model: @model,
-      response_format: { type: 'json_object' },
+      temperature: @temperature,
       messages: [
         {
           role: 'system',
-          content: prompt
+          content: system_prompt
         },
         {
           role: 'user',
-          content: content
+          content: @content
         }
       ]
     }
   end
 
-  def parse_response(response)
-    content = response.dig('choices', 0, 'message', 'content')
+  def parse_response(content)
     return [] if content.nil?
 
     JSON.parse(content.strip).fetch('faqs', [])

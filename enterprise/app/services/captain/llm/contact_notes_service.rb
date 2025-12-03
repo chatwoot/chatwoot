@@ -1,4 +1,5 @@
-class Captain::Llm::ContactNotesService < Llm::LegacyBaseOpenAiService
+class Captain::Llm::ContactNotesService < Llm::BaseAiService
+  include Integrations::LlmInstrumentation
   def initialize(assistant, conversation)
     super()
     @assistant = assistant
@@ -18,38 +19,48 @@ class Captain::Llm::ContactNotesService < Llm::LegacyBaseOpenAiService
   attr_reader :content
 
   def generate_notes
-    response = @client.chat(parameters: chat_parameters)
-    parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
+    response = instrument_llm_call(instrumentation_params) do
+      chat
+        .with_params(response_format: { type: 'json_object' })
+        .with_instructions(system_prompt)
+        .ask(@content)
+    end
+    parse_response(response.content)
+  rescue RubyLLM::Error => e
+    Rails.logger.error "LLM API Error: #{e.message}"
     []
   end
 
-  def chat_parameters
-    account_language = @conversation.account.locale_english_name
-    prompt = Captain::Llm::SystemPromptsService.notes_generator(account_language)
-
+  def instrumentation_params
     {
+      span_name: 'llm.captain.contact_notes',
+      account_id: hook.account_id,
+      conversation_id: conversation&.display_id,
+      feature_name: 'contact_notes',
       model: @model,
-      response_format: { type: 'json_object' },
+      temperature: @temperature,
       messages: [
         {
           role: 'system',
-          content: prompt
+          content: system_prompt
         },
         {
           role: 'user',
-          content: content
+          content: @content
         }
       ]
     }
   end
 
-  def parse_response(response)
-    content = response.dig('choices', 0, 'message', 'content')
-    return [] if content.nil?
+  def system_prompt
+    account_language = @conversation.account.locale_english_name
+    Captain::Llm::SystemPromptsService.notes_generator(account_language)
+  end
 
-    JSON.parse(content.strip).fetch('notes', [])
+  def parse_response(response)
+    return [] if response.nil?
+
+    JSON.parse(response.strip).fetch('notes', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []

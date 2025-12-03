@@ -57,6 +57,14 @@ module Integrations::LlmInstrumentation
     executed ? result : yield
   end
 
+  def instrument_embedding_call(params)
+    # TODO: implement embedding instrumentation
+  end
+
+  def instrument_audio_transcription(params)
+    # TODO: implement audio transcription instrumentation
+  end
+
   def determine_provider(model_name)
     return 'openai' if model_name.blank?
 

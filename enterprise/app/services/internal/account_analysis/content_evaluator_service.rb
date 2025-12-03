@@ -1,4 +1,6 @@
-class Internal::AccountAnalysis::ContentEvaluatorService < Llm::LegacyBaseOpenAiService
+# TODO: use moderation from rubyllm here instead..
+class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseAiService
+  inluce Integrations::LlmInstrumentation
   def initialize
     super()
 
@@ -10,7 +12,7 @@ class Internal::AccountAnalysis::ContentEvaluatorService < Llm::LegacyBaseOpenAi
 
     begin
       response = send_to_llm(content)
-      evaluation = handle_response(response)
+      evaluation = handle_response(response.content)
       log_evaluation_results(evaluation)
       evaluation
     rescue StandardError => e
@@ -22,19 +24,34 @@ class Internal::AccountAnalysis::ContentEvaluatorService < Llm::LegacyBaseOpenAi
 
   def send_to_llm(content)
     Rails.logger.info('Sending content to LLM for security evaluation')
-    @client.chat(
-      parameters: {
-        model: @model,
-        messages: llm_messages(content),
-        response_format: { type: 'json_object' }
-      }
-    )
+    instrument_llm_call(instrumentation_params) do
+      chat
+        .with_params(response_format: { type: 'json_object' })
+        .with_instructions(system_prompt)
+        .ask(content)
+    end
   end
 
-  def handle_response(response)
-    return default_evaluation if response.nil?
+  def instrumentation_params
+    {
+      span_name: 'llm.internal.account_analysis.content_evaluator',
+      account_id: hook.account_id,
+      conversation_id: conversation&.display_id,
+      feature_name: 'content_evaluator',
+      model: @model,
+      temperature: @temperature,
+      messages: llm_messages(content)
+    }
+  end
 
-    parsed = JSON.parse(response.dig('choices', 0, 'message', 'content').strip)
+  def system_prompt
+    Internal::AccountAnalysis::PromptsService.threat_analyser(content.to_s[0...10_000])
+  end
+
+  def handle_response(content)
+    return default_evaluation if content.nil?
+
+    parsed = JSON.parse(content.strip)
 
     {
       'threat_level' => parsed['threat_level'] || 'unknown',
