@@ -19,6 +19,23 @@ module LlmConstants
     pdf_processing_model: 'gemini-2.5-pro'
   }.freeze
 
+  # Get the current configured provider
+  # @return [String] The provider name ('openai', 'gemini', etc.)
+  def self.current_provider
+    @current_provider ||= InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+  end
+
+  # Reset cached provider (useful for tests)
+  def self.reset_provider_cache!
+    @current_provider = nil
+  end
+
+  # Get defaults for the current provider (cached)
+  # @return [Hash] Provider-specific defaults
+  def self.current_defaults
+    defaults_for(current_provider)
+  end
+
   # Get defaults for a specific provider
   # @param provider [String, Symbol] The provider name ('openai', 'gemini')
   # @return [Hash] Provider-specific defaults
@@ -29,7 +46,7 @@ module LlmConstants
     when 'gemini'
       GEMINI
     else
-      OPENAI # Default fallback to OpenAI
+      OPENAI
     end
   end
 end

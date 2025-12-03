@@ -40,8 +40,7 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
 
     temp_file_path = fetch_audio_file
 
-    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
-    defaults = LlmConstants.defaults_for(provider)
+    defaults = LlmConstants.current_defaults
     transcription_model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_TRANSCRIPTION_MODEL')&.value.presence || defaults[:transcription_model]
 
     response = @client.audio.transcribe(

@@ -22,7 +22,7 @@ RSpec.describe Captain::Copilot::ChatService do
 
   before do
     create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'test-key')
-    create(:installation_config, name: 'CAPTAIN_LLM_ENDPOINT', value: 'https://api.openai.com/')
+    create(:installation_config, name: 'CAPTAIN_LLM_ENDPOINT', value: 'https://api.openai.com')
     allow(OpenAI::Client).to receive(:new).and_return(mock_openai_client)
     allow(mock_openai_client).to receive(:chat).and_return({
       choices: [{ message: { content: '{ "content": "Hey" }' } }]
@@ -52,7 +52,7 @@ RSpec.describe Captain::Copilot::ChatService do
     it 'initializes OpenAI client with configured endpoint' do
       expect(OpenAI::Client).to receive(:new).with(
         access_token: 'test-key',
-        uri_base: 'https://api.openai.com/',
+        uri_base: 'https://api.openai.com',
         log_errors: Rails.env.development?
       )
 
@@ -67,7 +67,7 @@ RSpec.describe Captain::Copilot::ChatService do
       it 'uses default OpenAI endpoint' do
         expect(OpenAI::Client).to receive(:new).with(
           access_token: 'test-key',
-          uri_base: 'https://api.openai.com/',
+          uri_base: 'https://api.openai.com',
           log_errors: Rails.env.development?
         )
 

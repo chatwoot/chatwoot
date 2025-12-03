@@ -66,8 +66,7 @@ module Enterprise::Concerns::Article
       { role: 'user', content: "title: #{title} \n description: #{description} \n content: #{content}" }
     ]
     headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{InstallationConfig.find_by(name: 'CAPTAIN_LLM_API_KEY')&.value}" }
-    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
-    defaults = LlmConstants.defaults_for(provider)
+    defaults = LlmConstants.current_defaults
     model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
 
     body = { model: model, messages: messages, response_format: { type: 'json_object' } }.to_json

@@ -44,8 +44,7 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       end
 
       it 'calls OpenAI client with chat parameters' do
-        provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
-        defaults = LlmConstants.defaults_for(provider)
+        defaults = LlmConstants.current_defaults
         expect(client).to receive(:chat).with(parameters: hash_including(
           model: defaults[:chat_model],
           response_format: { type: 'json_object' },

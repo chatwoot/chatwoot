@@ -2,8 +2,7 @@ class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseOpenAiServic
   def initialize
     super()
 
-    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
-    defaults = LlmConstants.defaults_for(provider)
+    defaults = LlmConstants.current_defaults
     @model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
   end
 

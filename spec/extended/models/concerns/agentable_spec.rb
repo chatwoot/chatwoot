@@ -147,16 +147,14 @@ RSpec.describe Concerns::Agentable do
       allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_LLM_PROVIDER').and_return(mock_provider_config)
       allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_LLM_MODEL').and_return(nil)
 
-      provider = mock_provider_config.value
-      defaults = LlmConstants.defaults_for(provider)
+      defaults = LlmConstants.current_defaults
       expect(dummy_instance.send(:agent_model)).to eq(defaults[:chat_model])
     end
 
     it 'returns default model when config value is nil' do
       allow(mock_installation_config).to receive(:value).and_return(nil)
 
-      provider = mock_provider_config.value
-      defaults = LlmConstants.defaults_for(provider)
+      defaults = LlmConstants.current_defaults
       expect(dummy_instance.send(:agent_model)).to eq(defaults[:chat_model])
     end
   end

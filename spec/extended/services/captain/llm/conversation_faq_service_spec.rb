@@ -132,8 +132,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
   describe '#chat_parameters' do
     it 'includes correct model and response format' do
-      provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
-      defaults = LlmConstants.defaults_for(provider)
+      defaults = LlmConstants.current_defaults
       params = service.send(:chat_parameters)
       expect(params[:model]).to eq(defaults[:chat_model])
       expect(params[:response_format]).to eq({ type: 'json_object' })

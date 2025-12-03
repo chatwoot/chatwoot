@@ -43,8 +43,7 @@ module Concerns::Agentable
   end
 
   def agent_model
-    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
-    defaults = LlmConstants.defaults_for(provider)
+    defaults = LlmConstants.current_defaults
     InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
   end
 

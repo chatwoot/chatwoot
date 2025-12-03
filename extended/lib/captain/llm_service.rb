@@ -10,8 +10,7 @@ class Captain::LlmService
   end
 
   def call(messages, functions = [])
-    provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
-    defaults = LlmConstants.defaults_for(provider)
+    defaults = LlmConstants.current_defaults
     model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
 
     openai_params = {
