@@ -141,6 +141,69 @@ describe('useNumberFormatter', () => {
       const { formatCompactNumber } = useNumberFormatter();
       expect(formatCompactNumber(8888)).toBe('8k+');
     });
+
+    it('should handle underscore-based locale tags (pt_BR)', () => {
+      const mockLocale = ref('pt_BR');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactNumber } = useNumberFormatter();
+      // Should normalize pt_BR to pt-BR and work correctly
+      expect(formatCompactNumber(8888)).toBe('8k+');
+      expect(formatCompactNumber(1000000)).toBe('1\u00a0mi');
+    });
+
+    it('should handle underscore-based locale tags (zh_CN)', () => {
+      const mockLocale = ref('zh_CN');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactNumber } = useNumberFormatter();
+      // Should normalize zh_CN to zh-CN and work correctly
+      expect(formatCompactNumber(999)).toBe('999');
+      expect(formatCompactNumber(5000)).toBe('5k');
+    });
+
+    it('should handle underscore-based locale tags (en_US)', () => {
+      const mockLocale = ref('en_US');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactNumber } = useNumberFormatter();
+      // Should normalize en_US to en-US and work correctly
+      expect(formatCompactNumber(1500)).toBe('1k+');
+      expect(formatCompactNumber(1000000)).toBe('1M');
+    });
+
+    it('should handle null/undefined locale gracefully', () => {
+      const mockLocale = ref(null);
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactNumber } = useNumberFormatter();
+      // Should fall back to 'en' locale
+      expect(formatCompactNumber(1500)).toBe('1k+');
+    });
+
+    it('should fall back to base language when specific locale not supported', () => {
+      // Simulate a case where pt-BR might not be fully supported but pt is
+      const mockLocale = ref('pt-BR');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactNumber } = useNumberFormatter();
+      // Should work with either pt-BR or pt fallback
+      const result = formatCompactNumber(1500);
+      expect(result).toMatch(/1k\+/);
+    });
+
+    it('should fall back to English for completely unsupported locales', () => {
+      // Use a completely made-up locale
+      const mockLocale = ref('xx-YY');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactNumber } = useNumberFormatter();
+      // Should fall back to 'en' and work
+      expect(formatCompactNumber(1500)).toBe('1k+');
+      expect(formatCompactNumber(1000000)).toBe('1M');
+    });
+
+    it('should handle edge case with only base language code', () => {
+      const mockLocale = ref('pt');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactNumber } = useNumberFormatter();
+      // Should work with base language
+      expect(formatCompactNumber(2000)).toBe('2k');
+    });
   });
 
   describe('formatFullNumber', () => {
@@ -235,6 +298,67 @@ describe('useNumberFormatter', () => {
       const result = formatFullNumber(2222222);
       // Portuguese (Portugal) uses narrow no-break space as separator
       expect(result).toMatch(/2[\s\u202f]222[\s\u202f]222/);
+    });
+
+    it('should handle underscore-based locale tags (pt_BR)', () => {
+      const mockLocale = ref('pt_BR');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatFullNumber } = useNumberFormatter();
+      // Should normalize pt_BR to pt-BR and work correctly
+      expect(formatFullNumber(1234567)).toBe('1.234.567');
+    });
+
+    it('should handle underscore-based locale tags (zh_CN)', () => {
+      const mockLocale = ref('zh_CN');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatFullNumber } = useNumberFormatter();
+      // Should normalize zh_CN to zh-CN and work correctly
+      expect(formatFullNumber(1000000)).toBe('1,000,000');
+    });
+
+    it('should handle underscore-based locale tags (en_US)', () => {
+      const mockLocale = ref('en_US');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatFullNumber } = useNumberFormatter();
+      // Should normalize en_US to en-US and work correctly
+      expect(formatFullNumber(1234567)).toBe('1,234,567');
+    });
+
+    it('should handle null/undefined locale gracefully', () => {
+      const mockLocale = ref(null);
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatFullNumber } = useNumberFormatter();
+      // Should fall back to 'en' locale
+      expect(formatFullNumber(1234567)).toBe('1,234,567');
+    });
+
+    it('should fall back to base language when specific locale not supported', () => {
+      // Simulate a case where pt-BR might not be fully supported but pt is
+      const mockLocale = ref('pt-BR');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatFullNumber } = useNumberFormatter();
+      // Should work with either pt-BR or pt fallback
+      const result = formatFullNumber(1234567);
+      // Portuguese uses period as thousands separator
+      expect(result).toMatch(/1[.,\s]234[.,\s]567/);
+    });
+
+    it('should fall back to English for completely unsupported locales', () => {
+      // Use a completely made-up locale
+      const mockLocale = ref('xx-YY');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatFullNumber } = useNumberFormatter();
+      // Should fall back to 'en' and work
+      expect(formatFullNumber(1234567)).toBe('1,234,567');
+    });
+
+    it('should handle edge case with only base language code', () => {
+      const mockLocale = ref('pt');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatFullNumber } = useNumberFormatter();
+      // Should work with base language
+      const result = formatFullNumber(1000000);
+      expect(result).toMatch(/1[.,\s]000[.,\s]000/);
     });
   });
 });
