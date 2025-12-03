@@ -3,40 +3,54 @@ require 'csv'
 class MessageReportJob < ApplicationJob
   queue_as :scheduled_jobs
 
-  ACCOUNT_ID = 209
-  RECIPIENT_EMAIL = 'support@layers.shop'.freeze
+  BRAND_CONFIGS = [
+    { account_id: 209, recipient_emails: ['support@layers.shop', 'jay@procedure.tech'] }
+  ].freeze
 
   def perform
     Rails.logger.info "Starting MessageReportJob at #{Time.current}"
     set_statement_timeout
 
-    report = generate_report
+    BRAND_CONFIGS.each do |config|
+      process_brand(config)
+    end
+
+    Rails.logger.info "MessageReportJob completed successfully at #{Time.current}"
+  end
+
+  private
+
+  def process_brand(config)
+    account_id = config[:account_id]
+    recipient_emails = config[:recipient_emails]
+
+    Rails.logger.info "Processing brand for account_id: #{account_id}"
+
+    report = generate_report(account_id)
     if report.present?
-      Rails.logger.info "Found #{report.length} messages for account_id: #{ACCOUNT_ID}"
+      Rails.logger.info "Found #{report.length} messages for account_id: #{account_id}"
 
       end_date = Time.current
       start_date = 48.hours.ago
 
-      csv_content = generate_csv(report, start_date, end_date)
-      upload_and_send_email(csv_content, start_date, end_date)
+      csv_content = generate_csv(report, start_date, end_date, account_id)
+      upload_and_send_email(csv_content, start_date, end_date, account_id, recipient_emails)
 
-      Rails.logger.info "MessageReportJob completed successfully at #{Time.current}"
+      Rails.logger.info "Completed processing for account_id: #{account_id}"
     else
-      Rails.logger.info "No messages found for account_id: #{ACCOUNT_ID}"
+      Rails.logger.info "No messages found for account_id: #{account_id}"
     end
   end
-
-  private
 
   def set_statement_timeout
     ActiveRecord::Base.connection.execute("SET statement_timeout = '120s'")
   end
 
-  def generate_report # rubocop:disable Metrics/MethodLength
-    Rails.logger.info "Generating message report for account_id: #{ACCOUNT_ID}"
+  def generate_report(account_id) # rubocop:disable Metrics/MethodLength
+    Rails.logger.info "Generating message report for account_id: #{account_id}"
 
     since_time = 48.hours.ago
-    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: ACCOUNT_ID, since: since_time }])
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: since_time }])
       SELECT
           conversations.display_id as conversation_id,
           messages.content,
@@ -65,9 +79,9 @@ class MessageReportJob < ApplicationJob
     result
   end
 
-  def generate_csv(results, start_date, end_date) # rubocop:disable Metrics/MethodLength
+  def generate_csv(results, start_date, end_date, account_id) # rubocop:disable Metrics/MethodLength
     CSV.generate(headers: true) do |csv|
-      csv << ["Message Report for Account #{ACCOUNT_ID}"]
+      csv << ["Message Report for Account #{account_id}"]
       csv << ["Period: #{start_date.strftime('%Y-%m-%d %H:%M')} to #{end_date.strftime('%Y-%m-%d %H:%M')}"]
       csv << []
 
@@ -99,8 +113,8 @@ class MessageReportJob < ApplicationJob
     end
   end
 
-  def upload_and_send_email(csv_content, start_date, end_date)
-    file_name = "message_report_#{ACCOUNT_ID}_#{Time.current.strftime('%Y%m%d_%H%M%S')}.csv"
+  def upload_and_send_email(csv_content, start_date, end_date, account_id, recipient_emails)
+    file_name = "message_report_#{account_id}_#{Time.current.strftime('%Y%m%d_%H%M%S')}.csv"
 
     Rails.logger.info "Uploading CSV: #{file_name}"
 
@@ -113,9 +127,9 @@ class MessageReportJob < ApplicationJob
     csv_url = Rails.application.routes.url_helpers.url_for(blob)
     Rails.logger.info "CSV uploaded successfully, URL: #{csv_url}"
 
-    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: Account.find(ACCOUNT_ID))
-    mailer.message_report(csv_url, start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')).deliver_now
+    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: Account.find(account_id))
+    mailer.message_report(csv_url, start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d'), recipient_emails).deliver_now
 
-    Rails.logger.info "Email sent to #{RECIPIENT_EMAIL}"
+    Rails.logger.info "Email sent to #{recipient_emails.join(', ')}"
   end
 end

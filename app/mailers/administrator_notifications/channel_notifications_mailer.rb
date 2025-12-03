@@ -268,12 +268,12 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: admin_emails, subject: subject) and return
   end
 
-  def message_report(csv_url, since_date, until_date)
+  def message_report(csv_url, since_date, until_date, recipient_emails)
     return unless smtp_config_set_or_development?
 
     subject = "Message Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
-    recipients = ['jay@procedure.tech']
+    recipients = recipient_emails
     send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
