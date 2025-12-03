@@ -58,6 +58,7 @@ RSpec.describe AccountSamlSettings, type: :model do
 
   describe 'sp_entity_id auto-generation' do
     it 'automatically generates sp_entity_id when creating' do
+      allow(GlobalConfigService).to receive(:load).with('FRONTEND_URL', anything).and_return('http://localhost:3000')
       settings = build(:account_saml_settings, account: account, sp_entity_id: nil)
       expect(settings).to be_valid
       settings.save!
