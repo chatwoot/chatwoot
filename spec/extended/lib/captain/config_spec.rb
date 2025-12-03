@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CaptainConfig do
+RSpec.describe Captain::Config do
   describe '.current_provider' do
     it 'returns the configured provider' do
       create(:installation_config, name: 'CAPTAIN_LLM_PROVIDER', value: 'openai')

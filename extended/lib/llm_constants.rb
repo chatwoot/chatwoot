@@ -2,7 +2,7 @@
 
 # ============================================================================
 # MARK: TO BE DELETED
-# This file will be replaced by captain_config.rb once the new implementation
+# This file will be replaced by captain/config.rb once the new implementation
 # is complete and all services have been migrated.
 # ============================================================================
 
