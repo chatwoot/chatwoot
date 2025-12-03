@@ -399,15 +399,31 @@
       "DESCRIPTION": "Pārvaldīt Captain AI lietošanu un kredītus.",
       "BUTTON_TXT": "Iegādāties vairāk kredītu",
       "DOCUMENTS": "Dokumenti",
-      "RESPONSES": "Atbildes",
-      "UPGRADE": "Captain nav pieejams bezmaksas abonementā. Modernizējiet abonementu tūlīt, lai piekļūtu asistentiem un copilot."
+      "RESPONSES": "Credits",
+      "UPGRADE": "Captain nav pieejams bezmaksas abonementā. Modernizējiet abonementu tūlīt, lai piekļūtu asistentiem un copilot.",
+      "REFRESH_CREDITS": "Atjaunot"
     },
     "CHAT_WITH_US": {
       "TITLE": "Nepieciešama palīdzība?",
       "DESCRIPTION": "Vai Jūs saskārāties ar kādām problēmām norēķinu laikā? Mēs esam šeit, lai palīdzētu.",
       "BUTTON_TXT": "Tērzēt ar mums"
     },
-    "NO_BILLING_USER": "Jūsu norēķinu konts tiek konfigurēts. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
+    "NO_BILLING_USER": "Jūsu norēķinu konts tiek konfigurēts. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz.",
+    "TOPUP": {
+      "BUY_CREDITS": "Iegādāties vairāk kredītu",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Piezīme:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "Atcelt",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again."
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
