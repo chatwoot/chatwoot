@@ -399,15 +399,31 @@
       "DESCRIPTION": "管理 Captain AI 的使用和积分。",
       "BUTTON_TXT": "购买更多积分",
       "DOCUMENTS": "文档",
-      "RESPONSES": "常见问题",
-      "UPGRADE": "Captain 在免费计划中不可用，立即升级以获取助手、副驾驶等更多功能。"
+      "RESPONSES": "Credits",
+      "UPGRADE": "Captain 在免费计划中不可用，立即升级以获取助手、副驾驶等更多功能。",
+      "REFRESH_CREDITS": "刷新"
     },
     "CHAT_WITH_US": {
       "TITLE": "需要帮助吗？",
       "DESCRIPTION": "您在计费方面遇到任何问题吗？我们在此为您提供帮助。",
       "BUTTON_TXT": "联系我们"
     },
-    "NO_BILLING_USER": "您的计费账户正在配置中。请刷新页面并重试。"
+    "NO_BILLING_USER": "您的计费账户正在配置中。请刷新页面并重试。",
+    "TOPUP": {
+      "BUY_CREDITS": "购买更多积分",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Note:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "取消",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again."
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "安全",
