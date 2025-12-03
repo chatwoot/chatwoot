@@ -153,8 +153,8 @@ export default {
       );
     },
     showWhatsappTemplates() {
-      // We support WhatsApp templates for API channels if someone updates templates manually via API
-      // That's why we don't explicitly check for WhatsApp channel type here
+      // We support templates for API channels if someone updates templates manually via API
+      // That's why we don't explicitly check for channel type here
       const templates = this.$store.getters['inboxes/getWhatsAppTemplates'](
         this.inboxId
       );
@@ -164,13 +164,20 @@ export default {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
+      if (
+        this.currentChat.can_reply ||
+        this.isAWhatsAppChannel ||
+        this.isAPIInbox
+      ) {
         return this.isOnPrivateNote;
       }
       return true;
     },
     isReplyRestricted() {
-      return !this.currentChat?.can_reply && !this.isAWhatsAppChannel;
+      return (
+        !this.currentChat?.can_reply &&
+        !(this.isAWhatsAppChannel || this.isAPIInbox)
+      );
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -407,7 +414,7 @@ export default {
         return;
       }
 
-      if (canReply || this.isAWhatsAppChannel) {
+      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -795,10 +802,15 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
-      if (this.isRecordingAudio) {
-        this.toggleAudioRecorder();
+      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox)
+        this.replyType = mode;
+      if (this.showRichContentEditor) {
+        if (this.isRecordingAudio) {
+          this.toggleAudioRecorder();
+        }
+        return;
       }
+      this.$nextTick(() => this.$refs.messageInput.focus());
     },
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
