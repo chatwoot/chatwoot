@@ -22,6 +22,7 @@ class Enterprise::Billing::TopupFulfillmentService
         scope: { price_type: 'metered' }
       },
       category: 'paid',
+      expires_at: 6.months.from_now.to_i,
       metadata: {
         account_id: account.id.to_s,
         source: 'topup',
