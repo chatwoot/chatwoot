@@ -54,7 +54,7 @@ class Enterprise::Billing::TopupCheckoutService
     {
       enabled: true,
       invoice_data: {
-        description: "AI Credit Topup: #{credits} credits",
+        description: "AI Credits Topup: #{credits} credits",
         metadata: session_metadata(credits, topup_option)
       }
     }
@@ -65,7 +65,7 @@ class Enterprise::Billing::TopupCheckoutService
       price_data: {
         currency: topup_option[:currency],
         unit_amount: (topup_option[:amount] * 100).to_i,
-        product_data: { name: "AI Credit Topup: #{credits} credits" }
+        product_data: { name: "AI Credits Topup: #{credits} credits" }
       },
       quantity: 1
     }
