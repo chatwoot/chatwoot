@@ -3,16 +3,14 @@ class Captain::Llm::EmbeddingService
 
   class EmbeddingsError < StandardError; end
 
-  DEFAULT_EMBEDDING_MODEL = 'text-embedding-3-small'.freeze
-
   def initialize(account_id: nil)
     Llm::Config.initialize!
     @account_id = account_id
-    @embedding_model = InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || DEFAULT_EMBEDDING_MODEL
+    @embedding_model = InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || OpenAiConstants::DEFAULT_EMBEDDING_MODEL
   end
 
   def self.embedding_model
-    InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || DEFAULT_EMBEDDING_MODEL
+    InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || OpenAiConstants::DEFAULT_EMBEDDING_MODEL
   end
 
   def get_embedding(content, model: @embedding_model)
