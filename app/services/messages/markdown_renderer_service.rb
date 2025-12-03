@@ -37,14 +37,20 @@ class Messages::MarkdownRendererService
   end
 
   def render_telegram_html
-    text = CGI.escapeHTML(@content.gsub("\n", '<br>'))
-    html = CommonMarker.render_html(text).strip
+    # Parse markdown with extensions:
+    # - strikethrough: support ~~text~~
+    # - hardbreaks: preserve all newlines as <br>
+    html = CommonMarker.render_html(@content, [:HARDBREAKS], [:strikethrough]).strip
+
+    # Sanitize to only allowed tags
     stripped_html = Rails::HTML5::SafeListSanitizer.new.sanitize(
       html,
       tags: %w[b strong i em u ins s strike del a code pre blockquote],
       attributes: %w[href]
     )
-    stripped_html.gsub('&lt;br&gt;', "\n")
+
+    # Convert <br /> tags to newlines for Telegram
+    stripped_html.gsub(%r{<br\s*/?>}, "\n")
   end
 
   def render_whatsapp

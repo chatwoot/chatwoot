@@ -203,6 +203,19 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result).to include("\n")
       end
+
+      it 'converts strikethrough to HTML' do
+        content = '~~strikethrough text~~'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<del>strikethrough text</del>')
+      end
+
+      it 'converts blockquotes to HTML' do
+        content = '> quoted text'
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('<blockquote>')
+        expect(result).to include('quoted text')
+      end
     end
 
     context 'when channel is Channel::Email' do
