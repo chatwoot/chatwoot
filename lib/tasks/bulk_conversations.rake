@@ -99,10 +99,11 @@ namespace :conversations do
 
   def create_conversation(contact_inbox)
     ConversationBuilder.new(
-      params: {
+      params: ActionController::Parameters.new(
         status: %w[open resolved pending].sample,
-        additional_attributes: {}
-      },
+        additional_attributes: {},
+        custom_attributes: {}
+      ),
       contact_inbox: contact_inbox
     ).perform
   end
