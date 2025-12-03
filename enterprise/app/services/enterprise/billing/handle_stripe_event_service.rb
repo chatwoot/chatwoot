@@ -160,7 +160,8 @@ class Enterprise::Billing::HandleStripeEventService
 
   def get_plan_credits(plan_name)
     config = InstallationConfig.find_by(name: CAPTAIN_CLOUD_PLAN_LIMITS)
-    config.value[plan_name.downcase]&.symbolize_keys
+    config = JSON.parse(config.value) if config.value.is_a?(String)
+    config[plan_name.downcase]&.symbolize_keys
   end
 
   def enable_plan_specific_features
