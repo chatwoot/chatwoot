@@ -6,6 +6,7 @@ import { useInfiniteScroll } from '@vueuse/core';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import ConversationItem from './ConversationItem.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   items: { type: Array, default: () => [] },
@@ -76,7 +77,7 @@ useKeyboardEvents({
 <template>
   <div
     ref="parentRef"
-    class="conversation-list flex-1 w-full h-full touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch] [contain:strict] px-2 pt-2.5"
+    class="conversation-list flex-1 w-full h-full touch-pan-y overscroll-contain [-webkit-overflow-scrolling:touch] [contain:strict] px-2 pt-2"
     :class="isContextMenuOpen ? 'overflow-hidden' : 'overflow-y-auto'"
   >
     <Virtualizer
@@ -104,9 +105,15 @@ useKeyboardEvents({
       </div>
       <p
         v-else-if="showEndOfListMessage"
-        class="p-4 text-center text-n-slate-11"
+        class="p-4 text-center text-sm text-n-slate-10 whitespace-nowrap"
       >
-        {{ t('CHAT_LIST.EOF') }}
+        <Icon
+          icon="i-woot-party"
+          class="size-4 inline-block align-middle ltr:mr-2 rtl:ml-2"
+        />
+        <span class="align-middle">
+          {{ t('CHAT_LIST.EOF') }}
+        </span>
       </p>
     </div>
   </div>

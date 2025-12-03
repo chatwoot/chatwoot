@@ -2,7 +2,7 @@
   "CHAT_LIST": {
     "LOADING": "Fetching conversations",
     "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "EOF": "All conversations loaded",
     "LIST": {
       "404": "There are no active conversations in this group."
     },
