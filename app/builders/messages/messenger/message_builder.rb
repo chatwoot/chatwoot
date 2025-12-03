@@ -82,14 +82,14 @@ class Messages::Messenger::MessageBuilder
     message = attachment.message
     # For ig_story, we don't have the same API call as story_mention, so we'll set it up similarly but with generic content
     message.content_attributes[:image_type] = 'ig_story'
-    message.content = 'Shared story'
+    message.content = I18n.t('conversations.messages.instagram_shared_story_content')
     message.save!
   end
 
   def fetch_ig_post_link(attachment)
     message = attachment.message
     message.content_attributes[:image_type] = 'ig_post'
-    message.content = 'Shared post'
+    message.content = I18n.t('conversations.messages.instagram_shared_post_content')
     message.save!
   end
 
