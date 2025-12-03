@@ -93,7 +93,7 @@ module Integrations::LlmInstrumentation
     end
   end
 
-  def instrument_with_span(span_name, params)
+  def instrument_with_span(span_name, params, &)
     result = nil
     executed = false
     tracer.in_span(span_name) do |span|
@@ -105,7 +105,9 @@ module Integrations::LlmInstrumentation
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
-    executed ? result : yield
+    raise unless executed
+
+    result
   end
 
   def determine_provider(model_name)
