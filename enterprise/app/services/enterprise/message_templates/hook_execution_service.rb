@@ -32,6 +32,8 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
+    return false if inbox.out_of_office?
+
     conversation.pending? && message.incoming? && inbox.captain_assistant.present?
   end
 
