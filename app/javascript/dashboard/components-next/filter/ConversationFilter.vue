@@ -121,13 +121,13 @@ const outsideClickHandler = [
   >
     <div
       v-on-click-outside="viewInModal ? [] : outsideClickHandler"
-      class="z-40 max-w-3xl xl:w-[750px] w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
+      class="z-40 max-w-3xl xl:w-[750px] w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl py-6 grid gap-6"
       :class="{ 'overflow-x-auto': viewInModal }"
     >
-      <h3 class="text-base font-medium leading-6 text-n-slate-12">
+      <h3 class="text-base font-medium leading-6 text-n-slate-12 px-6">
         {{ filterModalHeaderTitle }}
       </h3>
-      <div v-if="props.isFolderView">
+      <div v-if="props.isFolderView" class="px-6">
         <div class="border-b border-n-weak pb-6">
           <Input
             v-model="folderNameLocal"
@@ -136,7 +136,7 @@ const outsideClickHandler = [
           />
         </div>
       </div>
-      <ul class="grid gap-4 list-none">
+      <ul class="grid gap-4 list-none px-6">
         <template v-for="(filter, index) in filters" :key="filter.id">
           <ConditionRow
             v-if="index === 0"
@@ -163,8 +163,10 @@ const outsideClickHandler = [
           />
         </template>
       </ul>
-      <div class="flex gap-2 justify-between">
-        <Button sm ghost blue @click="addFilter">
+      <div
+        class="flex gap-2 justify-between ltr:pl-3 ltr:pr-6 rtl:pr-3 rtl:pl-6"
+      >
+        <Button sm ghost blue class="px-0" @click="addFilter">
           {{ $t('FILTER.ADD_NEW_FILTER') }}
         </Button>
         <div class="flex gap-2">
