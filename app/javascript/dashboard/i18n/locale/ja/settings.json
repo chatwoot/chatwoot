@@ -399,15 +399,31 @@
       "DESCRIPTION": "Captain AIの使用状況とクレジットを管理する。",
       "BUTTON_TXT": "クレジットを追加購入する",
       "DOCUMENTS": "ドキュメント",
-      "RESPONSES": "応答数",
-      "UPGRADE": "Captainは無料プランでは利用できません。アシスタント、Copilotなどの機能を利用するには、プランをアップグレードしてください。"
+      "RESPONSES": "Credits",
+      "UPGRADE": "Captainは無料プランでは利用できません。アシスタント、Copilotなどの機能を利用するには、プランをアップグレードしてください。",
+      "REFRESH_CREDITS": "再読み込み"
     },
     "CHAT_WITH_US": {
       "TITLE": "サポートが必要ですか？",
       "DESCRIPTION": "請求に関する問題がありますか？お手伝いします。",
       "BUTTON_TXT": "チャットをする"
     },
-    "NO_BILLING_USER": "請求アカウントを設定中です。ページを更新してもう一度お試しください。"
+    "NO_BILLING_USER": "請求アカウントを設定中です。ページを更新してもう一度お試しください。",
+    "TOPUP": {
+      "BUY_CREDITS": "クレジットを追加購入する",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Note:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "キャンセル",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again."
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
