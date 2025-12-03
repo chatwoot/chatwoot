@@ -47,6 +47,7 @@
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
         "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "SPLIT_REASONS": "Use different messages based on who is inactive",
         "DURATION": {
           "LABEL": "Inactivity duration",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
@@ -60,7 +61,15 @@
         "MESSAGE": {
           "LABEL": "Custom auto-resolution message",
           "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "HELP": "Message sent to the customer after conversation is auto-resolved",
+          "AGENT_LABEL": "If the agent is inactive",
+          "CLIENT_LABEL": "If the customer is inactive",
+          "AGENT": {
+            "PLACEHOLDER": "Message that will be sent when the conversation is auto-resolved"
+          },
+          "CLIENT": {
+            "PLACEHOLDER": "Message that will be sent when the conversation is auto-resolved"
+          }
         },
         "PREFERENCES": "Preferences",
         "LABEL": {
