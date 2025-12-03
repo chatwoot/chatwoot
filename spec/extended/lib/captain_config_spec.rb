@@ -72,17 +72,22 @@ RSpec.describe CaptainConfig do
         create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'sk-test-key')
       end
 
-      it 'returns configuration with default values' do
+      it 'returns configuration with provider and API key' do
         config = described_class.config_for('openai')
 
         expect(config[:provider]).to eq('openai')
         expect(config[:api_key]).to eq('sk-test-key')
+        expect(config[:firecrawl_api_key]).to be_nil
+      end
+
+      it 'returns configuration with default model values' do
+        config = described_class.config_for('openai')
+
         expect(config[:endpoint]).to eq('https://api.openai.com')
         expect(config[:chat_model]).to eq('gpt-4o-mini')
         expect(config[:embedding_model]).to eq('text-embedding-3-small')
         expect(config[:transcription_model]).to eq('whisper-1')
         expect(config[:pdf_processing_model]).to eq('gpt-4o-mini')
-        expect(config[:firecrawl_api_key]).to be_nil
       end
     end
 

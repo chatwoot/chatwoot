@@ -74,13 +74,22 @@ module CaptainConfig
 
     {
       provider: provider.to_s.downcase,
-      api_key: InstallationConfig.find_by(name: 'CAPTAIN_LLM_API_KEY')&.value,
-      endpoint: InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value.presence || defaults[:endpoint],
-      chat_model: InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model],
-      embedding_model: InstallationConfig.find_by(name: 'CAPTAIN_LLM_EMBEDDING_MODEL')&.value.presence || defaults[:embedding_model],
-      transcription_model: InstallationConfig.find_by(name: 'CAPTAIN_LLM_TRANSCRIPTION_MODEL')&.value.presence || defaults[:transcription_model],
+      api_key: fetch_config('CAPTAIN_LLM_API_KEY'),
+      endpoint: fetch_config('CAPTAIN_LLM_ENDPOINT', defaults[:endpoint]),
+      chat_model: fetch_config('CAPTAIN_LLM_MODEL', defaults[:chat_model]),
+      embedding_model: fetch_config('CAPTAIN_LLM_EMBEDDING_MODEL', defaults[:embedding_model]),
+      transcription_model: fetch_config('CAPTAIN_LLM_TRANSCRIPTION_MODEL', defaults[:transcription_model]),
       pdf_processing_model: defaults[:pdf_processing_model],
-      firecrawl_api_key: InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value
+      firecrawl_api_key: fetch_config('CAPTAIN_FIRECRAWL_API_KEY')
     }
   end
+
+  # Fetch configuration value from InstallationConfig
+  # @param key [String] Configuration key name
+  # @param default [String, nil] Default value if config is blank
+  # @return [String, nil] Configuration value or default
+  def self.fetch_config(key, default = nil)
+    InstallationConfig.find_by(name: key)&.value.presence || default
+  end
+  private_class_method :fetch_config
 end
