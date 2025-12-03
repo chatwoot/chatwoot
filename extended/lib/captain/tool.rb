@@ -1,3 +1,8 @@
+# ============================================================================
+# MARK: TO BE DELETED
+# This file will be replaced by new provider abstraction implementation.
+# ============================================================================
+
 class Captain::Tool
   class InvalidImplementationError < StandardError; end
   class InvalidSecretsError < StandardError; end

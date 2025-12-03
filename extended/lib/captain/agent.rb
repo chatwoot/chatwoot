@@ -1,4 +1,9 @@
-require 'openai'
+# ============================================================================
+# MARK: TO BE DELETED
+# This file will be replaced by new provider abstraction implementation.
+# ============================================================================
+
+require 'agents'
 class Captain::Agent
   attr_reader :name, :tools, :prompt, :persona, :goal, :secrets
 

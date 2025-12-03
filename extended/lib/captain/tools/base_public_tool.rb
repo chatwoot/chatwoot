@@ -1,3 +1,5 @@
+# MARK: TO BE DELETED - Will be replaced by new provider abstraction
+
 require 'agents'
 
 class Captain::Tools::BasePublicTool < Agents::Tool

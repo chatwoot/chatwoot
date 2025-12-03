@@ -1,3 +1,4 @@
+# MARK: TO BE DELETED - Will be replaced by new provider abstraction
 class Captain::Tools::AddContactNoteTool < Captain::Tools::BasePublicTool
   description 'Add a note to a contact profile'
   param :note, type: 'string', desc: 'The note content to add to the contact'

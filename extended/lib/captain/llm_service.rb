@@ -1,3 +1,8 @@
+# ============================================================================
+# MARK: TO BE DELETED
+# This file will be replaced by new provider abstraction implementation.
+# ============================================================================
+
 require 'openai'
 
 class Captain::LlmService

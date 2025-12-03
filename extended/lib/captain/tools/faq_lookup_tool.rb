@@ -1,3 +1,4 @@
+# MARK: TO BE DELETED - Will be replaced by new provider abstraction
 class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
   description 'Search FAQ responses using semantic similarity to find relevant answers'
   param :query, type: 'string', desc: 'The question or topic to search for in the FAQ database'

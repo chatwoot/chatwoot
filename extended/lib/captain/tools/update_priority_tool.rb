@@ -1,3 +1,4 @@
+# MARK: TO BE DELETED - Will be replaced by new provider abstraction
 class Captain::Tools::UpdatePriorityTool < Captain::Tools::BasePublicTool
   description 'Update the priority of a conversation'
   param :priority, type: 'string', desc: 'The priority level: low, medium, high, urgent, or nil to remove priority'

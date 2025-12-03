@@ -1,3 +1,4 @@
+# MARK: TO BE DELETED - Will be replaced by new provider abstraction
 class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   description 'Hand off the conversation to a human agent when unable to assist further'
   param :reason, type: 'string', desc: 'The reason why handoff is needed (optional)', required: false
