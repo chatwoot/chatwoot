@@ -406,41 +406,44 @@ function setToolbarPosition() {
   };
 }
 
-function setMenubarPosition(editorState) {
-  if (!editorState?.selection) return;
-
-  const { from, to } = editorState.selection;
+function setMenubarPosition({ selection } = {}) {
+  const MENU = { H: 46, W: 300, GAP: 10 };
+  const RTL = 'rtl';
   const wrapper = editorRoot.value;
-  if (!wrapper) return;
+  if (!selection || !wrapper) return;
 
-  const {
-    left: editorLeft,
-    top: editorTop,
-    width: editorWidth,
-  } = wrapper.getBoundingClientRect();
-  const start = editorView.coordsAtPos(from);
-  const end = editorView.coordsAtPos(to);
+  const rect = wrapper.getBoundingClientRect();
+  const rtl = getComputedStyle(wrapper).direction === RTL;
 
-  // Calculate selection center and top
-  const selCenterX =
-    (Math.min(start.left, end.left) + Math.max(start.right, end.right)) / 2;
+  // Coords with bias (1/-1) to fix line-wraps
+  const start = editorView.coordsAtPos(selection.from, 1);
+  const end = editorView.coordsAtPos(selection.to, -1);
+
   const selTop = Math.min(start.top, end.top);
+  const onTop =
+    selTop - rect.top > MENU.H + MENU.GAP || end.bottom > rect.bottom;
 
-  // Clamp center position to keep menubar within editor bounds (with translateX(-50%))
-  const menubarWidth = 560;
-  const clampedCenterX = Math.max(
-    editorLeft + menubarWidth / 4,
-    Math.min(selCenterX, editorLeft + editorWidth - menubarWidth / 4)
+  // Anchor logic: Bottom->Cursor, Top+Visible->Text, Top+Hidden->Container
+  const getAnchor = () => {
+    if (!onTop) return end.left;
+    if (start.top >= rect.top) return rtl ? start.right : start.left;
+    return rtl ? rect.right - MENU.GAP : rect.left + MENU.GAP;
+  };
+
+  const anchor = getAnchor();
+  const rawLeft = (rtl ? anchor - MENU.W : anchor) - rect.left;
+  const left = Math.min(Math.max(0, rawLeft), rect.width - MENU.W);
+
+  const top = onTop
+    ? Math.max(-26, selTop - rect.top - MENU.H - MENU.GAP)
+    : Math.max(start.bottom, end.bottom) - rect.top + MENU.GAP;
+
+  wrapper.style.setProperty('--selection-left', `${left}px`);
+  wrapper.style.setProperty(
+    '--selection-right',
+    `${rect.width - left - MENU.W}px`
   );
-
-  // Calculate position from both left and right edges for RTL support
-  const leftPosition = clampedCenterX - editorLeft;
-  const rightPosition = editorLeft + editorWidth - clampedCenterX;
-
-  // Set CSS custom properties for editor menubar (CSS will choose based on dir attribute)
-  wrapper.style.setProperty('--selection-left', `${leftPosition}px`);
-  wrapper.style.setProperty('--selection-right', `${rightPosition}px`);
-  wrapper.style.setProperty('--selection-top', `${selTop - editorTop - 50}px`);
+  wrapper.style.setProperty('--selection-top', `${top}px`);
 }
 
 function checkSelection(editorState) {
@@ -947,17 +950,17 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     .ProseMirror-menubar {
       @apply rounded-lg !px-3 !py-1.5 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
       display: flex;
-      left: var(--selection-left);
-      top: var(--selection-top);
-      transform: translateX(-50%);
       width: fit-content !important;
       position: absolute !important;
 
-      // RTL support: use right positioning and flip transform
+      // Default/LTR: position from left
+      top: var(--selection-top);
+      left: var(--selection-left);
+
+      // RTL: position from right instead
       [dir='rtl'] & {
-        left: unset;
+        left: auto;
         right: var(--selection-right);
-        transform: translateX(50%);
       }
 
       .ProseMirror-menuitem {
