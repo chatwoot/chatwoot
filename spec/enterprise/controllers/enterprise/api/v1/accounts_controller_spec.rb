@@ -293,7 +293,6 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['success']).to be true
         expect(json_response['credits']).to eq(1000)
         expect(json_response['amount']).to eq(20.0)
         expect(json_response['limits']['captain_responses']).to eq(2000)

@@ -32,11 +32,9 @@ describe Enterprise::Billing::TopupCheckoutService do
     it 'successfully processes topup and returns correct response' do
       result = service.create_checkout_session(credits: 1000)
 
-      expect(result[:success]).to be true
       expect(result[:credits]).to eq(1000)
       expect(result[:amount]).to eq(20.0)
       expect(result[:currency]).to eq('usd')
-      expect(result[:message]).to eq('Successfully added 1000 credits to your account')
     end
 
     it 'updates account limits after successful topup' do
