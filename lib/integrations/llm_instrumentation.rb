@@ -23,32 +23,38 @@ module Integrations::LlmInstrumentation
   def instrument_llm_call(params)
     return yield unless ChatwootApp.otel_enabled?
 
+    result = nil
+    executed = false
     tracer.in_span(params[:span_name]) do |span|
       setup_span_attributes(span, params)
       result = yield
+      executed = true
       record_completion(span, result)
       result
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
-    yield
+    executed ? result : yield
   end
 
   def instrument_agent_session(params)
     return yield unless ChatwootApp.otel_enabled?
 
+    result = nil
+    executed = false
     tracer.in_span(params[:span_name]) do |span|
       set_metadata_attributes(span, params)
 
       # By default, the input and output of a trace are set from the root observation
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
       result = yield
+      executed = true
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
       result
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
-    yield
+    executed ? result : yield
   end
 
   def instrument_tool_call(tool_name, arguments)
