@@ -3,6 +3,8 @@
 require 'agents'
 
 Rails.application.config.after_initialize do
+  provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+  defaults = LlmConstants.defaults_for(provider)
   api_key = InstallationConfig.find_by(name: 'CAPTAIN_LLM_API_KEY')&.value
   model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
   api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value || defaults[:endpoint]
