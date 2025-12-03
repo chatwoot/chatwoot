@@ -19,6 +19,16 @@ describe Enterprise::Billing::HandleStripeEventService do
                { 'name' => 'Enterprise', 'product_id' => ['plan_id_enterprise'], 'price_ids' => ['price_enterprise'] }
              ]
            })
+
+    create(:installation_config, {
+             name: 'CAPTAIN_CLOUD_PLAN_LIMITS',
+             value: {
+               'hacker' => { 'responses' => 0 },
+               'startups' => { 'responses' => 300 },
+               'business' => { 'responses' => 500 },
+               'enterprise' => { 'responses' => 800 }
+             }
+           })
     # Setup common subscription mocks
     allow(event).to receive(:data).and_return(data)
     allow(data).to receive(:object).and_return(subscription)
