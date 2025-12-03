@@ -1,44 +1,56 @@
 <template>
-  <div
-    class="chat-message--input border border-solid border-[#D9D9D9] rounded-lg"
-    :class="$dm('bg-white ', 'dark:bg-slate-600')"
-    @keydown.esc="hideEmojiPicker"
-  >
-    <resizable-text-area
-      id="chat-input"
-      ref="chatInput"
-      v-model="userInput"
-      :rows="1"
-      :aria-label="$t('CHAT_PLACEHOLDER')"
-      :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="form-input user-message-input is-focused"
-      :class="inputColor"
-      @typing-off="onTypingOff"
-      @typing-on="onTypingOn"
-      @focus="onFocus"
-      @blur="onBlur"
+  <div class="chat-input-wrapper">
+    <attachment-preview
+      v-if="stagedAttachment"
+      :attachment="stagedAttachment"
+      :on-remove="removeStagedAttachment"
     />
-    <div class="button-wrap">
-      <!-- <chat-attachment-button
-        v-if="showAttachment"
-        :class="$dm('text-black-900', 'dark:text-slate-100')"
-        :on-attach="onSendAttachment"
-      /> -->
-      <!-- <button
-        v-if="hasEmojiPickerEnabled"
-        class="flex items-center justify-center icon-button"
-        aria-label="Emoji picker"
-        @click="toggleEmojiPicker"
-      >
-        <fluent-icon icon="emoji" :class="emojiIconColor" />
-      </button>
-      <emoji-input
-        v-if="showEmojiPicker"
-        v-on-clickaway="hideEmojiPicker"
-        :on-click="emojiOnClick"
-        @keydown.esc="hideEmojiPicker"
-      /> -->
-      <chat-send-button :on-click="handleButtonClick" />
+    <div
+      class="chat-message--input border border-solid border-[#D9D9D9] rounded-lg"
+      :class="$dm('bg-white ', 'dark:bg-slate-600')"
+      @keydown.esc="hideEmojiPicker"
+    >
+      <resizable-text-area
+        id="chat-input"
+        ref="chatInput"
+        v-model="userInput"
+        :rows="1"
+        :aria-label="$t('CHAT_PLACEHOLDER')"
+        :placeholder="$t('CHAT_PLACEHOLDER')"
+        class="form-input user-message-input is-focused"
+        :class="inputColor"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
+        @focus="onFocus"
+        @blur="onBlur"
+      />
+      <div class="button-wrap">
+        <chat-attachment
+          v-if="showAttachment"
+          :class="
+            $dm(
+              'text-black-900 cursor-pointer',
+              'dark:text-slate-100 cursor-pointer'
+            )
+          "
+          :on-attach="onAttachmentSelected"
+        />
+        <!-- <button
+          v-if="hasEmojiPickerEnabled"
+          class="flex items-center justify-center icon-button"
+          aria-label="Emoji picker"
+          @click="toggleEmojiPicker"
+        >
+          <fluent-icon icon="emoji" :class="emojiIconColor" />
+        </button>
+        <emoji-input
+          v-if="showEmojiPicker"
+          v-on-clickaway="hideEmojiPicker"
+          :on-click="emojiOnClick"
+          @keydown.esc="hideEmojiPicker"
+        /> -->
+        <chat-send-button :on-click="handleButtonClick" />
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +58,8 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import AttachmentPreview from 'widget/components/AttachmentPreview.vue';
+import ChatAttachment from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
@@ -54,6 +68,8 @@ import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 export default {
   name: 'ChatInputWrap',
   components: {
+    AttachmentPreview,
+    ChatAttachment,
     ChatSendButton,
     ResizableTextArea,
   },
@@ -74,6 +90,7 @@ export default {
       userInput: '',
       showEmojiPicker: false,
       isFocused: false,
+      stagedAttachment: null,
     };
   },
 
@@ -83,7 +100,7 @@ export default {
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
     }),
     showAttachment() {
-      return this.hasAttachmentsEnabled && this.userInput.length === 0;
+      return this.hasAttachmentsEnabled;
     },
     showSendButton() {
       return this.userInput.length > 0;
@@ -123,11 +140,26 @@ export default {
       this.isFocused = true;
     },
     handleButtonClick() {
+      // Send attachment if staged
+      if (this.stagedAttachment) {
+        this.onSendAttachment(this.stagedAttachment);
+        this.stagedAttachment = null;
+      }
+
+      // Send text message if present
       if (this.userInput && this.userInput.trim()) {
         this.onSendMessage(this.userInput);
       }
+
       this.userInput = '';
       this.focusInput();
+    },
+    onAttachmentSelected(attachmentData) {
+      // Stage the attachment instead of sending immediately
+      this.stagedAttachment = attachmentData;
+    },
+    removeStagedAttachment() {
+      this.stagedAttachment = null;
     },
     handleEnterKeyPress(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
@@ -193,6 +225,7 @@ export default {
 .button-wrap {
   display: flex;
   align-items: center;
+  gap: $space-smaller;
 }
 
 .user-message-input {

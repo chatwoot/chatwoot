@@ -90,6 +90,7 @@ const sendAttachment = ({ attachment, replyTo = null }) => {
     formData.append('message[attachments][]', file, file.name);
   }
 
+  formData.append('message[content]', '');
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
   if (replyTo !== null) {

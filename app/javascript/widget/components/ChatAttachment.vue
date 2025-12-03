@@ -9,8 +9,16 @@
     }"
     @input-file="onFileUpload"
   >
-    <button class="icon-button flex items-center justify-center">
-      <fluent-icon v-if="!isUploading.image" icon="attach" />
+    <button
+      class="icon-button flex items-center justify-center p-2 cursor-pointer transition-all duration-200"
+      :class="
+        $dm(
+          'text-slate-600 hover:text-slate-900',
+          'dark:text-slate-400 dark:hover:text-slate-100'
+        )
+      "
+    >
+      <fluent-icon v-if="!isUploading" icon="attach" size="20" />
       <spinner v-if="isUploading" size="small" />
     </button>
   </file-upload>
@@ -28,9 +36,11 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
+  mixins: [darkModeMixin],
   props: {
     onAttach: {
       type: Function,
@@ -145,6 +155,7 @@ export default {
       return {
         thumbUrl: window.URL.createObjectURL(file.file),
         fileType: this.getFileType(file.type),
+        file: file.file,
       };
     },
   },

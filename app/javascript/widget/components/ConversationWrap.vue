@@ -168,7 +168,9 @@ export default {
     },
     filterGroupedMessages(groupedMessages) {
       return groupedMessages?.filter(
-        msg => msg?.content && msg?.content.trim() !== ''
+        msg =>
+          (msg?.content && msg?.content.trim() !== '') ||
+          (msg?.attachments && msg?.attachments.length > 0)
       );
       // return groupedMessages?.filter(
       //   msg => msg?.content && msg?.content.trim() !== ''

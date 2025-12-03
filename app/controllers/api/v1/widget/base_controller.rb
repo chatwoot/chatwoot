@@ -91,7 +91,7 @@ class Api::V1::Widget::BaseController < ApplicationController
       sender: @contact,
       content: permitted_params[:message][:content],
       inbox_id: conversation.inbox_id,
-      private: permitted_params[:message][:private],
+      private: permitted_params[:message][:private] || false,
       content_attributes: {
         in_reply_to: permitted_params[:message][:reply_to],
         selected_reply: permitted_params[:message][:selected_reply],

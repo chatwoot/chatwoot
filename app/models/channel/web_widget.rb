@@ -7,7 +7,7 @@
 #  back_populates_conversation :boolean          default(TRUE), not null
 #  continuity_via_email        :boolean          default(TRUE), not null
 #  faqs                        :jsonb            not null
-#  feature_flags               :integer          default(7), not null
+#  feature_flags               :integer          default(0), not null
 #  hmac_mandatory              :boolean          default(FALSE)
 #  hmac_token                  :string
 #  need_more_help_type         :string           default("redirect_to_whatsapp")

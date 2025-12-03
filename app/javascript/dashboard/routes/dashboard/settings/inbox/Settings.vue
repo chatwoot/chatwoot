@@ -905,8 +905,8 @@ export default {
             website_url: this.channelWebsiteUrl,
             webhook_url:
               this.channelType === 'Channel::WebWidget'
-                ? (this.webhookUrl ??
-                  'https://cwconnect.bitespeed.co/chatwoot/webhook/webWidget')
+                ? this.webhookUrl ??
+                  'https://cwconnect.bitespeed.co/chatwoot/webhook/webWidget'
                 : this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
