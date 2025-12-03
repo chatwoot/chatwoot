@@ -399,15 +399,31 @@
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "RESPONSES": "Credits",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "Odśwież"
     },
     "CHAT_WITH_US": {
       "TITLE": "Potrzebujesz pomocy?",
       "DESCRIPTION": "Masz problemy z rozliczeniami? Jesteśmy tutaj, aby pomóc.",
       "BUTTON_TXT": "Porozmawiaj z nami"
     },
-    "NO_BILLING_USER": "Konfigurowanie konta rozliczeniowego. Odśwież stronę i spróbuj ponownie."
+    "NO_BILLING_USER": "Konfigurowanie konta rozliczeniowego. Odśwież stronę i spróbuj ponownie.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Uwaga:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "Anuluj",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again."
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
