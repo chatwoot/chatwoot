@@ -95,7 +95,7 @@ Metrics/ModuleLength:
 Rails/HelperInstanceVariable:
   Exclude:
     - enterprise/app/helpers/captain/chat_helper.rb
-    - 'enterprise/app/helpers/captain/tool_execution_helper.rb'
+    - enterprise/app/helpers/captain/chat_response_helper.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
