@@ -188,6 +188,8 @@ vi:
     messages:
       instagram_story_content: '%{story_sender} đã đề cập đến bạn trong hội thoại: '
       instagram_deleted_story_content: Hội thoại này không còn nữa.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Tin nhắn đã bị xoá
       whatsapp:
         list_button_label: 'Choose an item'
