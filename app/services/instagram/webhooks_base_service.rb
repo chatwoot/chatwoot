@@ -12,16 +12,6 @@ class Instagram::WebhooksBaseService
   end
 
   def find_or_create_contact(user)
-    # Debug logging for production issue investigation
-    Rails.logger.error('[DEBUG] find_or_create_contact called')
-    Rails.logger.error("[DEBUG] user: #{user}")
-
-    # Guard against array being passed instead of hash
-    unless user.is_a?(Hash) && user['id'].present?
-      Rails.logger.error("[DEBUG] Invalid user parameter - expected hash with id, got #{user.class}: #{user.inspect}")
-      return
-    end
-
     @contact_inbox = @inbox.contact_inboxes.where(source_id: user['id']).first
     @contact = @contact_inbox.contact if @contact_inbox
 
