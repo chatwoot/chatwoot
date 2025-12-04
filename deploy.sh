@@ -46,8 +46,15 @@ fi
 
 # Configurações
 DOCKER_USERNAME="ottiv"
-DOCKER_TOKEN="${DOCKER_TOKEN:-}"
+DOCKER_TOKEN="${DOCKER_TOKEN:-}"  # Deve ser fornecido via variável de ambiente ou .env
 IMAGE_NAME="chatwoot"
+
+# Valida se o DOCKER_TOKEN foi fornecido
+if [ -z "$DOCKER_TOKEN" ]; then
+    echo "❌ DOCKER_TOKEN não foi fornecido!"
+    echo "💡 Configure a variável DOCKER_TOKEN no arquivo .env ou como variável de ambiente."
+    exit 1
+fi
 
 # Lê a versão do .env, variável de ambiente ou usa "latest" como padrão
 TAG="${VERSION:-latest}"
