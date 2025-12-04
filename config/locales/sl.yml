@@ -188,6 +188,8 @@ sl:
     messages:
       instagram_story_content: '%{story_sender} vas je omenil v zgodbi: '
       instagram_deleted_story_content: Ta zgodba ni več na voljo.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: To sporočilo je bilo izbrisano
       whatsapp:
         list_button_label: 'Choose an item'
