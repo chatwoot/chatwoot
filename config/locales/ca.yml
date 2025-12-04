@@ -188,6 +188,8 @@ ca:
     messages:
       instagram_story_content: '%{story_sender} t''ha mencionat a la història: '
       instagram_deleted_story_content: Aquesta història ja no està disponible.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Aquest missatge a sigut eliminat
       whatsapp:
         list_button_label: 'Choose an item'
