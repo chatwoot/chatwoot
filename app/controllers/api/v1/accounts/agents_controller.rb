@@ -23,8 +23,9 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @agent.update!(agent_params.slice(:name).compact)
-    @agent.current_account_user.update!(agent_params.slice(*account_user_attributes).compact)
+    update_agent_basic_info
+    update_teams if agent_params[:team_ids]
+    update_inboxes if agent_params[:inbox_ids]
   end
 
   def destroy
@@ -57,7 +58,34 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def inboxes
+    render json: { inboxes: @agent.assigned_inboxes }
+  end
+
+  def teams
+    render json: { teams: @agent.teams }
+  end
+
   private
+
+  def update_agent_basic_info
+    @agent.update!(agent_params.slice(:name).compact)
+    @agent.current_account_user.update!(
+      agent_params.slice(*account_user_attributes).compact
+    )
+  end
+
+  def update_teams
+    ids = agent_params[:team_ids].map(&:to_i)
+    @agent.team_members.where.not(team_id: ids).destroy_all
+    ids.each { |team_id| @agent.team_members.find_or_create_by(team_id: team_id) }
+  end
+
+  def update_inboxes
+    ids = agent_params[:inbox_ids].map(&:to_i)
+    @agent.inbox_members.where.not(inbox_id: ids).destroy_all
+    ids.each { |inbox_id| @agent.inbox_members.find_or_create_by(inbox_id: inbox_id) }
+  end
 
   def check_authorization
     super(User)
@@ -72,7 +100,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def allowed_agent_params
-    [:name, :email, :role, :availability, :auto_offline]
+    [:name, :email, :role, :availability, :auto_offline, { inbox_ids: [] }, { team_ids: [] }]
   end
 
   def agent_params

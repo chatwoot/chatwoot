@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -8,6 +8,7 @@ import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
+import Multiselect from 'vue-multiselect';
 
 const props = defineProps({
   id: {
@@ -51,6 +52,37 @@ const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
+const inboxList = ref([]);
+const selectedInboxes = ref([]);
+const teamList = ref([]);
+const selectedTeams = ref([]);
+
+const fetchInboxes = async () => {
+  await store.dispatch('inboxes/get');
+  inboxList.value = store.getters['inboxes/getInboxes'];
+};
+
+const fetchAgentInboxes = async () => {
+  const inboxes = await store.dispatch('agents/getInboxes', props.id);
+  selectedInboxes.value = inboxes;
+};
+
+const fetchTeams = async () => {
+  await store.dispatch('teams/get');
+  teamList.value = store.getters['teams/getTeams'];
+};
+
+const fetchAgentTeams = async () => {
+  const teams = await store.dispatch('agents/getTeams', props.id);
+  selectedTeams.value = teams;
+};
+
+onMounted(async () => {
+  await fetchInboxes();
+  await fetchAgentInboxes();
+  await fetchTeams();
+  await fetchAgentTeams();
+});
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
@@ -126,6 +158,8 @@ const editAgent = async () => {
       id: props.id,
       name: agentName.value,
       availability: agentAvailability.value,
+      inbox_ids: selectedInboxes.value.map(i => i.id),
+      team_ids: selectedTeams.value.map(team => team.id),
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -202,6 +236,42 @@ const resetPassword = async () => {
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
           </span>
         </label>
+      </div>
+
+      <div class="w-full">
+        {{ $t('PROFILE_SETTINGS.FORM.INBOX.LABEL') }}
+        <Multiselect
+          v-model="selectedInboxes"
+          :options="inboxList"
+          track-by="id"
+          label="name"
+          multiple
+          :close-on-select="false"
+          :clear-on-select="false"
+          hide-selected
+          :placeholder="$t('PROFILE_SETTINGS.FORM.INBOX.PLACEHOLDER')"
+          selected-label
+          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+          :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+        />
+      </div>
+
+      <div class="w-full">
+        {{ $t('PROFILE_SETTINGS.FORM.TEAM.LABEL') }}
+        <Multiselect
+          v-model="selectedTeams"
+          :options="teamList"
+          track-by="id"
+          label="name"
+          multiple
+          :close-on-select="false"
+          :clear-on-select="false"
+          hide-selected
+          :placeholder="$t('PROFILE_SETTINGS.FORM.TEAM.PLACEHOLDER')"
+          selected-label
+          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+          :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+        />
       </div>
 
       <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">
