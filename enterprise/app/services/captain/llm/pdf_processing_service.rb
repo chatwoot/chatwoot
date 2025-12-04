@@ -39,10 +39,9 @@ class Captain::Llm::PdfProcessingService < Llm::LegacyBaseOpenAiService
     tracer.in_span('llm.file.upload') do |span|
       span.set_attribute('gen_ai.provider', 'openai')
       span.set_attribute('file.purpose', 'assistants')
-      span.set_attribute('langfuse.user_id', document.account_id.to_s)
-      span.set_attribute('langfuse.tags', ['pdf_upload'].to_json)
-      span.set_attribute('langfuse.metadata.document_id', document.id.to_s)
-
+      span.set_attribute(ATTR_LANGFUSE_USER_ID, document.account_id.to_s)
+      span.set_attribute(ATTR_LANGFUSE_TAGS, ['pdf_upload'].to_json)
+      span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'document_id'), document.id.to_s)
       file_id = yield
       span.set_attribute('file.id', file_id) if file_id
       file_id
