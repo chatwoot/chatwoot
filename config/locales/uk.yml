@@ -188,6 +188,8 @@ uk:
     messages:
       instagram_story_content: '%{story_sender} згадав вас у сторіс: '
       instagram_deleted_story_content: Ця історія більше не доступна.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Це повідомлення було видалено
       whatsapp:
         list_button_label: 'Choose an item'
