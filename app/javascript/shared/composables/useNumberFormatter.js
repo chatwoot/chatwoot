@@ -1,11 +1,11 @@
-import { useI18n } from 'vue-i18n';
+import { useLocale } from './useLocale';
 
 /**
  * Composable for number formatting with i18n locale support
  * Provides methods to format numbers in compact and full display formats
  */
 export function useNumberFormatter() {
-  const { locale } = useI18n();
+  const { resolvedLocale } = useLocale();
 
   /**
    * Formats numbers for display with clean, minimal formatting
@@ -25,13 +25,13 @@ export function useNumberFormatter() {
 
     // For numbers between -1000 and 1000 (exclusive), show exact number with locale formatting
     if (Math.abs(num) < 1000) {
-      return new Intl.NumberFormat(locale.value).format(num);
+      return new Intl.NumberFormat(resolvedLocale.value).format(num);
     }
 
     // For numbers with absolute value above 1,000,000, show in millions with 1 decimal place
     if (Math.abs(num) >= 1000000) {
       const millions = num / 1000000;
-      return new Intl.NumberFormat(locale.value, {
+      return new Intl.NumberFormat(resolvedLocale.value, {
         notation: 'compact',
         compactDisplay: 'short',
         maximumFractionDigits: 1,
@@ -44,7 +44,7 @@ export function useNumberFormatter() {
     const thousands = num >= 0 ? Math.floor(num / 1000) : Math.ceil(num / 1000);
     const remainder = Math.abs(num) % 1000;
     const suffix = remainder === 0 ? 'k' : 'k+';
-    return `${new Intl.NumberFormat(locale.value).format(thousands)}${suffix}`;
+    return `${new Intl.NumberFormat(resolvedLocale.value).format(thousands)}${suffix}`;
   };
 
   /**
@@ -57,7 +57,7 @@ export function useNumberFormatter() {
       return '0';
     }
 
-    return new Intl.NumberFormat(locale.value).format(num);
+    return new Intl.NumberFormat(resolvedLocale.value).format(num);
   };
 
   return {
