@@ -3,11 +3,12 @@ class Platform::Api::V1::OttivNotificationSettingsController < PlatformControlle
   skip_before_action :validate_platform_app_permissible, only: [:index]
 
   def index
-    account_ids = @platform_app.platform_app_permissibles
-                              .where(permissible_type: 'Account')
-                              .pluck(:permissible_id)
-
-    @accounts = Account.where(id: account_ids)
+    # ✅ Retornar todos os accounts que têm usuários
+    # Isso garante que todos os accounts sejam incluídos,
+    # independente de estarem explicitamente permitidos no platform_app_permissibles
+    # ou terem subscriptions/settings já criadas
+    @accounts = Account.joins(:account_users)
+                    .distinct
                     .includes(
                       account_users: {
                         user: [

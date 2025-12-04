@@ -1,11 +1,26 @@
 class Api::V1::Accounts::OttivNotificationsController < Api::V1::Accounts::BaseController
   before_action :set_user
   before_action :check_authorization
+  before_action :validate_primary_actor, only: [:create]
 
   def create
     begin
-      @notification = @user.ottiv_notifications.build(notification_params)
+      # ✅ Construir notificação SEM primary_actor_type e primary_actor_id
+      # Isso evita que o Rails tente buscar a conversa antes de termos o objeto
+      params_without_primary = notification_params.except(:primary_actor_type, :primary_actor_id)
+      @notification = @user.ottiv_notifications.build(params_without_primary)
       @notification.account_id = Current.account.id
+
+      # ✅ Atribuir o objeto primary_actor diretamente (como NotificationBuilder faz)
+      @notification.primary_actor = @primary_actor if @primary_actor
+
+      # ✅ Atribuir secondary_actor se fornecido
+      if notification_params[:secondary_actor_type].present? && notification_params[:secondary_actor_id].present?
+        case notification_params[:secondary_actor_type]
+        when 'Message'
+          @notification.secondary_actor = Current.account.messages.find_by(id: notification_params[:secondary_actor_id])
+        end
+      end
 
       Rails.logger.info("📝 [OttivNotifications] Criando notificação para user #{@user.id}, account #{Current.account.id}")
       Rails.logger.info("   Type: #{@notification.notification_type}")
@@ -53,6 +68,33 @@ class Api::V1::Accounts::OttivNotificationsController < Api::V1::Accounts::BaseC
     unless account_user
       Rails.logger.error("❌ [OttivNotifications] User #{@user.id} não pertence à account #{Current.account.id}")
       render json: { error: 'User does not belong to this account' }, status: :forbidden
+    end
+  end
+
+  # ✅ Validar e buscar primary_actor garantindo que pertence ao account correto
+  def validate_primary_actor
+    primary_actor_type = notification_params[:primary_actor_type]
+    primary_actor_id = notification_params[:primary_actor_id]
+
+    return if primary_actor_type.blank? || primary_actor_id.blank?
+    case primary_actor_type
+    when 'Conversation'
+      # ✅ Buscar conversa por account_id + display_id (chave composta)
+      # O primary_actor_id que vem do webhook é o display_id, não o id real
+      # Usar busca explícita para aproveitar o índice único (account_id, display_id)
+      @primary_actor = Conversation.find_by(
+        account_id: Current.account.id,
+        display_id: primary_actor_id
+      )
+      unless @primary_actor
+        Rails.logger.error("❌ [OttivNotifications] Conversation com display_id #{primary_actor_id} não encontrada no account #{Current.account.id}")
+        render json: { errors: ['Primary actor must exist and belong to the account'] }, status: :unprocessable_entity
+        return
+      end
+    else
+      Rails.logger.error("❌ [OttivNotifications] Primary actor type não suportado: #{primary_actor_type}")
+      render json: { errors: ['Unsupported primary actor type'] }, status: :unprocessable_entity
+      return
     end
   end
 end
