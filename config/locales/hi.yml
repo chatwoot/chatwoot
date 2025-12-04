@@ -188,6 +188,8 @@ hi:
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: This message was deleted
       whatsapp:
         list_button_label: 'Choose an item'
