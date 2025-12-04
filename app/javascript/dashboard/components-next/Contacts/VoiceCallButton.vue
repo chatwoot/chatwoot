@@ -101,6 +101,7 @@ const onPickInbox = async inbox => {
       :label="label"
       :icon="icon"
       :size="size"
+      class="!px-2"
       @click="onClick"
     />
 

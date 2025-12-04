@@ -121,8 +121,7 @@ const borderRadiusClass = computed(() => {
   if (props.size <= 16) return 'rounded'; // 4px
   if (props.size <= 24) return 'rounded-md'; // 6px
   if (props.size <= 32) return 'rounded-lg'; // 8px
-  if (props.size <= 48) return 'rounded-xl'; // 12px
-  return 'rounded-2xl'; // 16px
+  return 'rounded-lg'; // 16px
 });
 
 const avatarStyles = computed(() => ({
@@ -280,7 +279,8 @@ watch(
         :handle-image-upload="handleImageUpload"
       >
         <div
-          class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-300 ease-in-out opacity-0 rounded-xl bg-n-alpha-black1 group-hover/avatar:visible group-hover/avatar:opacity-100"
+          class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-300 ease-in-out opacity-0 bg-n-alpha-black1 group-hover/avatar:visible group-hover/avatar:opacity-100"
+          :class="borderRadiusClass"
           @click="handleUploadAvatar"
         >
           <Icon

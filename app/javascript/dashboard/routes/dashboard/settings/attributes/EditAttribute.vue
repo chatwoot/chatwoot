@@ -151,9 +151,8 @@ export default {
           attribute_description: this.description,
           attribute_display_name: this.displayName,
           attribute_values: this.updatedAttributeListValues,
-          regex_pattern: this.regexPattern
-            ? new RegExp(this.regexPattern).toString()
-            : null,
+          // Store as plain string - new RegExp().toString() causes double escaping
+          regex_pattern: this.regexPattern || null,
           regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');

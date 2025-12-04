@@ -1,8 +1,8 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
+    "EMAIL_ADDRESS": "Email",
+    "PHONE_NUMBER": "Phone",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
@@ -16,10 +16,16 @@
     "INITIATED_AT": "Initiated at",
     "IP_ADDRESS": "IP Address",
     "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "New message",
-    "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL": "Call",
+    "BUTTON_LABEL": {
+      "NEW_MESSAGE": "Message",
+      "CALL": "Call",
+      "EDIT": "Edit",
+      "MERGE": "Merge",
+      "DELETE": "Delete"
+    },
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -197,6 +203,7 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Custom Attributes",
     "BUTTON": "Add custom attribute",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "SHOW_MORE": "Show all attributes",

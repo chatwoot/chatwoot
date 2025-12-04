@@ -1,21 +1,24 @@
-<script>
-export default {
-  props: {
-    title: { type: String, required: true },
-    value: { type: [String, Number], default: '' },
-    compact: { type: Boolean, default: false },
-  },
-};
+<script setup>
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
+defineProps({
+  title: { type: String, default: '' },
+  icon: { type: String, default: '' },
+  value: { type: [String, Number], default: '' },
+});
 </script>
 
 <template>
-  <div class="overflow-auto" :class="compact ? 'py-0 px-0' : 'py-3 px-4'">
-    <div class="items-center flex justify-between mb-1.5">
-      <span class="text-sm font-medium text-n-slate-12">
-        {{ title }}
-      </span>
-      <slot name="button" />
-    </div>
+  <div class="flex items-start gap-2 py-2 min-h-9">
+    <Icon
+      v-if="icon"
+      v-tooltip.top="{
+        content: title,
+        delay: { show: 500, hide: 0 },
+      }"
+      :icon="icon"
+      class="text-n-slate-11 size-4 flex-shrink-0 mt-0.5"
+    />
     <div v-if="value" class="break-words">
       <slot>
         {{ value }}

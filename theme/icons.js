@@ -129,6 +129,16 @@ export const icons = {
     width: 16,
     height: 16,
   },
+  'ip-address': {
+    body: `<g fill="none" stroke="currentColor"><path d="M2 9.833V6.167A3.667 3.667 0 0 1 5.667 2.5h4.889a3.667 3.667 0 0 1 3.666 3.667v3.666a3.667 3.667 0 0 1-3.666 3.667h-4.89A3.667 3.667 0 0 1 2 9.833Z" stroke-width="1.2"/><path d="M8.111 6.166v3.667M6.278 6.166v3.667M8.111 8H9.64a.917.917 0 0 0 0-1.834H8.111" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  monitor: {
+    body: `<g fill="none" stroke="currentColor"><path d="M6.448 10.241h5.173A1.38 1.38 0 0 0 13 8.862V4.38A1.38 1.38 0 0 0 11.62 3H4.38A1.38 1.38 0 0 0 3 4.38v4.482c0 .762.618 1.38 1.38 1.38zm0 0s.173 2.07-1.207 2.759h5.518c-1.38-.69-1.207-2.759-1.207-2.759" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
 
   /** Conversation Status Starts */
   'status-empty': {

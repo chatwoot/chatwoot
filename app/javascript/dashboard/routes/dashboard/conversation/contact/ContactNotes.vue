@@ -8,6 +8,7 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ContactNoteItem from 'next/Contacts/ContactsSidebar/components/ContactNoteItem.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import SidePanelEmptyState from 'dashboard/routes/dashboard/conversation/SidePanelEmptyState.vue';
 
 const props = defineProps({
   contactId: { type: [String, Number], required: true },
@@ -98,10 +99,10 @@ watch(
 
 <template>
   <div>
-    <div class="px-4 pt-3 pb-2">
+    <div class="px-3 pt-3 pb-2">
       <NextButton
-        ghost
-        xs
+        sm
+        slate
         icon="i-lucide-plus"
         :label="$t('CONTACTS_LAYOUT.SIDEBAR.NOTES.ADD_NOTE')"
         :disabled="!contactId || isFetchingNotes"
@@ -117,12 +118,12 @@ watch(
     </div>
     <div
       v-else-if="notes.length"
-      class="flex flex-col max-h-[300px] overflow-y-auto"
+      class="flex flex-col px-3 max-h-[300px] overflow-y-auto"
     >
       <ContactNoteItem
         v-for="note in notes"
         :key="note.id"
-        class="py-4 last-of-type:border-b-0 px-4"
+        class="pb-3 last-of-type:border-b-0 !border-0"
         :note="note"
         :written-by="getWrittenBy(note)"
         allow-delete
@@ -130,9 +131,11 @@ watch(
         @delete="onDelete"
       />
     </div>
-    <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">
-      {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.CONVERSATION_EMPTY_STATE') }}
-    </p>
+    <div v-else class="mt-2 px-3">
+      <SidePanelEmptyState
+        :message="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.CONVERSATION_EMPTY_STATE')"
+      />
+    </div>
 
     <woot-modal
       v-model:show="shouldShowCreateModal"

@@ -3,6 +3,7 @@ import { computed, watch, onMounted } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import ConversationCard from 'dashboard/components-next/Conversation/ConversationCard/ConversationCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import SidePanelEmptyState from 'dashboard/routes/dashboard/conversation/SidePanelEmptyState.vue';
 
 const props = defineProps({
   contactId: {
@@ -47,13 +48,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="!uiFlags.isFetching" class="max-h-96 overflow-y-auto">
-    <div v-if="!previousConversations.length" class="no-label-message px-4 p-3">
-      <span>
-        {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
-      </span>
+  <div v-if="!uiFlags.isFetching" class="max-h-96 overflow-y-auto px-3">
+    <div v-if="!previousConversations.length" class="mt-2">
+      <SidePanelEmptyState
+        :message="$t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND')"
+      />
     </div>
-    <div v-else class="px-3 divide-y divide-n-weak">
+
+    <div v-else>
       <ConversationCard
         v-for="conversation in previousConversations"
         :key="conversation.id"
@@ -71,9 +73,3 @@ onMounted(() => {
     <Spinner />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.no-label-message {
-  @apply text-n-slate-11 mb-4;
-}
-</style>

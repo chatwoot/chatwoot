@@ -73,11 +73,11 @@ const variableKey = (item = {}) => {
     class="bg-n-solid-1 p-1 rounded-xl overflow-auto absolute w-full z-20 shadow-md left-0 bottom-full max-h-[9.75rem] border border-solid border-n-strong mention--box"
   >
     <ul class="mb-0 vertical dropdown menu">
-      <woot-dropdown-item
+      <li
         v-for="(item, index) in items"
         :id="`mention-item-${index}`"
         :key="item.key"
-        class="!mb-1"
+        class="mb-1 list-none"
         @mouseover="onHover(index)"
       >
         <button
@@ -106,7 +106,7 @@ const variableKey = (item = {}) => {
             </p>
           </slot>
         </button>
-      </woot-dropdown-item>
+      </li>
     </ul>
   </div>
 </template>

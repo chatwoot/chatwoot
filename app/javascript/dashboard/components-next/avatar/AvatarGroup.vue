@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import Avatar from 'next/avatar/Avatar.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   usersList: {
@@ -11,11 +11,11 @@ const props = defineProps({
     type: Number,
     default: 24,
   },
-  showMoreThumbnailsCount: {
+  showMoreCount: {
     type: Boolean,
     default: false,
   },
-  moreThumbnailsText: {
+  moreCountText: {
     type: String,
     default: '',
   },
@@ -36,7 +36,7 @@ const gapClass = computed(() => {
   return 'ltr:[&:not(:first-child)]:-ml-1 rtl:[&:not(:first-child)]:-mr-1';
 });
 
-const moreThumbnailsClass = computed(() => {
+const morePlaceholderClass = computed(() => {
   if (props.gap === 'tight') {
     return 'ltr:-ml-2 rtl:-mr-2';
   }
@@ -59,11 +59,11 @@ const moreThumbnailsClass = computed(() => {
       rounded-full
     />
     <span
-      v-if="showMoreThumbnailsCount"
-      class="text-n-slate-11 bg-n-slate-4 outline outline-1 outline-n-background text-xs font-medium rounded-full px-2 inline-flex items-center shadow relative"
-      :class="moreThumbnailsClass"
+      v-if="showMoreCount"
+      class="text-n-slate-11 bg-n-button-color outline outline-1 outline-n-weak text-xs font-420 rounded-full px-2 inline-flex items-center shadow relative"
+      :class="morePlaceholderClass"
     >
-      {{ moreThumbnailsText }}
+      {{ moreCountText }}
     </span>
   </div>
 </template>

@@ -72,6 +72,7 @@
     },
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Execute",
+      "RUN": "Run",
       "PREVIEW": "Preview Macro",
       "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
     },
