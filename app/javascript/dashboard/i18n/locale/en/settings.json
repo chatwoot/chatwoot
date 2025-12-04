@@ -379,7 +379,7 @@
     "DOCS": "Read docs",
     "SECURITY": "Security",
     "EMAIL_TEMPLATES": "Email Templates",
-    "ASSIGN_EMAIL_TEMPLATES": "Assign Email Templates",
+    "ASSIGN_EMAIL_TEMPLATES": "Assign Email Templates"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
