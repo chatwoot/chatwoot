@@ -521,7 +521,6 @@ provideMessageContext({
           'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
           'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
-          'min-w-0 max-w-full': componentToRender === VoiceCallBubble,
         }"
         @contextmenu="openContextMenu($event)"
       >
