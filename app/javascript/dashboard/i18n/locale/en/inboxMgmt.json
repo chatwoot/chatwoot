@@ -167,11 +167,6 @@
           "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
         }
       },
-      "TWILIO_VOICE": {
-        "CALL_WEBHOOK_LABEL": "Voice Call Webhook URL",
-        "TWIML_APP_VOICE_LABEL": "TwiML App Voice URL",
-        "STATUS_CALLBACK_LABEL": "Call Status Callback URL"
-      },
       "SMS": {
         "TITLE": "SMS Channel",
         "DESC": "Start supporting your customers via SMS.",
