@@ -188,6 +188,8 @@ da:
     messages:
       instagram_story_content: '%{story_sender} nævnte dig i historien: '
       instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Denne besked blev slettet
       whatsapp:
         list_button_label: 'Choose an item'
