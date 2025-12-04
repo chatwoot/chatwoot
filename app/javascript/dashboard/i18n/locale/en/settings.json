@@ -205,6 +205,14 @@
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
         "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
+      "INBOX":{
+        "LABEL": "Inboxes",
+        "PLACEHOLDER": "Choose inboxes"
+      },
+      "TEAM":{
+        "LABEL": "Teams",
+        "PLACEHOLDER": "Choose teams"
+      },
       "EMAIL": {
         "LABEL": "Your email address",
         "ERROR": "Please enter a valid email address",
