@@ -1,0 +1,16 @@
+<% content_for(:title) do %>
+  New Account Email Template
+<% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
+  <div>
+    <%= link_to "Back", super_admin_email_templates_path, class: "button" %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <%= render "form", account_email_template: @account_email_template %>
+</section>

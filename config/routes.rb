@@ -128,6 +128,7 @@ Rails.application.routes.draw do
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              resource :email_preview, only: [:show], controller: 'email_previews'
             end
             member do
               post :mute
@@ -311,6 +312,19 @@ Rails.application.routes.draw do
             end
           end
           resources :working_hours, only: [:update]
+
+          resources :email_templates, only: [:index] do
+            member do
+              post :activate
+              post :deactivate
+            end
+          end
+
+          resources :user_assignments, only: [:index, :create, :destroy] do
+            collection do
+              get :available_templates
+            end
+          end
 
           resources :portals do
             member do
@@ -608,6 +622,11 @@ Rails.application.routes.draw do
       resource :settings, only: [:show] do
         get :refresh, on: :collection
       end
+
+      resources :email_templates, only: [:index]
+      resources :global_email_templates
+      resources :account_email_templates
+      resources :advanced_email_templates
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :show, :destroy]

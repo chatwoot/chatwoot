@@ -438,3 +438,17 @@ en:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  super_admin:
+    email_templates:
+      global:
+        created: 'Global Email Template created successfully.'
+        updated: 'Global Email Template updated successfully.'
+        deleted: 'Global Email Template deleted successfully.'
+      account:
+        created: 'Account Email Template created successfully.'
+        updated: 'Account Email Template updated successfully.'
+        deleted: 'Account Email Template deleted successfully.'
+      advanced:
+        created: 'Advanced Email Template created successfully.'
+        updated: 'Advanced Email Template updated successfully.'
+        deleted: 'Advanced Email Template deleted successfully.'

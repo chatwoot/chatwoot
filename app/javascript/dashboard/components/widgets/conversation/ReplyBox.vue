@@ -30,6 +30,7 @@ import {
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
+import EmailPreviewModal from 'dashboard/components/widgets/EmailPreviewModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
@@ -74,6 +75,7 @@ export default {
     WhatsappTemplates,
     WootMessageEditor,
     QuotedEmailPreview,
+    EmailPreviewModal,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
@@ -134,6 +136,7 @@ export default {
       newConversationModalActive: false,
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
+      showEmailPreviewModal: false,
     };
   },
   computed: {
@@ -438,6 +441,19 @@ export default {
         this.quotedReplyPreference &&
         !!this.quotedEmailText
       );
+    },
+    emailPreviewData() {
+      // Use toEmails if set, otherwise fallback to contact email
+      const toEmail =
+        this.toEmails || this.currentChat?.meta?.sender?.email || '';
+
+      return {
+        message: this.message,
+        cc: this.ccEmails,
+        bcc: this.bccEmails,
+        to: toEmail,
+        subject: this.currentChat?.additional_attributes?.mail_subject,
+      };
     },
   },
   watch: {
@@ -1168,6 +1184,12 @@ export default {
     togglePopout() {
       this.$emit('update:popOutReplyBox', !this.popOutReplyBox);
     },
+    openEmailPreviewModal() {
+      this.showEmailPreviewModal = true;
+    },
+    hideEmailPreviewModal() {
+      this.showEmailPreviewModal = false;
+    },
   },
 };
 </script>
@@ -1313,12 +1335,14 @@ export default {
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
+      :show-email-preview="isAnEmailChannel && !isOnPrivateNote"
       @select-whatsapp-template="openWhatsappTemplateModal"
       @select-content-template="openContentTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
       @toggle-quoted-reply="toggleQuotedReply"
+      @open-email-preview="openEmailPreviewModal"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"
@@ -1341,6 +1365,17 @@ export default {
       :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
       :description="undefinedVariableMessage"
     />
+
+    <woot-modal
+      v-model:show="showEmailPreviewModal"
+      :on-close="hideEmailPreviewModal"
+    >
+      <EmailPreviewModal
+        :conversation-id="currentChat.id"
+        :message-data="emailPreviewData"
+        @close="hideEmailPreviewModal"
+      />
+    </woot-modal>
   </div>
 </template>
 

@@ -1,0 +1,58 @@
+<%= form_with(model: [:super_admin, account_email_template], local: true, class: "form") do |form| %>
+  <% if account_email_template.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(account_email_template.errors.count, "error") %> prohibited this template from being saved:</h2>
+      <ul>
+        <% account_email_template.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field-unit">
+    <%= form.label :account_id, class: "field-unit__label" %>
+    <div class="field-unit__field">
+      <%= form.collection_select :account_id, @accounts, :id, :name, { prompt: "Select Account" }, { class: "field-unit__field", required: true } %>
+    </div>
+  </div>
+
+  <div class="field-unit">
+    <%= form.label :name, class: "field-unit__label" %>
+    <div class="field-unit__field">
+      <%= form.text_field :name, required: true %>
+    </div>
+  </div>
+
+  <div class="field-unit">
+    <%= form.label :friendly_name, class: "field-unit__label" %>
+    <div class="field-unit__field">
+      <%= form.text_field :friendly_name, required: true %>
+    </div>
+  </div>
+
+  <div class="field-unit">
+    <%= form.label :description, class: "field-unit__label" %>
+    <div class="field-unit__field">
+      <%= form.text_area :description, rows: 3 %>
+    </div>
+  </div>
+
+  <div class="field-unit">
+    <%= form.label :template_type, class: "field-unit__label" %>
+    <div class="field-unit__field">
+      <%= form.select :template_type, AccountEmailTemplate.template_types.keys.map { |w| [w.humanize, w] }, {}, { required: true } %>
+    </div>
+  </div>
+
+  <div class="field-unit">
+    <%= form.label :html, class: "field-unit__label" %>
+    <div class="field-unit__field">
+      <%= form.text_area :html, rows: 10, class: "font-mono", required: true %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -377,7 +377,9 @@
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Read docs",
-    "SECURITY": "Security"
+    "SECURITY": "Security",
+    "EMAIL_TEMPLATES": "Email Templates",
+    "ASSIGN_EMAIL_TEMPLATES": "Assign Email Templates",
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",

@@ -31,6 +31,7 @@ import customRole from './modules/customRole';
 import customViews from './modules/customViews';
 import dashboardApps from './modules/dashboardApps';
 import draftMessages from './modules/draftMessages';
+import emailTemplates from './modules/emailTemplates';
 import globalConfig from 'shared/store/globalConfig';
 import inboxAssignableAgents from './modules/inboxAssignableAgents';
 import inboxes from './modules/inboxes';
@@ -47,6 +48,7 @@ import summaryReports from './modules/summaryReports';
 import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
+import userAssignments from './modules/userAssignments';
 import webhooks from './modules/webhooks';
 import captainAssistants from './captain/assistant';
 import captainDocuments from './captain/document';
@@ -94,6 +96,7 @@ export default createStore({
     customViews,
     dashboardApps,
     draftMessages,
+    emailTemplates,
     globalConfig,
     inboxAssignableAgents,
     inboxes,
@@ -110,6 +113,7 @@ export default createStore({
     teamMembers,
     teams,
     userNotificationSettings,
+    userAssignments,
     webhooks,
     captainAssistants,
     captainDocuments,

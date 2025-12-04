@@ -542,6 +542,24 @@ const menuItems = computed(() => {
           to: accountScopedRoute('canned_list'),
         },
         {
+          name: 'Settings Email Templates',
+          label: t('SIDEBAR.EMAIL_TEMPLATES'),
+          icon: 'i-lucide-mail',
+          to: accountScopedRoute('email_templates_list'),
+        },
+        {
+          name: 'Settings Assign Email Templates',
+          label: t('SIDEBAR.ASSIGN_EMAIL_TEMPLATES'),
+          icon: 'i-lucide-user-plus',
+          to: accountScopedRoute('assign_email_templates_list'),
+        },
+        {
+          name: 'Settings AI Prompts',
+          label: t('SIDEBAR.AI_PROMPTS'),
+          icon: 'i-lucide-bot',
+          to: accountScopedRoute('ai_prompts_list'),
+        },
+        {
           name: 'Settings Integrations',
           label: t('SIDEBAR.INTEGRATIONS'),
           icon: 'i-lucide-blocks',

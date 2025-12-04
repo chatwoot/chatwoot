@@ -13,6 +13,12 @@ class ConversationApi extends ApiClient {
   updateLabels(conversationID, labels) {
     return axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
+
+  getEmailPreview(conversationID, messageData) {
+    return axios.get(`${this.url}/${conversationID}/email_preview`, {
+      params: messageData,
+    });
+  }
 }
 
 export default new ConversationApi();

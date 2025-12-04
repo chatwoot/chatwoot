@@ -13,6 +13,8 @@ import automation from './automation/automation.routes';
 import auditlogs from './auditlogs/audit.routes';
 import billing from './billing/billing.routes';
 import canned from './canned/canned.routes';
+import emailTemplates from './emailTemplates/emailTemplates.routes';
+import assignEmailTemplates from './assignEmailTemplates/assignEmailTemplates.routes';
 import inbox from './inbox/inbox.routes';
 import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
@@ -53,6 +55,8 @@ export default {
     ...auditlogs.routes,
     ...billing.routes,
     ...canned.routes,
+    ...emailTemplates.routes,
+    ...assignEmailTemplates.routes,
     ...inbox.routes,
     ...integrations.routes,
     ...labels.routes,

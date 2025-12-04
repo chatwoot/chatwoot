@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_30_051655) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_email_templates", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "friendly_name", null: false
+    t.text "description"
+    t.integer "template_type", default: 1, null: false
+    t.text "html", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_account_email_templates_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_account_email_templates_on_account_id"
+    t.index ["template_type"], name: "index_account_email_templates_on_template_type"
   end
 
   create_table "account_saml_settings", force: :cascade do |t|
@@ -111,6 +125,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "advanced_email_templates", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "friendly_name", null: false
+    t.text "description"
+    t.integer "template_type", default: 1, null: false
+    t.text "html", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_advanced_email_templates_on_account_id_and_name"
+    t.index ["account_id"], name: "index_advanced_email_templates_on_account_id"
+    t.index ["template_type"], name: "index_advanced_email_templates_on_template_type"
   end
 
   create_table "agent_bot_inboxes", force: :cascade do |t|
@@ -809,6 +837,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "global_email_templates", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "friendly_name", null: false
+    t.text "description"
+    t.integer "template_type", default: 1, null: false
+    t.text "html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_global_email_templates_on_name", unique: true
+    t.index ["template_type"], name: "index_global_email_templates_on_template_type"
+  end
+
   create_table "inbox_assignment_policies", force: :cascade do |t|
     t.bigint "inbox_id", null: false
     t.bigint "assignment_policy_id", null: false
@@ -1184,6 +1224,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
+  create_table "user_assignments", force: :cascade do |t|
+    t.bigint "advanced_email_template_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "active", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["advanced_email_template_id", "user_id"], name: "index_user_assignments_on_template_and_user", unique: true
+    t.index ["advanced_email_template_id"], name: "index_user_assignments_on_advanced_email_template_id"
+    t.index ["user_id", "active"], name: "index_user_assignments_on_user_id_and_active"
+    t.index ["user_id"], name: "index_user_assignments_on_user_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -1252,9 +1304,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_email_templates", "accounts", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "advanced_email_templates", "accounts", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "user_assignments", "advanced_email_templates", on_delete: :cascade
+  add_foreign_key "user_assignments", "users", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

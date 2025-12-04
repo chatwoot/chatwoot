@@ -2,12 +2,21 @@ class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+
+  # 1. Existing check for Account
   before_action { ensure_current_account(params.try(:[], :account)) }
+
+  # 2. NEW: check for User in params (for .with(agent: @agent) calls)
+  before_action :set_current_user_from_params
+
   around_action :switch_locale
   layout 'mailer/base'
+
   # Fetch template from Database if available
-  # Order: Account Specific > Installation Specific > Fallback to file
-  prepend_view_path ::EmailTemplate.resolver
+  # Order: New Advanced System > Legacy Account > Legacy Installation > File
+  # We pass nil because the service is now smart enough to find models itself
+  prepend_view_path ::EmailTemplates::DbResolverService.using(nil)
+
   append_view_path Rails.root.join('app/views/mailers')
   helper :frontend_urls
   helper do
@@ -22,7 +31,29 @@ class ApplicationMailer < ActionMailer::Base
     ENV.fetch('SMTP_ADDRESS', nil).present? || Rails.env.development?
   end
 
+  # NEW: Override mail to capture instance variables for Current.user
+  # This fixes the issue where standard mailer calls (method arguments) don't trigger before_action correctly
+  def mail(headers = {}, &)
+    unless Current.user
+      if @agent.present? && @agent.is_a?(User)
+        Current.user = @agent
+      elsif @user.present? && @user.is_a?(User)
+        Current.user = @user
+      end
+    end
+
+    super(headers, &)
+  end
+
   private
+
+  def set_current_user_from_params
+    if params[:agent].present?
+      Current.user = params[:agent]
+    elsif params[:user].present?
+      Current.user = params[:user]
+    end
+  end
 
   def handle_smtp_exceptions(message)
     Rails.logger.warn 'Failed to send Email'

@@ -15,7 +15,8 @@
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
       "DELETE": "Delete notification",
-      "BACK": "Back"
+      "BACK": "Back",
+      "PREVIEW": "Preview email"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "You have been mentioned in a conversation",
@@ -72,6 +73,10 @@
       "MARK_ALL_READ": "All notifications marked as read",
       "DELETE_ALL": "All notifications deleted",
       "DELETE_ALL_READ": "All read notifications deleted"
+    },
+    "PREVIEW_MODAL": {
+      "TITLE": "Email Preview",
+      "PLACEHOLDER": "Email preview will be displayed here"
     },
     "REAUTHORIZE": {
       "TITLE": "Reauthorization Required",

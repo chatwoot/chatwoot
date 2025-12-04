@@ -1,0 +1,41 @@
+<% content_for(:title) do %>
+  <%= @account_email_template.name %>
+<% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
+  <div>
+    <%= link_to "Edit", edit_super_admin_account_email_template_path(@account_email_template), class: "button" %>
+    <%= link_to "Back", super_admin_email_templates_path, class: "button" %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <dl>
+    <dt class="attribute-label">Account ID</dt>
+    <dd class="attribute-data"><%= @account_email_template.account_id %></dd>
+
+    <dt class="attribute-label">Friendly Name</dt>
+    <dd class="attribute-data"><%= @account_email_template.friendly_name %></dd>
+
+    <dt class="attribute-label">Name</dt>
+    <dd class="attribute-data"><%= @account_email_template.name %></dd>
+
+    <dt class="attribute-label">Template Type</dt>
+    <dd class="attribute-data"><%= @account_email_template.template_type %></dd>
+
+    <dt class="attribute-label">Description</dt>
+    <dd class="attribute-data"><%= @account_email_template.description %></dd>
+
+    <dt class="attribute-label">HTML</dt>
+    <dd class="attribute-data"><pre class="font-mono text-sm"><%= @account_email_template.html %></pre></dd>
+
+    <dt class="attribute-label">Created At</dt>
+    <dd class="attribute-data"><%= @account_email_template.created_at %></dd>
+
+    <dt class="attribute-label">Updated At</dt>
+    <dd class="attribute-data"><%= @account_email_template.updated_at %></dd>
+  </dl>
+</section>
