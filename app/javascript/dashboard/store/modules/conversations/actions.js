@@ -508,6 +508,18 @@ const actions = {
     }
   },
 
+  getEmailPreview: async (_, { conversationId, messageData }) => {
+    try {
+      const response = await ConversationApi.getEmailPreview(
+        conversationId,
+        messageData
+      );
+      return response.data.html;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };
