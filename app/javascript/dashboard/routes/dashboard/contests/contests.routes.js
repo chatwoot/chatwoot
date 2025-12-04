@@ -1,7 +1,7 @@
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { frontendURL } from '../../../helper/URLHelper';
 import ContestsList from './pages/ContestsList.vue';
-import ContestsReports from './pages/ContestsReports.vue';
+import ContestCustomers from './pages/ContestCustomers.vue';
 
 const meta = {
   permissions: ['administrator', 'agent', 'custom_role'],
@@ -16,10 +16,10 @@ const routes = [
     component: ContestsList,
   },
   {
-    path: frontendURL('accounts/:accountId/contests/reports'),
-    name: 'contests_reports',
+    path: frontendURL('accounts/:accountId/contests/customers'),
+    name: 'contests_customers',
     meta,
-    component: ContestsReports,
+    component: ContestCustomers,
   },
 ];
 

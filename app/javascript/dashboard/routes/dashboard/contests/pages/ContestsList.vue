@@ -3,6 +3,8 @@ import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -11,6 +13,8 @@ import ContestShow from './ContestShow.vue';
 
 const store = useStore();
 const { t } = useI18n();
+const router = useRouter();
+const { accountScopedRoute } = useAccount();
 
 const createDialogRef = ref(null);
 const createFormKey = ref(0);
@@ -210,6 +214,15 @@ const handleShowEdit = contest => {
   closeShowDialog();
   openEditDialog(contest);
 };
+
+const openReportPage = contest => {
+  const location = accountScopedRoute(
+    'contests_customers',
+    {},
+    { contest_id: contest.id }
+  );
+  router.push(location);
+};
 </script>
 
 <template>
@@ -374,26 +387,30 @@ const handleShowEdit = contest => {
               </span>
             </div>
 
-            <div
-              class="ml-auto flex items-center gap-1 xl:justify-end"
-              @click.stop
-            >
-              <Button
-                icon="i-lucide-pencil"
-                slate
-                ghost
-                xs
-                :aria-label="t('CONTESTS.TABLE_EDIT_ACTION')"
-                @click="openEditDialog(contest)"
-              />
-              <Button
-                icon="i-lucide-trash-2"
-                ruby
-                ghost
-                xs
-                :aria-label="t('CONTESTS.TABLE_DELETE_ACTION')"
-                @click="openDeleteDialog(contest)"
-              />
+            <div class="ml-auto flex flex-col gap-2 xl:justify-end" @click.stop>
+              <div class="flex items-center gap-1">
+                <Button
+                  icon="i-lucide-pencil"
+                  slate
+                  ghost
+                  xs
+                  :aria-label="t('CONTESTS.TABLE_EDIT_ACTION')"
+                  :title="t('CONTESTS.TABLE_EDIT_ACTION')"
+                  @click="openEditDialog(contest)"
+                />
+                <Button
+                  icon="i-lucide-trash-2"
+                  ruby
+                  ghost
+                  xs
+                  :aria-label="t('CONTESTS.TABLE_DELETE_ACTION')"
+                  :title="t('CONTESTS.TABLE_DELETE_ACTION')"
+                  @click="openDeleteDialog(contest)"
+                />
+              </div>
+              <Button size="xs" @click="openReportPage(contest)">
+                {{ t('CONTESTS.TABLE_REPORT_ACTION') }}
+              </Button>
             </div>
 
             <div
