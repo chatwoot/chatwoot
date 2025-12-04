@@ -67,7 +67,7 @@ const handleCancel = () => {
 };
 
 onMounted(() => {
-  store.dispatch('teams/fetch');
+  store.dispatch('teams/get');
 });
 </script>
 
