@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 require 'opentelemetry_config'
-require_relative 'llm_instrumentation_constants'
-require_relative 'llm_instrumentation_helpers'
-require_relative 'llm_instrumentation_spans'
 
 module Integrations::LlmInstrumentation
   include Integrations::LlmInstrumentationConstants
