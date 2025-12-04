@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Providers::OpenaiProvider do
   let(:provider) { described_class.new }
-  let(:mock_client) { double('OpenAI::Client') }
+  let(:mock_client) { instance_double(OpenAI::Client) }
 
   before do
     allow(Captain::Config).to receive(:current_provider).and_return('openai')
@@ -100,8 +100,8 @@ RSpec.describe Captain::Providers::OpenaiProvider do
   end
 
   describe '#transcribe' do
-    let(:audio_file) { double('File', path: '/tmp/audio.mp3') }
-    let(:mock_audio) { double('Audio') }
+    let(:audio_file) { instance_double(File, path: '/tmp/audio.mp3') }
+    let(:mock_audio) { instance_double(OpenAI::Audio) }
 
     before do
       allow(mock_client).to receive(:audio).and_return(mock_audio)
@@ -143,8 +143,8 @@ RSpec.describe Captain::Providers::OpenaiProvider do
   end
 
   describe '#upload_file' do
-    let(:pdf_file) { double('File', path: '/tmp/document.pdf') }
-    let(:mock_files) { double('Files') }
+    let(:pdf_file) { instance_double(File, path: '/tmp/document.pdf') }
+    let(:mock_files) { instance_double(OpenAI::Files) }
 
     before do
       allow(mock_client).to receive(:files).and_return(mock_files)

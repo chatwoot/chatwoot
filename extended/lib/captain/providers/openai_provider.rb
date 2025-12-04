@@ -6,10 +6,10 @@ require_relative 'openai/transcribe'
 require_relative 'openai/upload_file'
 
 class Captain::Providers::OpenaiProvider < Captain::Service
-  include Openai::Chat
-  include Openai::Embeddings
-  include Openai::Transcribe
-  include Openai::UploadFile
+  include Captain::Providers::Openai::Chat
+  include Captain::Providers::Openai::Embeddings
+  include Captain::Providers::Openai::Transcribe
+  include Captain::Providers::Openai::UploadFile
 
   attr_reader :client, :config
 

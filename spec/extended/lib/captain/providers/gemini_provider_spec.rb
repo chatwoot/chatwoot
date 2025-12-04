@@ -38,11 +38,8 @@ RSpec.describe Captain::Providers::GeminiProvider do
   end
 
   describe '#transcribe' do
-    let(:audio_file) do
-      double('File',
-             path: '/tmp/audio.mp3',
-             content_type: 'audio/mp3')
-    end
+    # Using a simple object since File doesn't have content_type method
+    let(:audio_file) { OpenStruct.new(path: '/tmp/audio.mp3', content_type: 'audio/mp3') }
 
     it 'raises NotImplementedError (pending implementation)' do
       parameters = {
@@ -55,11 +52,9 @@ RSpec.describe Captain::Providers::GeminiProvider do
   end
 
   describe '#upload_file' do
+    # Using a simple object since File doesn't have content_type/original_filename methods
     let(:pdf_file) do
-      double('File',
-             path: '/tmp/document.pdf',
-             content_type: 'application/pdf',
-             original_filename: 'document.pdf')
+      OpenStruct.new(path: '/tmp/document.pdf', content_type: 'application/pdf', original_filename: 'document.pdf')
     end
 
     it 'raises NotImplementedError (pending implementation)' do

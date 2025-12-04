@@ -16,10 +16,10 @@ require_relative 'gemini/upload_file'
 # - Embeddings: POST /models/{model}:embedContent
 # - Files: POST /upload/v1beta/files (multipart)
 class Captain::Providers::GeminiProvider < Captain::Service
-  include Gemini::Chat
-  include Gemini::Embeddings
-  include Gemini::Transcribe
-  include Gemini::UploadFile
+  include Captain::Providers::Gemini::Chat
+  include Captain::Providers::Gemini::Embeddings
+  include Captain::Providers::Gemini::Transcribe
+  include Captain::Providers::Gemini::UploadFile
 
   attr_reader :client, :config
 

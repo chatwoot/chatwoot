@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Llm::EmbeddingService do
   let(:service) { described_class.new }
-  let(:mock_provider) { double('Provider') }
+  let(:mock_provider) { instance_double(Captain::Providers::OpenaiProvider) }
 
   before do
     allow(Captain::Providers::Factory).to receive(:create).and_return(mock_provider)

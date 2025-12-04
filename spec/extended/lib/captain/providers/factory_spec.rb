@@ -21,7 +21,6 @@ RSpec.describe Captain::Providers::Factory do
 
       it 'returns a GeminiProvider instance' do
         allow(Captain::Config).to receive(:current_provider).and_return('gemini')
-        allow(Gemini).to receive(:new).and_return(double('Gemini Client'))
 
         expect(described_class.create).to be_a(Captain::Providers::GeminiProvider)
       end

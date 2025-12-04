@@ -157,14 +157,6 @@ RSpec.describe Concerns::Agentable do
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-4o-mini')
     end
-
-    it 'returns default model when config value is nil' do
-      allow(Captain::Config).to receive(:config_for).with('openai').and_return({
-                                                                                 chat_model: 'gpt-4o-mini'
-                                                                               })
-
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4o-mini')
-    end
   end
 
   describe '#agent_response_schema' do

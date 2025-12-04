@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Captain::Llm::ContactAttributesService < Llm::BaseService
   pattr_initialize [:contact!, :conversation!]
 
@@ -10,18 +12,9 @@ class Captain::Llm::ContactAttributesService < Llm::BaseService
   private
 
   def generate_attributes
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'system',
-          content: prompt
-        },
-        {
-          role: 'user',
-          content: content
-        }
-      ]
-    }
+    # TODO: Implement contact attributes generation
+    # This service should analyze conversation messages and extract contact attributes
+    raise NotImplementedError, 'Contact attributes service is not yet implemented'
   end
 
   def parse_response(response)

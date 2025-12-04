@@ -64,29 +64,31 @@ module Enterprise::Concerns::Article
     return [] if content.blank?
 
     provider = Captain::Providers::Factory.create
-
-    response = provider.chat(
-      parameters: {
-        model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
-        messages: [
-          {
-            role: 'system',
-            content: 'Generate 3-5 search terms for this article. Return only a JSON object with a "terms" array.'
-          },
-          {
-            role: 'user',
-            content: "Title: #{title}\\n\\nContent: #{content}"
-          }
-        ],
-        response_format: { type: 'json_object' }
-      }
-    )
-
-    content_response = response.dig('choices', 0, 'message', 'content')
-    JSON.parse(content_response)['terms'] || []
+    response = provider.chat(parameters: search_terms_parameters)
+    parse_search_terms_response(response)
   rescue StandardError => e
     Rails.logger.error "Article search terms generation failed: #{e.message}"
     []
+  end
+
+  def search_terms_parameters
+    {
+      model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
+      messages: search_terms_messages,
+      response_format: { type: 'json_object' }
+    }
+  end
+
+  def search_terms_messages
+    [
+      { role: 'system', content: 'Generate 3-5 search terms for this article. Return only a JSON object with a "terms" array.' },
+      { role: 'user', content: "Title: #{title}\\n\\nContent: #{content}" }
+    ]
+  end
+
+  def parse_search_terms_response(response)
+    content_response = response.dig('choices', 0, 'message', 'content')
+    JSON.parse(content_response)['terms'] || []
   end
 
   private
