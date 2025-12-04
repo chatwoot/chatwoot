@@ -188,6 +188,8 @@ sr-Latn:
     messages:
       instagram_story_content: '%{story_sender} vas je pomenuo u priči: '
       instagram_deleted_story_content: Ova priča više nije dostupna.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Poruka je obrisana
       whatsapp:
         list_button_label: 'Choose an item'
