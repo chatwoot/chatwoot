@@ -200,17 +200,15 @@ RSpec.describe Integrations::LlmInstrumentation do
 
         result = instance.instrument_llm_call(params) do
           {
-            error: { message: 'API rate limit exceeded' },
-            error_code: 'rate_limit_exceeded'
+            error: 'API rate limit exceeded'
           }
         end
 
-        expect(result[:error_code]).to eq('rate_limit_exceeded')
+        expect(result[:error]).to eq('API rate limit exceeded')
         expect(mock_span).to have_received(:set_attribute)
-          .with('gen_ai.response.error', '{"message":"API rate limit exceeded"}')
-        expect(mock_span).to have_received(:set_attribute).with('gen_ai.response.error_code', 'rate_limit_exceeded')
+          .with('gen_ai.response.error', '"API rate limit exceeded"')
         expect(mock_span).to have_received(:status=).with(mock_status)
-        expect(OpenTelemetry::Trace::Status).to have_received(:error).with('API Error: rate_limit_exceeded')
+        expect(OpenTelemetry::Trace::Status).to have_received(:error).with('API rate limit exceeded')
       end
     end
 
