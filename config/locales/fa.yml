@@ -188,6 +188,8 @@ fa:
     messages:
       instagram_story_content: '%{story_sender} در داستان به شما اشاره کرده: '
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: این پیام حذف شد
       whatsapp:
         list_button_label: 'Choose an item'
