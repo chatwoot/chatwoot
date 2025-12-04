@@ -92,6 +92,7 @@ onMounted(() => {
       :chat="currentChat"
       :is-on-expanded-view="isOnExpandedLayout"
       :show-back-button="isOnExpandedLayout && !isInboxView"
+      :class="{ 'border-b border-n-weak !pb-3': !dashboardApps.length }"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
