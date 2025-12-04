@@ -164,6 +164,14 @@ class Integrations::LlmBaseService
   end
 
   def build_error_response_from_exception(error, messages)
-    { error: error.message, error_code: 500, request_messages: messages }
+    { error: error.message, error_code: extract_error_code(error), request_messages: messages }
+  end
+
+  def extract_error_code(error)
+    return error.response[:status] if error.respond_to?(:response) && error.response.is_a?(Hash) && error.response[:status]
+    return error.http_status if error.respond_to?(:http_status)
+    return error.status if error.respond_to?(:status)
+
+    nil
   end
 end
