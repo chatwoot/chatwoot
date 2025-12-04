@@ -188,6 +188,8 @@ de:
     messages:
       instagram_story_content: '%{story_sender} erwähnte sie in der Geschichte: '
       instagram_deleted_story_content: Diese Geschichte ist nicht mehr verfügbar.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Diese Nachricht wurde gelöscht
       whatsapp:
         list_button_label: 'Choose an item'
