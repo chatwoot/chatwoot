@@ -188,6 +188,8 @@ ar:
     messages:
       instagram_story_content: 'أشار %{story_sender} إليك في القصة: '
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: تم حذف هذه الرسالة
       whatsapp:
         list_button_label: 'اختر عنصر'
