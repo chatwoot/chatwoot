@@ -213,7 +213,7 @@ function install_dependencies() {
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   mkdir -p /etc/apt/keyrings
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  NODE_MAJOR=23
+  NODE_MAJOR=24
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
   echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg 16" > /etc/apt/sources.list.d/pgdg.list
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -908,15 +908,15 @@ function upgrade_node() {
   # Parse major version number
   major_version=$(echo "$current_version" | cut -d. -f1)
 
-  if [ "$major_version" -ge 23 ]; then
-    echo "Node.js is already version $current_version (>= 23.x). Skipping Node.js upgrade."
+  if [ "$major_version" -ge 24 ]; then
+    echo "Node.js is already version $current_version (>= 24.x). Skipping Node.js upgrade."
     return
   fi
 
-  echo "Upgrading Node.js version to v23.x"
+  echo "Upgrading Node.js version to v24.x"
   mkdir -p /etc/apt/keyrings
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  NODE_MAJOR=23
+  NODE_MAJOR=24
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
   apt-get update
