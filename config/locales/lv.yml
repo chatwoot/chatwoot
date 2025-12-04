@@ -188,6 +188,8 @@ lv:
     messages:
       instagram_story_content: '%{story_sender} pieminēja jūs stāstā: '
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Šis ziņojums ir izdzēsts
       whatsapp:
         list_button_label: 'Choose an item'
