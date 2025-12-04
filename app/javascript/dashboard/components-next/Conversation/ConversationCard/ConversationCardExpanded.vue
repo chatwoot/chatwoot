@@ -62,7 +62,7 @@ const selectedModel = computed({
 
 <template>
   <div
-    class="relative cursor-pointer group transition-all duration-200 grid gap-4 items-center px-2 h-12"
+    class="relative cursor-pointer group transition-all duration-150 grid gap-4 items-center px-2 h-12"
     :class="{
       'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3': isActiveChat,
       'selected bg-n-slate-2 dark:bg-n-slate-3': selected,

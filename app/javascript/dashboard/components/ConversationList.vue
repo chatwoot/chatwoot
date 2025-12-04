@@ -82,7 +82,7 @@ useKeyboardEvents({
   >
     <Virtualizer
       :data="items"
-      class="[&>div]:after:content-[''] [&>div]:after:absolute [&>div]:after:bottom-0 [&>div]:after:left-0 [&>div]:after:right-0 [&>div]:after:h-px [&>div]:after:bg-n-weak [&>div]:after:pointer-events-none [&>div]:after:transition-colors [&>div]:after:duration-150 [&>div:has(*:hover)]:after:!bg-n-surface-1 [&>div:has(+_*:hover)]:after:!bg-n-surface-1 [&>div:has(.active)]:after:!bg-n-surface-1 [&>div:has(+_*_.active)]:after:!bg-n-surface-1 [&>div:has(.selected)]:after:!bg-n-surface-1 [&>div:has(+_*_.selected)]:after:!bg-n-surface-1"
+      class="[&>div]:after:content-[''] [&>div]:after:absolute [&>div]:after:bottom-0 [&>div]:after:left-0 [&>div]:after:right-0 [&>div]:after:h-px [&>div]:after:bg-n-weak [&>div]:after:pointer-events-none [&>div:has(*:hover)]:after:!bg-n-surface-1 [&>div:has(+_*:hover)]:after:!bg-n-surface-1 [&>div:has(.active)]:after:!bg-n-surface-1 [&>div:has(+_*_.active)]:after:!bg-n-surface-1 [&>div:has(.selected)]:after:!bg-n-surface-1 [&>div:has(+_*_.selected)]:after:!bg-n-surface-1"
     >
       <template #default="{ item }">
         <div :data-id="item.id">
