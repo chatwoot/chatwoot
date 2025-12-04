@@ -65,10 +65,7 @@
         </p>
       </label>
 
-      <div
-        v-if="enableAutoAssignment && isEnterprise"
-        class="max-assignment-container"
-      >
+      <div v-if="isEnterprise" class="max-assignment-container">
         <woot-input
           v-model.trim="maxAssignmentLimit"
           type="number"
