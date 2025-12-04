@@ -188,6 +188,8 @@ tr:
     messages:
       instagram_story_content: '%{story_sender} hikayesinde senden bahsetti: '
       instagram_deleted_story_content: Bu hikaye artık mevcut değil.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Bu mesaj silinmiş
       whatsapp:
         list_button_label: 'Bir öğe seçin'
