@@ -1,4 +1,4 @@
-class Captain::Llm::ContactAttributesService < Llm::BaseOpenAiService
+class Captain::Llm::ContactAttributesService < Llm::LegacyBaseOpenAiService
   def initialize(assistant, conversation)
     super()
     @assistant = assistant
