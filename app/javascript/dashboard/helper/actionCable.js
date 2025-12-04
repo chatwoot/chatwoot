@@ -98,12 +98,8 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onLogout = () => {
-    try {
-      VoiceAPI.endClientCall();
-      VoiceAPI.destroyDevice();
-    } catch (_) {
-      // Ignore cleanup errors while logging out
-    }
+    VoiceAPI.endClientCall();
+    VoiceAPI.destroyDevice();
     AuthAPI.logout();
   };
 

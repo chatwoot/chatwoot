@@ -76,31 +76,20 @@ const stopDurationTimer = () => {
 
 const joinConference = async () => {
   const callData = callInfo.value;
-  if (!callData) return;
   if (isJoined.value || isJoining.value) return;
 
-  try {
-    const result = await joinCall({
-      conversationId: callData.conversationId,
-      inboxId: callData.inboxId,
-      callSid: callData.callSid,
-      callMeta: callData,
-    });
+  const result = await joinCall({
+    conversationId: callData.conversationId,
+    inboxId: callData.inboxId,
+    callSid: callData.callSid,
+    callMeta: callData,
+  });
 
-    // Navigate to the conversation now that we're joining
-    try {
-      if (result) {
-        const path = `/app/accounts/${route.params.accountId}/conversations/${callData.conversationId}`;
-        router.push({ path });
-      }
-    } catch (_error) {
-      // Ignore navigation errors
-    }
-
+  if (result) {
+    const path = `/app/accounts/${route.params.accountId}/conversations/${callData.conversationId}`;
+    router.push({ path });
     startDurationTimer();
     stopRingTone();
-  } catch (_error) {
-    // Join call failed
   }
 };
 
@@ -111,15 +100,10 @@ const endCall = async () => {
   stopDurationTimer();
   callDuration.value = 0;
   stopRingTone();
-
-  try {
-    await endCallSession({
-      conversationId: callData.conversationId,
-      inboxId: callData.inboxId,
-    });
-  } catch (_error) {
-    // ignore end errors
-  }
+  await endCallSession({
+    conversationId: callData.conversationId,
+    inboxId: callData.inboxId,
+  });
 };
 
 const acceptCall = async () => {
@@ -145,9 +129,7 @@ watch(
   { immediate: true }
 );
 
-// Watch for call ending from server side (when contact hangs up)
 watch([hasActiveCall, hasIncomingCall], ([newHasActive, newHasIncoming]) => {
-  // If both active and incoming calls are gone, stop timer and hide widget
   if (!newHasActive && !newHasIncoming) {
     stopDurationTimer();
     callDuration.value = 0;

@@ -14,20 +14,12 @@ const getters = {
 };
 
 const actions = {
-  handleCallStatusChanged(
-    { state: currentState, dispatch },
-    { callSid, status }
-  ) {
-    const isActiveCall = callSid === currentState.activeCall?.callSid;
-    const isIncomingCall = callSid === currentState.incomingCall?.callSid;
-    const terminalStatuses = [...TERMINAL_STATUSES];
+  handleCallStatusChanged({ dispatch }, { status }) {
+    const terminalStatuses = TERMINAL_STATUSES;
 
     if (terminalStatuses.includes(status)) {
-      if (isActiveCall) {
-        dispatch('clearActiveCall');
-      } else if (isIncomingCall) {
-        dispatch('clearIncomingCall');
-      }
+      dispatch('clearActiveCall');
+      dispatch('clearIncomingCall');
     }
   },
 
@@ -45,13 +37,7 @@ const actions = {
   },
 
   clearActiveCall({ commit }) {
-    // End the WebRTC connection before clearing the call state
-    try {
-      VoiceAPI.endClientCall();
-    } catch (error) {
-      // Error ending client call during clearActiveCall
-    }
-
+    VoiceAPI.endClientCall();
     commit('CLEAR_ACTIVE_CALL');
   },
 

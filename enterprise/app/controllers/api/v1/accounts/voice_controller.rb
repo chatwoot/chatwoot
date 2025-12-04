@@ -11,8 +11,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     render json: payload
   rescue StandardError => e
     Rails.logger.error("VOICE_CONFERENCE_TOKEN_ERROR #{e.class}: #{e.message}")
-    Sentry.capture_exception(e) if defined?(Sentry)
-    Raven.capture_exception(e) if defined?(Raven)
     render json: { error: 'failed_to_generate_token', code: 'token_error', details: e.message }, status: :internal_server_error
   end
 
@@ -29,7 +27,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
     render json: {
       status: 'success',
-      conversation_id: conversation.display_id,
+      id: conversation.display_id,
       conference_sid: conference_sid,
       using_webrtc: true
     }
@@ -37,8 +35,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found
   rescue StandardError => e
     Rails.logger.error("VOICE_CONFERENCE_JOIN_ERROR #{e.class}: #{e.message}")
-    Sentry.capture_exception(e) if defined?(Sentry)
-    Raven.capture_exception(e) if defined?(Raven)
     render json: { error: 'failed_to_join_conference', code: 'join_error', details: e.message }, status: :internal_server_error
   end
 
@@ -47,13 +43,11 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     conversation = fetch_conversation_by_display_id
     # End the conference when an agent leaves from the app
     Voice::Conference::EndService.new(conversation: conversation).perform
-    render json: { status: 'success', conversation_id: conversation.display_id }
+    render json: { status: 'success', id: conversation.display_id }
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found
   rescue StandardError => e
     Rails.logger.error("VOICE_CONFERENCE_LEAVE_ERROR #{e.class}: #{e.message}")
-    Sentry.capture_exception(e) if defined?(Sentry)
-    Raven.capture_exception(e) if defined?(Raven)
     render json: { error: 'failed_to_leave_conference', code: 'leave_error', details: e.message }, status: :internal_server_error
   end
 
@@ -113,7 +107,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   end
 
   def fetch_conversation_by_display_id
-    cid = params[:conversation_id] || params[:conversationId]
+    cid = params[:conversation_id]
     raise ActiveRecord::RecordNotFound, 'conversation_id required' if cid.blank?
 
     Current.account.conversations.find_by!(display_id: cid)

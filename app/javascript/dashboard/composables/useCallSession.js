@@ -20,20 +20,20 @@ export function useCallSession() {
     callMeta = {},
   }) => {
     if (isJoining.value) return null;
-    if (!conversationId || !inboxId || !callSid) return null;
 
     isJoining.value = true;
     try {
-      await VoiceAPI.initializeDevice(inboxId, { store });
+      const device = await VoiceAPI.initializeDevice(inboxId, { store });
+      if (!device) return null;
       const joinResponse = await VoiceAPI.joinConference({
-        conversation_id: conversationId,
-        inbox_id: inboxId,
-        call_sid: callSid,
+        conversationId,
+        inboxId,
+        callSid,
       });
 
       const conferenceSid = joinResponse?.conference_sid;
       if (conferenceSid) {
-        VoiceAPI.joinClientCall({ To: conferenceSid, conversationId });
+        await VoiceAPI.joinClientCall({ To: conferenceSid, conversationId });
       }
 
       store.dispatch('calls/setActiveCall', {
@@ -54,11 +54,7 @@ export function useCallSession() {
 
   const endCall = async ({ conversationId, inboxId } = {}) => {
     if (inboxId && conversationId) {
-      try {
-        await VoiceAPI.leaveConference(inboxId, conversationId);
-      } catch (error) {
-        // ignore terminate errors
-      }
+      await VoiceAPI.leaveConference(inboxId, conversationId);
     }
 
     VoiceAPI.endClientCall();

@@ -8,12 +8,8 @@ export function useRingtone(intervalMs = 2500) {
       clearInterval(timer.value);
       timer.value = null;
     }
-    try {
-      if (typeof window.stopAudioAlert === 'function') {
-        window.stopAudioAlert();
-      }
-    } catch (_) {
-      // ignore stop errors
+    if (typeof window.stopAudioAlert === 'function') {
+      window.stopAudioAlert();
     }
   };
 
@@ -25,12 +21,8 @@ export function useRingtone(intervalMs = 2500) {
 
   const start = async () => {
     stop();
-    try {
-      if (typeof window.playAudioAlert !== 'function') {
-        await getAlertAudio('', { type: 'dashboard', alertTone: 'call-ring' });
-      }
-    } catch (_) {
-      // ignore preload errors
+    if (typeof window.playAudioAlert !== 'function') {
+      await getAlertAudio('', { type: 'dashboard', alertTone: 'call-ring' });
     }
     play();
     timer.value = setInterval(() => {

@@ -277,8 +277,8 @@ export const mutations = {
   ) {
     if (!conversationId || !callStatus) return;
 
-    const [chat] = _state.allConversations.filter(
-      c => c && c.id === conversationId
+    const chat = _state.allConversations.find(
+      c => c && c.id === Number(conversationId)
     );
     if (chat) {
       if (!chat.additional_attributes) {
