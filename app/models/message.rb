@@ -285,6 +285,9 @@ class Message < ApplicationRecord
 
   # fetch the in_reply_to message and set the external id
   def ensure_in_reply_to
+    # Skip this callback during conversation import to preserve old in_reply_to values
+    return if additional_attributes&.[]('skip_ensure_in_reply_to')
+
     in_reply_to = content_attributes[:in_reply_to]
     in_reply_to_external_id = content_attributes[:in_reply_to_external_id]
 

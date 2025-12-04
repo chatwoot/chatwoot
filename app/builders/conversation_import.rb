@@ -2,9 +2,19 @@ class ConversationImport < ApplicationJob
   queue_as :critical
 
   def perform(conversation_id, previous_conversation_id)
+    # Store the mapping for later use
+    @old_to_new_message_id_map = {}
+    @import_completed_at = nil
+
     ActiveRecord::Base.transaction do
       populate_historical_messages(conversation_id, previous_conversation_id)
+      update_all_references(conversation_id)
+      @import_completed_at = Time.current
     end
+
+    # After transaction commits, catch any messages created during the transaction commit window
+    # This handles the race condition where messages are created while the job is queued/running
+    update_late_arrivals(conversation_id) if @import_completed_at && @old_to_new_message_id_map.present?
   end
 
   private
@@ -18,8 +28,12 @@ class ConversationImport < ApplicationJob
     previous_messages = fetch_previous_messages(previous_conversation_id)
 
     previous_messages.each do |message_data|
+      old_message_id = message_data[:old_message_id]
       new_message = conversation.messages.create!(message_data[:message_attributes])
-      Rails.logger.info("Created historical message: #{new_message.id}")
+      Rails.logger.info("Created historical message: #{new_message.id} from old message: #{old_message_id}")
+
+      # Store the mapping of old message ID to new message ID
+      @old_to_new_message_id_map[old_message_id] = new_message.id
 
       message_data[:attachments].each do |attachment_data|
         new_attachment = new_message.attachments.create!(attachment_data[:attributes])
@@ -76,10 +90,12 @@ class ConversationImport < ApplicationJob
   def build_message_data(message)
     Rails.logger.info("Building message data for message: #{message.id}")
     {
+      old_message_id: message.id,
       message_attributes: message.attributes.except('id', 'conversation_id').merge(
         additional_attributes: (message.additional_attributes || {}).merge(
           ignore_automation_rules: true,
-          disable_notifications: true
+          disable_notifications: true,
+          skip_ensure_in_reply_to: true # Skip callback to preserve old in_reply_to values
         )
       ),
       attachments: []
@@ -111,5 +127,63 @@ class ConversationImport < ApplicationJob
       created_at: Time.zone.now
     }
     Rails.logger.info("Added ActiveStorage data for attachment: #{attachment.id}")
+  end
+
+  # Update in_reply_to references for all messages in the conversation
+  # This runs inside the transaction after importing messages
+  def update_all_references(conversation_id)
+    Rails.logger.info('Updating in_reply_to references for all messages')
+    conversation = Conversation.find(conversation_id)
+
+    conversation.messages
+                .where.not(content_attributes: nil)
+                .find_each(batch_size: 100) do |message|
+      update_message_references(message, conversation)
+    end
+
+    Rails.logger.info('Finished updating in_reply_to references')
+  end
+
+  # Catch messages created during the transaction commit window
+  # Uses timestamp filtering to avoid reprocessing messages already handled
+  def update_late_arrivals(conversation_id)
+    Rails.logger.info('Running late arrivals update pass')
+    conversation = Conversation.find(conversation_id)
+
+    conversation.messages
+                .where('created_at >= ?', @import_completed_at)
+                .where.not(content_attributes: nil)
+                .find_each do |message|
+      update_message_references(message, conversation)
+    end
+
+    Rails.logger.info('Finished late arrivals update pass')
+  end
+
+  # Single method to update a message's in_reply_to references
+  # Handles the mapping from old conversation message IDs to new ones
+  def update_message_references(message, conversation)
+    old_in_reply_to_id = message.content_attributes['in_reply_to']
+    return if old_in_reply_to_id.blank?
+
+    # Check if this in_reply_to ID is in our mapping (from the old conversation)
+    new_in_reply_to_id = @old_to_new_message_id_map[old_in_reply_to_id]
+    return if new_in_reply_to_id.blank?
+
+    # Skip if already updated
+    return if message.content_attributes['in_reply_to'] == new_in_reply_to_id
+
+    # Find the referenced message in the new conversation
+    referenced_message = conversation.messages.find_by(id: new_in_reply_to_id)
+    return if referenced_message.blank?
+
+    Rails.logger.info("Updating message #{message.id}: in_reply_to from #{old_in_reply_to_id} to #{new_in_reply_to_id}")
+
+    # CRITICAL: Must reassign entire hash for JSON column type to detect changes
+    updated_attributes = message.content_attributes.dup
+    updated_attributes['in_reply_to'] = new_in_reply_to_id
+    updated_attributes['in_reply_to_external_id'] = referenced_message.source_id if referenced_message.source_id.present?
+    message.content_attributes = updated_attributes
+    message.save!
   end
 end
