@@ -188,6 +188,8 @@ zh_CN:
     messages:
       instagram_story_content: '%{story_sender} 会话中提到了你: '
       instagram_deleted_story_content: 本信息不存在
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: 此消息已被删除
       whatsapp:
         list_button_label: 'Choose an item'
