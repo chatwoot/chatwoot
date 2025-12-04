@@ -51,7 +51,7 @@ class Campaign < ApplicationRecord
 
   enum campaign_type: { ongoing: 0, one_off: 1 }
   # TODO : enabled attribute is unneccessary . lets move that to the campaign status with additional statuses like draft, disabled etc.
-  enum campaign_status: { active: 0, completed: 1 }
+  enum campaign_status: { active: 0, completed: 1, processing: 2 }
   enum contacts_preparation_status: { preparing: 0, prepared: 1, failed: 2 }
 
   has_many :conversations, dependent: :nullify, autosave: true
@@ -64,9 +64,14 @@ class Campaign < ApplicationRecord
 
   def trigger!
     return unless one_off?
-    return if completed?
+    return if completed? || processing?
 
-    execute_campaign
+    with_lock do
+      return if completed? || processing?
+
+      processing!
+      execute_campaign
+    end
   end
 
   private

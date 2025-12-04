@@ -62,6 +62,17 @@ RSpec.describe Campaign do
     end
   end
 
+  context 'when a campaign is processing' do
+    let(:account) { create(:account) }
+    let(:web_widget) { create(:channel_widget, account: account) }
+    let!(:campaign) { create(:campaign, account: account, inbox: web_widget.inbox, campaign_status: :processing, trigger_rules: { url: 'https://test.com' }) }
+
+    it 'cant be triggered again' do
+      expect(Twilio::OneoffSmsCampaignService).not_to receive(:new).with(campaign: campaign)
+      expect(campaign.trigger!).to be_nil
+    end
+  end
+
   describe 'ensure_correct_campaign_attributes' do
     context 'when Twilio SMS campaign' do
       let(:account) { create(:account) }
@@ -82,6 +93,14 @@ RSpec.describe Campaign do
         expect(sms_service).to receive(:perform)
         campaign.save!
         campaign.trigger!
+      end
+
+      it 'marks campaign as processing when triggered' do
+        sms_service = double
+        allow(Twilio::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+        allow(sms_service).to receive(:perform)
+        campaign.save!
+        expect { campaign.trigger! }.to change { campaign.reload.campaign_status }.from('active').to('processing')
       end
     end
 
@@ -104,6 +123,14 @@ RSpec.describe Campaign do
         expect(sms_service).to receive(:perform)
         campaign.save!
         campaign.trigger!
+      end
+
+      it 'marks campaign as processing when triggered' do
+        sms_service = double
+        allow(Sms::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+        allow(sms_service).to receive(:perform)
+        campaign.save!
+        expect { campaign.trigger! }.to change { campaign.reload.campaign_status }.from('active').to('processing')
       end
     end
 
@@ -202,6 +229,12 @@ RSpec.describe Campaign do
   end
 
   describe 'enums' do
+    it {
+      expect(subject).to define_enum_for(:campaign_status)
+        .with_values(active: 0, completed: 1, processing: 2)
+        .backed_by_column_of_type(:integer)
+    }
+
     it {
       expect(subject).to define_enum_for(:contacts_preparation_status)
         .with_values(preparing: 0, prepared: 1, failed: 2)
