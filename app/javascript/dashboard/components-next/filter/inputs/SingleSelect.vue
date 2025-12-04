@@ -91,7 +91,7 @@ const toggleSelected = option => {
         v-if="selectedItem"
         sm
         slate
-        faded
+        solid
         type="button"
         :icon="selectedItem.icon"
         :label="selectedItem.name"
@@ -101,7 +101,7 @@ const toggleSelected = option => {
         v-else
         sm
         slate
-        faded
+        solid
         type="button"
         :trailing-icon="placeholderTrailingIcon"
         @click="toggle"
