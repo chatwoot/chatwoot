@@ -188,6 +188,8 @@ ja:
     messages:
       instagram_story_content: '%{story_sender} さんがストーリーであなたについて言及しました: '
       instagram_deleted_story_content: このストーリーはもう利用できません。
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: このメッセージは削除されました
       whatsapp:
         list_button_label: 'Choose an item'
