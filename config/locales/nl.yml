@@ -188,6 +188,8 @@ nl:
     messages:
       instagram_story_content: '%{story_sender} heeft je genoemd in het verhaal: '
       instagram_deleted_story_content: Dit verhaal is niet meer beschikbaar.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Dit bericht werd verwijderd
       whatsapp:
         list_button_label: 'Choose an item'
