@@ -38,12 +38,24 @@ const { isAWebWidgetInbox } = useInbox();
 
 const { uiSettings } = useUISettings();
 
-const isSidepanelOpen = computed(
+const isSidePanelOpen = computed(
   () =>
     uiSettings.value.is_contact_sidebar_open ||
     uiSettings.value.is_copilot_panel_open ||
     false
 );
+
+const breakpoint = computed(() => {
+  const base = props.isOnExpandedView ? 'md' : 'lg';
+  const open = props.isOnExpandedView ? 'lg' : 'xl';
+  return isSidePanelOpen.value ? open : base;
+});
+
+const responsiveClasses = computed(() => ({
+  header: `${breakpoint.value}:flex-row ${breakpoint.value}:items-center`,
+  left: `${breakpoint.value}:flex-1 ${breakpoint.value}:basis-0`,
+  right: `${breakpoint.value}:flex-1 ${breakpoint.value}:basis-0 ${breakpoint.value}:justify-end`,
+}));
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -100,21 +112,11 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
   <div
     ref="conversationHeader"
     class="flex flex-col items-start gap-x-6 gap-y-2 w-full min-w-0 pt-3 pb-2 ltr:pl-4 rtl:pr-4 ltr:pr-1 rtl:pl-1"
-    :class="{
-      'md:flex-row md:items-center': isOnExpandedView && !isSidepanelOpen,
-      'lg:flex-row lg:items-center': isOnExpandedView && isSidepanelOpen,
-      'lg:flex-row lg:items-center': !isOnExpandedView && !isSidepanelOpen,
-      'xl:flex-row xl:items-center': !isOnExpandedView && isSidepanelOpen,
-    }"
+    :class="responsiveClasses.header"
   >
     <div
       class="flex items-center gap-2 min-w-0 w-full"
-      :class="{
-        'md:flex-1 md:basis-0': isOnExpandedView && !isSidepanelOpen,
-        'lg:flex-1 lg:basis-0': isOnExpandedView && isSidepanelOpen,
-        'lg:flex-1 lg:basis-0': !isOnExpandedView && !isSidepanelOpen,
-        'xl:flex-1 xl:basis-0': !isOnExpandedView && isSidepanelOpen,
-      }"
+      :class="responsiveClasses.left"
     >
       <BackButton v-if="showBackButton" :back-url="backButtonUrl" />
 
@@ -133,18 +135,16 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
     <div
       class="flex items-center gap-2 min-w-0 w-full"
-      :class="{
-        'md:flex-1 md:basis-0 md:justify-end':
-          isOnExpandedView && !isSidepanelOpen,
-        'lg:flex-1 lg:basis-0 lg:justify-end':
-          isOnExpandedView && isSidepanelOpen,
-        'lg:flex-1 lg:basis-0 lg:justify-end':
-          !isOnExpandedView && !isSidepanelOpen,
-        'xl:flex-1 xl:basis-0 xl:justify-end':
-          !isOnExpandedView && isSidepanelOpen,
-      }"
+      :class="responsiveClasses.right"
     >
-      <div v-if="isSnoozed" class="flex items-center gap-1 min-w-0 shrink">
+      <div
+        v-if="isSnoozed"
+        v-tooltip.top="{
+          content: snoozedDisplayText,
+          delay: { show: 500, hide: 0 },
+        }"
+        class="flex items-center gap-1 min-w-0 shrink"
+      >
         <Icon
           icon="i-lucide-bell-off"
           class="text-n-slate-11 size-3.5 shrink-0"
