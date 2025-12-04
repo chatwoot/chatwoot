@@ -1,32 +1,12 @@
-class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseService
-  def name
+class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseTool
+  def self.name
     'get_conversation'
   end
+  description 'Get details of a conversation including messages and contact information'
 
-  def description
-    'Get details of a conversation including messages and contact information'
-  end
+  param :conversation_id, type: :integer, desc: 'ID of the conversation to retrieve', required: true
 
-  def parameters
-    {
-      type: 'object',
-      properties: {
-        conversation_id: {
-          type: 'number',
-          description: 'The ID of the conversation to retrieve'
-        }
-      },
-      required: %w[conversation_id]
-    }
-  end
-
-  def execute(arguments)
-    conversation_id = arguments['conversation_id']
-
-    Rails.logger.info "#{self.class.name}: Conversation ID: #{conversation_id}"
-
-    return 'Missing required parameters' if conversation_id.blank?
-
+  def execute(conversation_id:)
     conversation = Conversation.find_by(display_id: conversation_id, account_id: @assistant.account_id)
     return 'Conversation not found' if conversation.blank?
 
