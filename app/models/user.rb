@@ -21,6 +21,7 @@
 #  otp_backup_codes       :text
 #  otp_required_for_login :boolean          default(FALSE)
 #  otp_secret             :string
+#  paid                   :boolean          default(FALSE)
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -45,6 +46,7 @@
 #  index_users_on_uid_and_provider        (uid,provider) UNIQUE
 #
 
+### paid
 class User < ApplicationRecord
   include AccessTokenable
   include Avatarable
@@ -135,7 +137,7 @@ class User < ApplicationRecord
   end
 
   def serializable_hash(options = nil)
-    super(options).merge(confirmed: confirmed?)
+    super(options).merge(confirmed: confirmed?, paid: paid)
   end
 
   def push_event_data
@@ -144,6 +146,7 @@ class User < ApplicationRecord
       name: name,
       available_name: available_name,
       avatar_url: avatar_url,
+      paid: paid,
       type: 'user',
       availability_status: availability_status,
       thumbnail: avatar_url

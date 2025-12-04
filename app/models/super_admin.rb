@@ -21,6 +21,7 @@
 #  otp_backup_codes       :text
 #  otp_required_for_login :boolean          default(FALSE)
 #  otp_secret             :string
+#  paid                   :boolean          default(FALSE)
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime

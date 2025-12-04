@@ -28,7 +28,6 @@ master.key
 *.rdb
 
 # Ignore env files
-.env
 
 public/uploads
 public/packs*

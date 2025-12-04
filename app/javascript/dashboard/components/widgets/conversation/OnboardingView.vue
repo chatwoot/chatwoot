@@ -8,6 +8,7 @@ const getters = useStoreGetters();
 const { t } = useI18n();
 const globalConfig = computed(() => getters['globalConfig/get'].value);
 const currentUser = computed(() => getters.getCurrentUser.value);
+debugger
 
 const greetingMessage = computed(() => {
   const hours = new Date().getHours();

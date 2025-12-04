@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_04_064425) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1216,6 +1216,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.integer "consumed_timestep"
     t.boolean "otp_required_for_login", default: false
     t.text "otp_backup_codes"
+    t.boolean "paid", default: false
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
     t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true

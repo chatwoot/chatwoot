@@ -3,6 +3,7 @@ json.account_id resource.active_account_user&.account_id
 json.available_name resource.available_name
 json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
+json.paid resource.paid
 json.display_name resource.display_name
 json.message_signature resource.message_signature
 json.email resource.email
