@@ -3,7 +3,6 @@ export const INBOX_TYPES = {
   FB: 'Channel::FacebookPage',
   TWITTER: 'Channel::TwitterProfile',
   TWILIO: 'Channel::TwilioSms',
-  VOICE: 'Channel::Voice',
   WHATSAPP: 'Channel::Whatsapp',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
@@ -11,6 +10,7 @@ export const INBOX_TYPES = {
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',
+  VOICE: 'Channel::Voice',
 };
 
 const INBOX_ICON_MAP_FILL = {
@@ -74,9 +74,6 @@ export const getReadableInboxByType = (type, phoneNumber) => {
     case INBOX_TYPES.TWILIO:
       return phoneNumber?.startsWith('whatsapp') ? 'whatsapp' : 'sms';
 
-    case INBOX_TYPES.VOICE:
-      return 'voice';
-
     case INBOX_TYPES.WHATSAPP:
       return 'whatsapp';
 
@@ -91,6 +88,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
+
+    case INBOX_TYPES.VOICE:
+      return 'voice';
 
     default:
       return 'chat';
@@ -113,9 +113,6 @@ export const getInboxClassByType = (type, phoneNumber) => {
         ? 'brand-whatsapp'
         : 'brand-sms';
 
-    case INBOX_TYPES.VOICE:
-      return 'phone';
-
     case INBOX_TYPES.WHATSAPP:
       return 'brand-whatsapp';
 
@@ -133,6 +130,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.INSTAGRAM:
       return 'brand-instagram';
+
+    case INBOX_TYPES.VOICE:
+      return 'phone';
 
     default:
       return 'chat';
