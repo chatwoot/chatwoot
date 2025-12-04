@@ -10,6 +10,9 @@ import {
   setURLWithQueryAndSize,
   getContentNode,
   getFormattingForEditor,
+  getSelectionCoords,
+  getMenuAnchor,
+  calculateMenuPosition,
 } from '../editorHelper';
 import { FORMATTING } from 'dashboard/constants/editor';
 import { EditorState } from '@chatwoot/prosemirror-schema';
@@ -738,6 +741,64 @@ describe('getFormattingForEditor', () => {
       expect(Array.isArray(result.marks)).toBe(true);
       expect(Array.isArray(result.nodes)).toBe(true);
       expect(Array.isArray(result.menu)).toBe(true);
+    });
+  });
+});
+
+describe('Menu positioning helpers', () => {
+  const mockEditorView = {
+    coordsAtPos: vi.fn((pos, bias) => {
+      // Return different coords based on position
+      if (bias === 1) return { top: 100, bottom: 120, left: 50, right: 100 };
+      return { top: 100, bottom: 120, left: 150, right: 200 };
+    }),
+  };
+
+  const wrapperRect = { top: 50, bottom: 300, left: 0, right: 400, width: 400 };
+
+  describe('getSelectionCoords', () => {
+    it('returns selection coordinates with onTop flag', () => {
+      const selection = { from: 0, to: 10 };
+      const result = getSelectionCoords(mockEditorView, selection, wrapperRect);
+
+      expect(result).toHaveProperty('start');
+      expect(result).toHaveProperty('end');
+      expect(result).toHaveProperty('selTop');
+      expect(result).toHaveProperty('onTop');
+    });
+  });
+
+  describe('getMenuAnchor', () => {
+    it('returns end.left when menu is below selection', () => {
+      const coords = { start: { left: 50 }, end: { left: 150 }, onTop: false };
+      expect(getMenuAnchor(coords, wrapperRect, false)).toBe(150);
+    });
+
+    it('returns start.left for LTR when menu is above and visible', () => {
+      const coords = { start: { top: 100, left: 50 }, end: {}, onTop: true };
+      expect(getMenuAnchor(coords, wrapperRect, false)).toBe(50);
+    });
+
+    it('returns start.right for RTL when menu is above and visible', () => {
+      const coords = { start: { top: 100, right: 100 }, end: {}, onTop: true };
+      expect(getMenuAnchor(coords, wrapperRect, true)).toBe(100);
+    });
+  });
+
+  describe('calculateMenuPosition', () => {
+    it('returns bounded left and top positions', () => {
+      const coords = {
+        start: { top: 100, bottom: 120, left: 50 },
+        end: { top: 100, bottom: 120, left: 150 },
+        selTop: 100,
+        onTop: false,
+      };
+      const result = calculateMenuPosition(coords, wrapperRect, false);
+
+      expect(result).toHaveProperty('left');
+      expect(result).toHaveProperty('top');
+      expect(result).toHaveProperty('width', 300);
+      expect(result.left).toBeGreaterThanOrEqual(0);
     });
   });
 });

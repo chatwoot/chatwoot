@@ -52,6 +52,8 @@ import {
   scrollCursorIntoView,
   setURLWithQueryAndSize,
   getFormattingForEditor,
+  getSelectionCoords,
+  calculateMenuPosition,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -407,41 +409,20 @@ function setToolbarPosition() {
 }
 
 function setMenubarPosition({ selection } = {}) {
-  const MENU = { H: 46, W: 300, GAP: 10 };
-  const RTL = 'rtl';
   const wrapper = editorRoot.value;
   if (!selection || !wrapper) return;
 
   const rect = wrapper.getBoundingClientRect();
-  const rtl = getComputedStyle(wrapper).direction === RTL;
+  const isRtl = getComputedStyle(wrapper).direction === 'rtl';
 
-  // Coords with bias (1/-1) to fix line-wraps
-  const start = editorView.coordsAtPos(selection.from, 1);
-  const end = editorView.coordsAtPos(selection.to, -1);
-
-  const selTop = Math.min(start.top, end.top);
-  const onTop =
-    selTop - rect.top > MENU.H + MENU.GAP || end.bottom > rect.bottom;
-
-  // Anchor logic: Bottom->Cursor, Top+Visible->Text, Top+Hidden->Container
-  const getAnchor = () => {
-    if (!onTop) return end.left;
-    if (start.top >= rect.top) return rtl ? start.right : start.left;
-    return rtl ? rect.right - MENU.GAP : rect.left + MENU.GAP;
-  };
-
-  const anchor = getAnchor();
-  const rawLeft = (rtl ? anchor - MENU.W : anchor) - rect.left;
-  const left = Math.min(Math.max(0, rawLeft), rect.width - MENU.W);
-
-  const top = onTop
-    ? Math.max(-26, selTop - rect.top - MENU.H - MENU.GAP)
-    : Math.max(start.bottom, end.bottom) - rect.top + MENU.GAP;
+  // Calculate coords and final position
+  const coords = getSelectionCoords(editorView, selection, rect);
+  const { left, top, width } = calculateMenuPosition(coords, rect, isRtl);
 
   wrapper.style.setProperty('--selection-left', `${left}px`);
   wrapper.style.setProperty(
     '--selection-right',
-    `${rect.width - left - MENU.W}px`
+    `${rect.width - left - width}px`
   );
   wrapper.style.setProperty('--selection-top', `${top}px`);
 }
