@@ -12,6 +12,7 @@ import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useI18n } from 'vue-i18n';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 const props = defineProps({
   chat: {
@@ -34,6 +35,15 @@ const route = useRoute();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
 const { isAWebWidgetInbox } = useInbox();
+
+const { uiSettings } = useUISettings();
+
+const isSidepanelOpen = computed(
+  () =>
+    uiSettings.value.is_contact_sidebar_open ||
+    uiSettings.value.is_copilot_panel_open ||
+    false
+);
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -91,20 +101,24 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
     ref="conversationHeader"
     class="flex flex-col items-start gap-x-6 gap-y-2 w-full min-w-0 pt-3 pb-2 ltr:pl-4 rtl:pr-4 ltr:pr-1 rtl:pl-1"
     :class="{
-      'md:flex-row md:items-center': isOnExpandedView,
-      'lg:flex-row lg:items-center': !isOnExpandedView,
+      'md:flex-row md:items-center': isOnExpandedView && !isSidepanelOpen,
+      'lg:flex-row lg:items-center': isOnExpandedView && isSidepanelOpen,
+      'lg:flex-row lg:items-center': !isOnExpandedView && !isSidepanelOpen,
+      'xl:flex-row xl:items-center': !isOnExpandedView && isSidepanelOpen,
     }"
   >
     <div
       class="flex items-center gap-2 min-w-0 w-full"
       :class="{
-        'md:flex-1 md:basis-0': isOnExpandedView,
-        'lg:flex-1 lg:basis-0': !isOnExpandedView,
+        'md:flex-1 md:basis-0': isOnExpandedView && !isSidepanelOpen,
+        'lg:flex-1 lg:basis-0': isOnExpandedView && isSidepanelOpen,
+        'lg:flex-1 lg:basis-0': !isOnExpandedView && !isSidepanelOpen,
+        'xl:flex-1 xl:basis-0': !isOnExpandedView && isSidepanelOpen,
       }"
     >
       <BackButton v-if="showBackButton" :back-url="backButtonUrl" />
 
-      <div class="flex items-center gap-1 min-w-0 flex-1">
+      <div class="flex items-center gap-1 min-w-0 ltr:mr-2 rtl:ml-2">
         <span class="text-base font-medium text-n-slate-12 truncate min-w-0">
           {{ currentContact.name }}
         </span>
@@ -120,8 +134,14 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
     <div
       class="flex items-center gap-2 min-w-0 w-full"
       :class="{
-        'md:flex-1 md:basis-0 md:justify-end': isOnExpandedView,
-        'lg:flex-1 lg:basis-0 lg:justify-end': !isOnExpandedView,
+        'md:flex-1 md:basis-0 md:justify-end':
+          isOnExpandedView && !isSidepanelOpen,
+        'lg:flex-1 lg:basis-0 lg:justify-end':
+          isOnExpandedView && isSidepanelOpen,
+        'lg:flex-1 lg:basis-0 lg:justify-end':
+          !isOnExpandedView && !isSidepanelOpen,
+        'xl:flex-1 xl:basis-0 xl:justify-end':
+          !isOnExpandedView && isSidepanelOpen,
       }"
     >
       <div v-if="isSnoozed" class="flex items-center gap-1 min-w-0 shrink">
