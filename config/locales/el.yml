@@ -188,6 +188,8 @@ el:
     messages:
       instagram_story_content: 'Ο %{story_sender} σας ανέφερε στην ιστορία: '
       instagram_deleted_story_content: Η ιστορία δεν είναι πλέον διαθέσιμη.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Το μήνυμα διαγράφηκε
       whatsapp:
         list_button_label: 'Choose an item'
