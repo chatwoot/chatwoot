@@ -80,5 +80,89 @@ RSpec.describe Whatsapp::WebhookTeardownService do
         service.perform
       end
     end
+
+    context 'when channel is whatsapp_light' do
+      before do
+        allow(channel).to receive(:setup_webhooks).and_return(true)
+
+        channel.update!(
+          provider: 'whatsapp_light',
+          provider_config: {
+            'api_url' => 'https://gate.whapi.cloud/',
+            'token' => 'test_token_123',
+            'channel_id' => 'test_channel_123',
+            'phone' => '1234567890'
+          }
+        )
+
+        stub_request(:delete, 'https://manager.whapi.cloud/channels/test_channel_123')
+          .to_return(status: 200, body: { success: true }.to_json)
+      end
+
+      it 'deletes the channel from Whapi' do
+        service.perform
+
+        expect(WebMock).to have_requested(:delete, 'https://manager.whapi.cloud/channels/test_channel_123')
+          .with(
+            headers: {
+              'Authorization' => 'Bearer test_token_123',
+              'Content-Type' => 'application/json'
+            }
+          )
+      end
+
+      it 'logs success message' do
+        expect(Rails.logger).to receive(:info).with(/Channel test_channel_123 deleted successfully/)
+        service.perform
+      end
+
+      context 'when channel_id is missing' do
+        before do
+          channel.provider_config.delete('channel_id')
+          channel.save!
+        end
+
+        it 'does not make API call' do
+          service.perform
+          expect(WebMock).not_to have_requested(:delete, /channels/)
+        end
+      end
+
+      context 'when token is missing' do
+        before do
+          channel.provider_config.delete('token')
+          channel.save!
+        end
+
+        it 'does not make API call' do
+          service.perform
+          expect(WebMock).not_to have_requested(:delete, /channels/)
+        end
+      end
+
+      context 'when Whapi API returns error' do
+        before do
+          stub_request(:delete, 'https://manager.whapi.cloud/channels/test_channel_123')
+            .to_return(status: 400, body: { error: 'Channel not found' }.to_json)
+        end
+
+        it 'logs error message and does not raise' do
+          expect(Rails.logger).to receive(:error).with(/Failed to delete channel/)
+          expect { service.perform }.not_to raise_error
+        end
+      end
+
+      context 'when network error occurs' do
+        before do
+          stub_request(:delete, 'https://manager.whapi.cloud/channels/test_channel_123')
+            .to_raise(StandardError.new('Network error'))
+        end
+
+        it 'handles error gracefully' do
+          expect(Rails.logger).to receive(:error).with(/Webhook teardown failed/)
+          expect { service.perform }.not_to raise_error
+        end
+      end
+    end
   end
 end

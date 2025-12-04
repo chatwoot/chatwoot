@@ -233,3 +233,6 @@
 - name: auto_generate_landing_page
   display_name: Auto Generate Landing Page
   enabled: true
+- name: whatsapp_groups
+  display_name: WhatsApp Groups
+  enabled: false

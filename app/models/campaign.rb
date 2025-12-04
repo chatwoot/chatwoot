@@ -95,6 +95,11 @@ class Campaign < ApplicationRecord
     return unless inbox
 
     errors.add :inbox, 'Unsupported Inbox type' unless ['Website', 'Twilio SMS', 'Sms', 'Whatsapp'].include? inbox.inbox_type
+
+    # WhatsApp Light does not support template messages, so campaigns cannot be created
+    if inbox.inbox_type == 'Whatsapp' && inbox.channel&.provider == 'whatsapp_light'
+      errors.add :inbox, 'WhatsApp Light does not support campaigns'
+    end
   end
 
   # TO-DO we clean up with better validations when campaigns evolve into more inboxes

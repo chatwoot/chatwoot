@@ -6,6 +6,7 @@ import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
+import SurveyCallModal from './SurveyCallModal.vue';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
@@ -17,6 +18,7 @@ export default {
     MultiselectDropdown,
     ConversationLabels,
     NextButton,
+    SurveyCallModal,
   },
   props: {
     conversationId: {
@@ -32,6 +34,7 @@ export default {
   },
   data() {
     return {
+      showSurveyCallModal: false,
       priorityOptions: [
         {
           id: null,
@@ -66,7 +69,12 @@ export default {
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
       teams: 'teams/getTeams',
+      contactGetter: 'contacts/getContact',
     }),
+    contact() {
+      const contactId = this.currentChat?.meta?.sender?.id;
+      return this.contactGetter(contactId);
+    },
     hasAnAssignedTeam() {
       return !!this.currentChat?.meta?.team;
     },
@@ -202,6 +210,14 @@ export default {
 
       this.assignedPriority = isSamePriority ? null : selectedPriorityItem;
     },
+
+    openSurveyCallModal() {
+      this.showSurveyCallModal = true;
+    },
+
+    closeSurveyCallModal() {
+      this.showSurveyCallModal = false;
+    },
   },
 };
 </script>
@@ -281,5 +297,24 @@ export default {
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
     />
     <ConversationLabels :conversation-id="conversationId" />
+
+    <!-- Survey Call Button -->
+    <div class="mt-4 px-2">
+      <NextButton
+        variant="outline"
+        size="sm"
+        icon="i-lucide-phone"
+        class="w-full"
+        :label="$t('CONVERSATION.SURVEY_CALL.BUTTON_LABEL')"
+        @click="openSurveyCallModal"
+      />
+    </div>
+
+    <!-- Survey Call Modal -->
+    <SurveyCallModal
+      :show="showSurveyCallModal"
+      :contact="contact"
+      @close="closeSurveyCallModal"
+    />
   </div>
 </template>

@@ -164,6 +164,12 @@ class Account < ApplicationRecord
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
+  def whatsapp_groups_inbox
+    return nil unless feature_enabled?(:whatsapp_groups)
+
+    @whatsapp_groups_inbox ||= Whatsapp::GroupsInboxService.new(account: self).find_or_create_groups_inbox
+  end
+
   private
 
   def notify_creation

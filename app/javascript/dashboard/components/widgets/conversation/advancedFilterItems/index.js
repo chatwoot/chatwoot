@@ -31,6 +31,14 @@ const filterTypes = [
     attributeModel: 'standard',
   },
   {
+    attributeKey: 'conversation_type',
+    attributeI18nKey: 'CONVERSATION_TYPE',
+    inputType: 'multi_select',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
+  {
     attributeKey: 'inbox_id',
     attributeI18nKey: 'INBOX_NAME',
     inputType: 'search_select',
@@ -152,6 +160,10 @@ export const filterAttributeGroups = [
       {
         key: 'labels',
         i18nKey: 'LABELS',
+      },
+      {
+        key: 'conversation_type',
+        i18nKey: 'CONVERSATION_TYPE',
       },
       {
         key: 'created_at',

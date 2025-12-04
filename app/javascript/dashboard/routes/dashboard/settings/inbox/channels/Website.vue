@@ -230,7 +230,11 @@ export default {
           <NextButton
             type="submit"
             :is-loading="uiFlags.isCreating"
-            :disabled="!channelWebsiteUrl || !inboxName || (autoGenerateLandingPage && !landingPageDescription)"
+            :disabled="
+              !channelWebsiteUrl ||
+              !inboxName ||
+              (autoGenerateLandingPage && !landingPageDescription)
+            "
             solid
             blue
             :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"

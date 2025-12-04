@@ -114,6 +114,12 @@ conversations:
       - "is_greater_than"
       - "is_less_than"
       - "days_before"
+  conversation_type:
+    attribute_type: "standard"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
   mail_subject:
     attribute_type: "additional_attributes"
     data_type: "text"

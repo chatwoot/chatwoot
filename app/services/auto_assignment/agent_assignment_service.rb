@@ -10,7 +10,10 @@ class AutoAssignment::AgentAssignmentService
 
   def perform
     new_assignee = find_assignee
-    conversation.update(assignee: new_assignee) if new_assignee
+    if new_assignee
+      conversation.update(assignee: new_assignee)
+      trigger_whatsapp_group_creation
+    end
   end
 
   private
@@ -34,5 +37,17 @@ class AutoAssignment::AgentAssignmentService
 
   def round_robin_key
     format(::Redis::Alfred::ROUND_ROBIN_AGENTS, inbox_id: conversation.inbox_id)
+  end
+
+  def trigger_whatsapp_group_creation
+    return unless whatsapp_group_enabled?
+
+    Whatsapp::CreateGroupJob.perform_later(conversation.id)
+  end
+
+  def whatsapp_group_enabled?
+    conversation.inbox.auto_assignment_config&.dig('assignment_type') == 'group' &&
+      conversation.assignee&.phone_number.present? &&
+      conversation.contact&.phone_number.present?
   end
 end

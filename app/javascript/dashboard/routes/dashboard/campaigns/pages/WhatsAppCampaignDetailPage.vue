@@ -334,10 +334,7 @@ onUnmounted(() => {
         </div>
 
         <!-- Pagination -->
-        <div
-          v-if="totalContacts > 0"
-          class="border-t border-n-slate-6 p-4"
-        >
+        <div v-if="totalContacts > 0" class="border-t border-n-slate-6 p-4">
           <PaginationFooter
             :current-page="currentPage"
             :total-items="totalContacts"

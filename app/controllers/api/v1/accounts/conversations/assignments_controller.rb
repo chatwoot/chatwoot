@@ -19,6 +19,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       assignee_type: params[:assignee_type]
     ).perform
 
+    trigger_whatsapp_group_creation(resource)
     render_agent(resource)
   end
 
@@ -41,5 +42,26 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
 
   def agent_bot_assignment?
     params[:assignee_type].to_s == 'AgentBot'
+  end
+
+  def trigger_whatsapp_group_creation(resource)
+    return unless whatsapp_group_enabled?
+    return unless resource.present?
+
+    group_options = {
+      group_name: params[:group_name],
+      welcome_message: params[:welcome_message]
+    }.compact
+
+    Whatsapp::CreateGroupJob.perform_later(@conversation.id, group_options)
+  end
+
+  def whatsapp_group_enabled?
+    return false if agent_bot_assignment?
+    return false unless Current.account.feature_enabled?(:whatsapp_groups)
+
+    @conversation.inbox.auto_assignment_config&.dig('assignment_type') == 'group' &&
+      @agent.phone_number.present? &&
+      @conversation.contact&.phone_number.present?
   end
 end

@@ -490,6 +490,10 @@ function setParamsForEditFolderModal() {
       { id: 'high', name: t('CONVERSATION.PRIORITY.OPTIONS.HIGH') },
       { id: 'urgent', name: t('CONVERSATION.PRIORITY.OPTIONS.URGENT') },
     ],
+    conversationType: [
+      { id: 'default', name: t('CONVERSATION.TYPE.DEFAULT') },
+      { id: 'whatsapp_group', name: t('CONVERSATION.TYPE.WHATSAPP_GROUP') },
+    ],
     filterTypes: advancedFilterTypes.value,
     allCustomAttributes: conversationCustomAttributes.value,
   };

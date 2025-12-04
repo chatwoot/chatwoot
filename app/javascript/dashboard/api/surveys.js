@@ -26,6 +26,13 @@ class SurveysAPI extends ApiClient {
       `${this.url}/${surveyId}/survey_questions/${questionId}`
     );
   }
+
+  initiateSurveyCall({ contactId, surveyId }) {
+    return axios.post(`${this.baseUrl()}/survey_calls`, {
+      contact_id: contactId,
+      survey_id: surveyId,
+    });
+  }
 }
 
 export default new SurveysAPI();

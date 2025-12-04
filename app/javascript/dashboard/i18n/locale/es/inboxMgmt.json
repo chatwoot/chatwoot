@@ -239,13 +239,15 @@
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Nube de WhatsApp",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD_DESC": "Configuración rápida a través de Meta",
+          "WHATSAPP_LIGHT": "WhatsApp Light",
+          "WHATSAPP_LIGHT_DESC": "Configuración simple con código QR - Sin soporte de plantillas",
+          "TWILIO_DESC": "Conectar mediante credenciales de Twilio",
           "360_DIALOG": "360 Diálogo"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "Selecciona tu proveedor de API",
+          "DESCRIPTION": "Elige tu proveedor de WhatsApp. Puedes conectarte directamente a través de Meta que no requiere configuración, o conectarte a través de Twilio usando las credenciales de tu cuenta."
         },
         "INBOX_NAME": {
           "LABEL": "Nombre de la bandeja de entrada",
@@ -315,6 +317,34 @@
         },
         "API": {
           "ERROR_MESSAGE": "No pudimos guardar el canal de WhatsApp"
+        }
+      },
+      "WHATSAPP_LIGHT": {
+        "TITLE": "WhatsApp Light",
+        "DESC": "Integración simple de WhatsApp con autenticación por código QR.",
+        "INBOX_NAME": {
+          "LABEL": "Nombre de la bandeja",
+          "PLACEHOLDER": "Ingresa un nombre para la bandeja",
+          "ERROR": "Este campo es requerido"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Número de teléfono",
+          "PLACEHOLDER": "Ingresa el número de teléfono (ej. +1234567890)",
+          "ERROR": "Por favor proporciona un número de teléfono válido que comience con el signo + y no contenga espacios."
+        },
+        "SUBMIT_BUTTON": "Crear canal de WhatsApp Light",
+        "QR_TITLE": "Escanea el código QR",
+        "QR_DESC": "Escanea este código QR con tu WhatsApp para conectar tu cuenta",
+        "WAITING": "Esperando que el canal sea aprovisionado...",
+        "WAITING_AUTH": "Esperando autenticación...",
+        "EXPIRES_IN": "El código QR expira en {seconds} segundos",
+        "QR_EXPIRED": "El código QR ha expirado",
+        "GENERATE_NEW_QR": "Generar nuevo código QR",
+        "SUCCESS": "¡WhatsApp conectado exitosamente!",
+        "REDIRECTING": "Redirigiendo a asignación de agentes...",
+        "SETUP_ERROR": "Error al completar la configuración. Por favor intenta de nuevo.",
+        "API": {
+          "ERROR_MESSAGE": "No pudimos crear el canal de WhatsApp Light"
         }
       },
       "VOICE": {
@@ -762,6 +792,12 @@
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Por favor ingrese un valor mayor a 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limite la cantidad máxima de conversaciones de esta bandeja de entrada que se pueden asignar automáticamente a un agente"
     },
+    "ASSIGNMENT_TYPE": {
+      "LABEL": "Tipo de Asignación",
+      "SUB_TEXT": "Elige cómo se deben asignar las conversaciones a los agentes",
+      "INDIVIDUAL": "Individual",
+      "GROUP": "Grupal"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
       "SUBTITLE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio",
@@ -1017,6 +1053,16 @@
       "API": "Canal API",
       "INSTAGRAM": "Instagram",
       "VOICE": "Voice"
+    },
+    "WHATSAPP_GROUPS": {
+      "SUB_TITLE": "Bandeja especial para conversaciones de grupos de WhatsApp",
+      "NOTE": "<strong>Nota:</strong> Esta es una bandeja administrada por el sistema utilizada exclusivamente para conversaciones de grupos de WhatsApp. Se crea automáticamente y no se puede modificar ni eliminar.",
+      "TYPE_LABEL": "Tipo:",
+      "TYPE_VALUE": "Grupos de WhatsApp",
+      "STATUS_LABEL": "Estado:",
+      "STATUS_VALUE": "Activo",
+      "AUTO_ASSIGNMENT_LABEL": "Asignación automática:",
+      "AUTO_ASSIGNMENT_VALUE": "Deshabilitado"
     }
   }
 }

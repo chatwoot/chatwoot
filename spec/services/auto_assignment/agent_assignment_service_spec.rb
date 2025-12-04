@@ -36,4 +36,61 @@ RSpec.describe AutoAssignment::AgentAssignmentService do
                                  allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).find_assignee).to eq(inbox_members[4].user)
     end
   end
+
+  describe 'WhatsApp group creation' do
+    let(:agent) { inbox_members[3].user }
+    let(:contact) { conversation.contact }
+
+    context 'when assignment_type is group and both have phone numbers' do
+      before do
+        inbox.update!(auto_assignment_config: { 'assignment_type' => 'group' })
+        agent.update!(phone_number: '+1234567890')
+        contact.update!(phone_number: '+9876543210')
+      end
+
+      it 'enqueues WhatsApp group creation job after assignment' do
+        expect(Whatsapp::CreateGroupJob).to receive(:perform_later).with(conversation.id)
+        described_class.new(conversation: conversation, allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).perform
+      end
+    end
+
+    context 'when assignment_type is individual' do
+      before do
+        inbox.update!(auto_assignment_config: { 'assignment_type' => 'individual' })
+        agent.update!(phone_number: '+1234567890')
+        contact.update!(phone_number: '+9876543210')
+      end
+
+      it 'does not enqueue group creation job' do
+        expect(Whatsapp::CreateGroupJob).not_to receive(:perform_later)
+        described_class.new(conversation: conversation, allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).perform
+      end
+    end
+
+    context 'when agent does not have phone number' do
+      before do
+        inbox.update!(auto_assignment_config: { 'assignment_type' => 'group' })
+        agent.update!(phone_number: nil)
+        contact.update!(phone_number: '+9876543210')
+      end
+
+      it 'does not enqueue group creation job' do
+        expect(Whatsapp::CreateGroupJob).not_to receive(:perform_later)
+        described_class.new(conversation: conversation, allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).perform
+      end
+    end
+
+    context 'when contact does not have phone number' do
+      before do
+        inbox.update!(auto_assignment_config: { 'assignment_type' => 'group' })
+        agent.update!(phone_number: '+1234567890')
+        contact.update!(phone_number: nil)
+      end
+
+      it 'does not enqueue group creation job' do
+        expect(Whatsapp::CreateGroupJob).not_to receive(:perform_later)
+        described_class.new(conversation: conversation, allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).perform
+      end
+    end
+  end
 end

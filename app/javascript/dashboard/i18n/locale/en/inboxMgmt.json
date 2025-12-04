@@ -240,6 +240,8 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "WHATSAPP_LIGHT": "WhatsApp Light",
+          "WHATSAPP_LIGHT_DESC": "Simple setup with QR code - No templates support",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
         },
@@ -315,6 +317,34 @@
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
+      },
+      "WHATSAPP_LIGHT": {
+        "TITLE": "WhatsApp Light",
+        "DESC": "Simple WhatsApp integration with QR code authentication.",
+        "INBOX_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Enter an inbox name",
+          "ERROR": "This field is required"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone Number",
+          "PLACEHOLDER": "Enter phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number that starts with a + sign and does not contain any spaces."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Light Channel",
+        "QR_TITLE": "Scan QR Code",
+        "QR_DESC": "Scan this QR code with your WhatsApp to connect your account",
+        "WAITING": "Waiting for channel to be provisioned...",
+        "WAITING_AUTH": "Waiting for authentication...",
+        "EXPIRES_IN": "QR code expires in {seconds} seconds",
+        "QR_EXPIRED": "QR code has expired",
+        "GENERATE_NEW_QR": "Generate New QR Code",
+        "SUCCESS": "WhatsApp connected successfully!",
+        "REDIRECTING": "Redirecting to agent assignment...",
+        "SETUP_ERROR": "Failed to complete setup. Please try again.",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the WhatsApp Light channel"
         }
       },
       "VOICE": {
@@ -767,6 +797,12 @@
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
     },
+    "ASSIGNMENT_TYPE": {
+      "LABEL": "Assignment Type",
+      "SUB_TEXT": "Choose how conversations should be assigned to agents",
+      "INDIVIDUAL": "Individual",
+      "GROUP": "Group"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
@@ -1022,6 +1058,16 @@
       "API": "API Channel",
       "INSTAGRAM": "Instagram",
       "VOICE": "Voice"
+    },
+    "WHATSAPP_GROUPS": {
+      "SUB_TITLE": "Special inbox for WhatsApp group conversations",
+      "NOTE": "<strong>Note:</strong> This is a system-managed inbox used exclusively for WhatsApp group conversations. It is automatically created and cannot be modified or deleted.",
+      "TYPE_LABEL": "Type:",
+      "TYPE_VALUE": "WhatsApp Groups",
+      "STATUS_LABEL": "Status:",
+      "STATUS_VALUE": "Active",
+      "AUTO_ASSIGNMENT_LABEL": "Auto Assignment:",
+      "AUTO_ASSIGNMENT_VALUE": "Disabled"
     }
   }
 }

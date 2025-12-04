@@ -20,6 +20,7 @@ json.lock_to_single_conversation resource.lock_to_single_conversation
 json.sender_name_type resource.sender_name_type
 json.business_name resource.business_name
 json.survey_id resource.try(:survey_id)
+json.is_whatsapp_groups_inbox resource.whatsapp_groups_inbox?
 # Add survey data if it exists
 if resource.survey.present?
   json.survey do

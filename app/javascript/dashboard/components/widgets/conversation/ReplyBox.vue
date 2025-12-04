@@ -21,6 +21,7 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vu
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { CONVERSATION_TYPES } from 'dashboard/helper/inbox';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
@@ -170,10 +171,11 @@ export default {
       return true;
     },
     isReplyRestricted() {
-      return (
-        !this.currentChat?.can_reply &&
-        !(this.isAWhatsAppChannel || this.isAPIInbox)
-      );
+      // Si es un grupo de WhatsApp, siempre está restringido (solo nota privada)
+      if (this.currentChat?.conversation_type === CONVERSATION_TYPES.WHATSAPP_GROUP) {
+        return true;
+      }
+      return !this.currentChat?.can_reply && !this.isAWhatsAppChannel;
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -212,6 +214,9 @@ export default {
       const { additional_attributes: additionalAttributes } = this.currentChat;
       const type = additionalAttributes ? additionalAttributes.type : '';
       return type || '';
+    },
+    isWhatsAppGroupConversation() {
+      return this.currentChat?.conversation_type === CONVERSATION_TYPES.WHATSAPP_GROUP;
     },
     maxLength() {
       if (this.isPrivate) {
@@ -406,6 +411,13 @@ export default {
         this.setCCAndToEmailsFromLastChat();
       }
 
+      // Si es un grupo de WhatsApp, forzar siempre modo nota privada
+      if (this.currentChat?.conversation_type === CONVERSATION_TYPES.WHATSAPP_GROUP) {
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
+        return; // No continuar con la lógica normal
+      }
+
+      // Si ya está en modo nota privada, no cambiar el modo
       if (this.isOnPrivateNote) {
         return;
       }
@@ -449,6 +461,11 @@ export default {
 
   mounted() {
     this.getFromDraft();
+
+    // Si es un grupo de WhatsApp, forzar modo nota privada (DESPUÉS de getFromDraft)
+    if (this.currentChat?.conversation_type === CONVERSATION_TYPES.WHATSAPP_GROUP) {
+      this.replyType = REPLY_EDITOR_MODES.NOTE;
+    }
     // Don't use the keyboard listener mixin here as the events here are supposed to be
     // working even if the editor is focussed.
     document.addEventListener('paste', this.onPaste);
@@ -779,10 +796,19 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox)
+
+      // Si es un grupo de WhatsApp, forzar siempre modo nota privada
+      if (this.currentChat?.conversation_type === CONVERSATION_TYPES.WHATSAPP_GROUP) {
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
+      } else if (canReply || this.isAWhatsAppChannel) {
         this.replyType = mode;
-      if (this.isRecordingAudio) {
-        this.toggleAudioRecorder();
+      }
+
+      if (this.showRichContentEditor) {
+        if (this.isRecordingAudio) {
+          this.toggleAudioRecorder();
+        }
+        return;
       }
     },
     clearEditorSelection() {
@@ -1062,6 +1088,7 @@ export default {
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popOutReplyBox"
+      :show-only-private-note="isWhatsAppGroupConversation"
       @set-reply-mode="setReplyMode"
       @toggle-popout="togglePopout"
     />

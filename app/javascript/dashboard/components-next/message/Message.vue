@@ -129,6 +129,7 @@ const props = defineProps({
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
+  additionalAttributes: { type: Object, default: () => ({}) },
 });
 
 const emit = defineEmits(['retry']);
@@ -421,10 +422,11 @@ function handleReplyTo() {
 }
 
 const avatarInfo = computed(() => {
-  // If no sender, return bot info
+  // If no sender, check for external sender name or return bot info
   if (!props.sender) {
+    const externalName = props.additionalAttributes?.externalSenderName;
     return {
-      name: t('CONVERSATION.BOT'),
+      name: externalName || t('CONVERSATION.BOT'),
       src: '',
     };
   }

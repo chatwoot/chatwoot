@@ -25,14 +25,14 @@ class Channel::Whatsapp < ApplicationRecord
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
 
   # default at the moment is 360dialog lets change later.
-  PROVIDERS = %w[default whatsapp_cloud].freeze
+  PROVIDERS = %w[default whatsapp_cloud whatsapp_light].freeze
   before_validation :ensure_webhook_verify_token
 
   validates :provider, inclusion: { in: PROVIDERS }
   validates :phone_number, presence: true, uniqueness: true
-  validate :validate_provider_config
+  validate :validate_provider_config, on: :update
 
-  after_create :sync_templates
+  after_create :sync_templates, unless: -> { provider == 'whatsapp_light' }
   before_destroy :teardown_webhooks
 
   def name
@@ -40,8 +40,11 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def provider_service
-    if provider == 'whatsapp_cloud'
+    case provider
+    when 'whatsapp_cloud'
       Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: self)
+    when 'whatsapp_light'
+      Whatsapp::Providers::WhapiCloudService.new(whatsapp_channel: self)
     else
       Whatsapp::Providers::Whatsapp360DialogService.new(whatsapp_channel: self)
     end
@@ -73,6 +76,8 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def validate_provider_config
+    return if provider == 'whatsapp_light' && provider_config['channel_id'].blank?
+
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
   end
 

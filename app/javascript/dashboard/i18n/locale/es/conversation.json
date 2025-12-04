@@ -138,6 +138,10 @@
         "FAILED": "No se pudo cambiar la prioridad. Por favor, inténtelo de nuevo."
       }
     },
+    "TYPE": {
+      "DEFAULT": "Predeterminado",
+      "WHATSAPP_GROUP": "Grupo WhatsApp"
+    },
     "DELETE_CONVERSATION": {
       "TITLE": "Eliminar conversación #{conversationId}",
       "DESCRIPTION": "¿Está seguro que desea eliminar esta conversación?",
@@ -271,6 +275,21 @@
         "DELETE": "Eliminar",
         "CANCEL": "Cancelar"
       }
+    },
+    "SURVEY_CALL": {
+      "BUTTON_LABEL": "Realizar Encuesta",
+      "TITLE": "Encuesta Telefónica",
+      "NO_VALID_PHONE": "Este contacto no tiene un número de teléfono válido. Se requiere un número de teléfono en formato E.164 (+123456789) para realizar una llamada de encuesta.",
+      "CONTACT_INFO": "Contacto a llamar",
+      "SELECT_SURVEY": "Selecciona una encuesta para realizar",
+      "LOADING": "Cargando encuestas...",
+      "NO_SURVEYS": "No hay encuestas activas disponibles",
+      "QUESTIONS_COUNT": "{count} preguntas",
+      "CANCEL": "Cancelar",
+      "MAKE_CALL": "Realizar Llamada",
+      "SUCCESS": "Llamada de encuesta iniciada exitosamente",
+      "ERROR": "No se pudo iniciar la llamada de encuesta. Por favor, inténtalo de nuevo",
+      "LOAD_ERROR": "No se pudieron cargar las encuestas. Por favor, inténtalo de nuevo"
     },
     "SIDEBAR": {
       "CONTACT": "Contacto",

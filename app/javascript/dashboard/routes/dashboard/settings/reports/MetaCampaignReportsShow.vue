@@ -24,14 +24,10 @@ const campaignDetails = computed(
 );
 const uiFlags = computed(() => store.getters['metaCampaigns/getUIFlags']);
 
-const interactions = computed(
-  () => campaignDetails.value?.interactions || []
-);
+const interactions = computed(() => campaignDetails.value?.interactions || []);
 
 const paginationMeta = computed(() => campaignDetails.value?.meta || {});
-const totalInteractions = computed(
-  () => paginationMeta.value.total_count || 0
-);
+const totalInteractions = computed(() => paginationMeta.value.total_count || 0);
 
 const formatDate = timestamp => {
   if (!timestamp) return '-';
