@@ -7,7 +7,8 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
   let(:client) { instance_double(OpenAI::Client) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    create(:installation_config, name: 'CAPTAIN_LLM_PROVIDER', value: 'openai')
+    create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'test-key')
     allow(OpenAI::Client).to receive(:new).and_return(client)
   end
 
@@ -43,8 +44,9 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       end
 
       it 'calls OpenAI client with chat parameters' do
+        defaults = LlmConstants.current_defaults
         expect(client).to receive(:chat).with(parameters: hash_including(
-          model: 'gpt-4o-mini',
+          model: defaults[:chat_model],
           response_format: { type: 'json_object' },
           messages: array_including(
             hash_including(role: 'system'),
@@ -79,7 +81,7 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       end
 
       it 'handles the error and returns empty array' do
-        expect(Rails.logger).to receive(:error).with('OpenAI API Error: API Error')
+        expect(Rails.logger).to receive(:error).with('LLM API Error: API Error')
         expect(service.generate).to eq([])
       end
     end

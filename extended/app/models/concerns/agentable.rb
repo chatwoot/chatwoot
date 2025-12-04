@@ -43,7 +43,7 @@ module Concerns::Agentable
   end
 
   def agent_model
-    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || OpenAiConstants::DEFAULT_MODEL
+    Captain::Config.config_for(Captain::Config.current_provider)[:chat_model]
   end
 
   def agent_response_schema

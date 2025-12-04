@@ -33,10 +33,19 @@ RSpec.describe Concerns::Agentable do
   let(:dummy_instance) { dummy_class.new }
   let(:mock_agents_agent) { instance_double(Agents::Agent) }
   let(:mock_installation_config) { instance_double(InstallationConfig, value: 'gpt-4-turbo') }
+  let(:mock_provider_config) { instance_double(InstallationConfig, value: 'openai') }
 
   before do
     allow(Agents::Agent).to receive(:new).and_return(mock_agents_agent)
-    allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_OPEN_AI_MODEL').and_return(mock_installation_config)
+
+    # Mock Captain::Config to return proper config
+    allow(Captain::Config).to receive(:current_provider).and_return('openai')
+    allow(Captain::Config).to receive(:config_for).with('openai').and_return({
+                                                                               chat_model: 'gpt-4-turbo',
+                                                                               embedding_model: 'text-embedding-3-small',
+                                                                               transcription_model: 'whisper-1'
+                                                                             })
+
     allow(Captain::PromptRenderer).to receive(:render).and_return('rendered_template')
   end
 
@@ -137,20 +146,16 @@ RSpec.describe Concerns::Agentable do
   end
 
   describe '#agent_model' do
-    it 'returns value from InstallationConfig when present' do
+    it 'returns value from Captain::Config when present' do
       expect(dummy_instance.send(:agent_model)).to eq('gpt-4-turbo')
     end
 
     it 'returns default model when config not found' do
-      allow(InstallationConfig).to receive(:find_by).and_return(nil)
+      allow(Captain::Config).to receive(:config_for).with('openai').and_return({
+                                                                                 chat_model: 'gpt-4o-mini'
+                                                                               })
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-mini')
-    end
-
-    it 'returns default model when config value is nil' do
-      allow(mock_installation_config).to receive(:value).and_return(nil)
-
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-mini')
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-4o-mini')
     end
   end
 

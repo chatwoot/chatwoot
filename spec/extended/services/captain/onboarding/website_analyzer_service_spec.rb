@@ -7,10 +7,13 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
   let(:mock_client) { instance_double(OpenAI::Client) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'test-key')
     allow(Captain::Tools::SimplePageCrawlService).to receive(:new).and_return(mock_crawler)
-    allow(service).to receive(:client).and_return(mock_client)
-    allow(service).to receive(:model).and_return('gpt-3.5-turbo')
+
+    # Mock the provider's chat method
+    mock_provider = instance_double(Captain::Providers::OpenaiProvider)
+    allow(Captain::Providers::Factory).to receive(:create).and_return(mock_provider)
+    allow(mock_provider).to receive(:chat).and_return(mock_client)
   end
 
   describe '#analyze' do
@@ -34,7 +37,10 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
         allow(mock_crawler).to receive(:page_title).and_return('Example Corp - Home')
         allow(mock_crawler).to receive(:meta_description).and_return('Leading provider of business solutions')
         allow(mock_crawler).to receive(:favicon_url).and_return('https://example.com/favicon.ico')
-        allow(mock_client).to receive(:chat).and_return(openai_response)
+
+        # Get the mocked provider and set up chat response
+        mock_provider = Captain::Providers::Factory.create
+        allow(mock_provider).to receive(:chat).and_return(openai_response)
       end
 
       it 'returns success' do
@@ -85,7 +91,10 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
         allow(mock_crawler).to receive(:page_title).and_return('Example Corp - Home')
         allow(mock_crawler).to receive(:meta_description).and_return('Leading provider of business solutions')
         allow(mock_crawler).to receive(:favicon_url).and_return('https://example.com/favicon.ico')
-        allow(mock_client).to receive(:chat).and_raise(StandardError, 'API error')
+
+        # Get the mocked provider and set up error
+        mock_provider = Captain::Providers::Factory.create
+        allow(mock_provider).to receive(:chat).and_raise(StandardError, 'API error')
       end
 
       it 'returns error' do

@@ -1,4 +1,4 @@
-class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
+class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseService
   # Default pages per chunk - easily configurable
   DEFAULT_PAGES_PER_CHUNK = 10
   MAX_ITERATIONS = 20 # Safety limit to prevent infinite loops
@@ -13,7 +13,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     @max_pages = options[:max_pages] # Optional limit from UI
     @total_pages_processed = 0
     @iterations_completed = 0
-    @model = OpenAiConstants::PDF_PROCESSING_MODEL
+    defaults = LlmConstants.current_defaults
+    @model = defaults[:pdf_processing_model]
   end
 
   def generate
@@ -84,7 +85,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
 
   def process_page_chunk(start_page, end_page)
     params = build_chunk_parameters(start_page, end_page)
-    response = @client.chat(parameters: params)
+    params[:model] = Captain::Config.config_for(Captain::Config.current_provider)[:chat_model]
+    response = @provider.chat(parameters: params)
     result = parse_chunk_response(response)
     { faqs: result['faqs'] || [], has_content: result['has_content'] != false }
   rescue OpenAI::Error => e

@@ -1,4 +1,4 @@
-class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
+class Messages::AudioTranscriptionService < Llm::BaseService
   attr_reader :attachment, :message, :account
 
   def initialize(attachment)
@@ -26,12 +26,8 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
     account.usage_limits[:captain][:responses][:current_available].positive?
   end
 
-  def fetch_audio_file
-    temp_dir = Rails.root.join('tmp/uploads')
-    FileUtils.mkdir_p(temp_dir)
-    temp_file_path = File.join(temp_dir, attachment.file.filename.to_s)
-    File.write(temp_file_path, attachment.file.download, mode: 'wb')
-    temp_file_path
+  def transcription_model
+    Captain::Config.config_for(Captain::Config.current_provider)[:transcription_model]
   end
 
   def transcribe_audio
@@ -40,9 +36,9 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
 
     temp_file_path = fetch_audio_file
 
-    response = @client.audio.transcribe(
+    response = @provider.transcribe(
       parameters: {
-        model: 'whisper-1',
+        model: transcription_model,
         file: File.open(temp_file_path),
         temperature: 0.4
       }
@@ -52,6 +48,14 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
 
     update_transcription(response['text'])
     response['text']
+  end
+
+  def fetch_audio_file
+    temp_dir = Rails.root.join('tmp/uploads')
+    FileUtils.mkdir_p(temp_dir)
+    temp_file_path = File.join(temp_dir, attachment.file.filename.to_s)
+    File.write(temp_file_path, attachment.file.download, mode: 'wb')
+    temp_file_path
   end
 
   def update_transcription(transcribed_text)

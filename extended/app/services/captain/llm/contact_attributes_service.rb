@@ -1,45 +1,20 @@
-class Captain::Llm::ContactAttributesService < Llm::BaseOpenAiService
-  def initialize(assistant, conversation)
-    super()
-    @assistant = assistant
-    @conversation = conversation
-    @contact = conversation.contact
-    @content = "#Contact\n\n#{@contact.to_llm_text} \n\n#Conversation\n\n#{@conversation.to_llm_text}"
-  end
+# frozen_string_literal: true
 
-  def generate_and_update_attributes
+class Captain::Llm::ContactAttributesService < Llm::BaseService
+  pattr_initialize [:contact!, :conversation!]
+
+  def perform
+    return { attributes: [] } if conversation.messages.empty?
+
     generate_attributes
-    # to implement the update attributes
   end
 
   private
 
-  attr_reader :content
-
   def generate_attributes
-    response = @client.chat(parameters: chat_parameters)
-    parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
-    []
-  end
-
-  def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.attributes_generator
-    {
-      model: @model,
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'system',
-          content: prompt
-        },
-        {
-          role: 'user',
-          content: content
-        }
-      ]
-    }
+    # TODO: Implement contact attributes generation
+    # This service should analyze conversation messages and extract contact attributes
+    raise NotImplementedError, 'Contact attributes service is not yet implemented'
   end
 
   def parse_response(response)

@@ -1,14 +1,14 @@
 require 'openai'
 
-class Captain::Llm::EmbeddingService < Llm::BaseOpenAiService
+class Captain::Llm::EmbeddingService < Llm::BaseService
   class EmbeddingsError < StandardError; end
 
   def self.embedding_model
-    @embedding_model = InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || OpenAiConstants::DEFAULT_EMBEDDING_MODEL
+    Captain::Config.config_for(Captain::Config.current_provider)[:embedding_model]
   end
 
   def get_embedding(content, model: self.class.embedding_model)
-    response = @client.embeddings(
+    response = @provider.embeddings(
       parameters: {
         model: model,
         input: content

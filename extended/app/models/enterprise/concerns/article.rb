@@ -61,22 +61,41 @@ module Enterprise::Concerns::Article
   end
 
   def generate_article_search_terms
-    messages = [
-      { role: 'system', content: article_to_search_terms_prompt },
-      { role: 'user', content: "title: #{title} \n description: #{description} \n content: #{content}" }
+    return [] if content.blank?
+
+    provider = Captain::Providers::Factory.create
+    response = provider.chat(parameters: search_terms_parameters)
+    parse_search_terms_response(response)
+  rescue StandardError => e
+    Rails.logger.error "Article search terms generation failed: #{e.message}"
+    []
+  end
+
+  def search_terms_parameters
+    {
+      model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
+      messages: search_terms_messages,
+      response_format: { type: 'json_object' }
+    }
+  end
+
+  def search_terms_messages
+    [
+      { role: 'system', content: 'Generate 3-5 search terms for this article. Return only a JSON object with a "terms" array.' },
+      { role: 'user', content: "Title: #{title}\\n\\nContent: #{content}" }
     ]
-    headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY', nil)}" }
-    body = { model: 'gpt-4o', messages: messages, response_format: { type: 'json_object' } }.to_json
-    Rails.logger.info "Requesting Chat GPT with body: #{body}"
-    response = HTTParty.post(openai_api_url, headers: headers, body: body)
-    Rails.logger.info "Chat GPT response: #{response.body}"
-    JSON.parse(response.parsed_response['choices'][0]['message']['content'])['search_terms']
+  end
+
+  def parse_search_terms_response(response)
+    content_response = response.dig('choices', 0, 'message', 'content')
+    JSON.parse(content_response)['terms'] || []
   end
 
   private
 
   def openai_api_url
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com/'
+    defaults = LlmConstants.current_defaults
+    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_LLM_ENDPOINT')&.value || defaults[:endpoint]
     endpoint = endpoint.chomp('/')
     "#{endpoint}/v1/chat/completions"
   end

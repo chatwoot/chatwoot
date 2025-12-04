@@ -1,4 +1,4 @@
-class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
+class Captain::Llm::PdfProcessingService < Llm::BaseService
   def initialize(document)
     super()
     @document = document
@@ -19,7 +19,7 @@ class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
 
   def upload_pdf_to_openai
     with_tempfile do |temp_file|
-      response = @client.files.upload(
+      response = @provider.upload_file(
         parameters: {
           file: temp_file,
           purpose: 'assistants'

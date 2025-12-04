@@ -1,4 +1,4 @@
-class Captain::Llm::FaqGeneratorService < Llm::BaseOpenAiService
+class Captain::Llm::FaqGeneratorService < Llm::BaseService
   def initialize(content, language = 'english')
     super()
     @language = language
@@ -6,10 +6,10 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseOpenAiService
   end
 
   def generate
-    response = @client.chat(parameters: chat_parameters)
+    response = @provider.chat(parameters: chat_parameters)
     parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error "LLM API Error: #{e.message}"
     []
   end
 
@@ -20,7 +20,7 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseOpenAiService
   def chat_parameters
     prompt = Captain::Llm::SystemPromptsService.faq_generator(language)
     {
-      model: @model,
+      model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
       response_format: { type: 'json_object' },
       messages: [
         {

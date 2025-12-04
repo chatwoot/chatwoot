@@ -1,4 +1,4 @@
-class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
+class Captain::Llm::ConversationFaqService < Llm::BaseService
   DISTANCE_THRESHOLD = 0.3
 
   def initialize(assistant, conversation)
@@ -81,40 +81,43 @@ class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
   end
 
   def generate
-    response = @client.chat(parameters: chat_parameters)
+    response = @provider.chat(parameters: chat_parameters)
     parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error "FAQ generation failed: #{e.message}"
     []
   end
 
   def chat_parameters
-    account_language = @conversation.account.locale_english_name
-    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator(account_language)
-
     {
-      model: @model,
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'system',
-          content: prompt
-        },
-        {
-          role: 'user',
-          content: content
-        }
-      ]
+      model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
+      messages: build_messages,
+      response_format: { type: 'json_object' }
     }
   end
 
   def parse_response(response)
     content = response.dig('choices', 0, 'message', 'content')
-    return [] if content.nil?
-
-    JSON.parse(content.strip).fetch('faqs', [])
+    parsed = JSON.parse(content)
+    parsed.fetch('faqs', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []
+  end
+
+  def build_messages
+    account_language = @conversation.account.locale_english_name
+    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator(account_language)
+
+    [
+      {
+        role: 'system',
+        content: prompt
+      },
+      {
+        role: 'user',
+        content: content
+      }
+    ]
   end
 end

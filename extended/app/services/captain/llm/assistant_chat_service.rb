@@ -1,6 +1,6 @@
 require 'openai'
 
-class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
+class Captain::Llm::AssistantChatService < Llm::BaseService
   include Captain::ChatHelper
 
   def initialize(assistant: nil, conversation_id: nil)
@@ -10,6 +10,7 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
     @conversation_id = conversation_id
     @messages = [system_message]
     @response = ''
+    @model = Captain::Config.config_for(Captain::Config.current_provider)[:chat_model]
     register_tools
   end
 

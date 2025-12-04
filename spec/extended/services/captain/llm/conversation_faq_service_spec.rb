@@ -4,13 +4,20 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   let(:captain_assistant) { create(:captain_assistant) }
   let(:conversation) { create(:conversation, first_reply_created_at: Time.zone.now) }
   let(:service) { described_class.new(captain_assistant, conversation) }
-  let(:client) { instance_double(OpenAI::Client) }
+  let(:mock_client) { instance_double(OpenAI::Client) }
+  let(:mock_provider) { instance_double(Captain::Providers::OpenaiProvider) }
   let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
 
   before do
-    create(:installation_config) { create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key') }
-    allow(OpenAI::Client).to receive(:new).and_return(client)
-    allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
+    create(:installation_config, name: 'CAPTAIN_LLM_PROVIDER', value: 'openai')
+    create(:installation_config, name: 'CAPTAIN_LLM_API_KEY', value: 'test-key')
+    # Mock the provider factory to return our mock provider
+    allow(Captain::Providers::Factory).to receive(:create).and_return(mock_provider)
+    allow(mock_provider).to receive(:chat).and_return(mock_client)
+
+    allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(
+      instance_double(Captain::Llm::EmbeddingService, get_embedding: Array.new(1536, 0.1))
+    )
   end
 
   describe '#generate_and_deduplicate' do
@@ -35,7 +42,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
     context 'when successful' do
       before do
-        allow(client).to receive(:chat).and_return(openai_response)
+        allow(mock_provider).to receive(:chat).and_return(openai_response)
         allow(embedding_service).to receive(:get_embedding).and_return([0.1, 0.2, 0.3])
         allow(captain_assistant.responses).to receive(:nearest_neighbors).and_return([])
       end
@@ -82,7 +89,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       before do
-        allow(client).to receive(:chat).and_return(openai_response)
+        allow(mock_provider).to receive(:chat).and_return(openai_response)
         allow(embedding_service).to receive(:get_embedding).and_return([0.1, 0.2, 0.3])
         allow(captain_assistant.responses).to receive(:nearest_neighbors).and_return([similar_neighbor])
       end
@@ -96,11 +103,11 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
     context 'when OpenAI API fails' do
       before do
-        allow(client).to receive(:chat).and_raise(OpenAI::Error.new('API Error'))
+        allow(mock_provider).to receive(:chat).and_raise(OpenAI::Error.new('API Error'))
       end
 
       it 'handles the error and returns empty array' do
-        expect(Rails.logger).to receive(:error).with('OpenAI API Error: API Error')
+        expect(Rails.logger).to receive(:error).with('FAQ generation failed: API Error')
         expect(service.generate_and_deduplicate).to eq([])
       end
     end
@@ -119,7 +126,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       before do
-        allow(client).to receive(:chat).and_return(invalid_response)
+        allow(mock_provider).to receive(:chat).and_return(invalid_response)
       end
 
       it 'handles JSON parsing errors' do
@@ -131,8 +138,9 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
   describe '#chat_parameters' do
     it 'includes correct model and response format' do
+      defaults = LlmConstants.current_defaults
       params = service.send(:chat_parameters)
-      expect(params[:model]).to eq('gpt-4o-mini')
+      expect(params[:model]).to eq(defaults[:chat_model])
       expect(params[:response_format]).to eq({ type: 'json_object' })
     end
 

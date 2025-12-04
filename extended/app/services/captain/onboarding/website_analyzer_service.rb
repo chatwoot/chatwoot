@@ -1,4 +1,4 @@
-class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseOpenAiService
+class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseService
   MAX_CONTENT_LENGTH = 8000
 
   def initialize(website_url)
@@ -59,9 +59,9 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseOpenAiService
   def extract_business_info
     prompt = build_analysis_prompt
 
-    response = client.chat(
+    response = @provider.chat(
       parameters: {
-        model: model,
+        model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
         messages: [{ role: 'user', content: prompt }],
         response_format: { type: 'json_object' },
         temperature: 0.1,

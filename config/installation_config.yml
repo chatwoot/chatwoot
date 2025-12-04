@@ -171,24 +171,65 @@
   type: secret
 # End of Microsoft Email Channel Config
 
-# MARK: Captain Config
-- name: CAPTAIN_OPEN_AI_API_KEY
-  display_title: 'OpenAI API Key'
-  description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
+# MARK: Legacy OpenAI Integration (Hook-based)
+- name: LEGACY_OPENAI_ENDPOINT
+  display_title: 'Legacy OpenAI Endpoint'
+  description: 'API endpoint for legacy OpenAI hook integration (default: https://api.openai.com)'
+  value: 'https://api.openai.com'
+  locked: false
+  type: string
+- name: LEGACY_OPENAI_MODEL
+  display_title: 'Legacy OpenAI Model'
+  description: 'Model for legacy OpenAI hook integration (default: gpt-4o-mini)'
+  value: 'gpt-4o-mini'
+  locked: false
+  type: string
+- name: LEGACY_OPENAI_AGENTS_API_KEY
+  display_title: 'Legacy OpenAI Agents SDK API Key'
+  description: 'API key for AI Agents SDK (used for legacy agent features)'
   locked: false
   type: secret
-- name: CAPTAIN_OPEN_AI_MODEL
-  display_title: 'OpenAI Model'
-  description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4o-mini'
+# End of Legacy OpenAI Integration
+
+# MARK: Captain Config
+- name: CAPTAIN_LLM_PROVIDER
+  display_title: 'LLM Provider'
+  description: 'The LLM provider to use for Captain AI (openai, gemini)'
+  value: 'openai'
   locked: false
-- name: CAPTAIN_OPEN_AI_ENDPOINT
-  display_title: 'OpenAI API Endpoint (optional)'
-  description: 'The OpenAI endpoint configured for use in Captain AI. Default: https://api.openai.com/'
+  type: select
+  options:
+    openai: 'OpenAI'
+    gemini: 'Google Gemini'
+- name: CAPTAIN_LLM_API_KEY
+  display_title: 'LLM API Key'
+  description: 'The API key used to authenticate requests to the LLM provider.'
   locked: false
-- name: CAPTAIN_EMBEDDING_MODEL
-  display_title: 'Embedding Model (optional)'
-  description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
+  type: secret
+- name: CAPTAIN_LLM_MODEL
+  display_title: 'LLM Chat Model'
+  description: 'The model to use for chat/text generation (Defaults: gpt-4o-mini for OpenAI, gemini-2.5-flash for Gemini)'
+  value: ''
   locked: false
+  type: string
+- name: CAPTAIN_LLM_EMBEDDING_MODEL
+  display_title: 'LLM Embedding Model'
+  description: 'The model to use for generating embeddings (Defaults: text-embedding-3-small for OpenAI, text-embedding-004 for Gemini)'
+  value: ''
+  locked: false
+  type: string
+- name: CAPTAIN_LLM_TRANSCRIPTION_MODEL
+  display_title: 'LLM Transcription Model'
+  description: 'The model to use for audio transcription (Defaults: whisper-1 for OpenAI, gemini-2.5-flash for Gemini)'
+  value: ''
+  locked: false
+  type: string
+- name: CAPTAIN_LLM_ENDPOINT
+  display_title: 'LLM API Endpoint'
+  description: 'The endpoint configured for use in Captain AI. Defaults to the selected LLM provider endpoint'
+  value: ''
+  locked: false
+  type: string
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'

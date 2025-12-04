@@ -1,6 +1,6 @@
 require 'openai'
 
-class Captain::Copilot::ChatService < Llm::BaseOpenAiService
+class Captain::Copilot::ChatService < Llm::BaseService
   include Captain::ChatHelper
 
   attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
@@ -14,6 +14,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @copilot_thread = nil
     @previous_history = []
     @conversation_id = config[:conversation_id]
+    @model = Captain::Config.config_for(Captain::Config.current_provider)[:chat_model]
     setup_user(config)
     setup_message_history(config)
     register_tools
