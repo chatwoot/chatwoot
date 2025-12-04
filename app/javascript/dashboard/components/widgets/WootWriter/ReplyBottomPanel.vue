@@ -126,6 +126,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showEmailPreview: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'replaceText',
@@ -134,6 +138,7 @@ export default {
     'selectWhatsappTemplate',
     'selectContentTemplate',
     'toggleQuotedReply',
+    'openEmailPreview',
   ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -391,6 +396,15 @@ export default {
         :is-private-note="isOnPrivateNote"
         :message="message"
         @replace-text="replaceText"
+      />
+      <NextButton
+        v-if="showEmailPreview"
+        v-tooltip.top-end="$t('INBOX.ACTION_HEADER.PREVIEW')"
+        icon="i-lucide-eye"
+        slate
+        faded
+        sm
+        @click="$emit('openEmailPreview')"
       />
       <transition name="modal-fade">
         <div

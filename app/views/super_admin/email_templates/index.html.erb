@@ -1,0 +1,117 @@
+<% content_for(:title) do %>
+  Email Templates
+<% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
+</header>
+
+<section class="main-content__body main-content__body--flush">
+  <!-- Global Templates -->
+  <div class="p-4">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold text-slate-800">Global Templates</h2>
+      <%= link_to 'New Global Template', new_super_admin_global_email_template_path, class: "button" %>
+    </div>
+    <table class="collection-data" aria-labelledby="page-title">
+      <thead>
+        <tr>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Friendly Name</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Name</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Type</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Description</th>
+          <th class="cell-label text-right" scope="col" role="columnheader">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @global_templates.each do |template| %>
+          <tr class="js-table-row" tabindex="0">
+            <td class="cell-data cell-data--string"><%= template.friendly_name %></td>
+            <td class="cell-data cell-data--string"><%= template.name %></td>
+            <td class="cell-data cell-data--string"><%= template.template_type %></td>
+            <td class="cell-data cell-data--string"><%= truncate(template.description, length: 50) %></td>
+            <td class="cell-data text-right">
+              <%= link_to t("administrate.actions.show"), super_admin_global_email_template_path(template), class: "button button--small mr-2", style: "background-color: #3b82f6; color: white;" %>
+              <%= link_to t("administrate.actions.edit"), edit_super_admin_global_email_template_path(template), class: "button button--small mr-2", style: "background-color: #f59e0b; color: white;" %>
+              <%= link_to t("administrate.actions.destroy"), super_admin_global_email_template_path(template), class: "button button--small", style: "background-color: #ef4444; color: white;", method: :delete, data: { confirm: t("administrate.actions.confirm") } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Account Templates -->
+  <div class="p-4 border-t border-slate-200">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold text-slate-800">Account Templates</h2>
+      <%= link_to 'New Account Template', new_super_admin_account_email_template_path, class: "button" %>
+    </div>
+    <table class="collection-data" aria-labelledby="page-title">
+      <thead>
+        <tr>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Friendly Name</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Name</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Type</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Description</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Account</th>
+          <th class="cell-label text-right" scope="col" role="columnheader">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @account_templates.each do |template| %>
+          <tr class="js-table-row" tabindex="0">
+            <td class="cell-data cell-data--string"><%= template.friendly_name %></td>
+            <td class="cell-data cell-data--string"><%= template.name %></td>
+            <td class="cell-data cell-data--string"><%= template.template_type %></td>
+            <td class="cell-data cell-data--string"><%= truncate(template.description, length: 50) %></td>
+            <td class="cell-data cell-data--string"><%= template.account.name %></td>
+            <td class="cell-data text-right">
+              <%= link_to t("administrate.actions.show"), super_admin_account_email_template_path(template), class: "button button--small mr-2", style: "background-color: #3b82f6; color: white;" %>
+              <%= link_to t("administrate.actions.edit"), edit_super_admin_account_email_template_path(template), class: "button button--small mr-2", style: "background-color: #f59e0b; color: white;" %>
+              <%= link_to t("administrate.actions.destroy"), super_admin_account_email_template_path(template), class: "button button--small", style: "background-color: #ef4444; color: white;", method: :delete, data: { confirm: t("administrate.actions.confirm") } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Advanced Templates -->
+  <div class="p-4 border-t border-slate-200">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold text-slate-800">Advanced Templates</h2>
+      <%= link_to 'New Advanced Template', new_super_admin_advanced_email_template_path, class: "button" %>
+    </div>
+    <table class="collection-data" aria-labelledby="page-title">
+      <thead>
+        <tr>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Friendly Name</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Name</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Type</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Description</th>
+          <th class="cell-label cell-label--string" scope="col" role="columnheader">Account</th>
+          <th class="cell-label text-right" scope="col" role="columnheader">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @advanced_templates.each do |template| %>
+          <tr class="js-table-row" tabindex="0">
+            <td class="cell-data cell-data--string"><%= template.friendly_name %></td>
+            <td class="cell-data cell-data--string"><%= template.name %></td>
+            <td class="cell-data cell-data--string"><%= template.template_type %></td>
+            <td class="cell-data cell-data--string"><%= truncate(template.description, length: 50) %></td>
+            <td class="cell-data cell-data--string"><%= template.account.name %></td>
+            <td class="cell-data text-right">
+              <%= link_to t("administrate.actions.show"), super_admin_advanced_email_template_path(template), class: "button button--small mr-2", style: "background-color: #3b82f6; color: white;" %>
+              <%= link_to t("administrate.actions.edit"), edit_super_admin_advanced_email_template_path(template), class: "button button--small mr-2", style: "background-color: #f59e0b; color: white;" %>
+              <%= link_to t("administrate.actions.destroy"), super_admin_advanced_email_template_path(template), class: "button button--small", style: "background-color: #ef4444; color: white;", method: :delete, data: { confirm: t("administrate.actions.confirm") } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

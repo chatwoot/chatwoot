@@ -137,6 +137,12 @@ class ConversationApi extends ApiClient {
     return axios.get(`${this.url}/${conversationId}/inbox_assistant`);
   }
 
+  getEmailPreview(conversationId, messageData) {
+    return axios.get(`${this.url}/${conversationId}/email_preview`, {
+      params: messageData,
+    });
+  }
+
   delete(conversationId) {
     return axios.delete(`${this.url}/${conversationId}`);
   }

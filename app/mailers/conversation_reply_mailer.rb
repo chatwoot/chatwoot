@@ -6,7 +6,6 @@ class ConversationReplyMailer < ApplicationMailer
   include ConversationReplyMailerHelper
   include ReferencesHeaderBuilder
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
-  layout :choose_layout
 
   def reply_with_summary(conversation, last_queued_id)
     return unless smtp_config_set_or_development?
@@ -200,11 +199,5 @@ class ConversationReplyMailer < ApplicationMailer
   def inbound_email_enabled?
     @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && @account.inbound_email_domain
                                                                                       .present? && @account.support_email.present?
-  end
-
-  def choose_layout
-    return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
-
-    'mailer/base'
   end
 end

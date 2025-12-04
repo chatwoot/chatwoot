@@ -1,0 +1,57 @@
+{
+  "EMAIL_TEMPLATES": {
+    "HEADER": "Email Templates",
+    "DESCRIPTION": "Select and activate your assigned email templates",
+    "LOADING": "Loading email templates...",
+    "NO_TEMPLATES": "No email templates assigned to you",
+    "TABLE_HEADER": {
+      "FRIENDLY_NAME": "Friendly Name",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "TYPE": "Type",
+      "STATUS": "Status"
+    },
+    "ACTIVATE": "Activate",
+    "DEACTIVATE": "Deactivate",
+    "ACTIVE": "Active",
+    "FETCH_ERROR": "Could not load email templates. Please try again.",
+    "ACTIVATE_SUCCESS": "Template activated successfully",
+    "ACTIVATE_ERROR": "Could not activate template. Please try again.",
+    "DEACTIVATE_SUCCESS": "Template deactivated successfully",
+    "DEACTIVATE_ERROR": "Could not deactivate template. Please try again."
+  },
+  "USER_ASSIGNMENTS": {
+    "HEADER": "Assign Email Templates",
+    "DESCRIPTION": "Assign email templates to users in your account",
+    "LOADING": "Loading assignments...",
+    "NO_ASSIGNMENTS": "No email templates have been assigned yet",
+    "TABLE_HEADER": {
+      "USER": "User",
+      "EMAIL": "Email",
+      "TEMPLATE": "Template",
+      "DESCRIPTION": "Description",
+      "STATUS": "Status"
+    },
+    "ADD_BUTTON": "Assign Template",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "DELETE": "Remove Assignment",
+    "FETCH_ERROR": "Could not load assignments. Please try again.",
+    "DELETE_SUCCESS": "Assignment removed successfully",
+    "DELETE_ERROR": "Could not remove assignment. Please try again.",
+    "DELETE_CONFIRM_TITLE": "Remove Assignment",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove",
+    "DELETE_CONFIRM_YES": "Yes, Remove",
+    "DELETE_CONFIRM_NO": "Cancel",
+    "CREATE_SUCCESS": "Assignment created successfully",
+    "CREATE_ERROR": "Could not create assignment. Please try again.",
+    "ADD_MODAL": {
+      "TITLE": "Assign Email Template",
+      "SELECT_USER": "Select User",
+      "SELECT_TEMPLATE": "Select Template",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Assign"
+    }
+  }
+}
+
