@@ -18,11 +18,27 @@ class Api::V1::Accounts::ContestsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def report
+    customer_data = contest_customer_client.report(
+      contest_id: params[:contest_id],
+      from_date: params[:from_date],
+      to_date: params[:to_date]
+    )
+    render json: { data: customer_data }
+  end
+
   private
 
   def contest_client
     dealership_id = params[:dealership_id].presence || current_account&.dealership_id
     @contest_client ||= ::Contests::ContestService.new(dealership_id:)
+  end
+
+  def contest_customer_client
+    dealership_id = params[:dealership_id].presence || current_account&.dealership_id
+    @contest_customer_client ||= ::Contests::ContestCustomersService.new(
+      dealership_id: dealership_id
+    )
   end
 
   def contest_params

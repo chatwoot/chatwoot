@@ -25,6 +25,10 @@ class ContestsAPI extends ApiClient {
       params,
     });
   }
+
+  report(params = {}) {
+    return window.axios.get(`${this.url}/report`, { params });
+  }
 }
 
 export default new ContestsAPI();
