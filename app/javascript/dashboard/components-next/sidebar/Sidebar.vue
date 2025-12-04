@@ -554,12 +554,6 @@ const menuItems = computed(() => {
           to: accountScopedRoute('assign_email_templates_list'),
         },
         {
-          name: 'Settings AI Prompts',
-          label: t('SIDEBAR.AI_PROMPTS'),
-          icon: 'i-lucide-bot',
-          to: accountScopedRoute('ai_prompts_list'),
-        },
-        {
           name: 'Settings Integrations',
           label: t('SIDEBAR.INTEGRATIONS'),
           icon: 'i-lucide-blocks',

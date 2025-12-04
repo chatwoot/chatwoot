@@ -140,8 +140,11 @@ export const actions = {
     }
   },
 
-  limits: async ({ commit }) => {
+  limits: async ({ commit, rootGetters }) => {
     try {
+      const { isEnterprise } = rootGetters['globalConfig/get'];
+      if (!isEnterprise) return;
+
       const response = await EnterpriseAccountAPI.getLimits();
       commit(types.default.SET_ACCOUNT_LIMITS, response.data);
     } catch (error) {
