@@ -166,18 +166,6 @@ class ConversationReplyMailer < ApplicationMailer
     @account.support_email
   end
 
-  def preload_messages(messages)
-    records = Array(messages).compact
-    return records if records.empty?
-
-    ActiveRecord::Associations::Preloader.new(
-      records: records,
-      associations: [:sender, :attachments, { conversation: :inbox }]
-    ).call
-
-    records
-  end
-
   def custom_message_id
     last_message = @message || @messages&.last
 
@@ -229,22 +217,6 @@ class ConversationReplyMailer < ApplicationMailer
   def inbound_email_enabled?
     @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && @account.inbound_email_domain
                                                                                       .present? && @account.support_email.present?
-  end
-
-  def filtered_recap_messages(messages)
-    Array(messages).select(&:email_reply_summarizable?).reject(&:private?)
-  end
-
-  def recap_messages_for_email_reply(message)
-    return [] unless message&.id
-
-    recap_messages = @conversation.messages
-                                  .where('id < ?', message.id)
-                                  .order(id: :desc)
-                                  .limit(RECAP_LIMIT)
-                                  .to_a
-    recap_messages.reverse!
-    recap_messages
   end
 
   def choose_layout
