@@ -81,7 +81,7 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       end
 
       it 'handles the error and returns empty array' do
-        expect(Rails.logger).to receive(:error).with('OpenAI API Error: API Error')
+        expect(Rails.logger).to receive(:error).with('LLM API Error: API Error')
         expect(service.generate).to eq([])
       end
     end

@@ -1,11 +1,4 @@
-class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseOpenAiService
-  def initialize
-    super()
-
-    defaults = LlmConstants.current_defaults
-    @model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
-  end
-
+class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseService
   def evaluate(content)
     return default_evaluation if content.blank?
 
@@ -23,9 +16,9 @@ class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseOpenAiServic
 
   def send_to_llm(content)
     Rails.logger.info('Sending content to LLM for security evaluation')
-    @client.chat(
+    @provider.chat(
       parameters: {
-        model: @model,
+        model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
         messages: llm_messages(content),
         response_format: { type: 'json_object' }
       }

@@ -7,7 +7,7 @@ module Captain::ChatHelper
 
     with_agent_session do
       response = instrument_llm_call(instrumentation_params) do
-        @client.chat(
+        @provider.chat(
           parameters: chat_parameters
         )
       end
@@ -35,7 +35,7 @@ module Captain::ChatHelper
 
   def chat_parameters
     {
-      model: @model,
+      model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
       messages: @messages,
       tools: @tool_registry&.registered_tools || [],
       response_format: { type: 'json_object' },

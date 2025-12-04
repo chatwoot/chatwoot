@@ -43,8 +43,7 @@ module Concerns::Agentable
   end
 
   def agent_model
-    defaults = LlmConstants.current_defaults
-    InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
+    Captain::Config.config_for(Captain::Config.current_provider)[:chat_model]
   end
 
   def agent_response_schema

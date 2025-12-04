@@ -1,8 +1,3 @@
-# ============================================================================
-# MARK: TO BE DELETED
-# This file will be replaced by new provider abstraction implementation.
-# ============================================================================
-
 require 'agents'
 class Captain::Agent
   attr_reader :name, :tools, :prompt, :persona, :goal, :secrets
@@ -13,7 +8,7 @@ class Captain::Agent
     @tools = prepare_tools(config[:tools] || [])
     @messages = config[:messages] || []
     @max_iterations = config[:max_iterations] || 10
-    @llm = Captain::LlmService.new(api_key: InstallationConfig.find_by(name: 'CAPTAIN_LLM_API_KEY')&.value)
+    @provider = Captain::Providers::Factory.create
     @logger = Rails.logger
 
     @logger.info(@prompt)
@@ -25,7 +20,7 @@ class Captain::Agent
     @max_iterations.times do |iteration|
       push_to_messages(role: 'system', content: 'Provide a final answer') if iteration == @max_iterations - 1
 
-      result = @llm.call(@messages, functions)
+      result = call_provider
       handle_llm_result(result)
 
       break if result[:stop]
@@ -138,5 +133,44 @@ class Captain::Agent
   def push_to_messages(message)
     @logger.info("\n\n\nMessage: #{message}\n\n\n")
     @messages << message
+  end
+
+  def call_provider
+    response = @provider.chat(parameters: {
+                                model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
+                                messages: @messages,
+                                tools: functions
+                              })
+
+    parse_provider_response(response)
+  end
+
+  def parse_provider_response(response)
+    choice = response['choices'][0]
+    message = choice['message']
+
+    if message['tool_calls']&.any?
+      # Tool call response
+      {
+        tool_call: message['tool_calls'][0],
+        output: nil,
+        stop: false
+      }
+    else
+      # Regular response - try to parse as JSON for stop signal
+      content = message['content']
+      begin
+        parsed = JSON.parse(content)
+        {
+          output: parsed['result'] || content,
+          stop: parsed['stop'] || false
+        }
+      rescue JSON::ParserError
+        {
+          output: content,
+          stop: false
+        }
+      end
+    end
   end
 end

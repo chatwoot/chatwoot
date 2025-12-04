@@ -60,20 +60,33 @@ module Enterprise::Concerns::Article
     SYSTEM_PROMPT_MESSAGE
   end
 
-  def generate_article_search_terms # rubocop:disable Metrics/AbcSize
-    messages = [
-      { role: 'system', content: article_to_search_terms_prompt },
-      { role: 'user', content: "title: #{title} \n description: #{description} \n content: #{content}" }
-    ]
-    headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{InstallationConfig.find_by(name: 'CAPTAIN_LLM_API_KEY')&.value}" }
-    defaults = LlmConstants.current_defaults
-    model = InstallationConfig.find_by(name: 'CAPTAIN_LLM_MODEL')&.value.presence || defaults[:chat_model]
+  def generate_article_search_terms
+    return [] if content.blank?
 
-    body = { model: model, messages: messages, response_format: { type: 'json_object' } }.to_json
-    Rails.logger.info "Requesting Chat GPT with body: #{body}"
-    response = HTTParty.post(openai_api_url, headers: headers, body: body)
-    Rails.logger.info "Chat GPT response: #{response.body}"
-    JSON.parse(response.parsed_response['choices'][0]['message']['content'])['search_terms']
+    provider = Captain::Providers::Factory.create
+
+    response = provider.chat(
+      parameters: {
+        model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
+        messages: [
+          {
+            role: 'system',
+            content: 'Generate 3-5 search terms for this article. Return only a JSON object with a "terms" array.'
+          },
+          {
+            role: 'user',
+            content: "Title: #{title}\\n\\nContent: #{content}"
+          }
+        ],
+        response_format: { type: 'json_object' }
+      }
+    )
+
+    content_response = response.dig('choices', 0, 'message', 'content')
+    JSON.parse(content_response)['terms'] || []
+  rescue StandardError => e
+    Rails.logger.error "Article search terms generation failed: #{e.message}"
+    []
   end
 
   private

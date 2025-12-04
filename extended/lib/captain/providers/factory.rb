@@ -1,24 +1,16 @@
 # frozen_string_literal: true
 
-# Factory for creating LLM provider instances
-# Automatically selects the correct provider based on configuration
 class Captain::Providers::Factory
-  class << self
-    # Create a provider instance based on configuration
-    # @param config [Hash, nil] Optional configuration hash. If nil, uses Captain::Config.current_config
-    # @return [Captain::Service] Provider instance (OpenaiProvider or GeminiProvider)
-    # @raise [ArgumentError] If provider is unknown
-    def create(config = nil)
-      config ||= Captain::Config.current_config
+  def self.create
+    provider_name = Captain::Config.current_provider
 
-      case config[:provider]
-      when 'openai'
-        Captain::Providers::OpenaiProvider.new(config)
-      when 'gemini'
-        Captain::Providers::GeminiProvider.new(config)
-      else
-        raise ArgumentError, "Unknown provider: #{config[:provider]}. Supported: openai, gemini"
-      end
+    case provider_name.to_s.downcase
+    when 'openai', ''
+      Captain::Providers::OpenaiProvider.new
+    when 'gemini'
+      Captain::Providers::GeminiProvider.new
+    else
+      raise ArgumentError, "Unknown LLM provider: #{provider_name}"
     end
   end
 end

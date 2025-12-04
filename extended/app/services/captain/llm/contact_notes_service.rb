@@ -1,4 +1,4 @@
-class Captain::Llm::ContactNotesService < Llm::BaseOpenAiService
+class Captain::Llm::ContactNotesService < Llm::BaseService
   def initialize(assistant, conversation)
     super()
     @assistant = assistant
@@ -18,10 +18,10 @@ class Captain::Llm::ContactNotesService < Llm::BaseOpenAiService
   attr_reader :content
 
   def generate_notes
-    response = @client.chat(parameters: chat_parameters)
+    response = @provider.chat(parameters: chat_parameters)
     parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error "LLM API Error: #{e.message}"
     []
   end
 
@@ -30,7 +30,7 @@ class Captain::Llm::ContactNotesService < Llm::BaseOpenAiService
     prompt = Captain::Llm::SystemPromptsService.notes_generator(account_language)
 
     {
-      model: @model,
+      model: Captain::Config.config_for(Captain::Config.current_provider)[:chat_model],
       response_format: { type: 'json_object' },
       messages: [
         {

@@ -1,5 +1,3 @@
-# MARK: TO BE DELETED - Will be replaced by new provider abstraction
-
 require 'agents'
 
 class Captain::Tools::HttpTool < Agents::Tool

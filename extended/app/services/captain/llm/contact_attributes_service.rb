@@ -1,33 +1,15 @@
-class Captain::Llm::ContactAttributesService < Llm::BaseOpenAiService
-  def initialize(assistant, conversation)
-    super()
-    @assistant = assistant
-    @conversation = conversation
-    @contact = conversation.contact
-    @content = "#Contact\n\n#{@contact.to_llm_text} \n\n#Conversation\n\n#{@conversation.to_llm_text}"
-  end
+class Captain::Llm::ContactAttributesService < Llm::BaseService
+  pattr_initialize [:contact!, :conversation!]
 
-  def generate_and_update_attributes
+  def perform
+    return { attributes: [] } if conversation.messages.empty?
+
     generate_attributes
-    # to implement the update attributes
   end
 
   private
 
-  attr_reader :content
-
   def generate_attributes
-    response = @client.chat(parameters: chat_parameters)
-    parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
-    []
-  end
-
-  def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.attributes_generator
-    {
-      model: @model,
       response_format: { type: 'json_object' },
       messages: [
         {

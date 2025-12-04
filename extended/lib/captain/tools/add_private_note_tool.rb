@@ -1,4 +1,3 @@
-# MARK: TO BE DELETED - Will be replaced by new provider abstraction
 class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
   description 'Add a private note to a conversation'
   param :note, type: 'string', desc: 'The private note content'

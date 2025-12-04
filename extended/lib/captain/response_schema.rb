@@ -1,8 +1,3 @@
-# ============================================================================
-# MARK: TO BE DELETED
-# This file will be replaced by new provider abstraction implementation.
-# ============================================================================
-
 require 'ruby_llm'
 
 # TODO: Wrap the schema lib under ai-agents
