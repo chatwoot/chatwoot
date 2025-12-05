@@ -96,7 +96,7 @@ module Stark
                   .reorder(created_at: :desc)
                   .limit(10)
                   .map do |message|
-        {
+        message_data = {
           conversation_id: message.conversation_id,
           message_type: message.message_type,
           content: message.content,
@@ -106,6 +106,17 @@ module Stark
           is_story_mentioned: is_story_mentioned?(message),
           metadata: message.metadata
         }
+
+        contact = message.sender.is_a?(Contact) ? message.sender : conversation.contact
+        if contact
+          instagram_name = extract_instagram_name(contact)
+          facebook_name = extract_facebook_name(contact, conversation.inbox.platform_name)
+
+          message_data[:instagram_name] = instagram_name if instagram_name.present?
+          message_data[:facebook_name] = facebook_name if facebook_name.present?
+        end
+
+        message_data
       end
     end
 
@@ -194,11 +205,8 @@ module Stark
     end
 
     def extract_facebook_name(contact, platform)
-      # For Facebook conversations, use contact.name directly since
-      # Facebook profile name is stored in the name field
       return contact.name if platform == 'Facebook'
 
-      # For other platforms, try to get from social_profiles if available
       contact.additional_attributes&.dig('social_profiles', 'facebook')
     end
   end
