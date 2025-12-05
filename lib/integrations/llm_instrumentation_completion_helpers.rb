@@ -82,9 +82,7 @@ module Integrations::LlmInstrumentationCompletionHelpers
     error = result[:error] || result['error']
     return if error.blank?
 
-    error_code = result[:error_code] || result['error_code']
     span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, error.to_json)
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR_CODE, error_code) if error_code
-    span.status = OpenTelemetry::Trace::Status.error("API Error: #{error_code}")
+    span.status = OpenTelemetry::Trace::Status.error(error.to_s.truncate(1000))
   end
 end
