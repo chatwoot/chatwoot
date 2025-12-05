@@ -220,33 +220,66 @@ class RequestAiResponseJob < ApplicationJob
           message.update!(content: transcribed_text)
         end
 
-        # Create AI message with appropriate content
+        # Determine message content
         message_content = ai_reply_content || transcribed_text || 'Audio response generated'
 
-        ai_message = ::Messages::MessageBuilder.new(
-          ai_agent,
-          conversation,
-          { content: message_content, message_type: :outgoing }
-        ).perform
+        # Hide typing indicator before sending response
+        hide_ai_typing_indicator(conversation, ai_agent)
 
-        # Handle audio response if present
-        if audio_response.present? && ai_message.persisted?
-          Rails.logger.info '[AI_JOB] 🎵 Processing audio response'
-          attach_audio_response_to_message(ai_message, audio_response, transcribed_text)
-        end
+        # Handle audio + text response: Send both text and audio as separate messages
+        # WhatsApp doesn't support captions on audio messages, so we send text first, then audio
+        if audio_response.present? && message_content.present?
+          Rails.logger.info '[AI_JOB] 🎵 Audio + Text response detected, sending both messages'
 
-        # Send the AI response back through the appropriate channel
-        if ai_message.persisted?
-          Rails.logger.info "[AI_JOB] ✅ AI message #{ai_message.id} created successfully, sending to channel"
+          # First: Create and send text message
+          text_message = ::Messages::MessageBuilder.new(
+            ai_agent,
+            conversation,
+            { content: message_content, message_type: :outgoing }
+          ).perform
 
-          # Hide typing indicator before sending response
-          hide_ai_typing_indicator(conversation, ai_agent)
+          if text_message.persisted?
+            Rails.logger.info "[AI_JOB] ✅ Text message #{text_message.id} created, sending to channel"
+            send_ai_response_to_channel(text_message)
+          end
 
-          send_ai_response_to_channel(ai_message)
-          Rails.logger.info "[AI_JOB] ✅ RequestAiResponseJob completed for message #{message.id}"
+          # Second: Create and send audio message (with minimal content for DB storage)
+          audio_message = ::Messages::MessageBuilder.new(
+            ai_agent,
+            conversation,
+            { content: '🎵', message_type: :outgoing }
+          ).perform
+
+          if audio_message.persisted?
+            Rails.logger.info "[AI_JOB] 🎵 Audio message #{audio_message.id} created, attaching audio"
+            attach_audio_response_to_message(audio_message, audio_response, nil)
+            send_ai_response_to_channel(audio_message)
+            Rails.logger.info "[AI_JOB] ✅ Audio message #{audio_message.id} sent to channel"
+          end
+
+          Rails.logger.info "[AI_JOB] ✅ RequestAiResponseJob completed for message #{message.id} (text + audio)"
         else
-          Rails.logger.error "[AI_JOB] ❌ Failed to persist AI message for original message #{message.id}"
-          hide_ai_typing_indicator(conversation, ai_agent)
+          # Standard flow: Single message (text only or audio only)
+          ai_message = ::Messages::MessageBuilder.new(
+            ai_agent,
+            conversation,
+            { content: message_content, message_type: :outgoing }
+          ).perform
+
+          # Handle audio-only response
+          if audio_response.present? && ai_message.persisted?
+            Rails.logger.info '[AI_JOB] 🎵 Processing audio-only response'
+            attach_audio_response_to_message(ai_message, audio_response, nil)
+          end
+
+          # Send the AI response back through the appropriate channel
+          if ai_message.persisted?
+            Rails.logger.info "[AI_JOB] ✅ AI message #{ai_message.id} created successfully, sending to channel"
+            send_ai_response_to_channel(ai_message)
+            Rails.logger.info "[AI_JOB] ✅ RequestAiResponseJob completed for message #{message.id}"
+          else
+            Rails.logger.error "[AI_JOB] ❌ Failed to persist AI message for original message #{message.id}"
+          end
         end
       else
         Rails.logger.error "Failed to get response from AI agent for conversation #{conversation.id}: #{response.code} #{response.body}"
@@ -613,20 +646,25 @@ class RequestAiResponseJob < ApplicationJob
     Rails.logger.error "[AI_JOB] ❌ Failed to hide typing indicator: #{e.message}"
   end
 
-  # Start a background thread that sends typing_on events every 25 seconds
+  # Start a background thread that sends typing_on events every 20 seconds
   # This keeps the typing indicator alive during long AI requests
-  # Frontend auto-cancels typing after 30 seconds, so 25s interval ensures continuity
+  # Frontend auto-cancels typing after 30 seconds, WhatsApp after 25 seconds
   def start_typing_heartbeat(conversation, ai_agent)
     return nil unless conversation && ai_agent&.is_ai?
 
     Rails.logger.info "[AI_JOB] 💓 Starting typing heartbeat for conversation #{conversation.id}"
 
+    # Send initial WhatsApp typing indicator
+    send_whatsapp_typing_indicator(conversation)
+
     Thread.new do
       loop do
-        sleep 25 # Send heartbeat every 25 seconds (before 30s frontend timeout)
+        sleep 20 # Send heartbeat every 20 seconds (before 25s WhatsApp timeout)
 
         begin
           Rails.logger.info "[AI_JOB] 💓 Sending typing heartbeat for conversation #{conversation.id}"
+
+          # Send typing indicator to UI (WebSocket)
           Rails.configuration.dispatcher.dispatch(
             CONVERSATION_TYPING_ON,
             Time.zone.now,
@@ -634,6 +672,9 @@ class RequestAiResponseJob < ApplicationJob
             user: ai_agent,
             is_private: false
           )
+
+          # Send typing indicator to WhatsApp if applicable
+          send_whatsapp_typing_indicator(conversation)
         rescue StandardError => e
           Rails.logger.error "[AI_JOB] ❌ Typing heartbeat error: #{e.message}"
           break
@@ -654,5 +695,25 @@ class RequestAiResponseJob < ApplicationJob
     thread.join(1) # Wait up to 1 second for thread to terminate
   rescue StandardError => e
     Rails.logger.error "[AI_JOB] ❌ Failed to stop typing heartbeat: #{e.message}"
+  end
+
+  # Send typing indicator to WhatsApp if the conversation is on WhatsApp channel
+  def send_whatsapp_typing_indicator(conversation)
+    inbox = conversation.inbox
+    return unless inbox.channel_type == 'Channel::Whatsapp'
+
+    channel = inbox.channel
+    return unless channel.respond_to?(:provider_name) && channel.provider_name == 'whatsapp_cloud'
+
+    phone_number = conversation.contact_inbox.source_id
+    return if phone_number.blank?
+
+    Rails.logger.info "[AI_JOB] 📱 Sending WhatsApp typing indicator to #{phone_number}"
+
+    # Use the WhatsApp Cloud Service to send typing indicator
+    service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
+    service.send_typing_indicator(phone_number)
+  rescue StandardError => e
+    Rails.logger.error "[AI_JOB] ❌ Failed to send WhatsApp typing indicator: #{e.message}"
   end
 end
