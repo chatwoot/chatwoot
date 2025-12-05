@@ -65,7 +65,7 @@ module Stark
     end
 
     def build_request_payload(conversation, content, message = nil)
-      payload = {
+      {
         question: content,
         is_image_attached: message_has_image?(message),
         is_story_mentioned: is_story_mentioned?(message),
@@ -73,20 +73,10 @@ module Stark
         dealership_id: conversation.account&.dealership_id,
         account_id: conversation.account_id,
         customer_id: conversation.contact&.id,
+        customer_name: extract_customer_name(conversation.contact, conversation.inbox.platform_name),
         platform: conversation.inbox.platform_name,
         recent_messages: format_recent_messages(conversation)
       }
-
-      contact = conversation.contact
-      if contact
-        instagram_name = extract_instagram_name(contact)
-        facebook_name = extract_facebook_name(contact, conversation.inbox.platform_name)
-
-        payload[:instagram_name] = instagram_name if instagram_name.present?
-        payload[:facebook_name] = facebook_name if facebook_name.present?
-      end
-
-      payload
     end
 
     def format_recent_messages(conversation)
@@ -100,21 +90,13 @@ module Stark
           conversation_id: message.conversation_id,
           message_type: message.message_type,
           content: message.content,
+          customer_name: extract_customer_name(message.sender, conversation.inbox.platform_name),
           created_at: message.created_at,
           is_follow_up_message: message.content_attributes['follow_up'] || false,
           is_image_attached: message_has_image?(message),
           is_story_mentioned: is_story_mentioned?(message),
           metadata: message.metadata
         }
-
-        contact = message.sender.is_a?(Contact) ? message.sender : conversation.contact
-        if contact
-          instagram_name = extract_instagram_name(contact)
-          facebook_name = extract_facebook_name(contact, conversation.inbox.platform_name)
-
-          message_data[:instagram_name] = instagram_name if instagram_name.present?
-          message_data[:facebook_name] = facebook_name if facebook_name.present?
-        end
 
         message_data
       end
@@ -199,15 +181,30 @@ module Stark
       )
     end
 
-    def extract_instagram_name(contact)
-      contact.additional_attributes&.dig('social_instagram_user_name') ||
-        contact.additional_attributes&.dig('social_profiles', 'instagram')
-    end
+    def extract_customer_name(contact, platform)
+      return nil if contact.nil?
 
-    def extract_facebook_name(contact, platform)
-      return contact.name if platform == 'Facebook'
+      # Website: Only send name if contact has email (meaning they entered it and name was updated from random)
+      if platform == 'Website'
+        return contact.name if contact.email.present?
+        return nil
+      end
 
-      contact.additional_attributes&.dig('social_profiles', 'facebook')
+      # Instagram: Prefer username over display name
+      if platform == 'Instagram'
+        return contact.additional_attributes&.dig('social_instagram_user_name') ||
+               contact.additional_attributes&.dig('social_profiles', 'instagram') ||
+               contact.name
+      end
+
+      # Facebook: Use name (could also check social_profiles if available)
+      if platform == 'Facebook'
+        return contact.additional_attributes&.dig('social_profiles', 'facebook') ||
+               contact.name
+      end
+
+      # All other platforms: Use contact name
+      contact.name
     end
   end
 end
