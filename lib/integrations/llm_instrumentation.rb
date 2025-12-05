@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 require 'opentelemetry_config'
-require_relative 'llm_instrumentation_constants'
-require_relative 'llm_instrumentation_helpers'
-require_relative 'llm_instrumentation_spans'
 
 module Integrations::LlmInstrumentation
   include Integrations::LlmInstrumentationConstants
@@ -59,18 +56,6 @@ module Integrations::LlmInstrumentation
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
       result
     end
-  end
-
-  def determine_provider(model_name)
-    return 'openai' if model_name.blank?
-
-    model = model_name.to_s.downcase
-
-    PROVIDER_PREFIXES.each do |provider, prefixes|
-      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
-    end
-
-    'openai'
   end
 
   def instrument_embedding_call(params)
