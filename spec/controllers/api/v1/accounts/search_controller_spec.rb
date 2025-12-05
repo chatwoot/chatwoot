@@ -119,6 +119,20 @@ RSpec.describe 'Search', type: :request do
         expect(response_data[:payload].keys).to contain_exactly(:messages)
         expect(response_data[:payload][:messages].length).to eq 2
       end
+
+      it 'returns 422 when search service raises ArgumentError' do
+        error_message = 'Search is limited to the last 90 days'
+        allow_any_instance_of(SearchService).to receive(:perform).and_raise(ArgumentError, error_message) # rubocop:disable RSpec/AnyInstance
+
+        get "/api/v1/accounts/#{account.id}/search/messages",
+            headers: agent.create_new_auth_token,
+            params: { q: 'test' },
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+        expect(response_data[:error]).to eq(error_message)
+      end
     end
   end
 
