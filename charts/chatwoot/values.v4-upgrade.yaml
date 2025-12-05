@@ -1,0 +1,9 @@
+image:
+  repository: chatwoot/chatwoot
+  tag: v4.0.1
+  pullPolicy: IfNotPresent
+
+postgresql:
+  image:
+    registry: ghcr.io
+    repository: chatwoot/pgvector

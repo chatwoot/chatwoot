@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "chatwoot.fullname" . }}
+  creationTimestamp: null
+  labels:
+    app: {{ template "chatwoot.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  {{- with .Values.services.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ports:
+    - name: {{ .Values.services.name | quote}}
+      port: {{ int .Values.services.internalPort }}
+      targetPort: {{ int .Values.services.targetPort }}
+  type: {{ .Values.services.type }}
+  selector:
+    app: {{ template "chatwoot.fullname" . }}
+    role: web
+status:
+  loadBalancer: {}

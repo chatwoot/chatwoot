@@ -1,0 +1,95 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-migrate"
+  labels:
+    app: {{ template "chatwoot.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": {{ .Values.hooks.migrate.hookAnnotation }}
+    "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation"
+    "helm.sh/hook-weight": "-1"
+spec:
+  template:
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      restartPolicy: Never
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector: {{- include "common.tplvalues.render" (dict "value" .Values.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      initContainers:
+      - name: init-postgres
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["/bin/sh"]
+        args:
+          - -c
+          - >-
+            PG_READY="pg_isready -h {{ template "chatwoot.postgresql.host" . }} -p {{ template "chatwoot.postgresql.port" . }}";
+            until $PG_READY;
+            do
+              sleep 2;
+            done;
+            echo "Database ready to accept connections."  ;
+      - name: init-redis
+        image: busybox:1.28
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["sh", "-c", "until nslookup {{ template "chatwoot.redis.host" . }} ; do echo waiting for {{ template "chatwoot.redis.host" . }} ; sleep 2; done;"]
+      containers:
+      - name: "db-migrate-job"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        args:
+        - bundle
+        - exec
+        - rails
+        - db:chatwoot_prepare
+        env:
+        {{- if .Values.postgresql.auth.existingSecret }}
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.postgresql.auth.existingSecret }}
+              key: {{ default "password" .Values.postgresql.auth.secretKeys.adminPasswordKey }}
+        {{- end }}
+        {{- if .Values.redis.auth.existingSecret }}
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.redis.auth.existingSecret }}
+              key: {{ default "password" .Values.redis.auth.existingSecretKey }}
+        {{- end }}
+        envFrom:
+          - secretRef:
+              name: {{ template "chatwoot.fullname" . }}-env
+        {{- if .Values.existingEnvSecret }}
+          - secretRef:
+              name: {{ .Values.existingEnvSecret }}
+        {{- end }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+            - name: cache
+              mountPath: /app/tmp
+          {{- with .Values.extraVolumeMounts }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+      serviceAccountName: {{ include "chatwoot.serviceAccountName" . }}
+      {{- if .Values.securityContext }}
+      securityContext: {{ .Values.securityContext | toYaml | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: cache
+          emptyDir: {}
+      {{- with .Values.extraVolumes }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}

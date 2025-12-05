@@ -1,0 +1,285 @@
+# Default values for chatwoot
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+# Overrides the image tag whose default is the chart appVersion.
+image:
+  repository: ghcr.io/chatwoot-br/chatwoot
+  tag: v4.8
+  pullPolicy: Always
+
+# Set to autoscaling/v2beta2 for older versions of kubernetes that do not have autoscaling/v2 API (pre v1.26)
+# See https://kubernetes.io/docs/reference/using-api/deprecation-guide/#horizontalpodautoscaler-v126
+autoscaling:
+  apiVersion: autoscaling/v2
+
+deploymentStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1        # One pod can be created above desired count
+    maxUnavailable: 1  # One pod can be unavailable during update
+
+web:
+  hpa:
+     # set this to true to enable horizontal pod autoscaling
+     # uncomment values.resources section if hpa is enabled
+    enabled: false
+    cputhreshold: 75
+    minpods: 1
+    maxpods: 10
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  livenessProbe:
+    httpGet:
+      path: /api
+      port: http
+      scheme: HTTP
+    initialDelaySeconds: 15
+    timeoutSeconds: 1
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 5
+  readinessProbe:
+    httpGet:
+      path: /api
+      port: http
+      scheme: HTTP
+    initialDelaySeconds: 10
+    timeoutSeconds: 1
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 3
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 500m
+    #   memory: 512Mi
+    # requests:
+    #   cpu: 250m
+    #   memory: 256Mi
+worker:
+  hpa:
+    # set this to true to enable horizontal pod autoscaling
+    # uncomment values.resources section if hpa is enabled
+    enabled: false
+    cputhreshold: 75
+    minpods: 2
+    maxpods: 10
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 500m
+    #   memory: 512Mi
+    # requests:
+    #   cpu: 250m
+    #   memory: 256Mi
+
+services:
+  name: http
+  internalPort: 3000
+  targetPort: 3000
+  type: ClusterIP
+  annotations: {}
+    # For example
+    #  service.beta.kubernetes.io/aws-load-balancer-type: external
+    #  service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    #  service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  runAsNonRoot: true
+  runAsUser: 1000
+
+ingress:
+  enabled: false
+  # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+  # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+  # ingressClassName: nginx
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: ""
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              port:
+                number: 3000
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+postgresql:
+  enabled: true
+  nameOverride: chatwoot-postgresql
+  image:
+    registry: ghcr.io
+    repository: chatwoot/pgvector
+  auth:
+    username: postgres
+    postgresPassword: postgres
+    database: chatwoot_production
+    # when existingSecret is defined auth.password, auth.PostgressPassword
+    # is ignored.
+    # existingSecret: secret-name
+    # secretKeys:
+    #   adminPasswordKey: postgres-password
+    #   replicationPasswordKey: replication-password
+  # The following variables are only used when internal PG is disabled
+  # postgresqlHost: postgres
+  # postgresqlPort: 5432
+
+redis:
+  enabled: true
+  nameOverride: chatwoot-redis
+  auth:
+    password: redis
+    # when defined the password field is ignored
+    #    existingSecret: secret-name
+    #    existingSecretKey: ""
+  # The following variables are only used when internal Redis is disabled
+  # host: redis
+  # Just omit the password field if your redis cluster doesn't use password
+  # password: redis
+  # port: 6379
+  master:
+    persistence:
+      enabled: true
+      # If change pvc size redis.master.persistence.size: 20Gi
+  replica:
+    replicaCount: 1
+
+# Provide affinity for hooks if needed
+hooks:
+  affinity: {}
+  migrate:
+    env: []
+    resources:
+      limits:
+        memory: 1000Mi
+      requests:
+        memory: 1000Mi
+    # Defaults to performing the DB migration job after the install/upgrade.
+    # Can be overridden to "pre-install,pre-upgrade" with caution to perform migrations that are sometimes required for the deployment to become healthy
+    hookAnnotation: "post-install,post-upgrade"
+
+# ENVIRONMENT VARIABLES
+
+# If set, will apply environment variables found in this secret, after the variables defined in the env key.
+existingEnvSecret: ""
+
+env:
+  FRONTEND_URL: "http://0.0.0.0:3000"
+  # IMPORTANT: Replace this with a secure random key in production
+  # Generate with: openssl rand -hex 64
+  SECRET_KEY_BASE: ""
+
+  DIRECT_UPLOADS_ENABLED: true
+  ACTIVE_STORAGE_SERVICE: s3_compatible
+  STORAGE_BUCKET_NAME: chatwoot
+  STORAGE_REGION: eu
+  #set force_path_style to true if using minio
+  STORAGE_FORCE_PATH_STYLE: true
+
+  MAILER_SENDER_EMAIL: ""
+  SMTP_ADDRESS: ""
+  SMTP_PASSWORD: ""
+  SMTP_USERNAME: ""
+  SMTP_AUTHENTICATION: plain
+  SMTP_ENABLE_STARTTLS_AUTO: true
+  SMTP_OPENSSL_VERIFY_MODE: none
+  SMTP_PORT: 587
+
+  DEFAULT_LOCALE: pt_BR
+  ENABLE_RACK_ATTACK_WIDGET_API: true
+  FB_APP_ID: ""
+  FB_APP_SECRET: ""
+  FB_VERIFY_TOKEN: ""
+  IG_VERIFY_TOKEN: ""
+
+  # https://www.chatwoot.com/docs/self-hosted/deployment/performance/optimizing-configurations
+  WEB_CONCURRENCY: 0
+  RAILS_MIN_THREADS: 5
+  RAILS_MAX_THREADS: 5
+  SIDEKIQ_CONCURRENCY: 10
+
+  DISABLE_TELEMETRY: true
+
+  # DEFAULTS
+  ANDROID_BUNDLE_ID: com.chatwoot.app
+  ANDROID_SHA256_CERT_FINGERPRINT: "AC:73:8E:DE:EB:56:EA:CC:10:87:02:A7:65:37:7B:38:D4:5D:D4:53:F8:3B:FB:D3:C6:28:64:1D:AA:08:1E:D8"
+  ASSET_CDN_HOST: ""
+  AWS_ACCESS_KEY_ID: ""
+  AWS_REGION: ""
+  AWS_SECRET_ACCESS_KEY: ""
+  ENABLE_ACCOUNT_SIGNUP: false
+  FORCE_SSL: false
+  INSTALLATION_ENV: helm
+  IOS_APP_ID: 6C953F3RX2.com.chatwoot.app
+  LOG_LEVEL: warn
+  LOG_SIZE: 500
+  MAILER_INBOUND_EMAIL_DOMAIN: ""
+  MAILGUN_INGRESS_SIGNING_KEY: ""
+  MANDRILL_INGRESS_API_KEY: ""
+  RAILS_ENV: production
+  RAILS_INBOUND_EMAIL_PASSWORD: ""
+  RAILS_INBOUND_EMAIL_SERVICE: ""
+  RAILS_LOG_TO_STDOUT: true
+  REDIS_SENTINEL_MASTER_NAME: ""
+  REDIS_SENTINELS: ""
+  REDIS_TLS: false
+  S3_BUCKET_NAME: ""
+  SENTRY_DSN: ""
+  SLACK_CLIENT_ID: ""
+  SLACK_CLIENT_SECRET: ""
+  TWITTER_APP_ID: ""
+  TWITTER_CONSUMER_KEY: ""
+  TWITTER_CONSUMER_SECRET: ""
+  TWITTER_ENVIRONMENT: ""
+  USE_INBOX_AVATAR_FOR_BOT: true

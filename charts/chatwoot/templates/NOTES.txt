@@ -1,0 +1,15 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+You can watch the status by running 
+'kubectl get svc -w {{ template "chatwoot.fullname" . }}'
+
+export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "chatwoot.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo http://$SERVICE_IP:{{ .Values.services.targetPort }}
