@@ -1,4 +1,4 @@
-class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
+class Captain::Llm::PdfProcessingService < Llm::LegacyBaseOpenAiService
   def initialize(document)
     super()
     @document = document
