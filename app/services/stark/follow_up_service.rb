@@ -80,7 +80,7 @@ module Stark
     end
 
     def build_follow_up_payload
-      {
+      payload = {
         follow_up: true,
         follow_up_number: @follow_up_number,
         session_id: @conversation.id,
@@ -90,6 +90,17 @@ module Stark
         platform: @conversation.inbox.platform_name,
         recent_messages: format_recent_messages
       }
+
+      contact = @conversation.contact
+      if contact
+        instagram_name = extract_instagram_name(contact)
+        facebook_name = extract_facebook_name(contact, @conversation.inbox.platform_name)
+
+        payload[:instagram_name] = instagram_name if instagram_name.present?
+        payload[:facebook_name] = facebook_name if facebook_name.present?
+      end
+
+      payload
     end
 
     def build_request_headers
@@ -168,6 +179,20 @@ module Stark
       SlackNotifierService.call(
         text: message
       )
+    end
+
+    def extract_instagram_name(contact)
+      contact.additional_attributes&.dig('social_instagram_user_name') ||
+        contact.additional_attributes&.dig('social_profiles', 'instagram')
+    end
+
+    def extract_facebook_name(contact, platform)
+      # For Facebook conversations, use contact.name directly since
+      # Facebook profile name is stored in the name field
+      return contact.name if platform == 'Facebook'
+
+      # For other platforms, try to get from social_profiles if available
+      contact.additional_attributes&.dig('social_profiles', 'facebook')
     end
   end
 end
