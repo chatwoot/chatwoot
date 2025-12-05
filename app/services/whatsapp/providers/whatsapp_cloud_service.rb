@@ -1,4 +1,31 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+  # Send typing indicator to WhatsApp user
+  # Typing indicator lasts up to 25 seconds or until a message is sent
+  def send_typing_indicator(phone_number)
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: phone_number,
+        type: 'typing',
+        typing: { action: 'typing' }
+      }.to_json
+    )
+
+    if response.success?
+      Rails.logger.info "[WHATSAPP] ✅ Typing indicator sent to #{phone_number}"
+      true
+    else
+      Rails.logger.warn "[WHATSAPP] ⚠️ Failed to send typing indicator: #{response.body}"
+      false
+    end
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] ❌ Error sending typing indicator: #{e.message}"
+    false
+  end
+
   def send_message(phone_number, message)
     @message = message
 
