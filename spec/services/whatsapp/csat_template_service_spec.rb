@@ -8,13 +8,14 @@ RSpec.describe Whatsapp::CsatTemplateService do
   let(:inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
   let(:service) { described_class.new(whatsapp_channel) }
 
+  let(:expected_template_name) { "customer_satisfaction_survey_inbox_#{whatsapp_channel.inbox.id}" }
   let(:template_config) do
     {
       message: 'How would you rate your experience?',
       button_text: 'Rate Us',
       language: 'en',
       base_url: 'https://example.com',
-      template_name: 'customer_satisfaction_survey'
+      template_name: expected_template_name
     }
   end
 
@@ -41,10 +42,10 @@ RSpec.describe Whatsapp::CsatTemplateService do
     context 'when existing template has no versioned name' do
       it 'starts versioning from 1' do
         whatsapp_channel.inbox.update!(csat_config: {
-                                         'template' => { 'name' => 'customer_satisfaction_survey' }
+                                         'template' => { 'name' => expected_template_name }
                                        })
         result = service.send(:generate_template_name, 'new_template_name')
-        expect(result).to eq('customer_satisfaction_survey_1')
+        expect(result).to eq("#{expected_template_name}_1")
       end
 
       it 'starts versioning from 1 for custom name' do
@@ -52,33 +53,33 @@ RSpec.describe Whatsapp::CsatTemplateService do
                                          'template' => { 'name' => 'custom_survey' }
                                        })
         result = service.send(:generate_template_name, 'new_template_name')
-        expect(result).to eq('customer_satisfaction_survey_1')
+        expect(result).to eq("#{expected_template_name}_1")
       end
     end
 
     context 'when existing template has versioned name' do
       it 'increments version number' do
         whatsapp_channel.inbox.update!(csat_config: {
-                                         'template' => { 'name' => 'customer_satisfaction_survey_1' }
+                                         'template' => { 'name' => "#{expected_template_name}_1" }
                                        })
         result = service.send(:generate_template_name, 'new_template_name')
-        expect(result).to eq('customer_satisfaction_survey_2')
+        expect(result).to eq("#{expected_template_name}_2")
       end
 
       it 'increments higher version numbers' do
         whatsapp_channel.inbox.update!(csat_config: {
-                                         'template' => { 'name' => 'customer_satisfaction_survey_5' }
+                                         'template' => { 'name' => "#{expected_template_name}_5" }
                                        })
         result = service.send(:generate_template_name, 'new_template_name')
-        expect(result).to eq('customer_satisfaction_survey_6')
+        expect(result).to eq("#{expected_template_name}_6")
       end
 
       it 'handles double digit version numbers' do
         whatsapp_channel.inbox.update!(csat_config: {
-                                         'template' => { 'name' => 'customer_satisfaction_survey_12' }
+                                         'template' => { 'name' => "#{expected_template_name}_12" }
                                        })
         result = service.send(:generate_template_name, 'new_template_name')
-        expect(result).to eq('customer_satisfaction_survey_13')
+        expect(result).to eq("#{expected_template_name}_13")
       end
     end
 
@@ -88,7 +89,7 @@ RSpec.describe Whatsapp::CsatTemplateService do
                                          'template' => { 'name' => 'different_survey_3' }
                                        })
         result = service.send(:generate_template_name, 'new_template_name')
-        expect(result).to eq('customer_satisfaction_survey_1')
+        expect(result).to eq("#{expected_template_name}_1")
       end
     end
 
@@ -116,7 +117,7 @@ RSpec.describe Whatsapp::CsatTemplateService do
       result = service.send(:build_template_request_body, template_config)
 
       expect(result).to eq({
-                             name: 'customer_satisfaction_survey',
+                             name: expected_template_name,
                              language: 'en',
                              category: 'MARKETING',
                              components: [
@@ -166,7 +167,7 @@ RSpec.describe Whatsapp::CsatTemplateService do
 
     it 'creates template with generated name' do
       expected_body = {
-        name: 'customer_satisfaction_survey',
+        name: expected_template_name,
         language: 'en',
         category: 'MARKETING',
         components: [
@@ -202,14 +203,14 @@ RSpec.describe Whatsapp::CsatTemplateService do
 
     it 'returns success response on successful creation' do
       allow(mock_response).to receive(:[]).with('id').and_return('template_123')
-      allow(mock_response).to receive(:[]).with('name').and_return('customer_satisfaction_survey')
+      allow(mock_response).to receive(:[]).with('name').and_return(expected_template_name)
 
       result = service.create_template(template_config)
 
       expect(result).to eq({
                              success: true,
                              template_id: 'template_123',
-                             template_name: 'customer_satisfaction_survey',
+                             template_name: expected_template_name,
                              language: 'en',
                              status: 'PENDING'
                            })
@@ -268,7 +269,7 @@ RSpec.describe Whatsapp::CsatTemplateService do
       # rubocop:enable RSpec/VerifiedDoubles
 
       expect(HTTParty).to receive(:delete).with(
-        "https://graph.facebook.com/v14.0/#{whatsapp_channel.provider_config['business_account_id']}/message_templates?name=customer_satisfaction_survey",
+        "https://graph.facebook.com/v14.0/#{whatsapp_channel.provider_config['business_account_id']}/message_templates?name=#{expected_template_name}",
         anything
       ).and_return(mock_response)
 

@@ -24,8 +24,6 @@ const props = defineProps({
   inbox: { type: Object, required: true },
 });
 
-const TEMPLATE_NAME = 'customer_satisfaction_survey';
-
 const { t } = useI18n();
 const store = useStore();
 const labels = useMapGetter('labels/getLabels');
@@ -144,14 +142,12 @@ const initializeState = () => {
     button_text: buttonText = 'Please rate us',
     language = 'en',
     survey_rules: surveyRules = {},
-    template = {},
   } = csat_config;
 
   state.displayType = displayType;
   state.message = message;
   state.templateButtonText = buttonText;
   state.templateLanguage = language;
-  state.templateName = template.name || TEMPLATE_NAME;
   state.surveyRuleOperator = surveyRules.operator || 'contains';
 
   selectedLabelValues.value = Array.isArray(surveyRules.values)
@@ -264,7 +260,7 @@ const buildTemplateConfig = () => {
   if (!hasExistingTemplate()) return null;
 
   return {
-    name: templateStatus.value.template_name || 'customer_satisfaction_survey',
+    name: templateStatus.value.template_name,
     template_id: templateStatus.value.template_id,
     language: templateStatus.value.template?.language || state.templateLanguage,
     status: templateStatus.value.status,
@@ -290,7 +286,6 @@ const createTemplate = async () => {
       message: state.message,
       button_text: state.templateButtonText,
       language: state.templateLanguage,
-      template_name: state.templateName,
     },
   });
   useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.SUCCESS_MESSAGE'));

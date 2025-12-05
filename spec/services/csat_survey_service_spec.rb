@@ -151,9 +151,10 @@ describe CsatSurveyService do
         end
 
         it 'builds correct template info with default template name' do
+          expected_template_name = "customer_satisfaction_survey_inbox_#{whatsapp_inbox.id}"
           whatsapp_inbox.update(csat_config: { 'template' => {}, 'message' => 'Rate us' })
           allow(mock_provider_service).to receive(:get_template_status)
-            .with('customer_satisfaction_survey')
+            .with(expected_template_name)
             .and_return({ success: true, template: { status: 'APPROVED' } })
           allow(mock_provider_service).to receive(:send_template) do |_phone, _template, message|
             message.save!
@@ -165,7 +166,7 @@ describe CsatSurveyService do
           expect(mock_provider_service).to have_received(:send_template).with(
             '1234567890',
             hash_including(
-              name: 'customer_satisfaction_survey',
+              name: expected_template_name,
               lang_code: 'en'
             ),
             anything

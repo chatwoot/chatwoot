@@ -58,11 +58,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     response.success?
   end
 
+  def api_headers
+    { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
+  end
+
   def create_csat_template(template_config)
     csat_template_service.create_template(template_config)
   end
 
-  def delete_csat_template(template_name = 'customer_satisfaction_survey')
+  def delete_csat_template(template_name = nil)
+    template_name ||= "customer_satisfaction_survey_inbox_#{whatsapp_channel.inbox.id}"
     csat_template_service.delete_template(template_name)
   end
 
@@ -74,10 +79,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     url = "#{api_base_path}/v13.0/#{media_id}"
     url += "?phone_number_id=#{phone_number_id}" if phone_number_id
     url
-  end
-
-  def api_headers
-    { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end
 
   private
