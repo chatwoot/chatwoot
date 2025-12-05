@@ -56,6 +56,7 @@ module Enterprise::SearchService
     return if params[:inbox_id].blank?
 
     inbox_id = params[:inbox_id].to_i
+    return if inbox_id.zero?
     return unless validate_inbox_access(inbox_id)
 
     where_conditions[:inbox_id] = inbox_id
