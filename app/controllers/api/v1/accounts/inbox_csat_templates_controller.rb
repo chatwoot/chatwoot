@@ -1,4 +1,7 @@
 class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseController
+  DEFAULT_BUTTON_TEXT = 'Please rate us'.freeze
+  DEFAULT_LANGUAGE = 'en'.freeze
+
   before_action :fetch_inbox
   before_action :validate_whatsapp_channel
 
@@ -6,7 +9,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     template = @inbox.csat_config&.dig('template')
     return render json: { template_exists: false } unless template
 
-    template_name = template['name'] || "customer_satisfaction_survey_inbox_#{@inbox.id}"
+    template_name = template['name'] || Whatsapp::CsatTemplateNameService.csat_template_name(@inbox.id)
     status_result = @inbox.channel.provider_service.get_template_status(template_name)
 
     render_template_status_response(status_result, template_name)
@@ -57,10 +60,10 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   def create_template_via_provider(template_params)
     template_config = {
       message: template_params[:message],
-      button_text: template_params[:button_text] || 'Please rate us',
+      button_text: template_params[:button_text] || DEFAULT_BUTTON_TEXT,
       base_url: ENV.fetch('FRONTEND_URL', 'http://localhost:3000'),
-      language: template_params[:language] || 'en',
-      template_name: "customer_satisfaction_survey_inbox_#{@inbox.id}"
+      language: template_params[:language] || DEFAULT_LANGUAGE,
+      template_name: Whatsapp::CsatTemplateNameService.csat_template_name(@inbox.id)
     }
 
     @inbox.channel.provider_service.create_csat_template(template_config)
@@ -80,7 +83,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
         name: result[:template_name],
         template_id: result[:template_id],
         status: 'PENDING',
-        language: result[:language] || 'en'
+        language: result[:language] || DEFAULT_LANGUAGE
       }
     }, status: :created
   end

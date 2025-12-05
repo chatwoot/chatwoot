@@ -8,7 +8,7 @@ RSpec.describe Whatsapp::CsatTemplateService do
   let(:inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
   let(:service) { described_class.new(whatsapp_channel) }
 
-  let(:expected_template_name) { "customer_satisfaction_survey_inbox_#{whatsapp_channel.inbox.id}" }
+  let(:expected_template_name) { "customer_satisfaction_survey_#{whatsapp_channel.inbox.id}" }
   let(:template_config) do
     {
       message: 'How would you rate your experience?',
