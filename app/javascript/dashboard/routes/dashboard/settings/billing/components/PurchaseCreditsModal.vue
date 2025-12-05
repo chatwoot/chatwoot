@@ -167,15 +167,8 @@ defineExpose({ open, close });
           }}
         </p>
 
-        <div
-          class="flex items-start gap-3 p-3 rounded-lg bg-y-solid-3 border border-y-solid-6"
-        >
-          <fluent-icon
-            icon="warning"
-            size="20"
-            class="text-y-solid-11 shrink-0 mt-0.5"
-          />
-          <p class="text-sm text-y-solid-11">
+        <div class="p-2.5 rounded-lg bg-n-amber-2 border border-n-amber-6">
+          <p class="text-sm text-n-amber-11">
             {{ $t('BILLING_SETTINGS.TOPUP.CONFIRM.INSTANT_DEDUCTION_NOTE') }}
           </p>
         </div>

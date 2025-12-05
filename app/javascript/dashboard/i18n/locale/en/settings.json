@@ -427,7 +427,7 @@
       "CONFIRM": {
         "TITLE": "Confirm Purchase",
         "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your payment method will be charged immediately upon confirmation. This action cannot be undone.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
         "GO_BACK": "Go Back",
         "CONFIRM_PURCHASE": "Confirm Purchase"
       }
