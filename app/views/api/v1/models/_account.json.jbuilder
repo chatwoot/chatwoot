@@ -25,6 +25,9 @@ if resource.custom_attributes.present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
     json.logo resource.custom_attributes['logo'] if resource.custom_attributes['logo'].present?
     json.onboarding_step resource.custom_attributes['onboarding_step'] if resource.custom_attributes['onboarding_step'].present?
+    if resource.custom_attributes['enable_contact_assignment'].present?
+      json.enable_contact_assignment resource.custom_attributes['enable_contact_assignment']
+    end
     json.instagram_dm_message resource.instagram_dm_message if @account.instagram_inbox?
   end
 end

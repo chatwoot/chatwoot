@@ -189,6 +189,18 @@ export const actions = {
     }
   },
 
+  reassignContact: async ({ commit }, { contactId, assigneeId }) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await ContactAPI.reassign(contactId, assigneeId);
+      commit(types.EDIT_CONTACT, response.data);
+      commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+      throw new Error(error);
+    }
+  },
+
   fetchContactableInbox: async ({ commit }, id) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: true });
     try {

@@ -46,6 +46,10 @@
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+      },
+      "CONTACT_ASSIGNMENT": {
+        "TITLE": "Enable Contact Assignment",
+        "NOTE": "When enabled, agents can only see and manage contacts assigned to them. Admins always see all contacts."
       }
     },
     "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",

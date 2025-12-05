@@ -33,7 +33,7 @@ class ActionCableListener < BaseListener
   def message_created(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
+    tokens = conversation_owner_tokens(conversation, account) + contact_tokens(conversation.contact_inbox, message)
 
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
   end
@@ -56,7 +56,7 @@ class ActionCableListener < BaseListener
 
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
+    tokens = conversation_owner_tokens(conversation, account) + contact_inbox_tokens(conversation.contact_inbox)
 
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
@@ -137,14 +137,14 @@ class ActionCableListener < BaseListener
 
   def contact_created(event)
     contact, account = extract_contact_and_account(event)
-    tokens = user_tokens(account, account.agents)
+    tokens = contact_owner_tokens(contact, account)
 
     broadcast(account, tokens, CONTACT_CREATED, contact.push_event_data)
   end
 
   def contact_updated(event)
     contact, account = extract_contact_and_account(event)
-    tokens = user_tokens(account, account.agents)
+    tokens = contact_owner_tokens(contact, account)
 
     broadcast(account, tokens, CONTACT_UPDATED, contact.push_event_data)
   end
@@ -181,6 +181,35 @@ class ActionCableListener < BaseListener
     agent_tokens = agents.pluck(:pubsub_token)
     admin_tokens = account.administrators.pluck(:pubsub_token)
     (agent_tokens + admin_tokens).uniq
+  end
+
+  # Get tokens for contact owner + admins (conditional on feature)
+  def contact_owner_tokens(contact, account)
+    tokens = account.administrators.pluck(:pubsub_token)
+
+    # Only filter if feature enabled
+    return user_tokens(account, account.users) unless account.contact_assignment_enabled?
+
+    tokens << contact.assignee.pubsub_token if contact.assignee.present?
+
+    # Feature disabled: send to all inbox members (existing behavior)
+
+    tokens.uniq
+  end
+
+  # Get tokens for conversation visibility (conditional on feature)
+  def conversation_owner_tokens(conversation, account)
+    tokens = account.administrators.pluck(:pubsub_token)
+
+    # Only filter if feature enabled
+    return user_tokens(account, conversation.inbox.members) unless account.contact_assignment_enabled?
+
+    tokens << conversation.assignee.pubsub_token if conversation.assignee.present?
+    tokens << conversation.contact.assignee.pubsub_token if conversation.contact.assignee.present?
+
+    # Feature disabled: send to all inbox members (existing behavior)
+
+    tokens.uniq
   end
 
   def contact_tokens(contact_inbox, message)

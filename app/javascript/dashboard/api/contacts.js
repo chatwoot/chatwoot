@@ -105,6 +105,12 @@ class ContactAPI extends ApiClient {
       ...data,
     });
   }
+
+  reassign(contactId, assigneeId) {
+    return axios.post(`${this.url}/${contactId}/reassign`, {
+      assignee_id: assigneeId,
+    });
+  }
 }
 
 export default new ContactAPI();

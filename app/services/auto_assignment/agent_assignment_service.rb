@@ -12,7 +12,18 @@ class AutoAssignment::AgentAssignmentService
     { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity, content: content }
   end
 
-  def perform
+  def perform # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+    # Priority 1: If contact assignment enabled and contact has owner, assign to contact owner
+    if conversation.account.contact_assignment_enabled? && conversation.contact.assignee_id.present?
+      new_assignee = User.find_by(id: conversation.contact.assignee_id)
+      if new_assignee
+        conversation.update(assignee: new_assignee)
+        Rails.logger.info "Conversation #{conversation.id} assigned to contact owner (Agent #{new_assignee.id})"
+        return
+      end
+    end
+
+    # Priority 2: Use round-robin to find an agent
     new_assignee = find_assignee
     if new_assignee.nil?
       Rails.logger.info "No agents were assigned, #{conversation.account_id}"
@@ -24,7 +35,11 @@ class AutoAssignment::AgentAssignmentService
       Conversations::ActivityMessageJob.set(wait: 15.seconds).perform_later(conversation,
                                                                             activity_message_params(content))
     else
+      # Assign conversation
       conversation.update(assignee: new_assignee)
+
+      # Also assign contact if feature enabled and contact is unassigned
+      conversation.contact.update(assignee: new_assignee) if conversation.account.contact_assignment_enabled? && conversation.contact.assignee_id.nil?
     end
   end
 

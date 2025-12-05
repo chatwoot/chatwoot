@@ -45,6 +45,11 @@
     "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Edit",
+    "ASSIGNEE": "Assigned Agent",
+    "ASSIGNEE_PLACEHOLDER": "Select an agent (leave empty to unassign)",
+    "ASSIGNEE_UPDATED": "Contact assignee updated successfully",
+    "ASSIGNEE_UPDATE_FAILED": "Failed to update contact assignee",
+    "UNASSIGNED": "Unassigned",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
@@ -159,6 +164,12 @@
       "CITY": {
         "PLACEHOLDER": "Enter the city name",
         "LABEL": "City Name"
+      },
+      "ASSIGNEE": {
+        "PLACEHOLDER": "Select an agent to assign",
+        "LABEL": "Assigned Agent",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Remove"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -382,5 +393,15 @@
       "SUCCESS_MESSAGE": "Contact merged successfully",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
+  },
+  "CONTACTS_LIST": {
+    "ASSIGNEE": "Assignee"
+  },
+  "CAMPAIGN": {
+    "AUDIENCE_RESTRICTION_MESSAGE": "This broadcast will only be sent to contacts assigned to you."
+  },
+  "ACCOUNT_SETTINGS": {
+    "CONTACT_ASSIGNMENT_LABEL": "Enable Contact Assignment",
+    "CONTACT_ASSIGNMENT_HELP": "When enabled, agents can only see and manage contacts assigned to them. Admins always see all contacts."
   }
 }

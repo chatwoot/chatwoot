@@ -7,9 +7,11 @@
 #  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :bigint           default(0), not null
+#  internal_attributes   :jsonb            not null
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
+#  settings              :jsonb
 #  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
@@ -138,6 +140,11 @@ class Account < ApplicationRecord
   def instagram_dm_message=(value)
     self.custom_attributes ||= {}
     self.custom_attributes['instagram_dm_message'] = value
+  end
+
+  # Check if contact assignment feature is enabled
+  def contact_assignment_enabled?
+    custom_attributes&.dig('enable_contact_assignment') == true
   end
 
   private

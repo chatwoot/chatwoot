@@ -96,6 +96,36 @@
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
           <social-icons :social-profiles="socialProfiles" />
+
+          <!-- Contact Assignee Section (only show if feature enabled or admin) -->
+          <div
+            v-if="shouldShowContactAssignee"
+            class="flex flex-col gap-1 w-full mt-2 pt-2 border-t border-slate-100 dark:border-slate-700"
+          >
+            <div class="flex items-center justify-between">
+              <span
+                class="text-xs font-medium text-slate-600 dark:text-slate-400"
+              >
+                {{ $t('CONTACT_PANEL.ASSIGNEE') }}
+              </span>
+            </div>
+            <multiselect-dropdown
+              :options="agentsList"
+              :selected-item="assignedContactAgent"
+              :multiselector-title="$t('CONTACT_PANEL.ASSIGNEE')"
+              :multiselector-placeholder="
+                $t('CONTACT_PANEL.ASSIGNEE_PLACEHOLDER')
+              "
+              :no-search-result="
+                $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
+              "
+              :input-placeholder="
+                $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
+              "
+              :disabled="!isAdmin"
+              @click="onClickAssignContactAgent"
+            />
+          </div>
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
@@ -206,6 +236,7 @@ import EditContact from './EditContact.vue';
 import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import UnsubModal from './UnsubModal';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
@@ -229,6 +260,7 @@ export default {
     NewConversation,
     ContactMergeModal,
     UnsubModal,
+    MultiselectDropdown,
   },
   mixins: [alertMixin, adminMixin, timeMixin],
   props: {
@@ -270,6 +302,7 @@ export default {
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
       getAccount: 'accounts/getAccount',
+      agentsList: 'agents/getAgents',
     }),
     currentAccount() {
       return this.getAccount(this.accountId) || {};
@@ -326,6 +359,28 @@ export default {
         return false;
       return true;
     },
+    shouldShowContactAssignee() {
+      // Only show for admins when feature is enabled
+      const isFeatureEnabled =
+        this.currentAccount?.custom_attributes?.enable_contact_assignment ===
+        true;
+      return this.isAdmin && isFeatureEnabled;
+    },
+    assignedContactAgent() {
+      if (!this.contact.assignee_id) {
+        return null;
+      }
+      // Find the agent from the agents list
+      return this.agentsList.find(
+        agent => agent.id === this.contact.assignee_id
+      );
+    },
+  },
+  mounted() {
+    // Load agents if not already loaded
+    if (this.agentsList.length === 0) {
+      this.$store.dispatch('agents/get');
+    }
   },
   methods: {
     toggleUnsubModal() {
@@ -432,6 +487,18 @@ export default {
     },
     openMergeModal() {
       this.toggleMergeModal();
+    },
+    async onClickAssignContactAgent(selectedAgent) {
+      try {
+        const assigneeId = selectedAgent ? selectedAgent.id : null;
+        await this.$store.dispatch('contacts/reassignContact', {
+          contactId: this.contact.id,
+          assigneeId,
+        });
+        this.showAlert(this.$t('CONTACT_PANEL.ASSIGNEE_UPDATED'));
+      } catch (error) {
+        this.showAlert(this.$t('CONTACT_PANEL.ASSIGNEE_UPDATE_FAILED'));
+      }
     },
   },
 };

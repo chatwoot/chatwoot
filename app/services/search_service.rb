@@ -25,31 +25,45 @@ class SearchService
   end
 
   def filter_conversations
-    @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                    .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                                    .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
-                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search OR
-                            contacts.additional_attributes->'social_profiles'->>'instagram' ILIKE :search OR
-                            contacts.additional_attributes->>'social_instagram_user_name' ILIKE :search", search: "%#{search_query}%")
-                                    .order('conversations.created_at DESC')
-                                    .limit(10)
+    query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
+                           .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                           .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+                   ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search OR
+                   contacts.additional_attributes->'social_profiles'->>'instagram' ILIKE :search OR
+                   contacts.additional_attributes->>'social_instagram_user_name' ILIKE :search", search: "%#{search_query}%")
+
+    # Filter by contact assignee if contact assignment feature is enabled and user is not admin
+    query = query.where(contacts: { assignee_id: current_user.id }) if contact_assignment_enabled? && !current_user_admin?
+
+    @conversations = query.order('conversations.created_at DESC')
+                          .limit(10)
   end
 
   def filter_messages
-    @messages = current_account.messages.where(inbox_id: accessable_inbox_ids)
-                               .where('messages.content ILIKE :search', search: "%#{search_query}%")
-                               .where('created_at >= ?', 3.months.ago)
-                               .reorder('created_at DESC')
-                               .limit(10)
+    query = current_account.messages.where(inbox_id: accessable_inbox_ids)
+                           .where('messages.content ILIKE :search', search: "%#{search_query}%")
+                           .where('created_at >= ?', 3.months.ago)
+
+    # Filter by contact assignee if contact assignment feature is enabled and user is not admin
+    if contact_assignment_enabled? && !current_user_admin?
+      query = query.joins(conversation: :contact)
+                   .where(contacts: { assignee_id: current_user.id })
+    end
+
+    @messages = query.reorder('created_at DESC')
+                     .limit(10)
   end
 
   def filter_contacts
     query = current_account.contacts
                            .where(search_conditions)
                            .where(non_empty_conditions)
-                           .order(Arel.sql('contacts.last_activity_at DESC NULLS LAST'))
-                           .limit(10)
-    @contacts = query
+
+    # Filter by assignee if contact assignment feature is enabled and user is not admin
+    query = query.where(assignee_id: current_user.id) if contact_assignment_enabled? && !current_user_admin?
+
+    @contacts = query.order(Arel.sql('contacts.last_activity_at DESC NULLS LAST'))
+                     .limit(10)
   end
 
   def search_conditions
@@ -70,5 +84,13 @@ class SearchService
     COALESCE(identifier, '') <> '' OR
     COALESCE(additional_attributes->'social_profiles'->>'instagram', '') <> '' OR
     COALESCE(additional_attributes->>'social_instagram_user_name', '') <> ''"
+  end
+
+  def contact_assignment_enabled?
+    current_account.custom_attributes&.dig('enable_contact_assignment') == true
+  end
+
+  def current_user_admin?
+    current_user.account_users.find_by(account_id: current_account.id)&.administrator?
   end
 end

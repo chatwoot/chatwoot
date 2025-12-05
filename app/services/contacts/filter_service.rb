@@ -30,7 +30,15 @@ class Contacts::FilterService < FilterService
 
   # TODO: @account.contacts.resolved_contacts ? to stay consistant with the behavior in ui
   def base_relation
-    @account.contacts
+    contacts = @account.contacts
+
+    # Apply assignee filtering only if feature enabled and user is not admin
+    if @account.contact_assignment_enabled? &&
+       !@user.account_users.find_by(account_id: @account.id)&.administrator?
+      contacts = contacts.assigned_to(@user)
+    end
+
+    contacts
   end
 
   def filter_config

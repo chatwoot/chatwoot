@@ -44,6 +44,11 @@ export const mutations = {
 
   [types.EDIT_CONTACT]: ($state, data) => {
     Vue.set($state.records, data.id, data);
+
+    // Add to sortOrder if not present (for real-time updates when contact assigned to agent)
+    if (!$state.sortOrder.includes(data.id)) {
+      $state.sortOrder.push(data.id);
+    }
   },
 
   [types.DELETE_CONTACT]: ($state, id) => {

@@ -120,6 +120,38 @@
       :placeholder="$t('CONTACT_FORM.FORM.CITY.PLACEHOLDER')"
     />
 
+    <!-- Assigned Agent Dropdown (only show if feature enabled or admin) -->
+    <div v-if="shouldShowAssigneeDropdown" class="w-full">
+      <label>
+        {{ $t('CONTACT_FORM.FORM.ASSIGNEE.LABEL') }}
+      </label>
+      <multiselect
+        v-model="assignee"
+        track-by="id"
+        label="name"
+        :placeholder="$t('CONTACT_FORM.FORM.ASSIGNEE.PLACEHOLDER')"
+        selected-label
+        :select-label="$t('CONTACT_FORM.FORM.ASSIGNEE.SELECT_PLACEHOLDER')"
+        :deselect-label="$t('CONTACT_FORM.FORM.ASSIGNEE.REMOVE')"
+        :max-height="160"
+        :options="agentsList"
+        :allow-empty="true"
+        :option-height="104"
+      >
+        <template slot="singleLabel" slot-scope="props">
+          <span class="option__desc">
+            <span class="option__title">{{ props.option.name }}</span>
+          </span>
+        </template>
+        <template slot="option" slot-scope="props">
+          <div class="option__desc">
+            <span class="option__title">{{ props.option.name }}</span>
+            <span class="option__small">{{ props.option.email }}</span>
+          </div>
+        </template>
+      </multiselect>
+    </div>
+
     <div class="w-full">
       <label> Social Profiles </label>
       <div
@@ -197,6 +229,7 @@ export default {
         name: '',
       },
       city: '',
+      assignee: null,
       socialProfileUserNames: {
         facebook: '',
         twitter: '',
@@ -231,9 +264,18 @@ export default {
       accountId: 'getCurrentAccountId',
       currentUser: 'getCurrentUser',
       getAccount: 'accounts/getAccount',
+      agentsList: 'agents/getAgents',
     }),
     currentAccount() {
       return this.getAccount(this.accountId) || {};
+    },
+    shouldShowAssigneeDropdown() {
+      // Only show for admins when feature is enabled
+      const isAdmin = this.currentUser.role === 'administrator';
+      const isFeatureEnabled =
+        this.currentAccount?.custom_attributes?.enable_contact_assignment ===
+        true;
+      return isAdmin && isFeatureEnabled;
     },
     shouldShowContactDetails() {
       const contactMasking =
@@ -278,10 +320,34 @@ export default {
     contact() {
       this.setContactObject();
     },
+    agentsList() {
+      // When agents list loads, set the assignee if we have assignee_id but no assignee object
+      if (
+        this.contact.assignee_id &&
+        !this.assignee &&
+        this.agentsList.length > 0
+      ) {
+        this.assignee = this.agentsList.find(
+          agent => agent.id === this.contact.assignee_id
+        );
+      }
+    },
   },
   mounted() {
+    // Load agents if not already loaded
+    if (this.agentsList.length === 0) {
+      this.$store.dispatch('agents/get');
+    }
+
     this.setContactObject();
     this.setDialCode();
+
+    // Set default assignee to current user if creating new contact and feature enabled
+    if (!this.contact.id && this.shouldShowAssigneeDropdown) {
+      this.assignee = this.agentsList.find(
+        agent => agent.id === this.currentUser.id
+      );
+    }
   },
   methods: {
     onCancel() {
@@ -310,6 +376,7 @@ export default {
         email: emailAddress,
         phone_number: phoneNumber,
         name,
+        assignee_id: assigneeId,
       } = this.contact;
       const additionalAttributes = this.contact.additional_attributes || {};
 
@@ -326,6 +393,13 @@ export default {
       this.city = additionalAttributes.city || '';
       this.description = additionalAttributes.description || '';
       this.avatarUrl = this.contact.thumbnail || '';
+
+      // Set assignee if editing existing contact
+      if (assigneeId && this.agentsList.length > 0) {
+        this.assignee =
+          this.agentsList.find(agent => agent.id === assigneeId) || null;
+      }
+
       const {
         social_profiles: socialProfiles = {},
         screen_name: twitterScreenName,
@@ -350,6 +424,7 @@ export default {
         name: this.name,
         email: this.email,
         phone_number: this.setPhoneNumber,
+        assignee_id: this.assignee ? this.assignee.id : null,
         additional_attributes: {
           ...this.contact.additional_attributes,
           description: this.description,

@@ -1,4 +1,4 @@
-class Messages::MessageBuilder
+class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
   include ::FileTypeHelper
   attr_reader :message
 
@@ -42,6 +42,7 @@ class Messages::MessageBuilder
     process_url_attachments
     process_emails
     @message.save!
+    assign_conversation_to_contact_owner
 
     @message
   end
@@ -242,4 +243,17 @@ class Messages::MessageBuilder
     }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified).merge(comment_id).merge(should_prompt_resolution).merge(skip_conversation_reopen)
   end
   # rubocop:enable Layout/LineLength
+
+  # Auto-assign conversation to contact owner when customer replies
+  def assign_conversation_to_contact_owner
+    return unless @message.incoming? # Only for incoming messages
+    return unless @conversation.assignee_id.nil? # Only if conversation is unassigned
+    return unless @conversation.account.contact_assignment_enabled? # Feature check
+    return if @conversation.contact.assignee_id.blank? # Contact must have owner
+
+    # Auto-assign conversation to contact owner
+    @conversation.update(assignee_id: @conversation.contact.assignee_id)
+
+    Rails.logger.info "Conversation #{@conversation.id} auto-assigned to agent #{@conversation.contact.assignee_id} (contact owner)"
+  end
 end

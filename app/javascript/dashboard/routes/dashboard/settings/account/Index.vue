@@ -116,6 +116,41 @@
       </div>
 
       <div
+        class="flex flex-row p-4 border-b border-slate-25 dark:border-slate-800"
+      >
+        <div
+          class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
+        >
+          <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
+            {{ $t('GENERAL_SETTINGS.FORM.CONTACT_ASSIGNMENT.TITLE') }}
+          </h4>
+          <p>
+            {{ $t('GENERAL_SETTINGS.FORM.CONTACT_ASSIGNMENT.NOTE') }}
+          </p>
+        </div>
+        <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
+          <label class="flex items-center gap-2">
+            <input
+              v-model="contactAssignmentEnabled"
+              type="checkbox"
+              class="w-4 h-4"
+            />
+            <span>Enable agent-level contact segregation</span>
+          </label>
+          <span class="help-text mt-2 block">
+            When enabled:
+            <ul class="list-disc ml-5 mt-1">
+              <li>Agents only see contacts assigned to them</li>
+              <li>New contacts auto-assigned to creator</li>
+              <li>Customer replies route to contact owner</li>
+              <li>Broadcasts filtered to sender's contacts</li>
+              <li>Admins always see all contacts</li>
+            </ul>
+          </span>
+        </div>
+      </div>
+
+      <div
         class="p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300 flex flex-row"
       >
         <div
@@ -182,6 +217,7 @@ export default {
       latestChatwootVersion: null,
       instagramDmMessage: 'Check your DM',
       hasInstagramInbox: false,
+      contactAssignmentEnabled: false,
     };
   },
   validations: {
@@ -281,6 +317,8 @@ export default {
         this.hasInstagramInbox = hasInstagramInbox || false;
         this.instagramDmMessage =
           customAttributes?.instagram_dm_message || 'Check your DM';
+        this.contactAssignmentEnabled =
+          customAttributes?.enable_contact_assignment === true;
       } catch (error) {
         // Ignore error
       }
@@ -299,6 +337,7 @@ export default {
           domain: this.domain,
           support_email: this.supportEmail,
           auto_resolve_duration: this.autoResolveDuration,
+          enable_contact_assignment: this.contactAssignmentEnabled,
         };
 
         if (this.hasInstagramInbox) {

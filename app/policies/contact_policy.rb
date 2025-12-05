@@ -27,20 +27,39 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def show?
+    # Class-level authorization (called by before_action :check_authorization)
+    return true unless @record.is_a?(Contact)
+
+    # Instance-level authorization (for specific contacts)
+    return true if @account_user.administrator?
+    return true unless feature_enabled? # Feature disabled = no restrictions
+
+    # Feature enabled: agents see only their contacts
+    return false if @record.assignee_id.nil? # Unassigned = admin only
+
+    @record.assignee_id == @user.id
+  end
+
   def update?
-    true
+    # Class-level authorization
+    return true unless @record.is_a?(Contact)
+
+    # Instance-level authorization
+    return true if @account_user.administrator?
+    return true unless feature_enabled?
+
+    return false if @record.assignee_id.nil?
+
+    @record.assignee_id == @user.id
   end
 
   def contactable_inboxes?
-    true
+    update?
   end
 
   def destroy_custom_attributes?
-    true
-  end
-
-  def show?
-    true
+    update?
   end
 
   def create?
@@ -48,10 +67,23 @@ class ContactPolicy < ApplicationPolicy
   end
 
   def avatar?
-    true
+    update?
   end
 
   def destroy?
     @account_user.administrator?
+  end
+
+  def reassign?
+    @account_user.administrator?
+  end
+
+  private
+
+  def feature_enabled?
+    return false unless @record.is_a?(Contact)
+    return false unless @record.account
+
+    @record.account.contact_assignment_enabled?
   end
 end

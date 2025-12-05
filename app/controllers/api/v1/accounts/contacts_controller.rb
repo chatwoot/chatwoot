@@ -1,4 +1,4 @@
-class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController # rubocop:disable Metrics/ClassLength
   include Sift
   sort_on :email, type: :string
   sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
@@ -13,7 +13,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes, :reassign]
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
 
   def index
@@ -130,6 +130,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def create
     ActiveRecord::Base.transaction do
       @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
+
+      # Auto-assign logic:
+      # 1. If admin explicitly provided assignee_id, use that
+      # 2. Otherwise, if feature enabled and no assignee set, assign to current user
+      @contact.assignee = Current.user if @contact.assignee_id.nil? && Current.account.contact_assignment_enabled?
+
       @contact.save!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
@@ -159,6 +165,18 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contact
   end
 
+  def reassign
+    authorize @contact, :reassign?
+
+    new_assignee = Current.account.users.find(params[:assignee_id]) if params[:assignee_id].present?
+    @contact.update!(assignee: new_assignee)
+
+    # Also reassign all open conversations
+    @contact.conversations.open.update_all(assignee_id: new_assignee&.id) # rubocop:disable Rails/SkipsModelValidations
+
+    render json: @contact
+  end
+
   private
 
   # TODO: Move this to a finder class
@@ -166,6 +184,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     return @resolved_contacts if @resolved_contacts
 
     @resolved_contacts = Current.account.contacts.resolved_contacts
+
+    # CONDITIONAL FILTERING - only if feature enabled
+    if Current.account.contact_assignment_enabled? && !Current.account_user.administrator?
+      @resolved_contacts = @resolved_contacts.assigned_to(Current.user)
+    end
 
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
     @resolved_contacts
@@ -197,7 +220,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    allowed = [:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url,
+               { additional_attributes: {}, custom_attributes: {} }]
+
+    # Only admins can set assignee_id directly
+    allowed << :assignee_id if Current.account_user.administrator?
+
+    params.permit(*allowed)
   end
 
   def contact_custom_attributes

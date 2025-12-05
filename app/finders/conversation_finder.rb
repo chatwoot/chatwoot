@@ -65,6 +65,7 @@ class ConversationFinder
     filter_by_status unless params[:q]
     filter_by_team
     filter_by_labels
+    filter_by_contact_assignee
     filter_by_query
     filter_by_source_id
     filter_by_conversation_read_status
@@ -176,6 +177,15 @@ class ConversationFinder
     return unless params[:labels]
 
     @conversations = @conversations.tagged_with(params[:labels], any: true)
+  end
+
+  def filter_by_contact_assignee
+    return if @current_user.account_users.find_by(account_id: @current_account.id)&.administrator?
+    return unless @current_account.contact_assignment_enabled? # Feature check
+
+    # Agents see only conversations for their assigned contacts
+    @conversations = @conversations.joins(:contact)
+                                   .where(contacts: { assignee_id: @current_user.id })
   end
 
   def filter_by_source_id

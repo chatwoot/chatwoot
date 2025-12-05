@@ -339,11 +339,26 @@ export default {
       };
     },
     assigneeTabItems() {
-      const ASSIGNEE_TYPE_TAB_KEYS = {
-        me: 'mineCount',
-        unassigned: 'unAssignedCount',
-        all: 'allCount',
-      };
+      const currentAccount = this.$store.getters['accounts/getAccount'](
+        this.accountId
+      );
+      const isContactAssignmentEnabled =
+        currentAccount?.custom_attributes?.enable_contact_assignment === true;
+      const isAgent = this.currentUser.role === 'agent';
+
+      // Hide unassigned and all tabs only for agents when contact assignment is enabled
+      const shouldHideTabs = isContactAssignmentEnabled && isAgent;
+
+      const ASSIGNEE_TYPE_TAB_KEYS = shouldHideTabs
+        ? {
+            me: 'mineCount',
+          }
+        : {
+            me: 'mineCount',
+            unassigned: 'unAssignedCount',
+            all: 'allCount',
+          };
+
       return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
         const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
         return {

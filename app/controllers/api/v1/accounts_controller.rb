@@ -181,7 +181,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def custom_attributes_params
-    params.permit(:industry, :company_size, :timezone, calling_settings: {}).to_h.compact
+    params.permit(:industry, :company_size, :timezone, :enable_contact_assignment, calling_settings: {}).to_h.compact
   end
 
   def update_instagram_settings
