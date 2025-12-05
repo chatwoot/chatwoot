@@ -54,18 +54,17 @@ class Enterprise::Billing::HandleStripeEventService
     update_plan_features
 
     if billing_period_renewed?
-      handle_subscription_credits(plan, previous_usage)
-      account.reset_response_usage
+      ActiveRecord::Base.transaction do
+        handle_subscription_credits(plan, previous_usage)
+        account.reset_response_usage
+      end
     elsif plan_changed?
       handle_plan_change_credits(plan, previous_usage)
     end
   end
 
   def capture_previous_usage
-    {
-      responses: account.custom_attributes['captain_responses_usage'].to_i,
-      monthly: current_plan_credits[:responses]
-    }
+    { responses: account.custom_attributes['captain_responses_usage'].to_i, monthly: current_plan_credits[:responses] }
   end
 
   def current_plan_credits
