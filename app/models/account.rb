@@ -147,6 +147,31 @@ class Account < ApplicationRecord
     custom_attributes&.dig('enable_contact_assignment') == true
   end
 
+  # Check if timed contact ownership is enabled
+  def timed_contact_ownership_enabled?
+    custom_attributes&.dig('enable_timed_contact_ownership') == true
+  end
+
+  # Get the ownership duration in minutes
+  def contact_ownership_duration_minutes
+    custom_attributes&.dig('contact_ownership_duration_minutes').to_i
+  end
+
+  # Enable timed contact ownership
+  def enable_timed_contact_ownership!(duration_minutes)
+    self.custom_attributes ||= {}
+    self.custom_attributes['enable_timed_contact_ownership'] = true
+    self.custom_attributes['contact_ownership_duration_minutes'] = duration_minutes
+    save!
+  end
+
+  # Disable timed contact ownership
+  def disable_timed_contact_ownership!
+    self.custom_attributes ||= {}
+    self.custom_attributes['enable_timed_contact_ownership'] = false
+    save!
+  end
+
   private
 
   def notify_creation

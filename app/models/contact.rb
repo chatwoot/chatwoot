@@ -46,7 +46,7 @@
 
 # rubocop:enable Layout/LineLength
 
-class Contact < ApplicationRecord
+class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   include Avatarable
   include AvailabilityStatusable
   include Labelable
@@ -187,6 +187,62 @@ class Contact < ApplicationRecord
   def self.from_email(email)
     find_by(email: email&.downcase)
   end
+
+  # Timed ownership tracking methods
+
+  # Check if contact ownership has expired
+  def ownership_expired?
+    return false if assignee_id.blank?
+    return false unless account.timed_contact_ownership_enabled?
+    return false if last_resolved_at.blank?
+
+    duration_minutes = account.contact_ownership_duration_minutes
+    return false if duration_minutes.zero?
+
+    expiry_time = last_resolved_at + duration_minutes.minutes
+    Time.current > expiry_time
+  end
+
+  # Get last resolved timestamp from custom_attributes
+  def last_resolved_at
+    timestamp = custom_attributes&.dig('last_resolved_at')
+    return nil if timestamp.blank?
+
+    Time.zone.parse(timestamp)
+  rescue ArgumentError, TypeError
+    nil
+  end
+
+  # Set last resolved timestamp
+  def set_last_resolved_at!(time = Time.current)
+    self.custom_attributes ||= {}
+    self.custom_attributes['last_resolved_at'] = time.iso8601
+    save!
+  end
+
+  # Clear ownership (unassign)
+  def clear_ownership!
+    self.assignee_id = nil
+    self.custom_attributes ||= {}
+    self.custom_attributes.delete('last_resolved_at')
+    save!
+  end
+
+  # Assign ownership to agent
+  def assign_ownership!(agent, resolved_at = Time.current)
+    self.assignee_id = agent.id
+    self.custom_attributes ||= {}
+    self.custom_attributes['last_resolved_at'] = resolved_at.iso8601
+    save!
+  end
+
+  # Scope for finding expired contacts
+  scope :with_expired_ownership, lambda {
+    where.not(assignee_id: nil)
+         .joins(:account)
+         .where("accounts.custom_attributes->>'enable_timed_contact_ownership' = 'true'")
+         .where("contacts.custom_attributes->>'last_resolved_at' IS NOT NULL")
+  }
 
   private
 

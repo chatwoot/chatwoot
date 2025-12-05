@@ -151,6 +151,80 @@
       </div>
 
       <div
+        class="flex flex-row p-4 border-b border-slate-25 dark:border-slate-800"
+      >
+        <div
+          class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
+        >
+          <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
+            {{ $t('GENERAL_SETTINGS.FORM.TIMED_CONTACT_OWNERSHIP.TITLE') }}
+          </h4>
+          <p>
+            {{ $t('GENERAL_SETTINGS.FORM.TIMED_CONTACT_OWNERSHIP.NOTE') }}
+          </p>
+        </div>
+        <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
+          <label class="flex items-center gap-2">
+            <input
+              v-model="timedOwnershipEnabled"
+              type="checkbox"
+              class="w-4 h-4"
+            />
+            <span>{{
+              $t('GENERAL_SETTINGS.FORM.TIMED_CONTACT_OWNERSHIP.LABEL')
+            }}</span>
+          </label>
+          <span class="help-text mt-2 block">
+            {{
+              $t('GENERAL_SETTINGS.FORM.TIMED_CONTACT_OWNERSHIP.DESCRIPTION')
+            }}
+          </span>
+
+          <div v-if="timedOwnershipEnabled" class="mt-4">
+            <label :class="{ error: $v.ownershipDurationMinutes.$error }">
+              {{
+                $t(
+                  'GENERAL_SETTINGS.FORM.TIMED_CONTACT_OWNERSHIP.DURATION_LABEL'
+                )
+              }}
+              <div class="flex items-center gap-2">
+                <input
+                  v-model.number="ownershipDurationMinutes"
+                  type="number"
+                  min="1"
+                  max="43200"
+                  :placeholder="
+                    $t(
+                      'GENERAL_SETTINGS.FORM.TIMED_CONTACT_OWNERSHIP.DURATION_PLACEHOLDER'
+                    )
+                  "
+                  class="w-32"
+                  @blur="$v.ownershipDurationMinutes.$touch"
+                />
+                <span class="text-sm text-slate-600 dark:text-slate-400">
+                  {{ durationInHours }}
+                </span>
+              </div>
+              <span v-if="$v.ownershipDurationMinutes.$error" class="message">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.TIMED_CONTACT_OWNERSHIP.DURATION_ERROR'
+                  )
+                }}
+              </span>
+              <span class="help-text">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.TIMED_CONTACT_OWNERSHIP.DURATION_HELP'
+                  )
+                }}
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div
         class="p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300 flex flex-row"
       >
         <div
@@ -218,6 +292,8 @@ export default {
       instagramDmMessage: 'Check your DM',
       hasInstagramInbox: false,
       contactAssignmentEnabled: false,
+      timedOwnershipEnabled: false,
+      ownershipDurationMinutes: 1440,
     };
   },
   validations: {
@@ -230,6 +306,10 @@ export default {
     autoResolveDuration: {
       minValue: minValue(1),
       maxValue: maxValue(999),
+    },
+    ownershipDurationMinutes: {
+      minValue: minValue(1),
+      maxValue: maxValue(43200),
     },
   },
   computed: {
@@ -285,6 +365,16 @@ export default {
     getAccountId() {
       return this.id.toString();
     },
+
+    durationInHours() {
+      const hours = Math.floor(this.ownershipDurationMinutes / 60);
+      const minutes = this.ownershipDurationMinutes % 60;
+
+      if (minutes === 0) {
+        return `${hours}h`;
+      }
+      return `${hours}h ${minutes}m`;
+    },
   },
   mounted() {
     this.initializeAccount();
@@ -319,6 +409,10 @@ export default {
           customAttributes?.instagram_dm_message || 'Check your DM';
         this.contactAssignmentEnabled =
           customAttributes?.enable_contact_assignment === true;
+        this.timedOwnershipEnabled =
+          customAttributes?.enable_timed_contact_ownership === true;
+        this.ownershipDurationMinutes =
+          customAttributes?.contact_ownership_duration_minutes || 1440;
       } catch (error) {
         // Ignore error
       }
@@ -338,6 +432,8 @@ export default {
           support_email: this.supportEmail,
           auto_resolve_duration: this.autoResolveDuration,
           enable_contact_assignment: this.contactAssignmentEnabled,
+          enable_timed_contact_ownership: this.timedOwnershipEnabled,
+          contact_ownership_duration_minutes: this.ownershipDurationMinutes,
         };
 
         if (this.hasInstagramInbox) {

@@ -50,6 +50,16 @@
       "CONTACT_ASSIGNMENT": {
         "TITLE": "Enable Contact Assignment",
         "NOTE": "When enabled, agents can only see and manage contacts assigned to them. Admins always see all contacts."
+      },
+      "TIMED_CONTACT_OWNERSHIP": {
+        "TITLE": "Time-Based Contact Ownership",
+        "NOTE": "Automatically unassign contacts after a period of inactivity",
+        "LABEL": "Enable time-based contact ownership",
+        "DESCRIPTION": "When enabled, contacts are temporarily assigned to agents who resolve their conversations, then automatically unassigned after the configured duration expires.",
+        "DURATION_LABEL": "Ownership Duration",
+        "DURATION_PLACEHOLDER": "1440",
+        "DURATION_HELP": "Contacts will be unassigned after this many minutes of inactivity since resolution. Default is 1440 minutes (24 hours).",
+        "DURATION_ERROR": "Please enter a valid duration between 1 and 43200 minutes (30 days)"
       }
     },
     "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",

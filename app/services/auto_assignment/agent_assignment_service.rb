@@ -12,9 +12,10 @@ class AutoAssignment::AgentAssignmentService
     { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity, content: content }
   end
 
-  def perform # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
-    # Priority 1: If contact assignment enabled and contact has owner, assign to contact owner
-    if conversation.account.contact_assignment_enabled? && conversation.contact.assignee_id.present?
+  def perform # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/PerceivedComplexity
+    # Priority 1: Check if contact has an owner (either from contact assignment or timed ownership)
+    if should_assign_to_contact_owner?
+      Rails.logger.info('Assign conversation to assignee')
       new_assignee = User.find_by(id: conversation.contact.assignee_id)
       if new_assignee
         conversation.update(assignee: new_assignee)
@@ -44,6 +45,20 @@ class AutoAssignment::AgentAssignmentService
   end
 
   private
+
+  def should_assign_to_contact_owner?
+    return false if conversation.contact.assignee_id.blank?
+
+    account = conversation.account
+
+    # Case 1: Contact assignment feature enabled
+    return true if account.contact_assignment_enabled?
+
+    # Case 2: Timed contact ownership enabled AND ownership hasn't expired
+    return !conversation.contact.ownership_expired? if account.timed_contact_ownership_enabled?
+
+    false
+  end
 
   def online_agent_ids
     online_agents = OnlineStatusTracker.get_available_users(conversation.account_id)

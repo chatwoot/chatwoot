@@ -89,3 +89,10 @@ message_report_job:
   cron: '0 1 1-31/2 * *'
   class: 'MessageReportJob'
   queue: scheduled_jobs
+
+# executed every 10 minutes
+# cleanup expired contact ownership assignments
+contact_ownership_cleanup_job:
+  cron: '*/10 * * * *'
+  class: 'ContactOwnershipCleanupJob'
+  queue: low

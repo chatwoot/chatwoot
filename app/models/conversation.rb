@@ -114,6 +114,7 @@ class Conversation < ApplicationRecord
   before_create :ensure_waiting_since
   before_create :set_working_hours_attribute
 
+  after_update :assign_contact_to_resolver, if: :saved_change_to_status?
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
@@ -505,6 +506,26 @@ class Conversation < ApplicationRecord
 
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)
+  end
+
+  def assign_contact_to_resolver
+    return unless status == 'resolved'
+    return unless account.timed_contact_ownership_enabled?
+    return if assignee.blank? # Only if conversation has an assignee
+    return if assignee_is_bot? # Skip if assignee is Bitespeed bot
+
+    # Assign contact to the agent who resolved the conversation
+    contact.assign_ownership!(assignee, Time.current)
+
+    Rails.logger.info "Contact #{contact.id} assigned to agent #{assignee.id} for #{account.contact_ownership_duration_minutes} minutes"
+  end
+
+  # Check if the assignee is a Bitespeed bot
+  def assignee_is_bot?
+    return false if assignee.blank?
+
+    # Check by email pattern (cx.%@bitespeed.co) or name (BiteSpeed Bot)
+    assignee.email&.match?(/^cx\..*@bitespeed\.co$/i) || assignee.name == 'BiteSpeed Bot'
   end
 
   def validate_referer_url

@@ -1,7 +1,7 @@
 json.auto_resolve_duration resource.auto_resolve_duration
 json.created_at resource.created_at
 if resource.custom_attributes.present?
-  json.custom_attributes do
+  json.custom_attributes do # rubocop:disable Metrics/BlockLength
     json.plan_name resource.custom_attributes['plan_name']
     json.subscribed_quantity resource.custom_attributes['subscribed_quantity']
     json.subscription_status resource.custom_attributes['subscription_status']
@@ -27,6 +27,12 @@ if resource.custom_attributes.present?
     json.onboarding_step resource.custom_attributes['onboarding_step'] if resource.custom_attributes['onboarding_step'].present?
     if resource.custom_attributes['enable_contact_assignment'].present?
       json.enable_contact_assignment resource.custom_attributes['enable_contact_assignment']
+    end
+    if resource.custom_attributes['enable_timed_contact_ownership'].present?
+      json.enable_timed_contact_ownership resource.custom_attributes['enable_timed_contact_ownership']
+    end
+    if resource.custom_attributes['contact_ownership_duration_minutes'].present?
+      json.contact_ownership_duration_minutes resource.custom_attributes['contact_ownership_duration_minutes']
     end
     json.instagram_dm_message resource.instagram_dm_message if @account.instagram_inbox?
   end
