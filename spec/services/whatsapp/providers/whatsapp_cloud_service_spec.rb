@@ -315,7 +315,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
   describe 'CSAT template methods' do
     let(:mock_csat_template_service) { instance_double(Whatsapp::CsatTemplateService) }
-    let(:expected_template_name) { "customer_satisfaction_survey_inbox_#{whatsapp_channel.inbox.id}" }
+    let(:expected_template_name) { "customer_satisfaction_survey_#{whatsapp_channel.inbox.id}" }
     let(:template_config) do
       {
         name: expected_template_name,

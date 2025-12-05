@@ -45,7 +45,7 @@ class CsatSurveyService
     template_config = inbox.csat_config&.dig('template')
     return false unless template_config
 
-    template_name = template_config['name'] || "customer_satisfaction_survey_inbox_#{inbox.id}"
+    template_name = template_config['name'] || Whatsapp::CsatTemplateNameService.csat_template_name(inbox.id)
     status_result = inbox.channel.provider_service.get_template_status(template_name)
 
     status_result[:success] && status_result[:template][:status] == 'APPROVED'
@@ -56,7 +56,7 @@ class CsatSurveyService
 
   def send_whatsapp_template_survey
     template_config = inbox.csat_config&.dig('template')
-    template_name = template_config['name'] || "customer_satisfaction_survey_inbox_#{inbox.id}"
+    template_name = template_config['name'] || Whatsapp::CsatTemplateNameService.csat_template_name(inbox.id)
 
     phone_number = conversation.contact_inbox.source_id
     template_info = build_template_info(template_name, template_config)

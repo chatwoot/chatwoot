@@ -197,7 +197,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
         allow(mock_service).to receive(:get_template_status).and_return({ success: false })
         allow(mock_service).to receive(:create_csat_template).and_return({
                                                                            success: true,
-                                                                           template_name: "customer_satisfaction_survey_inbox_#{whatsapp_inbox.id}",
+                                                                           template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}",
                                                                            template_id: '987654321'
                                                                          })
 
@@ -208,7 +208,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
 
         expect(response).to have_http_status(:created)
         response_data = response.parsed_body
-        expect(response_data['template']['name']).to eq("customer_satisfaction_survey_inbox_#{whatsapp_inbox.id}")
+        expect(response_data['template']['name']).to eq("customer_satisfaction_survey_#{whatsapp_inbox.id}")
         expect(response_data['template']['template_id']).to eq('987654321')
         expect(response_data['template']['status']).to eq('PENDING')
         expect(response_data['template']['language']).to eq('en')
@@ -225,8 +225,8 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
         expect(mock_service).to receive(:create_csat_template) do |config|
           expect(config[:button_text]).to eq('Please rate us')
           expect(config[:language]).to eq('en')
-          expect(config[:template_name]).to eq("customer_satisfaction_survey_inbox_#{whatsapp_inbox.id}")
-          { success: true, template_name: "customer_satisfaction_survey_inbox_#{whatsapp_inbox.id}", template_id: '123' }
+          expect(config[:template_name]).to eq("customer_satisfaction_survey_#{whatsapp_inbox.id}")
+          { success: true, template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}", template_id: '123' }
         end
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template",
@@ -318,7 +318,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
         expect(mock_service).to receive(:create_csat_template)
           .and_return({
                         success: true,
-                        template_name: "customer_satisfaction_survey_inbox_#{whatsapp_inbox.id}",
+                        template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}",
                         template_id: '222222222'
                       })
 
@@ -340,7 +340,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
           .and_return({ success: false, response_body: 'Delete failed' })
         allow(mock_service).to receive(:create_csat_template).and_return({
                                                                            success: true,
-                                                                           template_name: "customer_satisfaction_survey_inbox_#{whatsapp_inbox.id}",
+                                                                           template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}",
                                                                            template_id: '333333333'
                                                                          })
 
