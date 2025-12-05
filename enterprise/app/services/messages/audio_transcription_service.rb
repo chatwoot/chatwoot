@@ -1,4 +1,4 @@
-class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
+class Messages::AudioTranscriptionService < Llm::LegacyBaseOpenAiService
   attr_reader :attachment, :message, :account
 
   def initialize(attachment)

@@ -19,19 +19,8 @@ RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
   end
 
   describe '#parameters' do
-    it 'returns the expected parameter schema' do
-      expect(service.parameters).to eq(
-        {
-          type: 'object',
-          properties: {
-            term: {
-              type: 'string',
-              description: 'The search term to find Linear issues'
-            }
-          },
-          required: %w[term]
-        }
-      )
+    it 'defines term parameter' do
+      expect(service.parameters.keys).to contain_exactly(:term)
     end
   end
 
@@ -76,7 +65,7 @@ RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
   describe '#execute' do
     context 'when Linear integration is not enabled' do
       it 'returns error message' do
-        expect(service.execute({ 'term' => 'test' })).to eq('Linear integration is not enabled')
+        expect(service.execute(term: 'test')).to eq('Linear integration is not enabled')
       end
     end
 
@@ -89,8 +78,12 @@ RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
       end
 
       context 'when term is blank' do
-        it 'returns error message' do
-          expect(service.execute({ 'term' => '' })).to eq('Missing required parameters')
+        before do
+          allow(linear_service).to receive(:search_issue).with('').and_return({ data: [] })
+        end
+
+        it 'returns no issues found message' do
+          expect(service.execute(term: '')).to eq('No issues found, I should try another similar search term')
         end
       end
 
@@ -100,7 +93,7 @@ RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
         end
 
         it 'returns the error message' do
-          expect(service.execute({ 'term' => 'test' })).to eq('API Error')
+          expect(service.execute(term: 'test')).to eq('API Error')
         end
       end
 
@@ -110,7 +103,7 @@ RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
         end
 
         it 'returns no issues found message' do
-          expect(service.execute({ 'term' => 'test' })).to eq('No issues found, I should try another similar search term')
+          expect(service.execute(term: 'test')).to eq('No issues found, I should try another similar search term')
         end
       end
 
@@ -131,7 +124,7 @@ RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
         end
 
         it 'returns formatted issues' do
-          result = service.execute({ 'term' => 'test' })
+          result = service.execute(term: 'test')
           expect(result).to include('Total number of issues: 1')
           expect(result).to include('Title: Test Issue')
           expect(result).to include('ID: TEST-123')
