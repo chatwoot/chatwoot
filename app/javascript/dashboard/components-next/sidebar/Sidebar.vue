@@ -75,6 +75,9 @@ const conversationCustomViews = useMapGetter(
 );
 
 let partnerUser = ref(false)
+const can_view_sidebar = computed(() => {
+  return store.getters['acl/getTimePrivado']
+})
 
 onMounted(() => {
   store.dispatch('labels/get');
@@ -141,15 +144,15 @@ watch(teams, (newValue) => {
 const reportRoutes = computed(() => newReportRoutes());
 
 const partnerMenuItems = computed(() => {
-  const userPrivateTeams = teams.value.filter(t => /\bprivado\b/i.test(t.name))
-  if (userPrivateTeams.length === 0) return []
+  // const userPrivateTeams = teams.value.filter(t => /\bprivado\b/i.test(t.name))
+  // if (userPrivateTeams.length === 0) return []
   return [
     {
           name: 'Teams',
           label: t('SIDEBAR.TEAMS'),
           icon: 'i-lucide-users',
           activeOn: ['conversations_through_team'],
-          children: userPrivateTeams.map(team => ({
+          children: teams.value.map(team => ({
             name: `${team.name}-${team.id}`,
             label: team.name,
             to: accountScopedRoute('team_conversations', { teamId: team.id }),
@@ -623,7 +626,7 @@ const menuItems = computed(() => {
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
-      <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="!partnerUser">
+      <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="can_view_sidebar">
         <SidebarGroup
           v-for="item in menuItems"
           :key="item.name"
@@ -646,4 +649,5 @@ const menuItems = computed(() => {
       />
     </section>
   </aside>
+  {{ can_view_sidebar }}
 </template>

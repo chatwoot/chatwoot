@@ -169,6 +169,8 @@ export default {
 
           this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
+          console.log("Fez o login -> Chama a API pra pegar as ACLs e guarda na store global")
+          console.log("Pegaria o state da store, assim => ", this.$store.state.can_view_sidebar)
         })
         .catch(response => {
           // Reset URL Params if the authentication is invalid

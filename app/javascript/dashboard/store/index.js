@@ -57,11 +57,13 @@ import copilotThreads from './captain/copilotThreads';
 import copilotMessages from './captain/copilotMessages';
 import captainScenarios from './captain/scenarios';
 import captainTools from './captain/tools';
+import acl from './modules/acl'
 
 const plugins = [];
 
 export default createStore({
   modules: {
+    acl,
     accounts,
     agentBots,
     agentCapacityPolicies,
