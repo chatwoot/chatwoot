@@ -275,30 +275,6 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
-    },
-    "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "CALL_CONTACT": "Call",
-      "SELECT_NUMBER": "Select a number to call",
-      "YOU_CALLED": "You called",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered",
-      "YOU_DIDNT_ANSWER": "You didn't answer",
-      "JOIN_CALL": "Join call",
-      "REJECT_CALL": "Reject call",
-      "END_CALL": "End call"
-    },
-    "COPILOT": {
-      "TRY_THESE_PROMPTS": "Try these prompts"
-    },
-    "GALLERY_VIEW": {
-      "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
     }
   },
   "EMAIL_TRANSCRIPT": {
