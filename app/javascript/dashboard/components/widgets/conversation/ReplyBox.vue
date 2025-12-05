@@ -7,7 +7,6 @@ import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
-import CannedResponse from './CannedResponse.vue';
 import ReplyToMessage from './ReplyToMessage.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
@@ -58,7 +57,6 @@ export default {
     ArticleSearchPopover,
     AttachmentPreview,
     AudioRecorder,
-    CannedResponse,
     ReplyBoxBanner,
     EmojiInput,
     MessageSignatureMissingAlert,
@@ -110,8 +108,6 @@ export default {
       recordingAudioState: '',
       recordingAudioDurationText: '',
       replyType: REPLY_EDITOR_MODES.REPLY,
-      mentionSearchKey: '',
-      hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
       toEmails: '',
@@ -441,25 +437,7 @@ export default {
         this.resetRecorderAndClearAttachments();
       }
     },
-    message(updatedMessage) {
-      // Check if the message starts with a slash.
-      const bodyWithoutSignature = removeSignature(
-        updatedMessage,
-        this.messageSignature
-      );
-      const startsWithSlash = bodyWithoutSignature.startsWith('/');
-
-      // Determine if the user is potentially typing a slash command.
-      // This is true if the message starts with a slash.
-      this.hasSlashCommand = startsWithSlash;
-      this.showMentions = this.hasSlashCommand;
-
-      // If a slash command is active, extract the command text after the slash.
-      // If not, reset the mentionSearchKey.
-      this.mentionSearchKey = this.hasSlashCommand
-        ? bodyWithoutSignature.substring(1)
-        : '';
-
+    message() {
       // Autosave the current message draft.
       this.doAutoSaveDraft();
     },
@@ -604,7 +582,6 @@ export default {
         Escape: {
           action: () => {
             this.hideEmojiPicker();
-            this.hideMentions();
           },
           allowOnFocusedInput: true,
         },
@@ -854,9 +831,6 @@ export default {
         this.toggleEmojiPicker();
       }
     },
-    hideMentions() {
-      this.showMentions = false;
-    },
     onTypingOn() {
       this.toggleTyping('on');
     },
@@ -1103,13 +1077,6 @@ export default {
         :message="inReplyTo"
         @dismiss="resetReplyToMessage"
       />
-      <CannedResponse
-        v-if="showMentions && hasSlashCommand"
-        v-on-clickaway="hideMentions"
-        class="normal-editor__canned-box"
-        :search-key="mentionSearchKey"
-        @replace="replaceText"
-      />
       <EmojiInput
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
@@ -1276,10 +1243,5 @@ export default {
     transform: rotate(0deg);
     @apply ltr:left-1 rtl:right-1 -bottom-2;
   }
-}
-
-.normal-editor__canned-box {
-  width: calc(100% - 2 * 1rem);
-  left: 1rem;
 }
 </style>

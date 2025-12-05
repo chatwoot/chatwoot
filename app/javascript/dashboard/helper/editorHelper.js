@@ -315,7 +315,7 @@ const createNode = (editorView, nodeType, content) => {
       return mentionNode;
     }
     case 'cannedResponse':
-      return new MessageMarkdownTransformer(messageSchema).parse(content);
+      return new MessageMarkdownTransformer(state.schema).parse(content);
     case 'variable':
       return state.schema.text(`{{${content}}}`);
     case 'emoji':
