@@ -3,13 +3,9 @@ class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseTool
     'search_articles'
   end
   description 'Search articles based on parameters'
-  params do
-    string :query, description: 'Search articles by title or content (partial match)'
-    number :category_id, description: 'Filter articles by category ID'
-    any_of :status, description: 'Filter articles by status' do
-      string enum: %w[draft published archived]
-    end
-  end
+  param :query, desc: 'Search articles by title or content (partial match)', required: false
+  param :category_id, type: :number, desc: 'Filter articles by category ID', required: false
+  param :status, type: :string, desc: 'Filter articles by status - MUST BE ONE OF: draft, published, archived', required: false
 
   def execute(query: nil, category_id: nil, status: nil)
     articles = fetch_articles(query: query, category_id: category_id, status: status)
