@@ -4,7 +4,7 @@ class Whatsapp::CsatTemplateService
   end
 
   def create_template(template_config)
-    base_name = template_config[:template_name] || 'customer_satisfaction_survey'
+    base_name = template_config[:template_name]
     template_name = generate_template_name(base_name)
     template_config_with_name = template_config.merge(template_name: template_name)
     request_body = build_template_request_body(template_config_with_name)
@@ -12,7 +12,8 @@ class Whatsapp::CsatTemplateService
     process_template_creation_response(response, template_config_with_name)
   end
 
-  def delete_template(template_name = 'customer_satisfaction_survey')
+  def delete_template(template_name = nil)
+    template_name ||= "customer_satisfaction_survey_inbox_#{@whatsapp_channel.inbox.id}"
     response = HTTParty.delete(
       "#{business_account_path}/message_templates?name=#{template_name}",
       headers: api_headers
@@ -48,17 +49,23 @@ class Whatsapp::CsatTemplateService
 
     current_name = template['name']
 
+    # First time creating a template - use the base name as is.
     return base_name if current_name.blank?
 
-    # Always use customer_satisfaction_survey as the true base, regardless of what's passed in
-    true_base_name = 'customer_satisfaction_survey'
+    # Always use customer_satisfaction_survey_inbox_{id} as the true base, regardless of what's passed in
+    # This ensures consistent naming even if different base names are provided
+    true_base_name = "customer_satisfaction_survey_inbox_#{@whatsapp_channel.inbox.id}"
 
-    if current_name.match?(/^customer_satisfaction_survey_(\d+)$/)
-      # Extract current version and increment
-      current_version = current_name.match(/^customer_satisfaction_survey_(\d+)$/)[1].to_i
+    # Check if current template follows versioned naming pattern (e.g., customer_satisfaction_survey_inbox_123_1)
+    inbox_pattern = /^customer_satisfaction_survey_inbox_#{@whatsapp_channel.inbox.id}_(\d+)$/
+    if current_name.match?(inbox_pattern)
+      # Extract current version number and increment for next template
+      # This handles cases like customer_satisfaction_survey_inbox_123_1 -> customer_satisfaction_survey_inbox_123_2
+      current_version = current_name.match(inbox_pattern)[1].to_i
       "#{true_base_name}_#{current_version + 1}"
     else
-      # Second time or fallback - use version 1
+      # Template exists but doesn't follow versioned pattern (likely first template named with base name)
+      # Start versioning from 1 for the next template
       "#{true_base_name}_1"
     end
   end

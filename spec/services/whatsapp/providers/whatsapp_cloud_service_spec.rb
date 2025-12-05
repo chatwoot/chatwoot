@@ -315,9 +315,10 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
   describe 'CSAT template methods' do
     let(:mock_csat_template_service) { instance_double(Whatsapp::CsatTemplateService) }
+    let(:expected_template_name) { "customer_satisfaction_survey_inbox_#{whatsapp_channel.inbox.id}" }
     let(:template_config) do
       {
-        name: 'customer_satisfaction_survey',
+        name: expected_template_name,
         language: 'en',
         category: 'UTILITY'
       }
@@ -345,12 +346,12 @@ describe Whatsapp::Providers::WhatsappCloudService do
     describe '#delete_csat_template' do
       it 'delegates to csat_template_service with default template name' do
         allow(mock_csat_template_service).to receive(:delete_template)
-          .with('customer_satisfaction_survey')
+          .with(expected_template_name)
           .and_return({ success: true })
 
         result = service.delete_csat_template
 
-        expect(mock_csat_template_service).to have_received(:delete_template).with('customer_satisfaction_survey')
+        expect(mock_csat_template_service).to have_received(:delete_template).with(expected_template_name)
         expect(result).to eq({ success: true })
       end
 

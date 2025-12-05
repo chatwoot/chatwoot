@@ -6,7 +6,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     template = @inbox.csat_config&.dig('template')
     return render json: { template_exists: false } unless template
 
-    template_name = template['name'] || 'customer_satisfaction_survey'
+    template_name = template['name'] || "customer_satisfaction_survey_inbox_#{@inbox.id}"
     status_result = @inbox.channel.provider_service.get_template_status(template_name)
 
     render_template_status_response(status_result, template_name)
@@ -19,7 +19,8 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     template_params = extract_template_params
     return render_missing_message_error if template_params[:message].blank?
 
-    # Try to delete existing template, but don't fail if deletion fails
+    # Delete existing template even though we are using a new one.
+    # We don't want too many templates in the business portfolio, but the create operation shouldn't fail if deletion fails.
     delete_existing_template_if_needed
 
     result = create_template_via_provider(template_params)
@@ -46,7 +47,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   end
 
   def extract_template_params
-    params.require(:template).permit(:message, :button_text, :language, :template_name)
+    params.require(:template).permit(:message, :button_text, :language)
   end
 
   def render_missing_message_error
@@ -59,7 +60,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
       button_text: template_params[:button_text] || 'Please rate us',
       base_url: ENV.fetch('FRONTEND_URL', 'http://localhost:3000'),
       language: template_params[:language] || 'en',
-      template_name: template_params[:template_name] || 'customer_satisfaction_survey'
+      template_name: "customer_satisfaction_survey_inbox_#{@inbox.id}"
     }
 
     @inbox.channel.provider_service.create_csat_template(template_config)
@@ -95,7 +96,6 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   end
 
   def delete_existing_template_if_needed
-    # Only attempt deletion if inbox has a configured template
     template = @inbox.csat_config&.dig('template')
     return true if template.blank?
 
