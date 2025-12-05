@@ -208,7 +208,7 @@ export default {
       <h2 class="text-2xl font-medium text-n-slate-12">
         {{ $t('PROFILE_SETTINGS.TITLE') }}
       </h2>
-      <UserProfilePicture
+      <UserProfilePicture.  
         :src="avatarUrl"
         :name="name"
         @change="updateProfilePicture"
