@@ -94,6 +94,7 @@ export const actions = {
         contactId,
         files,
       });
+
       const { data } = await ConversationApi.create(payload);
       commit(types.default.ADD_CONTACT_CONVERSATION, {
         id: contactId,
