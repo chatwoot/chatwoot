@@ -1,45 +1,56 @@
 # frozen_string_literal: true
 
 require 'opentelemetry_config'
-require_relative 'llm_instrumentation_constants'
 
 module Integrations::LlmInstrumentation
   include Integrations::LlmInstrumentationConstants
+  include Integrations::LlmInstrumentationHelpers
+  include Integrations::LlmInstrumentationSpans
 
-  def tracer
-    @tracer ||= OpentelemetryConfig.tracer
-  end
+  PROVIDER_PREFIXES = {
+    'openai' => %w[gpt- o1 o3 o4 text-embedding- whisper- tts-],
+    'anthropic' => %w[claude-],
+    'google' => %w[gemini-],
+    'mistral' => %w[mistral- codestral-],
+    'deepseek' => %w[deepseek-]
+  }.freeze
 
   def instrument_llm_call(params)
     return yield unless ChatwootApp.otel_enabled?
 
+    result = nil
+    executed = false
     tracer.in_span(params[:span_name]) do |span|
       setup_span_attributes(span, params)
       result = yield
+      executed = true
       record_completion(span, result)
       result
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
-    yield
+    ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
+    executed ? result : yield
   end
 
   def instrument_agent_session(params)
     return yield unless ChatwootApp.otel_enabled?
 
+    result = nil
+    executed = false
     tracer.in_span(params[:span_name]) do |span|
+      set_request_attributes(span, params)
       set_metadata_attributes(span, params)
 
       # By default, the input and output of a trace are set from the root observation
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
       result = yield
+      executed = true
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
-
       result
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: params[:account]).capture_exception
-    yield
+    ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
+    executed ? result : yield
   end
 
   def instrument_tool_call(tool_name, arguments)
@@ -55,7 +66,26 @@ module Integrations::LlmInstrumentation
     end
   end
 
+  def determine_provider(model_name)
+    return 'openai' if model_name.blank?
+
+    model = model_name.to_s.downcase
+
+    PROVIDER_PREFIXES.each do |provider, prefixes|
+      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+    end
+
+    'openai'
+  end
+
   private
+
+  def resolve_account(params)
+    return params[:account] if params[:account].is_a?(Account)
+    return Account.find_by(id: params[:account_id]) if params[:account_id].present?
+
+    nil
+  end
 
   def setup_span_attributes(span, params)
     set_request_attributes(span, params)
@@ -64,11 +94,17 @@ module Integrations::LlmInstrumentation
   end
 
   def record_completion(span, result)
-    set_completion_attributes(span, result) if result.is_a?(Hash)
+    if result.respond_to?(:content)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
+    elsif result.is_a?(Hash)
+      set_completion_attributes(span, result) if result.is_a?(Hash)
+    end
   end
 
   def set_request_attributes(span, params)
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openai')
+    provider = determine_provider(params[:model])
+    span.set_attribute(ATTR_GEN_AI_PROVIDER, provider)
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
     span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]
   end
@@ -81,51 +117,5 @@ module Integrations::LlmInstrumentation
       span.set_attribute(format(ATTR_GEN_AI_PROMPT_ROLE, idx), role)
       span.set_attribute(format(ATTR_GEN_AI_PROMPT_CONTENT, idx), content.to_s)
     end
-  end
-
-  def set_metadata_attributes(span, params)
-    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
-    span.set_attribute(ATTR_LANGFUSE_USER_ID, params[:account_id].to_s) if params[:account_id]
-    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, session_id) if session_id.present?
-    span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json)
-
-    return unless params[:metadata].is_a?(Hash)
-
-    params[:metadata].each do |key, value|
-      span.set_attribute(format(ATTR_LANGFUSE_METADATA, key), value.to_s)
-    end
-  end
-
-  def set_completion_attributes(span, result)
-    set_completion_message(span, result)
-    set_usage_metrics(span, result)
-    set_error_attributes(span, result)
-  end
-
-  def set_completion_message(span, result)
-    message = result[:message] || result.dig('choices', 0, 'message', 'content')
-    return if message.blank?
-
-    span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
-    span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message)
-  end
-
-  def set_usage_metrics(span, result)
-    usage = result[:usage] || result['usage']
-    return if usage.blank?
-
-    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage['total_tokens']) if usage['total_tokens']
-  end
-
-  def set_error_attributes(span, result)
-    error = result[:error] || result['error']
-    return if error.blank?
-
-    error_code = result[:error_code] || result['error_code']
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, error.to_json)
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR_CODE, error_code) if error_code
-    span.status = OpenTelemetry::Trace::Status.error("API Error: #{error_code}")
   end
 end
