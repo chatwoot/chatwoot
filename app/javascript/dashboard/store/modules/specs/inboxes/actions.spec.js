@@ -1,34 +1,31 @@
-// Mock the EvolutionChannel API client
-const mockEvolutionChannel = {
-  create: vi.fn(),
-};
+// Mock EvolutionChannel API
+vi.mock('dashboard/api/channel/evolutionChannel', () => ({
+  default: {
+    create: vi.fn(),
+  },
+}));
 
 // Mock AnalyticsHelper
-const mockAnalyticsHelper = {
-  track: vi.fn(),
-};
+vi.mock('dashboard/helper/AnalyticsHelper', () => ({
+  default: {
+    track: vi.fn(),
+  },
+}));
 
 // Mock analytics events
-const mockEvents = {
+vi.mock('dashboard/helper/AnalyticsHelper/events', () => ({
   ACCOUNT_EVENTS: {
     ADDED_AN_INBOX: 'Added an inbox',
   },
-};
-
-vi.mock('../../../api/channel/evolutionChannel', () => ({
-  default: mockEvolutionChannel,
 }));
-
-vi.mock('../../../helper/AnalyticsHelper', () => ({
-  default: mockAnalyticsHelper,
-}));
-
-vi.mock('../../../helper/AnalyticsHelper/events', () => mockEvents);
 
 import axios from 'axios';
 import { actions } from '../../inboxes';
 import * as types from '../../../mutation-types';
 import inboxList from './fixtures';
+import EvolutionChannel from 'dashboard/api/channel/evolutionChannel';
+import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
+import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const commit = vi.fn();
 global.axios = axios;
@@ -287,8 +284,6 @@ describe('#actions', () => {
     beforeEach(() => {
       vi.clearAllMocks();
       commit.mockClear();
-      mockEvolutionChannel.create.mockClear();
-      mockAnalyticsHelper.track.mockClear();
     });
 
     it('sends correct actions if API is success', async () => {
@@ -301,7 +296,7 @@ describe('#actions', () => {
         },
       };
 
-      mockEvolutionChannel.create.mockResolvedValueOnce({
+      EvolutionChannel.create.mockResolvedValueOnce({
         data: evolutionChannelData,
       });
 
@@ -320,9 +315,9 @@ describe('#actions', () => {
         [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
       ]);
 
-      expect(mockEvolutionChannel.create).toHaveBeenCalledWith(params);
-      expect(mockAnalyticsHelper.track).toHaveBeenCalledWith(
-        mockEvents.ACCOUNT_EVENTS.ADDED_AN_INBOX,
+      expect(EvolutionChannel.create).toHaveBeenCalledWith(params);
+      expect(AnalyticsHelper.track).toHaveBeenCalledWith(
+        ACCOUNT_EVENTS.ADDED_AN_INBOX,
         {
           channelType: 'evolution',
         }
@@ -332,9 +327,7 @@ describe('#actions', () => {
 
     it('sends correct actions if API is error', async () => {
       const errorMessage = 'Failed to create Evolution channel';
-      mockEvolutionChannel.create.mockRejectedValueOnce(
-        new Error(errorMessage)
-      );
+      EvolutionChannel.create.mockRejectedValueOnce(new Error(errorMessage));
 
       const params = {
         name: '5511999999999',
@@ -352,14 +345,14 @@ describe('#actions', () => {
         [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
       ]);
 
-      expect(mockEvolutionChannel.create).toHaveBeenCalledWith(params);
-      expect(mockAnalyticsHelper.track).not.toHaveBeenCalled();
+      expect(EvolutionChannel.create).toHaveBeenCalledWith(params);
+      expect(AnalyticsHelper.track).not.toHaveBeenCalled();
     });
 
     it('handles network error gracefully', async () => {
       const networkError = new Error('Network Error');
       networkError.response = { status: 500 };
-      mockEvolutionChannel.create.mockRejectedValueOnce(networkError);
+      EvolutionChannel.create.mockRejectedValueOnce(networkError);
 
       const params = {
         name: '5511999999999',

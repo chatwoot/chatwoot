@@ -1,6 +1,22 @@
+// Mock vue-router
+const mockRouterReplace = vi.fn();
+vi.mock('vue-router', () => ({
+  useRouter: () => ({
+    replace: mockRouterReplace,
+  }),
+}));
+
+// Mock vue-i18n
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({
+    t: msg => msg,
+  }),
+}));
+
 // Mock the useAlert composable
+const mockUseAlert = vi.fn();
 vi.mock('dashboard/composables', () => ({
-  useAlert: vi.fn(),
+  useAlert: (...args) => mockUseAlert(...args),
 }));
 
 // Mock the validators
@@ -21,14 +37,14 @@ vi.mock('dashboard/components-next/button/Button.vue', () => ({
   },
 }));
 
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, flushPromises } from '@vue/test-utils';
 import { createStore } from 'vuex';
-import { useAlert } from 'dashboard/composables';
 import Evolution from '../Evolution.vue';
 
 describe('Evolution.vue - Core Logic Tests', () => {
   let wrapper;
   let store;
+  let dispatchSpy;
 
   const createWrapper = (storeConfig = {}) => {
     // Create mock store
@@ -38,23 +54,24 @@ describe('Evolution.vue - Core Logic Tests', () => {
           namespaced: true,
           getters: {
             getUIFlags: () => ({ isCreating: false }),
+            ...storeConfig.getters,
           },
           actions: {
-            createEvolutionChannel: vi.fn(),
+            createEvolutionChannel: vi.fn().mockResolvedValue({ id: 123 }),
+            ...storeConfig.actions,
           },
-          ...storeConfig,
         },
       },
     });
+
+    // Spy on store.dispatch
+    dispatchSpy = vi.spyOn(store, 'dispatch');
 
     return shallowMount(Evolution, {
       global: {
         plugins: [store],
         mocks: {
           $t: msg => msg,
-          $router: {
-            replace: vi.fn(),
-          },
         },
         stubs: {
           NextButton: true,
@@ -65,7 +82,8 @@ describe('Evolution.vue - Core Logic Tests', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    useAlert.mockClear?.();
+    mockUseAlert.mockClear();
+    mockRouterReplace.mockClear();
   });
 
   afterEach(() => {
@@ -91,58 +109,57 @@ describe('Evolution.vue - Core Logic Tests', () => {
   });
 
   describe('Phone number validation', () => {
-    it('validates E164 format correctly', () => {
+    it('validates E164 format correctly', async () => {
       wrapper = createWrapper();
 
-      // Test valid E164 numbers
-      expect(
-        wrapper.vm.v$.phoneNumber.isPhoneE164OrEmpty.$validator(
-          '+5511999999999'
-        )
-      ).toBe(true);
-      expect(
-        wrapper.vm.v$.phoneNumber.isPhoneE164OrEmpty.$validator('+1234567890')
-      ).toBe(true);
-      expect(wrapper.vm.v$.phoneNumber.isPhoneE164OrEmpty.$validator('')).toBe(
-        true
-      );
+      // Test valid E164 number - should not have error
+      wrapper.vm.phoneNumber = '+5511999999999';
+      await wrapper.vm.v$.$validate();
+      expect(wrapper.vm.v$.phoneNumber.$error).toBe(false);
 
-      // Test invalid formats
-      expect(
-        wrapper.vm.v$.phoneNumber.isPhoneE164OrEmpty.$validator('5511999999999')
-      ).toBe(false);
-      expect(
-        wrapper.vm.v$.phoneNumber.isPhoneE164OrEmpty.$validator('invalid')
-      ).toBe(false);
+      // Test empty is valid for isPhoneE164OrEmpty
+      wrapper.vm.phoneNumber = '';
+      await wrapper.vm.v$.$validate();
+      // Empty fails 'required' but passes 'isPhoneE164OrEmpty'
+      expect(wrapper.vm.v$.phoneNumber.isPhoneE164OrEmpty.$invalid).toBe(false);
     });
 
-    it('requires phone number', () => {
+    it('rejects invalid phone format', async () => {
       wrapper = createWrapper();
 
-      expect(wrapper.vm.v$.phoneNumber.required.$validator('')).toBe(false);
-      expect(
-        wrapper.vm.v$.phoneNumber.required.$validator('+5511999999999')
-      ).toBe(true);
+      // Test invalid format - missing plus sign
+      wrapper.vm.phoneNumber = '5511999999999';
+      await wrapper.vm.v$.$validate();
+      expect(wrapper.vm.v$.phoneNumber.isPhoneE164OrEmpty.$invalid).toBe(true);
+    });
+
+    it('requires phone number', async () => {
+      wrapper = createWrapper();
+
+      wrapper.vm.phoneNumber = '';
+      await wrapper.vm.v$.$validate();
+      expect(wrapper.vm.v$.phoneNumber.required.$invalid).toBe(true);
+
+      wrapper.vm.phoneNumber = '+5511999999999';
+      await wrapper.vm.v$.$validate();
+      expect(wrapper.vm.v$.phoneNumber.required.$invalid).toBe(false);
     });
   });
 
   describe('Form submission logic', () => {
     it('strips non-digits from phone number for submission', async () => {
-      const createEvolutionChannelMock = vi.fn().mockResolvedValue({ id: 123 });
-      wrapper = createWrapper({
-        actions: {
-          createEvolutionChannel: createEvolutionChannelMock,
-        },
-      });
+      wrapper = createWrapper();
 
-      // Set phone number with special characters
-      wrapper.vm.phoneNumber = '+55 (11) 99999-9999';
+      // Set valid E164 phone number (validation requires + followed by digits)
+      wrapper.vm.phoneNumber = '+5511999999999';
 
       // Call the createChannel method directly
       await wrapper.vm.createChannel();
+      await flushPromises();
 
-      expect(createEvolutionChannelMock).toHaveBeenCalledWith(
-        expect.any(Object),
+      // Verify the name passed is just digits (+ is stripped via /\D/g)
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        'inboxes/createEvolutionChannel',
         {
           name: '5511999999999',
           channel: {
@@ -153,21 +170,14 @@ describe('Evolution.vue - Core Logic Tests', () => {
     });
 
     it('calls router.replace on successful channel creation', async () => {
-      const createEvolutionChannelMock = vi.fn().mockResolvedValue({ id: 123 });
-      const routerReplaceMock = vi.fn();
+      wrapper = createWrapper();
 
-      wrapper = createWrapper({
-        actions: {
-          createEvolutionChannel: createEvolutionChannelMock,
-        },
-      });
-
-      wrapper.vm.$router.replace = routerReplaceMock;
       wrapper.vm.phoneNumber = '+5511999999999';
 
       await wrapper.vm.createChannel();
+      await flushPromises();
 
-      expect(routerReplaceMock).toHaveBeenCalledWith({
+      expect(mockRouterReplace).toHaveBeenCalledWith({
         name: 'settings_inboxes_add_agents',
         params: {
           page: 'new',
@@ -178,56 +188,53 @@ describe('Evolution.vue - Core Logic Tests', () => {
 
     it('shows alert on channel creation error', async () => {
       const errorMessage = 'Failed to create channel';
-      const createEvolutionChannelMock = vi
-        .fn()
-        .mockRejectedValue(new Error(errorMessage));
 
       wrapper = createWrapper({
         actions: {
-          createEvolutionChannel: createEvolutionChannelMock,
+          createEvolutionChannel: vi
+            .fn()
+            .mockRejectedValue(new Error(errorMessage)),
         },
       });
 
       wrapper.vm.phoneNumber = '+5511999999999';
 
       await wrapper.vm.createChannel();
+      await flushPromises();
 
-      expect(useAlert).toHaveBeenCalledWith(errorMessage);
+      expect(mockUseAlert).toHaveBeenCalledWith(errorMessage);
     });
 
     it('shows default error message when error has no message', async () => {
-      const createEvolutionChannelMock = vi.fn().mockRejectedValue(new Error());
-
       wrapper = createWrapper({
         actions: {
-          createEvolutionChannel: createEvolutionChannelMock,
+          createEvolutionChannel: vi.fn().mockRejectedValue(new Error()),
         },
       });
 
       wrapper.vm.phoneNumber = '+5511999999999';
 
       await wrapper.vm.createChannel();
+      await flushPromises();
 
-      expect(useAlert).toHaveBeenCalledWith(
+      expect(mockUseAlert).toHaveBeenCalledWith(
         'INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE'
       );
     });
 
     it('prevents submission when validation fails', async () => {
-      const createEvolutionChannelMock = vi.fn();
-
-      wrapper = createWrapper({
-        actions: {
-          createEvolutionChannel: createEvolutionChannelMock,
-        },
-      });
+      wrapper = createWrapper();
 
       wrapper.vm.phoneNumber = 'invalid-phone';
-      wrapper.vm.v$.$touch(); // Trigger validation
 
       await wrapper.vm.createChannel();
+      await flushPromises();
 
-      expect(createEvolutionChannelMock).not.toHaveBeenCalled();
+      // Should not dispatch action due to validation failure
+      expect(dispatchSpy).not.toHaveBeenCalledWith(
+        'inboxes/createEvolutionChannel',
+        expect.any(Object)
+      );
     });
   });
 
@@ -243,20 +250,15 @@ describe('Evolution.vue - Core Logic Tests', () => {
     });
 
     it('dispatches createEvolutionChannel action', async () => {
-      const createEvolutionChannelMock = vi.fn().mockResolvedValue({ id: 123 });
-
-      wrapper = createWrapper({
-        actions: {
-          createEvolutionChannel: createEvolutionChannelMock,
-        },
-      });
+      wrapper = createWrapper();
 
       wrapper.vm.phoneNumber = '+5511999999999';
 
       await wrapper.vm.createChannel();
+      await flushPromises();
 
-      expect(createEvolutionChannelMock).toHaveBeenCalledWith(
-        expect.any(Object),
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        'inboxes/createEvolutionChannel',
         {
           name: '5511999999999',
           channel: {
@@ -269,20 +271,15 @@ describe('Evolution.vue - Core Logic Tests', () => {
 
   describe('Evolution-specific behavior', () => {
     it('creates api channel type (Evolution specific)', async () => {
-      const createEvolutionChannelMock = vi.fn().mockResolvedValue({ id: 123 });
-
-      wrapper = createWrapper({
-        actions: {
-          createEvolutionChannel: createEvolutionChannelMock,
-        },
-      });
+      wrapper = createWrapper();
 
       wrapper.vm.phoneNumber = '+5511999999999';
 
       await wrapper.vm.createChannel();
+      await flushPromises();
 
-      expect(createEvolutionChannelMock).toHaveBeenCalledWith(
-        expect.any(Object),
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        'inboxes/createEvolutionChannel',
         expect.objectContaining({
           channel: {
             type: 'api',
@@ -291,23 +288,20 @@ describe('Evolution.vue - Core Logic Tests', () => {
       );
     });
 
-    it('uses phone number without formatting as name', async () => {
-      const createEvolutionChannelMock = vi.fn().mockResolvedValue({ id: 123 });
+    it('uses phone number without plus sign as name', async () => {
+      wrapper = createWrapper();
 
-      wrapper = createWrapper({
-        actions: {
-          createEvolutionChannel: createEvolutionChannelMock,
-        },
-      });
-
-      wrapper.vm.phoneNumber = '+55 (11) 99999-9999';
+      // E164 format: + followed by digits
+      wrapper.vm.phoneNumber = '+5511999999999';
 
       await wrapper.vm.createChannel();
+      await flushPromises();
 
-      expect(createEvolutionChannelMock).toHaveBeenCalledWith(
-        expect.any(Object),
+      // The + sign is stripped via /\D/g, only digits remain
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        'inboxes/createEvolutionChannel',
         expect.objectContaining({
-          name: '5511999999999', // Stripped of all non-digits
+          name: '5511999999999',
         })
       );
     });

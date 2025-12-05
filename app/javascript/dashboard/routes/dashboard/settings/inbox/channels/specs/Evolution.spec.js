@@ -20,10 +20,12 @@ vi.mock('shared/helpers/Validators', () => ({
 
 // Mock NextButton component
 vi.mock('dashboard/components-next/button/Button.vue', () => ({
-  name: 'NextButton',
-  template:
-    '<button :disabled="isLoading" @click="$emit(\'click\')" data-test-id="submit-button"><slot /></button>',
-  props: ['isLoading', 'type', 'solid', 'blue', 'label'],
+  default: {
+    name: 'NextButton',
+    template:
+      '<button :disabled="isLoading" @click="$emit(\'click\')" data-test-id="submit-button"><slot /></button>',
+    props: ['isLoading', 'type', 'solid', 'blue', 'label'],
+  },
 }));
 
 describe('Evolution.vue', () => {
@@ -62,8 +64,9 @@ describe('Evolution.vue', () => {
       ],
     });
 
-    // Create i18n instance
+    // Create i18n instance - legacy: false required for Composition API useI18n()
     i18n = createI18n({
+      legacy: false,
       locale: 'en',
       messages: {
         en: {
@@ -119,7 +122,8 @@ describe('Evolution.vue', () => {
     it('renders submit button', () => {
       wrapper = createWrapper();
 
-      const submitButton = wrapper.find('[data-test-id="submit-button"]');
+      // NextButton is stubbed, find the stub component
+      const submitButton = wrapper.findComponent({ name: 'NextButton' });
       expect(submitButton.exists()).toBe(true);
     });
 
@@ -159,7 +163,7 @@ describe('Evolution.vue', () => {
       expect(errorMessage.exists()).toBe(false);
     });
 
-    it('accepts empty phone number', async () => {
+    it('shows error for empty phone number (required field)', async () => {
       wrapper = createWrapper();
 
       const phoneInput = wrapper.find('input[type="text"]');
@@ -167,8 +171,9 @@ describe('Evolution.vue', () => {
       await phoneInput.trigger('blur');
       await flushPromises();
 
+      // Empty phone number fails 'required' validation
       const errorMessage = wrapper.find('.message');
-      expect(errorMessage.exists()).toBe(false);
+      expect(errorMessage.exists()).toBe(true);
     });
 
     it('rejects phone number without plus sign', async () => {
@@ -241,7 +246,7 @@ describe('Evolution.vue', () => {
       );
     });
 
-    it('strips non-digits from phone number in submission', async () => {
+    it('strips plus sign from phone number in submission', async () => {
       const createEvolutionChannelMock = vi.fn().mockResolvedValue({ id: 123 });
       wrapper = createWrapper({
         actions: {
@@ -250,12 +255,14 @@ describe('Evolution.vue', () => {
       });
 
       const phoneInput = wrapper.find('input[type="text"]');
-      await phoneInput.setValue('+55 (11) 99999-9999');
+      // Use valid E164 format (validation requires + followed by digits only)
+      await phoneInput.setValue('+5511999999999');
 
       const form = wrapper.find('form');
       await form.trigger('submit.prevent');
       await flushPromises();
 
+      // The name is stripped of non-digits via /\D/g (removes the +)
       expect(createEvolutionChannelMock).toHaveBeenCalledWith(
         expect.any(Object),
         {
