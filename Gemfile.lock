@@ -41,6 +41,9 @@ GEM
       net-imap
       net-pop
       net-smtp
+    actionmailbox-resend (1.0.0)
+      rails (>= 7.0)
+      svix (~> 1.0)
     actionmailer (7.1.5.2)
       actionpack (= 7.1.5.2)
       actionview (= 7.1.5.2)
@@ -896,6 +899,7 @@ GEM
     sidekiq_alive (2.5.0)
       gserver (~> 0.0.1)
       sidekiq (>= 5, < 9)
+    svix (1.82.0)
     signet (0.17.0)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -1015,6 +1019,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  actionmailbox-resend (~> 1.0)
   active_record_query_trace
   activerecord-import
   acts-as-taggable-on

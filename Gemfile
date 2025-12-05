@@ -57,6 +57,7 @@ gem 'image_processing'
 
 ##-- for actionmailbox --##
 gem 'aws-actionmailbox-ses', '~> 0'
+gem 'actionmailbox-resend', '~> 1.0'
 
 ##-- gems for database --#
 gem 'groupdate'
