@@ -61,6 +61,18 @@ module Integrations::LlmInstrumentation
     end
   end
 
+  def determine_provider(model_name)
+    return 'openai' if model_name.blank?
+
+    model = model_name.to_s.downcase
+
+    PROVIDER_PREFIXES.each do |provider, prefixes|
+      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+    end
+
+    'openai'
+  end
+
   def instrument_embedding_call(params)
     return yield unless ChatwootApp.otel_enabled?
 
