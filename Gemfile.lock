@@ -41,7 +41,7 @@ GEM
       net-imap
       net-pop
       net-smtp
-    actionmailbox-resend (1.0.0)
+    actionmailbox-resend (1.0.1)
       rails (>= 7.0)
       svix (~> 1.0)
     actionmailer (7.1.5.2)
