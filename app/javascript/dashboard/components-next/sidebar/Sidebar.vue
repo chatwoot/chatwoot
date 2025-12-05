@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -36,6 +37,7 @@ const { accountScopedRoute } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
+const { isAdmin } = useAdmin();
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -577,6 +579,17 @@ const menuItems = computed(() => {
           :key="item.name"
           v-bind="item"
         />
+        <li v-if="isAdmin" class="grid gap-1 text-sm">
+          <a
+            href="https://relacionaai.eixox.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8 min-w-0 text-n-slate-11 hover:bg-n-alpha-1 hover:text-n-slate-12 transition-colors"
+          >
+            <span class="i-lucide-external-link flex-shrink-0 size-4" />
+            <span class="truncate">{{ t('SIDEBAR.RELACIONAAI') }}</span>
+          </a>
+        </li>
       </ul>
     </nav>
     <section
