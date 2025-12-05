@@ -2,6 +2,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   queue_as :low
 
   def perform(params = {})
+    params = params.with_indifferent_access
     channel = find_channel_from_whatsapp_business_payload(params)
 
     if channel_is_inactive?(channel)
@@ -12,6 +13,8 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     case channel.provider
     when 'whatsapp_cloud'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
+    when 'whatsapp_web'
+      Whatsapp::IncomingMessageWhatsappWebService.new(inbox: channel.inbox, params: params).perform
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
@@ -30,7 +33,12 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   def find_channel_by_url_param(params)
     return unless params[:phone_number]
 
-    Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+    incoming = params[:phone_number].to_s
+    digits = incoming.gsub(/[^0-9]/, '')
+
+    Channel::Whatsapp.find_by(
+      phone_number: [incoming, "+#{digits}", digits]
+    )
   end
 
   def find_channel_from_whatsapp_business_payload(params)

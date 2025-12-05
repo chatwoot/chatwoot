@@ -1,4 +1,6 @@
 <script>
+import { mapGetters } from 'vuex';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
@@ -10,6 +12,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import WhatsappReauthorize from '../channels/whatsapp/Reauthorize.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
+import WhatsappWebForm from '../channels/whatsapp/WhatsappWebForm.vue';
 
 export default {
   components: {
@@ -19,6 +22,7 @@ export default {
     NextButton,
     TextArea,
     WhatsappReauthorize,
+    WhatsappWebForm,
   },
   mixins: [inboxMixin],
   props: {
@@ -28,7 +32,8 @@ export default {
     },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const { accountId } = useAccount();
+    return { v$: useVuelidate(), accountId };
   },
   data() {
     return {
@@ -38,12 +43,16 @@ export default {
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
+      features: {},
     };
   },
   validations: {
     whatsAppInboxAPIKey: { required },
   },
   computed: {
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+    }),
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
@@ -52,6 +61,9 @@ export default {
     },
     isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
+    },
+    featureInboundEmailEnabled() {
+      return !!this.features?.inbound_emails;
     },
   },
   watch: {
@@ -66,6 +78,15 @@ export default {
     setDefaults() {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
       this.allowedDomains = this.inbox.allowed_domains || '';
+
+      try {
+        const { features } = this.getAccount(this.accountId);
+        this.features = features;
+      } catch (error) {
+        // Log error for debugging purposes
+        // eslint-disable-next-line no-console
+        console.error('Error fetching account features:', error);
+      }
     },
     handleHmacFlag() {
       this.updateInbox();
@@ -142,6 +163,23 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       } finally {
         this.isSyncingTemplates = false;
+      }
+    },
+    async updateWhatsAppWebInbox(formData) {
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            phone_number: formData.phone_number,
+            provider_config: formData.provider_config,
+          },
+        };
+
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
   },
@@ -300,7 +338,7 @@ export default {
     </SettingsSection>
   </div>
   <div v-else-if="isAnEmailChannel">
-    <div class="mx-8">
+    <div v-if="featureInboundEmailEnabled" class="mx-8">
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :sub-title="
@@ -326,7 +364,7 @@ export default {
     <ImapSettings :inbox="inbox" />
     <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
   </div>
-  <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
+  <div v-else-if="isAWhatsAppCloudChannel">
     <div v-if="inbox.provider_config" class="mx-8">
       <!-- Embedded Signup Section -->
       <template v-if="isEmbeddedSignupWhatsApp">
@@ -421,6 +459,21 @@ export default {
       :inbox="inbox"
       class="hidden"
     />
+  </div>
+  <div v-else-if="isAWhatsAppWebChannel" class="mx-8">
+    <SettingsSection
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEB_SECTION_TITLE')"
+      :sub-title="
+        $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEB_SECTION_SUBHEADER')
+      "
+    >
+      <WhatsappWebForm
+        mode="edit"
+        :inbox="inbox"
+        :is-loading="false"
+        @submit="updateWhatsAppWebInbox"
+      />
+    </SettingsSection>
   </div>
 </template>
 

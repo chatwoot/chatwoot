@@ -1,10 +1,5 @@
 name: Run Chatwoot CE spec
 on:
-  push:
-    branches:
-      - develop
-      - master
-  pull_request:
   workflow_dispatch:
 
 jobs:

@@ -11,6 +11,8 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2025_11_14_173609) do
+  execute "CREATE SCHEMA IF NOT EXISTS #{ENV.fetch('POSTGRES_SCHEMA', 'public')}"
+
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"

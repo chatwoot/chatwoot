@@ -54,7 +54,7 @@ class AccountUser < ApplicationRecord
   end
 
   def permissions
-    administrator? ? ['administrator'] : ['agent']
+    administrator? ? ['administrator'] : ENV.fetch('CUSTOM_ROLES', 'agent').split(',')
   end
 
   def push_event_data

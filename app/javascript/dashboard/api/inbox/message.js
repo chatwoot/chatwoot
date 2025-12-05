@@ -108,6 +108,12 @@ class MessageApi extends ApiClient {
       }
     );
   }
+
+  retryTranscription(conversationId, messageId) {
+    return axios.post(
+      `${this.url}/${conversationId}/messages/${messageId}/retry_transcription`
+    );
+  }
 }
 
 export default new MessageApi();

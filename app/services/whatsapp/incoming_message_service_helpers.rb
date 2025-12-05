@@ -44,7 +44,7 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def unprocessable_message_type?(message_type)
-    %w[reaction ephemeral unsupported request_welcome].include?(message_type)
+    %w[ephemeral unsupported request_welcome].include?(message_type)
   end
 
   def processed_waid(waid)
@@ -66,23 +66,28 @@ module Whatsapp::IncomingMessageServiceHelpers
   def find_message_by_source_id(source_id)
     return unless source_id
 
-    @message = Message.find_by(source_id: source_id)
+    # Find message by source_id within the context of the current inbox
+    # to allow the same message to be processed once per inbox/account
+    @message = Message.find_by(source_id: source_id, inbox: inbox)
   end
 
   def message_under_process?
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    # Include inbox ID in the key to allow same message to be processed once per inbox
+    key = format('MESSAGE_SOURCE_KEY::%<inbox_id>s::%<id>s', inbox_id: inbox.id, id: @processed_params[:messages].first[:id])
     Redis::Alfred.get(key)
   end
 
   def cache_message_source_id_in_redis
     return if @processed_params.try(:[], :messages).blank?
 
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    # Include inbox ID in the key to allow same message to be processed once per inbox
+    key = format('MESSAGE_SOURCE_KEY::%<inbox_id>s::%<id>s', inbox_id: inbox.id, id: @processed_params[:messages].first[:id])
     ::Redis::Alfred.setex(key, true)
   end
 
   def clear_message_source_id_from_redis
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    # Include inbox ID in the key to allow same message to be processed once per inbox
+    key = format('MESSAGE_SOURCE_KEY::%<inbox_id>s::%<id>s', inbox_id: inbox.id, id: @processed_params[:messages].first[:id])
     ::Redis::Alfred.delete(key)
   end
 end

@@ -21,7 +21,7 @@ describe 'Markdown Embeds Configuration' do
     end
 
     it 'contains expected embed types' do
-      expected_types = %w[youtube loom vimeo mp4 arcade wistia bunny codepen github_gist]
+      expected_types = %w[youtube loom vimeo mp4 arcade wistia bunny codepen github_gist cloudflare]
       expect(config.keys).to match_array(expected_types)
     end
   end

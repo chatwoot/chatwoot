@@ -12,3 +12,7 @@ json.private message.private
 json.source_id message.source_id
 json.sender message.sender.push_event_data if message.sender
 json.attachments message.attachments.map(&:push_event_data) if message.attachments.present?
+
+# Check if audio transcription is enabled via OpenAI integration
+openai_hook = message.account.hooks.find_by(app_id: 'openai', status: 'enabled')
+json.audio_transcription_enabled (openai_hook&.settings&.dig('audio_transcription') == true)

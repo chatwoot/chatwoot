@@ -979,4 +979,28 @@ RSpec.describe Conversation do
       expect(reply_events.count).to eq(0)
     end
   end
+
+  describe 'custom_attributes set by DB triggers' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+
+    it 'makes custom_attributes set by triggers available immediately after creation' do
+      # Simulate DB trigger by updating custom_attributes directly in DB after creation
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact)
+      # Direct DB update to simulate trigger
+      described_class.where(id: conversation.id).update_all(custom_attributes: { 'foo' => 'bar' })
+      # Call the callback manually (as after_create_commit would do)
+      conversation.send(:load_attributes_created_by_db_triggers)
+      expect(conversation.custom_attributes).to eq({ 'foo' => 'bar' })
+    end
+
+    it 'does not clear previous_changes when loading attributes from DB triggers' do
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact)
+      described_class.where(id: conversation.id).update_all(custom_attributes: { 'baz' => 'qux' })
+      conversation.previous_changes['id'] = [nil, conversation.id]
+      conversation.send(:load_attributes_created_by_db_triggers)
+      expect(conversation.previous_changes['id']).to eq([nil, conversation.id])
+    end
+  end
 end

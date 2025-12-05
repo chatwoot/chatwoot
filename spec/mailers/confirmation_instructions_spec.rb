@@ -22,12 +22,12 @@ RSpec.describe 'Devise::Mailer' do
     end
 
     it 'uses the user\'s name' do
-      expect(mail.body).to match("Hi #{CGI.escapeHTML(confirmable_user.name)},")
+      expect(mail.body).to match("Olá #{CGI.escapeHTML(confirmable_user.name)},")
     end
 
     it 'does not refer to the inviter and their account' do
-      expect(mail.body).not_to match('has invited you to try out Chatwoot!')
-      expect(mail.body).to match('We have a suite of powerful tools ready for you to explore.')
+      expect(mail.body).not_to match('convidou você para experimentar o Chatwoot!')
+      expect(mail.body).to match('Temos um conjunto de ferramentas poderosas prontas para você explorar.')
     end
 
     it 'sends a confirmation link' do
@@ -40,9 +40,9 @@ RSpec.describe 'Devise::Mailer' do
 
       it 'refers to the inviter and their account' do
         expect(mail.body).to match(
-          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(account.name)}, has invited you to try out Chatwoot."
+          "#{CGI.escapeHTML(inviter_val.name)}, com #{CGI.escapeHTML(account.name)}, te convidou para experimentar Chatwoot."
         )
-        expect(mail.body).not_to match('We have a suite of powerful tools ready for you to explore.')
+        expect(mail.body).not_to match('Temos um conjunto de ferramentas poderosas prontas para você explorar.')
       end
 
       it 'sends a password reset link' do

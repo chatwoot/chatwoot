@@ -229,7 +229,11 @@
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360Dialog",
+          "EVOLUTION": "Evolution API",
+          "EVOLUTION_DESC": "Connect via Evolution API",
+          "WHATSAPP_WEB": "WhatsApp Web (GOWA)",
+          "WHATSAPP_WEB_DESC": "Connect via own gateway"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
@@ -302,7 +306,116 @@
           "MANUAL_LINK_TEXT": "manual setup flow"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel",
+          "EVOLUTION_API_UNAVAILABLE": "Evolution API service is currently unavailable. Please check the service status and try again.",
+          "EVOLUTION_INVALID_CREDENTIALS": "Invalid Evolution API credentials. Please verify your API key and server URL are correct.",
+          "EVOLUTION_CONNECTION_FAILED": "Failed to connect to Evolution API server. Please check the server URL and network connectivity.",
+          "EVOLUTION_PHONE_ALREADY_EXISTS": "This phone number is already registered with another Evolution instance. Please use a different number.",
+          "EVOLUTION_INSTANCE_CREATION_FAILED": "Failed to create Evolution API instance. The service may be experiencing issues.",
+          "EVOLUTION_AUTHENTICATION_FAILED": "Authentication with Evolution API failed. Please verify your credentials and try again.",
+          "EVOLUTION_WEBHOOK_SETUP_FAILED": "WhatsApp channel created but webhook configuration failed. Please configure webhooks manually.",
+          "EVOLUTION_RETRY_MESSAGE": "You can try again in a few moments or contact support if the problem persists.",
+          "EVOLUTION_TROUBLESHOOTING": {
+            "TITLE": "Troubleshooting",
+            "CONTACT_SUPPORT": "Contact support for assistance",
+            "CHECK_CREDENTIALS": "Ensure your API key is valid and has proper permissions",
+            "CHECK_URL": "Verify the Evolution API URL is correct and accessible",
+            "CHECK_API_CREDENTIALS": "Verify your Evolution API credentials are correct",
+            "CHECK_SERVER_URL": "Ensure the Evolution API server URL is accessible",
+            "CHECK_NETWORK": "Check your network connection and firewall settings",
+            "USE_DIFFERENT_PHONE": "Try using a different phone number",
+            "RETRY_LATER": "Wait a few moments and try again",
+            "CHECK_SERVICE_STATUS": "Check Evolution API service status"
+          }
+        }
+      },
+      "WHATSAPP_WEB": {
+        "INBOX_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Enter an inbox name",
+          "ERROR": "This field is required"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone number",
+          "PLACEHOLDER": "Enter the phone number (e.g. +5511999999999)",
+          "ERROR": "Enter a valid phone number starting with +"
+        },
+        "GATEWAY_BASE_URL": {
+          "LABEL": "Gateway Base URL",
+          "PLACEHOLDER": "http://localhost:3000",
+          "TOOLTIP": "GOWA microservice URL",
+          "ERROR": "Enter a valid URL"
+        },
+        "BASIC_AUTH_USER": {
+          "LABEL": "Authentication User",
+          "PLACEHOLDER": "username",
+          "ERROR": "This field is required"
+        },
+        "BASIC_AUTH_PASSWORD": {
+          "LABEL": "Authentication Password",
+          "PLACEHOLDER": "password123",
+          "ERROR": "This field is required"
+        },
+        "WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "PLACEHOLDER": "webhook_secret_123",
+          "TOOLTIP": "Used to validate HMAC signature of webhooks",
+          "ERROR": "This field is required"
+        },
+        "INCLUDE_SIGNATURE": {
+          "LABEL": "Include agent signature in messages",
+          "HELP_TEXT": "Add agent's display name to outgoing messages (e.g., *Display Name:* message content)"
+        },
+        "CONNECTION_STATUS": {
+          "LABEL": "Connection Status",
+          "REFRESH": "Refresh",
+          "REFRESHING": "Refreshing...",
+          "CONNECTED": "Connected",
+          "DISCONNECTED": "Disconnected",
+          "WAITING_QR": "Waiting for QR scan",
+          "CHECKING": "Checking...",
+          "ERROR": "Connection error",
+          "UNKNOWN": "Unknown status"
+        },
+        "DISCONNECT": {
+          "TITLE": "Disconnect",
+          "CONFIRMATION": "Are you sure you want to disconnect WhatsApp? You'll need to scan the QR code again to reconnect.",
+          "SUCCESS": "WhatsApp disconnected successfully",
+          "ERROR": "Failed to disconnect WhatsApp"
+        },
+        "RECONNECT": {
+          "TITLE": "Restart Connection",
+          "SUCCESS": "WhatsApp connection restart initiated successfully",
+          "ERROR": "Failed to restart WhatsApp connection"
+        },
+        "TEST_CONNECTION": {
+          "BUTTON": "Test Connection",
+          "SUCCESS": "Gateway connection established successfully!",
+          "FAILED": "Gateway connection failed",
+          "ERROR": "Error testing gateway connection",
+          "VALIDATION_ERROR": "Please fill all gateway configuration fields first"
+        },
+        "QR_CODE": {
+          "TITLE": "Connect WhatsApp",
+          "DESC": "Use your phone to scan the QR code and connect your WhatsApp account",
+          "FETCH_ERROR": "Failed to get QR code. Please try again.",
+          "ERROR": "Unable to load QR code",
+          "EXPIRED": "QR code has expired",
+          "EXPIRES_IN": "QR code expires in %{seconds} seconds",
+          "REFRESHING": "Generating new QR code...",
+          "REFRESH": "Refresh QR Code",
+          "CLOSE": "Close",
+          "CONNECTION_SUCCESS": "WhatsApp connected successfully!",
+          "INSTRUCTIONS": {
+            "TITLE": "How to connect:",
+            "STEP1": "1. Open WhatsApp on your phone",
+            "STEP2": "2. Go to Settings > Linked Devices",
+            "STEP3": "3. Scan this QR code with your phone"
+          }
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Web Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp Web channel"
         }
       },
       "VOICE": {
@@ -362,6 +475,38 @@
         "SUBMIT_BUTTON": "Create API Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the api channel"
+        }
+      },
+      "EVOLUTION": {
+        "WEBHOOK_URL": {
+          "LABEL": "Evolution API URL",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "PLACEHOLDER": "https://evolution.startup.chatwoot.app.br",
+          "ERROR": "Please enter a valid value."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the Evolution API key.",
+          "PLACEHOLDER": "API key",
+          "ERROR": "Please enter a valid value."
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel",
+          "EVOLUTION_API_UNAVAILABLE": "Evolution API service is currently unavailable. Please check the service status and try again.",
+          "EVOLUTION_INVALID_CREDENTIALS": "Invalid Evolution API credentials. Please verify your API key and server URL are correct.",
+          "EVOLUTION_CONNECTION_FAILED": "Failed to connect to Evolution API server. Please check the server URL and network connectivity.",
+          "EVOLUTION_PHONE_ALREADY_EXISTS": "This phone number is already registered with another Evolution instance. Please use a different number.",
+          "EVOLUTION_INSTANCE_CREATION_FAILED": "Failed to create Evolution API instance. The service may be experiencing issues.",
+          "EVOLUTION_AUTHENTICATION_FAILED": "Authentication with Evolution API failed. Please verify your credentials and try again.",
+          "EVOLUTION_WEBHOOK_SETUP_FAILED": "WhatsApp channel created but webhook configuration failed. Please configure webhooks manually.",
+          "EVOLUTION_RETRY_MESSAGE": "You can try again in a few moments or contact support if the problem persists.",
+          "EVOLUTION_TROUBLESHOOTING": {
+            "TITLE": "Troubleshooting Tips",
+            "CHECK_URL": "Verify the Evolution API URL is correct and accessible",
+            "CHECK_CREDENTIALS": "Ensure your API key is valid and has proper permissions",
+            "CHECK_NETWORK": "Check your network connection and firewall settings",
+            "CONTACT_SUPPORT": "Contact your Evolution API administrator if issues continue"
+          }
         }
       },
       "EMAIL_CHANNEL": {
@@ -737,6 +882,8 @@
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEB_SECTION_TITLE": "WhatsApp Web Settings",
+      "WHATSAPP_WEB_SECTION_SUBHEADER": "Update your WhatsApp Web integration settings.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",

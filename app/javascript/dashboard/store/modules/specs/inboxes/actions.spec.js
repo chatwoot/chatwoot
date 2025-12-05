@@ -1,3 +1,30 @@
+// Mock the EvolutionChannel API client
+const mockEvolutionChannel = {
+  create: vi.fn(),
+};
+
+// Mock AnalyticsHelper
+const mockAnalyticsHelper = {
+  track: vi.fn(),
+};
+
+// Mock analytics events
+const mockEvents = {
+  ACCOUNT_EVENTS: {
+    ADDED_AN_INBOX: 'Added an inbox',
+  },
+};
+
+vi.mock('../../../api/channel/evolutionChannel', () => ({
+  default: mockEvolutionChannel,
+}));
+
+vi.mock('../../../helper/AnalyticsHelper', () => ({
+  default: mockAnalyticsHelper,
+}));
+
+vi.mock('../../../helper/AnalyticsHelper/events', () => mockEvents);
+
 import axios from 'axios';
 import { actions } from '../../inboxes';
 import * as types from '../../../mutation-types';
@@ -253,6 +280,102 @@ describe('#actions', () => {
       await expect(actions.syncTemplates({ commit }, 123)).rejects.toThrow(
         errorMessage
       );
+    });
+  });
+
+  describe('#createEvolutionChannel', () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+      commit.mockClear();
+      mockEvolutionChannel.create.mockClear();
+      mockAnalyticsHelper.track.mockClear();
+    });
+
+    it('sends correct actions if API is success', async () => {
+      const evolutionChannelData = {
+        id: 123,
+        name: '+5511999999999',
+        channel_type: 'Channel::Api',
+        channel: {
+          type: 'api',
+        },
+      };
+
+      mockEvolutionChannel.create.mockResolvedValueOnce({
+        data: evolutionChannelData,
+      });
+
+      const params = {
+        name: '5511999999999',
+        channel: {
+          type: 'api',
+        },
+      };
+
+      const result = await actions.createEvolutionChannel({ commit }, params);
+
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
+        [types.default.ADD_INBOXES, evolutionChannelData],
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
+      ]);
+
+      expect(mockEvolutionChannel.create).toHaveBeenCalledWith(params);
+      expect(mockAnalyticsHelper.track).toHaveBeenCalledWith(
+        mockEvents.ACCOUNT_EVENTS.ADDED_AN_INBOX,
+        {
+          channelType: 'evolution',
+        }
+      );
+      expect(result).toEqual(evolutionChannelData);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      const errorMessage = 'Failed to create Evolution channel';
+      mockEvolutionChannel.create.mockRejectedValueOnce(
+        new Error(errorMessage)
+      );
+
+      const params = {
+        name: '5511999999999',
+        channel: {
+          type: 'api',
+        },
+      };
+
+      await expect(
+        actions.createEvolutionChannel({ commit }, params)
+      ).rejects.toThrow(errorMessage);
+
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
+      ]);
+
+      expect(mockEvolutionChannel.create).toHaveBeenCalledWith(params);
+      expect(mockAnalyticsHelper.track).not.toHaveBeenCalled();
+    });
+
+    it('handles network error gracefully', async () => {
+      const networkError = new Error('Network Error');
+      networkError.response = { status: 500 };
+      mockEvolutionChannel.create.mockRejectedValueOnce(networkError);
+
+      const params = {
+        name: '5511999999999',
+        channel: {
+          type: 'api',
+        },
+      };
+
+      await expect(
+        actions.createEvolutionChannel({ commit }, params)
+      ).rejects.toThrow('Network Error');
+
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
+      ]);
     });
   });
 });

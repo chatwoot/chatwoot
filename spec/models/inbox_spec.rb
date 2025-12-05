@@ -388,4 +388,221 @@ RSpec.describe Inbox do
       end
     end
   end
+
+  describe '#evolution?' do
+    context 'when the channel is Channel::Api with Evolution webhook URL' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://evolution-api.example.com/chatwoot/webhook/test-instance') }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'returns true' do
+        expect(inbox.evolution?).to be(true)
+      end
+    end
+
+    context 'when the channel is Channel::Api without Evolution webhook URL' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://other-api.example.com/webhook') }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'returns false' do
+        expect(inbox.evolution?).to be(false)
+      end
+    end
+
+    context 'when the channel is Channel::Api without webhook URL' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: nil) }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'returns false' do
+        expect(inbox.evolution?).to be(false)
+      end
+    end
+
+    context 'when the channel is Channel::Whatsapp' do
+      let(:channel) { FactoryBot.create(:channel_whatsapp, validate_provider_config: false, sync_templates: false) }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'returns false (WhatsApp channels are not Evolution channels)' do
+        expect(inbox.evolution?).to be(false)
+      end
+    end
+
+    context 'when the channel is not API or WhatsApp' do
+      let(:channel) { FactoryBot.create(:channel_widget) }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'returns false' do
+        expect(inbox.evolution?).to be(false)
+      end
+    end
+  end
+
+  describe '#extract_evolution_instance_name' do
+    context 'with valid Evolution webhook URL' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://evolution-api.example.com/chatwoot/webhook/test-instance') }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'extracts the instance name correctly' do
+        expect(inbox.send(:extract_evolution_instance_name)).to eq('test-instance')
+      end
+    end
+
+    context 'with complex instance name' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://evolution-api.example.com/chatwoot/webhook/my-company-prod-2024') }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'extracts the instance name correctly' do
+        expect(inbox.send(:extract_evolution_instance_name)).to eq('my-company-prod-2024')
+      end
+    end
+
+    context 'with non-Evolution webhook URL' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://other-api.example.com/webhook/instance') }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'returns nil' do
+        expect(inbox.send(:extract_evolution_instance_name)).to be_nil
+      end
+    end
+
+    context 'without webhook URL' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: nil) }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'returns nil' do
+        expect(inbox.send(:extract_evolution_instance_name)).to be_nil
+      end
+    end
+  end
+
+  describe '#extract_evolution_api_url' do
+    context 'with valid Evolution webhook URL' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://evolution-api.example.com:8080/chatwoot/webhook/test-instance') }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'extracts the base API URL correctly' do
+        expect(inbox.send(:extract_evolution_api_url)).to eq('https://evolution-api.example.com:8080')
+      end
+    end
+
+    context 'with standard port' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://evolution-api.example.com/chatwoot/webhook/test-instance') }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'extracts the base API URL without port' do
+        expect(inbox.send(:extract_evolution_api_url)).to eq('https://evolution-api.example.com')
+      end
+    end
+
+    context 'with invalid URL' do
+      let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'not-a-valid-url') }
+      let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+
+      it 'returns nil' do
+        expect(inbox.send(:extract_evolution_api_url)).to be_nil
+      end
+    end
+  end
+
+  describe '#cleanup_evolution_instance' do
+    let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://evolution-api.example.com/chatwoot/webhook/test-instance') }
+    let(:inbox) { FactoryBot.build(:inbox, channel: channel) }
+    let(:manager_service) { instance_double(Evolution::ManagerService) }
+
+    before do
+      allow(Rails.logger).to receive(:info)
+      allow(Rails.logger).to receive(:warn)
+      allow(Rails.logger).to receive(:error)
+      allow(Evolution::ManagerService).to receive(:new).and_return(manager_service)
+    end
+
+    context 'when inbox is an Evolution channel' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge(
+                            'EVOLUTION_API_URL' => 'https://evolution-api.example.com',
+                            'EVOLUTION_API_KEY' => 'test-api-key'
+                          ))
+      end
+
+      it 'calls the Evolution Manager Service to destroy the instance' do
+        allow(manager_service).to receive(:destroy)
+
+        inbox.send(:cleanup_evolution_instance)
+
+        expect(manager_service).to have_received(:destroy).with(
+          'https://evolution-api.example.com',
+          'test-api-key',
+          'test-instance'
+        )
+      end
+
+      it 'logs the cleanup attempt' do
+        allow(manager_service).to receive(:destroy)
+
+        inbox.send(:cleanup_evolution_instance)
+
+        expect(Rails.logger).to have_received(:info).with("Cleaning up Evolution instance 'test-instance' for inbox #{inbox.id}")
+      end
+
+      context 'when Evolution API credentials are missing' do
+        before do
+          stub_const('ENV', ENV.to_hash.merge(
+                              'EVOLUTION_API_URL' => '',
+                              'EVOLUTION_API_KEY' => nil
+                            ))
+        end
+
+        it 'logs a warning and returns early' do
+          allow(manager_service).to receive(:destroy)
+
+          inbox.send(:cleanup_evolution_instance)
+
+          expect(Rails.logger).to have_received(:warn).with('Evolution API credentials missing for instance test-instance cleanup')
+          expect(manager_service).not_to have_received(:destroy)
+        end
+      end
+
+      context 'when Evolution Manager Service raises an error' do
+        before do
+          allow(manager_service).to receive(:destroy).and_raise(StandardError.new('Network error'))
+        end
+
+        it 'logs the error but does not raise it' do
+          expect { inbox.send(:cleanup_evolution_instance) }.not_to raise_error
+
+          expect(Rails.logger).to have_received(:error).with('Failed to cleanup Evolution instance test-instance: Network error')
+        end
+      end
+    end
+
+    context 'when inbox is not an Evolution channel' do
+      let(:channel) { FactoryBot.create(:channel_widget) }
+
+      it 'returns early without attempting cleanup' do
+        allow(manager_service).to receive(:destroy)
+
+        inbox.send(:cleanup_evolution_instance)
+
+        expect(manager_service).not_to have_received(:destroy)
+      end
+    end
+  end
+
+  describe 'before_destroy callback' do
+    let(:channel) { FactoryBot.create(:channel_api, webhook_url: 'https://evolution-api.example.com/chatwoot/webhook/test-instance') }
+    let(:inbox) { FactoryBot.create(:inbox, channel: channel) }
+
+    before do
+      allow(Rails.logger).to receive(:info)
+      allow(Rails.logger).to receive(:warn)
+      allow(Rails.logger).to receive(:error)
+    end
+
+    it 'calls cleanup_evolution_instance before destroying' do
+      allow(inbox).to receive(:cleanup_evolution_instance)
+
+      inbox.destroy
+
+      expect(inbox).to have_received(:cleanup_evolution_instance)
+    end
+  end
 end

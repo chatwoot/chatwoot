@@ -229,7 +229,11 @@
           "WHATSAPP_CLOUD": "Cloud do WhatsApp",
           "WHATSAPP_CLOUD_DESC": "Configuração rápida via Meta",
           "TWILIO_DESC": "Conectar através de credenciais Twilio",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360Dialog",
+          "EVOLUTION": "Evolution API",
+          "EVOLUTION_DESC": "Conectar via Evolution API",
+          "WHATSAPP_WEB": "WhatsApp Web (GOWA)",
+          "WHATSAPP_WEB_DESC": "Conectar via gateway próprio"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Selecione seu provedor de API",
@@ -302,7 +306,116 @@
           "MANUAL_LINK_TEXT": "fluxo de configuração manual"
         },
         "API": {
-          "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp"
+          "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp",
+          "EVOLUTION_API_UNAVAILABLE": "O serviço Evolution API está indisponível no momento. Verifique o status do serviço e tente novamente.",
+          "EVOLUTION_INVALID_CREDENTIALS": "Credenciais da Evolution API inválidas. Verifique se sua chave API e URL do servidor estão corretas.",
+          "EVOLUTION_CONNECTION_FAILED": "Falha ao conectar com o servidor Evolution API. Verifique a URL do servidor e conectividade de rede.",
+          "EVOLUTION_PHONE_ALREADY_EXISTS": "Este número de telefone já está registrado com outra instância Evolution. Use um número diferente.",
+          "EVOLUTION_INSTANCE_CREATION_FAILED": "Falha ao criar instância Evolution API. O serviço pode estar enfrentando problemas.",
+          "EVOLUTION_AUTHENTICATION_FAILED": "Falha na autenticação com Evolution API. Verifique suas credenciais e tente novamente.",
+          "EVOLUTION_WEBHOOK_SETUP_FAILED": "Canal WhatsApp criado mas configuração do webhook falhou. Configure os webhooks manualmente.",
+          "EVOLUTION_RETRY_MESSAGE": "Você pode tentar novamente em alguns instantes ou entrar em contato com o suporte se o problema persistir.",
+          "EVOLUTION_TROUBLESHOOTING": {
+            "TITLE": "Solução de Problemas",
+            "CONTACT_SUPPORT": "Entre em contato com o suporte para assistência",
+            "CHECK_CREDENTIALS": "Certifique-se de que sua chave de API é válida e possui as permissões adequadas",
+            "CHECK_URL": "Verifique se a URL da Evolution API está correta e acessível",
+            "CHECK_API_CREDENTIALS": "Verifique se suas credenciais da Evolution API estão corretas",
+            "CHECK_SERVER_URL": "Certifique-se de que a URL do servidor Evolution API está acessível",
+            "CHECK_NETWORK": "Verifique sua conexão de rede e configurações de firewall",
+            "USE_DIFFERENT_PHONE": "Tente usar um número de telefone diferente",
+            "RETRY_LATER": "Aguarde alguns instantes e tente novamente",
+            "CHECK_SERVICE_STATUS": "Verifique o status do serviço Evolution API"
+          }
+        }
+      },
+      "WHATSAPP_WEB": {
+        "INBOX_NAME": {
+          "LABEL": "Nome da Caixa de Entrada",
+          "PLACEHOLDER": "Digite um nome para a caixa de entrada",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Número de telefone",
+          "PLACEHOLDER": "Digite o número de telefone (ex: +5511999999999)",
+          "ERROR": "Digite um número de telefone válido iniciando com +"
+        },
+        "GATEWAY_BASE_URL": {
+          "LABEL": "URL Base do Gateway",
+          "PLACEHOLDER": "http://localhost:3000",
+          "TOOLTIP": "URL do microserviço GOWA (go-whatsapp-web-multidevice)",
+          "ERROR": "Digite uma URL válida"
+        },
+        "BASIC_AUTH_USER": {
+          "LABEL": "Usuário da Autenticação",
+          "PLACEHOLDER": "usuario",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "BASIC_AUTH_PASSWORD": {
+          "LABEL": "Senha da Autenticação",
+          "PLACEHOLDER": "senha123",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "WEBHOOK_SECRET": {
+          "LABEL": "Segredo do Webhook",
+          "PLACEHOLDER": "secreto_webhook_123",
+          "TOOLTIP": "Usado para validar assinatura HMAC dos webhooks",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "INCLUDE_SIGNATURE": {
+          "LABEL": "Incluir assinatura do agente nas mensagens",
+          "HELP_TEXT": "Adicionar nome de exibição do agente às mensagens enviadas (ex: *Nome de Exibição:* conteúdo da mensagem)"
+        },
+        "CONNECTION_STATUS": {
+          "LABEL": "Status da Conexão",
+          "REFRESH": "Atualizar",
+          "REFRESHING": "Atualizando...",
+          "CONNECTED": "Conectado",
+          "DISCONNECTED": "Desconectado",
+          "WAITING_QR": "Aguardando leitura do QR",
+          "CHECKING": "Verificando...",
+          "ERROR": "Erro de conexão",
+          "UNKNOWN": "Status desconhecido"
+        },
+        "DISCONNECT": {
+          "TITLE": "Desconectar",
+          "CONFIRMATION": "Tem certeza que deseja desconectar o WhatsApp? Será necessário escanear o código QR novamente para reconectar.",
+          "SUCCESS": "WhatsApp desconectado com sucesso",
+          "ERROR": "Falha ao desconectar o WhatsApp"
+        },
+        "RECONNECT": {
+          "TITLE": "Reiniciar Conexão",
+          "SUCCESS": "Reinicialização da conexão do WhatsApp iniciada com sucesso",
+          "ERROR": "Falha ao reiniciar a conexão do WhatsApp"
+        },
+        "TEST_CONNECTION": {
+          "BUTTON": "Testar Conexão",
+          "SUCCESS": "Conexão com o gateway estabelecida com sucesso!",
+          "FAILED": "Falha na conexão com o gateway",
+          "ERROR": "Erro ao testar conexão com o gateway",
+          "VALIDATION_ERROR": "Preencha todos os campos de configuração do gateway primeiro"
+        },
+        "QR_CODE": {
+          "TITLE": "Conectar WhatsApp",
+          "DESC": "Use seu telefone para escanear o código QR e conectar sua conta do WhatsApp",
+          "FETCH_ERROR": "Falha ao obter código QR. Tente novamente.",
+          "ERROR": "Não foi possível carregar o código QR",
+          "EXPIRED": "Código QR expirou",
+          "EXPIRES_IN": "Código QR expira em %{seconds} segundos",
+          "REFRESHING": "Gerando novo código QR...",
+          "REFRESH": "Atualizar Código QR",
+          "CLOSE": "Fechar",
+          "CONNECTION_SUCCESS": "WhatsApp conectado com sucesso!",
+          "INSTRUCTIONS": {
+            "TITLE": "Como conectar:",
+            "STEP1": "1. Abra o WhatsApp no seu telefone",
+            "STEP2": "2. Vá para Configurações > Aparelhos conectados",
+            "STEP3": "3. Escaneie este código QR com seu telefone"
+          }
+        },
+        "SUBMIT_BUTTON": "Criar canal do WhatsApp Web",
+        "API": {
+          "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp Web"
         }
       },
       "VOICE": {
@@ -362,6 +475,38 @@
         "SUBMIT_BUTTON": "Criar canal de API",
         "API": {
           "ERROR_MESSAGE": "Não foi possível salvar o canal de API"
+        }
+      },
+      "EVOLUTION": {
+        "WEBHOOK_URL": {
+          "LABEL": "URL do Webhook",
+          "SUBTITLE": "Configure a URL onde você deseja receber retornos de chamada em eventos.",
+          "PLACEHOLDER": "URL do Webhook",
+          "ERROR": "Por favor, insira um valor válido."
+        },
+        "API_KEY": {
+          "LABEL": "Chave da API",
+          "SUBTITLE": "Configure a chave API da Evolution.",
+          "PLACEHOLDER": "Chave da API",
+          "ERROR": "Por favor, insira um valor válido."
+        },
+        "API": {
+          "ERROR_MESSAGE": "Não foi possível salvar o canal de API",
+          "EVOLUTION_API_UNAVAILABLE": "O serviço Evolution API está indisponível no momento. Verifique o status do serviço e tente novamente.",
+          "EVOLUTION_INVALID_CREDENTIALS": "Credenciais Evolution API inválidas. Verifique se sua chave de API e URL do servidor estão corretas.",
+          "EVOLUTION_CONNECTION_FAILED": "Falha ao conectar ao servidor Evolution API. Verifique a URL do servidor e a conectividade de rede.",
+          "EVOLUTION_PHONE_ALREADY_EXISTS": "Este número de telefone já está registrado em outra instância Evolution. Use um número diferente.",
+          "EVOLUTION_INSTANCE_CREATION_FAILED": "Falha ao criar instância Evolution API. O serviço pode estar enfrentando problemas.",
+          "EVOLUTION_AUTHENTICATION_FAILED": "Falha na autenticação com Evolution API. Verifique suas credenciais e tente novamente.",
+          "EVOLUTION_WEBHOOK_SETUP_FAILED": "Canal WhatsApp criado mas configuração do webhook falhou. Configure os webhooks manualmente.",
+          "EVOLUTION_RETRY_MESSAGE": "Você pode tentar novamente em alguns instantes ou entrar em contato com o suporte se o problema persistir.",
+          "EVOLUTION_TROUBLESHOOTING": {
+            "TITLE": "Dicas de Solução de Problemas",
+            "CHECK_URL": "Verifique se a URL da Evolution API está correta e acessível",
+            "CHECK_CREDENTIALS": "Certifique-se de que sua chave de API é válida e possui as permissões adequadas",
+            "CHECK_NETWORK": "Verifique sua conexão de rede e configurações de firewall",
+            "CONTACT_SUPPORT": "Entre em contato com o administrador da Evolution API se os problemas continuarem"
+          }
         }
       },
       "EMAIL_CHANNEL": {
@@ -732,6 +877,8 @@
       "WHATSAPP_LOGIN_CANCELLED": "O login do WhatsApp foi cancelado. Por favor, tente novamente.",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificação Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do webhook endpoint.",
+      "WHATSAPP_WEB_SECTION_TITLE": "Configurações WhatsApp Web",
+      "WHATSAPP_WEB_SECTION_SUBHEADER": "Atualize as configurações da sua integração WhatsApp Web.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sincronizar Modelos",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Sincronize manualmente os modelos de mensagens do WhatsApp para atualizar seus modelos disponíveis.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sincronizar Modelos",

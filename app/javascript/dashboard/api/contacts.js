@@ -35,8 +35,37 @@ class ContactAPI extends ApiClient {
     return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
   }
 
-  getConversations(contactId) {
-    return axios.get(`${this.url}/${contactId}/conversations`);
+  async getConversations(contactId) {
+    const response = await axios.get(`${this.url}/${contactId}/conversations`);
+
+    // Lazily access store to avoid initializing Vuex in test environments.
+    // If anything goes wrong, return the original response without filtering.
+    try {
+      const mod = await import('dashboard/store');
+      const store = mod.default;
+      const { getCurrentPermissions, getCurrentUserID } = store.getters || {};
+
+      if (!getCurrentPermissions || !Array.isArray(getCurrentPermissions)) {
+        return response;
+      }
+
+      if (!getCurrentPermissions.includes('conversation_unassigned_manage')) {
+        return response;
+      }
+
+      const filteredPayload = (response.data.payload || []).filter(
+        conversation => conversation?.meta?.assignee?.id === getCurrentUserID
+      );
+
+      return {
+        data: {
+          ...response.data,
+          payload: filteredPayload,
+        },
+      };
+    } catch (e) {
+      return response;
+    }
   }
 
   getContactableInboxes(contactId) {

@@ -59,7 +59,8 @@ const filteredAttrs = computed(() => {
 });
 
 const computedVariant = computed(() => {
-  if (props.variant) return props.variant;
+  if (props.variant && VARIANT_OPTIONS.includes(props.variant))
+    return props.variant;
   // The useAttrs method returns attributes values an empty string (not boolean value as in props).
   if (attrs.solid || attrs.solid === '') return 'solid';
   if (attrs.outline || attrs.outline === '') return 'outline';
@@ -70,7 +71,7 @@ const computedVariant = computed(() => {
 });
 
 const computedColor = computed(() => {
-  if (props.color) return props.color;
+  if (props.color && COLOR_OPTIONS.includes(props.color)) return props.color;
   if (attrs.blue || attrs.blue === '') return 'blue';
   if (attrs.ruby || attrs.ruby === '') return 'ruby';
   if (attrs.amber || attrs.amber === '') return 'amber';

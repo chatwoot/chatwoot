@@ -160,4 +160,200 @@ RSpec.describe Campaign do
       )
     end
   end
+
+  describe 'delay configuration' do
+    let(:account) { create(:account) }
+    let(:web_widget) { create(:channel_widget, account: account) }
+    let(:inbox) { create(:inbox, channel: web_widget, account: account) }
+
+    describe '#calculate_delay' do
+      it 'returns 0 when no delay config present' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: {})
+        expect(campaign.calculate_delay).to eq(0)
+      end
+
+      it 'returns 0 when trigger_rules is nil' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: nil)
+        expect(campaign.calculate_delay).to eq(0)
+      end
+
+      it 'returns 0 for type: "none"' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'none' } })
+        expect(campaign.calculate_delay).to eq(0)
+      end
+
+      it 'returns exact value for type: "fixed"' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'fixed', 'seconds' => 5 } })
+        expect(campaign.calculate_delay).to eq(5)
+      end
+
+      it 'returns value within range for type: "random"' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 3, 'max' => 10 } })
+        delay = campaign.calculate_delay
+        expect(delay).to be >= 3
+        expect(delay).to be <= 10
+      end
+
+      it 'returns consistent value for same min and max in random delay' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 5, 'max' => 5 } })
+        expect(campaign.calculate_delay).to eq(5)
+      end
+    end
+
+    describe '#delay_type' do
+      it 'returns "none" when no delay config present' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: {})
+        expect(campaign.delay_type).to eq('none')
+      end
+
+      it 'returns "none" when trigger_rules is nil' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: nil)
+        expect(campaign.delay_type).to eq('none')
+      end
+
+      it 'returns correct type from trigger_rules' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'fixed', 'seconds' => 5 } })
+        expect(campaign.delay_type).to eq('fixed')
+      end
+    end
+
+    describe '#delay?' do
+      it 'returns false when no delay config present' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: {})
+        expect(campaign.delay?).to be false
+      end
+
+      it 'returns false for type: "none"' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'none' } })
+        expect(campaign.delay?).to be false
+      end
+
+      it 'returns true for type: "fixed"' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'fixed', 'seconds' => 5 } })
+        expect(campaign.delay?).to be true
+      end
+
+      it 'returns true for type: "random"' do
+        campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 3, 'max' => 10 } })
+        expect(campaign.delay?).to be true
+      end
+    end
+
+    describe 'delay validation' do
+      context 'when delay type is fixed' do
+        it 'accepts valid fixed delay (0 seconds)' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'fixed', 'seconds' => 0 } })
+          expect(campaign).to be_valid
+        end
+
+        it 'accepts valid fixed delay (300 seconds)' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'fixed', 'seconds' => 300 } })
+          expect(campaign).to be_valid
+        end
+
+        it 'rejects fixed delay less than 0' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'fixed', 'seconds' => -1 } })
+          expect(campaign).not_to be_valid
+          expect(campaign.errors[:trigger_rules]).to include('Fixed delay must be between 0 and 300 seconds')
+        end
+
+        it 'rejects fixed delay greater than 300' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'fixed', 'seconds' => 301 } })
+          expect(campaign).not_to be_valid
+          expect(campaign.errors[:trigger_rules]).to include('Fixed delay must be between 0 and 300 seconds')
+        end
+      end
+
+      context 'when delay type is random' do
+        it 'accepts valid random delay' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 3, 'max' => 10 } })
+          expect(campaign).to be_valid
+        end
+
+        it 'accepts random delay with min equal to max' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 5, 'max' => 5 } })
+          expect(campaign).to be_valid
+        end
+
+        it 'rejects random delay with min greater than max' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 10, 'max' => 5 } })
+          expect(campaign).not_to be_valid
+          expect(campaign.errors[:trigger_rules]).to include('Min delay must be less than or equal to max delay')
+        end
+
+        it 'rejects random delay with min less than 0' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => -1, 'max' => 10 } })
+          expect(campaign).not_to be_valid
+          expect(campaign.errors[:trigger_rules]).to include('Min delay must be between 0 and 300 seconds')
+        end
+
+        it 'rejects random delay with min greater than 300' do
+          campaign = build(:campaign, inbox: inbox, account: account,
+                                      trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 301, 'max' => 305 } })
+          expect(campaign).not_to be_valid
+          expect(campaign.errors[:trigger_rules]).to include('Min delay must be between 0 and 300 seconds')
+        end
+
+        it 'rejects random delay with max less than 0' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 0, 'max' => -1 } })
+          expect(campaign).not_to be_valid
+          expect(campaign.errors[:trigger_rules]).to include('Max delay must be between 0 and 300 seconds')
+        end
+
+        it 'rejects random delay with max greater than 300' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'random', 'min' => 0, 'max' => 301 } })
+          expect(campaign).not_to be_valid
+          expect(campaign.errors[:trigger_rules]).to include('Max delay must be between 0 and 300 seconds')
+        end
+      end
+
+      context 'when delay type is none' do
+        it 'accepts type: none without validation' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'none' } })
+          expect(campaign).to be_valid
+        end
+      end
+
+      context 'when delay type is invalid' do
+        it 'rejects invalid delay type' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: { 'delay' => { 'type' => 'invalid' } })
+          expect(campaign).not_to be_valid
+          expect(campaign.errors[:trigger_rules]).to include('Invalid delay type: invalid')
+        end
+      end
+
+      context 'when no delay config is provided' do
+        it 'accepts campaign without delay config (backward compatibility)' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: {})
+          expect(campaign).to be_valid
+        end
+
+        it 'accepts campaign with nil trigger_rules' do
+          campaign = build(:campaign, inbox: inbox, account: account, trigger_rules: nil)
+          expect(campaign).to be_valid
+        end
+      end
+    end
+
+    describe 'message length validation' do
+      it 'accepts message within the limit' do
+        message = 'a' * 150_000
+        campaign = build(:campaign, inbox: inbox, account: account, message: message)
+        expect(campaign).to be_valid
+      end
+
+      it 'rejects message exceeding the limit' do
+        message = 'a' * 150_001
+        campaign = build(:campaign, inbox: inbox, account: account, message: message)
+        expect(campaign).not_to be_valid
+        expect(campaign.errors[:message]).to include('is too long (maximum is 150000 characters)')
+      end
+
+      it 'accepts empty message (presence validation will catch it)' do
+        campaign = build(:campaign, inbox: inbox, account: account, message: '')
+        expect(campaign).not_to be_valid
+        expect(campaign.errors[:message]).to include("can't be blank")
+      end
+    end
+  end
 end

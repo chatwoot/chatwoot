@@ -19,8 +19,9 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
-    # We don't support reactions & ephemeral message now, we need to skip processing the message
-    # if the webhook event is a reaction or an ephermal message or an unsupported message.
+    # We don't support ephemeral message now, we need to skip processing the message
+    # if the webhook event is an ephermal message or an unsupported message.
+    # Note: Reactions are now supported and processed as reply-to messages.
     return if unprocessable_message_type?(message_type)
 
     # Multiple webhook event can be received against the same message due to misconfigurations in the Meta
@@ -40,9 +41,12 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def process_statuses
-    return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
+    # Process all statuses in the array, not just the first one
+    @processed_params[:statuses].each do |status|
+      next unless status[:id].present?
 
-    update_message_with_status(@message, @processed_params[:statuses].first)
+      update_message_with_status(@message, status) if find_message_by_source_id(status[:id])
+    end
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
   end
@@ -89,7 +93,11 @@ class Whatsapp::IncomingMessageBaseService
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: waid,
       inbox: inbox,
-      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{@processed_params[:messages].first[:from]}" }
+      contact_attributes: {
+        identifier: contact_params.dig(:profile, :identifier) || waid,
+        name: contact_params.dig(:profile, :name),
+        phone_number: "+#{@processed_params[:messages].first[:from]}"
+      }
     ).perform
 
     @contact_inbox = contact_inbox
@@ -113,7 +121,7 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def attach_files
-    return if %w[text button interactive location contacts].include?(message_type)
+    return if %w[text button interactive location contacts reaction].include?(message_type)
 
     attachment_payload = @processed_params[:messages].first[message_type.to_sym]
     @message.content ||= attachment_payload[:caption]

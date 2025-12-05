@@ -159,6 +159,7 @@ export default {
         this.isAVoiceChannel ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
         this.shouldShowWhatsAppConfiguration ||
+        this.isAWhatsAppWebChannel ||
         this.isAWebWidgetInbox
       ) {
         visibleToAllChannelTabs = [

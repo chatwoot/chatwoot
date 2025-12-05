@@ -93,6 +93,11 @@ export const getters = {
     return currentAccount || {};
   },
 
+  getCurrentPermissions(_, $getters) {
+    const currentAccount = $getters.getCurrentAccount;
+    return currentAccount.permissions || [];
+  },
+
   getUserAccounts($state) {
     const { accounts = [] } = $state.currentUser;
     return accounts;

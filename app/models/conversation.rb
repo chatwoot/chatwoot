@@ -290,6 +290,7 @@ class Conversation < ApplicationRecord
     obj_from_db = self.class.find(id)
     self[:display_id] = obj_from_db[:display_id]
     self[:uuid] = obj_from_db[:uuid]
+    self[:custom_attributes] = obj_from_db[:custom_attributes]
   end
 
   def notify_status_change

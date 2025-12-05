@@ -93,6 +93,7 @@ import ContextMenu from 'dashboard/modules/conversations/components/MessageConte
  * @property {boolean} [isEmailInbox=false] - Whether the message is from an email inbox
  * @property {number} conversationId - The ID of the conversation to which the message belongs
  * @property {number} inboxId - The ID of the inbox to which the message belongs
+ * @property {boolean} [isGroupConversation=false] - Whether this is a group conversation
  */
 
 // eslint-disable-next-line vue/define-macros-order
@@ -129,6 +130,7 @@ const props = defineProps({
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
+  isGroupConversation: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['retry']);
@@ -207,15 +209,16 @@ const isBotOrAgentMessage = computed(() => {
 });
 
 /**
- * Computes the message orientation based on sender type and message type
+ * Computes the message orientation based on message type
  * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
  */
 const orientation = computed(() => {
-  if (isBotOrAgentMessage.value) {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return ORIENTATION.CENTER;
+
+  // All outgoing messages should be aligned to the right
+  if (props.messageType === MESSAGE_TYPES.OUTGOING) {
     return ORIENTATION.RIGHT;
   }
-
-  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return ORIENTATION.CENTER;
 
   return ORIENTATION.LEFT;
 });
@@ -232,7 +235,9 @@ const flexOrientationClass = computed(() => {
 
 const gridClass = computed(() => {
   const map = {
-    [ORIENTATION.LEFT]: 'grid grid-cols-1fr',
+    [ORIENTATION.LEFT]: props.isGroupConversation
+      ? 'grid grid-cols-[24px_1fr]'
+      : 'grid grid-cols-1fr',
     [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
   };
 
@@ -241,7 +246,12 @@ const gridClass = computed(() => {
 
 const gridTemplate = computed(() => {
   const map = {
-    [ORIENTATION.LEFT]: `
+    [ORIENTATION.LEFT]: props.isGroupConversation
+      ? `
+      "avatar bubble"
+      "spacer meta"
+    `
+      : `
       "bubble"
       "meta"
     `,
@@ -260,13 +270,43 @@ const shouldGroupWithNext = computed(() => {
   return props.groupWithNext;
 });
 
-const shouldShowAvatar = computed(() => {
-  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
-  if (orientation.value === ORIENTATION.LEFT) return false;
-
-  return true;
+const shouldShowSenderName = computed(() => {
+  // Show sender name for both incoming and outgoing messages in group conversations
+  // but not for activity messages or when grouped with next message
+  return (
+    props.isGroupConversation &&
+    (props.messageType === MESSAGE_TYPES.INCOMING ||
+      props.messageType === MESSAGE_TYPES.OUTGOING) &&
+    !shouldGroupWithNext.value &&
+    props.sender
+  );
 });
 
+const senderDisplayName = computed(() => {
+  if (!shouldShowSenderName.value) return '';
+
+  const { sender } = props;
+
+  // For outgoing messages (sent by agents), show agent name
+  if (props.messageType === MESSAGE_TYPES.OUTGOING) {
+    return sender?.name || sender?.available_name || 'Agent';
+  }
+
+  // For incoming messages (from contacts), show contact name
+  return sender?.name || sender?.identifier || 'Unknown Sender';
+});
+const shouldShowAvatar = computed(() => {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
+
+  // Show avatar for right-aligned messages (outgoing) - original logic
+  if (orientation.value === ORIENTATION.RIGHT) return true;
+
+  // Show avatar for left-aligned messages (incoming) only in group conversations
+  if (orientation.value === ORIENTATION.LEFT && props.isGroupConversation)
+    return true;
+
+  return false;
+});
 const componentToRender = computed(() => {
   if (props.isEmailInbox && !props.private) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
@@ -339,6 +379,7 @@ const payloadForContextMenu = computed(() => {
     content_attributes: props.contentAttributes,
     content: props.content,
     conversation_id: props.conversationId,
+    attachments: props.attachments,
   };
 });
 
@@ -505,7 +546,12 @@ provideMessageContext({
     >
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
-        v-tooltip.left-end="avatarTooltip"
+        v-tooltip="
+          orientation === ORIENTATION.LEFT
+            ? { placement: 'right-end' }
+            : { placement: 'left-end' }
+        "
+        :title="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="24" />
@@ -514,12 +560,25 @@ provideMessageContext({
         class="[grid-area:bubble] flex"
         :class="{
           'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+          'ltr:mr-8 rtl:ml-8':
+            orientation === ORIENTATION.LEFT && !props.isGroupConversation,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
       >
-        <Component :is="componentToRender" />
+        <div class="flex flex-col w-full">
+          <div
+            v-if="shouldShowSenderName"
+            class="text-xs text-n-slate-11 mb-1 px-3"
+            :class="{
+              'text-right': orientation === ORIENTATION.RIGHT,
+              'text-left': orientation === ORIENTATION.LEFT,
+            }"
+          >
+            {{ senderDisplayName }}
+          </div>
+          <Component :is="componentToRender" />
+        </div>
       </div>
       <MessageError
         v-if="contentAttributes.externalError"

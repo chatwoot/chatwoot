@@ -201,6 +201,78 @@
         }
       }
     },
+    "API": {
+      "HEADER_TITLE": "API campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No API campaigns are available",
+        "SUBTITLE": "Launch an API campaign to reach your customers directly. Send custom messages through your API integration. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completed",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create API campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel",
+        "CREATE_BUTTON_TEXT": "Create",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "Title is required"
+          },
+          "MESSAGE": {
+            "LABEL": "Message",
+            "PLACEHOLDER": "Please enter the message of campaign",
+            "ERROR": "Message is required"
+          },
+          "INBOX": {
+            "LABEL": "Select Inbox",
+            "PLACEHOLDER": "Select Inbox",
+            "ERROR": "Inbox is required"
+          },
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "Audience is required"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Scheduled time",
+            "PLACEHOLDER": "Please select the time",
+            "ERROR": "Scheduled time is required"
+          },
+          "DELAY": {
+            "LABEL": "Message Delay",
+            "NONE": "No delay (send immediately)",
+            "FIXED": "Fixed delay",
+            "RANDOM": "Random delay",
+            "FIXED_SECONDS": "Delay (seconds)",
+            "FIXED_PLACEHOLDER": "Enter seconds (0-300)",
+            "MIN_SECONDS": "Min (seconds)",
+            "MAX_SECONDS": "Max (seconds)",
+            "HELP_TEXT": "Time to wait between sending messages. Helps avoid rate limiting.",
+            "RANDOM_HELP_TEXT": "Messages will be sent with a random delay between min and max seconds.",
+            "ERROR_MIN_MAX": "Minimum delay must be less than or equal to maximum delay",
+            "ERROR_RANGE": "Value must be between 0 and 300 seconds"
+          },
+          "BUTTONS": {
+            "CREATE": "Create",
+            "CANCEL": "Cancel"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "API campaign created successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",

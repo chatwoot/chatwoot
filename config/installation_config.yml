@@ -15,7 +15,7 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'ChatWoot'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -31,27 +31,27 @@
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://chatwoot.app.br'
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://chatwoot.app.br'
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'ChatWoot'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://chatwoot.app.br/terms-of-service'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://chatwoot.app.br/privacy-policy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
-  value: true
+  value: false
   display_title: 'Chatwoot Metadata'
   description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
   type: boolean

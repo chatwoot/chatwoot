@@ -19,7 +19,8 @@ class Sms::OneoffSmsCampaignService
   delegate :channel, to: :inbox
 
   def process_audience(audience_labels)
-    campaign.account.contacts.tagged_with(audience_labels, any: true).each do |contact|
+    contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
+    contacts.each do |contact|
       next if contact.phone_number.blank?
 
       content = Liquid::CampaignTemplateService.new(campaign: campaign, contact: contact).call(campaign.message)

@@ -89,6 +89,14 @@ en:
       invalid_message_type: 'Invalid message type. Action not permitted'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
+    evolution:
+      service_unavailable: 'Evolution API service is currently unavailable. Please check your service configuration and try again.'
+      authentication_failed: 'Authentication with Evolution API failed. Please verify your API key and credentials.'
+      network_timeout: 'Connection to Evolution API timed out. Please check your network connection and try again.'
+      instance_exists: 'An instance with the name "%{instance_name}" already exists. Please choose a different name.'
+      invalid_configuration: 'Invalid Evolution API configuration: %{details}'
+      instance_creation_failed: 'Failed to create Evolution API instance: %{reason}'
+      connection_refused: 'Unable to connect to Evolution API. Please verify the service URL and ensure the service is running.'
     whatsapp:
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'

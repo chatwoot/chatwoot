@@ -34,12 +34,13 @@ class Campaign < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :title, presence: true
-  validates :message, presence: true
+  validates :message, presence: true, length: { maximum: Limits::CAMPAIGN_MESSAGE_MAX_LENGTH }
   validate :validate_campaign_inbox
   validate :validate_url
   validate :prevent_completed_campaign_from_update, on: :update
   validate :sender_must_belong_to_account
   validate :inbox_must_belong_to_account
+  validate :validate_delay_configuration
 
   belongs_to :account
   belongs_to :inbox
@@ -61,6 +62,35 @@ class Campaign < ApplicationRecord
     execute_campaign
   end
 
+  # Calculate delay based on trigger_rules configuration
+  def calculate_delay
+    return 0 unless trigger_rules&.dig('delay')
+
+    delay_config = trigger_rules['delay']
+    delay_type_value = delay_config['type']
+
+    case delay_type_value
+    when 'fixed'
+      delay_config['seconds'].to_i
+    when 'random'
+      min = delay_config['min'].to_i
+      max = delay_config['max'].to_i
+      rand(min..max)
+    else
+      0 # 'none' or missing
+    end
+  end
+
+  # Get delay type for display
+  def delay_type
+    trigger_rules&.dig('delay', 'type') || 'none'
+  end
+
+  # Check if delay is configured
+  def delay?
+    delay_type != 'none'
+  end
+
   private
 
   def execute_campaign
@@ -71,6 +101,9 @@ class Campaign < ApplicationRecord
       Sms::OneoffSmsCampaignService.new(campaign: self).perform
     when 'Whatsapp'
       Whatsapp::OneoffCampaignService.new(campaign: self).perform if account.feature_enabled?(:whatsapp_campaign)
+      # Whatsapp::OneoffWhatsappCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Whatsapp'
+    when 'API'
+      Api::OneoffApiCampaignService.new(campaign: self).perform
     end
   end
 
@@ -81,14 +114,14 @@ class Campaign < ApplicationRecord
   def validate_campaign_inbox
     return unless inbox
 
-    errors.add :inbox, 'Unsupported Inbox type' unless ['Website', 'Twilio SMS', 'Sms', 'Whatsapp'].include? inbox.inbox_type
+    errors.add :inbox, 'Unsupported Inbox type' unless ['Website', 'Twilio SMS', 'Sms', 'Whatsapp', 'API'].include? inbox.inbox_type
   end
 
   # TO-DO we clean up with better validations when campaigns evolve into more inboxes
   def ensure_correct_campaign_attributes
     return if inbox.blank?
 
-    if ['Twilio SMS', 'Sms', 'Whatsapp'].include?(inbox.inbox_type)
+    if ['Twilio SMS', 'Sms', 'Whatsapp', 'API'].include?(inbox.inbox_type)
       self.campaign_type = 'one_off'
       self.scheduled_at ||= Time.now.utc
     else
@@ -98,7 +131,7 @@ class Campaign < ApplicationRecord
   end
 
   def validate_url
-    return unless trigger_rules['url']
+    return unless trigger_rules&.dig('url')
 
     use_http_protocol = trigger_rules['url'].starts_with?('http://') || trigger_rules['url'].starts_with?('https://')
     errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !use_http_protocol
@@ -122,6 +155,39 @@ class Campaign < ApplicationRecord
 
   def prevent_completed_campaign_from_update
     errors.add :status, 'The campaign is already completed' if !campaign_status_changed? && completed?
+  end
+
+  def validate_delay_configuration
+    return unless trigger_rules&.dig('delay')
+
+    delay_config = trigger_rules['delay']
+    delay_type_value = delay_config['type']
+
+    case delay_type_value
+    when 'fixed'
+      validate_fixed_delay(delay_config)
+    when 'random'
+      validate_random_delay(delay_config)
+    when 'none', nil
+      # No validation needed
+    else
+      errors.add(:trigger_rules, "Invalid delay type: #{delay_type_value}")
+    end
+  end
+
+  def validate_fixed_delay(config)
+    seconds = config['seconds'].to_i
+
+    errors.add(:trigger_rules, 'Fixed delay must be between 0 and 300 seconds') if seconds.negative? || seconds > 300
+  end
+
+  def validate_random_delay(config)
+    min = config['min'].to_i
+    max = config['max'].to_i
+
+    errors.add(:trigger_rules, 'Min delay must be between 0 and 300 seconds') if min.negative? || min > 300
+    errors.add(:trigger_rules, 'Max delay must be between 0 and 300 seconds') if max.negative? || max > 300
+    errors.add(:trigger_rules, 'Min delay must be less than or equal to max delay') if min > max
   end
 
   # creating db triggers

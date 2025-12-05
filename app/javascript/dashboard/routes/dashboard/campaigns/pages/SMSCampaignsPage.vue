@@ -18,7 +18,7 @@ const selectedCampaign = ref(null);
 const [showSMSCampaignDialog, toggleSMSCampaignDialog] = useToggle();
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
-const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
+const isFetchingCampaigns = computed(() => uiFlags.value?.isFetching ?? false);
 
 const confirmDeleteCampaignDialogRef = ref(null);
 
@@ -29,8 +29,10 @@ const hasNoSMSCampaigns = computed(
 );
 
 const handleDelete = campaign => {
+  if (!campaign) return;
+
   selectedCampaign.value = campaign;
-  confirmDeleteCampaignDialogRef.value.dialogRef.open();
+  confirmDeleteCampaignDialogRef.value?.dialogRef?.open?.();
 };
 </script>
 

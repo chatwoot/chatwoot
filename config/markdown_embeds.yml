@@ -130,3 +130,15 @@ github_gist:
         </a>
       </div>
     </noscript>
+
+cloudflare:
+  regex: '(?<link_url>https?://.*?\.cloudflarestream\.com/.*)'
+  template: |
+    <div style="position: relative; padding-top: 56.25%;">
+      <iframe
+      src="%{link_url}"
+      loading="lazy"
+      allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+      allowfullscreen
+      style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"></iframe>
+    </div>

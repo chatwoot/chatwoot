@@ -7,8 +7,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def create
     user = Current.user || @resource
-    mb = Messages::MessageBuilder.new(user, @conversation, params)
-    @message = mb.perform
+    @message = Messages::MessageBuilder.new(user, @conversation, params).perform
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -52,6 +51,29 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     end
 
     render json: { content: translated_content }
+  end
+
+  def retry_transcription
+    return render json: { error: 'Message not found' }, status: :not_found if message.blank?
+
+    audio_attachments = message.attachments.where(file_type: :audio)
+    return render json: { error: 'No audio attachments found' }, status: :unprocessable_entity if audio_attachments.empty?
+
+    # Clear existing transcription metadata
+    attrs = message.content_attributes || {}
+    attrs.delete('transcription')
+    message.update!(content_attributes: attrs)
+
+    # Re-enqueue transcription jobs for all audio attachments
+    audio_attachments.each do |attachment|
+      Rails.logger.info "Re-enqueueing transcription for message #{message.id}, attachment #{attachment.id}"
+      TranscribeAudioMessageJob.perform_later(message.id, attachment.id)
+    end
+
+    render json: { message: 'Transcription retry initiated' }, status: :ok
+  rescue StandardError => e
+    Rails.logger.error "Error retrying transcription: #{e.message}"
+    render json: { error: e.message }, status: :internal_server_error
   end
 
   private

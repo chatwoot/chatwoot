@@ -77,6 +77,7 @@ class Inbox < ApplicationRecord
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
+  before_destroy :cleanup_evolution_instance
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event
@@ -154,6 +155,16 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  def evolution?
+    return false unless api?
+    return false if channel&.webhook_url.blank?
+
+    evolution_api_url = ENV.fetch('EVOLUTION_API_URL', extract_evolution_api_url)
+    return false if evolution_api_url.blank?
+
+    channel.webhook_url.start_with?(evolution_api_url)
+  end
+
   def assignable_agents
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
@@ -227,6 +238,60 @@ class Inbox < ApplicationRecord
 
   def ensure_valid_max_assignment_limit
     # overridden in enterprise/app/models/enterprise/inbox.rb
+  end
+
+  def cleanup_evolution_instance
+    return unless evolution?
+
+    instance_name = extract_evolution_instance_name
+    return if instance_name.blank?
+
+    Rails.logger.info("Cleaning up Evolution instance '#{instance_name}' for inbox #{id}")
+
+    begin
+      evolution_api_url = ENV.fetch('EVOLUTION_API_URL', extract_evolution_api_url)
+      evolution_api_key = ENV.fetch('EVOLUTION_API_KEY', nil)
+
+      if evolution_api_url.blank? || evolution_api_key.blank?
+        Rails.logger.warn("Evolution API credentials missing for instance #{instance_name} cleanup")
+        return
+      end
+
+      Evolution::ManagerService.new.destroy(evolution_api_url, evolution_api_key, instance_name)
+    rescue StandardError => e
+      # Log error but don't prevent inbox deletion
+      Rails.logger.error("Failed to cleanup Evolution instance #{instance_name}: #{e.message}")
+      Rails.logger.error(e.backtrace.join("\n"))
+    end
+  end
+
+  def extract_evolution_instance_name
+    return nil if channel&.webhook_url.blank?
+
+    # Extract instance name from webhook URL: /chatwoot/webhook/{instance_name}
+    match = channel.webhook_url.match(%r{/chatwoot/webhook/(.+)$})
+    match&.[](1)
+  end
+
+  def extract_evolution_api_url
+    return nil if channel&.webhook_url.blank?
+
+    # Extract base API URL from webhook URL
+    uri = URI.parse(channel.webhook_url)
+    return nil unless valid_uri?(uri)
+
+    build_api_url(uri)
+  rescue URI::InvalidURIError
+    nil
+  end
+
+  def valid_uri?(uri)
+    uri.scheme && uri.host
+  end
+
+  def build_api_url(uri)
+    port_part = uri.port && uri.port != uri.default_port ? ":#{uri.port}" : ''
+    "#{uri.scheme}://#{uri.host}#{port_part}"
   end
 
   def delete_round_robin_agents

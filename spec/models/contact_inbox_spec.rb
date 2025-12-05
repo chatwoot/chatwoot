@@ -61,11 +61,11 @@ RSpec.describe ContactInbox do
         expect(valid_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z)']
+          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z), group JID (?-mix:^\\d{10,18}@g\\.us\\z), or individual JID (?-mix:^\\d{10,15}@s\\.whatsapp\\.net\\z)']
         )
         expect(ci_plus_in_source_id.valid?).to be(false)
         expect(ci_plus_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z)']
+          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z), group JID (?-mix:^\\d{10,18}@g\\.us\\z), or individual JID (?-mix:^\\d{10,15}@s\\.whatsapp\\.net\\z)']
         )
       end
 

@@ -48,6 +48,12 @@
     "DOWNLOAD": "Download",
     "UNKNOWN_FILE_TYPE": "Unknown File",
     "SAVE_CONTACT": "Save Contact",
+    "TRANSCRIBING": "Transcribing audio...",
+    "TRANSCRIPTION": "Transcription",
+    "TRANSCRIPTION_FAILED": "Transcription unavailable",
+    "TRANSCRIPTION_RETRY_INITIATED": "Retrying transcription...",
+    "TRANSCRIPTION_RETRY_FAILED": "Failed to retry transcription",
+    "RETRY": "Retry",
     "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
@@ -263,6 +269,8 @@
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
+      "TRANSCRIBE_AUDIO": "Transcribe audio",
+      "RETRY_TRANSCRIPTION": "Retry transcription",
       "COPY_PERMALINK": "Copy link to the message",
       "LINK_COPIED": "Message URL copied to the clipboard",
       "DELETE_CONFIRMATION": {

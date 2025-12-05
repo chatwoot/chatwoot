@@ -41,6 +41,9 @@ class ContactInboxBuilder
   end
 
   def wa_source_id
+    # If a source_id was explicitly provided (e.g., group JID for whatsapp_web), honor it
+    return @source_id if @source_id.present?
+
     raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
 
     # whatsapp doesn't want the + in e164 format

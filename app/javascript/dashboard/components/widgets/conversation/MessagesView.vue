@@ -29,6 +29,7 @@ import {
   getReadMessages,
   getUnreadMessages,
 } from 'dashboard/helper/conversationHelper';
+import { shouldShowSenderNames } from 'dashboard/helper/groupConversationHelper';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -242,6 +243,9 @@ export default {
         !this.is360DialogWhatsAppChannel;
 
       return { incoming, outgoing };
+    },
+    isGroupConversation() {
+      return shouldShowSenderNames(this.currentChat);
     },
   },
 
@@ -471,6 +475,7 @@ export default {
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
       :messages="getMessages"
+      :is-group-conversation="isGroupConversation"
       @retry="handleMessageRetry"
     >
       <template #beforeAll>

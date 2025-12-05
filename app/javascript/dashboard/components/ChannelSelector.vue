@@ -1,7 +1,8 @@
 <script setup>
+import { computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -19,6 +20,15 @@ defineProps({
     default: false,
   },
 });
+
+const isImageIcon = computed(() => {
+  return (
+    props.icon &&
+    (props.icon.includes('.png') ||
+      props.icon.includes('.jpg') ||
+      props.icon.includes('.svg'))
+  );
+});
 </script>
 
 <template>
@@ -33,7 +43,13 @@ defineProps({
     <div
       class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"
     >
-      <Icon :icon="icon" class="text-n-slate-10 size-6" />
+      <img
+        v-if="isImageIcon"
+        :src="icon"
+        :alt="title"
+        class="size-6 object-contain"
+      />
+      <Icon v-else :icon="icon" class="text-n-slate-10 size-6" />
     </div>
 
     <div class="flex flex-col items-start gap-1.5">

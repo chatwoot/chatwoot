@@ -36,6 +36,8 @@ openai:
         {
           'api_key': { 'type': 'string' },
           'label_suggestion': { 'type': 'boolean' },
+          'audio_transcription': { 'type': 'boolean' },
+          'language_detection': { 'type': 'boolean' },
         },
       'required': ['api_key'],
       'additionalProperties': false,
@@ -54,8 +56,20 @@ openai:
         'name': 'label_suggestion',
         'validation': '',
       },
+      {
+        'label': 'Enable audio transcription',
+        'type': 'checkbox',
+        'name': 'audio_transcription',
+        'validation': '',
+      },
+      {
+        'label': 'Enable language detection',
+        'type': 'checkbox',
+        'name': 'language_detection',
+        'validation': '',
+      },
     ]
-  visible_properties: ['api_key', 'label_suggestion']
+  visible_properties: ['api_key', 'label_suggestion', 'audio_transcription', 'language_detection']
 linear:
   id: linear
   logo: linear.png

@@ -83,6 +83,12 @@ export default {
         this.whatsAppAPIProvider === 'whatsapp_cloud'
       );
     },
+    isAWhatsAppWebChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP &&
+        this.whatsAppAPIProvider === 'whatsapp_web'
+      );
+    },
     is360DialogWhatsAppChannel() {
       return (
         this.channelType === INBOX_TYPES.WHATSAPP &&

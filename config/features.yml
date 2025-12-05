@@ -8,7 +8,7 @@
 # deprecated: purpose of feature flag is done, no need to show it in the UI anymore
 - name: inbound_emails
   display_name: Inbound Emails
-  enabled: true
+  enabled: false
 - name: channel_email
   display_name: Email Channel
   enabled: true
@@ -83,7 +83,7 @@
   enabled: true
 - name: campaigns
   display_name: Campaigns
-  enabled: true
+  enabled: false
   help_url: https://chwt.app/hc/campaigns
 - name: reports
   display_name: Reports

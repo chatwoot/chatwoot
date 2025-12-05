@@ -26,6 +26,11 @@ json.meta do
   json.hmac_verified conversation.contact_inbox&.hmac_verified
 end
 
+# Include contact_inbox information for group conversation detection
+json.contact_inbox do
+  json.source_id conversation.contact_inbox&.source_id
+end
+
 json.id conversation.display_id
 if conversation.messages.where(account_id: conversation.account_id).last.blank?
   json.messages []

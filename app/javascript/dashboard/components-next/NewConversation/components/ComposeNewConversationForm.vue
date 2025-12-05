@@ -65,7 +65,9 @@ const state = reactive({
 const inboxTypes = computed(() => ({
   isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
   isTwilio: props.targetInbox?.channelType === INBOX_TYPES.TWILIO,
-  isWhatsapp: props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP,
+  isWhatsapp:
+    props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP &&
+    props.targetInbox?.provider !== 'whatsapp_web',
   isWebWidget: props.targetInbox?.channelType === INBOX_TYPES.WEB,
   isApi: props.targetInbox?.channelType === INBOX_TYPES.API,
   isEmailOrWebWidget:

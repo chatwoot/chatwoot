@@ -1,0 +1,195 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/data/postgres
+    environment:
+      - POSTGRES_DB=chatwoot_dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=P@ssw0rd
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d chatwoot_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:alpine
+    restart: always
+    command: ['sh', '-c', 'redis-server --requirepass "$REDIS_PASSWORD"']
+    env_file: .env
+    volumes:
+      - redis:/data/redis
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+
+  # Evolution API Database Migration Init Container
+  evolution-migration:
+    image: ghcr.io/chatwoot-br/evolution-api:next
+    environment:
+      - DOCKER_ENV=true
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://postgres:P@ssw0rd@postgres:5432/chatwoot_dev?schema=evolution
+      - DATABASE_CONNECTION_CLIENT_NAME=evolution
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        echo "Starting database migration..."
+        npm run db:deploy
+        echo "Running Prisma generate..."
+        npm run db:generate
+        echo "Database migration completed successfully!"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  # Evolution API - WhatsApp Integration Service (Chatwoot BR Fork)
+  evolution-api:
+    image: ghcr.io/chatwoot-br/evolution-api:next
+    restart: always
+    ports:
+      - '8080:8080'
+    volumes:
+      - evolution_store:/evolution/store
+    environment:
+      # Server Configuration
+      - SERVER_TYPE=http
+      - SERVER_PORT=8080
+      - SERVER_URL=http://localhost:8080
+      - CORS_ORIGIN=*
+      - CORS_METHODS=POST,GET,PUT,DELETE
+      - CORS_CREDENTIALS=true
+
+      # Database Configuration (shared PostgreSQL with Chatwoot)
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://postgres:P@ssw0rd@postgres:5432/chatwoot_dev?schema=evolution
+      - DATABASE_CONNECTION_CLIENT_NAME=evolution
+
+      # Redis Cache Configuration (shared with Chatwoot)
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URI=redis://default:${REDIS_PASSWORD}@redis:6379/1
+      - CACHE_REDIS_PREFIX_KEY=evolution
+      - CACHE_REDIS_SAVE_INSTANCES=false
+
+      # Authentication
+      - AUTHENTICATION_TYPE=apikey
+      - AUTHENTICATION_API_KEY=00000000-0000-0000-0000-000000000000
+      - AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES=false
+
+      # Global Webhook (can be overridden per instance)
+      - WEBHOOK_GLOBAL_URL=http://host.docker.internal:3000/webhooks/whatsapp
+      - WEBHOOK_GLOBAL_ENABLED=false
+      - WEBHOOK_GLOBAL_WEBHOOK_BY_EVENTS=true
+
+      # WhatsApp Configuration
+      - CONFIG_SESSION_PHONE_CLIENT=Evolution API
+      - CONFIG_SESSION_PHONE_NAME=Chrome
+      - QRCODE_LIMIT=30
+      - QRCODE_COLOR=#198754
+
+      # Logging
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO
+      - LOG_COLOR=true
+      - LOG_BAILEYS=error
+
+      # Instance Management
+      - DEL_INSTANCE=false
+      - DEL_TEMP_INSTANCES=true
+
+      # Chatwoot Integration Settings
+      - CHATWOOT_ENABLED=true
+      - CHATWOOT_MESSAGE_READ=true
+      - CHATWOOT_IMPORT_PLACEHOLDER_MEDIA_MESSAGE=true
+      - CHATWOOT_IMPORT_DATABASE_CONNECTION_URI=postgresql://postgres:P@ssw0rd@postgres:5432/chatwoot_dev
+      - CHATWOOT_BASE_URL=http://host.docker.internal:3000
+      - CHATWOOT_SIGN_MSG=true
+      - CHATWOOT_REOPEN_CONVERSATION=true
+      - CHATWOOT_CONVERSATION_PENDING=true
+      - CHATWOOT_IMPORT_CONTACTS=true
+      - CHATWOOT_NAME_INBOX=Evolution API
+      - CHATWOOT_MERGE_BRAZIL_CONTACTS=true
+      - CHATWOOT_IMPORT_MESSAGES=true
+      - CHATWOOT_DAYS_LIMIT_IMPORT_MESSAGES=60
+      - CHATWOOT_ORGANIZATION=Chatwoot BR
+      - CHATWOOT_LOGO=https://github.com/chatwoot-br/evolution-api/raw/next/public/images/evolution-api.png
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      evolution-migration:
+        condition: service_completed_successfully
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/liveness"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # WhatsApp Web API - Multi-device support for Chatwoot
+  # Provides REST API for WhatsApp integration with QR code login and webhook support
+  # Documentation: docs/features/FEAT-004/deployment-guide.md
+  whatsapp:
+    image: ghcr.io/chatwoot-br/go-whatsapp-web-multidevice:latest
+    container_name: chatwoot-whatsapp-dev
+    restart: unless-stopped
+    ports:
+      # WhatsApp API and Web UI (using 3001 to avoid conflict with Chatwoot backend on 3000)
+      - '3001:3001'
+    volumes:
+      # Persistent storage for WhatsApp session data and media
+      - whatsapp_storage:/app/storages
+      - whatsapp_logs:/app/logs
+    environment:
+      # Application Configuration
+      - APP_PORT=3001 # Internal container port
+      - APP_DEBUG=true # Enable debug logging for development
+      # - APP_OS=Chatwoot Development # Device name shown in WhatsApp
+
+      # Basic Authentication (simple dev credentials - CHANGE IN PRODUCTION!)
+      # Format: username:password (multiple users: user1:pass1,user2:pass2)
+      - APP_BASIC_AUTH=admin:chatwoot123
+
+      # WhatsApp Webhook Configuration
+      # Points to local Chatwoot instance - adjust if Chatwoot runs on different host/port
+      # For Docker host network: use host.docker.internal on macOS/Windows
+      # For Docker bridge network: use service name if in same compose file
+      - APP_BASE_PATH=/5521995539939
+      - WHATSAPP_WEBHOOK=http://host.docker.internal:3000/webhooks/whatsapp_web/5521995539939
+      - WHATSAPP_WEBHOOK_SECRET=dev-secret-key-change-in-production
+
+      # Optional WhatsApp Features (uncomment to enable)
+      # - WHATSAPP_AUTO_REPLY=Thanks for your message!
+      # - WHATSAPP_AUTO_MARK_READ=false
+      # - WHATSAPP_CHAT_STORAGE=true
+    # Allow container to communicate with host services (for webhook callbacks to Chatwoot)
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+volumes:
+  postgres:
+  redis:
+  evolution_store:
+  whatsapp_storage:
+  whatsapp_logs:

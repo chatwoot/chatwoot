@@ -1,5 +1,6 @@
 class InitSchema < ActiveRecord::Migration[6.1]
   def up
+    execute "CREATE SCHEMA IF NOT EXISTS #{ENV.fetch('POSTGRES_SCHEMA', 'public')}"
     # These are extensions that must be enabled in order to support this database
     enable_extension "pg_stat_statements"
     enable_extension "pg_trgm"

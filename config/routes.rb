@@ -109,6 +109,7 @@ Rails.application.routes.draw do
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
+            resource :evolution_channel, only: [:create]
           end
           resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do
@@ -121,6 +122,7 @@ Rails.application.routes.draw do
                 member do
                   post :translate
                   post :retry
+                  post :retry_transcription
                 end
               end
               resources :assignments, only: [:create]
@@ -264,6 +266,25 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
+          end
+
+          namespace :whatsapp_web do
+            resources :gateway, only: [], param: :id, controller: 'gateway' do
+              collection do
+                post :test_connection
+                post :test_devices
+              end
+              member do
+                get :login
+                get :login_with_code
+                get :devices
+                get :status
+                get :logout
+                get :reconnect
+                get :qr_code
+                post :sync_history
+              end
+            end
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
@@ -526,6 +547,8 @@ Rails.application.routes.draw do
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
   get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
+  # WhatsApp Web (Go gateway) webhooks
+  post 'webhooks/whatsapp_web/:phone_number', to: 'webhooks/whatsapp_web#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
