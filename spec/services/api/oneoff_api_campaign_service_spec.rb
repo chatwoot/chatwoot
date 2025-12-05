@@ -22,8 +22,8 @@ RSpec.describe Api::OneoffApiCampaignService do
       end
 
       it 'creates contact inbox and conversation for each contact with matching labels' do
-        expect { subject.perform }.to change { ContactInbox.count }.by(1)
-                                  .and change { Conversation.count }.by(1)
+        expect { subject.perform }.to change(ContactInbox, :count).by(1)
+                                  .and change(Conversation, :count).by(1)
       end
 
       it 'creates conversation with correct attributes' do
@@ -37,7 +37,7 @@ RSpec.describe Api::OneoffApiCampaignService do
       end
 
       it 'creates a message in the conversation' do
-        expect { subject.perform }.to change { Message.count }.by(1)
+        expect { subject.perform }.to change(Message, :count).by(1)
 
         message = Message.last
         expect(message.content).to eq(campaign.message)
@@ -92,9 +92,9 @@ RSpec.describe Api::OneoffApiCampaignService do
       end
 
       it 'creates conversations for all matching contacts' do
-        expect { subject.perform }.to change { Conversation.count }.by(2)
-                                  .and change { ContactInbox.count }.by(2)
-                                  .and change { Message.count }.by(2)
+        expect { subject.perform }.to change(Conversation, :count).by(2)
+                                  .and change(ContactInbox, :count).by(2)
+                                  .and change(Message, :count).by(2)
       end
     end
 

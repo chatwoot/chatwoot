@@ -53,6 +53,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render json: { content: translated_content }
   end
 
+  # rubocop:disable Metrics/AbcSize
   def retry_transcription
     return render json: { error: 'Message not found' }, status: :not_found if message.blank?
 
@@ -75,6 +76,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     Rails.logger.error "Error retrying transcription: #{e.message}"
     render json: { error: e.message }, status: :internal_server_error
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 

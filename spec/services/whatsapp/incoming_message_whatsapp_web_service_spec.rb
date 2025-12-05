@@ -319,7 +319,7 @@ describe Whatsapp::IncomingMessageWhatsappWebService do
           parsed_log = JSON.parse(log_message)
           expect(parsed_log['context']).to eq('WhatsApp Web: Contact info fetch failed')
           expect(parsed_log['error_type']).to eq('Errno::ECONNREFUSED')
-          expect(parsed_log['fallback_used']).to eq(true)
+          expect(parsed_log['fallback_used']).to be(true)
         end
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform

@@ -1,5 +1,6 @@
 require 'net/http'
 
+# rubocop:disable Metrics/ClassLength
 class Evolution::ManagerService
   # HTTParty timeout configurations
   TIMEOUT_OPTIONS = {
@@ -124,6 +125,7 @@ class Evolution::ManagerService
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def build_instance_payload(account_id, name, access_token, internal_api_url, frontend_url)
     {
       instanceName: name,
@@ -146,12 +148,11 @@ class Evolution::ManagerService
       chatwootLogo: "#{frontend_url}/assets/images/dashboard/channels/whatsapp.png"
     }
   end
+  # rubocop:enable Metrics/MethodLength
 
+  # rubocop:disable Metrics/AbcSize
   def with_error_handling(instance_name)
     yield
-  rescue Net::ReadTimeout, Net::OpenTimeout => e
-    Rails.logger.error("Evolution API timeout for instance #{instance_name}: #{e.message}")
-    raise CustomExceptions::Evolution::NetworkTimeout.new(instance_name: instance_name)
   rescue Timeout::Error => e
     Rails.logger.error("Evolution API timeout for instance #{instance_name}: #{e.message}")
     raise CustomExceptions::Evolution::NetworkTimeout.new(instance_name: instance_name)
@@ -168,7 +169,9 @@ class Evolution::ManagerService
     Rails.logger.error("Unexpected Evolution API error for instance #{instance_name}: #{e.message}")
     raise CustomExceptions::Evolution::InvalidConfiguration.new(details: e.message, instance_name: instance_name)
   end
+  # rubocop:enable Metrics/AbcSize
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def process_response(response, instance_name)
     case response.code
     when 200, 201
@@ -200,6 +203,7 @@ class Evolution::ManagerService
       raise CustomExceptions::Evolution::ServiceUnavailable.new(instance_name: instance_name)
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def handle_success_response(response)
     response_body = begin
@@ -238,10 +242,6 @@ class Evolution::ManagerService
 
   def with_graceful_error_handling(instance_name)
     yield
-  rescue Net::ReadTimeout, Net::OpenTimeout => e
-    Rails.logger.warn("Evolution API timeout during instance #{instance_name} deletion: #{e.message}")
-    # Don't raise exception - allow deletion to continue
-    nil
   rescue Timeout::Error => e
     Rails.logger.warn("Evolution API timeout during instance #{instance_name} deletion: #{e.message}")
     # Don't raise exception - allow deletion to continue
@@ -302,3 +302,4 @@ class Evolution::ManagerService
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

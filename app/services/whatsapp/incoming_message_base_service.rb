@@ -43,7 +43,7 @@ class Whatsapp::IncomingMessageBaseService
   def process_statuses
     # Process all statuses in the array, not just the first one
     @processed_params[:statuses].each do |status|
-      next unless status[:id].present?
+      next if status[:id].blank?
 
       update_message_with_status(@message, status) if find_message_by_source_id(status[:id])
     end

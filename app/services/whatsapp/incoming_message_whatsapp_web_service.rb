@@ -1,5 +1,6 @@
 # Service to process incoming messages from go-whatsapp-web-multidevice
 # Based on documentation: https://github.com/aldinokemal/go-whatsapp-web-multidevice
+# rubocop:disable Metrics
 class Whatsapp::IncomingMessageWhatsappWebService < Whatsapp::IncomingMessageBaseService
   private
 
@@ -82,7 +83,7 @@ class Whatsapp::IncomingMessageWhatsappWebService < Whatsapp::IncomingMessageBas
     # For group messages, ensure the sender is the individual who sent the message, not the group
     if message_to_group?(contact_from, contact_to) && @sender_contact
       Rails.logger.info { "WhatsApp Web: Group message - setting sender to individual: #{@sender_contact.name}" }
-      @message.update_attribute(:sender, @sender_contact)
+      @message.update!(sender: @sender_contact)
       return
     end
 
@@ -90,12 +91,12 @@ class Whatsapp::IncomingMessageWhatsappWebService < Whatsapp::IncomingMessageBas
     return unless message_from_company?(contact_from, contact_to)
 
     Rails.logger.info { 'WhatsApp Web: Setting message as outgoing from company' }
-    @message.update_attribute(:message_type, :outgoing)
+    @message.update!(message_type: :outgoing)
 
     # For outgoing messages, the sender should be the company contact, not external contact
     return unless @company_contact
 
-    @message.update_attribute(:sender, @company_contact)
+    @message.update!(sender: @company_contact)
     Rails.logger.info { "WhatsApp Web: Message attributed to company contact: #{@company_contact.name}" }
   end
 
@@ -616,7 +617,7 @@ class Whatsapp::IncomingMessageWhatsappWebService < Whatsapp::IncomingMessageBas
   # Setup contact inbox for the external contact (not the company)
   def setup_external_contact(external_contact_params)
     # Validate we have essential contact data
-    return unless external_contact_params&.dig(:profile, :identifier).present?
+    return if external_contact_params&.dig(:profile, :identifier).blank?
 
     source_id = processed_waid(external_contact_params[:wa_id])
 
@@ -649,7 +650,7 @@ class Whatsapp::IncomingMessageWhatsappWebService < Whatsapp::IncomingMessageBas
   # Setup contact inbox for the group
   def setup_group_contact(group_contact_params)
     # Validate we have essential contact data
-    return unless group_contact_params&.dig(:profile, :identifier).present?
+    return if group_contact_params&.dig(:profile, :identifier).blank?
 
     source_id = group_contact_params.dig(:profile, :identifier)
 
@@ -714,7 +715,7 @@ class Whatsapp::IncomingMessageWhatsappWebService < Whatsapp::IncomingMessageBas
   # Setup company contact for outgoing messages
   def setup_company_contact(company_contact_params)
     # Validate we have essential contact data
-    return unless company_contact_params&.dig(:profile, :identifier).present?
+    return if company_contact_params&.dig(:profile, :identifier).blank?
 
     company_phone = extract_phone_number(inbox.channel.phone_number)
 
@@ -745,3 +746,4 @@ class Whatsapp::IncomingMessageWhatsappWebService < Whatsapp::IncomingMessageBas
     Rails.logger.info { "WhatsApp Web: Company contact set: #{@company_contact.name} (ID: #{@company_contact.id})" }
   end
 end
+# rubocop:enable Metrics

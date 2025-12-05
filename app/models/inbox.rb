@@ -39,6 +39,7 @@
 #  fk_rails_...  (portal_id => portals.id)
 #
 
+# rubocop:disable Metrics/ClassLength
 class Inbox < ApplicationRecord
   include Reportable
   include Avatarable
@@ -302,6 +303,7 @@ class Inbox < ApplicationRecord
     ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
   end
 end
+# rubocop:enable Metrics/ClassLength
 
 Inbox.prepend_mod_with('Inbox')
 Inbox.include_mod_with('Audit::Inbox')

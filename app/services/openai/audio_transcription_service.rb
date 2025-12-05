@@ -2,6 +2,7 @@ require 'httparty'
 require 'down'
 require 'tempfile'
 
+# rubocop:disable Metrics/ClassLength
 class Openai::AudioTranscriptionService
   include HTTParty
   base_uri 'https://api.openai.com/v1'
@@ -13,6 +14,7 @@ class Openai::AudioTranscriptionService
     @api_key = resolve_api_key
   end
 
+  # rubocop:disable Metrics/MethodLength
   def process
     if @api_key.blank?
       Rails.logger.info 'OpenAI API key is not configured'
@@ -40,9 +42,11 @@ class Openai::AudioTranscriptionService
   ensure
     cleanup_file(audio_file)
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def download_audio_file
     # If we have an attachment, open the blob directly (avoids corrupted filename issues)
     if @attachment&.file&.attached?
@@ -76,7 +80,9 @@ class Openai::AudioTranscriptionService
     Rails.logger.error "Error downloading audio file: #{e.message}\n#{e.backtrace.join("\n")}"
     raise Openai::Exceptions::NetworkError, "Unexpected error downloading audio: #{e.message}"
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def request_transcription(audio_file)
     Rails.logger.info "Sending file to OpenAI: #{audio_file.path}"
     Rails.logger.info "File size: #{File.size(audio_file.path)} bytes"
@@ -121,6 +127,7 @@ class Openai::AudioTranscriptionService
     Rails.logger.error "Error in transcription request: #{e.message}\n#{e.backtrace.join("\n")}"
     raise
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def handle_error_response(response)
     error_message = "#{response.code} - #{response.body}"
@@ -160,6 +167,7 @@ class Openai::AudioTranscriptionService
     tempfile
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def mime_type_to_extension(content_type)
     # Map common audio mime types to extensions
     # IMPORTANT: Use extensions that OpenAI Whisper API supports
@@ -182,6 +190,7 @@ class Openai::AudioTranscriptionService
       extracted == 'opus' ? 'ogg' : (extracted || 'ogg')
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def sanitize_audio_filename(tempfile)
     original_path = tempfile.path
@@ -239,3 +248,4 @@ class Openai::AudioTranscriptionService
     ENV.fetch('OPENAI_API_KEY', nil)
   end
 end
+# rubocop:enable Metrics/ClassLength

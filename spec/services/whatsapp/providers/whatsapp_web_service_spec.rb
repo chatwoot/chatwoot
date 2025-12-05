@@ -57,7 +57,7 @@ RSpec.describe Whatsapp::Providers::WhatsappWebService do
         call_count = 0
         allow(HTTParty).to receive(:get) do
           call_count += 1
-          raise Errno::ECONNREFUSED.new('Connection refused') if call_count == 1
+          raise Errno::ECONNREFUSED, 'Connection refused' if call_count == 1
 
           double(
             success?: true,
@@ -78,7 +78,7 @@ RSpec.describe Whatsapp::Providers::WhatsappWebService do
         call_count = 0
         allow(HTTParty).to receive(:get) do
           call_count += 1
-          raise Net::OpenTimeout.new('Connection timeout') if call_count == 1
+          raise Net::OpenTimeout, 'Connection timeout' if call_count == 1
 
           double(
             success?: true,
@@ -98,7 +98,7 @@ RSpec.describe Whatsapp::Providers::WhatsappWebService do
         call_count = 0
         allow(HTTParty).to receive(:get) do
           call_count += 1
-          raise Errno::ECONNREFUSED.new('Connection refused')
+          raise Errno::ECONNREFUSED, 'Connection refused'
         end
 
         # Allow logging without strict expectations to avoid mock errors

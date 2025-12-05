@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 namespace :audio_transcription do
   desc 'Cleanup stuck audio transcription messages'
   task cleanup_stuck_messages: :environment do
@@ -6,10 +7,10 @@ namespace :audio_transcription do
     # Find messages with audio attachments created more than 5 minutes ago
     # that don't have transcription metadata (stuck in "Transcribing..." state)
     stuck_message_ids = Attachment.where(file_type: :audio)
-                                   .joins(:message)
-                                   .where('messages.created_at < ?', 5.minutes.ago)
-                                   .where("messages.content_attributes->>'transcription' IS NULL")
-                                   .pluck(Arel.sql('DISTINCT messages.id'))
+                                  .joins(:message)
+                                  .where('messages.created_at < ?', 5.minutes.ago)
+                                  .where("messages.content_attributes->>'transcription' IS NULL")
+                                  .pluck(Arel.sql('DISTINCT messages.id'))
 
     count = stuck_message_ids.count
     puts "Found #{count} stuck messages with audio attachments"
@@ -54,10 +55,10 @@ namespace :audio_transcription do
 
     # Find messages with failed transcriptions
     failed_message_ids = Attachment.where(file_type: :audio)
-                                    .joins(:message)
-                                    .where("messages.content_attributes->>'transcription' IS NOT NULL")
-                                    .where("messages.content_attributes->'transcription'->>'error' IS NOT NULL")
-                                    .pluck(Arel.sql('DISTINCT messages.id'))
+                                   .joins(:message)
+                                   .where("messages.content_attributes->>'transcription' IS NOT NULL")
+                                   .where("messages.content_attributes->'transcription'->>'error' IS NOT NULL")
+                                   .pluck(Arel.sql('DISTINCT messages.id'))
 
     count = failed_message_ids.count
     puts "Found #{count} messages with failed transcriptions"
@@ -85,3 +86,4 @@ namespace :audio_transcription do
     puts 'Retry complete!'
   end
 end
+# rubocop:enable Metrics/BlockLength

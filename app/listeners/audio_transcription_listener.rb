@@ -20,6 +20,7 @@ class AudioTranscriptionListener < BaseListener
     message.attachments.any? { |attachment| attachment.file_type == 'audio' }
   end
 
+  # rubocop:disable Metrics/MethodLength
   def api_key_available?(account)
     # Check if OpenAI integration has audio_transcription enabled
     openai_hook = account.hooks.find_by(app_id: 'openai', status: 'enabled')
@@ -55,4 +56,5 @@ class AudioTranscriptionListener < BaseListener
     Rails.logger.error "AudioTranscriptionListener: Error checking transcription settings for account #{account.id}: #{e.message}"
     false
   end
+  # rubocop:enable Metrics/MethodLength
 end

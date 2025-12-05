@@ -14,6 +14,7 @@ class TranscribeAudioMessageJob < ApplicationJob
     job.handle_transcription_error(error)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def perform(message_id, attachment_id)
     @message_id = message_id
     @attachment_id = attachment_id
@@ -46,6 +47,7 @@ class TranscribeAudioMessageJob < ApplicationJob
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.error "Record not found: #{e.message}"
   end
+  # rubocop:enable Metrics/MethodLength
 
   def handle_transcription_error(error)
     Rails.logger.error "Transcription failed for message #{@message_id}: #{error.message}"

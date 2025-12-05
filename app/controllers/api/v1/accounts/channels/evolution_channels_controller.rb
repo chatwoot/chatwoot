@@ -3,6 +3,7 @@ class Api::V1::Accounts::Channels::EvolutionChannelsController < Api::V1::Accoun
   before_action :authorize_request
   before_action :set_user
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def create
     params = permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type)
     evolution_api_url = ENV.fetch('EVOLUTION_API_URL', params[:webhook_url])
@@ -52,6 +53,7 @@ class Api::V1::Accounts::Channels::EvolutionChannelsController < Api::V1::Accoun
       CustomExceptions::Evolution::InvalidConfiguration.new(details: "Unexpected error: #{e.message}")
     )
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   private
 
