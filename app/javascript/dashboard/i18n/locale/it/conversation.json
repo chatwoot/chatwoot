@@ -40,7 +40,7 @@
     "BOT_HANDOFF_REOPEN_ACTION": "Segna conversazione aperta",
     "BOT_HANDOFF_SUCCESS": "La conversazione ti è stata assegnata",
     "BOT_HANDOFF_ERROR": "Impossibile prendere la conversazione. Riprova.",
-    "TWILIO_WHATSAPP_CAN_REPLY": "È possibile rispondere a questa conversazione solo utilizzando un messaggio modello a causa di",
+    "TWILIO_WHATSAPP_CAN_REPLY": "È possibile rispondere a questa conversazione solamente utilizzando un Modello Whatsapp. Motivo:",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrizione finestra messaggio 24 ore",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Tutti i nuovi messaggi verranno visualizzati lì. Non sarà più possibile inviare messaggi da questa conversazione.",
     "REPLYING_TO": "Stai rispondendo a:",
