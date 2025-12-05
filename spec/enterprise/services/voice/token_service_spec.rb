@@ -1,19 +1,25 @@
 require 'rails_helper'
 
 describe Voice::TokenService do
-  before { allow_any_instance_of(Channel::Voice).to receive(:provision_twilio_on_create).and_return(true) }
-
   let(:account) { create(:account) }
   let(:user) { create(:user, :administrator, account: account) }
   let(:voice_channel) { create(:channel_voice, account: account) }
   let(:inbox) { voice_channel.inbox }
 
+  let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }
+  let(:voice_grant) { instance_double(Twilio::JWT::AccessToken::VoiceGrant) }
+
+  before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(webhook_service)
+    allow(Twilio::JWT::AccessToken::VoiceGrant).to receive(:new).and_return(voice_grant)
+    allow(voice_grant).to receive(:outgoing_application_sid=)
+    allow(voice_grant).to receive(:outgoing_application_params=)
+    allow(voice_grant).to receive(:incoming_allow=)
+  end
+
   it 'returns a token payload with expected keys' do
     fake_token = instance_double(Twilio::JWT::AccessToken, to_jwt: 'jwt-token', add_grant: nil)
     allow(Twilio::JWT::AccessToken).to receive(:new).and_return(fake_token)
-    allow_any_instance_of(Twilio::JWT::AccessToken::VoiceGrant).to receive(:outgoing_application_sid=)
-    allow_any_instance_of(Twilio::JWT::AccessToken::VoiceGrant).to receive(:outgoing_application_params=)
-    allow_any_instance_of(Twilio::JWT::AccessToken::VoiceGrant).to receive(:incoming_allow=)
 
     payload = described_class.new(inbox: inbox, user: user, account: account).generate
 

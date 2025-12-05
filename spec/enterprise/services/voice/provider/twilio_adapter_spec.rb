@@ -1,21 +1,25 @@
 require 'rails_helper'
 
 describe Voice::Provider::TwilioAdapter do
-  before { allow_any_instance_of(Channel::Voice).to receive(:provision_twilio_on_create).and_return(true) }
-
   let(:account) { create(:account) }
   let(:channel) { create(:channel_voice, account: account) }
   let(:adapter) { described_class.new(channel) }
+  let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }
+  let(:calls_double) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallList) }
+  let(:call_instance) do
+    instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, sid: 'CA123', status: 'queued')
+  end
+  let(:client_double) { instance_double(Twilio::REST::Client, calls: calls_double) }
+
+  before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(webhook_service)
+  end
 
   it 'initiates an outbound call with expected params' do
     allow(ENV).to receive(:fetch).with('FRONTEND_URL').and_return('https://app.test')
 
-    calls_double = double('calls')
-    allow(calls_double).to receive(:create).and_return(
-      double('call', sid: 'CA123', status: 'queued')
-    )
+    allow(calls_double).to receive(:create).and_return(call_instance)
 
-    client_double = double('twilio_client', calls: calls_double)
     allow(Twilio::REST::Client).to receive(:new)
       .with(channel.provider_config_hash['account_sid'], channel.provider_config_hash['auth_token'])
       .and_return(client_double)

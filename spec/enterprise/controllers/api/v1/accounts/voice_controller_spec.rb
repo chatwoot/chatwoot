@@ -1,14 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe 'Voice Conference API', type: :request do
-  before { allow_any_instance_of(Channel::Voice).to receive(:provision_twilio_on_create).and_return(true) }
-
   let(:account) { create(:account) }
   let(:voice_channel) { create(:channel_voice, account: account) }
   let(:voice_inbox) { voice_channel.inbox }
   let(:conversation) { create(:conversation, account: account, inbox: voice_inbox, identifier: nil) }
   let(:admin) { create(:user, :administrator, account: account) }
   let(:agent) { create(:user, account: account, role: :agent) }
+
+  let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }
+  let(:voice_grant) { instance_double(Twilio::JWT::AccessToken::VoiceGrant) }
+
+  before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(webhook_service)
+    allow(Twilio::JWT::AccessToken::VoiceGrant).to receive(:new).and_return(voice_grant)
+    allow(voice_grant).to receive(:outgoing_application_sid=)
+    allow(voice_grant).to receive(:outgoing_application_params=)
+    allow(voice_grant).to receive(:incoming_allow=)
+  end
 
   describe 'GET /conference_token' do
     let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference_token" }
@@ -26,9 +35,6 @@ RSpec.describe 'Voice Conference API', type: :request do
       it 'returns token payload' do
         fake_token = instance_double(Twilio::JWT::AccessToken, to_jwt: 'jwt-token', add_grant: nil)
         allow(Twilio::JWT::AccessToken).to receive(:new).and_return(fake_token)
-        allow_any_instance_of(Twilio::JWT::AccessToken::VoiceGrant).to receive(:outgoing_application_sid=)
-        allow_any_instance_of(Twilio::JWT::AccessToken::VoiceGrant).to receive(:outgoing_application_params=)
-        allow_any_instance_of(Twilio::JWT::AccessToken::VoiceGrant).to receive(:incoming_allow=)
 
         get url, headers: agent.create_new_auth_token
 
@@ -65,7 +71,7 @@ RSpec.describe 'Voice Conference API', type: :request do
         conversation.reload
         expect(conversation.identifier).to eq('CALL123')
         expect(conversation.additional_attributes['conference_sid']).to eq(body['conference_sid'])
-        expect(conversation.additional_attributes['agent_joined']).to eq(true)
+        expect(conversation.additional_attributes['agent_joined']).to be true
       end
 
       it 'returns conflict when call_sid missing' do
@@ -92,7 +98,8 @@ RSpec.describe 'Voice Conference API', type: :request do
       before { create(:inbox_member, inbox: voice_inbox, user: agent) }
 
       it 'ends conference and returns success' do
-        allow(Voice::Conference::EndService).to receive_message_chain(:new, :perform).and_return(true)
+        end_service = instance_double(Voice::Conference::EndService, perform: true)
+        allow(Voice::Conference::EndService).to receive(:new).and_return(end_service)
 
         delete url,
                headers: agent.create_new_auth_token,
