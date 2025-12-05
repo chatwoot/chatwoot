@@ -95,6 +95,7 @@ describe SearchService do
         let(:search_type) { 'Message' }
 
         it 'uses LIKE search when search_with_gin feature is disabled' do
+          allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
           search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
 
@@ -105,6 +106,7 @@ describe SearchService do
         end
 
         it 'uses GIN search when search_with_gin feature is enabled' do
+          allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
           search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
 
@@ -119,11 +121,13 @@ describe SearchService do
           message3 = create(:message, account: account, inbox: inbox, content: 'Harry is a wizard apprentice')
 
           # Test with GIN search
+          allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
           gin_search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
           gin_results = gin_search.perform[:messages].map(&:id)
 
           # Test with LIKE search
+          allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
           like_search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
           like_results = like_search.perform[:messages].map(&:id)
@@ -269,7 +273,7 @@ describe SearchService do
       allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
       allow(account).to receive(:feature_enabled?).and_call_original
       allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
-      Message.define_singleton_method(:search) { |*_args| [] }
+      allow(Message).to receive(:search).and_return([])
     end
 
     context 'when advanced_search feature flag is disabled' do
