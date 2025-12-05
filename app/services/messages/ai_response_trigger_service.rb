@@ -85,7 +85,7 @@ class Messages::AiResponseTriggerService
 
     Rails.logger.info "[AI_TRIGGER] 💬 Showing typing indicator for AI agent #{ai_agent.id} in conversation #{conversation.id}"
 
-    # Trigger typing_on event for the AI agent
+    # Trigger typing_on event for the AI agent (UI/WebSocket)
     Rails.configuration.dispatcher.dispatch(
       CONVERSATION_TYPING_ON,
       Time.zone.now,
@@ -93,7 +93,30 @@ class Messages::AiResponseTriggerService
       user: ai_agent,
       is_private: false
     )
+
+    # Send typing indicator to WhatsApp if applicable
+    send_whatsapp_typing_indicator(conversation)
   rescue StandardError => e
     Rails.logger.error "[AI_TRIGGER] ❌ Failed to show typing indicator: #{e.message}"
+  end
+
+  # Send typing indicator to WhatsApp if the conversation is on WhatsApp channel
+  def send_whatsapp_typing_indicator(conversation)
+    inbox = conversation.inbox
+    return unless inbox.channel_type == 'Channel::Whatsapp'
+
+    channel = inbox.channel
+    return unless channel.respond_to?(:provider_name) && channel.provider_name == 'whatsapp_cloud'
+
+    phone_number = conversation.contact_inbox.source_id
+    return if phone_number.blank?
+
+    Rails.logger.info "[AI_TRIGGER] 📱 Sending WhatsApp typing indicator to #{phone_number}"
+
+    # Use the WhatsApp Cloud Service to send typing indicator
+    service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
+    service.send_typing_indicator(phone_number)
+  rescue StandardError => e
+    Rails.logger.error "[AI_TRIGGER] ❌ Failed to send WhatsApp typing indicator: #{e.message}"
   end
 end
