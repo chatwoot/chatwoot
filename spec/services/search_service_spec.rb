@@ -340,7 +340,33 @@ describe SearchService do
     end
 
     context 'when filtering by time range' do
-      it 'filters messages since timestamp' do
+      it 'defaults to 90 days ago when no since parameter is provided' do
+        params = { q: 'test' }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              created_at: hash_including(gte: be_within(1.second).of(Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS.days.ago))
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+
+      it 'raises error when since timestamp exceeds 90 day limit' do
+        since_timestamp = (Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS * 2).days.ago.to_i
+        params = { q: 'test', since: since_timestamp }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect do
+          search_service.perform
+        end.to raise_error(ArgumentError, /Search is limited to the last #{Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS} days/o)
+      end
+
+      it 'filters messages since timestamp when within 90 day limit' do
         since_timestamp = 3.days.ago.to_i
         params = { q: 'test', since: since_timestamp }
         search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
