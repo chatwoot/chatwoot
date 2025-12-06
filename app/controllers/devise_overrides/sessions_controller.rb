@@ -1,4 +1,6 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
+  include FrontendUrlsHelper
+
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
@@ -51,9 +53,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def login_page_url(error: nil)
-    frontend_url = ENV.fetch('FRONTEND_URL', nil)
-
-    "#{frontend_url}/app/login?error=#{error}"
+    frontend_url('login', error: error)
   end
 
   def authenticate_resource_with_sso_token

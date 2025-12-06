@@ -116,7 +116,7 @@ module CustomExceptions::Evolution
 
   def self.from_http_error(error, context = {})
     case error
-    when Net::TimeoutError, Net::ReadTimeout, Net::OpenTimeout
+    when Net::ReadTimeout, Net::OpenTimeout
       NetworkTimeout.new(context)
     when Errno::ECONNREFUSED, SocketError
       ConnectionRefused.new(context)
@@ -141,4 +141,5 @@ module CustomExceptions::Evolution
       InvalidConfiguration.new(context.merge(details: error.message))
     end
   end
+  private_class_method :map_http_response_error
 end

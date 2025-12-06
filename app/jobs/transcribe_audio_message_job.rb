@@ -56,12 +56,12 @@ class TranscribeAudioMessageJob < ApplicationJob
     return unless message
 
     # Store error in metadata
-    metadata = message.content_attributes || {}
+    metadata = message.additional_attributes || {}
     metadata['transcription'] = {
       'error' => error.message,
       'failed_at' => Time.current.iso8601
     }
-    message.update!(content_attributes: metadata)
+    message.update!(additional_attributes: metadata)
 
     # Broadcast update to clear "Transcribing audio..." status
     broadcast_transcription_error(message)
@@ -70,14 +70,22 @@ class TranscribeAudioMessageJob < ApplicationJob
   private
 
   def store_transcription_metadata(message, result)
-    metadata = message.content_attributes || {}
+    # Update message content with transcription text
+    new_content = if message.content.present?
+                    "#{message.content}\n\n#{result[:text]}"
+                  else
+                    result[:text]
+                  end
+
+    # Store metadata in additional_attributes
+    metadata = message.additional_attributes || {}
     metadata['transcription'] = {
-      'text' => result[:text],
       'language' => result[:language],
       'duration' => result[:duration],
       'transcribed_at' => Time.current.iso8601
     }
-    message.update!(content_attributes: metadata)
+
+    message.update!(content: new_content, additional_attributes: metadata)
   end
 
   def broadcast_transcription_update(message)

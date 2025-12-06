@@ -16,8 +16,10 @@
 #  index_email_templates_on_name_and_account_id  (name,account_id) UNIQUE
 #
 class EmailTemplate < ApplicationRecord
-  enum :locale, LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h, prefix: true
-  enum :template_type, { layout: 0, content: 1 }
+  LOCALE_ENUM = LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h.freeze
+
+  enum :locale, LOCALE_ENUM, prefix: true unless defined_enums.key?('locale')
+  enum :template_type, { layout: 0, content: 1 } unless defined_enums.key?('template_type')
   belongs_to :account, optional: true
 
   validates :name, uniqueness: { scope: :account }

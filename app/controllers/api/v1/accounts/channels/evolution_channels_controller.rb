@@ -1,11 +1,25 @@
 class Api::V1::Accounts::Channels::EvolutionChannelsController < Api::V1::Accounts::BaseController
   include Api::V1::InboxesHelper
+
   before_action :authorize_request
   before_action :set_user
 
+  # IMPORTANT: rescue_from handlers are checked in REVERSE order (last defined = first checked)
+  # So we put the most general handler (StandardError) first, and most specific (Evolution::Base) last
+  rescue_from StandardError, with: :handle_standard_error
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_record_invalid
+  rescue_from CustomExceptions::Evolution::Base, with: :render_evolution_error
+
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def create
-    params = permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type)
+    channel_type = channel_type_from_params
+    unless channel_type
+      return render_evolution_error(
+        CustomExceptions::Evolution::InvalidConfiguration.new(details: 'Invalid or missing channel type')
+      )
+    end
+
+    params = permitted_params(channel_type::EDITABLE_ATTRS)[:channel].except(:type)
     evolution_api_url = ENV.fetch('EVOLUTION_API_URL', params[:webhook_url])
     evolution_api_key = ENV.fetch('EVOLUTION_API_KEY', params[:api_key])
 
@@ -33,25 +47,15 @@ class Api::V1::Accounts::Channels::EvolutionChannelsController < Api::V1::Accoun
       @inbox.save!
 
       # Create Evolution instance
+      user_token = @user.access_token&.token
+      raise CustomExceptions::Evolution::InvalidConfiguration.new(details: 'User access token not found') if user_token.blank?
+
       Evolution::ManagerService.new.create(@inbox.account_id, permitted_params[:name], evolution_api_url,
-                                           evolution_api_key, @user.access_token.token)
+                                           evolution_api_key, user_token)
     end
 
     Rails.logger.info("Evolution channel created successfully: #{@inbox.id}")
     render json: @inbox, status: :created
-  rescue CustomExceptions::Evolution::Base => e
-    render_evolution_error(e)
-  rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error("Database validation failed for Evolution channel: #{e.message}")
-    render_evolution_error(
-      CustomExceptions::Evolution::InvalidConfiguration.new(details: "Database validation failed: #{e.message}")
-    )
-  rescue StandardError => e
-    Rails.logger.error("Unexpected error creating Evolution channel: #{e.class} - #{e.message}")
-    Rails.logger.error(e.backtrace.join("\n"))
-    render_evolution_error(
-      CustomExceptions::Evolution::InvalidConfiguration.new(details: "Unexpected error: #{e.message}")
-    )
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
@@ -74,6 +78,21 @@ class Api::V1::Accounts::Channels::EvolutionChannelsController < Api::V1::Accoun
     # Future enhancement: Add a health check endpoint call here
   end
 
+  def handle_record_invalid(exception)
+    Rails.logger.error("Database validation failed for Evolution channel: #{exception.message}")
+    render_evolution_error(
+      CustomExceptions::Evolution::InvalidConfiguration.new(details: "Database validation failed: #{exception.message}")
+    )
+  end
+
+  def handle_standard_error(exception)
+    Rails.logger.error("Unexpected error creating Evolution channel: #{exception.class} - #{exception.message}")
+    Rails.logger.error(exception.backtrace.join("\n"))
+    render_evolution_error(
+      CustomExceptions::Evolution::InvalidConfiguration.new(details: "Unexpected error: #{exception.message}")
+    )
+  end
+
   def render_evolution_error(exception)
     error_response = {
       error: exception.message,
@@ -93,11 +112,15 @@ class Api::V1::Accounts::Channels::EvolutionChannelsController < Api::V1::Accoun
     render json: error_response, status: exception.http_status
   end
 
-  def create_channel(webhook_url)
+  def create_channel(_webhook_url)
     return unless %w[api whatsapp].include?(permitted_params[:channel][:type])
 
-    params = permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type, :api_key)
-    params[:webhook_url] = "#{webhook_url}/chatwoot/webhook/#{permitted_params[:name]}"
+    channel_type = channel_type_from_params
+    return unless channel_type
+
+    params = permitted_params(channel_type::EDITABLE_ATTRS)[:channel].except(:type, :api_key, :webhook_url)
+    # For Evolution API, we don't store webhook_url in the channel model
+    # The webhook URL is managed by the Evolution API service
     account_channels_method.create!(params)
   end
 

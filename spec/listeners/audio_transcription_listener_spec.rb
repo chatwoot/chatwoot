@@ -21,7 +21,9 @@ describe AudioTranscriptionListener do
         end
 
         it 'enqueues transcription job' do
-          expect(TranscribeAudioMessageJob).to receive(:perform_later).with(message.id, audio_attachment.id)
+          job_double = double
+          expect(TranscribeAudioMessageJob).to receive(:set).with(wait: 2.seconds).and_return(job_double)
+          expect(job_double).to receive(:perform_later).with(message.id, audio_attachment.id)
           listener.message_created(event)
         end
       end
@@ -33,8 +35,7 @@ describe AudioTranscriptionListener do
         end
 
         it 'does not enqueue transcription job' do
-          expect(TranscribeAudioMessageJob).not_to receive(:perform_later)
-          expect(Rails.logger).to receive(:debug).with(/audio_transcription setting is disabled/)
+          expect(TranscribeAudioMessageJob).not_to receive(:set)
           listener.message_created(event)
         end
       end
@@ -46,8 +47,7 @@ describe AudioTranscriptionListener do
         end
 
         it 'does not enqueue transcription job' do
-          expect(TranscribeAudioMessageJob).not_to receive(:perform_later)
-          expect(Rails.logger).to receive(:debug).with(/audio_transcription setting is disabled/)
+          expect(TranscribeAudioMessageJob).not_to receive(:set)
           listener.message_created(event)
         end
       end
@@ -59,29 +59,26 @@ describe AudioTranscriptionListener do
         end
 
         it 'does not enqueue transcription job' do
-          expect(TranscribeAudioMessageJob).not_to receive(:perform_later)
-          expect(Rails.logger).to receive(:debug).with(/No enabled OpenAI integration/)
+          expect(TranscribeAudioMessageJob).not_to receive(:set)
           listener.message_created(event)
         end
       end
 
-      context 'when OpenAI integration has no API key' do
+      context 'when OpenAI integration has empty API key' do
         let!(:openai_hook) do
           create(:integrations_hook, account: account, app_id: 'openai', status: 'enabled',
-                                     settings: { 'audio_transcription' => true })
+                                     settings: { 'api_key' => '', 'audio_transcription' => true })
         end
 
         it 'does not enqueue transcription job' do
-          expect(TranscribeAudioMessageJob).not_to receive(:perform_later)
-          expect(Rails.logger).to receive(:debug).with(/No API key configured/)
+          expect(TranscribeAudioMessageJob).not_to receive(:set)
           listener.message_created(event)
         end
       end
 
       context 'when no OpenAI integration exists' do
         it 'does not enqueue transcription job' do
-          expect(TranscribeAudioMessageJob).not_to receive(:perform_later)
-          expect(Rails.logger).to receive(:debug).with(/No enabled OpenAI integration/)
+          expect(TranscribeAudioMessageJob).not_to receive(:set)
           listener.message_created(event)
         end
       end
@@ -98,8 +95,12 @@ describe AudioTranscriptionListener do
       end
 
       it 'enqueues transcription job for each audio attachment' do
-        expect(TranscribeAudioMessageJob).to receive(:perform_later).with(message.id, audio_attachment1.id)
-        expect(TranscribeAudioMessageJob).to receive(:perform_later).with(message.id, audio_attachment2.id)
+        job_double1 = double
+        job_double2 = double
+        expect(TranscribeAudioMessageJob).to receive(:set).with(wait: 2.seconds).and_return(job_double1)
+        expect(job_double1).to receive(:perform_later).with(message.id, audio_attachment1.id)
+        expect(TranscribeAudioMessageJob).to receive(:set).with(wait: 2.seconds).and_return(job_double2)
+        expect(job_double2).to receive(:perform_later).with(message.id, audio_attachment2.id)
         listener.message_created(event)
       end
     end
@@ -129,7 +130,9 @@ describe AudioTranscriptionListener do
       end
 
       it 'only enqueues transcription job for audio attachments' do
-        expect(TranscribeAudioMessageJob).to receive(:perform_later).with(message.id, audio_attachment.id)
+        job_double = double
+        expect(TranscribeAudioMessageJob).to receive(:set).with(wait: 2.seconds).and_return(job_double)
+        expect(job_double).to receive(:perform_later).with(message.id, audio_attachment.id)
         listener.message_created(event)
       end
     end

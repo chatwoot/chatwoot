@@ -323,8 +323,8 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       let(:account2_builder) do
         described_class.new(account: account2, params: {
                               business_hours: false,
-                              since: test_date.to_time.to_i.to_s,
-                              until: test_date.end_of_day.to_time.to_i.to_s,
+                              since: test_date.beginning_of_day.utc.to_i.to_s,
+                              until: test_date.end_of_day.utc.to_i.to_s,
                               timezone_offset: 0
                             })
       end

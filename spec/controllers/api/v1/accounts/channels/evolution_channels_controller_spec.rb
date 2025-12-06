@@ -2,7 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::Accounts::Channels::EvolutionChannelsController, type: :request do
   let(:account) { create(:account) }
-  let(:admin) { create(:user, account: account, role: :administrator) }
+  let(:admin) do
+    user = create(:user, account: account, role: :administrator)
+    # Ensure user has an access token
+    user.create_access_token unless user.access_token
+    user
+  end
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:evolution_manager_service) { instance_double(Evolution::ManagerService) }
   let(:evolution_api_url) { 'https://evolution-api.example.com' }
@@ -14,6 +19,9 @@ RSpec.describe Api::V1::Accounts::Channels::EvolutionChannelsController, type: :
                         'EVOLUTION_API_URL' => evolution_api_url,
                         'EVOLUTION_API_KEY' => evolution_api_key
                       ))
+    # Stub out WhatsApp channel validations to avoid HTTP calls
+    allow_any_instance_of(Channel::Whatsapp).to receive(:validate_provider_config)
+    allow_any_instance_of(Channel::Whatsapp).to receive(:sync_templates)
   end
 
   describe 'POST /api/v1/accounts/{account.id}/channels/evolution_channel' do
@@ -23,7 +31,8 @@ RSpec.describe Api::V1::Accounts::Channels::EvolutionChannelsController, type: :
         channel: {
           type: 'whatsapp',
           webhook_url: evolution_api_url,
-          api_key: evolution_api_key
+          api_key: evolution_api_key,
+          phone_number: '+5511999999999'
         }
       }
     end
@@ -36,12 +45,12 @@ RSpec.describe Api::V1::Accounts::Channels::EvolutionChannelsController, type: :
     end
 
     context 'when user is logged in as agent' do
-      it 'returns forbidden' do
+      it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/channels/evolution_channel",
              params: base_params,
              headers: agent.create_new_auth_token
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 

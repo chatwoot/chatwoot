@@ -48,6 +48,8 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
+  LOCALE_ENUM = LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h.freeze
+
   validates :domain, length: { maximum: 100 }
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
@@ -100,8 +102,8 @@ class Account < ApplicationRecord
 
   has_one_attached :contacts_export
 
-  enum :locale, LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h, prefix: true
-  enum :status, { active: 0, suspended: 1 }
+  enum :locale, LOCALE_ENUM, prefix: true unless defined_enums.key?('locale')
+  enum :status, { active: 0, suspended: 1 } unless defined_enums.key?('status')
 
   scope :with_auto_resolve, -> { where("(settings ->> 'auto_resolve_after')::int IS NOT NULL") }
 

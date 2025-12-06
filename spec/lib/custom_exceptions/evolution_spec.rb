@@ -173,12 +173,6 @@ RSpec.describe CustomExceptions::Evolution do
   describe '.from_http_error' do
     let(:context) { { instance_name: 'test-instance' } }
 
-    it 'maps Net::TimeoutError to NetworkTimeout' do
-      error = Net::TimeoutError.new
-      exception = described_class.from_http_error(error, context)
-      expect(exception).to be_a(CustomExceptions::Evolution::NetworkTimeout)
-    end
-
     it 'maps Net::ReadTimeout to NetworkTimeout' do
       error = Net::ReadTimeout.new
       exception = described_class.from_http_error(error, context)
@@ -205,7 +199,7 @@ RSpec.describe CustomExceptions::Evolution do
 
     context 'with HTTParty::ResponseError' do
       let(:response) { double('response', code: status_code, body: 'Error body') }
-      let(:error) { HTTParty::ResponseError.new('Error', response) }
+      let(:error) { HTTParty::ResponseError.new(response) }
 
       context 'with 401 status code' do
         let(:status_code) { 401 }
