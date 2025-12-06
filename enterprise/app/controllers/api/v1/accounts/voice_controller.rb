@@ -1,7 +1,6 @@
 class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference, only: %i[conference_token conference_join conference_leave]
 
-  # GET /api/v1/accounts/:account_id/inboxes/:inbox_id/conference_token
   def conference_token
     render json: Voice::TokenService.new(
       inbox: @voice_inbox,
@@ -10,7 +9,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     ).generate
   end
 
-  # POST /api/v1/accounts/:account_id/inboxes/:inbox_id/conference
   def conference_join
     conversation = fetch_conversation_by_display_id
     ensure_call_sid!(conversation)
@@ -28,7 +26,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     }
   end
 
-  # DELETE /api/v1/accounts/:account_id/inboxes/:inbox_id/conference?conversation_id=:id
   def conference_leave
     conversation = fetch_conversation_by_display_id
     # End the conference when an agent leaves from the app
