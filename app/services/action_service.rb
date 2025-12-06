@@ -66,6 +66,8 @@ class ActionService
     @conversation.update!(team_id: team_ids[0])
   end
 
+  # @deprecated Use assign_team with 'nil' value instead
+  # This method is kept for backward compatibility
   def remove_assigned_team(_params)
     @conversation.update!(team_id: nil)
   end
