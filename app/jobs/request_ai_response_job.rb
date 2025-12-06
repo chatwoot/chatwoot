@@ -166,8 +166,8 @@ class RequestAiResponseJob < ApplicationJob
               'x-api-token' => api_token,
               'clerk-id' => clerk_id
             },
-            timeout: 180, # 3 minutes for AI response
-            open_timeout: 30 # 30 seconds to establish connection
+            timeout: 360, # 3 minutes for AI response
+            open_timeout: 120 # 30 seconds to establish connection
           )
 
           Rails.logger.info "[AI_JOB] 🎵 RestClient response received: #{rest_response.code}"
