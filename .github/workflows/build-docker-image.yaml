@@ -25,7 +25,7 @@ jobs:
           mode: create
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-          server_type: cx32
+          server_type: cx53
           location: hel1  # Helsinki, Finland
           image: docker-ce # Docker CE
 
@@ -43,7 +43,7 @@ jobs:
           mode: create
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-          server_type: cax21
+          server_type: cax41
           location: hel1  # Helsinki, Finland
           image: docker-ce # Docker CE
 
