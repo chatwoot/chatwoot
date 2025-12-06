@@ -80,7 +80,7 @@ spec:
             - secretRef:
                 name: {{ .Values.existingEnvSecret }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           name: {{ .Chart.Name }}-web
           ports:
             - name: http
