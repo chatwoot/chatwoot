@@ -35,7 +35,7 @@ RUN apk update && apk add --no-cache \
   curl \
   xz \
   && mkdir -p /var/app \
-  && gem install bundler
+  && gem install bundler -v "$BUNDLER_VERSION"
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
@@ -128,7 +128,7 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
-  && gem install bundler
+  && gem install bundler -v "$BUNDLER_VERSION"
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
@@ -141,12 +141,16 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   && pnpm --version; \
   fi
 
-COPY --from=pre-builder /gems/ /gems/
-COPY --from=pre-builder /app /app
+RUN addgroup -g 1000 chatwoot \
+  && adduser -u 1000 -G chatwoot -h /app -s /bin/sh -D chatwoot
 
-# Copy .git_sha file from pre-builder stage
-COPY --from=pre-builder /app/.git_sha /app/.git_sha
+COPY --from=pre-builder --chown=chatwoot:chatwoot /gems/ /gems/
+COPY --from=pre-builder --chown=chatwoot:chatwoot /app /app
 
 WORKDIR /app
+
+RUN chown -R chatwoot:chatwoot /app /gems
+
+USER chatwoot
 
 EXPOSE 3000
