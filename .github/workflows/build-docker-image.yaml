@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'  # Matches v4.8.0 and v4.8.0+1
 
 jobs:
   create-runner-amd:
@@ -68,6 +68,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      - name: Convert tag for Docker (+ to -)
+        id: docker-tag
+        run: echo "tag=${GITHUB_REF_NAME//+/-}" >> $GITHUB_OUTPUT
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -77,7 +80,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/chatwoot:latest
             ghcr.io/${{ github.repository_owner }}/chatwoot:latest-amd
-            ghcr.io/${{ github.repository_owner }}/chatwoot:${{ github.ref_name }}-amd
+            ghcr.io/${{ github.repository_owner }}/chatwoot:${{ steps.docker-tag.outputs.tag }}-amd
 
   build-and-push-arm:
     if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
@@ -104,6 +107,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      - name: Convert tag for Docker (+ to -)
+        id: docker-tag
+        run: echo "tag=${GITHUB_REF_NAME//+/-}" >> $GITHUB_OUTPUT
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -112,7 +118,7 @@ jobs:
           file: ./docker/Dockerfile
           tags: |
             ghcr.io/${{ github.repository_owner }}/chatwoot:latest-arm
-            ghcr.io/${{ github.repository_owner }}/chatwoot:${{ github.ref_name }}-arm
+            ghcr.io/${{ github.repository_owner }}/chatwoot:${{ steps.docker-tag.outputs.tag }}-arm
 
   merge-manifest:
     if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
@@ -130,11 +136,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Create Versioned Manifest (GHCR) (${{ github.ref_name }})
+      - name: Convert tag for Docker (+ to -)
+        id: docker-tag
+        run: echo "tag=${GITHUB_REF_NAME//+/-}" >> $GITHUB_OUTPUT
+      - name: Create Versioned Manifest (GHCR) (${{ steps.docker-tag.outputs.tag }})
         run: |
-          docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/chatwoot:${{ github.ref_name }} \
-            ghcr.io/${{ github.repository_owner }}/chatwoot:${{ github.ref_name }}-amd \
-            ghcr.io/${{ github.repository_owner }}/chatwoot:${{ github.ref_name }}-arm
+          docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/chatwoot:${{ steps.docker-tag.outputs.tag }} \
+            ghcr.io/${{ github.repository_owner }}/chatwoot:${{ steps.docker-tag.outputs.tag }}-amd \
+            ghcr.io/${{ github.repository_owner }}/chatwoot:${{ steps.docker-tag.outputs.tag }}-arm
       - name: Create Latest Manifest (GHCR)
         run: |
           docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/chatwoot:latest \

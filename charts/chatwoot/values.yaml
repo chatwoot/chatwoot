@@ -2,9 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 # Overrides the image tag whose default is the chart appVersion.
+# Note: Use - instead of + for Docker tags (v4.8.0-1 not v4.8.0+1)
 image:
   repository: ghcr.io/chatwoot-br/chatwoot
-  tag: v4.8
+  # tag: v4.8.0-1
   pullPolicy: Always
 
 # Set to autoscaling/v2beta2 for older versions of kubernetes that do not have autoscaling/v2 API (pre v1.26)
