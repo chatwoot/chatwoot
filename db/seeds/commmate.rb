@@ -76,4 +76,3 @@ Rails.logger.info '🔑 Login credentials:'
 Rails.logger.info "   Email: #{admin_email}"
 Rails.logger.info "   Password: #{admin_password}"
 Rails.logger.info ''
-

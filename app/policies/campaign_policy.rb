@@ -21,6 +21,7 @@ class CampaignPolicy < ApplicationPolicy
 
   private
 
+  # CommMate: Check if user has campaign_manage permission via custom role
   def has_campaign_permission?
     @account_user.custom_role&.permissions&.include?('campaign_manage')
   end

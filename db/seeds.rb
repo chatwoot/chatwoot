@@ -4,8 +4,8 @@ ConfigLoader.new.process
 
 ## Seeds for production
 if Rails.env.production?
-  # For CommMate, run custom seeds instead of default onboarding
-  commmate_seeds_path = Rails.root.join('custom/db/seeds_commmate.rb')
+  # CommMate: Load CommMate-specific seeds from standard Rails location
+  commmate_seeds_path = Rails.root.join('db/seeds/commmate.rb')
   if File.exist?(commmate_seeds_path)
     load commmate_seeds_path
   else

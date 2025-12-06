@@ -60,7 +60,7 @@ const resolvedLocale = computed(
 
 const monthFormatter = computed(
   () =>
-    new Intl.DateTimeFormat(resolvedLocale.value, {
+    new Intl.DateTimeFormat(resolvedLocale.value.replace(/_/g, '-'), {
       month: 'long',
       year: 'numeric',
     })

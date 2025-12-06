@@ -5,7 +5,7 @@ export const AVAILABLE_CUSTOM_ROLE_PERMISSIONS = [
   'contact_manage',
   'report_manage',
   'knowledge_base_manage',
-  'campaign_manage',
+  'campaign_manage', // CommMate: Added for custom role campaign access
 ];
 
 export const ROLES = ['agent', 'administrator'];

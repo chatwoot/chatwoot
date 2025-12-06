@@ -1,7 +1,13 @@
 class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
   def show
     @metrics = {}
-    chatwoot_version
+    # CommMate: Add CommMate-specific version info
+    if defined?(COMMMATE_VERSION)
+      commmate_version
+      chatwoot_base_version
+    else
+      chatwoot_version
+    end
     sha
     postgres_status
     redis_metrics
@@ -27,8 +33,23 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     @metrics['Chatwoot version'] = Chatwoot.config[:version]
   end
 
+  # CommMate: Enhanced SHA method to show both CommMate and Chatwoot git SHAs
   def sha
-    @metrics['Git SHA'] = GIT_HASH
+    if defined?(COMMMATE_VERSION)
+      @metrics['CommMate Git SHA'] = GIT_HASH
+      @metrics['Chatwoot Base Git SHA'] = CHATWOOT_GIT_HASH if defined?(CHATWOOT_GIT_HASH) && CHATWOOT_GIT_HASH != GIT_HASH
+    else
+      @metrics['Git SHA'] = GIT_HASH
+    end
+  end
+
+  # CommMate: Additional version methods
+  def commmate_version
+    @metrics['CommMate version'] = COMMMATE_VERSION
+  end
+
+  def chatwoot_base_version
+    @metrics['Base Chatwoot version'] = COMMMATE_BASE_VERSION
   end
 
   def postgres_status

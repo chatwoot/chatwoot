@@ -2,6 +2,47 @@
 
 This directory contains all CommMate-specific customizations for the Chatwoot fork.
 
+## 🏗️ Project Organization
+
+CommMate follows strict architecture guidelines to minimize conflicts with upstream Chatwoot:
+
+### Organization Principles
+
+- **NEW features** → Standard Rails locations (`app/controllers/`, `app/models/`, etc.)
+- **Modifications** → Modified in place, tracked by git
+- **Configuration** → `custom/config/` directory
+- **Documentation** → `custom/docs/` directory
+- **Styles** → `custom/styles/` directory
+
+### Why This Matters
+
+- ✅ **Merge conflicts show you what changed** in Chatwoot
+- ✅ **You review and integrate upstream improvements**
+- ✅ **You don't miss bug fixes or features**
+- ✅ **Upgrades take 30-60 minutes instead of hours**
+
+### Core Modifications
+
+CommMate modifies approximately **15 Chatwoot core files** (~75 lines of code):
+- 1 controller (instance status)
+- 4 views (branding)
+- 1 dashboard (custom role field)
+- 1 policy (campaign permissions)
+- 2 JavaScript files (permissions)
+- 2 config files (routes, git SHA)
+- 2 migrations (custom roles)
+- 1 Docker file
+
+**See:** `custom/docs/CORE-MODIFICATIONS.md` for the complete list
+
+### Documentation
+
+**Essential Reading:**
+- `custom/docs/ARCHITECTURE.md` - **Architecture guidelines** (source of truth)
+- `custom/docs/CORE-MODIFICATIONS.md` - **All modified files** (for upgrades)
+- `custom/docs/MAINTENANCE-CHECKLIST.md` - **Maintenance procedures**
+- `custom/docs/UPGRADE-PROCEDURE.md` - **Step-by-step upgrade guide**
+
 ## 📁 Directory Structure
 
 ```

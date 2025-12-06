@@ -1,0 +1,215 @@
+# CommMate-Specific Files
+# This file tracks all files that are specific to CommMate or modified from Chatwoot
+# Used for quick reference and automated tools
+# Last Updated: December 6, 2025
+
+# =============================================================================
+# NEW FILES (No conflict risk - CommMate-only)
+# =============================================================================
+
+## Controllers (NEW)
+app/controllers/super_admin/custom_roles_controller.rb
+
+## Dashboards (NEW)
+app/dashboards/custom_role_dashboard.rb
+
+## Fields (NEW)
+app/fields/permissions_field.rb
+app/views/fields/permissions_field/_form.html.erb
+app/views/fields/permissions_field/_index.html.erb
+app/views/fields/permissions_field/_show.html.erb
+
+## Models (NEW - Enterprise)
+enterprise/app/models/custom_role.rb
+
+## Policies (NEW - Enterprise)
+enterprise/app/policies/custom_role_policy.rb
+
+## Controllers (NEW - Enterprise API)
+enterprise/app/controllers/api/v1/accounts/custom_roles_controller.rb
+
+## JavaScript (NEW - CommMate features)
+app/javascript/dashboard/routes/dashboard/settings/customRoles/customRole.routes.js
+app/javascript/dashboard/routes/dashboard/settings/customRoles/Index.vue
+app/javascript/dashboard/api/customRole.js
+app/javascript/dashboard/i18n/locale/en/customRole.json
+
+## Migrations (NEW)
+db/migrate/20240726220747_add_custom_roles.rb
+db/migrate/20251202140000_add_campaign_manage_to_manager_roles.rb
+
+## Seeds (NEW)
+db/seeds/commmate.rb
+
+## Specs (NEW)
+spec/factories/custom_roles.rb
+spec/enterprise/models/custom_role_spec.rb
+spec/enterprise/controllers/api/v1/accounts/custom_roles_controller_spec.rb
+
+## Docker (NEW)
+docker/Dockerfile.commmate
+
+# =============================================================================
+# MODIFIED FILES (Review on each upgrade - potential conflicts)
+# =============================================================================
+
+## Controllers (MODIFIED)
+app/controllers/super_admin/instance_statuses_controller.rb
+# Changes: Added commmate_version, chatwoot_base_version methods
+# Impact: Shows CommMate version in instance status page
+
+## Views (MODIFIED)
+app/views/super_admin/application/_navigation.html.erb
+# Changes: CommMate logo, version display, branding text
+# Impact: Super admin navigation branding
+
+app/views/super_admin/application/_javascript.html.erb
+# Changes: Disabled Chatwoot support widget
+# Impact: No support widget in super admin
+
+app/views/super_admin/application/_icons.html.erb
+# Changes: Added shield-check icon
+# Impact: Custom roles icon in navigation
+
+app/views/super_admin/devise/sessions/new.html.erb
+# Changes: CommMate branding (title, logos)
+# Impact: Super admin login page branding
+
+## Dashboards (MODIFIED)
+app/dashboards/account_user_dashboard.rb
+# Changes: Added custom_role field to ATTRIBUTE_TYPES, COLLECTION_ATTRIBUTES, SHOW_PAGE_ATTRIBUTES
+# Impact: Display custom role in account user management
+
+## Policies (MODIFIED)
+app/policies/campaign_policy.rb
+# Changes: Added custom role permission checks (has_campaign_permission?)
+# Impact: Campaign access control with custom roles
+
+## JavaScript (MODIFIED)
+app/javascript/dashboard/routes/dashboard/campaigns/campaigns.routes.js
+# Changes: Added campaign_manage to permissions array
+# Impact: Campaign routes accessible by custom roles
+
+app/javascript/dashboard/constants/permissions.js
+# Changes: Added campaign_manage to AVAILABLE_CUSTOM_ROLE_PERMISSIONS
+# Impact: Campaign permission available in custom role UI
+
+## Configuration (MODIFIED)
+config/routes.rb
+# Changes: Added resources :custom_roles in super_admin namespace
+# Impact: Custom roles routes in super admin
+
+config/initializers/git_sha.rb
+# Changes: Added CommMate git SHA tracking (fetch_commmate_git_sha, CHATWOOT_GIT_HASH)
+# Impact: Track both CommMate and Chatwoot versions
+
+## Seeds (MODIFIED)
+db/seeds.rb
+# Changes: Load CommMate seeds from db/seeds/commmate.rb
+# Impact: Run CommMate-specific seed data
+
+# =============================================================================
+# CUSTOM DIRECTORY (No conflicts - CommMate-only)
+# =============================================================================
+
+## Configuration
+custom/config/branding.yml
+custom/config/commmate_version.yml
+custom/config/installation_config.yml
+custom/config/docker-entrypoint.sh
+custom/config/env.production.template
+
+## Initializers
+custom/config/initializers/commmate_branding.rb
+custom/config/initializers/commmate_config_overrides.rb
+custom/config/initializers/commmate_i18n.rb
+custom/config/initializers/commmate_version.rb
+
+## Documentation
+custom/docs/ARCHITECTURE.md
+custom/docs/ARCHITECTURE-REVIEW.md
+custom/docs/ACTION-PLAN.md
+custom/docs/CORE-MODIFICATIONS.md
+custom/docs/DEVELOPMENT.md
+custom/docs/DOCKER-SETUP.md
+custom/docs/DOWNSTREAM-RELEASE.md
+custom/docs/IMAGE-RELEASE.md
+custom/docs/MAINTENANCE-CHECKLIST.md
+custom/docs/REBRANDING.md
+custom/docs/UPGRADE.md
+custom/docs/UPGRADE-PROCEDURE.md
+custom/docs/USER-ROLES.md
+
+## Locales
+custom/locales/en_commmate_complete.yml
+custom/locales/en_custom.yml
+custom/locales/pt_BR_custom.yml
+
+## Scripts
+custom/script/apply_commmate_branding.sh
+custom/script/build_multiplatform.sh
+custom/script/monitor_and_publish.sh
+
+## Styles
+custom/styles/branding.scss
+custom/styles/variables.scss
+
+## Assets
+custom/assets/favicons/
+custom/assets/images/
+custom/assets/logos/
+
+## README
+custom/README.md
+
+# =============================================================================
+# GIT HOOKS (Local only - not committed)
+# =============================================================================
+
+.git/hooks/pre-commit
+# Purpose: Validate architecture guidelines before commit
+
+# =============================================================================
+# TRACKING FILES (Metadata)
+# =============================================================================
+
+.commmate_files
+# This file - tracks all CommMate-specific files
+
+# =============================================================================
+# SUMMARY
+# =============================================================================
+#
+# NEW Files: ~30 files (no conflict risk)
+# MODIFIED Files: ~15 files (review on upgrades)
+# CUSTOM Directory: ~50+ files (no conflict risk)
+#
+# Total CommMate Files: ~95+ files
+# Modified Core Files: 15 files (~75 lines of changes)
+#
+# Maintenance Burden: VERY LOW
+# Upgrade Time: 30-60 minutes (mostly testing)
+#
+# =============================================================================
+
+# How to use this file:
+#
+# 1. Before Chatwoot upgrade:
+#    - Review MODIFIED FILES section
+#    - Prepare for conflicts in these files
+#
+# 2. During upgrade:
+#    - Use this file to verify all CommMate files are preserved
+#    - Check MODIFIED FILES for conflicts
+#
+# 3. After adding new CommMate features:
+#    - Update this file with new files
+#    - Categorize as NEW or MODIFIED
+#
+# 4. For automated tools:
+#    - Parse this file to identify CommMate files
+#    - Exclude from certain operations
+#    - Generate reports
+#
+# =============================================================================
+
