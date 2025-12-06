@@ -65,17 +65,6 @@ class InboxPolicy < ApplicationPolicy
   def health?
     @account_user.administrator?
   end
-
-  # Voice conference endpoints authorization
-  def conference_token?
-    show?
-  end
-
-  def conference_join?
-    show?
-  end
-
-  def conference_leave?
-    show?
-  end
 end
+
+InboxPolicy.prepend_mod_with('InboxPolicy')

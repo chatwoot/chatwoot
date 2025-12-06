@@ -3,22 +3,17 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
   # GET /api/v1/accounts/:account_id/inboxes/:inbox_id/conference_token
   def conference_token
-    payload = Voice::TokenService.new(
+    render json: Voice::TokenService.new(
       inbox: @voice_inbox,
       user: Current.user,
       account: Current.account
     ).generate
-    render json: payload
-  rescue StandardError => e
-    Rails.logger.error("VOICE_CONFERENCE_TOKEN_ERROR #{e.class}: #{e.message}")
-    render json: { error: 'failed_to_generate_token', code: 'token_error', details: e.message }, status: :internal_server_error
   end
 
   # POST /api/v1/accounts/:account_id/inboxes/:inbox_id/conference
   def conference_join
     conversation = fetch_conversation_by_display_id
     ensure_call_sid!(conversation)
-    return if performed?
 
     conference_sid = ensure_conference_sid!(conversation)
     @conversation = conversation
@@ -31,11 +26,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       conference_sid: conference_sid,
       using_webrtc: true
     }
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found
-  rescue StandardError => e
-    Rails.logger.error("VOICE_CONFERENCE_JOIN_ERROR #{e.class}: #{e.message}")
-    render json: { error: 'failed_to_join_conference', code: 'join_error', details: e.message }, status: :internal_server_error
   end
 
   # DELETE /api/v1/accounts/:account_id/inboxes/:inbox_id/conference?conversation_id=:id
@@ -44,11 +34,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     # End the conference when an agent leaves from the app
     Voice::Conference::EndService.new(conversation: conversation).perform
     render json: { status: 'success', id: conversation.display_id }
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found
-  rescue StandardError => e
-    Rails.logger.error("VOICE_CONFERENCE_LEAVE_ERROR #{e.class}: #{e.message}")
-    render json: { error: 'failed_to_leave_conference', code: 'leave_error', details: e.message }, status: :internal_server_error
   end
 
   private
@@ -78,8 +63,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   def ensure_call_sid!(conversation)
     return conversation.identifier if conversation.identifier.present?
 
-    incoming_sid = params[:call_sid].to_s
-    return render_not_ready if incoming_sid.blank?
+    incoming_sid = params.require(:call_sid)
 
     conversation.update!(identifier: incoming_sid)
     incoming_sid
@@ -95,10 +79,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
         (conversation.additional_attributes || {}).merge('conference_sid' => sid)
     )
     sid
-  end
-
-  def render_not_ready
-    render json: { error: 'conference_not_ready', code: 'not_ready', details: 'call_sid missing' }, status: :conflict
   end
 
   def set_voice_inbox_for_conference

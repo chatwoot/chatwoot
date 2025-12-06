@@ -79,7 +79,7 @@ RSpec.describe 'Voice Conference API', type: :request do
              headers: agent.create_new_auth_token,
              params: { conversation_id: conversation.display_id }
 
-        expect(response).to have_http_status(:conflict)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
