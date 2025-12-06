@@ -59,10 +59,10 @@ RSpec.describe Whatsapp::Providers::WhatsappWebService do
           call_count += 1
           raise Errno::ECONNREFUSED, 'Connection refused' if call_count == 1
 
-          double(
-            success?: true,
-            dig: { 'pushname' => 'John Doe' }
-          )
+          response_double = double('response')
+          allow(response_double).to receive(:success?).and_return(true)
+          allow(response_double).to receive(:[]).with('results').and_return({ 'pushname' => 'John Doe' })
+          response_double
         end
 
         # Should log retry attempt
@@ -80,10 +80,10 @@ RSpec.describe Whatsapp::Providers::WhatsappWebService do
           call_count += 1
           raise Net::OpenTimeout, 'Connection timeout' if call_count == 1
 
-          double(
-            success?: true,
-            dig: { 'pushname' => 'Jane Doe' }
-          )
+          response_double = double('response')
+          allow(response_double).to receive(:success?).and_return(true)
+          allow(response_double).to receive(:[]).with('results').and_return({ 'pushname' => 'Jane Doe' })
+          response_double
         end
 
         expect(Rails.logger).to receive(:info).with(/Retrying contact_info/)

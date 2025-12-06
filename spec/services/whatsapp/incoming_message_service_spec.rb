@@ -410,7 +410,8 @@ describe Whatsapp::IncomingMessageService do
                                     ] }] }.with_indifferent_access
 
         expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
-        key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: 'wamid.SDFADSf23sfasdafasdfa')
+        # Use the correct key format that includes inbox_id (as used in IncomingMessageServiceHelpers)
+        key = format('MESSAGE_SOURCE_KEY::%<inbox_id>s::%<id>s', inbox_id: whatsapp_channel.inbox.id, id: 'wamid.SDFADSf23sfasdafasdfa')
 
         Redis::Alfred.setex(key, true)
         expect(Redis::Alfred.get(key)).to be_truthy

@@ -160,10 +160,8 @@ class Inbox < ApplicationRecord
     return false unless api?
     return false if channel&.webhook_url.blank?
 
-    evolution_api_url = ENV.fetch('EVOLUTION_API_URL', extract_evolution_api_url)
-    return false if evolution_api_url.blank?
-
-    channel.webhook_url.start_with?(evolution_api_url)
+    # Evolution API webhook URLs contain the /chatwoot/webhook/ pattern
+    channel.webhook_url.include?('/chatwoot/webhook/')
   end
 
   def assignable_agents

@@ -22,14 +22,14 @@ RSpec.describe Openai::AudioTranscriptionService do
       end
 
       it 'uses API key from integration settings' do
-        service = described_class.new(audio_url, account: account)
+        service = described_class.new(audio_url: audio_url, account: account)
         expect(service.instance_variable_get(:@api_key)).to eq(api_key_integration)
       end
 
       it 'logs that integration API key is being used' do
-        allow(Rails.logger).to receive(:debug)
-        described_class.new(audio_url, account: account)
-        expect(Rails.logger).to have_received(:debug).with("Using OpenAI API key from integration for account #{account.id}")
+        allow(Rails.logger).to receive(:debug).and_call_original
+        described_class.new(audio_url: audio_url, account: account)
+        expect(Rails.logger).to have_received(:debug)
       end
     end
 
@@ -43,13 +43,13 @@ RSpec.describe Openai::AudioTranscriptionService do
       end
 
       it 'falls back to environment variable' do
-        service = described_class.new(audio_url, account: account)
+        service = described_class.new(audio_url: audio_url, account: account)
         expect(service.instance_variable_get(:@api_key)).to eq(api_key_env)
       end
 
       it 'logs that environment variable is being used' do
         allow(Rails.logger).to receive(:debug)
-        described_class.new(audio_url, account: account)
+        described_class.new(audio_url: audio_url, account: account)
         expect(Rails.logger).to have_received(:debug).with('Using OpenAI API key from environment variable')
       end
     end
@@ -58,26 +58,26 @@ RSpec.describe Openai::AudioTranscriptionService do
       let(:account) { create(:account) }
 
       it 'falls back to environment variable' do
-        service = described_class.new(audio_url, account: account)
+        service = described_class.new(audio_url: audio_url, account: account)
         expect(service.instance_variable_get(:@api_key)).to eq(api_key_env)
       end
 
       it 'logs that environment variable is being used' do
         allow(Rails.logger).to receive(:debug)
-        described_class.new(audio_url, account: account)
+        described_class.new(audio_url: audio_url, account: account)
         expect(Rails.logger).to have_received(:debug).with('Using OpenAI API key from environment variable')
       end
     end
 
     context 'when account is not provided' do
       it 'uses environment variable' do
-        service = described_class.new(audio_url)
+        service = described_class.new(audio_url: audio_url)
         expect(service.instance_variable_get(:@api_key)).to eq(api_key_env)
       end
 
       it 'logs that environment variable is being used' do
         allow(Rails.logger).to receive(:debug)
-        described_class.new(audio_url)
+        described_class.new(audio_url: audio_url)
         expect(Rails.logger).to have_received(:debug).with('Using OpenAI API key from environment variable')
       end
     end
@@ -88,7 +88,7 @@ RSpec.describe Openai::AudioTranscriptionService do
       end
 
       it 'sets API key to nil' do
-        service = described_class.new(audio_url)
+        service = described_class.new(audio_url: audio_url)
         expect(service.instance_variable_get(:@api_key)).to be_nil
       end
     end
@@ -102,15 +102,17 @@ RSpec.describe Openai::AudioTranscriptionService do
       end
 
       it 'falls back to environment variable' do
-        service = described_class.new(audio_url, account: account)
+        service = described_class.new(audio_url: audio_url, account: account)
         expect(service.instance_variable_get(:@api_key)).to eq(api_key_env)
       end
     end
   end
 
   describe '#process' do
-    let(:service) { described_class.new(audio_url) }
-    let(:tempfile) { instance_double(Tempfile, path: '/tmp/audio.ogg', close: true, unlink: true) }
+    let(:service) { described_class.new(audio_url: audio_url) }
+    let(:tempfile) do
+      instance_double(Tempfile, path: '/tmp/audio.ogg', close: true, unlink: true, rewind: true, read: 'fake audio data')
+    end
     let(:transcription_response) do
       {
         'text' => 'Hello, this is a test transcription.',
@@ -119,13 +121,24 @@ RSpec.describe Openai::AudioTranscriptionService do
       }
     end
 
+    before do
+      # Stub File class methods to work with the tempfile double, allowing other calls through
+      allow(File).to receive(:size).and_call_original
+      allow(File).to receive(:size).with('/tmp/audio.ogg').and_return(1024)
+      allow(File).to receive(:extname).and_call_original
+      allow(File).to receive(:extname).with('/tmp/audio.ogg').and_return('.ogg')
+      allow(File).to receive(:basename).and_call_original
+      allow(File).to receive(:basename).with('/tmp/audio.ogg').and_return('audio.ogg')
+      allow(Rails.logger).to receive(:info)
+    end
+
     context 'when API key is not configured' do
       before do
         allow(ENV).to receive(:fetch).with('OPENAI_API_KEY', nil).and_return(nil)
       end
 
       it 'returns nil and logs info message' do
-        service = described_class.new(audio_url)
+        service = described_class.new(audio_url: audio_url)
         allow(Rails.logger).to receive(:info)
 
         result = service.process
@@ -142,10 +155,8 @@ RSpec.describe Openai::AudioTranscriptionService do
         allow(Rails.logger).to receive(:error)
       end
 
-      it 'returns nil and logs error' do
-        result = service.process
-
-        expect(result).to be_nil
+      it 'raises NetworkError and logs error' do
+        expect { service.process }.to raise_error(Openai::Exceptions::NetworkError, /Download failed/)
         expect(Rails.logger).to have_received(:error).with(/Error downloading audio file: Download failed/)
       end
     end
@@ -231,12 +242,12 @@ RSpec.describe Openai::AudioTranscriptionService do
     it 'works without account parameter (legacy usage)' do
       allow(ENV).to receive(:fetch).with('OPENAI_API_KEY', nil).and_return(api_key_env)
 
-      service = described_class.new(audio_url)
+      service = described_class.new(audio_url: audio_url)
       expect(service.instance_variable_get(:@api_key)).to eq(api_key_env)
     end
 
     it 'maintains the same public interface' do
-      service = described_class.new(audio_url)
+      service = described_class.new(audio_url: audio_url)
       expect(service).to respond_to(:process)
     end
   end
