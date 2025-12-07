@@ -103,8 +103,6 @@ COPY custom/config/initializers/commmate_branding.rb /app/config/initializers/
 COPY custom/config/initializers/commmate_i18n.rb /app/config/initializers/
 COPY custom/config/initializers/commmate_config_overrides.rb /app/config/initializers/
 COPY custom/config/initializers/commmate_version.rb /app/config/initializers/
-COPY custom/config/initializers/commmate_paths.rb /app/config/initializers/
-COPY custom/config/initializers/commmate_instance_status.rb /app/config/initializers/
 
 # Copy CommMate styles (will be compiled during asset precompilation)
 COPY custom/styles /app/custom/styles
