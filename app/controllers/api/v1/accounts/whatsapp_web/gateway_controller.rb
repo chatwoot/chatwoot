@@ -52,6 +52,69 @@ class Api::V1::Accounts::WhatsappWeb::GatewayController < Api::V1::Accounts::Bas
     render json: { success: false, error: e.message }, status: :unprocessable_entity
   end
 
+  # GET /api/v1/accounts/:account_id/whatsapp_web/gateway/admin_api_status
+  def admin_api_status
+    configured = Current.account.whatsapp_admin_api_configured?
+    healthy = configured ? Whatsapp::AdminApiClient.healthy?(Current.account) : false
+
+    available_ports = 0
+    if configured && healthy
+      client = Whatsapp::AdminApiClient.new(Current.account)
+      instances = client.list_instances
+      used_count = instances.is_a?(Array) ? instances.length : 0
+      range_start = Current.account.whatsapp_admin_port_range_start || 3001
+      range_end = Current.account.whatsapp_admin_port_range_end || 3100
+      available_ports = (range_end - range_start + 1) - used_count
+    end
+
+    render json: {
+      configured: configured,
+      healthy: healthy,
+      available_ports: available_ports,
+      port_range: {
+        start: Current.account.whatsapp_admin_port_range_start || 3001,
+        end: Current.account.whatsapp_admin_port_range_end || 3100
+      }
+    }
+  rescue StandardError => e
+    render json: { configured: configured, healthy: false, error: e.message }
+  end
+
+  # POST /api/v1/accounts/:account_id/whatsapp_web/gateway/provision_instance
+  def provision_instance
+    phone_number = params[:phone_number]
+    webhook_secret = params[:webhook_secret] || SecureRandom.hex(16)
+
+    if phone_number.blank?
+      render json: { success: false, error: 'Phone number is required' }, status: :bad_request
+      return
+    end
+
+    service = Whatsapp::InstanceProvisioningService.new(Current.account)
+    result = service.provision(phone_number: phone_number, webhook_secret: webhook_secret)
+
+    render json: { success: true, data: result }
+  rescue Whatsapp::AdminApiClient::NotConfiguredError => e
+    render json: { success: false, error: e.message }, status: :bad_request
+  rescue Whatsapp::InstanceProvisioningService::NoPortsAvailableError => e
+    render json: { success: false, error: e.message }, status: :service_unavailable
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Provision instance error: #{e.message}"
+    render json: { success: false, error: e.message }, status: :unprocessable_entity
+  end
+
+  # GET /api/v1/accounts/:account_id/whatsapp_web/gateway/available_instances
+  def available_instances
+    client = Whatsapp::AdminApiClient.new(Current.account)
+    instances = client.list_instances
+
+    render json: { success: true, data: instances }
+  rescue Whatsapp::AdminApiClient::NotConfiguredError => e
+    render json: { success: false, error: e.message }, status: :bad_request
+  rescue StandardError => e
+    render json: { success: false, error: e.message }, status: :unprocessable_entity
+  end
+
   # GET /api/v1/accounts/:account_id/whatsapp_web/gateway/:id/login
   def login
     Rails.logger.info "[WHATSAPP_WEB] Login endpoint called for inbox #{params[:id]}"

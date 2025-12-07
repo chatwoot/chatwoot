@@ -414,6 +414,19 @@
           }
         },
         "SUBMIT_BUTTON": "Create WhatsApp Web Channel",
+        "CONNECTION_MODE": {
+          "LABEL": "Connection Mode",
+          "EXISTING": "Connect to existing instance",
+          "EXISTING_DESC": "Connect to a WhatsApp gateway you've already set up",
+          "PROVISION": "Provision new instance",
+          "PROVISION_DESC": "Automatically create a new WhatsApp instance"
+        },
+        "PROVISIONING": {
+          "IN_PROGRESS": "Creating new instance...",
+          "SUCCESS": "Instance created successfully",
+          "ERROR": "Failed to create instance",
+          "NO_PORTS": "No ports available in the configured range. Please contact your administrator."
+        },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the WhatsApp Web channel"
         }

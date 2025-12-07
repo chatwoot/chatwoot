@@ -123,6 +123,34 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
       }
     },
+    "WHATSAPP_ADMIN_API": {
+      "TITLE": "WhatsApp Instance Management",
+      "DESCRIPTION": "Configure the Admin API to automatically provision WhatsApp instances when creating new inboxes.",
+      "CONNECTION_STATUS": "Connection Status",
+      "BASE_URL": {
+        "LABEL": "Admin API URL",
+        "PLACEHOLDER": "http://admin-api:8088"
+      },
+      "TOKEN": {
+        "LABEL": "Admin API Token",
+        "PLACEHOLDER": "Enter your admin token"
+      },
+      "PORT_RANGE": {
+        "START_LABEL": "Port Range Start",
+        "END_LABEL": "Port Range End"
+      },
+      "TEST_CONNECTION": "Test Connection",
+      "SAVE": "Save Settings",
+      "SAVE_SUCCESS": "WhatsApp Admin API settings saved successfully",
+      "SAVE_ERROR": "Failed to save WhatsApp Admin API settings",
+      "AVAILABLE_PORTS": "{count} ports available",
+      "STATUS": {
+        "CONNECTED": "Connected",
+        "NOT_CONFIGURED": "Not Configured",
+        "FAILED": "Connection Failed",
+        "UNKNOWN": "Unknown"
+      }
+    },
     "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",

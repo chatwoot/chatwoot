@@ -7,6 +7,7 @@ import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import QRCodeModal from 'dashboard/components/QRCodeModal.vue';
 import WhatsappWebGatewayApi from 'dashboard/api/whatsappWebGateway';
+import WhatsappAdminApi from 'dashboard/api/whatsappAdminApi';
 
 export default {
   name: 'WhatsappWebForm',
@@ -47,6 +48,10 @@ export default {
       isLoadingStatus: false,
       isDisconnecting: false,
       isReconnecting: false,
+      connectionMode: 'existing', // 'existing' or 'provision'
+      adminApiConfigured: false,
+      isCheckingAdminApi: false,
+      isProvisioning: false,
     };
   },
   computed: {
@@ -115,6 +120,11 @@ export default {
           return 'text-gray-600 bg-gray-50 border-gray-200';
       }
     },
+    connectionStatusLabel() {
+      const statusKey = this.connectionStatusText;
+      const translationKey = `INBOX_MGMT.ADD.WHATSAPP_WEB.CONNECTION_STATUS.${statusKey}`;
+      return this.$t(translationKey);
+    },
     showConnectButton() {
       return this.connectionStatusText !== 'CONNECTED';
     },
@@ -130,15 +140,25 @@ export default {
         this.connectionStatusText === 'ERROR'
       );
     },
+    showConnectionModeToggle() {
+      return this.mode === 'create' && this.adminApiConfigured;
+    },
+    isProvisioningMode() {
+      return this.connectionMode === 'provision';
+    },
   },
   validations() {
     const baseValidations = {
       phoneNumber: { required, isPhoneE164OrEmpty },
-      gatewayBaseUrl: { required },
-      basicAuthUser: {},
-      basicAuthPassword: {},
       webhookSecret: { required },
     };
+
+    // In provisioning mode, we don't need gateway URL and basic auth
+    if (!this.isProvisioningMode) {
+      baseValidations.gatewayBaseUrl = { required };
+      baseValidations.basicAuthUser = {};
+      baseValidations.basicAuthPassword = {};
+    }
 
     if (this.mode === 'create') {
       baseValidations.inboxName = { required };
@@ -156,6 +176,11 @@ export default {
         }
       },
     },
+  },
+  mounted() {
+    if (this.mode === 'create') {
+      this.checkAdminApiStatus();
+    }
   },
   methods: {
     setDefaults(inbox) {
@@ -197,10 +222,61 @@ export default {
       // or proceeding to the next step
     },
 
-    handleSubmit() {
+    async checkAdminApiStatus() {
+      this.isCheckingAdminApi = true;
+      try {
+        const response = await WhatsappAdminApi.checkAdminApiStatus();
+        this.adminApiConfigured =
+          response.data.configured && response.data.healthy;
+      } catch (error) {
+        this.adminApiConfigured = false;
+      } finally {
+        this.isCheckingAdminApi = false;
+      }
+    },
+
+    async handleSubmit() {
       this.v$.$touch();
       if (this.v$.$invalid) {
         return;
+      }
+
+      // If provisioning mode, provision the instance first
+      if (this.isProvisioningMode) {
+        this.isProvisioning = true;
+        try {
+          const provisionResponse = await WhatsappAdminApi.provisionInstance(
+            this.phoneNumber,
+            this.webhookSecret
+          );
+
+          const { gateway_base_url, basic_auth_user, basic_auth_password } =
+            provisionResponse.data;
+
+          // Use the provisioned credentials
+          this.gatewayBaseUrl = gateway_base_url;
+          this.basicAuthUser = basic_auth_user;
+          this.basicAuthPassword = basic_auth_password;
+
+          useAlert(this.$t('INBOX_MGMT.ADD.WHATSAPP_WEB.PROVISIONING.SUCCESS'));
+        } catch (error) {
+          this.isProvisioning = false;
+          const errorMessage = error.response?.data?.error || error.message;
+
+          if (errorMessage.includes('No available ports')) {
+            useAlert(
+              this.$t('INBOX_MGMT.ADD.WHATSAPP_WEB.PROVISIONING.NO_PORTS')
+            );
+          } else {
+            useAlert(
+              errorMessage ||
+                this.$t('INBOX_MGMT.ADD.WHATSAPP_WEB.PROVISIONING.ERROR')
+            );
+          }
+          return;
+        } finally {
+          this.isProvisioning = false;
+        }
       }
 
       // Build provider_config, omitting optional Basic Auth if left blank
@@ -293,6 +369,70 @@ export default {
 
 <template>
   <form class="flex flex-wrap flex-col mx-0" @submit.prevent="handleSubmit()">
+    <!-- Connection Mode Toggle -->
+    <div
+      v-if="showConnectionModeToggle"
+      class="flex-shrink-0 flex-grow-0 mb-4 p-4 border border-slate-200 dark:border-slate-700 rounded-lg"
+    >
+      <label
+        class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-3"
+      >
+        {{ $t('INBOX_MGMT.ADD.WHATSAPP_WEB.CONNECTION_MODE.LABEL') }}
+      </label>
+      <div class="grid grid-cols-1 gap-3">
+        <label
+          class="flex items-start p-3 border rounded-lg cursor-pointer transition-colors"
+          :class="
+            connectionMode === 'existing'
+              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+              : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
+          "
+        >
+          <input
+            v-model="connectionMode"
+            type="radio"
+            value="existing"
+            class="mt-1 mr-3"
+          />
+          <div>
+            <div class="font-medium text-slate-900 dark:text-slate-100">
+              {{ $t('INBOX_MGMT.ADD.WHATSAPP_WEB.CONNECTION_MODE.EXISTING') }}
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 mt-1">
+              {{
+                $t('INBOX_MGMT.ADD.WHATSAPP_WEB.CONNECTION_MODE.EXISTING_DESC')
+              }}
+            </div>
+          </div>
+        </label>
+        <label
+          class="flex items-start p-3 border rounded-lg cursor-pointer transition-colors"
+          :class="
+            connectionMode === 'provision'
+              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+              : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
+          "
+        >
+          <input
+            v-model="connectionMode"
+            type="radio"
+            value="provision"
+            class="mt-1 mr-3"
+          />
+          <div>
+            <div class="font-medium text-slate-900 dark:text-slate-100">
+              {{ $t('INBOX_MGMT.ADD.WHATSAPP_WEB.CONNECTION_MODE.PROVISION') }}
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 mt-1">
+              {{
+                $t('INBOX_MGMT.ADD.WHATSAPP_WEB.CONNECTION_MODE.PROVISION_DESC')
+              }}
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+
     <div v-if="showInboxNameField" class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.inboxName.$error }">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP_WEB.INBOX_NAME.LABEL') }}
@@ -327,7 +467,8 @@ export default {
       </label>
     </div>
 
-    <div class="flex-shrink-0 flex-grow-0">
+    <!-- Only show gateway fields in existing mode -->
+    <div v-if="!isProvisioningMode" class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.gatewayBaseUrl.$error }">
         <span>
           {{ $t('INBOX_MGMT.ADD.WHATSAPP_WEB.GATEWAY_BASE_URL.LABEL') }}
@@ -349,7 +490,7 @@ export default {
       </label>
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div v-if="!isProvisioningMode" class="grid grid-cols-2 gap-4">
       <div class="flex-shrink-0 flex-grow-0">
         <label :class="{ error: v$.basicAuthUser.$error }">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP_WEB.BASIC_AUTH_USER.LABEL') }}
@@ -447,11 +588,7 @@ export default {
           class="inline-block w-3 h-3 mr-2 border-2 border-current border-t-transparent rounded-full animate-spin"
         />
         <span v-else class="w-2 h-2 mr-2 rounded-full bg-current" />
-        {{
-          $t(
-            `INBOX_MGMT.ADD.WHATSAPP_WEB.CONNECTION_STATUS.${connectionStatusText}`
-          )
-        }}
+        {{ connectionStatusLabel }}
       </div>
     </div>
 
@@ -497,12 +634,16 @@ export default {
 
       <!-- Submit Button -->
       <NextButton
-        :is-loading="isLoading"
+        :is-loading="isLoading || isProvisioning"
         type="submit"
         variant="solid"
         color="blue"
         size="md"
-        :label="submitButtonLabel"
+        :label="
+          isProvisioning
+            ? $t('INBOX_MGMT.ADD.WHATSAPP_WEB.PROVISIONING.IN_PROGRESS')
+            : submitButtonLabel
+        "
       />
     </div>
 

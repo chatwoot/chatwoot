@@ -1,0 +1,617 @@
+openapi: "3.0.0"
+info:
+  title: WhatsApp API MultiDevice - Admin API
+  version: 6.10.0
+  description: |
+    Admin API for managing multiple WhatsApp instances with Supervisord.
+    
+    This API provides endpoints for creating, configuring, updating, and deleting WhatsApp instances programmatically.
+    It includes configuration generation, process supervision, authentication, validation, and comprehensive instance management.
+    
+    ## Features
+    - Create and manage multiple WhatsApp instances
+    - Configure per-instance settings (webhooks, authentication, etc.)
+    - Real-time instance status monitoring
+    - Supervisord integration for process management
+    - Bearer token authentication for security
+    - Health and readiness checks
+    
+    ## Authentication
+    All admin endpoints require Bearer Token Authentication using the `ADMIN_TOKEN` environment variable.
+    
+    ## Instance Management
+    Each instance runs on a unique port (1024-65535) and can be configured with:
+    - Basic authentication
+    - Debug settings
+    - Webhook configurations
+    - Auto-reply settings
+    - Chat storage options
+    - And more...
+
+servers:
+  - url: http://localhost:8088
+    description: Admin API Server
+
+tags:
+  - name: admin
+    description: Admin API for managing multiple WhatsApp instances with Supervisord
+  - name: health
+    description: Health and readiness checks
+
+security:
+  - bearerAuth: []
+
+paths:
+  # Admin API Endpoints
+  /admin/instances:
+    post:
+      operationId: createInstance
+      tags:
+        - admin
+      summary: Create a new WhatsApp instance
+      description: Create and start a new WhatsApp instance managed by Supervisord
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInstanceRequest'
+            examples:
+              minimal:
+                summary: Minimal instance creation
+                value:
+                  port: 3001
+              full:
+                summary: Full configuration
+                value:
+                  port: 3001
+                  basic_auth: "user:password"
+                  debug: true
+                  os: "Custom OS"
+                  account_validation: false
+                  base_path: "/api/v1"
+                  auto_reply: "Thank you for your message"
+                  auto_mark_read: true
+                  webhook: "https://myapp.com/webhook"
+                  webhook_secret: "my-secret-key"
+                  chat_storage: false
+      responses:
+        '201':
+          description: Instance created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminInstanceResponse'
+        '400':
+          description: Bad Request - Invalid port or configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '409':
+          description: Conflict - Port already in use or instance exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+    get:
+      operationId: listInstances
+      tags:
+        - admin
+      summary: List all WhatsApp instances
+      description: Retrieve a list of all managed WhatsApp instances and their status
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of instances retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminInstanceListResponse'
+        '401':
+          description: Unauthorized - Invalid or missing bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+
+  /admin/instances/{port}:
+    get:
+      operationId: getInstance
+      tags:
+        - admin
+      summary: Get details of a specific WhatsApp instance
+      description: Retrieve detailed information about a specific instance including state, PID, uptime, and configuration
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: port
+          in: path
+          required: true
+          description: Port number of the instance
+          schema:
+            type: integer
+            minimum: 1024
+            maximum: 65535
+          example: 3001
+      responses:
+        '200':
+          description: Instance details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminInstanceResponse'
+        '401':
+          description: Unauthorized - Invalid or missing bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '404':
+          description: Instance not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+    patch:
+      operationId: updateInstance
+      tags:
+        - admin
+      summary: Update configuration of a WhatsApp instance
+      description: Update the configuration of an existing instance. Supports partial updates - only provided fields will be changed.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: port
+          in: path
+          required: true
+          description: Port number of the instance
+          schema:
+            type: integer
+            minimum: 1024
+            maximum: 65535
+          example: 3001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInstanceRequest'
+            examples:
+              partial:
+                summary: Partial update
+                value:
+                  debug: false
+                  webhook: "https://new-webhook.example.com/whatsapp"
+              full:
+                summary: Full update
+                value:
+                  basic_auth: "newuser:newpassword"
+                  debug: false
+                  os: "UpdatedDevice"
+                  account_validation: true
+                  base_path: "/api/v2"
+                  auto_reply: "Thanks"
+                  auto_mark_read: true
+                  webhook: "https://hooks.example.com/gowa"
+                  webhook_secret: "s3cret"
+                  chat_storage: false
+      responses:
+        '200':
+          description: Instance updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminInstanceResponse'
+        '400':
+          description: Bad Request - Invalid configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '404':
+          description: Instance not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '409':
+          description: Conflict - Instance is locked or update in progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+    delete:
+      operationId: deleteInstance
+      tags:
+        - admin
+      summary: Delete a WhatsApp instance
+      description: Stop and remove the instance's Supervisord program and configuration files
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: port
+          in: path
+          required: true
+          description: Port number of the instance
+          schema:
+            type: integer
+            minimum: 1024
+            maximum: 65535
+          example: 3001
+      responses:
+        '200':
+          description: Instance deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSuccessResponse'
+        '401':
+          description: Unauthorized - Invalid or missing bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '404':
+          description: Instance not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '409':
+          description: Conflict - Instance is locked or deletion in progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminErrorResponse'
+
+  # Admin Health Endpoints
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags:
+        - health
+      summary: Health check endpoint
+      description: Basic liveness check for the admin service
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '500':
+          description: Service is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /readyz:
+    get:
+      operationId: readinessCheck
+      tags:
+        - health
+      summary: Readiness check endpoint
+      description: Readiness check including Supervisor connectivity
+      responses:
+        '200':
+          description: Service is ready
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: Service is not ready
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Admin API Bearer token authentication (requires ADMIN_TOKEN environment variable)
+
+  schemas:
+    CreateInstanceRequest:
+      type: object
+      required:
+        - port
+      properties:
+        port:
+          type: integer
+          minimum: 1024
+          maximum: 65535
+          description: Port number for the WhatsApp instance
+          example: 3001
+        basic_auth:
+          type: string
+          description: Basic authentication credentials in format "username:password"
+          example: "user:password"
+        debug:
+          type: boolean
+          description: Enable debug mode
+          example: true
+        os:
+          type: string
+          description: Operating system identifier
+          example: "Custom OS"
+        account_validation:
+          type: boolean
+          description: Enable account validation
+          example: false
+        base_path:
+          type: string
+          description: API base path
+          example: "/api/v1"
+        auto_reply:
+          type: string
+          description: Automatic reply message
+          example: "Thank you for your message"
+        auto_mark_read:
+          type: boolean
+          description: Automatically mark messages as read
+          example: true
+        webhook:
+          type: string
+          format: uri
+          description: Webhook URL for message events
+          example: "https://myapp.com/webhook"
+        webhook_secret:
+          type: string
+          description: Secret for webhook authentication
+          example: "my-secret-key"
+        chat_storage:
+          type: boolean
+          description: Enable chat storage
+          example: false
+
+    UpdateInstanceRequest:
+      type: object
+      description: Partial update request - only provided fields will be updated
+      properties:
+        basic_auth:
+          type: string
+          description: Basic authentication credentials in format "username:password"
+          example: "newuser:newpassword"
+        debug:
+          type: boolean
+          description: Enable debug mode
+          example: false
+        os:
+          type: string
+          description: Operating system identifier
+          example: "UpdatedDevice"
+        account_validation:
+          type: boolean
+          description: Enable account validation
+          example: true
+        base_path:
+          type: string
+          description: API base path
+          example: "/api/v2"
+        auto_reply:
+          type: string
+          description: Automatic reply message
+          example: "Thanks"
+        auto_mark_read:
+          type: boolean
+          description: Automatically mark messages as read
+          example: true
+        webhook:
+          type: string
+          format: uri
+          description: Webhook URL for message events
+          example: "https://hooks.example.com/gowa"
+        webhook_secret:
+          type: string
+          description: Secret for webhook authentication
+          example: "s3cret"
+        chat_storage:
+          type: boolean
+          description: Enable chat storage
+          example: false
+
+    AdminInstance:
+      type: object
+      properties:
+        port:
+          type: integer
+          description: Port number of the instance
+          example: 3001
+        state:
+          type: string
+          description: Current state of the instance
+          example: "RUNNING"
+          enum: ["STOPPED", "STARTING", "RUNNING", "BACKOFF", "STOPPING", "EXITED", "FATAL", "UNKNOWN"]
+        pid:
+          type: integer
+          description: Process ID of the running instance
+          example: 12345
+        uptime:
+          type: string
+          description: How long the instance has been running
+          example: "0:01:30"
+        config:
+          type: object
+          description: Instance configuration
+          properties:
+            basic_auth:
+              type: string
+              example: "user:password"
+            debug:
+              type: boolean
+              example: true
+            os:
+              type: string
+              example: "Custom OS"
+            account_validation:
+              type: boolean
+              example: false
+            base_path:
+              type: string
+              example: "/api/v1"
+            auto_reply:
+              type: string
+              example: "Thank you for your message"
+            auto_mark_read:
+              type: boolean
+              example: true
+            webhook:
+              type: string
+              example: "https://myapp.com/webhook"
+            webhook_secret:
+              type: string
+              example: "my-secret-key"
+            chat_storage:
+              type: boolean
+              example: false
+
+    AdminInstanceResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AdminInstance'
+        message:
+          type: string
+          example: "Instance retrieved successfully"
+        request_id:
+          type: string
+          description: Unique request identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        timestamp:
+          type: string
+          format: date-time
+          description: Response timestamp in RFC3339 format
+          example: "2025-09-04T10:30:00Z"
+
+    AdminInstanceListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminInstance'
+        message:
+          type: string
+          example: "Instances retrieved successfully"
+        request_id:
+          type: string
+          description: Unique request identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        timestamp:
+          type: string
+          format: date-time
+          description: Response timestamp in RFC3339 format
+          example: "2025-09-04T10:30:00Z"
+
+    AdminSuccessResponse:
+      type: object
+      properties:
+        data:
+          description: Optional response data (may be null for delete operations)
+          nullable: true
+        message:
+          type: string
+          example: "Operation completed successfully"
+        request_id:
+          type: string
+          description: Unique request identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        timestamp:
+          type: string
+          format: date-time
+          description: Response timestamp in RFC3339 format
+          example: "2025-09-04T10:30:00Z"
+
+    AdminErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+          example: "instance_not_found"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Instance on port 3001 not found"
+        request_id:
+          type: string
+          description: Unique request identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        timestamp:
+          type: string
+          format: date-time
+          description: Response timestamp in RFC3339 format
+          example: "2025-09-04T10:30:00Z"
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Health status
+          example: "healthy"
+          enum: ["healthy", "degraded"]
+        timestamp:
+          type: string
+          format: date-time
+          description: Check timestamp
+          example: "2025-09-04T10:30:00Z"
+        supervisor_healthy:
+          type: boolean
+          description: Whether the supervisord connection is healthy
+          example: true
+        version:
+          type: string
+          description: Application version
+          example: "v7.10.1"

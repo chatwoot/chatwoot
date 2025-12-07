@@ -34,6 +34,7 @@ class Channel::Whatsapp < ApplicationRecord
 
   after_create :sync_templates
   before_destroy :teardown_webhooks
+  before_destroy :teardown_provisioned_instance
 
   def name
     'Whatsapp'
@@ -89,5 +90,11 @@ class Channel::Whatsapp < ApplicationRecord
 
   def teardown_webhooks
     Whatsapp::WebhookTeardownService.new(self).perform
+  end
+
+  def teardown_provisioned_instance
+    return unless provider == 'whatsapp_web' && provider_config['provisioned']
+
+    Whatsapp::InstanceTeardownService.new(self).perform
   end
 end

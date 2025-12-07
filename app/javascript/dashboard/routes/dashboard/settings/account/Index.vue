@@ -17,6 +17,7 @@ import AccountDelete from './components/AccountDelete.vue';
 import AutoResolve from './components/AutoResolve.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
 import SectionLayout from './components/SectionLayout.vue';
+import WhatsappAdminApi from './components/WhatsappAdminApi.vue';
 
 export default {
   components: {
@@ -30,6 +31,7 @@ export default {
     SectionLayout,
     WithLabel,
     NextInput,
+    WhatsappAdminApi,
   },
   setup() {
     const { updateUISettings, uiSettings } = useUISettings();
@@ -241,6 +243,7 @@ export default {
     </div>
     <AutoResolve v-if="showAutoResolutionConfig" />
     <AudioTranscription v-if="showAudioTranscriptionConfig" />
+    <WhatsappAdminApi />
     <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />

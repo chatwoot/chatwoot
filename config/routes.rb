@@ -273,6 +273,9 @@ Rails.application.routes.draw do
               collection do
                 post :test_connection
                 post :test_devices
+                get :admin_api_status
+                post :provision_instance
+                get :available_instances
               end
               member do
                 get :login
