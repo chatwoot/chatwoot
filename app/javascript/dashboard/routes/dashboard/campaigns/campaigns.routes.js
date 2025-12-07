@@ -8,6 +8,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.CAMPAIGNS,
+  // CommMate: Added campaign_manage permission for custom roles
   permissions: ['administrator', 'campaign_manage'],
 };
 

@@ -21,7 +21,25 @@ By default, it renders:
   <title>
     <%= content_for(:title) %> - <%= application_title %>
   </title>
+  <style>
+    /* Critical CSS to prevent images flash/full-screen display before main CSS loads */
+    
+    /* Only constrain images, not SVG icons */
+    img {
+      max-width: 100% !important;
+      object-fit: contain !important;
+    }
+    
+    /* Specific sizing for logos */
+    img[src*="logo"] {
+      max-width: 2.5rem !important;
+      max-height: 2.5rem !important;
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+    }
+  </style>
   <%= render "stylesheet" %>
+  <link rel="preload" as="image" href="/brand-assets/logo_thumbnail.png">
   <%= vite_client_tag %>
   <%= vite_javascript_tag 'superadmin' %>
   <%= csrf_meta_tags %>
