@@ -74,8 +74,8 @@ const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
 
-let partnerUser = ref(false)
-const can_view_sidebar = computed(() => {
+//let partnerUser = ref(false)
+const timePrivado = computed(() => {
   return store.getters['acl/getTimePrivado']
 })
 
@@ -87,6 +87,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
+  store.dispatch('acl/fetchAcl');
 });
 
 const sortedInboxes = computed(() =>
@@ -124,21 +125,21 @@ const newReportRoutes = () => [
   },
 ];
 
-const isUserPartner = (userTeams) => {
-  console.log("userTeams:")
-  console.log(userTeams)
-  const regexPrivado = /\bprivado\b/i;
+// const isUserPartner = (userTeams) => {
+//   console.log("userTeams:")
+//   console.log(userTeams)
+//   const regexPrivado = /\bprivado\b/i;
 
-  return userTeams.some(t => {
-    return regexPrivado.test(t.name)
-  })
+//   return userTeams.some(t => {
+//     return regexPrivado.test(t.name)
+//   })
   
-}
+// }
 
-watch(teams, (newValue) => {
-  partnerUser = isUserPartner(newValue)
-  localStorage.setItem('isPartnerUser', partnerUser)
-}, {deep: true})
+// watch(teams, (newValue) => {
+//   partnerUser = isUserPartner(newValue)
+//   localStorage.setItem('isPartnerUser', partnerUser)
+// }, {deep: true})
 
 
 const reportRoutes = computed(() => newReportRoutes());
@@ -626,7 +627,7 @@ const menuItems = computed(() => {
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
-      <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="can_view_sidebar">
+      <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="!timePrivado">
         <SidebarGroup
           v-for="item in menuItems"
           :key="item.name"
@@ -649,5 +650,5 @@ const menuItems = computed(() => {
       />
     </section>
   </aside>
-  {{ can_view_sidebar }}
+  {{ timePrivado }}
 </template>

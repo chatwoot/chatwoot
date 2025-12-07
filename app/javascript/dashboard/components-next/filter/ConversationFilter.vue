@@ -33,7 +33,6 @@ const filters = defineModel({
 });
 const folderNameLocal = ref(props.folderName);
 
-const isPartnerFilter = ref(false)
 
 const DEFAULT_FILTER = {
   attributeKey: 'status',
@@ -44,6 +43,9 @@ const DEFAULT_FILTER = {
 
 const { t } = useI18n();
 const store = useStore();
+const isPartnerFilter = computed(() => {
+  return store.getters['acl/getTimePrivado']
+})
 
 const resetFilter = () => {
   if (isPartnerFilter.value) {
@@ -114,9 +116,8 @@ const filterModalHeaderTitle = computed(() => {
 
 onBeforeUnmount(() => emit('close'));
 onMounted(() => {
-  // olha no localStorage se estamos num usuário admin
-  const partnerUserFromLocalStorage = localStorage.getItem('isPartnerUser')
-  isPartnerFilter.value = partnerUserFromLocalStorage === 'true'
+  // Garantir que vai chamar a fetch das acls
+  store.dispatch('acl/fetchAcl')
   // Se for usuário parceiro, garante que o primeiro filtro seja o team_id
   if (isPartnerFilter.value) {
     // Ve se já tem um filtro de team_id

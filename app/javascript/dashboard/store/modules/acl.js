@@ -3,15 +3,12 @@ import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 
 // Simulando uma chamada a API aqui por enquanto
 // TODO: Passar isso para um arquivo só pra AclAPI
-async function getACL() {
+function getACL() {
     const aclmock = {
-        time_privado: false,
+        time_privado: true,
         direcionar_conversa: false,
     }
-    setTimeout(() => {
-
-    }, 2000)
-    return Promise(aclmock)
+    return aclmock
 }
 
 // O que acontece na nossa store, é o estado dela, como os dados estão em um momento. Não pode alterar direto, tem que usar as actions
@@ -21,14 +18,16 @@ const state = {
 }
 
 export const getters = {
-    getTimePrivado: $state => $state.can_view_sidebar
+    getTimePrivado: $state => $state.time_privado,
+    getDirecionarConversa: $state => $state.direcionar_conversa
 }
 
 export const actions = {
-    fetchAcl: async ({ commit }) => {
+    fetchAcl: ({ commit }) => {
+        console.log("CHAMOU A ACTION fetchAcl")
         try {
-            const res = await getACL()
-            commit(types.default.SET_ACL, res.data)
+            const res = getACL()
+            commit(types.default.SET_ACL, res)
         } catch (error) {
             throw error
         }
@@ -36,10 +35,10 @@ export const actions = {
 }
 
 export const mutations = {
-    [types.default.SET_ACL]($state, data) {
-        $state = {
-            ...data
-        }
+    [types.default.SET_ACL]($state, data) { // Troca cada membro do state individualmente
+        Object.keys(data).forEach(key => {
+            $state[key] = data[key]
+        })
     }
 }
 
