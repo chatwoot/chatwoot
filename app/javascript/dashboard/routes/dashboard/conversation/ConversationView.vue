@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
+import { computed } from 'vue'
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
 import ChatList from '../../../components/ChatList.vue';
@@ -72,6 +73,7 @@ export default {
     ...mapGetters({
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
+      direcionarConversa: 'acl/getDirecionarConversa'
     }),
     showConversationList() {
       return this.isOnExpandedLayout ? !this.conversationId : true;
@@ -111,6 +113,9 @@ export default {
     if (!this.conversationId) {
       this.$store.dispatch('clearSelectedState');
     }
+
+    // Garantir que os dados da Acl estejam carregados
+    this.$store.dispatch('acl/fetchAcl')
   },
 
   mounted() {
@@ -211,7 +216,7 @@ export default {
       :inbox-id="inboxId"
       :is-on-expanded-layout="isOnExpandedLayout"
     >
-      <SidepanelSwitch v-if="currentChat.id" />
+      <SidepanelSwitch v-if="currentChat.id && direcionarConversa" />
     </ConversationBox>
     <ConversationSidebar v-if="shouldShowSidebar" :current-chat="currentChat" />
     <CmdBarConversationSnooze />
