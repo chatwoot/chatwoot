@@ -2,10 +2,10 @@
   <details class="group" <%= 'open' if open %>>
     <summary class="-ml-1 flex items-center px-2 py-1.5 cursor-pointer rounded-lg <%= open ? 'text-woot-500 bg-slate-25' : 'text-slate-800 hover:text-woot-500 hover:bg-slate-25' %> list-none">
       <%= link_to super_admin_settings_url, class: 'flex items-center flex-1' do %>
-        <svg width="16" height="16"><use xlink:href="#icon-settings-2-line" /></svg>
+        <svg width="16" height="16" style="width: 1rem; height: 1rem; max-width: 1rem; max-height: 1rem; display: inline-block; flex-shrink: 0;"><use xlink:href="#icon-settings-2-line" /></svg>
         <span class="ml-2 text-sm">Settings</span>
       <% end %>
-      <svg class="ml-auto w-4 h-4 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="ml-auto w-4 h-4 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" style="width: 1rem; height: 1rem; max-width: 1rem; max-height: 1rem; display: inline-block;">
         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
       </svg>
     </summary>
