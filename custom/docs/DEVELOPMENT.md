@@ -1,214 +1,332 @@
-# CommMate Development Guide
+# CommMate Chatwoot - Guia de Desenvolvimento Local
 
-Complete guide for setting up and running CommMate locally.
+Este guia explica como iniciar o CommMate Chatwoot no ambiente de desenvolvimento local usando PostgreSQL e Redis rodando no Podman.
 
-## Prerequisites
+## Pré-requisitos
 
-| Software | Version | Installation |
-|----------|---------|--------------|
-| Ruby | 3.4.4 | `rbenv install 3.4.4` |
-| Node.js | 23.x (24.x works) | `brew install node` |
-| pnpm | Latest | `npm install -g pnpm` |
-| PostgreSQL | 16 | Running in Podman: `commmate-postgres` |
-| Redis | Latest | Port 6379 |
+### Serviços Obrigatórios (Rodando no Podman)
+- **PostgreSQL 16+** rodando na porta 5432
+- **Redis** rodando na porta 6379
 
-## Quick Start
+### Ferramentas de Desenvolvimento
+- **Ruby 3.4.4** (gerenciado via rbenv)
+- **Node.js 23.x** (recomendado) ou 24.x
+- **pnpm** para gerenciamento de pacotes JavaScript
+- **overmind** para gerenciamento de processos
 
-```bash
-# 1. Install dependencies
-bundle install && pnpm install
+## Instalação das Dependências
 
-# 2. Setup database
-bin/rails db:create db:migrate
-
-# 3. Apply CommMate branding
-./custom/script/apply_commmate_branding.sh
-
-# 4. Create admin user
-bin/rails runner "
-account = Account.create!(name: 'CommMate')
-user = User.create!(
-  email: 'admin@commmate.com',
-  password: 'Password@123',
-  password_confirmation: 'Password@123',
-  name: 'Admin',
-  confirmed_at: Time.current
-)
-AccountUser.create!(account: account, user: user, role: :administrator)
-"
-
-# 5. Start servers
-bin/rails s -p 3000 &
-bin/vite dev &
-bundle exec sidekiq -C config/sidekiq.yml &
-
-# 6. Access
-open http://localhost:3000
-```
-
-**Login:** admin@commmate.com / Password@123
-
-## Running Servers
-
-### Method 1: Individual Processes (Recommended)
+### 1. Instalar Ruby via rbenv
 
 ```bash
-# Terminal 1 - Rails
-cd /path/to/chatwoot
-eval "$(rbenv init -)"
-bin/rails s -p 3000
+# Verificar se o rbenv está instalado
+which rbenv
 
-# Terminal 2 - Vite
-export PATH="$HOME/.npm-global/bin:$PATH"
-bin/vite dev
-
-# Terminal 3 - Sidekiq
-bundle exec sidekiq -C config/sidekiq.yml
+# O Ruby 3.4.4 já deve estar disponível
+rbenv versions
 ```
 
-### Method 2: Overmind (if installed)
+### 2. Instalar Overmind
 
 ```bash
-brew install tmux overmind
-overmind start -f Procfile.dev
+brew install overmind
 ```
 
-### Verify Running
+### 3. Instalar Dependências do Projeto
 
 ```bash
-lsof -iTCP -sTCP:LISTEN -P -n | grep -E "(3000|3036)"
-ps aux | grep -E "(rails|vite|sidekiq)" | grep -v grep
+cd /Users/schimuneck/projects/commmmate/chatwoot
+
+# Instalar gems Ruby
+export PATH="$HOME/.rbenv/shims:$PATH"
+bundle install
+
+# Instalar pacotes Node.js
+pnpm install
 ```
 
-## Database Operations
+## Configuração do Ambiente
 
-### Fresh Start
+### Criar arquivo .env
+
+Crie o arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
 ```bash
-# Stop servers first
-pkill -f "rails s" && pkill -f "vite" && pkill -f sidekiq
+# Database Configuration
+POSTGRES_DATABASE=chatwoot
+POSTGRES_PASSWORD=postgres
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5432
+POSTGRES_USERNAME=postgres
+DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/chatwoot
 
-# Terminate DB connections
-podman exec commmate-postgres psql -U postgres -d postgres -c \
-  "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = 'chatwoot_commmate';"
+# Redis Configuration
+REDIS_URL=redis://localhost:6379
 
-# Reset database
-bin/rails db:drop db:create db:migrate
+# Development Configuration
+DISABLE_MINI_PROFILER=true
+RAILS_ENV=development
+NODE_ENV=development
 
-# Reapply branding
-./custom/script/apply_commmate_branding.sh
+# Required for Chatwoot
+SECRET_KEY_BASE=<gerar_com_openssl>
+FRONTEND_URL=http://localhost:3000
 ```
 
-### Install pgvector (Required for AI features)
+Para gerar o `SECRET_KEY_BASE`:
 
 ```bash
-podman exec -u root commmate-postgres sh -c \
-  "apt-get update && apt-get install -y postgresql-16-pgvector"
+openssl rand -hex 64
 ```
 
-### Fix Common Migration Issue
-
-If migration `20231211010807_add_cached_labels_list.rb` fails, comment out:
-
-```ruby
-# ActsAsTaggableOn::Taggable::Cache.included(Conversation)
-```
-
-## Switching Branches
+### Verificar Conectividade com Serviços
 
 ```bash
-# Stop all services
-pkill -f "rails s" && pkill -f "vite" && pkill -f sidekiq
+# Testar PostgreSQL
+PGPASSWORD=postgres psql -h 127.0.0.1 -p 5432 -U postgres -d chatwoot -c "SELECT version();"
 
-# Switch branch
-git checkout branch-name
-
-# Update dependencies
-bundle install && pnpm install
-
-# Run migrations
-bin/rails db:migrate
-
-# Reapply branding
-./custom/script/apply_commmate_branding.sh
-
-# Restart servers
+# Testar Redis (se redis-cli estiver instalado)
+redis-cli ping
 ```
 
-## Common Issues
+## Preparar o Banco de Dados
 
-### pnpm not found
+### Executar Migrações
 
 ```bash
-npm install -g pnpm
-export PATH="$HOME/.npm-global/bin:$PATH"
-echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.zshrc
+cd /Users/schimuneck/projects/commmmate/chatwoot
+export PATH="$HOME/.rbenv/shims:$PATH"
+bundle exec rails db:migrate
 ```
 
-### Port already in use
+**Nota**: O banco de dados `chatwoot` já deve existir no PostgreSQL do Podman. Não execute `db:create` ou `db:setup` para evitar recriar o banco.
+
+## Iniciar o Servidor de Desenvolvimento
+
+### Limpar Processos Antigos (se necessário)
 
 ```bash
-lsof -ti:3000 | xargs kill -9  # Kill Rails
-lsof -ti:3036 | xargs kill -9  # Kill Vite
+# Remover arquivo PID antigo
+rm -f tmp/pids/server.pid
+
+# Matar processos Rails/Vite antigos (se existirem)
+pkill -f 'rails|vite|sidekiq'
 ```
 
-### Enterprise Edition Error
-
-Fixed in `config/initializers/01_inject_enterprise_edition_module.rb`:
-
-```ruby
-def const_get_maybe_false(mod, name)
-  return nil unless mod.is_a?(Module)
-  mod.const_defined?(name, false) ? mod.const_get(name, false) : nil
-end
-```
-
-## Development Commands
+### Iniciar com Overmind
 
 ```bash
-# Console
-bin/rails console
+cd /Users/schimuneck/projects/commmmate/chatwoot
+export PATH="$HOME/.rbenv/shims:$PATH"
+overmind start -f ./Procfile.dev
+```
 
-# Tests
-pnpm test               # JavaScript
-bundle exec rspec       # Ruby
+Isso iniciará todos os serviços necessários:
+- **backend**: Rails/Puma na porta 3000
+- **worker**: Sidekiq para processamento de jobs em background
+- **vite**: Servidor de desenvolvimento frontend na porta 3036
 
-# Linting
-pnpm eslint:fix
+### Gerenciar Processos com Overmind
+
+```bash
+# Parar todos os serviços
+overmind quit
+
+# Ou pressione Ctrl+C no terminal
+
+# Conectar a um processo específico para ver logs
+overmind connect backend
+overmind connect worker
+overmind connect vite
+
+# Pressione Ctrl+B seguido de D para desconectar sem parar o processo
+```
+
+## Verificar se Está Rodando
+
+### Verificar Processos
+
+```bash
+# Verificar se todos os serviços estão rodando
+ps aux | grep -E '(rails|sidekiq|vite)' | grep -v grep
+
+# Verificar portas em uso
+lsof -ti:3000  # Rails/Puma
+lsof -ti:3036  # Vite
+lsof -ti:7433  # Sidekiq health check
+```
+
+### Testar Acesso
+
+```bash
+# Testar backend
+curl -I http://localhost:3000/
+
+# Deve retornar HTTP 200 OK
+```
+
+### Acessar no Navegador
+
+Abra seu navegador em:
+
+```
+http://localhost:3000
+```
+
+## Estrutura de Processos (Procfile.dev)
+
+O arquivo `Procfile.dev` define os seguintes processos:
+
+```
+backend: bin/rails s -p 3000
+worker: dotenv bundle exec sidekiq -C config/sidekiq.yml
+vite: bin/vite dev
+```
+
+## Problemas Comuns
+
+### Erro: "A server is already running"
+
+```bash
+# Remover arquivo PID
+rm -f tmp/pids/server.pid
+
+# Matar processo antigo
+kill -9 $(lsof -ti:3000)
+```
+
+### Erro: "connection to server failed"
+
+Verifique se o PostgreSQL está rodando no Podman:
+
+```bash
+podman ps | grep postgres
+```
+
+Se necessário, inicie o container do PostgreSQL.
+
+### Erro: "Redis connection refused"
+
+Verifique se o Redis está rodando no Podman:
+
+```bash
+podman ps | grep redis
+```
+
+Se necessário, inicie o container do Redis.
+
+### Erro: "Ruby version mismatch"
+
+Certifique-se de que o rbenv está carregado:
+
+```bash
+export PATH="$HOME/.rbenv/shims:$PATH"
+ruby --version  # Deve mostrar 3.4.4
+```
+
+## Desenvolvimento
+
+### Executar Testes
+
+```bash
+# Testes Ruby (RSpec)
+bundle exec rspec
+
+# Testes JavaScript (Vitest)
+pnpm test
+```
+
+### Lint
+
+```bash
+# Lint Ruby
 bundle exec rubocop -a
 
-# Database
-bin/rails db:reset
-bin/rails db:version
-bin/rails dbconsole
+# Lint JavaScript/Vue
+pnpm eslint
+pnpm eslint:fix
 ```
 
-## Project Structure
+### Acessar Console Rails
 
-```
-chatwoot/
-├── custom/               # CommMate customizations
-│   ├── assets/          # Logos, favicons
-│   ├── config/          # Branding config
-│   ├── docs/            # This documentation
-│   ├── locales/         # Translations
-│   ├── script/          # Automation scripts
-│   └── styles/          # Custom CSS
-├── app/
-│   ├── javascript/      # Vue.js frontend
-│   ├── models/          # Rails models
-│   └── controllers/     # API controllers
-├── config/
-└── db/
+```bash
+bundle exec rails console
 ```
 
-## Environment
+### Acessar Banco de Dados
 
-**Database:** `chatwoot_commmate` (PostgreSQL in Podman)  
-**Services:** Rails (3000), Vite (3036), Sidekiq, Redis (6379)
+```bash
+PGPASSWORD=postgres psql -h 127.0.0.1 -p 5432 -U postgres -d chatwoot
+```
 
-## Next Steps
+## Variáveis de Ambiente Importantes
 
-- **Branding:** See `REBRANDING.md`
-- **Upgrades:** See `UPGRADE.md`
+| Variável | Descrição | Valor Padrão |
+|----------|-----------|--------------|
+| `POSTGRES_DATABASE` | Nome do banco de dados | `chatwoot` |
+| `POSTGRES_HOST` | Host do PostgreSQL | `127.0.0.1` |
+| `POSTGRES_PORT` | Porta do PostgreSQL | `5432` |
+| `POSTGRES_USERNAME` | Usuário do PostgreSQL | `postgres` |
+| `POSTGRES_PASSWORD` | Senha do PostgreSQL | `postgres` |
+| `REDIS_URL` | URL de conexão do Redis | `redis://localhost:6379` |
+| `SECRET_KEY_BASE` | Chave secreta do Rails | Gerar com `openssl rand -hex 64` |
+| `FRONTEND_URL` | URL do frontend | `http://localhost:3000` |
+| `DISABLE_MINI_PROFILER` | Desabilitar mini profiler | `true` |
+
+## Portas Utilizadas
+
+| Serviço | Porta | Descrição |
+|---------|-------|-----------|
+| Rails/Puma | 3000 | Backend API e páginas web |
+| Vite | 3036 | Servidor de desenvolvimento frontend |
+| Sidekiq Health | 7433 | Health check do Sidekiq |
+| PostgreSQL | 5432 | Banco de dados (Podman) |
+| Redis | 6379 | Cache e filas (Podman) |
+
+## Logs
+
+Os logs de desenvolvimento são exibidos no terminal onde o overmind está rodando. Você também pode encontrar logs em:
+
+- `log/development.log` - Logs do Rails
+- `log/sidekiq.log` - Logs do Sidekiq (se configurado)
+
+## Dicas de Produtividade
+
+### Usar tmux com Overmind
+
+O Overmind usa tmux internamente. Você pode:
+
+```bash
+# Listar sessões tmux
+tmux ls
+
+# Conectar diretamente à sessão do Overmind
+tmux attach -t chatwoot
+```
+
+### Reiniciar Apenas um Serviço
+
+```bash
+# Conectar ao processo
+overmind connect backend
+
+# Pressionar Ctrl+C para parar
+# O Overmind reiniciará automaticamente
+```
+
+### Ver Logs em Tempo Real
+
+```bash
+# Rails
+tail -f log/development.log
+
+# Ou usar o overmind
+overmind connect backend
+```
+
+## Referências
+
+- [Chatwoot Development Guide](https://www.chatwoot.com/docs/contributing-guide)
+- [Overmind Documentation](https://github.com/DarthSim/overmind)
+- [Rails Guides](https://guides.rubyonrails.org/)
 
