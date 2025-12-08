@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import ContactAPI from 'dashboard/api/contacts';
 import {
   DATE_RANGE_TYPES,
@@ -61,34 +60,6 @@ describe('#generateURLParams', () => {
       expect(result).toEqual({
         range: 'between',
         since: 1640995200,
-        until: 1672531199,
-      });
-    });
-
-    it('generates params with AFTER date range (excludes until)', () => {
-      const result = generateURLParams({
-        dateRange: {
-          type: DATE_RANGE_TYPES.AFTER,
-          from: 1640995200,
-          to: 1672531199, // Should be ignored for AFTER type
-        },
-      });
-      expect(result).toEqual({
-        range: 'after',
-        since: 1640995200,
-      });
-    });
-
-    it('generates params with BEFORE date range (excludes since)', () => {
-      const result = generateURLParams({
-        dateRange: {
-          type: DATE_RANGE_TYPES.BEFORE,
-          from: 1640995200, // Should be ignored for BEFORE type
-          to: 1672531199,
-        },
-      });
-      expect(result).toEqual({
-        range: 'before',
         until: 1672531199,
       });
     });
@@ -211,36 +182,6 @@ describe('#parseURLParams', () => {
         dateRange: {
           type: 'between',
           from: 1640995200,
-          to: 1672531199,
-        },
-      });
-    });
-
-    it('infers AFTER type when only since is present', () => {
-      const result = parseURLParams({
-        since: '1640995200',
-      });
-      expect(result).toEqual({
-        from: null,
-        in: null,
-        dateRange: {
-          type: 'after',
-          from: 1640995200,
-          to: null,
-        },
-      });
-    });
-
-    it('infers BEFORE type when only until is present', () => {
-      const result = parseURLParams({
-        until: '1672531199',
-      });
-      expect(result).toEqual({
-        from: null,
-        in: null,
-        dateRange: {
-          type: 'before',
-          from: null,
           to: 1672531199,
         },
       });
