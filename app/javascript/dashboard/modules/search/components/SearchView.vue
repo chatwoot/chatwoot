@@ -248,7 +248,7 @@ const clearSearchResult = () => {
 const buildSearchPayload = (basePayload = {}, searchType = 'message') => {
   const payload = {
     ...basePayload,
-    // Date filters apply to all search types (contacts, conversations, messages)
+    // Date filters apply to all search types
     ...(filters.value.dateRange.from && {
       since: filters.value.dateRange.from,
     }),
@@ -315,24 +315,10 @@ const loadMore = () => {
   const tab = selectedTab.value;
   pages.value[tab] += 1;
 
-  // Build payload based on search type
-  let payload;
-  if (tab === 'articles') {
-    // Articles don't support any filters
-    payload = { q: query.value, page: pages.value[tab] };
-  } else if (tab === 'messages') {
-    // Messages support all filters (from, inboxId, since, until)
-    payload = buildSearchPayload(
-      { q: query.value, page: pages.value[tab] },
-      'message'
-    );
-  } else {
-    // Contacts and conversations only support date filters (since, until)
-    payload = buildSearchPayload(
-      { q: query.value, page: pages.value[tab] },
-      tab
-    );
-  }
+  const payload = buildSearchPayload(
+    { q: query.value, page: pages.value[tab] },
+    tab
+  );
 
   store.dispatch(SEARCH_ACTIONS[tab], payload);
 };

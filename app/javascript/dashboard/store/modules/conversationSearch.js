@@ -71,7 +71,7 @@ export const actions = {
         dispatch('contactSearch', { q, ...filters }),
         dispatch('conversationSearch', { q, ...filters }),
         dispatch('messageSearch', { q, ...filters }),
-        dispatch('articleSearch', { q }),
+        dispatch('articleSearch', { q, ...filters }),
       ]);
     } catch (error) {
       // Ignore error
@@ -118,10 +118,11 @@ export const actions = {
       commit(types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
-  async articleSearch({ commit }, { q, page = 1 }) {
+  async articleSearch({ commit }, payload) {
+    const { page = 1, ...searchParams } = payload;
     commit(types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await SearchAPI.articles({ q, page });
+      const { data } = await SearchAPI.articles({ ...searchParams, page });
       commit(types.ARTICLE_SEARCH_SET, data.payload.articles);
     } catch (error) {
       // Ignore error

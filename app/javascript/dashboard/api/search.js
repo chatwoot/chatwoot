@@ -49,11 +49,13 @@ class SearchAPI extends ApiClient {
     });
   }
 
-  articles({ q, page = 1 }) {
+  articles({ q, page = 1, since, until }) {
     return axios.get(`${this.url}/articles`, {
       params: {
         q,
         page: page,
+        since,
+        until,
       },
     });
   }
