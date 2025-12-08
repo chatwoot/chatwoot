@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Voice Conference API', type: :request do
+RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
   let(:account) { create(:account) }
   let(:voice_channel) { create(:channel_voice, account: account) }
   let(:voice_inbox) { voice_channel.inbox }
@@ -28,12 +28,11 @@ RSpec.describe 'Voice Conference API', type: :request do
     allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference_service)
   end
 
-  describe 'GET /conference_token' do
-    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference_token" }
-
+  describe 'GET /conference/token' do
     context 'when unauthenticated' do
       it 'returns unauthorized' do
-        get url
+        get "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/token"
+
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -45,7 +44,8 @@ RSpec.describe 'Voice Conference API', type: :request do
         fake_token = instance_double(Twilio::JWT::AccessToken, to_jwt: 'jwt-token', add_grant: nil)
         allow(Twilio::JWT::AccessToken).to receive(:new).and_return(fake_token)
 
-        get url, headers: agent.create_new_auth_token
+        get "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/token",
+            headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:ok)
         body = response.parsed_body
@@ -57,11 +57,10 @@ RSpec.describe 'Voice Conference API', type: :request do
   end
 
   describe 'POST /conference' do
-    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference" }
-
     context 'when unauthenticated' do
       it 'returns unauthorized' do
-        post url
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference"
+
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -70,7 +69,7 @@ RSpec.describe 'Voice Conference API', type: :request do
       before { create(:inbox_member, inbox: voice_inbox, user: agent) }
 
       it 'creates conference and sets identifier' do
-        post url,
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
              params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
@@ -84,7 +83,7 @@ RSpec.describe 'Voice Conference API', type: :request do
       end
 
       it 'returns conflict when call_sid missing' do
-        post url,
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
              params: { conversation_id: conversation.display_id }
 
@@ -94,11 +93,10 @@ RSpec.describe 'Voice Conference API', type: :request do
   end
 
   describe 'DELETE /conference' do
-    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference" }
-
     context 'when unauthenticated' do
       it 'returns unauthorized' do
-        delete url
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference"
+
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -107,7 +105,7 @@ RSpec.describe 'Voice Conference API', type: :request do
       before { create(:inbox_member, inbox: voice_inbox, user: agent) }
 
       it 'ends conference and returns success' do
-        delete url,
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
                params: { conversation_id: conversation.display_id }
 

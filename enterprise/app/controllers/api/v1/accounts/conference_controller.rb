@@ -1,7 +1,7 @@
-class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
 
-  def conference_token
+  def token
     render json: Voice::TokenService.new(
       inbox: @voice_inbox,
       user: Current.user,
@@ -9,7 +9,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     ).generate
   end
 
-  def conference_join
+  def create
     conversation = fetch_conversation_by_display_id
     ensure_call_sid!(conversation)
 
@@ -25,7 +25,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     }
   end
 
-  def conference_leave
+  def destroy
     conversation = fetch_conversation_by_display_id
     Voice::Provider::Twilio::ConferenceService.new(conversation: conversation).end_conference
     render json: { status: 'success', id: conversation.display_id }
@@ -43,7 +43,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   end
 
   def set_voice_inbox_for_conference
-    @voice_inbox = Current.account.inboxes.find(params[:id] || params[:inbox_id])
+    @voice_inbox = Current.account.inboxes.find(params[:inbox_id])
     authorize @voice_inbox
   end
 

@@ -1,13 +1,13 @@
 module Enterprise::InboxPolicy
-  def conference_token?
+  def token?
     show?
   end
 
-  def conference_join?
+  def create?
     show?
   end
 
-  def conference_leave?
+  def destroy?
     show?
   end
 end

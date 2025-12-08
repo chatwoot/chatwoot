@@ -39,7 +39,7 @@ class VoiceAPI extends ApiClient {
   getToken(inboxId) {
     if (!inboxId) return Promise.reject(new Error('Inbox ID is required'));
     return axios
-      .get(`${this.baseUrl()}/inboxes/${inboxId}/conference_token`)
+      .get(`${this.baseUrl()}/inboxes/${inboxId}/conference/token`)
       .then(r => r.data);
   }
 

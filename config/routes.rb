@@ -205,9 +205,9 @@ Rails.application.routes.draw do
             get :health, on: :member
             if ChatwootApp.enterprise?
               # Conference operations
-              get :conference_token, on: :member, to: 'voice#conference_token'
-              post :conference, on: :member, to: 'voice#conference_join'
-              delete :conference, on: :member, to: 'voice#conference_leave'
+              resource :conference, only: %i[create destroy], controller: 'conference' do
+                get :token, on: :member
+              end
             end
           end
 

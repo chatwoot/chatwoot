@@ -14,8 +14,8 @@ RSpec.describe InboxPolicy do
   it 'allows conference actions when user can show inbox' do
     allow(policy).to receive(:show?).and_return(true)
 
-    expect(policy.conference_token?).to be true
-    expect(policy.conference_join?).to be true
-    expect(policy.conference_leave?).to be true
+    expect(policy.token?).to be true
+    expect(policy.create?).to be true
+    expect(policy.destroy?).to be true
   end
 end
