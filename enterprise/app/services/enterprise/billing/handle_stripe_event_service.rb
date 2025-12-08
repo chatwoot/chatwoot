@@ -34,8 +34,6 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
-    when 'checkout.session.completed'
-      process_checkout_session_completed
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -94,31 +92,6 @@ class Enterprise::Billing::HandleStripeEventService
     return if account.blank?
 
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
-  end
-
-  def process_checkout_session_completed
-    session = @event.data.object
-    metadata = session.metadata
-
-    # Only process topup checkout sessions
-    return unless metadata.present? && metadata['topup'] == 'true'
-
-    topup_account = Account.find_by(id: metadata['account_id'])
-    return if topup_account.blank?
-
-    credits = metadata['credits'].to_i
-    amount_cents = metadata['amount_cents'].to_i
-    currency = metadata['currency'] || 'usd'
-
-    Rails.logger.info("Processing topup for account #{topup_account.id}: #{credits} credits, #{amount_cents} cents")
-    Enterprise::Billing::TopupFulfillmentService.new(account: topup_account).fulfill(
-      credits: credits,
-      amount_cents: amount_cents,
-      currency: currency
-    )
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: topup_account).capture_exception
-    raise
   end
 
   def update_plan_features
