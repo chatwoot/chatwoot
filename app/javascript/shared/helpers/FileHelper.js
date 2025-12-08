@@ -1,3 +1,5 @@
+export const DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE = 40;
+
 export const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return '0 Bytes';
 
@@ -18,4 +20,14 @@ export const checkFileSizeLimit = (file, maximumUploadLimit) => {
   const fileSize = file?.file?.size || file?.size;
   const fileSizeInMB = fileSizeInMegaBytes(fileSize);
   return fileSizeInMB <= maximumUploadLimit;
+};
+
+export const resolveMaximumFileUploadSize = value => {
+  const parsedValue = Number(value);
+
+  if (!Number.isFinite(parsedValue) || parsedValue <= 0) {
+    return DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE;
+  }
+
+  return parsedValue;
 };

@@ -41,6 +41,7 @@ export const FEATURE_FLAGS = {
   CAPTAIN_V2: 'captain_integration_v2',
   SAML: 'saml',
   QUOTED_EMAIL_REPLY: 'quoted_email_reply',
+  COMPANIES: 'companies',
 };
 
 export const PREMIUM_FEATURES = [
@@ -49,6 +50,5 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.CUSTOM_ROLES,
   FEATURE_FLAGS.AUDIT_LOGS,
   FEATURE_FLAGS.HELP_CENTER,
-  FEATURE_FLAGS.CAPTAIN_V2,
   FEATURE_FLAGS.SAML,
 ];

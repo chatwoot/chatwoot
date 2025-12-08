@@ -97,7 +97,7 @@
       "SEND_ATTACHMENT": "Ek Gönder",
       "SEND_MESSAGE": "Mesaj Gönder",
       "CHANGE_PRIORITY": "Önceliği Değiştir",
-      "ADD_PRIVATE_NOTE": "Özel Bir Not Ekle",
+      "ADD_PRIVATE_NOTE": "Özel Not Ekle",
       "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder"
     },
     "PRIORITY_TYPES": {

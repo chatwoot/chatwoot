@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import {
@@ -24,12 +24,13 @@ import SearchResultContactsList from './SearchResultContactsList.vue';
 import SearchResultArticlesList from './SearchResultArticlesList.vue';
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 
 const PER_PAGE = 15; // Results per page
-const selectedTab = ref('all');
-const query = ref('');
+const selectedTab = ref(route.params.tab || 'all');
+const query = ref(route.query.q || '');
 const pages = ref({
   contacts: 1,
   conversations: 1,
@@ -231,9 +232,31 @@ const clearSearchResult = () => {
   store.dispatch('conversationSearch/clearSearchResults');
 };
 
+const updateURL = () => {
+  // Update route with tab as URL parameter and query as query parameter
+  const params = { accountId: route.params.accountId };
+  const queryParams = {};
+
+  // Only add tab param if not 'all'
+  if (selectedTab.value !== 'all') {
+    params.tab = selectedTab.value;
+  }
+
+  if (query.value?.trim()) {
+    queryParams.q = query.value.trim();
+  }
+
+  router.replace({
+    name: 'search',
+    params,
+    query: queryParams,
+  });
+};
+
 const onSearch = q => {
   query.value = q;
   clearSearchResult();
+  updateURL();
   if (!q) return;
   useTrack(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
   store.dispatch('conversationSearch/fullSearch', { q, page: 1 });
@@ -265,8 +288,18 @@ const loadMore = () => {
   });
 };
 
+const onTabChange = tab => {
+  selectedTab.value = tab;
+  updateURL();
+};
+
 onMounted(() => {
   store.dispatch('conversationSearch/clearSearchResults');
+
+  // Auto-execute search if query parameter exists
+  if (route.query.q) {
+    onSearch(route.query.q);
+  }
 });
 
 onUnmounted(() => {
@@ -290,12 +323,12 @@ onUnmounted(() => {
     <section class="flex flex-col flex-grow w-full h-full overflow-hidden">
       <div class="w-full max-w-4xl mx-auto">
         <div class="flex flex-col w-full px-4">
-          <SearchHeader @search="onSearch" />
+          <SearchHeader :initial-query="query" @search="onSearch" />
           <SearchTabs
             v-if="query"
             :tabs="tabs"
             :selected-tab="activeTabIndex"
-            @tab-change="tab => (selectedTab = tab)"
+            @tab-change="onTabChange"
           />
         </div>
       </div>

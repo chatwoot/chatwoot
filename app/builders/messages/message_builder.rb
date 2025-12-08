@@ -1,5 +1,8 @@
 class Messages::MessageBuilder
   include ::FileTypeHelper
+  include ::EmailHelper
+  include ::DataHelper
+
   attr_reader :message
 
   def initialize(user, conversation, params)
@@ -23,7 +26,7 @@ class Messages::MessageBuilder
     process_emails
     # When the message has no quoted content, it will just be rendered as a regular message
     # The frontend is equipped to handle this case
-    process_email_content if @account.feature_enabled?(:quoted_email_reply)
+    process_email_content
     @message.save!
     @message
   end
@@ -38,27 +41,9 @@ class Messages::MessageBuilder
     params = convert_to_hash(@params)
     content_attributes = params.fetch(:content_attributes, {})
 
-    return parse_json(content_attributes) if content_attributes.is_a?(String)
+    return safe_parse_json(content_attributes) if content_attributes.is_a?(String)
     return content_attributes if content_attributes.is_a?(Hash)
 
-    {}
-  end
-
-  # Converts the given object to a hash.
-  # If it's an instance of ActionController::Parameters, converts it to an unsafe hash.
-  # Otherwise, returns the object as-is.
-  def convert_to_hash(obj)
-    return obj.to_unsafe_h if obj.instance_of?(ActionController::Parameters)
-
-    obj
-  end
-
-  # Attempts to parse a string as JSON.
-  # If successful, returns the parsed hash with symbolized names.
-  # If unsuccessful, returns nil.
-  def parse_json(content)
-    JSON.parse(content, symbolize_names: true)
-  rescue JSON::ParserError
     {}
   end
 
@@ -110,12 +95,6 @@ class Messages::MessageBuilder
     email_string.gsub(/\s+/, '').split(',')
   end
 
-  def validate_email_addresses(all_emails)
-    all_emails&.each do |email|
-      raise StandardError, 'Invalid email address' unless email.match?(URI::MailTo::EMAIL_REGEXP)
-    end
-  end
-
   def message_type
     if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
       raise StandardError, 'Incoming messages are only allowed in Api inboxes'
@@ -159,6 +138,7 @@ class Messages::MessageBuilder
       private: @private,
       sender: sender,
       content_type: @params[:content_type],
+      content_attributes: content_attributes.presence,
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
@@ -178,8 +158,17 @@ class Messages::MessageBuilder
     email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
     normalized_content = normalize_email_body(@message.content)
 
-    email_attributes[:html_content] = build_html_content(normalized_content)
-    email_attributes[:text_content] = build_text_content(normalized_content)
+    # Process liquid templates in normalized content with code block protection
+    processed_content = process_liquid_in_email_body(normalized_content)
+
+    # Use custom HTML content if provided, otherwise generate from message content
+    email_attributes[:html_content] = if custom_email_content_provided?
+                                        build_custom_html_content
+                                      else
+                                        build_html_content(processed_content)
+                                      end
+
+    email_attributes[:text_content] = build_text_content(processed_content)
     email_attributes
   end
 
@@ -198,19 +187,41 @@ class Messages::MessageBuilder
     text_content
   end
 
-  def ensure_indifferent_access(hash)
-    return {} if hash.blank?
-
-    hash.respond_to?(:with_indifferent_access) ? hash.with_indifferent_access : hash
+  def custom_email_content_provided?
+    @params[:email_html_content].present?
   end
 
-  def normalize_email_body(content)
-    content.to_s.gsub("\r\n", "\n")
+  def build_custom_html_content
+    html_content = ensure_indifferent_access(@message.content_attributes.dig(:email, :html_content) || {})
+
+    html_content[:full] = @params[:email_html_content]
+    html_content[:reply] = @params[:email_html_content]
+
+    html_content
   end
 
-  def render_email_html(content)
-    return '' if content.blank?
+  # Liquid processing methods for email content
+  def process_liquid_in_email_body(content)
+    return content if content.blank?
+    return content unless should_process_liquid?
 
-    ChatwootMarkdownRenderer.new(content).render_message.to_s
+    # Protect code blocks from liquid processing
+    modified_content = modified_liquid_content(content)
+    template = Liquid::Template.parse(modified_content)
+    template.render(drops_with_sender)
+  rescue Liquid::Error
+    content
+  end
+
+  def should_process_liquid?
+    @message_type == 'outgoing' || @message_type == 'template'
+  end
+
+  def drops_with_sender
+    message_drops(@conversation).merge({
+                                         'agent' => UserDrop.new(sender)
+                                       })
   end
 end
+
+Messages::MessageBuilder.prepend_mod_with('Messages::MessageBuilder')

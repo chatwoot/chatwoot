@@ -1,9 +1,9 @@
-import { createStore } from './storeFactory';
+import { createStore } from '../storeFactory';
 import CaptainToolsAPI from '../../api/captain/tools';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 const toolsStore = createStore({
-  name: 'captainTool',
+  name: 'Tools',
   API: CaptainToolsAPI,
   actions: mutations => ({
     getTools: async ({ commit }) => {
