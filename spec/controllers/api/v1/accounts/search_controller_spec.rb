@@ -148,58 +148,71 @@ RSpec.describe 'Search', type: :request do
       end
 
       it 'filters conversations by since parameter' do
-        old_contact = create(:contact, email: 'oldtimefilter@test.com', account: account)
-        recent_contact = create(:contact, email: 'recenttimefilter@test.com', account: account)
-        old_conversation = create(:conversation, account: account, contact: old_contact, last_activity_at: 10.days.ago)
-        recent_conversation = create(:conversation, account: account, contact: recent_contact, last_activity_at: 2.days.ago)
+        unique_id = SecureRandom.hex(8)
+        old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
+        recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
+        old_conversation = create(:conversation, account: account, contact: old_contact)
+        recent_conversation = create(:conversation, account: account, contact: recent_contact)
         create(:message, conversation: old_conversation, account: account, content: 'message 1')
         create(:message, conversation: recent_conversation, account: account, content: 'message 2')
         create(:inbox_member, user: agent, inbox: old_conversation.inbox)
         create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
+        # Update timestamps directly via SQL to bypass CURRENT_TIMESTAMP database default
+        # rubocop:disable Rails/SkipsModelValidations
+        Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
+        Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+
         get "/api/v1/accounts/#{account.id}/search/conversations",
             headers: agent.create_new_auth_token,
-            params: { q: 'timefilter', since: 5.days.ago.to_i },
+            params: { q: unique_id, since: 5.days.ago.to_i },
             as: :json
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
 
-        conversation_ids = response_data[:payload][:conversations].pluck(:id)
-        expect(conversation_ids).to include(recent_conversation.id)
-        expect(conversation_ids).not_to include(old_conversation.id)
+        conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
+        expect(conversation_display_ids).to eq([recent_conversation.display_id])
       end
 
       it 'filters conversations by until parameter' do
-        old_contact = create(:contact, email: 'olduntilfilter@test.com', account: account)
-        recent_contact = create(:contact, email: 'recentuntilfilter@test.com', account: account)
-        old_conversation = create(:conversation, account: account, contact: old_contact, last_activity_at: 10.days.ago)
-        recent_conversation = create(:conversation, account: account, contact: recent_contact, last_activity_at: 2.days.ago)
+        unique_id = SecureRandom.hex(8)
+        old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
+        recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
+        old_conversation = create(:conversation, account: account, contact: old_contact)
+        recent_conversation = create(:conversation, account: account, contact: recent_contact)
         create(:message, conversation: old_conversation, account: account, content: 'message 1')
         create(:message, conversation: recent_conversation, account: account, content: 'message 2')
         create(:inbox_member, user: agent, inbox: old_conversation.inbox)
         create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
+        # Update timestamps directly via SQL to bypass CURRENT_TIMESTAMP database default
+        # rubocop:disable Rails/SkipsModelValidations
+        Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
+        Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+
         get "/api/v1/accounts/#{account.id}/search/conversations",
             headers: agent.create_new_auth_token,
-            params: { q: 'untilfilter', until: 5.days.ago.to_i },
+            params: { q: unique_id, until: 5.days.ago.to_i },
             as: :json
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
 
-        conversation_ids = response_data[:payload][:conversations].pluck(:id)
-        expect(conversation_ids).to include(old_conversation.id)
-        expect(conversation_ids).not_to include(recent_conversation.id)
+        conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
+        expect(conversation_display_ids).to eq([old_conversation.display_id])
       end
 
       it 'filters conversations by both since and until parameters' do
-        very_old_contact = create(:contact, email: 'veryoldrangefilter@test.com', account: account)
-        old_contact = create(:contact, email: 'oldrangefilter@test.com', account: account)
-        recent_contact = create(:contact, email: 'recentrangefilter@test.com', account: account)
-        very_old_conversation = create(:conversation, account: account, contact: very_old_contact, last_activity_at: 20.days.ago)
-        old_conversation = create(:conversation, account: account, contact: old_contact, last_activity_at: 10.days.ago)
-        recent_conversation = create(:conversation, account: account, contact: recent_contact, last_activity_at: 2.days.ago)
+        unique_id = SecureRandom.hex(8)
+        very_old_contact = create(:contact, email: "veryold-#{unique_id}@test.com", account: account)
+        old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
+        recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
+        very_old_conversation = create(:conversation, account: account, contact: very_old_contact)
+        old_conversation = create(:conversation, account: account, contact: old_contact)
+        recent_conversation = create(:conversation, account: account, contact: recent_contact)
         create(:message, conversation: very_old_conversation, account: account, content: 'message 1')
         create(:message, conversation: old_conversation, account: account, content: 'message 2')
         create(:message, conversation: recent_conversation, account: account, content: 'message 3')
@@ -207,17 +220,23 @@ RSpec.describe 'Search', type: :request do
         create(:inbox_member, user: agent, inbox: old_conversation.inbox)
         create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
+        # Update timestamps directly via SQL to bypass CURRENT_TIMESTAMP database default
+        # rubocop:disable Rails/SkipsModelValidations
+        Conversation.where(id: very_old_conversation.id).update_all(last_activity_at: 20.days.ago)
+        Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
+        Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+
         get "/api/v1/accounts/#{account.id}/search/conversations",
             headers: agent.create_new_auth_token,
-            params: { q: 'rangefilter', since: 15.days.ago.to_i, until: 5.days.ago.to_i },
+            params: { q: unique_id, since: 15.days.ago.to_i, until: 5.days.ago.to_i },
             as: :json
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
 
-        conversation_ids = response_data[:payload][:conversations].pluck(:id)
-        expect(conversation_ids).to include(old_conversation.id)
-        expect(conversation_ids).not_to include(very_old_conversation.id, recent_conversation.id)
+        conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
+        expect(conversation_display_ids).to eq([old_conversation.display_id])
       end
     end
   end
