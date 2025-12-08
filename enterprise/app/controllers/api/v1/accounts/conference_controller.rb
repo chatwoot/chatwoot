@@ -2,7 +2,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   before_action :set_voice_inbox_for_conference
 
   def token
-    render json: Voice::TokenService.new(
+    render json: Voice::Provider::Twilio::TokenService.new(
       inbox: @voice_inbox,
       user: Current.user,
       account: Current.account

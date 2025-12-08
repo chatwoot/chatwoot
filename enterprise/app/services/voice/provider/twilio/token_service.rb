@@ -1,4 +1,4 @@
-class Voice::TokenService
+class Voice::Provider::Twilio::TokenService
   pattr_initialize [:inbox!, :user!, :account!]
 
   def generate

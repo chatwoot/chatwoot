@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Voice::TokenService do
+describe Voice::Provider::Twilio::TokenService do
   let(:account) { create(:account) }
   let(:user) { create(:user, :administrator, account: account) }
   let(:voice_channel) { create(:channel_voice, account: account) }
