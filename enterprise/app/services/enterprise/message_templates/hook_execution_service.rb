@@ -9,6 +9,18 @@ module Enterprise::MessageTemplates::HookExecutionService
     schedule_captain_response
   end
 
+  def should_send_greeting?
+    return false if captain_handling_conversation?
+
+    super
+  end
+
+  def should_send_out_of_office_message?
+    return false if captain_handling_conversation?
+
+    super
+  end
+
   private
 
   def schedule_captain_response
@@ -53,5 +65,9 @@ module Enterprise::MessageTemplates::HookExecutionService
       content: 'Transferring to another agent for further assistance.'
     )
     conversation.bot_handoff!
+  end
+
+  def captain_handling_conversation?
+    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
   end
 end
