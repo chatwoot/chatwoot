@@ -1,4 +1,4 @@
-class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseOpenAiService
+class Captain::Onboarding::WebsiteAnalyzerService < Llm::LegacyBaseOpenAiService
   MAX_CONTENT_LENGTH = 8000
 
   def initialize(website_url)
