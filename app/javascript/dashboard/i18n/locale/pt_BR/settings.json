@@ -251,6 +251,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
       "MESSAGE": "Sua conta está suspensa. Entre em contato com a equipe de suporte para obter mais informações."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Encerrar sessão"
     }
   },
   "COMPONENTS": {
@@ -305,6 +311,10 @@
     "CAPTAIN_DOCUMENTS": "Documentos",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Ferramentas",
+    "CAPTAIN_SCENARIOS": "Cenários",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Caixas de Entrada",
+    "CAPTAIN_SETTINGS": "Configurações",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",

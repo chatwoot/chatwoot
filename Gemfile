@@ -21,6 +21,7 @@ gem 'telephone_number'
 gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
+gem 'email-provider-info'
 # compress javascript config.assets.js_compressor
 gem 'uglifier'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
@@ -53,6 +54,9 @@ gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
+
+##-- for actionmailbox --##
+gem 'aws-actionmailbox-ses', '~> 0'
 
 ##-- gems for database --#
 gem 'groupdate'
@@ -158,7 +162,7 @@ gem 'working_hours'
 gem 'pg_search'
 
 # Subscriptions, Billing
-gem 'stripe'
+gem 'stripe', '~> 18.0'
 
 ## - helper gems --##
 ## to populate db with sample data
@@ -187,10 +191,15 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.4.3'
+gem 'ai-agents', '>= 0.7.0'
 
 # TODO: Move this gem as a dependency of ai-agents
+gem 'ruby_llm', '>= 1.8.2'
 gem 'ruby_llm-schema'
+
+# OpenTelemetry for LLM observability
+gem 'opentelemetry-sdk'
+gem 'opentelemetry-exporter-otlp'
 
 gem 'shopify_api'
 

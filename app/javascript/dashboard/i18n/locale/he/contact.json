@@ -17,10 +17,10 @@
     "IP_ADDRESS": "כתובת IP",
     "CREATED_AT_LABEL": "נוצר",
     "NEW_MESSAGE": "הודעה חדשה",
-    "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL": "שיחה",
+    "CALL_UNDER_DEVELOPMENT": "שיחות עדיין בפיתוח",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "בחר תא דואר עבור שיחות"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "לא קיימות שיחות קודמות המשויכות לאיש קשר זה.",
@@ -290,7 +290,7 @@
     "HEADER": {
       "TITLE": "איש קשר",
       "SEARCH_TITLE": "Search contacts",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "אנשי קשר פעילים",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "הודעה",
       "SEND_MESSAGE": "שלח הודעה",
@@ -465,8 +465,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "הפעולה הזו קבועה ובלתי ניתנת לחזרה.",
+        "BUTTON": "מחק עכשיו"
       }
     },
     "DETAILS": {
@@ -476,7 +476,7 @@
       "DELETE_CONTACT": "מחק איש קשר",
       "DELETE_DIALOG": {
         "TITLE": "אשר מחיקה",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "אתה בטוח שאתה רוצה למחוק את איש הקשר הזה?",
         "CONFIRM": "כן, מחק",
         "API": {
           "SUCCESS_MESSAGE": "איש הקשר נמחק בהצלחה",
@@ -554,12 +554,12 @@
         "WROTE": "נכתב",
         "YOU": "You",
         "SAVE": "Save note",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "הוסף הערה לאיש הקשר",
         "EXPAND": "Expand",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "צמצום",
+        "NO_NOTES": "אין הערות, אתה יכול להוסיף הערה מהעמוד של איש הקשר.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "אין הערות כרגע. השתמש בכפתור להוספת הערה."
       }
     },
     "EMPTY_STATE": {
@@ -568,7 +568,28 @@
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "אין אנשי קשר פעילים 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "הקצה תוויות",
+    "ASSIGN_LABELS_SUCCESS": "תוויות שוייכו בהצלחה.",
+    "ASSIGN_LABELS_FAILED": "שיוך תווית נכשל",
+    "DESCRIPTION": "בחר תווית שאתה רוצה והוסף אותה לאיש קשר.",
+    "NO_LABELS_FOUND": "אין תוויות כרגע.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "נקה בחירה",
+    "SELECT_ALL": "בחר הכל ({count})",
+    "DELETE_CONTACTS": "מחק",
+    "DELETE_SUCCESS": "איש הקשר נמחק בהצלחה.",
+    "DELETE_FAILED": "מחיקת איש קשר נכשלה.",
+    "DELETE_DIALOG": {
+      "TITLE": "מחק אנשי קשר שנבחרו",
+      "SINGULAR_TITLE": "מחק איש קשר שנבחר",
+      "DESCRIPTION": "פעולה זו תמחק לצמיתות {count} אנשי קשר שנבחרו. לא ניתן לשחזר פעולה זו.",
+      "SINGULAR_DESCRIPTION": "פעולה זו תמחק לצמיתות  אנשי קשר שנבחרו. לא ניתן לשחזר פעולה זו.",
+      "CONFIRM_MULTIPLE": "מחק אנשי קשר",
+      "CONFIRM_SINGLE": "מחק איש קשר"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

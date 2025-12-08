@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
 
@@ -10,20 +11,20 @@ import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
-import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/document/LimitBanner.vue';
 
+const route = useRoute();
 const store = useStore();
 
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
 const documents = useMapGetter('captainDocuments/getRecords');
-const assistants = useMapGetter('captainAssistants/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const documentsMeta = useMapGetter('captainDocuments/getMeta');
-const selectedAssistant = ref('all');
+
+const selectedAssistantId = computed(() => Number(route.params.assistantId));
 
 const selectedDocument = ref(null);
 const deleteDocumentDialog = ref(null);
@@ -36,12 +37,6 @@ const showRelatedResponses = ref(false);
 const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
 const relationQuestionDialog = ref(null);
-
-const shouldShowAssistantSelector = computed(() => {
-  if (assistants.value.length === 0) return false;
-
-  return !isFetching.value;
-});
 
 const handleShowRelatedDocument = () => {
   showRelatedResponses.value = true;
@@ -77,15 +72,10 @@ const handleAction = ({ action, id }) => {
 const fetchDocuments = (page = 1) => {
   const filterParams = { page };
 
-  if (selectedAssistant.value !== 'all') {
-    filterParams.assistantId = selectedAssistant.value;
+  if (selectedAssistantId.value) {
+    filterParams.assistantId = selectedAssistantId.value;
   }
   store.dispatch('captainDocuments/get', filterParams);
-};
-
-const handleAssistantFilterChange = assistant => {
-  selectedAssistant.value = assistant;
-  fetchDocuments();
 };
 
 const onPageChange = page => fetchDocuments(page);
@@ -97,9 +87,6 @@ const onDeleteSuccess = () => {
 };
 
 onMounted(() => {
-  if (!assistants.value.length) {
-    store.dispatch('captainAssistants/get');
-  }
   fetchDocuments();
 });
 </script>
@@ -114,6 +101,7 @@ onMounted(() => {
     :show-pagination-footer="!isFetching && !!documents.length"
     :is-fetching="isFetching"
     :is-empty="!documents.length"
+    :show-know-more="false"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
@@ -136,15 +124,6 @@ onMounted(() => {
 
     <template #paywall>
       <CaptainPaywall />
-    </template>
-
-    <template #controls>
-      <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
-        <AssistantSelector
-          :assistant-id="selectedAssistant"
-          @update="handleAssistantFilterChange"
-        />
-      </div>
     </template>
 
     <template #body>
@@ -173,6 +152,7 @@ onMounted(() => {
     <CreateDocumentDialog
       v-if="showCreateDialog"
       ref="createDocumentDialog"
+      :assistant-id="selectedAssistantId"
       @close="handleCreateDialogClose"
     />
     <DeleteDialog

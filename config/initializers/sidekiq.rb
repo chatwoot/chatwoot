@@ -18,8 +18,10 @@ end
 Sidekiq.configure_server do |config|
   config.redis = Redis::Config.app
 
-  config.server_middleware do |chain|
-    chain.add ChatwootDequeuedLogger
+  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_DEQUEUE_LOGGER', false))
+    config.server_middleware do |chain|
+      chain.add ChatwootDequeuedLogger
+    end
   end
 
   # skip the default start stop logging

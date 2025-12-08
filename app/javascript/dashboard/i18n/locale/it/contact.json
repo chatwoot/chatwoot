@@ -13,7 +13,7 @@
     "BROWSER": "Browser",
     "OS": "Sistema Operativo",
     "INITIATED_FROM": "Iniziato da",
-    "INITIATED_AT": "Iniziato alle",
+    "INITIATED_AT": "Avviata alle",
     "IP_ADDRESS": "Indirizzo IP",
     "CREATED_AT_LABEL": "Creato il",
     "NEW_MESSAGE": "Nuovo messaggio",
@@ -470,7 +470,7 @@
       }
     },
     "DETAILS": {
-      "CREATED_AT": "Creato il {date}",
+      "CREATED_AT": "Creato {date}",
       "LAST_ACTIVITY": "Ultima attività {date}",
       "DELETE_CONTACT_DESCRIPTION": "Elimina definitivamente questo contatto. Questa azione è irreversibile",
       "DELETE_CONTACT": "Elimina contatto",
@@ -569,6 +569,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "Nessun contatto corrisponde alla tua ricerca 🔍",
       "LIST_EMPTY_STATE_TITLE": "Nessun contatto disponibile in questa vista 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Nessun contatto attivo al momento 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assegna Etichette",
+    "ASSIGN_LABELS_SUCCESS": "Etichette assegnate correttamente.",
+    "ASSIGN_LABELS_FAILED": "Assegnazione delle etichette non riuscita",
+    "DESCRIPTION": "Selezionare le etichette da aggiungere ai contatti selezionati.",
+    "NO_LABELS_FOUND": "Nessuna etichetta disponibile.",
+    "SELECTED_COUNT": "{count} selezionate",
+    "CLEAR_SELECTION": "Annulla selezione",
+    "SELECT_ALL": "Seleziona tutto ({count})",
+    "DELETE_CONTACTS": "Elimina",
+    "DELETE_SUCCESS": "Contatti eliminati con successo.",
+    "DELETE_FAILED": "Impossibile eliminare i contatti.",
+    "DELETE_DIALOG": {
+      "TITLE": "Elimina i contatti selezionati",
+      "SINGULAR_TITLE": "Elimina il contatto selezionato",
+      "DESCRIPTION": "Questo eliminerà definitivamente i {count} contatti selezionati. Questa azione non può essere annullata.",
+      "SINGULAR_DESCRIPTION": "Questo eliminerà definitivamente il contatto selezionato. Questa azione non può essere annullata.",
+      "CONFIRM_MULTIPLE": "Elimina contatti",
+      "CONFIRM_SINGLE": "Elimina contatto"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

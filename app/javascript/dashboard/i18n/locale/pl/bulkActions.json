@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Nie znaleziono etykiet dla",
+      "NO_LABELS_FOUND": "Brak wyników",
       "ASSIGN_SELECTED_LABELS": "Przypisz wybrane etykiety",
       "ASSIGN_SUCCESFUL": "Etykiety zostały pomyślnie przypisane.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

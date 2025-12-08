@@ -42,6 +42,17 @@ class Channel::Voice < ApplicationRecord
     false
   end
 
+  def initiate_call(to:)
+    case provider
+    when 'twilio'
+      Voice::Provider::TwilioAdapter.new(self).initiate_call(
+        to: to
+      )
+    else
+      raise "Unsupported voice provider: #{provider}"
+    end
+  end
+
   # Public URLs used to configure Twilio webhooks
   def voice_call_webhook_url
     digits = phone_number.delete_prefix('+')
@@ -76,6 +87,15 @@ class Channel::Voice < ApplicationRecord
       errors.add(:provider_config, "#{key} is required for Twilio provider") if config[key].blank?
     end
   end
+  # twilio_client and initiate_twilio_call moved to Voice::Provider::TwilioAdapter
+
+  def provider_config_hash
+    if provider_config.is_a?(Hash)
+      provider_config
+    else
+      JSON.parse(provider_config.to_s)
+    end
+  end
 
   def provision_twilio_on_create
     service = ::Twilio::VoiceWebhookSetupService.new(channel: self)
@@ -96,4 +116,6 @@ class Channel::Voice < ApplicationRecord
     Rails.logger.error("TWILIO_VOICE_SETUP_ON_CREATE_ERROR: #{error_details}")
     errors.add(:base, "Twilio setup failed: #{e.message}")
   end
+
+  public :provider_config_hash
 end

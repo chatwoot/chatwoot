@@ -99,8 +99,14 @@ export default {
       }
       return '';
     },
+    allowedLoginMethods() {
+      return window.chatwootConfig.allowedLoginMethods || ['email'];
+    },
     showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
+      return (
+        this.allowedLoginMethods.includes('google_oauth') &&
+        Boolean(window.chatwootConfig.googleOAuthClientId)
+      );
     },
     isFormValid() {
       return !this.v$.$invalid && this.hasAValidCaptcha;
@@ -296,7 +302,7 @@ export default {
     </form>
     <div class="flex flex-col">
       <SimpleDivider
-        v-if="showGoogleOAuth || showSamlLogin"
+        v-if="showGoogleOAuth"
         :label="$t('COMMON.OR')"
         bg="bg-n-background"
         class="uppercase"
