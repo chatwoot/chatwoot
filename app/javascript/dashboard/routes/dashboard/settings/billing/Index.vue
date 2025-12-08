@@ -132,6 +132,11 @@ const openPurchaseCreditsModal = () => {
   purchaseCreditsModalRef.value?.open();
 };
 
+const handleTopupSuccess = () => {
+  // Refresh limits to show updated credit balance
+  fetchLimits();
+};
+
 onMounted(handleBillingPageLogic);
 </script>
 
@@ -254,7 +259,10 @@ onMounted(handleBillingPageLogic);
           </ButtonV4>
         </BillingHeader>
       </section>
-      <PurchaseCreditsModal ref="purchaseCreditsModalRef" />
+      <PurchaseCreditsModal
+        ref="purchaseCreditsModalRef"
+        @success="handleTopupSuccess"
+      />
     </template>
   </SettingsLayout>
 </template>

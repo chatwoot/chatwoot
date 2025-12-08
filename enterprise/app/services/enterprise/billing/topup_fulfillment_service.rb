@@ -6,6 +6,8 @@ class Enterprise::Billing::TopupFulfillmentService
       create_stripe_credit_grant(credits, amount_cents, currency)
       update_account_credits(credits)
     end
+
+    Rails.logger.info("Topup fulfilled for account #{account.id}: #{credits} credits, #{amount_cents} cents")
   end
 
   private
