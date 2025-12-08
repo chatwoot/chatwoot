@@ -44,7 +44,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def set_voice_inbox_for_conference
     @voice_inbox = Current.account.inboxes.find(params[:inbox_id])
-    authorize @voice_inbox
+    authorize @voice_inbox, :show?
   end
 
   def fetch_conversation_by_display_id
