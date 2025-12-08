@@ -208,16 +208,16 @@ watch(() => modelValue.value, resolveContactName, { immediate: true });
 <template>
   <div
     v-on-click-outside="() => toggleDropdown(false)"
-    class="relative flex items-center group"
+    class="relative flex items-center group min-w-0 max-w-full"
   >
     <Button
       sm
-      outline
+      :variant="showDropdown ? 'faded' : 'ghost'"
       slate
       :label="selectedLabel"
       trailing-icon
       icon="i-lucide-chevron-down"
-      class="outline-dashed"
+      class="!px-2 max-w-full"
       @click="onToggleDropdown"
     />
     <DropdownMenu

@@ -96,16 +96,16 @@ const onToggleDropdown = () => {
 <template>
   <div
     v-on-click-outside="() => toggleDropdown(false)"
-    class="relative flex items-center group"
+    class="relative flex items-center group min-w-0 max-w-full"
   >
     <Button
       sm
-      outline
+      :variant="showDropdown ? 'faded' : 'ghost'"
       slate
       :label="selectedLabel"
       trailing-icon
       icon="i-lucide-chevron-down"
-      class="outline-dashed"
+      class="!px-2 max-w-full"
       @click="onToggleDropdown"
     />
     <DropdownMenu
@@ -113,7 +113,7 @@ const onToggleDropdown = () => {
       :menu-sections="menuSections"
       show-search
       disable-local-filtering
-      class="mt-1 ltr:left-0 rtl:right-0 top-full w-64 max-h-80 overflow-y-auto"
+      class="mt-1 ltr:right-0 rtl:left-0 top-full w-64 max-h-80 overflow-y-auto"
       @search="searchQuery = $event"
       @action="handleAction"
     />

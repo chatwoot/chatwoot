@@ -26,7 +26,6 @@ const modelValue = defineModel({
 
 const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();
-const [showRangeTypeDropdown, toggleRangeTypeDropdown] = useToggle();
 
 const customFrom = ref('');
 const customTo = ref('');
@@ -35,6 +34,9 @@ const rangeType = ref(DATE_RANGE_TYPES.BETWEEN);
 // Calculate min date (90 days ago) for date inputs
 const minDate = computed(() => format(subDays(new Date(), 90), 'yyyy-MM-dd'));
 const maxDate = computed(() => format(new Date(), 'yyyy-MM-dd'));
+
+// Check if both custom date inputs have values
+const hasCustomDates = computed(() => customFrom.value && customTo.value);
 
 const DATE_FILTER_ACTIONS = {
   PRESET: 'preset',
@@ -56,30 +58,6 @@ const PRESET_RANGES = computed(() => [
     label: t('SEARCH.DATE_RANGE.LAST_90_DAYS'),
     value: DATE_RANGE_TYPES.LAST_90_DAYS,
     days: 90,
-  },
-]);
-
-const RANGE_TYPES = computed(() => [
-  {
-    label: t('SEARCH.DATE_RANGE.BETWEEN'),
-    value: DATE_RANGE_TYPES.BETWEEN,
-    action: DATE_FILTER_ACTIONS.SELECT,
-
-    isSelected: rangeType.value === DATE_RANGE_TYPES.BETWEEN,
-  },
-  {
-    label: t('SEARCH.DATE_RANGE.BEFORE'),
-    value: DATE_RANGE_TYPES.BEFORE,
-    action: DATE_FILTER_ACTIONS.SELECT,
-
-    isSelected: rangeType.value === DATE_RANGE_TYPES.BEFORE,
-  },
-  {
-    label: t('SEARCH.DATE_RANGE.AFTER'),
-    value: DATE_RANGE_TYPES.AFTER,
-    action: DATE_FILTER_ACTIONS.SELECT,
-
-    isSelected: rangeType.value === DATE_RANGE_TYPES.AFTER,
   },
 ]);
 
@@ -144,30 +122,20 @@ const applyCustomRange = () => {
     ? endOfDay(new Date(customTo.value))
     : null;
 
-  let start = null;
-  let end = null;
-
-  if (
-    rangeType.value === DATE_RANGE_TYPES.BETWEEN &&
-    customFromDate &&
-    customToDate
-  ) {
-    start = customFromDate;
-    end = customToDate;
-  } else if (rangeType.value === DATE_RANGE_TYPES.BEFORE && customToDate) {
-    end = customToDate;
-  } else if (rangeType.value === DATE_RANGE_TYPES.AFTER && customFromDate) {
-    start = customFromDate;
-  }
-
-  if (start || end) {
+  // Only BETWEEN mode - require both dates
+  if (customFromDate && customToDate) {
     applySelection({
-      type: rangeType.value,
-      from: start ? getUnixTime(start) : null,
-      to: end ? getUnixTime(end) : null,
+      type: DATE_RANGE_TYPES.BETWEEN,
+      from: getUnixTime(customFromDate),
+      to: getUnixTime(customToDate),
     });
     toggleDropdown(false);
   }
+};
+
+const clearCustomRange = () => {
+  customFrom.value = '';
+  customTo.value = '';
 };
 
 const formatDate = timestamp => format(fromUnixTime(timestamp), 'MMM d, yyyy'); // (e.g., "Jan 15, 2024")
@@ -180,34 +148,14 @@ const selectedLabel = computed(() => {
   const preset = PRESET_RANGES.value.find(p => p.value === selectedValue.value);
   if (preset) return `${prefix}: ${preset.label}`;
 
-  // Custom ranges
+  // Custom range - only BETWEEN mode with both dates
   const { from, to } = modelValue.value;
   if (from && to) return `${prefix}: ${formatDate(from)} - ${formatDate(to)}`;
-  if (to)
-    return `${prefix}: ${t('SEARCH.DATE_RANGE.BEFORE_DATE', { date: formatDate(to) })}`;
-  if (from)
-    return `${prefix}: ${t('SEARCH.DATE_RANGE.AFTER_DATE', { date: formatDate(from) })}`;
 
   return `${prefix}: ${t('SEARCH.DATE_RANGE.CUSTOM_RANGE')}`;
 });
 
-const selectedRangeTypeLabel = computed(
-  () => RANGE_TYPES.value.find(type => type.value === rangeType.value)?.label
-);
-
-const handleRangeTypeAction = item => {
-  customFrom.value = '';
-  customTo.value = '';
-  rangeType.value = item.value;
-  toggleRangeTypeDropdown(false);
-};
-
-const CUSTOM_RANGE_TYPES = [
-  DATE_RANGE_TYPES.BETWEEN,
-  DATE_RANGE_TYPES.BEFORE,
-  DATE_RANGE_TYPES.AFTER,
-  DATE_RANGE_TYPES.CUSTOM,
-];
+const CUSTOM_RANGE_TYPES = [DATE_RANGE_TYPES.BETWEEN, DATE_RANGE_TYPES.CUSTOM];
 
 const onToggleDropdown = () => {
   if (!showDropdown.value) {
@@ -237,13 +185,14 @@ const onToggleDropdown = () => {
 <template>
   <div
     v-on-click-outside="() => toggleDropdown(false)"
-    class="relative flex items-center group"
+    class="relative flex items-center group min-w-0 max-w-full"
   >
     <Button
       sm
       slate
+      :variant="showDropdown ? 'faded' : 'solid'"
       :label="selectedLabel"
-      class="group-hover:bg-n-alpha-2"
+      class="group-hover:bg-n-alpha-2 max-w-full"
       trailing-icon
       icon="i-lucide-chevron-down"
       @click="onToggleDropdown()"
@@ -251,81 +200,65 @@ const onToggleDropdown = () => {
     <DropdownMenu
       v-if="showDropdown"
       :menu-items="menuItems"
-      class="mt-1 ltr:left-0 rtl:right-0 top-full w-[20.5rem]"
+      class="mt-1 ltr:left-0 rtl:right-0 top-full w-64"
       @action="handlePresetAction"
     >
       <template #footer>
         <div class="h-px bg-n-strong" />
-        <div class="px-2 flex flex-col gap-1 items-start mb-2">
-          <p class="text-sm font-medium text-n-slate-11 pt-2 pb-3 mb-0">
-            {{ t('SEARCH.DATE_RANGE.CUSTOM_RANGE') }}
-          </p>
-
-          <div class="flex items-center flex-wrap gap-2">
-            <span class="text-sm text-n-slate-12">
-              {{ t('SEARCH.DATE_RANGE.CREATED') }}
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2 px-1 h-9">
+            <span class="text-sm text-n-slate-11">
+              {{ t('SEARCH.DATE_RANGE.CUSTOM_RANGE') }}
             </span>
-            <div
-              v-on-click-outside="() => toggleRangeTypeDropdown(false)"
-              class="relative"
-            >
-              <Button
-                sm
-                slate
-                :label="selectedRangeTypeLabel"
-                trailing-icon
-                icon="i-lucide-chevron-down"
-                @click="toggleRangeTypeDropdown()"
-              />
-              <DropdownMenu
-                v-if="showRangeTypeDropdown"
-                :menu-items="RANGE_TYPES"
-                class="top-full mt-1 left-0 w-32"
-                @action="handleRangeTypeAction"
-              />
-            </div>
-            <input
-              v-if="rangeType !== 'before'"
-              v-model="customFrom"
-              type="date"
-              :min="minDate"
-              :max="customTo || maxDate"
-              class="!w-[7.75rem] !mb-0 !rounded-md !bg-transparent !outline-n-strong -outline-offset-1 !px-2 !py-1 !text-sm text-n-slate-12 !h-8"
-            />
-            <span
-              v-if="rangeType === 'between'"
-              class="text-sm text-n-slate-12"
-            >
+            <span class="text-sm text-n-slate-12">
+              {{ t('SEARCH.DATE_RANGE.CREATED_BETWEEN') }}
+            </span>
+          </div>
+
+          <input
+            v-model="customFrom"
+            type="date"
+            :min="minDate"
+            :max="customTo || maxDate"
+            class="!w-full !mb-0 !rounded-lg !bg-n-alpha-black2 !outline-n-strong -outline-offset-1 !px-3 !py-2 !text-sm text-n-slate-12 !h-8"
+          />
+
+          <div class="flex items-center gap-3 h-5 px-1">
+            <div class="flex-1 h-px bg-n-weak" />
+            <span class="text-sm text-n-slate-11">
               {{ t('SEARCH.DATE_RANGE.AND') }}
             </span>
-            <input
-              v-if="rangeType !== 'after'"
-              v-model="customTo"
-              type="date"
-              :min="customFrom || minDate"
-              :max="maxDate"
-              class="!w-[7.75rem] !mb-0 !rounded-md !bg-transparent !outline-n-strong -outline-offset-1 !px-2 !py-1 !text-sm text-n-slate-12 !h-8"
+            <div class="flex-1 h-px bg-n-weak" />
+          </div>
+
+          <input
+            v-model="customTo"
+            type="date"
+            :min="customFrom || minDate"
+            :max="maxDate"
+            class="!w-full !mb-0 !rounded-lg !bg-n-alpha-black2 !outline-n-strong -outline-offset-1 !px-3 !py-2 !text-sm text-n-slate-12 !h-8"
+          />
+
+          <div class="flex items-center gap-2 mt-2">
+            <Button
+              sm
+              slate
+              faded
+              :label="t('SEARCH.DATE_RANGE.CLEAR_FILTER')"
+              :disabled="!hasCustomDates"
+              class="flex-1 justify-center"
+              @click="clearCustomRange"
+            />
+            <Button
+              sm
+              solid
+              color="blue"
+              :label="t('SEARCH.DATE_RANGE.APPLY')"
+              :disabled="!hasCustomDates"
+              class="flex-1 justify-center"
+              @click="applyCustomRange"
             />
           </div>
-        </div>
-        <div class="flex items-center gap-2 px-2 pb-2">
-          <Button
-            v-if="selectedValue"
-            sm
-            faded
-            slate
-            :label="t('SEARCH.DATE_RANGE.CLEAR_FILTER')"
-            class="flex-1 justify-center"
-            @click="clearFilter"
-          />
-          <Button
-            sm
-            solid
-            color="blue"
-            :label="t('SEARCH.DATE_RANGE.APPLY')"
-            class="flex-1 justify-center"
-            @click="applyCustomRange"
-          />
         </div>
       </template>
     </DropdownMenu>

@@ -6,8 +6,6 @@ export const DATE_RANGE_TYPES = {
   LAST_90_DAYS: 'last_90_days',
   CUSTOM: 'custom',
   BETWEEN: 'between',
-  BEFORE: 'before',
-  AFTER: 'after',
 };
 
 export const generateURLParams = ({ from, in: inboxId, dateRange }) => {
@@ -19,8 +17,9 @@ export const generateURLParams = ({ from, in: inboxId, dateRange }) => {
   if (dateRange?.type) {
     const { type, from: dateFrom, to: dateTo } = dateRange;
     params.range = type;
-    if (dateFrom && type !== DATE_RANGE_TYPES.BEFORE) params.since = dateFrom;
-    if (dateTo && type !== DATE_RANGE_TYPES.AFTER) params.until = dateTo;
+
+    if (dateFrom) params.since = dateFrom;
+    if (dateTo) params.until = dateTo;
   }
 
   return params;
@@ -31,9 +30,7 @@ export const parseURLParams = query => {
 
   let type = range;
   if (!type && (since || until)) {
-    if (since && until) type = DATE_RANGE_TYPES.BETWEEN;
-    else if (since) type = DATE_RANGE_TYPES.AFTER;
-    else if (until) type = DATE_RANGE_TYPES.BEFORE;
+    type = DATE_RANGE_TYPES.BETWEEN;
   }
 
   return {

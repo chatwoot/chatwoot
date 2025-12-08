@@ -374,7 +374,7 @@ onUnmounted(() => {
       />
     </div>
     <section class="flex flex-col flex-grow w-full h-full overflow-hidden">
-      <div class="w-full max-w-4xl mx-auto z-[60]">
+      <div class="w-full max-w-5xl mx-auto z-[60]">
         <div class="flex flex-col w-full px-4">
           <SearchHeader
             v-model:filters="filters"
@@ -391,7 +391,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="flex-grow w-full h-full overflow-y-auto">
-        <div class="w-full max-w-4xl mx-auto px-4 pb-6">
+        <div class="w-full max-w-5xl mx-auto px-4 pb-6">
           <div v-if="showResultsSection">
             <Policy
               :permissions="[...ROLES, CONTACT_PERMISSIONS]"
