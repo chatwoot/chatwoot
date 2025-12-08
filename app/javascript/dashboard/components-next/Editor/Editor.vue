@@ -137,19 +137,6 @@ watch(
 .editor-wrapper {
   ::v-deep {
     .ProseMirror-menubar-wrapper {
-      @apply gap-2 !important;
-
-      .ProseMirror-menubar {
-        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5 !top-0 !relative !important;
-
-        .ProseMirror-menuitem {
-          @apply h-5 !important;
-        }
-
-        .ProseMirror-icon {
-          @apply p-1 w-3 h-3 text-n-slate-12 dark:text-n-slate-12 !important;
-        }
-      }
       .ProseMirror.ProseMirror-woot-style {
         p {
           @apply first:mt-0 !important;

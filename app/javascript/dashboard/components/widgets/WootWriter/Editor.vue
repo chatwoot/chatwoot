@@ -804,14 +804,26 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 @import '@chatwoot/prosemirror-schema/src/styles/base.scss';
 
 .ProseMirror-menubar-wrapper {
-  @apply flex flex-col;
+  @apply flex flex-col gap-3;
 
   .ProseMirror-menubar {
     min-height: 1.25rem !important;
-    @apply -ml-1.5 pb-0 bg-transparent text-n-slate-11;
+    @apply items-center gap-4 flex pb-0 bg-transparent text-n-slate-11 relative ltr:-left-[3px] rtl:-right-[3px];
 
     .ProseMirror-menu-active {
       @apply bg-n-slate-5 dark:bg-n-solid-3 !important;
+    }
+
+    .ProseMirror-menuitem {
+      @apply mr-0 size-4 flex items-center justify-center;
+
+      .ProseMirror-icon {
+        @apply size-4 flex items-center justify-center flex-shrink-0;
+
+        svg {
+          @apply size-full;
+        }
+      }
     }
   }
 
