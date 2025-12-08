@@ -62,6 +62,9 @@ zh_CN:
         invalid: 无效的电子邮件
       phone_number:
         invalid: 应该是e164格式
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: 在类别和门户中应该是唯一的
@@ -73,6 +76,7 @@ zh_CN:
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
@@ -185,6 +189,8 @@ zh_CN:
       captain:
         resolved: '对话被系统标记为已解决, 原因是 %{user_name} 不活跃'
         open: '对话被 %{user_name} 打开'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: '对话被标记由 %{user_name} 解决'
         contact_resolved: '对话被 %{contact_name} 重新打开'

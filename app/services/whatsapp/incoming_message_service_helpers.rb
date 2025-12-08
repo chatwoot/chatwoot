@@ -47,17 +47,8 @@ module Whatsapp::IncomingMessageServiceHelpers
     %w[reaction ephemeral unsupported request_welcome].include?(message_type)
   end
 
-  def argentina_phone_number?(phone_number)
-    phone_number.match(/^54/)
-  end
-
-  def normalised_argentina_mobil_number(phone_number)
-    # Remove 9 before country code
-    phone_number.sub(/^549/, '54')
-  end
-
   def processed_waid(waid)
-    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact(waid)
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(waid, :cloud)
   end
 
   def error_webhook_event?(message)

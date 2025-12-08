@@ -14,24 +14,24 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Недоступен"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Мы в сети",
     "OFFLINE": "В данный момент мы отсутствуем",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "Мы вернемся как можно скорее"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
     "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
     "IN_A_DAY": "Обычно отвечаем в течение дня",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_IN_HOURS": "Мы будем доступны через {n} час | Мы вернемся к вам через {n} часов",
+    "BACK_IN_MINUTES": "Мы будем доступны {time} минут",
+    "BACK_AT_TIME": "Мы будем доступны {time}",
+    "BACK_ON_DAY": "Мы будем доступны в {day}",
+    "BACK_TOMORROW": "Мы будем доступны завтра",
+    "BACK_IN_SOME_TIME": "Мы будем доступны через некоторое время"
   },
   "DAY_NAMES": {
     "SUNDAY": "Воскресенье",

@@ -53,11 +53,11 @@
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "Предпочитаемый язык",
+          "NOTE": "Выберите язык, который вы хотите использовать.",
+          "UPDATE_SUCCESS": "Ваши языковые настройки успешно обновлены",
+          "UPDATE_ERROR": "Произошла ошибка при обновлении языковых настроек, пожалуйста, попробуйте снова",
+          "USE_ACCOUNT_DEFAULT": "Использовать учетную запись по умолчанию"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -81,19 +81,19 @@
         "BTN_TEXT": "Изменить пароль"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "Безопасность",
+        "NOTE": "Управление дополнительными функциями безопасности для вашей учетной записи.",
+        "MFA_BUTTON": "Управление двухфакторной аутентификацией"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Токен доступа",
         "NOTE": "Этот токен может быть использован, если вы настраиваете интеграцию на основе API",
         "COPY": "Копировать",
         "RESET": "Сброс",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "CONFIRM_RESET": "Вы уверены?",
+        "CONFIRM_HINT": "Нажмите еще раз для подтверждения",
+        "RESET_SUCCESS": "Токен доступа успешно сгенерирован",
+        "RESET_ERROR": "Не удалось сгенерировать токен доступа. Попробуйте ещё раз"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Аудио уведомления",
@@ -203,7 +203,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
         "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "IMPERSONATING_ERROR": "Невозможно изменить доступность выдавая себя за пользователя"
       },
       "EMAIL": {
         "LABEL": "Ваш адрес электронной почты",
@@ -238,7 +238,7 @@
     "APPEARANCE": "Изменить внешний вид",
     "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
     "DOCS": "Открыть документацию",
-    "CHANGELOG": "Changelog",
+    "CHANGELOG": "Журнал изменений",
     "LOGOUT": "Выйти из системы"
   },
   "APP_GLOBAL": {
@@ -251,6 +251,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Аккаунт заблокирован",
       "MESSAGE": "Ваша учетная запись приостановлена. Пожалуйста, обратитесь в службу поддержки для получения дополнительной информации."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Выйти из системы"
     }
   },
   "COMPONENTS": {
@@ -304,7 +310,11 @@
     "CAPTAIN_ASSISTANTS": "Ассистенты",
     "CAPTAIN_DOCUMENTS": "Документы",
     "CAPTAIN_RESPONSES": "FAQ",
-    "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_TOOLS": "Инструменты",
+    "CAPTAIN_SCENARIOS": "Сценарии",
+    "CAPTAIN_PLAYGROUND": "Площадка",
+    "CAPTAIN_INBOXES": "Источники",
+    "CAPTAIN_SETTINGS": "Настройки",
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "AGENT_BOTS": "Боты",
@@ -343,7 +353,7 @@
     "REPORTS_LABEL": "Категории",
     "REPORTS_INBOX": "Электронная почта",
     "REPORTS_TEAM": "Команда",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "AGENT_ASSIGNMENT": "Назначение агента",
     "SET_AVAILABILITY_TITLE": "Установить себя",
     "SET_YOUR_AVAILABILITY": "Настройте ваши рабочие часы",
     "SLA": "SLA",
@@ -365,7 +375,7 @@
       "INFO_SHORT": "Автоматически отмечать оффлайн, когда вы не используете приложение."
     },
     "DOCS": "Открыть документацию",
-    "SECURITY": "Security"
+    "SECURITY": "Безопасность"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Платёж",
@@ -398,73 +408,73 @@
     "NO_BILLING_USER": "Ваш платёжный счёт настраивается. Пожалуйста, обновите страницу и повторите попытку."
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
+    "TITLE": "Безопасность",
+    "DESCRIPTION": "Управление настройками безопасности вашего аккаунта.",
+    "LINK_TEXT": "Узнать больше о SAML SSO",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "Настройка единого SAML входа для вашей учетной записи. Пользователи будут аутентифицироваться через вашего провайдера идентификации вместо использования электронной почты/пароля.",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "Assertion Consumer Service URL - Настройте этот URL в IdP в качестве назначения для SAML ответов"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "URL, куда будут отправляться запросы аутентификации SAML",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "Подписанный сертификат в формате PEM",
+        "HELP": "Публичный сертификат от вашего поставщика сертификатов используемый для проверки SAML ответов",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "Отпечаток",
+        "TOOLTIP": "Отпечаток SHA-1 сертификата. Используется для проверки сертификата в конфигурации IdP"
       },
       "COPY_SUCCESS": "Код скопирован в буфер обмена",
       "SP_ENTITY_ID": {
-        "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "LABEL": "ID сущности SP",
+        "HELP": "Уникальный идентификатор для этого приложения как поставщика услуг (автосгенерированный).",
+        "TOOLTIP": "Уникальный идентификатор для Chatwoot как поставщик услуг - Настройте это в настройках IdP"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "ID сущности провайдера идентификации",
+        "HELP": "Уникальный идентификатор для вашего поставщика идентификации (обычно находится в конфигурации IdP)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "Обновить настройки SAML",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "Настройки SAML успешно обновлены",
+        "ERROR": "Не удалось обновить настройки SAML",
+        "ERROR_LOADING": "Не удалось загрузить настройки SAML",
+        "DISABLED": "SAML настройки успешно отключены"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL, идентификатор сущности провайдера и сертификат являются обязательными полями",
+        "SSO_URL_ERROR": "Пожалуйста, введите правильный SSO URL",
+        "CERTIFICATE_ERROR": "Сертификат обязателен",
+        "IDP_ENTITY_ID_ERROR": "ID сущности поставщика идентификации обязателен"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "AVAILABLE_ON": "Функция SAML SSO доступна только в Enterprise plan.",
+        "UPGRADE_PROMPT": "Обновитесь до Enterprise plan, чтобы получить доступ к единому входу SAML и другим продвинутым функциям безопасности.",
         "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "TITLE": "Обновитесь, чтобы включить SAML SSO",
+        "AVAILABLE_ON": "Функция SAML SSO доступна только в Enterprise plan.",
+        "UPGRADE_PROMPT": "Обновите свой тарифный план, чтобы получить доступ к единому входу SAML и другим расширенным функциям.",
         "UPGRADE_NOW": "Обновить сейчас",
         "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "Настройки SAML Атрибута",
+        "DESCRIPTION": "Следующие сопоставления атрибутов должны быть настроены в вашем поставщике идентификации"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "Информация о поставщике услуг SAML",
+        "TOOLTIP": "Скопируйте эти значения и настройте их в вашем поставщике идентификации для установления соединения SAML"
       }
     }
   },
@@ -508,84 +518,84 @@
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "Назначение агента",
+        "DESCRIPTION": "Определите политики для эффективного управления нагрузкой и маршрутами диалогов в зависимости от потребностей входящих сообщений и агентов. Узнайте больше здесь"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "Назначение политики",
+        "DESCRIPTION": "Управление тем, как диалоги назначаются во входящих.",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "Назначать диалоги равномерно или по доступному объему",
+          "Добавить правила справедливого распределения во избежание перегрузки любого агента",
+          "Добавить ящики в политику - по одной политике на ящик"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "Политика нагрузки агента",
+        "DESCRIPTION": "Управление загрузкой агентов.",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "Определить максимальное количество диалогов во входящих",
+          "Создавать исключения, основанные на метках и времени",
+          "Добавить агента в политику - по одной политике на агента"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "Назначение политики",
+          "CREATE_POLICY": "Новая политика"
         },
         "CARD": {
-          "ORDER": "Order",
+          "ORDER": "Соритировка",
           "PRIORITY": "Приоритет",
           "ACTIVE": "Активно",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
+          "INACTIVE": "Неактивен",
+          "POPOVER": "Добавленные ящики",
           "EDIT": "Редактировать"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "Не найдены связанные политики"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "Создать связанную политику"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "Создать политику",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "SUCCESS_MESSAGE": "Связанная политика успешно создана",
+          "ERROR_MESSAGE": "Не удалось создать связанную политику"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "Изменение связанной политики"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "Изменить политику",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "Добавить почту",
+          "DESCRIPTION": "{inboxName} ящик уже связан с другой политикой. Вы уверены, что хотите связать его с этой политикой? Он будет удален из другой политики.",
+          "CONFIRM_BUTTON_LABEL": "Продолжить",
           "CANCEL_BUTTON_LABEL": "Отменить"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "Связанная политика успешно обновлена",
+          "ERROR_MESSAGE": "Не удалось обновить связанную политику"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "Почтовый ящик добавлен в политику",
+            "ERROR_MESSAGE": "Не удалось добавить почтовый ящик в политику"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "Почтовый ящик удалён из политики",
+            "ERROR_MESSAGE": "Не удалось удалить почтовый ящик из политики"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "Название политики:",
+          "PLACEHOLDER": "Введите название политики"
         },
         "DESCRIPTION": {
           "LABEL": "Описание:",
@@ -594,163 +604,163 @@
         "STATUS": {
           "LABEL": "Статус:",
           "PLACEHOLDER": "Выбрать статус",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "ACTIVE": "Политика активна",
+          "INACTIVE": "Политика неактивна"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "Порядок назначения",
           "ROUND_ROBIN": {
             "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "DESCRIPTION": "Назначить разговоры равномерно между агентами."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "Сбалансированный",
+            "DESCRIPTION": "Назначить диалоги на основе доступной пропускной способности."
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "Приоритет назначения",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "Раннее созданное",
+            "DESCRIPTION": "Созданный диалог назначается в первую очередь."
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "Длительное ожидание",
+            "DESCRIPTION": "Сначала назначается диалог, ожидающий назначения дольше всех."
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "Политика справедливого распределения",
+          "DESCRIPTION": "Установите максимальное количество писем, которые могут быть назначены каждому агенту в пределах окна времени, чтобы избежать перезагрузки любого одного агента. Это требуемое поле по умолчанию используется для 100 диалогов в час.",
+          "INPUT_MAX": "Назначить макс.",
+          "DURATION": "Диалоги на каждого агента в каждом"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "Добавленные ящики",
+          "DESCRIPTION": "Добавьте почтовые ящики, для которых будет применяться эта политика.",
+          "ADD_BUTTON": "Добавить почту",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "SEARCH_PLACEHOLDER": "Поиск и выбор почтовых ящиков для добавления",
             "ADD_BUTTON": "Добавить"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "Нет почтовых ящиков в этой политике, добавьте ящики для начала",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "Почтовый ящик успешно добавлен в политику",
+            "ERROR_MESSAGE": "Не удалось добавить почтовый ящик в политику"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "Связанная политика успешно удалена",
+        "ERROR_MESSAGE": "Не удалось удалить связанную политику"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "Пропускная способность сотрудника",
+          "CREATE_POLICY": "Новая политика"
         },
         "CARD": {
-          "POPOVER": "Added agents",
+          "POPOVER": "Добавленные агенты",
           "EDIT": "Редактировать"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "Политики пропускной способности агентов не найдены"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "Создать политики нагрузки агента"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "Создать политику",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "Политика нагрузки сотрудника успешно создана",
+          "ERROR_MESSAGE": "Не удалось создать политику нагрузки агента"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "Изменить политики нагрузки агента"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "Изменить политику",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
-          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "Добавить оператора",
+          "DESCRIPTION": "{agentName} уже связан с другой политикой. Вы уверены, что хотите связать его с этой политикой? Он будет удален из другой политики.",
+          "CONFIRM_BUTTON_LABEL": "Продолжить",
           "CANCEL_BUTTON_LABEL": "Отменить"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "Политика нагрузки сотрудника успешно обновлена",
+          "ERROR_MESSAGE": "Не удалось обновить политику нагрузки агента"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "Оператор успешно добавлен в политику",
+            "ERROR_MESSAGE": "Не удалось добавить агента в политику"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "Агент успешно удален из политики",
+            "ERROR_MESSAGE": "Не удалось удалить агента из политики"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "Название политики:",
+          "PLACEHOLDER": "Введите название политики"
         },
         "DESCRIPTION": {
           "LABEL": "Описание:",
           "PLACEHOLDER": "Введите описание"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "Ограничение лимитов ящика",
+          "ADD_BUTTON": "Добавить почтовый ящик",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "Выбрать почтовый ящик",
+            "MAX_CONVERSATIONS": "Максимум диалогов",
+            "SET_LIMIT": "Установить лимит"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "Не установлен лимит почтового ящика"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "Правила исключения",
+          "DESCRIPTION": "Диалоги, которые удовлетворяют следующим условиям, не будут учитываться в качестве агентских возможностей",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "Исключить диалоги со специальными метками",
+            "ADD_TAG": "добавить тег",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "Поиск и выбор тегов для добавления"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "Нет добавленных тегов в этой политике."
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "Исключить диалоги старше указанного срока",
+            "PLACEHOLDER": "Установить время"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "Назначенные агенты",
+          "DESCRIPTION": "Добавьте агентов, для которых будет применяться эта политика.",
+          "ADD_BUTTON": "Добавить агента",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "SEARCH_PLACEHOLDER": "Поиск и выбор агентов для добавления",
             "ADD_BUTTON": "Добавить"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "Агенты не добавлены",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "Агент успешно добавлен в политику",
+            "ERROR_MESSAGE": "Не удалось добавить агента в политику"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "Политика нагрузки сотрудника успешно удалена",
+        "ERROR_MESSAGE": "Не удалось удалить политику нагрузки агента"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "Удалить политику",
+      "DESCRIPTION": "Вы уверены, что хотите удалить эту политику? Это действие не может быть отменено.",
       "CONFIRM_BUTTON_LABEL": "Удалить",
       "CANCEL_BUTTON_LABEL": "Отменить"
     }

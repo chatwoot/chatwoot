@@ -160,8 +160,8 @@
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "CNAME talimatları başarıyla gönderildi",
+            "ERROR_MESSAGE": "CNAME talimatları gönderilirken hata oluştu"
           }
         }
       },
@@ -742,7 +742,7 @@
           "LABEL": "Live chat widget",
           "PLACEHOLDER": "Select live chat widget",
           "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
+          "NONE_OPTION": "Widget yok"
         },
         "BRAND_COLOR": {
           "LABEL": "Brand color"
@@ -779,7 +779,7 @@
             "COPY": "CNAME başarıyla kopyalandı",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Talimatları gönder",
-              "DESCRIPTION": "Bu adımı geliştirme ekibinizden birinin yapmasını tercih ediyorsanız, aşağıya mail adresini girin; gerekli talimatları onlara gönderelim.",
+              "DESCRIPTION": "Bu adımı geliştirme ekibinizden birinin halletmesini tercih ederseniz, ilgili e-posta adresini aşağıya girebilirsiniz; gerekli talimatları onlara göndereceğiz.",
               "PLACEHOLDER": "E-posta adreslerini girin",
               "ERROR": "Geçerli bir mail adresi girin",
               "SEND_BUTTON": "Gönder"
@@ -815,7 +815,7 @@
       "DRAG_DROP_TEXT": "PDF dosyanızı buraya sürükleyip bırakın veya tıklayarak seçin",
       "SELECT_FILE": "PDF Dosyasını Seç",
       "ADDITIONAL_CONTEXT_LABEL": "Ek Bağlam (İsteğe Bağlı)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "SSS üretimi için ek bağlam veya talimatlar sağlayın...",
       "UPLOADING": "Yükleniyor ...",
       "UPLOAD": "Yükle & İşle",
       "CANCEL": "İptal Et",
@@ -829,12 +829,12 @@
       "UPLOAD_PDF": "PDF yükle",
       "UPLOAD_FIRST_PDF": "İlk PDF'inizi yükleyin",
       "UPLOADED_BY": "Yükleyen",
-      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATE_FAQS": "SSS Oluştur",
       "GENERATING": "Oluşturuluyor...",
-      "CONFIRM_DELETE": "{filename} silmek istediğinizden emin misiniz?",
+      "CONFIRM_DELETE": "{filename} dosyasını silmek istediğinizden emin misiniz?",
       "EMPTY_STATE": {
         "TITLE": "Henüz PDF belgesi yok",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "DESCRIPTION": "Yapay zekâ kullanarak SSS'leri otomatik oluşturmak için PDF belgelerini yükleyin"
       },
       "STATUS": {
         "UPLOADED": "Hazır",
@@ -844,22 +844,22 @@
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "TITLE": "İçerik Üretimi",
+      "DESCRIPTION": "Yapay zekâ kullanarak SSS içeriğini otomatik oluşturmak için PDF belgelerini yükleyin",
       "UPLOAD_TITLE": "PDF Belgesini Yükle",
       "DRAG_DROP": "PDF dosyanızı buraya sürükleyip bırakın veya tıklayarak seçin",
       "SELECT_FILE": "PDF Dosyasını Seç",
       "UPLOADING": "Belge işleniyor...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "UPLOAD_SUCCESS": "Belge başarıyla işlendi!",
+      "UPLOAD_ERROR": "Belge yüklenemedi. Lütfen tekrar deneyin.",
       "INVALID_FILE_TYPE": "Lütfen geçerli bir PDF dosyası seçin",
       "FILE_TOO_LARGE": "Dosya boyutu 512 MB'tan az olmalıdır",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
+      "GENERATED_CONTENT": "Oluşturulan SSS İçeriği",
+      "PUBLISH_SELECTED": "Seçileni Yayımla",
       "PUBLISHING": "Yayınlanıyor...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "FROM_DOCUMENT": "Belgeden",
+      "NO_CONTENT": "Oluşturulmuş içerik yok. Başlamak için bir PDF belgesi yükleyin.",
+      "LOADING": "Oluşturulan içerik yükleniyor..."
     }
   }
 }

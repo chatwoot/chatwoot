@@ -88,7 +88,7 @@ class Captain::Assistant < ApplicationRecord
   private
 
   def agent_name
-    name
+    name.parameterize(separator: '_')
   end
 
   def agent_tools

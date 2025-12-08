@@ -24,17 +24,17 @@
     "CREATE_NEW_ACCOUNT": "Создать новый аккаунт",
     "SUBMIT": "Вход",
     "SAML": {
-      "LABEL": "Login via SSO",
-      "TITLE": "Initiate Single Sign-on (SSO)",
-      "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "LABEL": "Войти через SSO",
+      "TITLE": "Инициировать Единый вход (SSO)",
+      "SUBTITLE": "Введите ваш рабочий email для доступа к вашей организации",
+      "BACK_TO_LOGIN": "Войти с помощью пароля",
       "WORK_EMAIL": {
-        "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "LABEL": "Рабочий email",
+        "PLACEHOLDER": "Введите ваш рабочий email"
       },
-      "SUBMIT": "Continue with SSO",
+      "SUBMIT": "Продолжить через SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "Ошибка аутентификации SSO. Пожалуйста, проверьте ваши учетные данные и повторите попытку."
       }
     }
   }

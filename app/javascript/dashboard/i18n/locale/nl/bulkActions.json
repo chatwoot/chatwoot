@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Labels toewijzen",
-      "NO_LABELS_FOUND": "Geen labels gevonden voor",
+      "NO_LABELS_FOUND": "Geen labels gevonden",
       "ASSIGN_SELECTED_LABELS": "Geselecteerde labels toewijzen",
       "ASSIGN_SUCCESFUL": "Labels met succes toegewezen.",
       "ASSIGN_FAILED": "Toewijzen van labels mislukt, probeer het opnieuw."

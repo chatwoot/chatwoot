@@ -62,6 +62,9 @@ he:
         invalid: Invalid email
       phone_number:
         invalid: should be in e164 format
+    companies:
+      domain:
+        invalid: must be a valid domain name
     categories:
       locale:
         unique: should be unique in the category and portal
@@ -73,6 +76,7 @@ he:
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
@@ -185,6 +189,8 @@ he:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
         open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'השיחה סומנה כפתורה על ידי %{user_name}'
         contact_resolved: 'השיחה נפתרה על ידי %{contact_name}'

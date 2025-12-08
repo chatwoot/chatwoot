@@ -32,17 +32,17 @@
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
-    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "API_HOURS_WINDOW": "ამ საუბარზე პასუხის გაცემა მხოლოდ {hours} საათის განმავლობაში შეგიძლიათ",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "თქვენ პასუხობთ საუბარს, რომელსაც ამჟამად ამუშავებს ასისტენტი ან ბოტი",
+    "BOT_HANDOFF_ACTION": "ღიად მონიშვნა და თქვენთვის მინიჭება",
+    "BOT_HANDOFF_REOPEN_ACTION": "საუბრის ღიად მონიშვნა",
+    "BOT_HANDOFF_SUCCESS": "საუბარი გადმოგეცათ თქვენ",
+    "BOT_HANDOFF_ERROR": "საუბრის გადაბარება ვერ მოხერხდა. გთხოვთ, სცადოთ ხელახლა.",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "ეს Instagram ანგარიში გადატანილია ახალი Instagram არხის საფოსტო ყუთში. ყველა ახალი შეტყობინება გამოჩნდება იქ. თქვენ ვეღარ შეძლებთ შეტყობინებების გაგზავნას ამ საუბრიდან.",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Download",
@@ -72,21 +72,21 @@
       "HIDE_LABELS": "Hide labels"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "შემომავალი ზარი",
+      "OUTGOING_CALL": "გამავალი ზარი",
+      "CALL_IN_PROGRESS": "ზარი მიმდინარეობს",
+      "NO_ANSWER": "პასუხი არ არის",
+      "MISSED_CALL": "გამოტოვებული ზარი",
+      "CALL_ENDED": "ზარი დასრულდა",
+      "NOT_ANSWERED_YET": "ჯერ არ უპასუხიათ",
+      "THEY_ANSWERED": "მათ უპასუხეს",
+      "YOU_ANSWERED": "თქვენ უპასუხეთ"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
       "REOPEN_ACTION": "Reopen",
       "OPEN_ACTION": "Open",
-      "MORE_ACTIONS": "More actions",
+      "MORE_ACTIONS": "მეტი მოქმედება",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
@@ -139,8 +139,8 @@
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "Delete conversation #{conversationId}",
-      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "TITLE": "#{conversationId} საუბრის წაშლა",
+      "DESCRIPTION": "ნამდვილად გსურთ ამ საუბრის წაშლა?",
       "CONFIRM": "Delete"
     },
     "CARD_CONTEXT_MENU": {
@@ -159,10 +159,10 @@
       "ASSIGN_LABEL": "Assign label",
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
-      "DELETE": "Delete conversation",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "DELETE": "საუბრის წაშლა",
+      "OPEN_IN_NEW_TAB": "ახალ ჩანართში გახსნა",
+      "COPY_LINK": "საუბრის ბმულის კოპირება",
+      "COPY_LINK_SUCCESS": "საუბრის ბმული კოპირებულია ბუფერში",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
@@ -229,11 +229,11 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "ENABLE_TOOLTIP": "შეიტანე ციტირებული ელ. ფოსტის ჯაჭვი",
+        "DISABLE_TOOLTIP": "არ შეიტანო ციტირებული ელ. ფოსტის ჯაჭვი",
+        "REMOVE_PREVIEW": "ციტირებული ელ. ფოსტის ჯაჭვის წაშლა",
+        "COLLAPSE": "გადახედვის ჩაკეცვა",
+        "EXPAND": "გადახედვის გაშლა"
       }
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
@@ -244,8 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
-    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
-    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "SUCCESS_DELETE_CONVERSATION": "საუბარი წარმატებით წაიშალა",
+    "FAIL_DELETE_CONVERSATION": "საუბრის წაშლა ვერ მოხერხდა! სცადეთ ხელახლა",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
@@ -334,11 +334,11 @@
       "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "კონტაქტის შენიშვნები",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "დაკავშირებული Linear-ის საკითხები",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

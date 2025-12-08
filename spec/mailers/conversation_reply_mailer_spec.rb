@@ -243,8 +243,8 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.decoded).to include message.content
       end
 
-      it 'updates the source_id' do
-        expect(mail.message_id).to eq message.source_id
+      it 'builds messageID properly' do
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
       end
 
       context 'when message is a CSAT survey' do

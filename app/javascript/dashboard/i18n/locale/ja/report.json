@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "過去 7 日間",
+      "LAST_14_DAYS": "過去 14 日間",
       "LAST_30_DAYS": "過去 30 日間",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "過去 3 ヶ月",
       "LAST_6_MONTHS": "過去 6 ヶ月",
       "LAST_YEAR": "過去 1 年",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_INBOX_REPORTS": "受信トレイレポートをダウンロード",
     "FILTER_DROPDOWN_LABEL": "受信トレイを選択",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会話データ",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "会話の流量",
+      "NO_CONVERSATIONS": "会話がありません",
+      "CONVERSATION": "{count}件の会話",
+      "CONVERSATIONS": "{count}件の会話",
+      "DOWNLOAD_REPORT": "レポートをダウンロード"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "会話がありません",
       "CONVERSATION": "{count}件の会話",
       "CONVERSATIONS": "{count}件の会話",

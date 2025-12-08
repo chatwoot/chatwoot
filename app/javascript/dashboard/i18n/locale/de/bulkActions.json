@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Labels zuweisen",
-      "NO_LABELS_FOUND": "Keine Labels gefunden für",
+      "NO_LABELS_FOUND": "Keine Labels gefunden",
       "ASSIGN_SELECTED_LABELS": "Ausgewählte Labels zuweisen",
       "ASSIGN_SUCCESFUL": "Labels erfolgreich zugewiesen.",
       "ASSIGN_FAILED": "Labels konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut."

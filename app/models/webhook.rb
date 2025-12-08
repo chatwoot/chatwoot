@@ -3,6 +3,7 @@
 # Table name: webhooks
 #
 #  id            :bigint           not null, primary key
+#  name          :string
 #  subscriptions :jsonb
 #  url           :string
 #  webhook_type  :integer          default("account_type")

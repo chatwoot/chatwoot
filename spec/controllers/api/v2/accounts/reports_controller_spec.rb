@@ -10,7 +10,7 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
     context 'when authenticated and authorized' do
       before do
         # Create conversations across 24 hours at different times
-        base_time = Time.utc(2024, 1, 15, 0, 0) # Start at midnight UTC
+        base_time = Time.utc(2024, 1, 14, 23, 0) # Start at 23:00 to span 2 days
 
         # Create conversations every 4 hours across 24 hours
         6.times do |i|
@@ -23,36 +23,38 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
       end
 
       it 'timezone_offset affects data grouping and timestamps correctly' do
-        Time.use_zone('UTC') do
-          base_time = Time.utc(2024, 1, 15, 0, 0)
-          base_params = {
-            metric: 'conversations_count',
-            type: 'account',
-            since: (base_time - 1.day).to_i.to_s,
-            until: (base_time + 2.days).to_i.to_s,
-            group_by: 'day'
-          }
+        travel_to Time.utc(2024, 1, 15, 12, 0) do
+          Time.use_zone('UTC') do
+            base_time = Time.utc(2024, 1, 14, 23, 0) # Start at 23:00 to span 2 days
+            base_params = {
+              metric: 'conversations_count',
+              type: 'account',
+              since: (base_time - 1.day).to_i.to_s,
+              until: (base_time + 2.days).to_i.to_s,
+              group_by: 'day'
+            }
 
-          responses = [0, -8, 9].map do |offset|
-            get "/api/v2/accounts/#{account.id}/reports",
-                params: base_params.merge(timezone_offset: offset),
-                headers: admin.create_new_auth_token, as: :json
-            response.parsed_body
+            responses = [0, -8, 9].map do |offset|
+              get "/api/v2/accounts/#{account.id}/reports",
+                  params: base_params.merge(timezone_offset: offset),
+                  headers: admin.create_new_auth_token, as: :json
+              response.parsed_body
+            end
+
+            data_entries = responses.map { |r| r.select { |e| e['value'] > 0 } }
+            totals = responses.map { |r| r.sum { |e| e['value'] } }
+            timestamps = responses.map { |r| r.map { |e| e['timestamp'] } }
+
+            # Data conservation and redistribution
+            expect(totals.uniq).to eq([6])
+            expect(data_entries[0].map { |e| e['value'] }).to eq([1, 5])
+            expect(data_entries[1].map { |e| e['value'] }).to eq([3, 3])
+            expect(data_entries[2].map { |e| e['value'] }).to eq([4, 2])
+
+            # Timestamp differences
+            expect(timestamps.uniq.size).to eq(3)
+            timestamps[0].zip(timestamps[1]).each { |utc, pst| expect(utc - pst).to eq(-28_800) }
           end
-
-          data_entries = responses.map { |r| r.select { |e| e['value'] > 0 } }
-          totals = responses.map { |r| r.sum { |e| e['value'] } }
-          timestamps = responses.map { |r| r.map { |e| e['timestamp'] } }
-
-          # Data conservation and redistribution
-          expect(totals.uniq).to eq([6])
-          expect(data_entries[0].map { |e| e['value'] }).to eq([1, 5])
-          expect(data_entries[1].map { |e| e['value'] }).to eq([3, 3])
-          expect(data_entries[2].map { |e| e['value'] }).to eq([4, 2])
-
-          # Timestamp differences
-          expect(timestamps.uniq.size).to eq(3)
-          timestamps[0].zip(timestamps[1]).each { |utc, pst| expect(utc - pst).to eq(-28_800) }
         end
       end
 
