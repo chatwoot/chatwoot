@@ -8,6 +8,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
   assistant: {
@@ -30,6 +31,7 @@ const initialState = {
   resolutionMessage: '',
   instructions: '',
   temperature: 1,
+  restrictHandoffsToBusinessHours: false,
 };
 
 const state = reactive({ ...initialState });
@@ -58,6 +60,8 @@ const updateStateFromAssistant = assistant => {
   state.resolutionMessage = config.resolution_message;
   state.instructions = config.instructions;
   state.temperature = config.temperature || 1;
+  state.restrictHandoffsToBusinessHours =
+    config.restrict_handoffs_to_business_hours || false;
 };
 
 const handleSystemMessagesUpdate = async () => {
@@ -81,6 +85,8 @@ const handleSystemMessagesUpdate = async () => {
       handoff_message: state.handoffMessage,
       resolution_message: state.resolutionMessage,
       temperature: state.temperature || 1,
+      restrict_handoffs_to_business_hours:
+        state.restrictHandoffsToBusinessHours,
     },
   };
 
@@ -102,6 +108,30 @@ watch(
 
 <template>
   <div class="flex flex-col gap-6">
+    <!-- Business Hours Restriction Toggle -->
+    <div class="flex items-start gap-4">
+      <Switch v-model="state.restrictHandoffsToBusinessHours" class="mt-1" />
+      <div class="flex flex-col gap-1 flex-1">
+        <label class="text-sm font-medium text-n-slate-12">
+          {{ t('CAPTAIN.ASSISTANTS.FORM.RESTRICT_HANDOFFS.LABEL') }}
+        </label>
+        <p class="text-sm text-n-slate-11">
+          {{
+            t('CAPTAIN.ASSISTANTS.FORM.RESTRICT_HANDOFFS.ENABLED_DESCRIPTION')
+          }}
+        </p>
+        <p class="text-xs text-n-slate-10 italic mt-1">
+          {{ t('CAPTAIN.ASSISTANTS.FORM.RESTRICT_HANDOFFS.TIP') }}
+        </p>
+      </div>
+    </div>
+
+    <span class="h-px w-full bg-n-weak" />
+
+    <h3 class="text-base font-medium text-n-slate-12">
+      {{ t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.SECTION_TITLE') }}
+    </h3>
+
     <Editor
       v-model="state.handoffMessage"
       :label="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"

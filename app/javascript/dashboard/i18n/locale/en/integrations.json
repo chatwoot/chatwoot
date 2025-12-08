@@ -204,7 +204,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": { "NAME": "Name", "ENDPOINT": "Endpoint" },
+        "TABLE_HEADER": {
+          "NAME": "Name",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
@@ -464,10 +467,6 @@
           "LABEL": "Welcome Message",
           "PLACEHOLDER": "Enter welcome message"
         },
-        "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
-        },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Resolution Message",
           "PLACEHOLDER": "Enter resolution message"
@@ -481,6 +480,16 @@
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
           "ALLOW_CITATIONS": "Include source citations in responses"
+        },
+        "RESTRICT_HANDOFFS": {
+          "LABEL": "Only allow handoffs during business hours",
+          "ENABLED_DESCRIPTION": "When enabled: Your assistant will keep helping customers 24/7, but it won't offer to transfer them to a human outside your team's working hours.",
+          "TIP": "Tip: Set your business hours in your inbox settings to control when human agents are available."
+        },
+        "HANDOFF_MESSAGE": {
+          "SECTION_TITLE": "Handoff Message",
+          "LABEL": "Handoff Message",
+          "PLACEHOLDER": "Enter handoff message"
         }
       },
       "EDIT": {
@@ -731,7 +740,6 @@
         "SUCCESS_MESSAGE": "The document has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
-
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "View Related Responses",
         "DELETE_DOCUMENT": "Delete Document"
