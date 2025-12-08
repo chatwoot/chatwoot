@@ -124,10 +124,10 @@ class SearchService
   end
 
   def filter_articles
-    @articles = current_account.articles
-                               .text_search(search_query)
-                               .page(params[:page])
-                               .per(15)
+    articles_query = current_account.articles.text_search(search_query)
+    articles_query = apply_time_filter(articles_query, 'updated_at')
+
+    @articles = articles_query.page(params[:page]).per(15)
   end
 
   def apply_time_filter(query, column_name)
