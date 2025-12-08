@@ -38,7 +38,7 @@ class Messages::MarkdownRendererService
 
   def render_telegram_html
     renderer = Messages::MarkdownRenderers::TelegramRenderer.new
-    doc = CommonMarker.render_doc(@content, :DEFAULT, [:strikethrough])
+    doc = CommonMarker.render_doc(@content, [:STRIKETHROUGH_DOUBLE_TILDE], [:strikethrough])
     renderer.render(doc).gsub(/\n+\z/, '')
   end
 

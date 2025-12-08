@@ -130,14 +130,25 @@ class Channel::Telegram < ApplicationRecord
   def convert_markdown_to_telegram_html(text)
     # ref: https://core.telegram.org/bots/api#html-style
 
+    # Escape HTML entities first to prevent HTML injection
+    # This ensures only markdown syntax is converted, not raw HTML
+    escaped_text = CGI.escapeHTML(text)
+
     # Parse markdown with extensions:
     # - strikethrough: support ~~text~~
     # - hardbreaks: preserve all newlines as <br>
-    html = CommonMarker.render_html(text, [:HARDBREAKS], [:strikethrough]).strip
+    html = CommonMarker.render_html(escaped_text, [:HARDBREAKS], [:strikethrough]).strip
+
+    # Convert paragraph breaks to double newlines to preserve them
+    # CommonMarker creates <p> tags for paragraph breaks, but Telegram doesn't support <p>
+    html_with_breaks = html.gsub(%r{</p>\s*<p>}, "\n\n")
+
+    # Remove opening and closing <p> tags
+    html_with_breaks = html_with_breaks.gsub(%r{</?p>}, '')
 
     # Sanitize to only allowed tags
-    stripped_html = Rails::HTML5::SafeListSanitizer.new.sanitize(html, tags: %w[b strong i em u ins s strike del a code pre blockquote],
-                                                                       attributes: %w[href])
+    stripped_html = Rails::HTML5::SafeListSanitizer.new.sanitize(html_with_breaks, tags: %w[b strong i em u ins s strike del a code pre blockquote],
+                                                                                   attributes: %w[href])
 
     # Convert <br /> tags to newlines for Telegram
     stripped_html.gsub(%r{<br\s*/?>}, "\n")
