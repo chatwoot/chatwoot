@@ -253,7 +253,7 @@
       "MESSAGE": "Ваша учетная запись приостановлена. Пожалуйста, обратитесь в службу поддержки для получения дополнительной информации."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
+      "TITLE": "Учётная запись не найдена",
       "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
       "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
       "LOGOUT": "Выйти из системы"
@@ -307,7 +307,7 @@
     "CONTACTS": "Контакты",
     "ACTIVE": "Активные",
     "COMPANIES": "Компании",
-    "ALL_COMPANIES": "All Companies",
+    "ALL_COMPANIES": "Все компании",
     "CAPTAIN": "Капитан",
     "CAPTAIN_ASSISTANTS": "Ассистенты",
     "CAPTAIN_DOCUMENTS": "Документы",
@@ -399,7 +399,7 @@
       "DESCRIPTION": "Управляйте использованием и кредитами для Captain AI.",
       "BUTTON_TXT": "Купить дополнительные кредиты",
       "DOCUMENTS": "Документы",
-      "RESPONSES": "Credits",
+      "RESPONSES": "Кредиты",
       "UPGRADE": "Captain недоступен в бесплатном тарифном плане, обновите его, чтобы получить доступ к ассистентам, copilot и другим функциям.",
       "REFRESH_CREDITS": "Обновить"
     },
@@ -411,18 +411,26 @@
     "NO_BILLING_USER": "Ваш платёжный счёт настраивается. Пожалуйста, обновите страницу и повторите попытку.",
     "TOPUP": {
       "BUY_CREDITS": "Купить дополнительные кредиты",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
-      "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
-      "POPULAR": "Most Popular",
+      "MODAL_TITLE": "Купить ИИ кредиты",
+      "MODAL_DESCRIPTION": "Купить дополнительные кредиты для Captain AI.",
+      "CREDITS": "КРЕДИТЫ",
+      "ONE_TIME": "один раз",
+      "POPULAR": "Самый популярный",
       "NOTE_TITLE": "Примечание:",
       "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
       "CANCEL": "Отменить",
-      "PURCHASE": "Purchase Credits",
-      "LOADING": "Loading options...",
-      "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "PURCHASE_ERROR": "Failed to process purchase. Please try again."
+      "PURCHASE": "Купить кредиты",
+      "LOADING": "Загрузка настроек...",
+      "FETCH_ERROR": "Не удалось загрузить настройки оплаты. Попробуйте ещё раз.",
+      "PURCHASE_ERROR": "Не удалось провести оплату. Попробуйте ещё раз.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "Вернуться",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
     }
   },
   "SECURITY_SETTINGS": {
