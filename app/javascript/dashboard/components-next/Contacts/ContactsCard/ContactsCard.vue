@@ -328,16 +328,17 @@ const handleAvatarHover = isHovered => {
     </div>
 
     <div
-      class="transition-all duration-500 ease-in-out grid"
+      class="grid [transition:grid-template-rows_300ms_ease-out]"
       :class="[
-        isExpanded
-          ? 'grid-rows-[1fr] opacity-100'
-          : 'grid-rows-[0fr] opacity-0',
+        isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
         isExpanded ? '' : 'overflow-hidden',
       ]"
     >
       <div class="min-h-0">
-        <div class="relative flex flex-col lg:pt-3 pb-3 overflow-visible">
+        <div
+          class="relative flex flex-col lg:pt-3 pb-3 overflow-visible transition-opacity duration-[600ms] ease-out"
+          :class="isExpanded ? 'opacity-100 delay-200' : 'opacity-0'"
+        >
           <ContactCardForm
             ref="contactCardFormRef"
             :contact-data="contactData"
