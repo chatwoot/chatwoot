@@ -18,11 +18,30 @@ RSpec.describe Conversation do
     it { is_expected.to belong_to(:assignee).optional }
     it { is_expected.to belong_to(:team).optional }
     it { is_expected.to belong_to(:campaign).optional }
+    it { is_expected.to have_one(:conversation_queue).dependent(:destroy) }
   end
 
   describe 'concerns' do
     it_behaves_like 'assignment_handler'
     it_behaves_like 'auto_assignment_handler'
+  end
+
+  describe 'enum status' do
+    it 'defines correct enum values' do
+      expect(described_class.statuses).to eq(
+        'open' => 0,
+        'resolved' => 1,
+        'pending' => 2,
+        'snoozed' => 3,
+        'queued' => 4
+      )
+    end
+
+    it 'allows switching between enum statuses' do
+      conversation = create(:conversation, status: :open)
+      conversation.resolved!
+      expect(conversation.status).to eq('resolved')
+    end
   end
 
   describe '.before_create' do
@@ -229,6 +248,81 @@ RSpec.describe Conversation do
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,
                                content: system_resolved_message })
+    end
+
+    describe 'queue callbacks' do
+      let(:queue_service_double) { instance_double(ChatQueue::QueueService, remove_from_queue: true) }
+
+      before do
+        allow(ChatQueue::QueueService).to receive(:new)
+          .with(account: account)
+          .and_return(queue_service_double)
+
+        account.update!(queue_enabled: true)
+      end
+
+      describe '#process_queue_on_assignment_change (after_update_commit)' do
+        it 'enqueues ProcessQueueJob when status changes to resolved' do
+          conversation.update!(status: :resolved)
+
+          expect(Queue::ProcessQueueJob)
+            .to have_been_enqueued.with(account.id, conversation.inbox_id)
+            .with(account.id, conversation.inbox_id)
+        end
+
+        it 'enqueues ProcessQueueJob when assignee removed' do
+          conversation.update!(assignee_id: nil)
+
+          expect(Queue::ProcessQueueJob)
+            .to have_been_enqueued.with(account.id, conversation.inbox_id)
+            .with(account.id, conversation.inbox_id)
+        end
+
+        it 'does not enqueue job when queue is disabled' do
+          account.update!(queue_enabled: false)
+          conversation.update!(status: :resolved)
+
+          expect(Queue::ProcessQueueJob).not_to have_been_enqueued
+        end
+
+        it 'does not enqueue job if neither status nor assignee changed' do
+          conversation.update!(contact_last_seen_at: Time.zone.now)
+
+          expect(Queue::ProcessQueueJob).not_to have_been_enqueued
+        end
+      end
+
+      describe '#remove_from_queue_if_status_changed (after_update)' do
+        let(:queue_service_double) { instance_double(ChatQueue::QueueService) }
+
+        before do
+          allow(ChatQueue::QueueService).to receive(:new)
+            .with(account: account)
+            .and_return(queue_service_double)
+
+          allow(queue_service_double).to receive(:remove_from_queue)
+        end
+
+        it 'removes conversation from queue when status moves from queued to open' do
+          conversation.update!(status: :queued)
+          conversation.update!(status: :open)
+
+          expect(queue_service_double).to have_received(:remove_from_queue).with(conversation)
+        end
+
+        it 'does not remove if old status was not queued' do
+          conversation.update!(status: :pending)
+
+          expect(queue_service_double).not_to have_received(:remove_from_queue)
+        end
+
+        it 'does not remove if status stayed queued' do
+          conversation.update!(status: :queued)
+          conversation.update!(assignee_id: new_assignee.id)
+
+          expect(queue_service_double).not_to have_received(:remove_from_queue)
+        end
+      end
     end
   end
 

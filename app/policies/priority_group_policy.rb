@@ -1,5 +1,5 @@
 class PriorityGroupPolicy < ApplicationPolicy
-class Scope
+  class Scope
     attr_reader :user_context, :user, :scope, :account, :account_user
 
     def initialize(user_context, scope)

@@ -30,15 +30,17 @@
 class ConversationQueue < ApplicationRecord
   belongs_to :conversation
   belongs_to :account
+  belongs_to :inbox
 
   enum status: { waiting: 0, assigned: 1, left: 2 }
 
   scope :waiting, -> { where(status: :waiting).order(:position, :queued_at) }
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_inbox, ->(inbox_id) { where(inbox_id: inbox_id) }
-  scope :for_priority_group, ->(group) {
-    joins(conversation: :inbox).where(inboxes: { priority_group_id: group.id })
-  }  
+  scope :for_priority_group, lambda { |group|
+    joins(conversation: :inbox)
+      .where(inboxes: { priority_group_id: group&.id })
+  }
 
   validates :conversation_id, uniqueness: true
   validates :position, presence: true
@@ -56,10 +58,14 @@ class ConversationQueue < ApplicationRecord
   private
 
   def set_position
+    return unless account_id && conversation&.inbox
+
     self.position = next_position
   end
 
   def next_position
+    return 1 unless conversation&.inbox
+
     group = conversation.inbox.priority_group
 
     max_position = ConversationQueue
