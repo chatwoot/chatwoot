@@ -265,7 +265,7 @@ describe SearchService do
     end
   end
 
-  describe '#advanced_search with filters', if: defined?(Enterprise::SearchService) do
+  describe '#advanced_search with filters', if: Message.respond_to?(:search) do
     let(:params) { { q: 'test' } }
     let(:search_type) { 'Message' }
 
