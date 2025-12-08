@@ -31,13 +31,16 @@ class SearchService
   end
 
   def filter_conversations
-    @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                    .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                                    .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+    conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
+                                         .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                                         .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
                             ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
-                                    .order('conversations.created_at DESC')
-                                    .page(params[:page])
-                                    .per(15)
+
+    conversations_query = apply_time_filter(conversations_query, 'conversations.last_activity_at')
+
+    @conversations = conversations_query.order('conversations.created_at DESC')
+                                        .page(params[:page])
+                                        .per(15)
   end
 
   def filter_messages
@@ -108,10 +111,14 @@ class SearchService
   end
 
   def filter_contacts
-    @contacts = current_account.contacts.where(
+    contacts_query = current_account.contacts.where(
       "name ILIKE :search OR email ILIKE :search OR phone_number
       ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
-    ).resolved_contacts(
+    )
+
+    contacts_query = apply_time_filter(contacts_query, 'last_activity_at')
+
+    @contacts = contacts_query.resolved_contacts(
       use_crm_v2: current_account.feature_enabled?('crm_v2')
     ).order_on_last_activity_at('desc').page(params[:page]).per(15)
   end
@@ -121,6 +128,22 @@ class SearchService
                                .text_search(search_query)
                                .page(params[:page])
                                .per(15)
+  end
+
+  def apply_time_filter(query, column_name)
+    return query if params[:since].blank? && params[:until].blank?
+
+    if params[:since].present?
+      since_time = Time.zone.at(params[:since].to_i).to_datetime
+      query = query.where("#{column_name} >= CAST(? AS timestamp)", since_time)
+    end
+
+    if params[:until].present?
+      until_time = Time.zone.at(params[:until].to_i).to_datetime
+      query = query.where("#{column_name} <= CAST(? AS timestamp)", until_time)
+    end
+
+    query
   end
 end
 
