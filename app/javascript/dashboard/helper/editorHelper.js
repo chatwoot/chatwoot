@@ -5,6 +5,7 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
+import { FORMATTING } from 'dashboard/constants/editor';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -314,7 +315,7 @@ const createNode = (editorView, nodeType, content) => {
       return mentionNode;
     }
     case 'cannedResponse':
-      return new MessageMarkdownTransformer(messageSchema).parse(content);
+      return new MessageMarkdownTransformer(state.schema).parse(content);
     case 'variable':
       return state.schema.text(`{{${content}}}`);
     case 'emoji':
@@ -389,3 +390,85 @@ export const getContentNode = (
     ? creator(editorView, content, from, to, variables)
     : { node: null, from, to };
 };
+
+/**
+ * Get the formatting configuration for a specific channel type.
+ * Returns the appropriate marks, nodes, and menu items for the editor.
+ *
+ * @param {string} channelType - The channel type (e.g., 'Channel::FacebookPage', 'Channel::WebWidget')
+ * @returns {Object} The formatting configuration with marks, nodes, and menu properties
+ */
+export function getFormattingForEditor(channelType) {
+  return FORMATTING[channelType] || FORMATTING['Context::Default'];
+}
+
+/**
+ * Menu Positioning Helpers
+ * Handles floating menu bar positioning for text selection in the editor.
+ */
+
+const MENU_CONFIG = { H: 46, W: 300, GAP: 10 };
+
+/**
+ * Calculate selection coordinates with bias to handle line-wraps correctly.
+ * @param {EditorView} editorView - ProseMirror editor view
+ * @param {Selection} selection - Current text selection
+ * @param {DOMRect} rect - Container bounding rect
+ * @returns {{start: Object, end: Object, selTop: number, onTop: boolean}}
+ */
+export function getSelectionCoords(editorView, selection, rect) {
+  const start = editorView.coordsAtPos(selection.from, 1);
+  const end = editorView.coordsAtPos(selection.to, -1);
+
+  const selTop = Math.min(start.top, end.top);
+  const spaceAbove = selTop - rect.top;
+  const onTop =
+    spaceAbove > MENU_CONFIG.H + MENU_CONFIG.GAP || end.bottom > rect.bottom;
+
+  return { start, end, selTop, onTop };
+}
+
+/**
+ * Calculate anchor position based on selection visibility and RTL direction.
+ * @param {Object} coords - Selection coordinates from getSelectionCoords
+ * @param {DOMRect} rect - Container bounding rect
+ * @param {boolean} isRtl - Whether text direction is RTL
+ * @returns {number} Anchor x-position for menu
+ */
+export function getMenuAnchor(coords, rect, isRtl) {
+  const { start, end, onTop } = coords;
+
+  if (!onTop) return end.left;
+
+  // If start of selection is visible, align to text. Else stick to container edge.
+  if (start.top >= rect.top) return isRtl ? start.right : start.left;
+
+  return isRtl ? rect.right - MENU_CONFIG.GAP : rect.left + MENU_CONFIG.GAP;
+}
+
+/**
+ * Calculate final menu position (left, top) within container bounds.
+ * @param {Object} coords - Selection coordinates from getSelectionCoords
+ * @param {DOMRect} rect - Container bounding rect
+ * @param {boolean} isRtl - Whether text direction is RTL
+ * @returns {{left: number, top: number, width: number}}
+ */
+export function calculateMenuPosition(coords, rect, isRtl) {
+  const { start, end, selTop, onTop } = coords;
+
+  const anchor = getMenuAnchor(coords, rect, isRtl);
+
+  // Calculate Left: shift by width if RTL, then make relative to container
+  const rawLeft = (isRtl ? anchor - MENU_CONFIG.W : anchor) - rect.left;
+
+  // Ensure menu stays within container bounds
+  const left = Math.min(Math.max(0, rawLeft), rect.width - MENU_CONFIG.W);
+
+  // Calculate Top: align to selection or bottom of selection
+  const top = onTop
+    ? Math.max(-26, selTop - rect.top - MENU_CONFIG.H - MENU_CONFIG.GAP)
+    : Math.max(start.bottom, end.bottom) - rect.top + MENU_CONFIG.GAP;
+  return { left, top, width: MENU_CONFIG.W };
+}
+
+/* End Menu Positioning Helpers */
