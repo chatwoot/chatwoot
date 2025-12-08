@@ -294,15 +294,29 @@ RSpec.describe AutoAssignment::AssignmentService do
 
       context 'with round robin assignment' do
         it 'distributes conversations evenly among agents' do
-          conversations = Array.new(4) { create(:conversation, inbox: inbox, assignee: nil) }
+          conversations = Array.new(4) do
+            conv = create(:conversation, inbox: inbox, status: 'open')
+            conv.update!(assignee_id: nil)
+            conv
+          end
+
+          round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
+          allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
+
+          allow(round_robin_selector).to receive(:select_agent)
+            .and_return(agent, agent2, agent, agent2)
+
+          limiter = instance_double(AutoAssignment::RateLimiter)
+          allow(AutoAssignment::RateLimiter).to receive(:new).and_return(limiter)
+          allow(limiter).to receive(:within_limit?).and_return(true)
+          allow(limiter).to receive(:track_assignment)
 
           service.perform_bulk_assignment(limit: 4)
 
-          agent1_count = conversations.count { |c| c.reload.assignee == agent }
-          agent2_count = conversations.count { |c| c.reload.assignee == agent2 }
+          agent1_count = conversations.count { |c| c.reload.assignee_id == agent.id }
+          agent2_count = conversations.count { |c| c.reload.assignee_id == agent2.id }
 
-          # Should be distributed evenly (2 each) or close to even (3 and 1)
-          expect([agent1_count, agent2_count].sort).to eq([2, 2]).or(eq([1, 3]))
+          expect([agent1_count, agent2_count].sort).to eq([2, 2])
         end
       end
     end

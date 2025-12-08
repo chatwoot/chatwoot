@@ -191,6 +191,7 @@ RSpec.describe 'Accounts API', type: :request do
         auto_resolve_after: 40,
         auto_resolve_message: 'Auto resolved',
         auto_resolve_ignore_waiting: false,
+        queue_enabled: true,
         timezone: 'Asia/Kolkata',
         industry: 'Technology',
         company_size: '1-10'
