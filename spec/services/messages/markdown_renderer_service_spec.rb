@@ -58,6 +58,14 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result.strip).to include('- item 1')
         expect(result.strip).to include('- item 2')
+        expect(result).to include("- item 1\n- item 2")
+      end
+
+      it 'preserves newlines in plain text without list markers' do
+        content = "Line 1\nLine 2\nLine 3"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include("Line 1\nLine 2\nLine 3")
+        expect(result).not_to include('Line 1 Line 2')
       end
     end
 
@@ -100,6 +108,13 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result).to include('1. first step')
         expect(result).to include('2. second step')
+      end
+
+      it 'preserves newlines in plain text without list markers' do
+        content = "Line 1\nLine 2\nLine 3"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include("Line 1\nLine 2\nLine 3")
+        expect(result).not_to include('Line 1 Line 2')
       end
     end
 
@@ -178,6 +193,13 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include('1. first step')
         expect(result).to include('2. second step')
         expect(result).to include('3. third step')
+      end
+
+      it 'preserves newlines in plain text without list markers' do
+        content = "Line 1\nLine 2\nLine 3"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include("Line 1\nLine 2\nLine 3")
+        expect(result).not_to include('Line 1 Line 2')
       end
     end
 
@@ -293,7 +315,28 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
     context 'when channel is Channel::TwilioSms' do
       let(:channel_type) { 'Channel::TwilioSms' }
 
-      it 'strips all markdown like SMS' do
+      it 'strips all markdown like SMS when medium is sms' do
+        content = '**bold** _italic_'
+        channel = instance_double(Channel::TwilioSms, whatsapp?: false)
+        result = described_class.new(content, channel_type, channel).render
+        expect(result.strip).to eq('bold italic')
+      end
+
+      it 'uses WhatsApp renderer when medium is whatsapp' do
+        content = '**bold** _italic_ [link](https://example.com)'
+        channel = instance_double(Channel::TwilioSms, whatsapp?: true)
+        result = described_class.new(content, channel_type, channel).render
+        expect(result.strip).to eq('*bold* _italic_ https://example.com')
+      end
+
+      it 'preserves newlines in Twilio WhatsApp' do
+        content = "Line 1\nLine 2\nLine 3"
+        channel = instance_double(Channel::TwilioSms, whatsapp?: true)
+        result = described_class.new(content, channel_type, channel).render
+        expect(result).to include("Line 1\nLine 2\nLine 3")
+      end
+
+      it 'backwards compatible when channel is not provided' do
         content = '**bold** _italic_'
         result = described_class.new(content, channel_type).render
         expect(result.strip).to eq('bold italic')
