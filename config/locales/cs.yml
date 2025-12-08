@@ -113,6 +113,8 @@ cs:
       invalid_credits: Invalid credits amount
       invalid_option: Invalid topup option
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
   profile:
     mfa:
       enabled: MFA enabled successfully
