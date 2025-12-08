@@ -122,7 +122,7 @@ export default {
         const conversationId = this.currentChat.id;
         const inboxId = inbox ? inbox.id : null;
 
-        this.$store.dispatch('conversations/updateConversation', {
+        this.$store.dispatch('updateConversation', {
           ...this.currentChat,
           inbox_id: inboxId,
         });

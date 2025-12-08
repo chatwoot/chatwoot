@@ -25,6 +25,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.created': this.onConversationCreated,
       'presence.update': this.onPresenceUpdate,
       'contact.merged': this.onContactMerge,
+      'inbox.changed': this.onInboxChanged,
     };
   }
 
@@ -136,6 +137,14 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.CancelTyping = setTimeout(() => {
       this.onTypingOff();
     }, 30000);
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onInboxChanged = data => {
+    IFrameHelper.sendMessage({
+      event: 'inbox_changed',
+      website_token: data.website_token,
+    });
   };
 }
 
