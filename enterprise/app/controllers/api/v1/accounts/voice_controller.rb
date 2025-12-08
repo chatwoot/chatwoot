@@ -1,5 +1,5 @@
 class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
-  before_action :set_voice_inbox_for_conference, only: %i[conference_token conference_join conference_leave]
+  before_action :set_voice_inbox_for_conference
 
   def conference_token
     render json: Voice::TokenService.new(
