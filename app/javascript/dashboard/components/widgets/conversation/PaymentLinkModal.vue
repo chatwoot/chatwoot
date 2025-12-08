@@ -1,92 +1,112 @@
-<script>
+<script setup>
+import { ref, computed, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minValue, numeric } from '@vuelidate/validators';
+import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { usePaymentProviders } from 'dashboard/composables/usePaymentProviders';
 
-export default {
-  components: {
-    NextButton,
+const props = defineProps({
+  show: {
+    type: Boolean,
+    default: false,
   },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-    isSubmitting: {
-      type: Boolean,
-      default: false,
-    },
+  isSubmitting: {
+    type: Boolean,
+    default: false,
   },
-  emits: ['cancel', 'update:show', 'submit'],
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      amount: '',
-      currency: 'KWD',
-      currencies: [
-        { value: 'KWD', label: 'KWD - Kuwaiti Dinar' },
-        { value: 'USD', label: 'USD - US Dollar' },
-        { value: 'SAR', label: 'SAR - Saudi Riyal' },
-        { value: 'AED', label: 'AED - UAE Dirham' },
-        { value: 'EUR', label: 'EUR - Euro' },
-        { value: 'GBP', label: 'GBP - British Pound' },
-      ],
-    };
-  },
-  validations: {
-    amount: {
-      required,
-      numeric,
-      minValue: minValue(0.01),
-    },
-    currency: {
-      required,
-    },
-  },
-  computed: {
-    localShow: {
-      get() {
-        return this.show;
-      },
-      set(value) {
-        this.$emit('update:show', value);
-      },
-    },
-    isFormValid() {
-      return (
-        !!this.amount &&
-        !this.v$.amount.$error &&
-        !!this.currency &&
-        !this.v$.currency.$error
-      );
-    },
-  },
-  methods: {
-    onCancel() {
-      this.resetForm();
-      this.$emit('cancel');
-    },
-    onSubmit() {
-      this.v$.$touch();
-      if (!this.isFormValid) {
-        return;
-      }
+});
 
-      const paymentData = {
-        amount: parseFloat(this.amount),
-        currency: this.currency,
-      };
+const emit = defineEmits(['cancel', 'update:show', 'submit']);
 
-      this.$emit('submit', paymentData);
-    },
-    resetForm() {
-      this.amount = '';
-      this.currency = 'KWD';
-      this.v$.$reset();
-    },
+useI18n();
+const { providers, isLoading, defaultProvider, hasMultipleProviders } =
+  usePaymentProviders();
+
+const amount = ref('');
+const currency = ref('KWD');
+const selectedProvider = ref('');
+
+const currencies = [
+  { value: 'KWD', label: 'KWD - Kuwaiti Dinar' },
+  { value: 'USD', label: 'USD - US Dollar' },
+  { value: 'SAR', label: 'SAR - Saudi Riyal' },
+  { value: 'AED', label: 'AED - UAE Dirham' },
+  { value: 'EUR', label: 'EUR - Euro' },
+  { value: 'GBP', label: 'GBP - British Pound' },
+  { value: 'BHD', label: 'BHD - Bahraini Dinar' },
+  { value: 'QAR', label: 'QAR - Qatari Riyal' },
+  { value: 'OMR', label: 'OMR - Omani Rial' },
+  { value: 'EGP', label: 'EGP - Egyptian Pound' },
+  { value: 'JOD', label: 'JOD - Jordanian Dinar' },
+];
+
+const rules = {
+  amount: { required, numeric, minValue: minValue(0.01) },
+  currency: { required },
+};
+
+const v$ = useVuelidate(rules, { amount, currency });
+
+// Set default provider when providers are loaded
+watch(defaultProvider, newValue => {
+  if (newValue && !selectedProvider.value) {
+    selectedProvider.value = newValue;
+  }
+});
+
+const localShow = computed({
+  get() {
+    return props.show;
   },
+  set(value) {
+    emit('update:show', value);
+  },
+});
+
+const isFormValid = computed(() => {
+  return (
+    !!amount.value &&
+    !v$.value.amount.$error &&
+    !!currency.value &&
+    !v$.value.currency.$error &&
+    (providers.value.length === 0 || !!selectedProvider.value)
+  );
+});
+
+const showProviderSelector = computed(() => {
+  return !isLoading.value && hasMultipleProviders();
+});
+
+const resetForm = () => {
+  amount.value = '';
+  currency.value = 'KWD';
+  selectedProvider.value = defaultProvider.value || '';
+  v$.value.$reset();
+};
+
+const onCancel = () => {
+  resetForm();
+  emit('cancel');
+};
+
+const onSubmit = () => {
+  v$.value.$touch();
+  if (!isFormValid.value) {
+    return;
+  }
+
+  const paymentData = {
+    amount: parseFloat(amount.value),
+    currency: currency.value,
+  };
+
+  // Only include provider if multiple providers are enabled
+  if (hasMultipleProviders()) {
+    paymentData.provider = selectedProvider.value;
+  }
+
+  emit('submit', paymentData);
 };
 </script>
 
@@ -138,6 +158,22 @@ export default {
               </span>
             </label>
           </div>
+        </div>
+
+        <!-- Provider Selector (only when multiple providers are enabled) -->
+        <div v-if="showProviderSelector" class="mt-4">
+          <label>
+            {{ $t('PAYMENT_LINK.FORM.PROVIDER.LABEL') }}
+            <select v-model="selectedProvider">
+              <option
+                v-for="provider in providers"
+                :key="provider.id"
+                :value="provider.id"
+              >
+                {{ provider.name }}
+              </option>
+            </select>
+          </label>
         </div>
 
         <!-- Action Buttons -->

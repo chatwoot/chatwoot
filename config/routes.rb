@@ -83,6 +83,7 @@ Rails.application.routes.draw do
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
           resource :payzah_settings, only: [:show, :create, :update, :destroy]
+          resource :tap_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -353,6 +354,12 @@ Rails.application.routes.draw do
       namespace :payzah do
         post 'success', to: 'callbacks#success'
         post 'error', to: 'callbacks#error'
+      end
+
+      # Tap payment gateway callbacks
+      namespace :tap do
+        post 'callback', to: 'callbacks#callback'
+        post 'webhook', to: 'callbacks#webhook'
       end
 
       # Frontend API endpoint to trigger SAML authentication flow

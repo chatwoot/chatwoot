@@ -459,6 +459,9 @@
         "PLACEHOLDER": "Select currency",
         "ERROR": "Please select a currency"
       },
+      "PROVIDER": {
+        "LABEL": "Payment Provider"
+      },
       "CUSTOMER_INFO": "Customer Information",
       "NAME": "Name",
       "EMAIL": "Email",

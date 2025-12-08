@@ -114,6 +114,39 @@
         "DELETE_SUCCESS": "Payzah settings disabled"
       }
     },
+    "TAP": {
+      "TITLE": "Tap Payment Gateway",
+      "DESCRIPTION": "Enable payment link generation for your conversations with Tap payment gateway integration.",
+      "FORM": {
+        "TITLE": "Tap Payment Gateway",
+        "DESCRIPTION": "Configure Tap payment gateway to enable payment link generation for your conversations",
+        "SECRET_KEY": {
+          "LABEL": "Tap Secret Key",
+          "PLACEHOLDER": "sk_live_••••••••••••••••",
+          "HELP": "Your Tap secret key for payment gateway authentication (starts with sk_live_ or sk_test_)",
+          "ERROR": "Tap Secret Key is required"
+        },
+        "SUBMIT": "Save Configuration"
+      },
+      "SETUP_INSTRUCTIONS": {
+        "TITLE": "Setup Instructions",
+        "CONFIGURATION_INFO": {
+          "TITLE": "Configuration Info",
+          "TEXT": "You can obtain your Tap secret key from your Tap dashboard at goSell by Tap."
+        },
+        "STEP_1": "Log in to your Tap dashboard at dashboard.tap.company",
+        "STEP_2": "Navigate to Developers > API Keys section",
+        "STEP_3": "Copy your secret key (starts with sk_live_ for production or sk_test_ for testing)",
+        "STEP_4": "Paste the secret key in the field above and save the configuration"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Tap settings saved successfully",
+        "UPDATE_SUCCESS": "Tap settings updated successfully",
+        "ERROR_MESSAGE": "Failed to save Tap settings",
+        "LOAD_ERROR": "Failed to load Tap settings",
+        "DELETE_SUCCESS": "Tap settings disabled"
+      }
+    },
     "SHOPIFY": {
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
