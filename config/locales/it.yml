@@ -113,6 +113,8 @@ it:
       invalid_credits: Quantità crediti non valida
       invalid_option: Opzione di ricarica non valida
       plan_not_eligible: Le ricariche sono disponibili solo per i piani a pagamento. Si prega di aggiornare il piano prima.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
   profile:
     mfa:
       enabled: MFA attivata con successo
