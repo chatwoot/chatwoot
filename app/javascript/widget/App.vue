@@ -253,6 +253,18 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
+        if (message.event === 'inbox_changed') {
+          const newToken = message.website_token;
+
+          this.$store.dispatch('app/resetAll');
+          this.$store.dispatch('conversation/reset');
+          this.$store.dispatch('contacts/reset');
+
+          this.fetchAvailableAgents(newToken);
+          this.fetchOldConversations();
+
+          setHeader(message.auth_token || undefined);
+        }
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
