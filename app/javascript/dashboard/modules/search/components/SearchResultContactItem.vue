@@ -37,7 +37,7 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  createdAt: {
+  updatedAt: {
     type: Number,
     default: 0,
   },
@@ -55,7 +55,7 @@ const countriesMap = computed(() => {
   }, {});
 });
 
-const createdAtTime = dynamicTime(props.createdAt);
+const createdAtTime = dynamicTime(props.updatedAt);
 
 const countryDetails = computed(() => {
   const attributes = props.additionalAttributes || {};
@@ -103,7 +103,7 @@ const formattedLocation = computed(() => {
             {{ name }}
           </h5>
           <span class="text-sm font-normal min-w-0 truncate text-n-slate-11">
-            {{ $t('SEARCH.CREATED_AT', { time: createdAtTime }) }}
+            {{ $t('SEARCH.UPDATED_AT', { time: createdAtTime }) }}
           </span>
         </div>
         <div

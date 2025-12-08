@@ -44,7 +44,7 @@ const accountId = useMapGetter('getCurrentAccountId');
           :additional-attributes="contact.additionalAttributes"
           :account-id="accountId"
           :thumbnail="contact.thumbnail"
-          :created-at="contact.createdAt"
+          :updated-at="contact.updatedAt"
         />
       </li>
     </ul>

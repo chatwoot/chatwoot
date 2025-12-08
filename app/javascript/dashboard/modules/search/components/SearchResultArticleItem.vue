@@ -60,7 +60,7 @@ const statusTextColor = computed(() => {
       layout="col"
       class="[&>div]:justify-start [&>div]:gap-2 [&>div]:px-4 [&>div]:pt-4 [&>div]:pb-5 [&>div]:items-start hover:bg-n-slate-2 dark:hover:bg-n-solid-3"
     >
-      <div class="min-w-0 flex-1 flex flex-col items-start gap-2">
+      <div class="min-w-0 flex-1 flex flex-col items-start gap-2 w-full">
         <div class="flex items-center min-w-0 justify-between gap-2 w-full">
           <div class="flex items-center gap-2">
             <h5
