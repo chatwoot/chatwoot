@@ -70,6 +70,22 @@ RSpec.describe 'Search', type: :request do
         expect(response_data[:payload][:contacts].length).to eq 1
       end
 
+      it 'returns last_activity_at in contact search results' do
+        contact = create(:contact, email: 'activity@test.com', account: account, last_activity_at: 3.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/search/contacts",
+            headers: agent.create_new_auth_token,
+            params: { q: 'activity' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        contact_result = response_data[:payload][:contacts].first
+        expect(contact_result[:last_activity_at]).to eq(contact.last_activity_at.to_i)
+        expect(contact_result).not_to have_key(:created_at)
+      end
+
       it 'filters contacts by since parameter' do
         create(:contact, email: 'old@test.com', account: account, last_activity_at: 10.days.ago)
         create(:contact, email: 'recent@test.com', account: account, last_activity_at: 2.days.ago)
@@ -332,6 +348,68 @@ RSpec.describe 'Search', type: :request do
         response_data = JSON.parse(response.body, symbolize_names: true)
 
         expect(response_data[:payload][:articles].length).to eq 15 # Default per_page is 15
+      end
+
+      it 'filters articles by since parameter' do
+        portal = create(:portal, account: account)
+        old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
+                                       author: agent, status: 'published', updated_at: 10.days.ago)
+        recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
+                                          author: agent, status: 'published', updated_at: 2.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/search/articles",
+            headers: agent.create_new_auth_token,
+            params: { q: 'test', since: 5.days.ago.to_i },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        article_ids = response_data[:payload][:articles].pluck(:id)
+        expect(article_ids).to include(recent_article.id)
+        expect(article_ids).not_to include(old_article.id)
+      end
+
+      it 'filters articles by until parameter' do
+        portal = create(:portal, account: account)
+        old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
+                                       author: agent, status: 'published', updated_at: 10.days.ago)
+        recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
+                                          author: agent, status: 'published', updated_at: 2.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/search/articles",
+            headers: agent.create_new_auth_token,
+            params: { q: 'test', until: 5.days.ago.to_i },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        article_ids = response_data[:payload][:articles].pluck(:id)
+        expect(article_ids).to include(old_article.id)
+        expect(article_ids).not_to include(recent_article.id)
+      end
+
+      it 'filters articles by both since and until parameters' do
+        portal = create(:portal, account: account)
+        very_old_article = create(:article, title: 'Very Old Article test', account: account, portal: portal,
+                                            author: agent, status: 'published', updated_at: 20.days.ago)
+        old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
+                                       author: agent, status: 'published', updated_at: 10.days.ago)
+        recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
+                                          author: agent, status: 'published', updated_at: 2.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/search/articles",
+            headers: agent.create_new_auth_token,
+            params: { q: 'test', since: 15.days.ago.to_i, until: 5.days.ago.to_i },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        article_ids = response_data[:payload][:articles].pluck(:id)
+        expect(article_ids).to include(old_article.id)
+        expect(article_ids).not_to include(very_old_article.id, recent_article.id)
       end
     end
   end

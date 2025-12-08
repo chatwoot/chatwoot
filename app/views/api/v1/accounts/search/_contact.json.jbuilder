@@ -4,4 +4,4 @@ json.name contact.name
 json.phone_number contact.phone_number
 json.identifier contact.identifier
 json.additional_attributes contact.additional_attributes
-json.created_at contact.created_at.to_i
+json.last_activity_at contact.last_activity_at&.to_i
