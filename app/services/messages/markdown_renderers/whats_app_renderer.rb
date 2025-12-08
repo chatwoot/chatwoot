@@ -29,4 +29,8 @@ class Messages::MarkdownRenderers::WhatsAppRenderer < Messages::MarkdownRenderer
     out('> ', :children)
     cr
   end
+
+  def softbreak(_node)
+    out("\n")
+  end
 end
