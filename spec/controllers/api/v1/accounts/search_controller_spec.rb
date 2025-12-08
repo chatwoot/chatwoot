@@ -158,7 +158,7 @@ RSpec.describe 'Search', type: :request do
         create(:inbox_member, user: agent, inbox: old_conversation.inbox)
         create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
-        # Update timestamps directly via SQL to bypass CURRENT_TIMESTAMP database default
+        # Bypass CURRENT_TIMESTAMP default
         # rubocop:disable Rails/SkipsModelValidations
         Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
         Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
@@ -187,7 +187,7 @@ RSpec.describe 'Search', type: :request do
         create(:inbox_member, user: agent, inbox: old_conversation.inbox)
         create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
-        # Update timestamps directly via SQL to bypass CURRENT_TIMESTAMP database default
+        # Bypass CURRENT_TIMESTAMP default
         # rubocop:disable Rails/SkipsModelValidations
         Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
         Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
@@ -220,7 +220,7 @@ RSpec.describe 'Search', type: :request do
         create(:inbox_member, user: agent, inbox: old_conversation.inbox)
         create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
-        # Update timestamps directly via SQL to bypass CURRENT_TIMESTAMP database default
+        # Bypass CURRENT_TIMESTAMP default
         # rubocop:disable Rails/SkipsModelValidations
         Conversation.where(id: very_old_conversation.id).update_all(last_activity_at: 20.days.ago)
         Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)

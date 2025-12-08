@@ -133,16 +133,8 @@ class SearchService
   def apply_time_filter(query, column_name)
     return query if params[:since].blank? && params[:until].blank?
 
-    if params[:since].present?
-      since_time = Time.zone.at(params[:since].to_i)
-      query = query.where("#{column_name} >= ?", since_time)
-    end
-
-    if params[:until].present?
-      until_time = Time.zone.at(params[:until].to_i)
-      query = query.where("#{column_name} <= ?", until_time)
-    end
-
+    query = query.where("#{column_name} >= ?", Time.zone.at(params[:since].to_i)) if params[:since].present?
+    query = query.where("#{column_name} <= ?", Time.zone.at(params[:until].to_i)) if params[:until].present?
     query
   end
 end
