@@ -25,7 +25,7 @@ const state = reactive({
 const onAdd = async content => {
   if (!content) return;
   try {
-    store.dispatch('contactNotes/create', {
+    await store.dispatch('contactNotes/create', {
       content,
       contactId: props.contactId,
     });

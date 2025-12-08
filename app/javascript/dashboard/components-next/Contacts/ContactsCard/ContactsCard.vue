@@ -9,6 +9,7 @@ import Flag from 'dashboard/components-next/flag/Flag.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ContactLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import Policy from 'dashboard/components/policy.vue';
 import countries from 'shared/constants/countries';
 
 const props = defineProps({
@@ -197,18 +198,20 @@ const handleAvatarHover = isHovered => {
             class="hover:!no-underline"
             @click="onClickViewDetails"
           />
-          <div
-            class="w-px h-3 bg-n-strong rounded-md ltr:ml-1 rtl:mr-1 flex-shrink-0"
-          />
-          <Button
-            :label="t('CONTACTS_LAYOUT.CARD.ACTIONS.DELETE_CONTACT')"
-            icon="i-lucide-trash-2"
-            link
-            sm
-            ruby
-            class="hover:!no-underline"
-            @click="onClickDeleteContact"
-          />
+          <Policy :permissions="['administrator']">
+            <div
+              class="w-px h-3 bg-n-strong rounded-md ltr:ml-1 rtl:mr-1 flex-shrink-0"
+            />
+            <Button
+              :label="t('CONTACTS_LAYOUT.CARD.ACTIONS.DELETE_CONTACT')"
+              icon="i-lucide-trash-2"
+              link
+              sm
+              ruby
+              class="hover:!no-underline"
+              @click="onClickDeleteContact"
+            />
+          </Policy>
         </div>
 
         <div
