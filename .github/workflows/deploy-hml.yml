@@ -24,6 +24,23 @@ jobs:
       - name: 🧭 Checkout
         uses: actions/checkout@v4
 
+      - name: 🔒 Verificar integridade do Gemfile.lock
+        run: |
+          echo "🔍 Validando Gemfile.lock..."
+          
+          if grep -q "darwin" Gemfile.lock; then
+            echo "❌ ERROR: Gemfile.lock contém plataformas do macOS."
+            echo "➡️ Isso quebra builds Docker no Linux."
+            exit 1
+          fi
+
+          if grep -q "bundle platform" Gemfile.lock; then
+            echo "❌ ERROR: Gemfile.lock contém configurações específicas de host."
+            exit 1
+          fi
+
+          echo "✅ Gemfile.lock validado com sucesso"
+
       - name: 🔧 Setup QEMU
         uses: docker/setup-qemu-action@v3
         with:
@@ -47,7 +64,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: 🏗️ Build & Push
+      - name: 🏗️ Build & Push imagem Docker
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -61,29 +78,29 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
-      - name: 🔁 Mover cache
+      - name: 🔁 Atualizar cache
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-      - name: 🚀 Deploy via SSH (Hetzner/Portainer Stack)
+      - name: 🚀 Deploy via SSH (Hetzner / Swarm / Portainer)
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.HETZNER_HOST }}
           username: ${{ secrets.HETZNER_SSH_USER }}
           key: ${{ secrets.HETZNER_SSH_KEY }}
           script: |
-            echo "🔑 Login no GHCR dentro do servidor..."
+            echo "🔑 Login GHCR no servidor..."
             echo "${{ secrets.HETZNER_GHCR_TOKEN }}" | docker login ghcr.io -u eixo-x --password-stdin
 
-            echo "📦 Atualizando imagem Chatwoot..."
+            echo "📦 Baixando nova imagem..."
             docker pull ghcr.io/eixo-x/eixochat:latest
 
-            echo "♻️ Atualizando serviços Chatwoot no Swarm..."
+            echo "♻️ Atualizando serviços no Swarm..."
             docker service update --image ghcr.io/eixo-x/eixochat:latest chat-eixo-x_chatwoot_app || true
             docker service update --image ghcr.io/eixo-x/eixochat:latest chat-eixo-x_chatwoot_sidekiq || true
 
             echo "🧹 Limpando imagens antigas..."
             docker image prune -f
 
-            echo "✅ Deploy concluído com sucesso!"
+            echo "✅ Deploy realizado com sucesso!"

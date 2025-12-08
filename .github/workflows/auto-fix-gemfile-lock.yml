@@ -1,0 +1,63 @@
+name: Auto Fix Gemfile.lock
+
+on:
+  push:
+    paths:
+      - Gemfile
+      - Gemfile.lock
+  workflow_dispatch:
+
+jobs:
+  bundler_linux_lock:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prevent infinite loop
+        run: |
+          if git log -1 --pretty=%B | grep -q "CI: Update Gemfile.lock"; then
+            echo "⚠️ Commit gerado pela CI detectado. Pulando..."
+            exit 0
+          fi
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.4
+          bundler-cache: false
+
+      - name: Install correct Bundler version
+        run: |
+          gem install bundler -v 2.5.16
+
+      - name: Generate clean Gemfile.lock (Linux)
+        run: |
+          rm -f Gemfile.lock
+          bundle config set path 'vendor/bundle'
+          bundle install
+
+      - name: Update problematic gems (fallback)
+        run: |
+          bundle update acts-as-taggable-on pg pg_search || true
+
+      - name: Check for changes
+        id: git_changes
+        run: |
+          if [[ -n "$(git status --porcelain Gemfile.lock)" ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit updated Gemfile.lock
+        if: steps.git_changes.outputs.changed == 'true'
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add Gemfile.lock
+          git commit -m "CI: Update Gemfile.lock"
+          git push

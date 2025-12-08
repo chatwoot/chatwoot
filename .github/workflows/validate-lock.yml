@@ -1,0 +1,30 @@
+name: 🔒 Validar Gemfile.lock
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - "feature/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔒 Validando Gemfile.lock
+        run: |
+          echo "🔍 Verificando Gemfile.lock..."
+
+          if grep -q "darwin" Gemfile.lock; then
+            echo "❌ Gemfile.lock contaminado com plataforma macOS."
+            exit 1
+          fi
+
+          if grep -q "bundle platform" Gemfile.lock; then
+            echo "❌ Gemfile.lock contém configurações específicas do host."
+            exit 1
+          fi
+
+          echo "✅ Gemfile.lock válido!"
