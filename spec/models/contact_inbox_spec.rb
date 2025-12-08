@@ -42,9 +42,17 @@ RSpec.describe ContactInbox do
     context 'when source_id' do
       it 'allows source_id longer than 255 characters for channels without format restrictions' do
         long_source_id = 'a' * 300
-        email_inbox = create(:inbox, channel: create(:channel_email))
+        email_channel = create(:channel_email)
+        email_inbox = create(:inbox, channel: email_channel)
         contact = create(:contact, account: email_inbox.account)
         contact_inbox = build(:contact_inbox, contact: contact, inbox: email_inbox, source_id: long_source_id)
+
+        Rails.logger.debug { "Inbox valid? #{email_inbox.valid?}" }
+        Rails.logger.debug { "Inbox errors: #{email_inbox.errors.full_messages}" }
+        Rails.logger.debug { "Priority group: #{email_inbox.priority_group.inspect}" }
+        Rails.logger.debug { "Channel type: #{email_inbox.channel_type}" }
+        Rails.logger.debug { "ContactInbox valid? #{contact_inbox.valid?}" }
+        Rails.logger.debug { "ContactInbox errors: #{contact_inbox.errors.full_messages}" }
 
         expect(contact_inbox.valid?).to be(true)
         expect { contact_inbox.save! }.not_to raise_error

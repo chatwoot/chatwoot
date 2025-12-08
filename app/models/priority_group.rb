@@ -18,7 +18,8 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class PriorityGroup < ApplicationRecord
-  has_many :inboxes
-  
+  has_many :inboxes, dependent: :destroy
+  belongs_to :account
+
   validates :name, presence: true, uniqueness: { scope: :account_id }
 end

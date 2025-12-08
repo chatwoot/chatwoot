@@ -356,10 +356,10 @@ class Conversation < ApplicationRecord
 
     old_status, new_status = saved_change_to_status
 
-    if old_status == "queued" && new_status != "queued"
-      ChatQueue::QueueService.new(account: account)
-                             .remove_from_queue(self)
-    end
+    return unless old_status == 'queued' && new_status != 'queued'
+
+    ChatQueue::QueueService.new(account: account)
+                           .remove_from_queue(self)
   end
 
   # creating db triggers

@@ -18,14 +18,16 @@ class AutoAssignment::AgentAssignmentService
     return if ids.blank?
 
     counts = active_chat_counts_for(ids)
-
     available_ids = filter_agents_below_limit(ids, counts)
-
     return if available_ids.blank?
 
     min_count = counts.slice(*available_ids).values.min
     least_busy_agents = counts.select { |id, count| available_ids.include?(id) && count == min_count }.keys
-    selected_id = pick_least_recent_assigned(least_busy_agents)
+
+    return User.find_by(id: least_busy_agents.first) if least_busy_agents.size == 1
+
+    last_closed_times = last_closed_chat_times_for(least_busy_agents)
+    selected_id = pick_least_recent_assigned(least_busy_agents, counts, last_closed_times)
 
     User.find_by(id: selected_id)
   end
@@ -60,14 +62,17 @@ class AutoAssignment::AgentAssignmentService
       end
   end
 
-  def pick_least_recent_assigned(agent_ids)
-    return agent_ids.sample if agent_ids.size == 1
+  def pick_least_recent_assigned(agent_ids, counts, last_closed_times)
+    stats = agent_ids.map do |id|
+      {
+        id: id,
+        active: counts[id] || 0,
+        last_closed: last_closed_times[id] || Time.zone.at(0)
+      }
+    end
 
-    last_closed_times = last_closed_chat_times_for(agent_ids)
-
-    return agent_ids.sample if last_closed_times.values.compact.empty?
-
-    agent_ids.min_by { |id| last_closed_times[id] || Time.zone.at(0) }
+    sorted = stats.sort_by { |s| [s[:active], s[:last_closed]] }
+    sorted.first[:id]
   end
 
   def last_closed_chat_times_for(agent_ids)
