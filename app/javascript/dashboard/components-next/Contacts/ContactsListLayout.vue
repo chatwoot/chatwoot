@@ -86,7 +86,7 @@ const openFilter = () => {
         @clear-filters="emit('clearFilters')"
       />
       <main class="flex-1 overflow-y-auto">
-        <div class="w-full mx-auto max-w-[60rem]">
+        <div class="w-full mx-auto max-w-[105rem]">
           <ContactsActiveFiltersPreview
             v-if="showActiveFiltersPreview"
             :active-segment="activeSegment"
@@ -96,7 +96,7 @@ const openFilter = () => {
           <slot name="default" />
         </div>
       </main>
-      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0 px-4 pb-4">
+      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0">
         <PaginationFooter
           current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"

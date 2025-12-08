@@ -13,6 +13,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 
 const { t } = useI18n();
@@ -125,21 +126,12 @@ const hideCreateModal = () => {
       class="text-n-slate-10"
     />
     <div v-else class="flex flex-wrap gap-2.5">
-      <div
+      <Label
         v-for="(label, index) in activeLabels"
         :key="label ? label.id : index"
         data-label
-        :title="label.description"
-        class="bg-n-button-color px-2.5 h-8 gap-1.5 rounded-lg -outline-offset-1 outline outline-1 outline-n-container inline-flex items-center flex-shrink-0"
-      >
-        <span
-          class="rounded-sm size-2 flex-shrink-0"
-          :style="{ background: label.color }"
-        />
-        <span class="font-420 text-sm text-n-slate-12 whitespace-nowrap">
-          {{ label.title }}
-        </span>
-      </div>
+        :label="label"
+      />
       <div
         v-on-click-outside="() => toggleLabels(false)"
         class="relative w-fit"

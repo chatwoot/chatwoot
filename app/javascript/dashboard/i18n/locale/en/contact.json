@@ -419,6 +419,11 @@
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "View details",
+      "ACTIONS": {
+        "SEND_MESSAGE": "Send message",
+        "VIEW_DETAILS": "View details",
+        "DELETE_CONTACT": "Delete contact"
+      },
       "EDIT_DETAILS_FORM": {
         "TITLE": "Edit contact details",
         "FORM": {
@@ -437,7 +442,7 @@
             "DUPLICATE": "This phone number is in use for another contact."
           },
           "CITY": {
-            "PLACEHOLDER": "Enter the city name"
+            "PLACEHOLDER": "Enter city"
           },
           "COUNTRY": {
             "PLACEHOLDER": "Select country"
@@ -446,12 +451,23 @@
             "PLACEHOLDER": "Enter the bio"
           },
           "COMPANY_NAME": {
-            "PLACEHOLDER": "Enter the company name"
+            "PLACEHOLDER": "Select Company"
           }
         },
         "UPDATE_BUTTON": "Update contact",
         "SUCCESS_MESSAGE": "Contact updated successfully",
         "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "ADD_NOTE": {
+        "TITLE": "Add a quick note",
+        "PLACEHOLDER": "Type your note here and press cmd+enter to save",
+        "API": {
+          "SUCCESS_MESSAGE": "Contact note added successfully",
+          "ERROR_MESSAGE": "Unable to add contact note. Please try again later."
+        }
+      },
+      "LABELS": {
+        "ADD_BUTTON": "Add Labels"
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",

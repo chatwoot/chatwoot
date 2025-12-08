@@ -2,12 +2,12 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import CardLayout from 'dashboard/components-next/CardLayout.vue';
-import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
+import ContactCardForm from 'dashboard/components-next/Contacts/ContactsCard/ContactCardForm.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Flag from 'dashboard/components-next/flag/Flag.vue';
-import ContactDeleteSection from 'dashboard/components-next/Contacts/ContactsCard/ContactDeleteSection.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import ContactLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import countries from 'shared/constants/countries';
 
@@ -15,6 +15,7 @@ const props = defineProps({
   id: { type: Number, required: true },
   name: { type: String, default: '' },
   email: { type: String, default: '' },
+  labels: { type: Array, default: () => [] },
   additionalAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
@@ -31,11 +32,13 @@ const emit = defineEmits([
   'showContact',
   'select',
   'avatarHover',
+  'sendMessage',
+  'deleteContact',
 ]);
 
 const { t } = useI18n();
 
-const contactsFormRef = ref(null);
+const contactCardFormRef = ref(null);
 
 const getInitialContactData = () => ({
   id: props.id,
@@ -47,7 +50,7 @@ const getInitialContactData = () => ({
 
 const contactData = ref(getInitialContactData());
 
-const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
+const isFormInvalid = computed(() => contactCardFormRef.value?.isFormInvalid);
 
 const countriesMap = computed(() => {
   return countries.reduce((acc, country) => {
@@ -75,6 +78,11 @@ const countryDetails = computed(() => {
   };
 });
 
+const companyName = computed(() => {
+  const attributes = props.additionalAttributes || {};
+  return attributes.companyName || '';
+});
+
 const formattedLocation = computed(() => {
   if (!countryDetails.value) return '';
 
@@ -85,10 +93,11 @@ const formattedLocation = computed(() => {
 
 const handleFormUpdate = updatedData => {
   Object.assign(contactData.value, updatedData);
+  emit('updateContact', contactData.value);
 };
 
 const handleUpdateContact = () => {
-  emit('updateContact', contactData.value);
+  contactCardFormRef.value?.handleUpdate();
 };
 
 const onClickExpand = () => {
@@ -97,6 +106,12 @@ const onClickExpand = () => {
 };
 
 const onClickViewDetails = () => emit('showContact', props.id);
+
+const onClickOpenSendMessage = () => emit('sendMessage', props.id);
+
+const onClickDeleteContact = () => {
+  emit('deleteContact', props.id);
+};
 
 const toggleSelect = checked => {
   emit('select', checked);
@@ -109,30 +124,38 @@ const handleAvatarHover = isHovered => {
 
 <template>
   <div class="relative">
-    <CardLayout
-      :key="id"
-      layout="row"
-      :class="{
-        'outline-n-weak !bg-n-slate-3 dark:!bg-n-solid-3': isSelected,
-      }"
+    <div
+      class="flex flex-col gap-2 pt-3 pb-2 lg:pb-3 lg:grid lg:gap-4 lg:items-center lg:rounded-lg lg:transition-all lg:duration-200 lg:grid-cols-[minmax(42%,1fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-n-weak lg:border-none"
     >
-      <div class="flex items-center justify-start flex-1 gap-4">
+      <div
+        class="flex items-center gap-3 lg:gap-2"
+        :class="{ 'lg:col-span-3': isExpanded }"
+      >
+        <Button
+          icon="i-lucide-chevron-down"
+          link
+          slate
+          sm
+          class="flex-shrink-0 hidden lg:flex !size-4 !rounded hover:enabled:!bg-n-alpha-2"
+          :class="{ 'rotate-180': isExpanded }"
+          @click="onClickExpand"
+        />
+
         <div
-          class="relative"
+          class="flex-shrink-0 flex items-center"
           @mouseenter="handleAvatarHover(true)"
           @mouseleave="handleAvatarHover(false)"
         >
           <Avatar
             :name="name"
             :src="thumbnail"
-            :size="48"
+            :size="24"
             :status="availabilityStatus"
             hide-offline-status
-            rounded-full
           >
             <template v-if="selectable" #overlay="{ size }">
               <label
-                class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px] border border-n-weak"
+                class="flex items-center justify-center rounded-md cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px]"
                 :style="{ width: `${size}px`, height: `${size}px` }"
                 @click.stop
               >
@@ -144,101 +167,196 @@ const handleAvatarHover = isHovered => {
             </template>
           </Avatar>
         </div>
-        <div class="flex flex-col gap-0.5 flex-1">
-          <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span class="text-base font-medium truncate text-n-slate-12">
-              {{ name }}
-            </span>
-            <span class="inline-flex items-center gap-1">
-              <span
-                v-if="additionalAttributes?.companyName"
-                class="i-ph-building-light size-4 text-n-slate-10 mb-0.5"
-              />
-              <span
-                v-if="additionalAttributes?.companyName"
-                class="text-sm truncate text-n-slate-11"
-              >
-                {{ additionalAttributes.companyName }}
-              </span>
-            </span>
-          </div>
+
+        <h4
+          class="text-sm my-0 capitalize truncate text-n-slate-12 font-medium lg:max-w-40"
+        >
+          {{ name }}
+        </h4>
+
+        <div v-if="isExpanded" class="hidden lg:flex items-center gap-2">
           <div
-            class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1"
+            class="w-px h-3 bg-n-strong rounded-md ltr:ml-1 rtl:mr-1 flex-shrink-0"
+          />
+          <Button
+            :label="t('CONTACTS_LAYOUT.CARD.ACTIONS.SEND_MESSAGE')"
+            icon="i-lucide-message-circle"
+            link
+            sm
+            class="hover:!no-underline"
+            @click="onClickOpenSendMessage"
+          />
+          <div
+            class="w-px h-3 bg-n-strong rounded-md ltr:ml-1 rtl:mr-1 flex-shrink-0"
+          />
+          <Button
+            :label="t('CONTACTS_LAYOUT.CARD.ACTIONS.VIEW_DETAILS')"
+            icon="i-lucide-info"
+            link
+            sm
+            class="hover:!no-underline"
+            @click="onClickViewDetails"
+          />
+          <div
+            class="w-px h-3 bg-n-strong rounded-md ltr:ml-1 rtl:mr-1 flex-shrink-0"
+          />
+          <Button
+            :label="t('CONTACTS_LAYOUT.CARD.ACTIONS.DELETE_CONTACT')"
+            icon="i-lucide-trash-2"
+            link
+            sm
+            ruby
+            class="hover:!no-underline"
+            @click="onClickDeleteContact"
+          />
+        </div>
+
+        <div
+          v-if="companyName"
+          class="text-xs my-0 capitalize h-6 px-1 inline-flex items-center gap-1 rounded-md text-n-slate-12 font-440 max-w-40 min-w-0 outline outline-1 outline-n-weak"
+          :class="{ 'lg:hidden': isExpanded }"
+        >
+          <Icon
+            icon="i-lucide-briefcase-business"
+            class="size-3.5 flex-shrink-0 text-n-slate-11"
+          />
+          <span class="truncate">{{ companyName }}</span>
+        </div>
+
+        <div
+          v-if="countryDetails"
+          class="w-px h-3 bg-n-strong rounded-lg flex-shrink-0"
+          :class="{ 'lg:hidden': isExpanded }"
+        />
+
+        <span
+          v-if="countryDetails"
+          class="inline-flex items-center gap-2 text-sm min-w-0 text-n-slate-11"
+          :class="{ 'lg:hidden': isExpanded }"
+        >
+          <Flag
+            :country="countryDetails.countryCode"
+            class="size-3.5 flex-shrink-0"
+          />
+          <span class="truncate">{{ formattedLocation }}</span>
+        </span>
+
+        <div class="ltr:ml-auto rtl:mr-auto">
+          <Button
+            icon="i-lucide-chevron-down"
+            variant="ghost"
+            color="slate"
+            size="xs"
+            class="flex-shrink-0 lg:!hidden !size-4 !rounded hover:enabled:!bg-n-alpha-2"
+            :class="{ 'rotate-180': isExpanded }"
+            @click="onClickExpand"
+          />
+        </div>
+      </div>
+
+      <div
+        class="flex items-center gap-2 lg:gap-2 lg:min-w-0"
+        :class="{ 'lg:hidden': isExpanded }"
+      >
+        <div
+          v-if="email"
+          class="flex items-center gap-1 truncate lg:max-w-72"
+          :title="email"
+        >
+          <Icon
+            icon="i-woot-mail"
+            class="size-4 flex-shrink-0 text-n-slate-11"
+          />
+          <span class="text-sm text-n-slate-12 font-420 truncate">
+            {{ email }}
+          </span>
+        </div>
+
+        <div
+          v-if="email && phoneNumber"
+          class="w-px h-3 bg-n-strong rounded-lg flex-shrink-0"
+        />
+
+        <div
+          v-if="phoneNumber"
+          class="flex items-center gap-1 truncate lg:max-w-72"
+          :title="phoneNumber"
+        >
+          <Icon
+            icon="i-lucide-phone"
+            class="size-3 flex-shrink-0 text-n-slate-11"
+          />
+          <span class="text-sm text-n-slate-12 font-420 truncate">
+            {{ phoneNumber }}
+          </span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2 lg:hidden">
+        <div v-if="labels.length > 0" class="min-h-[1rem]">
+          <ContactLabels :labels="labels" disable-toggle class="my-0" />
+        </div>
+
+        <Button
+          :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
+          link
+          xs
+          class="w-fit hover:!no-underline"
+          slate
+          @click="onClickViewDetails"
+        />
+      </div>
+
+      <div
+        class="hidden lg:flex items-center justify-end gap-3 flex-shrink-0"
+        :class="{ 'lg:hidden': isExpanded }"
+      >
+        <ContactLabels
+          :labels="labels"
+          disable-toggle
+          class="my-0 flex-1 justify-end"
+        />
+        <Button
+          :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
+          link
+          xs
+          slate
+          class="flex-shrink-0 hover:!no-underline"
+          @click="onClickViewDetails"
+        />
+      </div>
+    </div>
+
+    <div
+      class="transition-all duration-500 ease-in-out grid"
+      :class="[
+        isExpanded
+          ? 'grid-rows-[1fr] opacity-100'
+          : 'grid-rows-[0fr] opacity-0',
+        isExpanded ? '' : 'overflow-hidden',
+      ]"
+    >
+      <div class="min-h-0">
+        <div class="relative flex flex-col lg:pt-3 pb-3 overflow-visible">
+          <ContactCardForm
+            ref="contactCardFormRef"
+            :contact-data="contactData"
+            class="lg:after:content-[''] lg:after:absolute lg:after:ltr:left-2 lg:after:rtl:right-2 lg:after:top-0 lg:after:w-px lg:after:bg-n-strong lg:after:bottom-11"
+            @update="handleFormUpdate"
+          />
+          <div
+            class="relative lg:ltr:pl-6 lg:rtl:pr-6 mt-6 mb-4 lg:before:block lg:before:content-[''] lg:before:absolute lg:ltr:before:left-2 lg:rtl:before:right-2 lg:before:top-1/2 lg:before:w-2 lg:before:h-px lg:before:bg-n-strong"
           >
-            <div v-if="email" class="truncate max-w-72" :title="email">
-              <span class="text-sm text-n-slate-11">
-                {{ email }}
-              </span>
-            </div>
-            <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
-            <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
-              {{ phoneNumber }}
-            </span>
-            <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
-            <span
-              v-if="countryDetails"
-              class="inline-flex items-center gap-2 text-sm truncate text-n-slate-11"
-            >
-              <Flag :country="countryDetails.countryCode" class="size-3.5" />
-              {{ formattedLocation }}
-            </span>
-            <div v-if="countryDetails" class="w-px h-3 truncate bg-n-slate-6" />
             <Button
-              :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
-              variant="link"
-              size="xs"
-              @click="onClickViewDetails"
+              :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
+              size="sm"
+              :is-loading="isUpdating"
+              :disabled="isUpdating || isFormInvalid"
+              @click="handleUpdateContact"
             />
           </div>
         </div>
       </div>
-
-      <Button
-        icon="i-lucide-chevron-down"
-        variant="ghost"
-        color="slate"
-        size="xs"
-        :class="{ 'rotate-180': isExpanded }"
-        @click="onClickExpand"
-      />
-
-      <template #after>
-        <div
-          class="transition-all duration-500 ease-in-out grid overflow-hidden"
-          :class="
-            isExpanded
-              ? 'grid-rows-[1fr] opacity-100'
-              : 'grid-rows-[0fr] opacity-0'
-          "
-        >
-          <div class="overflow-hidden">
-            <div class="flex flex-col gap-6 p-6 border-t border-n-strong">
-              <ContactsForm
-                ref="contactsFormRef"
-                :contact-data="contactData"
-                @update="handleFormUpdate"
-              />
-              <div>
-                <Button
-                  :label="
-                    t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')
-                  "
-                  size="sm"
-                  :is-loading="isUpdating"
-                  :disabled="isUpdating || isFormInvalid"
-                  @click="handleUpdateContact"
-                />
-              </div>
-            </div>
-            <ContactDeleteSection
-              :selected-contact="{
-                id: props.id,
-                name: props.name,
-              }"
-            />
-          </div>
-        </div>
-      </template>
-    </CardLayout>
+    </div>
   </div>
 </template>

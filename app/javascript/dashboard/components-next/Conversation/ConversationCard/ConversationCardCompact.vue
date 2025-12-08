@@ -100,7 +100,7 @@ const onSelectConversation = checked => {
 
           <CardLabels
             v-if="showLabelsSection || isInboxView"
-            :conversation-labels="chat.labels"
+            :labels="chat.labels"
           >
             <template v-if="isInboxView" #before>
               <CardMetaSection
