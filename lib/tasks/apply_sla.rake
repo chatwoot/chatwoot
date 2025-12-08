@@ -6,7 +6,7 @@
 # Usage Examples:
 #   # Using arguments (may need escaping in some shells)
 #   bundle exec rake "sla:apply_to_conversations[19,1,500]"
-#   
+#
 #   # Using environment variables (recommended)
 #   SLA_POLICY_ID=19 ACCOUNT_ID=1 BATCH_SIZE=500 bundle exec rake sla:apply_to_conversations
 #
@@ -80,14 +80,12 @@ namespace :sla do
 
     conversations.find_in_batches(batch_size: batch_size) do |batch|
       batch.each do |conversation|
-        begin
-          conversation.update!(sla_policy_id: sla_policy_id)
-          processed_count += 1
-          puts "Processed #{processed_count}/#{total_count} conversations" if (processed_count % 100).zero?
-        rescue StandardError => e
-          error_count += 1
-          puts "Error applying SLA to conversation #{conversation.id}: #{e.message}"
-        end
+        conversation.update!(sla_policy_id: sla_policy_id)
+        processed_count += 1
+        puts "Processed #{processed_count}/#{total_count} conversations" if (processed_count % 100).zero?
+      rescue StandardError => e
+        error_count += 1
+        puts "Error applying SLA to conversation #{conversation.id}: #{e.message}"
       end
     end
 
