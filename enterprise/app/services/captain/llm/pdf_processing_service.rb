@@ -1,4 +1,4 @@
-class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
+class Captain::Llm::PdfProcessingService < Llm::LegacyBaseOpenAiService
   def initialize(document)
     super()
     @document = document
@@ -29,12 +29,16 @@ class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
     end
   end
 
-  def with_tempfile(&)
+  def with_tempfile
     Tempfile.create(['pdf_upload', '.pdf'], binmode: true) do |temp_file|
-      temp_file.write(document.pdf_file.download)
-      temp_file.close
+      document.pdf_file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, temp_file)
+      end
 
-      File.open(temp_file.path, 'rb', &)
+      temp_file.flush
+      temp_file.rewind
+
+      yield temp_file
     end
   end
 end

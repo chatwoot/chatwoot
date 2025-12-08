@@ -1,6 +1,6 @@
 require 'openai'
 
-class Captain::Llm::EmbeddingService < Llm::BaseOpenAiService
+class Captain::Llm::EmbeddingService < Llm::LegacyBaseOpenAiService
   class EmbeddingsError < StandardError; end
 
   def self.embedding_model
