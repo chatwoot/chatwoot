@@ -61,15 +61,14 @@ RSpec.describe MessageTemplates::HookExecutionService do
           create(:message, conversation: conversation, message_type: :incoming)
         end
 
-        it 'still sends out of office message via base class' do
+        it 'does not send out of office message when Captain is handling' do
           out_of_office_service = instance_double(MessageTemplates::Template::OutOfOffice)
           allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
           allow(out_of_office_service).to receive(:perform).and_return(true)
 
           create(:message, conversation: conversation, message_type: :incoming)
 
-          expect(MessageTemplates::Template::OutOfOffice).to have_received(:new).with(conversation: conversation)
-          expect(out_of_office_service).to have_received(:perform)
+          expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
         end
       end
 
@@ -160,6 +159,110 @@ RSpec.describe MessageTemplates::HookExecutionService do
       expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
 
       create(:message, conversation: conversation, message_type: :outgoing)
+    end
+  end
+
+  context 'when greeting and out of office messages with Captain enabled' do
+    context 'when conversation is pending (Captain is handling)' do
+      before do
+        conversation.update!(status: :pending)
+      end
+
+      it 'does not create greeting message in conversation' do
+        inbox.update!(greeting_enabled: true, greeting_message: 'Hello! How can we help you?', enable_email_collect: false)
+
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming)
+        end.not_to(change { conversation.reload.messages.template.count })
+      end
+
+      it 'does not create out of office message in conversation' do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed',
+          enable_email_collect: false
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming)
+        end.not_to(change { conversation.reload.messages.template.count })
+      end
+    end
+
+    context 'when conversation is open (transferred to agent)' do
+      before do
+        conversation.update!(status: :open)
+      end
+
+      it 'creates greeting message in conversation' do
+        inbox.update!(greeting_enabled: true, greeting_message: 'Hello! How can we help you?', enable_email_collect: false)
+
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming)
+        end.to change { conversation.reload.messages.template.count }.by(1)
+
+        greeting_message = conversation.reload.messages.template.last
+        expect(greeting_message.content).to eq('Hello! How can we help you?')
+      end
+
+      it 'creates out of office message when outside business hours' do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed',
+          enable_email_collect: false
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming)
+        end.to change { conversation.reload.messages.template.count }.by(1)
+
+        out_of_office_message = conversation.reload.messages.template.last
+        expect(out_of_office_message.content).to eq('We are currently closed')
+      end
+    end
+  end
+
+  context 'when Captain is not configured' do
+    before do
+      CaptainInbox.where(inbox: inbox).destroy_all
+    end
+
+    it 'creates greeting message in conversation' do
+      inbox.update!(greeting_enabled: true, greeting_message: 'Hello! How can we help you?', enable_email_collect: false)
+
+      expect do
+        create(:message, conversation: conversation, message_type: :incoming)
+      end.to change { conversation.reload.messages.template.count }.by(1)
+
+      greeting_message = conversation.reload.messages.template.last
+      expect(greeting_message.content).to eq('Hello! How can we help you?')
+    end
+
+    it 'creates out of office message when outside business hours' do
+      inbox.update!(
+        working_hours_enabled: true,
+        out_of_office_message: 'We are currently closed',
+        enable_email_collect: false
+      )
+      inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+        closed_all_day: true,
+        open_all_day: false
+      )
+
+      expect do
+        create(:message, conversation: conversation, message_type: :incoming)
+      end.to change { conversation.reload.messages.template.count }.by(1)
+
+      out_of_office_message = conversation.reload.messages.template.last
+      expect(out_of_office_message.content).to eq('We are currently closed')
     end
   end
 end
