@@ -28,7 +28,6 @@ import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue'
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
-import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
