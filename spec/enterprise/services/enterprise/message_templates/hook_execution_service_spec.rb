@@ -45,20 +45,22 @@ RSpec.describe MessageTemplates::HookExecutionService do
           assistant.update!(config: assistant.config.merge('restrict_handoffs_to_business_hours' => true))
         end
 
-        it 'does not schedule captain response job' do
-          expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+        it 'still schedules captain response job (Captain helps 24/7)' do
+          expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
 
           create(:message, conversation: conversation, message_type: :incoming)
         end
 
-        it 'does not trigger captain handoff even when quota is exceeded' do
-          account.update!(custom_attributes: account.custom_attributes.merge(
-            'captain_usage' => { 'responses_consumed' => account.usage_limits[:captain][:responses][:allowed] }
-          ))
+        it 'does not trigger captain handoff outside business hours' do
+          account.update!(
+            limits: { 'captain_responses' => 100 },
+            custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
+          )
 
-          expect(conversation).not_to receive(:bot_handoff!)
-
+          # Captain can't handoff outside business hours, so status stays pending
           create(:message, conversation: conversation, message_type: :incoming)
+
+          expect(conversation.reload.status).to eq('pending')
         end
 
         it 'does not send out of office message when Captain is handling' do
