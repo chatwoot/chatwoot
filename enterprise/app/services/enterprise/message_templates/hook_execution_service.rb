@@ -32,9 +32,14 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    return false if inbox.out_of_office?
+    return false unless conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    return false if restrict_handoffs_to_business_hours? && inbox.out_of_office?
 
-    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    true
+  end
+
+  def restrict_handoffs_to_business_hours?
+    inbox.captain_assistant.restrict_handoffs_to_business_hours == true
   end
 
   def perform_handoff
