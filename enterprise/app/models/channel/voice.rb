@@ -89,7 +89,6 @@ class Channel::Voice < ApplicationRecord
       errors.add(:provider_config, "#{key} is required for Twilio provider") if config[key].blank?
     end
   end
-  # twilio_client and initiate_twilio_call moved to Voice::Provider::Twilio::Adapter
 
   def provider_config_hash
     if provider_config.is_a?(Hash)

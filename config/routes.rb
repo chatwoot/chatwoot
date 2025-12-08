@@ -204,7 +204,6 @@ Rails.application.routes.draw do
             post :sync_templates, on: :member
             get :health, on: :member
             if ChatwootApp.enterprise?
-              # Conference operations
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
               end
