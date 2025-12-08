@@ -27,7 +27,6 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
@@ -81,7 +80,6 @@ export default {
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
-      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
       healthData: null,
       isLoadingHealth: false,
       healthError: null,
@@ -626,7 +624,7 @@ export default {
               )
             "
             :max-length="255"
-            :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+            channel-type="Context::InboxSettings"
           />
 
           <label v-if="isAWebWidgetInbox" class="pb-4">
