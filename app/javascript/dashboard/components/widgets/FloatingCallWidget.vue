@@ -197,10 +197,10 @@ onBeforeUnmount(() => {
         <p
           class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1"
         >
-          {{ $t('CONVERSATION.VOICE_CALL.INCOMING_CALL') }}
+          {{ $t('CONVERSATION.VOICE_WIDGET.INCOMING_CALL') }}
         </p>
         <p class="text-sm text-slate-500 dark:text-slate-400">
-          {{ $t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET') }}
+          {{ $t('CONVERSATION.VOICE_WIDGET.NOT_ANSWERED_YET') }}
         </p>
       </div>
 
@@ -208,10 +208,10 @@ onBeforeUnmount(() => {
         <p
           class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1"
         >
-          {{ $t('CONVERSATION.VOICE_CALL.OUTGOING_CALL') }}
+          {{ $t('CONVERSATION.VOICE_WIDGET.OUTGOING_CALL') }}
         </p>
         <p class="text-sm text-slate-500 dark:text-slate-400">
-          {{ $t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET') }}
+          {{ $t('CONVERSATION.VOICE_WIDGET.NOT_ANSWERED_YET') }}
         </p>
       </div>
 
@@ -219,7 +219,7 @@ onBeforeUnmount(() => {
         <p
           class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1"
         >
-          {{ $t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS') }}
+          {{ $t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS') }}
         </p>
         <p class="text-2xl font-mono text-green-600 dark:text-green-400">
           {{ formattedCallDuration }}
@@ -228,7 +228,7 @@ onBeforeUnmount(() => {
 
       <div v-else>
         <p class="text-lg font-semibold text-slate-900 dark:text-slate-100">
-          {{ $t('CONVERSATION.VOICE_CALL.OUTGOING_CALL') }}
+          {{ $t('CONVERSATION.VOICE_WIDGET.OUTGOING_CALL') }}
         </p>
       </div>
     </div>
@@ -240,7 +240,7 @@ onBeforeUnmount(() => {
         @click="rejectCall"
       >
         <i class="i-ph-phone-x text-lg" />
-        <span>{{ $t('CONVERSATION.VOICE_CALL.REJECT_CALL') }}</span>
+        <span>{{ $t('CONVERSATION.VOICE_WIDGET.REJECT_CALL') }}</span>
       </button>
 
       <button
@@ -248,7 +248,7 @@ onBeforeUnmount(() => {
         @click="acceptCall"
       >
         <i class="i-ph-phone text-lg" />
-        <span>{{ $t('CONVERSATION.VOICE_CALL.JOIN_CALL') }}</span>
+        <span>{{ $t('CONVERSATION.VOICE_WIDGET.JOIN_CALL') }}</span>
       </button>
     </div>
 
@@ -259,7 +259,7 @@ onBeforeUnmount(() => {
         @click="endCall"
       >
         <i class="i-ph-phone-x text-lg" />
-        <span>{{ $t('CONVERSATION.VOICE_CALL.END_CALL') }}</span>
+        <span>{{ $t('CONVERSATION.VOICE_WIDGET.END_CALL') }}</span>
       </button>
     </div>
 
@@ -270,7 +270,7 @@ onBeforeUnmount(() => {
         @click="endCall"
       >
         <i class="i-ph-phone-x text-lg" />
-        <span>{{ $t('CONVERSATION.VOICE_CALL.END_CALL') }}</span>
+        <span>{{ $t('CONVERSATION.VOICE_WIDGET.END_CALL') }}</span>
       </button>
     </div>
   </div>

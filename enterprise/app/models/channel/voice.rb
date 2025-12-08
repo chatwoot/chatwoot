@@ -45,7 +45,7 @@ class Channel::Voice < ApplicationRecord
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
     case provider
     when 'twilio'
-      Voice::Provider::TwilioAdapter.new(self).initiate_call(
+      Voice::Provider::Twilio::Adapter.new(self).initiate_call(
         to: to,
         conference_sid: conference_sid,
         agent_id: agent_id
@@ -89,7 +89,7 @@ class Channel::Voice < ApplicationRecord
       errors.add(:provider_config, "#{key} is required for Twilio provider") if config[key].blank?
     end
   end
-  # twilio_client and initiate_twilio_call moved to Voice::Provider::TwilioAdapter
+  # twilio_client and initiate_twilio_call moved to Voice::Provider::Twilio::Adapter
 
   def provider_config_hash
     if provider_config.is_a?(Hash)

@@ -10,6 +10,14 @@ RSpec.describe 'Voice Conference API', type: :request do
 
   let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }
   let(:voice_grant) { instance_double(Twilio::JWT::AccessToken::VoiceGrant) }
+  let(:conference_service) do
+    instance_double(
+      Voice::Provider::Twilio::ConferenceService,
+      ensure_conference_sid: 'CF123',
+      mark_agent_joined: true,
+      end_conference: true
+    )
+  end
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(webhook_service)
@@ -17,6 +25,7 @@ RSpec.describe 'Voice Conference API', type: :request do
     allow(voice_grant).to receive(:outgoing_application_sid=)
     allow(voice_grant).to receive(:outgoing_application_params=)
     allow(voice_grant).to receive(:incoming_allow=)
+    allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference_service)
   end
 
   describe 'GET /conference_token' do
@@ -70,8 +79,8 @@ RSpec.describe 'Voice Conference API', type: :request do
         expect(body['conference_sid']).to be_present
         conversation.reload
         expect(conversation.identifier).to eq('CALL123')
-        expect(conversation.additional_attributes['conference_sid']).to eq(body['conference_sid'])
-        expect(conversation.additional_attributes['agent_joined']).to be true
+        expect(conference_service).to have_received(:ensure_conference_sid)
+        expect(conference_service).to have_received(:mark_agent_joined)
       end
 
       it 'returns conflict when call_sid missing' do
@@ -98,15 +107,13 @@ RSpec.describe 'Voice Conference API', type: :request do
       before { create(:inbox_member, inbox: voice_inbox, user: agent) }
 
       it 'ends conference and returns success' do
-        end_service = instance_double(Voice::Conference::EndService, perform: true)
-        allow(Voice::Conference::EndService).to receive(:new).and_return(end_service)
-
         delete url,
                headers: agent.create_new_auth_token,
                params: { conversation_id: conversation.display_id }
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
+        expect(conference_service).to have_received(:end_conference)
       end
     end
   end

@@ -13,10 +13,9 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     conversation = fetch_conversation_by_display_id
     ensure_call_sid!(conversation)
 
-    conference_sid = ensure_conference_sid!(conversation)
-    @conversation = conversation
-
-    update_join_metadata!
+    conference_service = Voice::Provider::Twilio::ConferenceService.new(conversation: conversation)
+    conference_sid = conference_service.ensure_conference_sid
+    conference_service.mark_agent_joined(user: current_user)
 
     render json: {
       status: 'success',
@@ -28,34 +27,11 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
   def conference_leave
     conversation = fetch_conversation_by_display_id
-    # End the conference when an agent leaves from the app
-    Voice::Conference::EndService.new(conversation: conversation).perform
+    Voice::Provider::Twilio::ConferenceService.new(conversation: conversation).end_conference
     render json: { status: 'success', id: conversation.display_id }
   end
 
   private
-
-  def convo_attrs
-    @conversation.additional_attributes || {}
-  end
-
-  def convo_attr(key)
-    convo_attrs[key]
-  end
-
-  def user_meta
-    { id: current_user.id, name: current_user.name }
-  end
-
-  def update_join_metadata!
-    attrs = convo_attrs.merge(
-      'agent_joined' => true,
-      'joined_at' => Time.current.to_i,
-      'joined_by' => user_meta
-    )
-
-    @conversation.update!(additional_attributes: attrs)
-  end
 
   def ensure_call_sid!(conversation)
     return conversation.identifier if conversation.identifier.present?
@@ -64,18 +40,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
     conversation.update!(identifier: incoming_sid)
     incoming_sid
-  end
-
-  def ensure_conference_sid!(conversation)
-    existing = conversation.additional_attributes&.dig('conference_sid')
-    return existing if existing.present?
-
-    sid = Voice::Conference::Name.for(conversation)
-    conversation.update!(
-      additional_attributes:
-        (conversation.additional_attributes || {}).merge('conference_sid' => sid)
-    )
-    sid
   end
 
   def set_voice_inbox_for_conference

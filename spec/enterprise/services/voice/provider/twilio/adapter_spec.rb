@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Voice::Provider::TwilioAdapter do
+describe Voice::Provider::Twilio::Adapter do
   let(:account) { create(:account) }
   let(:channel) { create(:channel_voice, account: account) }
   let(:adapter) { described_class.new(channel) }
@@ -13,6 +13,8 @@ describe Voice::Provider::TwilioAdapter do
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(webhook_service)
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with('DISABLE_ENTERPRISE', false).and_return(false)
   end
 
   it 'initiates an outbound call with expected params' do

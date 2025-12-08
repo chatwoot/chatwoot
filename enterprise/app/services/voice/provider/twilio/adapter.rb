@@ -1,4 +1,4 @@
-class Voice::Provider::TwilioAdapter
+class Voice::Provider::Twilio::Adapter
   def initialize(channel)
     @channel = channel
   end
