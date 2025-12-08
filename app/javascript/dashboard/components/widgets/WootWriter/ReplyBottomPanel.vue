@@ -73,10 +73,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  showEditorToggle: {
-    type: Boolean,
-    default: false,
-  },
   isOnPrivateNote: {
     type: Boolean,
     default: false,
@@ -126,7 +122,6 @@ const props = defineProps({
 const emit = defineEmits([
   'replaceText',
   'toggleInsertArticle',
-  'toggleEditor',
   'selectWhatsappTemplate',
   'selectContentTemplate',
   'toggleQuotedReply',
@@ -333,25 +328,11 @@ onMounted(() => {
         @click="toggleAudioRecorder"
       />
       <div
-        v-if="showEditorToggle"
-        class="h-3 border-r border-n-strong flex-shrink-0 rounded-full"
-      />
-      <NextButton
-        v-if="showEditorToggle"
-        v-tooltip.top-end="t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        icon="i-ph-quotes"
-        slate
-        ghost
-        sm
-        @click="$emit('toggleEditor')"
-      />
-      <div
         v-if="showAudioPlayStopButton"
         class="h-3 border-r border-n-strong flex-shrink-0 rounded-full"
       />
       <NextButton
         v-if="showAudioPlayStopButton"
-        v-tooltip.top-end="t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         :icon="audioRecorderPlayStopIcon"
         slate
         ghost

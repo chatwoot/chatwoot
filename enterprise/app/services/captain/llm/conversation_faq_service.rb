@@ -1,4 +1,4 @@
-class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
+class Captain::Llm::ConversationFaqService < Llm::LegacyBaseOpenAiService
   DISTANCE_THRESHOLD = 0.3
 
   def initialize(assistant, conversation)

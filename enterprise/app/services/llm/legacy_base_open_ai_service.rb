@@ -1,5 +1,11 @@
-class Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o-mini'.freeze
+# frozen_string_literal: true
+
+# DEPRECATED: This class uses the legacy OpenAI Ruby gem directly.
+# New features should use Llm::BaseAiService with RubyLLM instead.
+# This class will be removed once all services are migrated to RubyLLM.
+class Llm::LegacyBaseOpenAiService
+  DEFAULT_MODEL = 'gpt-4o-mini'
+
   attr_reader :client, :model
 
   def initialize
