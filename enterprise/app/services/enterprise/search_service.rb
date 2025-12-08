@@ -45,11 +45,25 @@ module Enterprise::SearchService
 
   def apply_time_range_filter(where_conditions)
     time_conditions = {}
-    time_conditions[:gte] = Time.zone.at(params[:since].to_i) if params[:since].present?
-
+    time_conditions[:gte] = enforce_time_limit(params[:since])
     time_conditions[:lte] = Time.zone.at(params[:until].to_i) if params[:until].present?
 
     where_conditions[:created_at] = time_conditions if time_conditions.any?
+  end
+
+  def enforce_time_limit(since_param)
+    max_lookback = Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS.days.ago
+
+    if since_param.present?
+      requested_time = Time.zone.at(since_param.to_i)
+      if requested_time < max_lookback
+        raise ArgumentError, I18n.t('errors.messages.search.time_range_limit_exceeded', days: Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS)
+      end
+
+      requested_time
+    else
+      max_lookback
+    end
   end
 
   def apply_inbox_filter(where_conditions)
