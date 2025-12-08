@@ -31,10 +31,16 @@ class Messages::AudioTranscriptionService
   end
 
   def fetch_audio_file
-    temp_dir = Rails.root.join('tmp/uploads')
+    temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
     FileUtils.mkdir_p(temp_dir)
-    temp_file_path = File.join(temp_dir, attachment.file.filename.to_s)
-    File.write(temp_file_path, attachment.file.download, mode: 'wb')
+    temp_file_path = File.join(temp_dir, "#{attachment.file.blob.key}-#{attachment.file.filename}")
+
+    File.open(temp_file_path, 'wb') do |file|
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, file)
+      end
+    end
+
     temp_file_path
   end
 
