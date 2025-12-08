@@ -68,8 +68,8 @@ export const actions = {
     });
     try {
       await Promise.all([
-        dispatch('contactSearch', { q }),
-        dispatch('conversationSearch', { q }),
+        dispatch('contactSearch', { q, ...filters }),
+        dispatch('conversationSearch', { q, ...filters }),
         dispatch('messageSearch', { q, ...filters }),
         dispatch('articleSearch', { q }),
       ]);
@@ -82,10 +82,11 @@ export const actions = {
       });
     }
   },
-  async contactSearch({ commit }, { q, page = 1 }) {
+  async contactSearch({ commit }, payload) {
+    const { page = 1, ...searchParams } = payload;
     commit(types.CONTACT_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await SearchAPI.contacts({ q, page });
+      const { data } = await SearchAPI.contacts({ ...searchParams, page });
       commit(types.CONTACT_SEARCH_SET, data.payload.contacts);
     } catch (error) {
       // Ignore error
@@ -93,10 +94,11 @@ export const actions = {
       commit(types.CONTACT_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
-  async conversationSearch({ commit }, { q, page = 1 }) {
+  async conversationSearch({ commit }, payload) {
+    const { page = 1, ...searchParams } = payload;
     commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await SearchAPI.conversations({ q, page });
+      const { data } = await SearchAPI.conversations({ ...searchParams, page });
       commit(types.CONVERSATION_SEARCH_SET, data.payload.conversations);
     } catch (error) {
       // Ignore error

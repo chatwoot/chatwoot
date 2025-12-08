@@ -3,8 +3,7 @@ import ContactAPI from 'dashboard/api/contacts';
 export const DATE_RANGE_TYPES = {
   LAST_7_DAYS: 'last_7_days',
   LAST_30_DAYS: 'last_30_days',
-  LAST_6_MONTHS: 'last_6_months',
-  LAST_YEAR: 'last_year',
+  LAST_90_DAYS: 'last_90_days',
   CUSTOM: 'custom',
   BETWEEN: 'between',
   BEFORE: 'before',

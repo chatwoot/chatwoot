@@ -245,13 +245,24 @@ const clearSearchResult = () => {
   store.dispatch('conversationSearch/clearSearchResults');
 };
 
-const buildSearchPayload = (basePayload = {}) => ({
-  ...basePayload,
-  ...(filters.value.from && { from: filters.value.from }),
-  ...(filters.value.in && { inboxId: filters.value.in }),
-  ...(filters.value.dateRange.from && { since: filters.value.dateRange.from }),
-  ...(filters.value.dateRange.to && { until: filters.value.dateRange.to }),
-});
+const buildSearchPayload = (basePayload = {}, searchType = 'message') => {
+  const payload = {
+    ...basePayload,
+    // Date filters apply to all search types (contacts, conversations, messages)
+    ...(filters.value.dateRange.from && {
+      since: filters.value.dateRange.from,
+    }),
+    ...(filters.value.dateRange.to && { until: filters.value.dateRange.to }),
+  };
+
+  // Only messages support 'from' and 'inboxId' filters
+  if (searchType === 'message') {
+    if (filters.value.from) payload.from = filters.value.from;
+    if (filters.value.in) payload.inboxId = filters.value.in;
+  }
+
+  return payload;
+};
 
 const updateURL = () => {
   const params = {
@@ -304,10 +315,24 @@ const loadMore = () => {
   const tab = selectedTab.value;
   pages.value[tab] += 1;
 
-  const payload =
-    tab === 'messages'
-      ? buildSearchPayload({ q: query.value, page: pages.value[tab] })
-      : { q: query.value, page: pages.value[tab] };
+  // Build payload based on search type
+  let payload;
+  if (tab === 'articles') {
+    // Articles don't support any filters
+    payload = { q: query.value, page: pages.value[tab] };
+  } else if (tab === 'messages') {
+    // Messages support all filters (from, inboxId, since, until)
+    payload = buildSearchPayload(
+      { q: query.value, page: pages.value[tab] },
+      'message'
+    );
+  } else {
+    // Contacts and conversations only support date filters (since, until)
+    payload = buildSearchPayload(
+      { q: query.value, page: pages.value[tab] },
+      tab
+    );
+  }
 
   store.dispatch(SEARCH_ACTIONS[tab], payload);
 };

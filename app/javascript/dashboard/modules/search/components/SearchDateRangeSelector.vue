@@ -32,6 +32,10 @@ const customFrom = ref('');
 const customTo = ref('');
 const rangeType = ref(DATE_RANGE_TYPES.BETWEEN);
 
+// Calculate min date (90 days ago) for date inputs
+const minDate = computed(() => format(subDays(new Date(), 90), 'yyyy-MM-dd'));
+const maxDate = computed(() => format(new Date(), 'yyyy-MM-dd'));
+
 const DATE_FILTER_ACTIONS = {
   PRESET: 'preset',
   SELECT: 'select',
@@ -49,14 +53,9 @@ const PRESET_RANGES = computed(() => [
     days: 30,
   },
   {
-    label: t('SEARCH.DATE_RANGE.LAST_6_MONTHS'),
-    value: DATE_RANGE_TYPES.LAST_6_MONTHS,
-    months: 6,
-  },
-  {
-    label: t('SEARCH.DATE_RANGE.LAST_YEAR'),
-    value: DATE_RANGE_TYPES.LAST_YEAR,
-    years: 1,
+    label: t('SEARCH.DATE_RANGE.LAST_90_DAYS'),
+    value: DATE_RANGE_TYPES.LAST_90_DAYS,
+    days: 90,
   },
 ]);
 
@@ -289,7 +288,8 @@ const onToggleDropdown = () => {
               v-if="rangeType !== 'before'"
               v-model="customFrom"
               type="date"
-              :max="customTo"
+              :min="minDate"
+              :max="customTo || maxDate"
               class="!w-[7.75rem] !mb-0 !rounded-md !bg-transparent !outline-n-strong -outline-offset-1 !px-2 !py-1 !text-sm text-n-slate-12 !h-8"
             />
             <span
@@ -302,7 +302,8 @@ const onToggleDropdown = () => {
               v-if="rangeType !== 'after'"
               v-model="customTo"
               type="date"
-              :min="customFrom"
+              :min="customFrom || minDate"
+              :max="maxDate"
               class="!w-[7.75rem] !mb-0 !rounded-md !bg-transparent !outline-n-strong -outline-offset-1 !px-2 !py-1 !text-sm text-n-slate-12 !h-8"
             />
           </div>
