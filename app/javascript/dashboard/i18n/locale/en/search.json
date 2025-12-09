@@ -42,6 +42,7 @@
     "DATE_RANGE": {
       "LAST_7_DAYS": "Last 7 days",
       "LAST_30_DAYS": "Last 30 days",
+      "LAST_60_DAYS": "Last 60 days",
       "LAST_90_DAYS": "Last 90 days",
       "CUSTOM_RANGE": "Custom range:",
       "CREATED_BETWEEN": "Created between",

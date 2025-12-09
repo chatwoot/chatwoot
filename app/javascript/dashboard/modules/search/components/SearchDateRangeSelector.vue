@@ -55,6 +55,11 @@ const PRESET_RANGES = computed(() => [
     days: 30,
   },
   {
+    label: t('SEARCH.DATE_RANGE.LAST_60_DAYS'),
+    value: DATE_RANGE_TYPES.LAST_60_DAYS,
+    days: 60,
+  },
+  {
     label: t('SEARCH.DATE_RANGE.LAST_90_DAYS'),
     value: DATE_RANGE_TYPES.LAST_90_DAYS,
     days: 90,
