@@ -46,9 +46,16 @@ module Enterprise::SearchService
   def apply_time_range_filter(where_conditions)
     time_conditions = {}
     time_conditions[:gte] = enforce_time_limit(params[:since])
-    time_conditions[:lte] = Time.zone.at(params[:until].to_i) if params[:until].present?
+    time_conditions[:lte] = cap_until_time(params[:until]) if params[:until].present?
 
     where_conditions[:created_at] = time_conditions if time_conditions.any?
+  end
+
+  def cap_until_time(until_param)
+    max_future = 90.days.from_now
+    requested_time = Time.zone.at(until_param.to_i)
+
+    [requested_time, max_future].min
   end
 
   def enforce_time_limit(since_param)
