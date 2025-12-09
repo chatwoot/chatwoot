@@ -175,7 +175,10 @@ const handleAvatarHover = isHovered => {
           {{ name }}
         </h4>
 
-        <div v-if="isExpanded" class="hidden lg:flex items-center gap-2">
+        <div
+          v-if="isExpanded"
+          class="hidden lg:flex items-center gap-2 flex-shrink-0"
+        >
           <div
             class="w-px h-3 bg-n-strong rounded-md ltr:ml-1 rtl:mr-1 flex-shrink-0"
           />
@@ -198,7 +201,10 @@ const handleAvatarHover = isHovered => {
             class="hover:!no-underline"
             @click="onClickViewDetails"
           />
-          <Policy :permissions="['administrator']">
+          <Policy
+            :permissions="['administrator']"
+            class="flex items-center gap-2"
+          >
             <div
               class="w-px h-3 bg-n-strong rounded-md ltr:ml-1 rtl:mr-1 flex-shrink-0"
             />

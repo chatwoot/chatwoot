@@ -71,7 +71,7 @@ const pageInfo = computed(() => {
 
 <template>
   <div
-    class="flex justify-between h-[3.375rem] w-full max-w-[105rem] border-t border-n-weak mx-auto bg-n-surface-1 py-3 px-4 xl:px-10 items-center before:absolute before:inset-x-0 before:-top-4 before:bg-gradient-to-t before:from-n-surface-1 before:from-10% before:dark:from-0% before:to-transparent before:h-4 before:pointer-events-none"
+    class="flex justify-between h-[3.375rem] w-full max-w-[105rem] border-t border-n-weak mx-auto bg-n-surface-1 py-3 px-6 items-center before:absolute before:inset-x-0 before:-top-4 before:bg-gradient-to-t before:from-n-surface-1 before:from-10% before:dark:from-0% before:to-transparent before:h-4 before:pointer-events-none"
   >
     <div class="flex items-center gap-3">
       <span class="min-w-0 text-sm font-420 line-clamp-1 text-n-slate-11">
