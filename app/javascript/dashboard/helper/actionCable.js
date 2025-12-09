@@ -51,9 +51,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   isAValidEvent = data => {
-    // eslint-disable-next-line no-underscore-dangle
-    const currentAccountId = this.app.$store.getters.getCurrentAccountId;
-    return currentAccountId === data.account_id;
+    return this.app.$store.getters.getCurrentAccountId === data.account_id;
   };
 
   onMessageUpdated = data => {
