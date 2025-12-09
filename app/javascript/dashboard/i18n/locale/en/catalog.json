@@ -1,0 +1,77 @@
+{
+  "CATALOG": {
+    "HEADER": {
+      "TITLE": "Product Catalog",
+      "DESCRIPTION": "Manage your products and services",
+      "SEARCH_PLACEHOLDER": "Search products..."
+    },
+    "ADD_PRODUCT": "Add Product",
+    "EMPTY_STATE": {
+      "TITLE": "No products yet",
+      "SUBTITLE": "Create your first product to start building your catalog",
+      "NO_RESULTS": "No products found",
+      "NO_RESULTS_SUBTITLE": "Try adjusting your search"
+    },
+    "TABLE": {
+      "IMAGE": "Image",
+      "TITLE": "Title",
+      "PRICE": "Price",
+      "ACTIONS": "Actions"
+    },
+    "ACTIONS": {
+      "EDIT": "Edit product",
+      "DELETE": "Delete product"
+    },
+    "FORM": {
+      "TITLE_EN": {
+        "LABEL": "Title (English)",
+        "PLACEHOLDER": "Enter product title in English"
+      },
+      "TITLE_AR": {
+        "LABEL": "Title (Arabic)",
+        "PLACEHOLDER": "Enter product title in Arabic"
+      },
+      "DESCRIPTION_EN": {
+        "LABEL": "Description (English)",
+        "PLACEHOLDER": "Enter product description in English"
+      },
+      "DESCRIPTION_AR": {
+        "LABEL": "Description (Arabic)",
+        "PLACEHOLDER": "Enter product description in Arabic"
+      },
+      "PRICE": {
+        "LABEL": "Price",
+        "PLACEHOLDER": "0.00"
+      },
+      "CURRENCY": {
+        "LABEL": "Currency",
+        "PLACEHOLDER": "Select currency"
+      }
+    },
+    "DIALOG": {
+      "ADD": {
+        "TITLE": "Add Product",
+        "CONFIRM": "Create Product"
+      },
+      "EDIT": {
+        "TITLE": "Edit Product",
+        "CONFIRM": "Update Product"
+      },
+      "DELETE": {
+        "TITLE": "Delete Product",
+        "DESCRIPTION": "Are you sure you want to delete this product? This action cannot be undone.",
+        "CONFIRM": "Delete"
+      }
+    },
+    "SUCCESS": {
+      "CREATE": "Product created successfully",
+      "UPDATE": "Product updated successfully",
+      "DELETE": "Product deleted successfully"
+    },
+    "ERROR": {
+      "CREATE": "Failed to create product",
+      "UPDATE": "Failed to update product",
+      "DELETE": "Failed to delete product"
+    }
+  }
+}

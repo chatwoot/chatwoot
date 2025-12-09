@@ -327,6 +327,13 @@ const menuItems = computed(() => {
         ]
       : []),
     {
+      name: 'Catalog',
+      label: t('SIDEBAR.CATALOG'),
+      icon: 'i-lucide-package',
+      to: accountScopedRoute('catalog_index'),
+      activeOn: ['catalog_index'],
+    },
+    {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
       icon: 'i-lucide-chart-spline',

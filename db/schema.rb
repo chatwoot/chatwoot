@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_09_132956) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -47,6 +47,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
+  end
+
+  create_table "account_tap_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "secret_key"
+    t.boolean "enabled", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_tap_settings_on_account_id", unique: true
   end
 
   create_table "account_users", force: :cascade do |t|
@@ -1123,6 +1132,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
     t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "title_en", null: false
+    t.string "title_ar"
+    t.text "description_en"
+    t.text "description_ar"
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.string "currency", default: "SAR", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "title_en"], name: "index_products_on_account_id_and_title_en", unique: true
+    t.index ["account_id"], name: "index_products_on_account_id"
+  end
+
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
@@ -1304,6 +1327,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
   end
 
   add_foreign_key "account_payzah_settings", "accounts"
+  add_foreign_key "account_tap_settings", "accounts"
   add_foreign_key "account_whatsapp_settings", "accounts"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
@@ -1313,6 +1337,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_12_120811) do
   add_foreign_key "payment_links", "conversations"
   add_foreign_key "payment_links", "messages"
   add_foreign_key "payment_links", "users", column: "created_by_id"
+  add_foreign_key "products", "accounts"
   add_foreign_key "users", "users", column: "human_agent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

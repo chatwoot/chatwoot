@@ -39,6 +39,7 @@ import inboxMembers from './modules/inboxMembers';
 import integrations from './modules/integrations';
 import labels from './modules/labels';
 import macros from './modules/macros';
+import products from './modules/products';
 import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
@@ -103,6 +104,7 @@ export default createStore({
     integrations,
     labels,
     macros,
+    products,
     notifications,
     portals,
     reports,
