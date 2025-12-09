@@ -134,6 +134,11 @@
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
     "SHOW_QUOTED_TEXT": "Show Quoted Text",
     "MESSAGE_READ": "Read",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "SWITCH_TO_KANBAN": "Switch to board view",
+    "SWITCH_TO_LIST": "Switch to list view",
+    "KANBAN": {
+      "NO_CONVERSATIONS": "No conversations"
+    }
   }
 }
