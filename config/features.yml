@@ -229,5 +229,5 @@
   chatwoot_internal: true
 - name: advanced_assignment
   display_name: Advanced Assignment
-  enabled: false
+  enabled: true
   premium: true
