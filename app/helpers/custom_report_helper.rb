@@ -1268,7 +1268,7 @@ module CustomReportHelper
   end
 
   def average_value_key
-    @config[:filters][:business_hours].present? && @config[:filters][:business_hours] == true ? :value_in_business_hours : :value
+    ActiveModel::Type::Boolean.new.cast(@config[:filters][:business_hours]) ? :value_in_business_hours : :value
   end
 
   def group_by_key
