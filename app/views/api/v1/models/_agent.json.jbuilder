@@ -14,6 +14,9 @@ json.thumbnail resource.avatar_url
 json.custom_role_id resource.current_account_user&.custom_role_id if ChatwootApp.enterprise?
 json.timezone resource.current_account_user&.timezone
 json.phone_number resource.phone_number
+json.current_account_user_id resource.current_account_user.id
+json.responsible_id resource.current_account_user&.responsible_id
+json.responsible_name resource.current_account_user&.responsible&.user&.name
 
 json.working_hours resource.current_account_user&.working_hours do |wh|
   json.partial! 'api/v1/models/working_hours', resource: wh

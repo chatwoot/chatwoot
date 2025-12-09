@@ -6,6 +6,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
 import WeeklyAvailabilitySection from '../components/WeeklyAvailabilitySection.vue';
@@ -45,6 +46,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  responsibleId: {
+    type: Number,
+    default: null,
+  },
   agent: {
     type: Object,
     default: () => ({}),
@@ -66,6 +71,7 @@ const activeDialCode = ref('');
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
+const selectedResponsibleId = ref(props.responsibleId);
 
 const parsedPhoneNumber = computed(() => {
   return parsePhoneNumber(agentPhoneNumber.value || '');
@@ -132,6 +138,16 @@ const pageTitle = computed(
 
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+const agents = useMapGetter('agents/getAgents');
+
+const responsibleOptions = computed(() => {
+  return agents.value
+    .filter(agent => agent.id !== props.id)
+    .map(agent => ({
+      value: agent.current_account_user_id,
+      label: agent.name,
+    }));
+});
 
 const roles = computed(() => {
   const defaultRoles = [
@@ -193,6 +209,10 @@ const editAgent = async () => {
       availability: agentAvailability.value,
       ...availability,
     };
+
+    if (selectedResponsibleId.value) {
+      payload.responsible_id = selectedResponsibleId.value;
+    }
 
     if (selectedRole.value.name.startsWith('custom_')) {
       payload.custom_role_id = selectedRole.value.id;
@@ -283,6 +303,22 @@ const resetPassword = async () => {
           <span v-if="v$.agentAvailability.$error" class="message">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
           </span>
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label>
+          {{ $t('AGENT_MGMT.EDIT.FORM.RESPONSIBLE.LABEL') }}
+          <ComboBox
+            v-model="selectedResponsibleId"
+            :options="responsibleOptions"
+            :placeholder="$t('AGENT_MGMT.EDIT.FORM.RESPONSIBLE.PLACEHOLDER')"
+            :search-placeholder="
+              $t('AGENT_MGMT.EDIT.FORM.RESPONSIBLE.SEARCH_PLACEHOLDER')
+            "
+            :empty-state="$t('AGENT_MGMT.EDIT.FORM.RESPONSIBLE.EMPTY_STATE')"
+            class="[&_button]:!bg-n-alpha-black2"
+          />
         </label>
       </div>
 

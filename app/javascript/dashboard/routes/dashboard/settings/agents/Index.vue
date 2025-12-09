@@ -216,6 +216,7 @@ const confirmDeletion = () => {
                 </div>
               </span>
             </td>
+
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span v-if="agent.confirmed">
                 {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
@@ -224,6 +225,17 @@ const confirmDeletion = () => {
                 {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
               </span>
             </td>
+
+            <td class="relative py-4 ltr:pr-4 rtl:pl-4">
+              <div v-if="agent.responsible_name">
+                {{ $t('AGENT_MGMT.LIST.RESPONSIBLE') }}
+                <span class="capitalize"> {{ agent.responsible_name }} </span>
+              </div>
+              <div v-else>
+                <span>{{ $t('AGENT_MGMT.LIST.RESPONSIBLE_404') }}</span>
+              </div>
+            </td>
+
             <td class="py-4">
               <div class="flex justify-end gap-1">
                 <Button
@@ -268,6 +280,7 @@ const confirmDeletion = () => {
         :availability="currentAgent.availability_status"
         :custom-role-id="currentAgent.custom_role_id"
         :agent="currentAgent"
+        :responsible-id="currentAgent.responsible_id"
         @close="hideEditPopup"
       />
     </woot-modal>

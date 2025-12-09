@@ -19,7 +19,9 @@
       "ACTIONS": "Acciones",
       "VERIFIED": "Verificado",
       "VERIFICATION_PENDING": "Verificación pendiente",
-      "AVAILABLE_CUSTOM_ROLE": "Permisos personalizados de rol disponibles"
+      "AVAILABLE_CUSTOM_ROLE": "Permisos personalizados de rol disponibles",
+      "RESPONSIBLE": "Persona a cargo:",
+      "RESPONSIBLE_404": "Nadie asignado"
     },
     "ADD": {
       "TITLE": "Añadir agente a tu equipo",
@@ -42,6 +44,12 @@
         "PHONE_NUMBER": {
           "LABEL": "Número de teléfono",
           "PLACEHOLDER": "Por favor, introduzca un número de teléfono (ej. +1234567890)"
+        },
+        "RESPONSIBLE": {
+          "LABEL": "Responsable",
+          "PLACEHOLDER": "Seleccione un responsable",
+          "SEARCH_PLACEHOLDER": "Buscar responsable",
+          "EMPTY_STATE": "No hay agentes disponibles"
         },
         "SUBMIT": "Añadir agente"
       },
@@ -84,6 +92,12 @@
           "LABEL": "Disponibilidad",
           "PLACEHOLDER": "Por favor, seleccione un estado de disponibilidad",
           "ERROR": "La disponibilidad es necesaria"
+        },
+        "RESPONSIBLE": {
+          "LABEL": "Responsable",
+          "PLACEHOLDER": "Seleccione un responsable",
+          "SEARCH_PLACEHOLDER": "Buscar responsable",
+          "EMPTY_STATE": "No hay agentes disponibles"
         },
         "SUBMIT": "Editar agente"
       },
