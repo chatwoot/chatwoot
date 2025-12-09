@@ -1,8 +1,10 @@
 module Enterprise::DeleteObjectJob
-  def self.prepended(base)
-    base.const_set(:HEAVY_ASSOCIATIONS, base.const_get(:HEAVY_ASSOCIATIONS).merge(
+  private
+
+  def heavy_associations
+    super.merge(
       SlaPolicy => %i[applied_slas]
-    ).freeze)
+    ).freeze
   end
 
   def process_post_deletion_tasks(object, user, ip)
