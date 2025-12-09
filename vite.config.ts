@@ -95,11 +95,6 @@ const chunkBuilder = chunkInfo => {
 
 export default defineConfig({
   plugins: plugins,
-  define: isTestMode
-    ? {}
-    : {
-        'process.env.NODE_ENV': JSON.stringify('production'),
-      },
   build: {
     rollupOptions: {
       ...rollupOptions,
