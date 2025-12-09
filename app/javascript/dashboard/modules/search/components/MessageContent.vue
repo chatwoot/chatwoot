@@ -22,7 +22,7 @@ const props = defineProps({
 const { t } = useI18n();
 const { highlightContent } = useMessageFormatter();
 
-const { contentElement, isExpanded, needsToggle, toggleExpanded } =
+const { contentElement, showReadMore, showReadLess, toggleExpanded } =
   useExpandableContent();
 
 const messageContent = computed(() => {
@@ -70,13 +70,12 @@ const authorText = computed(() => {
   <div
     ref="contentElement"
     class="break-words grid items-center text-n-slate-11 text-sm leading-relaxed"
-    :class="needsToggle && !isExpanded ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'"
+    :class="showReadMore ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'"
   >
     <div
       class="min-w-0"
       :class="{
-        'overflow-hidden whitespace-nowrap text-ellipsis':
-          !isExpanded && needsToggle,
+        'overflow-hidden whitespace-nowrap text-ellipsis': showReadMore,
       }"
     >
       <span v-if="authorText" class="text-n-slate-11 font-medium leading-4">{{
@@ -87,7 +86,7 @@ const authorText = computed(() => {
         class="message-content text-n-slate-12 [&_.searchkey--highlight]:text-n-slate-12 [&_.searchkey--highlight]:font-semibold"
       />
       <button
-        v-if="needsToggle && isExpanded"
+        v-if="showReadLess"
         class="text-sm text-n-slate-11 underline cursor-pointer bg-transparent border-0 p-0 hover:text-n-slate-12 font-medium ltr:ml-0.5 rtl:mr-0.5"
         @click.prevent="toggleExpanded(false)"
       >
@@ -95,7 +94,7 @@ const authorText = computed(() => {
       </button>
     </div>
     <button
-      v-if="needsToggle && !isExpanded"
+      v-if="showReadMore"
       class="text-sm text-n-slate-11 underline cursor-pointer bg-transparent border-0 p-0 hover:text-n-slate-12 font-medium justify-self-end ltr:ml-0.5 rtl:mr-0.5"
       @click.prevent="toggleExpanded(true)"
     >

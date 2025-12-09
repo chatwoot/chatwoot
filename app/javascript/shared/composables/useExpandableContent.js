@@ -1,4 +1,4 @@
-import { ref, nextTick, onMounted } from 'vue';
+import { ref, computed, nextTick, onMounted } from 'vue';
 import { useToggle, useResizeObserver } from '@vueuse/core';
 
 /**
@@ -21,6 +21,9 @@ export function useExpandableContent(options = {}) {
   const contentElement = ref(null);
   const [isExpanded, toggleExpanded] = useToggle(false);
   const needsToggle = ref(false);
+
+  const showReadMore = computed(() => needsToggle.value && !isExpanded.value);
+  const showReadLess = computed(() => needsToggle.value && isExpanded.value);
 
   /**
    * Checks if content overflows the maximum allowed height
@@ -51,6 +54,8 @@ export function useExpandableContent(options = {}) {
     contentElement,
     isExpanded,
     needsToggle,
+    showReadMore,
+    showReadLess,
     toggleExpanded,
     checkOverflow,
   };

@@ -8,7 +8,7 @@ defineProps({
   },
 });
 
-const { contentElement, isExpanded, needsToggle, toggleExpanded } =
+const { contentElement, showReadMore, showReadLess, toggleExpanded } =
   useExpandableContent({ useResizeObserverForCheck: true });
 </script>
 
@@ -18,16 +18,16 @@ const { contentElement, isExpanded, needsToggle, toggleExpanded } =
   </span>
   <div
     class="text-n-slate-11 pt-1 text-sm rounded-lg w-full break-words grid items-center"
-    :class="needsToggle && !isExpanded ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'"
+    :class="showReadMore ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'"
   >
     <div
       ref="contentElement"
       class="min-w-0"
-      :class="{ 'overflow-hidden line-clamp-1': !isExpanded && needsToggle }"
+      :class="{ 'overflow-hidden line-clamp-1': showReadMore }"
     >
       {{ text }}
       <button
-        v-if="needsToggle && isExpanded"
+        v-if="showReadLess"
         class="text-sm text-n-slate-11 underline cursor-pointer bg-transparent border-0 p-0 hover:text-n-slate-12 font-medium ltr:ml-0.5 rtl:mr-0.5"
         @click.prevent.stop="toggleExpanded(false)"
       >
@@ -35,7 +35,7 @@ const { contentElement, isExpanded, needsToggle, toggleExpanded } =
       </button>
     </div>
     <button
-      v-if="needsToggle && !isExpanded"
+      v-if="showReadMore"
       class="text-sm text-n-slate-11 underline cursor-pointer bg-transparent border-0 p-0 hover:text-n-slate-12 font-medium justify-self-end ltr:ml-0.5 rtl:mr-0.5"
       @click.prevent.stop="toggleExpanded(true)"
     >
