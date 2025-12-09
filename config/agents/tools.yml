@@ -34,3 +34,8 @@
   title: 'Handoff to Human'
   description: 'Hand off the conversation to a human agent'
   icon: 'user-switch'
+
+- id: resolve
+  title: 'Resolve Conversation'
+  description: 'Mark the conversation as resolved'
+  icon: 'checkmark-circle'
