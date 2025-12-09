@@ -19,6 +19,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  conversationCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const emits = defineEmits([
@@ -53,6 +57,14 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
       >
         {{ pageTitle }}
       </h1>
+      <div
+        v-if="hasAppliedFilters && conversationCount > 0"
+        class="bg-slate-50 dark:bg-slate-800 rounded-md text-slate-600 dark:text-slate-100 h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0 min-w-[20px]"
+      >
+        <span>
+          {{ conversationCount }}
+        </span>
+      </div>
       <span
         v-if="!hasAppliedFiltersOrActiveFolders"
         class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-600 dark:text-slate-300"
