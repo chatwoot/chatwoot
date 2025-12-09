@@ -5,6 +5,7 @@ class AdministratorNotifications::ConversationHandoffMailer < AdministratorNotif
     @conversation   = conversation
     @account        = conversation.account
     @action_url     = conversation_url(@conversation)
+    @instagram_profile_url = instagram_profile_url(@conversation)
     ensure_current_account(@account)
 
     subject = "Conversation Handoff for account #{@account.name} on platform #{@conversation.inbox.name}"
@@ -26,7 +27,8 @@ class AdministratorNotifications::ConversationHandoffMailer < AdministratorNotif
     super.merge!({
                    conversation: @conversation,
                    inbox: @conversation.inbox,
-                   account: @account
+                   account: @account,
+                   instagram_profile_url: @instagram_profile_url
                  })
   end
 end

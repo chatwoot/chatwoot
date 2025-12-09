@@ -42,7 +42,7 @@
     "FORM_SECTION_DETAILS": "Primary details",
     "FORM_SECTION_CONTENT": "Content & policies",
     "FORM_SECTION_QUESTIONNAIRE": "Questionnaire",
-    "FORM_SECTION_QUESTIONNAIRE_HELP": "Add the questions Stark should ask entrants when they join this contest.",
+    "FORM_SECTION_QUESTIONNAIRE_HELP": "Add the questions our AI agent should ask entrants when they join this contest.",
     "FORM_VALIDATION_REQUIRED": "This field is required.",
     "FORM_VALIDATION_TRIGGER_WORDS": "Add at least one trigger word.",
     "FORM_VALIDATION_DATE_ORDER": "End date must be on or after the start date.",
@@ -132,7 +132,8 @@
     "CUSTOMERS_UNKNOWN_PARTICIPANT": "Contest participant",
     "CUSTOMERS_UNKNOWN_CONTEST": "Unknown contest",
     "CUSTOMERS_UNKNOWN_HANDLE": "No contact details",
-    "CUSTOMERS_EMPTY": "No customers just yet. Share this contest and start collecting entries."
+    "CUSTOMERS_EMPTY": "No customers just yet. Share this contest and start collecting entries.",
+    "FORM_TRIGGER_WORDS_SUBTITLE": "Any of these keywords can be used with a hashtag to trigger this contest. e.g. If you add iwin, users who message #iwin will trigger the contest."
   }
 }
 

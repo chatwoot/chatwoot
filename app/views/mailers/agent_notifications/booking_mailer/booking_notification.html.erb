@@ -29,6 +29,19 @@
       <td style="font-weight: bold; padding: 10px 12px; background: #fafbfc; border-radius: 0 0 0 8px;">Email</td>
       <td style="padding: 10px 12px; background: #fafbfc; border-radius: 0 0 8px 0;"><%= @customer_email %></td>
     </tr>
+    <% profile_url = @instagram_profile_url.presence %>
+    <% if profile_url.present? %>
+      <tr style="background: #f2f3f7;">
+        <td style="font-weight: bold; padding: 10px 12px;">
+          <%= @instagram_profile_url.present? ? 'Instagram Profile' : 'Facebook Profile' %>
+        </td>
+        <td style="padding: 10px 12px;">
+          <a href="<%= profile_url %>" target="_blank" rel="noopener" style="color:#1f93ff; text-decoration:none;">
+            <%= profile_url %>
+          </a>
+        </td>
+      </tr>
+    <% end %>
   </table>
   
   <div style="margin-bottom: 24px;">
