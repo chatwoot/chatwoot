@@ -46,12 +46,6 @@ const clearAllFilters = () => {
     class="flex flex-col lg:flex-row items-start lg:items-center gap-3 p-4 w-full min-w-0"
   >
     <div class="flex items-center gap-3 min-w-0 max-w-full">
-      <SearchDateRangeSelector
-        v-model="filters.dateRange"
-        class="min-w-0 max-w-full"
-        @change="onFilterChange"
-      />
-
       <Button
         v-if="hasActiveFilters"
         sm
@@ -59,8 +53,14 @@ const clearAllFilters = () => {
         solid
         :label="t('SEARCH.DATE_RANGE.CLEAR_FILTER')"
         icon="i-lucide-x"
-        class="flex-shrink-0"
+        class="flex-shrink-0 lg:hidden"
         @click="clearAllFilters"
+      />
+
+      <SearchDateRangeSelector
+        v-model="filters.dateRange"
+        class="min-w-0 max-w-full"
+        @change="onFilterChange"
       />
     </div>
 
@@ -89,5 +89,16 @@ const clearAllFilters = () => {
         />
       </div>
     </div>
+
+    <Button
+      v-if="hasActiveFilters"
+      sm
+      slate
+      solid
+      :label="t('SEARCH.DATE_RANGE.CLEAR_FILTER')"
+      icon="i-lucide-x"
+      class="flex-shrink-0 hidden lg:inline-flex"
+      @click="clearAllFilters"
+    />
   </div>
 </template>
