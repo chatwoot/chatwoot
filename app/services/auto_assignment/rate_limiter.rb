@@ -24,11 +24,11 @@ class AutoAssignment::RateLimiter
   private
 
   def enabled?
-    limit.present? && limit.positive?
+    limit.present?
   end
 
   def limit
-    config&.fair_distribution_limit&.to_i || Math
+    config&.fair_distribution_limit.present? ? config.fair_distribution_limit.to_i : 100_000
   end
 
   def window

@@ -70,8 +70,8 @@ const formData = computed(() => ({
   assignmentOrder: selectedPolicy.value?.assignmentOrder || ROUND_ROBIN,
   conversationPriority:
     selectedPolicy.value?.conversationPriority || EARLIEST_CREATED,
-  fairDistributionLimit: selectedPolicy.value?.fairDistributionLimit || 10,
-  fairDistributionWindow: selectedPolicy.value?.fairDistributionWindow || 60,
+  fairDistributionLimit: selectedPolicy.value?.fairDistributionLimit || 100,
+  fairDistributionWindow: selectedPolicy.value?.fairDistributionWindow || 3600,
 }));
 
 const handleDeleteInbox = async inboxId => {
