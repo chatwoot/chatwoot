@@ -67,9 +67,9 @@ const closeDeleteDialog = () => {
   showDeleteDialog.value = false;
 };
 
-const handleCreate = async productData => {
+const handleCreate = async ({ product, blobId }) => {
   try {
-    await store.dispatch('products/create', productData);
+    await store.dispatch('products/create', { ...product, blob_id: blobId });
     useAlert(t('CATALOG.SUCCESS.CREATE'));
     closeAddDialog();
   } catch (error) {
@@ -77,11 +77,12 @@ const handleCreate = async productData => {
   }
 };
 
-const handleUpdate = async productData => {
+const handleUpdate = async ({ product, blobId }) => {
   try {
     await store.dispatch('products/update', {
       id: selectedProduct.value.id,
-      ...productData,
+      ...product,
+      blob_id: blobId,
     });
     useAlert(t('CATALOG.SUCCESS.UPDATE'));
     closeEditDialog();

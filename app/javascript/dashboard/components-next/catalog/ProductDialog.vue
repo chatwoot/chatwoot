@@ -1,10 +1,14 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Spinner from 'shared/components/Spinner.vue';
 
 const props = defineProps({
   show: {
@@ -24,8 +28,10 @@ const props = defineProps({
 const emit = defineEmits(['close', 'submit']);
 
 const { t } = useI18n();
+const { accountId } = useAccount();
 
 const dialogRef = ref(null);
+const fileInputRef = ref(null);
 
 const form = ref({
   title_en: '',
@@ -35,6 +41,12 @@ const form = ref({
   price: '',
   currency: 'SAR',
 });
+
+const imageFile = ref(null);
+const imagePreviewUrl = ref('');
+const existingImageUrl = ref('');
+const isUploading = ref(false);
+const uploadError = ref('');
 
 const currencyOptions = [
   { label: 'SAR', value: 'SAR' },
@@ -63,9 +75,16 @@ const isFormValid = computed(() => {
     form.value.title_en.trim() !== '' &&
     form.value.price !== '' &&
     Number(form.value.price) > 0 &&
-    form.value.currency !== ''
+    form.value.currency !== '' &&
+    !isUploading.value
   );
 });
+
+const displayImageUrl = computed(
+  () => imagePreviewUrl.value || existingImageUrl.value
+);
+
+const hasImage = computed(() => !!displayImageUrl.value);
 
 const resetForm = () => {
   form.value = {
@@ -76,6 +95,11 @@ const resetForm = () => {
     price: '',
     currency: 'SAR',
   };
+  imageFile.value = null;
+  imagePreviewUrl.value = '';
+  existingImageUrl.value = '';
+  isUploading.value = false;
+  uploadError.value = '';
 };
 
 const populateForm = () => {
@@ -88,6 +112,9 @@ const populateForm = () => {
       price: props.product.price || '',
       currency: props.product.currency || 'SAR',
     };
+    existingImageUrl.value = props.product.image_url || '';
+    imageFile.value = null;
+    imagePreviewUrl.value = '';
   } else {
     resetForm();
   }
@@ -98,8 +125,46 @@ const handleClose = () => {
   resetForm();
 };
 
-const handleSubmit = () => {
+const handleImageClick = () => {
+  fileInputRef.value?.click();
+};
+
+const handleImageSelect = event => {
+  const [file] = event.target.files;
+  if (file) {
+    imageFile.value = file;
+    imagePreviewUrl.value = URL.createObjectURL(file);
+    uploadError.value = '';
+  }
+};
+
+const handleRemoveImage = () => {
+  imageFile.value = null;
+  imagePreviewUrl.value = '';
+  existingImageUrl.value = '';
+  if (fileInputRef.value) {
+    fileInputRef.value.value = null;
+  }
+};
+
+const handleSubmit = async () => {
   if (!isFormValid.value) return;
+
+  let blobId = null;
+
+  if (imageFile.value) {
+    try {
+      isUploading.value = true;
+      uploadError.value = '';
+      const result = await uploadFile(imageFile.value, accountId.value);
+      blobId = result.blobId;
+    } catch {
+      uploadError.value = t('CATALOG.FORM.IMAGE.ERROR');
+      isUploading.value = false;
+      return;
+    }
+    isUploading.value = false;
+  }
 
   emit('submit', {
     product: {
@@ -110,6 +175,7 @@ const handleSubmit = () => {
       price: Number(form.value.price),
       currency: form.value.currency,
     },
+    blobId,
   });
 };
 
@@ -148,6 +214,57 @@ watch(
     @confirm="handleSubmit"
   >
     <div class="flex flex-col gap-4">
+      <!-- Image Upload -->
+      <div>
+        <label class="block mb-1.5 text-sm font-medium text-n-slate-12">
+          {{ t('CATALOG.FORM.IMAGE.LABEL') }}
+        </label>
+        <div class="relative inline-block group">
+          <div
+            class="relative flex items-center justify-center w-24 h-24 overflow-hidden border rounded-lg cursor-pointer bg-n-alpha-2 border-n-weak hover:border-n-brand"
+            @click="handleImageClick"
+          >
+            <img
+              v-if="hasImage"
+              :src="displayImageUrl"
+              :alt="form.title_en || t('CATALOG.FORM.IMAGE.LABEL')"
+              class="object-cover w-full h-full"
+            />
+            <div
+              v-else
+              class="flex flex-col items-center justify-center gap-1 text-n-slate-10"
+            >
+              <Icon icon="i-lucide-image-plus" class="size-6" />
+              <span class="text-xs">{{ t('CATALOG.FORM.IMAGE.UPLOAD') }}</span>
+            </div>
+            <div
+              v-if="isUploading"
+              class="absolute inset-0 flex items-center justify-center bg-n-alpha-black1"
+            >
+              <Spinner />
+            </div>
+          </div>
+          <button
+            v-if="hasImage && !isUploading"
+            type="button"
+            class="absolute z-10 flex items-center justify-center invisible w-6 h-6 transition-opacity bg-white rounded-full opacity-0 shadow -top-2 -right-2 group-hover:visible group-hover:opacity-100 hover:bg-n-slate-2"
+            @click.stop="handleRemoveImage"
+          >
+            <Icon icon="i-lucide-x" class="text-n-slate-11 size-4" />
+          </button>
+          <input
+            ref="fileInputRef"
+            type="file"
+            accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+            class="hidden"
+            @change="handleImageSelect"
+          />
+        </div>
+        <p v-if="uploadError" class="mt-1 text-xs text-n-ruby-9">
+          {{ uploadError }}
+        </p>
+      </div>
+
       <!-- Title English -->
       <Input
         v-model="form.title_en"

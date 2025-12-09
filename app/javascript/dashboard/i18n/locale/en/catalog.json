@@ -23,6 +23,11 @@
       "DELETE": "Delete product"
     },
     "FORM": {
+      "IMAGE": {
+        "LABEL": "Product Image",
+        "UPLOAD": "Upload",
+        "ERROR": "Failed to upload image"
+      },
       "TITLE_EN": {
         "LABEL": "Title (English)",
         "PLACEHOLDER": "Enter product title in English"
