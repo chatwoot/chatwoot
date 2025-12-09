@@ -78,10 +78,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    showEditorToggle: {
-      type: Boolean,
-      default: false,
-    },
     isOnPrivateNote: {
       type: Boolean,
       default: false,
@@ -136,7 +132,6 @@ export default {
   emits: [
     'replaceText',
     'toggleInsertArticle',
-    'toggleEditor',
     'selectWhatsappTemplate',
     'selectContentTemplate',
     'toggleQuotedReply',
@@ -357,7 +352,25 @@ export default {
         />
       </template>
       <NextButton
-        v-if="allowSignature && showMessageSignatureButton"
+        v-if="showAudioRecorderButton"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
+        slate
+        faded
+        sm
+        @click="toggleAudioRecorder"
+      />
+      <NextButton
+        v-if="showAudioPlayStopButton"
+        :icon="audioRecorderPlayStopIcon"
+        slate
+        faded
+        sm
+        :label="recordingAudioDurationText"
+        @click="toggleAudioRecorderPlayPause"
+      />
+      <NextButton
+        v-if="showMessageSignatureButton"
         v-tooltip.top-end="signatureToggleTooltip"
         icon="i-ph-signature"
         slate
