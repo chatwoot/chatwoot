@@ -218,13 +218,70 @@ const actions = {
     commit(types.ASSIGN_AGENT, assignee);
   },
 
-  assignTeam: async ({ dispatch }, { conversationId, teamId }) => {
+  assignTeam: async (
+    { dispatch, rootGetters },
+    { conversationId, teamId, skipSync = false }
+  ) => {
     try {
       const response = await ConversationApi.assignTeam({
         conversationId,
         teamId,
       });
       dispatch('setCurrentChatTeam', { team: response.data, conversationId });
+
+      // --- Sincronizar time da conversa com outras conversas do mesmo contato ---
+      // skipSync indica que a sincronização já está sendo feita (ex: pelo componente ContactTeam)
+      if (skipSync) {
+        return;
+      }
+
+      // Busca o contactId da conversa para sincronizar o time
+      try {
+        let contactId = null;
+
+        // Tentativa 1: Buscar do store de conversas primeiro (mais rápido)
+        try {
+          const getConversationById =
+            rootGetters['conversations/getConversationById'];
+          if (typeof getConversationById === 'function') {
+            const conversation = getConversationById(conversationId);
+            if (conversation?.meta?.sender?.id) {
+              contactId = conversation.meta.sender.id;
+            }
+          }
+        } catch {
+          // Error is handled silently
+        }
+
+        // Se encontrou o contactId, sincroniza o time com outras conversas do contato
+        if (contactId) {
+          try {
+            const ContactAPI = (await import('dashboard/api/contacts')).default;
+            const conversationsResponse =
+              await ContactAPI.getConversations(contactId);
+            const conversations = conversationsResponse?.data?.payload || [];
+
+            // Atualiza o time de todas as outras conversas do contato (exceto a atual)
+            await Promise.all(
+              conversations
+                .filter(conv => conv.id !== conversationId)
+                .map(conversation =>
+                  dispatch('assignTeam', {
+                    conversationId: conversation.id,
+                    teamId,
+                    skipSync: true,
+                  }).catch(() => {
+                    // Continua com as próximas conversas mesmo se uma falhar
+                  })
+                )
+            );
+          } catch {
+            // Ignora erros de sincronização para não quebrar o fluxo principal
+          }
+        }
+      } catch {
+        // Ignora erros de sincronização para não quebrar o fluxo principal
+      }
     } catch (error) {
       // Handle error
     }

@@ -1,12 +1,12 @@
 <script setup>
-import { h, computed, onMounted } from 'vue';
+import { h, computed, onMounted, ref } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { useStorage } from '@vueuse/core';
+import { useStorage, useWindowSize } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 
@@ -52,20 +52,40 @@ const toggleShortcutModalFn = show => {
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 
-// We're using localStorage to store the expanded item in the sidebar
+// We're using localStorage to store the expanded items in the sidebar
 // This helps preserve context when navigating between portal and dashboard layouts
 // and also when the user refreshes the page
-const expandedItem = useStorage(
-  'next-sidebar-expanded-item',
-  null,
+// Using Set to support multiple expanded items (for main groups and subgroups)
+const expandedItemsStorage = useStorage(
+  'next-sidebar-expanded-items',
+  [],
   sessionStorage
 );
 
-const setExpandedItem = name => {
-  expandedItem.value = expandedItem.value === name ? null : name;
+const expandedItems = computed({
+  get: () => new Set(expandedItemsStorage.value || []),
+  set: value => {
+    expandedItemsStorage.value = Array.from(value);
+  },
+});
+
+const isItemExpanded = name => {
+  return expandedItems.value.has(name);
 };
+
+const setExpandedItem = name => {
+  const newSet = new Set(expandedItems.value);
+  if (newSet.has(name)) {
+    newSet.delete(name);
+  } else {
+    newSet.add(name);
+  }
+  expandedItems.value = newSet;
+};
+
 provideSidebarContext({
-  expandedItem,
+  expandedItems,
+  isItemExpanded,
   setExpandedItem,
 });
 
@@ -95,6 +115,63 @@ const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
   emit('closeMobileSidebar');
 };
+
+// Sidebar resize functionality
+const { width: windowWidth } = useWindowSize();
+const sidebarWidth = useStorage('next-sidebar-width', 200);
+const MIN_WIDTH = 200;
+const MAX_WIDTH = 400;
+const isResizing = ref(false);
+const resizeStartX = ref(0);
+const resizeStartWidth = ref(200);
+
+const isDesktop = computed(() => windowWidth.value >= 768);
+
+const handleResize = event => {
+  if (!isResizing.value) return;
+
+  const deltaX = event.clientX - resizeStartX.value;
+  const isRTL = document.documentElement.dir === 'rtl';
+  const newWidth = isRTL
+    ? resizeStartWidth.value - deltaX
+    : resizeStartWidth.value + deltaX;
+
+  const clampedWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, newWidth));
+  sidebarWidth.value = clampedWidth;
+};
+
+const stopResize = () => {
+  isResizing.value = false;
+  document.removeEventListener('mousemove', handleResize);
+  document.removeEventListener('mouseup', stopResize);
+  document.body.style.cursor = '';
+  document.body.style.userSelect = '';
+};
+
+const startResize = event => {
+  // Only allow resize on desktop (md and above)
+  if (!isDesktop.value) return;
+
+  isResizing.value = true;
+  resizeStartX.value = event.clientX;
+  resizeStartWidth.value = sidebarWidth.value;
+
+  document.addEventListener('mousemove', handleResize);
+  document.addEventListener('mouseup', stopResize);
+  document.body.style.cursor = 'col-resize';
+  document.body.style.userSelect = 'none';
+
+  event.preventDefault();
+};
+
+const sidebarStyle = computed(() => {
+  // Only apply custom width on desktop (md and above)
+  if (!isDesktop.value) return {};
+  return {
+    width: `${sidebarWidth.value}px`,
+    flexBasis: `${sidebarWidth.value}px`,
+  };
+});
 
 const newReportRoutes = () => [
   {
@@ -218,77 +295,6 @@ const menuItems = computed(() => {
       ],
     },
     {
-      name: 'Captain',
-      icon: 'i-woot-captain',
-      label: t('SIDEBAR.CAPTAIN'),
-      activeOn: ['captain_assistants_create_index'],
-      children: [
-        {
-          name: 'FAQs',
-          label: t('SIDEBAR.CAPTAIN_RESPONSES'),
-          activeOn: [
-            'captain_assistants_responses_index',
-            'captain_assistants_responses_pending',
-          ],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_responses_index',
-          }),
-        },
-        {
-          name: 'Documents',
-          label: t('SIDEBAR.CAPTAIN_DOCUMENTS'),
-          activeOn: ['captain_assistants_documents_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_documents_index',
-          }),
-        },
-        {
-          name: 'Scenarios',
-          label: t('SIDEBAR.CAPTAIN_SCENARIOS'),
-          activeOn: ['captain_assistants_scenarios_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_scenarios_index',
-          }),
-        },
-        {
-          name: 'Playground',
-          label: t('SIDEBAR.CAPTAIN_PLAYGROUND'),
-          activeOn: ['captain_assistants_playground_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_playground_index',
-          }),
-        },
-        {
-          name: 'Inboxes',
-          label: t('SIDEBAR.CAPTAIN_INBOXES'),
-          activeOn: ['captain_assistants_inboxes_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_inboxes_index',
-          }),
-        },
-        {
-          name: 'Tools',
-          label: t('SIDEBAR.CAPTAIN_TOOLS'),
-          activeOn: ['captain_tools_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_tools_index',
-          }),
-        },
-        {
-          name: 'Settings',
-          label: t('SIDEBAR.CAPTAIN_SETTINGS'),
-          activeOn: [
-            'captain_assistants_settings_index',
-            'captain_assistants_guidelines_index',
-            'captain_assistants_guardrails_index',
-          ],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_settings_index',
-          }),
-        },
-      ],
-    },
-    {
       name: 'Contacts',
       label: t('SIDEBAR.CONTACTS'),
       icon: 'i-lucide-contact',
@@ -382,6 +388,11 @@ const menuItems = computed(() => {
           name: 'Report Conversation',
           label: t('SIDEBAR.REPORTS_CONVERSATION'),
           to: accountScopedRoute('conversation_reports'),
+        },
+        {
+          name: 'Reports Kanban',
+          label: t('SIDEBAR.REPORTS_KANBAN'),
+          to: accountScopedRoute('kanban_reports'),
         },
         ...reportRoutes.value,
         {
@@ -596,7 +607,15 @@ const menuItems = computed(() => {
         'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
       },
     ]"
+    :style="sidebarStyle"
   >
+    <!-- Resize handle - only visible on desktop -->
+    <div
+      class="hidden md:block absolute top-0 bottom-0 ltr:right-0 rtl:left-0 w-1 cursor-col-resize hover:bg-n-strong/50 transition-colors z-50 group"
+      @mousedown="startResize"
+    >
+      <div class="absolute inset-y-0 ltr:-right-1 rtl:-left-1 w-3" />
+    </div>
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex gap-2 items-center px-2 min-w-0">
         <div class="grid flex-shrink-0 place-content-center size-6">

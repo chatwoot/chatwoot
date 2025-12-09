@@ -104,7 +104,7 @@ export default {
       v-if="showClose"
       class="label-close--button p-0"
       :style="{ color: textColor }"
-      @click="onClick"
+      @click.stop="onClick"
     >
       <fluent-icon icon="dismiss" size="12" class="close--icon" />
     </button>

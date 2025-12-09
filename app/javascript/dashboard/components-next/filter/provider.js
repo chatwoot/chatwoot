@@ -7,8 +7,6 @@ import {
   buildAttributesFilterTypes,
   CONVERSATION_ATTRIBUTES,
 } from './helper/filterHelper';
-import countries from 'shared/constants/countries.js';
-import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
 /**
  * @typedef {Object} FilterOption
@@ -59,15 +57,9 @@ export function useConversationFilterContext() {
   const agents = useMapGetter('agents/getAgents');
   const inboxes = useMapGetter('inboxes/getInboxes');
   const teams = useMapGetter('teams/getTeams');
-  const campaigns = useMapGetter('campaigns/getAllCampaigns');
 
-  const {
-    equalityOperators,
-    presenceOperators,
-    containmentOperators,
-    dateOperators,
-    getOperatorTypes,
-  } = useOperators();
+  const { equalityOperators, presenceOperators, getOperatorTypes } =
+    useOperators();
 
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
@@ -160,30 +152,6 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: CONVERSATION_ATTRIBUTES.DISPLAY_ID,
-      value: CONVERSATION_ATTRIBUTES.DISPLAY_ID,
-      attributeName: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
-      label: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
-      inputType: 'number',
-      dataType: 'number',
-      filterOperators: containmentOperators.value,
-      attributeModel: 'standard',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.CAMPAIGN_ID,
-      value: CONVERSATION_ATTRIBUTES.CAMPAIGN_ID,
-      attributeName: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
-      label: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
-      inputType: 'searchSelect',
-      options: campaigns.value.map(campaign => ({
-        id: campaign.id,
-        name: campaign.title,
-      })),
-      dataType: 'number',
-      filterOperators: presenceOperators.value,
-      attributeModel: 'standard',
-    },
-    {
       attributeKey: CONVERSATION_ATTRIBUTES.LABELS,
       value: CONVERSATION_ATTRIBUTES.LABELS,
       attributeName: t('FILTER.ATTRIBUTES.LABELS'),
@@ -205,58 +173,6 @@ export function useConversationFilterContext() {
       }),
       dataType: 'text',
       filterOperators: presenceOperators.value,
-      attributeModel: 'standard',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.BROWSER_LANGUAGE,
-      value: CONVERSATION_ATTRIBUTES.BROWSER_LANGUAGE,
-      attributeName: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
-      label: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
-      inputType: 'searchSelect',
-      options: languages,
-      dataType: 'text',
-      filterOperators: equalityOperators.value,
-      attributeModel: 'additional',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.COUNTRY_CODE,
-      value: CONVERSATION_ATTRIBUTES.COUNTRY_CODE,
-      attributeName: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
-      label: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
-      inputType: 'searchSelect',
-      options: countries,
-      dataType: 'text',
-      filterOperators: equalityOperators.value,
-      attributeModel: 'additional',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.REFERER,
-      value: CONVERSATION_ATTRIBUTES.REFERER,
-      attributeName: t('FILTER.ATTRIBUTES.REFERER_LINK'),
-      label: t('FILTER.ATTRIBUTES.REFERER_LINK'),
-      inputType: 'plainText',
-      dataType: 'text',
-      filterOperators: containmentOperators.value,
-      attributeModel: 'additional',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.CREATED_AT,
-      value: CONVERSATION_ATTRIBUTES.CREATED_AT,
-      attributeName: t('FILTER.ATTRIBUTES.CREATED_AT'),
-      label: t('FILTER.ATTRIBUTES.CREATED_AT'),
-      inputType: 'date',
-      dataType: 'text',
-      filterOperators: dateOperators.value,
-      attributeModel: 'standard',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.LAST_ACTIVITY_AT,
-      value: CONVERSATION_ATTRIBUTES.LAST_ACTIVITY_AT,
-      attributeName: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
-      label: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
-      inputType: 'date',
-      dataType: 'text',
-      filterOperators: dateOperators.value,
       attributeModel: 'standard',
     },
     ...customFilterTypes.value,

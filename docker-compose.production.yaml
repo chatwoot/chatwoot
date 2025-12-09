@@ -2,7 +2,9 @@ version: '3'
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
+    # ATENÇÃO: Altere para sua imagem customizada do Docker Hub
+    # Exemplo: seusuario/chatwoot:latest
+    image: houi/chatkivo:v0.1
     env_file: .env ## Change this file for customized env variables
     volumes:
       - storage_data:/app/storage
@@ -41,11 +43,11 @@ services:
       - '127.0.0.1:5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    env_file: .env
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   redis:
     image: redis:alpine

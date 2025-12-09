@@ -282,8 +282,8 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between p-3" :class="wrapClass">
-    <div class="left-wrap">
+  <div class="flex justify-between p-3 gap-2" :class="wrapClass">
+    <div class="left-wrap flex-shrink min-w-0">
       <NextButton
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="i-ph-smiley-sticker"
@@ -413,14 +413,14 @@ export default {
         @click="toggleInsertArticle"
       />
     </div>
-    <div class="right-wrap">
+    <div class="right-wrap flex-shrink-0">
       <NextButton
         :label="sendButtonText"
         type="submit"
         sm
         :color="isNote ? 'amber' : 'blue'"
         :disabled="isSendDisabled"
-        class="flex-shrink-0"
+        class="flex-shrink-0 whitespace-nowrap"
         @click="onSend"
       />
     </div>

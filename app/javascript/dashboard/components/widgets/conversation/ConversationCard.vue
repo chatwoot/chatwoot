@@ -63,6 +63,8 @@ const chatMetadata = computed(() => props.chat.meta || {});
 
 const assignee = computed(() => chatMetadata.value.assignee || {});
 
+const assignedTeam = computed(() => chatMetadata.value.team || null);
+
 const senderId = computed(() => chatMetadata.value.sender?.id);
 
 const currentContact = computed(() => {
@@ -184,11 +186,31 @@ const openContextMenu = e => {
   showContextMenu.value = true;
 };
 
-const closeContextMenu = () => {
+function closeContextMenu() {
   emit('contextMenuToggle', false);
   showContextMenu.value = false;
   contextMenu.value.x = null;
   contextMenu.value.y = null;
+}
+
+const openContextMenuFromButton = e => {
+  if (!props.enableContextMenu) return;
+  // Evita que o foco saia do menu e dispare blur,
+  // o que fazia o menu fechar e abrir de novo.
+  e.preventDefault();
+  e.stopPropagation();
+
+  // Se o menu já estiver aberto, o clique na seta fecha (toggle)
+  if (showContextMenu.value) {
+    closeContextMenu();
+    return;
+  }
+
+  const rect = e.currentTarget.getBoundingClientRect();
+  emit('contextMenuToggle', true);
+  contextMenu.value.x = rect.right;
+  contextMenu.value.y = rect.bottom;
+  showContextMenu.value = true;
 };
 
 const onUpdateConversation = (status, snoozedUntil) => {
@@ -345,12 +367,29 @@ const deleteConversation = () => {
         class="absolute flex flex-col ltr:right-3 rtl:left-3"
         :class="showMetaSection ? 'top-8' : 'top-4'"
       >
-        <span class="ml-auto font-normal leading-4 text-xxs">
-          <TimeAgo
-            :last-activity-timestamp="chat.timestamp"
-            :created-at-timestamp="chat.created_at"
-          />
+        <span
+          v-if="assignedTeam"
+          class="ml-auto mb-1 px-2 py-0.5 rounded-full bg-n-slate-3 text-xs font-medium text-n-slate-12 truncate max-w-[120px]"
+          :title="`${$t('CHAT_LIST.ASSIGNED_TEAM')}: ${assignedTeam.name}`"
+        >
+          {{ assignedTeam.name }}
         </span>
+        <div class="flex items-center gap-1 ml-auto">
+          <span class="font-normal leading-4 text-xxs">
+            <TimeAgo
+              :last-activity-timestamp="chat.timestamp"
+              :created-at-timestamp="chat.created_at"
+            />
+          </span>
+          <button
+            v-if="props.enableContextMenu"
+            type="button"
+            class="flex items-center justify-center text-n-slate-9 hover:text-n-slate-12 focus:outline-none"
+            @mousedown.prevent="openContextMenuFromButton"
+          >
+            <fluent-icon icon="chevron-down" size="12" />
+          </button>
+        </div>
         <span
           class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
           :class="hasUnread ? 'block' : 'hidden'"
@@ -361,6 +400,7 @@ const deleteConversation = () => {
       <CardLabels
         v-if="showLabelsSection"
         :conversation-labels="chat.labels"
+        :conversation-id="chat.id"
         class="mt-0.5 mx-2 mb-0"
       >
         <template v-if="hasSlaPolicyId" #before>

@@ -3,11 +3,7 @@ const MINUTE_IN_MILLI_SECONDS = 60000;
 const HOUR_IN_MILLI_SECONDS = MINUTE_IN_MILLI_SECONDS * 60;
 const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
 
-import {
-  dynamicTime,
-  dateFormat,
-  shortTimestamp,
-} from 'shared/helpers/timeHelper';
+import { conversationTimestamp, dateFormat } from 'shared/helpers/timeHelper';
 
 export default {
   name: 'TimeAgo',
@@ -27,17 +23,17 @@ export default {
   },
   data() {
     return {
-      lastActivityAtTimeAgo: dynamicTime(this.lastActivityTimestamp),
-      createdAtTimeAgo: dynamicTime(this.createdAtTimestamp),
+      lastActivityAtTimeAgo: conversationTimestamp(this.lastActivityTimestamp),
+      createdAtTimeAgo: conversationTimestamp(this.createdAtTimestamp),
       timer: null,
     };
   },
   computed: {
     lastActivityTime() {
-      return shortTimestamp(this.lastActivityAtTimeAgo);
+      return this.lastActivityAtTimeAgo;
     },
     createdAtTime() {
-      return shortTimestamp(this.createdAtTimeAgo);
+      return this.createdAtTimeAgo;
     },
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
@@ -69,10 +65,12 @@ export default {
   },
   watch: {
     lastActivityTimestamp() {
-      this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
+      this.lastActivityAtTimeAgo = conversationTimestamp(
+        this.lastActivityTimestamp
+      );
     },
     createdAtTimestamp() {
-      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+      this.createdAtTimeAgo = conversationTimestamp(this.createdAtTimestamp);
     },
   },
   mounted() {
@@ -86,8 +84,10 @@ export default {
   methods: {
     createTimer() {
       this.timer = setTimeout(() => {
-        this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
-        this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+        this.lastActivityAtTimeAgo = conversationTimestamp(
+          this.lastActivityTimestamp
+        );
+        this.createdAtTimeAgo = conversationTimestamp(this.createdAtTimestamp);
         this.createTimer();
       }, this.refreshTime());
     },
@@ -115,6 +115,6 @@ export default {
     }"
     class="ml-auto leading-4 text-xxs text-n-slate-10 hover:text-n-slate-11"
   >
-    <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
+    <span>{{ lastActivityTime }}</span>
   </div>
 </template>

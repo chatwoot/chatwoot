@@ -1,7 +1,30 @@
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+const isKanbanRoute = computed(() => route.name === 'kanban_reports');
+</script>
+
 <template>
-  <div class="reports--wrapper overflow-auto bg-n-background w-full px-6">
-    <div class="max-w-[60rem] mx-auto pb-12">
-      <router-view />
+  <div
+    class="reports--wrapper bg-n-background w-full"
+    :class="{
+      'overflow-auto px-6': !isKanbanRoute,
+      'h-full overflow-hidden': isKanbanRoute,
+    }"
+  >
+    <div
+      :class="{
+        'max-w-[60rem] mx-auto pb-12': !isKanbanRoute,
+        'h-full': isKanbanRoute,
+      }"
+    >
+      <router-view v-if="!isKanbanRoute" />
+      <div v-else class="h-full">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>

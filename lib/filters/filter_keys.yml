@@ -189,6 +189,12 @@ contacts:
       - "not_equal_to"
       - "is_present"
       - "is_not_present"
+  team_id:
+    attribute_type: "standard"
+    data_type: "number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
   created_at:
     attribute_type: "standard"
     data_type: "date"

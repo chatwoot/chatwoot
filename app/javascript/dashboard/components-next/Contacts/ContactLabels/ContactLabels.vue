@@ -2,6 +2,7 @@
 import { computed, watch, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import ContactAPI from 'dashboard/api/contacts';
 
 import LabelItem from 'dashboard/components-next/Label/LabelItem.vue';
 import AddLabel from 'dashboard/components-next/Label/AddLabel.vue';
@@ -75,14 +76,39 @@ const handleLabelAction = async ({ value }) => {
       updatedLabels = [...currentLabels, selectedLabel.title];
     }
 
+    // Atualiza as labels do contato
     await store.dispatch('contactLabels/update', {
       contactId: props.contactId,
       labels: updatedLabels,
     });
 
+    // Sincroniza as labels com todas as conversas desse contato
+    try {
+      const conversationsResponse = await ContactAPI.getConversations(
+        props.contactId
+      );
+      const conversations = conversationsResponse?.data?.payload || [];
+
+      // Atualiza as labels de cada conversa para corresponder às labels do contato
+      await Promise.all(
+        conversations.map(conversation =>
+          store
+            .dispatch('conversationLabels/update', {
+              conversationId: conversation.id,
+              labels: updatedLabels,
+            })
+            .catch(() => {
+              // Continua com as próximas conversas mesmo se uma falhar
+            })
+        )
+      );
+    } catch {
+      // Não bloqueia a atualização do contato se a sincronização falhar
+    }
+
     showDropdown.value = false;
-  } catch (error) {
-    // error
+  } catch {
+    // Erro silencioso - a UI já mostra feedback através do store
   }
 };
 
@@ -98,9 +124,14 @@ watch(
     }
   }
 );
+
+// Observa mudanças nas labels do contato no store
+// O computed savedLabels já reage automaticamente às mudanças no store
+
 onMounted(() => {
-  if (route.params.contactId) {
-    fetchLabels(route.params.contactId);
+  const contactIdToFetch = props.contactId || route.params.contactId;
+  if (contactIdToFetch) {
+    fetchLabels(contactIdToFetch);
   }
 });
 

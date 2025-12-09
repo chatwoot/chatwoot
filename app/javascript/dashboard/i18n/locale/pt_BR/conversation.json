@@ -69,7 +69,11 @@
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
-      "HIDE_LABELS": "Ocultar as etiquetas"
+      "HIDE_LABELS": "Ocultar as etiquetas",
+      "REMOVE_LABEL_TITLE": "Remover Etiqueta",
+      "REMOVE_LABEL_DESCRIPTION": "Tem certeza que deseja remover a etiqueta \"{label}\" desta conversa?",
+      "REMOVE_LABEL_CONFIRM": "Remover",
+      "REMOVE_LABEL_CANCEL": "Cancelar"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Chamada recebida",
@@ -327,7 +331,7 @@
     "SELF_ASSIGN": "Atribuir a mim",
     "TEAM_LABEL": "Time atribuído",
     "SELECT": {
-      "PLACEHOLDER": "Nenhuma"
+      "PLACEHOLDER": "Nenhum"
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "Detalhes do contato",

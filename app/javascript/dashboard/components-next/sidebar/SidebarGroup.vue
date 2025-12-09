@@ -19,7 +19,7 @@ const props = defineProps({
 });
 
 const {
-  expandedItem,
+  isItemExpanded,
   setExpandedItem,
   resolvePath,
   resolvePermissions,
@@ -33,7 +33,7 @@ const navigableChildren = computed(() => {
 
 const route = useRoute();
 const router = useRouter();
-const isExpanded = computed(() => expandedItem.value === props.name);
+const isExpanded = computed(() => isItemExpanded(props.name));
 const isExpandable = computed(() => props.children);
 const hasChildren = computed(
   () => Array.isArray(props.children) && props.children.length > 0
@@ -157,10 +157,11 @@ onMounted(async () => {
       <template v-for="child in children" :key="child.name">
         <SidebarSubGroup
           v-if="child.children"
+          :name="child.name"
           :label="child.label"
           :icon="child.icon"
           :children="child.children"
-          :is-expanded="isExpanded"
+          :parent-expanded="isExpanded"
           :active-child="activeChild"
         />
         <SidebarGroupLeaf

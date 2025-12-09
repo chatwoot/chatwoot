@@ -198,13 +198,22 @@ export default {
       return [
         {
           confirmed: true,
-          name: 'None',
+          name: this.$t('AGENT_MGMT.MULTI_SELECTOR.LIST.NONE'),
           id: null,
           role: 'agent',
           account_id: 0,
           email: 'None',
         },
         ...this.filteredAgentOnAvailability,
+      ];
+    },
+    assignableTeams() {
+      return [
+        {
+          id: 0,
+          name: this.$t('TEAMS_SETTINGS.LIST.NONE'),
+        },
+        ...this.teams,
       ];
     },
     showSnooze() {
@@ -357,10 +366,10 @@ export default {
       <MenuItemWithSubmenu
         v-if="isAllowed([MENU.TEAM])"
         :option="teamMenuConfig"
-        :sub-menu-available="!!teams.length"
+        :sub-menu-available="!!assignableTeams.length"
       >
         <MenuItem
-          v-for="team in teams"
+          v-for="team in assignableTeams"
           :key="team.id"
           :option="generateMenuLabelConfig(team, 'team')"
           @click.stop="$emit('assignTeam', team)"

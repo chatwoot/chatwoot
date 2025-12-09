@@ -50,7 +50,8 @@
       "LAST_ACTIVITY": {
         "NOT_ACTIVE": "Last activity:",
         "ACTIVE": "Last activity"
-      }
+      },
+      "YESTERDAY": "Yesterday"
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
@@ -134,6 +135,7 @@
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
     "SHOW_QUOTED_TEXT": "Show Quoted Text",
     "MESSAGE_READ": "Read",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "ASSIGNED_TEAM": "Team"
   }
 }

@@ -6,6 +6,7 @@
 #  active_at                :datetime
 #  auto_offline             :boolean          default(TRUE), not null
 #  availability             :integer          default("online"), not null
+#  conversation_filter_mode :integer          default("all_conversations"), not null
 #  role                     :integer          default("agent")
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
@@ -33,6 +34,13 @@ class AccountUser < ApplicationRecord
 
   enum role: { agent: 0, administrator: 1 }
   enum availability: { online: 0, offline: 1, busy: 2 }
+  enum conversation_filter_mode: {
+    all_conversations: 0,         # Ver todas conversas (padrão atual)
+    team_conversations_only: 1,   # Ver apenas conversas do time
+    assigned_conversations_only: 2, # Ver apenas conversas atribuídas a mim
+    unassigned_conversations_only: 3, # Ver apenas conversas sem agente atribuído
+    team_unassigned_or_mine: 4    # Ver conversas do time que estão sem agente OU atribuídas a mim
+  }
 
   accepts_nested_attributes_for :account
 

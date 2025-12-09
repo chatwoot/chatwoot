@@ -42,7 +42,7 @@ export default {
       return [
         {
           confirmed: true,
-          name: 'None',
+          name: this.$t('AGENT_MGMT.MULTI_SELECTOR.LIST.NONE'),
           id: null,
           role: 'agent',
           account_id: 0,

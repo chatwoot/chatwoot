@@ -18,7 +18,7 @@ export default {
     ...mapGetters({ teams: 'teams/getTeams' }),
     filteredTeams() {
       return [
-        { name: 'None', id: 0 },
+        { name: this.$t('TEAMS_SETTINGS.LIST.NONE'), id: 0 },
         ...this.teams.filter(team =>
           team.name.toLowerCase().includes(this.query.toLowerCase())
         ),

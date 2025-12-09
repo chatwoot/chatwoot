@@ -8,7 +8,7 @@
     "LIST": {
       "404": "Não existem agentes associados a esta conta.",
       "EDIT_TEAM": "Editar time",
-      "NONE": "Nenhuma"
+      "NONE": "Nenhum"
     },
     "CREATE_FLOW": {
       "CREATE": {

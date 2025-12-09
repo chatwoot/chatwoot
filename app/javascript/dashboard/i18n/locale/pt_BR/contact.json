@@ -494,6 +494,10 @@
         }
       }
     },
+    "TABS": {
+      "LIST": "Lista",
+      "KANBAN": "Kanban"
+    },
     "SIDEBAR": {
       "TABS": {
         "ATTRIBUTES": "Atributos",
@@ -646,6 +650,68 @@
         "DISCARD": "Descartar",
         "SEND": "Enviar ({keyCode})"
       }
+    }
+  },
+  "KANBAN": {
+    "CREATE_FUNNEL": "Criar",
+    "CREATE_FUNNEL_TITLE": "Adicionar novo funil",
+    "CREATE_NEW_FUNNEL": "Criar novo funil",
+    "CREATE_NEW_COLUMN": "Criar nova coluna",
+    "CREATE_COLUMN_TITLE": "Adicionar nova coluna",
+    "CREATE_COLUMN_ERROR": "Erro ao criar coluna. Tente novamente.",
+    "FUNNEL_NAME_LABEL": "Digite o nome do funil",
+    "FUNNEL_NAME_PLACEHOLDER": "Digite um nome",
+    "COLUMN_NAME_LABEL": "Digite o nome da coluna",
+    "COLUMN_NAME_PLACEHOLDER": "Digite um nome",
+    "TEAMS_LABEL": "Setores",
+    "SELECT_TEAM": "Selecione",
+    "NO_TEAM": "Nenhum (todos os contatos)",
+    "CONTACTS_SOURCE_LABEL": "De onde quer puxar os contatos",
+    "CONTACTS_SOURCE_HELP": "Selecione um time para filtrar contatos ou 'Nenhum' para mostrar todos os contatos",
+    "ADD": "Adicionar",
+    "CANCEL": "Cancelar",
+    "SEARCH_PLACEHOLDER": "Pesquise pelo número",
+    "FILTER": "Filtrar",
+    "NO_FUNNELS": "Nenhum funil encontrado",
+    "CREATE_FIRST_FUNNEL": "Criar primeiro funil",
+    "NO_CONTACTS": "Nenhum contato",
+    "CREATE_ERROR": "Erro ao criar funil. Tente novamente.",
+    "CREATE_COLUMN": {
+      "SUCCESS": "Coluna criada com sucesso!",
+      "ERROR": "Erro ao criar coluna. Tente novamente.",
+      "NO_FUNNEL_SELECTED": "Selecione um funil antes de criar uma coluna."
+    },
+    "CONTACTS_SIDEBAR": {
+      "TITLE": "Contatos",
+      "SUBTITLE": "Arraste ou clique para adicionar ao funil",
+      "NO_CONTACTS": "Nenhum contato disponível",
+      "UNNAMED": "Sem nome",
+      "ADD_TO_FUNNEL": "Adicionar ao funil"
+    },
+    "ADD_CONTACT": {
+      "SUCCESS": "Contato adicionado ao funil com sucesso!",
+      "ERROR": "Erro ao adicionar contato ao funil. Tente novamente.",
+      "NO_COLUMNS": "O funil não possui colunas configuradas."
+    },
+    "MOVE_CONTACT": {
+      "SUCCESS": "Contato movido com sucesso!",
+      "ERROR": "Erro ao mover contato no funil. Tente novamente."
+    },
+    "COLUMN_OPTIONS": "Opções da coluna",
+    "CARD_OPTIONS": "Opções do cartão",
+    "DROP_HERE": "Solte aqui",
+    "EDIT_COLUMN": "Editar coluna",
+    "DELETE_COLUMN": "Excluir coluna",
+    "VIEW_CONTACT": "Ver contato",
+    "REMOVE_FROM_FUNNEL": "Remover do funil",
+    "REMOVE_CONTACT": {
+      "SUCCESS": "Contato removido do funil com sucesso!",
+      "ERROR": "Erro ao remover contato do funil. Tente novamente."
+    },
+    "FILTER_COMING_SOON": "Filtros avançados em breve!",
+    "FILTER_DIALOG": {
+      "TITLE": "Filtrar contatos",
+      "ERROR": "Erro ao aplicar filtros. Tente novamente."
     }
   }
 }

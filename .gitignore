@@ -101,3 +101,7 @@ CLAUDE.local.md
 .histoire
 .pnpm-store/*
 local/
+
+# Cursor / editor workspace junk that should never be versioned
+assets/c__Users_*
+**/workspaceStorage/**

@@ -81,6 +81,14 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
+        "CONVERSATION_FILTER": {
+          "LABEL": "Conversation Filter",
+          "ALL": "All Conversations",
+          "TEAM_ONLY": "Only Team Conversations",
+          "ASSIGNED_ONLY": "Only Assigned Conversations",
+          "UNASSIGNED_ONLY": "Only Unassigned Conversations",
+          "TEAM_UNASSIGNED_OR_MINE": "Team Conversations (Unassigned or Mine)"
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",

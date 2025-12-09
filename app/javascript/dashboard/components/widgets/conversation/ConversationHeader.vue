@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useElementSize } from '@vueuse/core';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import BackButton from '../BackButton.vue';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
@@ -31,6 +32,7 @@ const route = useRoute();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
 const { isAWebWidgetInbox } = useInbox();
+const { updateUISettings, uiSettings } = useUISettings();
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -90,6 +92,14 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const toggleContactPanel = () => {
+  const isCurrentlyOpen = uiSettings.value?.is_contact_sidebar_open || false;
+  updateUISettings({
+    is_contact_sidebar_open: !isCurrentlyOpen,
+    is_copilot_panel_open: false,
+  });
+};
 </script>
 
 <template>
@@ -105,39 +115,46 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         :back-url="backButtonUrl"
         class="ltr:mr-2 rtl:ml-2"
       />
-      <Avatar
-        :name="currentContact.name"
-        :src="currentContact.thumbnail"
-        :size="32"
-        :status="currentContact.availability_status"
-        hide-offline-status
-        rounded-full
-      />
       <div
-        class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
+        class="flex items-center cursor-pointer"
+        role="button"
+        tabindex="0"
+        @click="toggleContactPanel"
       >
-        <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
-          <span
-            class="text-sm font-medium truncate leading-tight text-n-slate-12"
-          >
-            {{ currentContact.name }}
-          </span>
-          <fluent-icon
-            v-if="!isHMACVerified"
-            v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-            size="14"
-            class="text-n-amber-10 my-0 mx-0 min-w-[14px] flex-shrink-0"
-            icon="warning"
-          />
-        </div>
-
+        <Avatar
+          :name="currentContact.name"
+          :src="currentContact.thumbnail"
+          :size="32"
+          :status="currentContact.availability_status"
+          hide-offline-status
+          rounded-full
+        />
         <div
-          class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
+          class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
         >
-          <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
-          <span v-if="isSnoozed" class="font-medium text-n-amber-10">
-            {{ snoozedDisplayText }}
-          </span>
+          <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
+            <span
+              class="text-sm font-medium truncate leading-tight text-n-slate-12"
+            >
+              {{ currentContact.name }}
+            </span>
+            <fluent-icon
+              v-if="!isHMACVerified"
+              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+              size="14"
+              class="text-n-amber-10 my-0 mx-0 min-w-[14px] flex-shrink-0"
+              icon="warning"
+            />
+          </div>
+
+          <div
+            class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
+          >
+            <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
+            <span v-if="isSnoozed" class="font-medium text-n-amber-10">
+              {{ snoozedDisplayText }}
+            </span>
+          </div>
         </div>
       </div>
     </div>

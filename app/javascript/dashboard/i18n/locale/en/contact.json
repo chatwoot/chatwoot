@@ -496,6 +496,10 @@
         }
       }
     },
+    "TABS": {
+      "LIST": "List",
+      "KANBAN": "Kanban"
+    },
     "SIDEBAR": {
       "TABS": {
         "ATTRIBUTES": "Attributes",
@@ -650,5 +654,75 @@
         "SEND": "Send ({keyCode})"
       }
     }
+  },
+  "KANBAN": {
+    "CREATE_FUNNEL": "Create",
+    "CREATE_FUNNEL_TITLE": "Add new funnel",
+    "CREATE_NEW_FUNNEL": "Create new funnel",
+    "CREATE_NEW_COLUMN": "Create new column",
+    "CREATE_COLUMN_TITLE": "Add new column",
+    "CREATE_COLUMN_ERROR": "Error creating column. Please try again.",
+    "FUNNEL_NAME_LABEL": "Enter the funnel name",
+    "FUNNEL_NAME_PLACEHOLDER": "Enter a name",
+    "COLUMN_NAME_LABEL": "Enter the column name",
+    "COLUMN_NAME_PLACEHOLDER": "Enter a name",
+    "TEAMS_LABEL": "Sectors",
+    "SELECT_TEAM": "Select",
+    "NO_TEAM": "No sector",
+    "ADD": "Add",
+    "CANCEL": "Cancel",
+    "SEARCH_PLACEHOLDER": "Search by number",
+    "FILTER": "Filter",
+    "NO_FUNNELS": "No funnels found",
+    "CREATE_FIRST_FUNNEL": "Create first funnel",
+    "NO_CONTACTS": "No contacts",
+    "CREATE_ERROR": "Error creating funnel. Please try again.",
+    "CREATE_COLUMN": {
+      "SUCCESS": "Column created successfully!",
+      "ERROR": "Error creating column. Please try again.",
+      "NO_FUNNEL_SELECTED": "Select a funnel before creating a column."
+    },
+    "CONTACTS_SIDEBAR": {
+      "TITLE": "Contacts",
+      "SUBTITLE": "Drag or click to add to funnel",
+      "NO_CONTACTS": "No contacts available",
+      "UNNAMED": "Unnamed",
+      "ADD_TO_FUNNEL": "Add to funnel"
+    },
+    "ADD_CONTACT": {
+      "SUCCESS": "Contact added to funnel successfully!",
+      "ERROR": "Error adding contact to funnel. Please try again.",
+      "NO_COLUMNS": "The funnel has no columns configured."
+    },
+    "MOVE_CONTACT": {
+      "SUCCESS": "Contact moved successfully!",
+      "ERROR": "Error moving contact in funnel. Please try again."
+    },
+    "COLUMN_OPTIONS": "Column options",
+    "CARD_OPTIONS": "Card options",
+    "DROP_HERE": "Drop here",
+    "EDIT_COLUMN": "Edit column",
+    "DELETE_COLUMN": "Delete column",
+    "VIEW_CONTACT": "View contact",
+    "REMOVE_FROM_FUNNEL": "Remove from funnel",
+    "REMOVE_CONTACT": {
+      "SUCCESS": "Contact removed from funnel successfully!",
+      "ERROR": "Error removing contact from funnel. Please try again."
+    },
+    "UPDATE_COLUMN": {
+      "SUCCESS": "Column updated successfully!",
+      "ERROR": "Error updating column. Please try again."
+    },
+    "FILTER": {
+      "ERROR": "Error filtering contacts. Please try again."
+    },
+    "ERROR": {
+      "TITLE": "Error loading Kanban",
+      "RETRY": "Try again",
+      "LOAD_CONTACTS": "Error loading funnel contacts",
+      "LOAD_FUNNELS": "Error loading funnels",
+      "FATAL": "Fatal error initializing Kanban. Please reload the page."
+    },
+    "FILTER_COMING_SOON": "Advanced filters coming soon!"
   }
 }

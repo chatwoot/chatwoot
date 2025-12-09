@@ -167,13 +167,8 @@ export function useConversationHotKeys() {
 
   const draftMessage = computed(() => getDraftMessage.value(draftKey.value));
 
-  const hasAnAssignedTeam = computed(() => !!currentChat.value?.meta?.team);
-
   const teamsList = computed(() => {
-    if (hasAnAssignedTeam.value) {
-      return [{ id: 0, name: t('TEAMS_SETTINGS.LIST.NONE') }, ...teams.value];
-    }
-    return teams.value;
+    return [{ id: 0, name: t('TEAMS_SETTINGS.LIST.NONE') }, ...teams.value];
   });
 
   const onChangeAssignee = action => {
