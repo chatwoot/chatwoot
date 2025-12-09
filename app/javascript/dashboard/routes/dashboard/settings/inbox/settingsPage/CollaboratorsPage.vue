@@ -21,7 +21,10 @@ export default {
   setup() {
     const { isEnterprise } = useConfig();
 
-    return { v$: useVuelidate(), isEnterprise };
+    return {
+      v$: useVuelidate(),
+      isEnterprise,
+    };
   },
   data() {
     return {
@@ -34,6 +37,7 @@ export default {
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     maxAssignmentLimitErrors() {
       if (this.v$.maxAssignmentLimit.$error) {
@@ -42,6 +46,20 @@ export default {
         );
       }
       return '';
+    },
+    shouldShowMaxAssignmentLimit() {
+      // Hide max assignment limit if assignment_v2 is enabled
+      const accountId = Number(this.$route.params.accountId);
+      const hasAssignmentV2 = this.isFeatureEnabledonAccount(
+        accountId,
+        'assignment_v2'
+      );
+
+      if (hasAssignmentV2) {
+        return false;
+      }
+
+      return this.enableAutoAssignment && this.isEnterprise;
     },
   },
   watch: {
@@ -170,7 +188,7 @@ export default {
         </p>
       </label>
 
-      <div v-if="enableAutoAssignment && isEnterprise" class="py-3">
+      <div v-if="shouldShowMaxAssignmentLimit" class="py-3">
         <woot-input
           v-model="maxAssignmentLimit"
           type="number"

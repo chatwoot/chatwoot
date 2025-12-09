@@ -1,7 +1,8 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useConfig } from 'dashboard/composables/useConfig';
+import { useRoute } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store';
 import BaseInfo from 'dashboard/components-next/AssignmentPolicy/components/BaseInfo.vue';
 import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
 import FairDistribution from 'dashboard/components-next/AssignmentPolicy/components/FairDistribution.vue';
@@ -65,7 +66,12 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
-const { isEnterprise } = useConfig();
+const route = useRoute();
+
+const accountId = computed(() => Number(route.params.accountId));
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
 const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY';
 
@@ -83,20 +89,42 @@ const validationState = ref({
   isValid: false,
 });
 
-const createOption = (type, key, stateKey) => ({
+const createOption = (
+  type,
+  key,
+  stateKey,
+  disabled = false,
+  disabledMessage = ''
+) => ({
   key,
   label: t(`${BASE_KEY}.FORM.${type}.${key.toUpperCase()}.LABEL`),
   description: t(`${BASE_KEY}.FORM.${type}.${key.toUpperCase()}.DESCRIPTION`),
   isActive: state[stateKey] === key,
+  disabled,
+  disabledMessage,
 });
 
 const assignmentOrderOptions = computed(() => {
-  const options = OPTIONS.ORDER.filter(
-    key => isEnterprise || key !== 'balanced'
+  const hasAdvancedAssignment = isFeatureEnabledonAccount.value(
+    accountId.value,
+    'advanced_assignment'
   );
-  return options.map(key =>
-    createOption('ASSIGNMENT_ORDER', key, 'assignmentOrder')
-  );
+
+  return OPTIONS.ORDER.map(key => {
+    const isBalanced = key === 'balanced';
+    const disabled = isBalanced && !hasAdvancedAssignment;
+    const disabledMessage = disabled
+      ? t(`${BASE_KEY}.FORM.ASSIGNMENT_ORDER.BALANCED.PREMIUM_MESSAGE`)
+      : '';
+
+    return createOption(
+      'ASSIGNMENT_ORDER',
+      key,
+      'assignmentOrder',
+      disabled,
+      disabledMessage
+    );
+  });
 });
 
 const assignmentPriorityOptions = computed(() =>
@@ -193,6 +221,8 @@ defineExpose({
                 :label="option.label"
                 :description="option.description"
                 :is-active="option.isActive"
+                :disabled="option.disabled"
+                :disabled-message="option.disabledMessage"
                 @select="state[section.key] = $event"
               />
             </div>

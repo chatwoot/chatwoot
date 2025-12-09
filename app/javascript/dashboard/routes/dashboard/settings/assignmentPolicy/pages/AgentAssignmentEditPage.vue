@@ -74,11 +74,17 @@ const formData = computed(() => ({
   fairDistributionWindow: selectedPolicy.value?.fairDistributionWindow || 60,
 }));
 
-const handleDeleteInbox = inboxId =>
-  store.dispatch('assignmentPolicies/removeInboxPolicy', {
-    policyId: selectedPolicy.value?.id,
-    inboxId,
-  });
+const handleDeleteInbox = async inboxId => {
+  try {
+    await store.dispatch('assignmentPolicies/removeInboxPolicy', {
+      policyId: selectedPolicy.value?.id,
+      inboxId,
+    });
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_API.REMOVE.SUCCESS_MESSAGE`));
+  } catch {
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_API.REMOVE.ERROR_MESSAGE`));
+  }
+};
 
 const handleBreadcrumbClick = ({ routeName }) =>
   router.push({ name: routeName });
