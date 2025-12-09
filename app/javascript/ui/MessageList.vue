@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, watch, useTemplateRef } from 'vue';
 import Message from 'next/message/Message.vue';
 import TypingIndicator from 'next/message/TypingIndicator.vue';
+import shouldGroupWithNext from 'next/message/groupWithNext';
 import Snipper from 'next/spinner/Spinner.vue';
 import LiteReplyBox from './LiteReplyBox.vue';
 import {
@@ -113,12 +114,12 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
           <TypingIndicator class="text-n-slate-9" />
         </div>
       </div>
-      <template v-for="message in allMessages" :key="message.id">
+      <template v-for="(message, index) in allMessages" :key="message.id">
         <Message
           v-bind="message"
-          :is-email-inbox="isAnEmailChannel"
-          :group-with-next="false"
-          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :is-email-inbox="false"
+          :group-with-next="shouldGroupWithNext(index, allMessages)"
+          :inbox-supports-reply-to="false"
           :current-user-id="currentUserId"
         />
       </template>
