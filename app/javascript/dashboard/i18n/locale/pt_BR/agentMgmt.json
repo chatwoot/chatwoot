@@ -81,6 +81,14 @@
           "PLACEHOLDER": "Por favor, selecione a disponibilidade do agente",
           "ERROR": "A disponibilidade é necessária"
         },
+        "CONVERSATION_FILTER": {
+          "LABEL": "Filtro de Conversas",
+          "ALL": "Todas as Conversas",
+          "TEAM_ONLY": "Apenas Conversas do Time",
+          "ASSIGNED_ONLY": "Apenas Conversas Atribuídas a Mim",
+          "UNASSIGNED_ONLY": "Apenas Conversas Não Atribuídas",
+          "TEAM_UNASSIGNED_OR_MINE": "Conversas do Time (Não Atribuídas ou Minhas)"
+        },
         "SUBMIT": "Editar agente"
       },
       "BUTTON_TEXT": "Alterar",

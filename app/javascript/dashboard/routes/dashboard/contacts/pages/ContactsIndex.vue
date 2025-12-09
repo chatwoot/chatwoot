@@ -15,6 +15,8 @@ import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.
 import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
+import KanbanView from 'dashboard/components-next/Contacts/Kanban/KanbanView.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
 const DEBOUNCE_DELAY = 300;
@@ -36,6 +38,7 @@ const meta = useMapGetter('contacts/getMeta');
 const searchQuery = computed(() => route.query?.search);
 const searchValue = ref(searchQuery.value || '');
 const pageNumber = computed(() => Number(route.query?.page) || 1);
+const activeView = ref(route.query?.view || 'list');
 
 const parseSortSettings = (sortString = '') => {
   const hasDescending = sortString.startsWith('-');
@@ -85,6 +88,29 @@ const bulkDeleteDialogConfirmLabel = computed(() =>
     : t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.CONFIRM_SINGLE')
 );
 const hasSelection = computed(() => selectedCount.value > 0);
+
+const VIEW_TABS = [
+  { key: 'LIST', value: 'list', label: t('CONTACTS_LAYOUT.TABS.LIST') },
+  { key: 'KANBAN', value: 'kanban', label: t('CONTACTS_LAYOUT.TABS.KANBAN') },
+];
+
+const tabs = computed(() =>
+  VIEW_TABS.map(tab => ({
+    label: tab.label,
+    value: tab.value,
+  }))
+);
+
+const activeTabIndex = computed(() =>
+  VIEW_TABS.findIndex(v => v.value === activeView.value)
+);
+
+const handleTabChange = tab => {
+  activeView.value = tab.value;
+  router.replace({
+    query: { ...route.query, view: tab.value },
+  });
+};
 const activeSegment = computed(() => {
   if (!activeSegmentId.value) return undefined;
   return segments.value.find(view => view.id === Number(activeSegmentId.value));
@@ -411,76 +437,94 @@ onMounted(async () => {
   <div
     class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-background"
   >
-    <ContactsListLayout
-      :search-value="searchValue"
-      :header-title="headerTitle"
-      :current-page="currentPage"
-      :total-items="totalItems"
-      :show-pagination-footer="!isFetchingList && hasContacts"
-      :active-sort="sortState.activeSort"
-      :active-ordering="sortState.activeOrdering"
-      :active-segment="activeSegment"
-      :segments-id="activeSegmentId"
-      :is-fetching-list="isFetchingList"
-      :has-applied-filters="hasAppliedFilters"
-      @update:current-page="fetchContactsBasedOnContext"
-      @search="searchContacts"
-      @update:sort="handleSort"
-      @apply-filter="fetchSavedOrAppliedFilteredContact"
-      @clear-filters="fetchContacts"
+    <div
+      v-if="activeView === 'kanban'"
+      class="flex flex-col h-full overflow-hidden"
     >
+      <KanbanView />
+    </div>
+    <div v-else class="flex flex-col h-full">
       <div
-        v-if="isFetchingList"
-        class="flex items-center justify-center py-10 text-n-slate-11"
+        class="flex items-center justify-end px-6 py-2 border-b border-n-strong"
       >
-        <Spinner />
+        <TabBar
+          :tabs="tabs"
+          :initial-active-tab="activeTabIndex"
+          class="[&>button]:px-4 [&>button]:py-2"
+          @tab-changed="handleTabChange"
+        />
       </div>
-
-      <template v-else>
-        <ContactsBulkActionBar
-          v-if="hasSelection"
-          :visible-contact-ids="visibleContactIds"
-          :selected-contact-ids="selectedContactIds"
-          :is-loading="isBulkActionLoading"
-          @toggle-all="toggleSelectAll"
-          @clear-selection="clearSelection"
-          @assign-labels="assignLabels"
-          @delete-selected="openBulkDeleteDialog"
-        />
-        <ContactEmptyState
-          v-if="showEmptyStateLayout"
-          class="pt-14"
-          :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
-          :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
-          :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
-          @create="createContact"
-        />
+      <ContactsListLayout
+        :search-value="searchValue"
+        :header-title="headerTitle"
+        :current-page="currentPage"
+        :total-items="totalItems"
+        :show-pagination-footer="!isFetchingList && hasContacts"
+        :active-sort="sortState.activeSort"
+        :active-ordering="sortState.activeOrdering"
+        :active-segment="activeSegment"
+        :segments-id="activeSegmentId"
+        :is-fetching-list="isFetchingList"
+        :has-applied-filters="hasAppliedFilters"
+        @update:current-page="fetchContactsBasedOnContext"
+        @search="searchContacts"
+        @update:sort="handleSort"
+        @apply-filter="fetchSavedOrAppliedFilteredContact"
+        @clear-filters="fetchContacts"
+      >
         <div
-          v-else-if="showEmptyText"
-          class="flex items-center justify-center py-10"
+          v-if="isFetchingList"
+          class="flex items-center justify-center py-10 text-n-slate-11"
         >
-          <span class="text-base text-n-slate-11">
-            {{ emptyStateMessage }}
-          </span>
+          <Spinner />
         </div>
-        <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
-          <ContactsList
-            :contacts="contacts"
+
+        <template v-else>
+          <ContactsBulkActionBar
+            v-if="hasSelection"
+            :visible-contact-ids="visibleContactIds"
             :selected-contact-ids="selectedContactIds"
-            @toggle-contact="toggleContactSelection"
-          />
-          <Dialog
-            v-if="selectedCount"
-            ref="bulkDeleteDialogRef"
-            type="alert"
-            :title="bulkDeleteDialogTitle"
-            :description="bulkDeleteDialogDescription"
-            :confirm-button-label="bulkDeleteDialogConfirmLabel"
             :is-loading="isBulkActionLoading"
-            @confirm="deleteContacts"
+            @toggle-all="toggleSelectAll"
+            @clear-selection="clearSelection"
+            @assign-labels="assignLabels"
+            @delete-selected="openBulkDeleteDialog"
           />
-        </div>
-      </template>
-    </ContactsListLayout>
+          <ContactEmptyState
+            v-if="showEmptyStateLayout"
+            class="pt-14"
+            :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
+            :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
+            :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
+            @create="createContact"
+          />
+          <div
+            v-else-if="showEmptyText"
+            class="flex items-center justify-center py-10"
+          >
+            <span class="text-base text-n-slate-11">
+              {{ emptyStateMessage }}
+            </span>
+          </div>
+          <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
+            <ContactsList
+              :contacts="contacts"
+              :selected-contact-ids="selectedContactIds"
+              @toggle-contact="toggleContactSelection"
+            />
+            <Dialog
+              v-if="selectedCount"
+              ref="bulkDeleteDialogRef"
+              type="alert"
+              :title="bulkDeleteDialogTitle"
+              :description="bulkDeleteDialogDescription"
+              :confirm-button-label="bulkDeleteDialogConfirmLabel"
+              :is-loading="isBulkActionLoading"
+              @confirm="deleteContacts"
+            />
+          </div>
+        </template>
+      </ContactsListLayout>
+    </div>
   </div>
 </template>

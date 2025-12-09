@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_05_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.boolean "auto_offline", default: true, null: false
     t.bigint "custom_role_id"
     t.bigint "agent_capacity_policy_id"
+    t.integer "conversation_filter_mode", default: 0, null: false
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["agent_capacity_policy_id"], name: "index_account_users_on_agent_capacity_policy_id"
@@ -809,6 +810,34 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "funnel_contacts", force: :cascade do |t|
+    t.bigint "funnel_id", null: false
+    t.bigint "contact_id", null: false
+    t.string "column_id", null: false
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_funnel_contacts_on_contact_id"
+    t.index ["funnel_id", "column_id"], name: "index_funnel_contacts_on_funnel_id_and_column_id"
+    t.index ["funnel_id", "contact_id"], name: "index_funnel_contacts_on_funnel_id_and_contact_id", unique: true
+    t.index ["funnel_id"], name: "index_funnel_contacts_on_funnel_id"
+  end
+
+  create_table "funnels", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "account_id", null: false
+    t.bigint "team_id"
+    t.jsonb "columns", default: [], null: false
+    t.integer "position", default: 0
+    t.boolean "is_default", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "is_default"], name: "index_funnels_on_account_id_and_is_default", unique: true, where: "(is_default = true)"
+    t.index ["account_id", "name"], name: "index_funnels_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_funnels_on_account_id"
+    t.index ["team_id"], name: "index_funnels_on_team_id"
+  end
+
   create_table "inbox_assignment_policies", force: :cascade do |t|
     t.bigint "inbox_id", null: false
     t.bigint "assignment_policy_id", null: false
@@ -1254,6 +1283,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "funnel_contacts", "contacts", on_delete: :cascade
+  add_foreign_key "funnel_contacts", "funnels", on_delete: :cascade
+  add_foreign_key "funnels", "accounts", on_delete: :cascade
+  add_foreign_key "funnels", "teams", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

@@ -134,7 +134,7 @@
       "CREATE_ERROR": "Houve um erro ao criar o link da reunião, por favor tente novamente"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "Inteligência Artificial",
+      "AI_ASSIST": "IA",
       "WITH_AI": " {option} com IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Sugestão de resposta",

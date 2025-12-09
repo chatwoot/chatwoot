@@ -4,6 +4,7 @@ import {
   fromUnixTime,
   formatDistanceToNow,
   differenceInDays,
+  differenceInHours,
 } from 'date-fns';
 
 /**
@@ -91,6 +92,31 @@ export const shortTimestamp = (time, withAgo = false) => {
     .replace(' year ago', `y${suffix}`)
     .replace(' years ago', `y${suffix}`);
   return convertToShortTime;
+};
+
+/**
+ * Formats a Unix timestamp for conversation display based on recency.
+ * @param {number} time - Unix timestamp in seconds.
+ * @returns {string} Formatted time string (HH:mm for today, 'Yesterday' for yesterday, dd/MM/yyyy for older).
+ */
+export const conversationTimestamp = time => {
+  const now = new Date();
+  const unixTime = fromUnixTime(time);
+  const hoursDifference = differenceInHours(now, unixTime);
+  const daysDifference = differenceInDays(now, unixTime);
+
+  // Less than 24 hours: show time (HH:mm)
+  if (hoursDifference < 24 && daysDifference === 0) {
+    return format(unixTime, 'HH:mm');
+  }
+
+  // Between 24-48 hours (1 day ago): show "Ontem"
+  if (daysDifference === 1) {
+    return 'Ontem';
+  }
+
+  // 2 or more days ago: show date (dd/MM/yyyy)
+  return format(unixTime, 'dd/MM/yyyy');
 };
 
 /**

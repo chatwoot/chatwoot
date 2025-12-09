@@ -38,6 +38,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  conversationFilterMode: {
+    type: String,
+    default: 'all_conversations',
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -50,6 +54,7 @@ const { t } = useI18n();
 const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
+const conversationFilterMode = ref(props.conversationFilterMode);
 const agentCredentials = ref({ email: props.email });
 
 const rules = {
@@ -117,6 +122,31 @@ const availabilityStatuses = computed(() =>
   }))
 );
 
+const conversationFilterOptions = computed(() => [
+  {
+    value: 'all_conversations',
+    label: t('AGENT_MGMT.EDIT.FORM.CONVERSATION_FILTER.ALL'),
+  },
+  {
+    value: 'team_conversations_only',
+    label: t('AGENT_MGMT.EDIT.FORM.CONVERSATION_FILTER.TEAM_ONLY'),
+  },
+  {
+    value: 'assigned_conversations_only',
+    label: t('AGENT_MGMT.EDIT.FORM.CONVERSATION_FILTER.ASSIGNED_ONLY'),
+  },
+  {
+    value: 'unassigned_conversations_only',
+    label: t('AGENT_MGMT.EDIT.FORM.CONVERSATION_FILTER.UNASSIGNED_ONLY'),
+  },
+  {
+    value: 'team_unassigned_or_mine',
+    label: t(
+      'AGENT_MGMT.EDIT.FORM.CONVERSATION_FILTER.TEAM_UNASSIGNED_OR_MINE'
+    ),
+  },
+]);
+
 const editAgent = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
@@ -126,6 +156,7 @@ const editAgent = async () => {
       id: props.id,
       name: agentName.value,
       availability: agentAvailability.value,
+      conversation_filter_mode: conversationFilterMode.value,
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -201,6 +232,21 @@ const resetPassword = async () => {
           <span v-if="v$.agentAvailability.$error" class="message">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
           </span>
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label>
+          {{ $t('AGENT_MGMT.EDIT.FORM.CONVERSATION_FILTER.LABEL') }}
+          <select v-model="conversationFilterMode">
+            <option
+              v-for="option in conversationFilterOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </label>
       </div>
 

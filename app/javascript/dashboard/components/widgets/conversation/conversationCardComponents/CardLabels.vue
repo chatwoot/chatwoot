@@ -1,15 +1,21 @@
 <script setup>
 import { ref, computed, watch, onMounted, nextTick, useSlots } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const props = defineProps({
   conversationLabels: {
     type: Array,
     required: true,
   },
+  conversationId: {
+    type: Number,
+    default: null,
+  },
 });
 
 const slots = useSlots();
+const store = useStore();
 const accountLabels = useMapGetter('labels/getLabels');
 
 const activeLabels = computed(() => {
@@ -22,6 +28,9 @@ const showAllLabels = ref(false);
 const showExpandLabelButton = ref(false);
 const labelPosition = ref(-1);
 const labelContainer = ref(null);
+const deleteDialogRef = ref(null);
+const labelToRemove = ref(null);
+const isRemoving = ref(false);
 
 const computeVisibleLabelPosition = () => {
   const beforeSlot = slots.before ? 100 : 0;
@@ -56,6 +65,51 @@ const onShowLabels = e => {
   showAllLabels.value = !showAllLabels.value;
   nextTick(() => computeVisibleLabelPosition());
 };
+
+const onRemoveLabel = labelTitle => {
+  labelToRemove.value = labelTitle;
+  nextTick(() => {
+    deleteDialogRef.value?.open();
+  });
+};
+
+const confirmRemoveLabel = async () => {
+  if (!labelToRemove.value || !props.conversationId) return;
+
+  isRemoving.value = true;
+
+  const updatedLabels = activeLabels.value
+    .map(label => label.title)
+    .filter(title => title !== labelToRemove.value);
+
+  try {
+    await store.dispatch('conversationLabels/update', {
+      conversationId: props.conversationId,
+      labels: updatedLabels,
+    });
+
+    // Atualizar a conversa no store para refletir imediatamente na UI
+    const conversation = store.getters['conversations/getConversationById'](
+      props.conversationId
+    );
+    if (conversation) {
+      store.commit('conversations/UPDATE_CONVERSATION', {
+        ...conversation,
+        labels: updatedLabels,
+      });
+    }
+  } catch (error) {
+    // Error is handled by the store
+  } finally {
+    isRemoving.value = false;
+    labelToRemove.value = null;
+  }
+};
+
+const cancelRemoveLabel = () => {
+  labelToRemove.value = null;
+  isRemoving.value = false;
+};
 </script>
 
 <template>
@@ -75,9 +129,11 @@ const onShowLabels = e => {
         variant="smooth"
         class="!mb-0 max-w-[calc(100%-0.5rem)]"
         small
+        :show-close="!!conversationId"
         :class="{
           'invisible absolute': !showAllLabels && index > labelPosition,
         }"
+        @remove="onRemoveLabel"
       />
       <button
         v-if="showExpandLabelButton"
@@ -95,5 +151,23 @@ const onShowLabels = e => {
         />
       </button>
     </div>
+
+    <Dialog
+      v-if="labelToRemove"
+      ref="deleteDialogRef"
+      type="alert"
+      :title="$t('CONVERSATION.CARD.REMOVE_LABEL_TITLE')"
+      :description="
+        $t('CONVERSATION.CARD.REMOVE_LABEL_DESCRIPTION', {
+          label: labelToRemove,
+        })
+      "
+      :cancel-button-label="$t('CONVERSATION.CARD.REMOVE_LABEL_CANCEL')"
+      :confirm-button-label="$t('CONVERSATION.CARD.REMOVE_LABEL_CONFIRM')"
+      :is-loading="isRemoving"
+      :disable-confirm-button="isRemoving"
+      @confirm="confirmRemoveLabel"
+      @close="cancelRemoveLabel"
+    />
   </div>
 </template>

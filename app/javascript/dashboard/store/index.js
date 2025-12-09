@@ -31,6 +31,7 @@ import customRole from './modules/customRole';
 import customViews from './modules/customViews';
 import dashboardApps from './modules/dashboardApps';
 import draftMessages from './modules/draftMessages';
+import funnels from './modules/funnels';
 import globalConfig from 'shared/store/globalConfig';
 import inboxAssignableAgents from './modules/inboxAssignableAgents';
 import inboxes from './modules/inboxes';
@@ -94,6 +95,7 @@ export default createStore({
     customViews,
     dashboardApps,
     draftMessages,
+    funnels,
     globalConfig,
     inboxAssignableAgents,
     inboxes,

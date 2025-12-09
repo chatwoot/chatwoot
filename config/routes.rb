@@ -233,6 +233,10 @@ Rails.application.routes.draw do
               end
             end
           end
+          resources :funnels, only: [:index, :show, :create, :update, :destroy] do
+            resources :funnel_contacts, only: [:index, :create, :update, :destroy], param: :contact_id, module: :funnels
+            post :move_contact, on: :member
+          end
 
           # Assignment V2 Routes
           resources :assignment_policies do

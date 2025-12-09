@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useRouter, useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { conversationTimestamp } from 'shared/helpers/timeHelper';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -54,7 +54,12 @@ const inboxIcon = computed(() => {
 
 const lastActivityAt = computed(() => {
   const timestamp = props.conversation?.timestamp;
-  return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
+  return timestamp ? conversationTimestamp(timestamp) : '';
+});
+
+const assignedTeam = computed(() => {
+  const { meta: { team = null } = {} } = props.conversation;
+  return team;
 });
 
 const showMessagePreviewWithoutMeta = computed(() => {
@@ -102,17 +107,26 @@ const onCardClick = e => {
         <h4 class="text-base font-medium truncate text-n-slate-12">
           {{ currentContactName }}
         </h4>
-        <div class="flex items-center gap-2">
-          <CardPriorityIcon :priority="conversation.priority || null" />
-          <div
-            v-tooltip.left="inboxName"
-            class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"
-          >
-            <Icon
-              :icon="inboxIcon"
-              class="flex-shrink-0 text-n-slate-11 size-3"
-            />
+        <div class="flex flex-col items-end gap-1">
+          <div class="flex items-center gap-2">
+            <CardPriorityIcon :priority="conversation.priority || null" />
+            <div
+              v-tooltip.left="inboxName"
+              class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"
+            >
+              <Icon
+                :icon="inboxIcon"
+                class="flex-shrink-0 text-n-slate-11 size-3"
+              />
+            </div>
           </div>
+          <span
+            v-if="assignedTeam"
+            class="px-2 py-0.5 rounded-full bg-n-slate-3 text-xs font-medium text-n-slate-12 truncate max-w-[120px]"
+            :title="`Team: ${assignedTeam.name}`"
+          >
+            {{ assignedTeam.name }}
+          </span>
           <span class="text-sm text-n-slate-10">
             {{ lastActivityAt }}
           </span>
