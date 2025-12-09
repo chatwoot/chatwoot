@@ -277,6 +277,23 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
+  def hourly_chat_report(csv_url, report_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Hourly Chat Report for #{report_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    @report_date = report_date
+    recipients = admin_emails + [
+      'jayant@missmosa.in',
+      'nitin.bajaj@missmosa.in',
+      'jaideep+chatwootreports@bitespeed.co',
+      'aryanm@bitespeed.co',
+      'arindam@bitespeed.co',
+      'jay@procedure.tech'
+    ]
+    send_mail_with_liquid(to: recipients, subject: subject) and return
+  end
+
   private
 
   def admin_emails
@@ -284,6 +301,6 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   end
 
   def liquid_locals
-    super.merge({ meta: @meta })
+    super.merge({ meta: @meta, report_date: @report_date })
   end
 end
