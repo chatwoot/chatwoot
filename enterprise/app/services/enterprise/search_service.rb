@@ -63,11 +63,8 @@ module Enterprise::SearchService
 
     if since_param.present?
       requested_time = Time.zone.at(since_param.to_i)
-      if requested_time < max_lookback
-        raise ArgumentError, I18n.t('errors.messages.search.time_range_limit_exceeded', days: Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS)
-      end
-
-      requested_time
+      # Silently cap to max_lookback if requested time is too far back
+      [requested_time, max_lookback].max
     else
       max_lookback
     end

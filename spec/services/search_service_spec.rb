@@ -187,6 +187,81 @@ describe SearchService do
         expect(results.length).to eq(15) # Default per_page is 15
       end
     end
+
+    context 'when filtering with time caps' do
+      context 'for contacts' do
+        let!(:old_contact) { create(:contact, name: 'Old Potter', email: 'old@test.com', account: account, last_activity_at: 100.days.ago) }
+        let!(:recent_contact) { create(:contact, name: 'Recent Potter', email: 'recent@test.com', account: account, last_activity_at: 1.day.ago) }
+
+        it 'caps since to 90 days ago and excludes older contacts' do
+          params = { q: 'Potter', since: 100.days.ago.to_i, search_type: 'Contact' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
+          results = search.perform[:contacts]
+
+          expect(results.map(&:id)).not_to include(old_contact.id)
+          expect(results.map(&:id)).to include(recent_contact.id)
+        end
+
+        it 'caps until to 90 days from now' do
+          params = { q: 'Potter', until: 100.days.from_now.to_i, search_type: 'Contact' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
+          results = search.perform[:contacts]
+
+          # Both contacts should be included since their last_activity_at is before the capped time
+          expect(results.map(&:id)).to include(recent_contact.id)
+        end
+      end
+
+      context 'for conversations' do
+        let!(:old_conversation) { create(:conversation, contact: harry, inbox: inbox, account: account, last_activity_at: 100.days.ago) }
+        let!(:recent_conversation) { create(:conversation, contact: harry, inbox: inbox, account: account, last_activity_at: 1.day.ago) }
+
+        it 'caps since to 90 days ago and excludes older conversations' do
+          params = { q: 'Harry', since: 100.days.ago.to_i, search_type: 'Conversation' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+          results = search.perform[:conversations]
+
+          expect(results.map(&:id)).not_to include(old_conversation.id)
+          expect(results.map(&:id)).to include(recent_conversation.id)
+        end
+
+        it 'caps until to 90 days from now' do
+          params = { q: 'Harry', until: 100.days.from_now.to_i, search_type: 'Conversation' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+          results = search.perform[:conversations]
+
+          # Both conversations should be included since their last_activity_at is before the capped time
+          expect(results.map(&:id)).to include(recent_conversation.id)
+        end
+      end
+
+      context 'for articles' do
+        let!(:old_article) do
+          create(:article, title: 'Old Magic Guide', account: account, portal: portal, author: user, status: 'published', updated_at: 100.days.ago)
+        end
+        let!(:recent_article) do
+          create(:article, title: 'Recent Magic Guide', account: account, portal: portal, author: user, status: 'published', updated_at: 1.day.ago)
+        end
+
+        it 'caps since to 90 days ago and excludes older articles' do
+          params = { q: 'Magic', since: 100.days.ago.to_i, search_type: 'Article' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+          results = search.perform[:articles]
+
+          expect(results.map(&:id)).not_to include(old_article.id)
+          expect(results.map(&:id)).to include(recent_article.id)
+        end
+
+        it 'caps until to 90 days from now' do
+          params = { q: 'Magic', until: 100.days.from_now.to_i, search_type: 'Article' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+          results = search.perform[:articles]
+
+          # Both articles should be included since their updated_at is before the capped time
+          expect(results.map(&:id)).to include(recent_article.id)
+        end
+      end
+    end
   end
 
   describe '#message_base_query' do
@@ -360,14 +435,21 @@ describe SearchService do
         search_service.perform
       end
 
-      it 'raises error when since timestamp exceeds 90 day limit' do
+      it 'silently caps since timestamp to 90 day limit when exceeded' do
         since_timestamp = (Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS * 2).days.ago.to_i
         params = { q: 'test', since: since_timestamp }
         search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
 
-        expect do
-          search_service.perform
-        end.to raise_error(ArgumentError, /Search is limited to the last #{Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS} days/o)
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              created_at: hash_including(gte: be_within(1.second).of(Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS.days.ago))
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
       end
 
       it 'filters messages since timestamp when within 90 day limit' do
@@ -418,6 +500,23 @@ describe SearchService do
                 gte: Time.zone.at(since_timestamp),
                 lte: Time.zone.at(until_timestamp)
               )
+            )
+          )
+        ).and_return([])
+
+        search_service.perform
+      end
+
+      it 'silently caps until timestamp to 90 days from now when exceeded' do
+        until_timestamp = 100.days.from_now.to_i
+        params = { q: 'test', until: until_timestamp }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              created_at: hash_including(lte: be_within(1.second).of(90.days.from_now))
             )
           )
         ).and_return([])

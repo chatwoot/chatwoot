@@ -133,9 +133,24 @@ class SearchService
   def apply_time_filter(query, column_name)
     return query if params[:since].blank? && params[:until].blank?
 
-    query = query.where("#{column_name} >= ?", Time.zone.at(params[:since].to_i)) if params[:since].present?
-    query = query.where("#{column_name} <= ?", Time.zone.at(params[:until].to_i)) if params[:until].present?
+    query = query.where("#{column_name} >= ?", cap_since_time(params[:since])) if params[:since].present?
+    query = query.where("#{column_name} <= ?", cap_until_time(params[:until])) if params[:until].present?
     query
+  end
+
+  def cap_since_time(since_param)
+    max_lookback = 90.days.ago
+    requested_time = Time.zone.at(since_param.to_i)
+
+    # Silently cap to max_lookback if requested time is too far back
+    [requested_time, max_lookback].max
+  end
+
+  def cap_until_time(until_param)
+    max_future = 90.days.from_now
+    requested_time = Time.zone.at(until_param.to_i)
+
+    [requested_time, max_future].min
   end
 end
 
