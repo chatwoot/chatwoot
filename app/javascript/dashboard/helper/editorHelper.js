@@ -5,7 +5,8 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
-import { FORMATTING } from 'dashboard/constants/editor';
+import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
+import camelcaseKeys from 'camelcase-keys';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -285,6 +286,47 @@ export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
 }
 
 /**
+ * Strips unsupported markdown formatting from content based on the editor schema.
+ * This ensures canned responses with rich formatting can be inserted into channels
+ * that don't support certain formatting (e.g., API channels don't support bold).
+ *
+ * @param {string} content - The markdown content to sanitize
+ * @param {Object} schema - The ProseMirror schema with supported marks and nodes
+ * @returns {string} - Content with unsupported formatting stripped
+ */
+export function stripUnsupportedFormatting(content, schema) {
+  if (!content || typeof content !== 'string') return content;
+  if (!schema) return content;
+
+  let sanitizedContent = content;
+
+  // Get supported marks and nodes from the schema
+  // Note: ProseMirror uses snake_case internally (code_block, bullet_list, etc.)
+  // but our FORMATTING constant uses camelCase (codeBlock, bulletList, etc.)
+  // We use camelcase-keys to normalize node names for comparison
+  const supportedMarks = Object.keys(schema.marks || {});
+  const nodeKeys = Object.keys(schema.nodes || {});
+  const nodeKeysObj = Object.fromEntries(nodeKeys.map(k => [k, true]));
+  const supportedNodes = Object.keys(camelcaseKeys(nodeKeysObj));
+
+  // Process each formatting type in order (codeBlock before code is important!)
+  MARKDOWN_PATTERNS.forEach(({ type, patterns }) => {
+    // Check if this format type is supported by the schema
+    const isMarkSupported = supportedMarks.includes(type);
+    const isNodeSupported = supportedNodes.includes(type);
+
+    // If not supported, strip the formatting
+    if (!isMarkSupported && !isNodeSupported) {
+      patterns.forEach(({ pattern, replacement }) => {
+        sanitizedContent = sanitizedContent.replace(pattern, replacement);
+      });
+    }
+  });
+
+  return sanitizedContent;
+}
+
+/**
  * Content Node Creation Helper Functions for
  * - mention
  * - canned response
@@ -314,8 +356,17 @@ const createNode = (editorView, nodeType, content) => {
 
       return mentionNode;
     }
-    case 'cannedResponse':
-      return new MessageMarkdownTransformer(state.schema).parse(content);
+    case 'cannedResponse': {
+      // Strip unsupported formatting before parsing to ensure content can be inserted
+      // into channels that don't support certain markdown features (e.g., API channels)
+      const sanitizedContent = stripUnsupportedFormatting(
+        content,
+        state.schema
+      );
+      return new MessageMarkdownTransformer(state.schema).parse(
+        sanitizedContent
+      );
+    }
     case 'variable':
       return state.schema.text(`{{${content}}}`);
     case 'emoji':
