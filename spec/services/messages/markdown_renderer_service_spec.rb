@@ -67,6 +67,13 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include("Line 1\nLine 2\nLine 3")
         expect(result).not_to include('Line 1 Line 2')
       end
+
+      it 'preserves multiple consecutive newlines for spacing' do
+        content = "Para 1\n\n\n\nPara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(4)
+        expect(result).to include("Para 1\n\n\n\nPara 2")
+      end
     end
 
     context 'when channel is Channel::Instagram' do
@@ -115,6 +122,13 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result).to include("Line 1\nLine 2\nLine 3")
         expect(result).not_to include('Line 1 Line 2')
+      end
+
+      it 'preserves multiple consecutive newlines for spacing' do
+        content = "Para 1\n\n\n\nPara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(4)
+        expect(result).to include("Para 1\n\n\n\nPara 2")
       end
     end
 
@@ -200,6 +214,13 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result).to include("Line 1\nLine 2\nLine 3")
         expect(result).not_to include('Line 1 Line 2')
+      end
+
+      it 'preserves multiple consecutive newlines for spacing' do
+        content = "Para 1\n\n\n\nPara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(4)
+        expect(result).to include("Para 1\n\n\n\nPara 2")
       end
     end
 
