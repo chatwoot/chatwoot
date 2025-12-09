@@ -55,4 +55,8 @@ class Messages::MarkdownRenderers::PlainTextRenderer < Messages::MarkdownRendere
   def thematic_break(_node)
     out("\n")
   end
+
+  def softbreak(_node)
+    out("\n")
+  end
 end
