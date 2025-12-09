@@ -24,7 +24,7 @@ class AutoAssignment::RateLimiter
   private
 
   def enabled?
-    limit.present?
+    limit.present? && limit.positive?
   end
 
   def limit
