@@ -1,6 +1,5 @@
 /* global axios */
 import CacheEnabledApiClient from './CacheEnabledApiClient';
-// import ApiClient from './ApiClient';
 import ApiClient from './ApiClient';
 
 // eslint-disable-next-line no-underscore-dangle
