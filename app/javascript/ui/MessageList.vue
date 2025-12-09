@@ -120,7 +120,6 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
           :is-email-inbox="false"
           :group-with-next="shouldGroupWithNext(index, allMessages)"
           :inbox-supports-reply-to="false"
-          :current-user-id="currentUserId"
         />
       </template>
       <div v-show="isFetching" class="w-full py-4">
