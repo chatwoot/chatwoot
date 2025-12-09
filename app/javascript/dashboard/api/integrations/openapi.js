@@ -46,9 +46,13 @@ class OpenAIAPI extends ApiClient {
    * @param {string} [options.tone] - The tone of the event.
    * @param {string} [options.conversationId] - The ID of the conversation to process the event for.
    * @param {string} options.hookId - The ID of the hook to use for processing the event.
+   * @param {AbortSignal} [signal] - AbortSignal to cancel the request.
    * @returns {Promise} A promise that resolves with the result of the event processing.
    */
-  processEvent({ type = 'rephrase', content, tone, conversationId, hookId }) {
+  processEvent(
+    { type = 'rephrase', content, tone, conversationId, hookId },
+    signal
+  ) {
     /**
      * @type {ConversationMessageData}
      */
@@ -69,12 +73,16 @@ class OpenAIAPI extends ApiClient {
       };
     }
 
-    return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
-      event: {
-        name: type,
-        data,
+    return axios.post(
+      `${this.url}/hooks/${hookId}/process_event`,
+      {
+        event: {
+          name: type,
+          data,
+        },
       },
-    });
+      { signal }
+    );
   }
 }
 
