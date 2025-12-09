@@ -8,6 +8,7 @@ class AgentNotifications::ConversationHandoffMailer < ApplicationMailer
 
     @conversation   = conversation
     @action_url     = conversation_url(@conversation)
+    @instagram_profile_url = instagram_profile_url(@conversation)
 
     subject = "Conversation Handoff on account #{@account.name} on platform #{conversation.inbox.name}"
 
@@ -27,7 +28,8 @@ class AgentNotifications::ConversationHandoffMailer < ApplicationMailer
     super.merge!({
                    conversation: @conversation,
                    inbox: @conversation.inbox,
-                   account: @account
+                   account: @account,
+                   instagram_profile_url: @instagram_profile_url
                  })
   end
 end

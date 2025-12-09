@@ -12,6 +12,17 @@
   <tr>
     <td style="padding: 5px 0;"><strong>Platform:</strong> {{ inbox.name }}</td>
   </tr>
+  {% assign profile_url = instagram_profile_url %}
+{% if profile_url %}
+    <tr>
+      <td style="padding: 5px 0;">
+        <strong>{% if instagram_profile_url %}Instagram Profile{% else %}Facebook Profile{% endif %}:</strong>
+        <a href="{{ profile_url }}" target="_blank" rel="noopener" style="color:#1f93ff; text-decoration:none;">
+          {{ profile_url }}
+        </a>
+      </td>
+    </tr>
+  {% endif %}
   <tr>
     <td style="padding: 5px 0;"><strong>Handoff Time:</strong> {{ 'now' | date: '%B %d, %Y at %I:%M %p' }}</td>
   </tr>

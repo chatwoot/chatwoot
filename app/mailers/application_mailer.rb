@@ -46,6 +46,18 @@ class ApplicationMailer < ActionMailer::Base
                  nil)}/app/accounts/#{conversation.account_id}/inbox/#{conversation.inbox_id}/conversations/#{conversation.display_id}"
   end
 
+  def instagram_profile_url(conversation)
+    return unless conversation&.inbox&.channel_type == 'Channel::Instagram'
+
+    contact = conversation.contact
+    additional_attributes = contact.additional_attributes
+    username =
+      additional_attributes['social_instagram_user_name'].presence ||
+      additional_attributes.dig('social_profiles', 'instagram').presence
+
+    "https://www.instagram.com/#{username}"
+  end
+
   def liquid_droppables
     # Merge additional objects into this in your mailer
     # liquid template handler converts these objects into drop objects
@@ -64,8 +76,10 @@ class ApplicationMailer < ActionMailer::Base
       action_url: @action_url
     }
 
-    locals.merge({ attachment_url: @attachment_url }) if @attachment_url
-    locals.merge({ failed_contacts: @failed_contacts, imported_contacts: @imported_contacts })
+    locals[:attachment_url] = @attachment_url if defined?(@attachment_url) && @attachment_url
+    locals[:failed_contacts] = @failed_contacts if defined?(@failed_contacts) && @failed_contacts
+    locals[:imported_contacts] = @imported_contacts if defined?(@imported_contacts) && @imported_contacts
+    locals[:instagram_profile_url] = @instagram_profile_url if defined?(@instagram_profile_url) && @instagram_profile_url.present?
     locals
   end
 
