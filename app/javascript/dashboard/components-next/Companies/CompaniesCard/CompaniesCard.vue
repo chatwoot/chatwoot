@@ -79,7 +79,7 @@ const formattedUpdatedAt = computed(() => {
               class="inline-flex items-center gap-1.5 text-sm text-n-slate-11 truncate"
             >
               <Icon icon="i-lucide-contact" size="size-3.5 text-n-slate-11" />
-              {{ t('COMPANIES.CONTACTS_COUNT', { count: contactsCount }) }}
+              {{ t('COMPANIES.CONTACTS_COUNT', { n: contactsCount }) }}
             </span>
           </div>
           <span

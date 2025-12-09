@@ -1,4 +1,4 @@
-class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseOpenAiService
+class Internal::AccountAnalysis::ContentEvaluatorService < Llm::LegacyBaseOpenAiService
   def initialize
     super()
 

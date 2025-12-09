@@ -34,7 +34,7 @@ const selectedResponse = ref(null);
 const deleteDialog = ref(null);
 const bulkDeleteDialog = ref(null);
 
-const selectedAssistantId = Number(route.params.assistantId);
+const selectedAssistantId = computed(() => route.params.assistantId);
 const dialogType = ref('');
 const searchQuery = ref('');
 const { t } = useI18n();
@@ -45,7 +45,7 @@ const backUrl = computed(() => ({
   name: 'captain_assistants_responses_index',
   params: {
     accountId: route.params.accountId,
-    assistantId: selectedAssistantId,
+    assistantId: selectedAssistantId.value,
   },
 }));
 
@@ -125,8 +125,8 @@ const updateURLWithFilters = (page, search) => {
 const fetchResponses = (page = 1) => {
   const filterParams = { page, status: 'pending' };
 
-  if (selectedAssistantId) {
-    filterParams.assistantId = selectedAssistantId;
+  if (selectedAssistantId.value) {
+    filterParams.assistantId = selectedAssistantId.value;
   }
   if (searchQuery.value) {
     filterParams.search = searchQuery.value;
