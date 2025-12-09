@@ -163,17 +163,22 @@ const onToggleDropdown = () => {
 };
 
 const handleAction = item => {
-  modelValue.value = item.value;
-
-  if (item.type === FROM_TYPE.CONTACT) {
-    const [, id] = item.value.split(':');
-    selectedContact.value = {
-      id: Number(id),
-      name: item.label,
-      thumbnail: item.thumbnail?.src,
-    };
-  } else if (item.type === FROM_TYPE.AGENT) {
+  if (modelValue.value === item.value) {
+    modelValue.value = null;
     selectedContact.value = null;
+  } else {
+    modelValue.value = item.value;
+
+    if (item.type === FROM_TYPE.CONTACT) {
+      const [, id] = item.value.split(':');
+      selectedContact.value = {
+        id: Number(id),
+        name: item.label,
+        thumbnail: item.thumbnail?.src,
+      };
+    } else {
+      selectedContact.value = null;
+    }
   }
 
   toggleDropdown(false);

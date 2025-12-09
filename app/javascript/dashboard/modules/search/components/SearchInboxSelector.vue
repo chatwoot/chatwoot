@@ -80,7 +80,11 @@ const selectedLabel = computed(() => {
 });
 
 const handleAction = item => {
-  modelValue.value = item.value;
+  if (modelValue.value === item.value) {
+    modelValue.value = null;
+  } else {
+    modelValue.value = item.value;
+  }
   toggleDropdown(false);
   emit('change');
 };
