@@ -332,17 +332,7 @@ export default {
           @click="toggleAudioRecorder"
         />
         <NextButton
-          v-if="showEditorToggle"
-          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-          icon="i-ph-quotes"
-          slate
-          faded
-          sm
-          @click="$emit('toggleEditor')"
-        />
-        <NextButton
           v-if="showAudioPlayStopButton"
-          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
           :icon="audioRecorderPlayStopIcon"
           slate
           faded
@@ -351,24 +341,6 @@ export default {
           @click="toggleAudioRecorderPlayPause"
         />
       </template>
-      <NextButton
-        v-if="showAudioRecorderButton"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
-        slate
-        faded
-        sm
-        @click="toggleAudioRecorder"
-      />
-      <NextButton
-        v-if="showAudioPlayStopButton"
-        :icon="audioRecorderPlayStopIcon"
-        slate
-        faded
-        sm
-        :label="recordingAudioDurationText"
-        @click="toggleAudioRecorderPlayPause"
-      />
       <NextButton
         v-if="showMessageSignatureButton && allowSignature"
         v-tooltip.top-end="signatureToggleTooltip"
