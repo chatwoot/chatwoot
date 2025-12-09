@@ -55,7 +55,10 @@ const countriesMap = computed(() => {
   }, {});
 });
 
-const createdAtTime = dynamicTime(props.updatedAt);
+const updatedAtTime = computed(() => {
+  if (!props.updatedAt) return '';
+  return dynamicTime(props.updatedAt);
+});
 
 const countryDetails = computed(() => {
   const { country, countryCode, city } = props.additionalAttributes;
@@ -101,8 +104,11 @@ const formattedLocation = computed(() => {
           <h5 class="text-sm font-medium truncate min-w-0 text-n-slate-12 py-1">
             {{ name }}
           </h5>
-          <span class="text-sm font-normal min-w-0 truncate text-n-slate-11">
-            {{ $t('SEARCH.UPDATED_AT', { time: createdAtTime }) }}
+          <span
+            v-if="updatedAtTime"
+            class="text-sm font-normal min-w-0 truncate text-n-slate-11"
+          >
+            {{ $t('SEARCH.UPDATED_AT', { time: updatedAtTime }) }}
           </span>
         </div>
         <div

@@ -56,7 +56,10 @@ const navigateTo = computed(() => {
   );
 });
 
-const createdAtTime = dynamicTime(props.createdAt);
+const createdAtTime = computed(() => {
+  if (!props.createdAt) return '';
+  return dynamicTime(props.createdAt);
+});
 
 const infoItems = computed(() => [
   {
@@ -124,7 +127,10 @@ const inboxIcon = computed(() => {
             </span>
           </div>
         </div>
-        <span class="text-sm font-normal min-w-0 truncate text-n-slate-11">
+        <span
+          v-if="createdAtTime"
+          class="text-sm font-normal min-w-0 truncate text-n-slate-11"
+        >
           {{ createdAtTime }}
         </span>
       </div>

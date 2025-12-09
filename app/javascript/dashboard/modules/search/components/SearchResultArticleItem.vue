@@ -28,7 +28,10 @@ const navigateTo = computed(() => {
   );
 });
 
-const updatedAtTime = dynamicTime(props.updatedAt);
+const updatedAtTime = computed(() => {
+  if (!props.updatedAt) return '';
+  return dynamicTime(props.updatedAt);
+});
 
 const truncatedContent = computed(() => {
   if (!props.content) return props.description || '';
@@ -83,7 +86,10 @@ const statusTextColor = computed(() => {
               {{ status }}
             </span>
           </div>
-          <span class="text-sm font-normal min-w-0 truncate text-n-slate-11">
+          <span
+            v-if="updatedAtTime"
+            class="text-sm font-normal min-w-0 truncate text-n-slate-11"
+          >
             {{ updatedAtTime }}
           </span>
         </div>
