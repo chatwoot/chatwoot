@@ -13,6 +13,7 @@ import {
   getSelectionCoords,
   getMenuAnchor,
   calculateMenuPosition,
+  stripUnsupportedFormatting,
 } from '../editorHelper';
 import { FORMATTING } from 'dashboard/constants/editor';
 import { EditorState } from '@chatwoot/prosemirror-schema';
@@ -741,6 +742,157 @@ describe('getFormattingForEditor', () => {
       expect(Array.isArray(result.marks)).toBe(true);
       expect(Array.isArray(result.nodes)).toBe(true);
       expect(Array.isArray(result.menu)).toBe(true);
+    });
+  });
+});
+
+describe('stripUnsupportedFormatting', () => {
+  describe('when schema supports all formatting', () => {
+    const fullSchema = {
+      marks: { strong: {}, em: {}, code: {}, strike: {}, link: {} },
+      nodes: { bulletList: {}, orderedList: {}, codeBlock: {}, blockquote: {} },
+    };
+
+    it('preserves all formatting when schema supports it', () => {
+      const content = '**bold** and *italic* and `code`';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
+    it('preserves links when schema supports them', () => {
+      const content = 'Check [this link](https://example.com)';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
+    it('preserves lists when schema supports them', () => {
+      const content = '- item 1\n- item 2\n1. first\n2. second';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+  });
+
+  describe('when schema has no formatting support (eg:SMS channel)', () => {
+    const emptySchema = {
+      marks: {},
+      nodes: {},
+    };
+
+    it('strips bold formatting', () => {
+      expect(stripUnsupportedFormatting('**bold text**', emptySchema)).toBe(
+        'bold text'
+      );
+      expect(stripUnsupportedFormatting('__bold text__', emptySchema)).toBe(
+        'bold text'
+      );
+    });
+
+    it('strips italic formatting', () => {
+      expect(stripUnsupportedFormatting('*italic text*', emptySchema)).toBe(
+        'italic text'
+      );
+      expect(stripUnsupportedFormatting('_italic text_', emptySchema)).toBe(
+        'italic text'
+      );
+    });
+
+    it('strips inline code formatting', () => {
+      expect(stripUnsupportedFormatting('`inline code`', emptySchema)).toBe(
+        'inline code'
+      );
+    });
+
+    it('strips strikethrough formatting', () => {
+      expect(stripUnsupportedFormatting('~~strikethrough~~', emptySchema)).toBe(
+        'strikethrough'
+      );
+    });
+
+    it('strips links but keeps text', () => {
+      expect(
+        stripUnsupportedFormatting(
+          'Check [this link](https://example.com)',
+          emptySchema
+        )
+      ).toBe('Check this link');
+    });
+
+    it('strips bullet list markers', () => {
+      expect(
+        stripUnsupportedFormatting('- item 1\n- item 2', emptySchema)
+      ).toBe('item 1\nitem 2');
+      expect(
+        stripUnsupportedFormatting('* item 1\n* item 2', emptySchema)
+      ).toBe('item 1\nitem 2');
+    });
+
+    it('strips ordered list markers', () => {
+      expect(
+        stripUnsupportedFormatting('1. first\n2. second', emptySchema)
+      ).toBe('first\nsecond');
+    });
+
+    it('strips code block markers', () => {
+      expect(
+        stripUnsupportedFormatting('```javascript\ncode here\n```', emptySchema)
+      ).toBe('code here\n');
+    });
+
+    it('strips blockquote markers', () => {
+      expect(stripUnsupportedFormatting('> quoted text', emptySchema)).toBe(
+        'quoted text'
+      );
+    });
+
+    it('handles complex content with multiple formatting types', () => {
+      const content =
+        '**Bold** and *italic* with `code` and [link](url)\n- list item';
+      const expected = 'Bold and italic with code and link\nlist item';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+  });
+
+  describe('when schema has partial support', () => {
+    const partialSchema = {
+      marks: { strong: {}, em: {} },
+      nodes: {},
+    };
+
+    it('preserves supported marks and strips unsupported ones', () => {
+      const content = '**bold** and `code`';
+      expect(stripUnsupportedFormatting(content, partialSchema)).toBe(
+        '**bold** and code'
+      );
+    });
+
+    it('strips unsupported nodes but keeps supported marks', () => {
+      const content = '**bold** text\n- list item';
+      expect(stripUnsupportedFormatting(content, partialSchema)).toBe(
+        '**bold** text\nlist item'
+      );
+    });
+  });
+
+  describe('edge cases', () => {
+    it('returns content unchanged if content is empty', () => {
+      expect(stripUnsupportedFormatting('', {})).toBe('');
+    });
+
+    it('returns content unchanged if content is null', () => {
+      expect(stripUnsupportedFormatting(null, {})).toBe(null);
+    });
+
+    it('returns content unchanged if content is undefined', () => {
+      expect(stripUnsupportedFormatting(undefined, {})).toBe(undefined);
+    });
+
+    it('returns content unchanged if schema is null', () => {
+      expect(stripUnsupportedFormatting('**bold**', null)).toBe('**bold**');
+    });
+
+    it('handles nested formatting correctly', () => {
+      const emptySchema = { marks: {}, nodes: {} };
+      // After stripping bold (**), the remaining *and italic* becomes italic and is stripped too
+      expect(
+        stripUnsupportedFormatting('**bold *and italic***', emptySchema)
+      ).toBe('bold and italic');
     });
   });
 });
