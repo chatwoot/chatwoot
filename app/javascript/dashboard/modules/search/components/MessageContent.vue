@@ -1,8 +1,8 @@
 <script setup>
-import { ref, computed, nextTick, onMounted, useTemplateRef } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useToggle } from '@vueuse/core';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { useExpandableContent } from 'shared/composables/useExpandableContent';
 
 const props = defineProps({
   author: {
@@ -22,9 +22,8 @@ const props = defineProps({
 const { t } = useI18n();
 const { highlightContent } = useMessageFormatter();
 
-const contentElement = useTemplateRef('contentElement');
-const [isExpanded, toggleExpanded] = useToggle(false);
-const needsToggle = ref(false);
+const { contentElement, isExpanded, needsToggle, toggleExpanded } =
+  useExpandableContent();
 
 const messageContent = computed(() => {
   // We perform search on either content or email subject or transcribed text
@@ -64,21 +63,6 @@ const authorText = computed(() => {
   const author = props.author || '';
   const wroteText = t('SEARCH.WROTE');
   return author ? `${author} ${wroteText} ` : '';
-});
-
-const checkOverflow = () => {
-  if (!contentElement.value) return;
-
-  const element = contentElement.value;
-  const computedStyle = window.getComputedStyle(element);
-  const lineHeight = parseFloat(computedStyle.lineHeight) || 20;
-  const maxHeight = lineHeight * 2;
-
-  needsToggle.value = element.scrollHeight > maxHeight;
-};
-
-onMounted(() => {
-  nextTick(checkOverflow);
 });
 </script>
 

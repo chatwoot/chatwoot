@@ -1,6 +1,5 @@
 <script setup>
-import { ref } from 'vue';
-import { useToggle, useResizeObserver } from '@vueuse/core';
+import { useExpandableContent } from 'shared/composables/useExpandableContent';
 
 defineProps({
   text: {
@@ -9,22 +8,8 @@ defineProps({
   },
 });
 
-const contentElement = ref(null);
-const [isExpanded, toggleExpanded] = useToggle(false);
-const needsToggle = ref(false);
-
-const checkOverflow = () => {
-  if (!contentElement.value) return;
-
-  const element = contentElement.value;
-  const computedStyle = window.getComputedStyle(element);
-  const lineHeight = parseFloat(computedStyle.lineHeight) || 20;
-  const maxHeight = lineHeight * 2;
-
-  needsToggle.value = element.scrollHeight > maxHeight;
-};
-
-useResizeObserver(contentElement, checkOverflow);
+const { contentElement, isExpanded, needsToggle, toggleExpanded } =
+  useExpandableContent({ useResizeObserverForCheck: true });
 </script>
 
 <template>
