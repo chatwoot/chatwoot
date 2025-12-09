@@ -60,7 +60,7 @@ useKeyboardEvents(keyboardEvents);
       <Editor
         v-model="state.message"
         :placeholder="t('CONTACTS_LAYOUT.CARD.ADD_NOTE.PLACEHOLDER')"
-        class="[&>div]:!border-transparent [&>div]:!px-3 [&>div]:!pb-4 [&_.ProseMirror-woot-style]:min-h-6"
+        class="[&>div]:!border-transparent [&>div]:!px-3 [&>div]:!pb-4 [&_.ProseMirror-woot-style]:min-h-6 [&_.ProseMirror-menubar]:!relative ltr:[&_.ProseMirror-menubar]:!-left-[3px] ltr:[&_.ProseMirror-menubar]:!right-[unset] rtl:[&_.ProseMirror-menubar]:!-right-[3px] rtl:[&_.ProseMirror-menubar]:!left-[unset] [&_.ProseMirror-menubar]:!w-[unset] [&_.ProseMirror-menubar]:!top-[unset] [&_.ProseMirror-menubar-spacer]:!hidden"
       />
     </div>
   </div>

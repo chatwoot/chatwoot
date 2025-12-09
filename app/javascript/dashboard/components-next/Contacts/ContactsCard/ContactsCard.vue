@@ -126,7 +126,8 @@ const handleAvatarHover = isHovered => {
 <template>
   <div class="relative">
     <div
-      class="flex flex-col gap-2 pt-3 pb-2 lg:pb-3 lg:grid lg:gap-4 lg:items-center lg:rounded-lg lg:transition-all lg:duration-200 lg:grid-cols-[minmax(42%,1fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-n-weak lg:border-none"
+      class="flex flex-col gap-2 pt-3 pb-2 lg:pb-3 lg:grid lg:gap-4 lg:items-center lg:rounded-lg lg:transition-all lg:duration-200 lg:grid-cols-[minmax(42%,1fr)_minmax(0,1fr)_minmax(0,1fr)]"
+      :class="{ 'border-b border-n-weak lg:border-none': isExpanded }"
     >
       <div
         class="flex items-center gap-3 lg:gap-2"
