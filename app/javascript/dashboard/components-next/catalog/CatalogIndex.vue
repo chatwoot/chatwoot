@@ -215,7 +215,7 @@ onMounted(() => {
               <thead>
                 <tr>
                   <th
-                    class="py-3 text-xs font-semibold tracking-wide text-left uppercase ltr:pr-4 rtl:pl-4 text-n-slate-11"
+                    class="w-px py-3 text-xs font-semibold tracking-wide text-left uppercase ltr:pr-4 rtl:pl-4 text-n-slate-11"
                   >
                     {{ t('CATALOG.TABLE.IMAGE') }}
                   </th>
@@ -225,12 +225,12 @@ onMounted(() => {
                     {{ t('CATALOG.TABLE.TITLE') }}
                   </th>
                   <th
-                    class="py-3 text-xs font-semibold tracking-wide text-left uppercase ltr:pr-4 rtl:pl-4 text-n-slate-11"
+                    class="w-px py-3 text-xs font-semibold tracking-wide text-left uppercase ltr:pr-4 rtl:pl-4 text-n-slate-11"
                   >
                     {{ t('CATALOG.TABLE.PRICE') }}
                   </th>
                   <th
-                    class="py-3 text-xs font-semibold tracking-wide text-right uppercase text-n-slate-11"
+                    class="w-px py-3 text-xs font-semibold tracking-wide text-right uppercase text-n-slate-11"
                   >
                     {{ t('CATALOG.TABLE.ACTIONS') }}
                   </th>
@@ -255,20 +255,11 @@ onMounted(() => {
                     </div>
                   </td>
                   <td class="py-4 ltr:pr-4 rtl:pl-4">
-                    <div class="flex flex-col">
-                      <span class="font-medium text-n-slate-12">
-                        {{ product.title_en }}
-                      </span>
-                      <span
-                        v-if="product.title_ar"
-                        class="text-sm text-n-slate-11"
-                        dir="rtl"
-                      >
-                        {{ product.title_ar }}
-                      </span>
-                    </div>
+                    <span class="font-medium text-n-slate-12">
+                      {{ product.title_en }}
+                    </span>
                   </td>
-                  <td class="py-4 ltr:pr-4 rtl:pl-4">
+                  <td class="py-4 ltr:pr-4 rtl:pl-4 whitespace-nowrap">
                     <span class="font-medium text-n-slate-12">
                       {{ formatPrice(product.price, product.currency) }}
                     </span>

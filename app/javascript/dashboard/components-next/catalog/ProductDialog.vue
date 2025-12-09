@@ -198,7 +198,7 @@ watch(
           </label>
           <select
             v-model="form.currency"
-            class="block w-full h-10 px-3 py-2 text-sm border-0 rounded-lg outline outline-1 outline-offset-[-1px] outline-n-weak bg-n-alpha-black2 text-n-slate-12 focus:outline-n-brand"
+            class="block w-full h-10 px-3 pr-7 py-2 text-sm border-0 rounded-lg outline outline-1 outline-offset-[-1px] outline-n-weak bg-n-alpha-black2 text-n-slate-12 focus:outline-n-brand"
           >
             <option
               v-for="option in currencyOptions"
