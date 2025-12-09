@@ -19,6 +19,7 @@ const state = {
     isCreating: false,
     isUpdating: false,
     isDeleting: false,
+    isCustomersFetching: false,
   },
 };
 
@@ -220,6 +221,21 @@ const actions = {
       throw error;
     } finally {
       setUiFlag(commit, { isDeleting: false });
+    }
+  },
+  async fetchContestCustomers({ commit }, { params = {} } = {}) {
+    if (!Object.keys(params).length) {
+      return null;
+    }
+    setUiFlag(commit, { isCustomersFetching: true });
+    try {
+      const response = await ContestsAPI.report(params);
+      return response?.data?.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      setUiFlag(commit, { isCustomersFetching: false });
     }
   },
 };

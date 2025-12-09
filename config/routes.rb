@@ -102,7 +102,9 @@ Rails.application.routes.draw do
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
             post :execute, on: :member
           end
-          resources :contests, only: [:index, :create, :update, :destroy]
+          resources :contests, only: [:index, :create, :update, :destroy] do
+            get :report, on: :collection
+          end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]

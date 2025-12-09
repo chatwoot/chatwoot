@@ -347,6 +347,11 @@ watch(
                   }}
                 </span>
               </div>
+
+              <p class="text-xs text-n-slate-10">
+                {{ t('CONTESTS.FORM_TRIGGER_WORDS_SUBTITLE') }}
+              </p>
+
               <div
                 class="w-full rounded-lg border px-3 py-2 bg-white dark:bg-n-alpha-black2"
                 :class="
@@ -442,7 +447,6 @@ watch(
                 <Input
                   v-model="item.question"
                   required
-                  :label="t('CONTESTS.FORM_QUESTION_LABEL')"
                   :placeholder="t('CONTESTS.FORM_QUESTION_PLACEHOLDER')"
                   :message="errors.questionnaire[index]"
                   :message-type="errors.questionnaire[index] ? 'error' : 'info'"

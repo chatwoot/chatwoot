@@ -5,6 +5,7 @@ class AgentNotifications::BookingMailer < ApplicationMailer
     @phone = phone
     @customer_email = email
     @platform_name = @conversation&.inbox&.platform_name
+    @instagram_profile_url = instagram_profile_url(@conversation)
     subject = 'New booking scheduled 📆'
 
     mail(to: emails, subject: subject)
