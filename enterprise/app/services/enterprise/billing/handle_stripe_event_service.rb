@@ -27,16 +27,10 @@ class Enterprise::Billing::HandleStripeEventService
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
 
   def perform(event:)
-    @event = event
-
-    case @event.type
-    when 'customer.subscription.updated'
-      process_subscription_updated
-    when 'customer.subscription.deleted'
-      process_subscription_deleted
-    else
-      Rails.logger.debug { "Unhandled event type: #{event.type}" }
-    end
+    # BlazeChat: Disable Stripe billing restrictions
+    # All features are unlocked by default
+    Rails.logger.info { "BlazeChat: Stripe billing disabled - ignoring event #{event.type}" }
+    return
   end
 
   private

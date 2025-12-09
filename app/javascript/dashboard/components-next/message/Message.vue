@@ -247,7 +247,7 @@ const gridTemplate = computed(() => {
     `,
     [ORIENTATION.RIGHT]: `
       "bubble avatar"
-      "meta spacer"
+      "meta agentname"
     `,
   };
 
@@ -452,6 +452,21 @@ const avatarTooltip = computed(() => {
   return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
 });
 
+/**
+ * Returns the agent name to display below the message bubble
+ * Only shows for outgoing messages when avatar is visible
+ */
+const agentNameToShow = computed(() => {
+  // Only show for outgoing messages (agent messages)
+  if (props.messageType !== MESSAGE_TYPES.OUTGOING) return '';
+
+  // Don't show if grouped with next message
+  if (shouldGroupWithNext.value) return '';
+
+  // Return the sender name if available
+  return avatarInfo.value.name || '';
+});
+
 const setupHighlightTimer = () => {
   if (Number(route.query.messageId) !== Number(props.id)) {
     return;
@@ -514,6 +529,15 @@ provideMessageContext({
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="24" />
+      </div>
+      <!-- Agent name display -->
+      <div
+        v-if="agentNameToShow"
+        class="[grid-area:agentname] flex items-center justify-end"
+      >
+        <span class="text-xs text-n-slate-11 truncate max-w-[120px]">
+          {{ agentNameToShow }}
+        </span>
       </div>
       <div
         class="[grid-area:bubble] flex"
