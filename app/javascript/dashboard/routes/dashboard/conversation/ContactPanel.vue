@@ -24,7 +24,6 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import ConversationSumary from './ConversationSumary.vue';
 
 const props = defineProps({
