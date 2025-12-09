@@ -12,19 +12,29 @@ class Messages::MarkdownRendererService
     'Channel::TwilioSms' => :render_plain_text
   }.freeze
 
-  def initialize(content, channel_type)
+  def initialize(content, channel_type, channel = nil)
     @content = content
     @channel_type = channel_type
+    @channel = channel
   end
 
   def render
     return @content if @content.blank?
 
-    renderer_method = CHANNEL_RENDERERS[@channel_type]
+    renderer_method = CHANNEL_RENDERERS[effective_channel_type]
     renderer_method ? send(renderer_method) : @content
   end
 
   private
+
+  def effective_channel_type
+    # For Twilio SMS channel, check if it's actually WhatsApp
+    if @channel_type == 'Channel::TwilioSms' && @channel&.whatsapp?
+      'Channel::Whatsapp'
+    else
+      @channel_type
+    end
+  end
 
   def commonmarker_doc
     @commonmarker_doc ||= CommonMarker.render_doc(@content, [:DEFAULT, :STRIKETHROUGH_DOUBLE_TILDE])
