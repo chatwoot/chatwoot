@@ -66,18 +66,14 @@ const inboxIcon = computed(() => {
   return getInboxIconByType(channelType, medium);
 });
 
-const allAttachments = computed(() => {
-  return Array.isArray(props.attachments) ? props.attachments : [];
-});
-
 const fileAttachments = computed(() => {
-  return allAttachments.value.filter(
+  return props.attachments.filter(
     attachment => attachment.fileType !== ATTACHMENT_TYPES.AUDIO
   );
 });
 
 const audioAttachments = computed(() => {
-  return allAttachments.value.filter(
+  return props.attachments.filter(
     attachment => attachment.fileType === ATTACHMENT_TYPES.AUDIO
   );
 });

@@ -78,7 +78,6 @@ onMounted(() => {
         </h3>
       </div>
       <Button
-        v-if="hasRecentSearches"
         type="button"
         xs
         slate
@@ -91,7 +90,7 @@ onMounted(() => {
       </Button>
     </div>
 
-    <div v-if="hasRecentSearches" class="flex flex-col gap-4 items-start">
+    <div class="flex flex-col gap-4 items-start">
       <button
         v-for="(search, index) in recentSearches"
         :key="search"
@@ -112,12 +111,6 @@ onMounted(() => {
         </span>
       </button>
     </div>
-
-    <div v-else class="text-center py-4">
-      <p class="text-sm text-n-slate-10">
-        {{ $t('SEARCH.NO_RECENT_SEARCHES') }}
-      </p>
-    </div>
   </div>
-  <slot v-else />
+  <template v-else />
 </template>

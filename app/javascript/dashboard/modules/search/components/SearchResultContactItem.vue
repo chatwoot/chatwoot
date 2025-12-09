@@ -58,8 +58,7 @@ const countriesMap = computed(() => {
 const createdAtTime = dynamicTime(props.updatedAt);
 
 const countryDetails = computed(() => {
-  const attributes = props.additionalAttributes || {};
-  const { country, countryCode, city } = attributes;
+  const { country, countryCode, city } = props.additionalAttributes;
 
   if (!country && !countryCode) return null;
 
@@ -119,7 +118,11 @@ const formattedLocation = computed(() => {
 
           <div v-if="email && phone" class="w-px h-3 bg-n-slate-6 rounded" />
 
-          <span v-if="phone" class="truncate text-n-slate-11 min-w-0">
+          <span
+            v-if="phone"
+            :title="phone"
+            class="truncate text-n-slate-11 min-w-0"
+          >
             {{ phone }}
           </span>
 
