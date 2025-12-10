@@ -13,6 +13,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  selectedCompanyName: {
+    type: String,
+    default: '',
+  },
 });
 const emit = defineEmits(['change']);
 const companyId = defineModel({
@@ -47,6 +51,9 @@ const selectedCompany = computed(() => {
 const buttonLabel = computed(() => {
   if (selectedCompany.value) {
     return selectedCompany.value.name;
+  }
+  if (props.selectedCompanyName) {
+    return props.selectedCompanyName;
   }
   return props.placeholder;
 });
@@ -98,6 +105,7 @@ const handleClickOutside = () => {
       sm
       :label="buttonLabel"
       no-animation
+      :variant="showCompanyDropdown ? 'faded' : 'solid'"
       icon="i-lucide-briefcase-business"
       class="w-full !justify-start -outline-offset-1"
       @click="toggleCompanyDropdown()"
@@ -117,6 +125,7 @@ const handleClickOutside = () => {
         show-search
         disable-local-filtering
         :search-placeholder="t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')"
+        :empty-state-message="t('COMPANIES.DROPDOWN_MENU.EMPTY_STATE')"
         :is-loading="isLoading"
         :is-searching="isSearching"
         class="max-h-60 overflow-y-auto absolute z-50 w-full mt-1 top-full"

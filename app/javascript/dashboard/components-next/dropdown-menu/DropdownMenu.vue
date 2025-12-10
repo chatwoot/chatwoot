@@ -56,6 +56,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  emptyStateMessage: {
+    type: String,
+    default: 'DROPDOWN_MENU.EMPTY_STATE',
+  },
 });
 
 const emit = defineEmits(['action', 'search', 'empty']);
@@ -289,7 +293,9 @@ onMounted(() => {
       {{
         isSearching
           ? t('DROPDOWN_MENU.SEARCHING')
-          : t('DROPDOWN_MENU.EMPTY_STATE')
+          : searchQuery
+            ? t('DROPDOWN_MENU.EMPTY_STATE')
+            : t(emptyStateMessage)
       }}
     </div>
     <slot name="footer" />

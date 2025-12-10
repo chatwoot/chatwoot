@@ -212,6 +212,7 @@ defineExpose({
                 'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.COMPANY_NAME.PLACEHOLDER'
               )
             "
+            :selected-company-name="formState.companyName"
             class="min-w-0"
             @change="handleCompanyChange"
           />

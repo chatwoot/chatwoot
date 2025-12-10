@@ -82,6 +82,7 @@ const handleClickOutside = () => {
       sm
       :label="buttonLabel"
       :icon="!selectedCountry ? 'i-lucide-flag' : ''"
+      :variant="showCountryDropdown ? 'faded' : 'solid'"
       no-animation
       class="w-full !justify-start -outline-offset-1"
       @click="toggleCountryDropdown()"
