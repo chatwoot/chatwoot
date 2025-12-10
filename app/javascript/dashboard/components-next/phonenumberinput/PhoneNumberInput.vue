@@ -12,6 +12,8 @@ import {
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Flag from 'dashboard/components-next/flag/Flag.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const props = defineProps({
@@ -24,6 +26,10 @@ const props = defineProps({
     default: false,
   },
   showBorder: {
+    type: Boolean,
+    default: true,
+  },
+  compact: {
     type: Boolean,
     default: true,
   },
@@ -67,7 +73,6 @@ const countryList = computed(() => {
     value: country.id,
     label: country.name,
     dialCode: country.dial_code,
-    emoji: country.emoji,
     isSelected: String(activeCountryCode.value) === String(country.id),
     action: 'phoneNumberInput',
   }));
@@ -163,39 +168,56 @@ watch(
   <div>
     <div
       v-on-clickaway="() => closeCountryDropdown()"
-      class="relative flex items-center h-8 transition-all duration-500 ease-in-out outline outline-1 outline-offset-[-1px] rounded-lg bg-n-alpha-black2"
-      :class="[inputBorderClass, { 'cursor-not-allowed opacity-50': disabled }]"
+      class="relative flex items-center transition-all duration-500 ease-in-out outline outline-1 outline-offset-[-1px] rounded-lg bg-n-alpha-black2"
+      :class="[
+        inputBorderClass,
+        {
+          'cursor-not-allowed opacity-50': disabled,
+          'h-8': compact,
+          'h-10': !compact,
+        },
+      ]"
     >
       <Input
         v-model="phoneNumber"
         type="tel"
         :placeholder="placeholder"
         :disabled="disabled"
-        custom-input-class="!border-0 !outline-none h-8 !py-0.5 !bg-transparent ltr:!pl-1 rtl:!pr-1"
+        custom-input-class="!border-0 !outline-none !py-0.5 !bg-transparent ltr:!pl-1 rtl:!pr-1"
         class="w-full !flex-row"
+        :class="{
+          '[&>input]:!h-8': compact,
+          '[&>input]:h-10': !compact,
+        }"
       >
         <template #prefix>
           <div class="flex items-center flex-shrink-0">
             <Button
-              :label="activeCountry?.emoji || ''"
               color="slate"
               size="sm"
-              :icon="
-                !activeCountry ? 'i-lucide-globe' : 'i-lucide-chevron-down'
-              "
-              trailing-icon
+              :icon="!activeCountry ? 'i-lucide-globe' : ''"
               :disabled="disabled"
               no-animation
               type="button"
-              class="!h-[1.875rem] top-1 ltr:ml-px rtl:mr-px !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
+              class="top-1 ltr:ml-px rtl:mr-px !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none flex-shrink-0"
+              :class="{
+                '!h-[1.875rem]': compact,
+                '!h-[2.375rem]': !compact,
+              }"
               @click="toggleCountryDropdown"
             >
-              <span
-                v-if="activeCountry"
-                class="inline-flex justify-center text-sm whitespace-nowrap"
-              >
-                {{ activeCountry?.emoji }}
-              </span>
+              <template v-if="activeCountry" #icon>
+                <Flag :country="activeCountry.value" class="size-3" />
+              </template>
+
+              <Icon
+                :icon="
+                  !showDropdown
+                    ? 'i-lucide-chevron-down'
+                    : 'i-lucide-chevron-up'
+                "
+                class="flex-shrink-0 text-n-slate-11"
+              />
             </Button>
             <span
               v-if="activeCountry"
@@ -212,7 +234,11 @@ watch(
         show-search
         class="z-[100] w-48 mt-2 overflow-y-auto ltr:left-0 rtl:right-0 top-full max-h-52"
         @action="onSelectCountry"
-      />
+      >
+        <template #icon="{ item }">
+          <Flag :country="item.value" class="size-3" />
+        </template>
+      </DropdownMenu>
     </div>
     <template v-if="phoneNumberError">
       <p

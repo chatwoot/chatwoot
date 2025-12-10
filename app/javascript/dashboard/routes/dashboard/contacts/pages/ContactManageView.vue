@@ -150,7 +150,7 @@ onMounted(() => {
         @go-to-contacts-list="goToContactsList"
       />
       <template #sidebar>
-        <div class="px-6">
+        <div class="px-5">
           <TabBar
             :tabs="tabs"
             :initial-active-tab="activeTabIndex"

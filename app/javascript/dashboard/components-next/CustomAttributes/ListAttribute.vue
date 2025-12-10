@@ -78,6 +78,7 @@ const handleAttributeAction = async action => {
         :menu-items="attributeListMenuItems"
         show-search
         class="w-48 mt-2 top-full ltr:right-0 rtl:left-0"
+        @click.stop
         @action="handleAttributeAction($event)"
       />
     </div>

@@ -32,7 +32,7 @@ const contactConversations = computed(() =>
   </div>
   <div
     v-else-if="contactConversations.length > 0"
-    class="px-6 py-4 divide-y divide-n-weak"
+    class="px-6 pt-4 pb-6 divide-y divide-n-weak"
   >
     <ConversationCard
       v-for="conversation in contactConversations"

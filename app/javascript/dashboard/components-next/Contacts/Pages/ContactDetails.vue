@@ -11,6 +11,7 @@ import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/Cont
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
 import ConfirmContactDeleteDialog from 'dashboard/components-next/Contacts/ContactsForm/ConfirmContactDeleteDialog.vue';
 import Policy from 'dashboard/components/policy.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   selectedContact: {
@@ -121,17 +122,17 @@ const handleAvatarDelete = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start gap-8 pb-6">
-    <div class="flex flex-col items-start gap-3">
+  <div class="flex flex-col items-start gap-6 pb-6 w-full">
+    <div class="flex flex-col items-start gap-3 w-full">
       <Avatar
         :src="avatarSrc || ''"
         :name="selectedContact?.name || ''"
-        :size="72"
+        :size="64"
         allow-upload
         @upload="handleAvatarUpload"
         @delete="handleAvatarDelete"
       />
-      <div class="flex flex-col gap-1">
+      <div class="flex flex-col gap-2">
         <h3 class="text-base font-medium text-n-slate-12">
           {{ selectedContact?.name }}
         </h3>
@@ -140,27 +141,41 @@ const handleAvatarDelete = async () => {
             v-if="selectedContact?.identifier"
             class="inline-flex items-center gap-1 text-sm text-n-slate-11"
           >
-            <span class="i-ph-user-gear text-n-slate-10 size-4" />
+            <Icon
+              icon="i-ph-user-gear"
+              class="text-n-slate-10 size-4 flex-shrink-0"
+            />
             {{ selectedContact?.identifier }}
           </span>
-          <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
-            <span
+          <span class="inline-flex items-start gap-1 text-sm text-n-slate-11">
+            <Icon
               v-if="selectedContact?.identifier"
-              class="i-ph-activity text-n-slate-10 size-4"
+              icon="i-ph-activity"
+              class="text-n-slate-10 size-4 flex-shrink-0 mt-0.5"
             />
-            {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
-            •
-            {{
-              $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
-                date: lastActivityAt,
-              })
-            }}
+            <div
+              class="flex flex-col sm:flex-row sm:inline-flex items-start sm:items-center gap-1 sm:gap-3"
+            >
+              <span>
+                {{
+                  $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt })
+                }}
+              </span>
+              <div class="w-px h-3 rounded-xl bg-n-weak hidden sm:block" />
+              <span>
+                {{
+                  $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
+                    date: lastActivityAt,
+                  })
+                }}
+              </span>
+            </div>
           </span>
         </div>
       </div>
       <ContactLabels :contact-id="selectedContact?.id" />
     </div>
-    <div class="flex flex-col items-start gap-6">
+    <div class="flex flex-col items-start gap-6 w-full">
       <ContactsForm
         ref="contactsFormRef"
         :contact-data="contactData"
@@ -175,21 +190,23 @@ const handleAvatarDelete = async () => {
         @click="updateContact"
       />
     </div>
-    <Policy :permissions="['administrator']">
+    <Policy :permissions="['administrator']" class="w-full">
+      <div class="w-full h-px bg-n-slate-3 mt-1 mb-7" />
       <div
-        class="flex flex-col items-start w-full gap-4 pt-6 border-t border-n-strong"
+        class="flex items-end w-full gap-4 outline outline-1 outline-n-weak rounded-2xl p-4"
       >
         <div class="flex flex-col gap-2">
           <h6 class="text-base font-medium text-n-slate-12">
             {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT') }}
           </h6>
-          <span class="text-sm text-n-slate-11">
+          <span class="text-sm font-420 text-n-slate-11">
             {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT_DESCRIPTION') }}
           </span>
         </div>
         <Button
           :label="t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT')"
-          color="ruby"
+          ruby
+          class="flex-shrink-0"
           @click="openConfirmDeleteContactDialog"
         />
       </div>
