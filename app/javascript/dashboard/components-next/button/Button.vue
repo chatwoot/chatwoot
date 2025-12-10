@@ -156,10 +156,10 @@ const STYLE_CONFIG = {
   },
   sizes: {
     regular: {
-      xs: 'h-6 px-2',
-      sm: 'h-8 px-3',
-      md: 'h-10 px-4',
-      lg: 'h-12 px-5',
+      xs: 'h-6 px-2 rounded-lg',
+      sm: 'h-8 px-3 rounded-lg',
+      md: 'h-10 px-4 rounded-[0.625rem]',
+      lg: 'h-12 px-5 rounded-[0.625rem]',
     },
     iconOnly: {
       xs: 'h-6 w-6 p-0',
@@ -191,7 +191,7 @@ const STYLE_CONFIG = {
     center: 'justify-center',
     end: 'justify-end',
   },
-  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0 rounded-lg outline-1 outline disabled:opacity-50',
+  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0  outline-1 outline disabled:opacity-50',
 };
 
 const variantClasses = computed(() => {
