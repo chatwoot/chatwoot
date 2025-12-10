@@ -302,7 +302,7 @@ function isBodyEmpty(content) {
   // if the signature is present, we need to remove it before checking
   // note that we don't update the editorView, so this is safe
   const bodyWithoutSignature = props.signature
-    ? removeSignatureHelper(content, props.signature)
+    ? removeSignatureHelper(content, props.signature, props.channelType)
     : content;
 
   // trimming should remove all the whitespaces, so we can check the length
@@ -382,7 +382,7 @@ function addSignature() {
 function removeSignature() {
   if (!props.signature) return;
   let content = props.modelValue;
-  content = removeSignatureHelper(content, props.signature);
+  content = removeSignatureHelper(content, props.signature, props.channelType);
   // reload the state, ensuring that the editorView is updated
   reloadState(content);
 }

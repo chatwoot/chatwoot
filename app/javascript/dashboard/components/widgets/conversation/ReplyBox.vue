@@ -566,7 +566,7 @@ export default {
 
       return this.sendWithSignature
         ? appendSignature(message, this.messageSignature, this.channelType)
-        : removeSignature(message, this.messageSignature);
+        : removeSignature(message, this.messageSignature, this.channelType);
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {

@@ -202,7 +202,11 @@ const removeSignatureFromMessage = () => {
   // Always remove the signature from message content when inbox/contact is removed
   // to ensure no leftover signature content remains
   if (props.messageSignature) {
-    state.message = removeSignature(state.message, props.messageSignature);
+    state.message = removeSignature(
+      state.message,
+      props.messageSignature,
+      inboxChannelType.value
+    );
   }
 };
 
@@ -232,7 +236,11 @@ const handleAddSignature = signature => {
 };
 
 const handleRemoveSignature = signature => {
-  state.message = removeSignature(state.message, signature);
+  state.message = removeSignature(
+    state.message,
+    signature,
+    inboxChannelType.value
+  );
 };
 
 const handleAttachFile = files => {

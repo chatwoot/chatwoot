@@ -227,11 +227,6 @@ export const MARKDOWN_PATTERNS = [
   },
 ];
 
-export const CHANNEL_WITH_RICH_SIGNATURE = [
-  'Channel::Email',
-  'Channel::WebWidget',
-];
-
 // Editor image resize options for Message Editor
 export const MESSAGE_EDITOR_IMAGE_RESIZES = [
   {

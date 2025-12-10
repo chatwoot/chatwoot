@@ -38,7 +38,7 @@ watch(
     if (props.isEmailOrWebWidgetInbox) return;
 
     const bodyWithoutSignature = newValue
-      ? removeSignature(newValue, props.messageSignature)
+      ? removeSignature(newValue, props.messageSignature, props.channelType)
       : '';
 
     // Check if message starts with slash
