@@ -9,6 +9,8 @@ import {
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
 import ContactsCard from 'dashboard/components-next/Contacts/ContactsCard/ContactsCard.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+import ConfirmContactDeleteDialog from 'dashboard/components-next/Contacts/ContactsForm/ConfirmContactDeleteDialog.vue';
 
 const props = defineProps({
   contacts: { type: Array, required: true },
@@ -29,6 +31,10 @@ const uiFlags = useMapGetter('contacts/getUIFlags');
 const isUpdating = computed(() => uiFlags.value.isUpdating);
 const expandedCardId = ref(null);
 const hoveredAvatarId = ref(null);
+const selectedContactId = ref(null);
+const composeConversationRef = ref(null);
+const confirmDeleteContactDialogRef = ref(null);
+const contactToDelete = ref(null);
 
 const selectedIdsSet = computed(() => new Set(props.selectedContactIds || []));
 
@@ -66,8 +72,18 @@ const onClickViewDetails = async id => {
   await router.push({ name, params, query: route.query });
 };
 
-const toggleExpanded = id => {
+const toggleExpanded = async id => {
+  const isExpanding = expandedCardId.value !== id;
   expandedCardId.value = expandedCardId.value === id ? null : id;
+
+  // Fetch contactable inboxes when expanding a card
+  if (isExpanding) {
+    try {
+      await store.dispatch('contacts/fetchContactableInbox', id);
+    } catch (error) {
+      // error
+    }
+  }
 };
 
 const isSelected = id => selectedIdsSet.value.has(id);
@@ -83,10 +99,23 @@ const handleSelect = (id, value) => {
 const handleAvatarHover = (id, isHovered) => {
   hoveredAvatarId.value = isHovered ? id : null;
 };
+
+const handleSendMessage = id => {
+  selectedContactId.value = String(id);
+  composeConversationRef.value?.toggle();
+};
+
+const handleDeleteContact = id => {
+  const contact = props.contacts.find(c => c.id === id);
+  if (contact) {
+    contactToDelete.value = { id: contact.id, name: contact.name };
+    confirmDeleteContactDialogRef.value?.dialogRef.open();
+  }
+};
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col divide-y divide-n-slate-3">
     <div v-for="contact in contacts" :key="contact.id" class="relative">
       <ContactsCard
         :id="contact.id"
@@ -100,12 +129,33 @@ const handleAvatarHover = (id, isHovered) => {
         :is-updating="isUpdating"
         :selectable="shouldShowSelection(contact.id)"
         :is-selected="isSelected(contact.id)"
+        :labels="contact.labels || []"
         @toggle="toggleExpanded(contact.id)"
         @update-contact="updateContact"
         @show-contact="onClickViewDetails"
         @select="value => handleSelect(contact.id, value)"
         @avatar-hover="value => handleAvatarHover(contact.id, value)"
+        @send-message="handleSendMessage"
+        @delete-contact="handleDeleteContact"
       />
     </div>
+    <ComposeConversation
+      ref="composeConversationRef"
+      :contact-id="selectedContactId"
+      is-modal
+    >
+      <template #trigger="{ toggle }">
+        <button
+          type="button"
+          class="hidden"
+          aria-hidden="true"
+          @click="toggle"
+        />
+      </template>
+    </ComposeConversation>
+    <ConfirmContactDeleteDialog
+      ref="confirmDeleteContactDialogRef"
+      :selected-contact="contactToDelete"
+    />
   </div>
 </template>

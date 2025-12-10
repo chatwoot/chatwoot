@@ -81,20 +81,19 @@ const handleAssignLabels = labels => {
 
 <template>
   <div
-    class="sticky top-0 z-10 bg-gradient-to-b from-n-surface-1 from-90% to-transparent px-6 pt-1 pb-2"
+    class="sticky top-0 z-10 bg-gradient-to-b from-n-surface-1 from-90% to-transparent mx-6 3xl:mx-0 pt-1"
   >
     <BulkSelectBar
       v-model="selectionModel"
       :all-items="allItems"
       :select-all-label="selectAllLabel"
       :selected-count-label="selectedCountLabel"
-      class="py-2 ltr:!pr-3 rtl:!pl-3 justify-between"
+      class="py-2 ltr:!pr-2 rtl:!pl-2 justify-between"
     >
       <template #secondary-actions>
         <Button
           sm
           ghost
-          slate
           :label="t('CONTACTS_BULK_ACTIONS.CLEAR_SELECTION')"
           class="!px-1"
           @click="emitClearSelection"
@@ -106,20 +105,22 @@ const handleAssignLabels = labels => {
             type="contact"
             :is-loading="isLoading"
             :disabled="!selectedCount"
+            class="[&>button]:!text-n-blue-11 [&>button]:!px-2"
             @assign="handleAssignLabels"
           />
+          <div class="w-px h-3 bg-n-weak rounded-lg" />
           <Policy :permissions="['administrator']">
             <Button
               v-tooltip.bottom="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
               sm
-              faded
+              ghost
               ruby
               icon="i-lucide-trash"
               :label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
               :aria-label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
               :disabled="!selectedCount || isLoading"
               :is-loading="isLoading"
-              class="!px-2 [&>span:nth-child(2)]:hidden"
+              class="!px-2 [&>span:nth-child(2)]:hidden md:[&>span:nth-child(2)]:inline-flex"
               @click="emit('deleteSelected')"
             />
           </Policy>

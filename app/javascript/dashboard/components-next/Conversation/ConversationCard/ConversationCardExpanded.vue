@@ -150,7 +150,7 @@ const selectedModel = computed({
     <div class="flex items-center justify-end gap-2 flex-shrink-0">
       <div v-if="showLabelsSection" class="min-w-0 w-full">
         <CardLabels
-          :conversation-labels="chat.labels"
+          :labels="chat.labels"
           disable-toggle
           class="my-0 [&>div]:justify-end"
         />

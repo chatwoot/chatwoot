@@ -232,6 +232,10 @@ const keyboardEvents = {
 };
 
 useKeyboardEvents(keyboardEvents);
+
+defineExpose({
+  toggle,
+});
 </script>
 
 <template>

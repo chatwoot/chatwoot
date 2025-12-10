@@ -1,13 +1,22 @@
 <script setup>
-import { ref, computed, inject, nextTick, useSlots, watch } from 'vue';
+import {
+  ref,
+  computed,
+  inject,
+  nextTick,
+  useSlots,
+  watch,
+  useAttrs,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThrottleFn } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 
 const props = defineProps({
-  conversationLabels: {
+  labels: {
     type: Array,
     required: true,
   },
@@ -17,6 +26,9 @@ const props = defineProps({
   },
 });
 
+defineOptions({ inheritAttrs: false });
+
+const attrs = useAttrs();
 const slots = useSlots();
 const { t } = useI18n();
 
@@ -24,7 +36,7 @@ const accountLabels = useMapGetter('labels/getLabels');
 
 const activeLabels = computed(() => {
   return accountLabels.value.filter(({ title }) =>
-    props.conversationLabels.includes(title)
+    props.labels.includes(title)
   );
 });
 
@@ -91,8 +103,31 @@ const hiddenLabelsCount = computed(() => {
   return activeLabels.value.length - labelPosition.value - 1;
 });
 
+// Check if all labels are hidden (none visible)
+const allLabelsHidden = computed(() => {
+  return labelPosition.value === -1 && activeLabels.value.length > 0;
+});
+
+// Label text for button when disableToggle is true and all labels are hidden
+const labelsCountText = computed(() => {
+  if (props.disableToggle && allLabelsHidden.value) {
+    return t('CONVERSATION.CARD.LABELS_COUNT', {
+      count: activeLabels.value.length,
+    });
+  }
+  if (!showAllLabels.value && hiddenLabelsCount.value > 0) {
+    return `+${hiddenLabelsCount.value}`;
+  }
+  return '';
+});
+
 const hiddenLabelsTooltip = computed(() => {
-  if (!props.disableToggle || !showExpandLabelButton.value) return '';
+  if (!props.disableToggle) return '';
+  // When all labels are hidden, show all label titles
+  if (allLabelsHidden.value) {
+    return activeLabels.value.map(label => label.title).join(', ');
+  }
+  if (!showExpandLabelButton.value) return '';
   const hiddenLabels = activeLabels.value.slice(labelPosition.value + 1);
   return hiddenLabels.map(label => label.title).join(', ');
 });
@@ -118,6 +153,7 @@ const onShowLabels = e => {
   <div
     v-if="showSection"
     ref="labelContainer"
+    v-bind="attrs"
     v-resize="throttledCalculate"
     data-labels-container
     class="flex items-center flex-shrink min-w-0 min-h-6 gap-x-1.5 gap-y-1 [&:not(:has([data-label],[data-before-slot]))]:hidden"
@@ -125,39 +161,27 @@ const onShowLabels = e => {
   >
     <slot name="before" />
 
-    <div
+    <Label
       v-for="(label, index) in activeLabels"
       :key="label ? label.id : index"
       data-label
-      :title="label.description"
-      class="bg-n-button-color px-1.5 h-6 gap-1 rounded-md -outline-offset-1 outline outline-1 outline-n-container inline-flex items-center flex-shrink-0"
+      :label="label"
+      compact
       :class="{
         'invisible absolute': !showAllLabels && index > labelPosition,
       }"
-    >
-      <span
-        class="rounded-sm size-1.5 flex-shrink-0"
-        :style="{ background: label.color }"
-      />
-      <span class="font-440 text-xs text-n-slate-12 whitespace-nowrap">
-        {{ label.title }}
-      </span>
-    </div>
+    />
     <Button
-      v-if="showExpandLabelButton"
+      v-if="showExpandLabelButton || (disableToggle && allLabelsHidden)"
       v-tooltip.top="{
         content: tooltipText,
         delay: { show: 1000, hide: 0 },
       }"
-      :label="
-        !showAllLabels && hiddenLabelsCount > 0 ? `+${hiddenLabelsCount}` : ''
-      "
+      :label="labelsCountText"
       xs
       slate
       :no-animation="disableToggle"
-      :icon="
-        !showAllLabels && hiddenLabelsCount > 0 ? '' : 'i-lucide-chevron-left'
-      "
+      :icon="labelsCountText ? '' : 'i-lucide-chevron-left'"
       class="!py-0 !px-1.5 flex-shrink-0 !rounded-md !bg-n-button-color -outline-offset-1"
       :class="{ 'cursor-default': disableToggle }"
       @click="onShowLabels"

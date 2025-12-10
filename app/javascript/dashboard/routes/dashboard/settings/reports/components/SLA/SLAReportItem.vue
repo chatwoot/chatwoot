@@ -54,7 +54,7 @@ const routerParams = computed(() => ({
         v-if="conversationLabels.length"
         class="w-[60%]"
         :conversation-id="conversationId"
-        :conversation-labels="conversationLabels"
+        :labels="conversationLabels"
       />
     </div>
     <div
