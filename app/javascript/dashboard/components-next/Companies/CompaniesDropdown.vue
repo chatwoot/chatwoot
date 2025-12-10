@@ -105,9 +105,11 @@ const handleClickOutside = () => {
       sm
       :label="buttonLabel"
       no-animation
+      type="button"
       :variant="showCompanyDropdown ? 'faded' : 'solid'"
       icon="i-lucide-briefcase-business"
-      class="w-full !justify-start -outline-offset-1"
+      justify="start"
+      class="w-full -outline-offset-1"
       @click="toggleCompanyDropdown()"
     />
 

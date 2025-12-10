@@ -83,8 +83,10 @@ const handleClickOutside = () => {
       :label="buttonLabel"
       :icon="!selectedCountry ? 'i-lucide-flag' : ''"
       :variant="showCountryDropdown ? 'faded' : 'solid'"
+      type="button"
       no-animation
-      class="w-full !justify-start -outline-offset-1"
+      justify="start"
+      class="w-full -outline-offset-1"
       @click="toggleCountryDropdown()"
     >
       <template v-if="selectedCountry" #icon>
