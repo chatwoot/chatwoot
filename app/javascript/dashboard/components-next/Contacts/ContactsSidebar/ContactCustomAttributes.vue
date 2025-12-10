@@ -135,7 +135,7 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
           :placeholder="
             t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
           "
-          class="w-full !h-8 !py-2 ltr:!pl-10 ltr:!pr-2 rtl:!pr-10 rtl:!pl-2 !mb-0 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12 outline-offset-0"
+          class="w-full h-8 py-2 ltr:pl-10 ltr:pr-2 rtl:pr-10 rtl:pl-2 mb-0 reset-base outline-n-weak outline-1 outline hover:outline-n-slate-6 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12 outline-offset-0"
         />
       </div>
       <div
