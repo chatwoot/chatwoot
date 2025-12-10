@@ -109,7 +109,6 @@ onBeforeUnmount(() => {
     v-show="showWidget"
     class="fixed ltr:right-4 rtl:left-4 bottom-4 z-50 w-80 bg-n-solid-2 rounded-xl shadow-2xl outline outline-1 outline-n-strong"
   >
-    <!-- Header -->
     <div class="flex justify-between items-center p-4 border-b border-n-strong">
       <div class="flex items-center space-x-3">
         <div
@@ -126,8 +125,6 @@ onBeforeUnmount(() => {
           </p>
         </div>
       </div>
-
-      <!-- Minimization removed for MVP to reduce code -->
     </div>
 
     <!-- Call Status -->
