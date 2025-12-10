@@ -45,17 +45,21 @@ const isSidePanelOpen = computed(
     false
 );
 
-const breakpoint = computed(() => {
-  const base = props.isOnExpandedView ? 'md' : 'lg';
-  const open = props.isOnExpandedView ? 'lg' : 'xl';
-  return isSidePanelOpen.value ? open : base;
-});
-
-const responsiveClasses = computed(() => ({
-  header: `${breakpoint.value}:flex-row ${breakpoint.value}:items-center`,
-  left: `${breakpoint.value}:flex-1 ${breakpoint.value}:basis-0`,
-  right: `${breakpoint.value}:flex-1 ${breakpoint.value}:basis-0 ${breakpoint.value}:justify-end`,
-}));
+// Responsive layout breakpoints based on view state
+// Expanded view + panel open = lg, Expanded view + panel closed = md
+// Normal view + panel open = xl, Normal view + panel closed = lg
+const isExpandedWithPanel = computed(
+  () => props.isOnExpandedView && isSidePanelOpen.value
+);
+const isExpandedWithoutPanel = computed(
+  () => props.isOnExpandedView && !isSidePanelOpen.value
+);
+const isNormalWithPanel = computed(
+  () => !props.isOnExpandedView && isSidePanelOpen.value
+);
+const isNormalWithoutPanel = computed(
+  () => !props.isOnExpandedView && !isSidePanelOpen.value
+);
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -112,11 +116,20 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
   <div
     ref="conversationHeader"
     class="flex flex-col items-start gap-x-6 gap-y-2 w-full min-w-0 pt-3 pb-2 ltr:pl-4 rtl:pr-4 ltr:pr-1 rtl:pl-1"
-    :class="responsiveClasses.header"
+    :class="{
+      'md:flex-row md:items-center': isExpandedWithoutPanel,
+      'lg:flex-row lg:items-center':
+        isExpandedWithPanel || isNormalWithoutPanel,
+      'xl:flex-row xl:items-center': isNormalWithPanel,
+    }"
   >
     <div
       class="flex items-center gap-2 min-w-0 w-full"
-      :class="responsiveClasses.left"
+      :class="{
+        'md:flex-1 md:basis-0': isExpandedWithoutPanel,
+        'lg:flex-1 lg:basis-0': isExpandedWithPanel || isNormalWithoutPanel,
+        'xl:flex-1 xl:basis-0': isNormalWithPanel,
+      }"
     >
       <BackButton v-if="showBackButton" :back-url="backButtonUrl" />
 
@@ -135,7 +148,12 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
     <div
       class="flex items-center gap-2 min-w-0 w-full"
-      :class="responsiveClasses.right"
+      :class="{
+        'md:flex-1 md:basis-0 md:justify-end': isExpandedWithoutPanel,
+        'lg:flex-1 lg:basis-0 lg:justify-end':
+          isExpandedWithPanel || isNormalWithoutPanel,
+        'xl:flex-1 xl:basis-0 xl:justify-end': isNormalWithPanel,
+      }"
     >
       <div
         v-if="isSnoozed"
