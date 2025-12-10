@@ -1,4 +1,4 @@
-class Messages::AudioTranscriptionService
+class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   include Integrations::LlmInstrumentation
 
   WHISPER_MODEL = 'whisper-1'.freeze
@@ -6,7 +6,7 @@ class Messages::AudioTranscriptionService
   attr_reader :attachment, :message, :account
 
   def initialize(attachment)
-    Llm::Config.initialize!
+    super()
     @attachment = attachment
     @message = attachment.message
     @account = message.account
@@ -50,13 +50,19 @@ class Messages::AudioTranscriptionService
 
     temp_file_path = fetch_audio_file
 
-    response = instrument_audio_transcription(instrumentation_params(temp_file_path)) do
-      RubyLLM.transcribe(temp_file_path, model: WHISPER_MODEL)
+    File.open(temp_file_path, 'rb') do |file|
+      response = @client.audio.transcribe(
+        parameters: {
+          model: 'whisper-1',
+          file: file,
+          temperature: 0.4
+        }
+      )
+      transcribed_text = response['text']
     end
 
     FileUtils.rm_f(temp_file_path)
 
-    transcribed_text = response&.text || response.to_s
     update_transcription(transcribed_text)
     transcribed_text
   end
