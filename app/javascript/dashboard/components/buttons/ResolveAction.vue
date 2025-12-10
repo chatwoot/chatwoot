@@ -3,9 +3,14 @@ import { ref, computed } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
+import {
+  useStore,
+  useStoreGetters,
+  useMapGetter,
+} from 'dashboard/composables/store';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -17,13 +22,19 @@ import {
 
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
+const { currentAccount } = useAccount();
+const conversationAttributes = useMapGetter(
+  'attributes/getConversationAttributes'
+);
 
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
+const resolveAttributesModalRef = ref(null);
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 const closeDropdown = () => toggleDropdown(false);
@@ -52,29 +63,101 @@ const showOpenButton = computed(() => {
   return isPending.value || isSnoozed.value;
 });
 
-const getConversationParams = () => {
-  const allConversations = document.querySelectorAll(
-    '.conversations-list .conversation'
-  );
-
-  const activeConversation = document.querySelector(
-    'div.conversations-list div.conversation.active'
-  );
-  const activeConversationIndex = [...allConversations].indexOf(
-    activeConversation
-  );
-  const lastConversationIndex = allConversations.length - 1;
-
-  return {
-    all: allConversations,
-    activeIndex: activeConversationIndex,
-    lastIndex: lastConversationIndex,
-  };
-};
-
 const openSnoozeModal = () => {
   const ninja = document.querySelector('ninja-keys');
   ninja.open({ parent: 'snooze_conversation' });
+};
+
+const requiredAttributeKeys = computed(
+  () => currentAccount.value?.settings?.conversation_required_attributes || []
+);
+
+const requiredAttributes = computed(() =>
+  requiredAttributeKeys.value.map(key => {
+    const definition = conversationAttributes.value?.find(
+      attribute => attribute.attributeKey === key
+    );
+    if (!definition) {
+      return {
+        value: key,
+        label: key,
+        type: 'text',
+        attribute_values: [],
+      };
+    }
+
+    return {
+      ...definition,
+      value: definition.attributeKey,
+      label: definition.attributeDisplayName,
+      type: definition.attributeDisplayType,
+    };
+  })
+);
+
+const getMissingRequiredAttributes = () => {
+  if (!currentChat.value?.id) return [];
+  const existingValues = currentChat.value.custom_attributes || {};
+  return requiredAttributes.value.filter(attribute => {
+    const value = existingValues?.[attribute.value];
+    return value === undefined || value === null || String(value) === '';
+  });
+};
+
+const toggleStatusInternal = async (status, snoozedUntil = null) => {
+  closeDropdown();
+  isLoading.value = true;
+  try {
+    await store.dispatch('toggleStatus', {
+      conversationId: currentChat.value.id,
+      status,
+      snoozedUntil,
+    });
+    useAlert(t('CONVERSATION.CHANGE_STATUS'));
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const resolveWithAttributes = async customAttributes => {
+  if (!currentChat.value?.id) return;
+  try {
+    isLoading.value = true;
+    if (requiredAttributeKeys.value.length) {
+      await store.dispatch('updateCustomAttributes', {
+        conversationId: currentChat.value.id,
+        customAttributes,
+      });
+    }
+    await toggleStatusInternal(wootConstants.STATUS_TYPE.RESOLVED);
+  } catch (error) {
+    useAlert(t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.SAVE.ERROR'));
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const openResolveModal = () => {
+  closeDropdown();
+  if (!currentChat.value?.id) return;
+  const missing = getMissingRequiredAttributes();
+  if (!missing.length) {
+    resolveWithAttributes(currentChat.value.custom_attributes || {});
+    return;
+  }
+  resolveAttributesModalRef.value?.open(
+    missing,
+    currentChat.value.custom_attributes || {}
+  );
+};
+
+const handleModalSubmit = async values => {
+  if (!currentChat.value?.id) return;
+  resolveAttributesModalRef.value?.close();
+  await resolveWithAttributes({
+    ...(currentChat.value.custom_attributes || {}),
+    ...values,
+  });
 };
 
 const toggleStatus = (status, snoozedUntil) => {
@@ -97,7 +180,7 @@ const onCmdOpenConversation = () => {
 };
 
 const onCmdResolveConversation = () => {
-  toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+  openResolveModal();
 };
 
 const keyboardEvents = {
@@ -106,21 +189,11 @@ const keyboardEvents = {
     allowOnFocusedInput: true,
   },
   'Alt+KeyE': {
-    action: async () => {
-      await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-    },
+    action: () => openResolveModal(),
   },
   '$mod+Alt+KeyE': {
-    action: async event => {
-      const { all, activeIndex, lastIndex } = getConversationParams();
-      await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-
-      if (activeIndex < lastIndex) {
-        all[activeIndex + 1].click();
-      } else if (all.length > 1) {
-        all[0].click();
-        document.querySelector('.conversations-list').scrollTop = 0;
-      }
+    action: event => {
+      openResolveModal();
       event.preventDefault();
     },
   },
@@ -133,9 +206,13 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 </script>
 
 <template>
-  <div class="relative flex items-center justify-end resolve-actions">
+  <div class="flex relative justify-end items-center resolve-actions">
+    <ConversationResolveAttributesModal
+      ref="resolveAttributesModalRef"
+      @submit="handleModalSubmit"
+    />
     <ButtonGroup
-      class="rounded-lg shadow outline-1 outline flex-shrink-0"
+      class="flex-shrink-0 rounded-lg shadow outline-1 outline"
       :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
     >
       <Button
