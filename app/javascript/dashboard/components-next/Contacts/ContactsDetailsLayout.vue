@@ -76,12 +76,12 @@ const closeMobileSidebar = () => {
     class="flex w-full h-full overflow-hidden justify-evenly bg-n-surface-1"
   >
     <div
-      class="flex flex-col w-full h-full transition-all duration-300 ltr:2xl:ml-56 rtl:2xl:mr-56"
+      class="flex flex-col w-full h-full transition-all duration-300 ltr:3xl:ml-56 rtl:3xl:mr-56"
     >
       <header class="sticky top-0 z-10 px-6 3xl:px-0">
-        <div class="w-full mx-auto max-w-[40.625rem]">
+        <div class="w-full mx-auto max-w-4xl">
           <div
-            class="flex flex-col xs:flex-row items-start xs:items-center justify-between w-full py-7 gap-2"
+            class="flex flex-col xs:flex-row items-start xs:items-center justify-between w-full py-4 gap-2"
           >
             <Breadcrumb
               :items="breadcrumbItems"
@@ -94,23 +94,20 @@ const closeMobileSidebar = () => {
                     ? $t('CONTACTS_LAYOUT.HEADER.BLOCK_CONTACT')
                     : $t('CONTACTS_LAYOUT.HEADER.UNBLOCK_CONTACT')
                 "
-                size="sm"
                 slate
-                :is-loading="isUpdating"
                 :disabled="isUpdating"
                 @click="toggleBlock"
               />
               <VoiceCallButton
                 :phone="selectedContact?.phoneNumber"
                 :contact-id="contactId"
+                size="md"
                 :label="$t('CONTACT_PANEL.CALL')"
-                size="sm"
               />
               <ComposeConversation :contact-id="contactId">
                 <template #trigger="{ toggle }">
                   <Button
                     :label="$t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"
-                    size="sm"
                     @click="toggle"
                   />
                 </template>
@@ -120,7 +117,7 @@ const closeMobileSidebar = () => {
         </div>
       </header>
       <main class="flex-1 px-6 overflow-y-auto 3xl:px-px">
-        <div class="w-full py-4 mx-auto max-w-[40.625rem]">
+        <div class="w-full pt-2.5 pb-4 mx-auto max-w-4xl">
           <slot name="default" />
         </div>
       </main>
@@ -129,7 +126,7 @@ const closeMobileSidebar = () => {
     <!-- Desktop sidebar -->
     <div
       v-if="slots.sidebar"
-      class="hidden lg:block overflow-y-auto justify-end min-w-52 w-full py-6 max-w-md border-l border-n-weak bg-n-solid-2"
+      class="hidden lg:block overflow-y-auto justify-end min-w-52 w-full py-5 max-w-md border-l border-n-weak bg-n-surface-2"
     >
       <slot name="sidebar" />
     </div>

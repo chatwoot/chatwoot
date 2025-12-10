@@ -560,7 +560,7 @@
         "PRIMARY": "Primary contact",
         "PRIMARY_HELP_LABEL": "To be saved",
         "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
-        "PARENT": "To be merged",
+        "PARENT": "Contact to be merged",
         "PARENT_HELP_LABEL": "To be deleted",
         "EMPTY_STATE": "No contacts found",
         "PLACEHOLDER": "Search for primary contact",
