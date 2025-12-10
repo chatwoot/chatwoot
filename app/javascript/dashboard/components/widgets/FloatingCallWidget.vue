@@ -3,6 +3,7 @@ import { computed, watch, onBeforeUnmount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useRingtone } from 'dashboard/composables/useRingtone';
 import { useCallSession } from 'dashboard/composables/useCallSession';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -106,23 +107,21 @@ onBeforeUnmount(() => {
 <template>
   <div
     v-show="showWidget"
-    class="fixed right-4 bottom-4 z-50 w-80 bg-white rounded-xl border shadow-2xl border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+    class="fixed ltr:right-4 rtl:left-4 bottom-4 z-50 w-80 bg-n-solid-2 rounded-xl shadow-2xl outline outline-1 outline-n-strong"
   >
     <!-- Header -->
-    <div
-      class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-700"
-    >
+    <div class="flex justify-between items-center p-4 border-b border-n-strong">
       <div class="flex items-center space-x-3">
         <div
-          class="flex justify-center items-center w-10 h-10 bg-green-100 rounded-full"
+          class="flex justify-center items-center w-10 h-10 bg-n-teal-3 rounded-full"
         >
-          <i class="text-lg text-green-600 i-ph-phone" />
+          <i class="text-lg text-n-teal-9 i-ph-phone" />
         </div>
         <div>
-          <h3 class="text-sm font-medium text-slate-900 dark:text-slate-100">
+          <h3 class="text-sm font-medium text-n-slate-12">
             {{ inboxDisplayName }}
           </h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400">
+          <p class="text-xs text-n-slate-11">
             {{ contactDisplayName }}
           </p>
         </div>
@@ -134,84 +133,68 @@ onBeforeUnmount(() => {
     <!-- Call Status -->
     <div class="p-4 text-center">
       <div v-if="isIncoming">
-        <p
-          class="mb-1 text-lg font-semibold text-slate-900 dark:text-slate-100"
-        >
+        <p class="mb-1 text-lg font-semibold text-n-slate-12">
           {{ $t('CONVERSATION.VOICE_WIDGET.INCOMING_CALL') }}
         </p>
-        <p class="text-sm text-slate-500 dark:text-slate-400">
+        <p class="text-sm text-n-slate-11">
           {{ $t('CONVERSATION.VOICE_WIDGET.NOT_ANSWERED_YET') }}
         </p>
       </div>
 
       <div v-else-if="isOutgoing">
-        <p
-          class="mb-1 text-lg font-semibold text-slate-900 dark:text-slate-100"
-        >
+        <p class="mb-1 text-lg font-semibold text-n-slate-12">
           {{ $t('CONVERSATION.VOICE_WIDGET.OUTGOING_CALL') }}
         </p>
-        <p class="text-sm text-slate-500 dark:text-slate-400">
+        <p class="text-sm text-n-slate-11">
           {{ $t('CONVERSATION.VOICE_WIDGET.NOT_ANSWERED_YET') }}
         </p>
       </div>
 
       <div v-else-if="isJoined">
-        <p
-          class="mb-1 text-lg font-semibold text-slate-900 dark:text-slate-100"
-        >
+        <p class="mb-1 text-lg font-semibold text-n-slate-12">
           {{ $t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS') }}
         </p>
-        <p class="font-mono text-2xl text-green-600 dark:text-green-400">
+        <p class="font-mono text-2xl text-n-teal-9">
           {{ formattedCallDuration }}
         </p>
       </div>
 
       <div v-else>
-        <p class="text-lg font-semibold text-slate-900 dark:text-slate-100">
+        <p class="text-lg font-semibold text-n-slate-12">
           {{ $t('CONVERSATION.VOICE_WIDGET.OUTGOING_CALL') }}
         </p>
       </div>
     </div>
 
     <!-- Incoming Call Actions -->
-    <div v-if="isIncoming" class="flex p-4 space-x-3">
-      <button
-        class="flex flex-1 justify-center items-center px-4 py-3 space-x-2 text-red-700 bg-red-100 rounded-lg hover:bg-red-200"
+    <div v-if="isIncoming" class="flex gap-3 p-4">
+      <Button
+        faded
+        ruby
+        class="flex-1"
+        icon="i-ph-phone-x"
+        :label="$t('CONVERSATION.VOICE_WIDGET.REJECT_CALL')"
         @click="rejectCall"
-      >
-        <i class="text-lg i-ph-phone-x" />
-        <span>{{ $t('CONVERSATION.VOICE_WIDGET.REJECT_CALL') }}</span>
-      </button>
-
-      <button
-        class="flex flex-1 justify-center items-center px-4 py-3 space-x-2 text-green-700 bg-green-100 rounded-lg hover:bg-green-200"
+      />
+      <Button
+        faded
+        teal
+        class="flex-1"
+        icon="i-ph-phone"
+        :label="$t('CONVERSATION.VOICE_WIDGET.JOIN_CALL')"
         @click="acceptCall"
-      >
-        <i class="text-lg i-ph-phone" />
-        <span>{{ $t('CONVERSATION.VOICE_WIDGET.JOIN_CALL') }}</span>
-      </button>
+      />
     </div>
 
-    <!-- Outgoing Call Actions -->
-    <div v-else-if="isOutgoing" class="flex justify-center p-4">
-      <button
-        class="flex justify-center items-center px-6 py-3 space-x-2 text-red-700 bg-red-100 rounded-lg hover:bg-red-200"
+    <!-- Outgoing or Active Call Actions -->
+    <div v-else-if="isOutgoing || isJoined" class="flex justify-center p-4">
+      <Button
+        faded
+        ruby
+        icon="i-ph-phone-x"
+        :label="$t('CONVERSATION.VOICE_WIDGET.END_CALL')"
         @click="endCall"
-      >
-        <i class="text-lg i-ph-phone-x" />
-        <span>{{ $t('CONVERSATION.VOICE_WIDGET.END_CALL') }}</span>
-      </button>
-    </div>
-
-    <!-- Active Call Controls -->
-    <div v-else-if="isJoined" class="flex justify-center p-4">
-      <button
-        class="flex justify-center items-center px-6 py-3 space-x-2 text-red-700 bg-red-100 rounded-lg hover:bg-red-200"
-        @click="endCall"
-      >
-        <i class="text-lg i-ph-phone-x" />
-        <span>{{ $t('CONVERSATION.VOICE_WIDGET.END_CALL') }}</span>
-      </button>
+      />
     </div>
   </div>
 </template>
