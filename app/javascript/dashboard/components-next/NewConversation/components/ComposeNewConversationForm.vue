@@ -364,7 +364,6 @@ const shouldShowMessageEditor = computed(() => {
       v-model="state.message"
       :message-signature="messageSignature"
       :send-with-signature="sendWithSignature"
-      :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
       :has-attachments="state.attachedFiles.length > 0"
       :channel-type="inboxChannelType"
