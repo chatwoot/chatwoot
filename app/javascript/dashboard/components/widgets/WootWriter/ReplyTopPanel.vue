@@ -91,11 +91,11 @@ export default {
 
 <template>
   <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
+    <!-- HeyCommerce: removido @toggle-mode para não alternar para modo privado -->
     <EditorModeToggle
       :mode="mode"
       :disabled="isReplyRestricted"
       class="mt-3"
-      @toggle-mode="handleModeToggle"
     />
     <div class="flex items-center mx-4 my-0">
       <div v-if="isMessageLengthReachingThreshold" class="text-xs">
