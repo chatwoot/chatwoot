@@ -188,78 +188,76 @@ describe SearchService do
       end
     end
 
-    context 'when filtering with time caps' do
-      context 'for contacts' do
-        let!(:old_contact) { create(:contact, name: 'Old Potter', email: 'old@test.com', account: account, last_activity_at: 100.days.ago) }
-        let!(:recent_contact) { create(:contact, name: 'Recent Potter', email: 'recent@test.com', account: account, last_activity_at: 1.day.ago) }
+    context 'when filtering contacts with time caps' do
+      let!(:old_contact) { create(:contact, name: 'Old Potter', email: 'old@test.com', account: account, last_activity_at: 100.days.ago) }
+      let!(:recent_contact) { create(:contact, name: 'Recent Potter', email: 'recent@test.com', account: account, last_activity_at: 1.day.ago) }
 
-        it 'caps since to 90 days ago and excludes older contacts' do
-          params = { q: 'Potter', since: 100.days.ago.to_i, search_type: 'Contact' }
-          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
-          results = search.perform[:contacts]
+      it 'caps since to 90 days ago and excludes older contacts' do
+        params = { q: 'Potter', since: 100.days.ago.to_i, search_type: 'Contact' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
+        results = search.perform[:contacts]
 
-          expect(results.map(&:id)).not_to include(old_contact.id)
-          expect(results.map(&:id)).to include(recent_contact.id)
-        end
-
-        it 'caps until to 90 days from now' do
-          params = { q: 'Potter', until: 100.days.from_now.to_i, search_type: 'Contact' }
-          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
-          results = search.perform[:contacts]
-
-          # Both contacts should be included since their last_activity_at is before the capped time
-          expect(results.map(&:id)).to include(recent_contact.id)
-        end
+        expect(results.map(&:id)).not_to include(old_contact.id)
+        expect(results.map(&:id)).to include(recent_contact.id)
       end
 
-      context 'for conversations' do
-        let!(:old_conversation) { create(:conversation, contact: harry, inbox: inbox, account: account, last_activity_at: 100.days.ago) }
-        let!(:recent_conversation) { create(:conversation, contact: harry, inbox: inbox, account: account, last_activity_at: 1.day.ago) }
+      it 'caps until to 90 days from now' do
+        params = { q: 'Potter', until: 100.days.from_now.to_i, search_type: 'Contact' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
+        results = search.perform[:contacts]
 
-        it 'caps since to 90 days ago and excludes older conversations' do
-          params = { q: 'Harry', since: 100.days.ago.to_i, search_type: 'Conversation' }
-          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
-          results = search.perform[:conversations]
+        # Both contacts should be included since their last_activity_at is before the capped time
+        expect(results.map(&:id)).to include(recent_contact.id)
+      end
+    end
 
-          expect(results.map(&:id)).not_to include(old_conversation.id)
-          expect(results.map(&:id)).to include(recent_conversation.id)
-        end
+    context 'when filtering conversations with time caps' do
+      let!(:old_conversation) { create(:conversation, contact: harry, inbox: inbox, account: account, last_activity_at: 100.days.ago) }
+      let!(:recent_conversation) { create(:conversation, contact: harry, inbox: inbox, account: account, last_activity_at: 1.day.ago) }
 
-        it 'caps until to 90 days from now' do
-          params = { q: 'Harry', until: 100.days.from_now.to_i, search_type: 'Conversation' }
-          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
-          results = search.perform[:conversations]
+      it 'caps since to 90 days ago and excludes older conversations' do
+        params = { q: 'Harry', since: 100.days.ago.to_i, search_type: 'Conversation' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+        results = search.perform[:conversations]
 
-          # Both conversations should be included since their last_activity_at is before the capped time
-          expect(results.map(&:id)).to include(recent_conversation.id)
-        end
+        expect(results.map(&:id)).not_to include(old_conversation.id)
+        expect(results.map(&:id)).to include(recent_conversation.id)
       end
 
-      context 'for articles' do
-        let!(:old_article) do
-          create(:article, title: 'Old Magic Guide', account: account, portal: portal, author: user, status: 'published', updated_at: 100.days.ago)
-        end
-        let!(:recent_article) do
-          create(:article, title: 'Recent Magic Guide', account: account, portal: portal, author: user, status: 'published', updated_at: 1.day.ago)
-        end
+      it 'caps until to 90 days from now' do
+        params = { q: 'Harry', until: 100.days.from_now.to_i, search_type: 'Conversation' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+        results = search.perform[:conversations]
 
-        it 'caps since to 90 days ago and excludes older articles' do
-          params = { q: 'Magic', since: 100.days.ago.to_i, search_type: 'Article' }
-          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
-          results = search.perform[:articles]
+        # Both conversations should be included since their last_activity_at is before the capped time
+        expect(results.map(&:id)).to include(recent_conversation.id)
+      end
+    end
 
-          expect(results.map(&:id)).not_to include(old_article.id)
-          expect(results.map(&:id)).to include(recent_article.id)
-        end
+    context 'when filtering articles with time caps' do
+      let!(:old_article) do
+        create(:article, title: 'Old Magic Guide', account: account, portal: portal, author: user, status: 'published', updated_at: 100.days.ago)
+      end
+      let!(:recent_article) do
+        create(:article, title: 'Recent Magic Guide', account: account, portal: portal, author: user, status: 'published', updated_at: 1.day.ago)
+      end
 
-        it 'caps until to 90 days from now' do
-          params = { q: 'Magic', until: 100.days.from_now.to_i, search_type: 'Article' }
-          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
-          results = search.perform[:articles]
+      it 'caps since to 90 days ago and excludes older articles' do
+        params = { q: 'Magic', since: 100.days.ago.to_i, search_type: 'Article' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+        results = search.perform[:articles]
 
-          # Both articles should be included since their updated_at is before the capped time
-          expect(results.map(&:id)).to include(recent_article.id)
-        end
+        expect(results.map(&:id)).not_to include(old_article.id)
+        expect(results.map(&:id)).to include(recent_article.id)
+      end
+
+      it 'caps until to 90 days from now' do
+        params = { q: 'Magic', until: 100.days.from_now.to_i, search_type: 'Article' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+        results = search.perform[:articles]
+
+        # Both articles should be included since their updated_at is before the capped time
+        expect(results.map(&:id)).to include(recent_article.id)
       end
     end
   end
