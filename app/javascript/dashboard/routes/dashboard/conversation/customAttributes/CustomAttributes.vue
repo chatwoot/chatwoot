@@ -257,7 +257,7 @@ onMounted(() => {
           }"
         >
           <div
-            class="grid grid-cols-[140px,1fr] group/attribute items-center w-full gap-2 min-h-10"
+            class="grid grid-cols-[auto,auto] group/attribute items-center w-full gap-4 min-h-10"
           >
             <div class="flex items-center gap-1.5 min-w-0">
               <HelperTextPopup
