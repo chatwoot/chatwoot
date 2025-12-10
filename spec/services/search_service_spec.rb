@@ -681,4 +681,57 @@ describe SearchService do
       end
     end
   end
+
+  describe '#advanced_search_with_fallback' do
+    let(:params) { { q: 'test' } }
+    let(:search_type) { 'Message' }
+
+    context 'when Elasticsearch is unavailable' do
+      it 'falls back to LIKE search when Elasticsearch connection fails' do
+        allow(account).to receive(:feature_enabled?).and_call_original
+        allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
+        allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+
+        params = { q: 'test' }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        allow(search_service).to receive(:advanced_search).and_raise(Faraday::ConnectionFailed.new('Connection refused'))
+
+        expect(search_service).to receive(:filter_messages_with_like).and_call_original
+        expect { search_service.perform }.not_to raise_error
+      end
+
+      it 'falls back to GIN search when Elasticsearch is unavailable and GIN is enabled' do
+        allow(account).to receive(:feature_enabled?).and_call_original
+        allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
+        allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
+
+        params = { q: 'test' }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        allow(search_service).to receive(:advanced_search).and_raise(Searchkick::Error.new('Elasticsearch unavailable'))
+
+        expect(search_service).to receive(:filter_messages_with_gin).and_call_original
+        expect { search_service.perform }.not_to raise_error
+      end
+
+      it 'applies filters correctly in SQL fallback when Elasticsearch fails' do
+        allow(account).to receive(:feature_enabled?).and_call_original
+        allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
+        allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+
+        test_contact = create(:contact, account: account)
+        create(:message, account: account, inbox: inbox, content: 'test message', sender: test_contact, created_at: 1.day.ago)
+
+        params = { q: 'test', from: "contact:#{test_contact.id}", since: 2.days.ago.to_i }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        allow(search_service).to receive(:advanced_search).and_raise(Faraday::ConnectionFailed.new('Connection refused'))
+
+        results = search_service.perform[:messages]
+        expect(results).not_to be_empty
+        expect(results.first.sender_id).to eq(test_contact.id)
+      end
+    end
+  end
 end
