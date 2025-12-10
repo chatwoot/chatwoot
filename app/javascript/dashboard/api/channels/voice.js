@@ -106,7 +106,7 @@ class VoiceAPI extends ApiClient {
     if (!this.device || !this.initialized || !To) return null;
     if (this.activeConnection) return this.activeConnection;
 
-    const params = { To: String(To), is_agent: 'true' };
+    const params = { To, is_agent: 'true' };
     if (conversationId) params.conversation_id = String(conversationId);
 
     const connection = await this.device.connect({ params });
