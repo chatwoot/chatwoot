@@ -19,6 +19,10 @@ class ArticleEmbedding < ApplicationRecord
 
   after_commit :update_response_embedding
 
+  def account_id
+    article.account_id
+  end
+
   private
 
   def update_response_embedding
