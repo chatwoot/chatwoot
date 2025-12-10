@@ -193,8 +193,8 @@ watch(
         <template #prefix>
           <div class="flex items-center flex-shrink-0">
             <Button
-              color="slate"
-              size="sm"
+              slate
+              sm
               :icon="!activeCountry ? 'i-lucide-globe' : ''"
               :disabled="disabled"
               no-animation

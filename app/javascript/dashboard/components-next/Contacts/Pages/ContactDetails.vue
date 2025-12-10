@@ -193,7 +193,7 @@ const handleAvatarDelete = async () => {
     <Policy :permissions="['administrator']" class="w-full">
       <div class="w-full h-px bg-n-slate-3 mt-1 mb-7" />
       <div
-        class="flex items-end w-full gap-4 outline outline-1 outline-n-weak rounded-2xl p-4"
+        class="flex items-end justify-between w-full gap-4 outline outline-1 outline-n-weak rounded-2xl p-4"
       >
         <div class="flex flex-col gap-2">
           <h6 class="text-base font-medium text-n-slate-12">
