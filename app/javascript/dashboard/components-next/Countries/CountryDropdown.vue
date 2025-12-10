@@ -5,6 +5,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { useToggle } from '@vueuse/core';
 import countries from 'shared/constants/countries.js';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Flag from 'dashboard/components-next/flag/Flag.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const props = defineProps({
@@ -25,11 +26,11 @@ const [showCountryDropdown, toggleCountryDropdown] = useToggle();
 const searchQuery = ref('');
 
 const countryOptions = computed(() =>
-  countries.map(({ name, id, flag }) => ({
+  countries.map(({ name, id }) => ({
     label: name,
     value: id,
-    icon: flag,
     action: 'select',
+    isSelected: countryCode.value === id,
   }))
 );
 
@@ -54,9 +55,14 @@ const buttonLabel = computed(() => {
 });
 
 const handleAction = ({ value }) => {
-  countryCode.value = value;
-  const country = countries.find(c => c.id === value);
-  emit('change', country);
+  if (countryCode.value === value) {
+    countryCode.value = '';
+    emit('change', null);
+  } else {
+    countryCode.value = value;
+    const country = countries.find(c => c.id === value);
+    emit('change', country);
+  }
   toggleCountryDropdown(false);
 };
 
@@ -75,10 +81,15 @@ const handleClickOutside = () => {
       slate
       sm
       :label="buttonLabel"
-      icon="i-lucide-flag"
+      :icon="!selectedCountry ? 'i-lucide-flag' : ''"
+      no-animation
       class="w-full !justify-start -outline-offset-1"
       @click="toggleCountryDropdown()"
-    />
+    >
+      <template v-if="selectedCountry" #icon>
+        <Flag :country="selectedCountry.id" class="size-3" />
+      </template>
+    </Button>
 
     <Transition
       enter-active-class="transition duration-100 ease-out"
@@ -96,7 +107,11 @@ const handleClickOutside = () => {
         class="max-h-60 overflow-y-auto absolute z-50 w-full mt-1 top-full min-w-40"
         @action="handleAction"
         @search="handleSearch"
-      />
+      >
+        <template #icon="{ item }">
+          <Flag :country="item.value" class="size-3" />
+        </template>
+      </DropdownMenu>
     </Transition>
   </div>
 </template>

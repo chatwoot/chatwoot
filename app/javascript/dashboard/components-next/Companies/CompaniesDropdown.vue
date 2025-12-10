@@ -36,6 +36,7 @@ const companyOptions = computed(() =>
     label: company.name,
     value: company.id,
     action: 'select',
+    isSelected: companyId.value === company.id,
   }))
 );
 
@@ -70,9 +71,14 @@ const debouncedSearch = debounce(query => {
 }, 300);
 
 const handleAction = ({ value }) => {
-  companyId.value = value;
-  const company = companies.value.find(c => c.id === value);
-  emit('change', company);
+  if (companyId.value === value) {
+    companyId.value = null;
+    emit('change', null);
+  } else {
+    companyId.value = value;
+    const company = companies.value.find(c => c.id === value);
+    emit('change', company);
+  }
   toggleCompanyDropdown(false);
 };
 
@@ -91,6 +97,7 @@ const handleClickOutside = () => {
       slate
       sm
       :label="buttonLabel"
+      no-animation
       icon="i-lucide-briefcase-business"
       class="w-full !justify-start -outline-offset-1"
       @click="toggleCompanyDropdown()"
