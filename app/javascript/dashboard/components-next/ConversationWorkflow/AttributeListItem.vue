@@ -1,7 +1,7 @@
 <script setup>
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import AttributeBadge from 'dashboard/components-next/ConversationWorkflow/AttributeBadge.vue';
+import AttributeBadge from 'dashboard/components-next/CustomAttributes/AttributeBadge.vue';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -52,7 +52,7 @@ const attributeIcon = computed(() => {
       <div class="flex gap-2 items-center">
         <AttributeBadge
           v-for="badge in badges"
-          :key="badge.label"
+          :key="badge.type"
           :type="badge.type"
         />
         <div class="w-px h-3 bg-n-strong" />
