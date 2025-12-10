@@ -80,7 +80,7 @@ defineExpose({ open, close });
     :cancel-button-label="
       t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.ACTIONS.CANCEL')
     "
-    :show-confirm-button="isFormComplete"
+    :disable-confirm-button="!isFormComplete"
     @confirm="handleConfirm"
   >
     <div class="flex flex-col gap-4">
