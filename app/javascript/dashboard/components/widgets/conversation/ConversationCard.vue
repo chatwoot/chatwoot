@@ -3,7 +3,6 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
-import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Avatar from 'next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
@@ -14,6 +13,8 @@ import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import VoiceCallStatus from './VoiceCallStatus.vue';
+import { CONVERSATION_TYPES } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -71,6 +72,22 @@ const currentContact = computed(() => {
     : {};
 });
 
+const isGroupConversation = computed(() => {
+  return props.chat.conversation_type === CONVERSATION_TYPES.WHATSAPP_GROUP;
+});
+
+const displayName = computed(() => {
+  if (isGroupConversation.value) {
+    // For group conversations, use the group name from additional_attributes
+    return (
+      props.chat.additional_attributes?.whatsappGroupName ||
+      props.chat.additional_attributes?.whatsapp_group_name ||
+      'WhatsApp Group'
+    );
+  }
+  return currentContact.value.name;
+});
+
 const isActiveChat = computed(() => {
   return currentChat.value.id === props.chat.id;
 });
@@ -83,15 +100,10 @@ const isInboxNameVisible = computed(() => !activeInbox.value);
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 
-const callStatus = computed(
-  () => props.chat.additional_attributes?.call_status
-);
-const callDirection = computed(
-  () => props.chat.additional_attributes?.call_direction
-);
-
-const { labelKey: voiceLabelKey, listIconColor: voiceIconColor } =
-  useVoiceCallStatus(callStatus, callDirection);
+const voiceCallData = computed(() => ({
+  status: props.chat.additional_attributes?.call_status,
+  direction: props.chat.additional_attributes?.call_direction,
+}));
 
 const inboxId = computed(() => props.chat.inbox_id);
 
@@ -257,7 +269,7 @@ const deleteConversation = () => {
     >
       <Avatar
         v-if="!hideThumbnail"
-        :name="currentContact.name"
+        :name="displayName"
         :src="currentContact.thumbnail"
         :size="32"
         :status="currentContact.availability_status"
@@ -315,22 +327,15 @@ const deleteConversation = () => {
         class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
         :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
-        {{ currentContact.name }}
+        {{ displayName }}
       </h4>
-      <div
-        v-if="callStatus"
+      <VoiceCallStatus
+        v-if="voiceCallData.status"
         key="voice-status-row"
-        class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
-        :class="messagePreviewClass"
-      >
-        <span
-          class="inline-block -mt-0.5 align-middle text-[16px] i-ph-phone-incoming"
-          :class="[voiceIconColor]"
-        />
-        <span class="mx-1">
-          {{ $t(voiceLabelKey) }}
-        </span>
-      </div>
+        :status="voiceCallData.status"
+        :direction="voiceCallData.direction"
+        :message-preview-class="messagePreviewClass"
+      />
       <MessagePreview
         v-else-if="lastMessageInChat"
         key="message-preview"

@@ -154,4 +154,39 @@ RSpec.describe Attachment do
       end
     end
   end
+
+  describe 'file size validation' do
+    let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }
+
+    before do
+      allow(GlobalConfigService).to receive(:load).and_call_original
+    end
+
+    it 'respects configured limit' do
+      allow(GlobalConfigService).to receive(:load)
+        .with('MAXIMUM_FILE_UPLOAD_SIZE', 40)
+        .and_return('5')
+
+      attachment.errors.clear
+      attachment.send(:validate_file_size, 4.megabytes)
+
+      expect(attachment.errors[:file]).to be_empty
+
+      attachment.errors.clear
+      attachment.send(:validate_file_size, 6.megabytes)
+
+      expect(attachment.errors[:file]).to include('size is too big')
+    end
+
+    it 'falls back to default when configured limit is invalid' do
+      allow(GlobalConfigService).to receive(:load)
+        .with('MAXIMUM_FILE_UPLOAD_SIZE', 40)
+        .and_return('-10')
+
+      attachment.errors.clear
+      attachment.send(:validate_file_size, 41.megabytes)
+
+      expect(attachment.errors[:file]).to include('size is too big')
+    end
+  end
 end

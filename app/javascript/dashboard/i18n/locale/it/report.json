@@ -53,6 +53,8 @@
       "LAST_7_DAYS": "Ultimi 7 giorni",
       "LAST_14_DAYS": "Ultimi 14 giorni",
       "LAST_30_DAYS": "Ultimi 30 giorni",
+      "THIS_MONTH": "Questo mese",
+      "LAST_MONTH": "Il mese scorso",
       "LAST_3_MONTHS": "Ultimi 3 mesi",
       "LAST_6_MONTHS": "Ultimi 6 mesi",
       "LAST_YEAR": "Ultimo anno",
@@ -193,7 +195,7 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Panoramica etichette",
+    "HEADER": "Panoramica Etichette",
     "DESCRIPTION": "Monitora la performance delle etichette con metriche chiave, tra cui conversazioni, tempi di risposta, tempi di risoluzione e casi risolti. Fai clic sul nome di un'etichetta per approfondimenti dettagliati.",
     "LOADING_CHART": "Caricamento dati grafici...",
     "NO_ENOUGH_DATA": "Non ci sono abbastanza dati per generare il report, riprova più tardi.",
@@ -331,7 +333,7 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Panoramica team",
+    "HEADER": "Panoramica Team",
     "DESCRIPTION": "Ottieni un'istantanea delle prestazioni del tuo team con metriche essenziali, tra cui conversazioni, tempi di risposta, tempi di risoluzione e casi risolti. Fare clic su un nome del team per maggiori dettagli.",
     "LOADING_CHART": "Caricamento dati grafici...",
     "NO_ENOUGH_DATA": "Non ci sono abbastanza dati per generare il report, riprova più tardi.",
@@ -399,7 +401,7 @@
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "Rapporti CSAT",
+    "HEADER": "Report CSAT",
     "NO_RECORDS": "Non ci sono risposte ai sondaggi CSAT disponibili.",
     "DOWNLOAD": "Scarica report CSAT",
     "DOWNLOAD_FAILED": "Download dei report CSAT non riuscito",

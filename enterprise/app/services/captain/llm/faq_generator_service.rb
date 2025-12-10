@@ -1,4 +1,4 @@
-class Captain::Llm::FaqGeneratorService < Llm::BaseOpenAiService
+class Captain::Llm::FaqGeneratorService < Llm::LegacyBaseOpenAiService
   def initialize(content, language = 'english')
     super()
     @language = language

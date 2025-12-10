@@ -20,11 +20,7 @@ const dateRange = ref({
 const campaigns = computed(() => store.getters['metaCampaigns/getCampaigns']);
 const summary = computed(() => store.getters['metaCampaigns/getSummary']);
 const uiFlags = computed(() => store.getters['metaCampaigns/getUIFlags']);
-const inboxes = computed(() =>
-  store.getters['inboxes/getInboxes'].filter(
-    inbox => inbox.channel_type === 'Channel::Whatsapp'
-  )
-);
+const inboxes = computed(() => store.getters['inboxes/getWhatsAppInboxes']);
 
 const fetchData = async () => {
   const params = {

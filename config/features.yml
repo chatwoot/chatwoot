@@ -180,7 +180,6 @@
   display_name: Captain V2
   enabled: false
   premium: true
-  chatwoot_internal: true
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
@@ -223,9 +222,17 @@
 - name: quoted_email_reply
   display_name: Quoted Email Reply
   enabled: false
+- name: companies
+  display_name: Companies
+  enabled: false
+  premium: true
+  chatwoot_internal: true
 - name: board
   display_name: Conversation Pipelines
   enabled: true
 - name: auto_generate_landing_page
   display_name: Auto Generate Landing Page
   enabled: true
+- name: whatsapp_groups
+  display_name: WhatsApp Groups
+  enabled: false

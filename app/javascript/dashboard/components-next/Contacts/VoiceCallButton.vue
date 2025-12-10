@@ -1,15 +1,18 @@
 <script setup>
 import { computed, ref, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useRoute, useRouter } from 'vue-router';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useAlert } from 'dashboard/composables';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const props = defineProps({
   phone: { type: String, default: '' },
+  contactId: { type: [String, Number], required: true },
   label: { type: String, default: '' },
   icon: { type: [String, Object, Function], default: '' },
   size: { type: String, default: 'sm' },
@@ -18,10 +21,17 @@ const props = defineProps({
 
 defineOptions({ inheritAttrs: false });
 const attrs = useAttrs();
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
 
 const { t } = useI18n();
 
+const dialogRef = ref(null);
+
 const inboxesList = useMapGetter('inboxes/getInboxes');
+const contactsUiFlags = useMapGetter('contacts/getUIFlags');
+
 const voiceInboxes = computed(() =>
   (inboxesList.value || []).filter(
     inbox => inbox.channel_type === INBOX_TYPES.VOICE
@@ -32,20 +42,51 @@ const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
 // Unified behavior: hide when no phone
 const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
 
-const dialogRef = ref(null);
+const isInitiatingCall = computed(() => {
+  return contactsUiFlags.value?.isInitiatingCall || false;
+});
 
-const onClick = () => {
+const navigateToConversation = conversationId => {
+  const accountId = route.params.accountId;
+  if (conversationId && accountId) {
+    const path = frontendURL(
+      conversationUrl({
+        accountId,
+        id: conversationId,
+      })
+    );
+    router.push({ path });
+  }
+};
+
+const startCall = async inboxId => {
+  if (isInitiatingCall.value) return;
+
+  try {
+    const response = await store.dispatch('contacts/initiateCall', {
+      contactId: props.contactId,
+      inboxId,
+    });
+    useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
+    navigateToConversation(response?.conversation_id);
+  } catch (error) {
+    const apiError = error?.message;
+    useAlert(apiError || t('CONTACT_PANEL.CALL_FAILED'));
+  }
+};
+
+const onClick = async () => {
   if (voiceInboxes.value.length > 1) {
     dialogRef.value?.open();
     return;
   }
-  useAlert(t('CONTACT_PANEL.CALL_UNDER_DEVELOPMENT'));
+  const [inbox] = voiceInboxes.value;
+  await startCall(inbox.id);
 };
 
-const onPickInbox = () => {
-  // Placeholder until actual call wiring happens
-  useAlert(t('CONTACT_PANEL.CALL_UNDER_DEVELOPMENT'));
+const onPickInbox = async inbox => {
   dialogRef.value?.close();
+  await startCall(inbox.id);
 };
 </script>
 
@@ -55,6 +96,8 @@ const onPickInbox = () => {
       v-if="shouldRender"
       v-tooltip.top-end="tooltipLabel || null"
       v-bind="attrs"
+      :disabled="isInitiatingCall"
+      :is-loading="isInitiatingCall"
       :label="label"
       :icon="icon"
       :size="size"

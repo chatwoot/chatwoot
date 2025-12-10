@@ -6,6 +6,7 @@ import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
+import WhatsAppLight from './WhatsAppLight.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 
 const route = useRoute();
@@ -19,6 +20,7 @@ const PROVIDER_TYPES = {
   WHATSAPP_EMBEDDED: 'whatsapp_embedded',
   WHATSAPP_MANUAL: 'whatsapp_manual',
   THREE_SIXTY_DIALOG: '360dialog',
+  WHATSAPP_LIGHT: 'whatsapp_light',
 };
 
 const hasWhatsappAppId = computed(() => {
@@ -39,6 +41,12 @@ const availableProviders = computed(() => [
     key: PROVIDER_TYPES.WHATSAPP,
     title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD'),
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_DESC'),
+    icon: 'i-woot-whatsapp',
+  },
+  {
+    key: PROVIDER_TYPES.WHATSAPP_LIGHT,
+    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_LIGHT'),
+    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_LIGHT_DESC'),
     icon: 'i-woot-whatsapp',
   },
   {
@@ -73,10 +81,10 @@ const handleManualLinkClick = () => {
   <div class="overflow-auto col-span-6 p-6 w-full h-full">
     <div v-if="showProviderSelection">
       <div class="mb-10 text-left">
-        <h1 class="mb-2 text-lg font-medium text-slate-12">
+        <h1 class="mb-2 text-lg font-medium text-n-slate-12">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.TITLE') }}
         </h1>
-        <p class="text-sm leading-relaxed text-slate-11">
+        <p class="text-sm leading-relaxed text-n-slate-11">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.DESCRIPTION') }}
         </p>
       </div>
@@ -131,6 +139,9 @@ const handleManualLinkClick = () => {
         <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
 
         <!-- Other providers -->
+        <WhatsAppLight
+          v-else-if="selectedProvider === PROVIDER_TYPES.WHATSAPP_LIGHT"
+        />
         <Twilio
           v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
           type="whatsapp"

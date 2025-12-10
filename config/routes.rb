@@ -79,6 +79,7 @@ Rails.application.routes.draw do
             resources :survey_questions, only: [:index, :create, :show, :update, :destroy]
           end
           resources :survey_answers, only: [:create]
+          resources :survey_calls, only: [:create]
           resources :contact_inboxes, only: [] do
             collection do
               post :filter
@@ -120,6 +121,13 @@ Rails.application.routes.draw do
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
+            resources :whapi_channels, only: [:create] do
+              member do
+                get 'get_qr'
+                get 'qr_status'
+                post 'complete_setup'
+              end
+            end
           end
 
           resources :pipeline_statuses, except: [:new, :edit, :show]
@@ -155,6 +163,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               get :inbox_assistant
+              get :reporting_events if ChatwootApp.enterprise?
             end
           end
 
@@ -167,7 +176,11 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :companies, only: [:index, :show, :create, :update, :destroy]
+          resources :companies, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              get :search
+            end
+          end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
@@ -186,6 +199,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
               resources :survey_answers, only: [:index]
               resources :survey_completions, only: [:index]
             end
@@ -202,6 +216,7 @@ Rails.application.routes.draw do
               get :download
             end
           end
+          resources :reporting_events, only: [:index] if ChatwootApp.enterprise?
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
@@ -455,6 +470,7 @@ Rails.application.routes.draw do
               post :subscription
               get :limits
               post :toggle_deletion
+              post :topup_checkout
             end
           end
         end
@@ -544,6 +560,8 @@ Rails.application.routes.draw do
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
   get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
+  post 'webhooks/whapi/:inbox_id/:event_type', to: 'webhooks/whapi#process_payload'
+  match 'webhooks/whapi_groups/:event_type', to: 'webhooks/whapi_groups#process_payload', via: [:post, :put, :delete]
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
@@ -568,6 +586,7 @@ Rails.application.routes.draw do
         collection do
           post 'call/:phone', action: :call_twiml
           post 'status/:phone', action: :status
+          post 'conference_status/:phone', action: :conference_status
         end
       end
     end

@@ -44,8 +44,17 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def update
-    inbox_params = permitted_params.except(:channel, :csat_config)
+    return if @inbox.whatsapp_groups_inbox?
+
+    inbox_params = permitted_params.except(:channel, :csat_config, :auto_assignment_config)
     inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
+
+    if permitted_params[:auto_assignment_config].present?
+      current_config = @inbox.auto_assignment_config || {}
+      new_config = current_config.merge(permitted_params[:auto_assignment_config].to_h)
+      inbox_params[:auto_assignment_config] = new_config
+    end
+
     @inbox.update!(inbox_params)
     update_inbox_working_hours
     update_channel if channel_update_required?
@@ -173,21 +182,36 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     }
   end
 
+  def format_auto_assignment_config(config)
+    formatted = {}
+    formatted[:max_assignment_limit] = config['max_assignment_limit'] if config.key?('max_assignment_limit')
+    formatted[:assignment_type] = config['assignment_type'] if config.key?('assignment_type')
+    formatted
+  end
+
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name,
-     { csat_config: [:display_type, :message, { survey_rules: [:operator, { values: [] }] }] }]
+     { csat_config: [:display_type, :message, { survey_rules: [:operator, { values: [] }] }] },
+     { auto_assignment_config: {} }]
   end
 
   def permitted_params(channel_attributes = [])
     # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
     params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
 
-    params.permit(
+    permitted = params.permit(
       *inbox_attributes,
       channel: [:type, *channel_attributes]
     )
+
+    # Manually permit all auto_assignment_config params
+    if params[:auto_assignment_config].present?
+      permitted[:auto_assignment_config] = params[:auto_assignment_config].permit!
+    end
+
+    permitted
   end
 
   def channel_type_from_params

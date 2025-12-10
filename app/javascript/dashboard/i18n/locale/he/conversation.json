@@ -32,17 +32,17 @@
     "LOADING_CONVERSATIONS": "טוען שיחות",
     "CANNOT_REPLY": "לא ניתן להשיב עקב",
     "24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
-    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "API_HOURS_WINDOW": "ניתן להשיב לשיחה זו רק תוך {hours} שעות",
     "NOT_ASSIGNED_TO_YOU": "השיחה לא שייכת לך, האם תרצה לשייך אותה אליך?",
     "ASSIGN_TO_ME": "שייך לעצמך",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "אתה מגיב לשיחה שמטופלת כרגע על ידי עוזר או בוט.",
+    "BOT_HANDOFF_ACTION": "סמן כפתוח והקצה לך",
+    "BOT_HANDOFF_REOPEN_ACTION": "סמן שיחה כפתוחה",
+    "BOT_HANDOFF_SUCCESS": "השיחה הועברה אליך",
+    "BOT_HANDOFF_ERROR": "נכשל בניסיון להשתלט על השיחה. אנא נסה שוב.",
     "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "חשבון אינסטגרם זה הועבר לתיבת הדואר החדשה של ערוץ אינסטגרם. כל ההודעות החדשות יופיעו שם. לא תוכל לשלוח הודעות משיחה זו יותר.",
     "REPLYING_TO": "אתה משיב ל:",
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
@@ -72,21 +72,21 @@
       "HIDE_LABELS": "הסתר תוויות"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "שיחה נכנסת",
+      "OUTGOING_CALL": "שיחה יוצאת",
+      "CALL_IN_PROGRESS": "שיחה מתקיימת",
+      "NO_ANSWER": "אין מענה",
+      "MISSED_CALL": "שיחה שלא נענתה",
+      "CALL_ENDED": "השיחה הסתיימה",
+      "NOT_ANSWERED_YET": "לא ענה כרגע",
+      "THEY_ANSWERED": "ענה",
+      "YOU_ANSWERED": "אתה ענית"
     },
     "HEADER": {
       "RESOLVE_ACTION": "פתרון",
       "REOPEN_ACTION": "פתח מחדש",
       "OPEN_ACTION": "פתח",
-      "MORE_ACTIONS": "More actions",
+      "MORE_ACTIONS": "עוד פעולות",
       "OPEN": "עוד",
       "CLOSE": "סגור",
       "DETAILS": "פרטים",
@@ -139,8 +139,8 @@
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "Delete conversation #{conversationId}",
-      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "TITLE": "מחק שיחה #{conversationId}",
+      "DESCRIPTION": "אתה בטוח שאתה רוצה למחוק את השיחה הזו?",
       "CONFIRM": "מחק"
     },
     "CARD_CONTEXT_MENU": {
@@ -159,10 +159,10 @@
       "ASSIGN_LABEL": "ההקצה תווית",
       "AGENTS_LOADING": "טוען סוכנים...",
       "ASSIGN_TEAM": "שייך צוות",
-      "DELETE": "Delete conversation",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "DELETE": "מחק שיחה",
+      "OPEN_IN_NEW_TAB": "פתח בכרטיסיה חדשה",
+      "COPY_LINK": "העתק קישור לשיחה",
+      "COPY_LINK_SUCCESS": "קישור לשיחה הועתק ללוח הגזירים",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "מזהה שיחה {conversationId} קושר ל {agentName}",
@@ -229,11 +229,11 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "ENABLE_TOOLTIP": "כלול שרשור אימייל מצוטט",
+        "DISABLE_TOOLTIP": "אל תכלול שרשור אימייל מצוטט",
+        "REMOVE_PREVIEW": "הסר שרשור אימייל מצוטט",
+        "COLLAPSE": "כווץ תצוגה מקדימה",
+        "EXPAND": "הרחב תצוגה מקדימה"
       }
     },
     "VISIBLE_TO_AGENTS": "פתקים פרטיים: רק אתה והצוות שלך יכולים לראות",
@@ -244,8 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "סמן משימה כבוצעה בהצלחה",
     "ASSIGN_LABEL_FAILED": "סמן משימה כנכשלה",
     "CHANGE_TEAM": "שיחת קבוצה השתנתה",
-    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
-    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "SUCCESS_DELETE_CONVERSATION": "השיחה נמחקה בהצלחה",
+    "FAIL_DELETE_CONVERSATION": "לא ניתן למחוק את השיחה! נסה שוב",
     "FILE_SIZE_LIMIT": "הקובץ גדול מ{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}MB מגבלת העלאה",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
@@ -334,11 +334,11 @@
       "CONVERSATION_ACTIONS": "פעולות בשיחה",
       "CONVERSATION_LABELS": "תוויות שיחה",
       "CONVERSATION_INFO": "מידע על שיחה",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "הערות איש קשר",
       "CONTACT_ATTRIBUTES": "תכונות יצירת קשר",
       "PREVIOUS_CONVERSATION": "שיחות קודמות",
       "MACROS": "מאקרו",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "בעיות ליניאריות מקושרות",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

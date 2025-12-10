@@ -9,7 +9,7 @@
 #  updated_at    :datetime         not null
 #  contact_id    :bigint
 #  inbox_id      :bigint
-#  source_id     :string           not null
+#  source_id     :text             not null
 #
 # Indexes
 #
@@ -67,9 +67,20 @@ class ContactInbox < ApplicationRecord
   end
 
   def validate_whatsapp_source_id
-    return if WHATSAPP_CHANNEL_REGEX.match?(source_id)
+    # Check if inbox is configured for group assignment
+    is_group_assignment = inbox.auto_assignment_config&.dig('assignment_type') == 'group'
 
-    errors.add(:source_id, "invalid source id for whatsapp inbox. valid Regex #{WHATSAPP_CHANNEL_REGEX}")
+    if is_group_assignment
+      # Accept both individual and group formats for group-enabled inboxes
+      return if WHATSAPP_CHANNEL_REGEX.match?(source_id) || WHATSAPP_GROUP_REGEX.match?(source_id)
+
+      errors.add(:source_id, "invalid source id for whatsapp inbox. Must match #{WHATSAPP_CHANNEL_REGEX} or #{WHATSAPP_GROUP_REGEX}")
+    else
+      # Only accept individual contact format
+      return if WHATSAPP_CHANNEL_REGEX.match?(source_id)
+
+      errors.add(:source_id, "invalid source id for whatsapp inbox. valid Regex #{WHATSAPP_CHANNEL_REGEX}")
+    end
   end
 
   def valid_source_id_format?

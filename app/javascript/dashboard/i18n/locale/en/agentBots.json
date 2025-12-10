@@ -21,6 +21,13 @@
       "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent AI agent. Please try again.",
       "SELECT_PLACEHOLDER": "Select AI agent"
     },
+    "SURVEY": {
+      "TITLE": "Assign Survey",
+      "DESC": "Select a survey to be sent to customers after their conversations in this inbox.",
+      "SELECT_PLACEHOLDER": "Select a survey",
+      "SUCCESS_MESSAGE": "Survey assignment updated successfully.",
+      "ERROR_MESSAGE": "Could not update survey assignment. Please try again."
+    },
     "ADD": {
       "TITLE": "Add AI agent",
       "CANCEL_BUTTON_TEXT": "Cancel",

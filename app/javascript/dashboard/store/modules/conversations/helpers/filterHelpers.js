@@ -42,12 +42,22 @@
  * Conversation Object Structure:
  * -----------------------------
  * The conversation object can have:
- * 1. Top-level properties (status, priority, display_id, etc.)
+ * 1. Top-level properties (status, priority, conversation_type, display_id, etc.)
  * 2. Nested properties in additional_attributes (browser_language, referer, etc.)
- * 3. Nested properties in custom_attributes (conversation_type, etc.)
+ * 3. Nested properties in custom_attributes (user-defined attributes)
  */
 import jsonLogic from 'json-logic-js';
 import { coerceToDate } from '@chatwoot/utils';
+
+/**
+ * Enum mappings for conversation attributes
+ * These should match the backend enum definitions in app/models/conversation.rb
+ */
+const CONVERSATION_ENUMS = {
+  status: { open: 0, resolved: 1, pending: 2, snoozed: 3 },
+  priority: { low: 0, medium: 1, high: 2, urgent: 3 },
+  conversation_type: { default: 0, whatsapp_group: 1 },
+};
 
 /**
  * Gets a value from a conversation based on the attribute key
@@ -56,9 +66,9 @@ import { coerceToDate } from '@chatwoot/utils';
  * @returns {*} - The value of the attribute
  *
  * This function handles various attribute locations:
- * 1. Direct properties on the conversation object (status, priority, etc.)
+ * 1. Direct properties on the conversation object (status, priority, conversation_type, etc.)
  * 2. Properties in conversation.additional_attributes (browser_language, referer, etc.)
- * 3. Properties in conversation.custom_attributes (conversation_type, etc.)
+ * 3. Properties in conversation.custom_attributes (user-defined attributes)
  */
 const getValueFromConversation = (conversation, attributeKey) => {
   switch (attributeKey) {
@@ -67,6 +77,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'labels':
     case 'created_at':
     case 'last_activity_at':
+    case 'conversation_type':
       return conversation[attributeKey];
     case 'display_id':
       // Frontend uses 'id' but backend expects 'display_id'
@@ -185,20 +196,40 @@ const compareDates = (conversationValue, filterValue, compareFn) => {
 };
 
 /**
+ * Converts enum string values to their numeric equivalents
+ * @param {String} attributeKey - The attribute key (e.g., 'status', 'priority', 'conversation_type')
+ * @param {*} value - The value to convert (can be string, number, or array)
+ * @returns {*} - The converted value (number if enum, original value otherwise)
+ */
+const convertEnumValue = (attributeKey, value) => {
+  const enumMap = CONVERSATION_ENUMS[attributeKey];
+  if (!enumMap) return value;
+
+  if (Array.isArray(value)) {
+    return value.map(v => (typeof v === 'string' ? enumMap[v] ?? v : v));
+  }
+
+  return typeof value === 'string' ? enumMap[value] ?? value : value;
+};
+
+/**
  * Checks if a value matches a filter condition
  * @param {*} conversationValue - The value to check
  * @param {Object} filter - The filter condition
  * @returns {Boolean} - Returns true if the value matches the filter
  */
 const matchesCondition = (conversationValue, filter) => {
-  const { filter_operator: filterOperator, values } = filter;
+  const { filter_operator: filterOperator, values, attribute_key: attributeKey } = filter;
 
   const isNullish =
     conversationValue === null || conversationValue === undefined;
 
-  const filterValue = Array.isArray(values)
-    ? values.map(resolveValue)
-    : resolveValue(values);
+  // Convert enum values if applicable
+  const convertedValues = convertEnumValue(attributeKey, values);
+
+  const filterValue = Array.isArray(convertedValues)
+    ? convertedValues.map(resolveValue)
+    : resolveValue(convertedValues);
 
   switch (filterOperator) {
     case 'equal_to':

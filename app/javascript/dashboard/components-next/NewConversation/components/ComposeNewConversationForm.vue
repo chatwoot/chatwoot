@@ -199,16 +199,20 @@ const handleInboxAction = ({ value, action, ...rest }) => {
   state.attachedFiles = [];
 };
 
-const removeTargetInbox = value => {
-  v$.value.$reset();
-  // Remove the signature from message content
-  // Based on the Advance Editor (used in isEmailOrWebWidget) and Plain editor(all other inboxes except WhatsApp)
-  if (props.sendWithSignature) {
-    const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
-      ? props.messageSignature
-      : extractTextFromMarkdown(props.messageSignature);
+const removeSignatureFromMessage = () => {
+  // Always remove the signature from message content when inbox/contact is removed
+  // to ensure no leftover signature content remains
+  const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
+    ? props.messageSignature
+    : extractTextFromMarkdown(props.messageSignature);
+  if (signatureToRemove) {
     state.message = removeSignature(state.message, signatureToRemove);
   }
+};
+
+const removeTargetInbox = value => {
+  v$.value.$reset();
+  removeSignatureFromMessage();
   emit('updateTargetInbox', value);
   state.attachedFiles = [];
 };
@@ -216,6 +220,7 @@ const removeTargetInbox = value => {
 const clearSelectedContact = () => {
   emit('clearSelectedContact');
   state.attachedFiles = [];
+  removeSignatureFromMessage();
 };
 
 const onClickInsertEmoji = emoji => {
@@ -354,6 +359,7 @@ const shouldShowMessageEditor = computed(() => {
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
       :has-attachments="state.attachedFiles.length > 0"
+      :channel-type="inboxChannelType"
     />
 
     <AttachmentPreviews

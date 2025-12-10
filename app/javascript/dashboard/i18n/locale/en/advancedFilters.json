@@ -52,6 +52,7 @@
       "CONVERSATION_IDENTIFIER": "Conversation identifier",
       "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Labels",
+      "CONVERSATION_TYPE": "Conversation type",
       "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priority",
       "COUNTRY_NAME": "Country name",

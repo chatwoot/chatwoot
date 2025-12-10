@@ -20,11 +20,28 @@ class Api::V1::Accounts::NotificationSettingsController < Api::V1::Accounts::Bas
   end
 
   def notification_setting_params
-    params.require(:notification_settings).permit(selected_email_flags: [], selected_push_flags: [])
+    params.require(:notification_settings).permit
+
+    permitted = {}
+    # Manually permit all array values to avoid strong_parameters filtering
+    if params[:notification_settings][:selected_email_flags].present?
+      permitted[:selected_email_flags] = params[:notification_settings][:selected_email_flags]
+    end
+
+    if params[:notification_settings][:selected_push_flags].present?
+      permitted[:selected_push_flags] = params[:notification_settings][:selected_push_flags]
+    end
+
+    if params[:notification_settings][:selected_whatsapp_flags].present?
+      permitted[:selected_whatsapp_flags] = params[:notification_settings][:selected_whatsapp_flags]
+    end
+
+    permitted
   end
 
   def update_flags
-    @notification_setting.selected_email_flags = notification_setting_params[:selected_email_flags]
-    @notification_setting.selected_push_flags = notification_setting_params[:selected_push_flags]
+    @notification_setting.selected_email_flags = notification_setting_params[:selected_email_flags] if notification_setting_params.key?(:selected_email_flags)
+    @notification_setting.selected_push_flags = notification_setting_params[:selected_push_flags] if notification_setting_params.key?(:selected_push_flags)
+    @notification_setting.selected_whatsapp_flags = notification_setting_params[:selected_whatsapp_flags] if notification_setting_params.key?(:selected_whatsapp_flags)
   end
 end

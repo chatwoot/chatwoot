@@ -251,6 +251,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "账户已暂停",
       "MESSAGE": "您的账户已被暂停。请联系支持团队以获取更多信息。"
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "注销"
     }
   },
   "COMPONENTS": {
@@ -305,6 +311,10 @@
     "CAPTAIN_DOCUMENTS": "文档",
     "CAPTAIN_RESPONSES": "常见问题",
     "CAPTAIN_TOOLS": "工具",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "试验场",
+    "CAPTAIN_INBOXES": "收件箱",
+    "CAPTAIN_SETTINGS": "设置",
     "HOME": "首页",
     "AGENTS": "客服代理",
     "AGENT_BOTS": "机器人",

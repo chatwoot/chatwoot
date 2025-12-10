@@ -47,6 +47,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
   include AccountCacheRevalidator
+  include InboxAgentAvailability
 
   # Not allowing characters:
   validates :name, presence: true
@@ -80,6 +81,7 @@ class Inbox < ApplicationRecord
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
+  before_destroy :prevent_whatsapp_groups_inbox_deletion
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event
@@ -174,7 +176,9 @@ class Inbox < ApplicationRecord
     {
       id: id,
       name: name,
-      survey_id: survey_id
+      survey_id: survey_id,
+      enable_auto_assignment: enable_auto_assignment,
+      auto_assignment_config: auto_assignment_config
     }
   end
 
@@ -193,6 +197,14 @@ class Inbox < ApplicationRecord
 
   def member_ids_with_assignment_capacity
     members.ids
+  end
+
+  def auto_assignment_v2_enabled?
+    account.feature_enabled?('assignment_v2')
+  end
+
+  def whatsapp_groups_inbox?
+    auto_assignment_config&.dig('is_whatsapp_groups_inbox') == true
   end
 
   private
@@ -235,6 +247,13 @@ class Inbox < ApplicationRecord
 
   def check_channel_type?
     ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
+  end
+
+  def prevent_whatsapp_groups_inbox_deletion
+    return unless whatsapp_groups_inbox?
+
+    errors.add(:base, 'WhatsApp Groups inbox cannot be deleted')
+    throw(:abort)
   end
 end
 

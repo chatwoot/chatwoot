@@ -1,5 +1,5 @@
 import CaptainBulkActionsAPI from 'dashboard/api/captain/bulkActions';
-import { createStore } from './storeFactory';
+import { createStore } from '../storeFactory';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 export default createStore({

@@ -129,6 +129,7 @@ const props = defineProps({
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
+  additionalAttributes: { type: Object, default: () => ({}) },
 });
 
 const emit = defineEmits(['retry']);
@@ -299,7 +300,12 @@ const componentToRender = computed(() => {
     return DyteBubble;
   }
 
-  if (props.contentAttributes.imageType === 'story_mention') {
+  const instagramSharedTypes = [
+    ATTACHMENT_TYPES.STORY_MENTION,
+    ATTACHMENT_TYPES.IG_STORY,
+    ATTACHMENT_TYPES.IG_POST,
+  ];
+  if (instagramSharedTypes.includes(props.contentAttributes.imageType)) {
     return InstagramStoryBubble;
   }
 
@@ -416,10 +422,11 @@ function handleReplyTo() {
 }
 
 const avatarInfo = computed(() => {
-  // If no sender, return bot info
+  // If no sender, check for external sender name or return bot info
   if (!props.sender) {
+    const externalName = props.additionalAttributes?.externalSenderName;
     return {
-      name: t('CONVERSATION.BOT'),
+      name: externalName || t('CONVERSATION.BOT'),
       src: '',
     };
   }
@@ -476,7 +483,7 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full message-bubble-container mb-2"
+    class="flex mb-2 w-full message-bubble-container"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,

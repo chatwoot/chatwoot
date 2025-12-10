@@ -5,7 +5,6 @@ import router from '../../../../index';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
-import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -159,7 +158,7 @@ export default {
           )
         "
         :max-length="255"
-        :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+        channel-type="Context::InboxSettings"
         class="mb-4"
       />
 
@@ -231,7 +230,11 @@ export default {
           <NextButton
             type="submit"
             :is-loading="uiFlags.isCreating"
-            :disabled="!channelWebsiteUrl || !inboxName || (autoGenerateLandingPage && !landingPageDescription)"
+            :disabled="
+              !channelWebsiteUrl ||
+              !inboxName ||
+              (autoGenerateLandingPage && !landingPageDescription)
+            "
             solid
             blue
             :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"

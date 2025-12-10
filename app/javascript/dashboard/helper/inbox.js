@@ -13,6 +13,12 @@ export const INBOX_TYPES = {
   VOICE: 'Channel::Voice',
 };
 
+// Conversation types enum (matches backend Conversation model)
+export const CONVERSATION_TYPES = {
+  DEFAULT: 0,
+  WHATSAPP_GROUP: 1,
+};
+
 const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.WEB]: 'i-ri-global-fill',
   [INBOX_TYPES.FB]: 'i-ri-messenger-fill',

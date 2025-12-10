@@ -76,6 +76,7 @@ sq:
       token_exchange_failed: 'Dështoi shkëmbimi i kodit për tokenin e aksesit. Ju lutemi, provoni përsëri.'
       invalid_token_permissions: 'Tokeni i aksesit nuk ka lejet e nevojshme për WhatsApp.'
       phone_info_fetch_failed: 'Dështoi marrja e informacionit të numrit të telefonit. Ju lutemi, provoni përsëri.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       reauthorization:
         generic: 'Dështoi riautorizimi i WhatsApp-it. Ju lutemi, provoni përsëri.'
         not_supported: 'Riautorizimi nuk mbështetet për këtë lloj kanali të WhatsApp-it.'

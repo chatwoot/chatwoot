@@ -138,6 +138,10 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "TYPE": {
+      "DEFAULT": "Default",
+      "WHATSAPP_GROUP": "WhatsApp Group"
+    },
     "DELETE_CONVERSATION": {
       "TITLE": "Delete conversation #{conversationId}",
       "DESCRIPTION": "Are you sure you want to delete this conversation?",
@@ -196,7 +200,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -271,6 +274,21 @@
         "DELETE": "Delete",
         "CANCEL": "Cancel"
       }
+    },
+    "SURVEY_CALL": {
+      "BUTTON_LABEL": "Conduct Survey",
+      "TITLE": "Phone Survey",
+      "NO_VALID_PHONE": "This contact does not have a valid phone number. A phone number in E.164 format (+123456789) is required to make a survey call.",
+      "CONTACT_INFO": "Contact to call",
+      "SELECT_SURVEY": "Select a survey to conduct",
+      "LOADING": "Loading surveys...",
+      "NO_SURVEYS": "No active surveys available",
+      "QUESTIONS_COUNT": "{count} questions",
+      "CANCEL": "Cancel",
+      "MAKE_CALL": "Make Call",
+      "SUCCESS": "Survey call initiated successfully",
+      "ERROR": "Failed to initiate survey call. Please try again",
+      "LOAD_ERROR": "Failed to load surveys. Please try again"
     },
     "SIDEBAR": {
       "CONTACT": "Contact",

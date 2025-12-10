@@ -158,6 +158,7 @@
         "TYPE_TITLE": "Notification type",
         "EMAIL": "Email",
         "PUSH": "Push notification",
+        "WHATSAPP": "WhatsApp",
         "TYPES": {
           "CONVERSATION_CREATED": "A new conversation is created",
           "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
@@ -168,7 +169,7 @@
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
           "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you're able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
@@ -187,6 +188,18 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "WHATSAPP_NOTIFICATIONS_SECTION": {
+        "TITLE": "WhatsApp Notifications",
+        "NOTE": "Update your WhatsApp notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send WhatsApp notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send WhatsApp notifications when a new conversation is created",
+        "CONVERSATION_MENTION": "Send WhatsApp notifications when you are mentioned in a conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send WhatsApp notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send WhatsApp notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send WhatsApp notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send WhatsApp notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send WhatsApp notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profile Image"
@@ -262,6 +275,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Log out"
     }
   },
   "COMPONENTS": {
@@ -311,12 +330,18 @@
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
     "ACTIVE": "Active",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
     "APPOINTMENTS": "Appointments",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Inboxes",
+    "CAPTAIN_SETTINGS": "Settings",
     "HOME": "Home",
     "AGENTS": "Agents",
     "AGENT_BOTS": "AI agents",
@@ -403,20 +428,45 @@
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "RESPONSES": "Credits",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "Refresh"
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Note:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "Cancel",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "Go Back",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

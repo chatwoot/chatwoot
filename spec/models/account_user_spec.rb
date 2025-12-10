@@ -42,4 +42,56 @@ RSpec.describe AccountUser do
       expect(user.assigned_conversations.count).to eq(0)
     end
   end
+
+  describe 'responsible associations' do
+    let!(:responsible) { create(:account_user, account: account_user.account) }
+
+    it 'allows setting a responsible' do
+      account_user.responsible = responsible
+      expect(account_user.save).to be(true)
+      expect(account_user.responsible).to eq(responsible)
+    end
+
+    it 'allows accessing subordinates' do
+      account_user.responsible = responsible
+      account_user.save!
+      expect(responsible.subordinates).to include(account_user)
+    end
+
+    it 'nullifies subordinates when responsible is destroyed' do
+      account_user.responsible = responsible
+      account_user.save!
+      responsible.destroy!
+      account_user.reload
+      expect(account_user.responsible_id).to be_nil
+    end
+  end
+
+  describe 'responsible validations' do
+    context 'when trying to assign self as responsible' do
+      it 'does not allow self-assignment' do
+        account_user.responsible = account_user
+        expect(account_user.valid?).to be(false)
+        expect(account_user.errors[:responsible_id]).to include('cannot be yourself')
+      end
+    end
+
+    context 'when trying to assign responsible from different account' do
+      it 'does not allow responsible from different account' do
+        other_account = create(:account)
+        other_account_user = create(:account_user, account: other_account)
+        account_user.responsible = other_account_user
+        expect(account_user.valid?).to be(false)
+        expect(account_user.errors[:responsible_id]).to include('must be from the same account')
+      end
+    end
+
+    context 'when assigning responsible from same account' do
+      it 'allows responsible from same account' do
+        same_account_user = create(:account_user, account: account_user.account)
+        account_user.responsible = same_account_user
+        expect(account_user.valid?).to be(true)
+      end
+    end
+  end
 end

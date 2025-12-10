@@ -52,6 +52,7 @@
       "CONVERSATION_IDENTIFIER": "Identificador de conversacion",
       "CAMPAIGN_NAME": "Nombre de Campaña",
       "LABELS": "Etiquetas",
+      "CONVERSATION_TYPE": "Tipo de conversación",
       "BROWSER_LANGUAGE": "Idioma del navegador",
       "PRIORITY": "Prioridad",
       "COUNTRY_NAME": "Nombre del país",

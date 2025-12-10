@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "对话输入关闭"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "Webhook 网址",
           "PLACEHOLDER": "例如：{webhookExampleURL}",
@@ -344,6 +348,12 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "了解更多",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "助手",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "尝试这些提示信息",
@@ -483,9 +493,7 @@
         "NOT_FOUND": "无法找到助手。请重试。"
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "助手"
-        },
+        "HEADER": "设置",
         "BASIC_SETTINGS": {
           "TITLE": "基本设置",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
@@ -502,15 +510,16 @@
               "TITLE": "Guardrails",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Response guidelines",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "删除助手",
+          "DESCRIPTION": "此操作是永久性的。删除此文档将永久删除所有生成的知识。",
+          "BUTTON_TEXT": "删除 {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,9 +538,6 @@
       "GUARDRAILS": {
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "全选 ({count})",
@@ -577,9 +583,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "全选 ({count})",
@@ -625,9 +628,6 @@
       "SCENARIOS": {
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "全选 ({count})",
@@ -725,11 +725,6 @@
         "NAME": {
           "LABEL": "文档名称(可选)",
           "PLACEHOLDER": "输入文档的名称"
-        },
-        "ASSISTANT": {
-          "LABEL": "助手",
-          "PLACEHOLDER": "选择助手",
-          "ERROR": "助手字段是必需的"
         }
       },
       "DELETE": {
@@ -923,11 +918,6 @@
           "LABEL": "答案",
           "PLACEHOLDER": "在此输入答案",
           "ERROR": "请提供有效的答案"
-        },
-        "ASSISTANT": {
-          "LABEL": "助手",
-          "PLACEHOLDER": "选择助手",
-          "ERROR": "请选择助手"
         }
       },
       "EDIT": {

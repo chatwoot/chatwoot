@@ -47,6 +47,10 @@
             "AGENT_ADDED": "Agente Creado"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "URL de Webhook",
           "PLACEHOLDER": "Ejemplo: {webhookExampleURL}",
@@ -345,6 +349,12 @@
   "CAPTAIN": {
     "NAME": "Capitán",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistants",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Prueba estas sugerencias",
@@ -484,9 +494,7 @@
         "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Assistant"
-        },
+        "HEADER": "Ajustes",
         "BASIC_SETTINGS": {
           "TITLE": "Configuraciones básicas",
           "DESCRIPTION": ""
@@ -503,15 +511,16 @@
               "TITLE": "Guardrails",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Response guidelines",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Delete Assistant",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
       "OPTIONS": {
@@ -530,9 +539,6 @@
       "GUARDRAILS": {
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -578,9 +584,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -626,9 +629,6 @@
       "SCENARIOS": {
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -726,11 +726,6 @@
         "NAME": {
           "LABEL": "Document Name (Optional)",
           "PLACEHOLDER": "Enter a name for the document"
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select the assistant",
-          "ERROR": "The assistant field is required"
         }
       },
       "DELETE": {
@@ -924,11 +919,6 @@
           "LABEL": "Answer",
           "PLACEHOLDER": "Enter the answer here",
           "ERROR": "Please provide a valid answer."
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select an assistant",
-          "ERROR": "Please select an assistant."
         }
       },
       "EDIT": {

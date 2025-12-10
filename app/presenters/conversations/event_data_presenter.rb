@@ -5,6 +5,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       can_reply: can_reply?,
       channel: inbox.try(:channel_type),
       contact_inbox: contact_inbox,
+      conversation_type: conversation_type,
       id: display_id,
       inbox_id: inbox_id,
       messages: push_messages,
@@ -30,7 +31,8 @@ class Conversations::EventDataPresenter < SimpleDelegator
   def push_meta
     {
       sender: contact.push_event_data,
-      assignee: assignee&.push_event_data,
+      assignee: assigned_entity&.push_event_data,
+      assignee_type: assignee_type,
       team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
     }

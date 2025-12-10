@@ -22,6 +22,7 @@ export default {
     return {
       selectedEmailFlags: [],
       selectedPushFlags: [],
+      selectedWhatsappFlags: [],
       enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
       notificationTypes: NOTIFICATION_TYPES,
@@ -32,6 +33,7 @@ export default {
       accountId: 'getCurrentAccountId',
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
+      whatsappFlags: 'userNotificationSettings/getSelectedWhatsappFlags',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     hasPushAPISupport() {
@@ -59,6 +61,9 @@ export default {
     pushFlags(value) {
       this.selectedPushFlags = value;
     },
+    whatsappFlags(value) {
+      this.selectedWhatsappFlags = value;
+    },
   },
   mounted() {
     if (hasPushPermissions()) {
@@ -68,8 +73,14 @@ export default {
   },
   methods: {
     checkFlagStatus(type, flagType) {
-      const selectedFlags =
-        type === 'email' ? this.selectedEmailFlags : this.selectedPushFlags;
+      let selectedFlags;
+      if (type === 'email') {
+        selectedFlags = this.selectedEmailFlags;
+      } else if (type === 'push') {
+        selectedFlags = this.selectedPushFlags;
+      } else {
+        selectedFlags = this.selectedWhatsappFlags;
+      }
       return selectedFlags.includes(`${type}_${flagType}`);
     },
     onRegistrationSuccess() {
@@ -124,6 +135,7 @@ export default {
         this.$store.dispatch('userNotificationSettings/update', {
           selectedEmailFlags: this.selectedEmailFlags,
           selectedPushFlags: this.selectedPushFlags,
+          selectedWhatsappFlags: this.selectedWhatsappFlags,
         });
         useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
       } catch (error) {
@@ -133,8 +145,10 @@ export default {
     handleInput(type, id) {
       if (type === 'email') {
         this.handleEmailInput(id);
-      } else {
+      } else if (type === 'push') {
         this.handlePushInput(id);
+      } else {
+        this.handleWhatsappInput(id);
       }
     },
     handleEmailInput(id) {
@@ -143,6 +157,13 @@ export default {
     },
     handlePushInput(id) {
       this.selectedPushFlags = this.toggleInput(this.selectedPushFlags, id);
+      this.updateNotificationSettings();
+    },
+    handleWhatsappInput(id) {
+      this.selectedWhatsappFlags = this.toggleInput(
+        this.selectedWhatsappFlags,
+        id
+      );
       this.updateNotificationSettings();
     },
     toggleInput(selected, current) {
@@ -164,7 +185,7 @@ export default {
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
       >
         <TableHeaderCell
-          :span="7"
+          :span="6"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
         >
           <span class="text-sm font-normal normal-case text-n-slate-11">
@@ -180,7 +201,7 @@ export default {
           </span>
         </TableHeaderCell>
         <TableHeaderCell
-          :span="3"
+          :span="2"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH')}`"
         >
           <div class="flex items-center justify-between gap-1">
@@ -188,6 +209,18 @@ export default {
               class="text-sm font-medium normal-case text-n-slate-12 whitespace-nowrap"
             >
               {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
+            </span>
+          </div>
+        </TableHeaderCell>
+        <TableHeaderCell
+          :span="2"
+          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.WHATSAPP')}`"
+        >
+          <div class="flex items-center justify-between gap-1">
+            <span
+              class="text-sm font-medium normal-case text-n-slate-12 whitespace-nowrap"
+            >
+              {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.WHATSAPP') }}
             </span>
           </div>
         </TableHeaderCell>
@@ -200,17 +233,16 @@ export default {
           class="grid items-center content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
         >
           <div
-            class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+            class="flex flex-row items-start gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
           >
             <span class="text-sm text-n-slate-12">
               {{ $t(notification.label) }}
             </span>
           </div>
           <div
-            v-for="(type, typeIndex) in ['email', 'push']"
+            v-for="(type, typeIndex) in ['email', 'push', 'whatsapp']"
             :key="typeIndex"
-            class="flex items-start gap-2 px-0 text-sm tracking-[0.5] text-left rtl:text-right"
-            :class="`col-span-${type === 'push' ? 3 : 2}`"
+            class="flex items-start gap-2 px-0 text-sm tracking-[0.5] text-left rtl:text-right col-span-2"
           >
             <CheckBox
               :value="`${type}_${notification.value}`"
@@ -263,6 +295,30 @@ export default {
             :value="`push_${notification.value}`"
             :is-checked="checkFlagStatus('push', notification.value)"
             @update="handlePushInput"
+          />
+          <span class="text-sm text-n-slate-12">{{
+            $t(notification.label)
+          }}</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-start gap-2">
+        <span class="text-sm font-medium normal-case text-n-slate-12">
+          {{ $t('PROFILE_SETTINGS.FORM.WHATSAPP_NOTIFICATIONS_SECTION.TITLE') }}
+        </span>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <div
+          v-for="(notification, index) in filteredNotificationTypes"
+          :key="index"
+          class="flex flex-row items-start gap-2"
+        >
+          <CheckBox
+            :id="`whatsapp_${notification.value}`"
+            :value="`whatsapp_${notification.value}`"
+            :is-checked="checkFlagStatus('whatsapp', notification.value)"
+            @update="handleWhatsappInput"
           />
           <span class="text-sm text-n-slate-12">{{
             $t(notification.label)

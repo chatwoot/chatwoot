@@ -7,10 +7,16 @@ json.meta do
     json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
   end
   json.channel conversation.inbox.try(:channel_type)
-  if conversation.assignee&.account
+  if conversation.assigned_entity.is_a?(AgentBot)
     json.assignee do
-      json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation.assignee
+      json.partial! 'api/v1/models/agent_bot_slim', formats: [:json], resource: conversation.assigned_entity
     end
+    json.assignee_type 'AgentBot'
+  elsif conversation.assigned_entity&.account
+    json.assignee do
+      json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation.assigned_entity
+    end
+    json.assignee_type 'User'
   end
   if conversation.team.present?
     json.team do
@@ -33,6 +39,7 @@ end
 json.account_id conversation.account_id
 json.uuid conversation.uuid
 json.additional_attributes conversation.additional_attributes
+json.conversation_type conversation.conversation_type_before_type_cast
 json.agent_last_seen_at conversation.agent_last_seen_at.to_i
 json.assignee_last_seen_at conversation.assignee_last_seen_at.to_i
 json.can_reply conversation.can_reply?

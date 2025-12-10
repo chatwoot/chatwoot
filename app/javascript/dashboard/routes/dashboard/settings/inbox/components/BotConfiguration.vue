@@ -87,8 +87,9 @@ export default {
           inboxId: this.inbox.id,
           surveyId: this.selectedSurveyId,
         });
+        useAlert(this.$t('AGENT_BOTS.SURVEY.SUCCESS_MESSAGE'));
       } catch (error) {
-        useAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.ERROR_MESSAGE'));
+        useAlert(this.$t('AGENT_BOTS.SURVEY.ERROR_MESSAGE'));
       }
     },
     async disconnectBot() {

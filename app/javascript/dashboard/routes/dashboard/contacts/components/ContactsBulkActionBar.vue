@@ -6,6 +6,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import LabelActions from 'dashboard/components/widgets/conversation/conversationBulkActions/LabelActions.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
   visibleContactIds: {
@@ -22,7 +23,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['clearSelection', 'assignLabels', 'toggleAll']);
+const emit = defineEmits([
+  'clearSelection',
+  'assignLabels',
+  'toggleAll',
+  'deleteSelected',
+]);
 
 const { t } = useI18n();
 
@@ -139,6 +145,21 @@ const handleAssignLabels = labels => {
               />
             </transition>
           </div>
+          <Policy :permissions="['administrator']">
+            <Button
+              v-tooltip.bottom="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+              sm
+              faded
+              ruby
+              icon="i-lucide-trash"
+              :label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+              :aria-label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+              :disabled="!selectedCount || isLoading"
+              :is-loading="isLoading"
+              class="!px-1.5 [&>span:nth-child(2)]:hidden"
+              @click="emit('deleteSelected')"
+            />
+          </Policy>
         </div>
       </template>
     </BulkSelectBar>

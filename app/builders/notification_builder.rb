@@ -18,6 +18,7 @@ class NotificationBuilder
 
     return true if notification_setting.public_send("email_#{notification_type}?")
     return true if notification_setting.public_send("push_#{notification_type}?")
+    return true if notification_setting.public_send("whatsapp_#{notification_type}?")
 
     false
   end

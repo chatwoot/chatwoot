@@ -148,7 +148,7 @@ const openDelete = inbox => {
                   />
                 </router-link>
                 <Button
-                  v-if="isAdmin"
+                  v-if="isAdmin && !inbox.is_whatsapp_groups_inbox"
                   v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
                   icon="i-lucide-trash-2"
                   xs

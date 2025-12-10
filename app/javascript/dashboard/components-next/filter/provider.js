@@ -208,6 +208,22 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
+      attributeKey: CONVERSATION_ATTRIBUTES.CONVERSATION_TYPE,
+      value: CONVERSATION_ATTRIBUTES.CONVERSATION_TYPE,
+      attributeName: t('FILTER.ATTRIBUTES.CONVERSATION_TYPE'),
+      label: t('FILTER.ATTRIBUTES.CONVERSATION_TYPE'),
+      inputType: 'multiSelect',
+      options: ['default', 'whatsapp_group'].map(id => {
+        return {
+          id,
+          name: t(`CONVERSATION.TYPE.${id.toUpperCase()}`),
+        };
+      }),
+      dataType: 'text',
+      filterOperators: equalityOperators.value,
+      attributeModel: 'standard',
+    },
+    {
       attributeKey: CONVERSATION_ATTRIBUTES.BROWSER_LANGUAGE,
       value: CONVERSATION_ATTRIBUTES.BROWSER_LANGUAGE,
       attributeName: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),

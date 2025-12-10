@@ -143,7 +143,9 @@ export const getters = {
   },
   getWhatsAppInboxes($state) {
     return $state.records.filter(
-      item => item.channel_type === INBOX_TYPES.WHATSAPP
+      item =>
+        item.channel_type === INBOX_TYPES.WHATSAPP &&
+        item.provider !== 'whatsapp_light'
     );
   },
   dialogFlowEnabledInboxes($state) {
@@ -341,11 +343,11 @@ export const actions = {
       throw new Error(error);
     }
   },
-  setSurvey: async ({ commit, rootState }, { inboxId, surveyId }) => {
+  setSurvey: async ({ commit, state }, { inboxId, surveyId }) => {
     try {
       await InboxesAPI.setSurvey(inboxId, surveyId);
 
-      const updatedInboxes = rootState.records.map(inbox => {
+      const updatedInboxes = state.records.map(inbox => {
         if (inbox.id === Number(inboxId)) {
           return {
             ...inbox,

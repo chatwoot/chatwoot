@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       url: this.value.url || '',
+      name: this.value.name || '',
       subscriptions: this.value.subscriptions || [],
       supportedWebhookEvents: SUPPORTED_WEBHOOK_EVENTS,
     };
@@ -69,11 +70,15 @@ export default {
         }
       );
     },
+    webhookNameInputPlaceholder() {
+      return this.$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.NAME.PLACEHOLDER');
+    },
   },
   methods: {
     onSubmit() {
       this.$emit('submit', {
         url: this.url,
+        name: this.name,
         subscriptions: this.subscriptions,
       });
     },
@@ -97,6 +102,15 @@ export default {
         <span v-if="v$.url.$error" class="message">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.ERROR') }}
         </span>
+      </label>
+      <label>
+        {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.NAME.LABEL') }}
+        <input
+          v-model="name"
+          type="text"
+          name="name"
+          :placeholder="webhookNameInputPlaceholder"
+        />
       </label>
       <label :class="{ error: v$.url.$error }" class="mb-2">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.LABEL') }}

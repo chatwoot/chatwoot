@@ -32,6 +32,9 @@ class AccountUser < ApplicationRecord
   belongs_to :account
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
+  belongs_to :responsible, class_name: 'AccountUser', optional: true, inverse_of: :subordinates
+
+  has_many :subordinates, class_name: 'AccountUser', foreign_key: 'responsible_id', dependent: :nullify, inverse_of: :responsible
 
   enum role: { agent: 0, administrator: 1 }
   enum availability: { online: 0, offline: 1, busy: 2 }
@@ -43,6 +46,8 @@ class AccountUser < ApplicationRecord
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
   validates :user_id, uniqueness: { scope: :account_id }
+  validate :responsible_cannot_be_self
+  validate :responsible_must_be_from_same_account
 
   def create_notification_setting
     setting = user.notification_settings.new(account_id: account.id)
@@ -80,6 +85,19 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
+  end
+
+  def responsible_cannot_be_self
+    return unless responsible_id.present? && responsible_id == id
+
+    errors.add(:responsible_id, 'cannot be yourself')
+  end
+
+  def responsible_must_be_from_same_account
+    return unless responsible_id.present? && responsible.present?
+    return if responsible.account_id == account_id
+
+    errors.add(:responsible_id, 'must be from the same account')
   end
 end
 

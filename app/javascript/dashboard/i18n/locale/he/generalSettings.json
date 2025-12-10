@@ -1,7 +1,7 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "CONVERSATION": "חרגת מהמגבלה של השיחות. תוכנית Hacker מאפשרת רק 500 שיחות.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
       "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
@@ -16,22 +16,22 @@
     },
     "ACCOUNT_DELETE_SECTION": {
       "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "NOTE": "לאחר מחיקת החשבון, כל הנתונים שלך יימחקו.",
+      "BUTTON_TEXT": "מחק את חשבונך",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "מחק חשבון",
+        "MESSAGE": "מחיקת החשבון איננה הפיכה. הזן את שם החשבון מטה כדי לאשר שאתה רוצה למחוק אותו.",
         "BUTTON_TEXT": "מחק",
         "DISMISS": "ביטול",
         "PLACE_HOLDER": "אנא הקלד {accountName} כדי לאשר"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "חשבון סומן למחיקה",
+      "FAILURE": "לא הצלחתי למחוק את החשבון, נסה שוב!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": ".",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "החשבון תוזמן למחיקה",
+        "MESSAGE_MANUAL": "חשבון זה מתוכנן למחיקה בתאריך {deletionDate}. הבקשה הוגשה על ידי מנהל. ניתן לבטל את המחיקה לפני תאריך זה.",
+        "MESSAGE_INACTIVITY": "החשבון הזה תוסמן למחיקה ב{deletionDate} בגלל שהחשבון לא היה בשימוש. אתה יכול לבטל זאת לפני התאריך.",
+        "CLEAR_BUTTON": "בטל מחיקה מתוכננת"
       }
     },
     "FORM": {
@@ -45,10 +45,10 @@
         "NOTE": "מזהה זה נדרש אם אתה בונה אינטגרציה מבוססת API"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "TITLE": "פתרון אוטומטי של שיחות",
+        "NOTE": "תצורה זו מאפשרת לך לפתור אוטומטית את השיחה לאחר תקופת אי פעילות מסוימת.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
+          "LABEL": "תקופת זמן של אי פעילות שלאחריה השיחה נפתרת אוטומטית",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
           "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
@@ -58,11 +58,11 @@
           }
         },
         "MESSAGE": {
-          "LABEL": "Custom auto-resolution message",
-          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "LABEL": "הודעת פתרון אוטומטית מותאמת אישית",
+          "PLACEHOLDER": "השיחה סומנה כפתורה על ידי המערכת עקב 15 ימים של אי פעילות",
+          "HELP": "הודעה שנשלחת ללקוח לאחר שהשיחה נפתרת אוטומטית"
         },
-        "PREFERENCES": "Preferences",
+        "PREFERENCES": "העדפות",
         "LABEL": {
           "LABEL": "Add label after auto-resolution",
           "PLACEHOLDER": "Select a label"
@@ -115,7 +115,7 @@
         },
         "UPDATE_BUTTON": "עדכן",
         "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_PLACEHOLDER": "השיחה סומנה כפתורה על ידי המערכת עקב 15 ימים של אי פעילות",
         "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {

@@ -9,7 +9,12 @@ import {
   findNodeToInsertImage,
   setURLWithQueryAndSize,
   getContentNode,
+  getFormattingForEditor,
+  getSelectionCoords,
+  getMenuAnchor,
+  calculateMenuPosition,
 } from '../editorHelper';
+import { FORMATTING } from 'dashboard/constants/editor';
 import { EditorState } from '@chatwoot/prosemirror-schema';
 import { EditorView } from '@chatwoot/prosemirror-schema';
 import { Schema } from 'prosemirror-model';
@@ -258,15 +263,11 @@ describe('insertAtCursor', () => {
     expect(result).toBeUndefined();
   });
 
-  it('should unwrap doc nodes that are wrapped in a paragraph', () => {
-    const docNode = schema.node('doc', null, [
-      schema.node('paragraph', null, [schema.text('Hello')]),
-    ]);
-
+  it('should insert text node at cursor position', () => {
     const editorState = createEditorState();
     const editorView = new EditorView(document.body, { state: editorState });
 
-    insertAtCursor(editorView, docNode, 0);
+    insertAtCursor(editorView, schema.text('Hello'), 0);
 
     // Check if node was unwrapped and inserted correctly
     expect(editorView.state.doc.firstChild.firstChild.text).toBe('Hello');
@@ -623,6 +624,181 @@ describe('getContentNode', () => {
         from: 0,
         to: 5,
       });
+    });
+  });
+});
+
+describe('getFormattingForEditor', () => {
+  describe('channel-specific formatting', () => {
+    it('returns full formatting for Email channel', () => {
+      const result = getFormattingForEditor('Channel::Email');
+
+      expect(result).toEqual(FORMATTING['Channel::Email']);
+    });
+
+    it('returns full formatting for WebWidget channel', () => {
+      const result = getFormattingForEditor('Channel::WebWidget');
+
+      expect(result).toEqual(FORMATTING['Channel::WebWidget']);
+    });
+
+    it('returns limited formatting for WhatsApp channel', () => {
+      const result = getFormattingForEditor('Channel::Whatsapp');
+
+      expect(result).toEqual(FORMATTING['Channel::Whatsapp']);
+    });
+
+    it('returns no formatting for API channel', () => {
+      const result = getFormattingForEditor('Channel::Api');
+
+      expect(result).toEqual(FORMATTING['Channel::Api']);
+    });
+
+    it('returns limited formatting for FacebookPage channel', () => {
+      const result = getFormattingForEditor('Channel::FacebookPage');
+
+      expect(result).toEqual(FORMATTING['Channel::FacebookPage']);
+    });
+
+    it('returns no formatting for TwitterProfile channel', () => {
+      const result = getFormattingForEditor('Channel::TwitterProfile');
+
+      expect(result).toEqual(FORMATTING['Channel::TwitterProfile']);
+    });
+
+    it('returns no formatting for SMS channel', () => {
+      const result = getFormattingForEditor('Channel::Sms');
+
+      expect(result).toEqual(FORMATTING['Channel::Sms']);
+    });
+
+    it('returns limited formatting for Telegram channel', () => {
+      const result = getFormattingForEditor('Channel::Telegram');
+
+      expect(result).toEqual(FORMATTING['Channel::Telegram']);
+    });
+
+    it('returns formatting for Instagram channel', () => {
+      const result = getFormattingForEditor('Channel::Instagram');
+
+      expect(result).toEqual(FORMATTING['Channel::Instagram']);
+    });
+  });
+
+  describe('context-specific formatting', () => {
+    it('returns default formatting for Context::Default', () => {
+      const result = getFormattingForEditor('Context::Default');
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+
+    it('returns signature formatting for Context::MessageSignature', () => {
+      const result = getFormattingForEditor('Context::MessageSignature');
+
+      expect(result).toEqual(FORMATTING['Context::MessageSignature']);
+    });
+
+    it('returns widget builder formatting for Context::InboxSettings', () => {
+      const result = getFormattingForEditor('Context::InboxSettings');
+
+      expect(result).toEqual(FORMATTING['Context::InboxSettings']);
+    });
+  });
+
+  describe('fallback behavior', () => {
+    it('returns default formatting for unknown channel type', () => {
+      const result = getFormattingForEditor('Channel::Unknown');
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+
+    it('returns default formatting for null channel type', () => {
+      const result = getFormattingForEditor(null);
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+
+    it('returns default formatting for undefined channel type', () => {
+      const result = getFormattingForEditor(undefined);
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+
+    it('returns default formatting for empty string', () => {
+      const result = getFormattingForEditor('');
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+  });
+
+  describe('return value structure', () => {
+    it('always returns an object with marks, nodes, and menu properties', () => {
+      const result = getFormattingForEditor('Channel::Email');
+
+      expect(result).toHaveProperty('marks');
+      expect(result).toHaveProperty('nodes');
+      expect(result).toHaveProperty('menu');
+      expect(Array.isArray(result.marks)).toBe(true);
+      expect(Array.isArray(result.nodes)).toBe(true);
+      expect(Array.isArray(result.menu)).toBe(true);
+    });
+  });
+});
+
+describe('Menu positioning helpers', () => {
+  const mockEditorView = {
+    coordsAtPos: vi.fn((pos, bias) => {
+      // Return different coords based on position
+      if (bias === 1) return { top: 100, bottom: 120, left: 50, right: 100 };
+      return { top: 100, bottom: 120, left: 150, right: 200 };
+    }),
+  };
+
+  const wrapperRect = { top: 50, bottom: 300, left: 0, right: 400, width: 400 };
+
+  describe('getSelectionCoords', () => {
+    it('returns selection coordinates with onTop flag', () => {
+      const selection = { from: 0, to: 10 };
+      const result = getSelectionCoords(mockEditorView, selection, wrapperRect);
+
+      expect(result).toHaveProperty('start');
+      expect(result).toHaveProperty('end');
+      expect(result).toHaveProperty('selTop');
+      expect(result).toHaveProperty('onTop');
+    });
+  });
+
+  describe('getMenuAnchor', () => {
+    it('returns end.left when menu is below selection', () => {
+      const coords = { start: { left: 50 }, end: { left: 150 }, onTop: false };
+      expect(getMenuAnchor(coords, wrapperRect, false)).toBe(150);
+    });
+
+    it('returns start.left for LTR when menu is above and visible', () => {
+      const coords = { start: { top: 100, left: 50 }, end: {}, onTop: true };
+      expect(getMenuAnchor(coords, wrapperRect, false)).toBe(50);
+    });
+
+    it('returns start.right for RTL when menu is above and visible', () => {
+      const coords = { start: { top: 100, right: 100 }, end: {}, onTop: true };
+      expect(getMenuAnchor(coords, wrapperRect, true)).toBe(100);
+    });
+  });
+
+  describe('calculateMenuPosition', () => {
+    it('returns bounded left and top positions', () => {
+      const coords = {
+        start: { top: 100, bottom: 120, left: 50 },
+        end: { top: 100, bottom: 120, left: 150 },
+        selTop: 100,
+        onTop: false,
+      };
+      const result = calculateMenuPosition(coords, wrapperRect, false);
+
+      expect(result).toHaveProperty('left');
+      expect(result).toHaveProperty('top');
+      expect(result).toHaveProperty('width', 300);
+      expect(result.left).toBeGreaterThanOrEqual(0);
     });
   });
 });

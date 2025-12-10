@@ -13,6 +13,7 @@ import ContactEmptyState from 'dashboard/components-next/Contacts/EmptyState/Con
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
 import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
@@ -64,7 +65,26 @@ const totalItems = computed(() => meta.value?.count);
 
 const selectedContactIds = ref([]);
 const isBulkActionLoading = ref(false);
-const hasSelection = computed(() => selectedContactIds.value.length > 0);
+const bulkDeleteDialogRef = ref(null);
+const selectedCount = computed(() => selectedContactIds.value.length);
+const bulkDeleteDialogTitle = computed(() =>
+  selectedCount.value > 1
+    ? t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.TITLE')
+    : t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.SINGULAR_TITLE')
+);
+const bulkDeleteDialogDescription = computed(() =>
+  selectedCount.value > 1
+    ? t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.DESCRIPTION', {
+        count: selectedCount.value,
+      })
+    : t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.SINGULAR_DESCRIPTION')
+);
+const bulkDeleteDialogConfirmLabel = computed(() =>
+  selectedCount.value > 1
+    ? t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.CONFIRM_MULTIPLE')
+    : t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.CONFIRM_SINGLE')
+);
+const hasSelection = computed(() => selectedCount.value > 0);
 const activeSegment = computed(() => {
   if (!activeSegmentId.value) return undefined;
   return segments.value.find(view => view.id === Number(activeSegmentId.value));
@@ -118,6 +138,11 @@ const visibleContactIds = computed(() =>
 
 const clearSelection = () => {
   selectedContactIds.value = [];
+};
+
+const openBulkDeleteDialog = () => {
+  if (!selectedContactIds.value.length || isBulkActionLoading.value) return;
+  bulkDeleteDialogRef.value?.open?.();
 };
 
 const toggleSelectAll = shouldSelect => {
@@ -256,6 +281,29 @@ const assignLabels = async labels => {
   }
 };
 
+const deleteContacts = async () => {
+  if (!selectedContactIds.value.length) {
+    return;
+  }
+
+  isBulkActionLoading.value = true;
+  try {
+    await BulkActionsAPI.create({
+      type: 'Contact',
+      ids: selectedContactIds.value,
+      action_name: 'delete',
+    });
+    useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_SUCCESS'));
+    clearSelection();
+    await fetchContactsBasedOnContext(pageNumber.value);
+    bulkDeleteDialogRef.value?.close?.();
+  } catch (error) {
+    useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_FAILED'));
+  } finally {
+    isBulkActionLoading.value = false;
+  }
+};
+
 const handleSort = async ({ sort, order }) => {
   Object.assign(sortState, { activeSort: sort, activeOrdering: order });
 
@@ -296,6 +344,12 @@ watch(
   },
   { deep: true }
 );
+
+watch(hasSelection, value => {
+  if (!value) {
+    bulkDeleteDialogRef.value?.close?.();
+  }
+});
 
 watch(
   () => uiSettings.value?.contacts_sort_by,
@@ -391,6 +445,7 @@ onMounted(async () => {
           @toggle-all="toggleSelectAll"
           @clear-selection="clearSelection"
           @assign-labels="assignLabels"
+          @delete-selected="openBulkDeleteDialog"
         />
         <ContactEmptyState
           v-if="showEmptyStateLayout"
@@ -408,11 +463,21 @@ onMounted(async () => {
             {{ emptyStateMessage }}
           </span>
         </div>
-        <div v-else class="flex flex-col gap-4 px-6 pt-2 pb-6">
+        <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"
             @toggle-contact="toggleContactSelection"
+          />
+          <Dialog
+            v-if="selectedCount"
+            ref="bulkDeleteDialogRef"
+            type="alert"
+            :title="bulkDeleteDialogTitle"
+            :description="bulkDeleteDialogDescription"
+            :confirm-button-label="bulkDeleteDialogConfirmLabel"
+            :is-loading="isBulkActionLoading"
+            @confirm="deleteContacts"
           />
         </div>
       </template>

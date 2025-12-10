@@ -27,6 +27,10 @@ export default {
       type: Number,
       default: () => 0,
     },
+    showOnlyPrivateNote: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['setReplyMode', 'togglePopout'],
   setup(props, { emit }) {
@@ -94,6 +98,7 @@ export default {
     <EditorModeToggle
       :mode="mode"
       :disabled="isReplyRestricted"
+      :show-only-private-note="showOnlyPrivateNote"
       class="mt-3"
       @toggle-mode="handleModeToggle"
     />

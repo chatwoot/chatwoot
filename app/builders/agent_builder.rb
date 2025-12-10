@@ -10,7 +10,7 @@ class AgentBuilder
   # @param availability [String] the availability status of the user, defaults to 'offline' if not provided.
   # @param auto_offline [Boolean] the auto offline status of the user.
   # @param phone_number [String] the phone number of the user.
-  pattr_initialize [:email, :phone_number, :timezone, { name: '' }, :inviter, :account, { role: :agent }, { availability: :offline },
+  pattr_initialize [:email, :phone_number, :timezone, :responsible_id, { name: '' }, :inviter, :account, { role: :agent }, { availability: :offline },
                     { auto_offline: false }]
 
   # Creates a user and account user in a transaction.
@@ -51,7 +51,8 @@ class AgentBuilder
       role: role,
       availability: availability,
       auto_offline: auto_offline,
-      timezone: timezone
+      timezone: timezone,
+      responsible_id: responsible_id
     }.compact))
   end
 end

@@ -48,6 +48,7 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
+  validates :name, presence: true
   validates :domain, length: { maximum: 100 }
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
@@ -161,6 +162,12 @@ class Account < ApplicationRecord
     # we need to extract the language code from the locale
     account_locale = locale&.split('_')&.first
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
+  def whatsapp_groups_inbox
+    return nil unless feature_enabled?(:whatsapp_groups)
+
+    @whatsapp_groups_inbox ||= Whatsapp::GroupsInboxService.new(account: self).find_or_create_groups_inbox
   end
 
   private
