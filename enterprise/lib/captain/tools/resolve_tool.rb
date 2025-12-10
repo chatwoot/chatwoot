@@ -37,7 +37,10 @@ class Captain::Tools::ResolveTool < Captain::Tools::BasePublicTool
     end
 
     # Mark conversation as resolved
+    Current.tool_name = 'resolve'
     conversation.resolved!
+  ensure
+    Current.tool_name = nil
   end
 
   def permissions
