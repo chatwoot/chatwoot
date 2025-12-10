@@ -15,9 +15,7 @@ const getters = {
 
 const actions = {
   handleCallStatusChanged({ dispatch }, { status }) {
-    const terminalStatuses = TERMINAL_STATUSES;
-
-    if (terminalStatuses.includes(status)) {
+    if (TERMINAL_STATUSES.includes(status)) {
       dispatch('clearActiveCall');
       dispatch('clearIncomingCall');
     }
