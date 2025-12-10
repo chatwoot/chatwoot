@@ -117,3 +117,4 @@ DEVELOPMENT_FLOW.md
 # Husky git hooks (if installed locally)
 .husky/
 !.husky/.gitkeep
+*.md
