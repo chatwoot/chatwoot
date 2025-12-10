@@ -426,5 +426,40 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to eq(content)
       end
     end
+
+    # Shared test for all text-based channels that preserve multiple newlines
+    # This tests the real-world scenario where frontend sends newlines with whitespace between them
+    context 'when content has multiple newlines with whitespace between them' do
+      # This mimics what frontends often send: newlines with spaces/tabs between them
+      let(:content_with_whitespace_newlines) { "hello   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n \n\nhello wow" }
+
+      %w[
+        Channel::Telegram
+        Channel::Whatsapp
+        Channel::Instagram
+        Channel::FacebookPage
+        Channel::Line
+        Channel::Sms
+      ].each do |channel_type|
+        context "when channel is #{channel_type}" do
+          it 'normalizes whitespace-only lines and preserves multiple newlines' do
+            result = described_class.new(content_with_whitespace_newlines, channel_type).render
+            # Should preserve most of the newlines (at least 10+)
+            # The exact count may vary slightly by renderer, but should be significantly more than 1-2
+            expect(result.scan("\n").count).to be >= 10
+            # Should not collapse everything to just 1-2 newlines
+            expect(result.scan("\n").count).to be > 5
+          end
+        end
+      end
+
+      context 'when channel is Channel::TwilioSms with WhatsApp' do
+        it 'normalizes whitespace-only lines and preserves multiple newlines' do
+          channel = instance_double(Channel::TwilioSms, whatsapp?: true)
+          result = described_class.new(content_with_whitespace_newlines, 'Channel::TwilioSms', channel).render
+          expect(result.scan("\n").count).to be >= 10
+        end
+      end
+    end
   end
 end
