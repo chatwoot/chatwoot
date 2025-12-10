@@ -1,10 +1,19 @@
-import { computed, ref } from 'vue';
+import { computed, ref, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import VoiceAPI from 'dashboard/api/channels/voice';
+
+const CALL_STATES = {
+  IDLE: 'idle',
+  INCOMING: 'incoming',
+  OUTGOING: 'outgoing',
+  JOINED: 'joined',
+};
 
 export function useCallSession() {
   const store = useStore();
   const isJoining = ref(false);
+  const callDuration = ref(0);
+  const durationTimer = ref(null);
 
   const activeCall = computed(() => store.getters['calls/getActiveCall']);
   const incomingCall = computed(() => store.getters['calls/getIncomingCall']);
@@ -12,6 +21,61 @@ export function useCallSession() {
   const hasIncomingCall = computed(
     () => store.getters['calls/hasIncomingCall']
   );
+
+  const isJoined = computed(() => activeCall.value?.isJoined === true);
+
+  const callState = computed(() => {
+    if (isJoined.value) return CALL_STATES.JOINED;
+    if (hasIncomingCall.value && incomingCall.value?.isOutbound) {
+      return CALL_STATES.OUTGOING;
+    }
+    if (hasIncomingCall.value && !hasActiveCall.value) {
+      return CALL_STATES.INCOMING;
+    }
+    if (hasActiveCall.value) return CALL_STATES.OUTGOING;
+    return CALL_STATES.IDLE;
+  });
+
+  const currentCall = computed(() => {
+    if (callState.value === CALL_STATES.INCOMING) {
+      return incomingCall.value;
+    }
+    return activeCall.value || incomingCall.value;
+  });
+
+  const startDurationTimer = () => {
+    if (durationTimer.value) {
+      clearInterval(durationTimer.value);
+    }
+    callDuration.value = 0;
+    durationTimer.value = setInterval(() => {
+      callDuration.value += 1;
+    }, 1000);
+  };
+
+  const stopDurationTimer = () => {
+    if (durationTimer.value) {
+      clearInterval(durationTimer.value);
+      durationTimer.value = null;
+    }
+    callDuration.value = 0;
+  };
+
+  watch(
+    callState,
+    newState => {
+      if (newState === CALL_STATES.JOINED) {
+        startDurationTimer();
+      } else {
+        stopDurationTimer();
+      }
+    },
+    { immediate: true }
+  );
+
+  onUnmounted(() => {
+    stopDurationTimer();
+  });
 
   const joinCall = async ({
     conversationId,
@@ -53,6 +117,8 @@ export function useCallSession() {
   };
 
   const endCall = async ({ conversationId, inboxId } = {}) => {
+    stopDurationTimer();
+
     if (inboxId && conversationId) {
       await VoiceAPI.leaveConference(inboxId, conversationId);
     }
@@ -77,12 +143,25 @@ export function useCallSession() {
     store.dispatch('calls/clearIncomingCall');
   };
 
+  const formattedCallDuration = computed(() => {
+    const minutes = Math.floor(callDuration.value / 60);
+    const seconds = callDuration.value % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  });
+
   return {
+    // State
+    callState,
+    CALL_STATES,
+    currentCall,
     activeCall,
     incomingCall,
     hasActiveCall,
     hasIncomingCall,
     isJoining,
+    callDuration,
+    formattedCallDuration,
+    // Actions
     joinCall,
     endCall,
     acceptIncomingCall,

@@ -1,82 +1,44 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { computed, watch, onBeforeUnmount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useRingtone } from 'dashboard/composables/useRingtone';
 import { useCallSession } from 'dashboard/composables/useCallSession';
 
 const router = useRouter();
 const route = useRoute();
-
-const callDuration = ref(0);
-const durationTimer = ref(null);
 const { start: startRingTone, stop: stopRingTone } = useRingtone();
 
-// Global call session state/actions
 const {
-  activeCall,
-  incomingCall,
-  hasActiveCall,
-  hasIncomingCall,
+  callState,
+  CALL_STATES,
+  currentCall,
   isJoining,
   joinCall,
   endCall: endCallSession,
   rejectIncomingCall,
+  formattedCallDuration,
 } = useCallSession();
 
-const isIncoming = computed(() => {
-  return (
-    hasIncomingCall.value &&
-    !hasActiveCall.value &&
-    !incomingCall.value?.isOutbound
-  );
-});
-const isJoined = computed(() => activeCall.value && activeCall.value.isJoined);
-const isOutgoing = computed(() => {
-  return (
-    (hasIncomingCall.value && incomingCall.value?.isOutbound) ||
-    (hasActiveCall.value && !isJoined.value)
-  );
-});
-const callInfo = computed(() =>
-  isIncoming.value ? incomingCall.value : activeCall.value || incomingCall.value
-);
-
-const formattedCallDuration = computed(() => {
-  const minutes = Math.floor(callDuration.value / 60);
-  const seconds = callDuration.value % 60;
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-});
+const isIncoming = computed(() => callState.value === CALL_STATES.INCOMING);
+const isOutgoing = computed(() => callState.value === CALL_STATES.OUTGOING);
+const isJoined = computed(() => callState.value === CALL_STATES.JOINED);
+const showWidget = computed(() => callState.value !== CALL_STATES.IDLE);
 
 const contactDisplayName = computed(() => {
   return (
-    callInfo.value?.contactName ||
-    callInfo.value?.phoneNumber ||
+    currentCall.value?.contactName ||
+    currentCall.value?.phoneNumber ||
     'Call in progress'
   );
 });
 
 const inboxDisplayName = computed(() => {
-  return callInfo.value?.inboxName || 'Customer support';
+  return currentCall.value?.inboxName || 'Customer support';
 });
 
-// Methods
-const startDurationTimer = () => {
-  if (durationTimer.value) clearInterval(durationTimer.value);
-  durationTimer.value = setInterval(() => {
-    callDuration.value += 1;
-  }, 1000);
-};
-
-const stopDurationTimer = () => {
-  if (durationTimer.value) {
-    clearInterval(durationTimer.value);
-    durationTimer.value = null;
-  }
-};
-
 const joinConference = async () => {
-  const callData = callInfo.value;
-  if (isJoined.value || isJoining.value) return;
+  const callData = currentCall.value;
+  if (!callData || isJoined.value || isJoining.value) return;
 
   const result = await joinCall({
     conversationId: callData.conversationId,
@@ -88,17 +50,14 @@ const joinConference = async () => {
   if (result) {
     const path = `/app/accounts/${route.params.accountId}/conversations/${callData.conversationId}`;
     router.push({ path });
-    startDurationTimer();
     stopRingTone();
   }
 };
 
 const endCall = async () => {
-  const callData = callInfo.value;
+  const callData = currentCall.value;
   if (!callData) return;
 
-  stopDurationTimer();
-  callDuration.value = 0;
   stopRingTone();
   await endCallSession({
     conversationId: callData.conversationId,
@@ -110,38 +69,27 @@ const acceptCall = async () => {
   await joinConference();
 };
 
-const rejectCall = async () => {
-  if (!incomingCall.value) return;
-
+const rejectCall = () => {
   rejectIncomingCall();
   stopRingTone();
 };
 
-// Watchers
+// Auto-join outgoing calls
 watch(
-  [isOutgoing, incomingCall],
-  ([newIsOutgoing, newIncomingCall]) => {
-    // Auto-join outgoing calls when they appear
-    if (newIsOutgoing && newIncomingCall?.isOutbound && !isJoined.value) {
+  () => [callState.value, currentCall.value?.isOutbound],
+  ([state, isOutbound]) => {
+    if (state === CALL_STATES.OUTGOING && isOutbound && !isJoined.value) {
       joinConference();
     }
   },
   { immediate: true }
 );
 
-watch([hasActiveCall, hasIncomingCall], ([newHasActive, newHasIncoming]) => {
-  if (!newHasActive && !newHasIncoming) {
-    stopDurationTimer();
-    callDuration.value = 0;
-    stopRingTone();
-  }
-});
-
-// Start/stop ringtone when incoming state toggles
+// Manage ringtone based on call state
 watch(
-  isIncoming,
-  newVal => {
-    if (newVal) {
+  callState,
+  state => {
+    if (state === CALL_STATES.INCOMING) {
       startRingTone();
     } else {
       stopRingTone();
@@ -150,33 +98,25 @@ watch(
   { immediate: true }
 );
 
-// Lifecycle
-onMounted(() => {
-  if (isJoined.value) {
-    startDurationTimer();
-  }
-});
-
 onBeforeUnmount(() => {
-  stopDurationTimer();
   stopRingTone();
 });
 </script>
 
 <template>
   <div
-    v-show="hasActiveCall || hasIncomingCall"
-    class="fixed bottom-4 right-4 z-50 w-80 rounded-xl bg-white shadow-2xl border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+    v-show="showWidget"
+    class="fixed right-4 bottom-4 z-50 w-80 bg-white rounded-xl border shadow-2xl border-slate-200 dark:bg-slate-800 dark:border-slate-700"
   >
     <!-- Header -->
     <div
-      class="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-700"
+      class="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-700"
     >
       <div class="flex items-center space-x-3">
         <div
-          class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center"
+          class="flex justify-center items-center w-10 h-10 bg-green-100 rounded-full"
         >
-          <i class="i-ph-phone text-green-600 text-lg" />
+          <i class="text-lg text-green-600 i-ph-phone" />
         </div>
         <div>
           <h3 class="text-sm font-medium text-slate-900 dark:text-slate-100">
@@ -195,7 +135,7 @@ onBeforeUnmount(() => {
     <div class="p-4 text-center">
       <div v-if="isIncoming">
         <p
-          class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1"
+          class="mb-1 text-lg font-semibold text-slate-900 dark:text-slate-100"
         >
           {{ $t('CONVERSATION.VOICE_WIDGET.INCOMING_CALL') }}
         </p>
@@ -206,7 +146,7 @@ onBeforeUnmount(() => {
 
       <div v-else-if="isOutgoing">
         <p
-          class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1"
+          class="mb-1 text-lg font-semibold text-slate-900 dark:text-slate-100"
         >
           {{ $t('CONVERSATION.VOICE_WIDGET.OUTGOING_CALL') }}
         </p>
@@ -217,11 +157,11 @@ onBeforeUnmount(() => {
 
       <div v-else-if="isJoined">
         <p
-          class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1"
+          class="mb-1 text-lg font-semibold text-slate-900 dark:text-slate-100"
         >
           {{ $t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS') }}
         </p>
-        <p class="text-2xl font-mono text-green-600 dark:text-green-400">
+        <p class="font-mono text-2xl text-green-600 dark:text-green-400">
           {{ formattedCallDuration }}
         </p>
       </div>
@@ -234,42 +174,42 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Incoming Call Actions -->
-    <div v-if="isIncoming" class="p-4 flex space-x-3">
+    <div v-if="isIncoming" class="flex p-4 space-x-3">
       <button
-        class="flex-1 flex items-center justify-center space-x-2 bg-red-100 hover:bg-red-200 text-red-700 px-4 py-3 rounded-lg"
+        class="flex flex-1 justify-center items-center px-4 py-3 space-x-2 text-red-700 bg-red-100 rounded-lg hover:bg-red-200"
         @click="rejectCall"
       >
-        <i class="i-ph-phone-x text-lg" />
+        <i class="text-lg i-ph-phone-x" />
         <span>{{ $t('CONVERSATION.VOICE_WIDGET.REJECT_CALL') }}</span>
       </button>
 
       <button
-        class="flex-1 flex items-center justify-center space-x-2 bg-green-100 hover:bg-green-200 text-green-700 px-4 py-3 rounded-lg"
+        class="flex flex-1 justify-center items-center px-4 py-3 space-x-2 text-green-700 bg-green-100 rounded-lg hover:bg-green-200"
         @click="acceptCall"
       >
-        <i class="i-ph-phone text-lg" />
+        <i class="text-lg i-ph-phone" />
         <span>{{ $t('CONVERSATION.VOICE_WIDGET.JOIN_CALL') }}</span>
       </button>
     </div>
 
     <!-- Outgoing Call Actions -->
-    <div v-else-if="isOutgoing" class="p-4 flex justify-center">
+    <div v-else-if="isOutgoing" class="flex justify-center p-4">
       <button
-        class="flex items-center justify-center space-x-2 bg-red-100 hover:bg-red-200 text-red-700 px-6 py-3 rounded-lg"
+        class="flex justify-center items-center px-6 py-3 space-x-2 text-red-700 bg-red-100 rounded-lg hover:bg-red-200"
         @click="endCall"
       >
-        <i class="i-ph-phone-x text-lg" />
+        <i class="text-lg i-ph-phone-x" />
         <span>{{ $t('CONVERSATION.VOICE_WIDGET.END_CALL') }}</span>
       </button>
     </div>
 
     <!-- Active Call Controls -->
-    <div v-else-if="isJoined" class="p-4 flex justify-center">
+    <div v-else-if="isJoined" class="flex justify-center p-4">
       <button
-        class="flex items-center justify-center space-x-2 bg-red-100 hover:bg-red-200 text-red-700 px-6 py-3 rounded-lg"
+        class="flex justify-center items-center px-6 py-3 space-x-2 text-red-700 bg-red-100 rounded-lg hover:bg-red-200"
         @click="endCall"
       >
-        <i class="i-ph-phone-x text-lg" />
+        <i class="text-lg i-ph-phone-x" />
         <span>{{ $t('CONVERSATION.VOICE_WIDGET.END_CALL') }}</span>
       </button>
     </div>
