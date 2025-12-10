@@ -309,13 +309,10 @@ export function stripUnsupportedFormatting(content, schema) {
   const nodeKeysObj = Object.fromEntries(nodeKeys.map(k => [k, true]));
   const supportedNodes = Object.keys(camelcaseKeys(nodeKeysObj));
 
-  // Process each formatting type in order (codeBlock before code is important!)
   MARKDOWN_PATTERNS.forEach(({ type, patterns }) => {
-    // Check if this format type is supported by the schema
     const isMarkSupported = supportedMarks.includes(type);
     const isNodeSupported = supportedNodes.includes(type);
 
-    // If not supported, strip the formatting
     if (!isMarkSupported && !isNodeSupported) {
       patterns.forEach(({ pattern, replacement }) => {
         sanitizedContent = sanitizedContent.replace(pattern, replacement);
@@ -357,8 +354,6 @@ const createNode = (editorView, nodeType, content) => {
       return mentionNode;
     }
     case 'cannedResponse': {
-      // Strip unsupported formatting before parsing to ensure content can be inserted
-      // into channels that don't support certain markdown features (e.g., API channels)
       const sanitizedContent = stripUnsupportedFormatting(
         content,
         state.schema

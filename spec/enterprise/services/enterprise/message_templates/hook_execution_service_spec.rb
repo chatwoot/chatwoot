@@ -40,27 +40,26 @@ RSpec.describe MessageTemplates::HookExecutionService do
         )
       end
 
-      context 'when restrict_handoffs_to_business_hours is enabled' do
+      context 'when captain_active_outside_business_hours is enabled (default)' do
         before do
-          assistant.update!(config: assistant.config.merge('restrict_handoffs_to_business_hours' => true))
+          assistant.update!(config: assistant.config.merge('captain_active_outside_business_hours' => true))
         end
 
-        it 'still schedules captain response job (Captain helps 24/7)' do
+        it 'schedules captain response job outside business hours' do
           expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
 
           create(:message, conversation: conversation, message_type: :incoming)
         end
 
-        it 'does not trigger captain handoff outside business hours' do
+        it 'performs captain handoff when quota is exceeded (OOO template will kick in after handoff)' do
           account.update!(
             limits: { 'captain_responses' => 100 },
             custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
           )
 
-          # Captain can't handoff outside business hours, so status stays pending
           create(:message, conversation: conversation, message_type: :incoming)
 
-          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.reload.status).to eq('open')
         end
 
         it 'does not send out of office message when Captain is handling' do
@@ -74,26 +73,26 @@ RSpec.describe MessageTemplates::HookExecutionService do
         end
       end
 
-      context 'when restrict_handoffs_to_business_hours is not enabled (default)' do
+      context 'when captain_active_outside_business_hours is disabled' do
         before do
-          assistant.update!(config: assistant.config.merge('restrict_handoffs_to_business_hours' => false))
+          assistant.update!(config: assistant.config.merge('captain_active_outside_business_hours' => false))
         end
 
-        it 'schedules captain response job even outside business hours' do
-          expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+        it 'does not schedule captain response job outside business hours' do
+          expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
 
           create(:message, conversation: conversation, message_type: :incoming)
         end
 
-        it 'performs captain handoff when quota is exceeded even outside business hours' do
-          account.update!(
-            limits: { 'captain_responses' => 100 },
-            custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
-          )
+        it 'allows out of office message to be sent (Captain not handling)' do
+          inbox.update!(enable_email_collect: false)
 
-          create(:message, conversation: conversation, message_type: :incoming)
+          expect do
+            create(:message, conversation: conversation, message_type: :incoming)
+          end.to change { conversation.reload.messages.template.count }.by(1)
 
-          expect(conversation.reload.status).to eq('open')
+          out_of_office_message = conversation.reload.messages.template.last
+          expect(out_of_office_message.content).to eq('We are currently closed')
         end
       end
     end

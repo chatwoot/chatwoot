@@ -36,7 +36,7 @@ class Captain::Assistant < ApplicationRecord
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
-  store_accessor :config, :temperature, :feature_faq, :feature_memory, :product_name, :restrict_handoffs_to_business_hours
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :product_name, :captain_active_outside_business_hours
 
   validates :name, presence: true
   validates :description, presence: true

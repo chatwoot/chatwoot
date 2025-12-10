@@ -31,7 +31,7 @@ const initialState = {
   resolutionMessage: '',
   instructions: '',
   temperature: 1,
-  restrictHandoffsToBusinessHours: false,
+  captainActiveOutsideBusinessHours: true,
 };
 
 const state = reactive({ ...initialState });
@@ -60,8 +60,8 @@ const updateStateFromAssistant = assistant => {
   state.resolutionMessage = config.resolution_message;
   state.instructions = config.instructions;
   state.temperature = config.temperature || 1;
-  state.restrictHandoffsToBusinessHours =
-    config.restrict_handoffs_to_business_hours || false;
+  state.captainActiveOutsideBusinessHours =
+    config.captain_active_outside_business_hours !== false;
 };
 
 const handleSystemMessagesUpdate = async () => {
@@ -85,8 +85,8 @@ const handleSystemMessagesUpdate = async () => {
       handoff_message: state.handoffMessage,
       resolution_message: state.resolutionMessage,
       temperature: state.temperature || 1,
-      restrict_handoffs_to_business_hours:
-        state.restrictHandoffsToBusinessHours,
+      captain_active_outside_business_hours:
+        state.captainActiveOutsideBusinessHours,
     },
   };
 
@@ -108,20 +108,17 @@ watch(
 
 <template>
   <div class="flex flex-col gap-6">
-    <!-- Business Hours Restriction Toggle -->
     <div class="flex items-start gap-4">
-      <Switch v-model="state.restrictHandoffsToBusinessHours" class="mt-1" />
+      <Switch v-model="state.captainActiveOutsideBusinessHours" class="mt-1" />
       <div class="flex flex-col gap-1 flex-1">
         <label class="text-sm font-medium text-n-slate-12">
-          {{ t('CAPTAIN.ASSISTANTS.FORM.RESTRICT_HANDOFFS.LABEL') }}
+          {{ t('CAPTAIN.ASSISTANTS.FORM.OUTSIDE_BUSINESS_HOURS.LABEL') }}
         </label>
         <p class="text-sm text-n-slate-11">
-          {{
-            t('CAPTAIN.ASSISTANTS.FORM.RESTRICT_HANDOFFS.ENABLED_DESCRIPTION')
-          }}
+          {{ t('CAPTAIN.ASSISTANTS.FORM.OUTSIDE_BUSINESS_HOURS.DESCRIPTION') }}
         </p>
         <p class="text-xs text-n-slate-10 italic mt-1">
-          {{ t('CAPTAIN.ASSISTANTS.FORM.RESTRICT_HANDOFFS.TIP') }}
+          {{ t('CAPTAIN.ASSISTANTS.FORM.OUTSIDE_BUSINESS_HOURS.TIP') }}
         </p>
       </div>
     </div>

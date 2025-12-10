@@ -50,17 +50,18 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    return false unless conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    return captain_active_outside_business_hours? if inbox.out_of_office?
+
+    true
   end
 
-  def restrict_handoffs_to_business_hours?
-    inbox.captain_assistant.restrict_handoffs_to_business_hours == true
+  def captain_active_outside_business_hours?
+    inbox.captain_assistant.captain_active_outside_business_hours != false
   end
 
   def perform_handoff
     return unless conversation.pending?
-    # Don't handoff outside business hours if restriction is enabled
-    return if restrict_handoffs_to_business_hours? && inbox.out_of_office?
 
     Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
     conversation.messages.create!(
@@ -73,6 +74,9 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_handling_conversation?
-    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
+    return false unless conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
+    return captain_active_outside_business_hours? if inbox.out_of_office?
+
+    true
   end
 end
