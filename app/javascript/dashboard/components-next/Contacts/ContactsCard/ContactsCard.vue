@@ -133,15 +133,20 @@ const handleAvatarHover = isHovered => {
         class="flex items-center gap-3 lg:gap-2"
         :class="{ 'lg:col-span-3': isExpanded }"
       >
-        <Button
-          icon="i-lucide-chevron-down"
-          link
-          slate
-          sm
-          class="flex-shrink-0 hidden lg:flex !size-4 !rounded hover:enabled:!bg-n-alpha-2"
-          :class="{ 'rotate-180': isExpanded }"
-          @click="onClickExpand"
-        />
+        <div
+          class="relative hidden lg:block size-5 rounded-md hover:bg-n-alpha-2 flex-shrink-0"
+        >
+          <Button
+            icon="i-lucide-chevron-down"
+            link
+            slate
+            sm
+            no-animation
+            class="flex-shrink-0 !size-8 absolute -inset-1.5"
+            :class="{ 'rotate-180': isExpanded }"
+            @click="onClickExpand"
+          />
+        </div>
 
         <div
           class="flex-shrink-0 flex items-center"
@@ -171,7 +176,8 @@ const handleAvatarHover = isHovered => {
         </div>
 
         <h4
-          class="text-sm my-0 capitalize truncate text-n-slate-12 font-medium lg:max-w-40"
+          class="text-sm my-0 capitalize hover:cursor-pointer truncate text-n-slate-12 font-medium lg:max-w-40"
+          @click="onClickViewDetails"
         >
           {{ name }}
         </h4>
@@ -251,13 +257,16 @@ const handleAvatarHover = isHovered => {
           <span class="truncate">{{ formattedLocation }}</span>
         </span>
 
-        <div class="ltr:ml-auto rtl:mr-auto">
+        <div
+          class="relative lg:hidden size-5 rounded-md hover:bg-n-alpha-2 ltr:ml-auto rtl:mr-auto flex-shrink-0"
+        >
           <Button
             icon="i-lucide-chevron-down"
-            variant="ghost"
-            color="slate"
-            size="xs"
-            class="flex-shrink-0 lg:!hidden !size-4 !rounded hover:enabled:!bg-n-alpha-2"
+            link
+            slate
+            sm
+            no-animation
+            class="flex-shrink-0 !size-8 absolute -inset-1.5"
             :class="{ 'rotate-180': isExpanded }"
             @click="onClickExpand"
           />
@@ -270,8 +279,11 @@ const handleAvatarHover = isHovered => {
       >
         <div
           v-if="email"
+          v-tooltip.top="{
+            content: email,
+            delay: { show: 500, hide: 0 },
+          }"
           class="flex items-center gap-1 truncate lg:max-w-72"
-          :title="email"
         >
           <Icon
             icon="i-woot-mail"
@@ -289,8 +301,11 @@ const handleAvatarHover = isHovered => {
 
         <div
           v-if="phoneNumber"
+          v-tooltip.top="{
+            content: phoneNumber,
+            delay: { show: 500, hide: 0 },
+          }"
           class="flex items-center gap-1 truncate lg:max-w-72"
-          :title="phoneNumber"
         >
           <Icon
             icon="i-lucide-phone"
