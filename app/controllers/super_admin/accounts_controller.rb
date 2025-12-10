@@ -37,6 +37,12 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     permitted_params = super
     permitted_params[:limits] = permitted_params[:limits].to_h.compact
     permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym) if params[:enabled_features].present?
+
+    # Process nested account addresses attributes
+    if permitted_params[:account_addresses_attributes].present?
+      permitted_params[:account_addresses_attributes] = permitted_params[:account_addresses_attributes].to_h.values
+    end
+
     permitted_params
   end
 

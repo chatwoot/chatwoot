@@ -1,0 +1,57 @@
+<% if field.addresses.any? %>
+  <div class="space-y-4">
+    <% field.addresses.each_with_index do |address, index| %>
+      <div class="p-4 border border-n-weak rounded-lg bg-n-alpha-1">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm font-medium text-n-slate-12">
+            Branch <%= index + 1 %>
+          </span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-sm">
+          <div>
+            <span class="text-n-slate-11">Address:</span>
+            <span class="text-n-slate-12 ml-1"><%= address.street %> <%= address.exterior_number %><%= ", Int. #{address.interior_number}" if address.interior_number.present? %></span>
+          </div>
+          <div>
+            <span class="text-n-slate-11">Neighborhood:</span>
+            <span class="text-n-slate-12 ml-1"><%= address.neighborhood %></span>
+          </div>
+          <div>
+            <span class="text-n-slate-11">City:</span>
+            <span class="text-n-slate-12 ml-1"><%= address.city %>, <%= address.state %></span>
+          </div>
+          <div>
+            <span class="text-n-slate-11">Postal Code:</span>
+            <span class="text-n-slate-12 ml-1"><%= address.postal_code %></span>
+          </div>
+          <% if address.phone.present? %>
+            <div>
+              <span class="text-n-slate-11">Phone:</span>
+              <span class="text-n-slate-12 ml-1"><%= address.phone %></span>
+            </div>
+          <% end %>
+          <% if address.email.present? %>
+            <div>
+              <span class="text-n-slate-11">Email:</span>
+              <span class="text-n-slate-12 ml-1"><%= address.email %></span>
+            </div>
+          <% end %>
+          <% if address.webpage.present? %>
+            <div class="col-span-2">
+              <span class="text-n-slate-11">Webpage:</span>
+              <a href="<%= address.webpage %>" target="_blank" class="text-woot-500 ml-1 hover:underline"><%= address.webpage %></a>
+            </div>
+          <% end %>
+          <% if address.establishment_summary.present? %>
+            <div class="col-span-2">
+              <span class="text-n-slate-11">Summary:</span>
+              <span class="text-n-slate-12 ml-1"><%= address.establishment_summary %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <span class="text-n-slate-11">No addresses configured</span>
+<% end %>

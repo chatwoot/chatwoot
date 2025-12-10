@@ -1,0 +1,241 @@
+<div class="field-unit field-unit--nested">
+  <label class="field-unit__label"><%= t("helpers.label.account.account_addresses", default: "Branch Addresses") %></label>
+
+  <div class="field-unit__field">
+    <div id="addresses-container-<%= field.resource.id || 'new' %>" class="addresses-container" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px;">
+      <% addresses = field.addresses.presence || [] %>
+      <% addresses.each_with_index do |address, index| %>
+        <fieldset class="address-entry" style="border: 1px solid #d1d5db; border-radius: 8px; padding: 20px; background-color: #f9fafb; position: relative;">
+          <legend style="font-weight: 600; padding: 0 8px; color: #374151;">Branch <%= index + 1 %></legend>
+
+          <button type="button"
+                  class="btn-remove-address"
+                  style="position: absolute; top: -12px; right: 12px; background: #dc2626; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: 500;"
+                  onclick="removeAddressEntry(this)">
+            &times; Remove
+          </button>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Street *</label>
+              <input type="text"
+                     name="account[account_addresses_attributes][<%= index %>][street]"
+                     value="<%= address.street %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
+                     required>
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Exterior Number *</label>
+              <input type="text"
+                     name="account[account_addresses_attributes][<%= index %>][exterior_number]"
+                     value="<%= address.exterior_number %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
+                     required>
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Interior Number</label>
+              <input type="text"
+                     name="account[account_addresses_attributes][<%= index %>][interior_number]"
+                     value="<%= address.interior_number %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Neighborhood *</label>
+              <input type="text"
+                     name="account[account_addresses_attributes][<%= index %>][neighborhood]"
+                     value="<%= address.neighborhood %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
+                     required>
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Postal Code *</label>
+              <input type="text"
+                     name="account[account_addresses_attributes][<%= index %>][postal_code]"
+                     value="<%= address.postal_code %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
+                     required>
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">City *</label>
+              <input type="text"
+                     name="account[account_addresses_attributes][<%= index %>][city]"
+                     value="<%= address.city %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
+                     required>
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">State *</label>
+              <input type="text"
+                     name="account[account_addresses_attributes][<%= index %>][state]"
+                     value="<%= address.state %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
+                     required>
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Email</label>
+              <input type="email"
+                     name="account[account_addresses_attributes][<%= index %>][email]"
+                     value="<%= address.email %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Phone</label>
+              <input type="tel"
+                     name="account[account_addresses_attributes][<%= index %>][phone]"
+                     value="<%= address.phone %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+            </div>
+
+            <div class="field-unit">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Webpage</label>
+              <input type="url"
+                     name="account[account_addresses_attributes][<%= index %>][webpage]"
+                     value="<%= address.webpage %>"
+                     class="field-unit__field"
+                     style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
+                     placeholder="https://">
+            </div>
+
+            <div class="field-unit" style="grid-column: span 2;">
+              <label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Establishment Summary</label>
+              <textarea name="account[account_addresses_attributes][<%= index %>][establishment_summary]"
+                        class="field-unit__field"
+                        style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
+                        rows="2"><%= address.establishment_summary %></textarea>
+            </div>
+          </div>
+
+          <% if address.persisted? %>
+            <input type="hidden"
+                   name="account[account_addresses_attributes][<%= index %>][id]"
+                   value="<%= address.id %>">
+            <input type="hidden"
+                   name="account[account_addresses_attributes][<%= index %>][_destroy]"
+                   value="false"
+                   class="destroy-field">
+          <% end %>
+        </fieldset>
+      <% end %>
+    </div>
+
+    <button type="button"
+            onclick="addNewAddress('<%= field.resource.id || 'new' %>')"
+            style="background: #2563eb; color: white; padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; gap: 6px;">
+      <span style="font-size: 18px;">+</span> Add Address
+    </button>
+  </div>
+</div>
+
+<script>
+// Global counter for new addresses
+window.addressIndexCounter = window.addressIndexCounter || {};
+
+function getAddressTemplate(index) {
+  return '<fieldset class="address-entry" style="border: 1px solid #d1d5db; border-radius: 8px; padding: 20px; background-color: #f9fafb; position: relative;">' +
+    '<legend style="font-weight: 600; padding: 0 8px; color: #374151;">New Branch</legend>' +
+    '<button type="button" class="btn-remove-address" style="position: absolute; top: -12px; right: 12px; background: #dc2626; color: white; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: 500;" onclick="removeAddressEntry(this)">&times; Remove</button>' +
+    '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Street *</label>' +
+        '<input type="text" name="account[account_addresses_attributes][' + index + '][street]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;" required>' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Exterior Number *</label>' +
+        '<input type="text" name="account[account_addresses_attributes][' + index + '][exterior_number]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;" required>' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Interior Number</label>' +
+        '<input type="text" name="account[account_addresses_attributes][' + index + '][interior_number]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Neighborhood *</label>' +
+        '<input type="text" name="account[account_addresses_attributes][' + index + '][neighborhood]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;" required>' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Postal Code *</label>' +
+        '<input type="text" name="account[account_addresses_attributes][' + index + '][postal_code]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;" required>' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">City *</label>' +
+        '<input type="text" name="account[account_addresses_attributes][' + index + '][city]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;" required>' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">State *</label>' +
+        '<input type="text" name="account[account_addresses_attributes][' + index + '][state]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;" required>' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Email</label>' +
+        '<input type="email" name="account[account_addresses_attributes][' + index + '][email]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Phone</label>' +
+        '<input type="tel" name="account[account_addresses_attributes][' + index + '][phone]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">' +
+      '</div>' +
+      '<div class="field-unit">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Webpage</label>' +
+        '<input type="url" name="account[account_addresses_attributes][' + index + '][webpage]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;" placeholder="https://">' +
+      '</div>' +
+      '<div class="field-unit" style="grid-column: span 2;">' +
+        '<label class="field-unit__label" style="font-size: 13px; margin-bottom: 4px; display: block;">Establishment Summary</label>' +
+        '<textarea name="account[account_addresses_attributes][' + index + '][establishment_summary]" class="field-unit__field" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;" rows="2"></textarea>' +
+      '</div>' +
+    '</div>' +
+  '</fieldset>';
+}
+
+function addNewAddress(resourceId) {
+  var container = document.getElementById('addresses-container-' + resourceId);
+  if (!container) {
+    console.error('Container not found for resource:', resourceId);
+    return;
+  }
+
+  // Initialize counter if needed
+  if (typeof window.addressIndexCounter[resourceId] === 'undefined') {
+    window.addressIndexCounter[resourceId] = container.querySelectorAll('.address-entry').length;
+  }
+
+  var index = window.addressIndexCounter[resourceId];
+  var html = getAddressTemplate(index);
+
+  // Create element and append
+  var temp = document.createElement('div');
+  temp.innerHTML = html;
+  var newEntry = temp.firstChild;
+  container.appendChild(newEntry);
+
+  window.addressIndexCounter[resourceId]++;
+}
+
+function removeAddressEntry(button) {
+  var entry = button.closest('.address-entry');
+  if (!entry) return;
+
+  var destroyField = entry.querySelector('.destroy-field');
+  if (destroyField) {
+    // Mark for destruction instead of removing from DOM
+    destroyField.value = 'true';
+    entry.style.display = 'none';
+  } else {
+    // New entry, just remove from DOM
+    entry.remove();
+  }
+}
+</script>
