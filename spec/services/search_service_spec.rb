@@ -137,6 +137,101 @@ describe SearchService do
           expect(gin_results).to include(message.id, message2.id, message3.id)
         end
       end
+
+      # rubocop:disable RSpec/MultipleMemoizedHelpers
+      context 'when filtering messages with time, sender, and inbox' do
+        let!(:agent) { create(:user, account: account) }
+        let!(:inbox2) { create(:inbox, account: account) }
+        let!(:old_message) do
+          create(:message, account: account, inbox: inbox, content: 'old wizard message', sender: harry, created_at: 80.days.ago)
+        end
+        let!(:recent_message) do
+          create(:message, account: account, inbox: inbox, content: 'recent wizard message', sender: harry, created_at: 1.day.ago)
+        end
+        let!(:agent_message) do
+          create(:message, account: account, inbox: inbox, content: 'wizard from agent', sender: agent, created_at: 1.day.ago)
+        end
+        let!(:inbox2_message) do
+          create(:message, account: account, inbox: inbox2, content: 'wizard in inbox2', sender: harry, created_at: 1.day.ago)
+        end
+
+        before do
+          create(:inbox_member, inbox: inbox2, user: user)
+        end
+
+        it 'filters messages by time range with LIKE search' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          params = { q: 'wizard', since: 50.days.ago.to_i, search_type: 'Message' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
+          results = search.perform[:messages]
+
+          expect(results.map(&:id)).to include(recent_message.id, agent_message.id, inbox2_message.id)
+          expect(results.map(&:id)).not_to include(old_message.id)
+        end
+
+        it 'filters messages by time range with GIN search' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          params = { q: 'wizard', since: 50.days.ago.to_i, search_type: 'Message' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
+          results = search.perform[:messages]
+
+          expect(results.map(&:id)).to include(recent_message.id, agent_message.id, inbox2_message.id)
+          expect(results.map(&:id)).not_to include(old_message.id)
+        end
+
+        it 'filters messages by sender (contact)' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          params = { q: 'wizard', from: "contact:#{harry.id}", search_type: 'Message' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
+          results = search.perform[:messages]
+
+          expect(results.map(&:id)).to include(recent_message.id, old_message.id, inbox2_message.id)
+          expect(results.map(&:id)).not_to include(agent_message.id)
+        end
+
+        it 'filters messages by sender (agent)' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          params = { q: 'wizard', from: "agent:#{agent.id}", search_type: 'Message' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
+          results = search.perform[:messages]
+
+          expect(results.map(&:id)).to include(agent_message.id)
+          expect(results.map(&:id)).not_to include(recent_message.id, old_message.id, inbox2_message.id)
+        end
+
+        it 'filters messages by inbox' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          params = { q: 'wizard', inbox_id: inbox2.id, search_type: 'Message' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
+          results = search.perform[:messages]
+
+          expect(results.map(&:id)).to include(inbox2_message.id)
+          expect(results.map(&:id)).not_to include(recent_message.id, old_message.id, agent_message.id)
+        end
+
+        it 'combines multiple filters' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          params = { q: 'wizard', since: 50.days.ago.to_i, inbox_id: inbox.id, from: "contact:#{harry.id}", search_type: 'Message' }
+          search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
+          results = search.perform[:messages]
+
+          expect(results.map(&:id)).to include(recent_message.id)
+          expect(results.map(&:id)).not_to include(old_message.id, agent_message.id, inbox2_message.id)
+        end
+      end
+      # rubocop:enable RSpec/MultipleMemoizedHelpers
     end
 
     context 'when conversation search' do
