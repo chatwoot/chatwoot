@@ -97,7 +97,7 @@ onMounted(() => {
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="[&>ul]:px-5 h-10"
+      class="h-10"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
