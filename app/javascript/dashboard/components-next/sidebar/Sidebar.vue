@@ -74,6 +74,8 @@ const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
 
+//const currentUserId = useMapGetter('auth/getCurrentUserId')
+
 //let partnerUser = ref(false)
 const timePrivado = computed(() => {
   return store.getters['acl/getTimePrivado']
@@ -181,6 +183,12 @@ const menuItems = computed(() => {
       label: 'Kanban',
       icon: 'i-lucide-kanban',
       to: accountScopedRoute('kanban')
+    },
+    {
+      name: 'acl',
+      label: 'ACL',
+      icon: 'i-lucide-list',
+      to: accountScopedRoute('acl')
     },
     {
       name: 'Inbox',
@@ -650,5 +658,4 @@ const menuItems = computed(() => {
       />
     </section>
   </aside>
-  {{ timePrivado }}
 </template>
