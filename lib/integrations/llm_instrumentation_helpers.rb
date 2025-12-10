@@ -4,20 +4,12 @@ module Integrations::LlmInstrumentationHelpers
   include Integrations::LlmInstrumentationConstants
   include Integrations::LlmInstrumentationCompletionHelpers
 
-  PROVIDER_PREFIXES = {
-    'openai' => %w[gpt- o1 o3 o4 text-embedding- whisper- tts-],
-    'anthropic' => %w[claude-],
-    'google' => %w[gemini-],
-    'mistral' => %w[mistral- codestral-],
-    'deepseek' => %w[deepseek-]
-  }.freeze
-
   def determine_provider(model_name)
     return 'openai' if model_name.blank?
 
     model = model_name.to_s.downcase
 
-    PROVIDER_PREFIXES.each do |provider, prefixes|
+    LlmConstants::PROVIDER_PREFIXES.each do |provider, prefixes|
       return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
     end
 
