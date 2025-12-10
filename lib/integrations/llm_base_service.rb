@@ -1,11 +1,12 @@
-class Integrations::OpenaiBaseService
+class Integrations::LlmBaseService
+  include Integrations::LlmInstrumentation
+
   # gpt-4o-mini supports 128,000 tokens
   # 1 token is approx 4 characters
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
-  GPT_MODEL = ENV.fetch('OPENAI_GPT_MODEL', 'gpt-4o-mini').freeze
-
+  GPT_MODEL = Llm::Config::DEFAULT_MODEL
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[].freeze
 
@@ -80,28 +81,89 @@ class Integrations::OpenaiBaseService
     self.class::CACHEABLE_EVENTS.include?(event_name)
   end
 
-  def api_url
+  def api_base
     endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
     endpoint = endpoint.chomp('/')
-    "#{endpoint}/v1/chat/completions"
+    "#{endpoint}/v1"
   end
 
   def make_api_call(body)
-    headers = {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{hook.settings['api_key']}"
+    parsed_body = JSON.parse(body)
+    instrumentation_params = build_instrumentation_params(parsed_body)
+
+    instrument_llm_call(instrumentation_params) do
+      execute_ruby_llm_request(parsed_body)
+    end
+  end
+
+  def execute_ruby_llm_request(parsed_body)
+    messages = parsed_body['messages']
+    model = parsed_body['model']
+
+    Llm::Config.with_api_key(hook.settings['api_key'], api_base: api_base) do |context|
+      chat = context.chat(model: model)
+      setup_chat_with_messages(chat, messages)
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: hook.account).capture_exception
+    build_error_response_from_exception(e, messages)
+  end
+
+  def setup_chat_with_messages(chat, messages)
+    apply_system_instructions(chat, messages)
+    response = send_conversation_messages(chat, messages)
+    return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if response.nil?
+
+    build_ruby_llm_response(response, messages)
+  end
+
+  def apply_system_instructions(chat, messages)
+    system_msg = messages.find { |m| m['role'] == 'system' }
+    chat.with_instructions(system_msg['content']) if system_msg
+  end
+
+  def send_conversation_messages(chat, messages)
+    conversation_messages = messages.reject { |m| m['role'] == 'system' }
+
+    return nil if conversation_messages.empty?
+
+    return chat.ask(conversation_messages.first['content']) if conversation_messages.length == 1
+
+    add_conversation_history(chat, conversation_messages[0...-1])
+    chat.ask(conversation_messages.last['content'])
+  end
+
+  def add_conversation_history(chat, messages)
+    messages.each do |msg|
+      chat.add_message(role: msg['role'].to_sym, content: msg['content'])
+    end
+  end
+
+  def build_ruby_llm_response(response, messages)
+    {
+      message: response.content,
+      usage: {
+        'prompt_tokens' => response.input_tokens,
+        'completion_tokens' => response.output_tokens,
+        'total_tokens' => (response.input_tokens || 0) + (response.output_tokens || 0)
+      },
+      request_messages: messages
     }
+  end
 
-    Rails.logger.info("OpenAI API request: #{body}")
-    response = HTTParty.post(api_url, headers: headers, body: body)
-    Rails.logger.info("OpenAI API response: #{response.body}")
+  def build_instrumentation_params(parsed_body)
+    {
+      span_name: "llm.#{event_name}",
+      account_id: hook.account_id,
+      conversation_id: conversation&.display_id,
+      feature_name: event_name,
+      model: parsed_body['model'],
+      messages: parsed_body['messages'],
+      temperature: parsed_body['temperature']
+    }
+  end
 
-    return { error: response.parsed_response, error_code: response.code } unless response.success?
-
-    choices = JSON.parse(response.body)['choices']
-
-    return { message: choices.first['message']['content'] } if choices.present?
-
-    { message: nil }
+  def build_error_response_from_exception(error, messages)
+    { error: error.message, request_messages: messages }
   end
 end
