@@ -1,6 +1,7 @@
 import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
 
-const VOICE_CALL_TYPES = [CONTENT_TYPES.VOICE_CALL, 12];
+const VOICE_CALL_LEGACY_TYPE = 12;
+const VOICE_CALL_TYPES = [CONTENT_TYPES.VOICE_CALL, VOICE_CALL_LEGACY_TYPE];
 
 const isVoiceCallMessage = data =>
   VOICE_CALL_TYPES.includes(data?.content_type);
@@ -17,6 +18,25 @@ const buildIncomingCallPayload = (data, inboxFromStore) => {
     isOutbound: contentData.call_direction === 'outbound',
     callDirection: contentData.call_direction,
   };
+};
+
+const processVoiceCallData = (store, data, conversationId) => {
+  const conv = store.state.conversations.allConversations.find(
+    c => c?.id === Number(conversationId)
+  );
+  const inboxGetter = store.getters['inboxes/getInbox'];
+  const inboxFromStore = inboxGetter?.(conv?.inbox_id || data?.inbox_id);
+
+  return buildIncomingCallPayload(
+    {
+      ...data,
+      conversation_id: conversationId,
+      inbox_id: conv?.inbox_id || data?.inbox_id,
+      account_id: conv?.account_id || data?.account_id,
+      meta: conv?.meta || data?.meta,
+    },
+    inboxFromStore
+  );
 };
 
 export const handleVoiceMessageUpdated = (app, data) => {
@@ -45,22 +65,7 @@ export const handleVoiceMessageUpdated = (app, data) => {
 
   if (status !== 'ringing' || hasIncoming || hasActive) return;
 
-  const conv = store.state.conversations.allConversations.find(
-    c => c?.id === Number(conversationId)
-  );
-  const inboxGetter = store.getters['inboxes/getInbox'];
-  const inboxFromStore = inboxGetter?.(conv?.inbox_id || data?.inbox_id);
-
-  const payload = buildIncomingCallPayload(
-    {
-      ...data,
-      conversation_id: conversationId,
-      inbox_id: conv?.inbox_id || data?.inbox_id,
-      account_id: conv?.account_id || data?.account_id,
-      meta: conv?.meta || data?.meta,
-    },
-    inboxFromStore
-  );
+  const payload = processVoiceCallData(store, data, conversationId);
 
   if (payload.callSid) {
     store.dispatch('calls/setIncomingCall', payload);
@@ -77,22 +82,7 @@ export const handleVoiceMessageCreated = (app, data) => {
 
   if (!callSid) return;
 
-  const conv = store.state.conversations.allConversations.find(
-    c => c?.id === Number(conversationId)
-  );
-  const inboxGetter = store.getters['inboxes/getInbox'];
-  const inboxFromStore = inboxGetter?.(conv?.inbox_id || data?.inbox_id);
-
-  const payload = buildIncomingCallPayload(
-    {
-      ...data,
-      conversation_id: conversationId,
-      inbox_id: conv?.inbox_id || data?.inbox_id,
-      account_id: conv?.account_id || data?.account_id,
-      meta: conv?.meta || data?.meta,
-    },
-    inboxFromStore
-  );
+  const payload = processVoiceCallData(store, data, conversationId);
 
   if (payload.callSid) {
     store.dispatch('calls/setIncomingCall', payload);
