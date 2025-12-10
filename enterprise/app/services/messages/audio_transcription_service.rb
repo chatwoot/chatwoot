@@ -1,4 +1,4 @@
-class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
+class Messages::AudioTranscriptionService < Llm::LegacyBaseOpenAiService
   attr_reader :attachment, :message, :account
 
   def initialize(attachment)
@@ -27,10 +27,16 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
   end
 
   def fetch_audio_file
-    temp_dir = Rails.root.join('tmp/uploads')
+    temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
     FileUtils.mkdir_p(temp_dir)
-    temp_file_path = File.join(temp_dir, attachment.file.filename.to_s)
-    File.write(temp_file_path, attachment.file.download, mode: 'wb')
+    temp_file_path = File.join(temp_dir, "#{attachment.file.blob.key}-#{attachment.file.filename}")
+
+    File.open(temp_file_path, 'wb') do |file|
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, file)
+      end
+    end
+
     temp_file_path
   end
 
@@ -40,18 +46,24 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
 
     temp_file_path = fetch_audio_file
 
-    response = @client.audio.transcribe(
-      parameters: {
-        model: 'whisper-1',
-        file: File.open(temp_file_path),
-        temperature: 0.4
-      }
-    )
+    response_text = nil
+
+    File.open(temp_file_path, 'rb') do |file|
+      response = @client.audio.transcribe(
+        parameters: {
+          model: 'whisper-1',
+          file: file,
+          temperature: 0.4
+        }
+      )
+
+      response_text = response['text']
+    end
 
     FileUtils.rm_f(temp_file_path)
 
-    update_transcription(response['text'])
-    response['text']
+    update_transcription(response_text)
+    response_text
   end
 
   def update_transcription(transcribed_text)

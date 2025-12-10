@@ -121,8 +121,6 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def upload_files
-    return unless message.attachments.any?
-
     files = build_files_array
     return if files.empty?
 
@@ -136,6 +134,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
       Rails.logger.info "slack_upload_result: #{result}"
     rescue Slack::Web::Api::Errors::SlackError => e
       Rails.logger.error "Failed to upload files: #{e.message}"
+    ensure
+      files.each { |file| file[:content]&.clear }
     end
   end
 
@@ -143,12 +143,29 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     message.attachments.filter_map do |attachment|
       next unless attachment.with_attached_file?
 
-      {
-        filename: attachment.file.filename.to_s,
-        content: attachment.file.download,
-        title: attachment.file.filename.to_s
-      }
+      build_file_payload(attachment)
     end
+  end
+
+  def build_file_payload(attachment)
+    content = download_attachment_content(attachment)
+    return if content.blank?
+
+    {
+      filename: attachment.file.filename.to_s,
+      content: content,
+      title: attachment.file.filename.to_s
+    }
+  end
+
+  def download_attachment_content(attachment)
+    buffer = +''
+    attachment.file.blob.open do |file|
+      while (chunk = file.read(64.kilobytes))
+        buffer << chunk
+      end
+    end
+    buffer
   end
 
   def sender_name(sender)
