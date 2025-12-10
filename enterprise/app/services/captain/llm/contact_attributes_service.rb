@@ -26,7 +26,7 @@ class Captain::Llm::ContactAttributesService < Llm::BaseAiService
     end
     parse_response(response.content)
   rescue RubyLLM::Error => e
-    Rails.logger.error "LLM API Error: #{e.message}"
+    ChatwootExceptionTracker.new(e, account: @conversation.account).capture_exception
     []
   end
 
