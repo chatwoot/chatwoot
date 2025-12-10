@@ -1,8 +1,9 @@
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import { getAlertAudio } from 'shared/helpers/AudioNotificationHelper';
 
 export function useRingtone(intervalMs = 2500) {
   const timer = ref(null);
+
   const stop = () => {
     if (timer.value) {
       clearInterval(timer.value);
@@ -29,6 +30,11 @@ export function useRingtone(intervalMs = 2500) {
       play();
     }, intervalMs);
   };
+
+  // Cleanup on component unmount
+  onUnmounted(() => {
+    stop();
+  });
 
   return { start, stop };
 }
