@@ -26,13 +26,11 @@ import { useAlert } from 'dashboard/composables';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import {
-  MESSAGE_EDITOR_MENU_OPTIONS,
-  MESSAGE_EDITOR_IMAGE_RESIZES,
-} from 'dashboard/constants/editor';
+import { MESSAGE_EDITOR_IMAGE_RESIZES } from 'dashboard/constants/editor';
 
 import {
   messageSchema,
+  buildMessageSchema,
   buildEditor,
   EditorView,
   MessageMarkdownTransformer,
@@ -53,6 +51,9 @@ import {
   removeSignature as removeSignatureHelper,
   scrollCursorIntoView,
   setURLWithQueryAndSize,
+  getFormattingForEditor,
+  getSelectionCoords,
+  calculateMenuPosition,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -75,7 +76,6 @@ const props = defineProps({
   enableCannedResponses: { type: Boolean, default: true },
   enableCaptainTools: { type: Boolean, default: false },
   variables: { type: Object, default: () => ({}) },
-  enabledMenuOptions: { type: Array, default: () => [] },
   signature: { type: String, default: '' },
   // allowSignature is a kill switch, ensuring no signature methods
   // are triggered except when this flag is true
@@ -103,22 +103,34 @@ const { t } = useI18n();
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+const DEFAULT_FORMATTING = 'Context::Default';
 
-const createState = (
-  content,
-  placeholder,
-  plugins = [],
-  methods = {},
-  enabledMenuOptions = []
-) => {
+const editorSchema = computed(() => {
+  if (!props.channelType) return messageSchema;
+
+  const formatType = props.isPrivate ? DEFAULT_FORMATTING : props.channelType;
+  const formatting = getFormattingForEditor(formatType);
+  return buildMessageSchema(formatting.marks, formatting.nodes);
+});
+
+const editorMenuOptions = computed(() => {
+  const formatType = props.isPrivate
+    ? DEFAULT_FORMATTING
+    : props.channelType || DEFAULT_FORMATTING;
+  const formatting = getFormattingForEditor(formatType);
+  return formatting.menu;
+});
+
+const createState = (content, placeholder, plugins = [], methods = {}) => {
+  const schema = editorSchema.value;
   return EditorState.create({
-    doc: new MessageMarkdownTransformer(messageSchema).parse(content),
+    doc: new MessageMarkdownTransformer(schema).parse(content),
     plugins: buildEditor({
-      schema: messageSchema,
+      schema,
       placeholder,
       methods,
       plugins,
-      enabledMenuOptions,
+      enabledMenuOptions: editorMenuOptions.value,
     }),
   });
 };
@@ -153,6 +165,8 @@ const range = ref(null);
 const isImageNodeSelected = ref(false);
 const toolbarPosition = ref({ top: 0, left: 0 });
 const selectedImageNode = ref(null);
+const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
+const showSelectionMenu = ref(false);
 const sizes = MESSAGE_EDITOR_IMAGE_RESIZES;
 
 // element ref
@@ -172,12 +186,6 @@ const shouldShowCannedResponses = computed(() => {
   return (
     props.enableCannedResponses && showCannedMenu.value && !props.isPrivate
   );
-});
-
-const editorMenuOptions = computed(() => {
-  return props.enabledMenuOptions.length
-    ? props.enabledMenuOptions
-    : MESSAGE_EDITOR_MENU_OPTIONS;
 });
 
 function createSuggestionPlugin({
@@ -400,6 +408,38 @@ function setToolbarPosition() {
   };
 }
 
+function setMenubarPosition({ selection } = {}) {
+  const wrapper = editorRoot.value;
+  if (!selection || !wrapper) return;
+
+  const rect = wrapper.getBoundingClientRect();
+  const isRtl = getComputedStyle(wrapper).direction === 'rtl';
+
+  // Calculate coords and final position
+  const coords = getSelectionCoords(editorView, selection, rect);
+  const { left, top, width } = calculateMenuPosition(coords, rect, isRtl);
+
+  wrapper.style.setProperty('--selection-left', `${left}px`);
+  wrapper.style.setProperty(
+    '--selection-right',
+    `${rect.width - left - width}px`
+  );
+  wrapper.style.setProperty('--selection-top', `${top}px`);
+}
+
+function checkSelection(editorState) {
+  showSelectionMenu.value = false;
+  const hasSelection = editorState.selection.from !== editorState.selection.to;
+  if (hasSelection === isTextSelected.value) return;
+
+  isTextSelected.value = hasSelection;
+  const wrapper = editorRoot.value;
+  if (!wrapper) return;
+
+  wrapper.classList.toggle('has-selection', hasSelection);
+  if (hasSelection) setMenubarPosition(editorState);
+}
+
 function setURLWithQueryAndImageSize(size) {
   if (!props.showImageResizeToolbar) {
     return;
@@ -529,7 +569,9 @@ async function insertNodeIntoEditor(node, from = 0, to = 0) {
 
 function insertContentIntoEditor(content, defaultFrom = 0) {
   const from = defaultFrom || editorView.state.selection.from || 0;
-  let node = new MessageMarkdownTransformer(messageSchema).parse(content);
+  // Use the editor's current schema to ensure compatibility with buildMessageSchema
+  const currentSchema = editorView.state.schema;
+  let node = new MessageMarkdownTransformer(currentSchema).parse(content);
 
   insertNodeIntoEditor(node, from, undefined);
 }
@@ -596,6 +638,7 @@ function createEditorView() {
       if (tx.docChanged) {
         emitOnChange();
       }
+      checkSelection(state);
     },
     handleDOMEvents: {
       keyup: () => {
@@ -761,15 +804,33 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 @import '@chatwoot/prosemirror-schema/src/styles/base.scss';
 
 .ProseMirror-menubar-wrapper {
-  @apply flex flex-col;
+  @apply flex flex-col gap-3;
 
   .ProseMirror-menubar {
     min-height: 1.25rem !important;
-    @apply -ml-2.5 pb-0 bg-transparent text-n-slate-11;
+    @apply items-center gap-4 flex pb-0 bg-transparent text-n-slate-11 relative ltr:-left-[3px] rtl:-right-[3px];
 
     .ProseMirror-menu-active {
-      @apply bg-n-slate-5 dark:bg-n-solid-3;
+      @apply bg-n-slate-5 dark:bg-n-solid-3 !important;
     }
+
+    .ProseMirror-menuitem {
+      @apply mr-0 size-4 flex items-center justify-center;
+
+      .ProseMirror-icon {
+        @apply size-4 flex items-center justify-center flex-shrink-0;
+
+        svg {
+          @apply size-full;
+        }
+      }
+    }
+  }
+
+  .ProseMirror-menubar:not(:has(*)) {
+    max-height: none !important;
+    min-height: 0 !important;
+    padding: 0 !important;
   }
 
   > .ProseMirror {
@@ -859,5 +920,54 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
 .editor-warning__message {
   @apply text-n-ruby-9 dark:text-n-ruby-9 font-normal text-sm pt-1 pb-0 px-0;
+}
+
+// Float editor menu
+.popover-prosemirror-menu {
+  position: relative;
+
+  .ProseMirror p:last-child {
+    margin-bottom: 10px !important;
+  }
+
+  .ProseMirror-menubar {
+    display: none; // Hide by default
+  }
+
+  &.has-selection {
+    // Hide menu completely when it has no items
+    .ProseMirror-menubar:not(:has(*)) {
+      display: none !important;
+    }
+
+    .ProseMirror-menubar {
+      @apply rounded-lg !px-3 !py-1.5 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+      display: flex;
+      width: fit-content !important;
+      position: absolute !important;
+
+      // Default/LTR: position from left
+      top: var(--selection-top);
+      left: var(--selection-left);
+
+      // RTL: position from right instead
+      [dir='rtl'] & {
+        left: auto;
+        right: var(--selection-right);
+      }
+
+      .ProseMirror-menuitem {
+        @apply mr-0 size-4 flex items-center;
+
+        .ProseMirror-icon {
+          @apply p-0.5 flex-shrink-0;
+        }
+      }
+
+      .ProseMirror-menu-active {
+        @apply bg-n-slate-3;
+      }
+    }
+  }
 }
 </style>
