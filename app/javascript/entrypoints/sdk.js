@@ -192,10 +192,6 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       });
     },
     
-    setWidgetColor(color = '') {
-      IFrameHelper.sendMessage('set-widget-color', { color });
-    },
-    
     reset() {
       if (window.$chatwoot.isOpen) {
         IFrameHelper.events.toggleBubble();
