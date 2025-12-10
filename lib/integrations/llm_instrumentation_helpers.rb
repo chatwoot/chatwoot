@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'llm_instrumentation_completion_helpers'
-
 module Integrations::LlmInstrumentationHelpers
   include Integrations::LlmInstrumentationConstants
   include Integrations::LlmInstrumentationCompletionHelpers
