@@ -17,12 +17,20 @@ module StarkRetryable
       else
         Rails.logger.error("Stark server error persisted after #{MAX_RETRIES} retries. Handing off to human agent.")
         handle_human_handoff(conversation, e) if conversation
+        if respond_to?(:log_and_notify_slack, true)
+          log_and_notify_slack(format_slack_error_message(e, conversation))
+        end
+        
         nil
       end
     end
   end
 
   private
+
+  def format_slack_error_message(error, conversation)
+    Stark::SlackMessageFormatter.format_retry_failure(error, conversation, MAX_RETRIES)
+  end
 
   def handle_human_handoff(conversation, _error)
     return unless conversation
