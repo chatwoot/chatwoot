@@ -1,110 +1,101 @@
+/* global axios */
+
 import * as types from '../mutation-types'
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 
 import ApiClient from '../../api/ApiClient';
-
+// Classe para chamarmos a API. TODO: Mudar ela para o proprio arquivo.
 class AclAPI extends ApiClient {
     constructor() {
         super('acl', { accountScoped: true })
     }
 
-    get() {
-
+    baseUrl() {
+        return 'http://localhost:5050'; //TODO: Isso aqui é para teste local, mudar isso quando formos para homolog/prod
     }
+
+    get(id) {
+        return axios.get(`${this.url}/${id}`)
+    }
+
+    update(id, data) {
+        return axios.patch(`${this.url}/${id}`, data)
+    }
+
 }
 
-//TODO: Agora chamar realmente a API do chatwoot virti custom
-//TODO: Jogar essas chamadas de API para um arquivo diferente, botando aqui agora só pra ser fácil de ver
-const mock_acls = [
-    {
-        userId: 1,
+const state = {
+    currentUserACL: {
         time_privado: false,
         direcionar_conversa: false,
         side_panel: false
     },
-    {
-        userId: 2,
-        time_privado: false,
-        direcionar_conversa: false,
-        side_panel: true
-    },
-    {
-        userId: 3,
-        time_privado: true,
-        direcionar_conversa: true,
-        side_panel: true
-    }
-]
+    editingACL: {
 
-function getACL(userId) {
-    //const userId = 1 // TODO: Pegar o ID do usuário logado mesmo
-    //console.log("objeto window = ", window)
-    const userACL = {
-        time_privado: true,
-        direcionar_conversa: true,
-        side_panel: true
-    }
-    console.log("USER ID => ", userId)
-    if (userId) {
-        const foundAcl = mock_acls.find(acl => acl.userId === userId)
-        if (foundAcl) {
-            console.log(`ACL que retornaria para o usuario ${userId} = ${JSON.stringify(foundAcl)}`)
-            return foundAcl
-        }
-    }
-    console.log(`ACL que retornaria para o usuario ${userId} = ${userACL}`)
-    return userACL
-}
-
-function getAllACLs() {
-    return mock_acls
-}
-
-// O que acontece na nossa store, é o estado dela, como os dados estão em um momento. Não pode alterar direto, tem que usar as actions
-const state = {
-    // TODO: Tirar isso aqui e botar um objeto de user. 
-    time_privado: false,
-    direcionar_conversa: false,
-    side_panel: false,
-    userACL: {
-        time_privado: true,
-        direcionar_conversa: true,
-        side_panel: true
     }
 }
 
 export const getters = {
-    getTimePrivado: $state => $state.time_privado,
-    getDirecionarConversa: $state => $state.direcionar_conversa,
-    getSidePanel: $state => $state.side_panel,
-    getUserACL: $state => $state.userACL
+    getUserACL: $state => $state.currentUserACL,
+    getEditingACL: $state => $state.editingACL
 }
 
 export const actions = {
-    fetchAcl: ({ commit }, userId) => {
-        console.log(userId)
-        console.log("CHAMOU A ACTION fetchAcl")
+    fetchAcl: async ({ commit }, userId) => {
+        console.log("CHAMOU A ACTION fetchAcl COM USER ID ", userId)
         try {
-            const res = getACL(userId)
-            commit(types.default.SET_ACL, res)
+            const aclapi = new AclAPI()
+            const result = await aclapi.get(userId)
+            console.log({ result })
+            commit(types.default.SET_ACL, result.data)
         } catch (error) {
             throw error
         }
     },
 
-    fetchAllAcls: ({ commit }) => {
-        const allACLS = getAllACLs()
-        return allACLS
+    fetchEditingAcl: async ({ commit }, userId) => {
+        console.log("CHAMOU A ACTION fetchEditingACL COM USERID = ", userId)
+        try {
+            const aclapi = new AclAPI()
+            const result = await aclapi.get(userId)
+            console.log({ result })
+            commit(types.default.SET_EDITING_ACL, result.data)
+        } catch (error) {
+            throw error
+        }
+    },
+
+    updateAcl: async ({ commit }, { userId, newAcl }) => {
+        console.log(`Update ACL chamada com ${userId} e ${JSON.stringify(newAcl)}`)
+        try {
+            const aclapi = new AclAPI()
+            const result = await aclapi.update(userId, newAcl)
+            console.log({ result })
+        } catch (error) {
+            throw error
+        }
     }
 }
 
 export const mutations = {
     [types.default.SET_ACL]($state, data) { // Troca cada membro do state individualmente
         const { userId, ...aclData } = data
-        $state.userACL = { ...aclData }
+        $state.currentUserACL = { ...aclData }
         // Object.keys(data).forEach(key => {
         //     $state[key] = data[key]
         // })
+    },
+
+    [types.default.SET_EDITING_ACL]($state, data) {
+        const { userId, ...aclData } = data
+        $state.editingACL = { ...aclData }
+    },
+
+    [types.default.UPDATE_ACL]($state, aclData) {
+        console.log("Trocando o state para ", aclData)
+        $state.editingACL = { ...aclData }
+        const index = mock_acls.findIndex(acl => acl.userId === aclData.userId)
+        if (index !== -1) mock_acls[index] = { userId: aclData.userId, ...aclData }
     }
 }
 

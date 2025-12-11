@@ -12,11 +12,31 @@ const currentUser = computed(() => store.getters['getCurrentUser'])
 const filteredAgents = computed(() => agentList.value.filter(a => a.id !== currentUser.value.id))
 const userACL = computed(() => store.getters['acl/getUserACL'])
 
+const editingACL = ref({})
+const aclDescriptions = {
+    'time_privado': 'Permite ver todas as opções de filtros disponíveis para times quando está ativo',
+    'side_panel': 'Permite ver todas as opções da barra de menu lateral esquerda quando está ativo',
+    'direcionar_conversa': 'Permite ver as conversation actions de atribuir a time/usuário quando está ativo'
+}
+
 function openEditPopup(agent) {
     selectedAgent.value = agent;
     showEditModal.value = true;
     console.log("Agente escolhido = ", agent)
-    store.dispatch('acl/fetchAcl', agent.id);
+    store.dispatch('acl/fetchEditingAcl', agent.id)
+        .then(() => {
+            // Faz uma copia local pro editingACL
+            editingACL.value = {...store.getters['acl/getEditingACL']}
+        })
+}
+
+function saveACL() {
+    const userId = selectedAgent.value.id
+    console.log("Salvando ACL ", userId, editingACL.value)
+    store.dispatch('acl/updateAcl', {userId, newAcl: editingACL.value})
+        .then(() => {
+            closeEditModal()
+        })
 }
 
 function closeEditModal() {
@@ -26,7 +46,7 @@ function closeEditModal() {
 
 onMounted(() => {
   store.dispatch('agents/get');
-  store.dispatch('acl/fetchAcl');
+  store.dispatch('acl/fetchAcl', currentUser.value.id);
 });
 </script>
 
@@ -117,16 +137,21 @@ onMounted(() => {
                         <input
                         type="checkbox"
                         :id="key"
-                        v-model="userACL[key]"
+                        v-model="editingACL[key]"
                         class="rounded text-indigo-600 focus:ring-indigo-500"
                         />
-                        <label :for="key">{{ key }}</label>
+                        <label :for="key">{{ key.replace('_', ' ') }}</label>
+                        <span
+                            v-tooltip="aclDescriptions[key] || 'Sem descrição'"
+                            class="i-lucide-info text-xs text-n-slate-10 cursor-pointer"
+                        >
+                        </span>
                     </div>
                 </form>
             </div>
             <div class="flex justify-end gap-2">
                 <Button @click="closeEditModal" slate>Cancelar</Button>
-                <Button primary>Salvar</Button>
+                <Button primary @click="saveACL">Salvar</Button>
             </div>
         </div>
     </div>
