@@ -102,10 +102,6 @@ watch(
 
 <template>
   <div class="flex flex-col gap-6">
-    <h3 class="text-base font-medium text-n-slate-12">
-      {{ t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.SECTION_TITLE') }}
-    </h3>
-
     <Editor
       v-model="state.handoffMessage"
       :label="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"
