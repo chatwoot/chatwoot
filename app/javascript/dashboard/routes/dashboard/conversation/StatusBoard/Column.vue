@@ -30,8 +30,6 @@ const localConversations = computed({
   set: () => {},
 });
 
-// =================== Events =================== //
-
 const saveName = async () => {
   if (props.column.is_new && newName.value.trim() === '') {
     isEditing.value = false;
@@ -50,8 +48,9 @@ const saveName = async () => {
       name: newName.value,
     });
   } else {
+    emit('deleted', props.column);
+
     await store.dispatch('pipelineStatuses/create', {
-      id: props.column.id,
       name: newName.value,
     });
   }
@@ -94,7 +93,7 @@ const startEditing = async () => {
 
 const onDragEnd = async event => {
   if (!store.getters.getListLoadingStatusPipelineFlag) {
-    const toColumnId = event.to.parentElement.dataset.columnId;
+    const toColumnId = event.to.parentElement.parentElement.dataset.columnId;
     const conversationId = event.item.dataset.conversationId;
 
     store.dispatch('togglePipelineStatus', {
@@ -118,7 +117,7 @@ const onDragEnd = async event => {
       :reject-text="$t('PIPELINE_STATUS.DELETE_CONFIRMATION.CANCEL')"
     />
     <div
-      class="flex items-center justify-between flex-shrink-0 h-10 px-2 bg-n-solid-2 outline outline-n-container outline-1 -outline-offset-1 rounded-xl pl-3 pr-0"
+      class="flex items-center justify-between flex-shrink-0 h-10 px-2 bg-n-solid-3 outline outline-n-container outline-1 -outline-offset-1 rounded-xl pl-3 pr-0"
     >
       <span
         v-if="!isEditing"
@@ -126,6 +125,7 @@ const onDragEnd = async event => {
         @click="startEditing"
       >
         {{ column.name }}
+        <span>({{ localConversations.length }})</span>
       </span>
 
       <input
@@ -141,19 +141,33 @@ const onDragEnd = async event => {
       <Button slate icon="i-lucide-x" @click="openDeleteModal" />
     </div>
 
-    <draggable
-      v-model="localConversations"
-      group="tasks"
-      item-key="id"
-      class="min-h-96 after:content-[''] after:block after:h-10 after:opacity-0"
-      @end="onDragEnd"
-    >
-      <template #item="{ element }">
-        <ConversationCard
-          :conversation="element"
-          :data-conversation-id="element.id"
-        />
-      </template>
-    </draggable>
+    <div class="max-h-[84vh] overflow-auto relative">
+      <p
+        v-if="!localConversations.length"
+        class="flex items-center justify-center p-4 text-sm text-n-slate-11"
+      >
+        {{ $t('CHAT_LIST.LIST.404') }}
+      </p>
+
+      <draggable
+        v-model="localConversations"
+        group="tasks"
+        item-key="id"
+        class="min-h-[79vh]"
+        @end="onDragEnd"
+      >
+        <template #item="{ element }">
+          <ConversationCard
+            :conversation="element"
+            :data-conversation-id="element.id"
+            conversation-type="board"
+          />
+        </template>
+      </draggable>
+
+      <p class="p-4 text-center text-n-slate-11">
+        {{ $t('CHAT_LIST.EOF') }}
+      </p>
+    </div>
   </div>
 </template>

@@ -2,6 +2,7 @@ json.meta do
   json.mine_count @conversations_count[:mine_count]
   json.unassigned_count @conversations_count[:unassigned_count]
   json.all_count @conversations_count[:all_count]
+  json.total_pages @conversations_count[:total_pages]
 end
 json.payload do
   json.array! @conversations do |conversation|

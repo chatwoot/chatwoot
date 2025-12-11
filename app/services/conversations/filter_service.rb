@@ -12,13 +12,17 @@ class Conversations::FilterService < FilterService
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
+    records_per_page = ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i
+    total_pages = (all_count.to_f / records_per_page).ceil
+
     {
       conversations: conversations,
       count: {
         mine_count: mine_count,
         assigned_count: assigned_count,
         unassigned_count: unassigned_count,
-        all_count: all_count
+        all_count: all_count,
+        total_pages: total_pages
       }
     }
   end
