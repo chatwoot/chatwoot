@@ -149,7 +149,7 @@ const handleClick = id => {
             slate
             :variant="!showActionsDropdown ? 'ghost' : 'faded'"
             size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            class="rounded-md group-hover:bg-n-alpha-2 [&>span]:size-3.5"
             @click="toggleDropdown()"
           />
           <DropdownMenu
