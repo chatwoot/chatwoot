@@ -5,7 +5,7 @@ import { MESSAGE_TYPES } from './constants';
  * @param {Array} searchList - Array of messages to check
  * @returns {Boolean} - Whether the message should be grouped with next
  */
-export const shouldGroupWithNext = (index, searchList) => {
+export default (index, searchList) => {
   if (index === searchList.length - 1) return false;
 
   const current = searchList[index];
