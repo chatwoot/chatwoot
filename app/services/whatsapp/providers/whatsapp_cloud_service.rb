@@ -1,21 +1,39 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
   # Send typing indicator to WhatsApp user
   # Typing indicator lasts up to 25 seconds or until a message is sent
-  def send_typing_indicator(phone_number)
+  # If message_id is provided, marks the message as read and shows typing indicator in one request
+  # This follows the new WhatsApp Business API format: https://developers.facebook.com/documentation/business-messaging/whatsapp/typing-indicators
+  def send_typing_indicator(phone_number, message_id: nil)
+    request_body = if message_id.present?
+                     # New API format: Mark message as read and show typing indicator
+                     {
+                       messaging_product: 'whatsapp',
+                       status: 'read',
+                       message_id: message_id,
+                       typing_indicator: {
+                         type: 'text'
+                       }
+                     }
+                   else
+                     # Legacy format: Just show typing indicator (for backward compatibility)
+                     {
+                       messaging_product: 'whatsapp',
+                       recipient_type: 'individual',
+                       to: phone_number,
+                       type: 'typing',
+                       typing: { action: 'typing' }
+                     }
+                   end
+
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        recipient_type: 'individual',
-        to: phone_number,
-        type: 'typing',
-        typing: { action: 'typing' }
-      }.to_json
+      body: request_body.to_json
     )
 
     if response.success?
-      Rails.logger.info "[WHATSAPP] ✅ Typing indicator sent to #{phone_number}"
+      log_message = message_id.present? ? "✅ Typing indicator sent and message #{message_id} marked as read" : '✅ Typing indicator sent'
+      Rails.logger.info "[WHATSAPP] #{log_message} to #{phone_number}"
       true
     else
       Rails.logger.warn "[WHATSAPP] ⚠️ Failed to send typing indicator: #{response.body}"
