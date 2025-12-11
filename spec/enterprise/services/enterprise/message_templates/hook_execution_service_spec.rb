@@ -237,4 +237,59 @@ RSpec.describe MessageTemplates::HookExecutionService do
       expect(out_of_office_message.content).to eq('We are currently closed')
     end
   end
+
+  context 'when Captain quota is exceeded and handoff happens' do
+    before do
+      account.update!(
+        limits: { 'captain_responses' => 100 },
+        custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
+      )
+    end
+
+    context 'when outside business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed. Please leave your email.',
+          enable_email_collect: false
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+      end
+
+      it 'sends out of office message after handoff due to quota exceeded' do
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming)
+        end.to change { conversation.messages.template.count }.by(1)
+
+        expect(conversation.reload.status).to eq('open')
+        ooo_message = conversation.messages.template.last
+        expect(ooo_message.content).to eq('We are currently closed. Please leave your email.')
+      end
+    end
+
+    context 'when within business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed.',
+          enable_email_collect: false
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          open_all_day: true,
+          closed_all_day: false
+        )
+      end
+
+      it 'does not send out of office message after handoff' do
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming)
+        end.not_to(change { conversation.messages.template.count })
+
+        expect(conversation.reload.status).to eq('open')
+      end
+    end
+  end
 end

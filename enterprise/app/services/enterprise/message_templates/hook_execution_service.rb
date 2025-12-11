@@ -64,6 +64,11 @@ module Enterprise::MessageTemplates::HookExecutionService
       content: 'Transferring to another agent for further assistance.'
     )
     conversation.bot_handoff!
+    send_out_of_office_message_after_handoff
+  end
+
+  def send_out_of_office_message_after_handoff
+    ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
   end
 
   def captain_handling_conversation?
