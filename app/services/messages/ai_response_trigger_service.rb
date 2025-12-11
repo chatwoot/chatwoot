@@ -101,6 +101,7 @@ class Messages::AiResponseTriggerService
   end
 
   # Send typing indicator to WhatsApp if the conversation is on WhatsApp channel
+  # Marks the incoming message as read and shows typing indicator
   def send_whatsapp_typing_indicator(conversation)
     inbox = conversation.inbox
     return unless inbox.channel_type == 'Channel::Whatsapp'
@@ -111,11 +112,15 @@ class Messages::AiResponseTriggerService
     phone_number = conversation.contact_inbox.source_id
     return if phone_number.blank?
 
-    Rails.logger.info "[AI_TRIGGER] 📱 Sending WhatsApp typing indicator to #{phone_number}"
+    # Get WhatsApp message ID from the incoming message's source_id
+    whatsapp_message_id = message.source_id
+    return if whatsapp_message_id.blank?
 
-    # Use the WhatsApp Cloud Service to send typing indicator
+    Rails.logger.info "[AI_TRIGGER] 📱 Sending WhatsApp typing indicator to #{phone_number} for message #{whatsapp_message_id}"
+
+    # Use the WhatsApp Cloud Service to send typing indicator and mark message as read
     service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
-    service.send_typing_indicator(phone_number)
+    service.send_typing_indicator(phone_number, message_id: whatsapp_message_id)
   rescue StandardError => e
     Rails.logger.error "[AI_TRIGGER] ❌ Failed to send WhatsApp typing indicator: #{e.message}"
   end

@@ -114,7 +114,7 @@ class RequestAiResponseJob < ApplicationJob
 
       # Start typing heartbeat to keep typing indicator alive during long AI requests
       # Frontend auto-cancels typing after 30 seconds, so we send heartbeat every 25 seconds
-      typing_heartbeat_thread = start_typing_heartbeat(conversation, ai_agent)
+      typing_heartbeat_thread = start_typing_heartbeat(conversation, ai_agent, message)
 
       # Prepare multipart request if audio file is present
       if audio_attachment.present?
@@ -166,8 +166,8 @@ class RequestAiResponseJob < ApplicationJob
               'x-api-token' => api_token,
               'clerk-id' => clerk_id
             },
-            timeout: 180, # 3 minutes for AI response
-            open_timeout: 30 # 30 seconds to establish connection
+            timeout: 360, # 3 minutes for AI response
+            open_timeout: 120 # 30 seconds to establish connection
           )
 
           Rails.logger.info "[AI_JOB] 🎵 RestClient response received: #{rest_response.code}"
@@ -649,13 +649,20 @@ class RequestAiResponseJob < ApplicationJob
   # Start a background thread that sends typing_on events every 20 seconds
   # This keeps the typing indicator alive during long AI requests
   # Frontend auto-cancels typing after 30 seconds, WhatsApp after 25 seconds
-  def start_typing_heartbeat(conversation, ai_agent)
+  def start_typing_heartbeat(conversation, ai_agent, message)
     return nil unless conversation && ai_agent&.is_ai?
 
     Rails.logger.info "[AI_JOB] 💓 Starting typing heartbeat for conversation #{conversation.id}"
 
-    # Send initial WhatsApp typing indicator
-    send_whatsapp_typing_indicator(conversation)
+    # Get WhatsApp message ID from the incoming message for typing indicators
+    # This is the received user message ID that we reference when sending typing indicators
+    whatsapp_message_id = message&.source_id
+
+    # Send initial WhatsApp typing indicator (marks as read and shows typing indicator)
+    send_whatsapp_typing_indicator(conversation, message_id: whatsapp_message_id)
+
+    # Capture message_id in thread closure for heartbeat loop
+    message_id_for_heartbeat = whatsapp_message_id
 
     Thread.new do
       loop do
@@ -673,8 +680,9 @@ class RequestAiResponseJob < ApplicationJob
             is_private: false
           )
 
-          # Send typing indicator to WhatsApp if applicable
-          send_whatsapp_typing_indicator(conversation)
+          # Send typing indicator to WhatsApp with message_id to keep it alive
+          # Marking as read again is idempotent and ensures typing indicator stays active
+          send_whatsapp_typing_indicator(conversation, message_id: message_id_for_heartbeat)
         rescue StandardError => e
           Rails.logger.error "[AI_JOB] ❌ Typing heartbeat error: #{e.message}"
           break
@@ -698,7 +706,9 @@ class RequestAiResponseJob < ApplicationJob
   end
 
   # Send typing indicator to WhatsApp if the conversation is on WhatsApp channel
-  def send_whatsapp_typing_indicator(conversation)
+  # If message_id is provided, marks the message as read and shows typing indicator
+  # If message_id is nil, just shows typing indicator (for heartbeat)
+  def send_whatsapp_typing_indicator(conversation, message_id: nil)
     inbox = conversation.inbox
     return unless inbox.channel_type == 'Channel::Whatsapp'
 
@@ -708,11 +718,12 @@ class RequestAiResponseJob < ApplicationJob
     phone_number = conversation.contact_inbox.source_id
     return if phone_number.blank?
 
-    Rails.logger.info "[AI_JOB] 📱 Sending WhatsApp typing indicator to #{phone_number}"
+    log_message = message_id.present? ? "📱 Sending WhatsApp typing indicator to #{phone_number} for message #{message_id}" : "📱 Sending WhatsApp typing indicator to #{phone_number}"
+    Rails.logger.info "[AI_JOB] #{log_message}"
 
     # Use the WhatsApp Cloud Service to send typing indicator
     service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
-    service.send_typing_indicator(phone_number)
+    service.send_typing_indicator(phone_number, message_id: message_id)
   rescue StandardError => e
     Rails.logger.error "[AI_JOB] ❌ Failed to send WhatsApp typing indicator: #{e.message}"
   end

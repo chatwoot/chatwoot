@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: rails
-        image: wavai/chatwoot-rails:v1.0.61
+        image: wavai/chatwoot-rails:v1.0.62
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "docker/entrypoints/rails.sh && bundle exec rails server -b 0.0.0.0"]

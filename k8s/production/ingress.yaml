@@ -14,6 +14,22 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
     nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
     nginx.ingress.kubernetes.io/websocket-services: 'chatwoot-rails'
+
+    # Increased timeouts for normal requests
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: '300'
+    nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: '300'
+    
+    # Increased body size limits for file uploads
+    nginx.ingress.kubernetes.io/proxy-body-size: '100m'
+    nginx.ingress.kubernetes.io/client-body-buffer-size: '10m'
+    
+    # Proxy buffer settings for large responses
+    nginx.ingress.kubernetes.io/proxy-buffer-size: '16k'
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '8'
+    
+    # Keep-alive settings
+    nginx.ingress.kubernetes.io/upstream-keepalive-timeout: '120'
+    nginx.ingress.kubernetes.io/upstream-keepalive-requests: '10000'
 spec:
   ingressClassName: nginx
   tls:
