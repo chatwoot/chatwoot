@@ -107,28 +107,24 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
 
+const effectiveChannelType = computed(() =>
+  getEffectiveChannelType(props.channelType, props.medium)
+);
+
 const editorSchema = computed(() => {
   if (!props.channelType) return messageSchema;
 
-  const effectiveChannelType = getEffectiveChannelType(
-    props.channelType,
-    props.medium
-  );
   const formatType = props.isPrivate
     ? DEFAULT_FORMATTING
-    : effectiveChannelType;
+    : effectiveChannelType.value;
   const formatting = getFormattingForEditor(formatType);
   return buildMessageSchema(formatting.marks, formatting.nodes);
 });
 
 const editorMenuOptions = computed(() => {
-  const effectiveChannelType = getEffectiveChannelType(
-    props.channelType,
-    props.medium
-  );
   const formatType = props.isPrivate
     ? DEFAULT_FORMATTING
-    : effectiveChannelType || DEFAULT_FORMATTING;
+    : effectiveChannelType.value || DEFAULT_FORMATTING;
   const formatting = getFormattingForEditor(formatType);
   return formatting.menu;
 });
@@ -313,8 +309,13 @@ function isBodyEmpty(content) {
 
   // if the signature is present, we need to remove it before checking
   // note that we don't update the editorView, so this is safe
+  // Use effective channel type to match how signature was appended
   const bodyWithoutSignature = props.signature
-    ? removeSignatureHelper(content, props.signature, props.channelType)
+    ? removeSignatureHelper(
+        content,
+        props.signature,
+        effectiveChannelType.value
+      )
     : content;
 
   // trimming should remove all the whitespaces, so we can check the length
@@ -382,11 +383,11 @@ function addSignature() {
   // see if the content is empty, if it is before appending the signature
   // we need to add a paragraph node and move the cursor at the start of the editor
   const contentWasEmpty = isBodyEmpty(content);
-  const effectiveChannelType = getEffectiveChannelType(
-    props.channelType,
-    props.medium
+  content = appendSignature(
+    content,
+    props.signature,
+    effectiveChannelType.value
   );
-  content = appendSignature(content, props.signature, effectiveChannelType);
   // need to reload first, ensuring that the editorView is updated
   reloadState(content);
 
@@ -398,14 +399,10 @@ function addSignature() {
 function removeSignature() {
   if (!props.signature) return;
   let content = props.modelValue;
-  const effectiveChannelType = getEffectiveChannelType(
-    props.channelType,
-    props.medium
-  );
   content = removeSignatureHelper(
     content,
     props.signature,
-    effectiveChannelType
+    effectiveChannelType.value
   );
   // reload the state, ensuring that the editorView is updated
   reloadState(content);

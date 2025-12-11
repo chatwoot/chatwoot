@@ -87,6 +87,12 @@ const whatsappMessageTemplates = computed(() =>
 
 const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
 
+const inboxMedium = computed(() => props.targetInbox?.medium || '');
+
+const effectiveChannelType = computed(() =>
+  getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
+);
+
 const validationRules = computed(() => ({
   selectedContact: { required },
   targetInbox: { required },
@@ -206,7 +212,7 @@ const removeSignatureFromMessage = () => {
     state.message = removeSignature(
       state.message,
       props.messageSignature,
-      inboxChannelType.value
+      effectiveChannelType.value
     );
   }
 };
@@ -227,12 +233,6 @@ const clearSelectedContact = () => {
 const onClickInsertEmoji = emoji => {
   state.message += emoji;
 };
-
-const inboxMedium = computed(() => props.targetInbox?.medium || '');
-
-const effectiveChannelType = computed(() =>
-  getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
-);
 
 const handleAddSignature = signature => {
   state.message = appendSignature(
