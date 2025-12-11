@@ -2,6 +2,7 @@
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ConversationRequiredAttributes from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributes.vue';
+import AutoResolve from 'dashboard/routes/dashboard/settings/account/components/AutoResolve.vue';
 </script>
 
 <template>
@@ -15,7 +16,8 @@ import ConversationRequiredAttributes from 'dashboard/components-next/Conversati
     </template>
 
     <template #body>
-      <div class="flex">
+      <div class="flex flex-col gap-6">
+        <AutoResolve />
         <ConversationRequiredAttributes
           :title="$t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE')"
           :description="
