@@ -90,7 +90,7 @@ module Stark
           conversation_id: message.conversation_id,
           message_type: message.message_type,
           content: message.content,
-          customer_name: extract_customer_name(message.sender, conversation.inbox.platform_name),
+          customer_name: extract_customer_name(conversation.contact, conversation.inbox.platform_name),
           created_at: message.created_at,
           is_follow_up_message: message.content_attributes['follow_up'] || false,
           is_image_attached: message_has_image?(message),
