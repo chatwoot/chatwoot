@@ -225,9 +225,9 @@ const removeTargetInbox = value => {
 };
 
 const clearSelectedContact = () => {
+  removeSignatureFromMessage();
   emit('clearSelectedContact');
   state.attachedFiles = [];
-  removeSignatureFromMessage();
 };
 
 const onClickInsertEmoji = emoji => {
