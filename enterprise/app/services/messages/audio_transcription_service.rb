@@ -50,6 +50,8 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
 
     temp_file_path = fetch_audio_file
 
+    transcribed_text = nil
+
     File.open(temp_file_path, 'rb') do |file|
       response = @client.audio.transcribe(
         parameters: {
