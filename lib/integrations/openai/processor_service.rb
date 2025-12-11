@@ -1,6 +1,25 @@
 class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
-  AGENT_INSTRUCTION = 'You are a helpful support agent.'.freeze
   LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
+  AGENT_INSTRUCTION = <<~HEREDOC.freeze
+    You are an AI writing assistant integrated into Chatwoot, an omnichannel customer support platform. Your task is to rewrite customer support message to match a specific tone while preserving the original meaning and intent.
+
+    Here is the tone to apply to the message you will receive:
+    <tone_instruction>
+    %s
+    </tone_instruction>
+
+    Your task is to rewrite the message according to the specified tone instructions.
+
+    Important guidelines:
+    - Preserve the core meaning and all important information from the original message
+    - Keep the rewritten message concise and appropriate for customer support
+    - Maintain helpfulness and respect regardless of tone
+    - Do not add information that wasn't in the original message
+    - Do not remove critical details or instructions
+    - #{LANGUAGE_INSTRUCTION}
+
+    Output only the rewritten message without any preamble, tags or explanation.
+  HEREDOC
   def reply_suggestion_message
     make_api_call(reply_suggestion_body)
   end
@@ -10,38 +29,38 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
   end
 
   def rephrase_message
-    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response. " \
+    make_api_call(build_api_call_body('Please rephrase the following response. ' \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
   def fix_spelling_grammar_message
-    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please fix the spelling and grammar of the following response. " \
+    make_api_call(build_api_call_body('Please fix the spelling and grammar of the following response. ' \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
-  def shorten_message
-    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please shorten the following response. " \
-                                      "#{LANGUAGE_INSTRUCTION}"))
+  def straightforward_message
+    tone_instruction = determine_tone_instruction('straightforward')
+    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
   end
 
-  def expand_message
-    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please expand the following response. " \
-                                      "#{LANGUAGE_INSTRUCTION}"))
+  def casual_message
+    tone_instruction = determine_tone_instruction('casual')
+    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
   end
 
   def make_friendly_message
-    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more friendly. " \
-                                      "#{LANGUAGE_INSTRUCTION}"))
+    tone_instruction = determine_tone_instruction('friendly')
+    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
   end
 
   def make_formal_message
-    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more formal. " \
-                                      "#{LANGUAGE_INSTRUCTION}"))
+    tone_instruction = determine_tone_instruction('formal')
+    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
   end
 
-  def simplify_message
-    make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please simplify the following response. " \
-                                      "#{LANGUAGE_INSTRUCTION}"))
+  def professional_message
+    tone_instruction = determine_tone_instruction('professional')
+    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
   end
 
   private
@@ -132,6 +151,26 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
           content: prompt_from_file('reply', enterprise: false) }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
+  end
+
+  def determine_tone_instruction(tone)
+    case tone
+    when 'friendly'
+      'Warm, approachable, and personable. Use conversational language, positive words, and show empathy. ' \
+      'May include phrases like \"Happy to help!\" or \"I\'d be glad to...\"'
+    when 'confident'
+      'Assertive and assured. Use definitive language, avoid hedging words like \"maybe\" or \"I think\". ' \
+      'Be direct and authoritative while remaining helpful.'
+    when 'straightforward'
+      'Clear, direct, and to-the-point. Remove unnecessary words, get straight to the information or solution. No fluff or extra pleasantries.'
+    when 'casual'
+      'Relaxed and informal. Use contractions, simpler words, and a conversational style. Friendly but less formal than professional tone.'
+    when 'professional'
+      'Formal, polished, and business-appropriate. Use complete sentences, proper grammar, ' \
+      'and maintain respectful distance. Avoid slang or overly casual language.'
+    else
+      determine_tone_instruction('friendly')
+    end
   end
 end
 
