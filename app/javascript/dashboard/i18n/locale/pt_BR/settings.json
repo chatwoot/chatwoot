@@ -82,7 +82,7 @@
       },
       "SECURITY_SECTION": {
         "TITLE": "Segurança",
-        "NOTE": "Manage additional security features for your account.",
+        "NOTE": "Gerencie recursos de segurança adicionais para sua conta.",
         "MFA_BUTTON": "Gerenciar autenticação de dois fatores "
       },
       "ACCESS_TOKEN": {
@@ -253,9 +253,9 @@
       "MESSAGE": "Sua conta está suspensa. Entre em contato com a equipe de suporte para obter mais informações."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "TITLE": "Nenhuma conta encontrada",
+      "MESSAGE_CLOUD": "Você não faz parte de nenhuma conta no momento. Se você acreditar que isso é um erro, por favor entre em contato com nossa equipe de suporte.",
+      "MESSAGE_SELF_HOSTED": "Você não faz parte de nenhuma conta agora. Por favor, entre em contato com seu administrador.",
       "LOGOUT": "Encerrar sessão"
     }
   },
@@ -306,8 +306,8 @@
     "SETTINGS": "Configurações",
     "CONTACTS": "Contatos",
     "ACTIVE": "Ativo",
-    "COMPANIES": "Companies",
-    "ALL_COMPANIES": "All Companies",
+    "COMPANIES": "Empresas",
+    "ALL_COMPANIES": "Todas as empresas",
     "CAPTAIN": "Capitão",
     "CAPTAIN_ASSISTANTS": "Assistentes",
     "CAPTAIN_DOCUMENTS": "Documentos",
@@ -355,7 +355,7 @@
     "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Time",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "AGENT_ASSIGNMENT": "Atribuição de Agente",
     "SET_AVAILABILITY_TITLE": "Defina como",
     "SET_YOUR_AVAILABILITY": "Disponibilidade",
     "SLA": "SLA",
@@ -399,7 +399,7 @@
       "DESCRIPTION": "Gerenciar uso e créditos para o Captain AI.",
       "BUTTON_TXT": "Comprar mais créditos",
       "DOCUMENTS": "Documentos",
-      "RESPONSES": "Credits",
+      "RESPONSES": "Créditos",
       "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais.",
       "REFRESH_CREDITS": "Atualizar"
     },
@@ -411,10 +411,10 @@
     "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente.",
     "TOPUP": {
       "BUY_CREDITS": "Comprar mais créditos",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
-      "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
+      "MODAL_TITLE": "Comprar Créditos de IA",
+      "MODAL_DESCRIPTION": "Comprar créditos adicionais para o Capitão AI.",
+      "CREDITS": "CRÉDITOS",
+      "ONE_TIME": "única vez",
       "POPULAR": "Most Popular",
       "NOTE_TITLE": "Nota:",
       "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
