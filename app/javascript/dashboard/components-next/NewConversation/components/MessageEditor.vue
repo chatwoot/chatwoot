@@ -9,6 +9,7 @@ defineProps({
   sendWithSignature: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
   channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
 });
 
 const { t } = useI18n();
@@ -38,6 +39,7 @@ const modelValue = defineModel({
       allow-signature
       :send-with-signature="sendWithSignature"
       :channel-type="channelType"
+      :medium="medium"
     />
   </div>
 </template>

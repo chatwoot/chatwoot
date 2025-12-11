@@ -1121,6 +1121,7 @@ export default {
         :signature="messageSignature"
         allow-signature
         :channel-type="channelType"
+        :medium="inbox.medium"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
