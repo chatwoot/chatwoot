@@ -6,6 +6,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
+  getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 import {
   buildContactableInboxesList,
@@ -229,12 +230,15 @@ const onClickInsertEmoji = emoji => {
 
 const inboxMedium = computed(() => props.targetInbox?.medium || '');
 
+const effectiveChannelType = computed(() =>
+  getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
+);
+
 const handleAddSignature = signature => {
   state.message = appendSignature(
     state.message,
     signature,
-    inboxChannelType.value,
-    inboxMedium.value
+    effectiveChannelType.value
   );
 };
 
@@ -242,8 +246,7 @@ const handleRemoveSignature = signature => {
   state.message = removeSignature(
     state.message,
     signature,
-    inboxChannelType.value,
-    inboxMedium.value
+    effectiveChannelType.value
   );
 };
 

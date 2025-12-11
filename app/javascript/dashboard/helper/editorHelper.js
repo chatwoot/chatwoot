@@ -166,16 +166,14 @@ export function getEffectiveChannelType(channelType, medium) {
  *
  * @param {string} body - The body to append the signature to.
  * @param {string} signature - The signature to append.
- * @param {string} channelType - Optional. The channel type to determine supported formatting.
- * @param {string} medium - Optional. The medium for Twilio channels (sms/whatsapp).
+ * @param {string} channelType - Optional. The effective channel type to determine supported formatting.
+ *                               For Twilio channels, pass the result of getEffectiveChannelType().
  * @returns {string} - The body with the signature appended.
  */
-export function appendSignature(body, signature, channelType, medium) {
-  // Get effective channel type for Twilio channels based on medium
-  const effectiveChannelType = getEffectiveChannelType(channelType, medium);
+export function appendSignature(body, signature, channelType) {
   // Strip only unsupported formatting based on channel capabilities
-  const preparedSignature = effectiveChannelType
-    ? stripUnsupportedSignatureMarkdown(signature, effectiveChannelType)
+  const preparedSignature = channelType
+    ? stripUnsupportedSignatureMarkdown(signature, channelType)
     : signature;
   const cleanedSignature = cleanSignature(preparedSignature);
   // if signature is already present, return body
@@ -192,19 +190,15 @@ export function appendSignature(body, signature, channelType, medium) {
  *
  * @param {string} body - The body to remove the signature from.
  * @param {string} signature - The signature to remove.
- * @param {string} channelType - Optional. The channel type for channel-specific stripping.
- * @param {string} medium - Optional. The medium for Twilio channels (sms/whatsapp).
+ * @param {string} channelType - Optional. The effective channel type for channel-specific stripping.
+ *                               For Twilio channels, pass the result of getEffectiveChannelType().
  * @returns {string} - The body with the signature removed.
  */
-export function removeSignature(body, signature, channelType, medium) {
-  // Get effective channel type for Twilio channels based on medium
-  const effectiveChannelType = getEffectiveChannelType(channelType, medium);
+export function removeSignature(body, signature, channelType) {
   // Build list of signatures to try: original, channel-stripped, and fully stripped
   const cleanedSignature = cleanSignature(signature);
-  const channelStripped = effectiveChannelType
-    ? cleanSignature(
-        stripUnsupportedSignatureMarkdown(signature, effectiveChannelType)
-      )
+  const channelStripped = channelType
+    ? cleanSignature(stripUnsupportedSignatureMarkdown(signature, channelType))
     : null;
   const fullyStripped = cleanSignature(extractTextFromMarkdown(signature));
 

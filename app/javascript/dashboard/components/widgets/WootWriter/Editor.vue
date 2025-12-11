@@ -382,12 +382,11 @@ function addSignature() {
   // see if the content is empty, if it is before appending the signature
   // we need to add a paragraph node and move the cursor at the start of the editor
   const contentWasEmpty = isBodyEmpty(content);
-  content = appendSignature(
-    content,
-    props.signature,
+  const effectiveChannelType = getEffectiveChannelType(
     props.channelType,
     props.medium
   );
+  content = appendSignature(content, props.signature, effectiveChannelType);
   // need to reload first, ensuring that the editorView is updated
   reloadState(content);
 
@@ -399,11 +398,14 @@ function addSignature() {
 function removeSignature() {
   if (!props.signature) return;
   let content = props.modelValue;
+  const effectiveChannelType = getEffectiveChannelType(
+    props.channelType,
+    props.medium
+  );
   content = removeSignatureHelper(
     content,
     props.signature,
-    props.channelType,
-    props.medium
+    effectiveChannelType
   );
   // reload the state, ensuring that the editorView is updated
   reloadState(content);
