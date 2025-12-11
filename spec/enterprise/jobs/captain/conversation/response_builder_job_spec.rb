@@ -251,7 +251,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           closed_all_day: true,
           open_all_day: false
         )
-        # Simulate Captain deciding to handoff
         allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
       end
 
@@ -276,7 +275,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           open_all_day: true,
           closed_all_day: false
         )
-        # Simulate Captain deciding to handoff
         allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
       end
 
@@ -299,7 +297,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           closed_all_day: true,
           open_all_day: false
         )
-        # Simulate error causing handoff
         allow(mock_llm_chat_service).to receive(:generate_response).and_raise(StandardError, 'API error')
       end
 
