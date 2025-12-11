@@ -22,11 +22,11 @@ module Stark
         when 200
           parse_stark_response(response)
         when 400, 500
-          log_stark_error(status_code, response)
+          log_stark_error(status_code, response, conversation)
           nil
         else
           log_and_notify_slack(
-            "[STARK API ERROR] Unexpected response: #{response.inspect}"
+            Stark::SlackMessageFormatter.format_unexpected_response(response, conversation)
           )
           nil
         end
@@ -36,7 +36,7 @@ module Stark
       nil
     rescue StandardError => e
       log_and_notify_slack(
-        "[STARK API ERROR] Stark server error persisted: #{e.message}"
+        Stark::SlackMessageFormatter.format_general_error(e, conversation)
       )
       nil
     end
@@ -158,20 +158,20 @@ module Stark
       raise StandardError, error_message || 'Stark API Error'
     end
 
-    def log_stark_error(status_code, response)
+    def log_stark_error(status_code, response, conversation = nil)
       message = response.dig('body', 'message')
       errors  = response.dig('body', 'errors')
 
-      error_text = case status_code
-                   when 400
-                     "400 Bad Request: #{message}, Errors: #{errors}"
-                   when 500
-                     "500 Server Error: #{message}"
-                   else
-                     "Unknown Error (#{status_code}): #{response.inspect}"
-                   end
+      slack_message = case status_code
+                      when 400
+                        Stark::SlackMessageFormatter.format_http_error(400, message, errors, conversation)
+                      when 500
+                        Stark::SlackMessageFormatter.format_http_error(500, message, nil, conversation)
+                      else
+                        Stark::SlackMessageFormatter.format_unexpected_response(response, conversation)
+                      end
 
-      log_and_notify_slack("[STARK API ERROR] #{error_text}")
+      log_and_notify_slack(slack_message)
     end
 
     def log_and_notify_slack(message)

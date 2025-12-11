@@ -27,26 +27,26 @@ module Stark
           message = response.dig('body', 'message')
           errors = response.dig('body', 'errors')
           log_and_notify_slack(
-            "[STARK FOLLOW-UP ERROR] 400 Bad Request: #{message}, Errors: #{errors}"
+            Stark::SlackMessageFormatter.format_follow_up_error(400, message, errors, @conversation, @follow_up_number)
           )
           nil
         when 500
           # Server error: log and return nil
           message = response.dig('body', 'message')
           log_and_notify_slack(
-            "[STARK FOLLOW-UP ERROR] 500 Server Error: #{message}"
+            Stark::SlackMessageFormatter.format_follow_up_error(500, message, nil, @conversation, @follow_up_number)
           )
           nil
         else
           # Unexpected status: log and return nil
           log_and_notify_slack(
-            "[STARK FOLLOW-UP ERROR] Unexpected response: #{response.inspect}"
+            Stark::SlackMessageFormatter.format_follow_up_unexpected_response(response, @conversation, @follow_up_number)
           )
           nil
         end
       rescue JSON::ParserError => e
         log_and_notify_slack(
-          "[STARK FOLLOW-UP PARSE ERROR] Failed to parse Stark response: #{e.message}"
+          Stark::SlackMessageFormatter.format_follow_up_parse_error(e, @conversation, @follow_up_number)
         )
         nil
       rescue StandardError => e
@@ -58,7 +58,7 @@ module Stark
         end
 
         log_and_notify_slack(
-          "[STARK FOLLOW-UP ERROR] Stark server error persisted: #{e.message}"
+          Stark::SlackMessageFormatter.format_follow_up_general_error(e, @conversation, @follow_up_number)
         )
         nil
       end
@@ -168,6 +168,8 @@ module Stark
       SlackNotifierService.call(
         text: message
       )
+    rescue StandardError => e
+      Rails.logger.error("Failed to send Slack notification: #{e.message}")
     end
 
     def extract_customer_name(contact, platform)
