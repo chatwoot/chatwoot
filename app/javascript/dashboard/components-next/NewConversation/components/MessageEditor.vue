@@ -1,9 +1,8 @@
 <script setup>
-import { ref, watch, computed, nextTick } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
   appendSignature,
-  extractTextFromMarkdown,
   removeSignature,
 } from 'dashboard/helper/editorHelper';
 
@@ -33,17 +32,13 @@ const state = ref({
   mentionSearchKey: '',
 });
 
-const plainTextSignature = computed(() =>
-  extractTextFromMarkdown(props.messageSignature)
-);
-
 watch(
   modelValue,
   newValue => {
     if (props.isEmailOrWebWidgetInbox) return;
 
     const bodyWithoutSignature = newValue
-      ? removeSignature(newValue, plainTextSignature.value)
+      ? removeSignature(newValue, props.messageSignature)
       : '';
 
     // Check if message starts with slash
@@ -67,7 +62,7 @@ const hideMention = () => {
 const replaceText = async message => {
   // Only append signature on replace if sendWithSignature is true
   const finalMessage = props.sendWithSignature
-    ? appendSignature(message, plainTextSignature.value)
+    ? appendSignature(message, props.messageSignature, props.channelType)
     : message;
 
   await nextTick();

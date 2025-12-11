@@ -5,11 +5,18 @@ import {
   replaceSignature,
   cleanSignature,
   extractTextFromMarkdown,
+  supportsImageSignature,
   insertAtCursor,
   findNodeToInsertImage,
   setURLWithQueryAndSize,
   getContentNode,
+  getFormattingForEditor,
+  getSelectionCoords,
+  getMenuAnchor,
+  calculateMenuPosition,
+  stripUnsupportedFormatting,
 } from '../editorHelper';
+import { FORMATTING } from 'dashboard/constants/editor';
 import { EditorState } from '@chatwoot/prosemirror-schema';
 import { EditorView } from '@chatwoot/prosemirror-schema';
 import { Schema } from 'prosemirror-model';
@@ -138,6 +145,47 @@ describe('appendSignature', () => {
   });
 });
 
+describe('appendSignature with channelType', () => {
+  const signatureWithImage =
+    'Thanks\n![](http://localhost:3000/image.png?cw_image_height=24px)';
+  const strippedSignature = 'Thanks';
+
+  it('keeps images for Email channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::Email'
+    );
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+  it('keeps images for WebWidget channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::WebWidget'
+    );
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+  it('strips images for Api channel', () => {
+    const result = appendSignature('Hello', signatureWithImage, 'Channel::Api');
+    expect(result).not.toContain('![](');
+    expect(result).toContain(strippedSignature);
+  });
+  it('strips images for WhatsApp channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::Whatsapp'
+    );
+    expect(result).not.toContain('![](');
+    expect(result).toContain(strippedSignature);
+  });
+  it('keeps images when channelType is not provided', () => {
+    const result = appendSignature('Hello', signatureWithImage);
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+});
+
 describe('cleanSignature', () => {
   it('removes any instance of horizontal rule', () => {
     const options = [
@@ -193,6 +241,37 @@ describe('removeSignature', () => {
     expect(removeSignature('This is a test\n\n--', 'This is a signature')).toBe(
       'This is a test\n\n'
     );
+  });
+});
+
+describe('removeSignature with stripped signature', () => {
+  const signatureWithImage =
+    'Thanks\n![](http://localhost:3000/image.png?cw_image_height=24px)';
+
+  it('removes stripped signature from body', () => {
+    // Simulate a body where signature was added with images stripped
+    const bodyWithStrippedSignature = 'Hello\n\n--\n\nThanks';
+    const result = removeSignature(
+      bodyWithStrippedSignature,
+      signatureWithImage
+    );
+    expect(result).toBe('Hello\n\n');
+  });
+  it('removes original signature from body', () => {
+    // Simulate a body where signature was added with images (using cleanSignature format)
+    const cleanedSig = cleanSignature(signatureWithImage);
+    const bodyWithOriginalSignature = `Hello\n\n--\n\n${cleanedSig}`;
+    const result = removeSignature(
+      bodyWithOriginalSignature,
+      signatureWithImage
+    );
+    expect(result).toBe('Hello\n\n');
+  });
+  it('handles signature without images', () => {
+    const simpleSignature = 'Best regards';
+    const body = 'Hello\n\n--\n\nBest regards';
+    const result = removeSignature(body, simpleSignature);
+    expect(result).toBe('Hello\n\n');
   });
 });
 
@@ -252,21 +331,35 @@ describe('extractTextFromMarkdown', () => {
   });
 });
 
+describe('supportsImageSignature', () => {
+  it('returns true for Email channel', () => {
+    expect(supportsImageSignature('Channel::Email')).toBe(true);
+  });
+  it('returns true for WebWidget channel', () => {
+    expect(supportsImageSignature('Channel::WebWidget')).toBe(true);
+  });
+  it('returns false for Api channel', () => {
+    expect(supportsImageSignature('Channel::Api')).toBe(false);
+  });
+  it('returns false for WhatsApp channel', () => {
+    expect(supportsImageSignature('Channel::Whatsapp')).toBe(false);
+  });
+  it('returns false for Telegram channel', () => {
+    expect(supportsImageSignature('Channel::Telegram')).toBe(false);
+  });
+});
+
 describe('insertAtCursor', () => {
   it('should return undefined if editorView is not provided', () => {
     const result = insertAtCursor(undefined, schema.text('Hello'), 0);
     expect(result).toBeUndefined();
   });
 
-  it('should unwrap doc nodes that are wrapped in a paragraph', () => {
-    const docNode = schema.node('doc', null, [
-      schema.node('paragraph', null, [schema.text('Hello')]),
-    ]);
-
+  it('should insert text node at cursor position', () => {
     const editorState = createEditorState();
     const editorView = new EditorView(document.body, { state: editorState });
 
-    insertAtCursor(editorView, docNode, 0);
+    insertAtCursor(editorView, schema.text('Hello'), 0);
 
     // Check if node was unwrapped and inserted correctly
     expect(editorView.state.doc.firstChild.firstChild.text).toBe('Hello');
@@ -623,6 +716,332 @@ describe('getContentNode', () => {
         from: 0,
         to: 5,
       });
+    });
+  });
+});
+
+describe('getFormattingForEditor', () => {
+  describe('channel-specific formatting', () => {
+    it('returns full formatting for Email channel', () => {
+      const result = getFormattingForEditor('Channel::Email');
+
+      expect(result).toEqual(FORMATTING['Channel::Email']);
+    });
+
+    it('returns full formatting for WebWidget channel', () => {
+      const result = getFormattingForEditor('Channel::WebWidget');
+
+      expect(result).toEqual(FORMATTING['Channel::WebWidget']);
+    });
+
+    it('returns limited formatting for WhatsApp channel', () => {
+      const result = getFormattingForEditor('Channel::Whatsapp');
+
+      expect(result).toEqual(FORMATTING['Channel::Whatsapp']);
+    });
+
+    it('returns no formatting for API channel', () => {
+      const result = getFormattingForEditor('Channel::Api');
+
+      expect(result).toEqual(FORMATTING['Channel::Api']);
+    });
+
+    it('returns limited formatting for FacebookPage channel', () => {
+      const result = getFormattingForEditor('Channel::FacebookPage');
+
+      expect(result).toEqual(FORMATTING['Channel::FacebookPage']);
+    });
+
+    it('returns no formatting for TwitterProfile channel', () => {
+      const result = getFormattingForEditor('Channel::TwitterProfile');
+
+      expect(result).toEqual(FORMATTING['Channel::TwitterProfile']);
+    });
+
+    it('returns no formatting for SMS channel', () => {
+      const result = getFormattingForEditor('Channel::Sms');
+
+      expect(result).toEqual(FORMATTING['Channel::Sms']);
+    });
+
+    it('returns limited formatting for Telegram channel', () => {
+      const result = getFormattingForEditor('Channel::Telegram');
+
+      expect(result).toEqual(FORMATTING['Channel::Telegram']);
+    });
+
+    it('returns formatting for Instagram channel', () => {
+      const result = getFormattingForEditor('Channel::Instagram');
+
+      expect(result).toEqual(FORMATTING['Channel::Instagram']);
+    });
+  });
+
+  describe('context-specific formatting', () => {
+    it('returns default formatting for Context::Default', () => {
+      const result = getFormattingForEditor('Context::Default');
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+
+    it('returns signature formatting for Context::MessageSignature', () => {
+      const result = getFormattingForEditor('Context::MessageSignature');
+
+      expect(result).toEqual(FORMATTING['Context::MessageSignature']);
+    });
+
+    it('returns widget builder formatting for Context::InboxSettings', () => {
+      const result = getFormattingForEditor('Context::InboxSettings');
+
+      expect(result).toEqual(FORMATTING['Context::InboxSettings']);
+    });
+  });
+
+  describe('fallback behavior', () => {
+    it('returns default formatting for unknown channel type', () => {
+      const result = getFormattingForEditor('Channel::Unknown');
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+
+    it('returns default formatting for null channel type', () => {
+      const result = getFormattingForEditor(null);
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+
+    it('returns default formatting for undefined channel type', () => {
+      const result = getFormattingForEditor(undefined);
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+
+    it('returns default formatting for empty string', () => {
+      const result = getFormattingForEditor('');
+
+      expect(result).toEqual(FORMATTING['Context::Default']);
+    });
+  });
+
+  describe('return value structure', () => {
+    it('always returns an object with marks, nodes, and menu properties', () => {
+      const result = getFormattingForEditor('Channel::Email');
+
+      expect(result).toHaveProperty('marks');
+      expect(result).toHaveProperty('nodes');
+      expect(result).toHaveProperty('menu');
+      expect(Array.isArray(result.marks)).toBe(true);
+      expect(Array.isArray(result.nodes)).toBe(true);
+      expect(Array.isArray(result.menu)).toBe(true);
+    });
+  });
+});
+
+describe('stripUnsupportedFormatting', () => {
+  describe('when schema supports all formatting', () => {
+    const fullSchema = {
+      marks: { strong: {}, em: {}, code: {}, strike: {}, link: {} },
+      nodes: { bulletList: {}, orderedList: {}, codeBlock: {}, blockquote: {} },
+    };
+
+    it('preserves all formatting when schema supports it', () => {
+      const content = '**bold** and *italic* and `code`';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
+    it('preserves links when schema supports them', () => {
+      const content = 'Check [this link](https://example.com)';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
+    it('preserves lists when schema supports them', () => {
+      const content = '- item 1\n- item 2\n1. first\n2. second';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+  });
+
+  describe('when schema has no formatting support (eg:SMS channel)', () => {
+    const emptySchema = {
+      marks: {},
+      nodes: {},
+    };
+
+    it('strips bold formatting', () => {
+      expect(stripUnsupportedFormatting('**bold text**', emptySchema)).toBe(
+        'bold text'
+      );
+      expect(stripUnsupportedFormatting('__bold text__', emptySchema)).toBe(
+        'bold text'
+      );
+    });
+
+    it('strips italic formatting', () => {
+      expect(stripUnsupportedFormatting('*italic text*', emptySchema)).toBe(
+        'italic text'
+      );
+      expect(stripUnsupportedFormatting('_italic text_', emptySchema)).toBe(
+        'italic text'
+      );
+    });
+
+    it('strips inline code formatting', () => {
+      expect(stripUnsupportedFormatting('`inline code`', emptySchema)).toBe(
+        'inline code'
+      );
+    });
+
+    it('strips strikethrough formatting', () => {
+      expect(stripUnsupportedFormatting('~~strikethrough~~', emptySchema)).toBe(
+        'strikethrough'
+      );
+    });
+
+    it('strips links but keeps text', () => {
+      expect(
+        stripUnsupportedFormatting(
+          'Check [this link](https://example.com)',
+          emptySchema
+        )
+      ).toBe('Check this link');
+    });
+
+    it('strips bullet list markers', () => {
+      expect(
+        stripUnsupportedFormatting('- item 1\n- item 2', emptySchema)
+      ).toBe('item 1\nitem 2');
+      expect(
+        stripUnsupportedFormatting('* item 1\n* item 2', emptySchema)
+      ).toBe('item 1\nitem 2');
+    });
+
+    it('strips ordered list markers', () => {
+      expect(
+        stripUnsupportedFormatting('1. first\n2. second', emptySchema)
+      ).toBe('first\nsecond');
+    });
+
+    it('strips code block markers', () => {
+      expect(
+        stripUnsupportedFormatting('```javascript\ncode here\n```', emptySchema)
+      ).toBe('code here\n');
+    });
+
+    it('strips blockquote markers', () => {
+      expect(stripUnsupportedFormatting('> quoted text', emptySchema)).toBe(
+        'quoted text'
+      );
+    });
+
+    it('handles complex content with multiple formatting types', () => {
+      const content =
+        '**Bold** and *italic* with `code` and [link](url)\n- list item';
+      const expected = 'Bold and italic with code and link\nlist item';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+  });
+
+  describe('when schema has partial support', () => {
+    const partialSchema = {
+      marks: { strong: {}, em: {} },
+      nodes: {},
+    };
+
+    it('preserves supported marks and strips unsupported ones', () => {
+      const content = '**bold** and `code`';
+      expect(stripUnsupportedFormatting(content, partialSchema)).toBe(
+        '**bold** and code'
+      );
+    });
+
+    it('strips unsupported nodes but keeps supported marks', () => {
+      const content = '**bold** text\n- list item';
+      expect(stripUnsupportedFormatting(content, partialSchema)).toBe(
+        '**bold** text\nlist item'
+      );
+    });
+  });
+
+  describe('edge cases', () => {
+    it('returns content unchanged if content is empty', () => {
+      expect(stripUnsupportedFormatting('', {})).toBe('');
+    });
+
+    it('returns content unchanged if content is null', () => {
+      expect(stripUnsupportedFormatting(null, {})).toBe(null);
+    });
+
+    it('returns content unchanged if content is undefined', () => {
+      expect(stripUnsupportedFormatting(undefined, {})).toBe(undefined);
+    });
+
+    it('returns content unchanged if schema is null', () => {
+      expect(stripUnsupportedFormatting('**bold**', null)).toBe('**bold**');
+    });
+
+    it('handles nested formatting correctly', () => {
+      const emptySchema = { marks: {}, nodes: {} };
+      // After stripping bold (**), the remaining *and italic* becomes italic and is stripped too
+      expect(
+        stripUnsupportedFormatting('**bold *and italic***', emptySchema)
+      ).toBe('bold and italic');
+    });
+  });
+});
+
+describe('Menu positioning helpers', () => {
+  const mockEditorView = {
+    coordsAtPos: vi.fn((pos, bias) => {
+      // Return different coords based on position
+      if (bias === 1) return { top: 100, bottom: 120, left: 50, right: 100 };
+      return { top: 100, bottom: 120, left: 150, right: 200 };
+    }),
+  };
+
+  const wrapperRect = { top: 50, bottom: 300, left: 0, right: 400, width: 400 };
+
+  describe('getSelectionCoords', () => {
+    it('returns selection coordinates with onTop flag', () => {
+      const selection = { from: 0, to: 10 };
+      const result = getSelectionCoords(mockEditorView, selection, wrapperRect);
+
+      expect(result).toHaveProperty('start');
+      expect(result).toHaveProperty('end');
+      expect(result).toHaveProperty('selTop');
+      expect(result).toHaveProperty('onTop');
+    });
+  });
+
+  describe('getMenuAnchor', () => {
+    it('returns end.left when menu is below selection', () => {
+      const coords = { start: { left: 50 }, end: { left: 150 }, onTop: false };
+      expect(getMenuAnchor(coords, wrapperRect, false)).toBe(150);
+    });
+
+    it('returns start.left for LTR when menu is above and visible', () => {
+      const coords = { start: { top: 100, left: 50 }, end: {}, onTop: true };
+      expect(getMenuAnchor(coords, wrapperRect, false)).toBe(50);
+    });
+
+    it('returns start.right for RTL when menu is above and visible', () => {
+      const coords = { start: { top: 100, right: 100 }, end: {}, onTop: true };
+      expect(getMenuAnchor(coords, wrapperRect, true)).toBe(100);
+    });
+  });
+
+  describe('calculateMenuPosition', () => {
+    it('returns bounded left and top positions', () => {
+      const coords = {
+        start: { top: 100, bottom: 120, left: 50 },
+        end: { top: 100, bottom: 120, left: 150 },
+        selTop: 100,
+        onTop: false,
+      };
+      const result = calculateMenuPosition(coords, wrapperRect, false);
+
+      expect(result).toHaveProperty('left');
+      expect(result).toHaveProperty('top');
+      expect(result).toHaveProperty('width', 300);
+      expect(result.left).toBeGreaterThanOrEqual(0);
     });
   });
 });

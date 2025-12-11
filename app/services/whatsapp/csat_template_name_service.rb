@@ -2,6 +2,7 @@ class Whatsapp::CsatTemplateNameService
   CSAT_BASE_NAME = 'customer_satisfaction_survey'.freeze
 
   # Generates template names like: customer_satisfaction_survey_{inbox_id}_{version_number}
+
   def self.csat_template_name(inbox_id, version = nil)
     base_name = csat_base_name_for_inbox(inbox_id)
     version ? "#{base_name}_#{version}" : base_name
