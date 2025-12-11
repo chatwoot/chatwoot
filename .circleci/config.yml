@@ -259,7 +259,7 @@ jobs:
               fi
             done
 
-            bundle exec rspec -I ./spec --require coverage_helper --require spec_helper --format progress \
+            bundle exec rspec -I ./spec --require coverage_helper --require rails_helper --format progress \
                               --format RspecJunitFormatter \
                               --out ~/tmp/test-results/rspec.xml \
                               -- $TESTS

@@ -126,7 +126,7 @@ jobs:
           done
 
           if [ -n "$TESTS" ]; then
-            bundle exec rspec --profile=10 --format progress --format json --out tmp/rspec_results.json $TESTS
+            bundle exec rspec --require rails_helper --profile=10 --format progress --format json --out tmp/rspec_results.json $TESTS
           fi
         env:
           NODE_OPTIONS: --openssl-legacy-provider
