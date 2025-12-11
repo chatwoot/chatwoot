@@ -96,10 +96,29 @@ const handleFormUpdate = updatedData => {
   Object.assign(contactData.value, updatedData);
 };
 
+const continueToConversation = () => {
+  const lastConversationId = contact.value?.last_conversation_id;
+  const lastConversationInboxId = contact.value?.last_conversation_inbox_id;
+
+  if (lastConversationId && lastConversationInboxId) {
+    router.push({
+      name: 'inbox_conversation',
+      params: {
+        accountId: route.params.accountId,
+        inboxId: lastConversationInboxId,
+        conversation_id: lastConversationId,
+      },
+    });
+  } else {
+    useAlert(t('CUSTOMER_MGMT.EDIT.NO_CONVERSATION_ERROR'));
+  }
+};
+
 const updateContact = async () => {
   try {
     await store.dispatch('contacts/update', contactData.value);
     useAlert(t('CUSTOMER_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+    continueToConversation();
   } catch (error) {
     useAlert(t('CUSTOMER_MGMT.EDIT.API.ERROR_MESSAGE'));
   }
@@ -136,24 +155,6 @@ const handleAvatarDelete = async () => {
         ? error.message
         : t('CONTACTS_LAYOUT.DETAILS.AVATAR.DELETE.ERROR_MESSAGE')
     );
-  }
-};
-
-const continueToConversation = () => {
-  const lastConversationId = contact.value?.last_conversation_id;
-  const lastConversationInboxId = contact.value?.last_conversation_inbox_id;
-
-  if (lastConversationId && lastConversationInboxId) {
-    router.push({
-      name: 'inbox_conversation',
-      params: {
-        accountId: route.params.accountId,
-        inboxId: lastConversationInboxId,
-        conversation_id: lastConversationId,
-      },
-    });
-  } else {
-    useAlert(t('CUSTOMER_MGMT.EDIT.NO_CONVERSATION_ERROR'));
   }
 };
 

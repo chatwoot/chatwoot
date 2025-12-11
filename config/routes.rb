@@ -117,6 +117,10 @@ Rails.application.routes.draw do
               post :filter
               post :validate_appointment_token
             end
+
+            member do
+              get :show_qr
+            end
           end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
