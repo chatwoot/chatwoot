@@ -14,8 +14,6 @@ class Llm::BaseAiService
     setup_temperature
   end
 
-  # Returns a configured RubyLLM chat instance.
-  # Subclasses can override model/temperature via instance variables or pass them explicitly.
   def chat(model: @model, temperature: @temperature)
     RubyLLM.chat(model: model).with_temperature(temperature)
   end

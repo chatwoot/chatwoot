@@ -5,8 +5,35 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
-import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
+import {
+  FORMATTING,
+  MARKDOWN_PATTERNS,
+  CHANNEL_WITH_RICH_SIGNATURE,
+} from 'dashboard/constants/editor';
 import camelcaseKeys from 'camelcase-keys';
+
+/**
+ * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
+ * Links will be converted to text, and not removed.
+ *
+ * @param {string} markdown - markdown text to be extracted
+ * @returns {string} - The extracted text.
+ */
+export function extractTextFromMarkdown(markdown) {
+  if (!markdown) return '';
+  return markdown
+    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+    .replace(/`.*?`/g, '') // Remove inline code
+    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images before removing links
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links but keep the text
+    .replace(/#+\s*|[*_-]{1,3}/g, '') // Remove headers, bold, italic, lists etc.
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join('\n') // Trim each line & remove any lines only having spaces
+    .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
+    .trim(); // Trim any extra space
+}
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -70,14 +97,31 @@ export function findSignatureInBody(body, signature) {
 }
 
 /**
+ * Checks if the channel supports image signatures.
+ *
+ * @param {string} channelType - The channel type.
+ * @returns {boolean} - True if the channel supports image signatures.
+ */
+export function supportsImageSignature(channelType) {
+  return CHANNEL_WITH_RICH_SIGNATURE.includes(channelType);
+}
+
+/**
  * Appends the signature to the body, separated by the signature delimiter.
+ * Automatically strips images for channels that don't support image signatures.
  *
  * @param {string} body - The body to append the signature to.
  * @param {string} signature - The signature to append.
+ * @param {string} channelType - Optional. The channel type to determine if images should be stripped.
  * @returns {string} - The body with the signature appended.
  */
-export function appendSignature(body, signature) {
-  const cleanedSignature = cleanSignature(signature);
+export function appendSignature(body, signature, channelType) {
+  // For channels that don't support images, strip markdown formatting
+  const shouldStripImages = channelType && !supportsImageSignature(channelType);
+  const preparedSignature = shouldStripImages
+    ? extractTextFromMarkdown(signature)
+    : signature;
+  const cleanedSignature = cleanSignature(preparedSignature);
   // if signature is already present, return body
   if (findSignatureInBody(body, cleanedSignature) > -1) {
     return body;
@@ -88,16 +132,27 @@ export function appendSignature(body, signature) {
 
 /**
  * Removes the signature from the body, along with the signature delimiter.
+ * Tries to find both the original signature and the stripped version (for non-image channels).
  *
  * @param {string} body - The body to remove the signature from.
  * @param {string} signature - The signature to remove.
  * @returns {string} - The body with the signature removed.
  */
 export function removeSignature(body, signature) {
-  // this will find the index of the signature if it exists
-  // Regardless of extra spaces or new lines after the signature, the index will be the same if present
+  // Build list of signatures to try: original first, then stripped version
+  // Always try both to handle cases where channelType is unknown or inbox is being removed
   const cleanedSignature = cleanSignature(signature);
-  const signatureIndex = findSignatureInBody(body, cleanedSignature);
+  const strippedSignature = cleanSignature(extractTextFromMarkdown(signature));
+  const signaturesToTry =
+    cleanedSignature === strippedSignature
+      ? [cleanedSignature]
+      : [cleanedSignature, strippedSignature];
+
+  // Find the first matching signature
+  const signatureIndex = signaturesToTry.reduce(
+    (index, sig) => (index === -1 ? findSignatureInBody(body, sig) : index),
+    -1
+  );
 
   // no need to trim the ends here, because it will simply be removed in the next method
   let newBody = body;
@@ -136,28 +191,6 @@ export function removeSignature(body, signature) {
 export function replaceSignature(body, oldSignature, newSignature) {
   const withoutSignature = removeSignature(body, oldSignature);
   return appendSignature(withoutSignature, newSignature);
-}
-
-/**
- * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
- * Links will be converted to text, and not removed.
- *
- * @param {string} markdown - markdown text to be extracted
- * @returns
- */
-export function extractTextFromMarkdown(markdown) {
-  return markdown
-    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
-    .replace(/`.*?`/g, '') // Remove inline code
-    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images before removing links
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links but keep the text
-    .replace(/#+\s*|[*_-]{1,3}/g, '') // Remove headers, bold, italic, lists etc.
-    .split('\n')
-    .map(line => line.trim())
-    .filter(Boolean)
-    .join('\n') // Trim each line & remove any lines only having spaces
-    .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
-    .trim(); // Trim any extra space
 }
 
 /**

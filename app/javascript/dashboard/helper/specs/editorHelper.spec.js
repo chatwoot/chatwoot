@@ -5,6 +5,7 @@ import {
   replaceSignature,
   cleanSignature,
   extractTextFromMarkdown,
+  supportsImageSignature,
   insertAtCursor,
   findNodeToInsertImage,
   setURLWithQueryAndSize,
@@ -144,6 +145,47 @@ describe('appendSignature', () => {
   });
 });
 
+describe('appendSignature with channelType', () => {
+  const signatureWithImage =
+    'Thanks\n![](http://localhost:3000/image.png?cw_image_height=24px)';
+  const strippedSignature = 'Thanks';
+
+  it('keeps images for Email channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::Email'
+    );
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+  it('keeps images for WebWidget channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::WebWidget'
+    );
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+  it('strips images for Api channel', () => {
+    const result = appendSignature('Hello', signatureWithImage, 'Channel::Api');
+    expect(result).not.toContain('![](');
+    expect(result).toContain(strippedSignature);
+  });
+  it('strips images for WhatsApp channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::Whatsapp'
+    );
+    expect(result).not.toContain('![](');
+    expect(result).toContain(strippedSignature);
+  });
+  it('keeps images when channelType is not provided', () => {
+    const result = appendSignature('Hello', signatureWithImage);
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+});
+
 describe('cleanSignature', () => {
   it('removes any instance of horizontal rule', () => {
     const options = [
@@ -202,6 +244,37 @@ describe('removeSignature', () => {
   });
 });
 
+describe('removeSignature with stripped signature', () => {
+  const signatureWithImage =
+    'Thanks\n![](http://localhost:3000/image.png?cw_image_height=24px)';
+
+  it('removes stripped signature from body', () => {
+    // Simulate a body where signature was added with images stripped
+    const bodyWithStrippedSignature = 'Hello\n\n--\n\nThanks';
+    const result = removeSignature(
+      bodyWithStrippedSignature,
+      signatureWithImage
+    );
+    expect(result).toBe('Hello\n\n');
+  });
+  it('removes original signature from body', () => {
+    // Simulate a body where signature was added with images (using cleanSignature format)
+    const cleanedSig = cleanSignature(signatureWithImage);
+    const bodyWithOriginalSignature = `Hello\n\n--\n\n${cleanedSig}`;
+    const result = removeSignature(
+      bodyWithOriginalSignature,
+      signatureWithImage
+    );
+    expect(result).toBe('Hello\n\n');
+  });
+  it('handles signature without images', () => {
+    const simpleSignature = 'Best regards';
+    const body = 'Hello\n\n--\n\nBest regards';
+    const result = removeSignature(body, simpleSignature);
+    expect(result).toBe('Hello\n\n');
+  });
+});
+
 describe('replaceSignature', () => {
   it('appends the new signature if not present', () => {
     Object.keys(DOES_NOT_HAVE_SIGNATURE).forEach(key => {
@@ -255,6 +328,24 @@ describe('extractTextFromMarkdown', () => {
     const expected =
       "Hello World\nThis is a bold text with a link.\nHere's an image:\nList item 1\nList item 2\nItalic text";
     expect(extractTextFromMarkdown(markdown)).toEqual(expected);
+  });
+});
+
+describe('supportsImageSignature', () => {
+  it('returns true for Email channel', () => {
+    expect(supportsImageSignature('Channel::Email')).toBe(true);
+  });
+  it('returns true for WebWidget channel', () => {
+    expect(supportsImageSignature('Channel::WebWidget')).toBe(true);
+  });
+  it('returns false for Api channel', () => {
+    expect(supportsImageSignature('Channel::Api')).toBe(false);
+  });
+  it('returns false for WhatsApp channel', () => {
+    expect(supportsImageSignature('Channel::Whatsapp')).toBe(false);
+  });
+  it('returns false for Telegram channel', () => {
+    expect(supportsImageSignature('Channel::Telegram')).toBe(false);
   });
 });
 
