@@ -367,6 +367,7 @@ const shouldShowMessageEditor = computed(() => {
       :has-errors="validationStates.isMessageInvalid"
       :has-attachments="state.attachedFiles.length > 0"
       :channel-type="inboxChannelType"
+      :medium="targetInbox?.medium || ''"
     />
 
     <AttachmentPreviews

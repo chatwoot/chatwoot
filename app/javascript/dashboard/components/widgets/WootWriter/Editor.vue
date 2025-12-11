@@ -55,6 +55,7 @@ import {
   getSelectionCoords,
   calculateMenuPosition,
 } from 'dashboard/helper/editorHelper';
+import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
@@ -81,6 +82,7 @@ const props = defineProps({
   // are triggered except when this flag is true
   allowSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
   showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   focusOnMount: { type: Boolean, default: true },
 });
@@ -105,18 +107,31 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
 
+const getEffectiveChannelType = () => {
+  if (props.channelType === INBOX_TYPES.TWILIO) {
+    return props.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
+      ? INBOX_TYPES.WHATSAPP
+      : INBOX_TYPES.TWILIO;
+  }
+  return props.channelType;
+};
+
 const editorSchema = computed(() => {
   if (!props.channelType) return messageSchema;
 
-  const formatType = props.isPrivate ? DEFAULT_FORMATTING : props.channelType;
+  const effectiveChannelType = getEffectiveChannelType();
+  const formatType = props.isPrivate
+    ? DEFAULT_FORMATTING
+    : effectiveChannelType;
   const formatting = getFormattingForEditor(formatType);
   return buildMessageSchema(formatting.marks, formatting.nodes);
 });
 
 const editorMenuOptions = computed(() => {
+  const effectiveChannelType = getEffectiveChannelType();
   const formatType = props.isPrivate
     ? DEFAULT_FORMATTING
-    : props.channelType || DEFAULT_FORMATTING;
+    : effectiveChannelType || DEFAULT_FORMATTING;
   const formatting = getFormattingForEditor(formatType);
   return formatting.menu;
 });
