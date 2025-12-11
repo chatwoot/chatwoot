@@ -14,13 +14,13 @@ const handleClick = slug => {
   emit('click', slug);
 };
 
-const handleAction = ({ action, value, id }, category) => {
-  emit('action', { action, value, id, category });
+const handleAction = ({ action, id }, category) => {
+  emit('action', { action, id, category });
 };
 </script>
 
 <template>
-  <ul role="list" class="grid w-full h-full grid-cols-1 gap-4 md:grid-cols-2">
+  <ul role="list" class="flex w-full h-full flex-col gap-4">
     <CategoryCard
       v-for="category in categories"
       :id="category.id"

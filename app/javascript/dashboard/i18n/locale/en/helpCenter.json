@@ -561,6 +561,7 @@
       }
     },
     "CATEGORY_PAGE": {
+      "HEADER": "Categories",
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "New category",
         "EDIT_CATEGORY": "Edit category",
