@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -12,6 +13,7 @@ const { accountId } = useAccount();
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+const { isEnterprise } = useConfig();
 
 const showAutoResolutionConfig = computed(() => {
   return isFeatureEnabledonAccount.value(
@@ -35,6 +37,7 @@ const showAutoResolutionConfig = computed(() => {
       <div class="flex flex-col gap-6">
         <AutoResolve v-if="showAutoResolutionConfig" />
         <ConversationRequiredAttributes
+          v-if="isEnterprise"
           :title="$t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE')"
           :description="
             $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.DESCRIPTION')
