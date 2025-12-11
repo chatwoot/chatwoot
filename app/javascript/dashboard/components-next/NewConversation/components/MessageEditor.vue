@@ -1,10 +1,9 @@
 <script setup>
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
-const props = defineProps({
+defineProps({
   hasErrors: { type: Boolean, default: false },
   hasAttachments: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
@@ -26,7 +25,6 @@ const modelValue = defineModel({
 <template>
   <div class="flex-1 h-full" :class="[!hasAttachments && 'min-h-[200px]']">
     <Editor
-      :key="editorKey"
       v-model="modelValue"
       :placeholder="
         t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')

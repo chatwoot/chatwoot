@@ -46,7 +46,6 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
-  extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -614,26 +613,14 @@ export default {
       if (this.isPrivate) {
         return message;
       }
-      if (this.showRichContentEditor) {
-        const effectiveChannelType = getEffectiveChannelType(
-          this.channelType,
-          this.inbox?.medium || ''
-        );
-        return this.sendWithSignature
-          ? appendSignature(
-              message,
-              this.messageSignature,
-              effectiveChannelType
-            )
-          : removeSignature(
-              message,
-              this.messageSignature,
-              effectiveChannelType
-            );
-      }
+
+      const effectiveChannelType = getEffectiveChannelType(
+        this.channelType,
+        this.inbox?.medium || ''
+      );
       return this.sendWithSignature
-        ? appendSignature(message, this.signatureToApply)
-        : removeSignature(message, this.signatureToApply);
+        ? appendSignature(message, this.messageSignature, effectiveChannelType)
+        : removeSignature(message, this.messageSignature, effectiveChannelType);
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
@@ -832,19 +819,15 @@ export default {
         // if signature is enabled, append it to the message
         // appendSignature ensures that the signature is not duplicated
         // so we don't need to check if the signature is already present
-        if (this.showRichContentEditor) {
-          const effectiveChannelType = getEffectiveChannelType(
-            this.channelType,
-            this.inbox?.medium || ''
-          );
-          message = appendSignature(
-            message,
-            this.messageSignature,
-            effectiveChannelType
-          );
-        } else {
-          message = appendSignature(message, this.signatureToApply);
-        }
+        const effectiveChannelType = getEffectiveChannelType(
+          this.channelType,
+          this.inbox?.medium || ''
+        );
+        message = appendSignature(
+          message,
+          this.messageSignature,
+          effectiveChannelType
+        );
       }
 
       const updatedMessage = replaceVariablesInMessage({
@@ -901,19 +884,15 @@ export default {
       this.message = '';
       if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
-        if (this.showRichContentEditor) {
-          const effectiveChannelType = getEffectiveChannelType(
-            this.channelType,
-            this.inbox?.medium || ''
-          );
-          this.message = appendSignature(
-            this.message,
-            this.messageSignature,
-            effectiveChannelType
-          );
-        } else {
-          this.message = appendSignature(this.message, this.signatureToApply);
-        }
+        const effectiveChannelType = getEffectiveChannelType(
+          this.channelType,
+          this.inbox?.medium || ''
+        );
+        this.message = appendSignature(
+          this.message,
+          this.messageSignature,
+          effectiveChannelType
+        );
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
