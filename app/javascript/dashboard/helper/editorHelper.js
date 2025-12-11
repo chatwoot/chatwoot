@@ -5,11 +5,8 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
-import {
-  FORMATTING,
-  MARKDOWN_PATTERNS,
-  CHANNEL_WITH_RICH_SIGNATURE,
-} from 'dashboard/constants/editor';
+import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
+import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
 
 /**
@@ -33,6 +30,56 @@ export function extractTextFromMarkdown(markdown) {
     .join('\n') // Trim each line & remove any lines only having spaces
     .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
     .trim(); // Trim any extra space
+}
+
+/**
+ * Strip unsupported markdown formatting based on channel capabilities.
+ *
+ * @param {string} markdown - markdown text to process
+ * @param {string} channelType - The channel type to check supported formatting
+ * @returns {string} - The markdown with unsupported formatting removed
+ */
+export function stripUnsupportedSignatureMarkdown(markdown, channelType) {
+  if (!markdown) return '';
+
+  const { marks = [], nodes = [] } = FORMATTING[channelType] || {};
+  const has = (arr, key) => arr.includes(key);
+
+  // Define stripping rules: [condition, pattern, replacement]
+  const rules = [
+    [!has(nodes, 'image'), /!\[.*?\]\(.*?\)/g, ''],
+    [!has(marks, 'link'), /\[([^\]]+)\]\([^)]+\)/g, '$1'],
+    [!has(nodes, 'codeBlock'), /```[\s\S]*?```/g, ''],
+    [!has(marks, 'code'), /`([^`]+)`/g, '$1'],
+    [!has(marks, 'strong'), /\*\*([^*]+)\*\*/g, '$1'],
+    [!has(marks, 'strong'), /__([^_]+)__/g, '$1'],
+    [!has(marks, 'em'), /\*([^*]+)\*/g, '$1'],
+    // Match _text_ only at word boundaries (whitespace/string start/end)
+    // Preserves underscores in URLs (e.g., https://example.com/path_name) and variable names
+    [
+      !has(marks, 'em'),
+      /(?<=^|[\s])_([^_\s][^_]*[^_\s]|[^_\s])_(?=$|[\s])/g,
+      '$1',
+    ],
+    [!has(marks, 'strike'), /~~([^~]+)~~/g, '$1'],
+    [!has(nodes, 'blockquote'), /^>\s?/gm, ''],
+    [!has(nodes, 'bulletList'), /^[-*+]\s+/gm, ''],
+    [!has(nodes, 'orderedList'), /^\d+\.\s+/gm, ''],
+  ];
+
+  const result = rules.reduce(
+    (text, [shouldStrip, pattern, replacement]) =>
+      shouldStrip ? text.replace(pattern, replacement) : text,
+    markdown
+  );
+
+  return result
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join('\n')
+    .replace(/\n{2,}/g, '\n')
+    .trim();
 }
 
 /**
@@ -97,29 +144,36 @@ export function findSignatureInBody(body, signature) {
 }
 
 /**
- * Checks if the channel supports image signatures.
+ * Gets the effective channel type for formatting purposes.
+ * For Twilio channels, returns WhatsApp or Twilio based on medium.
  *
- * @param {string} channelType - The channel type.
- * @returns {boolean} - True if the channel supports image signatures.
+ * @param {string} channelType - The channel type
+ * @param {string} medium - Optional. The medium for Twilio channels (sms/whatsapp)
+ * @returns {string} - The effective channel type for formatting
  */
-export function supportsImageSignature(channelType) {
-  return CHANNEL_WITH_RICH_SIGNATURE.includes(channelType);
+export function getEffectiveChannelType(channelType, medium) {
+  if (channelType === INBOX_TYPES.TWILIO) {
+    return medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
+      ? INBOX_TYPES.WHATSAPP
+      : INBOX_TYPES.TWILIO;
+  }
+  return channelType;
 }
 
 /**
  * Appends the signature to the body, separated by the signature delimiter.
- * Automatically strips images for channels that don't support image signatures.
+ * Automatically strips unsupported formatting based on channel capabilities.
  *
  * @param {string} body - The body to append the signature to.
  * @param {string} signature - The signature to append.
- * @param {string} channelType - Optional. The channel type to determine if images should be stripped.
+ * @param {string} channelType - Optional. The effective channel type to determine supported formatting.
+ *                               For Twilio channels, pass the result of getEffectiveChannelType().
  * @returns {string} - The body with the signature appended.
  */
 export function appendSignature(body, signature, channelType) {
-  // For channels that don't support images, strip markdown formatting
-  const shouldStripImages = channelType && !supportsImageSignature(channelType);
-  const preparedSignature = shouldStripImages
-    ? extractTextFromMarkdown(signature)
+  // Strip only unsupported formatting based on channel capabilities
+  const preparedSignature = channelType
+    ? stripUnsupportedSignatureMarkdown(signature, channelType)
     : signature;
   const cleanedSignature = cleanSignature(preparedSignature);
   // if signature is already present, return body
@@ -132,21 +186,28 @@ export function appendSignature(body, signature, channelType) {
 
 /**
  * Removes the signature from the body, along with the signature delimiter.
- * Tries to find both the original signature and the stripped version (for non-image channels).
+ * Tries to find both the original signature and the stripped version.
  *
  * @param {string} body - The body to remove the signature from.
  * @param {string} signature - The signature to remove.
+ * @param {string} channelType - Optional. The effective channel type for channel-specific stripping.
+ *                               For Twilio channels, pass the result of getEffectiveChannelType().
  * @returns {string} - The body with the signature removed.
  */
-export function removeSignature(body, signature) {
-  // Build list of signatures to try: original first, then stripped version
-  // Always try both to handle cases where channelType is unknown or inbox is being removed
+export function removeSignature(body, signature, channelType) {
+  // Build list of signatures to try: original, channel-stripped, and fully stripped
   const cleanedSignature = cleanSignature(signature);
-  const strippedSignature = cleanSignature(extractTextFromMarkdown(signature));
-  const signaturesToTry =
-    cleanedSignature === strippedSignature
-      ? [cleanedSignature]
-      : [cleanedSignature, strippedSignature];
+  const channelStripped = channelType
+    ? cleanSignature(stripUnsupportedSignatureMarkdown(signature, channelType))
+    : null;
+  const fullyStripped = cleanSignature(extractTextFromMarkdown(signature));
+
+  // Try signatures in order: original → channel-specific → fully stripped
+  const signaturesToTry = [
+    cleanedSignature,
+    channelStripped,
+    fullyStripped,
+  ].filter((sig, i, arr) => sig && arr.indexOf(sig) === i); // Remove nulls and duplicates
 
   // Find the first matching signature
   const signatureIndex = signaturesToTry.reduce(
