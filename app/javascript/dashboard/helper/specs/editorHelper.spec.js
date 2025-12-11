@@ -926,6 +926,26 @@ describe('stripUnsupportedFormatting', () => {
       );
     });
 
+    it('preserves underscores in URLs and mid-word positions', () => {
+      // Underscores in URLs should not be stripped as italic formatting
+      expect(
+        stripUnsupportedFormatting(
+          'https://www.chatwoot.com/new_first_second-third/ssd',
+          emptySchema
+        )
+      ).toBe('https://www.chatwoot.com/new_first_second-third/ssd');
+
+      // Underscores in variable names should not be stripped
+      expect(
+        stripUnsupportedFormatting('some_variable_name', emptySchema)
+      ).toBe('some_variable_name');
+
+      // But actual italic formatting with spaces should still be stripped
+      expect(
+        stripUnsupportedFormatting('hello _world_ there', emptySchema)
+      ).toBe('hello world there');
+    });
+
     it('strips inline code formatting', () => {
       expect(stripUnsupportedFormatting('`inline code`', emptySchema)).toBe(
         'inline code'

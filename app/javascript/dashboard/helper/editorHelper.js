@@ -53,7 +53,13 @@ export function stripUnsupportedSignatureMarkdown(markdown, channelType) {
     [!has(marks, 'strong'), /\*\*([^*]+)\*\*/g, '$1'],
     [!has(marks, 'strong'), /__([^_]+)__/g, '$1'],
     [!has(marks, 'em'), /\*([^*]+)\*/g, '$1'],
-    [!has(marks, 'em'), /_([^_]+)_/g, '$1'],
+    // Match _text_ only at word boundaries (whitespace/string start/end)
+    // Preserves underscores in URLs (e.g., https://example.com/path_name) and variable names
+    [
+      !has(marks, 'em'),
+      /(?<=^|[\s])_([^_\s][^_]*[^_\s]|[^_\s])_(?=$|[\s])/g,
+      '$1',
+    ],
     [!has(marks, 'strike'), /~~([^~]+)~~/g, '$1'],
     [!has(nodes, 'blockquote'), /^>\s?/gm, ''],
     [!has(nodes, 'bulletList'), /^[-*+]\s+/gm, ''],
