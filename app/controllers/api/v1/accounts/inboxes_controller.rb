@@ -151,6 +151,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inbox.channel.save!
   end
 
+  def format_survey_rules(config)
+    {
+      'operator' => config.dig('survey_rules', 'operator') || 'contains',
+      'values' => config.dig('survey_rules', 'values') || []
+    }
+  end
+
   def format_csat_config(config)
     formatted = {
       'display_type' => config['display_type'] || 'emoji',
@@ -162,13 +169,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     formatted['survey_rules'] = format_survey_rules(config)
     format_template_config(config, formatted)
     formatted
-  end
-
-  def format_survey_rules(config)
-    {
-      'operator' => config.dig('survey_rules', 'operator') || 'contains',
-      'values' => config.dig('survey_rules', 'values') || []
-    }
   end
 
   def format_template_config(config, formatted)
