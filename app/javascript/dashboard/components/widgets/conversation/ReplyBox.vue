@@ -568,7 +568,7 @@ export default {
       }
 
       return this.sendWithSignature
-        ? appendSignature(message, this.messageSignature)
+        ? appendSignature(message, this.messageSignature, this.channelType)
         : removeSignature(message, this.messageSignature);
     },
     removeFromDraft() {
@@ -760,7 +760,11 @@ export default {
         // if signature is enabled, append it to the message
         // appendSignature ensures that the signature is not duplicated
         // so we don't need to check if the signature is already present
-        message = appendSignature(message, this.messageSignature);
+        message = appendSignature(
+          message,
+          this.messageSignature,
+          this.channelType
+        );
       }
 
       const updatedMessage = replaceVariablesInMessage({
@@ -803,7 +807,11 @@ export default {
       this.message = '';
       if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
-        this.message = appendSignature(this.message, this.messageSignature);
+        this.message = appendSignature(
+          this.message,
+          this.messageSignature,
+          this.channelType
+        );
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;

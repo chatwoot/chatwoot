@@ -6,7 +6,6 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
-  extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 import {
   buildContactableInboxesList,
@@ -202,11 +201,8 @@ const handleInboxAction = ({ value, action, ...rest }) => {
 const removeSignatureFromMessage = () => {
   // Always remove the signature from message content when inbox/contact is removed
   // to ensure no leftover signature content remains
-  const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
-    ? props.messageSignature
-    : extractTextFromMarkdown(props.messageSignature);
-  if (signatureToRemove) {
-    state.message = removeSignature(state.message, signatureToRemove);
+  if (props.messageSignature) {
+    state.message = removeSignature(state.message, props.messageSignature);
   }
 };
 
@@ -228,7 +224,11 @@ const onClickInsertEmoji = emoji => {
 };
 
 const handleAddSignature = signature => {
-  state.message = appendSignature(state.message, signature);
+  state.message = appendSignature(
+    state.message,
+    signature,
+    inboxChannelType.value
+  );
 };
 
 const handleRemoveSignature = signature => {
