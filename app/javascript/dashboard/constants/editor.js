@@ -5,7 +5,7 @@ export const FORMATTING = {
   // Channel formatting
   'Channel::Email': {
     marks: ['strong', 'em', 'code', 'link'],
-    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],
+    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
     menu: [
       'copilot',
       'strong',
@@ -20,7 +20,7 @@ export const FORMATTING = {
   },
   'Channel::WebWidget': {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
-    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],
+    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
     menu: [
       'copilot',
       'strong',
@@ -148,7 +148,7 @@ export const FORMATTING = {
   },
   'Context::MessageSignature': {
     marks: ['strong', 'em', 'link'],
-    nodes: [],
+    nodes: ['image'],
     menu: ['strong', 'em', 'link', 'undo', 'redo', 'imageUpload'],
   },
   'Context::InboxSettings': {
@@ -246,6 +246,11 @@ export const MARKDOWN_PATTERNS = [
     type: 'link', // PM: link, eg: [text](url)
     patterns: [{ pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }],
   },
+];
+
+export const CHANNEL_WITH_RICH_SIGNATURE = [
+  'Channel::Email',
+  'Channel::WebWidget',
 ];
 
 // Editor image resize options for Message Editor
