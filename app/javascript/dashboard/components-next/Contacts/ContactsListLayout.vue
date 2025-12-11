@@ -102,6 +102,7 @@ const openFilter = () => {
           :current-page="currentPage"
           :total-items="totalItems"
           :items-per-page="itemsPerPage"
+          class="max-w-[105rem]"
           @update:current-page="updateCurrentPage"
         />
       </footer>
