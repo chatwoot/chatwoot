@@ -40,60 +40,31 @@ RSpec.describe MessageTemplates::HookExecutionService do
         )
       end
 
-      context 'when captain_active_outside_business_hours is enabled (default)' do
-        before do
-          assistant.update!(config: assistant.config.merge('captain_active_outside_business_hours' => true))
-        end
+      it 'schedules captain response job outside business hours (Captain always responds when configured)' do
+        expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
 
-        it 'schedules captain response job outside business hours' do
-          expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
-
-          create(:message, conversation: conversation, message_type: :incoming)
-        end
-
-        it 'performs captain handoff when quota is exceeded (OOO template will kick in after handoff)' do
-          account.update!(
-            limits: { 'captain_responses' => 100 },
-            custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
-          )
-
-          create(:message, conversation: conversation, message_type: :incoming)
-
-          expect(conversation.reload.status).to eq('open')
-        end
-
-        it 'does not send out of office message when Captain is handling' do
-          out_of_office_service = instance_double(MessageTemplates::Template::OutOfOffice)
-          allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
-          allow(out_of_office_service).to receive(:perform).and_return(true)
-
-          create(:message, conversation: conversation, message_type: :incoming)
-
-          expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
-        end
+        create(:message, conversation: conversation, message_type: :incoming)
       end
 
-      context 'when captain_active_outside_business_hours is disabled' do
-        before do
-          assistant.update!(config: assistant.config.merge('captain_active_outside_business_hours' => false))
-        end
+      it 'performs captain handoff when quota is exceeded (OOO template will kick in after handoff)' do
+        account.update!(
+          limits: { 'captain_responses' => 100 },
+          custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
+        )
 
-        it 'does not schedule captain response job outside business hours' do
-          expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+        create(:message, conversation: conversation, message_type: :incoming)
 
-          create(:message, conversation: conversation, message_type: :incoming)
-        end
+        expect(conversation.reload.status).to eq('open')
+      end
 
-        it 'allows out of office message to be sent (Captain not handling)' do
-          inbox.update!(enable_email_collect: false)
+      it 'does not send out of office message when Captain is handling' do
+        out_of_office_service = instance_double(MessageTemplates::Template::OutOfOffice)
+        allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+        allow(out_of_office_service).to receive(:perform).and_return(true)
 
-          expect do
-            create(:message, conversation: conversation, message_type: :incoming)
-          end.to change { conversation.reload.messages.template.count }.by(1)
+        create(:message, conversation: conversation, message_type: :incoming)
 
-          out_of_office_message = conversation.reload.messages.template.last
-          expect(out_of_office_message.content).to eq('We are currently closed')
-        end
+        expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
       end
     end
 

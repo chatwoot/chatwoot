@@ -481,11 +481,6 @@
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
           "ALLOW_CITATIONS": "Include source citations in responses"
         },
-        "OUTSIDE_BUSINESS_HOURS": {
-          "LABEL": "Allow Captain to respond outside business hours",
-          "DESCRIPTION": "When enabled, Captain will respond to customers outside business hours. If a handoff is needed, the customer will be notified that the team is unavailable and when to expect a reply.",
-          "TIP": "Tip: When disabled, the out-of-office message configured in your inbox settings will be sent to customers instead."
-        },
         "HANDOFF_MESSAGE": {
           "SECTION_TITLE": "Handoff Message",
           "LABEL": "Handoff Message",

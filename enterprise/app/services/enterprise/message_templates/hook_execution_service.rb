@@ -50,14 +50,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    return false unless conversation.pending? && message.incoming? && inbox.captain_assistant.present?
-    return captain_active_outside_business_hours? if inbox.out_of_office?
-
-    true
-  end
-
-  def captain_active_outside_business_hours?
-    inbox.captain_assistant.captain_active_outside_business_hours != false
+    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
   end
 
   def perform_handoff
@@ -74,9 +67,6 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_handling_conversation?
-    return false unless conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
-    return captain_active_outside_business_hours? if inbox.out_of_office?
-
-    true
+    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
   end
 end
