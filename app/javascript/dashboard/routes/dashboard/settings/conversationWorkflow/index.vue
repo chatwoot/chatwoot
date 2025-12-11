@@ -1,8 +1,24 @@
 <script setup>
+import { computed } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ConversationRequiredAttributes from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributes.vue';
 import AutoResolve from 'dashboard/routes/dashboard/settings/account/components/AutoResolve.vue';
+
+const { accountId } = useAccount();
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+
+const showAutoResolutionConfig = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.AUTO_RESOLVE_CONVERSATIONS
+  );
+});
 </script>
 
 <template>
@@ -17,7 +33,7 @@ import AutoResolve from 'dashboard/routes/dashboard/settings/account/components/
 
     <template #body>
       <div class="flex flex-col gap-6">
-        <AutoResolve />
+        <AutoResolve v-if="showAutoResolutionConfig" />
         <ConversationRequiredAttributes
           :title="$t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE')"
           :description="
