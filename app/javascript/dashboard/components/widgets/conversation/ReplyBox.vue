@@ -565,8 +565,18 @@ export default {
       }
 
       return this.sendWithSignature
-        ? appendSignature(message, this.messageSignature, this.channelType)
-        : removeSignature(message, this.messageSignature, this.channelType);
+        ? appendSignature(
+            message,
+            this.messageSignature,
+            this.channelType,
+            this.inbox?.medium || ''
+          )
+        : removeSignature(
+            message,
+            this.messageSignature,
+            this.channelType,
+            this.inbox?.medium || ''
+          );
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
@@ -760,7 +770,8 @@ export default {
         message = appendSignature(
           message,
           this.messageSignature,
-          this.channelType
+          this.channelType,
+          this.inbox?.medium || ''
         );
       }
 
@@ -803,7 +814,8 @@ export default {
         this.message = appendSignature(
           this.message,
           this.messageSignature,
-          this.channelType
+          this.channelType,
+          this.inbox?.medium || ''
         );
       }
       this.attachedFiles = [];

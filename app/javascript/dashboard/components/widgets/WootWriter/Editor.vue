@@ -54,8 +54,8 @@ import {
   getFormattingForEditor,
   getSelectionCoords,
   calculateMenuPosition,
+  getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
-import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
@@ -107,19 +107,13 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
 
-const getEffectiveChannelType = () => {
-  if (props.channelType === INBOX_TYPES.TWILIO) {
-    return props.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
-      ? INBOX_TYPES.WHATSAPP
-      : INBOX_TYPES.TWILIO;
-  }
-  return props.channelType;
-};
-
 const editorSchema = computed(() => {
   if (!props.channelType) return messageSchema;
 
-  const effectiveChannelType = getEffectiveChannelType();
+  const effectiveChannelType = getEffectiveChannelType(
+    props.channelType,
+    props.medium
+  );
   const formatType = props.isPrivate
     ? DEFAULT_FORMATTING
     : effectiveChannelType;
@@ -128,7 +122,10 @@ const editorSchema = computed(() => {
 });
 
 const editorMenuOptions = computed(() => {
-  const effectiveChannelType = getEffectiveChannelType();
+  const effectiveChannelType = getEffectiveChannelType(
+    props.channelType,
+    props.medium
+  );
   const formatType = props.isPrivate
     ? DEFAULT_FORMATTING
     : effectiveChannelType || DEFAULT_FORMATTING;
@@ -385,7 +382,12 @@ function addSignature() {
   // see if the content is empty, if it is before appending the signature
   // we need to add a paragraph node and move the cursor at the start of the editor
   const contentWasEmpty = isBodyEmpty(content);
-  content = appendSignature(content, props.signature, props.channelType);
+  content = appendSignature(
+    content,
+    props.signature,
+    props.channelType,
+    props.medium
+  );
   // need to reload first, ensuring that the editorView is updated
   reloadState(content);
 
@@ -397,7 +399,12 @@ function addSignature() {
 function removeSignature() {
   if (!props.signature) return;
   let content = props.modelValue;
-  content = removeSignatureHelper(content, props.signature, props.channelType);
+  content = removeSignatureHelper(
+    content,
+    props.signature,
+    props.channelType,
+    props.medium
+  );
   // reload the state, ensuring that the editorView is updated
   reloadState(content);
 }

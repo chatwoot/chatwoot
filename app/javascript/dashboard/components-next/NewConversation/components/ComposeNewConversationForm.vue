@@ -227,11 +227,14 @@ const onClickInsertEmoji = emoji => {
   state.message += emoji;
 };
 
+const inboxMedium = computed(() => props.targetInbox?.medium || '');
+
 const handleAddSignature = signature => {
   state.message = appendSignature(
     state.message,
     signature,
-    inboxChannelType.value
+    inboxChannelType.value,
+    inboxMedium.value
   );
 };
 
@@ -239,7 +242,8 @@ const handleRemoveSignature = signature => {
   state.message = removeSignature(
     state.message,
     signature,
-    inboxChannelType.value
+    inboxChannelType.value,
+    inboxMedium.value
   );
 };
 
