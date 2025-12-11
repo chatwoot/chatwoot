@@ -1,42 +1,17 @@
-import { computed, ref, unref } from 'vue';
+import { ref, unref } from 'vue';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
-import { useAccount } from 'dashboard/composables/useAccount';
 
 export function useBulkActions() {
   const store = useStore();
   const { t } = useI18n();
-  const { currentAccount } = useAccount();
 
   const selectedConversations = useMapGetter(
     'bulkActions/getSelectedConversationIds'
   );
-  const allConversations = useMapGetter('getAllConversations');
   const selectedInboxes = ref([]);
-
-  const requiredAttributeKeys = computed(
-    () => currentAccount.value?.settings?.conversation_required_attributes || []
-  );
-
-  const conversationsById = computed(() =>
-    (allConversations.value || []).reduce((acc, conversation) => {
-      acc[conversation.id] = conversation;
-      return acc;
-    }, {})
-  );
-
-  const hasAllRequiredValues = conversation => {
-    if (!conversation) return false;
-    const attrs = conversation.custom_attributes || {};
-    return requiredAttributeKeys.value.every(key => {
-      const value = attrs?.[key];
-      return (
-        value !== undefined && value !== null && String(value).trim() !== ''
-      );
-    });
-  };
 
   function selectConversation(conversationId, inboxId) {
     store.dispatch('bulkActions/setSelectedConversationIds', conversationId);
@@ -141,58 +116,17 @@ export function useBulkActions() {
   }
 
   async function onUpdateConversations(status, snoozedUntil) {
-    const selectedIds = selectedConversations.value;
-    const requiresCheck =
-      status === 'resolved' && requiredAttributeKeys.value.length > 0;
-
-    const resolveCandidates = requiresCheck
-      ? selectedIds.reduce(
-          (result, id) => {
-            const conversation = conversationsById.value[id];
-            if (hasAllRequiredValues(conversation)) {
-              result.resolvable.push(id);
-            } else {
-              result.blocked.push(id);
-            }
-            return result;
-          },
-          { resolvable: [], blocked: [] }
-        )
-      : { resolvable: selectedIds, blocked: [] };
-
-    if (!resolveCandidates.resolvable.length) {
-      if (requiresCheck) {
-        useAlert(t('BULK_ACTION.UPDATE.REQUIRED_ATTRIBUTES_MISSING'));
-      } else {
-        useAlert(t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
-      }
-      return;
-    }
-
     try {
       await store.dispatch('bulkActions/process', {
         type: 'Conversation',
-        ids: resolveCandidates.resolvable,
+        ids: selectedConversations.value,
         fields: {
           status,
         },
         snoozed_until: snoozedUntil,
       });
-
-      // Update selection to keep only blocked conversations, if any.
       store.dispatch('bulkActions/clearSelectedConversationIds');
-      selectedInboxes.value = [];
-      if (resolveCandidates.blocked.length) {
-        store.dispatch('bulkActions/setSelectedConversationIds', [
-          ...resolveCandidates.blocked,
-        ]);
-        selectedInboxes.value = resolveCandidates.blocked
-          .map(id => conversationsById.value[id]?.inbox_id)
-          .filter(Boolean);
-        useAlert(t('BULK_ACTION.UPDATE.REQUIRED_ATTRIBUTES_MISSING'));
-      } else {
-        useAlert(t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
-      }
+      useAlert(t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
     } catch (err) {
       useAlert(t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
     }
