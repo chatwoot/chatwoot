@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, computed, reactive } from 'vue';
 import Message from './Message.vue';
-import shouldGroupWithNext from './groupWithNext';
+import shouldGroupWithNext from './groupWithNext.js';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import MessageApi from 'dashboard/api/inbox/message.js';

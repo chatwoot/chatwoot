@@ -2,7 +2,7 @@
 import { ref, onMounted, computed, watch, useTemplateRef } from 'vue';
 import Message from 'next/message/Message.vue';
 import TypingIndicator from 'next/message/TypingIndicator.vue';
-import shouldGroupWithNext from 'next/message/groupWithNext';
+import shouldGroupWithNext from 'next/message/groupWithNext.js';
 import Snipper from 'next/spinner/Spinner.vue';
 import LiteReplyBox from './LiteReplyBox.vue';
 import {
