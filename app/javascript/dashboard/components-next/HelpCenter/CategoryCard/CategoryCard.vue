@@ -87,16 +87,18 @@ const handleAction = ({ action }) => {
             <Button
               icon="i-lucide-pen-line"
               slate
-              sm
+              xs
               ghost
+              class="[&>span]:size-3.5"
               @click="handleAction({ action: 'edit' })"
             />
             <div class="w-px h-3 bg-n-weak rounded-lg" />
             <Button
               icon="i-lucide-trash"
               slate
-              sm
+              xs
               ghost
+              class="[&>span]:size-3.5"
               @click="handleAction({ action: 'delete' })"
             />
           </div>

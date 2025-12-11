@@ -6,6 +6,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
+  getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 import {
   buildContactableInboxesList,
@@ -85,6 +86,12 @@ const whatsappMessageTemplates = computed(() =>
 );
 
 const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
+
+const inboxMedium = computed(() => props.targetInbox?.medium || '');
+
+const effectiveChannelType = computed(() =>
+  getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
+);
 
 const validationRules = computed(() => ({
   selectedContact: { required },
@@ -202,7 +209,11 @@ const removeSignatureFromMessage = () => {
   // Always remove the signature from message content when inbox/contact is removed
   // to ensure no leftover signature content remains
   if (props.messageSignature) {
-    state.message = removeSignature(state.message, props.messageSignature);
+    state.message = removeSignature(
+      state.message,
+      props.messageSignature,
+      effectiveChannelType.value
+    );
   }
 };
 
@@ -214,9 +225,9 @@ const removeTargetInbox = value => {
 };
 
 const clearSelectedContact = () => {
+  removeSignatureFromMessage();
   emit('clearSelectedContact');
   state.attachedFiles = [];
-  removeSignatureFromMessage();
 };
 
 const onClickInsertEmoji = emoji => {
@@ -227,12 +238,16 @@ const handleAddSignature = signature => {
   state.message = appendSignature(
     state.message,
     signature,
-    inboxChannelType.value
+    effectiveChannelType.value
   );
 };
 
 const handleRemoveSignature = signature => {
-  state.message = removeSignature(state.message, signature);
+  state.message = removeSignature(
+    state.message,
+    signature,
+    effectiveChannelType.value
+  );
 };
 
 const handleAttachFile = files => {
@@ -356,10 +371,10 @@ const shouldShowMessageEditor = computed(() => {
       v-model="state.message"
       :message-signature="messageSignature"
       :send-with-signature="sendWithSignature"
-      :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
       :has-attachments="state.attachedFiles.length > 0"
       :channel-type="inboxChannelType"
+      :medium="targetInbox?.medium || ''"
     />
 
     <AttachmentPreviews

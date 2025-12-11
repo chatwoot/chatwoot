@@ -43,6 +43,7 @@ import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
   removeSignature,
+  getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -564,9 +565,13 @@ export default {
         return message;
       }
 
+      const effectiveChannelType = getEffectiveChannelType(
+        this.channelType,
+        this.inbox?.medium || ''
+      );
       return this.sendWithSignature
-        ? appendSignature(message, this.messageSignature, this.channelType)
-        : removeSignature(message, this.messageSignature);
+        ? appendSignature(message, this.messageSignature, effectiveChannelType)
+        : removeSignature(message, this.messageSignature, effectiveChannelType);
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
@@ -757,10 +762,14 @@ export default {
         // if signature is enabled, append it to the message
         // appendSignature ensures that the signature is not duplicated
         // so we don't need to check if the signature is already present
+        const effectiveChannelType = getEffectiveChannelType(
+          this.channelType,
+          this.inbox?.medium || ''
+        );
         message = appendSignature(
           message,
           this.messageSignature,
-          this.channelType
+          effectiveChannelType
         );
       }
 
@@ -800,10 +809,14 @@ export default {
       this.message = '';
       if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
+        const effectiveChannelType = getEffectiveChannelType(
+          this.channelType,
+          this.inbox?.medium || ''
+        );
         this.message = appendSignature(
           this.message,
           this.messageSignature,
-          this.channelType
+          effectiveChannelType
         );
       }
       this.attachedFiles = [];
@@ -1121,6 +1134,7 @@ export default {
         :signature="messageSignature"
         allow-signature
         :channel-type="channelType"
+        :medium="inbox.medium"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
