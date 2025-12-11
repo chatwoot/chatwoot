@@ -61,6 +61,7 @@ const open = (attributes = [], initialValues = {}) => {
 
 const handleConfirm = () => {
   emit('submit', { ...formValues.value });
+  close();
 };
 
 defineExpose({ open, close });

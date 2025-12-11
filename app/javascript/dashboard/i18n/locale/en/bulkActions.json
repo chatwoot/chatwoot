@@ -23,6 +23,10 @@
       "UPDATE_FAILED": "Failed to update conversations. Please try again.",
       "REQUIRED_ATTRIBUTES_MISSING": "Some conversations need required attributes before resolving and were skipped."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
       "NO_LABELS_FOUND": "No labels found",
