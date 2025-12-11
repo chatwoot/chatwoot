@@ -13,6 +13,23 @@ import {
 import camelcaseKeys from 'camelcase-keys';
 
 /**
+ * Removes zero-width spaces and related invisible characters from text.
+ * Also handles backslash-newline patterns from hard breaks (Shift+Enter).
+ * These characters can interfere with signature detection and content handling.
+ *
+ * @param {string} text - The text to clean
+ * @returns {string} - The cleaned text without zero-width spaces
+ */
+export function removeZeroWidthSpaces(text) {
+  if (!text) return '';
+  return text
+    .replace(/\u200B\\\n/g, '\n') // Remove zero-width space + backslash + newline, keep newline
+    .replace(/\u200B\n/g, '\n') // Remove zero-width space + newline, keep newline
+    .replace(/\\\n/g, '\n') // Remove backslash before newline (hard break), keep newline
+    .replace(/\u200B/g, ''); // Remove standalone zero-width spaces
+}
+
+/**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
  * Links will be converted to text, and not removed.
  *
@@ -46,6 +63,9 @@ export const SIGNATURE_DELIMITER = '--';
  */
 export function cleanSignature(signature) {
   try {
+    // Remove zero-width spaces before processing
+    signature = removeZeroWidthSpaces(signature);
+
     // remove any horizontal rule tokens
     signature = signature
       .replace(/^( *\* *){3,} *$/gm, '')
@@ -55,14 +75,17 @@ export function cleanSignature(signature) {
     const nodes = new MessageMarkdownTransformer(messageSchema).parse(
       signature
     );
-    return MessageMarkdownSerializer.serialize(nodes);
+    let result = MessageMarkdownSerializer.serialize(nodes);
+
+    // Remove zero-width spaces after serialization as well
+    return removeZeroWidthSpaces(result);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.warn(e);
     Sentry.captureException(e);
     // The parser can break on some cases
     // for example, Token type `hr` not supported by Markdown parser
-    return signature;
+    return removeZeroWidthSpaces(signature);
   }
 }
 
@@ -85,7 +108,8 @@ function appendDelimiter(signature) {
  * @returns {number} - The index of the last occurrence of the signature in the body, or -1 if not found.
  */
 export function findSignatureInBody(body, signature) {
-  const trimmedBody = body.trimEnd();
+  // Remove zero-width spaces from body before comparison
+  const trimmedBody = removeZeroWidthSpaces(body).trimEnd();
   const cleanedSignature = cleanSignature(signature);
 
   // check if body ends with signature
@@ -116,6 +140,9 @@ export function supportsImageSignature(channelType) {
  * @returns {string} - The body with the signature appended.
  */
 export function appendSignature(body, signature, channelType) {
+  // Remove zero-width spaces from body before processing
+  const cleanedBody = removeZeroWidthSpaces(body);
+
   // For channels that don't support images, strip markdown formatting
   const shouldStripImages = channelType && !supportsImageSignature(channelType);
   const preparedSignature = shouldStripImages
@@ -123,11 +150,11 @@ export function appendSignature(body, signature, channelType) {
     : signature;
   const cleanedSignature = cleanSignature(preparedSignature);
   // if signature is already present, return body
-  if (findSignatureInBody(body, cleanedSignature) > -1) {
-    return body;
+  if (findSignatureInBody(cleanedBody, cleanedSignature) > -1) {
+    return cleanedBody;
   }
 
-  return `${body.trimEnd()}\n\n${appendDelimiter(cleanedSignature)}`;
+  return `${cleanedBody.trimEnd()}\n\n${appendDelimiter(cleanedSignature)}`;
 }
 
 /**
@@ -139,6 +166,9 @@ export function appendSignature(body, signature, channelType) {
  * @returns {string} - The body with the signature removed.
  */
 export function removeSignature(body, signature) {
+  // Remove zero-width spaces from body before processing
+  let newBody = removeZeroWidthSpaces(body);
+
   // Build list of signatures to try: original first, then stripped version
   // Always try both to handle cases where channelType is unknown or inbox is being removed
   const cleanedSignature = cleanSignature(signature);
@@ -150,12 +180,9 @@ export function removeSignature(body, signature) {
 
   // Find the first matching signature
   const signatureIndex = signaturesToTry.reduce(
-    (index, sig) => (index === -1 ? findSignatureInBody(body, sig) : index),
+    (index, sig) => (index === -1 ? findSignatureInBody(newBody, sig) : index),
     -1
   );
-
-  // no need to trim the ends here, because it will simply be removed in the next method
-  let newBody = body;
 
   // if signature is present, remove it and trim it
   // trimming will ensure any spaces or new lines before the signature are removed
