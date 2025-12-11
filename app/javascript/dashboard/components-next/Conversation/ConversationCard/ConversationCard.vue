@@ -37,7 +37,19 @@ const cardMessagePreviewWithMetaRef = ref(null);
 
 const currentContact = computed(() => props.contact);
 
-const currentContactName = computed(() => currentContact.value?.name);
+const isWhatsAppGroup = computed(() => {
+  return props.conversation?.conversationType === 'whatsapp_group' ||
+         props.conversation?.conversationType === 1;
+});
+
+const currentContactName = computed(() => {
+  if (isWhatsAppGroup.value) {
+    return props.conversation?.additionalAttributes?.whatsappGroupName ||
+           currentContact.value?.name;
+  }
+  return currentContact.value?.name;
+});
+
 const currentContactThumbnail = computed(() => currentContact.value?.thumbnail);
 const currentContactStatus = computed(
   () => currentContact.value?.availabilityStatus
