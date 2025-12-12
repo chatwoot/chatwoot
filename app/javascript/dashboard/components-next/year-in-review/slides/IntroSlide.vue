@@ -1,0 +1,67 @@
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+defineProps({
+  year: {
+    type: Number,
+    required: true,
+  },
+});
+
+const { t } = useI18n();
+
+const drumrollAudio = ref(null);
+const slideElement = ref(null);
+
+const playDrumroll = () => {
+  try {
+    if (!drumrollAudio.value) {
+      drumrollAudio.value = new Audio('/audio/dashboard/drumroll.mp3');
+      drumrollAudio.value.volume = 0.5;
+    }
+
+    drumrollAudio.value.currentTime = 0;
+    drumrollAudio.value.play().catch(err => {
+      // eslint-disable-next-line no-console
+      console.log('Could not play drumroll:', err);
+    });
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log('Error playing drumroll:', err);
+  }
+};
+
+onMounted(() => {
+  playDrumroll();
+});
+</script>
+
+<template>
+  <div
+    ref="slideElement"
+    class="absolute inset-0 flex flex-col items-center justify-center text-black px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-cover bg-center min-h-[700px]"
+    :style="{
+      backgroundImage: `url('/dashboard/images/year-in-review/first-frame-bg.png')`,
+    }"
+  >
+    <div class="text-center max-w-3xl">
+      <h1
+        class="text-8xl md:text-9xl lg:text-[220px] font-semibold mb-4 md:mb-6 leading-none tracking-tight"
+      >
+        {{ year }}
+      </h1>
+      <h2
+        class="text-3xl md:text-4xl lg:text-5xl font-medium mb-12 md:mb-16 lg:mb-20"
+      >
+        {{ t('YEAR_IN_REVIEW.TITLE') }}
+      </h2>
+    </div>
+
+    <img
+      src="/dashboard/images/year-in-review/first-frame-candles.png"
+      alt="Candles"
+      class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-auto h-32 md:h-48 lg:h-64"
+    />
+  </div>
+</template>
