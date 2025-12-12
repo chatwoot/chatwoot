@@ -53,7 +53,11 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
         it 'sets system instructions' do
           service.perform
-          expect(mock_chat).to have_received(:with_instructions).with(a_string_including('You are a helpful support agent'))
+          if event_name == 'fix_spelling_grammar'
+            expect(mock_chat).to have_received(:with_instructions).with(a_string_including('Please fix the spelling and grammar'))
+          else
+            expect(mock_chat).to have_received(:with_instructions).with(a_string_including('You are an AI writing assistant integrated into Chatwoot'))
+          end
         end
       end
 
@@ -125,7 +129,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
     end
 
     describe 'response structure' do
-      let(:event) { { 'name' => 'rephrase', 'data' => { 'content' => 'test message' } } }
+      let(:event) { { 'name' => 'confident', 'data' => { 'content' => 'test message' } } }
 
       context 'when response includes usage data' do
         before do
@@ -166,10 +170,13 @@ RSpec.describe Integrations::Openai::ProcessorService do
     end
 
     describe 'endpoint configuration' do
-      let(:event) { { 'name' => 'rephrase', 'data' => { 'content' => 'test message' } } }
+      let(:event) { { 'name' => 'confident', 'data' => { 'content' => 'test message' } } }
 
       context 'without CAPTAIN_OPEN_AI_ENDPOINT configured' do
-        before { InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy }
+        before do
+          InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy
+          allow(Llm::Config).to receive(:with_api_key).and_call_original
+        end
 
         it 'uses default OpenAI endpoint' do
           expect(Llm::Config).to receive(:with_api_key).with(
@@ -185,6 +192,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
         before do
           InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy
           create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://custom.azure.com/')
+          allow(Llm::Config).to receive(:with_api_key).and_call_original
         end
 
         it 'uses custom endpoint' do
