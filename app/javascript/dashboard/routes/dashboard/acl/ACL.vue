@@ -46,7 +46,7 @@ function closeEditModal() {
 
 onMounted(() => {
   store.dispatch('agents/get');
-  store.dispatch('acl/fetchAcl', currentUser.value.id);
+  //store.dispatch('acl/fetchAcl', currentUser.value.id);
 });
 </script>
 

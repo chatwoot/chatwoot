@@ -27,6 +27,7 @@ const props = defineProps({
 const emit = defineEmits(['applyFilter', 'updateFolder', 'close']);
 const { filterTypes } = useConversationFilterContext();
 const teams = useMapGetter('teams/getMyTeams')
+const userACL = useMapGetter('acl/getUserACL')
 const filters = defineModel({
   type: Array,
   default: [],
@@ -44,7 +45,8 @@ const DEFAULT_FILTER = {
 const { t } = useI18n();
 const store = useStore();
 const isPartnerFilter = computed(() => {
-  return store.getters['acl/getTimePrivado']
+  const userACLTimePrivado = userACL.value.time_privado
+  return userACLTimePrivado
 })
 
 const resetFilter = () => {
@@ -63,7 +65,7 @@ const resetFilter = () => {
 };
 
 const removeFilter = index => {
-  if (isPartnerFilter.value && filters.value[index].attributeKey === 'team_id') {
+  if (!isPartnerFilter.value && filters.value[index].attributeKey === 'team_id') {
     return;
   }
   if (filters.value.length === 1) {
@@ -117,9 +119,9 @@ const filterModalHeaderTitle = computed(() => {
 onBeforeUnmount(() => emit('close'));
 onMounted(() => {
   // Garantir que vai chamar a fetch das acls
-  store.dispatch('acl/fetchAcl')
+  //store.dispatch('acl/fetchAcl')
   // Se for usuário parceiro, garante que o primeiro filtro seja o team_id
-  if (isPartnerFilter.value) {
+  if (!isPartnerFilter.value) {
     // Ve se já tem um filtro de team_id
     const existingTeamFilter = filters.value.find(f => f.attributeKey === 'team_id')
     
@@ -178,7 +180,6 @@ const outsideClickHandler = [
           :filter-types="filterTypes"
           :show-query-operator="false"
           @remove="removeFilter(index)"
-          :partner-filter="isPartnerFilter && filter.attributeKey === 'team_id'"
         />
         <ConditionRow
           v-else
@@ -191,7 +192,6 @@ const outsideClickHandler = [
           show-query-operator
           :filter-types="filterTypes"
           @remove="removeFilter(index)"
-          :partner-filter="isPartnerFilter && filter.attributeKey === 'team_id'"
         />
       </template>
     </ul>

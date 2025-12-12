@@ -9,17 +9,20 @@ import SingleSelect from './inputs/SingleSelect.vue';
 
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
+import { useMapGetter } from 'dashboard/composables/store'
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
 const { filterTypes, partnerFilter } = defineProps({
   showQueryOperator: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
-  partnerFilter: {type: Boolean, default: false}
 });
 
 const emit = defineEmits(['remove']);
 const { t } = useI18n();
 const showErrors = ref(false);
+
+const userACL = useMapGetter('acl/getUserACL')
+const isPartnerFilter = computed(() => userACL.value.time_privado)
 
 const attributeKey = defineModel('attributeKey', {
   type: String,
@@ -140,7 +143,7 @@ const validate = () => {
 };
 
 const operatorOptionsPartnerTeam = computed(() => {
-  if (partnerFilter && attributeKey.value === 'team_id') {
+  if (!isPartnerFilter && attributeKey.value === 'team_id') {
     return currentFilter.value.filterOperators.filter(op => op.value === 'equal_to')
   }
   return currentFilter.value.filterOperators
@@ -173,12 +176,13 @@ defineExpose({ validate });
         'animate-wiggle': showErrors && validationError,
       }"
     >
+      {{ !isPartnerFilter && attributeKey === 'team_id' }}
       <FilterSelect
         v-if="showQueryOperator"
         v-model="queryOperator"
         variant="faded"
         class="text-sm"
-        :options="(partnerFilter && attributeKey === 'team_id') ? queryOperatorOptionsPartnerUser : queryOperatorOptions"
+        :options="(!isPartnerFilter && attributeKey === 'team_id') ? queryOperatorOptionsPartnerUser : queryOperatorOptions"
       />
       <FilterSelect
         v-model="attributeKey"
@@ -189,18 +193,18 @@ defineExpose({ validate });
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :options="(partnerFilter && attributeKey === 'team_id') ? operatorOptionsPartnerTeam : currentFilter.filterOperators"
+        :options="(!isPartnerFilter && attributeKey === 'team_id') ?  operatorOptionsPartnerTeam : currentFilter.filterOperators"
       />
       <template v-if="currentOperator.hasInput">
         <MultiSelect
           v-if="inputType === 'multiSelect'"
           v-model="values"
-          :options="(partnerFilter && attributeKey === 'team_id') ? filteredOptions : currentFilter.options"
+          :options="(!isPartnerFilter && attributeKey === 'team_id') ? filteredOptions : currentFilter.options"
         />
         <SingleSelect
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
-          :options="(partnerFilter && attributeKey === 'team_id') ? filteredOptions : currentFilter.options"
+          :options="(!isPartnerFilter && attributeKey === 'team_id') ? filteredOptions : currentFilter.options"
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"
@@ -216,8 +220,9 @@ defineExpose({ validate });
           :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
         />
       </template>
+      {{ attributeKey }}
+      {{  isPartnerFilter}}
       <Button
-        v-if="!partnerFilter"
         sm
         solid
         slate

@@ -73,12 +73,16 @@ const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
-
-//const currentUserId = useMapGetter('auth/getCurrentUserId')
+const currentUser = useMapGetter('getCurrentUser');
+const userACL = useMapGetter('acl/getUserACL');
 
 //let partnerUser = ref(false)
-const timePrivado = computed(() => {
-  return store.getters['acl/getTimePrivado']
+const canViewSidePanel = computed(() => {
+  const userACLPrivateTeam = userACL.value.side_panel
+  if (userACLPrivateTeam) {
+    return true
+  }
+  return false
 })
 
 onMounted(() => {
@@ -89,7 +93,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
-  store.dispatch('acl/fetchAcl');
+  store.dispatch('acl/fetchAcl', currentUser.value.id);
 });
 
 const sortedInboxes = computed(() =>
@@ -634,8 +638,9 @@ const menuItems = computed(() => {
         </ComposeConversation>
       </div>
     </section>
+    {{ canViewSidePanel }}
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
-      <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="!timePrivado">
+      <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="canViewSidePanel">
         <SidebarGroup
           v-for="item in menuItems"
           :key="item.name"

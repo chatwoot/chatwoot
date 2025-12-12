@@ -73,8 +73,11 @@ export default {
     ...mapGetters({
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
-      direcionarConversa: 'acl/getDirecionarConversa'
+      userACL: 'acl/getUserACL'
     }),
+    direcionarConversa() {
+      return this.userACL.direcionar_conversa
+    },
     showConversationList() {
       return this.isOnExpandedLayout ? !this.conversationId : true;
     },
@@ -115,7 +118,7 @@ export default {
     }
 
     // Garantir que os dados da Acl estejam carregados
-    this.$store.dispatch('acl/fetchAcl')
+    //this.$store.dispatch('acl/fetchAcl')
   },
 
   mounted() {
