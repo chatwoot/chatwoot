@@ -431,6 +431,10 @@
       }
     },
     "METRIC": {
+      "TOTAL_SURVEYS_SENT": {
+        "LABEL": "Total surveys sent",
+        "TOOLTIP": "Total number of CSAT survey messages sent to customers"
+      },
       "TOTAL_RESPONSES": {
         "LABEL": "Total responses",
         "TOOLTIP": "Total number of responses collected"
