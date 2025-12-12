@@ -135,13 +135,15 @@ onMounted(() => {
                         class="flex items-center space-x-3 py-1"
                     >
                         <input
+                        v-if="key !== 'exibir_acl'"
                         type="checkbox"
                         :id="key"
                         v-model="editingACL[key]"
                         class="rounded text-indigo-600 focus:ring-indigo-500"
                         />
-                        <label :for="key">{{ key.replace('_', ' ') }}</label>
+                        <label :for="key" v-if="key !== 'exibir_acl'">{{ key.replace('_', ' ') }}</label>
                         <span
+                            v-if="key !== 'exibir_acl'"
                             v-tooltip="aclDescriptions[key] || 'Sem descrição'"
                             class="i-lucide-info text-xs text-n-slate-10 cursor-pointer"
                         >
