@@ -183,7 +183,7 @@ tr:
       sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
       sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
     attachment: 'Attachment'
-    no_content: 'No content'
+    no_content: 'İçerik yok'
   conversations:
     captain:
       handoff: 'Daha fazla yardım için başka bir temsilciye aktarılıyor.'
