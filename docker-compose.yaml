@@ -93,7 +93,7 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=postgres
 
   redis:
     image: redis:alpine
@@ -110,6 +110,17 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
+  
+  nginx:
+    image: nginx:alpine
+    hostname: nginx
+    ports:
+      - 127.0.0.1:8081:80
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - rails
+    restart: always
 
 volumes:
   postgres:

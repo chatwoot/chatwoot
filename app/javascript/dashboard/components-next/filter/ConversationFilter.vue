@@ -50,7 +50,7 @@ const isPartnerFilter = computed(() => {
 })
 
 const resetFilter = () => {
-  if (isPartnerFilter.value) {
+  if (!isPartnerFilter.value) {
     filters.value = [
       {
         attributeKey: 'team_id',
@@ -121,7 +121,9 @@ onMounted(() => {
   // Garantir que vai chamar a fetch das acls
   //store.dispatch('acl/fetchAcl')
   // Se for usuário parceiro, garante que o primeiro filtro seja o team_id
+  console.log("isPartnerFilter no ConversationFilter = ", isPartnerFilter.value)
   if (!isPartnerFilter.value) {
+    console.log("isPartnerFilter no ConversationFilter = ", isPartnerFilter.value)
     // Ve se já tem um filtro de team_id
     const existingTeamFilter = filters.value.find(f => f.attributeKey === 'team_id')
     

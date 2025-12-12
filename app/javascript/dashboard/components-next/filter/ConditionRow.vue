@@ -143,7 +143,8 @@ const validate = () => {
 };
 
 const operatorOptionsPartnerTeam = computed(() => {
-  if (!isPartnerFilter && attributeKey.value === 'team_id') {
+  if (!isPartnerFilter.value && attributeKey.value === 'team_id') {
+    console.log("Vai filtrar so pros times do user ", !isPartnerFilter.value, attributeKey.value)
     return currentFilter.value.filterOperators.filter(op => op.value === 'equal_to')
   }
   return currentFilter.value.filterOperators
@@ -176,7 +177,6 @@ defineExpose({ validate });
         'animate-wiggle': showErrors && validationError,
       }"
     >
-      {{ !isPartnerFilter && attributeKey === 'team_id' }}
       <FilterSelect
         v-if="showQueryOperator"
         v-model="queryOperator"
@@ -184,17 +184,20 @@ defineExpose({ validate });
         class="text-sm"
         :options="(!isPartnerFilter && attributeKey === 'team_id') ? queryOperatorOptionsPartnerUser : queryOperatorOptions"
       />
+
       <FilterSelect
         v-model="attributeKey"
         variant="faded"
         :options="filterTypes"
         @update:model-value="resetModelOnAttributeKeyChange"
       />
+
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
         :options="(!isPartnerFilter && attributeKey === 'team_id') ?  operatorOptionsPartnerTeam : currentFilter.filterOperators"
       />
+
       <template v-if="currentOperator.hasInput">
         <MultiSelect
           v-if="inputType === 'multiSelect'"
@@ -220,8 +223,7 @@ defineExpose({ validate });
           :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
         />
       </template>
-      {{ attributeKey }}
-      {{  isPartnerFilter}}
+
       <Button
         sm
         solid

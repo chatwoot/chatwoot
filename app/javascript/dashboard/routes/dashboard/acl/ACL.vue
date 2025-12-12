@@ -14,9 +14,9 @@ const userACL = computed(() => store.getters['acl/getUserACL'])
 
 const editingACL = ref({})
 const aclDescriptions = {
-    'time_privado': 'Permite ver todas as opções de filtros disponíveis para times quando está ativo',
-    'side_panel': 'Permite ver todas as opções da barra de menu lateral esquerda quando está ativo',
-    'direcionar_conversa': 'Permite ver as conversation actions de atribuir a time/usuário quando está ativo'
+    'time_privado': 'Habilita a visualização de todas as opções de filtros disponíveis para equipes quando ativado.',
+    'side_panel': 'Habilita a visualização completa das opções no menu lateral esquerdo quando ativado.',
+    'direcionar_conversa': 'Habilita as ações de conversa para atribuição a equipes ou usuários quando ativado.'
 }
 
 function openEditPopup(agent) {

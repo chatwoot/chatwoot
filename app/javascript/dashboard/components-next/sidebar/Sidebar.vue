@@ -93,7 +93,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
-  store.dispatch('acl/fetchAcl', currentUser.value.id);
+  store.dispatch('acl/fetchAcl');
 });
 
 const sortedInboxes = computed(() =>
