@@ -1,0 +1,23 @@
+{
+  "YEAR_IN_REVIEW": {
+    "TITLE": "Year in Review",
+    "LOADING": "Loading your year in review...",
+    "ERROR": "Failed to load year in review",
+    "CLOSE": "Close",
+    "CONVERSATIONS": {
+      "TITLE": "You have handled",
+      "SUBTITLE": "conversations"
+    },
+    "BUSIEST_DAY": {
+      "TITLE": "Your busiest day was",
+      "MESSAGE": "{count} conversations that day. Barely broke a sweat."
+    },
+    "PERSONALITY": {
+      "TITLE": "Your support personality is"
+    },
+    "THANK_YOU": {
+      "TITLE": "Congratulations on surviving the inbox of {year}.",
+      "MESSAGE": "Thank you for your incredible dedication to supporting customers throughout this year. Your hard work has made a real difference, and we're grateful to have you on this journey. Here's to making {nextYear} even better together!",
+    }
+  }
+}
