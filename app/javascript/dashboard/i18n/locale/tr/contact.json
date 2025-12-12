@@ -559,14 +559,14 @@
         "EXPAND": "Genişlet",
         "COLLAPSE": "Daralt",
         "NO_NOTES": "Not yok, kişi detayları sayfasından not ekleyebilirsiniz.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "EMPTY_STATE": "Bu kişiyle ilişkili not bulunmamaktadır. Yukarıdaki kutuya yazarak not ekleyebilirsiniz.",
         "CONVERSATION_EMPTY_STATE": "Henüz not yok. Not eklemek için Not ekle düğmesini kullanın."
       }
     },
     "EMPTY_STATE": {
       "TITLE": "No contacts found in this account",
-      "SUBTITLE": "Start adding new contacts by clicking on the button below",
-      "BUTTON_LABEL": "Add contact",
+      "SUBTITLE": "Yeni kişiler eklemeye aşağıdaki butona tıklayarak başlayabilirsiniz.",
+      "BUTTON_LABEL": "Kişi ekle",
       "SEARCH_EMPTY_STATE_TITLE": "Aramanızla eşleşen kişi bulunamadı 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Şu anda aktif kişi yok 🌙"
@@ -604,20 +604,20 @@
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "Kime:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "TAG_INPUT_PLACEHOLDER": "Bir kişiyi isim, e-posta veya telefon numarası ile arayın",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
         "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "BUTTON": "Gelen kutularını göster"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "Konu :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Kopya:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "Bir kişiyi e-posta adresi ile arayın.",
         "BCC_LABEL": "Gizli Kopya:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "Bir kişiyi e-posta adresi ile arayın.",
         "BCC_BUTTON": "Gizli Kopya"
       },
       "MESSAGE_EDITOR": {
@@ -644,8 +644,8 @@
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
-        "SEND": "Send ({keyCode})"
+        "DISCARD": "Yoksay",
+        "SEND": "Gönder ({keyCode})"
       }
     }
   }
