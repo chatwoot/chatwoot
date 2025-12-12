@@ -49,7 +49,7 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
     tone = event['data']['tone'].presence
 
     system_prompt = improve_prompt(selection, tone)
-    user_content = selection.present? ? improve_user_content(content, selection) : content
+    user_content = selection ? improve_user_content(content, selection) : content
 
     make_api_call(build_api_call_body(system_prompt, user_content))
   end
