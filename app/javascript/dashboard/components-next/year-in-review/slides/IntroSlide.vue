@@ -1,13 +1,15 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
 defineProps({
   year: {
     type: Number,
     required: true,
   },
 });
+
+const candlesImagePath =
+  '/assets/images/dashboard/year-in-review/first-frame-candles.png';
 
 const { t } = useI18n();
 
@@ -42,7 +44,7 @@ onMounted(() => {
     ref="slideElement"
     class="absolute inset-0 flex flex-col items-center justify-center text-black px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-cover bg-center min-h-[700px]"
     :style="{
-      backgroundImage: `url('/dashboard/images/year-in-review/first-frame-bg.png')`,
+      backgroundImage: `url('/assets/images/dashboard/year-in-review/first-frame-bg.png')`,
     }"
   >
     <div class="text-center max-w-3xl">
@@ -59,7 +61,7 @@ onMounted(() => {
     </div>
 
     <img
-      src="/dashboard/images/year-in-review/first-frame-candles.png"
+      :src="candlesImagePath"
       alt="Candles"
       class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-auto h-32 md:h-48 lg:h-64"
     />
