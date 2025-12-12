@@ -54,9 +54,11 @@ RSpec.describe Integrations::Openai::ProcessorService do
         it 'sets system instructions' do
           service.perform
           if event_name == 'fix_spelling_grammar'
-            expect(mock_chat).to have_received(:with_instructions).with(a_string_including('Please fix the spelling and grammar'))
+            expect(mock_chat).to have_received(:with_instructions)
+              .with(a_string_including('Please fix the spelling and grammar'))
           else
-            expect(mock_chat).to have_received(:with_instructions).with(a_string_including('You are an AI writing assistant integrated into Chatwoot'))
+            expect(mock_chat).to have_received(:with_instructions)
+              .with(a_string_including('You are an AI writing assistant integrated into Chatwoot'))
           end
         end
       end
