@@ -639,7 +639,6 @@ const menuItems = computed(() => {
         </ComposeConversation>
       </div>
     </section>
-    {{ canViewSidePanel }}
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
       <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="canViewSidePanel">
         <SidebarGroup
