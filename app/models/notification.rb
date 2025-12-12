@@ -180,7 +180,18 @@ class Notification < ApplicationRecord
   end
 
   def dispatch_destroy_event
-    Rails.configuration.dispatcher.dispatch(NOTIFICATION_DELETED, Time.zone.now, notification: self)
+    # Pass serialized data instead of ActiveRecord object to avoid DeserializationError
+    # when the async EventDispatcherJob runs after the notification has been deleted
+    Rails.configuration.dispatcher.dispatch(
+      NOTIFICATION_DELETED,
+      Time.zone.now,
+      notification_data: {
+        id: id,
+        user_id: user_id,
+        account_id: account_id,
+        user_pubsub_token: user&.pubsub_token
+      }
+    )
   end
 
   def set_last_activity_at
