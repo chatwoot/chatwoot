@@ -66,7 +66,8 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
   end
 
   def improve_prompt(selection, tone)
-    render_liquid_prompt('improve', { selection: selection, tone: tone })
+    tone_instruction = determine_tone_instruction(tone) if tone.present?
+    render_liquid_prompt('improve', { selection: selection, tone_instruction: tone_instruction })
   end
 
   def improve_user_content(content, selection)
