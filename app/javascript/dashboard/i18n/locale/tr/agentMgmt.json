@@ -1,18 +1,18 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Kullanıcılar",
-    "HEADER_BTN_TXT": "Kullanıcı Ekle",
-    "LOADING": "Kullanıcı Listesi Alınıyor",
+    "HEADER": "Temsilciler",
+    "HEADER_BTN_TXT": "Temsilci Ekle",
+    "LOADING": "Temsilci Listesi Alınıyor",
     "DESCRIPTION": "Müşteri temsilcisi; kullanıcı mesajlarını görüntüleyebilen ve yanıtlayabilen müşteri destek ekibinizin bir üyesidir. Aşağıdaki listede tanımlı tüm müşteri temsilcilerini gösterir.",
     "LEARN_MORE": "Kullanıcı rolleri hakkında bilgi edinin",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Yönetici",
-      "AGENT": "Kullanıcı"
+      "AGENT": "Temsilci"
     },
     "LIST": {
       "404": "Bu hesapla ilişkilendirilmiş hesap yok",
-      "TITLE": "Bu hesapla ilişkilendirilmiş kullanıcı yok",
-      "DESC": "Ekibinize kullanıcı ekleyebilir veya kaldırabilirsiniz.",
+      "TITLE": "Ekibinizdeki temsilcileri yönetin",
+      "DESC": "Ekibinize temsilci ekleyebilir veya kaldırabilirsiniz.",
       "NAME": "İsim",
       "EMAIL": "E-Posta",
       "STATUS": "Durum",
@@ -27,22 +27,22 @@
       "CANCEL_BUTTON_TEXT": "İptal et",
       "FORM": {
         "NAME": {
-          "LABEL": "Kullanıcı Adı",
+          "LABEL": "Temsilci Adı",
           "PLACEHOLDER": "Lütfen temsilcinin adını girin"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "Rol",
+          "PLACEHOLDER": "Lütfen bir rol seçin",
+          "ERROR": "Rol gereklidir"
         },
         "EMAIL": {
           "LABEL": "E-posta adresi",
           "PLACEHOLDER": "Lütfen temsilcinin e-posta adresini girin"
         },
-        "SUBMIT": "Kullanıcı Ekle"
+        "SUBMIT": "Temsilci Ekle"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kullanıcı başarıyla eklendi",
+        "SUCCESS_MESSAGE": "Temsilci başarıyla eklendi",
         "EXIST_MESSAGE": "Temsilci e-postası zaten kullanımda, Lütfen başka bir e-posta adresi deneyin",
         "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
@@ -50,7 +50,7 @@
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
-        "SUCCESS_MESSAGE": "Kullanıcı başarıyla silindi",
+        "SUCCESS_MESSAGE": "Temsilci başarıyla silindi",
         "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "CONFIRM": {
@@ -64,13 +64,13 @@
       "TITLE": "Temsilciyi düzenle",
       "FORM": {
         "NAME": {
-          "LABEL": "Kullanıcı Adı",
+          "LABEL": "Temsilci Adı",
           "PLACEHOLDER": "Lütfen temsilcinin adını girin"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "Rol",
+          "PLACEHOLDER": "Lütfen bir rol seçin",
+          "ERROR": "Rol gereklidir"
         },
         "EMAIL": {
           "LABEL": "E-posta adresi",
@@ -86,13 +86,13 @@
       "BUTTON_TEXT": "Düzenle",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "API": {
-        "SUCCESS_MESSAGE": "Kullanıcı başarıyla güncellendi",
+        "SUCCESS_MESSAGE": "Temsilci başarıyla güncellendi",
         "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Şifreyi yenile",
         "ADMIN_SUCCESS_MESSAGE": "Temsilciye şifre sıfırlama talimatlarını içeren bir e-posta gönderildi",
-        "SUCCESS_MESSAGE": "Kullanıcı şifresi başarıyla sıfırlandı",
+        "SUCCESS_MESSAGE": "Temsilci şifresi başarıyla sıfırlandı",
         "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
@@ -110,7 +110,7 @@
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Kullanıcı bulunamadı",
+          "AGENT": "Temsilci bulunamadı",
           "TEAM": "Takım bulunamadı"
         },
         "PLACEHOLDER": {
