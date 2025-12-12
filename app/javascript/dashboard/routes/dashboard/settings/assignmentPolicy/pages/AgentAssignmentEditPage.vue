@@ -89,6 +89,16 @@ const handleDeleteInbox = async inboxId => {
 const handleBreadcrumbClick = ({ routeName }) =>
   router.push({ name: routeName });
 
+const handleNavigateToInbox = inbox => {
+  router.push({
+    name: 'settings_inbox_show',
+    params: {
+      accountId: route.params.accountId,
+      inboxId: inbox.id,
+    },
+  });
+};
+
 const setInboxPolicy = async (inboxId, policyId) => {
   try {
     await store.dispatch('assignmentPolicies/setInboxPolicy', {
@@ -192,6 +202,7 @@ watch(routeId, fetchPolicyData, { immediate: true });
         @submit="handleSubmit"
         @add-inbox="handleAddInbox"
         @delete-inbox="handleDeleteInbox"
+        @navigate-to-inbox="handleNavigateToInbox"
       />
     </template>
 

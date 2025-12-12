@@ -62,6 +62,7 @@ const emit = defineEmits([
   'submit',
   'addInbox',
   'deleteInbox',
+  'navigateToInbox',
   'validationChange',
 ]);
 
@@ -281,6 +282,7 @@ defineExpose({
         :is-fetching="isInboxLoading"
         :empty-state-message="t(`${BASE_KEY}.FORM.INBOXES.EMPTY_STATE`)"
         @delete="$emit('deleteInbox', $event)"
+        @navigate="$emit('navigateToInbox', $event)"
       />
     </div>
   </form>

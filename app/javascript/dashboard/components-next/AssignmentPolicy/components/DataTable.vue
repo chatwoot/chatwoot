@@ -19,10 +19,14 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['delete']);
+const emit = defineEmits(['delete', 'navigate']);
 
 const handleDelete = itemId => {
   emit('delete', itemId);
+};
+
+const handleNavigate = item => {
+  emit('navigate', item);
 };
 </script>
 
@@ -47,7 +51,11 @@ const handleDelete = itemId => {
       :key="item.id"
       class="grid grid-cols-4 items-center gap-3 min-w-0 w-full justify-between h-[3.25rem] ltr:pr-2 rtl:pl-2"
     >
-      <div class="flex items-center gap-2 col-span-2">
+      <button
+        type="button"
+        class="flex items-center gap-2 col-span-2 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-2 rounded-lg py-1 px-1.5 -ml-1.5 transition-colors cursor-pointer group"
+        @click="handleNavigate(item)"
+      >
         <Icon
           v-if="item.icon"
           :icon="item.icon"
@@ -61,10 +69,16 @@ const handleDelete = itemId => {
           :size="20"
           rounded-full
         />
-        <span class="text-sm text-n-slate-12 truncate min-w-0">
+        <span
+          class="text-sm text-n-slate-12 truncate min-w-0 group-hover:text-n-blue-11 dark:group-hover:text-n-blue-10 transition-colors"
+        >
           {{ item.name }}
         </span>
-      </div>
+        <Icon
+          icon="i-lucide-external-link"
+          class="size-3.5 text-n-slate-10 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+        />
+      </button>
 
       <div class="flex items-start gap-2 col-span-1">
         <span
