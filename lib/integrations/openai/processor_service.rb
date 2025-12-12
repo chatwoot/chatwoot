@@ -43,6 +43,17 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
     make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
+  def improve_message
+    content = event['data']['content']
+    selection = event['data']['selection'].presence
+    tone = event['data']['tone'].presence
+
+    system_prompt = improve_prompt(selection, tone)
+    user_content = selection.present? ? improve_user_content(content, selection) : content
+
+    make_api_call(build_api_call_body(system_prompt, user_content))
+  end
+
   private
 
   def prompt_from_file(file_name, enterprise: false)
@@ -52,6 +63,20 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
 
   def tone_rewrite_prompt(tone_instruction)
     format(prompt_from_file('tone_rewrite'), tone_instruction)
+  end
+
+  def improve_prompt(selection, tone)
+    render_liquid_prompt('improve', { selection: selection, tone: tone })
+  end
+
+  def improve_user_content(content, selection)
+    "Full message:\n#{content}\n\nSelected portion to improve:\n#{selection}"
+  end
+
+  def render_liquid_prompt(template_name, context = {})
+    template_path = Rails.root.join('lib/integrations/openai/openai_prompts', "#{template_name}.liquid")
+    template = Liquid::Template.parse(template_path.read)
+    template.render(context.deep_stringify_keys)
   end
 
   def build_api_call_body(system_content, user_content = event['data']['content'])

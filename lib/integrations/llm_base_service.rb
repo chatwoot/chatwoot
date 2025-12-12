@@ -8,7 +8,7 @@ class Integrations::LlmBaseService
   TOKEN_LIMIT = 400_000
   GPT_MODEL = Llm::Config::DEFAULT_MODEL
   ALLOWED_EVENT_NAMES = %w[summarize reply_suggestion fix_spelling_grammar casual professional make_friendly make_formal confident
-                           straightforward].freeze
+                           straightforward improve].freeze
   CACHEABLE_EVENTS = %w[].freeze
 
   pattr_initialize [:hook!, :event!]
