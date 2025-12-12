@@ -481,16 +481,16 @@
         "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
         "SSO_URL_ERROR": "Please enter a valid SSO URL",
         "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "IDP_ENTITY_ID_ERROR": "身份提供者实体ID是必需的"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "AVAILABLE_ON": "SLA功能仅在商业和企业计划中可用。",
+        "UPGRADE_PROMPT": "升级到企业计划以访问 SAML 单独登录和其他高级安全功能。",
         "ASK_ADMIN": "请联系您的管理员进行升级。"
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "TITLE": "升级计划以启用SAML SSO",
+        "AVAILABLE_ON": "SLA功能仅在商业和企业计划中可用。",
         "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
         "UPGRADE_NOW": "立即升级",
         "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
