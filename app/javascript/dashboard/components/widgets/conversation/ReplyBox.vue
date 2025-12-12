@@ -420,16 +420,6 @@ export default {
 
       return false;
     },
-    editorMessageKey() {
-      const { editor_message_key: isEnabled } = this.uiSettings;
-      return isEnabled;
-    },
-    commandPlusEnterToSendEnabled() {
-      return this.editorMessageKey === 'cmd_enter';
-    },
-    enterToSendEnabled() {
-      return this.editorMessageKey === 'enter';
-    },
     // ensure that the signature is plain text depending on `showRichContentEditor`
     signatureToApply() {
       return this.showRichContentEditor
