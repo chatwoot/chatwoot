@@ -8,6 +8,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import wootConstants from 'dashboard/constants/globals';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import PriorityLegend from './PriorityLegend.vue';
 
 defineProps({
   isOnExpandedLayout: {
@@ -85,6 +86,14 @@ const chatSortOptions = computed(() => [
   {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_asc.TEXT'),
     value: 'priority_asc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_score_desc.TEXT'),
+    value: 'priority_score_desc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_score_asc.TEXT'),
+    value: 'priority_score_asc',
   },
   {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_asc.TEXT'),
@@ -173,6 +182,7 @@ const handleSortChange = value => {
           @update:model-value="handleSortChange"
         />
       </div>
+      <PriorityLegend />
     </div>
   </div>
 </template>

@@ -42,6 +42,7 @@ export const FEATURE_FLAGS = {
   SAML: 'saml',
   QUOTED_EMAIL_REPLY: 'quoted_email_reply',
   COMPANIES: 'companies',
+  SMART_PRIORITY: 'smart_priority',
 };
 
 export const PREMIUM_FEATURES = [

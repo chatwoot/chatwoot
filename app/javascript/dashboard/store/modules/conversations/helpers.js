@@ -114,6 +114,8 @@ const SORT_OPTIONS = {
   created_at_desc: ['sortOnCreatedAt', 'desc'],
   priority_asc: ['sortOnPriority', 'asc'],
   priority_desc: ['sortOnPriority', 'desc'],
+  priority_score_asc: ['sortOnPriorityScore', 'asc'],
+  priority_score_desc: ['sortOnPriorityScore', 'desc'],
   waiting_since_asc: ['sortOnWaitingSince', 'asc'],
   waiting_since_desc: ['sortOnWaitingSince', 'desc'],
 };
@@ -137,6 +139,16 @@ const sortConfig = {
     const p2 = CONVERSATION_PRIORITY_ORDER[b.priority] || DEFAULT_FOR_NULL;
 
     return getSortOrderFunction(sortDirection)(p1, p2);
+  },
+
+  sortOnPriorityScore: (a, b, sortDirection) => {
+    // AI-calculated priority score (0-100), higher is more urgent
+    const DEFAULT_FOR_NULL = sortDirection === 'asc' ? 101 : -1;
+
+    const s1 = a.priority_score ?? DEFAULT_FOR_NULL;
+    const s2 = b.priority_score ?? DEFAULT_FOR_NULL;
+
+    return getSortOrderFunction(sortDirection)(s1, s2);
   },
 
   sortOnWaitingSince: (a, b, sortDirection) => {

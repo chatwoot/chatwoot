@@ -8,3 +8,9 @@ if conversation.account.feature_enabled?('sla')
     end
   end
 end
+
+if conversation.account.feature_enabled?('smart_priority')
+  json.priority_score conversation.priority_score
+  json.priority_level conversation.priority_level
+  json.priority_factors conversation.priority_factors
+end

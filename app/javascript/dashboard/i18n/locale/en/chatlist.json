@@ -42,6 +42,13 @@
       "STATUS": "Status",
       "ORDER_BY": "Order by"
     },
+    "PRIORITY_LEGEND": {
+      "TITLE": "Priority Legend",
+      "URGENT": "Urgent - Critical issues requiring immediate attention",
+      "HIGH": "High - Important issues with significant impact",
+      "MEDIUM": "Medium - Standard support requests",
+      "LOW": "Low - General inquiries, no urgency"
+    },
     "CHAT_TIME_STAMP": {
       "CREATED": {
         "LATEST": "Created",
@@ -70,6 +77,12 @@
       },
       "priority_asc": {
         "TEXT": "Priority: Lowest first"
+      },
+      "priority_score_desc": {
+        "TEXT": "AI Priority: Highest first"
+      },
+      "priority_score_asc": {
+        "TEXT": "AI Priority: Lowest first"
       },
       "waiting_since_asc": {
         "TEXT": "Pending Response: Longest first"
