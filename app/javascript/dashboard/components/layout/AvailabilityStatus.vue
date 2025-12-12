@@ -17,31 +17,34 @@
         {{ status.label }}
       </woot-button>
     </woot-dropdown-item>
-    <woot-dropdown-divider />
-    <woot-dropdown-item class="m-0 flex items-center justify-between p-2">
-      <div class="flex items-center">
-        <fluent-icon
-          v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
-          icon="info"
-          size="14"
-          class="mt-px"
+    <woot-dropdown-divider v-if="shouldRestrictAvailability" />
+    <template v-if="!shouldRestrictAvailability">
+      <woot-dropdown-divider />
+      <woot-dropdown-item class="m-0 flex items-center justify-between p-2">
+        <div class="flex items-center">
+          <fluent-icon
+            v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
+            icon="info"
+            size="14"
+            class="mt-px"
+          />
+
+          <span
+            class="my-0 mx-1 text-xs font-medium text-slate-600 dark:text-slate-100"
+          >
+            {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
+          </span>
+        </div>
+
+        <woot-switch
+          size="small"
+          class="mt-px mx-1 mb-0"
+          :value="currentUserAutoOffline"
+          @input="updateAutoOffline"
         />
-
-        <span
-          class="my-0 mx-1 text-xs font-medium text-slate-600 dark:text-slate-100"
-        >
-          {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
-        </span>
-      </div>
-
-      <woot-switch
-        size="small"
-        class="mt-px mx-1 mb-0"
-        :value="currentUserAutoOffline"
-        @input="updateAutoOffline"
-      />
-    </woot-dropdown-item>
-    <woot-dropdown-divider />
+      </woot-dropdown-item>
+      <woot-dropdown-divider />
+    </template>
   </woot-dropdown-menu>
 </template>
 
@@ -74,13 +77,26 @@ export default {
       isUpdating: false,
     };
   },
-
   computed: {
     ...mapGetters({
       getCurrentUserAvailability: 'getCurrentUserAvailability',
       currentAccountId: 'getCurrentAccountId',
       currentUserAutoOffline: 'getCurrentUserAutoOffline',
+      currentRole: 'getCurrentRole',
     }),
+    currentAccount() {
+      return this.$store.getters['accounts/getAccount'](this.currentAccountId);
+    },
+    isAdmin() {
+      return this.currentRole === 'administrator';
+    },
+    isAgentBusinessHoursActive() {
+      return this.currentAccount?.agent_business_hours_active || false;
+    },
+    shouldRestrictAvailability() {
+      // Only restrict non-admin users during business hours
+      return this.isAgentBusinessHoursActive && !this.isAdmin;
+    },
     availabilityDisplayLabel() {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
         key => key === this.currentUserAvailability
@@ -93,15 +109,26 @@ export default {
       return this.getCurrentUserAvailability;
     },
     availabilityStatuses() {
-      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
-        (statusLabel, index) => ({
-          label: statusLabel,
-          value: AVAILABILITY_STATUS_KEYS[index],
-          disabled:
-            this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
-        })
-      );
+      const statuses = this.$t(
+        'PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST'
+      ).map((statusLabel, index) => ({
+        label: statusLabel,
+        value: AVAILABILITY_STATUS_KEYS[index],
+        disabled:
+          this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
+      }));
+
+      // During business hours, hide the offline option for non-admin users
+      if (this.shouldRestrictAvailability) {
+        return statuses.filter(status => status.value !== 'offline');
+      }
+
+      return statuses;
     },
+  },
+
+  mounted() {
+    this.checkAndDisableAutoOfflineInBusinessHours();
   },
 
   methods: {
@@ -110,6 +137,12 @@ export default {
     },
     closeStatusMenu() {
       this.isStatusMenuOpened = false;
+    },
+    checkAndDisableAutoOfflineInBusinessHours() {
+      // If in business hours and auto_offline is enabled, disable it automatically (only for non-admins)
+      if (this.shouldRestrictAvailability && this.currentUserAutoOffline) {
+        this.updateAutoOffline(false);
+      }
     },
     updateAutoOffline(autoOffline) {
       this.$store.dispatch('updateAutoOffline', {
@@ -122,6 +155,12 @@ export default {
         return;
       }
 
+      // Prevent non-admin agents from going offline during business hours
+      if (availability === 'offline' && this.shouldRestrictAvailability) {
+        this.showAlert('Cannot mark offline during business hours');
+        return;
+      }
+
       this.isUpdating = true;
       try {
         this.$store.dispatch('updateAvailability', {
@@ -130,7 +169,8 @@ export default {
         });
       } catch (error) {
         this.showAlert(
-          this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_ERROR')
+          error?.response?.data?.error ||
+            this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_ERROR')
         );
       } finally {
         this.isUpdating = false;

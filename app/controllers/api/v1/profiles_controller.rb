@@ -21,11 +21,29 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def auto_offline
-    @user.account_users.find_by!(account_id: auto_offline_params[:account_id]).update!(auto_offline: auto_offline_params[:auto_offline] || false)
+    account = Account.find(auto_offline_params[:account_id])
+    account_user = @user.account_users.find_by!(account_id: auto_offline_params[:account_id])
+
+    # Prevent enabling auto_offline during business hours (only for non-admin agents)
+    if auto_offline_params[:auto_offline] && account.agent_business_hours_active? && account_user.role != 'administrator'
+      render json: { error: 'Cannot enable auto-offline during business hours' }, status: :unprocessable_entity
+      return
+    end
+
+    account_user.update!(auto_offline: auto_offline_params[:auto_offline] || false)
   end
 
   def availability
-    @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
+    account = Account.find(availability_params[:account_id])
+    account_user = @user.account_users.find_by!(account_id: availability_params[:account_id])
+
+    # Prevent non-admin agents from going offline during business hours
+    if availability_params[:availability] == 'offline' && account.agent_business_hours_active? && account_user.role != 'administrator'
+      render json: { error: 'Cannot mark offline during business hours' }, status: :unprocessable_entity
+      return
+    end
+
+    account_user.update!(availability: availability_params[:availability])
   end
 
   def set_active_account

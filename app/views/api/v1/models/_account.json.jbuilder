@@ -34,9 +34,13 @@ if resource.custom_attributes.present?
     if resource.custom_attributes['contact_ownership_duration_minutes'].present?
       json.contact_ownership_duration_minutes resource.custom_attributes['contact_ownership_duration_minutes']
     end
+    if resource.custom_attributes['agent_availability_settings'].present?
+      json.agent_availability_settings resource.custom_attributes['agent_availability_settings']
+    end
     json.instagram_dm_message resource.instagram_dm_message if @account.instagram_inbox?
   end
 end
+json.agent_business_hours_active resource.agent_business_hours_active?
 json.domain @account.domain
 json.features @account.enabled_features
 json.id @account.id

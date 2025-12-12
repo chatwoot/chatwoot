@@ -44,7 +44,7 @@ class Api::V1::AccountsController < Api::BaseController # rubocop:disable Metric
     render json: { cache_keys: cache_keys_for_account }, status: :ok
   end
 
-  def update
+  def update # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
     @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email, :auto_resolve_duration))
 
     # Merge custom attributes
@@ -52,6 +52,10 @@ class Api::V1::AccountsController < Api::BaseController # rubocop:disable Metric
     if new_attributes[:calling_settings].present?
       existing_settings = @account.custom_attributes['calling_settings'] || {}
       new_attributes[:calling_settings] = existing_settings.merge(new_attributes[:calling_settings])
+    end
+    if new_attributes[:agent_availability_settings].present?
+      existing_settings = @account.custom_attributes['agent_availability_settings'] || {}
+      new_attributes[:agent_availability_settings] = existing_settings.merge(new_attributes[:agent_availability_settings])
     end
     @account.custom_attributes.merge!(new_attributes)
 
@@ -188,7 +192,8 @@ class Api::V1::AccountsController < Api::BaseController # rubocop:disable Metric
       :enable_contact_assignment,
       :enable_timed_contact_ownership,
       :contact_ownership_duration_minutes,
-      calling_settings: {}
+      calling_settings: {},
+      agent_availability_settings: {}
     ).to_h.compact
   end
 

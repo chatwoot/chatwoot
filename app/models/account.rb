@@ -172,7 +172,35 @@ class Account < ApplicationRecord
     save!
   end
 
+  # Check if current time is within account's business hours for agent availability
+  def agent_business_hours_active?
+    settings = custom_attributes&.dig('agent_availability_settings')
+    return false if settings.blank? || !settings['business_hours_enabled']
+
+    check_working_hours(settings['working_hours'], settings['timezone'] || 'UTC')
+  end
+
   private
+
+  def check_working_hours(working_hours, timezone)
+    return false if working_hours.blank?
+
+    Time.use_zone(timezone) do
+      current_time = Time.current
+      today_hours = working_hours.find { |wh| wh['day_of_week'] == current_time.wday }
+
+      return false if today_hours.nil? || today_hours['closed_all_day']
+      return true if today_hours['open_all_day']
+
+      within_time_range?(current_time, today_hours)
+    end
+  end
+
+  def within_time_range?(current_time, hours)
+    open_time = current_time.change(hour: hours['open_hour'], min: hours['open_minutes'])
+    close_time = current_time.change(hour: hours['close_hour'], min: hours['close_minutes'])
+    current_time.between?(open_time, close_time)
+  end
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
