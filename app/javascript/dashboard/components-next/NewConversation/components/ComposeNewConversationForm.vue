@@ -200,6 +200,7 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
 
 const handleInboxAction = ({ value, action, ...rest }) => {
   v$.value.$reset();
+  state.message = '';
   emit('updateTargetInbox', { ...rest });
   showInboxesDropdown.value = false;
   state.attachedFiles = [];
@@ -220,6 +221,7 @@ const removeSignatureFromMessage = () => {
 const removeTargetInbox = value => {
   v$.value.$reset();
   removeSignatureFromMessage();
+  state.message = '';
   emit('updateTargetInbox', value);
   state.attachedFiles = [];
 };
@@ -227,6 +229,7 @@ const removeTargetInbox = value => {
 const clearSelectedContact = () => {
   removeSignatureFromMessage();
   emit('clearSelectedContact');
+  state.message = '';
   state.attachedFiles = [];
 };
 
