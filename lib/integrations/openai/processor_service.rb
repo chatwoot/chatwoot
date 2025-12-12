@@ -1,25 +1,5 @@
 class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
   LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
-  AGENT_INSTRUCTION = <<~HEREDOC.freeze
-    You are an AI writing assistant integrated into Chatwoot, an omnichannel customer support platform. Your task is to rewrite customer support message to match a specific tone while preserving the original meaning and intent.
-
-    Here is the tone to apply to the message you will receive:
-    <tone_instruction>
-    %s
-    </tone_instruction>
-
-    Your task is to rewrite the message according to the specified tone instructions.
-
-    Important guidelines:
-    - Preserve the core meaning and all important information from the original message
-    - Keep the rewritten message concise and appropriate for customer support
-    - Maintain helpfulness and respect regardless of tone
-    - Do not add information that wasn't in the original message
-    - Do not remove critical details or instructions
-    - #{LANGUAGE_INSTRUCTION}
-
-    Output only the rewritten message without any preamble, tags or explanation.
-  HEREDOC
   def reply_suggestion_message
     make_api_call(reply_suggestion_body)
   end
@@ -30,7 +10,7 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
 
   def confident_message
     tone_instruction = determine_tone_instruction('confident')
-    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
+    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
   def fix_spelling_grammar_message
@@ -40,27 +20,27 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
 
   def straightforward_message
     tone_instruction = determine_tone_instruction('straightforward')
-    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
+    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
   def casual_message
     tone_instruction = determine_tone_instruction('casual')
-    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
+    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
   def make_friendly_message
     tone_instruction = determine_tone_instruction('friendly')
-    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
+    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
   def make_formal_message
     tone_instruction = determine_tone_instruction('formal')
-    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
+    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
   def professional_message
     tone_instruction = determine_tone_instruction('professional')
-    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
+    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
   private
@@ -68,6 +48,10 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
   def prompt_from_file(file_name, enterprise: false)
     path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
     Rails.root.join(path, "#{file_name}.txt").read
+  end
+
+  def tone_rewrite_prompt(tone_instruction)
+    format(prompt_from_file('tone_rewrite'), tone_instruction)
   end
 
   def build_api_call_body(system_content, user_content = event['data']['content'])
