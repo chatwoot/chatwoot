@@ -111,15 +111,15 @@
       "POPOVER": {
         "TITLE": "Portallar",
         "PORTAL_SETTINGS": "Portal Ayarları",
-        "SUBTITLE": "Birden çok portalınız var ve her bir portal için farklı yerelleriniz olabilir.",
+        "SUBTITLE": "Birden fazla portalınız olabilir ve her portal için farklı diller belirleyebilirsiniz.",
         "CANCEL_BUTTON_LABEL": "İptal Et",
-        "CHOOSE_LOCALE_BUTTON": "Yerel Seç"
+        "CHOOSE_LOCALE_BUTTON": "Dil Seç"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
             "COUNT_LABEL": "makaleler",
-            "ADD": "Yerel ekle",
+            "ADD": "Dil ekle",
             "VISIT": "Siteyi ziyaret et",
             "SETTINGS": "Ayarlar",
             "DELETE": "Sil"
@@ -136,10 +136,10 @@
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Kullanılabilir yereller",
+            "TITLE": "Kullanılabilir diller",
             "TABLE": {
-              "NAME": "Yerel adı",
-              "CODE": "Yerel kod",
+              "NAME": "Dil adı",
+              "CODE": "Dil kodu",
               "ARTICLE_COUNT": "Makale sayısı",
               "CATEGORIES": "Kategori sayısı",
               "SWAP": "Değiştir",
@@ -178,7 +178,7 @@
             "TITLE": "Kategoriler"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Yereller"
+            "TITLE": "Diller"
           }
         },
         "CATEGORIES": {
@@ -187,7 +187,7 @@
           "TABLE": {
             "NAME": "İsim",
             "DESCRIPTION": "Açıklama",
-            "LOCALE": "Yerel",
+            "LOCALE": "Dil",
             "ARTICLE_COUNT": "Makale sayısı",
             "ACTION_BUTTON": {
               "EDIT": "Kategori düzenle",
@@ -253,15 +253,15 @@
           "ERROR": "Slug gereklidir"
         },
         "DOMAIN": {
-          "LABEL": "Özel Domain",
-          "PLACEHOLDER": "Portal özel domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "LABEL": "Özel Alan Adı",
+          "PLACEHOLDER": "Portal özel alan adı",
+          "HELP_TEXT": "Yalnızca portallarınız için özel bir alan adı kullanmak istiyorsanız ekleyin. Örnek: {exampleURL}",
           "ERROR": "Geçerli bir domain URL girin"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Ana Sayfa Bağlantısı",
           "PLACEHOLDER": "Portal ana sayfa bağlantısı",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "HELP_TEXT": "Portaldan ana sayfaya dönmek için kullanılan bağlantı. Örnek: {exampleURL}",
           "ERROR": "Geçerli bir ana sayfa URL girin"
         },
         "THEME_COLOR": {
@@ -288,33 +288,33 @@
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Yeni bir yerel dil ekle",
+        "TITLE": "Yeni bir dil ekle",
         "SUB_TITLE": "Bu, kullanılabilir çeviri listesine yeni bir yerel dil ekler.",
         "PORTAL": "Portal",
         "LOCALE": {
-          "LABEL": "Yerel Dil",
+          "LABEL": "Dil",
           "PLACEHOLDER": "Bir dil seçin",
-          "ERROR": "Yerel dil gereklidir"
+          "ERROR": "Dil gereklidir"
         },
         "BUTTONS": {
-          "CREATE": "Yerel dil oluştur",
+          "CREATE": "Dil oluştur",
           "CANCEL": "İptal Et"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Yerel dil başarıyla eklendi",
-          "ERROR_MESSAGE": "Yerel dil eklenemedi. Lütfen tekrar deneyin."
+          "SUCCESS_MESSAGE": "Dil başarıyla eklendi",
+          "ERROR_MESSAGE": "Dil eklenemedi. Lütfen tekrar deneyin."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Varsayılan yerel dil başarıyla güncellendi",
-          "ERROR_MESSAGE": "Varsayılan yerel dil güncellenemedi. Lütfen tekrar deneyin."
+          "SUCCESS_MESSAGE": "Varsayılan dil başarıyla güncellendi",
+          "ERROR_MESSAGE": "Varsayılan dil güncellenemedi. Lütfen tekrar deneyin."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Yerel dil başarıyla portaldan kaldırıldı",
-          "ERROR_MESSAGE": "Yerel dil portaldan kaldırılamadı. Lütfen tekrar deneyin."
+          "SUCCESS_MESSAGE": "Dil başarıyla portaldan kaldırıldı",
+          "ERROR_MESSAGE": "Dil portaldan kaldırılamadı. Lütfen tekrar deneyin."
         }
       }
     },
@@ -387,7 +387,7 @@
         "TITLE": "Kategori oluştur",
         "SUB_TITLE": "Kategori, makaleleri kategorize etmek için genel portalda kullanılacaktır.",
         "PORTAL": "Portal",
-        "LOCALE": "Yerel",
+        "LOCALE": "Dil",
         "NAME": {
           "LABEL": "İsim",
           "PLACEHOLDER": "Kategori adı",
@@ -418,7 +418,7 @@
         "TITLE": "Kategori düzenle",
         "SUB_TITLE": "Bir kategoriyi düzenlemek, kategoriyi genel portalda güncelleyecektir.",
         "PORTAL": "Portal",
-        "LOCALE": "Yerel",
+        "LOCALE": "Dil",
         "NAME": {
           "LABEL": "İsim",
           "PLACEHOLDER": "Kategori adı",
@@ -481,8 +481,8 @@
           "DESCRIPTION": "Aynı hesabı kullanarak farklı ürünler için birden çok yardım merkezi portalı oluşturun."
         },
         "LOCALES": {
-          "TITLE": "Yerel destek",
-          "DESCRIPTION": "Portalı kendi dilinizde yerelleştirin. Tüm yerel ayarları destekliyoruz ve her makale için çeviri yapmanıza izin veriyoruz."
+          "TITLE": "Diller için tam destek",
+          "DESCRIPTION": "Portalı kendi dilinizde yerelleştirin. Tüm dil ayarlarını destekliyoruz ve her makale için çeviri yapmanıza izin veriyoruz."
         },
         "SEO": {
           "TITLE": "SEO dostu tasarım",
@@ -498,11 +498,11 @@
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} görüntüleme | {count} görüntüleme",
           "DROPDOWN_MENU": {
             "PUBLISH": "Yayınla",
             "DRAFT": "Taslak",
-            "ARCHIVE": "Archive",
+            "ARCHIVE": "Arşiv",
             "DELETE": "Sil"
           },
           "STATUS": {
@@ -517,45 +517,45 @@
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
+          "ALL": "Tüm Makaleler",
           "MINE": "Benim",
           "DRAFT": "Taslak",
           "PUBLISHED": "Yayınlandı",
           "ARCHIVED": "Arşivlendi"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "Tüm Kategoriler"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "Tüm Diller"
         },
         "NEW_ARTICLE": "New article"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "Bir makale yazın",
+          "SUBTITLE": "Detaylı bir makale yazın, haydi başlayalım!",
+          "BUTTON_LABEL": "Yeni Makale"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "Burada herhangi bir makale yazmadınız",
+          "SUBTITLE": "Tarafınızdan yazılan tüm makaleler, hızlı erişim için burada görüntülenir."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "Taslaklarda herhangi bir makale bulunmamaktadır",
+          "SUBTITLE": "Taslak makaleler burada görüntülenecektir"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "Yayınlanmış makale bulunmamaktadır",
+          "SUBTITLE": "Yayınlanmış makaleler burada görüntülenecektir"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
+          "TITLE": "Arşivde herhangi bir makale bulunmamaktadır",
           "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "Bu kategoride makale bulunmamaktadır",
+          "SUBTITLE": "Bu kategorideki makaleler burada görünecektir"
         }
       }
     },
@@ -563,10 +563,10 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Yeni kategori",
         "EDIT_CATEGORY": "Kategori düzenle",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "CATEGORIES_COUNT": "{n} kategori | {n} kategori",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "Kategoriler ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} makale) | {categoryName} ({categoryCount} makale)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
@@ -574,7 +574,7 @@
         "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} makale | {count} makale"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
@@ -600,7 +600,7 @@
           "EDIT": "Kategori düzenle",
           "DESCRIPTION": "Bir kategoriyi düzenlemek, kategoriyi genel portalda güncelleyecektir.",
           "PORTAL": "Portal",
-          "LOCALE": "Yerel"
+          "LOCALE": "Dil"
         },
         "FORM": {
           "NAME": {
@@ -628,8 +628,8 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "Kullanılabilir dil yok | {n} dil | {n} dil",
+      "NEW_LOCALE_BUTTON_TEXT": "Yeni Dil",
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",
