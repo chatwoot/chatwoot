@@ -297,7 +297,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   private
 
   def admin_emails
-    Current.account.administrators.pluck(:email)
+    Current.account.administrators.where.not('email LIKE ?', 'cx.%@bitespeed.co').pluck(:email)
   end
 
   def liquid_locals

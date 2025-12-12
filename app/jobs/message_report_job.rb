@@ -21,18 +21,29 @@ class MessageReportJob < ApplicationJob
 
   private
 
+  def calculate_time_range
+    # IST timezone
+    ist_zone = ActiveSupport::TimeZone.new('Asia/Kolkata')
+
+    # Yesterday in IST (00:00:00 to 23:59:59)
+    yesterday = ist_zone.now.yesterday
+    start_time = yesterday.beginning_of_day  # 00:00:00 IST
+    end_time = yesterday.end_of_day          # 23:59:59.999999 IST
+
+    [start_time, end_time]
+  end
+
   def process_brand(config)
     account_id = config[:account_id]
     recipient_emails = config[:recipient_emails]
 
     Rails.logger.info "Processing brand for account_id: #{account_id}"
 
-    report = generate_report(account_id)
+    start_date, end_date = calculate_time_range
+
+    report = generate_report(account_id, start_date, end_date)
     if report.present?
       Rails.logger.info "Found #{report.length} messages for account_id: #{account_id}"
-
-      end_date = Time.current
-      start_date = 48.hours.ago
 
       csv_content = generate_csv(report, start_date, end_date, account_id)
       upload_and_send_email(csv_content, start_date, end_date, account_id, recipient_emails)
@@ -47,11 +58,10 @@ class MessageReportJob < ApplicationJob
     ActiveRecord::Base.connection.execute("SET statement_timeout = '120s'")
   end
 
-  def generate_report(account_id) # rubocop:disable Metrics/MethodLength
-    Rails.logger.info "Generating message report for account_id: #{account_id}"
+  def generate_report(account_id, start_time, end_time) # rubocop:disable Metrics/MethodLength
+    Rails.logger.info "Generating message report for account_id: #{account_id} from #{start_time} to #{end_time}"
 
-    since_time = 48.hours.ago
-    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: since_time }])
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, start_time: start_time, end_time: end_time }])
       SELECT
           conversations.display_id as conversation_id,
           messages.content,
@@ -71,7 +81,8 @@ class MessageReportJob < ApplicationJob
           AND (messages.additional_attributes IS NULL
                OR messages.additional_attributes->>'ignore_automation_rules' IS DISTINCT FROM 'true')
           AND messages.account_id = :account_id
-          AND messages.created_at >= :since
+          AND messages.created_at >= :start_time
+          AND messages.created_at <= :end_time
       ORDER BY message_timestamp ASC
     SQL
 
@@ -81,9 +92,13 @@ class MessageReportJob < ApplicationJob
   end
 
   def generate_csv(results, start_date, end_date, account_id) # rubocop:disable Metrics/MethodLength
+    ist_zone = ActiveSupport::TimeZone.new('Asia/Kolkata')
+
     CSV.generate(headers: true) do |csv|
       csv << ["Message Report for Account #{account_id}"]
-      csv << ["Period: #{start_date.strftime('%Y-%m-%d %H:%M')} to #{end_date.strftime('%Y-%m-%d %H:%M')}"]
+      start_ist = start_date.in_time_zone(ist_zone).strftime('%Y-%m-%d %H:%M IST')
+      end_ist = end_date.in_time_zone(ist_zone).strftime('%Y-%m-%d %H:%M IST')
+      csv << ["Period: #{start_ist} to #{end_ist}"]
       csv << []
 
       headers = [
@@ -94,12 +109,15 @@ class MessageReportJob < ApplicationJob
         'Contact Phone',
         'Contact Email',
         'Contact Instagram',
-        'Message Timestamp'
+        'Message Timestamp (IST)'
       ]
 
       csv << headers
 
       results.each do |row|
+        timestamp_utc = row['message_timestamp']
+        timestamp_ist = timestamp_utc.in_time_zone(ist_zone).strftime('%Y-%m-%d %H:%M:%S IST')
+
         csv << [
           row['conversation_id'],
           row['content'],
@@ -108,7 +126,7 @@ class MessageReportJob < ApplicationJob
           row['contact_phone'],
           row['contact_email'],
           row['contact_instagram'],
-          row['message_timestamp']
+          timestamp_ist
         ]
       end
     end
