@@ -134,7 +134,7 @@
       "CREATE_ERROR": "Si è verificato un errore durante la creazione di un link alla riunione, riprova"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "Assistente AI",
       "WITH_AI": " {option} con l'AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Suggerimenti di Risposta",
@@ -429,7 +429,7 @@
         "SUCCESS_MESSAGE": "L'assistente è stato eliminato con successo",
         "ERROR_MESSAGE": "Si è verificato un errore durante l'eliminazione dell'assistente, riprova."
       },
-      "FORM_DESCRIPTION": "Compila i dettagli qui sotto per dare un nome al tuo assistente, descriverne lo scopo e specificare il prodotto per cui offirà supporto.",
+      "FORM_DESCRIPTION": "Compila i dettagli qui sotto per dare un nome al tuo assistente, descriverne lo scopo e specificare il prodotto per cui offrirà supporto.",
       "CREATE": {
         "TITLE": "Crea un assistente",
         "SUCCESS_MESSAGE": "L'assistente è stato creato correttamente",
