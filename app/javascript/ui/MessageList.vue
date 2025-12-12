@@ -9,12 +9,14 @@ import {
   useStore,
   useMapGetter,
   useFunctionGetter,
-  //
 } from '../dashboard/composables/store';
 import { getTypingUsersText } from '../dashboard/helper/commons';
 import { useCamelCase } from '../dashboard/composables/useTransformKeys';
 import { useInfiniteScroll, useThrottleFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { useInbox } from '../dashboard/composables/useInbox';
+
+const { isAnEmailChannel } = useInbox();
 
 const conversationId = computed(() => {
   // eslint-disable-next-line no-underscore-dangle
@@ -117,7 +119,7 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
       <template v-for="(message, index) in allMessages" :key="message.id">
         <Message
           v-bind="message"
-          :is-email-inbox="false"
+          :is-email-inbox="isAnEmailChannel"
           :group-with-next="shouldGroupWithNext(index, allMessages)"
           :inbox-supports-reply-to="false"
         />
