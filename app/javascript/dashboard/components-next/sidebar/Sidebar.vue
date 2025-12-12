@@ -18,7 +18,7 @@ import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
-import {watch} from 'vue'
+import { watch } from 'vue';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -76,14 +76,14 @@ const conversationCustomViews = useMapGetter(
 const currentUser = useMapGetter('getCurrentUser');
 const userACL = useMapGetter('acl/getUserACL');
 
+const exibirAcl = computed(() => {
+  return userACL.value?.exibir_acl ?? false;
+});
+
 //let partnerUser = ref(false)
 const canViewSidePanel = computed(() => {
-  const userACLPrivateTeam = userACL.value.side_panel
-  if (userACLPrivateTeam) {
-    return true
-  }
-  return false
-})
+  return userACL.value?.side_panel ?? true;
+});
 
 onMounted(() => {
   store.dispatch('labels/get');
@@ -139,14 +139,13 @@ const newReportRoutes = () => [
 //   return userTeams.some(t => {
 //     return regexPrivado.test(t.name)
 //   })
-  
+
 // }
 
 // watch(teams, (newValue) => {
 //   partnerUser = isUserPartner(newValue)
 //   localStorage.setItem('isPartnerUser', partnerUser)
 // }, {deep: true})
-
 
 const reportRoutes = computed(() => newReportRoutes());
 
@@ -155,44 +154,37 @@ const partnerMenuItems = computed(() => {
   // if (userPrivateTeams.length === 0) return []
   return [
     {
-          name: 'Teams',
-          label: t('SIDEBAR.TEAMS'),
-          icon: 'i-lucide-users',
-          activeOn: ['conversations_through_team'],
-          children: teams.value.map(team => ({
-            name: `${team.name}-${team.id}`,
-            label: team.name,
-            to: accountScopedRoute('team_conversations', { teamId: team.id }),
-          }))
-
+      name: 'Teams',
+      label: t('SIDEBAR.TEAMS'),
+      icon: 'i-lucide-users',
+      activeOn: ['conversations_through_team'],
+      children: teams.value.map(team => ({
+        name: `${team.name}-${team.id}`,
+        label: team.name,
+        to: accountScopedRoute('team_conversations', { teamId: team.id }),
+      })),
     },
     {
-          name: 'Folders',
-          label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
-          icon: 'i-lucide-folder',
-          activeOn: ['conversations_through_folders'],
-          children: conversationCustomViews.value.map(view => ({
-            name: `${view.name}-${view.id}`,
-            label: view.name,
-            to: accountScopedRoute('folder_conversations', { id: view.id }),
-          })),
+      name: 'Folders',
+      label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
+      icon: 'i-lucide-folder',
+      activeOn: ['conversations_through_folders'],
+      children: conversationCustomViews.value.map(view => ({
+        name: `${view.name}-${view.id}`,
+        label: view.name,
+        to: accountScopedRoute('folder_conversations', { id: view.id }),
+      })),
     },
-  ]
-})
+  ];
+});
 
 const menuItems = computed(() => {
-  return [
+  const items = [
     {
       name: 'Kanban',
       label: 'Kanban',
       icon: 'i-lucide-kanban',
-      to: accountScopedRoute('kanban')
-    },
-    {
-      name: 'acl',
-      label: 'ACL',
-      icon: 'i-lucide-list',
-      to: accountScopedRoute('acl')
+      to: accountScopedRoute('kanban'),
     },
     {
       name: 'Inbox',
@@ -582,6 +574,15 @@ const menuItems = computed(() => {
       ],
     },
   ];
+  if (exibirAcl) {
+    items.unshift({
+      name: 'acl',
+      label: 'ACL',
+      icon: 'i-lucide-list',
+      to: accountScopedRoute('acl')
+    })
+  }
+  return items
 });
 </script>
 

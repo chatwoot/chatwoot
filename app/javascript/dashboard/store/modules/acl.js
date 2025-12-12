@@ -11,10 +11,13 @@ class AclAPI extends ApiClient {
     }
 
     baseUrl() {
-        return 'http://localhost:5050'; //TODO: Isso aqui é para teste local, mudar isso quando formos para homolog/prod
+        return ``;
     }
 
     get(id) {
+        if (!id) {
+            return axios.get(`${this.url}`)
+        }
         return axios.get(`${this.url}/${id}`)
     }
 
@@ -41,39 +44,36 @@ export const getters = {
 }
 
 export const actions = {
-    fetchAcl: async ({ commit }, userId) => {
-        console.log("CHAMOU A ACTION fetchAcl COM USER ID ", userId)
+    fetchAcl: async ({ commit }) => {
         try {
             const aclapi = new AclAPI()
-            const result = await aclapi.get(userId)
-            console.log({ result })
-            commit(types.default.SET_ACL, result.data)
-        } catch (error) {
-            throw error
+            const result = await aclapi.get()
+            commit(types.default.SET_ACL, { ...result.data, exibir_acl: true })
+        } catch (e) {
+            console.error(e)
+            commit(types.default.SET_ACL, {
+                "time_privado": true,
+                "direcionar_conversa": true,
+                "side_panel": true,
+                "exibir_acl": false
+            })
         }
+
     },
 
     fetchEditingAcl: async ({ commit }, userId) => {
         console.log("CHAMOU A ACTION fetchEditingACL COM USERID = ", userId)
-        try {
-            const aclapi = new AclAPI()
-            const result = await aclapi.get(userId)
-            console.log({ result })
-            commit(types.default.SET_EDITING_ACL, result.data)
-        } catch (error) {
-            throw error
-        }
+        const aclapi = new AclAPI()
+        const result = await aclapi.get(userId)
+        console.log({ result })
+        commit(types.default.SET_EDITING_ACL, result.data)
     },
 
     updateAcl: async ({ commit }, { userId, newAcl }) => {
         console.log(`Update ACL chamada com ${userId} e ${JSON.stringify(newAcl)}`)
-        try {
-            const aclapi = new AclAPI()
-            const result = await aclapi.update(userId, newAcl)
-            console.log({ result })
-        } catch (error) {
-            throw error
-        }
+        const aclapi = new AclAPI()
+        const result = await aclapi.update(userId, newAcl)
+        console.log({ result })
     }
 }
 
@@ -94,8 +94,6 @@ export const mutations = {
     [types.default.UPDATE_ACL]($state, aclData) {
         console.log("Trocando o state para ", aclData)
         $state.editingACL = { ...aclData }
-        const index = mock_acls.findIndex(acl => acl.userId === aclData.userId)
-        if (index !== -1) mock_acls[index] = { userId: aclData.userId, ...aclData }
     }
 }
 
