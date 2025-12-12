@@ -111,7 +111,7 @@ describe ConversationFinder do
                                        assigned_count: 3,
                                        unassigned_count: 1,
                                        all_count: 4,
-                                       total_pages: 1
+                                       missing_pages: 1
                                      })
       end
     end
@@ -190,30 +190,30 @@ describe ConversationFinder do
         expect(result[:conversations].length).to be 25
       end
 
-      it 'calculates total_pages correctly' do
+      it 'calculates missing_pages correctly' do
         create_list(:conversation, 50, account: account, inbox: inbox, assignee: user_1, status: 'open')
         result = conversation_finder.perform
         # 52 total conversations (50 + 2 from setup), 25 per page = 3 pages
-        expect(result[:count][:total_pages]).to eq 3
+        expect(result[:count][:missing_pages]).to eq 3
       end
 
-      it 'calculates total_pages correctly based on all_count' do
+      it 'calculates missing_pages correctly based on all_count' do
         create_list(:conversation, 23, account: account, inbox: inbox, assignee: user_1, status: 'open')
         result = conversation_finder.perform
 
-        # Verify total_pages is calculated correctly: ceil(all_count / 25)
+        # Verify missing_pages is calculated correctly: ceil(all_count / 25)
         all_count = result[:count][:all_count]
-        total_pages = result[:count][:total_pages]
+        missing_pages = result[:count][:missing_pages]
         expected_pages = (all_count.to_f / 25).ceil
 
-        expect(total_pages).to eq expected_pages
+        expect(missing_pages).to eq expected_pages
       end
 
-      it 'calculates total_pages for less than page size' do
+      it 'calculates missing_pages for less than page size' do
         params = { status: 'open', assignee_type: 'me', page: 1 }
         result = described_class.new(user_1, params).perform
         # Only 2 conversations from setup, less than 25 per page = 1 page
-        expect(result[:count][:total_pages]).to eq 1
+        expect(result[:count][:missing_pages]).to eq 1
       end
     end
 

@@ -41,11 +41,9 @@ class ConversationFinder
 
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
+    missing_pages = missing_pages(mine_count, unassigned_count, all_count)
 
     filter_by_assignee_type
-
-    records_per_page = ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i
-    total_pages = (all_count.to_f / records_per_page).ceil
 
     {
       conversations: conversations,
@@ -54,7 +52,7 @@ class ConversationFinder
         assigned_count: assigned_count,
         unassigned_count: unassigned_count,
         all_count: all_count,
-        total_pages: total_pages
+        missing_pages: missing_pages
       }
     }
   end
@@ -72,6 +70,23 @@ class ConversationFinder
     filter_by_labels
     filter_by_query
     filter_by_source_id
+  end
+
+  def missing_pages(mine_count, unassigned_count, all_count)
+    return 0 unless params[:conversation_type] == 'board'
+
+    records_per_page = ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i
+    total_pages =
+      case params[:assignee_type]
+      when 'me'
+        (mine_count.to_f / records_per_page).ceil
+      when 'unassigned'
+        (unassigned_count.to_f / records_per_page).ceil
+      else
+        (all_count.to_f / records_per_page).ceil
+      end
+
+    total_pages.to_i - current_page.to_i
   end
 
   def set_inboxes

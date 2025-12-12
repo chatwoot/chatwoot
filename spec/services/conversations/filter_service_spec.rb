@@ -141,15 +141,15 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to be conversations.count
       end
 
-      it 'includes total_pages in the result' do
+      it 'includes missing_pages in the result' do
         params[:payload] = payload
         result = filter_service.new(params, user_1, account).perform
-        expect(result[:count]).to have_key(:total_pages)
-        expect(result[:count][:total_pages]).to be_a(Integer)
-        expect(result[:count][:total_pages]).to be >= 1
+        expect(result[:count]).to have_key(:missing_pages)
+        expect(result[:count][:missing_pages]).to be_a(Integer)
+        expect(result[:count][:missing_pages]).to be >= 1
       end
 
-      it 'calculates total_pages correctly with pagination' do
+      it 'calculates missing_pages correctly with pagination' do
         # Create 50 conversations that match the filter
         create_list(:conversation, 50, account: account, inbox: inbox, assignee: user_1,
                                        status: 'pending', additional_attributes: { 'browser_language': 'en' })
@@ -157,7 +157,7 @@ describe Conversations::FilterService do
         result = filter_service.new(params, user_1, account).perform
 
         # 52 total matching conversations (50 + 2 from setup), 25 per page = 3 pages
-        expect(result[:count][:total_pages]).to eq 3
+        expect(result[:count][:missing_pages]).to eq 3
       end
 
       it 'filters items with contains filter_operator with values being an array' do

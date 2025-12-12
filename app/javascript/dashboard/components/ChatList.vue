@@ -866,16 +866,10 @@ watch(conversationList, newConversations => {
 });
 
 watch(
-  () => conversationStats.value.totalPages,
-  async newTotalPages => {
-    if (isOnBoard.value && !!newTotalPages) {
-      for (let i = 1; i < newTotalPages; i += 1) {
-        // Wait until previous loading is complete
-        while (chatListLoading.value) {
-          await new Promise(resolve => setTimeout(resolve, 100));
-        }
-        await loadMoreConversations();
-      }
+  () => conversationStats.value.missingPages,
+  async newMissingPages => {
+    if (isOnBoard.value && !!newMissingPages) {
+      await loadMoreConversations();
     }
   }
 );
