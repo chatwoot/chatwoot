@@ -1,9 +1,10 @@
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
-defineProps({
+const props = defineProps({
   hasErrors: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
@@ -24,6 +25,7 @@ const modelValue = defineModel({
 <template>
   <div class="flex-1 h-full">
     <Editor
+      :key="editorKey"
       v-model="modelValue"
       :editor-key="editorKey"
       :placeholder="
