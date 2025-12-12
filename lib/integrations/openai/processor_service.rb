@@ -28,9 +28,9 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
     make_api_call(summarize_body)
   end
 
-  def rephrase_message
-    make_api_call(build_api_call_body('Please rephrase the following response. ' \
-                                      "#{LANGUAGE_INSTRUCTION}"))
+  def confident_message
+    tone_instruction = determine_tone_instruction('confident')
+    make_api_call(build_api_call_body(format(AGENT_INSTRUCTION, tone_instruction)))
   end
 
   def fix_spelling_grammar_message
