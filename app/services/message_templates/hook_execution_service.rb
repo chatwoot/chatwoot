@@ -103,18 +103,19 @@ class MessageTemplates::HookExecutionService
   end
 
   def should_send_csat_survey?
+    # CRITICAL FIX: Never send CSAT on incoming messages
+    # CSAT should only be sent when the agent/system resolves the conversation (outgoing/activity messages)
+    # By the time this hook runs, reopen_conversation has already changed status to 'open' in the DB,
+    # so we cannot rely on conversation status - we must block based on message direction
+    if message.incoming?
+      Rails.logger.info("CSAT blocked: Incoming messages should never trigger CSAT. conversation_id=#{conversation.id}, message_id=#{message.id}")
+      return false
+    end
+
     # Check once and cache the result to avoid clearing the flag multiple times
     csat_enabled = csat_enabled_conversation?
     Rails.logger.info("csat_enabled_conversation?, #{csat_enabled}")
     return unless csat_enabled
-
-    # IMPORTANT FIX: Don't send CSAT when an incoming message arrives on a resolved conversation
-    # This prevents CSAT from being sent when the chat is about to be reopened by the incoming message
-    # CSAT should only be sent when the conversation is actively being marked as resolved (via activity messages)
-    if message.incoming? && conversation.resolved?
-      Rails.logger.info("CSAT blocked: Incoming message on resolved conversation - conversation will be reopened. conversation_id=#{conversation.id}, message_id=#{message.id}") # rubocop:disable Layout/LineLength
-      return false
-    end
 
     # Get all CSAT messages in conversation
     csat_messages = conversation.messages.where(content_type: :input_csat)
