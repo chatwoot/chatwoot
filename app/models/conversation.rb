@@ -359,6 +359,7 @@ class Conversation < ApplicationRecord
     create_activity
     notify_conversation_updation
     notify_calling_status_change
+    trigger_unassigned_conversations_assignment
   end
 
   def handle_resolved_status_change
@@ -368,6 +369,14 @@ class Conversation < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:waiting_since, nil)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def trigger_unassigned_conversations_assignment
+    Rails.logger.info('TRIGGERING UNASSIGNED CONVERSATIONS ASSIGNMENT')
+    return unless saved_change_to_status? && resolved?
+    return unless inbox.reassign_on_resolve?
+
+    UnassignedConversationsAssignmentJob.perform_later(inbox_id)
   end
 
   def ensure_snooze_until_reset

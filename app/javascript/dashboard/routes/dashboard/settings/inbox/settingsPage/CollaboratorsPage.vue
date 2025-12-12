@@ -65,6 +65,25 @@
         </p>
       </label>
 
+      <label class="w-3/4 settings-item">
+        <div class="flex items-center gap-2">
+          <input
+            id="reassignOnResolve"
+            v-model="reassignOnResolve"
+            type="checkbox"
+            @change="handleReassignOnResolve"
+          />
+          <label for="reassignOnResolve">
+            Reassign unassigned conversations on resolve
+          </label>
+        </div>
+
+        <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+          When a conversation is resolved, automatically attempt to assign other
+          unassigned conversations to available agents
+        </p>
+      </label>
+
       <div v-if="isEnterprise" class="max-assignment-container">
         <woot-input
           v-model.trim="maxAssignmentLimit"
@@ -113,6 +132,7 @@ export default {
       isAgentListUpdating: false,
       enableAutoAssignment: false,
       assignEvenIfOffline: false,
+      reassignOnResolve: false,
       maxAssignmentLimit: null,
     };
   },
@@ -142,6 +162,8 @@ export default {
       this.enableAutoAssignment = this.inbox.enable_auto_assignment;
       this.assignEvenIfOffline =
         this.inbox?.auto_assignment_config?.assign_even_if_offline || false;
+      this.reassignOnResolve =
+        this.inbox?.auto_assignment_config?.reassign_on_resolve || false;
       this.maxAssignmentLimit =
         this.inbox?.auto_assignment_config?.max_assignment_limit || null;
       this.fetchAttachedAgents();
@@ -165,6 +187,9 @@ export default {
     handleAssignEvenIfOffline() {
       this.updateInbox();
     },
+    handleReassignOnResolve() {
+      this.updateInbox();
+    },
     async updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
       this.isAgentListUpdating = true;
@@ -186,6 +211,7 @@ export default {
           formData: false,
           enable_auto_assignment: this.enableAutoAssignment,
           assign_even_if_offline: this.assignEvenIfOffline,
+          reassign_on_resolve: this.reassignOnResolve,
           auto_assignment_config: {
             max_assignment_limit: this.maxAssignmentLimit,
           },

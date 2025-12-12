@@ -88,6 +88,11 @@ class Inbox < ApplicationRecord
     (auto_assignment_config['reopen_pending_conversations'].presence || false)
   end
 
+  # Helper method to check if unassigned conversations should be reassigned when a conversation is resolved
+  def reassign_on_resolve?
+    (auto_assignment_config['reassign_on_resolve'].presence || false)
+  end
+
   # Helper method to check if agents should be prompted before sending CSAT on resolution
   def prompt_agent_for_csat?
     (csat_config['prompt_agent_for_csat'].presence || false)
