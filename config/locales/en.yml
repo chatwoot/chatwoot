@@ -160,6 +160,7 @@ en:
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
+      instagram_shared_post_content: 'Shared post'
       deleted: This message was deleted
       delivery_status:
         error_code: 'Error code: %{error_code}'

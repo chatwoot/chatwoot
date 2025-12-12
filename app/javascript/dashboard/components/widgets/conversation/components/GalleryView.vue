@@ -191,6 +191,7 @@ const ALLOWED_FILE_TYPES = {
   VIDEO: 'video',
   AUDIO: 'audio',
   IG_REEL: 'ig_reel',
+  IG_POST: 'ig_post',
 };
 
 const MAX_ZOOM_LEVEL = 2;

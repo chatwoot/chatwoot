@@ -9,6 +9,7 @@ class Messages::Messenger::MessageBuilder
     attachment_obj.save!
     attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
     fetch_story_link(attachment_obj) if attachment_obj.file_type == 'story_mention'
+    fetch_ig_post_link(attachment_obj) if attachment_obj.file_type == 'ig_post'
     update_attachment_file_type(attachment_obj)
   end
 
@@ -31,7 +32,7 @@ class Messages::Messenger::MessageBuilder
 
     params = { file_type: normalized_type, account_id: @message.account_id }
 
-    if [:image, :file, :audio, :video, :share, :story_mention, :ig_reel, :ig_story].include? normalized_type
+    if [:image, :file, :audio, :video, :share, :story_mention, :ig_reel, :ig_post, :ig_story].include? normalized_type
       params.merge!(file_type_params(attachment))
     elsif normalized_type == :location
       params.merge!(location_params(attachment))
@@ -71,6 +72,13 @@ class Messages::Messenger::MessageBuilder
     message.content_attributes[:story_id] = story_id
     message.content_attributes[:image_type] = 'story_mention'
     message.content = I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender)
+    message.save!
+  end
+
+  def fetch_ig_post_link(attachment)
+    message = attachment.message
+    message.content_attributes[:image_type] = 'ig_post'
+    message.content = I18n.t('conversations.messages.instagram_shared_post_content')
     message.save!
   end
 
