@@ -57,13 +57,13 @@ RSpec.describe Integrations::Openai::ProcessorService do
         end
       end
 
-      it_behaves_like 'text transformation operation', 'rephrase'
+      it_behaves_like 'text transformation operation', 'confident'
       it_behaves_like 'text transformation operation', 'fix_spelling_grammar'
-      it_behaves_like 'text transformation operation', 'shorten'
-      it_behaves_like 'text transformation operation', 'expand'
+      it_behaves_like 'text transformation operation', 'casual'
+      it_behaves_like 'text transformation operation', 'professional'
       it_behaves_like 'text transformation operation', 'make_friendly'
       it_behaves_like 'text transformation operation', 'make_formal'
-      it_behaves_like 'text transformation operation', 'simplify'
+      it_behaves_like 'text transformation operation', 'straightforward'
     end
 
     describe 'conversation-based operations' do
