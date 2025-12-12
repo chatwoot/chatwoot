@@ -55,6 +55,14 @@
       "FORMS_COMPLETED": {
         "NAME": "Forms Completed",
         "DESC": "( Total )"
+      },
+      "CONVERSION_RATE": {
+        "NAME": "Conversion Rate",
+        "DESC": "%"
+      },
+      "GENERATED_VALUE": {
+        "NAME": "Generated Value",
+        "DESC": "$"
       }
     },
     "DATE_RANGE_OPTIONS": {
