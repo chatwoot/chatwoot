@@ -12,7 +12,8 @@ RSpec.describe User do
   end
 
   context 'with associations' do
-    before { Conversation }
+    # Force Rails to resolve the association's class_name for parallel CI
+    before { User.reflect_on_association(:assigned_conversations).klass }
 
     it { is_expected.to have_many(:accounts).through(:account_users) }
     it { is_expected.to have_many(:account_users) }
