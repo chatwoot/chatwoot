@@ -1,0 +1,43 @@
+{
+  "APPOINTMENTS": {
+    "HEADER": {
+      "TITLE": "Citas"
+    },
+    "EMPTY_STATE": "No se encontraron citas",
+    "TABLE": {
+      "CONTACT": "Contacto",
+      "START_TIME": "Hora de Inicio",
+      "END_TIME": "Hora de Fin",
+      "LOCATION": "Ubicación",
+      "ASSISTED": "Asistió",
+      "YES": "Sí",
+      "NO": "No",
+      "NO_CONTACT": "Sin contacto"
+    },
+    "CARD": {
+      "ASSISTED": "Asistió",
+      "UPCOMING": "Próximas",
+      "PAST": "Pasadas",
+      "VIEW_CONTACT": "Ver contacto"
+    },
+    "FILTER": {
+      "TITLE": "Filtrar Citas",
+      "APPOINTMENT_FILTERS": "Filtros de Citas",
+      "LOCATION": "Ubicación",
+      "DESCRIPTION": "Descripción",
+      "START_TIME": "Hora de Inicio",
+      "END_TIME": "Hora de Fin",
+      "ASSISTED": "Asistió",
+      "CONTACT_NAME": "Nombre del Contacto",
+      "CONTACT_EMAIL": "Email del Contacto",
+      "BUTTONS": {
+        "ADD_FILTER": "Agregar Filtro",
+        "CLEAR_FILTERS": "Limpiar Filtros",
+        "APPLY_FILTERS": "Aplicar Filtros"
+      }
+    },
+    "ERRORS": {
+      "APPOINTMENT_NOT_FOUND": "El código QR de la cita ha expirado o ya no está disponible"
+    }
+  }
+}

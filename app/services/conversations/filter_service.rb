@@ -18,7 +18,8 @@ class Conversations::FilterService < FilterService
         mine_count: mine_count,
         assigned_count: assigned_count,
         unassigned_count: unassigned_count,
-        all_count: all_count
+        all_count: all_count,
+        missing_pages: missing_pages(mine_count, unassigned_count, all_count)
       }
     }
   end
@@ -37,6 +38,21 @@ class Conversations::FilterService < FilterService
 
   def current_page
     @params[:page] || 1
+  end
+
+  def missing_pages(mine_count, unassigned_count, all_count)
+    records_per_page = ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i
+    total_pages =
+      case @params[:assignee_type]
+      when 'me'
+        (mine_count.to_f / records_per_page).ceil
+      when 'unassigned'
+        (unassigned_count.to_f / records_per_page).ceil
+      else
+        (all_count.to_f / records_per_page).ceil
+      end
+
+    total_pages.to_i - current_page.to_i
   end
 
   def filter_config

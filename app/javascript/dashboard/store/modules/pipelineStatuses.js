@@ -1,10 +1,10 @@
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import PipelineStatusesAPI from '../../api/pipeline_statuses';
 
 const state = {
   records: [],
   uiFlags: {
+    isLoading: true,
     isFetching: false,
     isCreating: false,
     isUpdating: false,
@@ -74,6 +74,14 @@ export const actions = {
       throw error;
     }
   },
+
+  organizeConversations: ({ commit }, { conversations = [] }) => {
+    commit(types.SET_PIPELINE_STATUS_LOADING, true);
+    commit(types.ORGANIZE_CONVERSATIONS_BY_PIPELINE_STATUS, {
+      conversations,
+    });
+    commit(types.SET_PIPELINE_STATUS_LOADING, false);
+  },
 };
 
 export const mutations = {
@@ -89,10 +97,57 @@ export const mutations = {
   [types.SET_PIPELINE_STATUS_DELETING_STATUS]($state, status) {
     $state.uiFlags.isDeleting = status;
   },
-  [types.SET_PIPELINE_STATUSES]: MutationHelpers.set,
-  [types.ADD_PIPELINE_STATUS]: MutationHelpers.create,
-  [types.EDIT_PIPELINE_STATUS]: MutationHelpers.update,
-  [types.DELETE_PIPELINE_STATUS]: MutationHelpers.destroy,
+  [types.SET_PIPELINE_STATUSES]($state, data) {
+    $state.records = data.map(status => ({
+      id: status.id,
+      name: status.name,
+      conversations: [],
+      is_new: false,
+      conversations_count: status.conversation_count,
+    }));
+  },
+  [types.ADD_PIPELINE_STATUS]($state, data) {
+    $state.records.push({
+      id: data.id,
+      name: data.name,
+      conversations: [],
+      is_new: false,
+    });
+  },
+  [types.EDIT_PIPELINE_STATUS]($state, data) {
+    const index = $state.records.findIndex(record => record.id === data.id);
+    if (index !== -1) {
+      $state.records[index] = {
+        ...$state.records[index],
+        name: data.name,
+      };
+    }
+  },
+  [types.DELETE_PIPELINE_STATUS]($state, id) {
+    $state.records = $state.records.filter(record => record.id !== id);
+  },
+
+  [types.SET_PIPELINE_STATUS_LOADING]($state, status) {
+    $state.uiFlags.isLoading = status;
+  },
+
+  [types.ORGANIZE_CONVERSATIONS_BY_PIPELINE_STATUS]($state, { conversations }) {
+    // Group conversations by pipeline_status_id (O(M) instead of O(N*M))
+    const groupedConversations = conversations.reduce((acc, conversation) => {
+      const statusId = conversation.pipeline_status_id;
+      if (statusId) {
+        if (!acc[statusId]) acc[statusId] = [];
+        acc[statusId].push(conversation);
+      }
+      return acc;
+    }, {});
+
+    // Assign to records ensuring reactivity
+    $state.records = $state.records.map(record => ({
+      ...record,
+      conversations: groupedConversations[record.id] || [],
+    }));
+  },
 };
 
 export default {

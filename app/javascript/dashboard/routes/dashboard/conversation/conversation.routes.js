@@ -178,6 +178,21 @@ export default {
       }),
     },
     {
+      path: frontendURL(
+        'accounts/:accountId/board/conversations/:conversationId'
+      ),
+      name: 'conversation_through_board',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+        featureFlag: FEATURE_FLAGS.BOARD,
+      },
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        conversationType: 'board',
+      }),
+    },
+    {
       path: frontendURL('accounts/:accountId/board/conversations'),
       name: 'conversation_board',
       meta: {

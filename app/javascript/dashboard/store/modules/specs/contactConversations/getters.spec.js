@@ -20,4 +20,42 @@ describe('#getters', () => {
       isFetching: true,
     });
   });
+
+  it('getAllConversationsByContactId converts keys to camelCase', () => {
+    const state = {
+      records: {
+        1: [
+          {
+            id: 1,
+            contact_id: 1,
+            message: 'Hello',
+            conversation_type: 1,
+            additional_attributes: {
+              whatsapp_group_name: 'Test Group',
+            },
+          },
+        ],
+      },
+    };
+    const result = getters.getAllConversationsByContactId(state)(1);
+    expect(result).toEqual([
+      {
+        id: 1,
+        contactId: 1,
+        message: 'Hello',
+        conversationType: 1,
+        additionalAttributes: {
+          whatsappGroupName: 'Test Group',
+        },
+      },
+    ]);
+  });
+
+  it('getAllConversationsByContactId returns empty array for non-existent contact', () => {
+    const state = {
+      records: {},
+    };
+    const result = getters.getAllConversationsByContactId(state)(999);
+    expect(result).toEqual([]);
+  });
 });

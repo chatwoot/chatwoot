@@ -24,7 +24,6 @@ export default {
       channelWelcomeTagline: '',
       greetingEnabled: false,
       greetingMessage: '',
-      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
       autoGenerateLandingPage: false,
       landingPageDescription: '',
     };
@@ -220,7 +219,7 @@ export default {
             )
           "
           :max-length="500"
-          :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+          channel-type="Context::InboxSettings"
           class="mb-4"
         />
       </div>

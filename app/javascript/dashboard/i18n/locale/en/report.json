@@ -460,10 +460,10 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
+      "OPEN": "Human in the Loop",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "PENDING": "AI Agent"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
@@ -485,7 +485,7 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "Open",
+        "OPEN": "Human in the Loop",
         "UNATTENDED": "Unattended",
         "STATUS": "Status"
       }
@@ -497,7 +497,7 @@
       "NO_TEAMS": "There is no data available",
       "TABLE_HEADER": {
         "TEAM": "Team",
-        "OPEN": "Open",
+        "OPEN": "Human in the Loop",
         "UNATTENDED": "Unattended",
         "STATUS": "Status"
       }

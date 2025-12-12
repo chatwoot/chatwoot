@@ -1,6 +1,8 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Avatar from 'next/avatar/Avatar.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
@@ -12,9 +14,27 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  activeLabel: {
+    type: String,
+    default: '',
+  },
+  teamId: {
+    type: [String, Number],
+    default: 0,
+  },
+  foldersId: {
+    type: [String, Number],
+    default: 0,
+  },
+  conversationType: {
+    type: String,
+    default: 'board',
+  },
 });
 
+const router = useRouter();
 const store = useStore();
+const isDragging = ref(false);
 
 const chatMetadata = computed(() => props.conversation?.meta || {});
 
@@ -34,6 +54,8 @@ const inbox = computed(() => {
 
 const activeInbox = useMapGetter('getSelectedInbox');
 const inboxesList = useMapGetter('inboxes/getInboxes');
+const accountId = useMapGetter('getCurrentAccountId');
+const currentChat = useMapGetter('getSelectedChat');
 
 const showInboxName = computed(() => {
   return !activeInbox.value && inboxesList.value.length > 1;
@@ -48,13 +70,74 @@ const showLabelsSection = computed(() => {
 const assignee = computed(() => props.conversation?.meta?.assignee || {});
 
 const showAssignee = computed(() => assignee.value && assignee.value.name);
+
+const isActiveChat = computed(() => {
+  return currentChat.value.id === props.conversation.id;
+});
+
+const conversationPath = computed(() => {
+  return frontendURL(
+    conversationUrl({
+      accountId: accountId.value,
+      activeInbox: activeInbox.value,
+      id: props.conversation.id,
+      label: props.activeLabel,
+      teamId: props.teamId,
+      conversationType: props.conversationType,
+      foldersId: props.foldersId,
+    })
+  );
+});
+
+const onDragStart = () => {
+  isDragging.value = true;
+};
+
+const onDragEnd = () => {
+  // Reset dragging state after a short delay to prevent click from firing
+  setTimeout(() => {
+    isDragging.value = false;
+  }, 100);
+};
+
+const onCardClick = e => {
+  // Skip if dragging
+  if (isDragging.value) return;
+
+  const path = conversationPath.value;
+  if (!path) return;
+
+  // Handle Ctrl/Cmd + Click for new tab
+  if (e.metaKey || e.ctrlKey) {
+    e.preventDefault();
+    window.open(
+      `${window.chatwootConfig.hostURL}${path}`,
+      '_blank',
+      'noopener,noreferrer'
+    );
+    return;
+  }
+
+  // Skip if already active
+  if (isActiveChat.value) return;
+
+  router.push({ path });
+};
 </script>
 
 <template>
   <div class="flex flex-col pb-2 overflow-auto">
     <div
-      class="relative flex flex-col items-start px-4 py-2 cursor-pointer group hover:bg-opacity-50 border border-n-weak mt-3 shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
+      class="min-h-36 relative flex flex-col items-start px-4 py-2 cursor-pointer group hover:bg-opacity-50 border mt-3 shadow outline-1 outline group/cardLayout rounded-2xl bg-n-solid-2 transition-all"
+      :class="[
+        isActiveChat
+          ? 'border-n-brand outline-n-brand bg-n-brand/5'
+          : 'border-n-weak outline-n-container hover:border-n-slate-6',
+      ]"
       draggable="true"
+      @click="onCardClick"
+      @dragstart="onDragStart"
+      @dragend="onDragEnd"
     >
       <div
         class="flex items-center w-full mt-3 text-xs font-medium text-gray-400"

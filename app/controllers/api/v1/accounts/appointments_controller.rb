@@ -1,5 +1,6 @@
 class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseController
   include AppointmentQrGenerator
+  include FrontendUrlsHelper
   include Sift
 
   sort_on :start_time, type: :datetime
@@ -9,12 +10,11 @@ class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseControl
 
   RESULTS_PER_PAGE = 15
 
-  skip_before_action :authenticate_user!, only: [:validate_appointment_token]
-  skip_before_action :current_account, only: [:validate_appointment_token]
-  before_action :appointment, except: [:index, :create, :validate_appointment_token]
-  before_action :check_authorization, except: [:validate_appointment_token]
+  skip_before_action :authenticate_user!, only: [:validate_appointment_token, :show_qr]
+  skip_before_action :current_account, only: [:validate_appointment_token, :show_qr]
+  before_action :check_authorization, except: [:validate_appointment_token, :show_qr]
   before_action :set_current_page, only: [:index, :search, :filter]
-  before_action :appointment, except: [:index, :create, :validate_appointment_token, :search, :filter]
+  before_action :appointment, only: [:show, :update, :destroy]
 
   def index
     appointments = Current.account.appointments.includes(:contact)
@@ -71,6 +71,18 @@ class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseControl
 
     if appointment
       render json: { valid: true, contact_id: appointment.contact_id }, status: :ok
+    else
+      render json: { valid: false }, status: :unauthorized
+    end
+  end
+
+  def show_qr
+    appointment = Appointment.find_by(id: params[:id])
+
+    if appointment&.qr_code.present?
+      redirect_to url_for(appointment.qr_code)
+    elsif appointment
+      redirect_to frontend_url("accounts/#{appointment.account.id}/contacts/appointments", error: 'appointment-not-found')
     else
       render json: { valid: false }, status: :unauthorized
     end

@@ -3,6 +3,7 @@ import { onMounted, computed, ref, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { debounce } from '@chatwoot/utils';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -150,6 +151,17 @@ onMounted(async () => {
     return;
   }
   await fetchAppointments(pageNumber.value);
+
+  const errorParam = route.query?.error;
+
+  if (errorParam) {
+    if (errorParam === 'appointment-not-found') {
+      useAlert(t('APPOINTMENTS.ERRORS.APPOINTMENT_NOT_FOUND'));
+    }
+    const query = { ...route.query };
+    delete query.error;
+    router.replace({ query });
+  }
 });
 </script>
 

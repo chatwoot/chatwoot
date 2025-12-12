@@ -22,13 +22,13 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Open"
+        "TEXT": "Human in the Loop"
       },
       "resolved": {
         "TEXT": "Resolved"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "AI Agent"
       },
       "snoozed": {
         "TEXT": "Snoozed"

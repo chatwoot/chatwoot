@@ -35,6 +35,9 @@
         "CLEAR_FILTERS": "Clear Filters",
         "APPLY_FILTERS": "Apply Filters"
       }
+    },
+    "ERRORS": {
+      "APPOINTMENT_NOT_FOUND": "The appointment QR code has expired or is no longer available"
     }
   }
 }

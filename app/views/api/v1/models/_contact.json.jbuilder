@@ -11,7 +11,7 @@ json.custom_attributes resource.custom_attributes
 json.current_appointment_id resource.appointments.last.id if resource.appointments.present?
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
 json.created_at resource.created_at.to_i if resource[:created_at].present?
-json.last_conversation_id resource.conversations.last&.id
+json.last_conversation_id resource.conversations.last&.display_id
 json.last_conversation_inbox_id resource.conversations.last&.inbox_id
 # we only want to output contact inbox when its /contacts endpoints
 if defined?(with_contact_inboxes) && with_contact_inboxes.present?

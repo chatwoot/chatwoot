@@ -60,6 +60,32 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
           expect(json_response['payload'].length).to eq 0
         end
       end
+
+      context 'with WhatsApp group conversations' do
+        it 'returns conversation_type and additional_attributes for WhatsApp groups' do
+          whatsapp_inbox = create(:inbox, account: account, channel: create(:channel_whatsapp, account: account))
+          whatsapp_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox)
+          whatsapp_conversation = create(
+            :conversation,
+            account: account,
+            inbox: whatsapp_inbox,
+            contact: contact,
+            contact_inbox: whatsapp_contact_inbox,
+            conversation_type: :whatsapp_group,
+            additional_attributes: { whatsapp_group_name: 'Test WhatsApp Group' }
+          )
+
+          get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations", headers: admin.create_new_auth_token
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+
+          whatsapp_group = json_response['payload'].find { |c| c['id'] == whatsapp_conversation.id }
+          expect(whatsapp_group).not_to be_nil
+          expect(whatsapp_group['conversation_type']).to eq('whatsapp_group')
+          expect(whatsapp_group['additional_attributes']).to include('whatsapp_group_name' => 'Test WhatsApp Group')
+        end
+      end
     end
   end
 end
