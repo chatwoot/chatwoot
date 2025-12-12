@@ -12,6 +12,8 @@ RSpec.describe User do
   end
 
   context 'with associations' do
+    before { Conversation }
+
     it { is_expected.to have_many(:accounts).through(:account_users) }
     it { is_expected.to have_many(:account_users) }
     it { is_expected.to have_many(:assigned_conversations).class_name('Conversation').dependent(:nullify) }
