@@ -352,7 +352,7 @@
       "ASSISTANTS": "助手",
       "SWITCH_ASSISTANT": "Switch between assistants",
       "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "EMPTY_LIST": ""
     },
     "COPILOT": {
       "TITLE": "Copilot",
