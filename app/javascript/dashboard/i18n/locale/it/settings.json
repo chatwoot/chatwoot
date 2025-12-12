@@ -423,13 +423,13 @@
       "LOADING": "Caricamento opzioni...",
       "FETCH_ERROR": "Impossibile caricare le opzioni crediti. Riprova.",
       "PURCHASE_ERROR": "Impossibile elaborare l'acquisto. Riprova.",
-      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "PURCHASE_SUCCESS": "{credits} crediti aggiunti correttamente al tuo account",
       "CONFIRM": {
-        "TITLE": "Confirm Purchase",
-        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "TITLE": "Conferma Acquisto",
+        "DESCRIPTION": "Stai per acquistare {credits} crediti per {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "L'importo verrà addebitato immediatamente sulla tua carta salvata al momento della conferma.",
         "GO_BACK": "Torna Indietro",
-        "CONFIRM_PURCHASE": "Confirm Purchase"
+        "CONFIRM_PURCHASE": "Conferma Acquisto"
       }
     }
   },
