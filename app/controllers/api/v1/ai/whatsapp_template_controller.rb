@@ -278,8 +278,10 @@ class Api::V1::Ai::WhatsappTemplateController < ApplicationController
     # Create message with template parameters
     # MessageBuilder expects template_params as a top-level key, not nested in additional_attributes
     # It will handle merging it into additional_attributes correctly
+    rendered_content = render_template_content(template_params)
+
     message_params = {
-      content: '', # Template messages don't need content
+      content: rendered_content,
       message_type: :outgoing,
       template_params: template_params # Pass as top-level key so MessageBuilder can process it
     }
@@ -295,6 +297,29 @@ class Api::V1::Ai::WhatsappTemplateController < ApplicationController
     Rails.logger.info "[AI_WHATSAPP_TEMPLATE] 📝 Message #{message.id} created with template: #{template_params['name']}"
     Rails.logger.info "[AI_WHATSAPP_TEMPLATE] 📋 Message additional_attributes: #{message.additional_attributes.inspect}"
     message
+  end
+
+  def render_template_content(template_params)
+    # Get the template from channel to extract body text
+    channel = @conversation.inbox.channel
+    template = find_template_in_channel(channel, template_params['name'], template_params['language'])
+    return '' unless template
+
+    # Find the BODY component
+    body_component = template['components']&.find { |c| c['type'] == 'BODY' }
+    return '' unless body_component
+
+    body_text = body_component['text'] || ''
+
+    # Replace variables with provided values
+    processed_params = template_params['processed_params'] || {}
+    body_params = processed_params['body'] || {}
+
+    # Replace {{1}}, {{2}}, etc. with actual values
+    body_text.gsub(/\{\{(\d+)\}\}/) do |_match|
+      key = ::Regexp.last_match(1)
+      body_params[key] || body_params[key.to_s] || "{{#{key}}}"
+    end
   end
 
   def send_template_message(message)
