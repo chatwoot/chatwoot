@@ -157,11 +157,11 @@
           "CONVERSATION_MENTION": "Bir konuşmada sizden bahsedildi",
           "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Size atanmış bir konuşmada yeni bir mesaj oluşturuldu",
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığınız bir konuşmada yeni bir mesaj oluşturuldu",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "SLA_MISSED_FIRST_RESPONSE": "Bir konuşmada ilk yanıt SLA süresi aşıldı",
+          "SLA_MISSED_NEXT_RESPONSE": "Bir konuşmada sonraki yanıt SLA süresi aşıldı",
+          "SLA_MISSED_RESOLUTION": "Bir konuşmada çözüm SLA süresi aşıldı"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Tarayıcınız için push bildirimleri etkinleştirin, böylece bildirimleri alabilirsiniz"
       },
       "API": {
         "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
@@ -177,9 +177,9 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
         "REQUEST_PUSH": "Bildirimlerini etkinleştirin",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Bir konuşmada ilk yanıt SLA süresi aşıldığında push bildirim gönder",
+        "SLA_MISSED_NEXT_RESPONSE": "Bir konuşmada sonraki yanıt SLA süresi aşıldığında push bildirim gönder",
+        "SLA_MISSED_RESOLUTION": "Bir konuşmada çözüm SLA süresi aşıldığında push bildirim gönder"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profil Resmi"
@@ -297,7 +297,7 @@
     "SWITCH": "Değiştir",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konuşmalar",
-    "INBOX": "My Inbox",
+    "INBOX": "Gelen Kutusu",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
     "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
@@ -359,15 +359,15 @@
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
     "SET_YOUR_AVAILABILITY": "Uygunluk Durumunuzu Ayarlayın",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Özel Roller",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Yardım Merkezi",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Makaleler",
       "CATEGORIES": "Kategoriler",
-      "LOCALES": "Yereller",
+      "LOCALES": "Diller",
       "SETTINGS": "Ayarlar"
     },
     "CHANNELS": "Kanallar",
@@ -400,7 +400,7 @@
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Credits",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "UPGRADE": "Captain, ücretsiz planda mevcut değildir. Asistanlara, Copilot'a ve daha fazlasına erişim sağlamak için şimdi yükseltin.",
       "REFRESH_CREDITS": "Yenile"
     },
     "CHAT_WITH_US": {
