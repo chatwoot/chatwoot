@@ -69,13 +69,15 @@ const personalityMessage = computed(() => {
   <div class="absolute inset-0 flex items-center justify-center px-32 py-20">
     <div class="flex flex-col gap-9 flex-shrink-0 max-w-4xl">
       <div class="mb-4 md:mb-6">
-        <img :src="clockImage" alt="Clock" class="w-auto h-24 md:h-32" />
+        <img :src="clockImage" alt="Clock" class="w-auto h-24" />
         <div class="flex items-center justify-start flex-1">
           <div class="text-white flex gap-3 flex-col">
             <div class="text-2xl md:text-4xl font-medium tracking-tight">
               {{ t('YEAR_IN_REVIEW.PERSONALITY.TITLE') }}
             </div>
-            <div class="text-6xl md:text-8xl lg:text-9xl tracking-tight">
+            <div
+              class="text-6xl md:text-8xl lg:text-9xl tracking-tight leading-1"
+            >
               {{ personality }}
             </div>
           </div>
