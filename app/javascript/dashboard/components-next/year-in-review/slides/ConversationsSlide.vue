@@ -13,6 +13,8 @@ const { t } = useI18n();
 
 const cloudImage =
   '/assets/images/dashboard/year-in-review/second-frame-cloud-icon.png';
+const doubleQuotesImage =
+  '/assets/images/dashboard/year-in-review/double-quotes.png';
 
 const formatNumber = num => {
   if (num >= 100000) {
@@ -37,7 +39,7 @@ const performanceHelperText = computed(() => {
 <template>
   <div class="absolute inset-0 flex items-center justify-center px-32 py-20">
     <div
-      class="flex flex-col gap-3 flex-shrink-0"
+      class="flex flex-col gap-16 flex-shrink-0"
       :class="totalConversations > 100 ? 'max-w-4xl' : 'max-w-3xl'"
     >
       <div class="flex items-center justify-center flex-1">
@@ -70,10 +72,11 @@ const performanceHelperText = computed(() => {
       </div>
 
       <div class="flex items-center justify-center gap-3 md:gap-6">
-        <!-- eslint-disable-next-line -->
-        <span class="text-4xl mt-14 md:text-6xl lg:text-9xl leading-none font-bold text-black-900">
-          &ldquo;
-        </span>
+        <img
+          :src="doubleQuotesImage"
+          alt="Quote"
+          class="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16"
+        />
         <p
           class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-black-900"
         >
