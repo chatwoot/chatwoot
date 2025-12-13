@@ -1,6 +1,6 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "SHOWING_RESULTS": "{totalCount} sonuçtan {firstIndex}-{lastIndex} arasındakiler gösteriliyor",
     "PHONE_INPUT": {
       "PLACEHOLDER": "Ara",
       "EMPTY_STATE": "Kayıt bulunamadı"
