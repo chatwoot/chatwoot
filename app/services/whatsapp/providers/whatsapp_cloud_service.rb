@@ -40,7 +40,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       false
     end
   rescue StandardError => e
-    Rails.logger.error "[WHATSAPP] ❌ Error sending typing indicator: #{e.message}"
+    Rails.logger.error "[WHATSAPP] Error sending typing indicator: #{e.message}"
     false
   end
 
@@ -59,6 +59,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_template(phone_number, template_info, message)
     template_body = template_body_parameters(template_info)
 
+    Rails.logger.info '[WHATSAPP_API] 📤 Sending template to WhatsApp API'
+    Rails.logger.info "[WHATSAPP_API] 📋 Template info: #{template_info.inspect}"
+    Rails.logger.info "[WHATSAPP_API] 📋 Template body: #{template_body.inspect}"
+    Rails.logger.info "[WHATSAPP_API] 📋 Components: #{template_body[:components].inspect}"
+
     request_body = {
       messaging_product: 'whatsapp',
       recipient_type: 'individual', # Only individual messages supported (not group messages)
@@ -67,11 +72,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       template: template_body
     }
 
+    Rails.logger.info "[WHATSAPP_API] 📤 Full request body: #{request_body.to_json}"
+
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
       body: request_body.to_json
     )
+
+    Rails.logger.info "[WHATSAPP_API] 📥 Response status: #{response.code}"
+    Rails.logger.info "[WHATSAPP_API] 📥 Response body: #{response.body}"
 
     process_response(response, message)
   end

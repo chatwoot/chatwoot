@@ -417,6 +417,7 @@ Rails.application.routes.draw do
       # AI Agent API endpoints (protected by ALOOSTUDIO_API_TOKEN)
       namespace :ai do
         resource :handoff, only: [:create]
+        post 'whatsapp_template', to: 'whatsapp_template#create'
       end
     end
 

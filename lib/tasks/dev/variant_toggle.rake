@@ -53,7 +53,7 @@ namespace :chatwoot do
       puts '2. 🏢 Enterprise  (Self-hosted with premium features)'
       puts '3. 🌥️  Cloud       (Cloud deployment with premium features)'
       puts ''
-      puts '0. ❌ Cancel'
+      puts '0. Cancel'
       puts ''
       print 'Enter your choice (0-3): '
     end
@@ -85,12 +85,12 @@ namespace :chatwoot do
     end
 
     def cancel_operation
-      puts "\n❌ Cancelled. No changes made."
+      puts "\nCancelled. No changes made."
       exit 0
     end
 
     def invalid_choice
-      puts "\n❌ Invalid choice. Please select 0-3."
+      puts "\nInvalid choice. Please select 0-3."
       puts 'No changes made.'
       exit 1
     end

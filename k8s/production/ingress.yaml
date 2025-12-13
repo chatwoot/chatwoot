@@ -19,13 +19,19 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-connect-timeout: '300'
     nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: '300'
     
+    # Additional settings to prevent 504 errors for long-running requests
+    nginx.ingress.kubernetes.io/proxy-http-version: '1.1'
+    # Disable request buffering for faster response start (useful for streaming)
+    nginx.ingress.kubernetes.io/proxy-request-buffering: 'off'
+    
     # Increased body size limits for file uploads
     nginx.ingress.kubernetes.io/proxy-body-size: '100m'
     nginx.ingress.kubernetes.io/client-body-buffer-size: '10m'
     
     # Proxy buffer settings for large responses
-    nginx.ingress.kubernetes.io/proxy-buffer-size: '16k'
-    nginx.ingress.kubernetes.io/proxy-buffers-number: '8'
+    # Using simpler buffer settings that don't require proxy-busy-buffers-size
+    nginx.ingress.kubernetes.io/proxy-buffer-size: '8k'
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '4'
     
     # Keep-alive settings
     nginx.ingress.kubernetes.io/upstream-keepalive-timeout: '120'

@@ -22,32 +22,32 @@ class Messages::AiResponseTriggerService
     Rails.logger.info "[AI_TRIGGER] Checking conditions for message #{message.id}:"
 
     unless message.persisted?
-      Rails.logger.info "[AI_TRIGGER] ❌ Message #{message.id} not persisted"
+      Rails.logger.info "[AI_TRIGGER] Message #{message.id} not persisted"
       return false
     end
 
     unless message.incoming?
-      Rails.logger.info "[AI_TRIGGER] ❌ Message #{message.id} not incoming (message_type: #{message.message_type})"
+      Rails.logger.info "[AI_TRIGGER] Message #{message.id} not incoming (message_type: #{message.message_type})"
       return false
     end
 
     if message.conversation.blank?
-      Rails.logger.info "[AI_TRIGGER] ❌ Message #{message.id} has no conversation"
+      Rails.logger.info "[AI_TRIGGER] Message #{message.id} has no conversation"
       return false
     end
 
     if message.conversation.assignee.blank?
-      Rails.logger.info "[AI_TRIGGER] ❌ Conversation #{message.conversation.id} has no assignee"
+      Rails.logger.info "[AI_TRIGGER] Conversation #{message.conversation.id} has no assignee"
       return false
     end
 
     unless message.conversation.assignee.is_ai?
-      Rails.logger.info "[AI_TRIGGER] ❌ Assignee #{message.conversation.assignee.id} is not AI (is_ai: #{message.conversation.assignee.is_ai?})"
+      Rails.logger.info "[AI_TRIGGER] Assignee #{message.conversation.assignee.id} is not AI (is_ai: #{message.conversation.assignee.is_ai?})"
       return false
     end
 
     if message.conversation.resolved? || message.conversation.snoozed?
-      Rails.logger.info "[AI_TRIGGER] ❌ Conversation #{message.conversation.id} is resolved or snoozed (status: #{message.conversation.status})"
+      Rails.logger.info "[AI_TRIGGER] Conversation #{message.conversation.id} is resolved or snoozed (status: #{message.conversation.status})"
       return false
     end
 
@@ -63,7 +63,7 @@ class Messages::AiResponseTriggerService
     lock_acquired = Redis::Alfred.set(redis_key, timestamp, nx: true, ex: 3600)
 
     unless lock_acquired
-      Rails.logger.info "[AI_TRIGGER] ❌ AI response already triggered for source_id #{message.source_id} (message #{message.id}), skipping (atomic lock failed)"
+      Rails.logger.info "[AI_TRIGGER] AI response already triggered for source_id #{message.source_id} (message #{message.id}), skipping (atomic lock failed)"
       return false
     end
 
@@ -97,7 +97,7 @@ class Messages::AiResponseTriggerService
     # Send typing indicator to WhatsApp if applicable
     send_whatsapp_typing_indicator(conversation)
   rescue StandardError => e
-    Rails.logger.error "[AI_TRIGGER] ❌ Failed to show typing indicator: #{e.message}"
+    Rails.logger.error "[AI_TRIGGER] Failed to show typing indicator: #{e.message}"
   end
 
   # Send typing indicator to WhatsApp if the conversation is on WhatsApp channel
@@ -122,6 +122,6 @@ class Messages::AiResponseTriggerService
     service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
     service.send_typing_indicator(phone_number, message_id: whatsapp_message_id)
   rescue StandardError => e
-    Rails.logger.error "[AI_TRIGGER] ❌ Failed to send WhatsApp typing indicator: #{e.message}"
+    Rails.logger.error "[AI_TRIGGER] Failed to send WhatsApp typing indicator: #{e.message}"
   end
 end

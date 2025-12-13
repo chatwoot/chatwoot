@@ -70,7 +70,7 @@ class Whatsapp::WebhookSetupService
     Rails.logger.info '[WHATSAPP_WEBHOOK] ✓ Webhook subscribed successfully'
 
   rescue StandardError => e
-    Rails.logger.error "[WHATSAPP_WEBHOOK] ❌ Webhook subscription failed: #{e.class.name} - #{e.message}"
+    Rails.logger.error "[WHATSAPP_WEBHOOK] Webhook subscription failed: #{e.class.name} - #{e.message}"
     Rails.logger.error "[WHATSAPP_WEBHOOK] Callback URL: #{callback_url}"
     Rails.logger.error "[WHATSAPP_WEBHOOK] Verify Token: #{verify_token}"
     Rails.logger.error "[WHATSAPP_WEBHOOK] WABA ID: #{@waba_id}"

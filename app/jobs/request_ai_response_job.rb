@@ -15,7 +15,7 @@ class RequestAiResponseJob < ApplicationJob
     job_lock_acquired = Redis::Alfred.set(job_redis_key, Time.current.iso8601, nx: true, ex: 300) # 5 min expiry
 
     unless job_lock_acquired
-      Rails.logger.info "[AI_JOB] ❌ RequestAiResponseJob already running for source_id #{message.source_id} (message #{message.id}), skipping"
+      Rails.logger.info "[AI_JOB] RequestAiResponseJob already running for source_id #{message.source_id} (message #{message.id}), skipping"
       return
     end
 
@@ -178,8 +178,8 @@ class RequestAiResponseJob < ApplicationJob
             body: rest_response.body
           )
         rescue StandardError => e
-          Rails.logger.error "[AI_JOB] ❌ Error handling audio file: #{e.message}"
-          Rails.logger.error "[AI_JOB] ❌ Backtrace: #{e.backtrace.first(5).join('\n')}"
+          Rails.logger.error "[AI_JOB] Error handling audio file: #{e.message}"
+          Rails.logger.error "[AI_JOB] Backtrace: #{e.backtrace.first(5).join('\n')}"
           raise e
         ensure
           # Clean up files
@@ -278,7 +278,7 @@ class RequestAiResponseJob < ApplicationJob
             send_ai_response_to_channel(ai_message)
             Rails.logger.info "[AI_JOB] ✅ RequestAiResponseJob completed for message #{message.id}"
           else
-            Rails.logger.error "[AI_JOB] ❌ Failed to persist AI message for original message #{message.id}"
+            Rails.logger.error "[AI_JOB] Failed to persist AI message for original message #{message.id}"
           end
         end
       else
@@ -479,7 +479,7 @@ class RequestAiResponseJob < ApplicationJob
 
       Rails.logger.info "[AI_JOB] ✅ Audio attachment created for message #{ai_message.id}"
     rescue StandardError => e
-      Rails.logger.error "[AI_JOB] ❌ Failed to attach audio response: #{e.message}"
+      Rails.logger.error "[AI_JOB] Failed to attach audio response: #{e.message}"
     ensure
       temp_file&.close
       temp_file&.unlink
@@ -521,7 +521,7 @@ class RequestAiResponseJob < ApplicationJob
     Rails.logger.info "[AI_JOB] ✅ Final channel info keys: #{merged_info.keys}"
     merged_info
   rescue StandardError => e
-    Rails.logger.error "[AI_JOB] ❌ Error building channel info: #{e.message}"
+    Rails.logger.error "[AI_JOB] Error building channel info: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
     # Return at least base info even if there's an error
     begin
@@ -537,8 +537,9 @@ class RequestAiResponseJob < ApplicationJob
     human_agent = ai_agent&.human_agent
 
     {
-      conversation_id: conversation.id,
-      conversation_display_id: conversation.display_id,
+      # IMPORTANT: Use conversation_id (actual database ID) for API calls, not display_id
+      conversation_id: conversation.id, # Actual database ID - use this for API endpoints
+      conversation_display_id: conversation.display_id, # Display ID - for UI/reference only
       human_agent: if human_agent
                      {
                        id: human_agent.id,
@@ -556,6 +557,8 @@ class RequestAiResponseJob < ApplicationJob
     contact = conversation.contact
 
     {
+      # IMPORTANT: conversation_id is the actual database ID - use this for API calls
+      conversation_id: conversation.id,
       channel: 'whatsapp',
       # Full provider config for AI to access templates and messages
       provider_config: {
@@ -574,6 +577,8 @@ class RequestAiResponseJob < ApplicationJob
     contact_inbox = conversation.contact_inbox
 
     {
+      # IMPORTANT: conversation_id is the actual database ID - use this for API calls
+      conversation_id: conversation.id,
       channel: 'telegram',
       provider_config: {
         bot_token: provider_config['bot_token']
@@ -587,6 +592,8 @@ class RequestAiResponseJob < ApplicationJob
     contact = conversation.contact
 
     {
+      # IMPORTANT: conversation_id is the actual database ID - use this for API calls
+      conversation_id: conversation.id,
       channel: 'sms',
       phone_number: channel.phone_number,
       client_phone_number: contact.phone_number
@@ -597,6 +604,8 @@ class RequestAiResponseJob < ApplicationJob
     contact_inbox = conversation.contact_inbox
 
     {
+      # IMPORTANT: conversation_id is the actual database ID - use this for API calls
+      conversation_id: conversation.id,
       channel: 'facebook',
       page_id: channel.page_id,
       user_id: contact_inbox.source_id
@@ -607,16 +616,20 @@ class RequestAiResponseJob < ApplicationJob
     contact_inbox = conversation.contact_inbox
 
     {
+      # IMPORTANT: conversation_id is the actual database ID - use this for API calls
+      conversation_id: conversation.id,
       channel: 'instagram',
       instagram_id: channel.instagram_id,
       user_id: contact_inbox.source_id
     }.compact
   end
 
-  def build_web_channel_info(_conversation, inbox)
+  def build_web_channel_info(conversation, inbox)
     channel_name = inbox.channel_type.demodulize.underscore
 
     info = {
+      # IMPORTANT: conversation_id is the actual database ID - use this for API calls
+      conversation_id: conversation.id,
       channel: channel_name,
       inbox_id: inbox.id,
       inbox_name: inbox.name
@@ -643,7 +656,7 @@ class RequestAiResponseJob < ApplicationJob
       is_private: false
     )
   rescue StandardError => e
-    Rails.logger.error "[AI_JOB] ❌ Failed to hide typing indicator: #{e.message}"
+    Rails.logger.error "[AI_JOB] Failed to hide typing indicator: #{e.message}"
   end
 
   # Start a background thread that sends typing_on events every 20 seconds
@@ -684,13 +697,13 @@ class RequestAiResponseJob < ApplicationJob
           # Marking as read again is idempotent and ensures typing indicator stays active
           send_whatsapp_typing_indicator(conversation, message_id: message_id_for_heartbeat)
         rescue StandardError => e
-          Rails.logger.error "[AI_JOB] ❌ Typing heartbeat error: #{e.message}"
+          Rails.logger.error "[AI_JOB] Typing heartbeat error: #{e.message}"
           break
         end
       end
     end
   rescue StandardError => e
-    Rails.logger.error "[AI_JOB] ❌ Failed to start typing heartbeat: #{e.message}"
+    Rails.logger.error "[AI_JOB] Failed to start typing heartbeat: #{e.message}"
     nil
   end
 
@@ -702,7 +715,7 @@ class RequestAiResponseJob < ApplicationJob
     thread.kill
     thread.join(1) # Wait up to 1 second for thread to terminate
   rescue StandardError => e
-    Rails.logger.error "[AI_JOB] ❌ Failed to stop typing heartbeat: #{e.message}"
+    Rails.logger.error "[AI_JOB] Failed to stop typing heartbeat: #{e.message}"
   end
 
   # Send typing indicator to WhatsApp if the conversation is on WhatsApp channel
@@ -725,6 +738,6 @@ class RequestAiResponseJob < ApplicationJob
     service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
     service.send_typing_indicator(phone_number, message_id: message_id)
   rescue StandardError => e
-    Rails.logger.error "[AI_JOB] ❌ Failed to send WhatsApp typing indicator: #{e.message}"
+    Rails.logger.error "[AI_JOB] Failed to send WhatsApp typing indicator: #{e.message}"
   end
 end

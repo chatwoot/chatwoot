@@ -121,15 +121,20 @@ const addBleepAgent = async () => {
   if (v$.value.$invalid) return;
 
   try {
-    const humanAgent = humanAgents.value.find(
-      agent => agent.id === selectedHumanAgent.value
-    );
+    // Construct unique email without repeated values
+    const agentId = selectedAIAgent.value.id;
+    const regionId = selectedAIAgent.value.region_id;
+    const emailParts = ['ai-agent', agentId];
+    if (regionId && regionId !== agentId) {
+      emailParts.push(regionId);
+    }
+    const uniqueEmail = emailParts.join('-') + '@mg.aloochat.ai';
 
     const payload = {
       name: selectedAIAgent.value.name,
       is_ai: true,
-      email: humanAgent.email,
-      ai_agent_id: selectedAIAgent.value.id,
+      email: uniqueEmail,
+      ai_agent_id: agentId,
       agent_key: selectedAIAgent.value.agent_key,
       human_agent_id: selectedHumanAgent.value,
     };
