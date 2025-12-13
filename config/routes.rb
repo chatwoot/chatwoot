@@ -208,6 +208,8 @@ Rails.application.routes.draw do
                 get :token, on: :member
               end
             end
+
+            resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates'
           end
 
           resources :inbox_members, only: [:create, :show], param: :inbox_id do

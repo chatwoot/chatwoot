@@ -24,6 +24,7 @@ const props = defineProps({
   allowSignature: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -106,6 +107,7 @@ watch(
         :allow-signature="allowSignature"
         :send-with-signature="sendWithSignature"
         :channel-type="channelType"
+        :medium="medium"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
