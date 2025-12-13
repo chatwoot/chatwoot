@@ -2,13 +2,13 @@
   "HELP_CENTER": {
     "TITLE": "Yardım Merkezi",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "DESCRIPTION": "Müşterileriniz için kendi kendine hizmet veren yardım merkezi portalları oluşturun. Onların beklemeden hızlıca cevap bulmalarına yardımcı olun. Sorguları kolaylaştırın, temsilci verimliliğini artırın ve müşteri desteğini yükseltin.",
       "CREATE_PORTAL_BUTTON": "Portal Oluştur"
     },
     "HEADER": {
       "FILTER": "Filtrele",
       "SORT": "Sırala",
-      "LOCALE": "Yerel",
+      "LOCALE": "Dil",
       "SETTINGS_BUTTON": "Ayarlar",
       "NEW_BUTTON": "Yeni Makale",
       "DROPDOWN_OPTIONS": {
@@ -18,7 +18,7 @@
       },
       "TITLES": {
         "ALL_ARTICLES": "Tüm Makaleler",
-        "MINE": "Benim Makalelerim",
+        "MINE": "Makalelerim",
         "DRAFT": "Taslak Makaleler",
         "ARCHIVED": "Arşivlenmiş Makaleler"
       },
@@ -42,12 +42,12 @@
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Resim Yükleniyor",
+        "TITLE": "Resim Yükle",
         "UPLOADING": "Yükleniyor...",
         "SUCCESS": "Resim başarıyla yüklendi",
         "ERROR": "Resim yüklenirken hata oluştu",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Resim boyutu %{size}MB'dan küçük olmalıdır",
+        "UN_AUTHORIZED_ERROR": "Resim yükleme yetkiniz bulunmamaktadır",
+        "ERROR_FILE_SIZE": "Resim boyutu {size}MB'dan küçük olmalıdır",
         "ERROR_FILE_FORMAT": "Resim formatı jpg, jpeg veya png olmalıdır",
         "ERROR_FILE_DIMENSIONS": "Resim boyutları 2000 x 2000'den küçük olmalıdır"
       }
@@ -103,11 +103,11 @@
       "DEFAULT": "Varsayılan",
       "NEW_BUTTON": "Yeni Portal",
       "ACTIVE_BADGE": "aktif",
-      "CHOOSE_LOCALE_LABEL": "Bir yerel seçin",
+      "CHOOSE_LOCALE_LABEL": "Bir dil seçin",
       "LOADING_MESSAGE": "Portallar yükleniyor...",
       "ARTICLES_LABEL": "makaleler",
       "NO_PORTALS_MESSAGE": "Kullanılabilir portal yok",
-      "ADD_NEW_LOCALE": "Yeni bir yerel ekleyin",
+      "ADD_NEW_LOCALE": "Yeni bir dil ekleyin",
       "POPOVER": {
         "TITLE": "Portallar",
         "PORTAL_SETTINGS": "Portal Ayarları",
@@ -631,23 +631,23 @@
       "LOCALES_COUNT": "Kullanılabilir dil yok | {n} dil | {n} dil",
       "NEW_LOCALE_BUTTON_TEXT": "Yeni Dil",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "ARTICLES_COUNT": "{count} makale | {count} makale",
+        "CATEGORIES_COUNT": "{count} kategori | {count} kategori",
         "DEFAULT": "Varsayılan",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
+          "MAKE_DEFAULT": "Varsayılan yap",
           "DELETE": "Sil"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Yeni bir yerel ekleyin",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "Yeni bir dil ekleyin",
+        "DESCRIPTION": "Bu makalenin yazılacağı dili seçin. Seçilen dil çeviri listenize eklenecek ve daha sonra yeni diller ekleyebilirsiniz.",
         "COMBOBOX": {
           "PLACEHOLDER": "Dil seçin..."
         },
         "API": {
-          "SUCCESS_MESSAGE": "Yerel dil başarıyla eklendi",
-          "ERROR_MESSAGE": "Yerel dil eklenemedi. Lütfen tekrar deneyin."
+          "SUCCESS_MESSAGE": "Dil başarıyla eklendi",
+          "ERROR_MESSAGE": "Dil eklenemedi. Lütfen tekrar deneyin."
         }
       }
     },
@@ -660,37 +660,37 @@
         "PREVIEW": "Önizleme",
         "PUBLISH": "Yayınla",
         "DRAFT": "Taslak",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "ARCHIVE": "Arşiv",
+        "BACK_TO_ARTICLES": "Makalelere geri dön"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
+        "MORE_PROPERTIES": "Daha fazla özellik",
         "UNCATEGORIZED": "Kategorize Edilmemiş",
         "EDITOR_PLACEHOLDER": "Write something..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
+        "ARTICLE_PROPERTIES": "Makale özellikleri",
         "META_DESCRIPTION": "Meta Açıklama",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_DESCRIPTION_PLACEHOLDER": "Meta açıklaması ekle",
         "META_TITLE": "Meta Başlık",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TITLE_PLACEHOLDER": "Meta başlığı ekle",
         "META_TAGS": "Meta Etiketleri",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "Meta etiketleri ekle"
       },
       "API": {
         "ERROR": "Makale kaydedilirken hata oluştu"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
+      "NEW_PORTAL": "Yeni Portal",
       "PORTALS": "Portallar",
-      "CREATE_PORTAL": "Create and manage multiple portals",
+      "CREATE_PORTAL": "Birden fazla portal oluşturun ve yönetin",
       "ARTICLES": "makaleler",
       "DOMAIN": "alan",
       "PORTAL_NAME": "Portal adı"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
+      "TITLE": "Yeni portal oluştur",
       "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
       "CONFIRM_BUTTON_LABEL": "Yarat",
       "NAME": {
@@ -711,10 +711,10 @@
         "AVATAR": {
           "LABEL": "Logo",
           "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. Logoyu kaydetmek için lütfen 'Değişiklikleri Kaydet' butonuna tıklayın",
           "IMAGE_DELETE_SUCCESS": "Logo başarıyla silindi",
           "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
         },
         "NAME": {
           "LABEL": "İsim",
@@ -722,15 +722,15 @@
           "ERROR": "Ad gerekli"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
+          "LABEL": "Başlık Metni",
           "PLACEHOLDER": "Portal başlık metni"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
+          "LABEL": "Sayfa Başlığı",
           "PLACEHOLDER": "Portal sayfa başlığı"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
+          "LABEL": "Ana Sayfa Bağlantısı",
           "PLACEHOLDER": "Portal ana sayfa bağlantısı",
           "ERROR": "Geçerli bir URL girin. Ana sayfa bağlantısı ‘http://’ veya ‘https://’ ile başlamalıdır."
         },
@@ -745,28 +745,28 @@
           "NONE_OPTION": "Widget yok"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "Marka rengi"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "Değişiklikleri Kaydet"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
           "HEADER": "Özel domain",
           "LABEL": "Özel domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "DESCRIPTION": "Portalınızı özel bir alan adında barındırabilirsiniz. Örneğin, web siteniz yourdomain.com ise ve portalınızın docs.yourdomain.com adresinde erişilebilir olmasını istiyorsanız, bu alanı buna göre doldurmanız yeterlidir.",
           "STATUS_DESCRIPTION": "Özel portalınız, doğrulandıktan sonra hemen çalışmaya başlayacaktır.",
           "PLACEHOLDER": "Portal özel domain",
           "EDIT_BUTTON": "Düzenle",
-          "ADD_BUTTON": "Add custom domain",
+          "ADD_BUTTON": "Özel Alan Adı Ekle",
           "STATUS": {
             "LIVE": "Canlı",
             "PENDING": "Doğrulama bekleniyor",
             "ERROR": "Doğrulama başarısız"
           },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
+            "ADD_HEADER": "Özel Alan Adı Ekle",
             "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Alan Adı Ekle",
             "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
             "LABEL": "Özel domain",
             "PLACEHOLDER": "Portal özel domain",
@@ -775,7 +775,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "DESCRIPTION": "DNS sağlayıcınızda sahip olduğunuz hesaba giriş yapın ve chatwoot.help adresine yönlendiren alt alan adı için bir CNAME kaydı ekleyin",
             "COPY": "CNAME başarıyla kopyalandı",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Talimatları gönder",
@@ -787,9 +787,9 @@
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Portali Sil",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "Sil {portalName}",
+          "HEADER": "Portalı Sil",
+          "DESCRIPTION": "Bu portalı kalıcı olarak silin. Bu işlem geri alınamaz",
           "DIALOG": {
             "HEADER": "Sure you want to delete {portalName}?",
             "DESCRIPTION": "This is a permanent action that cannot be reversed.",
