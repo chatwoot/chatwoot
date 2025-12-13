@@ -18,8 +18,8 @@
     "CREATED_AT_LABEL": "Sukurta",
     "NEW_MESSAGE": "Naujas pranešimas",
     "CALL": "Skambučiai",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "Skambinama kontaktui...",
+    "CALL_FAILED": "Nepavyko pradėti skambučio. Bandykite dar kartą.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Pasirinkite balso pašto dėžutę"
     },
