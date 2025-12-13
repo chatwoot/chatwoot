@@ -16,14 +16,14 @@ class Api::V1::Ai::HandoffsController < ApplicationController
     conversation = Conversation.find_by(id: params[:conversation_id])
 
     unless conversation
-      Rails.logger.error "[AI_HANDOFF] ❌ Conversation #{params[:conversation_id]} not found"
+      Rails.logger.error "[AI_HANDOFF] Conversation #{params[:conversation_id]} not found"
       return render json: { error: 'Conversation not found' }, status: :not_found
     end
 
     agent = conversation.account.users.find_by(id: params[:assignee_id])
 
     unless agent
-      Rails.logger.error "[AI_HANDOFF] ❌ Agent #{params[:assignee_id]} not found in account #{conversation.account.id}"
+      Rails.logger.error "[AI_HANDOFF] Agent #{params[:assignee_id]} not found in account #{conversation.account.id}"
       return render json: { error: 'Agent not found' }, status: :not_found
     end
 
@@ -51,7 +51,7 @@ class Api::V1::Ai::HandoffsController < ApplicationController
       message: "Conversation successfully assigned to #{agent.name}"
     }, status: :ok
   rescue StandardError => e
-    Rails.logger.error "[AI_HANDOFF] ❌ Error during handoff: #{e.message}"
+    Rails.logger.error "[AI_HANDOFF] Error during handoff: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
     render json: { error: 'Internal server error', details: e.message }, status: :internal_server_error
   end
@@ -65,14 +65,14 @@ class Api::V1::Ai::HandoffsController < ApplicationController
     Rails.logger.info "[AI_HANDOFF] 🔐 Authenticating AI request with token: #{api_token&.truncate(20)}"
 
     if expected_token.blank?
-      Rails.logger.error '[AI_HANDOFF] ❌ ALOOSTUDIO_API_TOKEN not configured'
+      Rails.logger.error '[AI_HANDOFF] ALOOSTUDIO_API_TOKEN not configured'
       render json: { error: 'API token not configured' }, status: :internal_server_error
       return
     end
 
     return if api_token == expected_token
 
-    Rails.logger.error '[AI_HANDOFF] ❌ Invalid API token provided'
+    Rails.logger.error '[AI_HANDOFF] Invalid API token provided'
     render json: { error: 'Unauthorized' }, status: :unauthorized
   end
 end

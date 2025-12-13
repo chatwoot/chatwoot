@@ -29,7 +29,7 @@ class Whatsapp::IncomingMessageBaseService
     # We don't support reactions & ephemeral message now, we need to skip processing the message
     # if the webhook event is a reaction or an ephermal message or an unsupported message.
     if unprocessable_message_type?(message_type)
-      Rails.logger.info "[WHATSAPP_DEBUG] ❌ Skipping unprocessable message type: #{message_type}"
+      Rails.logger.info "[WHATSAPP_DEBUG] Skipping unprocessable message type: #{message_type}"
       return
     end
 
@@ -38,12 +38,12 @@ class Whatsapp::IncomingMessageBaseService
     # there are no duplicate messages created.
     existing_message = find_message_by_source_id(message_id)
     if existing_message
-      Rails.logger.info "[WHATSAPP_DEBUG] ❌ Message already exists with source_id #{message_id}, skipping"
+      Rails.logger.info "[WHATSAPP_DEBUG] Message already exists with source_id #{message_id}, skipping"
       return
     end
 
     if message_under_process?
-      Rails.logger.info "[WHATSAPP_DEBUG] ❌ Message #{message_id} already under process, skipping"
+      Rails.logger.info "[WHATSAPP_DEBUG] Message #{message_id} already under process, skipping"
       return
     end
 
