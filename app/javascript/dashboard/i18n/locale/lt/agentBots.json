@@ -94,7 +94,7 @@
       "UPDATE": "Atnaujinti botą"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Sukonfigūruokite webhook botą, kad integruotumėte su savo pritaikytomis paslaugomis. Botas gaus ir apdoros įvykius iš pokalbių ir galės į juos atsakyti."
+      "DESCRIPTION": "Sukonfigūruokite Webhook botą, kad integruotumėte su savo pritaikytomis paslaugomis. Botas gaus ir apdoros įvykius iš pokalbių ir galės į juos atsakyti."
     },
     "TYPES": {
       "WEBHOOK": "Boto Webhook"
