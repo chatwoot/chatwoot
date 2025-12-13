@@ -47,8 +47,8 @@
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Webhook Adı",
+          "PLACEHOLDER": "Webhook adını girin"
         },
         "END_POINT": {
           "LABEL": "Web kancası URL'si",
