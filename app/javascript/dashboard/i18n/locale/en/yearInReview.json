@@ -6,11 +6,27 @@
     "CLOSE": "Close",
     "CONVERSATIONS": {
       "TITLE": "You have handled",
-      "SUBTITLE": "conversations"
+      "SUBTITLE": "conversations",
+      "COMPARISON": {
+        "0_50": "You showed up, and that's how every good inbox begins.",
+        "50_100": "You kept the replies flowing and the conversations alive.",
+        "100_500": "You handled serious volume and kept everything on track.",
+        "500_2000": "You kept things moving while the volume kept climbing.",
+        "2000_10000": "You ran high traffic through your inbox without breaking a sweat.",
+        "10000_PLUS": "That’s a full city of customers knocking on your door. You made it look effortless."
+      }
     },
     "BUSIEST_DAY": {
       "TITLE": "Your busiest day was",
-      "MESSAGE": "{count} conversations that day. Barely broke a sweat."
+      "COMPARISON": {
+        "0_5": "A warm-up lap that barely woke the inbox.",
+        "5_10": "Enough action to justify a second cup of coffee.",
+        "10_25": "Things got busy and the inbox stayed on its toes.",
+        "25_50": "A proper rush that barely broke a sweat.",
+        "50_100": "Controlled chaos, handled like a normal Tuesday.",
+        "100_500": "Absolute dumpster fire, somehow still shipping replies.",
+        "500_PLUS": "The inbox lost all chill and never slowed down."
+      }
     },
     "PERSONALITY": {
       "TITLE": "Your support personality is"
