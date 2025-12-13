@@ -58,12 +58,22 @@ class Channel::Voice < ApplicationRecord
   # Public URLs used to configure Twilio webhooks
   def voice_call_webhook_url
     digits = phone_number.delete_prefix('+')
-    "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/voice/call/#{digits}"
+    Rails.application.routes.url_helpers.url_for(
+      controller: 'twilio/voice',
+      action: 'call_twiml',
+      phone: digits,
+      only_path: false
+    )
   end
 
   def voice_status_webhook_url
     digits = phone_number.delete_prefix('+')
-    "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/voice/status/#{digits}"
+    Rails.application.routes.url_helpers.url_for(
+      controller: 'twilio/voice',
+      action: 'status',
+      phone: digits,
+      only_path: false
+    )
   end
 
   private

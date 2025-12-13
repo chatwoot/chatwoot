@@ -151,9 +151,13 @@ class Twilio::VoiceController < ApplicationController
   end
 
   def conference_status_callback_url
-    host = ENV.fetch('FRONTEND_URL', '')
     phone_digits = inbox_channel.phone_number.delete_prefix('+')
-    "#{host}/twilio/voice/conference_status/#{phone_digits}"
+    Rails.application.routes.url_helpers.url_for(
+      controller: 'twilio/voice',
+      action: 'conference_status',
+      phone: phone_digits,
+      only_path: false
+    )
   end
 
   def find_conversation_for_conference!(friendly_name:, call_sid:)
