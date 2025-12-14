@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Τελευταίες 7 ημέρες",
+      "LAST_14_DAYS": "Τελευταίες 14 ημέρες",
       "LAST_30_DAYS": "Τελευταίες 30 ημέρες",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Τελευταίοι 3 μήνες",
       "LAST_6_MONTHS": "Τελευταίοι 6 μήνες",
       "LAST_YEAR": "Τελευταίο έτος",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_INBOX_REPORTS": "Λήψη αναφορών εισερχομένων",
     "FILTER_DROPDOWN_LABEL": "Επιλογή Εισερχομένων",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",

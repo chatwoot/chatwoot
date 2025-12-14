@@ -35,6 +35,11 @@
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Αυτή η συνομιλία δεν έχει ανατεθεί σε εσάς. Θα θέλατε να αντιστοιχίσετε αυτή τη συνομιλία στον εαυτό σας;",
     "ASSIGN_TO_ME": "Ανάθεση σε μένα",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Μπορείτε να απαντήσετε μόνο σε αυτή τη συνομιλία χρησιμοποιώντας ένα πρότυπο μήνυμα επειδή",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "του περιορισμού των 24 ωρών",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -66,6 +71,17 @@
       "SHOW_LABELS": "Προβολή ετικετών",
       "HIDE_LABELS": "Απόκρυψη ετικετών"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Επίλυση",
       "REOPEN_ACTION": "Επαναφορά",
@@ -95,6 +111,10 @@
         "TOMORROW": "Αύριο",
         "NEXT_WEEK": "Επόμενη εβδομάδα"
       }
+    },
+    "MENTION": {
+      "AGENTS": "Πράκτορες",
+      "TEAMS": "Ομάδες"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Αναβολή έως",
@@ -140,6 +160,9 @@
       "AGENTS_LOADING": "Φόρτωση πρακτόρων...",
       "ASSIGN_TEAM": "Ανάθεση ομάδας",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Η συνομιλία με αριθμό {conversationId} ανατέθηκε στον \"{agentName}\"",
@@ -204,6 +227,13 @@
           "YES": "Αποστολή",
           "CANCEL": "Άκυρο"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",

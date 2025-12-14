@@ -85,20 +85,27 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Требуется хотя бы одно действие"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "ASSIGN_TEAM": "Назначить команду",
+      "ASSIGN_AGENT": "Назначить сотрудника",
+      "ADD_LABEL": "Добавить метку",
+      "REMOVE_LABEL": "Удалить метку",
+      "REMOVE_ASSIGNED_TEAM": "Удалить назначенную команду",
+      "SEND_EMAIL_TRANSCRIPT": "Отправить историю переписки на email",
       "MUTE_CONVERSATION": "Заглушить диалог",
       "SNOOZE_CONVERSATION": "Включить звук диалога",
       "RESOLVE_CONVERSATION": "Решить диалог",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
+      "SEND_ATTACHMENT": "Отправить вложение",
+      "SEND_MESSAGE": "Отправить сообщение",
       "CHANGE_PRIORITY": "Изменить приоритет",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "ADD_PRIVATE_NOTE": "Добавить заметку",
+      "SEND_WEBHOOK_EVENT": "Отправить событие Webhook"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ничего",
+      "LOW": "Низкая",
+      "MEDIUM": "Средняя",
+      "HIGH": "Высокая",
+      "URGENT": "Срочность"
     }
   }
 }

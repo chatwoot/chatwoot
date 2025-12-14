@@ -359,4 +359,83 @@ describe('#actions', () => {
       ).rejects.toThrow(Error);
     });
   });
+
+  describe('#initiateCall', () => {
+    const contactId = 123;
+    const inboxId = 456;
+
+    it('sends correct mutations if API is success', async () => {
+      const mockResponse = {
+        data: {
+          conversation_id: 789,
+          status: 'initiated',
+        },
+      };
+      axios.post.mockResolvedValue(mockResponse);
+
+      const result = await actions.initiateCall(
+        { commit },
+        { contactId, inboxId }
+      );
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true }],
+        [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false }],
+      ]);
+      expect(result).toEqual(mockResponse.data);
+    });
+
+    it('sends correct actions if API returns error with message', async () => {
+      const errorMessage = 'Failed to initiate call';
+      axios.post.mockRejectedValue({
+        response: {
+          data: {
+            message: errorMessage,
+          },
+        },
+      });
+
+      await expect(
+        actions.initiateCall({ commit }, { contactId, inboxId })
+      ).rejects.toThrow(ExceptionWithMessage);
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true }],
+        [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false }],
+      ]);
+    });
+
+    it('sends correct actions if API returns error with error field', async () => {
+      const errorMessage = 'Call initiation error';
+      axios.post.mockRejectedValue({
+        response: {
+          data: {
+            error: errorMessage,
+          },
+        },
+      });
+
+      await expect(
+        actions.initiateCall({ commit }, { contactId, inboxId })
+      ).rejects.toThrow(ExceptionWithMessage);
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true }],
+        [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false }],
+      ]);
+    });
+
+    it('sends correct actions if API returns generic error', async () => {
+      axios.post.mockRejectedValue({ message: 'Network error' });
+
+      await expect(
+        actions.initiateCall({ commit }, { contactId, inboxId })
+      ).rejects.toThrow(Error);
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true }],
+        [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false }],
+      ]);
+    });
+  });
 });

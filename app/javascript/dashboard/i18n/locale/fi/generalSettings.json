@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },
     "TITLE": "Tilin asetukset",
@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Paina enter valitaksesi",
       "ENTER_TO_REMOVE": "Paina enter poistaaksesi",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Valitse yksi",
       "SELECT": "Select"
     }

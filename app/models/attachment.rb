@@ -40,7 +40,7 @@ class Attachment < ApplicationRecord
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
   enum file_type: { :image => 0, :audio => 1, :video => 2, :file => 3, :location => 4, :fallback => 5, :share => 6, :story_mention => 7,
-                    :contact => 8, :ig_reel => 9 }
+                    :contact => 8, :ig_reel => 9, :ig_post => 10, :ig_story => 11 }
 
   def push_event_data
     return unless file_type
@@ -60,9 +60,12 @@ class Attachment < ApplicationRecord
   end
 
   def thumb_url
-    if file.attached? && file.representable?
+    return '' unless file.attached? && image?
+
+    begin
       url_for(file.representation(resize_to_fill: [250, nil]))
-    else
+    rescue ActiveStorage::UnrepresentableError => e
+      Rails.logger.warn "Unrepresentable image attachment: #{id} (#{file.filename}) - #{e.message}"
       ''
     end
   end
@@ -163,7 +166,10 @@ class Attachment < ApplicationRecord
   end
 
   def validate_file_size(byte_size)
-    errors.add(:file, 'size is too big') if byte_size > 40.megabytes
+    limit_mb = GlobalConfigService.load('MAXIMUM_FILE_UPLOAD_SIZE', 40).to_i
+    limit_mb = 40 if limit_mb <= 0
+
+    errors.add(:file, 'size is too big') if byte_size > limit_mb.megabytes
   end
 
   def media_file?(file_content_type)

@@ -19,6 +19,7 @@ const FEATURE_HELP_URLS = {
   team_management: 'https://chwt.app/hc/teams',
   webhook: 'https://chwt.app/hc/webhooks',
   billing: 'https://chwt.app/pricing',
+  saml: 'https://chwt.app/hc/saml',
 };
 
 export function getHelpUrlForFeature(featureName) {

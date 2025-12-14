@@ -102,20 +102,21 @@ export default {
           @remove="removeLabelFromConversation"
         />
 
-        <div class="dropdown-wrap">
-          <div
-            :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
-            class="dropdown-pane"
-          >
-            <LabelDropdown
-              v-if="showSearchDropdownLabel"
-              :account-labels="accountLabels"
-              :selected-labels="savedLabels"
-              :allow-creation="isAdmin"
-              @add="addLabelToConversation"
-              @remove="removeLabelFromConversation"
-            />
-          </div>
+        <div
+          :class="{
+            'block visible': showSearchDropdownLabel,
+            'hidden invisible': !showSearchDropdownLabel,
+          }"
+          class="border rounded-lg bg-n-alpha-3 top-6 backdrop-blur-[100px] absolute w-full shadow-lg border-n-strong dark:border-n-strong p-2 box-border z-[9999]"
+        >
+          <LabelDropdown
+            v-if="showSearchDropdownLabel"
+            :account-labels="accountLabels"
+            :selected-labels="savedLabels"
+            :allow-creation="isAdmin"
+            @add="addLabelToConversation"
+            @remove="removeLabelFromConversation"
+          />
         </div>
       </div>
     </div>
@@ -131,28 +132,8 @@ export default {
   width: 100%;
 
   .label-wrap {
-    line-height: var(--space-medium);
+    line-height: 1.5rem;
     position: relative;
-
-    .dropdown-wrap {
-      display: flex;
-      left: -1px;
-      margin-right: var(--space-medium);
-      position: absolute;
-      top: var(--space-medium);
-      width: 100%;
-
-      .dropdown-pane {
-        width: 100%;
-        box-sizing: border-box;
-      }
-    }
   }
-}
-
-.error {
-  color: var(--r-500);
-  font-size: var(--font-size-mini);
-  font-weight: var(--font-weight-medium);
 }
 </style>

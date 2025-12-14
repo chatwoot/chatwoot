@@ -63,6 +63,12 @@ linear:
   action: https://linear.app/oauth/authorize
   hook_type: account
   allow_multiple_hooks: false
+notion:
+  id: notion
+  logo: notion.png
+  i18n_key: notion
+  hook_type: account
+  allow_multiple_hooks: false
 slack:
   id: slack
   logo: slack.png

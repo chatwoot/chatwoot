@@ -1,4 +1,5 @@
 <script setup>
+import { useAccount } from 'dashboard/composables/useAccount';
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
@@ -6,6 +7,7 @@ import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/Featur
 import { documentsList } from 'dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js';
 
 const emit = defineEmits(['click']);
+const { isOnChatwootCloud } = useAccount();
 
 const onClick = () => {
   emit('click');
@@ -19,6 +21,7 @@ const onClick = () => {
     fallback-thumbnail="/assets/images/dashboard/captain/document-light.svg"
     fallback-thumbnail-dark="/assets/images/dashboard/captain/document-dark.svg"
     learn-more-url="https://chwt.app/captain-document"
+    :hide-actions="!isOnChatwootCloud"
     class="mb-8"
   />
   <EmptyStateLayout

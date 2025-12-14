@@ -5,6 +5,18 @@
     "LOADING": "Λήψη προσαρμοσμένων ιδιοτήτων",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Συνομιλία",
+      "CONTACT": "Επαφές"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Κείμενο",
+      "NUMBER": "Αριθμός",
+      "LINK": "Σύνδεσμος",
+      "DATE": "Date",
+      "LIST": "Λίστα",
+      "CHECKBOX": "Checkbox"
+    },
     "ADD": {
       "TITLE": "Προσθήκη προσαρμοσμένης ιδιότητας",
       "SUBMIT": "Δημιουργία",

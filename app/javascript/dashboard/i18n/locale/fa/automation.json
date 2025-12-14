@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "گفتگو ایجاد شد",
       "CONVERSATION_UPDATED": "گفتگو به روز شد",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
@@ -146,8 +147,21 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "تغییر اولویت",
-      "ADD_SLA": "اضافه کردن SLA"
+      "ADD_SLA": "اضافه کردن SLA",
+      "OPEN_CONVERSATION": "باز کردن گفتگو"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "هیچکدام",
+      "LOW": "پایین",
+      "MEDIUM": "متوسط",
+      "HIGH": "بالا",
+      "URGENT": "فوری"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
@@ -163,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "مسئول",
       "TEAM_NAME": "تیم‌",
-      "PRIORITY": "اولویت"
+      "PRIORITY": "اولویت",
+      "LABELS": "برچسب‌ها"
     }
   }
 }

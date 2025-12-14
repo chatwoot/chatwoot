@@ -48,7 +48,8 @@
       "CREATED_AT": "Izveidots",
       "LAST_ACTIVITY": "Pēdējās Darbības",
       "REFERER_LINK": "Atsauces sniedzēja saite",
-      "BLOCKED": "Bloķēts"
+      "BLOCKED": "Bloķēts",
+      "LABELS": "Etiķetes"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standarta Filtri",

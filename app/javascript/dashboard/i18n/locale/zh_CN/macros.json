@@ -99,6 +99,13 @@
       "CHANGE_PRIORITY": "更改优先级",
       "ADD_PRIVATE_NOTE": "添加私密注释",
       "SEND_WEBHOOK_EVENT": "发送 Webhook 事件"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "啥都没有",
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "紧急的"
     }
   }
 }

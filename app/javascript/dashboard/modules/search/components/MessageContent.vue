@@ -1,5 +1,5 @@
 <script setup>
-import { ref, useTemplateRef, onMounted, watch, nextTick } from 'vue';
+import { ref, useTemplateRef, onMounted, watch, nextTick, computed } from 'vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ReadMore from './ReadMore.vue';
 
@@ -8,14 +8,32 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  content: {
-    type: String,
-    default: '',
+  message: {
+    type: Object,
+    default: () => ({}),
   },
   searchTerm: {
     type: String,
     default: '',
   },
+});
+
+const messageContent = computed(() => {
+  // We perform search on either content or email subject or transcribed text
+  if (props.message.content) {
+    return props.message.content;
+  }
+
+  const { content_attributes = {} } = props.message;
+  const { email = {} } = content_attributes || {};
+  if (email.subject) {
+    return email.subject;
+  }
+
+  const audioAttachment = props.message.attachments.find(
+    attachment => attachment.file_type === 'audio'
+  );
+  return audioAttachment?.transcribed_text || '';
 });
 
 const { highlightContent } = useMessageFormatter();
@@ -38,7 +56,8 @@ const escapeHtml = html => {
   return p.innerText;
 };
 
-const prepareContent = (content = '') => {
+const prepareContent = () => {
+  const content = messageContent.value || '';
   const escapedText = escapeHtml(content);
   return highlightContent(
     escapedText,
@@ -65,7 +84,7 @@ onMounted(() => {
       {{ $t('SEARCH.WROTE') }}
     </p>
     <ReadMore :shrink="isOverflowing" @expand="isOverflowing = false">
-      <div v-dompurify-html="prepareContent(content)" class="message-content" />
+      <div v-dompurify-html="prepareContent()" class="message-content" />
     </ReadMore>
   </blockquote>
 </template>
@@ -74,6 +93,7 @@ onMounted(() => {
 .message {
   @apply py-0 px-2 mt-2;
 }
+
 .message-content::v-deep p,
 .message-content::v-deep li::marker {
   @apply text-n-slate-11 mb-1;

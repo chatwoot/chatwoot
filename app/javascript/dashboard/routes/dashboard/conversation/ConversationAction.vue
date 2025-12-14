@@ -84,7 +84,7 @@ export default {
         return this.currentChat.meta.assignee;
       },
       set(agent) {
-        const agentId = agent ? agent.id : 0;
+        const agentId = agent ? agent.id : null;
         this.$store.dispatch('setCurrentChatAssignee', agent);
         this.$store
           .dispatch('assignAgent', {
@@ -207,7 +207,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-white dark:bg-slate-900">
+  <div class="bg-n-background">
     <div class="multiselect-wrap--small">
       <ContactDetailsItem
         compact

@@ -80,6 +80,7 @@ describe Integrations::Linear::ProcessorService do
         label_ids: %w[bug]
       }
     end
+    let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
     let(:issue_response) do
       {
         'issueCreate' => {
@@ -94,7 +95,7 @@ describe Integrations::Linear::ProcessorService do
 
     context 'when Linear client returns valid data' do
       it 'returns parsed issue data with identifier' do
-        allow(linear_client).to receive(:create_issue).with(params).and_return(issue_response)
+        allow(linear_client).to receive(:create_issue).with(params, nil).and_return(issue_response)
         result = service.create_issue(params)
         expect(result).to eq({
                                data: {
@@ -104,13 +105,27 @@ describe Integrations::Linear::ProcessorService do
                                }
                              })
       end
+
+      context 'when user is provided' do
+        it 'passes user to Linear client' do
+          allow(linear_client).to receive(:create_issue).with(params, user).and_return(issue_response)
+          result = service.create_issue(params, user)
+          expect(result).to eq({
+                                 data: {
+                                   id: 'issue1',
+                                   title: 'Issue title',
+                                   identifier: 'ENG-123'
+                                 }
+                               })
+        end
+      end
     end
 
     context 'when Linear client returns an error' do
       let(:error_response) { { error: 'Some error message' } }
 
       it 'returns the error' do
-        allow(linear_client).to receive(:create_issue).with(params).and_return(error_response)
+        allow(linear_client).to receive(:create_issue).with(params, nil).and_return(error_response)
         result = service.create_issue(params)
         expect(result).to eq(error_response)
       end
@@ -121,14 +136,23 @@ describe Integrations::Linear::ProcessorService do
     let(:link) { 'https://example.com' }
     let(:issue_id) { 'issue1' }
     let(:title) { 'Title' }
+    let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
     let(:link_issue_response) { { id: issue_id, link: link, 'attachmentLinkURL': { 'attachment': { 'id': 'attachment1' } } } }
     let(:link_response) { { data: { id: issue_id, link: link, link_id: 'attachment1' } } }
 
     context 'when Linear client returns valid data' do
       it 'returns parsed link data' do
-        allow(linear_client).to receive(:link_issue).with(link, issue_id, title).and_return(link_issue_response)
+        allow(linear_client).to receive(:link_issue).with(link, issue_id, title, nil).and_return(link_issue_response)
         result = service.link_issue(link, issue_id, title)
         expect(result).to eq(link_response)
+      end
+
+      context 'when user is provided' do
+        it 'passes user to Linear client' do
+          allow(linear_client).to receive(:link_issue).with(link, issue_id, title, user).and_return(link_issue_response)
+          result = service.link_issue(link, issue_id, title, user)
+          expect(result).to eq(link_response)
+        end
       end
     end
 
@@ -136,7 +160,7 @@ describe Integrations::Linear::ProcessorService do
       let(:error_response) { { error: 'Some error message' } }
 
       it 'returns the error' do
-        allow(linear_client).to receive(:link_issue).with(link, issue_id, title).and_return(error_response)
+        allow(linear_client).to receive(:link_issue).with(link, issue_id, title, nil).and_return(error_response)
         result = service.link_issue(link, issue_id, title)
         expect(result).to eq(error_response)
       end
@@ -237,7 +261,7 @@ describe Integrations::Linear::ProcessorService do
           }
         }
 
-        allow(linear_client).to receive(:create_issue).with(params).and_return(response)
+        allow(linear_client).to receive(:create_issue).with(params, nil).and_return(response)
         result = service.create_issue(params)
 
         expect(result[:data]).to have_key(:identifier)
@@ -256,7 +280,7 @@ describe Integrations::Linear::ProcessorService do
           }
         }
 
-        allow(linear_client).to receive(:link_issue).with(link, issue_id, title).and_return(response)
+        allow(linear_client).to receive(:link_issue).with(link, issue_id, title, nil).and_return(response)
         result = service.link_issue(link, issue_id, title)
 
         expect(result[:data][:id]).to eq(issue_id)

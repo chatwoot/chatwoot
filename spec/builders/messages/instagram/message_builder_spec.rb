@@ -17,40 +17,34 @@ describe Messages::Instagram::MessageBuilder do
   let!(:shared_reel_params) { build(:instagram_shared_reel_event).with_indifferent_access }
   let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
   let!(:instagram_message_reply_event) { build(:instagram_message_reply_event).with_indifferent_access }
-  let!(:contact) { create(:contact, id: 'Sender-id-1', name: 'Jane Dae') }
-  let!(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: instagram_inbox.id, source_id: 'Sender-id-1') }
-  let(:conversation) do
-    create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id)
-  end
-  let(:message) do
-    create(:message, account_id: account.id, inbox_id: instagram_inbox.id, conversation_id: conversation.id, message_type: 'outgoing',
-                     source_id: 'message-id-1')
-  end
 
   describe '#perform' do
     before do
       instagram_channel.update(access_token: 'valid_instagram_token')
 
-      stub_request(:get, %r{https://graph\.instagram\.com/.*?/Sender-id-1\?.*})
+      stub_request(:get, %r{https://graph\.instagram\.com/.*?/Sender-id-.*?\?.*})
         .to_return(
           status: 200,
-          body: {
-            name: 'Jane',
-            username: 'some_user_name',
-            profile_pic: 'https://chatwoot-assets.local/sample.png',
-            id: 'Sender-id-1',
-            follower_count: 100,
-            is_user_follow_business: true,
-            is_business_follow_user: true,
-            is_verified_user: false
-          }.to_json,
+          body: proc { |request|
+            sender_id = request.uri.path.split('/').last.split('?').first
+            {
+              name: 'Jane',
+              username: 'some_user_name',
+              profile_pic: 'https://chatwoot-assets.local/sample.png',
+              id: sender_id,
+              follower_count: 100,
+              is_user_follow_business: true,
+              is_business_follow_user: true,
+              is_verified_user: false
+            }.to_json
+          },
           headers: { 'Content-Type' => 'application/json' }
         )
     end
 
     it 'creates contact and message for the instagram direct inbox' do
       messaging = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
       described_class.new(messaging, instagram_inbox).perform
 
       instagram_inbox.reload
@@ -63,13 +57,15 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'discard echo message already sent by chatwoot' do
-      conversation
-      message
+      messaging = dm_params[:entry][0]['messaging'][0]
+      contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+      conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id)
+      create(:message, account_id: account.id, inbox_id: instagram_inbox.id, conversation_id: conversation.id, message_type: 'outgoing',
+                       source_id: 'message-id-1')
 
       expect(instagram_inbox.conversations.count).to be 1
       expect(instagram_inbox.messages.count).to be 1
 
-      messaging = dm_params[:entry][0]['messaging'][0]
       messaging[:message][:mid] = 'message-id-1' # Set same source_id as the existing message
       described_class.new(messaging, instagram_inbox, outgoing_echo: true).perform
 
@@ -81,6 +77,7 @@ describe Messages::Instagram::MessageBuilder do
 
     it 'discards duplicate messages from webhook events with the same message_id' do
       messaging = dm_params[:entry][0]['messaging'][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
       described_class.new(messaging, instagram_inbox).perform
 
       initial_message_count = instagram_inbox.messages.count
@@ -93,6 +90,7 @@ describe Messages::Instagram::MessageBuilder do
 
     it 'creates message for shared reel' do
       messaging = shared_reel_params[:entry][0]['messaging'][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
       described_class.new(messaging, instagram_inbox).perform
 
       message = instagram_inbox.messages.first
@@ -103,7 +101,9 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'creates message with story id' do
-      story_source_id = instagram_story_reply_event[:entry][0]['messaging'][0]['message']['mid']
+      messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+      story_source_id = messaging['message']['mid']
 
       stub_request(:get, %r{https://graph\.instagram\.com/.*?/#{story_source_id}\?.*})
         .to_return(
@@ -121,7 +121,6 @@ describe Messages::Instagram::MessageBuilder do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
       described_class.new(messaging, instagram_inbox).perform
 
       message = instagram_inbox.messages.first
@@ -134,10 +133,13 @@ describe Messages::Instagram::MessageBuilder do
     it 'creates message with reply to mid' do
       # Create first message to ensure reply to is valid
       first_messaging = dm_params[:entry][0]['messaging'][0]
+      sender_id = first_messaging['sender']['id']
+      create_instagram_contact_for_sender(sender_id, instagram_inbox)
       described_class.new(first_messaging, instagram_inbox).perform
 
-      # Create second message with reply to mid
+      # Create second message with reply to mid, using same sender_id
       messaging = instagram_message_reply_event[:entry][0]['messaging'][0]
+      messaging['sender']['id'] = sender_id
       described_class.new(messaging, instagram_inbox).perform
 
       first_message = instagram_inbox.messages.first
@@ -148,12 +150,13 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'handles deleted story' do
-      story_source_id = story_mention_params[:entry][0][:messaging][0]['message']['mid']
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+      story_source_id = messaging['message']['mid']
 
       stub_request(:get, %r{https://graph\.instagram\.com/.*?/#{story_source_id}\?.*})
         .to_return(status: 404, body: { error: { message: 'Story not found', code: 1_609_005 } }.to_json)
 
-      messaging = story_mention_params[:entry][0][:messaging][0]
       described_class.new(messaging, instagram_inbox).perform
 
       message = instagram_inbox.messages.first
@@ -163,11 +166,12 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'does not create message for unsupported file type' do
-      conversation
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+      create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id)
 
       # try to create a message with unsupported file type
-      story_mention_params[:entry][0][:messaging][0]['message']['attachments'][0]['type'] = 'unsupported_type'
-      messaging = story_mention_params[:entry][0][:messaging][0]
+      messaging['message']['attachments'][0]['type'] = 'unsupported_type'
 
       described_class.new(messaging, instagram_inbox, outgoing_echo: false).perform
 
@@ -177,7 +181,11 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'does not create message if the message is already exists' do
-      message
+      messaging = dm_params[:entry][0]['messaging'][0]
+      contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+      conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id)
+      create(:message, account_id: account.id, inbox_id: instagram_inbox.id, conversation_id: conversation.id, message_type: 'outgoing',
+                       source_id: 'message-id-1')
 
       expect(instagram_inbox.conversations.count).to be 1
       expect(instagram_inbox.messages.count).to be 1
@@ -194,7 +202,7 @@ describe Messages::Instagram::MessageBuilder do
       instagram_channel.update(access_token: 'invalid_token')
 
       # Stub the request to return authorization error status
-      stub_request(:get, %r{https://graph\.instagram\.com/.*?/Sender-id-1\?.*})
+      stub_request(:get, %r{https://graph\.instagram\.com/.*?/Sender-id-.*?\?.*})
         .to_return(
           status: 401,
           body: { error: { message: 'unauthorized access token', code: 190 } }.to_json,
@@ -218,6 +226,7 @@ describe Messages::Instagram::MessageBuilder do
     it 'creates a new conversation if existing conversation is not present' do
       initial_count = Conversation.count
       messaging = dm_params[:entry][0]['messaging'][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
 
       described_class.new(messaging, instagram_inbox).perform
 
@@ -226,21 +235,23 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'will not create a new conversation if last conversation is not resolved' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
       existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id,
                                                     contact_id: contact.id, status: :open)
 
-      messaging = dm_params[:entry][0]['messaging'][0]
       described_class.new(messaging, instagram_inbox).perform
 
       expect(instagram_inbox.conversations.last.id).to eq(existing_conversation.id)
     end
 
     it 'creates a new conversation if last conversation is resolved' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
       existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id,
                                                     contact_id: contact.id, status: :resolved)
 
       initial_count = Conversation.count
-      messaging = dm_params[:entry][0]['messaging'][0]
 
       described_class.new(messaging, instagram_inbox).perform
 
@@ -257,6 +268,7 @@ describe Messages::Instagram::MessageBuilder do
     it 'creates a new conversation if existing conversation is not present' do
       initial_count = Conversation.count
       messaging = dm_params[:entry][0]['messaging'][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
 
       described_class.new(messaging, instagram_inbox).perform
 
@@ -265,6 +277,8 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'reopens last conversation if last conversation is resolved' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
       existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id,
                                                     contact_id: contact.id, status: :resolved)
 
@@ -307,6 +321,7 @@ describe Messages::Instagram::MessageBuilder do
 
     it 'saves story information when story mention is processed' do
       messaging = story_mention_params[:entry][0][:messaging][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
       described_class.new(messaging, instagram_inbox).perform
 
       message = instagram_inbox.messages.first
@@ -328,6 +343,7 @@ describe Messages::Instagram::MessageBuilder do
         )
 
       messaging = story_mention_params[:entry][0][:messaging][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
       described_class.new(messaging, instagram_inbox).perform
 
       message = instagram_inbox.messages.first

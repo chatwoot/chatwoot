@@ -5,6 +5,18 @@
     "LOADING": "Отримання користувацьких атрибутів",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Розмови",
+      "CONTACT": "Контакт"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Текст",
+      "NUMBER": "Номер",
+      "LINK": "Лінк",
+      "DATE": "Date",
+      "LIST": "Список",
+      "CHECKBOX": "Прапорець"
+    },
     "ADD": {
       "TITLE": "Додати свій атрибут",
       "SUBMIT": "Створити",

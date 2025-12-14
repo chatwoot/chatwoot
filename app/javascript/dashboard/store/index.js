@@ -2,7 +2,9 @@ import { createStore } from 'vuex';
 
 import accounts from './modules/accounts';
 import agentBots from './modules/agentBots';
+import agentCapacityPolicies from './modules/agentCapacityPolicies';
 import agents from './modules/agents';
+import assignmentPolicies from './modules/assignmentPolicies';
 import articles from './modules/helpCenterArticles';
 import attributes from './modules/attributes';
 import auditlogs from './modules/auditlogs';
@@ -53,6 +55,9 @@ import captainInboxes from './captain/inboxes';
 import captainBulkActions from './captain/bulkActions';
 import copilotThreads from './captain/copilotThreads';
 import copilotMessages from './captain/copilotMessages';
+import captainScenarios from './captain/scenarios';
+import captainTools from './captain/tools';
+import captainCustomTools from './captain/customTools';
 
 const plugins = [];
 
@@ -60,7 +65,9 @@ export default createStore({
   modules: {
     accounts,
     agentBots,
+    agentCapacityPolicies,
     agents,
+    assignmentPolicies,
     articles,
     attributes,
     auditlogs,
@@ -111,6 +118,9 @@ export default createStore({
     captainBulkActions,
     copilotThreads,
     copilotMessages,
+    captainScenarios,
+    captainTools,
+    captainCustomTools,
   },
   plugins,
 });

@@ -262,17 +262,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-// For RTL direction view
-.app-rtl--wrapper {
-  .bulk-action__actions {
-    ::v-deep .button--only-icon:last-child {
-      margin-right: var(--space-smaller);
-    }
-  }
-}
-
 .bulk-action__container {
-  @apply p-4 relative border-b border-solid border-n-strong dark:border-n-weak;
+  @apply p-3 relative border-b border-solid border-n-strong dark:border-n-weak;
 }
 
 .bulk-action__panel {
@@ -288,7 +279,7 @@ export default {
 }
 
 .bulk-action__alert {
-  @apply bg-yellow-50 text-yellow-700 rounded text-xs mt-2 py-1 px-2 border border-solid border-yellow-300 dark:border-yellow-300/10 dark:bg-yellow-200/20 dark:text-yellow-400;
+  @apply bg-n-amber-3 text-n-amber-12 rounded text-xs mt-2 py-1 px-2 border border-solid border-n-amber-5;
 }
 
 .popover-animation-enter-active,

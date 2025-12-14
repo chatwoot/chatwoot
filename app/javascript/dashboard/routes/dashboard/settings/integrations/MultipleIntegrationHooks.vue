@@ -78,8 +78,10 @@ export default {
       </template>
     </BaseSettingsHeader>
     <div class="w-full">
-      <table v-if="hasConnectedHooks" class="woot-table">
-        <thead>
+      <table v-if="hasConnectedHooks">
+        <thead
+          class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
+        >
           <th
             v-for="hookHeader in hookHeaders"
             :key="hookHeader"
@@ -92,7 +94,11 @@ export default {
           </th>
         </thead>
         <tbody>
-          <tr v-for="hook in hooks" :key="hook.id">
+          <tr
+            v-for="hook in hooks"
+            :key="hook.id"
+            class="border-b border-n-weak [&>td]:p-2.5 [&>td]:text-n-slate-12"
+          >
             <td
               v-for="property in hook.properties"
               :key="property"

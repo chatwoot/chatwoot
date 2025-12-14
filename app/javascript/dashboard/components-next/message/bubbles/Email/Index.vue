@@ -1,12 +1,13 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
+import { sanitizeTextForRender } from '@chatwoot/utils';
 import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
-import { EmailQuoteExtractor } from './removeReply.js';
-import BaseBubble from 'next/message/bubbles/Base.vue';
+import { EmailQuoteExtractor } from 'dashboard/helper/emailQuoteExtractor.js';
 import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
+import BaseBubble from 'next/message/bubbles/Base.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
@@ -37,14 +38,21 @@ const { hasTranslations, translationContent } =
 const originalEmailText = computed(() => {
   const text =
     contentAttributes?.value?.email?.textContent?.full ?? content.value;
-  return text?.replace(/\n/g, '<br>');
+  return sanitizeTextForRender(text);
 });
 
 const originalEmailHtml = computed(
   () =>
-    contentAttributes?.value?.email?.htmlContent?.full ??
+    contentAttributes?.value?.email?.htmlContent?.full ||
     originalEmailText.value
 );
+
+const hasEmailContent = computed(() => {
+  return (
+    contentAttributes?.value?.email?.textContent?.full ||
+    contentAttributes?.value?.email?.htmlContent?.full
+  );
+});
 
 const messageContent = computed(() => {
   // If translations exist and we're showing translations (not original)
@@ -119,7 +127,13 @@ const handleSeeOriginal = () => {
       >
         <div
           v-if="isExpandable && !isExpanded"
-          class="absolute left-0 right-0 bottom-0 h-40 px-8 flex items-end bg-gradient-to-t from-n-slate-4 via-n-slate-4 via-20% to-transparent"
+          class="absolute left-0 right-0 bottom-0 h-40 px-8 flex items-end"
+          :class="{
+            'bg-gradient-to-t from-n-slate-4 via-n-slate-4 via-20% to-transparent':
+              isIncoming,
+            'bg-gradient-to-t from-n-solid-blue via-n-solid-blue via-20% to-transparent':
+              isOutgoing,
+          }"
         >
           <button
             class="text-n-slate-12 py-2 px-8 mx-auto text-center flex items-center gap-2"
@@ -130,7 +144,7 @@ const handleSeeOriginal = () => {
           </button>
         </div>
         <FormattedContent
-          v-if="isOutgoing && content"
+          v-if="isOutgoing && content && !hasEmailContent"
           class="text-n-slate-12"
           :content="messageContent"
         />

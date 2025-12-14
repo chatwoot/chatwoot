@@ -48,7 +48,8 @@
       "CREATED_AT": "הוקם ב",
       "LAST_ACTIVITY": "פעילות אחרונה",
       "REFERER_LINK": "קישור מפנה",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "תוויות"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "סננים סטנדרטיים",

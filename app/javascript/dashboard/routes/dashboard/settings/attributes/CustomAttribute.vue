@@ -100,9 +100,7 @@ const tableHeaders = computed(() => {
           {{ tableHeader }}
         </th>
       </thead>
-      <tbody
-        class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
-      >
+      <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
         <tr v-for="attribute in attributes" :key="attribute.attribute_key">
           <td
             class="py-4 ltr:pr-4 rtl:pl-4 overflow-hidden whitespace-nowrap text-ellipsis"
@@ -115,7 +113,11 @@ const tableHeaders = computed(() => {
           <td
             class="py-4 ltr:pr-4 rtl:pl-4 overflow-hidden whitespace-nowrap text-ellipsis"
           >
-            {{ attribute.attribute_display_type }}
+            {{
+              $t(
+                `ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${attribute.attribute_display_type?.toUpperCase()}`
+              )
+            }}
           </td>
           <td
             class="py-4 ltr:pr-4 rtl:pl-4 attribute-key overflow-hidden whitespace-nowrap text-ellipsis"

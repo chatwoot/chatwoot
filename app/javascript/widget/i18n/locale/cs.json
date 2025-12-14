@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Odeslání se nezdařilo, zkuste to znovu"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Jsme online",
-    "OFFLINE": "V současné době jsme pryč"
+    "OFFLINE": "V současné době jsme pryč",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Většinou odpovíme během pár minut",
     "IN_A_FEW_HOURS": "Většinou odpovíme během pár hodin",
     "IN_A_DAY": "Obvykle odpoví za den",
-    "BACK_IN": "Budem online zase"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "Zítra budeme opět k dispozici",
+    "BACK_IN_SOME_TIME": "Za chvíli budeme opět k dispozici"
   },
   "DAY_NAMES": {
     "SUNDAY": "Neděle",

@@ -48,7 +48,8 @@
       "CREATED_AT": "에 만들어짐",
       "LAST_ACTIVITY": "지난 활동",
       "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "라벨"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "기본 필터",

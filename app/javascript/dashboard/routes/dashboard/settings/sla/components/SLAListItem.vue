@@ -40,7 +40,7 @@ const emit = defineEmits(['delete']);
 
 <template>
   <BaseSettingsListItem
-    class="sm:divide-x sm:divide-slate-75 sm:dark:divide-slate-700/50"
+    class="sm:divide-x sm:divide-n-weak"
     :title="slaName"
     :description="description"
   >
@@ -49,7 +49,7 @@ const emit = defineEmits(['delete']);
     </template>
     <template #rightSection>
       <div
-        class="flex items-center divide-x rtl:divide-x-reverse sm:rtl:!border-l-0 sm:rtl:!border-r sm:rtl:border-solid sm:rtl:border-slate-75 sm:rtl:dark:border-slate-700/50 gap-1.5 w-fit sm:w-full sm:gap-0 sm:justify-between divide-slate-75 dark:divide-slate-700/50"
+        class="flex items-center divide-x rtl:divide-x-reverse sm:rtl:!border-l-0 sm:rtl:!border-r sm:rtl:border-solid sm:rtl:border-n-weak gap-1.5 w-fit sm:w-full sm:gap-0 sm:justify-between divide-n-weak"
       >
         <SLAResponseTime response-type="FRT" :response-time="firstResponse" />
         <SLAResponseTime response-type="NRT" :response-time="nextResponse" />

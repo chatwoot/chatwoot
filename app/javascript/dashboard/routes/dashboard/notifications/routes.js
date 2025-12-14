@@ -11,7 +11,6 @@ export const routes = [
       headerTitle: '',
       icon: '',
       showNewButton: false,
-      showSidemenuIcon: false,
     },
     children: [
       {

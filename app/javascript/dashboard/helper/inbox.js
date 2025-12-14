@@ -10,6 +10,12 @@ export const INBOX_TYPES = {
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',
+  VOICE: 'Channel::Voice',
+};
+
+export const TWILIO_CHANNEL_MEDIUM = {
+  WHATSAPP: 'whatsapp',
+  SMS: 'sms',
 };
 
 const INBOX_ICON_MAP_FILL = {
@@ -22,6 +28,7 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
+  [INBOX_TYPES.VOICE]: 'i-ri-phone-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -36,6 +43,7 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-line',
   [INBOX_TYPES.LINE]: 'i-ri-line-line',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-line',
+  [INBOX_TYPES.VOICE]: 'i-ri-phone-line',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -47,6 +55,7 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
 
     case INBOX_TYPES.TWILIO:
     case INBOX_TYPES.WHATSAPP:
+    case INBOX_TYPES.VOICE:
       return phoneNumber || '';
 
     case INBOX_TYPES.EMAIL:
@@ -84,6 +93,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
+
+    case INBOX_TYPES.VOICE:
+      return 'voice';
 
     default:
       return 'chat';
@@ -124,19 +136,22 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.INSTAGRAM:
       return 'brand-instagram';
 
+    case INBOX_TYPES.VOICE:
+      return 'phone';
+
     default:
       return 'chat';
   }
 };
 
-export const getInboxIconByType = (type, phoneNumber, variant = 'fill') => {
+export const getInboxIconByType = (type, medium, variant = 'fill') => {
   const iconMap =
     variant === 'fill' ? INBOX_ICON_MAP_FILL : INBOX_ICON_MAP_LINE;
   const defaultIcon =
     variant === 'fill' ? DEFAULT_ICON_FILL : DEFAULT_ICON_LINE;
 
   // Special case for Twilio (whatsapp and sms)
-  if (type === INBOX_TYPES.TWILIO && phoneNumber?.startsWith('whatsapp')) {
+  if (type === INBOX_TYPES.TWILIO && medium === 'whatsapp') {
     return iconMap[INBOX_TYPES.WHATSAPP];
   }
 

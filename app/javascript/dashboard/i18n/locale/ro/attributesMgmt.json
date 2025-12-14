@@ -5,6 +5,18 @@
     "LOADING": "Preluarea atributelor particularizate",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Conversație",
+      "CONTACT": "Contact"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Text",
+      "NUMBER": "Număr",
+      "LINK": "Legătură",
+      "DATE": "Date",
+      "LIST": "Listă",
+      "CHECKBOX": "Căsuță de bifat"
+    },
     "ADD": {
       "TITLE": "Adauga atributii personalizate",
       "SUBMIT": "Creeaza",

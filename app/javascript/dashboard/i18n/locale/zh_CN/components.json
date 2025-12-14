@@ -49,5 +49,8 @@
     "HOURS": "小时",
     "DAYS": "天",
     "PLACEHOLDER": "输入耗时"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "即将到来！"
   }
 }

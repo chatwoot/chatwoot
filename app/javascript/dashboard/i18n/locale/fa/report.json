@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "در ۷ روز گذشته",
+      "LAST_14_DAYS": "Last 14 days",
       "LAST_30_DAYS": "در ۳۰ روز گذشته",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "۳ ماه گذشته",
       "LAST_6_MONTHS": "۶ ماه گذشته",
       "LAST_YEAR": "پارسال",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_INBOX_REPORTS": "دانلود گزارش های صندوق ورودی",
     "FILTER_DROPDOWN_LABEL": "انتخاب صندوق ورودی",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "ترافیک گفتگو",
+      "NO_CONVERSATIONS": "بدون هیچ گفتگویی",
+      "CONVERSATION": "{count} گفتگو",
+      "CONVERSATIONS": "{count} گفتگو",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "بدون هیچ گفتگویی",
       "CONVERSATION": "{count} گفتگو",
       "CONVERSATIONS": "{count} گفتگو",

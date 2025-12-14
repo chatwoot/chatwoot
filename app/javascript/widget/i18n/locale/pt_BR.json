@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Não foi possível enviar, tente novamente"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Indisponível"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Estamos conectados",
-    "OFFLINE": "Estamos ausentes no momento"
+    "OFFLINE": "Estamos ausentes no momento",
+    "BACK_AS_SOON_AS_POSSIBLE": "Estaremos de volta em breve"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalmente responde em alguns minutos",
     "IN_A_FEW_HOURS": "Normalmente responde em algumas horas",
     "IN_A_DAY": "Normalmente responde em um dia",
-    "BACK_IN": "Estaremos de volta on-line"
+    "BACK_IN_HOURS": "Estaremos de volta em {n} hora | Estaremos de volta em {n} horas",
+    "BACK_IN_MINUTES": "Estaremos de volta em {time} minutos",
+    "BACK_AT_TIME": "Estaremos de volta em {time}",
+    "BACK_ON_DAY": "Estaremos de volta em {day}",
+    "BACK_TOMORROW": "Estaremos de volta amanhã",
+    "BACK_IN_SOME_TIME": "Estaremos disponíveis novamente em breve"
   },
   "DAY_NAMES": {
     "SUNDAY": "Domingo",

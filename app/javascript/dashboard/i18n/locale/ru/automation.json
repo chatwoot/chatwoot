@@ -130,40 +130,55 @@
     "EVENTS": {
       "CONVERSATION_CREATED": "Диалог создан",
       "CONVERSATION_UPDATED": "Диалог обновлён",
-      "MESSAGE_CREATED": "Message Created",
-      "CONVERSATION_OPENED": "Conversation Opened"
+      "MESSAGE_CREATED": "Сообщение создано",
+      "CONVERSATION_RESOLVED": "Диалог решён",
+      "CONVERSATION_OPENED": "Диалог открыт"
     },
     "ACTIONS": {
-      "ASSIGN_AGENT": "Assign to Agent",
-      "ASSIGN_TEAM": "Assign a Team",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "ASSIGN_AGENT": "Назначить агента",
+      "ASSIGN_TEAM": "Назначить команду",
+      "ADD_LABEL": "Добавить метку",
+      "REMOVE_LABEL": "Удалить метку",
+      "SEND_EMAIL_TO_TEAM": "Отправить Email команде",
+      "SEND_EMAIL_TRANSCRIPT": "Отправить историю переписки на email",
       "MUTE_CONVERSATION": "Заглушить диалог",
       "SNOOZE_CONVERSATION": "Включить звук диалога",
       "RESOLVE_CONVERSATION": "Решить диалог",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
+      "SEND_WEBHOOK_EVENT": "Отправить событие Webhook",
+      "SEND_ATTACHMENT": "Отправить вложение",
+      "SEND_MESSAGE": "Отправить сообщение",
+      "ADD_PRIVATE_NOTE": "Добавить личную заметку",
       "CHANGE_PRIORITY": "Изменить приоритет",
-      "ADD_SLA": "Добавить SLA"
+      "ADD_SLA": "Добавить SLA",
+      "OPEN_CONVERSATION": "Открыть беседу"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Входящее сообщение",
+      "OUTGOING": "Исходящее сообщение"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ничего",
+      "LOW": "Низкая",
+      "MEDIUM": "Средняя",
+      "HIGH": "Высокая",
+      "URGENT": "Срочность"
     },
     "ATTRIBUTES": {
-      "MESSAGE_TYPE": "Message Type",
-      "MESSAGE_CONTAINS": "Message Contains",
+      "MESSAGE_TYPE": "Тип сообщения",
+      "MESSAGE_CONTAINS": "Сообщение содержит",
       "EMAIL": "Email",
       "INBOX": "Электронная почта",
-      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "CONVERSATION_LANGUAGE": "Язык сообщения",
       "PHONE_NUMBER": "Номер телефона",
       "STATUS": "Статус",
       "BROWSER_LANGUAGE": "Язык браузера",
-      "MAIL_SUBJECT": "Email Subject",
+      "MAIL_SUBJECT": "Тема письма",
       "COUNTRY_NAME": "Страна",
-      "REFERER_LINK": "Referrer Link",
+      "REFERER_LINK": "Реферальная ссылка",
       "ASSIGNEE_NAME": "Назначено",
       "TEAM_NAME": "Команда",
-      "PRIORITY": "Приоритет"
+      "PRIORITY": "Приоритет",
+      "LABELS": "Категории"
     }
   }
 }

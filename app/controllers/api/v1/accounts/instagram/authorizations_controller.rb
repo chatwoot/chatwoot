@@ -1,7 +1,6 @@
-class Api::V1::Accounts::Instagram::AuthorizationsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Instagram::AuthorizationsController < Api::V1::Accounts::OauthAuthorizationController
   include InstagramConcern
   include Instagram::IntegrationHelper
-  before_action :check_authorization
 
   def create
     # https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#step-1--get-authorization
@@ -20,11 +19,5 @@ class Api::V1::Accounts::Instagram::AuthorizationsController < Api::V1::Accounts
     else
       render json: { success: false }, status: :unprocessable_entity
     end
-  end
-
-  private
-
-  def check_authorization
-    raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
   end
 end

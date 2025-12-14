@@ -10,6 +10,9 @@
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
 - **Run Project**: `overmind start -f Procfile.dev`
+- **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version` (e.g., `rbenv install $(cat .ruby-version)`)
+- **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
+- Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
 
 ## Code Style
 
@@ -37,6 +40,8 @@
 
 - MVP focus: Least code change, happy-path only
 - No unnecessary defensive programming
+- Ship the happy path first: limit guards/fallbacks to what production has proven necessary, then iterate
+- Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
 - Break down complex tasks into small, testable units
 - Iterate after confirmation
 - Avoid writing specs unless explicitly asked
@@ -56,3 +61,20 @@
 ## Ruby Best Practices
 
 - Use compact `module/class` definitions; avoid nested styles
+
+## Enterprise Edition Notes
+
+- Chatwoot has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
+- When you add or modify core functionality, always check for corresponding files in `enterprise/` and keep behavior compatible.
+- Follow the Enterprise development practices documented here:
+  - https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
+
+Practical checklist for any change impacting core logic or public APIs
+- Search for related files in both trees before editing (e.g., `rg -n "FooService|ControllerName|ModelName" app enterprise`).
+- If adding new endpoints, services, or models, consider whether Enterprise needs:
+  - An override (e.g., `enterprise/app/...`), or
+  - An extension point (e.g., `prepend_mod_with`, hooks, configuration) to avoid hard forks.
+- Avoid hardcoding instance- or plan-specific behavior in OSS; prefer configuration, feature flags, or extension points consumed by Enterprise.
+- Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
+- When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
+- Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.

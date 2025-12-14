@@ -20,10 +20,11 @@
 #  conversation_id           :integer          not null
 #  inbox_id                  :integer          not null
 #  sender_id                 :bigint
-#  source_id                 :string
+#  source_id                 :text
 #
 # Indexes
 #
+#  idx_messages_account_content_created                 (account_id,content_type,created_at)
 #  index_messages_on_account_created_type               (account_id,created_at,message_type)
 #  index_messages_on_account_id                         (account_id)
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
@@ -38,6 +39,8 @@
 #
 
 class Message < ApplicationRecord
+  searchkick callbacks: false if ChatwootApp.advanced_search_allowed?
+
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
@@ -92,7 +95,8 @@ class Message < ApplicationRecord
     incoming_email: 8,
     input_csat: 9,
     integrations: 10,
-    sticker: 11
+    sticker: 11,
+    voice_call: 12
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -101,9 +105,10 @@ class Message < ApplicationRecord
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
+  # [:data] : Used for structured content types such as voice_call
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -111,6 +116,7 @@ class Message < ApplicationRecord
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
+  scope :voice_calls, -> { where(content_type: :voice_call) }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -129,6 +135,7 @@ class Message < ApplicationRecord
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
+  after_commit :reindex_for_search, if: :should_index?, on: [:create, :update]
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -138,8 +145,8 @@ class Message < ApplicationRecord
     data = attributes.symbolize_keys.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
-      conversation_id: conversation.display_id,
-      conversation: conversation_push_event_data
+      conversation_id: conversation&.display_id,
+      conversation: conversation.present? ? conversation_push_event_data : nil
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
@@ -167,7 +174,7 @@ class Message < ApplicationRecord
       additional_attributes: additional_attributes,
       content_attributes: content_attributes,
       content_type: content_type,
-      content: content,
+      content: outgoing_content,
       conversation: conversation.webhook_data,
       created_at: created_at,
       id: id,
@@ -192,6 +199,12 @@ class Message < ApplicationRecord
     return false if template? && %w[input_csat text].exclude?(content_type)
 
     true
+  end
+
+  def auto_reply_email?
+    return false unless incoming_email? || inbox.email?
+
+    content_attributes.dig(:email, :auto_reply) == true
   end
 
   def valid_first_reply?
@@ -219,6 +232,41 @@ class Message < ApplicationRecord
   def send_update_event
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
                                                                             previous_changes: previous_changes)
+  end
+
+  def should_index?
+    return false unless ChatwootApp.advanced_search_allowed?
+    return false unless incoming? || outgoing?
+    # For Chatwoot Cloud:
+    #   - Enable indexing only if the account is paid.
+    #   - The `advanced_search_indexing` feature flag is used only in the cloud.
+    #
+    # For Self-hosted:
+    #   - Adding an extra feature flag here would cause confusion.
+    #   - If the user has configured Elasticsearch, enabling `advanced_search`
+    #     should automatically work without any additional flags.
+    return false if ChatwootApp.chatwoot_cloud? && !account.feature_enabled?('advanced_search_indexing')
+
+    true
+  end
+
+  def search_data
+    Messages::SearchDataPresenter.new(self).search_data
+  end
+
+  # Returns message content suitable for LLM consumption
+  # Falls back to audio transcription or attachment placeholder when content is nil
+  def content_for_llm
+    return content if content.present?
+
+    audio_transcription = attachments
+                          .where(file_type: :audio)
+                          .filter_map { |att| att.meta&.dig('transcribed_text') }
+                          .join(' ')
+                          .presence
+    return "[Voice Message] #{audio_transcription}" if audio_transcription.present?
+
+    '[Attachment]' if attachments.any?
   end
 
   private
@@ -262,7 +310,6 @@ class Message < ApplicationRecord
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     reopen_conversation
-    notify_via_mail
     set_conversation_activity
     dispatch_create_events
     send_reply
@@ -348,48 +395,6 @@ class Message < ApplicationRecord
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
-  def email_notifiable_webwidget?
-    inbox.web_widget? && inbox.channel.continuity_via_email
-  end
-
-  def email_notifiable_api_channel?
-    inbox.api? && inbox.account.feature_enabled?('email_continuity_on_api_channel')
-  end
-
-  def email_notifiable_channel?
-    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type) || email_notifiable_api_channel?
-  end
-
-  def can_notify_via_mail?
-    return unless email_notifiable_message?
-    return unless email_notifiable_channel?
-    return if conversation.contact.email.blank?
-
-    true
-  end
-
-  def notify_via_mail
-    return unless can_notify_via_mail?
-
-    trigger_notify_via_mail
-  end
-
-  def trigger_notify_via_mail
-    return EmailReplyWorker.perform_in(1.second, id) if inbox.inbox_type == 'Email'
-
-    # will set a redis key for the conversation so that we don't need to send email for every new message
-    # last few messages coupled together is sent every 2 minutes rather than one email for each message
-    # if redis key exists there is an unprocessed job that will take care of delivering the email
-    return if Redis::Alfred.get(conversation_mail_key).present?
-
-    Redis::Alfred.setex(conversation_mail_key, id)
-    ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, id)
-  end
-
-  def conversation_mail_key
-    format(::Redis::Alfred::CONVERSATION_MAILER_KEY, conversation_id: conversation.id)
-  end
-
   def validate_attachments_limit(_attachment)
     errors.add(:attachments, message: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
   end
@@ -398,6 +403,10 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def reindex_for_search
+    reindex(mode: :async)
   end
 end
 
