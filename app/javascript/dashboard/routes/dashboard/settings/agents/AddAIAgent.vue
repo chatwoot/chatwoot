@@ -126,7 +126,7 @@ const addBleepAgent = async () => {
     const regionId = selectedAIAgent.value.region_id;
     const emailParts = ['ai-agent', agentId];
     if (regionId && regionId !== agentId) {
-      emailParts.push(regionId);
+      emailParts.push(regionId.substring(0, 5));
     }
     const uniqueEmail = emailParts.join('-') + '@mg.aloochat.ai';
 
