@@ -166,13 +166,19 @@ class Api::V1::Ai::WhatsappTemplateController < ApplicationController
       'language' => params[:template_language] || 'en'
     }
 
-    # Add namespace if provided, otherwise try to infer from channel templates
+    # Find the template to get namespace and category
+    channel = @conversation.inbox.channel
+    template = find_template_in_channel(channel, template_params['name'], template_params['language'])
+
+    # Add namespace if provided, otherwise infer from template
     if params[:template_namespace].present?
       template_params['namespace'] = params[:template_namespace]
-    else
-      inferred_namespace = infer_template_namespace(template_params['name'], template_params['language'])
-      template_params['namespace'] = inferred_namespace if inferred_namespace.present?
+    elsif template&.dig('namespace').present?
+      template_params['namespace'] = template['namespace']
     end
+
+    # Add category from template (required for proper template sending)
+    template_params['category'] = template['category'] if template&.dig('category').present?
 
     # Add processed_params if provided (enhanced format)
     template_params['processed_params'] = normalize_template_params(params[:template_params]) if params[:template_params].present?
@@ -194,27 +200,6 @@ class Api::V1::Ai::WhatsappTemplateController < ApplicationController
       status_match = t['status']&.downcase == 'approved'
 
       name_match && lang_match && status_match
-    end
-  end
-
-  def infer_template_namespace(template_name, template_language)
-    # Try to find the template in the channel's message templates to infer namespace
-    channel = @conversation.inbox.channel
-    return nil unless channel.respond_to?(:message_templates)
-
-    Rails.logger.info "[AI_WHATSAPP_TEMPLATE] 🔍 Looking for template: name=#{template_name}, language=#{template_language}"
-
-    available_templates = channel.message_templates.map { |t| "#{t['name']} (#{t['language']}, #{t['status']})" }
-    Rails.logger.info "[AI_WHATSAPP_TEMPLATE] 📋 Available templates (#{available_templates.length}): #{available_templates.join(', ')}"
-
-    template = find_template_in_channel(channel, template_name, template_language)
-
-    if template
-      Rails.logger.info "[AI_WHATSAPP_TEMPLATE] ✅ Found template: #{template['name']} with namespace: #{template['namespace']}"
-      template&.dig('namespace')
-    else
-      Rails.logger.warn "[AI_WHATSAPP_TEMPLATE] ⚠️ Template not found: name=#{template_name}, language=#{template_language}"
-      nil
     end
   end
 
