@@ -32,7 +32,7 @@ jobs:
       #     context: .
       #     file: ./docker/Dockerfile
       #     push: true
-      #     tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base-staging:v1.0.66
+      #     tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base-staging:v1.0.67
 
       - name: Build and push Rails image (staging)
         uses: docker/build-push-action@v4
@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/rails.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-staging:v1.0.66
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-staging:v1.0.67
 
       - name: Build and push Vite image (staging)
         uses: docker/build-push-action@v4
@@ -48,7 +48,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/vite.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-staging:v1.0.66
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-staging:v1.0.67
 
   deploy:
     needs: build-and-push
