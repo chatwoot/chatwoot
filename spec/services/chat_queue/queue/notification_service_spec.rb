@@ -6,6 +6,9 @@ RSpec.describe ChatQueue::Queue::NotificationService do
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:service) { described_class.new(conversation: conversation) }
 
+  let(:queue_text) { I18n.t('queue.notifications.queue_message') }
+  let(:assigned_text) { I18n.t('queue.notifications.assigned_message') }
+
   describe '#send_queue_notification' do
     it 'creates a queue template message with correct attributes' do
       expect do
@@ -14,9 +17,7 @@ RSpec.describe ChatQueue::Queue::NotificationService do
 
       message = conversation.messages.last
       expect(message.message_type).to eq('template')
-      expect(message.content).to eq(
-        'Все операторы сейчас заняты. Мы подключим вас к свободному оператору, как только он освободится.'
-      )
+      expect(message.content).to eq(queue_text)
       expect(message.account_id).to eq(account.id)
       expect(message.inbox_id).to eq(inbox.id)
     end
@@ -39,7 +40,7 @@ RSpec.describe ChatQueue::Queue::NotificationService do
 
       message = conversation.messages.last
       expect(message.message_type).to eq('template')
-      expect(message.content).to eq('Оператор подключился к диалогу.')
+      expect(message.content).to eq(assigned_text)
       expect(message.account_id).to eq(account.id)
       expect(message.inbox_id).to eq(inbox.id)
     end
@@ -50,7 +51,7 @@ RSpec.describe ChatQueue::Queue::NotificationService do
       end.to change { conversation.messages.count }.by(2)
 
       messages = conversation.messages.template.last(2)
-      expect(messages.map(&:content)).to all(eq('Оператор подключился к диалогу.'))
+      expect(messages.map(&:content)).to all(eq(assigned_text))
     end
   end
 
@@ -109,8 +110,8 @@ RSpec.describe ChatQueue::Queue::NotificationService do
       expect(conversation.messages.template.count).to eq(1)
       expect(conversation2.messages.template.count).to eq(1)
 
-      expect(conversation.messages.last.content).to include('заняты')
-      expect(conversation2.messages.last.content).to include('подключился')
+      expect(conversation.messages.last.content).to eq(queue_text)
+      expect(conversation2.messages.last.content).to eq(assigned_text)
     end
   end
 end
