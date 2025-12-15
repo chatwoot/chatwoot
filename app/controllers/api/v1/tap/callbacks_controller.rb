@@ -4,7 +4,7 @@ class Api::V1::Tap::CallbacksController < ActionController::API
     payment_link = find_payment_link
 
     if payment_link
-      process_callback(payment_link)
+      process_callback_with_fetch(payment_link)
       redirect_to success_or_failure_url(payment_link), allow_other_host: true
     else
       redirect_to payment_failure_url(error: 'Payment link not found'), allow_other_host: true
@@ -16,7 +16,7 @@ class Api::V1::Tap::CallbacksController < ActionController::API
     payment_link = find_payment_link
 
     if payment_link
-      process_callback(payment_link)
+      process_webhook(payment_link)
       head :ok
     else
       Rails.logger.warn "Tap webhook received for unknown payment link: #{reference_id}"
@@ -31,15 +31,40 @@ class Api::V1::Tap::CallbacksController < ActionController::API
   end
 
   def reference_id
-    params.dig(:reference, :invoice) || params[:reference_invoice] || params[:id]
+    params[:id] || params[:tap_id]
   end
 
-  def invoice_status
-    params[:status]&.upcase
+  def process_callback_with_fetch(payment_link)
+    invoice = fetch_invoice(payment_link)
+    return unless invoice
+
+    status = invoice['status']&.upcase
+    process_status(payment_link, status, invoice)
   end
 
-  def process_callback(payment_link)
-    case invoice_status
+  def process_webhook(payment_link)
+    status = params[:status]&.upcase
+    process_status(payment_link, status, params.as_json)
+  end
+
+  def fetch_invoice(payment_link)
+    tap_invoice_id = payment_link.payload&.dig('tap_invoice_id')
+    return nil unless tap_invoice_id
+
+    secret_key = payment_link.account.tap_settings&.secret_key
+    return nil unless secret_key
+
+    client = Tap::ApiClient.new(secret_key: secret_key)
+    client.get_invoice(tap_invoice_id)
+  rescue Tap::ApiClient::ApiError => e
+    Rails.logger.error "Failed to fetch Tap invoice: #{e.message}"
+    nil
+  end
+
+  def process_status(payment_link, status, data)
+    callback_data = data.is_a?(Hash) ? data.merge(processed_at: Time.current.iso8601) : { processed_at: Time.current.iso8601 }
+
+    case status
     when 'PAID', 'PAYMENT_CAPTURED', 'PAYMENT_SETTLED'
       payment_link.mark_as_paid!(callback_data)
     when 'CANCELLED'
@@ -49,12 +74,8 @@ class Api::V1::Tap::CallbacksController < ActionController::API
     when 'PAYMENT_FAILED'
       payment_link.mark_as_failed!(callback_data)
     else
-      Rails.logger.info "Tap callback received with status: #{invoice_status} for payment link: #{payment_link.id}"
+      Rails.logger.info "Tap callback received with status: #{status} for payment link: #{payment_link.id}"
     end
-  end
-
-  def callback_data
-    params.as_json.merge(processed_at: Time.current.iso8601)
   end
 
   def success_or_failure_url(payment_link)

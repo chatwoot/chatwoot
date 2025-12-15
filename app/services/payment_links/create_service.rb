@@ -138,6 +138,7 @@ class PaymentLinks::CreateService
   def update_with_tap_data(payment_link, tap_response)
     payment_link.update!(
       payment_url: tap_response['url'],
+      external_payment_id: tap_response['id'],
       status: :pending,
       payload: payment_link.payload.merge(
         tap_invoice_id: tap_response['id'],

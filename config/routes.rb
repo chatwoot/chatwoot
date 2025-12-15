@@ -358,7 +358,7 @@ Rails.application.routes.draw do
 
       # Tap payment gateway callbacks
       namespace :tap do
-        post 'callback', to: 'callbacks#callback'
+        get 'callback', to: 'callbacks#callback'
         post 'webhook', to: 'callbacks#webhook'
       end
 
