@@ -10,7 +10,7 @@ import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 
 import Icon from 'next/icon/Icon.vue';
 
-const props = defineProps({
+defineProps({
   hasSelection: {
     type: Boolean,
     default: false,
@@ -28,24 +28,24 @@ const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
 // Selection-based menu items (when text is selected)
 const menuItems = computed(() => {
   const items = [];
-  if (props.hasSelection) {
-    items.push({
-      label: t(
-        'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY_SELECTION'
-      ),
-      key: 'rephrase_selection',
-      icon: 'i-fluent-pen-sparkle-24-regular',
-    });
-  } else if (
-    replyMode.value === REPLY_EDITOR_MODES.REPLY &&
-    draftMessage.value
-  ) {
-    items.push({
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY'),
-      key: 'rephrase',
-      icon: 'i-fluent-pen-sparkle-24-regular',
-    });
-  }
+  // if (props.hasSelection) {
+  //   items.push({
+  //     label: t(
+  //       'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY_SELECTION'
+  //     ),
+  //     key: 'rephrase_selection',
+  //     icon: 'i-fluent-pen-sparkle-24-regular',
+  //   });
+  // } else if (
+  //   replyMode.value === REPLY_EDITOR_MODES.REPLY &&
+  //   draftMessage.value
+  // ) {
+  //   items.push({
+  //     label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY'),
+  //     key: 'rephrase',
+  //     icon: 'i-fluent-pen-sparkle-24-regular',
+  //   });
+  // }
 
   if (draftMessage.value) {
     items.push(
