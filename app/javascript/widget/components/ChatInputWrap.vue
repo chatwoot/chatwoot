@@ -46,8 +46,7 @@ export default {
     }),
     showAttachment() {
       return (
-        this.shouldShowFilePicker &&
-        this.hasAttachmentsEnabled &&
+        (this.shouldShowFilePicker || this.hasAttachmentsEnabled) &&
         this.userInput.length === 0
       );
     },
