@@ -210,7 +210,12 @@ export const MARKDOWN_PATTERNS = [
     type: 'em', // PM: em, eg: *italic* or _italic_
     patterns: [
       { pattern: /(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, replacement: '$1' },
-      { pattern: /(?<!_)_(?!_)(.+?)(?<!_)_(?!_)/g, replacement: '$1' },
+      // Match _text_ only at word boundaries (whitespace/string start/end)
+      // Preserves underscores in URLs (e.g., https://example.com/path_name) and variable names
+      {
+        pattern: /(?<=^|[\s])_([^_\s][^_]*[^_\s]|[^_\s])_(?=$|[\s])/g,
+        replacement: '$1',
+      },
     ],
   },
   {
@@ -225,11 +230,6 @@ export const MARKDOWN_PATTERNS = [
     type: 'link', // PM: link, eg: [text](url)
     patterns: [{ pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }],
   },
-];
-
-export const CHANNEL_WITH_RICH_SIGNATURE = [
-  'Channel::Email',
-  'Channel::WebWidget',
 ];
 
 // Editor image resize options for Message Editor
