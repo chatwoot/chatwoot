@@ -18,6 +18,7 @@
     },
     "BUSIEST_DAY": {
       "TITLE": "Your busiest day was",
+      "MESSAGE": "{count} conversations that day.",
       "COMPARISON": {
         "0_5": "A warm-up lap that barely woke the inbox.",
         "5_10": "Enough action to justify a second cup of coffee.",
@@ -29,7 +30,13 @@
       }
     },
     "PERSONALITY": {
-      "TITLE": "Your support personality is"
+      "TITLE": "Your support personality is",
+      "MESSAGES": {
+        "SWIFT_HELPER": "You replied in {time} on average. Faster than most notifications.",
+        "QUICK_RESPONDER": "You replied in {time} on average. The inbox barely waited.",
+        "STEADY_SUPPORT": "You replied in {time} on average. Calm pace, solid replies.",
+        "THOUGHTFUL_ADVISOR": "You replied in {time} on average. Took the time to get it right."
+      }
     },
     "THANK_YOU": {
       "TITLE": "Congratulations on surviving the inbox of {year}.",
