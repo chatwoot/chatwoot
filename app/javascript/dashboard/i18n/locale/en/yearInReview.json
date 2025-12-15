@@ -41,6 +41,23 @@
     "THANK_YOU": {
       "TITLE": "Congratulations on surviving the inbox of {year}.",
       "MESSAGE": "Thank you for your incredible dedication to supporting customers throughout this year. Your hard work has made a real difference, and we're grateful to have you on this journey. Here's to making {nextYear} even better together!"
+    },
+    "SHARE_MODAL": {
+      "TITLE": "Share Your Year in Review",
+      "PREPARING": "Preparing your image...",
+      "DOWNLOAD": "Download",
+      "SHARE_TITLE": "My {year} Year in Review",
+      "SHARE_TEXT": "Check out my {year} Year in Review with Chatwoot!",
+      "BRANDING": "Made with Chatwoot"
+    },
+    "BANNER": {
+      "TITLE": "Your {year} Year in Review is here",
+      "BUTTON": "See your impact"
+    },
+    "NAVIGATION": {
+      "PREVIOUS": "Previous",
+      "NEXT": "Next",
+      "SHARE": "Share"
     }
   }
 }
