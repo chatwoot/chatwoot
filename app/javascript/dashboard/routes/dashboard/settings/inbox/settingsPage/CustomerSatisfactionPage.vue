@@ -1,8 +1,9 @@
 <script setup>
 import { reactive, onMounted, ref, defineProps, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useAlert, useInbox } from 'dashboard/composables';
+import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useInbox } from 'dashboard/composables/useInbox';
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -27,8 +28,8 @@ const { t } = useI18n();
 const store = useStore();
 const labels = useMapGetter('labels/getLabels');
 
-const { isAWhatsAppChannel: isWhatsAppChannel } = useInbox(
-  computed(() => props.inbox?.id)
+const { isAWhatsAppCloudChannel: isWhatsAppChannel } = useInbox(
+  props.inbox?.id
 );
 
 const isUpdating = ref(false);
