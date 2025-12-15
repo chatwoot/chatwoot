@@ -56,8 +56,7 @@ class Voice::Provider::Twilio::TokenService
   end
 
   def twiml_url
-    host = ENV.fetch('FRONTEND_URL', '')
     digits = inbox.channel.phone_number.delete_prefix('+')
-    "#{host}/twilio/voice/call/#{digits}"
+    Rails.application.routes.url_helpers.twilio_voice_call_url(phone: digits)
   end
 end

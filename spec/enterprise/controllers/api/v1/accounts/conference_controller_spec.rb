@@ -82,6 +82,19 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(conference_service).to have_received(:mark_agent_joined)
       end
 
+      it 'does not allow accessing conversations from inboxes without access' do
+        other_inbox = create(:inbox, account: account)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox, identifier: nil)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+             headers: agent.create_new_auth_token,
+             params: { conversation_id: other_conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:not_found)
+        other_conversation.reload
+        expect(other_conversation.identifier).to be_nil
+      end
+
       it 'returns conflict when call_sid missing' do
         post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
@@ -112,6 +125,17 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
         expect(conference_service).to have_received(:end_conference)
+      end
+
+      it 'does not allow ending conferences for conversations from inboxes without access' do
+        other_inbox = create(:inbox, account: account)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox, identifier: nil)
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: other_conversation.display_id }
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

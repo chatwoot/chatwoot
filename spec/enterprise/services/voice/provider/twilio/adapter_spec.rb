@@ -16,27 +16,28 @@ describe Voice::Provider::Twilio::Adapter do
   end
 
   it 'initiates an outbound call with expected params' do
-    with_modified_env FRONTEND_URL: 'https://app.test' do
-      allow(calls_double).to receive(:create).and_return(call_instance)
+    allow(calls_double).to receive(:create).and_return(call_instance)
 
-      allow(Twilio::REST::Client).to receive(:new)
-        .with(channel.provider_config_hash['account_sid'], channel.provider_config_hash['auth_token'])
-        .and_return(client_double)
+    allow(Twilio::REST::Client).to receive(:new)
+      .with(channel.provider_config_hash['account_sid'], channel.provider_config_hash['auth_token'])
+      .and_return(client_double)
 
-      result = adapter.initiate_call(to: '+15550001111', conference_sid: 'CF999', agent_id: 42)
+    result = adapter.initiate_call(to: '+15550001111', conference_sid: 'CF999', agent_id: 42)
+    phone_digits = channel.phone_number.delete_prefix('+')
+    expected_url = Rails.application.routes.url_helpers.twilio_voice_call_url(phone: phone_digits)
+    expected_status_callback = Rails.application.routes.url_helpers.twilio_voice_status_url(phone: phone_digits)
 
-      expect(calls_double).to have_received(:create).with(hash_including(
-                                                            from: channel.phone_number,
-                                                            to: '+15550001111',
-                                                            url: "https://app.test/twilio/voice/call/#{channel.phone_number.delete_prefix('+')}",
-                                                            status_callback: "https://app.test/twilio/voice/status/#{channel.phone_number.delete_prefix('+')}",
-                                                            status_callback_event: array_including('completed', 'failed', 'busy', 'no-answer',
-                                                                                                   'canceled')
-                                                          ))
-      expect(result[:call_sid]).to eq('CA123')
-      expect(result[:conference_sid]).to eq('CF999')
-      expect(result[:agent_id]).to eq(42)
-      expect(result[:call_direction]).to eq('outbound')
-    end
+    expect(calls_double).to have_received(:create).with(hash_including(
+                                                          from: channel.phone_number,
+                                                          to: '+15550001111',
+                                                          url: expected_url,
+                                                          status_callback: expected_status_callback,
+                                                          status_callback_event: array_including('completed', 'failed', 'busy', 'no-answer',
+                                                                                                 'canceled')
+                                                        ))
+    expect(result[:call_sid]).to eq('CA123')
+    expect(result[:conference_sid]).to eq('CF999')
+    expect(result[:agent_id]).to eq(42)
+    expect(result[:call_direction]).to eq('outbound')
   end
 end

@@ -87,8 +87,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       I18n.with_locale(@assistant.account.locale) do
         create_handoff_message
         @conversation.bot_handoff!
+        send_out_of_office_message_if_applicable
       end
     end
+  end
+
+  def send_out_of_office_message_if_applicable
+    ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(@conversation)
   end
 
   def create_handoff_message

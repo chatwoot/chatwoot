@@ -20,14 +20,13 @@ class Voice::Provider::Twilio::Adapter
   private
 
   def call_params(to)
-    host = callback_host
     phone_digits = @channel.phone_number.delete_prefix('+')
 
     {
       from: @channel.phone_number,
       to: to,
-      url: "#{host}/twilio/voice/call/#{phone_digits}",
-      status_callback: "#{host}/twilio/voice/status/#{phone_digits}",
+      url: twilio_call_twiml_url(phone_digits),
+      status_callback: twilio_call_status_url(phone_digits),
       status_callback_event: %w[
         initiated ringing answered completed failed busy no-answer canceled
       ],
@@ -35,8 +34,12 @@ class Voice::Provider::Twilio::Adapter
     }
   end
 
-  def callback_host
-    ENV.fetch('FRONTEND_URL')
+  def twilio_call_twiml_url(phone_digits)
+    Rails.application.routes.url_helpers.twilio_voice_call_url(phone: phone_digits)
+  end
+
+  def twilio_call_status_url(phone_digits)
+    Rails.application.routes.url_helpers.twilio_voice_status_url(phone: phone_digits)
   end
 
   def twilio_client
