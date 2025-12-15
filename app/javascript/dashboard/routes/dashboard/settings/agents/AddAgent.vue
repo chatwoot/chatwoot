@@ -66,49 +66,6 @@ const setPhoneCode = code => {
   }
 };
 
-const parsedPhoneNumber = computed(() => {
-  return parsePhoneNumber(agentPhoneNumber.value || '');
-});
-
-const isPhoneNumberNotValid = computed(() => {
-  if (agentPhoneNumber.value !== '') {
-    return (
-      !isPhoneNumberValid(agentPhoneNumber.value, activeDialCode.value) ||
-      (agentPhoneNumber.value !== '' ? activeDialCode.value === '' : false)
-    );
-  }
-  return false;
-});
-
-const setPhoneNumber = computed(() => {
-  if (parsedPhoneNumber.value && parsedPhoneNumber.value.countryCallingCode) {
-    return agentPhoneNumber.value;
-  }
-  if (agentPhoneNumber.value === '' && activeDialCode.value !== '') {
-    return '';
-  }
-  return activeDialCode.value
-    ? `${activeDialCode.value}${agentPhoneNumber.value}`
-    : '';
-});
-
-const setPhoneCode = code => {
-  if (agentPhoneNumber.value !== '' && parsedPhoneNumber.value) {
-    const dialCode = parsedPhoneNumber.value.countryCallingCode;
-    if (dialCode === code) {
-      return;
-    }
-    activeDialCode.value = `+${dialCode}`;
-    const newPhoneNumber = agentPhoneNumber.value.replace(
-      `+${dialCode}`,
-      `${code}`
-    );
-    agentPhoneNumber.value = newPhoneNumber;
-  } else {
-    activeDialCode.value = code;
-  }
-};
-
 const rules = {
   agentName: { required },
   agentEmail: { required, email },
