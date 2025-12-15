@@ -13,6 +13,11 @@ const filteredAgents = computed(() => agentList.value.filter(a => a.id !== curre
 const userACL = computed(() => store.getters['acl/getUserACL'])
 
 const editingACL = ref({})
+const aclLabels = {
+    'time_privado': 'time privado',
+    'side_panel': 'painel lateral',
+    'direcionar_conversa': 'direcionar conversa'
+}
 const aclDescriptions = {
     'time_privado': 'Habilita a visualização de todas as opções de filtros disponíveis para equipes quando ativado.',
     'side_panel': 'Habilita a visualização completa das opções no menu lateral esquerdo quando ativado.',
@@ -141,7 +146,7 @@ onMounted(() => {
                         v-model="editingACL[key]"
                         class="rounded text-indigo-600 focus:ring-indigo-500"
                         />
-                        <label :for="key" v-if="key !== 'exibir_acl'">{{ key.replace('_', ' ') }}</label>
+                        <label :for="key" v-if="key !== 'exibir_acl'">{{ aclLabels[key] || key.replace('_', ' ')}}</label>
                         <span
                             v-if="key !== 'exibir_acl'"
                             v-tooltip="aclDescriptions[key] || 'Sem descrição'"
