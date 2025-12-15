@@ -5,18 +5,14 @@ class ChatQueue::Queue::NotificationService
     cid = conversation.id
     Rails.logger.info("[QUEUE][notify_queue][conv=#{cid}] Sending queue template")
 
-    create_message!(
-      'Все операторы сейчас заняты. Мы подключим вас к свободному оператору, как только он освободится.'
-    )
+    create_message!(I18n.t('queue.notifications.queue_message'))
   end
 
   def send_assigned_notification
     cid = conversation.id
     Rails.logger.info("[QUEUE][notify_assigned][conv=#{cid}] Sending assigned template")
 
-    create_message!(
-      'Оператор подключился к диалогу.'
-    )
+    create_message!(I18n.t('queue.notifications.assigned_message'))
   end
 
   private

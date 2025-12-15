@@ -34,11 +34,7 @@ class AccountDashboard < Administrate::BaseDashboard
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
     status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
     account_users: Field::HasMany,
-    custom_attributes: Field::String,
-
-    active_chat_limit_enabled: Field::Boolean,
-    active_chat_limit_value: Field::Number,
-    queue_enabled: Field::Boolean
+    custom_attributes: Field::String
   }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES
@@ -74,9 +70,6 @@ class AccountDashboard < Administrate::BaseDashboard
     status
     conversations
     account_users
-    active_chat_limit_enabled
-    active_chat_limit_value
-    queue_enabled
   ] + enterprise_show_page_attributes).freeze
 
   # FORM_ATTRIBUTES
@@ -94,9 +87,6 @@ class AccountDashboard < Administrate::BaseDashboard
     name
     locale
     status
-    active_chat_limit_enabled
-    active_chat_limit_value
-    queue_enabled
   ] + enterprise_form_attributes).freeze
 
   # COLLECTION_FILTERS
