@@ -96,10 +96,10 @@ class Messages::MarkdownRendererService
     restore_multiple_newlines(result)
   end
 
-  # Preserve multiple consecutive newlines (3+) by replacing them with placeholders
-  # Standard markdown treats 2 newlines as paragraph break, we preserve 3+
+  # Preserve multiple consecutive newlines (2+) by replacing them with placeholders
+  # Standard markdown treats 2 newlines as paragraph break which collapses to 1 newline, we preserve 2+
   def preserve_multiple_newlines(content)
-    content.gsub(/\n{3,}/) do |match|
+    content.gsub(/\n{2,}/) do |match|
       "{{PRESERVE_#{match.length}_NEWLINES}}"
     end
   end
