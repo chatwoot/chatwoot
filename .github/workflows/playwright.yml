@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_COMPOSE_FILE: Playwright/.github/playwright-docker-compose.yaml
+  DOCKER_COMPOSE_FILE: Playwright/playwright-docker-compose.yaml
 
 jobs:
   deploy-and-test:
@@ -24,7 +24,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Create .env file from template
-        working-directory: ./Playwright/.github
+        working-directory: ./Playwright
         run: |
           cat > .env << 'EOF'
           SECRET_KEY_BASE=986a154f0e131d12edf74a356fad79781a849a4c78dd2080c3dedc534c2695f3ca1fcb8229c4c71f775b65d30b70fcaafb7e58164a15bf856ca83da368de41f3
