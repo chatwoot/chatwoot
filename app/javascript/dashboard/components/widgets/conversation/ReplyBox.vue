@@ -7,7 +7,9 @@ import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
+import CannedResponse from './CannedResponse.vue';
 import ReplyToMessage from './ReplyToMessage.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
@@ -45,6 +47,8 @@ import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
   removeSignature,
+  getEffectiveChannelType,
+  extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 
@@ -73,6 +77,8 @@ export default {
     QuotedEmailPreview,
     CopilotEditorSection,
     CopilotReplyBottomPanel,
+    ResizableTextArea,
+    CannedResponse,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
@@ -115,6 +121,8 @@ export default {
       recordingAudioState: '',
       recordingAudioDurationText: '',
       replyType: REPLY_EDITOR_MODES.REPLY,
+      mentionSearchKey: '',
+      hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
       toEmails: '',
@@ -143,9 +151,12 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     currentContact() {
-      return this.$store.getters['contacts/getContact'](
-        this.currentChat.meta.sender.id
-      );
+      const senderId = this.currentChat?.meta?.sender?.id;
+      if (!senderId) return {};
+      return this.$store.getters['contacts/getContact'](senderId);
+    },
+    isRichEditorEnabled() {
+      return this.isAWebWidgetInbox || this.isAnEmailChannel || this.isAPIInbox;
     },
     shouldShowReplyToMessage() {
       return (
@@ -405,6 +416,19 @@ export default {
     isDefaultEditorMode() {
       return !this.showAudioRecorderEditor && !this.copilot.isActive.value;
     },
+    showRichContentEditor() {
+      if (this.isOnPrivateNote || this.isRichEditorEnabled) {
+        return true;
+      }
+
+      return false;
+    },
+    // ensure that the signature is plain text depending on `showRichContentEditor`
+    signatureToApply() {
+      return this.showRichContentEditor
+        ? this.messageSignature
+        : extractTextFromMarkdown(this.messageSignature);
+    },
   },
   watch: {
     currentChat(conversation, oldConversation) {
@@ -449,7 +473,25 @@ export default {
         this.resetRecorderAndClearAttachments();
       }
     },
-    message() {
+    message(updatedMessage) {
+      // Check if the message starts with a slash.
+      const bodyWithoutSignature = removeSignature(
+        updatedMessage,
+        this.signatureToApply
+      );
+      const startsWithSlash = bodyWithoutSignature.startsWith('/');
+
+      // Determine if the user is potentially typing a slash command.
+      // This is true if the message starts with a slash and the rich content editor is not active.
+      this.hasSlashCommand = startsWithSlash && !this.showRichContentEditor;
+      this.showMentions = this.hasSlashCommand;
+
+      // If a slash command is active, extract the command text after the slash.
+      // If not, reset the mentionSearchKey.
+      this.mentionSearchKey = this.hasSlashCommand
+        ? bodyWithoutSignature.substring(1)
+        : '';
+
       // Autosave the current message draft.
       this.doAutoSaveDraft();
     },
@@ -499,14 +541,20 @@ export default {
   methods: {
     handleInsert(article) {
       const { url, title } = article;
-      // Removing empty lines from the title
-      const lines = title.split('\n');
-      const nonEmptyLines = lines.filter(line => line.trim() !== '');
-      const filteredMarkdown = nonEmptyLines.join(' ');
-      emitter.emit(
-        BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
-        `[${filteredMarkdown}](${url})`
-      );
+      if (this.isRichEditorEnabled) {
+        // Removing empty lines from the title
+        const lines = title.split('\n');
+        const nonEmptyLines = lines.filter(line => line.trim() !== '');
+        const filteredMarkdown = nonEmptyLines.join(' ');
+        emitter.emit(
+          BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+          `[${filteredMarkdown}](${url})`
+        );
+      } else {
+        this.addIntoEditor(
+          `${this.$t('CONVERSATION.REPLYBOX.INSERT_READ_MORE')} ${url}`
+        );
+      }
 
       useTrack(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
     },
@@ -575,10 +623,26 @@ export default {
       if (this.isPrivate) {
         return message;
       }
-
+      if (this.showRichContentEditor) {
+        const effectiveChannelType = getEffectiveChannelType(
+          this.channelType,
+          this.inbox?.medium || ''
+        );
+        return this.sendWithSignature
+          ? appendSignature(
+              message,
+              this.messageSignature,
+              effectiveChannelType
+            )
+          : removeSignature(
+              message,
+              this.messageSignature,
+              effectiveChannelType
+            );
+      }
       return this.sendWithSignature
-        ? appendSignature(message, this.messageSignature, this.channelType)
-        : removeSignature(message, this.messageSignature);
+        ? appendSignature(message, this.signatureToApply)
+        : removeSignature(message, this.signatureToApply);
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
@@ -594,6 +658,7 @@ export default {
         Escape: {
           action: () => {
             this.hideEmojiPicker();
+            this.hideMentions();
           },
           allowOnFocusedInput: true,
         },
@@ -636,6 +701,9 @@ export default {
     },
     onPaste(e) {
       const data = e.clipboardData.files;
+      if (!this.showRichContentEditor && data.length !== 0) {
+        this.$refs.messageInput?.$el?.blur();
+      }
       if (!data.length || !data[0]) {
         return;
       }
@@ -769,11 +837,19 @@ export default {
         // if signature is enabled, append it to the message
         // appendSignature ensures that the signature is not duplicated
         // so we don't need to check if the signature is already present
-        message = appendSignature(
-          message,
-          this.messageSignature,
-          this.channelType
-        );
+        if (this.showRichContentEditor) {
+          const effectiveChannelType = getEffectiveChannelType(
+            this.channelType,
+            this.inbox?.medium || ''
+          );
+          message = appendSignature(
+            message,
+            this.messageSignature,
+            effectiveChannelType
+          );
+        } else {
+          message = appendSignature(message, this.signatureToApply);
+        }
       }
 
       const updatedMessage = replaceVariablesInMessage({
@@ -797,16 +873,34 @@ export default {
       });
       if (canReply || this.isAWhatsAppChannel || this.isAPIInbox)
         this.replyType = mode;
-      if (this.isRecordingAudio) {
-        this.toggleAudioRecorder();
+      if (this.showRichContentEditor) {
+        if (this.isRecordingAudio) {
+          this.toggleAudioRecorder();
+        }
+        return;
       }
+      this.$nextTick(() => this.$refs.messageInput.focus());
     },
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
     },
+    insertIntoTextEditor(text, selectionStart, selectionEnd) {
+      const { message } = this;
+      const newMessage =
+        message.slice(0, selectionStart) +
+        text +
+        message.slice(selectionEnd, message.length);
+      this.message = newMessage;
+    },
     addIntoEditor(content) {
-      this.updateEditorSelectionWith = content;
-      this.onFocus();
+      if (this.showRichContentEditor) {
+        this.updateEditorSelectionWith = content;
+        this.onFocus();
+      }
+      if (!this.showRichContentEditor) {
+        const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
+        this.insertIntoTextEditor(content, selectionStart, selectionEnd);
+      }
     },
     executeCopilotAction(action, data) {
       this.copilot.execute(action, data);
@@ -815,11 +909,19 @@ export default {
       this.message = '';
       if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
-        this.message = appendSignature(
-          this.message,
-          this.messageSignature,
-          this.channelType
-        );
+        if (this.showRichContentEditor) {
+          const effectiveChannelType = getEffectiveChannelType(
+            this.channelType,
+            this.inbox?.medium || ''
+          );
+          this.message = appendSignature(
+            this.message,
+            this.messageSignature,
+            effectiveChannelType
+          );
+        } else {
+          this.message = appendSignature(this.message, this.signatureToApply);
+        }
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;
@@ -853,6 +955,9 @@ export default {
       if (this.showEmojiPicker) {
         this.toggleEmojiPicker();
       }
+    },
+    hideMentions() {
+      this.showMentions = false;
     },
     onTypingOn() {
       this.toggleTyping('on');
@@ -1307,6 +1412,10 @@ export default {
 
 .reply-box__top {
   @apply relative py-0 px-4 -mt-px;
+
+  textarea {
+    @apply shadow-none outline-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
+  }
 }
 
 .emoji-dialog {
@@ -1325,5 +1434,10 @@ export default {
     transform: rotate(0deg);
     @apply ltr:left-1 rtl:right-1 -bottom-2;
   }
+}
+
+.normal-editor__canned-box {
+  width: calc(100% - 2 * 1rem);
+  left: 1rem;
 }
 </style>

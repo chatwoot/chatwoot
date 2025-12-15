@@ -8,4 +8,8 @@ export const OPEN_AI_OPTIONS = {
   SIMPLIFY: 'simplify',
   REPLY_SUGGESTION: 'reply_suggestion',
   SUMMARIZE: 'summarize',
+  CASUAL: 'casual',
+  PROFESSIONAL: 'professional',
+  STRAIGHTFORWARD: 'straightforward',
+  CONFIDENT: 'confident',
 };
