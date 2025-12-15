@@ -8,6 +8,7 @@ import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
+import NextSwitch from 'next/switch/Switch.vue';
 
 const props = defineProps({
   id: {
@@ -38,6 +39,14 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  activeChatLimitEnabled: {
+    type: Boolean,
+    default: false,
+  },
+  activeChatLimit: {
+    type: Number,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -51,6 +60,8 @@ const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
+const activeChatLimitEnabled = ref(props.activeChatLimitEnabled);
+const activeChatLimit = ref(props.activeChatLimit);
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
@@ -126,6 +137,10 @@ const editAgent = async () => {
       id: props.id,
       name: agentName.value,
       availability: agentAvailability.value,
+      active_chat_limit_enabled: activeChatLimitEnabled.value,
+      active_chat_limit: activeChatLimitEnabled.value
+        ? activeChatLimit.value
+        : null,
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -200,6 +215,28 @@ const resetPassword = async () => {
           </select>
           <span v-if="v$.agentAvailability.$error" class="message">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
+          </span>
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label class="flex items-center justify-between">
+          {{ $t('AGENT_MGMT.EDIT.FORM.ACTIVE_CHAT_LIMIT.ENABLE_LABEL') }}
+          <NextSwitch v-model="activeChatLimitEnabled" />
+        </label>
+      </div>
+
+      <div v-if="activeChatLimitEnabled" class="w-full">
+        <label :class="{ error: v$.activeChatLimit?.$error }">
+          {{ $t('AGENT_MGMT.EDIT.FORM.ACTIVE_CHAT_LIMIT.LABEL') }}
+          <input
+            v-model.number="activeChatLimit"
+            type="number"
+            min="0"
+            @input="v$.activeChatLimit?.$touch"
+          />
+          <span v-if="v$.activeChatLimit?.$error" class="message">
+            {{ $t('AGENT_MGMT.EDIT.FORM.ACTIVE_CHAT_LIMIT.ERROR') }}
           </span>
         </label>
       </div>

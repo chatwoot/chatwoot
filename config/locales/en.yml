@@ -47,7 +47,10 @@ en:
     login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
-
+  queue:
+    notifications:
+      queue_message: "All agents are currently busy. We will connect you to a free agent as soon as one is available."
+      assigned_message: "An agent has joined the conversation."
   errors:
     validations:
       presence: must not be blank

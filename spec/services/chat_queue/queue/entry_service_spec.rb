@@ -96,12 +96,12 @@ RSpec.describe ChatQueue::Queue::EntryService do
         expect(conversation.reload.status).to eq('queued')
       end
 
-      it 'creates queue entry even when conversation already queued' do
-        conversation.update!(status: :queued)
+      it 'does not create a new queue entry when conversation already queued' do
+        service.prepare_for_queue!(conversation)
 
         expect do
           service.prepare_for_queue!(conversation)
-        end.to change(ConversationQueue, :count).by(1)
+        end.not_to change(ConversationQueue, :count)
       end
     end
 
@@ -175,23 +175,43 @@ RSpec.describe ChatQueue::Queue::EntryService do
       end
     end
 
-    context 'when called multiple times for same conversation' do
-      it 'raises validation error on second call due to uniqueness constraint' do
+    context 'when conversation is requeued after leaving the queue' do
+      let!(:queue) do
         service.prepare_for_queue!(conversation)
-
-        expect do
-          service.prepare_for_queue!(conversation)
-        end.to raise_error(ActiveRecord::RecordInvalid, /Conversation has already been taken/)
+        ConversationQueue.find_by!(conversation: conversation)
       end
 
-      it 'creates only one queue entry' do
-        service.prepare_for_queue!(conversation)
+      let!(:original_position) { queue.position }
 
-        expect do
-          service.prepare_for_queue!(conversation)
-        rescue StandardError
-          nil
-        end.not_to change(ConversationQueue, :count)
+      before do
+        queue.update!(status: :left, left_at: Time.current)
+        service.prepare_for_queue!(conversation)
+        queue.reload
+      end
+
+      it 'does not create a new queue entry' do
+        expect(ConversationQueue.where(conversation: conversation).count).to eq(1)
+      end
+
+      it 'sets queue status back to waiting' do
+        expect(queue.status).to eq('waiting')
+      end
+
+      it 'clears left_at and assigned_at timestamps' do
+        expect(queue.left_at).to be_nil
+        expect(queue.assigned_at).to be_nil
+      end
+
+      it 'sets queued_at timestamp' do
+        expect(queue.queued_at).to be_present
+      end
+
+      it 'recalculates queue position' do
+        expect(queue.position).to be >= original_position
+      end
+
+      it 'keeps conversation status as queued' do
+        expect(conversation.reload.status).to eq('queued')
       end
     end
 
