@@ -60,31 +60,31 @@ const menuItems = computed(() => {
             label: t(
               'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.PROFESSIONAL'
             ),
-            key: 'make_professional',
+            key: 'professional',
           },
           {
             label: t(
               'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.CASUAL'
             ),
-            key: 'make_casual',
+            key: 'casual',
           },
           {
             label: t(
               'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.STRAIGHTFORWARD'
             ),
-            key: 'make_straightforward',
+            key: 'straightforward',
           },
           {
             label: t(
               'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.CONFIDENT'
             ),
-            key: 'make_confident',
+            key: 'confident',
           },
           {
             label: t(
               'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.FRIENDLY'
             ),
-            key: 'make_friendly',
+            key: 'friendly',
           },
         ],
       },

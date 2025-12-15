@@ -8,14 +8,14 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
     make_api_call(summarize_body)
   end
 
-  def confident_message
-    tone_instruction = determine_tone_instruction('confident')
-    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
-  end
-
   def fix_spelling_grammar_message
     make_api_call(build_api_call_body('Please fix the spelling and grammar of the following response. ' \
                                       "#{LANGUAGE_INSTRUCTION}"))
+  end
+
+  def confident_message
+    tone_instruction = determine_tone_instruction('confident')
+    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
   def straightforward_message
@@ -28,13 +28,8 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
     make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
-  def make_friendly_message
+  def friendly_message
     tone_instruction = determine_tone_instruction('friendly')
-    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
-  end
-
-  def make_formal_message
-    tone_instruction = determine_tone_instruction('formal')
     make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
   end
 
