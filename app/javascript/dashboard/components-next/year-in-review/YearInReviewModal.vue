@@ -28,6 +28,7 @@ const error = ref(null);
 const slideRefs = ref([]);
 const showShareModal = ref(false);
 const shareModalRef = ref(null);
+const drumrollAudio = ref(null);
 
 const totalSlides = 5;
 
@@ -38,6 +39,24 @@ const slideBackgrounds = [
   'bg-[#f87171]',
   'bg-[#fbbf24]',
 ];
+
+const playDrumroll = () => {
+  try {
+    if (!drumrollAudio.value) {
+      drumrollAudio.value = new Audio('/audio/dashboard/drumroll.mp3');
+      drumrollAudio.value.volume = 0.5;
+    }
+
+    drumrollAudio.value.currentTime = 0;
+    drumrollAudio.value.play().catch(err => {
+      // eslint-disable-next-line no-console
+      console.log('Could not play drumroll:', err);
+    });
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log('Error playing drumroll:', err);
+  }
+};
 
 const fetchYearInReviewData = async () => {
   isLoading.value = true;
@@ -81,6 +100,7 @@ const close = () => {
 const open = () => {
   isOpen.value = true;
   fetchYearInReviewData();
+  playDrumroll();
 };
 
 const currentSlideBackground = computed(

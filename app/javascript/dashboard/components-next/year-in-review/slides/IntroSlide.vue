@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 defineProps({
   year: {
     type: Number,
@@ -12,36 +12,10 @@ const candlesImagePath =
   '/assets/images/dashboard/year-in-review/first-frame-candles.png';
 
 const { t } = useI18n();
-
-const drumrollAudio = ref(null);
-const slideElement = ref(null);
-
-const playDrumroll = () => {
-  try {
-    if (!drumrollAudio.value) {
-      drumrollAudio.value = new Audio('/audio/dashboard/drumroll.mp3');
-      drumrollAudio.value.volume = 0.5;
-    }
-
-    drumrollAudio.value.currentTime = 0;
-    drumrollAudio.value.play().catch(err => {
-      // eslint-disable-next-line no-console
-      console.log('Could not play drumroll:', err);
-    });
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log('Error playing drumroll:', err);
-  }
-};
-
-onMounted(() => {
-  playDrumroll();
-});
 </script>
 
 <template>
   <div
-    ref="slideElement"
     class="absolute inset-0 flex flex-col items-center justify-center text-black px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-cover bg-center min-h-[700px]"
     :style="{
       backgroundImage: `url('/assets/images/dashboard/year-in-review/first-frame-bg.png')`,
