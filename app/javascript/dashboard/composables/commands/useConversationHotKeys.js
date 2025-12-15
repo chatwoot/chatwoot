@@ -102,8 +102,8 @@ const createNonDraftMessageAIAssistActions = (t, replyMode) => {
 const createDraftMessageAIAssistActions = t => {
   return [
     {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPHRASE'),
-      key: 'rephrase',
+      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.CONFIDENT'),
+      key: 'confident',
       icon: ICON_AI_ASSIST,
     },
     {
@@ -112,13 +112,13 @@ const createDraftMessageAIAssistActions = t => {
       icon: ICON_AI_GRAMMAR,
     },
     {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.EXPAND'),
-      key: 'expand',
+      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.PROFESSIONAL'),
+      key: 'professional',
       icon: ICON_AI_EXPAND,
     },
     {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
-      key: 'shorten',
+      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.CASUAL'),
+      key: 'casual',
       icon: ICON_AI_SHORTEN,
     },
     {
@@ -132,8 +132,8 @@ const createDraftMessageAIAssistActions = t => {
       icon: ICON_AI_ASSIST,
     },
     {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SIMPLIFY'),
-      key: 'simplify',
+      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.STRAIGHTFORWARD'),
+      key: 'straightforward',
       icon: ICON_AI_ASSIST,
     },
   ];
