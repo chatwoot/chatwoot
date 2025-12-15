@@ -56,6 +56,7 @@ import {
   getFormattingForEditor,
   getSelectionCoords,
   calculateMenuPosition,
+  stripUnsupportedFormatting,
   getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 import {
@@ -109,7 +110,6 @@ const { t } = useI18n();
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
-const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(props.channelType, props.medium)
