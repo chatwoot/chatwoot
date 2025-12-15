@@ -111,9 +111,14 @@ export default {
     // watcher, this means that if the value is true, the signature
     // is supposed to be added, else we remove it.
     toggleSignatureInEditor(signatureEnabled) {
-      const valueWithSignature = signatureEnabled
+      let valueWithSignature = signatureEnabled
         ? appendSignature(this.modelValue, this.cleanedSignature)
         : removeSignature(this.modelValue, this.cleanedSignature);
+
+      // Clean up whitespace when removing signature from empty body
+      if (!signatureEnabled && !valueWithSignature.trim()) {
+        valueWithSignature = '';
+      }
 
       this.$emit('update:modelValue', valueWithSignature);
       this.$emit('input', valueWithSignature);
