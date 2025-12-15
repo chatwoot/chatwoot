@@ -81,6 +81,11 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
+        "ACTIVE_CHAT_LIMIT": {
+          "ENABLE_LABEL": "The limit of active chats for the operator",
+          "LABEL": "Number of active chats",
+          "ERROR": "Please enter the number of active chats"
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",

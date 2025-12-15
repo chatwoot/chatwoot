@@ -14,9 +14,7 @@ class AccountUserDashboard < Administrate::BaseDashboard
     id: Field::Number,
     role: Field::Select.with_options(collection: AccountUser.roles.keys),
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
-    active_chat_limit_enabled: Field::Boolean,
-    active_chat_limit: Field::Number
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -29,8 +27,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     user
     inviter
     role
-    active_chat_limit
-    active_chat_limit_enabled
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -52,8 +48,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     account
     user
     role
-    active_chat_limit
-    active_chat_limit_enabled
   ].freeze
 
   # COLLECTION_FILTERS
