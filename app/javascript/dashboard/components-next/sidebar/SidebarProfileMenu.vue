@@ -51,15 +51,16 @@ const menuItems = computed(() => {
         window.$chatwoot.toggle();
       },
     },
-    {
-      show: true,
-      showOnCustomBrandedInstance: true,
-      label: t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS'),
-      icon: 'i-lucide-keyboard',
-      click: () => {
-        emit('openKeyShortcutModal');
-      },
-    },
+    // HeyCommerce: comentando keyboard shortcuts
+    // {
+    //   show: true,
+    //   showOnCustomBrandedInstance: true,
+    //   label: t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS'),
+    //   icon: 'i-lucide-keyboard',
+    //   click: () => {
+    //     emit('openKeyShortcutModal');
+    //   },
+    // },
     {
       show: true,
       showOnCustomBrandedInstance: true,

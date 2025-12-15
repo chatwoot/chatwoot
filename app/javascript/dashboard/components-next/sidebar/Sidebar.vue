@@ -336,35 +336,37 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_SLA'),
           to: accountScopedRoute('sla_reports'),
         },
-        {
-          name: 'Reports Bot',
-          label: t('SIDEBAR.REPORTS_BOT'),
-          to: accountScopedRoute('bot_reports'),
-        },
+        // HeyCommerce: comentando Reports Bot
+        // {
+        //   name: 'Reports Bot',
+        //   label: t('SIDEBAR.REPORTS_BOT'),
+        //   to: accountScopedRoute('bot_reports'),
+        // },
       ],
     },
-    {
-      name: 'Campaigns',
-      label: t('SIDEBAR.CAMPAIGNS'),
-      icon: 'i-lucide-megaphone',
-      children: [
-        {
-          name: 'Live chat',
-          label: t('SIDEBAR.LIVE_CHAT'),
-          to: accountScopedRoute('campaigns_livechat_index'),
-        },
-        {
-          name: 'SMS',
-          label: t('SIDEBAR.SMS'),
-          to: accountScopedRoute('campaigns_sms_index'),
-        },
-        {
-          name: 'WhatsApp',
-          label: t('SIDEBAR.WHATSAPP'),
-          to: accountScopedRoute('campaigns_whatsapp_index'),
-        },
-      ],
-    },
+    // HeyCommerce: comentando campaigns
+    // {
+    //   name: 'Campaigns',
+    //   label: t('SIDEBAR.CAMPAIGNS'),
+    //   icon: 'i-lucide-megaphone',
+    //   children: [
+    //     {
+    //       name: 'Live chat',
+    //       label: t('SIDEBAR.LIVE_CHAT'),
+    //       to: accountScopedRoute('campaigns_livechat_index'),
+    //     },
+    //     {
+    //       name: 'SMS',
+    //       label: t('SIDEBAR.SMS'),
+    //       to: accountScopedRoute('campaigns_sms_index'),
+    //     },
+    //     {
+    //       name: 'WhatsApp',
+    //       label: t('SIDEBAR.WHATSAPP'),
+    //       to: accountScopedRoute('campaigns_whatsapp_index'),
+    //     },
+    //   ],
+    // },
     ...(isUserSuperAdmin.value
       ? [
           {

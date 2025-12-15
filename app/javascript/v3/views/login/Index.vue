@@ -261,7 +261,8 @@ export default {
       <div v-if="!email">
         <div class="flex flex-col">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
-          <div v-if="showSamlLogin" class="mt-4 text-center">
+          <!-- HeyCommerce: comentando SSO/SAML login -->
+          <!-- <div v-if="showSamlLogin" class="mt-4 text-center">
             <router-link
               to="/app/login/sso"
               class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
@@ -274,9 +275,9 @@ export default {
                 {{ $t('LOGIN.SAML.LABEL') }}
               </span>
             </router-link>
-          </div>
+          </div> -->
           <SimpleDivider
-            v-if="showGoogleOAuth || showSamlLogin"
+            v-if="showGoogleOAuth"
             :label="$t('COMMON.OR')"
             class="uppercase"
           />
