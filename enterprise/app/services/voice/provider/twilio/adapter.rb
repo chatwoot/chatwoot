@@ -35,21 +35,11 @@ class Voice::Provider::Twilio::Adapter
   end
 
   def twilio_call_twiml_url(phone_digits)
-    Rails.application.routes.url_helpers.url_for(
-      controller: 'twilio/voice',
-      action: 'call_twiml',
-      phone: phone_digits,
-      only_path: false
-    )
+    Rails.application.routes.url_helpers.twilio_voice_call_url(phone: phone_digits)
   end
 
   def twilio_call_status_url(phone_digits)
-    Rails.application.routes.url_helpers.url_for(
-      controller: 'twilio/voice',
-      action: 'status',
-      phone: phone_digits,
-      only_path: false
-    )
+    Rails.application.routes.url_helpers.twilio_voice_status_url(phone: phone_digits)
   end
 
   def twilio_client

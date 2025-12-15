@@ -152,12 +152,7 @@ class Twilio::VoiceController < ApplicationController
 
   def conference_status_callback_url
     phone_digits = inbox_channel.phone_number.delete_prefix('+')
-    Rails.application.routes.url_helpers.url_for(
-      controller: 'twilio/voice',
-      action: 'conference_status',
-      phone: phone_digits,
-      only_path: false
-    )
+    Rails.application.routes.url_helpers.twilio_voice_conference_status_url(phone: phone_digits)
   end
 
   def find_conversation_for_conference!(friendly_name:, call_sid:)

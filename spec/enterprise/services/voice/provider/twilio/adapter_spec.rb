@@ -24,18 +24,8 @@ describe Voice::Provider::Twilio::Adapter do
 
     result = adapter.initiate_call(to: '+15550001111', conference_sid: 'CF999', agent_id: 42)
     phone_digits = channel.phone_number.delete_prefix('+')
-    expected_url = Rails.application.routes.url_helpers.url_for(
-      controller: 'twilio/voice',
-      action: 'call_twiml',
-      phone: phone_digits,
-      only_path: false
-    )
-    expected_status_callback = Rails.application.routes.url_helpers.url_for(
-      controller: 'twilio/voice',
-      action: 'status',
-      phone: phone_digits,
-      only_path: false
-    )
+    expected_url = Rails.application.routes.url_helpers.twilio_voice_call_url(phone: phone_digits)
+    expected_status_callback = Rails.application.routes.url_helpers.twilio_voice_status_url(phone: phone_digits)
 
     expect(calls_double).to have_received(:create).with(hash_including(
                                                           from: channel.phone_number,
