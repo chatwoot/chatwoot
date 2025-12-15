@@ -162,6 +162,13 @@ class ActionCableListener < BaseListener
     broadcast(account, [user.pubsub_token], CONVERSATION_MENTIONED, conversation.push_event_data)
   end
 
+  def conversation_mention_removed(event)
+    conversation, account = extract_conversation_and_account(event)
+    user = event.data[:user]
+
+    broadcast(account, [user.pubsub_token], CONVERSATION_MENTION_REMOVED, conversation.push_event_data)
+  end
+
   private
 
   def account_token(account)

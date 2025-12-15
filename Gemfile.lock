@@ -902,6 +902,8 @@ GEM
     squasher (0.7.2)
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
+    streamio-ffmpeg (3.0.2)
+      multi_json (~> 1.8)
     stripe (8.5.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
@@ -1110,6 +1112,7 @@ DEPENDENCIES
   spring-watcher-listen
   squasher
   stackprof
+  streamio-ffmpeg
   stripe
   telephone_number
   test-prof
@@ -1131,4 +1134,4 @@ RUBY VERSION
    ruby 3.4.4p34
 
 BUNDLED WITH
-   2.5.16
+   2.7.2

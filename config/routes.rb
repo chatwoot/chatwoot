@@ -221,6 +221,12 @@ Rails.application.routes.draw do
           resource :notification_settings, only: [:show, :update]
           resource :ottiv_notification_settings, only: [:show, :update]
           resources :ottiv_notifications, only: [:create]
+          resources :ottiv_conversations, only: [] do
+            collection do
+              post :index
+              get :index
+            end
+          end
 
           resources :teams do
             resources :team_members, only: [:index, :create] do

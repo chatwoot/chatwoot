@@ -364,6 +364,12 @@ const actions = {
     }
   },
 
+  removeMentions({ dispatch, rootState }, conversation) {
+    if (isOnMentionsView(rootState)) {
+      dispatch('updateConversation', conversation);
+    }
+  },
+
   addUnattended({ dispatch, rootState }, conversation) {
     if (isOnUnattendedView(rootState)) {
       dispatch('updateConversation', conversation);

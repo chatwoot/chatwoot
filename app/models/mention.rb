@@ -32,6 +32,7 @@ class Mention < ApplicationRecord
   belongs_to :user
 
   after_commit :notify_mentioned_user
+  after_destroy_commit :dispatch_destroy_event
 
   scope :latest, -> { order(mentioned_at: :desc) }
 
@@ -54,5 +55,9 @@ class Mention < ApplicationRecord
 
   def notify_mentioned_user
     Rails.configuration.dispatcher.dispatch(CONVERSATION_MENTIONED, Time.zone.now, user: user, conversation: conversation)
+  end
+
+  def dispatch_destroy_event
+    Rails.configuration.dispatcher.dispatch(CONVERSATION_MENTION_REMOVED, Time.zone.now, user: user, conversation: conversation)
   end
 end

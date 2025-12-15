@@ -362,12 +362,38 @@ class Message < ApplicationRecord
 
   def reopen_resolved_conversation
     # mark resolved bot conversation as pending to be reopened by bot processor service
+    previous_status = conversation.status
+
+    Rails.logger.info(
+      "[Message#reopen_resolved_conversation] " \
+      "conversation_id=#{conversation.id} display_id=#{conversation.display_id} " \
+      "inbox_id=#{conversation.inbox_id} inbox_active_bot=#{conversation.inbox.active_bot?} " \
+      "previous_status=#{previous_status} " \
+      "incoming=#{incoming?} private=#{private?} " \
+      "sender_type=#{sender_type} sender_id=#{sender_id}"
+    )
+
     if conversation.inbox.active_bot?
+      Rails.logger.info(
+        "[Message#reopen_resolved_conversation] " \
+        "setting status to pending for conversation_id=#{conversation.id} " \
+        "from_status=#{previous_status}"
+      )
       conversation.pending!
     elsif conversation.inbox.api?
       Current.executed_by = sender if reopened_by_contact?
+      Rails.logger.info(
+        "[Message#reopen_resolved_conversation] " \
+        "setting status to open (API inbox) for conversation_id=#{conversation.id} " \
+        "from_status=#{previous_status}"
+      )
       conversation.open!
     else
+      Rails.logger.info(
+        "[Message#reopen_resolved_conversation] " \
+        "setting status to open (default) for conversation_id=#{conversation.id} " \
+        "from_status=#{previous_status}"
+      )
       conversation.open!
     end
   end

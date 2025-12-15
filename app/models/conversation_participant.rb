@@ -28,6 +28,7 @@ class ConversationParticipant < ApplicationRecord
   belongs_to :user
 
   before_validation :ensure_account_id
+  after_destroy :delete_user_mentions_from_conversation
 
   private
 
@@ -37,5 +38,12 @@ class ConversationParticipant < ApplicationRecord
 
   def ensure_inbox_access
     errors.add(:user, 'must have inbox access') if conversation && conversation.inbox.assignable_agents.exclude?(user)
+  end
+
+  def delete_user_mentions_from_conversation
+    Mention.where(
+      user_id: user_id,
+      conversation_id: conversation_id
+    ).destroy_all
   end
 end
