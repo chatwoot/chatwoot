@@ -3,7 +3,10 @@ import MessageList from '../../../ui/MessageList.vue';
 </script>
 
 <template>
-  <MessageList />
+  <div id="cw-app-root">
+    <MessageList />
+  </div>
+  <div id="cw-modal-root" />
 </template>
 
 <style>

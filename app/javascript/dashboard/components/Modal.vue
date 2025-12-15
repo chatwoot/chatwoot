@@ -25,6 +25,14 @@ const modalClassName = computed(() => {
   return `modal-mask skip-context-menu ${modalClassNameMap[modalType] || ''}`;
 });
 
+const teleportTarget = computed(() => {
+  if (window.__WOOT_ISOLATED_SHELL__) {
+    console.log(document.getElementById('cw-modal-root'));
+    return '#cw-modal-root';
+  }
+  return 'body';
+});
+
 // [TODO] Revisit this logic to use outside click directive
 const mousedDownOnBackdrop = ref(false);
 
@@ -58,6 +66,7 @@ useEventListener(document.body, 'mouseup', onMouseUp);
 useEventListener(document, 'keydown', onKeydown);
 
 onMounted(() => {
+  console.log('TESTING 15:10');
   if (import.meta.env.DEV && onClose && typeof onClose === 'function') {
     // eslint-disable-next-line no-console
     console.warn(
@@ -68,36 +77,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <transition name="modal-fade">
-    <div
-      v-if="show"
-      :class="modalClassName"
-      transition="modal"
-      @mousedown="handleMouseDown"
-    >
+  <Teleport :to="teleportTarget">
+    <transition name="modal-fade">
       <div
-        class="relative max-h-full overflow-auto bg-n-alpha-3 shadow-md modal-container rtl:text-right skip-context-menu"
-        :class="{
-          'rounded-xl w-[37.5rem]': !fullWidth,
-          'items-center rounded-none flex h-full justify-center w-full':
-            fullWidth,
-          [size]: true,
-        }"
-        @mouse.stop
-        @mousedown="event => event.stopPropagation()"
+        v-if="show"
+        :class="modalClassName"
+        transition="modal"
+        @mousedown="handleMouseDown"
       >
-        <Button
-          v-if="showCloseButton"
-          ghost
-          slate
-          icon="i-lucide-x"
-          class="absolute z-10 ltr:right-2 rtl:left-2 top-2"
-          @click="close"
-        />
-        <slot />
+        <div
+          class="relative max-h-full overflow-auto bg-n-alpha-3 shadow-md modal-container rtl:text-right skip-context-menu"
+          :class="{
+            'rounded-xl w-[37.5rem]': !fullWidth,
+            'items-center rounded-none flex h-full justify-center w-full':
+              fullWidth,
+            [size]: true,
+          }"
+          @mouse.stop
+          @mousedown="event => event.stopPropagation()"
+        >
+          <Button
+            v-if="showCloseButton"
+            ghost
+            slate
+            icon="i-lucide-x"
+            class="absolute z-10 ltr:right-2 rtl:left-2 top-2"
+            @click="close"
+          />
+          <slot />
+        </div>
       </div>
-    </div>
-  </transition>
+    </transition>
+  </Teleport>
 </template>
 
 <style lang="scss">
