@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, onMounted, ref, defineProps, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useInbox } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 
@@ -18,7 +18,6 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 import ConfirmTemplateUpdateDialog from './components/ConfirmTemplateUpdateDialog.vue';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   inbox: { type: Object, required: true },
@@ -27,6 +26,10 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const labels = useMapGetter('labels/getLabels');
+
+const { isAWhatsAppChannel: isWhatsAppChannel } = useInbox(
+  computed(() => props.inbox?.id)
+);
 
 const isUpdating = ref(false);
 const selectedLabelValues = ref([]);
@@ -72,10 +75,6 @@ const labelOptions = computed(() =>
 
 const languageOptions = computed(() =>
   languages.map(({ name, id }) => ({ label: `${name} (${id})`, value: id }))
-);
-
-const isWhatsAppChannel = computed(
-  () => props.inbox?.channel_type === INBOX_TYPES.WHATSAPP
 );
 
 const messagePreviewData = computed(() => ({
@@ -404,7 +403,7 @@ const handleConfirmTemplateUpdate = async () => {
           <div
             class="flex flex-col gap-4 justify-between w-full lg:flex-row lg:gap-6"
           >
-            <div class="flex flex-col basis-3/5 gap-3">
+            <div class="flex flex-col gap-3 basis-3/5">
               <WithLabel
                 :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
                 name="message"
@@ -454,7 +453,7 @@ const handleConfirmTemplateUpdate = async () => {
             </div>
 
             <div
-              class="flex flex-col basis-2/5 justify-start items-center p-6 mt-1 rounded-xl bg-n-slate-2 outline outline-1 outline-n-weak flex-shrink-0"
+              class="flex flex-col flex-shrink-0 justify-start items-center p-6 mt-1 rounded-xl basis-2/5 bg-n-slate-2 outline outline-1 outline-n-weak"
             >
               <p
                 class="inline-flex items-center text-sm font-medium text-n-slate-11"
