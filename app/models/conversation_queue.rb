@@ -47,6 +47,7 @@ class ConversationQueue < ApplicationRecord
   validates :inbox_id, presence: true
 
   before_validation :set_position, on: :create
+  before_validation :reset_position_on_requeue
 
   def wait_time_seconds
     return 0 unless assigned_at || left_at
@@ -59,6 +60,14 @@ class ConversationQueue < ApplicationRecord
 
   def set_position
     return unless account_id && conversation&.inbox
+
+    self.position = next_position
+  end
+
+  def reset_position_on_requeue
+    return if new_record?
+    return unless status_changed? && waiting?
+    return if position.present? && position.positive?
 
     self.position = next_position
   end

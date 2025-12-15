@@ -19,15 +19,24 @@ class ChatQueue::Queue::EntryService
 
   def create_queue_record(conversation)
     cid = conversation.id
-    Rails.logger.info("[QUEUE][add][conv=#{cid}] Creating queue entry")
+    Rails.logger.info("[QUEUE][add][conv=#{cid}] Creating or updating queue entry")
 
-    ConversationQueue.create!(
-      conversation: conversation,
+    queue_record = ConversationQueue.find_or_initialize_by(conversation: conversation)
+
+    if queue_record.persisted? && !queue_record.waiting?
+      Rails.logger.info("[QUEUE][add][conv=#{cid}] Re-queueing existing record (was #{queue_record.status})")
+    end
+
+    queue_record.assign_attributes(
       account: account,
       inbox_id: conversation.inbox_id,
       queued_at: Time.current,
-      status: :waiting
+      status: :waiting,
+      assigned_at: nil,
+      left_at: nil
     )
+
+    queue_record.save!
 
     return if conversation.queued?
 
