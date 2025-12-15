@@ -1,5 +1,4 @@
 class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
-  LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
   def reply_suggestion_message
     make_api_call(reply_suggestion_body)
   end
@@ -9,8 +8,7 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
   end
 
   def fix_spelling_grammar_message
-    make_api_call(build_api_call_body('Please fix the spelling and grammar of the following response. ' \
-                                      "#{LANGUAGE_INSTRUCTION}"))
+    make_api_call(build_api_call_body(fix_spelling_grammar_prompt))
   end
 
   def confident_message
@@ -47,6 +45,10 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
 
   def tone_rewrite_prompt(tone_instruction)
     format(prompt_from_file('tone_rewrite'), tone_instruction)
+  end
+
+  def fix_spelling_grammar_prompt
+    prompt_from_file('fix_spelling_grammar')
   end
 
   def build_api_call_body(system_content, user_content = event['data']['content'])
