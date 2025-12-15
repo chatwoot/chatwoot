@@ -83,7 +83,7 @@
     },
     "PAYZAH": {
       "TITLE": "Payzah Payment Gateway",
-      "DESCRIPTION": "Enable payment link generation for your conversations with Payzah payment gateway integration.",
+      "DESCRIPTION": "Enable payment link generation for your conversations with Payzah payment gateway integration. Only supports KWD currency.",
       "FORM": {
         "TITLE": "Payzah Payment Gateway",
         "DESCRIPTION": "Configure Payzah payment gateway to enable payment link generation for your conversations",
@@ -99,7 +99,7 @@
         "TITLE": "Setup Instructions",
         "CONFIGURATION_INFO": {
           "TITLE": "Configuration Info",
-          "TEXT": "The Payzah API URL is configured at the system level via environment variables. Only the API key needs to be set per account."
+          "TEXT": "The Payzah API URL is configured at the system level via environment variables. Only the API key needs to be set per account. Note: Payzah only supports KWD (Kuwaiti Dinar) as the payment currency."
         },
         "STEP_1": "Obtain your Payzah API key from your Payzah merchant account",
         "STEP_2": "Enter the API key in the field above",

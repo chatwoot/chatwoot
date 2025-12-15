@@ -7,6 +7,7 @@ import whatsappSettingsAPI from 'dashboard/api/whatsappSettings';
 import payzahSettingsAPI from 'dashboard/api/payzahSettings';
 import tapSettingsAPI from 'dashboard/api/tapSettings';
 import payzahLogo from 'assets/images/payzah-logo.webp';
+import tapLogo from 'assets/images/tap-logo.png';
 import IntegrationItem from './IntegrationItem.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -205,7 +206,11 @@ onMounted(() => {
               <div
                 class="flex h-12 w-12 mb-4 items-center justify-center rounded-md border border-n-weak shadow-sm bg-n-alpha-3 dark:bg-n-alpha-2"
               >
-                <i class="i-lucide-credit-card text-3xl text-blue-600" />
+                <img
+                  :src="tapLogo"
+                  alt="Tap"
+                  class="h-10 w-10 object-contain"
+                />
               </div>
               <span
                 v-tooltip="tapStatus"

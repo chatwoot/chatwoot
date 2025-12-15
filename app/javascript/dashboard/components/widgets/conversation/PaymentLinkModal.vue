@@ -78,6 +78,34 @@ const showProviderSelector = computed(() => {
   return !isLoading.value && hasMultipleProviders();
 });
 
+const isPayzahSelected = computed(() => {
+  return (
+    selectedProvider.value === 'payzah' ||
+    (!hasMultipleProviders() && defaultProvider.value === 'payzah')
+  );
+});
+
+const amountLabel = computed(() => {
+  if (isPayzahSelected.value) {
+    return 'Amount (KWD)';
+  }
+  return null;
+});
+
+const availableCurrencies = computed(() => {
+  if (isPayzahSelected.value) {
+    return [{ value: 'KWD', label: 'KWD - Kuwaiti Dinar' }];
+  }
+  return currencies;
+});
+
+// Reset currency to KWD when switching to Payzah
+watch(selectedProvider, newProvider => {
+  if (newProvider === 'payzah') {
+    currency.value = 'KWD';
+  }
+});
+
 const resetForm = () => {
   amount.value = '';
   currency.value = 'KWD';
@@ -125,7 +153,7 @@ const onSubmit = () => {
           <!-- Amount Input -->
           <div class="w-full">
             <label :class="{ error: v$.amount.$error }">
-              {{ $t('PAYMENT_LINK.FORM.AMOUNT.LABEL') }}
+              {{ amountLabel || $t('PAYMENT_LINK.FORM.AMOUNT.LABEL') }}
               <input
                 v-model="amount"
                 type="number"
@@ -140,13 +168,13 @@ const onSubmit = () => {
             </label>
           </div>
 
-          <!-- Currency Dropdown -->
-          <div class="w-full">
+          <!-- Currency Dropdown (hidden for Payzah) -->
+          <div v-if="!isPayzahSelected" class="w-full">
             <label :class="{ error: v$.currency.$error }">
               {{ $t('PAYMENT_LINK.FORM.CURRENCY.LABEL') }}
               <select v-model="currency" @change="v$.currency.$touch">
                 <option
-                  v-for="curr in currencies"
+                  v-for="curr in availableCurrencies"
                   :key="curr.value"
                   :value="curr.value"
                 >
