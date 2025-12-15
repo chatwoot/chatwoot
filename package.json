@@ -33,7 +33,7 @@
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
-    "@chatwoot/prosemirror-schema": "1.2.3",
+    "@chatwoot/prosemirror-schema": "1.2.6",
     "@chatwoot/utils": "^0.0.51",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
