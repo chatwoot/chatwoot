@@ -11,11 +11,11 @@ class Captain::Tools::HttpTool < Agents::Tool
     @custom_tool.enabled?
   end
 
-  def perform(_tool_context, **params)
+  def perform(tool_context, **params)
     url = @custom_tool.build_request_url(params)
     body = @custom_tool.build_request_body(params)
 
-    response = execute_http_request(url, body)
+    response = execute_http_request(url, body, tool_context)
     @custom_tool.format_response(response.body)
   rescue StandardError => e
     Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
@@ -39,7 +39,7 @@ class Captain::Tools::HttpTool < Agents::Tool
   # 1MB of text ≈ 250K tokens, which exceeds most LLM context windows
   MAX_RESPONSE_SIZE = 1.megabyte
 
-  def execute_http_request(url, body)
+  def execute_http_request(url, body, tool_context)
     uri = URI.parse(url)
 
     # Check if resolved IP is private
@@ -53,6 +53,7 @@ class Captain::Tools::HttpTool < Agents::Tool
 
     request = build_http_request(uri, body)
     apply_authentication(request)
+    apply_metadata_headers(request, tool_context)
 
     response = http.request(request)
 
@@ -101,5 +102,11 @@ class Captain::Tools::HttpTool < Agents::Tool
 
     credentials = @custom_tool.build_basic_auth_credentials
     request.basic_auth(*credentials) if credentials
+  end
+
+  def apply_metadata_headers(request, tool_context)
+    state = tool_context&.state || {}
+    metadata_headers = @custom_tool.build_metadata_headers(state)
+    metadata_headers.each { |key, value| request[key] = value }
   end
 end
