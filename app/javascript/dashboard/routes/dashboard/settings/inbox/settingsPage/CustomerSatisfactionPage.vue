@@ -256,11 +256,13 @@ const shouldCreateTemplate = () => {
 const buildTemplateConfig = () => {
   if (!hasExistingTemplate()) return null;
 
+  const { template_name, template_id, template, status } =
+    templateStatus.value || {};
   return {
-    name: templateStatus.value.template_name,
-    template_id: templateStatus.value.template_id,
-    language: templateStatus.value.template?.language || state.templateLanguage,
-    status: templateStatus.value.status,
+    name: template_name,
+    template_id,
+    language: template?.language || state.templateLanguage,
+    status,
   };
 };
 
