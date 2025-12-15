@@ -11,6 +11,7 @@ import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import PaymentLinkButton from '../PaymentLinkButton.vue';
+import CartButton from '../CartButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -24,6 +25,7 @@ export default {
     VideoCallButton,
     AIAssistanceButton,
     PaymentLinkButton,
+    CartButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -405,6 +407,10 @@ export default {
       />
 
       <PaymentLinkButton
+        v-if="!isOnPrivateNote && payzahEnabled"
+        :conversation-id="conversationId"
+      />
+      <CartButton
         v-if="!isOnPrivateNote && payzahEnabled"
         :conversation-id="conversationId"
       />

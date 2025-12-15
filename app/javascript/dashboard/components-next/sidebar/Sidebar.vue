@@ -324,6 +324,13 @@ const menuItems = computed(() => {
             to: accountScopedRoute('payment_links'),
             activeOn: ['payment_links'],
           },
+          {
+            name: 'Carts',
+            label: t('SIDEBAR.CARTS'),
+            icon: 'i-lucide-shopping-cart',
+            to: accountScopedRoute('carts_list'),
+            activeOn: ['carts_list'],
+          },
         ]
       : []),
     {

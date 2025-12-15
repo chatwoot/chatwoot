@@ -38,6 +38,7 @@ import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
 import PaymentLinkBubble from './bubbles/PaymentLink.vue';
+import CartBubble from './bubbles/Cart.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -290,6 +291,10 @@ const componentToRender = computed(() => {
 
   if (props.contentType === CONTENT_TYPES.PAYMENT_LINK) {
     return PaymentLinkBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.CART) {
+    return CartBubble;
   }
 
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {

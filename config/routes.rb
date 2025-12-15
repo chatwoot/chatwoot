@@ -139,6 +139,7 @@ Rails.application.routes.draw do
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resources :payment_links, only: [:create]
+              resources :carts, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
@@ -193,6 +194,11 @@ Rails.application.routes.draw do
               get :search
               post :filter
               post :export
+            end
+          end
+          resources :carts, only: [:index] do
+            collection do
+              get :search
             end
           end
           resources :csat_survey_responses, only: [:index] do

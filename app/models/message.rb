@@ -98,7 +98,8 @@ class Message < ApplicationRecord
     integrations: 10,
     sticker: 11,
     voice_call: 12,
-    payment_link: 13
+    payment_link: 13,
+    cart: 14
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
