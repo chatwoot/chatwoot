@@ -1,5 +1,5 @@
 module Enterprise::Integrations::OpenaiProcessorService
-  ALLOWED_EVENT_NAMES = %w[summarize reply_suggestion label_suggestion fix_spelling_grammar
+  ALLOWED_EVENT_NAMES = %w[summarize reply_suggestion label_suggestion fix_spelling_grammar improve
                            make_friendly make_formal casual professional confident straightforward].freeze
   CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
