@@ -237,11 +237,8 @@ const hasTemplateChanges = () => {
 
 // Check if there's an existing template
 const hasExistingTemplate = () => {
-  return (
-    templateStatus.value &&
-    templateStatus.value.template_exists &&
-    !templateStatus.value.error
-  );
+  const { template_exists, error } = templateStatus.value || {};
+  return template_exists && !error;
 };
 
 // Check if we should create a template
