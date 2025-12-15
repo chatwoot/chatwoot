@@ -252,6 +252,7 @@ group :development, :test do
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 6.1.5'
