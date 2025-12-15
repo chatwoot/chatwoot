@@ -227,11 +227,11 @@ const removeLabel = label => {
 const hasTemplateChanges = () => {
   if (!isWhatsAppChannel.value) return false;
 
+  const original = originalTemplateValues.value;
   return (
-    originalTemplateValues.value.message !== state.message ||
-    originalTemplateValues.value.templateButtonText !==
-      state.templateButtonText ||
-    originalTemplateValues.value.templateLanguage !== state.templateLanguage
+    original.message !== state.message ||
+    original.templateButtonText !== state.templateButtonText ||
+    original.templateLanguage !== state.templateLanguage
   );
 };
 
