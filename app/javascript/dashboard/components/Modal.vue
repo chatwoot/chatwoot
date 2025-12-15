@@ -15,6 +15,7 @@ const { modalType, closeOnBackdropClick, onClose } = defineProps({
 
 const emit = defineEmits(['close']);
 const show = defineModel('show', { type: Boolean, default: false });
+const teleportTarget = ref(null);
 
 const modalClassName = computed(() => {
   const modalClassNameMap = {
@@ -25,13 +26,23 @@ const modalClassName = computed(() => {
   return `modal-mask skip-context-menu ${modalClassNameMap[modalType] || ''}`;
 });
 
-const teleportTarget = computed(() => {
+const resolveTeleportTarget = () => {
+  // eslint-disable-next-line no-underscore-dangle
   if (window.__WOOT_ISOLATED_SHELL__) {
-    console.log(document.getElementById('cw-modal-root'));
-    return '#cw-modal-root';
+    // Look for the specific chatwoot-message-list custom element
+    const messageListElement = document.querySelector('chatwoot-message-list');
+    if (messageListElement?.shadowRoot) {
+      const modalRoot =
+        messageListElement.shadowRoot.querySelector('#cw-modal-root');
+      if (modalRoot) {
+        teleportTarget.value = modalRoot;
+        return;
+      }
+    }
   }
-  return 'body';
-});
+
+  teleportTarget.value = document.body;
+};
 
 // [TODO] Revisit this logic to use outside click directive
 const mousedDownOnBackdrop = ref(false);
@@ -66,7 +77,7 @@ useEventListener(document.body, 'mouseup', onMouseUp);
 useEventListener(document, 'keydown', onKeydown);
 
 onMounted(() => {
-  console.log('TESTING 15:10');
+  resolveTeleportTarget();
   if (import.meta.env.DEV && onClose && typeof onClose === 'function') {
     // eslint-disable-next-line no-console
     console.warn(
@@ -77,7 +88,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Teleport :to="teleportTarget">
+  <Teleport v-if="teleportTarget" :to="teleportTarget">
     <transition name="modal-fade">
       <div
         v-if="show"
