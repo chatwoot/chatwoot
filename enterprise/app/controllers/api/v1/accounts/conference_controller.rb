@@ -51,6 +51,8 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     cid = params[:conversation_id]
     raise ActiveRecord::RecordNotFound, 'conversation_id required' if cid.blank?
 
-    Current.account.conversations.find_by!(display_id: cid)
+    conversation = @voice_inbox.conversations.find_by!(display_id: cid)
+    authorize conversation, :show?
+    conversation
   end
 end
