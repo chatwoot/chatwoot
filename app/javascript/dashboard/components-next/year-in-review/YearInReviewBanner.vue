@@ -10,7 +10,6 @@ const route = useRoute();
 const { t } = useI18n();
 const showModal = ref(false);
 const modalRef = ref(null);
-const isMinimized = ref(false);
 
 const currentYear = new Date().getFullYear();
 
@@ -24,11 +23,6 @@ const openModal = () => {
 
 const closeModal = () => {
   showModal.value = false;
-};
-
-const toggleMinimize = event => {
-  event.stopPropagation();
-  isMinimized.value = !isMinimized.value;
 };
 </script>
 
@@ -44,20 +38,9 @@ const toggleMinimize = event => {
         >
           {{ t('YEAR_IN_REVIEW.BANNER.TITLE', { year: currentYear }) }}
         </span>
-        <button
-          class="flex-shrink-0 w-6 h-6 flex items-center justify-center text-white hover:bg-white hover:bg-opacity-20 rounded transition-colors"
-          @click="toggleMinimize"
-        >
-          <i
-            :class="
-              isMinimized ? 'i-lucide-chevron-down' : 'i-lucide-chevron-up'
-            "
-            class="w-5 h-5"
-          />
-        </button>
       </div>
 
-      <div v-if="!isMinimized" class="flex flex-col gap-3">
+      <div class="flex flex-col gap-3">
         <img
           :src="yearInReviewBannerImage"
           alt="Year in Review"
