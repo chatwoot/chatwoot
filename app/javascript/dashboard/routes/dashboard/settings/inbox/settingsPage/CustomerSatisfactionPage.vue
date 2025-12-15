@@ -91,17 +91,17 @@ const templateApprovalStatus = computed(() => {
     APPROVED: {
       text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.APPROVED'),
       icon: 'i-lucide-circle-check',
-      color: 'text-green-600',
+      color: 'text-n-teal-11',
     },
     PENDING: {
       text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.PENDING'),
       icon: 'i-lucide-clock',
-      color: 'text-yellow-600',
+      color: 'text-n-amber-11',
     },
     REJECTED: {
       text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.REJECTED'),
       icon: 'i-lucide-circle-x',
-      color: 'text-red-600',
+      color: 'text-n-ruby-10',
     },
   };
 
@@ -110,7 +110,7 @@ const templateApprovalStatus = computed(() => {
     return {
       text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.NOT_FOUND'),
       icon: 'i-lucide-alert-triangle',
-      color: 'text-red-600',
+      color: 'text-n-ruby-10',
     };
   }
 
@@ -123,7 +123,7 @@ const templateApprovalStatus = computed(() => {
   return {
     text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.DEFAULT'),
     icon: 'i-lucide-stamp',
-    color: 'text-gray-600',
+    color: 'text-n-slate-11',
   };
 });
 
@@ -403,9 +403,9 @@ const handleConfirmTemplateUpdate = async () => {
 
         <template v-if="isWhatsAppChannel">
           <div
-            class="flex flex-col gap-4 justify-between w-full md:flex-row md:gap-6"
+            class="flex flex-col gap-4 justify-between w-full lg:flex-row lg:gap-6"
           >
-            <div class="flex flex-col flex-1 gap-3">
+            <div class="flex flex-col basis-3/5 gap-3">
               <WithLabel
                 :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
                 name="message"
@@ -414,6 +414,7 @@ const handleConfirmTemplateUpdate = async () => {
                   v-model="state.message"
                   :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
                   :max-length="200"
+                  channel-type="Context::Plain"
                   class="w-full"
                 />
               </WithLabel>
@@ -454,7 +455,7 @@ const handleConfirmTemplateUpdate = async () => {
             </div>
 
             <div
-              class="flex flex-col justify-start items-center p-6 mt-1 rounded-xl bg-n-slate-2 outline outline-1 outline-n-weak"
+              class="flex flex-col basis-2/5 justify-start items-center p-6 mt-1 rounded-xl bg-n-slate-2 outline outline-1 outline-n-weak flex-shrink-0"
             >
               <p
                 class="inline-flex items-center text-sm font-medium text-n-slate-11"
