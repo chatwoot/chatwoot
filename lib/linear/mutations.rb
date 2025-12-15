@@ -2,8 +2,8 @@ module Linear::Mutations
   def self.graphql_value(value)
     case value
     when String
-      # Strings must be enclosed in double quotes
-      "\"#{value.gsub("\n", '\\n')}\""
+      # Strings must be enclosed in double quotes and escaped for GraphQL
+      value.to_json
     when Array
       # Arrays need to be recursively converted
       "[#{value.map { |v| graphql_value(v) }.join(', ')}]"
@@ -47,7 +47,7 @@ module Linear::Mutations
 
     <<~GRAPHQL
       mutation {
-        attachmentLinkURL(url: "#{link}", issueId: "#{issue_id}", title: "#{title}"#{user_params_str}) {
+        attachmentLinkURL(url: #{graphql_value(link)}, issueId: #{graphql_value(issue_id)}, title: #{graphql_value(title)}#{user_params_str}) {
           success
           attachment {
             id
