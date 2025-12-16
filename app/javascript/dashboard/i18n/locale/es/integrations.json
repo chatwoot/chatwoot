@@ -351,7 +351,7 @@
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistants",
       "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
+      "NEW_ASSISTANT": "Crear Asistente",
       "EMPTY_LIST": "No assistants found, please create one to get started"
     },
     "COPILOT": {
@@ -377,7 +377,7 @@
           "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
+          "LABEL": "Califica esta conversación",
           "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
         },
         "HIGH_PRIORITY": {
@@ -385,7 +385,7 @@
           "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
+          "LABEL": "Listar contactos",
           "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
         }
       }
@@ -394,7 +394,7 @@
       "USER": "Tú",
       "ASSISTANT": "Assistant",
       "MESSAGE_PLACEHOLDER": "Escribe tu mensaje...",
-      "HEADER": "Playground",
+      "HEADER": "Campo de juego",
       "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
       "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
     },
@@ -438,19 +438,19 @@
       "FORM": {
         "UPDATE": "Actualizar",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
+          "BASIC_INFO": "Información básica",
+          "SYSTEM_MESSAGES": "Mensajes del sistema",
+          "INSTRUCTIONS": "Instrucciones",
           "FEATURES": "Características",
-          "TOOLS": "Tools "
+          "TOOLS": "Herramientas "
         },
         "NAME": {
           "LABEL": "Nombre",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "Introduzca el nombre del asistente",
+          "ERROR": "El nombre es requerido"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
+          "LABEL": "Temperatura de respuesta",
           "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
@@ -464,19 +464,19 @@
           "ERROR": "The product name is required"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Mensaje de bienvenida",
+          "PLACEHOLDER": "Introduzca mensaje de bienvenida"
         },
         "HANDOFF_MESSAGE": {
           "LABEL": "Handoff Message",
           "PLACEHOLDER": "Enter handoff message"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
+          "LABEL": "Mensaje de resolución",
           "PLACEHOLDER": "Enter resolution message"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
+          "LABEL": "Instrucciones",
           "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
@@ -499,7 +499,7 @@
           "DESCRIPTION": ""
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
+          "TITLE": "Ajustes del sistema",
           "DESCRIPTION": ""
         },
         "CONTROL_ITEMS": {
@@ -547,9 +547,9 @@
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
+            "ADD": "Añadir todo",
+            "ADD_SINGLE": "Añadir esto",
+            "SAVE": "Añadir y guardar (↵)",
             "PLACEHOLDER": "Type in another guardrail..."
           },
           "NEW": {
@@ -557,7 +557,7 @@
             "CREATE": "Crear",
             "CANCEL": "Cancelar",
             "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "Probar todo"
           }
         },
         "LIST": {
@@ -592,9 +592,9 @@
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
+            "ADD": "Añadir todo",
+            "ADD_SINGLE": "Añadir esto",
+            "SAVE": "Añadir y guardar (↵)",
             "PLACEHOLDER": "Type in another response guideline..."
           },
           "NEW": {
@@ -602,7 +602,7 @@
             "CREATE": "Crear",
             "CANCEL": "Cancelar",
             "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "Probar todo"
           }
         },
         "LIST": {
@@ -637,13 +637,13 @@
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
+            "ADD": "Añadir todo",
+            "ADD_SINGLE": "Añadir esto",
             "TOOLS_USED": "Tools used :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "Añadir un escenario",
+            "TITLE": "Crear un escenario",
             "FORM": {
               "TITLE": {
                 "LABEL": "Título",
@@ -707,7 +707,7 @@
         "TYPE": {
           "LABEL": "Document Type",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "Archivo PDF"
         },
         "URL": {
           "LABEL": "URL",
@@ -715,16 +715,16 @@
           "ERROR": "Please provide a valid URL for the document"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "Archivo PDF",
+          "CHOOSE_FILE": "Elegir archivo PDF",
+          "ERROR": "Por favor, seleccione un archivo PDF",
+          "HELP_TEXT": "Tamaño máximo del archivo: 10MB",
+          "INVALID_TYPE": "Por favor, seleccione un archivo PDF válido",
+          "TOO_LARGE": "El tamaño del archivo excede los 10MB"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "Nombre del documento (opcional)",
+          "PLACEHOLDER": "Introduzca un nombre para el documento"
         }
       },
       "DELETE": {
