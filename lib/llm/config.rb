@@ -1,7 +1,7 @@
 require 'ruby_llm'
 
 module Llm::Config
-  DEFAULT_MODEL = 'gpt-4o-mini'.freeze
+  DEFAULT_MODEL = 'gpt-5-nano'.freeze
   class << self
     def initialized?
       @initialized ||= false
