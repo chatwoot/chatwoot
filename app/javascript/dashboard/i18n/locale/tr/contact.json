@@ -272,7 +272,7 @@
       "ATTRIBUTE_WARNING": "Şu: <strong>{primaryContactName}</strong> kişinin iletişim bilgileri, şu<strong>{parentContactName}</strong> kişiye kopyalanacaktır."
     },
     "SEARCH": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+      "ERROR_MESSAGE": "Bir sorun oluştu. Lütfen daha sonra tekrar deneyin."
     },
     "FORM": {
       "SUBMIT": " Kişileri birleştir",
@@ -305,7 +305,7 @@
           "ADD_CONTACT": "Kişi ekle",
           "EXPORT_CONTACT": "Kişileri Dışa Aktar",
           "IMPORT_CONTACT": "Kişileri İçe Aktar",
-          "SAVE_CONTACT": "Save contact",
+          "SAVE_CONTACT": "Kişiyi kaydet",
           "EMAIL_ADDRESS_DUPLICATE": "Bu e-posta adresi başka bir kişi için kullanılıyor.",
           "PHONE_NUMBER_DUPLICATE": "Bu telefon numarası başka bir kişi tarafından kullanılıyor.",
           "SUCCESS_MESSAGE": "Kişi bilgileri başarıyla kaydedildi",
