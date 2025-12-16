@@ -5,6 +5,7 @@ import {
   replaceSignature,
   cleanSignature,
   extractTextFromMarkdown,
+  stripUnsupportedSignatureMarkdown,
   insertAtCursor,
   findNodeToInsertImage,
   setURLWithQueryAndSize,
@@ -144,6 +145,107 @@ describe('appendSignature', () => {
   });
 });
 
+describe('stripUnsupportedSignatureMarkdown', () => {
+  const richSignature =
+    '**Bold** _italic_ [link](http://example.com) ![](http://localhost:3000/image.png)';
+
+  it('keeps all formatting for Email channel (supports image, link, strong, em)', () => {
+    const result = stripUnsupportedSignatureMarkdown(
+      richSignature,
+      'Channel::Email'
+    );
+    expect(result).toContain('**Bold**');
+    expect(result).toContain('_italic_');
+    expect(result).toContain('[link](http://example.com)');
+    expect(result).toContain('![](http://localhost:3000/image.png)');
+  });
+  it('strips images but keeps bold/italic for Api channel', () => {
+    const result = stripUnsupportedSignatureMarkdown(
+      richSignature,
+      'Channel::Api'
+    );
+    expect(result).toContain('**Bold**');
+    expect(result).toContain('_italic_');
+    expect(result).toContain('link'); // link text kept
+    expect(result).not.toContain('[link]('); // link syntax removed
+    expect(result).not.toContain('![]('); // image removed
+  });
+  it('strips images but keeps bold/italic/link for Telegram channel', () => {
+    const result = stripUnsupportedSignatureMarkdown(
+      richSignature,
+      'Channel::Telegram'
+    );
+    expect(result).toContain('**Bold**');
+    expect(result).toContain('_italic_');
+    expect(result).toContain('[link](http://example.com)');
+    expect(result).not.toContain('![](');
+  });
+  it('strips all formatting for SMS channel', () => {
+    const result = stripUnsupportedSignatureMarkdown(
+      richSignature,
+      'Channel::Sms'
+    );
+    expect(result).toContain('Bold');
+    expect(result).toContain('italic');
+    expect(result).toContain('link');
+    expect(result).not.toContain('**');
+    expect(result).not.toContain('_');
+    expect(result).not.toContain('[');
+    expect(result).not.toContain('![](');
+  });
+  it('returns empty string for empty input', () => {
+    expect(stripUnsupportedSignatureMarkdown('', 'Channel::Api')).toBe('');
+    expect(stripUnsupportedSignatureMarkdown(null, 'Channel::Api')).toBe('');
+  });
+});
+
+describe('appendSignature with channelType', () => {
+  const signatureWithImage =
+    'Thanks\n![](http://localhost:3000/image.png?cw_image_height=24px)';
+
+  it('keeps images for Email channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::Email'
+    );
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+  it('keeps images for WebWidget channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::WebWidget'
+    );
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+  it('strips images but keeps text for Api channel', () => {
+    const result = appendSignature('Hello', signatureWithImage, 'Channel::Api');
+    expect(result).not.toContain('![](');
+    expect(result).toContain('Thanks');
+  });
+  it('strips images but keeps text for WhatsApp channel', () => {
+    const result = appendSignature(
+      'Hello',
+      signatureWithImage,
+      'Channel::Whatsapp'
+    );
+    expect(result).not.toContain('![](');
+    expect(result).toContain('Thanks');
+  });
+  it('keeps images when channelType is not provided', () => {
+    const result = appendSignature('Hello', signatureWithImage);
+    expect(result).toContain('![](http://localhost:3000/image.png');
+  });
+  it('keeps bold/italic for channels that support them', () => {
+    const boldSignature = '**Bold** *italic* Thanks';
+    const result = appendSignature('Hello', boldSignature, 'Channel::Api');
+    // Api supports strong and em
+    expect(result).toContain('**Bold**');
+    expect(result).toContain('*italic*');
+  });
+});
+
 describe('cleanSignature', () => {
   it('removes any instance of horizontal rule', () => {
     const options = [
@@ -199,6 +301,37 @@ describe('removeSignature', () => {
     expect(removeSignature('This is a test\n\n--', 'This is a signature')).toBe(
       'This is a test\n\n'
     );
+  });
+});
+
+describe('removeSignature with stripped signature', () => {
+  const signatureWithImage =
+    'Thanks\n![](http://localhost:3000/image.png?cw_image_height=24px)';
+
+  it('removes stripped signature from body', () => {
+    // Simulate a body where signature was added with images stripped
+    const bodyWithStrippedSignature = 'Hello\n\n--\n\nThanks';
+    const result = removeSignature(
+      bodyWithStrippedSignature,
+      signatureWithImage
+    );
+    expect(result).toBe('Hello\n\n');
+  });
+  it('removes original signature from body', () => {
+    // Simulate a body where signature was added with images (using cleanSignature format)
+    const cleanedSig = cleanSignature(signatureWithImage);
+    const bodyWithOriginalSignature = `Hello\n\n--\n\n${cleanedSig}`;
+    const result = removeSignature(
+      bodyWithOriginalSignature,
+      signatureWithImage
+    );
+    expect(result).toBe('Hello\n\n');
+  });
+  it('handles signature without images', () => {
+    const simpleSignature = 'Best regards';
+    const body = 'Hello\n\n--\n\nBest regards';
+    const result = removeSignature(body, simpleSignature);
+    expect(result).toBe('Hello\n\n');
   });
 });
 
@@ -791,6 +924,26 @@ describe('stripUnsupportedFormatting', () => {
       expect(stripUnsupportedFormatting('_italic text_', emptySchema)).toBe(
         'italic text'
       );
+    });
+
+    it('preserves underscores in URLs and mid-word positions', () => {
+      // Underscores in URLs should not be stripped as italic formatting
+      expect(
+        stripUnsupportedFormatting(
+          'https://www.chatwoot.com/new_first_second-third/ssd',
+          emptySchema
+        )
+      ).toBe('https://www.chatwoot.com/new_first_second-third/ssd');
+
+      // Underscores in variable names should not be stripped
+      expect(
+        stripUnsupportedFormatting('some_variable_name', emptySchema)
+      ).toBe('some_variable_name');
+
+      // But actual italic formatting with spaces should still be stripped
+      expect(
+        stripUnsupportedFormatting('hello _world_ there', emptySchema)
+      ).toBe('hello world there');
     });
 
     it('strips inline code formatting', () => {
