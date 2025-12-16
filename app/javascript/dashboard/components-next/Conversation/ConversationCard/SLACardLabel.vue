@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { evaluateSLAStatus } from '@chatwoot/utils';
+import { getBusinessHoursConfig } from 'dashboard/helper/slaHelper';
 
 const props = defineProps({
   conversation: {
@@ -40,9 +41,17 @@ const slaStatusText = computed(() => {
 });
 
 const updateSlaStatus = () => {
+  const businessHoursConfig = getBusinessHoursConfig(
+    appliedSLA.value?.slaPolicy,
+    props.conversation?.inbox
+  );
+
   slaStatus.value = evaluateSLAStatus({
     appliedSla: convertObjectCamelCaseToSnakeCase(appliedSLA.value || {}),
     chat: props.conversation,
+    options: businessHoursConfig
+      ? { businessHours: businessHoursConfig }
+      : undefined,
   });
 };
 

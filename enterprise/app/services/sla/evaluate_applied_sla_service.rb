@@ -1,5 +1,6 @@
 class Sla::EvaluateAppliedSlaService
   pattr_initialize [:applied_sla!]
+  include ReportingEventHelper
 
   def perform
     check_sla_thresholds
@@ -21,12 +22,58 @@ class Sla::EvaluateAppliedSlaService
     end
   end
 
+  def should_use_business_hours?(sla_policy, inbox)
+    sla_policy.only_during_business_hours? && inbox.working_hours_enabled?
+  end
+
+  # Calculates the SLA threshold deadline considering business hours if enabled.
+  #
+  # This method determines when an SLA will be breached by adding the threshold duration
+  # to the start time. If business hours are enabled, it only counts time during working hours,
+  # automatically skipping weekends and after-hours periods.
+  def calculate_threshold_deadline(start_time, threshold_seconds, inbox, sla_policy)
+    # Fall back to simple calendar time calculation if business hours not enabled
+    return start_time.to_i + threshold_seconds unless should_use_business_hours?(sla_policy, inbox)
+
+    # Configure the working_hours gem with inbox-specific schedule and timezone
+    configure_working_hours_for_calculation(inbox)
+
+    # Convert start time to inbox timezone for accurate business hours calculation
+    start_time_in_timezone = start_time.in_time_zone(inbox.timezone).to_time
+
+    # Determine effective start time: if outside business hours, advance to next working time
+    # Example: Saturday 6 PM conversation would start counting Monday 9 AM
+    effective_start_time = if start_time_in_timezone.in_working_hours?
+                             start_time_in_timezone
+                           else
+                             WorkingHours.next_working_time(start_time_in_timezone)
+                           end
+
+    # Add working time duration
+    # This automatically skips non-working hours, weekends, and holidays
+    deadline = effective_start_time + threshold_seconds.working.seconds
+    deadline.to_i
+  end
+
+  def configure_working_hours_for_calculation(inbox)
+    inbox_working_hours = configure_working_hours(inbox.working_hours)
+    return if inbox_working_hours.blank?
+
+    WorkingHours::Config.working_hours = inbox_working_hours
+    WorkingHours::Config.time_zone = inbox.timezone
+  end
+
   def still_within_threshold?(threshold)
     Time.zone.now.to_i < threshold
   end
 
   def check_first_response_time_threshold(applied_sla, conversation, sla_policy)
-    threshold = conversation.created_at.to_i + sla_policy.first_response_time_threshold.to_i
+    threshold = calculate_threshold_deadline(
+      conversation.created_at,
+      sla_policy.first_response_time_threshold.to_i,
+      conversation.inbox,
+      sla_policy
+    )
     return if first_reply_was_within_threshold?(conversation, threshold)
     return if still_within_threshold?(threshold)
 
@@ -43,7 +90,12 @@ class Sla::EvaluateAppliedSlaService
     # Waiting on customer response, no need to check next response time threshold
     return if conversation.waiting_since.blank?
 
-    threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold.to_i
+    threshold = calculate_threshold_deadline(
+      conversation.waiting_since,
+      sla_policy.next_response_time_threshold.to_i,
+      conversation.inbox,
+      sla_policy
+    )
     return if still_within_threshold?(threshold)
 
     handle_missed_sla(applied_sla, 'nrt')
@@ -61,7 +113,12 @@ class Sla::EvaluateAppliedSlaService
   def check_resolution_time_threshold(applied_sla, conversation, sla_policy)
     return if conversation.resolved?
 
-    threshold = conversation.created_at.to_i + sla_policy.resolution_time_threshold.to_i
+    threshold = calculate_threshold_deadline(
+      conversation.created_at,
+      sla_policy.resolution_time_threshold.to_i,
+      conversation.inbox,
+      sla_policy
+    )
     return if still_within_threshold?(threshold)
 
     handle_missed_sla(applied_sla, 'rt')

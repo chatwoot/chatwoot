@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { evaluateSLAStatus } from '@chatwoot/utils';
+import { getBusinessHoursConfig } from 'dashboard/helper/slaHelper';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const props = defineProps({
@@ -58,9 +59,17 @@ const groupClass = computed(() => {
 });
 
 const updateSlaStatus = () => {
+  const businessHoursConfig = getBusinessHoursConfig(
+    appliedSLA.value?.sla_policy,
+    props.chat?.inbox
+  );
+
   slaStatus.value = evaluateSLAStatus({
     appliedSla: appliedSLA.value,
     chat: props.chat,
+    options: businessHoursConfig
+      ? { businessHours: businessHoursConfig }
+      : undefined,
   });
 };
 
