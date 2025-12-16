@@ -15,18 +15,18 @@
       "SUCCESS": "Configuración de cuenta actualizada correctamente"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
+      "TITLE": "Eliminar tu cuenta",
       "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "BUTTON_TEXT": "Eliminar tu cuenta",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "Eliminar cuenta",
+        "MESSAGE": "La eliminación de su cuenta es irreversible. Introduzca su nombre de cuenta abajo para confirmar que desea eliminarla permanentemente.",
         "BUTTON_TEXT": "Eliminar",
         "DISMISS": "Cancelar",
         "PLACE_HOLDER": "Por favor escriba {accountName} para confirmar"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Cuenta marcada para eliminar",
+      "FAILURE": "No se pudo eliminar la cuenta, ¡inténtalo de nuevo!",
       "SCHEDULED_DELETION": {
         "TITLE": "Account Scheduled for Deletion",
         "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
@@ -45,7 +45,7 @@
         "NOTE": "Este ID es necesario si estás construyendo una integración basada en API"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
+        "TITLE": "Auto-resolver conversaciones",
         "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
         "DURATION": {
           "LABEL": "Inactivity duration",
@@ -65,12 +65,12 @@
         "PREFERENCES": "Preferencias",
         "LABEL": {
           "LABEL": "Add label after auto-resolution",
-          "PLACEHOLDER": "Select a label"
+          "PLACEHOLDER": "Seleccionar una etiqueta"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Skip conversations waiting for agent’s reply"
+          "LABEL": "Saltar conversaciones esperando respuesta del agente"
         },
-        "UPDATE_BUTTON": "Save Changes"
+        "UPDATE_BUTTON": "Guardar Cambios"
       },
       "NAME": {
         "LABEL": "Nombre de cuenta",
@@ -93,11 +93,11 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclude unattended conversations",
+        "LABEL": "Excluir conversaciones desatendidas",
         "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
+        "TITLE": "Transcribir mensajes de audio",
         "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
         "API": {
           "SUCCESS": "Audio transcription setting updated successfully",
