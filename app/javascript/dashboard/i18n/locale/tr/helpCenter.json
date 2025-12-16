@@ -529,7 +529,7 @@
         "LOCALE": {
           "ALL": "Tüm Diller"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "Yeni Makale"
       },
       "EMPTY_STATE": {
         "ALL": {
@@ -739,8 +739,8 @@
           "PLACEHOLDER": "Portal slug"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
+          "LABEL": "Canlı sohbet widget'ı",
+          "PLACEHOLDER": "Canlı sohbet widget'ını seçin",
           "HELP_TEXT": "Select a live chat widget that will appear on your help center",
           "NONE_OPTION": "Widget yok"
         },
