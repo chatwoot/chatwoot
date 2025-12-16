@@ -13,6 +13,15 @@ class ConversationApi extends ApiClient {
   updateLabels(conversationID, labels) {
     return axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
+
+  getSummary(conversationID, forceRefresh = false) {
+    return axios.get('/api/v1/summary', {
+      params: {
+        conversation_id: conversationID,
+        force_refresh: forceRefresh
+      },
+    });
+  }
 }
 
 export default new ConversationApi();
