@@ -60,6 +60,7 @@ ru:
         success: Мы сообщим вам, как только файл для экспорта контактов будет готов к просмотру.
       email:
         invalid: Неверный email
+        already_exists_in_inbox: 'Контакт с таким Email уже существует в инбоксе'
       phone_number:
         invalid: должен иметь формат e164
     companies:

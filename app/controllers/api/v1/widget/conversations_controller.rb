@@ -21,7 +21,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       contact: @contact,
       params: { email: contact_email, phone_number: contact_phone_number, name: contact_name },
       retain_original_contact_name: true,
-      discard_invalid_attrs: true
+      discard_invalid_attrs: true,
+      inbox_id: @web_widget.inbox.id
     ).perform
   end
 
