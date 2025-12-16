@@ -3,6 +3,8 @@ import { ref, computed, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import YearInReviewAPI from 'dashboard/api/yearInReview';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useStoreGetters } from 'dashboard/composables/store';
 import IntroSlide from './slides/IntroSlide.vue';
 import ConversationsSlide from './slides/ConversationsSlide.vue';
 import BusiestDaySlide from './slides/BusiestDaySlide.vue';
@@ -20,6 +22,8 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 const { t } = useI18n();
+const { uiSettings } = useUISettings();
+const getters = useStoreGetters();
 const isOpen = ref(false);
 const currentSlide = ref(0);
 const yearData = ref(null);
@@ -59,10 +63,21 @@ const playDrumroll = () => {
 };
 
 const fetchYearInReviewData = async () => {
+  const year = 2025;
+  const accountId = getters.getCurrentAccountId.value;
+  const cacheKey = `year_in_review_${accountId}_${year}`;
+
+  const cachedData = uiSettings.value?.[cacheKey];
+
+  if (cachedData) {
+    yearData.value = cachedData;
+    return;
+  }
+
   isLoading.value = true;
   error.value = null;
   try {
-    const response = await YearInReviewAPI.get(2025);
+    const response = await YearInReviewAPI.get(year);
     yearData.value = response.data;
   } catch (err) {
     error.value = err.message;

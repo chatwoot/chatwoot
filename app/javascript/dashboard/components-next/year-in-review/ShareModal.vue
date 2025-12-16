@@ -17,7 +17,7 @@ const props = defineProps({
     required: true,
   },
   year: {
-    type: Number,
+    type: [Number, String],
     required: true,
   },
 });
@@ -56,8 +56,8 @@ const generateImage = async () => {
     const bgColor = colorMap[props.slideBackground] || '#ffffff';
 
     const dataUrl = await toPng(slideElement, {
-      quality: 1,
-      pixelRatio: 1,
+      quality: 2,
+      pixelRatio: 1.2,
       backgroundColor: bgColor,
     });
 
