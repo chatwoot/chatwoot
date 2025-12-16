@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
+import { useToggle } from '@vueuse/core';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
 import EditAttribute from './EditAttribute.vue';
@@ -22,25 +23,25 @@ const store = useStore();
 const { currentAccount } = useAccount();
 const inboxes = useMapGetter('inboxes/getInboxes');
 
-const showAddPopup = ref(false);
+const [showAddPopup, toggleAddPopup] = useToggle(false);
 const selectedTabIndex = ref(0);
 const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
-const showEditPopup = ref(false);
-const showDeletePopup = ref(false);
+const [showEditPopup, toggleEditPopup] = useToggle(false);
+const [showDeletePopup, toggleDeletePopup] = useToggle(false);
 const selectedAttribute = ref({});
 
 const openAddPopup = () => {
-  showAddPopup.value = true;
+  toggleAddPopup(true);
 };
 const hideAddPopup = () => {
-  showAddPopup.value = false;
+  toggleAddPopup(false);
 };
 const hideEditPopup = () => {
-  showEditPopup.value = false;
+  toggleEditPopup(false);
   selectedAttribute.value = {};
 };
 const closeDelete = () => {
-  showDeletePopup.value = false;
+  toggleDeletePopup(false);
   selectedAttribute.value = {};
 };
 
@@ -57,6 +58,10 @@ const tabs = computed(() => {
   ];
 });
 
+const tabsForTabBar = computed(() =>
+  tabs.value.map(tab => ({ label: tab.name, key: tab.key }))
+);
+
 onMounted(() => {
   store.dispatch('attributes/get');
 });
@@ -69,18 +74,18 @@ const attributes = computed(() =>
   getters['attributes/getAttributesByModel'].value(attributeModel.value)
 );
 
-const onClickTabChange = payload => {
-  selectedTabIndex.value = typeof payload === 'number' ? payload : payload?.key;
+const onClickTabChange = tab => {
+  selectedTabIndex.value = tab.key;
 };
 
 const handleEditAttribute = attribute => {
   selectedAttribute.value = attribute;
-  showEditPopup.value = true;
+  toggleEditPopup(true);
 };
 
 const handleDeleteAttribute = attribute => {
   selectedAttribute.value = attribute;
-  showDeletePopup.value = true;
+  toggleDeletePopup(true);
 };
 
 const requiredAttributeKeys = computed(
@@ -154,10 +159,10 @@ const derivedAttributes = computed(() =>
     <template #body>
       <div class="flex flex-col gap-6">
         <TabBar
-          :tabs="tabs.map(tab => ({ label: tab.name, key: tab.key }))"
+          :tabs="tabsForTabBar"
           :initial-active-tab="selectedTabIndex"
           class="max-w-xl"
-          @change="onClickTabChange"
+          @tab-changed="onClickTabChange"
         />
         <div class="grid gap-3">
           <AttributeListItem

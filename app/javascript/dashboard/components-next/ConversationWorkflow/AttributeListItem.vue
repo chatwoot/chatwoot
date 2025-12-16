@@ -34,7 +34,7 @@ const attributeIcon = computed(() => {
 
 <template>
   <div
-    class="flex flex-col gap-2 p-4 bg-white rounded-2xl border border-n-weak dark:bg-n-solid-1"
+    class="flex flex-col gap-2 p-4 rounded-2xl bg-n-solid-1 outline outline-1 outline-n-container"
   >
     <div class="flex flex-wrap gap-2 justify-between items-center">
       <div class="flex flex-wrap gap-2 items-center min-w-0">
@@ -55,7 +55,7 @@ const attributeIcon = computed(() => {
           :key="badge.type"
           :type="badge.type"
         />
-        <div class="w-px h-3 bg-n-strong" />
+        <div v-if="badges.length > 0" class="w-px h-3 bg-n-strong" />
         <Button
           icon="i-lucide-pencil-line"
           size="sm"
