@@ -16,6 +16,10 @@ const cloudImage =
 const doubleQuotesImage =
   '/assets/images/dashboard/year-in-review/double-quotes.png';
 
+const hasData = computed(() => {
+  return props.totalConversations > 0;
+});
+
 const formatNumber = num => {
   if (num >= 100000) {
     return '100k+';
@@ -24,6 +28,10 @@ const formatNumber = num => {
 };
 
 const performanceHelperText = computed(() => {
+  if (!hasData.value) {
+    return t('YEAR_IN_REVIEW.CONVERSATIONS.FALLBACK');
+  }
+
   const count = props.totalConversations;
   if (count <= 50) return t('YEAR_IN_REVIEW.CONVERSATIONS.COMPARISON.0_50');
   if (count <= 100) return t('YEAR_IN_REVIEW.CONVERSATIONS.COMPARISON.50_100');

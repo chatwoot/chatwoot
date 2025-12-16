@@ -7,13 +7,14 @@
     "CONVERSATIONS": {
       "TITLE": "You have handled",
       "SUBTITLE": "conversations",
+      "FALLBACK": "This year wasn't about the numbers. It was about showing up.",
       "COMPARISON": {
         "0_50": "You showed up, and that's how every good inbox begins.",
         "50_100": "You kept the replies flowing and the conversations alive.",
         "100_500": "You handled serious volume and kept everything on track.",
         "500_2000": "You kept things moving while the volume kept climbing.",
         "2000_10000": "You ran high traffic through your inbox without breaking a sweat.",
-        "10000_PLUS": "That’s a full city of customers knocking on your door. You made it look effortless."
+        "10000_PLUS": "That's a full city of customers knocking on your door. You made it look effortless."
       }
     },
     "BUSIEST_DAY": {

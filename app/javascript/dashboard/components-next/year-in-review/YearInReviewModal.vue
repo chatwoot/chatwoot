@@ -34,7 +34,27 @@ const showShareModal = ref(false);
 const shareModalRef = ref(null);
 const drumrollAudio = ref(null);
 
-const totalSlides = 5;
+const hasConversations = computed(() => {
+  return yearData.value?.total_conversations > 0;
+});
+
+const totalSlides = computed(() => {
+  if (!hasConversations.value) {
+    return 3;
+  }
+  return 5;
+});
+
+const slideIndexMap = computed(() => {
+  if (!hasConversations.value) {
+    return [0, 1, 4];
+  }
+  return [0, 1, 2, 3, 4];
+});
+
+const currentVisualSlide = computed(() => {
+  return slideIndexMap.value.indexOf(currentSlide.value);
+});
 
 const slideBackgrounds = [
   'bg-[#5BD58A]',
@@ -87,19 +107,27 @@ const fetchYearInReviewData = async () => {
 };
 
 const nextSlide = () => {
-  if (currentSlide.value < totalSlides - 1) {
-    currentSlide.value += 1;
+  if (currentSlide.value < 4) {
+    if (!hasConversations.value && currentSlide.value === 1) {
+      currentSlide.value = 4;
+    } else {
+      currentSlide.value += 1;
+    }
   }
 };
 
 const previousSlide = () => {
   if (currentSlide.value > 0) {
-    currentSlide.value -= 1;
+    if (!hasConversations.value && currentSlide.value === 4) {
+      currentSlide.value = 1;
+    } else {
+      currentSlide.value -= 1;
+    }
   }
 };
 
-const goToSlide = index => {
-  currentSlide.value = index;
+const goToSlide = visualIndex => {
+  currentSlide.value = slideIndexMap.value[visualIndex];
 };
 
 const close = () => {
@@ -236,7 +264,9 @@ watch(
             leave-to-class="opacity-0 -translate-x-[30px]"
           >
             <BusiestDaySlide
-              v-if="currentSlide === 2 && yearData.busiest_day"
+              v-if="
+                currentSlide === 2 && hasConversations && yearData.busiest_day
+              "
               :key="2"
               :ref="el => (slideRefs[2] = el)"
               :busiest-day="yearData.busiest_day"
@@ -250,7 +280,11 @@ watch(
             leave-to-class="opacity-0 -translate-x-[30px]"
           >
             <PersonalitySlide
-              v-if="currentSlide === 3 && yearData.support_personality"
+              v-if="
+                currentSlide === 3 &&
+                hasConversations &&
+                yearData.support_personality
+              "
               :key="3"
               :ref="el => (slideRefs[3] = el)"
               :support-personality="yearData.support_personality"
@@ -292,7 +326,7 @@ watch(
                 :key="index"
                 class="w-2 h-2 rounded-full transition-all"
                 :class="
-                  currentSlide === index - 1
+                  currentVisualSlide === index - 1
                     ? 'bg-white w-8'
                     : 'bg-white bg-opacity-50'
                 "
@@ -302,17 +336,17 @@ watch(
 
             <button
               class="px-4 py-2 flex items-center gap-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
-              :class="{ invisible: currentSlide === totalSlides - 1 }"
+              :class="{ invisible: currentVisualSlide === totalSlides - 1 }"
               @click="nextSlide"
             >
               <span
-                v-if="currentSlide < totalSlides - 1"
+                v-if="currentVisualSlide < totalSlides - 1"
                 class="text-sm font-medium"
               >
                 {{ t('YEAR_IN_REVIEW.NAVIGATION.NEXT') }}
               </span>
               <i
-                v-if="currentSlide < totalSlides - 1"
+                v-if="currentVisualSlide < totalSlides - 1"
                 class="i-lucide-chevron-right w-5 h-5"
               />
             </button>

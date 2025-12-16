@@ -27,7 +27,9 @@ const signatureImage =
       <div
         class="text-xl lg:text-3xl mt-8 font-medium !leading-snug text-n-slate-12 dark:text-n-slate-1"
       >
-        {{ t('YEAR_IN_REVIEW.THANK_YOU.MESSAGE', { nextYear: year + 1 }) }}
+        {{
+          t('YEAR_IN_REVIEW.THANK_YOU.MESSAGE', { nextYear: Number(year) + 1 })
+        }}
       </div>
       <div class="mt-12">
         <img
