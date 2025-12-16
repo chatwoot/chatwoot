@@ -5,7 +5,8 @@ class MessageReportJob < ApplicationJob
 
   BRAND_CONFIGS = [
     { account_id: 209, recipient_emails: ['support@layers.shop', 'jay@procedure.tech', 'saiippili@layers.shop'] },
-    { account_id: 2085, recipient_emails: ['marketing@lucirajewelry.com', 'jay@procedure.tech'] }
+    { account_id: 2085, recipient_emails: ['marketing@lucirajewelry.com', 'jay@procedure.tech'] },
+    { account_id: 1923, recipient_emails: ['cs@thebelife.co', 'abhishek.n@thebelife.co', 'maitri.m@thebelife.co'] }
   ].freeze
 
   def perform

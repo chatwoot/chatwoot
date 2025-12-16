@@ -140,10 +140,12 @@
           <span class="help-text mt-2 block">
             When enabled:
             <ul class="list-disc ml-5 mt-1">
-              <li>Agents only see contacts assigned to them</li>
+              <li>
+                Agents only see contacts assigned to them and contact with no
+                assignee
+              </li>
               <li>New contacts auto-assigned to creator</li>
               <li>Customer replies route to contact owner</li>
-              <li>Broadcasts filtered to sender's contacts</li>
               <li>Admins always see all contacts</li>
             </ul>
           </span>
