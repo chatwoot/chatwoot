@@ -120,23 +120,6 @@ const setPhoneNumber = computed(() => {
     : '';
 });
 
-// Initialize phone number from props
-if (props.phoneNumber) {
-  const parsed = parsePhoneNumber(props.phoneNumber);
-  if (parsed && parsed.countryCallingCode) {
-    // Set dial code
-    activeDialCode.value = `+${parsed.countryCallingCode}`;
-    // Extract number without country code for the input
-    agentPhoneNumber.value = props.phoneNumber.replace(
-      `+${parsed.countryCallingCode}`,
-      ''
-    );
-  } else {
-    // If not parseable, use the raw value
-    agentPhoneNumber.value = props.phoneNumber;
-  }
-}
-
 const rules = {
   agentName: { required, minLength: minLength(1) },
   selectedRoleId: { required },

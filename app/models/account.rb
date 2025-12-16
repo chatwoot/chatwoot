@@ -106,6 +106,8 @@ class Account < ApplicationRecord
   has_many :pipeline_statuses, dependent: :destroy_async
   has_many :product_catalogs, dependent: :destroy_async
   has_many :bulk_processing_requests, dependent: :destroy_async
+  has_many :account_addresses, dependent: :destroy_async
+  accepts_nested_attributes_for :account_addresses, allow_destroy: true, reject_if: :all_blank
   has_one_attached :contacts_export
 
   enum :locale, LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h, prefix: true
