@@ -1,6 +1,6 @@
 module Enterprise::Integrations::OpenaiProcessorService
   ALLOWED_EVENT_NAMES = %w[summarize reply_suggestion label_suggestion fix_spelling_grammar
-                           friendly casual professional confident straightforward].freeze
+                           friendly casual professional confident straightforward improve].freeze
   CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
   def label_suggestion_message

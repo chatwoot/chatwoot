@@ -33,7 +33,7 @@ const menuItems = computed(() => {
       label: t(
         'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY_SELECTION'
       ),
-      key: 'rephrase_selection',
+      key: 'improve_selection',
       icon: 'i-fluent-pen-sparkle-24-regular',
     });
   } else if (
@@ -42,7 +42,7 @@ const menuItems = computed(() => {
   ) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY'),
-      key: 'rephrase',
+      key: 'improve',
       icon: 'i-fluent-pen-sparkle-24-regular',
     });
   }
