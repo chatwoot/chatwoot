@@ -28,6 +28,7 @@ const { t } = useI18n();
 
 const isGenerating = ref(false);
 const shareImageUrl = ref(null);
+const shareImageBlob = ref(null);
 
 const generateImage = async () => {
   if (!props.slideElement) return;
@@ -91,7 +92,7 @@ const generateImage = async () => {
     );
 
     const logo = new Image();
-    logo.src = '/brand-assets/logo.svg';
+    logo.src = window.location.origin + '/brand-assets/logo.svg';
     await new Promise(resolve => {
       logo.onload = resolve;
     });
@@ -104,6 +105,9 @@ const generateImage = async () => {
     ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
 
     shareImageUrl.value = finalCanvas.toDataURL('image/png');
+    shareImageBlob.value = await new Promise(resolve => {
+      finalCanvas.toBlob(resolve, 'image/png');
+    });
   } catch (err) {
     // Handle errors silently for now
     // eslint-disable-next-line no-console
@@ -126,11 +130,18 @@ const shareImage = async () => {
   if (!shareImageUrl.value) return;
 
   try {
-    const response = await fetch(shareImageUrl.value);
-    const blob = await response.blob();
-    const file = new File([blob], `chatwoot-year-in-review-${props.year}.png`, {
-      type: 'image/png',
-    });
+    if (!shareImageBlob.value) {
+      downloadImage();
+      return;
+    }
+
+    const file = new File(
+      [shareImageBlob.value],
+      `chatwoot-year-in-review-${props.year}.png`,
+      {
+        type: 'image/png',
+      }
+    );
 
     if (
       navigator.share &&
@@ -156,6 +167,7 @@ const shareImage = async () => {
 
 const close = () => {
   shareImageUrl.value = null;
+  shareImageBlob.value = null;
   emit('close');
 };
 
