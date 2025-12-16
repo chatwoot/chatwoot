@@ -171,7 +171,7 @@ watch(
             </p>
             <p class="mt-2 text-sm text-n-slate-11">{{ error }}</p>
             <button
-              class="mt-4 px-4 py-2 rounded-full text-white bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+              class="mt-4 px-4 py-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
               @click="close"
             >
               <span class="text-sm font-medium">{{
@@ -186,7 +186,12 @@ watch(
           class="relative w-full h-full"
           :class="currentSlideBackground"
         >
-          <Transition name="slide">
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            leave-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 translate-x-[30px]"
+            leave-to-class="opacity-0 -translate-x-[30px]"
+          >
             <IntroSlide
               v-if="currentSlide === 0"
               :key="0"
@@ -195,7 +200,12 @@ watch(
             />
           </Transition>
 
-          <Transition name="slide">
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            leave-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 translate-x-[30px]"
+            leave-to-class="opacity-0 -translate-x-[30px]"
+          >
             <ConversationsSlide
               v-if="currentSlide === 1"
               :key="1"
@@ -204,7 +214,12 @@ watch(
             />
           </Transition>
 
-          <Transition name="slide">
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            leave-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 translate-x-[30px]"
+            leave-to-class="opacity-0 -translate-x-[30px]"
+          >
             <BusiestDaySlide
               v-if="currentSlide === 2 && yearData.busiest_day"
               :key="2"
@@ -213,7 +228,12 @@ watch(
             />
           </Transition>
 
-          <Transition name="slide">
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            leave-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 translate-x-[30px]"
+            leave-to-class="opacity-0 -translate-x-[30px]"
+          >
             <PersonalitySlide
               v-if="currentSlide === 3 && yearData.support_personality"
               :key="3"
@@ -222,7 +242,12 @@ watch(
             />
           </Transition>
 
-          <Transition name="slide">
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            leave-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 translate-x-[30px]"
+            leave-to-class="opacity-0 -translate-x-[30px]"
+          >
             <ThankYouSlide
               v-if="currentSlide === 4"
               :key="4"
@@ -236,7 +261,7 @@ watch(
           >
             <button
               v-if="currentSlide > 0"
-              class="px-4 py-2 flex items-center gap-2 rounded-full text-white bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+              class="px-4 py-2 flex items-center gap-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
               @click="previousSlide"
             >
               <i class="i-lucide-chevron-left w-5 h-5" />
@@ -261,7 +286,8 @@ watch(
             </div>
 
             <button
-              class="px-4 py-2 flex items-center gap-2 rounded-full text-white bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+              class="px-4 py-2 flex items-center gap-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+              :class="{ invisible: currentSlide === totalSlides - 1 }"
               @click="nextSlide"
             >
               <span
@@ -269,9 +295,6 @@ watch(
                 class="text-sm font-medium"
               >
                 {{ t('YEAR_IN_REVIEW.NAVIGATION.NEXT') }}
-              </span>
-              <span v-else class="text-sm font-medium">
-                {{ t('YEAR_IN_REVIEW.CLOSE') }}
               </span>
               <i
                 v-if="currentSlide < totalSlides - 1"
@@ -281,7 +304,7 @@ watch(
           </div>
 
           <button
-            class="absolute top-4 left-4 px-4 py-2 flex items-center gap-2 rounded-full text-white bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+            class="absolute top-4 left-4 px-4 py-2 flex items-center gap-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
             @click="shareCurrentSlide"
           >
             <i class="i-lucide-share-2 w-5 h-5" />
@@ -291,7 +314,7 @@ watch(
           </button>
 
           <button
-            class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full text-white hover:bg-white hover:bg-opacity-20 transition-colors"
+            class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full text-n-slate-12 dark:text-n-slate-1 hover:bg-white hover:bg-opacity-20 transition-colors"
             @click="close"
           >
             <i class="i-lucide-x w-6 h-6" />

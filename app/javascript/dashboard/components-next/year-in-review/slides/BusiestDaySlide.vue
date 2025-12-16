@@ -29,19 +29,15 @@ const performanceHelperText = computed(() => {
 </script>
 
 <template>
-  <div class="absolute inset-0 flex items-center justify-center px-32 py-20">
-    <div class="flex flex-col gap-12 flex-shrink-0 w-full max-w-4xl">
+  <div class="absolute inset-0 flex items-center justify-center px-8 md:px-32">
+    <div class="flex flex-col gap-4 w-full max-w-3xl">
       <div class="flex items-center justify-center flex-1">
         <div class="flex items-center justify-between gap-6 flex-1 md:gap-16">
           <div class="text-white flex gap-2 flex-col">
-            <div
-              class="text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight"
-            >
+            <div class="text-2xl lg:text-3xl xl:text-4xl tracking-tight">
               {{ t('YEAR_IN_REVIEW.BUSIEST_DAY.TITLE') }}
             </div>
-            <div
-              class="text-6xl font-medium md:text-8xl lg:text-[180px] tracking-tighter"
-            >
+            <div class="text-6xl md:text-8xl lg:text-[140px] tracking-tighter">
               {{ busiestDay.date }}
             </div>
           </div>
@@ -49,7 +45,7 @@ const performanceHelperText = computed(() => {
           <img
             :src="coffeeImage"
             alt="Coffee"
-            class="w-auto h-32 md:h-56 lg:h-80 -mr-2"
+            class="w-auto h-32 md:h-56 lg:h-80"
           />
         </div>
       </div>
@@ -63,17 +59,13 @@ const performanceHelperText = computed(() => {
           />
           <div class="flex-1">
             <p
-              class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-black-900"
+              class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-n-slate-12 dark:text-n-slate-1"
             >
               {{
                 t('YEAR_IN_REVIEW.BUSIEST_DAY.MESSAGE', {
                   count: busiestDay.count,
                 })
               }}
-            </p>
-            <p
-              class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-black-900"
-            >
               {{ performanceHelperText }}
             </p>
           </div>

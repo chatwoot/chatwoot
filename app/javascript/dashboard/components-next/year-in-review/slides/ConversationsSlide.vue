@@ -37,9 +37,11 @@ const performanceHelperText = computed(() => {
 </script>
 
 <template>
-  <div class="absolute inset-0 flex items-center justify-center px-32 py-20">
+  <div
+    class="absolute inset-0 flex items-center justify-center px-8 md:px-32 py-20"
+  >
     <div
-      class="flex flex-col gap-16 flex-shrink-0"
+      class="flex flex-col gap-16"
       :class="totalConversations > 100 ? 'max-w-4xl' : 'max-w-3xl'"
     >
       <div class="flex items-center justify-center flex-1">
@@ -48,17 +50,13 @@ const performanceHelperText = computed(() => {
           :class="totalConversations > 100 ? 'md:gap-16' : 'md:gap-8'"
         >
           <div class="text-white flex gap-3 flex-col">
-            <div
-              class="text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight"
-            >
+            <div class="text-2xl md:text-3xl lg:text-4xl tracking-tight">
               {{ t('YEAR_IN_REVIEW.CONVERSATIONS.TITLE') }}
             </div>
             <div class="text-6xl md:text-8xl lg:text-[180px] tracking-tighter">
               {{ formatNumber(totalConversations) }}
             </div>
-            <div
-              class="text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight -mt-2"
-            >
+            <div class="text-2xl md:text-3xl lg:text-4xl tracking-tight -mt-2">
               {{ t('YEAR_IN_REVIEW.CONVERSATIONS.SUBTITLE') }}
             </div>
           </div>
@@ -78,7 +76,7 @@ const performanceHelperText = computed(() => {
           class="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16"
         />
         <p
-          class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-black-900"
+          class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-n-slate-12 dark:text-n-slate-1"
         >
           {{ performanceHelperText }}
         </p>
