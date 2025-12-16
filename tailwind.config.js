@@ -41,7 +41,7 @@ const tailwindConfig = {
       fontFamily: {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],
-        interDisplay: ['Inter Display', ...defaultSansFonts],
+        interDisplay: ['InterDisplay', ...defaultSansFonts],
       },
       typography: {
         bubble: {

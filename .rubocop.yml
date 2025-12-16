@@ -7,6 +7,7 @@ plugins:
 require:
   - ./rubocop/use_from_email.rb
   - ./rubocop/custom_cop_location.rb
+  - ./rubocop/attachment_download.rb
   - ./rubocop/one_class_per_file.rb
 
 Layout/LineLength:
@@ -40,6 +41,12 @@ Style/SymbolArray:
 
 Style/OpenStructUse:
   Enabled: false
+
+Chatwoot/AttachmentDownload:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
 
 Style/OptionalBooleanParameter:
   Exclude:
@@ -88,7 +95,7 @@ Metrics/ModuleLength:
 Rails/HelperInstanceVariable:
   Exclude:
     - enterprise/app/helpers/captain/chat_helper.rb
-
+    - enterprise/app/helpers/captain/chat_response_helper.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
