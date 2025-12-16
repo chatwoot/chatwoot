@@ -172,7 +172,8 @@ const onPaste = e => {
   if (!files?.length) return;
 
   Array.from(files).forEach(file => {
-    onFileUpload({ file, name: file.name, type: file.type, size: file.size });
+    const { name, type, size } = file;
+    onFileUpload({ file, name, type, size });
   });
 };
 
