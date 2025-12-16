@@ -61,7 +61,6 @@ class YearInReviewBuilder
   end
 
   def average_response_time
-    # Get average first response time from reporting events
     avg_time = account.reporting_events
                       .where(
                         name: 'first_response',
