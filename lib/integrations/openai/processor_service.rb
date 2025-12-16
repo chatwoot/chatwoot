@@ -73,6 +73,7 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
     prompt_from_file('fix_spelling_grammar')
   end
 
+  # TODO: Replace with LlmFormattable or enterprise/lib/captain/prompts/snippets/conversation.liquid
   def conversation_messages(in_array_format: false)
     messages = init_messages_body(in_array_format)
 
