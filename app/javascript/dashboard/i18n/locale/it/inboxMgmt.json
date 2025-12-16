@@ -814,7 +814,7 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Imposta la tua disponibilità",
+      "TITLE": "Imposta disponibilità",
       "SUBTITLE": "Imposta la tua disponibilità sul tuo widget live chat",
       "WEEKLY_TITLE": "Imposta le ore settimanali",
       "TIMEZONE_LABEL": "Seleziona fuso orario",
