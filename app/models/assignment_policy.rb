@@ -32,6 +32,20 @@ class AssignmentPolicy < ApplicationRecord
   enum conversation_priority: { earliest_created: 0, longest_waiting: 1 }
 
   enum assignment_order: { round_robin: 0 } unless ChatwootApp.enterprise?
+
+  after_update_commit :enable_inboxes_auto_assignment, if: :became_enabled?
+
+  private
+
+  def became_enabled?
+    saved_change_to_enabled? && enabled?
+  end
+
+  def enable_inboxes_auto_assignment
+    inboxes.where(enable_auto_assignment: false).find_each do |inbox|
+      inbox.update!(enable_auto_assignment: true)
+    end
+  end
 end
 
 AssignmentPolicy.include_mod_with('Concerns::AssignmentPolicy')

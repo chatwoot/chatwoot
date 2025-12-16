@@ -18,4 +18,16 @@ class InboxAssignmentPolicy < ApplicationRecord
   belongs_to :assignment_policy
 
   validates :inbox_id, uniqueness: true
+
+  after_create_commit :enable_inbox_auto_assignment, if: :policy_enabled?
+
+  private
+
+  def policy_enabled?
+    assignment_policy.enabled?
+  end
+
+  def enable_inbox_auto_assignment
+    inbox.update!(enable_auto_assignment: true) unless inbox.enable_auto_assignment?
+  end
 end

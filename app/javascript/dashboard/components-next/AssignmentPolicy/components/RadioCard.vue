@@ -74,7 +74,7 @@ const handleChange = () => {
         >
           {{
             t(
-              'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.FORM.ASSIGNMENT_MODE.BALANCED.PREMIUM_BADGE'
+              'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.FORM.ASSIGNMENT_ORDER.BALANCED.PREMIUM_BADGE'
             )
           }}
         </span>

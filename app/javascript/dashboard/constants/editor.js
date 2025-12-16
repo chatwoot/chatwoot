@@ -5,7 +5,7 @@ export const FORMATTING = {
   // Channel formatting
   'Channel::Email': {
     marks: ['strong', 'em', 'code', 'link'],
-    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],
+    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
     menu: [
       'strong',
       'em',
@@ -19,7 +19,7 @@ export const FORMATTING = {
   },
   'Channel::WebWidget': {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
-    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],
+    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
     menu: [
       'strong',
       'em',
@@ -127,7 +127,7 @@ export const FORMATTING = {
   },
   'Context::MessageSignature': {
     marks: ['strong', 'em', 'link'],
-    nodes: [],
+    nodes: ['image'],
     menu: ['strong', 'em', 'link', 'undo', 'redo', 'imageUpload'],
   },
   'Context::InboxSettings': {
@@ -210,7 +210,12 @@ export const MARKDOWN_PATTERNS = [
     type: 'em', // PM: em, eg: *italic* or _italic_
     patterns: [
       { pattern: /(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, replacement: '$1' },
-      { pattern: /(?<!_)_(?!_)(.+?)(?<!_)_(?!_)/g, replacement: '$1' },
+      // Match _text_ only at word boundaries (whitespace/string start/end)
+      // Preserves underscores in URLs (e.g., https://example.com/path_name) and variable names
+      {
+        pattern: /(?<=^|[\s])_([^_\s][^_]*[^_\s]|[^_\s])_(?=$|[\s])/g,
+        replacement: '$1',
+      },
     ],
   },
   {

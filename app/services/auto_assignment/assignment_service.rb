@@ -46,18 +46,14 @@ class AutoAssignment::AssignmentService
 
   def find_available_agent
     agents = filter_agents_by_rate_limit(inbox.available_agents)
-    Rails.logger.info("Available agents: #{agents.count}")
-    Rails.logger.info("Available agents: #{agents.map(&:user_id)}")
     return nil if agents.empty?
 
     round_robin_selector.select_agent(agents)
   end
 
   def filter_agents_by_rate_limit(agents)
-    Rails.logger.info("Filtering agents by rate limit: #{agents.count}")
     agents.select do |agent_member|
       rate_limiter = build_rate_limiter(agent_member.user)
-      Rails.logger.info("Rate limiter within limit? #{rate_limiter.within_limit?}")
       rate_limiter.within_limit?
     end
   end

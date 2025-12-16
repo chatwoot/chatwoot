@@ -54,6 +54,7 @@ import {
   getFormattingForEditor,
   getSelectionCoords,
   calculateMenuPosition,
+  getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -81,6 +82,7 @@ const props = defineProps({
   // are triggered except when this flag is true
   allowSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
   showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   focusOnMount: { type: Boolean, default: true },
 });
@@ -105,10 +107,16 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
 
+const effectiveChannelType = computed(() =>
+  getEffectiveChannelType(props.channelType, props.medium)
+);
+
 const editorSchema = computed(() => {
   if (!props.channelType) return messageSchema;
 
-  const formatType = props.isPrivate ? DEFAULT_FORMATTING : props.channelType;
+  const formatType = props.isPrivate
+    ? DEFAULT_FORMATTING
+    : effectiveChannelType.value;
   const formatting = getFormattingForEditor(formatType);
   return buildMessageSchema(formatting.marks, formatting.nodes);
 });
@@ -116,7 +124,7 @@ const editorSchema = computed(() => {
 const editorMenuOptions = computed(() => {
   const formatType = props.isPrivate
     ? DEFAULT_FORMATTING
-    : props.channelType || DEFAULT_FORMATTING;
+    : effectiveChannelType.value || DEFAULT_FORMATTING;
   const formatting = getFormattingForEditor(formatType);
   return formatting.menu;
 });
@@ -301,8 +309,13 @@ function isBodyEmpty(content) {
 
   // if the signature is present, we need to remove it before checking
   // note that we don't update the editorView, so this is safe
+  // Use effective channel type to match how signature was appended
   const bodyWithoutSignature = props.signature
-    ? removeSignatureHelper(content, props.signature)
+    ? removeSignatureHelper(
+        content,
+        props.signature,
+        effectiveChannelType.value
+      )
     : content;
 
   // trimming should remove all the whitespaces, so we can check the length
@@ -370,7 +383,11 @@ function addSignature() {
   // see if the content is empty, if it is before appending the signature
   // we need to add a paragraph node and move the cursor at the start of the editor
   const contentWasEmpty = isBodyEmpty(content);
-  content = appendSignature(content, props.signature);
+  content = appendSignature(
+    content,
+    props.signature,
+    effectiveChannelType.value
+  );
   // need to reload first, ensuring that the editorView is updated
   reloadState(content);
 
@@ -382,7 +399,11 @@ function addSignature() {
 function removeSignature() {
   if (!props.signature) return;
   let content = props.modelValue;
-  content = removeSignatureHelper(content, props.signature);
+  content = removeSignatureHelper(
+    content,
+    props.signature,
+    effectiveChannelType.value
+  );
   // reload the state, ensuring that the editorView is updated
   reloadState(content);
 }
