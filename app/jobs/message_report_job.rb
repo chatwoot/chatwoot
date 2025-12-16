@@ -4,7 +4,7 @@ class MessageReportJob < ApplicationJob
   queue_as :scheduled_jobs
 
   BRAND_CONFIGS = [
-    { account_id: 209, recipient_emails: ['support@layers.shop', 'jay@procedure.tech'] },
+    { account_id: 209, recipient_emails: ['support@layers.shop', 'jay@procedure.tech', 'saiippili@layers.shop'] },
     { account_id: 2085, recipient_emails: ['marketing@lucirajewelry.com', 'jay@procedure.tech'] }
   ].freeze
 
