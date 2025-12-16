@@ -10,6 +10,9 @@
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
 - **Run Project**: `overmind start -f Procfile.dev`
+- **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version` (e.g., `rbenv install $(cat .ruby-version)`)
+- **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
+- Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
 
 ## Code Style
 
@@ -37,12 +40,15 @@
 
 - MVP focus: Least code change, happy-path only
 - No unnecessary defensive programming
+- Ship the happy path first: limit guards/fallbacks to what production has proven necessary, then iterate
+- Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
 - Break down complex tasks into small, testable units
 - Iterate after confirmation
 - Avoid writing specs unless explicitly asked
 - Remove dead/unreachable/unused code
 - Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
 - Don't reference Claude in commit messages
+- Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
 
 ## Project-Specific
 
@@ -73,3 +79,4 @@ Practical checklist for any change impacting core logic or public APIs
 - Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
 - When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
 - Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
+- When modifying existing OSS features for Enterprise-only behavior, add an Enterprise module (via `prepend_mod_with`/`include_mod_with`) instead of editing OSS files directly—especially for policies, controllers, and services. For Enterprise-exclusive features, place code directly under `enterprise/`.

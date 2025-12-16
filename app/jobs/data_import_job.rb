@@ -30,21 +30,15 @@ class DataImportJob < ApplicationJob
   def parse_csv_and_build_contacts
     contacts = []
     rejected_contacts = []
-    # Ensuring that importing non utf-8 characters will not throw error
-    data = @data_import.import_file.download
-    utf8_data = data.force_encoding('UTF-8')
 
-    # Ensure that the data is valid UTF-8, preserving valid characters
-    clean_data = utf8_data.valid_encoding? ? utf8_data : utf8_data.encode('UTF-16le', invalid: :replace, replace: '').encode('UTF-8')
-
-    csv = CSV.parse(clean_data, headers: true)
-
-    csv.each do |row|
-      current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)
-      if current_contact.valid?
-        contacts << current_contact
-      else
-        append_rejected_contact(row, current_contact, rejected_contacts)
+    with_import_file do |file|
+      csv_reader(file).each do |row|
+        current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)
+        if current_contact.valid?
+          contacts << current_contact
+        else
+          append_rejected_contact(row, current_contact, rejected_contacts)
+        end
       end
     end
 
@@ -75,7 +69,7 @@ class DataImportJob < ApplicationJob
   end
 
   def generate_csv_data(rejected_contacts)
-    headers = CSV.parse(@data_import.import_file.download, headers: true).headers
+    headers = csv_headers
     headers << 'errors'
     return if rejected_contacts.blank?
 
@@ -98,5 +92,32 @@ class DataImportJob < ApplicationJob
 
   def send_import_failed_notification_to_admin
     AdministratorNotifications::AccountNotificationMailer.with(account: @data_import.account).contact_import_failed.deliver_later
+  end
+
+  def csv_headers
+    header_row = nil
+    with_import_file do |file|
+      header_row = csv_reader(file).first
+    end
+    header_row&.headers || []
+  end
+
+  def csv_reader(file)
+    file.rewind
+    raw_data = file.read
+    utf8_data = raw_data.force_encoding('UTF-8')
+    clean_data = utf8_data.valid_encoding? ? utf8_data : utf8_data.encode('UTF-16le', invalid: :replace, replace: '').encode('UTF-8')
+
+    CSV.new(StringIO.new(clean_data), headers: true)
+  end
+
+  def with_import_file
+    temp_dir = Rails.root.join('tmp/imports')
+    FileUtils.mkdir_p(temp_dir)
+
+    @data_import.import_file.open(tmpdir: temp_dir) do |file|
+      file.binmode
+      yield file
+    end
   end
 end

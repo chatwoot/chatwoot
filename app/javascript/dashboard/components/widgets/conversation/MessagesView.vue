@@ -264,8 +264,6 @@ export default {
 
   created() {
     emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-    // when a new message comes in, we refetch the label suggestions
-    emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
     emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
@@ -296,6 +294,10 @@ export default {
       if (!this.isEnterprise) {
         return;
       }
+
+      // Early exit if conversation already has labels - no need to suggest more
+      const existingLabels = this.currentChat?.labels || [];
+      if (existingLabels.length > 0) return;
 
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
