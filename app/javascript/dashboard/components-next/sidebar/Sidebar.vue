@@ -9,6 +9,8 @@ import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -95,6 +97,15 @@ const sortedInboxes = computed(() =>
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
   emit('closeMobileSidebar');
+};
+
+const onComposeOpen = toggleFn => {
+  toggleFn();
+  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
+};
+
+const onComposeClose = () => {
+  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
 };
 
 const newReportRoutes = () => [
@@ -630,14 +641,14 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
-        <ComposeConversation align-position="right">
+        <ComposeConversation align-position="right" @close="onComposeClose">
           <template #trigger="{ toggle }">
             <Button
               icon="i-lucide-pen-line"
               color="slate"
               size="sm"
               class="!h-7 !bg-n-solid-3 dark:!bg-n-black/30 !outline-n-weak !text-n-slate-11"
-              @click="toggle"
+              @click="onComposeOpen(toggle)"
             />
           </template>
         </ComposeConversation>
