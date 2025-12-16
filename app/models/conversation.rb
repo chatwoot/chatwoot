@@ -2,35 +2,38 @@
 #
 # Table name: conversations
 #
-#  id                     :integer          not null, primary key
-#  additional_attributes  :jsonb
-#  agent_last_seen_at     :datetime
-#  assignee_last_seen_at  :datetime
-#  cached_label_list      :text
-#  contact_last_seen_at   :datetime
-#  custom_attributes      :jsonb
-#  first_reply_created_at :datetime
-#  follow_up_jid          :string
-#  identifier             :string
-#  last_activity_at       :datetime         not null
-#  last_handoff_at        :datetime
-#  priority               :integer
-#  snoozed_until          :datetime
-#  status                 :integer          default("open"), not null
-#  stop_follow_up         :boolean          default(FALSE)
-#  uuid                   :uuid             not null
-#  waiting_since          :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  account_id             :integer          not null
-#  assignee_id            :integer
-#  campaign_id            :bigint
-#  contact_id             :bigint
-#  contact_inbox_id       :bigint
-#  display_id             :integer          not null
-#  inbox_id               :integer          not null
-#  sla_policy_id          :bigint
-#  team_id                :bigint
+#  id                                     :integer          not null, primary key
+#  additional_attributes                  :jsonb
+#  agent_last_seen_at                     :datetime
+#  assignee_last_seen_at                  :datetime
+#  cached_label_list                      :text
+#  contact_last_seen_at                   :datetime
+#  conversation_summary_last_generated_at :datetime
+#  custom_attributes                      :jsonb
+#  first_reply_created_at                 :datetime
+#  follow_up_jid                          :string
+#  identifier                             :string
+#  last_activity_at                       :datetime         not null
+#  last_handoff_at                        :datetime
+#  priority                               :integer
+#  snoozed_until                          :datetime
+#  status                                 :integer          default("open"), not null
+#  stop_follow_up                         :boolean          default(FALSE)
+#  summary                                :text
+#  summary_updated_at                     :datetime
+#  uuid                                   :uuid             not null
+#  waiting_since                          :datetime
+#  created_at                             :datetime         not null
+#  updated_at                             :datetime         not null
+#  account_id                             :integer          not null
+#  assignee_id                            :integer
+#  campaign_id                            :bigint
+#  contact_id                             :bigint
+#  contact_inbox_id                       :bigint
+#  display_id                             :integer          not null
+#  inbox_id                               :integer          not null
+#  sla_policy_id                          :bigint
+#  team_id                                :bigint
 #
 # Indexes
 #

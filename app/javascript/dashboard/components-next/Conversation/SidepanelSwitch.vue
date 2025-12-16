@@ -24,11 +24,15 @@ const isContactSidebarOpen = computed(
 const isCopilotPanelOpen = computed(
   () => uiSettings.value.is_copilot_panel_open
 );
+const isConversationSummaryOpen = computed(
+  () => uiSettings.value.is_conversation_summary_open
+);
 
 const toggleConversationSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: !isContactSidebarOpen.value,
     is_copilot_panel_open: false,
+    is_conversation_summary_open: false,
   });
 };
 
@@ -36,6 +40,7 @@ const handleConversationSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: true,
     is_copilot_panel_open: false,
+    is_conversation_summary_open: false,
   });
 };
 
@@ -43,6 +48,15 @@ const handleCopilotSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: false,
     is_copilot_panel_open: true,
+    is_conversation_summary_open: false,
+  });
+};
+
+const handleConversationSummaryToggle = () => {
+  updateUISettings({
+    is_contact_sidebar_open: false,
+    is_copilot_panel_open: false,
+    is_conversation_summary_open: true,
   });
 };
 
@@ -82,6 +96,18 @@ useKeyboardEvents(keyboardEvents);
       sm
       icon="i-woot-captain"
       @click="handleCopilotSidebarToggle"
+    />
+    <Button
+      v-tooltip.bottom="$t('CONVERSATION.SIDEBAR.SUMMARY')"
+      ghost
+      slate
+      class="!rounded-full"
+      :class="{
+        'bg-n-alpha-2 !text-n-iris-9': isConversationSummaryOpen,
+      }"
+      sm
+      icon="i-lucide-sparkles"
+      @click="handleConversationSummaryToggle"
     />
   </div>
 </template>

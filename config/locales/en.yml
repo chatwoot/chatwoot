@@ -164,6 +164,8 @@ en:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    summary:
+      rate_limit_alert: "Summary already generated. Please try again in %{time}."
     captain:
       handoff: 'Transferring to another agent for further assistance.'
     messages:

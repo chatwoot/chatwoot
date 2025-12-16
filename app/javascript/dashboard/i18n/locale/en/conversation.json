@@ -251,7 +251,18 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contact",
-      "COPILOT": "Copilot"
+      "COPILOT": "Copilot",
+      "SUMMARY": "Conversation Summary"
+    },
+    "SUMMARY": {
+      "REFRESH_TOOLTIP": "Refresh summary",
+      "REFRESH_LABEL": "Refresh",
+      "LOADING_MESSAGE": "Generating summary...",
+      "ERROR": "Something went wrong while fetching the summary",
+      "EMPTY": "No summary available for this conversation",
+      "RETRY": "Retry",
+      "LAST_UPDATED": "Last updated: {timestamp}",
+      "DISCLAIMER": "Summaries are AI-generated. Accuracy may vary."
     }
   },
   "EMAIL_TRANSCRIPT": {
