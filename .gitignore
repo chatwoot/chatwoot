@@ -113,6 +113,7 @@ SERVICIOS.md
 CLAUDE.md
 ESTRUCTURA.md
 DEVELOPMENT_FLOW.md
+BASE-DE-DATOS.md
 
 # Husky git hooks (if installed locally)
 .husky/

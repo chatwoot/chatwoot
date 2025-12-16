@@ -1,0 +1,199 @@
+{
+  "KNOWLEDGE_BASE": {
+    "HEADER": "Base de Conocimientos",
+    "SIDEBAR_TXT": "Base de Conocimientos",
+    "PRODUCT_CATALOG": {
+      "HEADER_TITLE": "Catálogo de Productos",
+      "NEW_PRODUCT": "Subir Excel",
+      "EMPTY_STATE": {
+        "TITLE": "Aún no hay productos",
+        "SUBTITLE": "Sube un archivo Excel para importar tu catálogo de productos"
+      },
+      "CARD": {
+        "INDUSTRY": "Industria",
+        "TYPE": "Tipo",
+        "SUBCATEGORY": "Subcategoría",
+        "PRICE": "Precio"
+      },
+      "UPLOAD": {
+        "TITLE": "Subir Catálogo de Productos",
+        "DESCRIPTION": "Sube un archivo Excel (.xlsx) con tu catálogo de productos",
+        "SELECT_FILE": "Seleccionar Archivo Excel",
+        "FILE_FORMAT": "Formato de archivo: .xlsx",
+        "COLUMN_MAPPING": "Mapeo de columnas (A-L): ID, Industria, Nombre del Producto, Tipo, Subcategoría, Precio de Lista, Opciones de Pago (separadas por punto y coma), Descripción, Enlaces Externos (separados por punto y coma), URLs de PDF (separadas por punto y coma), URLs de Fotos (separadas por punto y coma), URLs de Videos (separadas por punto y coma)",
+        "UPLOAD_BTN": "Subir",
+        "CANCEL": "Cancelar",
+        "UPLOADING": "Subiendo archivo...",
+        "PROCESSING": "Procesando archivo Excel...",
+        "COMPLETED": "Carga completada",
+        "FAILED": "Carga fallida",
+        "PROCESSING_MESSAGE": "Tu archivo se está procesando en segundo plano. Esto puede tomar algunos minutos dependiendo del tamaño del archivo.",
+        "SUCCESS_MESSAGE": "¡Archivo subido y procesado exitosamente! Los productos aparecerán en el catálogo pronto.",
+        "SUCCESS": "Archivo subido exitosamente. Procesando en segundo plano.",
+        "ERROR": "Error al subir el archivo",
+        "CANCELLED": "Carga cancelada exitosamente",
+        "CANCEL_ERROR": "Error al cancelar la carga",
+        "ALREADY_PROCESSING": "No se puede subir - ya hay un archivo siendo procesado. Por favor espera a que se complete o cancélalo primero.",
+        "RATE_LIMITED": "Por favor espera {seconds} segundos antes de subir de nuevo."
+      },
+      "DELETE": {
+        "TITLE": "Eliminar Producto",
+        "TITLE_MULTIPLE": "Eliminar {count} Productos",
+        "DESCRIPTION": "¿Estás seguro de que quieres eliminar este producto? Esta acción no se puede deshacer.",
+        "DESCRIPTION_MULTIPLE": "¿Estás seguro de que quieres eliminar {count} productos? Esta acción no se puede deshacer.",
+        "CONFIRM": "Eliminar",
+        "SUCCESS": "Producto eliminado exitosamente",
+        "SUCCESS_MULTIPLE": "{count} productos eliminados exitosamente",
+        "ERROR": "Error al eliminar producto(s)"
+      },
+      "DELETE_SELECTED": "Eliminar ({count})",
+      "EXPORT_SELECTED": "Exportar ({count})",
+      "EXPORT_SUCCESS": "{count} productos exportados exitosamente",
+      "EXPORT_ERROR": "Error al exportar productos",
+      "DOWNLOAD_TEMPLATE": "Descargar Plantilla",
+      "TEMPLATE_DOWNLOADED": "Plantilla descargada exitosamente",
+      "TEMPLATE_DOWNLOAD_ERROR": "Error al descargar la plantilla",
+      "REFRESH": "Actualizar",
+      "REFRESHED": "Lista de productos actualizada",
+      "RESULTS": "resultados",
+      "SEARCH_PLACEHOLDER": "Buscar productos...",
+      "DETAIL": {
+        "TITLE": "Detalles del Producto",
+        "DESCRIPTION": "Descripción",
+        "PAYMENT_OPTIONS": "Opciones de Pago",
+        "FINANCING_TERM": "Plazo de Financiamiento",
+        "INTEREST_RATE": "Tasa de Interés",
+        "ATTRIBUTES": "Atributos",
+        "MEDIA": "Multimedia",
+        "CREATED_BY": "Creado por",
+        "CREATED_AT": "Creado el",
+        "UPDATED_AT": "Actualizado el"
+      },
+      "TABLE": {
+        "ID": "ID",
+        "PRODUCT": "Producto",
+        "TYPE": "Tipo",
+        "INDUSTRY": "Industria",
+        "PRICE": "Precio",
+        "MEDIA": "Multimedia",
+        "ACTIONS": "Acciones",
+        "HIDE_PRODUCT": "Ocultar producto",
+        "SHOW_PRODUCT": "Mostrar producto",
+        "DELETE_PRODUCT": "Eliminar producto",
+        "HIDDEN": "Oculto"
+      },
+      "VISIBILITY": {
+        "HIDDEN": "Producto ocultado exitosamente",
+        "SHOWN": "Producto mostrado exitosamente",
+        "ERROR": "Error al cambiar la visibilidad del producto"
+      },
+      "SEARCH_PLACEHOLDER": "Buscar productos...",
+      "RESULTS": "resultados",
+      "NO_SEARCH_RESULTS": "No se encontraron productos que coincidan con tu búsqueda",
+      "REFRESH": "Actualizar productos",
+      "REFRESHED": "Productos actualizados exitosamente",
+      "DOWNLOAD_ERRORS": "Descargar Errores",
+      "ALL_PROCESSED_SUCCESSFULLY": "¡Todos los registros procesados exitosamente!",
+      "ERROR_DETAIL": {
+        "TITLE": "Detalles del Error:"
+      },
+      "EXPORT_ALL": {
+        "BUTTON": "Exportar Todo",
+        "STARTED": "Exportación iniciada. Podrás descargar el archivo una vez que se complete el procesamiento.",
+        "PROCESSING_MESSAGE": "Tu exportación se está generando. Esto puede tomar algunos minutos dependiendo del número de productos.",
+        "COMPLETED": "¡Exportación completada! Haz clic en el botón Descargar para obtener tu archivo.",
+        "SUCCESS_MESSAGE": "¡Tu exportación está lista! Haz clic en el botón de abajo para descargar tu archivo.",
+        "ERROR": "Error al exportar productos",
+        "DOWNLOAD_BUTTON": "Descargar Exportación",
+        "CANCELLED": "Exportación cancelada exitosamente",
+        "RATE_LIMITED": "Por favor espera {seconds} segundos antes de exportar de nuevo."
+      },
+      "MEDIA_DRAWER": {
+        "TITLE": "Multimedia del Producto",
+        "PRODUCT_ID": "ID del Producto",
+        "TYPE": "Tipo",
+        "INDUSTRY": "Industria",
+        "PRICE": "Precio",
+        "CREATED_AT": "Creado",
+        "UPDATED_AT": "Actualizado",
+        "DESCRIPTION": "Descripción",
+        "NO_MEDIA": "No se encontraron archivos multimedia para este producto",
+        "IMAGES": "Imágenes",
+        "VIDEOS": "Videos",
+        "PRIMARY": "Principal",
+        "PRIMARY_SET": "Multimedia principal actualizada exitosamente",
+        "PRIMARY_ERROR": "Error al actualizar multimedia principal",
+        "DOCUMENTS": "Documentos"
+      },
+      "MEDIA_DETAIL": {
+        "TITLE": "Detalles del Archivo",
+        "PREVIEW": "Vista Previa",
+        "NO_PREVIEW": "Vista previa no disponible para este tipo de archivo",
+        "OPEN_FILE": "Abrir Archivo",
+        "DETAILS": "Detalles",
+        "FILE_NAME": "Nombre del Archivo",
+        "FILE_TYPE": "Tipo de Archivo",
+        "MIME_TYPE": "Tipo MIME",
+        "FILE_SIZE": "Tamaño del Archivo",
+        "UPLOADED_AT": "Subido el",
+        "UPDATED_AT": "Última Actualización",
+        "DISPLAY_ORDER": "Orden de Visualización",
+        "PRIMARY_MEDIA": "Multimedia Principal",
+        "URL": "URL del Archivo",
+        "CLOSE": "Cerrar",
+        "OPEN_IN_NEW_TAB": "Abrir en Nueva Pestaña",
+        "URL_COPIED": "URL copiada al portapapeles",
+        "COPY_FAILED": "Error al copiar URL"
+      },
+      "PAGINATION": {
+        "SHOWING": "Mostrando",
+        "TO": "a",
+        "OF": "de",
+        "RESULTS": "resultados"
+      },
+      "UPLOAD_HISTORY": "Historial de Cargas"
+    },
+    "UPLOAD_HISTORY": {
+      "HEADER_TITLE": "Historial de Cargas",
+      "EMPTY_STATE": {
+        "TITLE": "Sin historial de cargas",
+        "SUBTITLE": "El historial de cargas aparecerá aquí una vez que subas archivos"
+      },
+      "TABLE": {
+        "FILE_NAME": "Nombre del Archivo",
+        "STATUS": "Estado",
+        "UPLOADED_BY": "Subido Por",
+        "DATE": "Fecha de Carga",
+        "TOTAL": "Total",
+        "PROCESSED": "Procesados",
+        "FAILED": "Fallidos",
+        "ACTIONS": "Acciones"
+      },
+      "DOWNLOAD_ERRORS": "Descargar Errores",
+      "PAGINATION": {
+        "SHOWING": "Mostrando",
+        "TO": "a",
+        "OF": "de",
+        "RESULTS": "resultados"
+      }
+    },
+    "BULK_REQUESTS": {
+      "HEADER_TITLE": "Historial de Cargas",
+      "STATUS": {
+        "PENDING": "Pendiente",
+        "PROCESSING": "Procesando",
+        "COMPLETED": "Completado",
+        "FAILED": "Fallido",
+        "PARTIALLY_COMPLETED": "Parcialmente Completado",
+        "CANCELLED": "Cancelado"
+      },
+      "PROGRESS": "Progreso",
+      "TOTAL_RECORDS": "Registros Totales",
+      "PROCESSED": "Procesados",
+      "FAILED": "Fallidos",
+      "FILE_NAME": "Nombre del Archivo",
+      "UPLOADED_BY": "Subido por",
+      "UPLOADED_AT": "Subido el"
+    }
+  }
+}

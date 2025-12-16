@@ -1,0 +1,27 @@
+<p>Hi {{user.available_name}},</p>
+
+<p>
+  Great news! Your product catalog export has been completed successfully.
+</p>
+
+<div style="padding: 20px; margin: 20px 0; background: #F2F3F7; border-radius: 10px; font-family: 'Helvetica Neue',Tahoma,Arial,sans-serif;">
+  <p style="margin: 0 0 10px 0;"><strong>Export Details:</strong></p>
+  <ul style="margin: 0; padding-left: 20px;">
+    <li>File: {{ file_name }}</li>
+    <li>Total products exported: {{ total_records }}</li>
+  </ul>
+</div>
+
+<p>
+  The export file is ready for download. Please visit the Product Catalog page to download your file.
+</p>
+
+<p style="margin: 20px 0;">
+  <a href="{{ action_url }}" style="display: inline-block; padding: 12px 24px; background-color: #1F93FF; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">
+    Go to Product Catalog
+  </a>
+</p>
+
+<p style="color: #666; font-size: 14px;">
+  Note: The export file will be automatically deleted after 24 hours or once downloaded.
+</p>

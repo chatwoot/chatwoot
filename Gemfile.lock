@@ -193,6 +193,9 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    creek (2.6.3)
+      nokogiri (>= 1.10.0)
+      rubyzip (>= 1.0.0)
     csv (3.3.0)
     csv-safe (3.3.1)
       csv (~> 3.0)
@@ -328,6 +331,7 @@ GEM
       googleauth (~> 1)
     ffi (1.17.2)
     ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x64-mingw-ucrt)
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi-compiler (1.0.1)
@@ -410,6 +414,9 @@ GEM
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.72.0-arm64-darwin)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.72.0-x64-mingw-ucrt)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.72.0-x86_64-darwin)
@@ -578,10 +585,13 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.7.3)
+    nkf (0.2.0)
     nokogiri (1.18.9)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     nokogiri (1.18.9-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.9-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.18.9-x86_64-darwin)
       racc (~> 1.4)
@@ -756,6 +766,9 @@ GEM
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.4.4)
+    roo (2.10.1)
+      nokogiri (~> 1)
+      rubyzip (>= 1.3.0, < 3.0.0)
     rotp (6.3.0)
     rqrcode (3.1.0)
       chunky_png (~> 1.0)
@@ -836,6 +849,7 @@ GEM
     ruby_llm-schema (0.2.5)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
+    rubyzip (2.3.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -1002,6 +1016,9 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
+    write_xlsx (1.11.2)
+      nkf
+      rubyzip (>= 1.0.0)
     zeitwerk (2.6.17)
 
 PLATFORMS
@@ -1009,6 +1026,7 @@ PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
   ruby
+  x64-mingw-ucrt
   x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
@@ -1038,6 +1056,7 @@ DEPENDENCIES
   byebug
   climate_control
   commonmarker
+  creek (~> 2.6.3)
   csv-safe
   database_cleaner
   datadog (~> 2.0)
@@ -1116,6 +1135,7 @@ DEPENDENCIES
   responders (>= 3.1.1)
   rest-client
   reverse_markdown
+  roo (~> 2.10.0)
   rqrcode
   rspec-rails (>= 6.1.5)
   rspec_junit_formatter
@@ -1127,6 +1147,7 @@ DEPENDENCIES
   ruby-openai
   ruby_llm (>= 1.8.2)
   ruby_llm-schema
+  rubyzip (~> 2.3.0)
   scout_apm
   scss_lint
   searchkick
@@ -1162,9 +1183,10 @@ DEPENDENCIES
   webmock
   wisper (= 2.0.0)
   working_hours
+  write_xlsx (~> 1.11.0)
 
 RUBY VERSION
    ruby 3.4.4p34
 
 BUNDLED WITH
-   2.5.16
+   2.7.2

@@ -111,6 +111,33 @@ Rails.application.routes.draw do
             end
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
+          resources :product_catalogs, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post :toggle_visibility
+            end
+
+            collection do
+              post :bulk_upload
+              post :bulk_delete
+              post :export
+              post :export_all
+              get :download_template
+              get 'download_export/:id', action: :download_export, as: :download_export
+            end
+
+            resources :product_media, only: [] do
+              member do
+                post :set_primary
+              end
+            end
+          end
+          resources :bulk_processing_requests, only: [:index, :show] do
+            member do
+              get :download_errors
+              post :cancel
+              post :dismiss
+            end
+          end
           resources :appointments, only: [:index, :create, :show, :update, :destroy] do
             collection do
               get :search

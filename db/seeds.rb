@@ -29,6 +29,30 @@ unless Rails.env.production?
   user.skip_confirmation!
   user.save!
 
+  # Second user in the same account
+  sarah = User.new(name: 'Sarah', email: 'sarah@acme.inc', password: 'Password1!')
+  sarah.skip_confirmation!
+  sarah.save!
+
+  # Third user - Agent role
+  mike = User.new(name: 'Mike', email: 'mike@acme.inc', password: 'Password1!')
+  mike.skip_confirmation!
+  mike.save!
+
+  # Users for Acme Org
+  alice = User.new(name: 'Alice', email: 'alice@acme.org', password: 'Password1!')
+  alice.skip_confirmation!
+  alice.save!
+
+  bob = User.new(name: 'Bob', email: 'bob@acme.org', password: 'Password1!')
+  bob.skip_confirmation!
+  bob.save!
+
+  charlie = User.new(name: 'Charlie', email: 'charlie@acme.org', password: 'Password1!')
+  charlie.skip_confirmation!
+  charlie.save!
+
+  # Add John to both accounts
   AccountUser.create!(
     account_id: account.id,
     user_id: user.id,
@@ -39,6 +63,39 @@ unless Rails.env.production?
     account_id: secondary_account.id,
     user_id: user.id,
     role: :administrator
+  )
+
+  # Add Sarah to Acme Inc account as administrator
+  AccountUser.create!(
+    account_id: account.id,
+    user_id: sarah.id,
+    role: :administrator
+  )
+
+  # Add Mike to Acme Inc account as agent
+  AccountUser.create!(
+    account_id: account.id,
+    user_id: mike.id,
+    role: :agent
+  )
+
+  # Add users to Acme Org
+  AccountUser.create!(
+    account_id: secondary_account.id,
+    user_id: alice.id,
+    role: :administrator
+  )
+
+  AccountUser.create!(
+    account_id: secondary_account.id,
+    user_id: bob.id,
+    role: :administrator
+  )
+
+  AccountUser.create!(
+    account_id: secondary_account.id,
+    user_id: charlie.id,
+    role: :agent
   )
 
   web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')

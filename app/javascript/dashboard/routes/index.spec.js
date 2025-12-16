@@ -24,8 +24,12 @@ describe('#validateAuthenticateRoutePermission', () => {
   });
 
   describe('when user is not logged in', () => {
-    it('should redirect to login', () => {
-      const to = { name: 'some-protected-route', params: { accountId: 1 } };
+    it('should redirect to login with redirect param', () => {
+      const to = {
+        name: 'some-protected-route',
+        params: { accountId: 1 },
+        fullPath: '/app/accounts/1/some-protected-route',
+      };
 
       // Mock the store to simulate user not logged in
       store.getters.isLoggedIn = false;
@@ -37,7 +41,9 @@ describe('#validateAuthenticateRoutePermission', () => {
 
       validateAuthenticateRoutePermission(to, next);
 
-      expect(mockAssign).toHaveBeenCalledWith('/app/login');
+      expect(mockAssign).toHaveBeenCalledWith(
+        `/app/login?redirect=${encodeURIComponent(to.fullPath)}`
+      );
     });
   });
 

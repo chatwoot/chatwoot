@@ -1,0 +1,199 @@
+{
+  "KNOWLEDGE_BASE": {
+    "HEADER": "Knowledge Base",
+    "SIDEBAR_TXT": "Knowledge Base",
+    "PRODUCT_CATALOG": {
+      "HEADER_TITLE": "Product Catalog",
+      "NEW_PRODUCT": "Upload Excel",
+      "EMPTY_STATE": {
+        "TITLE": "No products yet",
+        "SUBTITLE": "Upload an Excel file to import your product catalog"
+      },
+      "CARD": {
+        "INDUSTRY": "Industry",
+        "TYPE": "Type",
+        "SUBCATEGORY": "Subcategory",
+        "PRICE": "Price"
+      },
+      "UPLOAD": {
+        "TITLE": "Upload Product Catalog",
+        "DESCRIPTION": "Upload an Excel file (.xlsx) with your product catalog",
+        "SELECT_FILE": "Select Excel File",
+        "FILE_FORMAT": "File format: .xlsx",
+        "COLUMN_MAPPING": "Column mapping (A-L): ID, Industry, Product Name, Type, Subcategory, List Price, Payment Options (semicolon-separated), Description, External Links (semicolon-separated), PDF URLs (semicolon-separated), Photo URLs (semicolon-separated), Video URLs (semicolon-separated)",
+        "UPLOAD_BTN": "Upload",
+        "CANCEL": "Cancel",
+        "UPLOADING": "Uploading file...",
+        "PROCESSING": "Processing Excel file...",
+        "COMPLETED": "Upload completed",
+        "FAILED": "Upload failed",
+        "PROCESSING_MESSAGE": "Your file is being processed in the background. This may take a few minutes depending on the file size.",
+        "SUCCESS_MESSAGE": "File uploaded and processed successfully! The products will appear in the catalog shortly.",
+        "SUCCESS": "File uploaded successfully. Processing in background.",
+        "ERROR": "Failed to upload file",
+        "CANCELLED": "Upload cancelled successfully",
+        "CANCEL_ERROR": "Failed to cancel upload",
+        "ALREADY_PROCESSING": "Cannot upload - there is already a file being processed. Please wait for it to complete or cancel it first.",
+        "RATE_LIMITED": "Please wait {seconds} seconds before uploading again."
+      },
+      "DELETE": {
+        "TITLE": "Delete Product",
+        "TITLE_MULTIPLE": "Delete {count} Products",
+        "DESCRIPTION": "Are you sure you want to delete this product? This action cannot be undone.",
+        "DESCRIPTION_MULTIPLE": "Are you sure you want to delete {count} products? This action cannot be undone.",
+        "CONFIRM": "Delete",
+        "SUCCESS": "Product deleted successfully",
+        "SUCCESS_MULTIPLE": "{count} products deleted successfully",
+        "ERROR": "Failed to delete product(s)"
+      },
+      "DELETE_SELECTED": "Delete ({count})",
+      "EXPORT_SELECTED": "Export ({count})",
+      "EXPORT_SUCCESS": "{count} products exported successfully",
+      "EXPORT_ERROR": "Failed to export products",
+      "DOWNLOAD_TEMPLATE": "Download Template",
+      "TEMPLATE_DOWNLOADED": "Template downloaded successfully",
+      "TEMPLATE_DOWNLOAD_ERROR": "Failed to download template",
+      "REFRESH": "Refresh",
+      "REFRESHED": "Product list refreshed",
+      "RESULTS": "results",
+      "SEARCH_PLACEHOLDER": "Search products...",
+      "DETAIL": {
+        "TITLE": "Product Details",
+        "DESCRIPTION": "Description",
+        "PAYMENT_OPTIONS": "Payment Options",
+        "FINANCING_TERM": "Financing Term",
+        "INTEREST_RATE": "Interest Rate",
+        "ATTRIBUTES": "Attributes",
+        "MEDIA": "Media",
+        "CREATED_BY": "Created by",
+        "CREATED_AT": "Created at",
+        "UPDATED_AT": "Updated at"
+      },
+      "TABLE": {
+        "ID": "ID",
+        "PRODUCT": "Product",
+        "TYPE": "Type",
+        "INDUSTRY": "Industry",
+        "PRICE": "Price",
+        "MEDIA": "Media",
+        "ACTIONS": "Actions",
+        "HIDE_PRODUCT": "Hide product",
+        "SHOW_PRODUCT": "Show product",
+        "DELETE_PRODUCT": "Delete product",
+        "HIDDEN": "Hidden"
+      },
+      "VISIBILITY": {
+        "HIDDEN": "Product hidden successfully",
+        "SHOWN": "Product shown successfully",
+        "ERROR": "Failed to toggle product visibility"
+      },
+      "SEARCH_PLACEHOLDER": "Search products...",
+      "RESULTS": "results",
+      "NO_SEARCH_RESULTS": "No products found matching your search",
+      "REFRESH": "Refresh products",
+      "REFRESHED": "Products refreshed successfully",
+      "DOWNLOAD_ERRORS": "Download Errors",
+      "ALL_PROCESSED_SUCCESSFULLY": "All records processed successfully!",
+      "ERROR_DETAIL": {
+        "TITLE": "Error Details:"
+      },
+      "EXPORT_ALL": {
+        "BUTTON": "Export All",
+        "STARTED": "Export started. You'll be able to download the file once processing is complete.",
+        "PROCESSING_MESSAGE": "Your export is being generated. This may take a few minutes depending on the number of products.",
+        "COMPLETED": "Export completed! Click the Download button to get your file.",
+        "SUCCESS_MESSAGE": "Your export is ready! Click the button below to download your file.",
+        "ERROR": "Failed to export products",
+        "DOWNLOAD_BUTTON": "Download Export",
+        "CANCELLED": "Export cancelled successfully",
+        "RATE_LIMITED": "Please wait {seconds} seconds before exporting again."
+      },
+      "MEDIA_DRAWER": {
+        "TITLE": "Product Media",
+        "PRODUCT_ID": "Product ID",
+        "TYPE": "Type",
+        "INDUSTRY": "Industry",
+        "PRICE": "Price",
+        "CREATED_AT": "Created",
+        "UPDATED_AT": "Updated",
+        "DESCRIPTION": "Description",
+        "NO_MEDIA": "No media files found for this product",
+        "IMAGES": "Images",
+        "VIDEOS": "Videos",
+        "PRIMARY": "Primary",
+        "PRIMARY_SET": "Primary media updated successfully",
+        "PRIMARY_ERROR": "Failed to update primary media",
+        "DOCUMENTS": "Documents"
+      },
+      "MEDIA_DETAIL": {
+        "TITLE": "File Details",
+        "PREVIEW": "Preview",
+        "NO_PREVIEW": "Preview not available for this file type",
+        "OPEN_FILE": "Open File",
+        "DETAILS": "Details",
+        "FILE_NAME": "File Name",
+        "FILE_TYPE": "File Type",
+        "MIME_TYPE": "MIME Type",
+        "FILE_SIZE": "File Size",
+        "UPLOADED_AT": "Uploaded At",
+        "UPDATED_AT": "Last Updated",
+        "DISPLAY_ORDER": "Display Order",
+        "PRIMARY_MEDIA": "Primary Media",
+        "URL": "File URL",
+        "CLOSE": "Close",
+        "OPEN_IN_NEW_TAB": "Open in New Tab",
+        "URL_COPIED": "URL copied to clipboard",
+        "COPY_FAILED": "Failed to copy URL"
+      },
+      "PAGINATION": {
+        "SHOWING": "Showing",
+        "TO": "to",
+        "OF": "of",
+        "RESULTS": "results"
+      },
+      "UPLOAD_HISTORY": "Upload History"
+    },
+    "UPLOAD_HISTORY": {
+      "HEADER_TITLE": "Upload History",
+      "EMPTY_STATE": {
+        "TITLE": "No upload history",
+        "SUBTITLE": "Upload history will appear here once you upload files"
+      },
+      "TABLE": {
+        "FILE_NAME": "File Name",
+        "STATUS": "Status",
+        "UPLOADED_BY": "Uploaded By",
+        "DATE": "Upload Date",
+        "TOTAL": "Total",
+        "PROCESSED": "Processed",
+        "FAILED": "Failed",
+        "ACTIONS": "Actions"
+      },
+      "DOWNLOAD_ERRORS": "Download Errors",
+      "PAGINATION": {
+        "SHOWING": "Showing",
+        "TO": "to",
+        "OF": "of",
+        "RESULTS": "results"
+      }
+    },
+    "BULK_REQUESTS": {
+      "HEADER_TITLE": "Upload History",
+      "STATUS": {
+        "PENDING": "Pending",
+        "PROCESSING": "Processing",
+        "COMPLETED": "Completed",
+        "FAILED": "Failed",
+        "PARTIALLY_COMPLETED": "Partially Completed",
+        "CANCELLED": "Cancelled"
+      },
+      "PROGRESS": "Progress",
+      "TOTAL_RECORDS": "Total Records",
+      "PROCESSED": "Processed",
+      "FAILED": "Failed",
+      "FILE_NAME": "File Name",
+      "UPLOADED_BY": "Uploaded by",
+      "UPLOADED_AT": "Uploaded at"
+    }
+  }
+}
