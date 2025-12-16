@@ -6,7 +6,7 @@
     "LIST": {
       "404": "Bu grupta aktif görüşme yok."
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "Gönderilemedi",
     "TAB_HEADING": "Konuşmalar",
     "MENTION_HEADING": "Bahsedilmeler",
     "UNATTENDED_HEADING": "İlgilenilmemiş",
@@ -101,7 +101,7 @@
         "CONTENT": "bir url paylaştı"
       },
       "contact": {
-        "CONTENT": "Shared contact"
+        "CONTENT": "Paylaşılan kişi"
       }
     },
     "CHAT_SORT_BY_FILTER": {
