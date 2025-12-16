@@ -68,7 +68,7 @@ onMounted(() => {
     <div class="flex flex-col p-4 h-full w-full">
         <h1 class="text-xl font-medium mb-4">ACL</h1>
         <p class="text-sm text-n-slate-11 mb-6">Gerenciamento de permissões</p>
-        <div class="overflow-hidden border border-n-weak rounded-lg shadow-sm flex-grow w-full">
+        <div class="overflow-auto border border-n-weak rounded-lg shadow-sm flex-grow w-full h-[80vh]">
             <table class="w-full divide-y divide-n-weak">
                 <thead class="bg-n-solid-3">
                     <tr>
