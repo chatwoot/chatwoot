@@ -30,18 +30,12 @@ class OpenAIAPI extends ApiClient {
       'reply_suggestion',
       'label_suggestion',
     ];
-
-    /**
-     * The message events supported by the API.
-     * @type {string[]}
-     */
-    this.message_events = ['rephrase'];
   }
 
   /**
    * Processes an event using the OpenAI API.
    * @param {Object} options - The options for the event.
-   * @param {string} [options.type='rephrase'] - The type of event to process.
+   * @param {string} [options.type='improve'] - The type of event to process.
    * @param {string} [options.content] - The content of the event.
    * @param {string} [options.tone] - The tone of the event.
    * @param {string} [options.conversationId] - The ID of the conversation to process the event for.
@@ -50,7 +44,7 @@ class OpenAIAPI extends ApiClient {
    * @returns {Promise} A promise that resolves with the result of the event processing.
    */
   processEvent(
-    { type = 'rephrase', content, tone, conversationId, hookId },
+    { type = 'improve', content, tone, conversationId, hookId },
     signal
   ) {
     /**

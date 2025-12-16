@@ -156,18 +156,14 @@ export function useAI() {
   };
 
   /**
-   * Processes an AI event, such as rephrasing content.
-   * @param {string} [type='rephrase'] - The type of AI event to process.
+   * Processes an AI event, such as improving content.
+   * @param {string} [type='improve'] - The type of AI event to process.
    * @param {string} [content=''] - The content to process (for full message) or selected text (for selection-based).
    * @param {Object} [options={}] - Additional options.
    * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
    * @returns {Promise<string>} The generated message or an empty string if an error occurs.
    */
-  const processEvent = async (
-    type = 'rephrase',
-    content = '',
-    options = {}
-  ) => {
+  const processEvent = async (type = 'improve', content = '', options = {}) => {
     try {
       const result = await OpenAPI.processEvent(
         {

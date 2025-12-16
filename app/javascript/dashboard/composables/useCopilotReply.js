@@ -55,7 +55,7 @@ export function useCopilotReply() {
   }
 
   /**
-   * Executes a copilot action (e.g., rephrase, fix grammar).
+   * Executes a copilot action (e.g., improve, fix grammar).
    * @param {string} action - The action type
    * @param {string} data - The content to process
    */
