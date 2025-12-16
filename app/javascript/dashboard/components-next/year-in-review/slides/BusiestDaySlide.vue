@@ -45,7 +45,7 @@ const performanceHelperText = computed(() => {
           <img
             :src="coffeeImage"
             alt="Coffee"
-            class="w-auto h-32 md:h-56 lg:h-80"
+            class="w-auto h-32 md:h-56 lg:h-72"
           />
         </div>
       </div>
