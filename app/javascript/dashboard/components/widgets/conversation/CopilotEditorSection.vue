@@ -69,7 +69,7 @@ const clearEditorSelection = () => {
       class="bg-n-iris-5 rounded min-h-16 w-full mb-4 p-4 flex items-start"
     >
       <div class="flex items-center gap-2">
-        <CaptainLoader class="text-n-iris-10 size-6" />
+        <CaptainLoader class="text-n-iris-10 size-4" />
         <span class="text-sm text-n-iris-10">
           {{ $t('CONVERSATION.REPLYBOX.COPILOT_THINKING') }}
         </span>
