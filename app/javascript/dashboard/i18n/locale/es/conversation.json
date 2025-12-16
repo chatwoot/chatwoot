@@ -35,11 +35,11 @@
     "API_HOURS_WINDOW": "Solo puedes responder a esta conversación dentro de {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversación no te está asignada. ¿Quieres asignarla a ti mismo?",
     "ASSIGN_TO_ME": "Asignar a mi",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "Estás respondiendo a una conversación que actualmente maneja un asistente o un bot.",
+    "BOT_HANDOFF_ACTION": "Marcar abierta y asignar a ti",
+    "BOT_HANDOFF_REOPEN_ACTION": "Marcar conversación abierta",
+    "BOT_HANDOFF_SUCCESS": "La conversación ha sido entregada a usted",
+    "BOT_HANDOFF_ERROR": "Error al tomar el control de la conversación. Por favor, inténtalo de nuevo.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram fue migrada a la nueva bandeja de entrada del canal Instagram. Todos los nuevos mensajes aparecerán allí. Ya no podrás enviar mensajes de esta conversación.",
@@ -72,15 +72,15 @@
       "HIDE_LABELS": "Ocultar etiquetas"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "Llamada entrante",
+      "OUTGOING_CALL": "Llamada saliente",
+      "CALL_IN_PROGRESS": "Llamada en curso",
+      "NO_ANSWER": "Sin respuesta",
+      "MISSED_CALL": "Llamada perdida",
+      "CALL_ENDED": "Llamada finalizada",
+      "NOT_ANSWERED_YET": "Aún no contestado",
+      "THEY_ANSWERED": "Respondieron",
+      "YOU_ANSWERED": "Respondiste"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -231,8 +231,8 @@
         "ENABLE_TOOLTIP": "Include quoted email thread",
         "DISABLE_TOOLTIP": "Don't include quoted email thread",
         "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "COLLAPSE": "Contraer vista previa",
+        "EXPAND": "Expandir vista previa"
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
