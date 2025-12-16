@@ -165,8 +165,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController 
     @contact
   end
 
-  def reassign
+  def reassign # rubocop:disable Metrics/AbcSize
     authorize @contact, :reassign?
+
+    # Agents can only assign to themselves when claiming unassigned contacts
+    if !Current.account_user.administrator? && params[:assignee_id].present? && params[:assignee_id].to_i != Current.user.id
+      return render_error(
+        { message: 'Agents can only assign contacts to themselves' },
+        :forbidden
+      )
+    end
 
     new_assignee = Current.account.users.find(params[:assignee_id]) if params[:assignee_id].present?
     @contact.update!(assignee: new_assignee)
@@ -187,7 +195,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController 
 
     # CONDITIONAL FILTERING - only if feature enabled
     if Current.account.contact_assignment_enabled? && !Current.account_user.administrator?
-      @resolved_contacts = @resolved_contacts.assigned_to(Current.user)
+      @resolved_contacts = @resolved_contacts.assigned_to_or_unassigned(Current.user)
     end
 
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?

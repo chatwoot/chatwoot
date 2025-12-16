@@ -60,7 +60,7 @@ class SearchService
                            .where(non_empty_conditions)
 
     # Filter by assignee if contact assignment feature is enabled and user is not admin
-    query = query.where(assignee_id: current_user.id) if contact_assignment_enabled? && !current_user_admin?
+    query = query.where('assignee_id = ? OR assignee_id IS NULL', current_user.id) if contact_assignment_enabled? && !current_user_admin?
 
     @contacts = query.order(Arel.sql('contacts.last_activity_at DESC NULLS LAST'))
                      .limit(10)

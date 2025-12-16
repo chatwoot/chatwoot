@@ -139,6 +139,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
+  scope :assigned_to_or_unassigned, ->(agent) { where('assignee_id = ? OR assignee_id IS NULL', agent.id) }
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id

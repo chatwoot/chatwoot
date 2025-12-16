@@ -35,7 +35,7 @@ class Contacts::FilterService < FilterService
     # Apply assignee filtering only if feature enabled and user is not admin
     if @account.contact_assignment_enabled? &&
        !@user.account_users.find_by(account_id: @account.id)&.administrator?
-      contacts = contacts.assigned_to(@user)
+      contacts = contacts.assigned_to_or_unassigned(@user)
     end
 
     contacts

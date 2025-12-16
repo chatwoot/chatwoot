@@ -35,10 +35,8 @@ class ContactPolicy < ApplicationPolicy
     return true if @account_user.administrator?
     return true unless feature_enabled? # Feature disabled = no restrictions
 
-    # Feature enabled: agents see only their contacts
-    return false if @record.assignee_id.nil? # Unassigned = admin only
-
-    @record.assignee_id == @user.id
+    # Feature enabled: agents can see their contacts OR unassigned contacts
+    @record.assignee_id.nil? || @record.assignee_id == @user.id
   end
 
   def update?
@@ -49,9 +47,8 @@ class ContactPolicy < ApplicationPolicy
     return true if @account_user.administrator?
     return true unless feature_enabled?
 
-    return false if @record.assignee_id.nil?
-
-    @record.assignee_id == @user.id
+    # Feature enabled: agents can edit their contacts OR unassigned contacts
+    @record.assignee_id.nil? || @record.assignee_id == @user.id
   end
 
   def contactable_inboxes?
@@ -75,7 +72,18 @@ class ContactPolicy < ApplicationPolicy
   end
 
   def reassign?
-    @account_user.administrator?
+    # Class-level authorization (called by before_action :check_authorization)
+    return true unless @record.is_a?(Contact)
+
+    # Instance-level authorization
+    # Admins can reassign any contact
+    return true if @account_user.administrator?
+
+    # Feature disabled: no reassignment for agents
+    return false unless feature_enabled?
+
+    # Feature enabled: agents can only claim unassigned contacts (assign to themselves)
+    @record.assignee_id.nil?
   end
 
   private

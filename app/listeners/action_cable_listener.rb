@@ -190,9 +190,14 @@ class ActionCableListener < BaseListener
     # Only filter if feature enabled
     return user_tokens(account, account.users) unless account.contact_assignment_enabled?
 
-    tokens << contact.assignee.pubsub_token if contact.assignee.present?
-
-    # Feature disabled: send to all inbox members (existing behavior)
+    # For assigned contacts: send to assignee only
+    # For unassigned contacts: send to all agents (so they can see and claim them)
+    if contact.assignee.present?
+      tokens << contact.assignee.pubsub_token
+    else
+      # Broadcast unassigned contact updates to all agents
+      tokens += account.agents.pluck(:pubsub_token)
+    end
 
     tokens.uniq
   end

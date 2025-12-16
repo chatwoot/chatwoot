@@ -110,7 +110,7 @@
               </span>
             </div>
             <multiselect-dropdown
-              :options="agentsList"
+              :options="agentsListForAssignment"
               :selected-item="assignedContactAgent"
               :multiselector-title="$t('CONTACT_PANEL.ASSIGNEE')"
               :multiselector-placeholder="
@@ -122,7 +122,7 @@
               :input-placeholder="
                 $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
               "
-              :disabled="!isAdmin"
+              :disabled="isContactAssignmentDisabled"
               @click="onClickAssignContactAgent"
             />
           </div>
@@ -360,11 +360,17 @@ export default {
       return true;
     },
     shouldShowContactAssignee() {
-      // Only show for admins when feature is enabled
       const isFeatureEnabled =
         this.currentAccount?.custom_attributes?.enable_contact_assignment ===
         true;
-      return this.isAdmin && isFeatureEnabled;
+
+      if (!isFeatureEnabled) return false;
+
+      // Admins see assignee dropdown for all contacts
+      if (this.isAdmin) return true;
+
+      // Agents see assignee dropdown ONLY for unassigned contacts (to claim them)
+      return !this.contact.assignee_id;
     },
     assignedContactAgent() {
       if (!this.contact.assignee_id) {
@@ -374,6 +380,20 @@ export default {
       return this.agentsList.find(
         agent => agent.id === this.contact.assignee_id
       );
+    },
+    agentsListForAssignment() {
+      // Admins can assign to any agent
+      if (this.isAdmin) return this.agentsList;
+
+      // Agents can only assign to themselves
+      return this.agentsList.filter(agent => agent.id === this.currentUser.id);
+    },
+    isContactAssignmentDisabled() {
+      // Admins can always modify
+      if (this.isAdmin) return false;
+
+      // Agents cannot modify if contact is already assigned
+      return !!this.contact.assignee_id;
     },
   },
   mounted() {
