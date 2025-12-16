@@ -8,6 +8,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import OpenAPI from 'dashboard/api/integrations/openapi';
+import EditorAPI from 'dashboard/api/captain/editor';
 
 /**
  * Cleans and normalizes a list of labels.
@@ -57,7 +58,7 @@ export function useAI() {
    * Computed property to check if AI integration is enabled.
    * @type {import('vue').ComputedRef<boolean>}
    */
-  const isAIIntegrationEnabled = computed(() => !!aiIntegration.value);
+  const isAIIntegrationEnabled = computed(() => true);
 
   /**
    * Computed property to check if label suggestion feature is enabled.
@@ -169,9 +170,8 @@ export function useAI() {
     options = {}
   ) => {
     try {
-      const result = await OpenAPI.processEvent(
+      const result = await EditorAPI.processEvent(
         {
-          hookId: hookId.value,
           type,
           content: content || draftMessage.value,
           conversationId: conversationId.value,
