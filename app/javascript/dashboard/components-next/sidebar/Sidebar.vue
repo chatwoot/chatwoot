@@ -82,7 +82,7 @@ const exibirAcl = computed(() => {
 
 //let partnerUser = ref(false)
 const canViewSidePanel = computed(() => {
-  return userACL.value?.side_panel ?? true;
+  return userACL.value?.time_privado ?? true;
 });
 
 onMounted(() => {

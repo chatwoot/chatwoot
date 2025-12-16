@@ -12,6 +12,15 @@ const currentUser = computed(() => store.getters['getCurrentUser'])
 const filteredAgents = computed(() => agentList.value.filter(a => a.id !== currentUser.value.id))
 const userACL = computed(() => store.getters['acl/getUserACL'])
 
+// Paginação
+const currentPage = ref(1);
+const pageSize = 10;
+const totalPages = computed(() => Math.ceil(filteredAgents.value.length / pageSize));
+const paginatedAgents = computed(() => {
+    const start = (currentPage.value - 1) * pageSize;
+    return filteredAgents.value.slice(start, start + pageSize);
+});
+
 const editingACL = ref({})
 const aclLabels = {
     'time_privado': 'time privado',
@@ -72,7 +81,7 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody class="bg-n-solid-2 divide-y divide-n-weak text-n-slate-11">
-                    <tr v-for="(agent) in filteredAgents" :key="agent.email" class="hover:bg-n-solid-3 transition-colors">
+                    <tr v-for="(agent) in paginatedAgents" :key="agent.email" class="hover:bg-n-solid-3 transition-colors">
                         <td class="py-4 px-4">
                             <div class="flex flex-row items-center gap-4">
                                 <!-- <Avatar
@@ -116,8 +125,29 @@ onMounted(() => {
                     </tr>
                 </tbody>
             </table>
+            <!-- Paginação -->
+            <div class="flex justify-center mt-4 gap-2">
+                <button
+                    class="px-3 py-1 rounded border text-sm"
+                    :disabled="currentPage === 1"
+                    @click="currentPage--"
+                >
+                    Anterior
+                </button>
+                <span class="px-2 py-1 text-sm">
+                    Página {{ currentPage }} de {{ totalPages }}
+                </span>
+                <button
+                    class="px-3 py-1 rounded border text-sm"
+                    :disabled="currentPage >= totalPages"
+                    @click="currentPage++"
+                >
+                    Próxima
+                </button>
+            </div>
         </div>
     </div>
+
 
     <!-- Modal para editar permissões -->
     <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
