@@ -56,15 +56,19 @@ const generateImage = async () => {
     const bgColor = colorMap[props.slideBackground] || '#ffffff';
 
     const dataUrl = await toPng(slideElement, {
-      quality: 2,
       pixelRatio: 1.2,
       backgroundColor: bgColor,
+      // Skip font/CSS embedding to avoid CORS issues with CDN stylesheets
+      // See: https://github.com/bubkoo/html-to-image/issues/49#issuecomment-762222100
+      fontEmbedCSS: '',
+      cacheBust: true,
     });
 
     const img = new Image();
     img.src = dataUrl;
-    await new Promise(resolve => {
+    await new Promise((resolve, reject) => {
       img.onload = resolve;
+      img.onerror = reject;
     });
 
     const finalCanvas = document.createElement('canvas');
