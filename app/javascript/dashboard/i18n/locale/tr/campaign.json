@@ -83,8 +83,8 @@
       "HEADER_TITLE": "SMS kampanyaları",
       "NEW_CAMPAIGN": "Kampanya oluştur",
       "EMPTY_STATE": {
-        "TITLE": "No SMS campaigns are available",
-        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "SMS kampanyası mevcut değil",
+        "SUBTITLE": "Müşterilerinize doğrudan ulaşmak için bir SMS kampanyası başlatın. Kolaylıkla teklifler gönderin veya duyurular yapın. Başlamak için 'Kampanya oluştur'a tıklayın."
       },
       "CARD": {
         "STATUS": {
@@ -97,7 +97,7 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create SMS campaign",
+        "TITLE": "SMS kampanyası oluştur",
         "CANCEL_BUTTON_TEXT": "İptal Et",
         "CREATE_BUTTON_TEXT": "Oluştur",
         "FORM": {
