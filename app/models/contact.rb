@@ -46,9 +46,10 @@ class Contact < ApplicationRecord
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
+  include EmailUniquePerInbox
 
   validates :account_id, presence: true
-  validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
+  validates :email, allow_blank: true,
                     format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
@@ -63,9 +64,7 @@ class Contact < ApplicationRecord
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes
-  after_create_commit :dispatch_create_event, :ip_lookup
-  after_update_commit :dispatch_update_event
-  after_destroy_commit :dispatch_destroy_event
+  after_validation :email_unique_per_inbox, if: :email_changed?
   before_save :sync_contact_attributes
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
@@ -115,6 +114,10 @@ class Contact < ApplicationRecord
         )
       )
     )
+  }
+
+  scope :in_inbox, lambda { |inbox_id|
+    joins(:contact_inboxes).where(contact_inboxes: { inbox_id: inbox_id })
   }
 
   scope :order_on_name, lambda { |direction|
@@ -195,12 +198,6 @@ class Contact < ApplicationRecord
 
   private
 
-  def ip_lookup
-    return unless account.feature_enabled?('ip_lookup')
-
-    ContactIpLookupJob.perform_later(self)
-  end
-
   def phone_number_format
     return if phone_number.blank?
 
@@ -226,6 +223,16 @@ class Contact < ApplicationRecord
   def prepare_jsonb_attributes
     self.additional_attributes = {} if additional_attributes.blank?
     self.custom_attributes = {} if custom_attributes.blank?
+  end
+
+  def email_unique_per_inbox
+    return if email.blank?
+
+    conflict = contact_inboxes.any? do |contact_inbox|
+      email_conflict_in_inbox?(email: email, inbox_id: contact_inbox.inbox_id, except_contact_id: id)
+    end
+
+    errors.add(:email, I18n.t('errors.contacts.email.already_exists_in_inbox')) if conflict
   end
 
   def sync_contact_attributes

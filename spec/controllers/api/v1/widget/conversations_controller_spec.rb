@@ -113,6 +113,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
     it 'does not update the name if the contact already exist' do
       existing_contact = create(:contact, account: account, email: 'contact-email@chatwoot.com')
+      create(:contact_inbox, contact: existing_contact, inbox: web_widget.inbox)
 
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },

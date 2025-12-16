@@ -189,6 +189,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         message = create(:message, account: account, content_type: 'input_email', inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
         existing_contact = create(:contact, account: account, email: email, name: 'John Doe')
+        create(:contact_inbox, contact: existing_contact, inbox: web_widget.inbox)
         contact_params = { email: email }
         put api_v1_widget_message_url(message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
@@ -204,7 +205,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       it 'ignores the casing of email, updates message in conversation and deletes the current contact' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
-        create(:contact, account: account, email: email)
+        existing_contact = create(:contact, account: account, email: email)
+        create(:contact_inbox, contact: existing_contact, inbox: web_widget.inbox)
         contact_params = { email: email.upcase }
         put api_v1_widget_message_url(message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
