@@ -8,30 +8,41 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
   end
 
   def fix_spelling_grammar_message
-    make_api_call(build_api_call_body(fix_spelling_grammar_prompt))
+    call_llm_with_prompt(fix_spelling_grammar_prompt)
   end
 
   def confident_message
-    make_api_call(build_api_call_body(tone_rewrite_prompt('confident')))
+    call_llm_with_prompt(tone_rewrite_prompt('confident'))
   end
 
   def straightforward_message
-    make_api_call(build_api_call_body(tone_rewrite_prompt('straightforward')))
+    call_llm_with_prompt(tone_rewrite_prompt('straightforward'))
   end
 
   def casual_message
-    make_api_call(build_api_call_body(tone_rewrite_prompt('casual')))
+    call_llm_with_prompt(tone_rewrite_prompt('casual'))
   end
 
   def friendly_message
-    make_api_call(build_api_call_body(tone_rewrite_prompt('friendly')))
+    call_llm_with_prompt(tone_rewrite_prompt('friendly'))
   end
 
   def professional_message
-    make_api_call(build_api_call_body(tone_rewrite_prompt('professional')))
+    call_llm_with_prompt(tone_rewrite_prompt('professional'))
   end
 
   private
+
+  def call_llm_with_prompt(system_content, user_content = event['data']['content'])
+    body = {
+      model: GPT_MODEL,
+      messages: [
+        { role: 'system', content: system_content },
+        { role: 'user', content: user_content }
+      ]
+    }.to_json
+    make_api_call(body)
+  end
 
   def prompt_from_file(file_name, enterprise: false)
     path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
@@ -49,16 +60,6 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
 
   def fix_spelling_grammar_prompt
     prompt_from_file('fix_spelling_grammar')
-  end
-
-  def build_api_call_body(system_content, user_content = event['data']['content'])
-    {
-      model: GPT_MODEL,
-      messages: [
-        { role: 'system', content: system_content },
-        { role: 'user', content: user_content }
-      ]
-    }.to_json
   end
 
   def conversation_messages(in_array_format: false)
