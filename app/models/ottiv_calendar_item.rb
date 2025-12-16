@@ -66,7 +66,7 @@ class OttivCalendarItem < ApplicationRecord
   def self.auto_complete_past_items
     # Auto-complete items that are past their end time (or start time if no end time)
     # Give 1 hour grace period before auto-completing
-    active.where('end_at < ? OR (end_at IS NULL AND start_at < ?)', 
+    active.where('end_at < ? OR (end_at IS NULL AND start_at < ?)',
                  1.hour.ago, 1.hour.ago)
           .find_each(&:complete!)
   end

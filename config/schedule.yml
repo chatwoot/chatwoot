@@ -13,6 +13,12 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
+# executed At every 30 minutes to auto-complete past agenda items
+ottiv_complete_past_items_job:
+  cron: '*/30 * * * *'
+  class: 'OttivCompletePastItemsJob'
+  queue: scheduled_jobs
+
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'

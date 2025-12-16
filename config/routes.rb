@@ -227,6 +227,19 @@ Rails.application.routes.draw do
               get :index
             end
           end
+          resources :ottiv_calendar_items, only: [:index, :show, :create, :update, :destroy] do
+            member do
+              post :complete
+              post :cancel
+            end
+          end
+          resources :ottiv_scheduled_messages, only: [:index, :show, :create, :update, :destroy] do
+            member do
+              post :send_message
+            end
+          end
+          # Ottiv reminders (for managing reminders within account scope)
+          resources :ottiv_reminders, only: [:index, :update]
 
           resources :teams do
             resources :team_members, only: [:index, :create] do
