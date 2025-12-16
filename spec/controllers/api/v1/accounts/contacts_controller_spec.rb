@@ -606,8 +606,14 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:not_found)
       end
 
-      it 'prevents updating with an existing email' do
+      it 'prevents updating with an existing email in the same inbox' do
+        inbox = create(:inbox, account: account)
+
+        create(:contact_inbox, contact: contact, inbox: inbox)
+
         other_contact = create(:contact, account: account, email: 'test1@example.com')
+
+        create(:contact_inbox, contact: other_contact, inbox: inbox)
 
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
               headers: admin.create_new_auth_token,
@@ -615,7 +621,7 @@ RSpec.describe 'Contacts API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['attributes']).to include('email')
+        expect(response.parsed_body['message']).to include('Contact with this email already exists in this inbox')
       end
 
       it 'prevents updating with an existing phone number' do
