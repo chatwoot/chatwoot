@@ -78,7 +78,7 @@ class Tiktok::MessageService
 
     message.attachments.new(
       account_id: message.account_id,
-      file_type: :embedded,
+      file_type: :embed,
       external_url: tt_share_post_embed_url
     )
   end
