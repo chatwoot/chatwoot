@@ -628,6 +628,10 @@ export default {
       );
     },
     onPaste(e) {
+      // Don't handle paste if compose new conversation modal is open
+      if (this.newConversationModalActive) {
+        return;
+      }
       const data = e.clipboardData.files;
       if (!data.length || !data[0]) {
         return;
