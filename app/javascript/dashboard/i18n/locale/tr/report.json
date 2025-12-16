@@ -269,8 +269,8 @@
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "DOWNLOAD_INBOX_REPORTS": "Gelen Kutu Raporlarını İndir",
     "FILTER_DROPDOWN_LABEL": "Gelen kutusu seç",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "ALL_INBOXES": "Tüm Gelen Kutuları",
+    "SEARCH_INBOX": "Gelen Kutusu Arama",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konuşmalar",
@@ -491,7 +491,7 @@
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
+      "ALL_TEAMS": "Tüm Ekipler",
       "HEADER": "Ekipler tarafından yapılan konuşmalar",
       "LOADING_MESSAGE": "Loading team metrics...",
       "NO_TEAMS": "Mevcut veri bulunmamaktadır",
