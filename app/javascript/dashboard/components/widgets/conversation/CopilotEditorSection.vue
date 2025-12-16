@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import CopilotEditor from 'dashboard/components/widgets/WootWriter/CopilotEditor.vue';
-import Icon from 'next/icon/Icon.vue';
+import CaptainLoader from 'dashboard/components/widgets/conversation/copilot/CaptainLoader.vue';
 
 defineProps({
   showCopilotEditor: {
@@ -66,13 +66,10 @@ const clearEditorSelection = () => {
     <div
       v-else-if="isGeneratingContent"
       key="loading-state"
-      class="bg-n-iris-5 rounded min-h-16 w-full mb-4 p-4 flex items-start animate-pulse-scale"
+      class="bg-n-iris-5 rounded min-h-16 w-full mb-4 p-4 flex items-start"
     >
       <div class="flex items-center gap-2">
-        <Icon
-          icon="i-fluent-bubble-multiple-20-filled"
-          class="text-n-iris-10 size-4 animate-spin"
-        />
+        <CaptainLoader class="text-n-iris-10 size-6" />
         <span class="text-sm text-n-iris-10">
           {{ $t('CONVERSATION.REPLYBOX.COPILOT_THINKING') }}
         </span>
@@ -86,21 +83,5 @@ const clearEditorSelection = () => {
   .ProseMirror-menubar {
     display: none;
   }
-}
-
-@keyframes pulse-scale {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.005);
-    opacity: 1;
-  }
-}
-
-.animate-pulse-scale {
-  animation: pulse-scale 1.5s ease-in-out infinite;
 }
 </style>
