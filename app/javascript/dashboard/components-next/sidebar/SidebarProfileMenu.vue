@@ -38,10 +38,8 @@ const isFeatureEnabledonAccount = useMapGetter(
 
 const showYearInReviewModal = ref(false);
 
-const currentYear = new Date().getFullYear();
-
 const bannerClosedKey = computed(() => {
-  return `yir_closed_${accountId.value}_${currentYear}`;
+  return `yir_closed_${accountId.value}_2025`;
 });
 
 const isBannerClosed = computed(() => {
@@ -76,7 +74,7 @@ const menuItems = computed(() => {
       show: showYearInReviewMenuItem.value,
       showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.YEAR_IN_REVIEW'),
-      icon: 'i-lucide-sparkles',
+      icon: 'i-lucide-gift',
       click: openYearInReviewModal,
     },
     {

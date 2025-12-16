@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useStoreGetters } from 'dashboard/composables/store';
 import YearInReviewModal from './YearInReviewModal.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const yearInReviewBannerImage =
   '/assets/images/dashboard/year-in-review/year-in-review-sidebar.png';
@@ -15,7 +16,7 @@ const getters = useStoreGetters();
 const showModal = ref(false);
 const modalRef = ref(null);
 
-const currentYear = new Date().getFullYear();
+const currentYear = 2025;
 
 const isACustomBrandedInstance =
   getters['globalConfig/isACustomBrandedInstance'];
@@ -63,10 +64,12 @@ const closeBanner = event => {
           {{ t('YEAR_IN_REVIEW.BANNER.TITLE', { year: currentYear }) }}
         </span>
         <button
-          class="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded hover:bg-white hover:bg-opacity-20 transition-colors"
+          class="inline-flex items-center justify-center rounded hover:bg-white hover:bg-opacity-20 transition-colors p-0"
           @click="closeBanner"
         >
-          <i class="i-lucide-x w-4 h-4 text-white" />
+          <Icon
+            icon="i-lucide-x size-4 mt-0.5 text-n-slate-1 dark:text-n-slate-12"
+          />
         </button>
       </div>
 
