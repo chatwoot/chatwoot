@@ -227,12 +227,12 @@
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Nube de WhatsApp",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "WHATSAPP_CLOUD_DESC": "Configuración rápida a través de Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360 Diálogo"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
+          "TITLE": "Seleccione su proveedor de API",
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
@@ -274,20 +274,20 @@
         },
         "SUBMIT_BUTTON": "Crear canal de WhatsApp",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
+          "TITLE": "Configuración rápida con Meta",
           "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
+            "EASY_SETUP": "No se requiere configuración manual",
             "SECURE_AUTH": "Secure OAuth based authentication",
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "LEARN_MORE": {
             "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "LINK_TEXT": "este enlace"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
+          "SUBMIT_BUTTON": "Conectar con WhatsApp Business",
+          "AUTH_PROCESSING": "Autenticando con Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
           "LOADING_SDK": "Loading Facebook SDK...",
@@ -306,7 +306,7 @@
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
+        "TITLE": "Canal de voz",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
           "LABEL": "Número telefónico",
@@ -472,7 +472,7 @@
             "DESCRIPTION": "Connect your instagram account"
           },
           "VOICE": {
-            "TITLE": "Voice",
+            "TITLE": "Voz",
             "DESCRIPTION": "Integrate with Twilio Voice"
           }
         }
@@ -625,7 +625,7 @@
           "TOOLTIP": "Phone number displayed to customers"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
+          "LABEL": "Nombre del negocio",
           "TOOLTIP": "Business name verified by WhatsApp"
         },
         "DISPLAY_NAME_STATUS": {
@@ -641,30 +641,30 @@
           "TOOLTIP": "Daily messaging limit for your account"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "LABEL": "Modo de cuenta",
+          "TOOLTIP": "Modo de funcionamiento actual de tu cuenta de WhatsApp"
         }
       },
       "VALUES": {
         "TIERS": {
-          "TIER_250": "250 customers per 24h",
-          "TIER_1000": "1K customers per 24h",
-          "TIER_1K": "1K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "TIER_250": "250 clientes cada 24h",
+          "TIER_1000": "1K clientes cada 24h",
+          "TIER_1K": "1K clientes cada 24h",
+          "TIER_10K": "10K clientes cada 24h",
+          "TIER_100K": "100K clientes por 24h",
+          "TIER_UNLIMITED": "Clientes ilimitados cada 24h",
+          "UNKNOWN": "Calificación no disponible"
         },
         "STATUSES": {
           "APPROVED": "Approved",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "PENDING_REVIEW": "Revisión pendiente",
+          "AVAILABLE_WITHOUT_REVIEW": "Disponible sin revisión",
+          "REJECTED": "Rechazado",
+          "DECLINED": "Denegado",
+          "NON_EXISTS": "No existente"
         },
         "MODES": {
-          "SANDBOX": "Sandbox",
+          "SANDBOX": "Caja de arena",
           "LIVE": "En vivo"
         }
       }
@@ -681,7 +681,7 @@
       "MESSENGER_HEADING": "Script de Messenger",
       "MESSENGER_SUB_HEAD": "Coloca este botón dentro de tu etiqueta cuerpo",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
+        "TITLE": "Dominios permitidos",
         "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
         "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
       },
@@ -737,9 +737,9 @@
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificación del Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Este token se utiliza para verificar la autenticidad del extremo del webhook.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sincronizar plantillas",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sincronizar plantillas",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizar configuración de Formulario de Chat"
     },
@@ -800,12 +800,12 @@
       "SURVEY_RULE": {
         "LABEL": "Survey rule",
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "DESCRIPTION_SUFFIX": "cualquiera de las etiquetas",
         "OPERATOR": {
           "CONTAINS": "contiene",
           "DOES_NOT_CONTAINS": "no contiene"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "seleccionar etiquetas"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
       "API": {
@@ -986,15 +986,15 @@
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "Conectar con Microsoft"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "Conectar con Google"
       },
       "OTHER_PROVIDERS": {
         "TITLE": "Otros proveedores",
-        "DESCRIPTION": "Connect with Other Providers"
+        "DESCRIPTION": "Conectar con otros proveedores"
       }
     },
     "CHANNELS": {
@@ -1009,7 +1009,7 @@
       "LINE": "Line",
       "API": "Canal API",
       "INSTAGRAM": "Instagram",
-      "VOICE": "Voice"
+      "VOICE": "Voz"
     }
   }
 }
