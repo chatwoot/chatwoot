@@ -163,10 +163,7 @@ const handleMenuItemClick = item => {
 };
 
 const handleSubMenuItemClick = (parentItem, subItem) => {
-  emit('executeCopilotAction', subItem.key, {
-    parentKey: parentItem.key,
-    tone: subItem.label.toLowerCase(),
-  });
+  emit('executeCopilotAction', subItem.key);
 };
 </script>
 
