@@ -87,6 +87,10 @@ export const OPERATOR_TYPES_5 = [
     value: 'days_before',
     label: 'Is x days before',
   },
+  {
+    value: 'hours_before',
+    label: 'Is x hours before',
+  },
 ];
 
 export const OPERATOR_TYPES_6 = [

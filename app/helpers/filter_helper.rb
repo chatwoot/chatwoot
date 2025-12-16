@@ -97,7 +97,7 @@ module FilterHelper
 
   def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
     case current_filter['data_type']
-    when 'date'
+    when 'date', 'timestamp'
       date_filter(current_filter, query_hash, filter_operator_value)
     when 'labels'
       tag_filter_query(query_hash, current_index)

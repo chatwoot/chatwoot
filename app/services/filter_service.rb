@@ -20,7 +20,7 @@ class FilterService # rubocop:disable Metrics/ClassLength
 
   def perform; end
 
-  def filter_operation(query_hash, current_index)
+  def filter_operation(query_hash, current_index) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength
     case query_hash[:filter_operator]
     when 'equal_to', 'not_equal_to'
       @filter_values["value_#{current_index}"] = filter_values(query_hash)
@@ -36,6 +36,8 @@ class FilterService # rubocop:disable Metrics/ClassLength
       @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
     when 'days_before'
       @filter_values["value_#{current_index}"] = days_before_filter_values(query_hash)
+    when 'hours_before'
+      @filter_values["value_#{current_index}"] = hours_before_filter_values(query_hash)
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
       "= :value_#{current_index}"
@@ -108,8 +110,19 @@ class FilterService # rubocop:disable Metrics/ClassLength
   end
 
   def days_before_filter_values(query_hash)
-    date = Time.zone.today - query_hash['values'][0].to_i.days
-    query_hash['values'] = [date.strftime]
+    # Calculate datetime X days ago from now (not just date)
+    datetime = Time.zone.now - query_hash['values'][0].to_i.days
+    # Convert to ISO 8601 format for consistency
+    query_hash['values'] = [datetime.iso8601]
+    query_hash['filter_operator'] = 'is_less_than'
+    lt_gt_filter_values(query_hash)
+  end
+
+  def hours_before_filter_values(query_hash)
+    # Calculate datetime X hours ago from now
+    datetime = Time.zone.now - query_hash['values'][0].to_i.hours
+    # Convert to ISO 8601 format for consistency
+    query_hash['values'] = [datetime.iso8601]
     query_hash['filter_operator'] = 'is_less_than'
     lt_gt_filter_values(query_hash)
   end

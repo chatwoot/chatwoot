@@ -107,18 +107,20 @@ conversations:
       - 'does_not_contain'
   created_at:
     attribute_type: 'standard'
-    data_type: 'date'
+    data_type: 'timestamp'
     filter_operators:
       - 'is_greater_than'
       - 'is_less_than'
       - 'days_before'
+      - 'hours_before'
   last_activity_at:
     attribute_type: 'standard'
-    data_type: 'date'
+    data_type: 'timestamp'
     filter_operators:
       - 'is_greater_than'
       - 'is_less_than'
       - 'days_before'
+      - 'hours_before'
   mail_subject:
     attribute_type: 'additional_attributes'
     data_type: 'text'
@@ -195,18 +197,20 @@ contacts:
       - 'is_not_present'
   created_at:
     attribute_type: 'standard'
-    data_type: 'date'
+    data_type: 'timestamp'
     filter_operators:
       - 'is_greater_than'
       - 'is_less_than'
       - 'days_before'
+      - 'hours_before'
   last_activity_at:
     attribute_type: 'standard'
-    data_type: 'date'
+    data_type: 'timestamp'
     filter_operators:
       - 'is_greater_than'
       - 'is_less_than'
       - 'days_before'
+      - 'hours_before'
   blocked:
     attribute_type: 'standard'
     data_type: 'boolean'

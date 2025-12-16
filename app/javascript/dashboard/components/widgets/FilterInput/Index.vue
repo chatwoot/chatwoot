@@ -95,7 +95,7 @@
           <div v-else-if="inputType === 'date'" class="multiselect-wrap--small">
             <input
               v-model="values"
-              type="date"
+              type="datetime-local"
               :editable="false"
               class="mb-0 datepicker"
             />

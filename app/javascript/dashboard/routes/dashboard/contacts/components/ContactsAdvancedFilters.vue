@@ -132,7 +132,10 @@ export default {
         values: {
           required,
           ensureBetween0to999(value, prop) {
-            if (prop.filter_operator === 'days_before') {
+            if (
+              prop.filter_operator === 'days_before' ||
+              prop.filter_operator === 'hours_before'
+            ) {
               return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
             }
             return true;
@@ -260,7 +263,8 @@ export default {
     },
     getInputType(key, operator) {
       if (key === 'created_at' || key === 'last_activity_at')
-        if (operator === 'days_before') return 'plain_text';
+        if (operator === 'days_before' || operator === 'hours_before')
+          return 'plain_text';
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type?.inputType;
     },
