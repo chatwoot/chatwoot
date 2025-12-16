@@ -31,6 +31,17 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
     call_llm_with_prompt(tone_rewrite_prompt('professional'))
   end
 
+  def improve_message
+    template = prompt_from_file('improve')
+
+    system_prompt = render_liquid_template(template, {
+                                             'conversation_context' => conversation.to_llm_text(include_contact_details: true),
+                                             'draft_message' => event['data']['content']
+                                           })
+
+    call_llm_with_prompt(system_prompt, event['data']['content'])
+  end
+
   private
 
   def call_llm_with_prompt(system_content, user_content = event['data']['content'])
