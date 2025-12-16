@@ -18,8 +18,8 @@
     "CREATED_AT_LABEL": "Creado",
     "NEW_MESSAGE": "Nuevo mensaje",
     "CALL": "Llamar",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "Llamando al contacto…",
+    "CALL_FAILED": "No se puede iniciar la llamada. Por favor, inténtelo de nuevo.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Seleccionar un buzón de entrada"
     },
@@ -376,7 +376,7 @@
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "Mostrando {startItem} - {endItem} de {totalItems} contacto | Mostrando {startItem} - {endItem} de {totalItems} contactos"
     },
     "FILTER": {
       "NAME": "Nombre",
@@ -555,12 +555,12 @@
         "WROTE": "escribió",
         "YOU": "Tú",
         "SAVE": "Guardar nota",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "Añadir nota de contacto",
         "EXPAND": "Expandir",
         "COLLAPSE": "Contraer",
         "NO_NOTES": "No hay notas, puede agregar notas desde la página de detalles de contacto.",
         "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "Aún no hay notas. Utilice el botón Añadir nota para crear una."
       }
     },
     "EMPTY_STATE": {
@@ -575,21 +575,21 @@
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Asignar etiquetas",
     "ASSIGN_LABELS_SUCCESS": "Etiquetas asignadas correctamente.",
-    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
-    "NO_LABELS_FOUND": "No labels available yet.",
+    "ASSIGN_LABELS_FAILED": "Error al asignar etiquetas",
+    "DESCRIPTION": "Seleccione las etiquetas que desea añadir a los contactos seleccionados.",
+    "NO_LABELS_FOUND": "Aún no hay etiquetas disponibles.",
     "SELECTED_COUNT": "{count} selected",
-    "CLEAR_SELECTION": "Clear selection",
-    "SELECT_ALL": "Select all ({count})",
+    "CLEAR_SELECTION": "Limpiar selección",
+    "SELECT_ALL": "Seleccionar todo ({count})",
     "DELETE_CONTACTS": "Eliminar",
-    "DELETE_SUCCESS": "Contacts deleted successfully.",
-    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_SUCCESS": "Contactos eliminados correctamente.",
+    "DELETE_FAILED": "Error al eliminar contactos.",
     "DELETE_DIALOG": {
-      "TITLE": "Delete selected contacts",
-      "SINGULAR_TITLE": "Delete selected contact",
-      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
-      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
-      "CONFIRM_MULTIPLE": "Delete contacts",
+      "TITLE": "Eliminar contactos seleccionados",
+      "SINGULAR_TITLE": "Eliminar contacto seleccionado",
+      "DESCRIPTION": "Esto eliminará permanente los {count} contactos seleccionados. Esta acción no se puede deshacer.",
+      "SINGULAR_DESCRIPTION": "Esto eliminará permanentemente el contacto seleecionado. Esta acción no se puede deshacer.",
+      "CONFIRM_MULTIPLE": "Eliminar contactos",
       "CONFIRM_SINGLE": "Eliminar contacto"
     }
   },
