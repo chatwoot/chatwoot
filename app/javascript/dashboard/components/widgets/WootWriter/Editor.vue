@@ -110,6 +110,7 @@ const { t } = useI18n();
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
+const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(props.channelType, props.medium)
@@ -119,7 +120,7 @@ const editorSchema = computed(() => {
   if (!props.channelType) return messageSchema;
 
   const formatType = props.isPrivate
-    ? DEFAULT_FORMATTING
+    ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value;
   const formatting = getFormattingForEditor(formatType);
   return buildMessageSchema(formatting.marks, formatting.nodes);
@@ -127,7 +128,7 @@ const editorSchema = computed(() => {
 
 const editorMenuOptions = computed(() => {
   const formatType = props.isPrivate
-    ? DEFAULT_FORMATTING
+    ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value || DEFAULT_FORMATTING;
   const formatting = getFormattingForEditor(formatType);
   return formatting.menu;
