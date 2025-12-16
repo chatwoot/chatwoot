@@ -24,7 +24,6 @@ const props = defineProps({
     default: () => ({
       name: '',
       description: '',
-      enabled: false,
       assignmentOrder: ROUND_ROBIN,
       conversationPriority: EARLIEST_CREATED,
       fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
@@ -79,7 +78,7 @@ const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY';
 const state = reactive({
   name: '',
   description: '',
-  enabled: false,
+  enabled: true,
   assignmentOrder: ROUND_ROBIN,
   conversationPriority: EARLIEST_CREATED,
   fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
@@ -160,7 +159,7 @@ const resetForm = () => {
   Object.assign(state, {
     name: '',
     description: '',
-    enabled: false,
+    enabled: true,
     assignmentOrder: ROUND_ROBIN,
     conversationPriority: EARLIEST_CREATED,
     fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
@@ -191,15 +190,10 @@ defineExpose({
       <BaseInfo
         v-model:policy-name="state.name"
         v-model:description="state.description"
-        v-model:enabled="state.enabled"
         :name-label="t(`${BASE_KEY}.FORM.NAME.LABEL`)"
         :name-placeholder="t(`${BASE_KEY}.FORM.NAME.PLACEHOLDER`)"
         :description-label="t(`${BASE_KEY}.FORM.DESCRIPTION.LABEL`)"
         :description-placeholder="t(`${BASE_KEY}.FORM.DESCRIPTION.PLACEHOLDER`)"
-        :status-label="t(`${BASE_KEY}.FORM.STATUS.LABEL`)"
-        :status-placeholder="
-          t(`${BASE_KEY}.FORM.STATUS.${state.enabled ? 'ACTIVE' : 'INACTIVE'}`)
-        "
         @validation-change="handleValidationChange"
       />
 

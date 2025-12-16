@@ -51,13 +51,6 @@ const showAdvancedAssignmentUI = computed(() => {
   return hasAdvancedAssignment.value && hasAssignmentV2.value;
 });
 
-const policyStatusLabel = computed(() => {
-  if (!assignmentPolicy.value) return '';
-  return assignmentPolicy.value.enabled
-    ? t('INBOX_MGMT.ASSIGNMENT.POLICY_STATUS.ACTIVE')
-    : t('INBOX_MGMT.ASSIGNMENT.POLICY_STATUS.INACTIVE');
-});
-
 const assignmentOrderLabel = computed(() => {
   if (!assignmentPolicy.value) return '';
   const priority = assignmentPolicy.value.conversation_priority;
@@ -145,6 +138,15 @@ const navigateToAssignmentPolicies = () => {
   router.push({
     name: 'agent_assignment_policy_index',
     params: { accountId },
+  });
+};
+
+const navigateToAssignmentPolicyEdit = () => {
+  if (!assignmentPolicy.value?.id) return;
+  const accountId = route.params.accountId;
+  router.push({
+    name: 'agent_assignment_policy_edit',
+    params: { accountId, id: assignmentPolicy.value.id },
   });
 };
 
@@ -267,16 +269,6 @@ onMounted(() => {
                   <h4 class="text-base font-medium text-n-slate-12">
                     {{ assignmentPolicy.name }}
                   </h4>
-                  <span
-                    class="px-2 py-0.5 text-xs font-medium rounded-md"
-                    :class="[
-                      assignmentPolicy.enabled
-                        ? 'bg-n-teal-3 dark:bg-n-teal-4 text-n-teal-11 dark:text-n-teal-10'
-                        : 'bg-n-slate-4 dark:bg-n-slate-5 text-n-slate-11',
-                    ]"
-                  >
-                    {{ policyStatusLabel }}
-                  </span>
                 </div>
                 <p class="text-sm text-n-slate-11 mb-4">
                   {{ $t('INBOX_MGMT.ASSIGNMENT.POLICY_LABEL') }}
@@ -305,7 +297,7 @@ onMounted(() => {
                   <button
                     type="button"
                     class="inline-flex items-center gap-1.5 text-sm font-medium text-n-blue-11 dark:text-n-blue-10 hover:text-n-blue-12 dark:hover:text-n-blue-9 transition-colors"
-                    @click="navigateToAssignmentPolicies"
+                    @click="navigateToAssignmentPolicyEdit"
                   >
                     {{ $t('INBOX_MGMT.ASSIGNMENT.CUSTOMIZE_POLICY') }}
                     <i class="i-lucide-arrow-right text-sm" />

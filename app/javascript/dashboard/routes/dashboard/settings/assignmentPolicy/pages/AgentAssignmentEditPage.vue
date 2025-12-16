@@ -66,7 +66,7 @@ const inboxList = computed(() =>
 const formData = computed(() => ({
   name: selectedPolicy.value?.name || '',
   description: selectedPolicy.value?.description || '',
-  enabled: selectedPolicy.value?.enabled || false,
+  enabled: true,
   assignmentOrder: selectedPolicy.value?.assignmentOrder || ROUND_ROBIN,
   conversationPriority:
     selectedPolicy.value?.conversationPriority || EARLIEST_CREATED,
