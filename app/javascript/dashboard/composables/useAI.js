@@ -7,7 +7,6 @@ import {
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import OpenAPI from 'dashboard/api/integrations/openapi';
 import EditorAPI from 'dashboard/api/captain/editor';
 
 /**
@@ -79,12 +78,6 @@ export function useAI() {
   const isFetchingAppIntegrations = computed(() => uiFlags.value.isFetching);
 
   /**
-   * Computed property for the hook ID.
-   * @type {import('vue').ComputedRef<string|undefined>}
-   */
-  const hookId = computed(() => aiIntegration.value?.id);
-
-  /**
    * Computed property for the conversation ID.
    * @type {import('vue').ComputedRef<string|undefined>}
    */
@@ -140,9 +133,8 @@ export function useAI() {
     if (!conversationId.value) return [];
 
     try {
-      const result = await OpenAPI.processEvent({
+      const result = await EditorAPI.processEvent({
         type: 'label_suggestion',
-        hookId: hookId.value,
         conversationId: conversationId.value,
       });
 
