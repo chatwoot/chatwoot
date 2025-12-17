@@ -53,9 +53,11 @@ class Account < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.settings }
+  validate :validate_captain_models
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
+  store_accessor :settings, :captain_models, :captain_features
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -159,7 +161,45 @@ class Account < ApplicationRecord
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
+  def captain_preferences
+    {
+      models: captain_models_with_defaults,
+      features: captain_features_with_defaults
+    }.with_indifferent_access
+  end
+
   private
+
+  def captain_models_with_defaults
+    stored_models = captain_models || {}
+    Llm::ConfigService.feature_keys.each_with_object({}) do |feature_key, result|
+      stored_value = stored_models[feature_key]
+      result[feature_key] = if stored_value.present? && Llm::ConfigService.valid_model_for_feature?(feature_key, stored_value)
+                              stored_value
+                            else
+                              Llm::ConfigService.default_model_for_feature(feature_key)
+                            end
+    end
+  end
+
+  def captain_features_with_defaults
+    stored_features = captain_features || {}
+    Llm::ConfigService.feature_keys.index_with do |feature_key|
+      stored_features[feature_key] == true
+    end
+  end
+
+  def validate_captain_models
+    return if captain_models.blank?
+
+    captain_models.each do |feature_key, model_name|
+      next if model_name.blank?
+      next if Llm::ConfigService.valid_model_for_feature?(feature_key, model_name)
+
+      allowed_models = Llm::ConfigService.models_for_feature(feature_key)
+      errors.add(:captain_models, "'#{model_name}' is not a valid model for #{feature_key}. Allowed: #{allowed_models.join(', ')}")
+    end
+  end
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
