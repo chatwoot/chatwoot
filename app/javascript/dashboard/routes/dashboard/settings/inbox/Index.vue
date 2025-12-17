@@ -11,6 +11,7 @@ import {
   useStoreGetters,
   useStore,
 } from 'dashboard/composables/store';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -70,6 +71,37 @@ const openDelete = inbox => {
   showDeletePopup.value = true;
   selectedInbox.value = inbox;
 };
+const getInboxDetails = inbox => {
+  const { channel_type: type, medium, phone_number: phoneNumber } = inbox;
+
+  if (type === INBOX_TYPES.TWILIO) {
+    if (medium === 'sms') {
+      return inbox.messaging_service_sid || phoneNumber;
+    }
+    if (medium === 'whatsapp') {
+      return phoneNumber;
+    }
+  }
+
+  if (type === INBOX_TYPES.WHATSAPP) {
+    return phoneNumber;
+  }
+
+  if (type === INBOX_TYPES.EMAIL) {
+    return inbox.email;
+  }
+
+  if (type === INBOX_TYPES.FB) {
+    return inbox.facebook_page_url;
+  }
+
+  if (type === INBOX_TYPES.INSTAGRAM) {
+    return inbox.instagram_profile_url;
+  }
+
+  return null;
+};
+
 </script>
 
 <template>
@@ -119,13 +151,19 @@ const openDelete = inbox => {
                   <ChannelIcon class="size-5" :inbox="inbox" />
                 </div>
                 <div>
-                  <span class="block font-medium capitalize">
+                  <span class="block font-medium">
                     {{ inbox.name }}
                   </span>
                   <ChannelName
                     :channel-type="inbox.channel_type"
                     :medium="inbox.medium"
                   />
+                  <span
+                    v-if="getInboxDetails(inbox)"
+                    class="block text-sm text-n-slate-11 dark:text-n-slate-11"
+                  >
+                    {{ getInboxDetails(inbox) }}
+                  </span>
                 </div>
               </div>
             </td>

@@ -23,7 +23,7 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
     return false if message.private?
     return false unless processable_message?(message)
     # Status check: only process if pending (maintains existing behavior for unassigned)
-    return false unless current_conversation.pending?
+    # return false unless current_conversation.pending?
 
     true
   end
@@ -32,7 +32,7 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
     return unless should_run_processor?(event_data[:message])
     return if handle_missing_dealership_id
     return if event_data[:message].content.blank? && !message_has_image?(event_data[:message])
-  
+
     process_stark_response
   end
 
@@ -40,7 +40,7 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
     # Double-check assignment before making API call (conversation might have been assigned since initial check)
     current_conversation.reload
     return if current_conversation.assignee_id.present?
-    return unless current_conversation.pending?
+    # return unless current_conversation.pending?
 
     response = get_stark_response(current_conversation, event_data[:message].content, event_data[:message])
     return if response.nil? # Response is nil if there was an error (already handled by StarkRetryable)

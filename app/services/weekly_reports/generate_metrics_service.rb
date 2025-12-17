@@ -8,13 +8,18 @@ class WeeklyReports::GenerateMetricsService
 
   def perform
     conversations = @account.conversations.where(created_at: @start_date..@end_date)
+    incoming_messages = @account.messages.incoming.where(created_at: @start_date..@end_date).count
+    outgoing_messages = @account.messages.outgoing.where(created_at: @start_date..@end_date).count
 
     api_stats = fetch_booking_stats_from_api
 
     {
       new_conversations: conversations.count,
+      total_messages: incoming_messages + outgoing_messages,
       booking_links_sent: api_stats[:booking_links_sent],
       booking_forms_completed: api_stats[:booking_forms_completed],
+      handoff_links_sent: api_stats[:handoff_links_sent],
+      handoff_forms_completed: api_stats[:handoff_forms_completed],
       conversion_rate: api_stats[:conversion_rate],
       estimated_value: api_stats[:estimated_value],
       dealership_name: @account.name
@@ -28,29 +33,40 @@ class WeeklyReports::GenerateMetricsService
 
     api = Dealership::BookingStatsService.new(
       @dealership_id,
-      period: 'weekly',
+      period: 'daily',
       since: @start_date,
       until_time: @end_date
     )
 
     result = api.fetch_stats
+    daily_data = result[:data]
+    return empty_stats unless daily_data.is_a?(Array) && daily_data.any?
 
-    # Correct location of weekly stats
-    weekly_data = result[:data]
-    return empty_stats unless weekly_data.is_a?(Array) && weekly_data.any?
+    links_sent = 0
+    forms_completed = 0
+    handoff_links_sent = 0
+    handoff_forms_completed = 0
 
-    expected_week = "#{@start_date.strftime('%d-%b')}-#{@end_date.strftime('%d-%b')}"
-    Rails.logger.info "Looking for week: #{expected_week}"
+    daily_data.each do |day_stats|
+      date_str = day_stats['date']
+      next unless date_str.present?
 
-    # Find matching week or fallback to latest
-    row = weekly_data.find { |r| r['week'] == expected_week } || weekly_data.last
-    return empty_stats unless row.present?
+      date = Date.parse(date_str)
+      next unless date >= @start_date && date <= @end_date
 
-    booking = row.dig('booking_type_breakdown', 'booking')
-    return empty_stats unless booking.present?
+      booking = day_stats.dig('booking_type_breakdown', 'booking')
+      handoff = day_stats.dig('booking_type_breakdown', 'handoff')
 
-    links_sent = booking['links_sent'].to_i
-    forms_completed = booking['forms_completed'].to_i
+      if booking.present?
+        links_sent += booking['links_sent'].to_i
+        forms_completed += booking['forms_completed'].to_i
+      end
+
+      if handoff.present?
+        handoff_links_sent += handoff['links_sent'].to_i
+        handoff_forms_completed += handoff['forms_completed'].to_i
+      end
+    end
 
     conversion_rate =
       links_sent > 0 ? ((forms_completed * 100) / links_sent).round : 0
@@ -60,6 +76,8 @@ class WeeklyReports::GenerateMetricsService
     {
       booking_links_sent: links_sent,
       booking_forms_completed: forms_completed,
+      handoff_links_sent: handoff_links_sent,
+      handoff_forms_completed: handoff_forms_completed,
       conversion_rate: conversion_rate,
       estimated_value: estimated_value
     }
@@ -72,6 +90,8 @@ class WeeklyReports::GenerateMetricsService
     {
       booking_links_sent: 0,
       booking_forms_completed: 0,
+      handoff_links_sent: 0,
+      handoff_forms_completed: 0,
       conversion_rate: 0,
       estimated_value: 0
     }

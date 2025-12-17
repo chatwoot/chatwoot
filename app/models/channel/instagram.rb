@@ -2,13 +2,14 @@
 #
 # Table name: channel_instagram
 #
-#  id           :bigint           not null, primary key
-#  access_token :string           not null
-#  expires_at   :datetime         not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  account_id   :integer          not null
-#  instagram_id :string           not null
+#  id                    :bigint           not null, primary key
+#  access_token          :string           not null
+#  expires_at            :datetime         not null
+#  instagram_profile_url :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :integer          not null
+#  instagram_id          :string           not null
 #
 # Indexes
 #

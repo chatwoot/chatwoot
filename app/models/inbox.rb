@@ -81,6 +81,7 @@ class Inbox < ApplicationRecord
   after_create_commit :dispatch_create_event
   after_create_commit :assign_stark_as_default_bot
   after_update_commit :dispatch_update_event
+  after_save :ensure_instagram_profile_url
 
   scope :order_by_name, -> { order('lower(name) ASC') }
 
@@ -252,6 +253,13 @@ class Inbox < ApplicationRecord
     AgentBotInbox.create!(inbox: self, agent_bot: agent_bot)
   rescue StandardError => e
     Rails.logger.error("Failed to assign bot to inbox: #{e.message}")
+  end
+
+  def ensure_instagram_profile_url
+    return unless instagram?
+    return if channel.instagram_profile_url.present?
+
+    channel.update_column(:instagram_profile_url, "https://www.instagram.com/#{name}")
   end
 end
 

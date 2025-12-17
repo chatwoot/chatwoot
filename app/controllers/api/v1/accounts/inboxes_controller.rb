@@ -8,6 +8,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def index
     @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, { avatar_attachment: [:blob] }))
+    populate_missing_channel_urls
   end
 
   def show; end
@@ -85,6 +86,26 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:id])
     authorize @inbox, :show?
+  end
+
+  def populate_missing_channel_urls
+    facebook_inboxes = @inboxes.select(&:facebook?)
+    facebook_inboxes.each do |inbox|
+      channel = inbox.channel
+      next unless channel.facebook_page_url.blank? && channel.page_id.present?
+
+      url = "https://www.facebook.com/#{channel.page_id}"
+      channel.update_column(:facebook_page_url, url)
+    end
+
+    instagram_inboxes = @inboxes.select(&:instagram?)
+    instagram_inboxes.each do |inbox|
+      channel = inbox.channel
+      next unless channel.instagram_profile_url.blank? && inbox.name.present?
+
+      url = "https://www.instagram.com/#{inbox.name}"
+      channel.update_column(:instagram_profile_url, url)
+    end
   end
 
   def fetch_agent_bot

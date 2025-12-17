@@ -154,6 +154,12 @@ export default {
       }
       return false;
     },
+
+    assignInfoLabel() {
+      return this.assignedAgent
+        ? this.$t('CONVERSATION_SIDEBAR.ENABLE_AI')
+        : this.$t('CONVERSATION_SIDEBAR.DISABLE_AI');
+    },
   },
   methods: {
     onSelfAssign() {
@@ -225,11 +231,15 @@ export default {
           />
         </template>
       </ContactDetailsItem>
+      <p class="mt-1 text-xs text-n-slate-10 leading-snug">
+        {{ assignInfoLabel }}
+      </p>
+
       <MultiselectDropdown
         :options="agentsList"
         :selected-item="assignedAgent"
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
-        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
+        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER_UNASSIGN')"
         :no-search-result="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
         "

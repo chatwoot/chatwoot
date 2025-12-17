@@ -12,8 +12,11 @@ class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
     # Metrics
     @dealership_name          = account.name
     @new_conversations        = metrics[:new_conversations]
+    @total_messages           = metrics[:total_messages]
     @booking_links_sent       = metrics[:booking_links_sent]
     @booking_forms_completed  = metrics[:booking_forms_completed]
+    @handoff_links_sent       = metrics[:handoff_links_sent]
+    @handoff_forms_completed  = metrics[:handoff_forms_completed]
     @conversion_rate          = metrics[:conversion_rate]
     @estimated_value          = metrics[:estimated_value]
 
@@ -40,8 +43,11 @@ class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
       start_date: @start_date,
       end_date: @end_date,
       new_conversations: @new_conversations,
+      total_messages: @total_messages,
       booking_links_sent: @booking_links_sent,
       booking_forms_completed: @booking_forms_completed,
+      handoff_links_sent: @handoff_links_sent,
+      handoff_forms_completed: @handoff_forms_completed,
       conversion_rate: @conversion_rate,
       estimated_value: @estimated_value,
       dealership_name: @dealership_name,
@@ -54,8 +60,11 @@ class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
       start_date: @start_date,
       end_date: @end_date,
       new_conversations: @new_conversations,
+      total_messages: @total_messages,
       booking_links_sent: @booking_links_sent,
       booking_forms_completed: @booking_forms_completed,
+      handoff_links_sent: @handoff_links_sent,
+      handoff_forms_completed: @handoff_forms_completed,
       conversion_rate: @conversion_rate,
       estimated_value: @estimated_value,
       dealership_name: @dealership_name,
