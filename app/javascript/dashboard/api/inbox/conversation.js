@@ -49,6 +49,30 @@ class ConversationApi extends ApiClient {
     });
   }
 
+  kanban({
+    inboxId,
+    assigneeType,
+    page,
+    labels,
+    teamId,
+    conversationType,
+    sortBy,
+    perPage,
+  }) {
+    return axios.get(`${this.url}/kanban`, {
+      params: {
+        inbox_id: inboxId,
+        team_id: teamId,
+        assignee_type: assigneeType,
+        page,
+        labels,
+        conversation_type: conversationType,
+        sort_by: sortBy,
+        per_page: perPage,
+      },
+    });
+  }
+
   toggleStatus({ conversationId, status, snoozedUntil = null }) {
     return axios.post(`${this.url}/${conversationId}/toggle_status`, {
       status,
