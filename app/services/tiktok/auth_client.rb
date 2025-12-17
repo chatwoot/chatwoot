@@ -134,6 +134,10 @@ class Tiktok::AuthClient
       "#{base_url}/tiktok/callback"
     end
 
+    def webhook_url
+      "#{base_url}/webhooks/tiktok"
+    end
+
     def base_url
       ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
     end
