@@ -38,19 +38,21 @@ const allAttributeOptions = computed(() =>
   }))
 );
 
-const attributeOptions = computed(() =>
-  allAttributeOptions.value.filter(
-    attribute => !selectedAttributeKeys.value.includes(attribute.value)
-  )
-);
+const attributeOptions = computed(() => {
+  const selectedKeysSet = new Set(selectedAttributeKeys.value);
+  return allAttributeOptions.value.filter(
+    attribute => !selectedKeysSet.has(attribute.value)
+  );
+});
 
-const conversationRequiredAttributes = computed(() =>
-  selectedAttributeKeys.value
-    .map(key =>
-      allAttributeOptions.value.find(attribute => attribute.value === key)
-    )
-    .filter(Boolean)
-);
+const conversationRequiredAttributes = computed(() => {
+  const attributeMap = new Map(
+    allAttributeOptions.value.map(attr => [attr.value, attr])
+  );
+  return selectedAttributeKeys.value
+    .map(key => attributeMap.get(key))
+    .filter(Boolean);
+});
 
 const handleAddAttributesClick = event => {
   event.stopPropagation();
