@@ -109,12 +109,12 @@ class ActionService
     # 1. There is a last incoming message from customer
     # 2. The conversation is not resolved or snoozed
     unless last_message
-      Rails.logger.info "[AUTOMATION] ❌ No incoming messages in conversation #{@conversation.id}, skipping AI response"
+      Rails.logger.info "[AUTOMATION] No incoming messages in conversation #{@conversation.id}, skipping AI response"
       return
     end
 
     if @conversation.resolved? || @conversation.snoozed?
-      Rails.logger.info "[AUTOMATION] ❌ Conversation #{@conversation.id} is resolved or snoozed, skipping AI response"
+      Rails.logger.info "[AUTOMATION] Conversation #{@conversation.id} is resolved or snoozed, skipping AI response"
       return
     end
 
@@ -127,7 +127,7 @@ class ActionService
     # Trigger AI response service
     Messages::AiResponseTriggerService.new(message: last_message).perform
   rescue StandardError => e
-    Rails.logger.error "[AUTOMATION] ❌ Error triggering AI response: #{e.message}"
+    Rails.logger.error "[AUTOMATION] Error triggering AI response: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
   end
 
