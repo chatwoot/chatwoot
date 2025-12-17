@@ -102,8 +102,9 @@ RSpec.describe Captain::CustomTool, type: :model do
         enabled_tool = create(:captain_custom_tool, account: account, enabled: true)
         disabled_tool = create(:captain_custom_tool, account: account, enabled: false)
 
-        expect(described_class.enabled).to include(enabled_tool)
-        expect(described_class.enabled).not_to include(disabled_tool)
+        enabled_ids = described_class.enabled.pluck(:id)
+        expect(enabled_ids).to include(enabled_tool.id)
+        expect(enabled_ids).not_to include(disabled_tool.id)
       end
     end
   end
