@@ -21,6 +21,12 @@ class Channel::Tiktok < ApplicationRecord
   include Reauthorizable
   self.table_name = 'channel_tiktok'
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  if Chatwoot.encryption_configured?
+    encrypts :access_token
+    encrypts :refresh_token
+  end
+
   AUTHORIZATION_ERROR_THRESHOLD = 1
 
   validates :business_id, uniqueness: true, presence: true
