@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
 import { vOnClickOutside } from '@vueuse/components';
+import { useEventListener } from '@vueuse/core';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
@@ -163,6 +164,20 @@ const keyboardEvents = {
   },
 };
 useKeyboardEvents(keyboardEvents);
+
+const onPaste = e => {
+  if (!props.isEmailOrWebWidgetInbox) return;
+
+  const files = e.clipboardData?.files;
+  if (!files?.length) return;
+
+  Array.from(files).forEach(file => {
+    const { name, type, size } = file;
+    onFileUpload({ file, name, type, size });
+  });
+};
+
+useEventListener(document, 'paste', onPaste);
 </script>
 
 <template>
