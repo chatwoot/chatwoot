@@ -191,12 +191,12 @@ const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
 
 const handleCopilotAction = actionKey => {
-  if (actionKey === 'rephrase_selection' && editorView?.state) {
+  if (actionKey === 'improve_selection' && editorView?.state) {
     const { from, to } = editorView.state.selection;
     const selectedText = editorView.state.doc.textBetween(from, to).trim();
 
     if (from !== to && selectedText) {
-      emit('executeCopilotAction', 'rephrase', selectedText);
+      emit('executeCopilotAction', 'improve', selectedText);
     }
   } else {
     emit('executeCopilotAction', actionKey);

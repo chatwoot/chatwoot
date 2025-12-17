@@ -48,7 +48,7 @@ export default {
       this.$emit('close');
     },
 
-    async generateAIContent(type = 'rephrase') {
+    async generateAIContent(type = 'improve') {
       this.isGenerating = true;
       this.generatedContent = await this.processEvent(type);
       this.isGenerating = false;
