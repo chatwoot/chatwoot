@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
+import { useAlert } from 'dashboard/composables';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
 import EditAttribute from './EditAttribute.vue';
@@ -86,6 +87,18 @@ const handleEditAttribute = attribute => {
 const handleDeleteAttribute = attribute => {
   selectedAttribute.value = attribute;
   toggleDeletePopup(true);
+};
+
+const confirmDeleteAttribute = async () => {
+  try {
+    await store.dispatch('attributes/delete', selectedAttribute.value.id);
+    useAlert(t('ATTRIBUTES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+    closeDelete();
+  } catch (error) {
+    const errorMessage =
+      error?.response?.message || t('ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE');
+    useAlert(errorMessage);
+  }
 };
 
 const requiredAttributeKeys = computed(
@@ -208,12 +221,7 @@ const derivedAttributes = computed(() =>
           attributeName: selectedAttribute.attribute_display_name,
         })
       "
-      @on-confirm="
-        () => {
-          store.dispatch('attributes/delete', selectedAttribute.id);
-          closeDelete();
-        }
-      "
+      @on-confirm="confirmDeleteAttribute"
       @on-close="closeDelete"
     />
   </SettingsLayout>
