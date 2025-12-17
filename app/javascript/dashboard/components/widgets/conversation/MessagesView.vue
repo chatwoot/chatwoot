@@ -121,6 +121,7 @@ const {
   isAnInstagramChannel,
   is360DialogWhatsAppChannel,
   isAnEmailChannel,
+  isATiktokChannel,
 } = useInbox();
 
 const inboxHasFeature = feature => {
@@ -213,6 +214,9 @@ const replyWindowLink = computed(() => {
   if (isAWhatsAppCloudChannel.value) {
     return REPLY_POLICY.WHATSAPP_CLOUD;
   }
+  if (isATiktokChannel.value) {
+    return REPLY_POLICY.TIKTOK;
+  }
   if (!isAPIInbox.value) {
     return REPLY_POLICY.TWILIO_WHATSAPP;
   }
@@ -226,6 +230,9 @@ const replyWindowLinkText = computed(() => {
     isAnInstagramChannel.value
   ) {
     return t('CONVERSATION.24_HOURS_WINDOW');
+  }
+  if (isATiktokChannel.value) {
+    return t('CONVERSATION.48_HOURS_WINDOW');
   }
   if (!isAPIInbox.value) {
     return t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');

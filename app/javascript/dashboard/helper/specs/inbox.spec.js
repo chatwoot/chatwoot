@@ -38,6 +38,9 @@ describe('#Inbox Helpers', () => {
     it('should return correct class for Email', () => {
       expect(getInboxClassByType('Channel::Email')).toEqual('mail');
     });
+    it('should return correct class for TikTok', () => {
+      expect(getInboxClassByType(INBOX_TYPES.TIKTOK)).toEqual('brand-tiktok');
+    });
   });
 
   describe('getInboxIconByType', () => {
@@ -80,6 +83,10 @@ describe('#Inbox Helpers', () => {
         expect(getInboxIconByType(INBOX_TYPES.LINE)).toBe('i-ri-line-fill');
       });
 
+      it('returns correct icon for TikTok', () => {
+        expect(getInboxIconByType(INBOX_TYPES.TIKTOK)).toBe('i-ri-tiktok-fill');
+      });
+
       it('returns default icon for unknown type', () => {
         expect(getInboxIconByType('UNKNOWN_TYPE')).toBe('i-ri-chat-1-fill');
       });
@@ -99,6 +106,12 @@ describe('#Inbox Helpers', () => {
       it('returns correct line icon for Facebook', () => {
         expect(getInboxIconByType(INBOX_TYPES.FB, null, 'line')).toBe(
           'i-woot-messenger'
+        );
+      });
+
+      it('returns correct line icon for TikTok', () => {
+        expect(getInboxIconByType(INBOX_TYPES.TIKTOK, null, 'line')).toBe(
+          'i-ri-tiktok-line'
         );
       });
 
