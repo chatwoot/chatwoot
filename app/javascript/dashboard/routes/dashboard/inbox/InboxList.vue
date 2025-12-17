@@ -252,6 +252,9 @@ const deleteAndNavigateNext = async () => {
 const keyboardEvents = {
   KeyE: {
     action: e => {
+      // Only handle E key when no conversation is open
+      // InboxView.vue handles it when viewing a conversation
+      if (currentConversationId.value) return;
       e.preventDefault();
       deleteAndNavigateNext();
     },
