@@ -32,10 +32,7 @@ module Llm::ConfigService
     end
 
     def default_model_for_feature(feature_key)
-      feature = features[feature_key.to_s]
-      return nil unless feature
-
-      feature['default']
+      features.dig(feature_key.to_s, 'default')
     end
 
     def model_info(model_name)
