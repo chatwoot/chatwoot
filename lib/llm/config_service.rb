@@ -12,16 +12,10 @@ module Llm::ConfigService
       @config = load_config
     end
 
-    def providers
-      config['providers'] || {}
-    end
-
-    def models
-      config['models'] || {}
-    end
-
-    def features
-      config['features'] || {}
+    %w[providers models features].each do |key|
+      define_method(key) do
+        config[key] || {}
+      end
     end
 
     def models_for_feature(feature_key)
