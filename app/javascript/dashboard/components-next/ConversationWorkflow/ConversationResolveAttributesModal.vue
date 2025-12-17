@@ -15,10 +15,6 @@ const dialogRef = ref(null);
 const visibleAttributes = ref([]);
 const formValues = ref({});
 
-const close = () => {
-  dialogRef.value?.close();
-};
-
 const getPlaceholder = type => {
   const placeholders = {
     text: t(
@@ -47,6 +43,10 @@ const isFormComplete = computed(() =>
     return value !== undefined && value !== null && String(value).trim() !== '';
   })
 );
+
+const close = () => {
+  dialogRef.value?.close();
+};
 
 const open = (attributes = [], initialValues = {}) => {
   visibleAttributes.value = attributes;

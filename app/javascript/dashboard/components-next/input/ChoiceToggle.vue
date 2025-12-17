@@ -3,7 +3,7 @@ import { computed } from 'vue';
 
 const props = defineProps({
   modelValue: {
-    type: [String, Number],
+    type: [Boolean, String, Number],
     default: '',
   },
   yesLabel: {
@@ -19,8 +19,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const options = computed(() => [
-  { label: props.yesLabel, value: 'yes' },
-  { label: props.noLabel, value: 'no' },
+  { label: props.yesLabel, value: true },
+  { label: props.noLabel, value: false },
 ]);
 
 const handleSelect = value => {
