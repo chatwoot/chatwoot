@@ -87,9 +87,6 @@ module Llm::ConfigService
       return {} unless File.exist?(CONFIG_PATH)
 
       YAML.load_file(CONFIG_PATH) || {}
-    rescue StandardError => e
-      Rails.logger.error("Failed to load LLM config: #{e.message}")
-      {}
     end
   end
 end
