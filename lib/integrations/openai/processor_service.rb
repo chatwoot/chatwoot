@@ -1,5 +1,4 @@
 class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
-  LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
   def reply_suggestion_message
     make_api_call(reply_suggestion_body)
   end
@@ -8,62 +7,74 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
     make_api_call(summarize_body)
   end
 
-  def confident_message
-    tone_instruction = determine_tone_instruction('confident')
-    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
+  def fix_spelling_grammar_message
+    call_llm_with_prompt(fix_spelling_grammar_prompt)
   end
 
-  def fix_spelling_grammar_message
-    make_api_call(build_api_call_body('Please fix the spelling and grammar of the following response. ' \
-                                      "#{LANGUAGE_INSTRUCTION}"))
+  def confident_message
+    call_llm_with_prompt(tone_rewrite_prompt('confident'))
   end
 
   def straightforward_message
-    tone_instruction = determine_tone_instruction('straightforward')
-    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
+    call_llm_with_prompt(tone_rewrite_prompt('straightforward'))
   end
 
   def casual_message
-    tone_instruction = determine_tone_instruction('casual')
-    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
+    call_llm_with_prompt(tone_rewrite_prompt('casual'))
   end
 
-  def make_friendly_message
-    tone_instruction = determine_tone_instruction('friendly')
-    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
-  end
-
-  def make_formal_message
-    tone_instruction = determine_tone_instruction('formal')
-    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
+  def friendly_message
+    call_llm_with_prompt(tone_rewrite_prompt('friendly'))
   end
 
   def professional_message
-    tone_instruction = determine_tone_instruction('professional')
-    make_api_call(build_api_call_body(tone_rewrite_prompt(tone_instruction)))
+    call_llm_with_prompt(tone_rewrite_prompt('professional'))
+  end
+
+  def improve_message
+    template = prompt_from_file('improve')
+
+    system_prompt = render_liquid_template(template, {
+                                             'conversation_context' => conversation.to_llm_text(include_contact_details: true),
+                                             'draft_message' => event['data']['content']
+                                           })
+
+    call_llm_with_prompt(system_prompt, event['data']['content'])
   end
 
   private
 
-  def prompt_from_file(file_name, enterprise: false)
-    path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
-    Rails.root.join(path, "#{file_name}.txt").read
-  end
-
-  def tone_rewrite_prompt(tone_instruction)
-    format(prompt_from_file('tone_rewrite'), tone_instruction)
-  end
-
-  def build_api_call_body(system_content, user_content = event['data']['content'])
-    {
+  def call_llm_with_prompt(system_content, user_content = event['data']['content'])
+    body = {
       model: GPT_MODEL,
       messages: [
         { role: 'system', content: system_content },
         { role: 'user', content: user_content }
-      ]
+      ],
+      reasoning_effort: 'low' # TODO: make this configurable
     }.to_json
+    make_api_call(body)
   end
 
+  def prompt_from_file(file_name, enterprise: false)
+    path = enterprise ? 'enterprise/lib/enterprise/integrations/openai_prompts' : 'lib/integrations/openai/openai_prompts'
+    Rails.root.join(path, "#{file_name}.liquid").read
+  end
+
+  def render_liquid_template(template_content, variables = {})
+    Liquid::Template.parse(template_content).render(variables)
+  end
+
+  def tone_rewrite_prompt(tone)
+    template = prompt_from_file('tone_rewrite')
+    render_liquid_template(template, 'tone' => tone)
+  end
+
+  def fix_spelling_grammar_prompt
+    prompt_from_file('fix_spelling_grammar')
+  end
+
+  # TODO: Replace with LlmFormattable or enterprise/lib/captain/prompts/snippets/conversation.liquid
   def conversation_messages(in_array_format: false)
     messages = init_messages_body(in_array_format)
 
@@ -135,26 +146,6 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
           content: prompt_from_file('reply', enterprise: false) }
       ].concat(conversation_messages(in_array_format: true))
     }.to_json
-  end
-
-  def determine_tone_instruction(tone)
-    case tone
-    when 'friendly'
-      'Warm, approachable, and personable. Use conversational language, positive words, and show empathy. ' \
-      'May include phrases like \"Happy to help!\" or \"I\'d be glad to...\"'
-    when 'confident'
-      'Assertive and assured. Use definitive language, avoid hedging words like \"maybe\" or \"I think\". ' \
-      'Be direct and authoritative while remaining helpful.'
-    when 'straightforward'
-      'Clear, direct, and to-the-point. Remove unnecessary words, get straight to the information or solution. No fluff or extra pleasantries.'
-    when 'casual'
-      'Relaxed and informal. Use contractions, simpler words, and a conversational style. Friendly but less formal than professional tone.'
-    when 'professional'
-      'Formal, polished, and business-appropriate. Use complete sentences, proper grammar, ' \
-      'and maintain respectful distance. Avoid slang or overly casual language.'
-    else
-      determine_tone_instruction('friendly')
-    end
   end
 end
 

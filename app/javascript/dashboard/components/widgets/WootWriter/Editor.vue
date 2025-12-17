@@ -16,6 +16,7 @@ import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
 import VariableList from '../conversation/VariableList.vue';
 import TagTools from '../conversation/TagTools.vue';
+import CopilotMenuBar from './CopilotMenuBar.vue';
 
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useI18n } from 'vue-i18n';
@@ -23,6 +24,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
+import { vOnClickOutside } from '@vueuse/components';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -54,6 +56,7 @@ import {
   getFormattingForEditor,
   getSelectionCoords,
   calculateMenuPosition,
+  stripUnsupportedFormatting,
   getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 import {
@@ -99,6 +102,7 @@ const emit = defineEmits([
   'focus',
   'input',
   'update:modelValue',
+  'executeCopilotAction',
 ]);
 
 const { t } = useI18n();
@@ -106,6 +110,7 @@ const { t } = useI18n();
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
+const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(props.channelType, props.medium)
@@ -115,7 +120,7 @@ const editorSchema = computed(() => {
   if (!props.channelType) return messageSchema;
 
   const formatType = props.isPrivate
-    ? DEFAULT_FORMATTING
+    ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value;
   const formatting = getFormattingForEditor(formatType);
   return buildMessageSchema(formatting.marks, formatting.nodes);
@@ -123,7 +128,7 @@ const editorSchema = computed(() => {
 
 const editorMenuOptions = computed(() => {
   const formatType = props.isPrivate
-    ? DEFAULT_FORMATTING
+    ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value || DEFAULT_FORMATTING;
   const formatting = getFormattingForEditor(formatType);
   return formatting.menu;
@@ -131,8 +136,11 @@ const editorMenuOptions = computed(() => {
 
 const createState = (content, placeholder, plugins = [], methods = {}) => {
   const schema = editorSchema.value;
+  // Strip unsupported formatting before parsing to ensure content is compatible
+  // with the current schema for proper rendering in the editor
+  const sanitizedContent = stripUnsupportedFormatting(content, schema);
   return EditorState.create({
-    doc: new MessageMarkdownTransformer(schema).parse(content),
+    doc: new MessageMarkdownTransformer(schema).parse(sanitizedContent),
     plugins: buildEditor({
       schema,
       placeholder,
@@ -181,6 +189,21 @@ const sizes = MESSAGE_EDITOR_IMAGE_RESIZES;
 const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
+
+const handleCopilotAction = actionKey => {
+  if (actionKey === 'improve_selection' && editorView?.state) {
+    const { from, to } = editorView.state.selection;
+    const selectedText = editorView.state.doc.textBetween(from, to).trim();
+
+    if (from !== to && selectedText) {
+      emit('executeCopilotAction', 'improve', selectedText);
+    }
+  } else {
+    emit('executeCopilotAction', actionKey);
+  }
+
+  showSelectionMenu.value = false;
+};
 
 const contentFromEditor = () => {
   return MessageMarkdownSerializer.serialize(editorView.state.doc);
@@ -364,13 +387,23 @@ function openFileBrowser() {
   imageUpload.value.click();
 }
 
+function handleCopilotClick() {
+  showSelectionMenu.value = !showSelectionMenu.value;
+}
+
+function handleClickOutside(event) {
+  // Check if the clicked element or its parents have the ignored class
+  if (event.target.closest('.ProseMirror-copilot')) return;
+  showSelectionMenu.value = false;
+}
+
 function reloadState(content = props.modelValue) {
   const unrefContent = unref(content);
   state = createState(
     unrefContent,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -592,7 +625,12 @@ function insertContentIntoEditor(content, defaultFrom = 0) {
   const from = defaultFrom || editorView.state.selection.from || 0;
   // Use the editor's current schema to ensure compatibility with buildMessageSchema
   const currentSchema = editorView.state.schema;
-  let node = new MessageMarkdownTransformer(currentSchema).parse(content);
+  // Strip unsupported formatting before parsing to ensure content can be inserted
+  // into channels that don't support certain markdown features (e.g., API channels)
+  const sanitizedContent = stripUnsupportedFormatting(content, currentSchema);
+  let node = new MessageMarkdownTransformer(currentSchema).parse(
+    sanitizedContent
+  );
 
   insertNodeIntoEditor(node, from, undefined);
 }
@@ -747,7 +785,7 @@ onMounted(() => {
     props.modelValue,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -791,6 +829,14 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-if="showToolsMenu"
       :search-key="toolSearchKey"
       @select-tool="content => insertSpecialContent('tool', content)"
+    />
+    <CopilotMenuBar
+      v-if="showSelectionMenu"
+      v-on-click-outside="handleClickOutside"
+      :has-selection="isTextSelected"
+      :show-selection-menu="showSelectionMenu"
+      :show-general-menu="false"
+      @execute-copilot-action="handleCopilotAction"
     />
     <input
       ref="imageUpload"
@@ -844,6 +890,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
         svg {
           @apply size-full;
         }
+      }
+
+      .ProseMirror-copilot svg {
+        @apply fill-n-violet-9;
       }
     }
   }
@@ -982,6 +1032,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
         .ProseMirror-icon {
           @apply p-0.5 flex-shrink-0;
+        }
+
+        .ProseMirror-copilot svg {
+          @apply fill-n-violet-9;
         }
       }
 

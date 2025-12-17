@@ -156,24 +156,34 @@ export function useAI() {
   };
 
   /**
-   * Processes an AI event, such as rephrasing content.
-   * @param {string} [type='rephrase'] - The type of AI event to process.
+   * Processes an AI event, such as improving content.
+   * @param {string} [type='improve'] - The type of AI event to process.
+   * @param {string} [content=''] - The content to process (for full message) or selected text (for selection-based).
+   * @param {Object} [options={}] - Additional options.
+   * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
    * @returns {Promise<string>} The generated message or an empty string if an error occurs.
    */
-  const processEvent = async (type = 'rephrase') => {
+  const processEvent = async (type = 'improve', content = '', options = {}) => {
     try {
-      const result = await OpenAPI.processEvent({
-        hookId: hookId.value,
-        type,
-        content: draftMessage.value,
-        conversationId: conversationId.value,
-      });
+      const result = await OpenAPI.processEvent(
+        {
+          hookId: hookId.value,
+          type,
+          content: content || draftMessage.value,
+          conversationId: conversationId.value,
+        },
+        options.signal
+      );
       const {
         data: { message: generatedMessage },
       } = result;
       return generatedMessage;
     } catch (error) {
-      const errorData = error.response.data.error;
+      // Don't show error for aborted requests
+      if (error.name === 'AbortError' || error.name === 'CanceledError') {
+        return '';
+      }
+      const errorData = error.response?.data?.error;
       const errorMessage =
         errorData?.error?.message ||
         t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');

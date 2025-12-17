@@ -123,12 +123,7 @@ const createDraftMessageAIAssistActions = t => {
     },
     {
       label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FRIENDLY'),
-      key: 'make_friendly',
-      icon: ICON_AI_ASSIST,
-    },
-    {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FORMAL'),
-      key: 'make_formal',
+      key: 'friendly',
       icon: ICON_AI_ASSIST,
     },
     {
