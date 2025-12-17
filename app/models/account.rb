@@ -37,7 +37,11 @@ class Account < ApplicationRecord
         'auto_resolve_message': { 'type': %w[string null] },
         'auto_resolve_ignore_waiting': { 'type': %w[boolean null] },
         'audio_transcriptions': { 'type': %w[boolean null] },
-        'auto_resolve_label': { 'type': %w[string null] }
+        'auto_resolve_label': { 'type': %w[string null] },
+        'conversation_required_attributes': {
+          'type': %w[array null],
+          'items': { 'type': 'string' }
+        }
       },
     'required': [],
     'additionalProperties': true
@@ -48,13 +52,14 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
+  validates :name, presence: true
   validates :domain, length: { maximum: 100 }
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.settings }
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
-  store_accessor :settings, :audio_transcriptions, :auto_resolve_label
+  store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :conversation_required_attributes
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async

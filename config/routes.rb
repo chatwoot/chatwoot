@@ -177,6 +177,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -202,7 +203,15 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :sync_templates, on: :member
             get :health, on: :member
+            if ChatwootApp.enterprise?
+              resource :conference, only: %i[create destroy], controller: 'conference' do
+                get :token, on: :member
+              end
+            end
+
+            resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates'
           end
+
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
               delete :destroy
@@ -416,6 +425,7 @@ Rails.application.routes.draw do
               get :bot_metrics
             end
           end
+          resource :year_in_review, only: [:show]
           resources :live_reports, only: [] do
             collection do
               get :conversation_metrics
@@ -437,6 +447,7 @@ Rails.application.routes.draw do
               post :subscription
               get :limits
               post :toggle_deletion
+              post :topup_checkout
             end
           end
         end
@@ -546,12 +557,9 @@ Rails.application.routes.draw do
     resources :delivery_status, only: [:create]
 
     if ChatwootApp.enterprise?
-      resource :voice, only: [], controller: 'voice' do
-        collection do
-          post 'call/:phone', action: :call_twiml
-          post 'status/:phone', action: :status
-        end
-      end
+      post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
+      post 'voice/status/:phone', to: 'voice#status', as: :voice_status
+      post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
     end
   end
 
