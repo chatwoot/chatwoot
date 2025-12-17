@@ -4,14 +4,6 @@ providers:
     logo: openai.png
 
 models:
-  gpt-4o:
-    provider: openai
-    display_name: "GPT-4o"
-    credit_multiplier: 0.5
-  gpt-4o-mini:
-    provider: openai
-    display_name: "GPT-4o Mini"
-    credit_multiplier: 0.3
   gpt-4.1:
     provider: openai
     display_name: "GPT-4.1"
@@ -47,16 +39,16 @@ models:
 
 features:
   editor:
-    models: [gpt-4o-mini, gpt-4.1-mini, gpt-4.1-nano, gpt-5-mini, gpt-4o, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
+    models:
+      [gpt-4.1-mini, gpt-4.1-nano, gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
     default: gpt-5-mini
   assistant:
-    models: [gpt-5-mini, gpt-4o, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
+    models: [gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
     default: gpt-5-mini
   copilot:
-    models: [gpt-5-mini, gpt-4o, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
+    models: [gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
     default: gpt-5-mini
   label_suggestion:
-    models: [gpt-4.1-nano, gpt-4o-mini, gpt-4.1-mini, gpt-5-mini]
+    models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]
     default: gpt-4.1-nano
-
 # add deprecation_map later
