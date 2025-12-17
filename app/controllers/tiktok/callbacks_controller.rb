@@ -1,19 +1,9 @@
 class Tiktok::CallbacksController < ApplicationController
   include Tiktok::IntegrationHelper
 
-  before_action :validate_limit, only: [:show]
-
   def show
-    # Check if TikTok redirected with an error (user canceled authorization)
-    if params[:error].present?
-      handle_authorization_error
-      return
-    end
-
-    unless all_scopes_granted?
-      handle_ungranted_scopes_error
-      return
-    end
+    return handle_authorization_error if params[:error].present?
+    return handle_ungranted_scopes_error unless all_scopes_granted?
 
     process_successful_authorization
   rescue StandardError => e
@@ -23,7 +13,8 @@ class Tiktok::CallbacksController < ApplicationController
   private
 
   def all_scopes_granted?
-    (Tiktok::AuthClient::REQUIRED_SCOPES - short_term_access_token[:scope].split(',')).blank?
+    granted_scopes = short_term_access_token[:scope].to_s.split(',')
+    (Tiktok::AuthClient::REQUIRED_SCOPES - granted_scopes).blank?
   end
 
   def process_successful_authorization
@@ -40,36 +31,36 @@ class Tiktok::CallbacksController < ApplicationController
     Rails.logger.error("TikTok Channel creation Error: #{error.message}")
     ChatwootExceptionTracker.new(error).capture_exception
 
-    redirect_to_error_page({ 'error_type' => error.class.name, 'code' => 500, 'error_message' => error.message })
+    redirect_to_error_page(error_type: error.class.name, code: 500, error_message: error.message)
   end
 
   # Handles the case when a user denies permissions or cancels the authorization flow
   def handle_authorization_error
-    redirect_to_error_page({
-                             'error_type' => params[:error] || 'access_denied',
-                             'code' => params[:error_code],
-                             'error_message' => params[:error_description] || 'User cancelled the Authorization'
-                           })
+    redirect_to_error_page(
+      error_type: params[:error] || 'access_denied',
+      code: params[:error_code],
+      error_message: params[:error_description] || 'User cancelled the Authorization'
+    )
   end
 
   # Handles the case when a user partially accepted the required scopes
   def handle_ungranted_scopes_error
-    redirect_to_error_page({
-                             'error_type' => 'ungranted_scopes',
-                             'code' => 400,
-                             'error_message' => 'User did not grant all the required scopes'
-                           })
+    redirect_to_error_page(
+      error_type: 'ungranted_scopes',
+      code: 400,
+      error_message: 'User did not grant all the required scopes'
+    )
   end
 
   # Centralized method to redirect to error page with appropriate parameters
   # This ensures consistent error handling across different error scenarios
   # Frontend will handle the error page based on the error_type
-  def redirect_to_error_page(error_info)
+  def redirect_to_error_page(error_type:, code:, error_message:)
     redirect_to app_new_tiktok_inbox_url(
       account_id: account_id,
-      error_type: error_info['error_type'],
-      code: error_info['code'],
-      error_message: error_info['error_message']
+      error_type: error_type,
+      code: code,
+      error_message: error_message
     )
   end
 
@@ -145,9 +136,9 @@ class Tiktok::CallbacksController < ApplicationController
   end
 
   def tiktok_client
-    @tiktok_client ||= Tiktok::Client.new(business_id: short_term_access_token[:business_id],
-                                          access_token: short_term_access_token[:access_token])
+    @tiktok_client ||= Tiktok::Client.new(
+      business_id: short_term_access_token[:business_id],
+      access_token: short_term_access_token[:access_token]
+    )
   end
-
-  def validate_limit; end
 end
