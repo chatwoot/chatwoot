@@ -1,27 +1,49 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
+import { useToggle } from '@vueuse/core';
+import { useAlert } from 'dashboard/composables';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
-import CustomAttribute from './CustomAttribute.vue';
+import EditAttribute from './EditAttribute.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import AttributeListItem from 'dashboard/components-next/ConversationWorkflow/AttributeListItem.vue';
 import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import {
+  useStoreGetters,
+  useStore,
+  useMapGetter,
+} from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 const { t } = useI18n();
 
 const getters = useStoreGetters();
 const store = useStore();
+const { currentAccount } = useAccount();
+const inboxes = useMapGetter('inboxes/getInboxes');
 
-const showAddPopup = ref(false);
+const [showAddPopup, toggleAddPopup] = useToggle(false);
 const selectedTabIndex = ref(0);
 const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
+const [showEditPopup, toggleEditPopup] = useToggle(false);
+const [showDeletePopup, toggleDeletePopup] = useToggle(false);
+const selectedAttribute = ref({});
 
 const openAddPopup = () => {
-  showAddPopup.value = true;
+  toggleAddPopup(true);
 };
 const hideAddPopup = () => {
-  showAddPopup.value = false;
+  toggleAddPopup(false);
+};
+const hideEditPopup = () => {
+  toggleEditPopup(false);
+  selectedAttribute.value = {};
+};
+const closeDelete = () => {
+  toggleDeletePopup(false);
+  selectedAttribute.value = {};
 };
 
 const tabs = computed(() => {
@@ -37,6 +59,10 @@ const tabs = computed(() => {
   ];
 });
 
+const tabsForTabBar = computed(() =>
+  tabs.value.map(tab => ({ label: tab.name, key: tab.key }))
+);
+
 onMounted(() => {
   store.dispatch('attributes/get');
 });
@@ -49,9 +75,75 @@ const attributes = computed(() =>
   getters['attributes/getAttributesByModel'].value(attributeModel.value)
 );
 
-const onClickTabChange = index => {
-  selectedTabIndex.value = index;
+const onClickTabChange = tab => {
+  selectedTabIndex.value = tab.key;
 };
+
+const handleEditAttribute = attribute => {
+  selectedAttribute.value = attribute;
+  toggleEditPopup(true);
+};
+
+const handleDeleteAttribute = attribute => {
+  selectedAttribute.value = attribute;
+  toggleDeletePopup(true);
+};
+
+const confirmDeleteAttribute = async () => {
+  try {
+    await store.dispatch('attributes/delete', selectedAttribute.value.id);
+    useAlert(t('ATTRIBUTES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+    closeDelete();
+  } catch (error) {
+    const errorMessage =
+      error?.response?.message || t('ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE');
+    useAlert(errorMessage);
+  }
+};
+
+const requiredAttributeKeys = computed(
+  () => currentAccount.value?.settings?.conversation_required_attributes || []
+);
+
+const hasPreChatBadge = attribute => {
+  return (inboxes.value || []).some(inbox => {
+    const fields =
+      inbox?.pre_chat_form_options?.pre_chat_fields ||
+      inbox?.channel?.pre_chat_form_options?.pre_chat_fields ||
+      [];
+    return fields.some(field => field.name === attribute.attribute_key);
+  });
+};
+
+const buildBadges = attribute => {
+  const badges = [];
+  if (hasPreChatBadge(attribute)) {
+    badges.push({
+      type: 'pre-chat',
+    });
+  }
+
+  if (
+    attribute.attribute_model === 'conversation_attribute' &&
+    requiredAttributeKeys.value.includes(attribute.attribute_key)
+  ) {
+    badges.push({
+      type: 'resolution',
+    });
+  }
+
+  return badges;
+};
+
+const derivedAttributes = computed(() =>
+  attributes.value.map(attribute => ({
+    ...attribute,
+    label: attribute.attribute_display_name,
+    type: attribute.attribute_display_type,
+    value: attribute.attribute_key,
+    badges: buildBadges(attribute),
+  }))
+);
 </script>
 
 <template>
@@ -77,33 +169,60 @@ const onClickTabChange = index => {
         </template>
       </BaseSettingsHeader>
     </template>
-    <template #preBody>
-      <woot-tabs
-        class="font-medium [&_ul]:p-0 mb-4"
-        :index="selectedTabIndex"
-        @change="onClickTabChange"
-      >
-        <woot-tabs-item
-          v-for="(tab, index) in tabs"
-          :key="tab.key"
-          :index="index"
-          :name="tab.name"
-          :show-badge="false"
-          is-compact
-        />
-      </woot-tabs>
-    </template>
     <template #body>
-      <CustomAttribute
-        :key="attributeModel"
-        :attribute-model="attributeModel"
-      />
+      <div class="flex flex-col gap-6">
+        <TabBar
+          :tabs="tabsForTabBar"
+          :initial-active-tab="selectedTabIndex"
+          class="max-w-xl"
+          @tab-changed="onClickTabChange"
+        />
+        <div class="grid gap-3">
+          <AttributeListItem
+            v-for="attribute in derivedAttributes"
+            :key="attribute.id"
+            :attribute="attribute"
+            :badges="attribute.badges"
+            @edit="handleEditAttribute"
+            @delete="handleDeleteAttribute"
+          />
+        </div>
+      </div>
     </template>
     <AddAttribute
       v-if="showAddPopup"
       v-model:show="showAddPopup"
       :on-close="hideAddPopup"
       :selected-attribute-model-tab="selectedTabIndex"
+    />
+    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
+      <EditAttribute
+        :selected-attribute="selectedAttribute"
+        :is-updating="uiFlags.isUpdating"
+        @on-close="hideEditPopup"
+      />
+    </woot-modal>
+    <woot-confirm-delete-modal
+      v-if="showDeletePopup"
+      v-model:show="showDeletePopup"
+      :title="
+        $t('ATTRIBUTES_MGMT.DELETE.CONFIRM.TITLE', {
+          attributeName: selectedAttribute.attribute_display_name,
+        })
+      "
+      :message="$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :confirm-text="`${$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.YES')} ${
+        selectedAttribute.attribute_display_name || ''
+      }`"
+      :reject-text="$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.NO')"
+      :confirm-value="selectedAttribute.attribute_display_name"
+      :confirm-place-holder-text="
+        $t('ATTRIBUTES_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
+          attributeName: selectedAttribute.attribute_display_name,
+        })
+      "
+      @on-confirm="confirmDeleteAttribute"
+      @on-close="closeDelete"
     />
   </SettingsLayout>
 </template>
