@@ -10,7 +10,7 @@ class Captain::SummaryService < Captain::BaseEditorService
       model: GPT_MODEL,
       messages: [
         { role: 'system', content: prompt_from_file('summary') },
-        { role: 'user', content: conversation_messages }
+        { role: 'user', content: conversation.to_llm_text(include_contact_details: false) }
       ]
     }
   end

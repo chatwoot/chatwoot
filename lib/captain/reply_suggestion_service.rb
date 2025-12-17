@@ -10,7 +10,7 @@ class Captain::ReplySuggestionService < Captain::BaseEditorService
       model: GPT_MODEL,
       messages: [
         { role: 'system', content: prompt_from_file('reply') }
-      ].concat(conversation_messages(in_array_format: true))
+      ].concat(conversation_messages)
     }
   end
 end

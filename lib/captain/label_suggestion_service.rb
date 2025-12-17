@@ -40,11 +40,19 @@ class Captain::LabelSuggestionService < Captain::BaseEditorService
     return nil unless valid_conversation?(conversation)
 
     labels = account.labels.pluck(:title).join(', ')
-    messages = conversation_messages(in_array_format: false, start_from: labels.length)
+    messages = format_messages_as_string(start_from: labels.length)
 
     return nil if messages.blank? || labels.blank?
 
     "Messages:\n#{messages}\nLabels:\n#{labels}"
+  end
+
+  def format_messages_as_string(start_from: 0)
+    messages = conversation_messages(start_from: start_from)
+    messages.map do |msg|
+      sender_type = msg[:role] == 'user' ? 'Customer' : 'Agent'
+      "#{sender_type}: #{msg[:content]}\n"
+    end.join
   end
 
   def valid_conversation?(conversation)
