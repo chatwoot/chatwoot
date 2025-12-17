@@ -578,7 +578,7 @@ const menuItems = computed(() => {
           to: accountScopedRoute('sla_list'),
         },
         {
-          name: ' Conversation Workflow',
+          name: 'Conversation Workflow',
           label: t('SIDEBAR.CONVERSATION_WORKFLOW'),
           icon: 'i-lucide-workflow',
           to: accountScopedRoute('conversation_workflow_index'),
