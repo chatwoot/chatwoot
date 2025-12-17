@@ -60,7 +60,7 @@ module Llm::ConfigService
       return nil unless feature
 
       {
-        models: feature['models'].map do |model_name|
+        models: feature['models'].filter_map do |model_name|
           model = models[model_name]
           next nil unless model
 
@@ -70,7 +70,7 @@ module Llm::ConfigService
             provider: model['provider'],
             credit_multiplier: model['credit_multiplier']
           }
-        end.compact,
+        end,
         default: feature['default']
       }
     end
