@@ -16,6 +16,7 @@ const props = defineProps({
   isOnExpandedLayout: { type: Boolean, required: true },
   conversationStats: { type: Object, required: true },
   isListLoading: { type: Boolean, required: true },
+  isFilterModalOpen: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['basicFilterChange', 'filtersModal']);
@@ -52,10 +53,7 @@ const toggleConversationLayout = () => {
 <template>
   <div class="flex items-center justify-between gap-2 px-4 h-[3.25rem]">
     <div class="flex items-center justify-center min-w-0">
-      <h1
-        class="text-base font-medium truncate text-n-slate-12"
-        :title="pageTitle"
-      >
+      <h1 class="text-heading-1 truncate text-n-slate-12" :title="pageTitle">
         {{ pageTitle }}
       </h1>
       <span
@@ -87,8 +85,8 @@ const toggleConversationLayout = () => {
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
             icon="i-lucide-pen-line"
             slate
-            xs
-            faded
+            sm
+            :variant="isFilterModalOpen ? 'faded' : 'ghost'"
             @click="emit('filtersModal')"
           />
           <div
@@ -104,8 +102,8 @@ const toggleConversationLayout = () => {
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           icon="i-lucide-list-filter"
           slate
-          xs
-          faded
+          sm
+          :variant="isFilterModalOpen ? 'faded' : 'ghost'"
           @click="emit('filtersModal')"
         />
         <div

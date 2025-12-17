@@ -175,10 +175,10 @@ const STYLE_CONFIG = {
     },
   },
   fontSize: {
-    xs: 'text-xs',
-    sm: 'text-sm',
-    md: 'text-sm font-medium',
-    lg: 'text-base',
+    xs: 'text-button-small',
+    sm: 'text-button',
+    md: 'text-button',
+    lg: 'text-base font-460',
   },
   clickAnimation: {
     xs: 'active:enabled:scale-[0.97]',
@@ -255,7 +255,7 @@ const animationClasses = computed(() => {
     <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />
 
     <slot v-if="label || $slots.default" name="default">
-      <span v-if="label" class="min-w-0 font-420 truncate">{{ label }}</span>
+      <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
     </slot>
   </button>
 </template>

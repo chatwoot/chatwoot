@@ -101,7 +101,7 @@ const isMessageSticker = computed(() => {
     </template>
 
     <span
-      class="min-w-0 font-420"
+      class="min-w-0 text-body-main"
       :class="multiLine ? 'line-clamp-2' : 'truncate'"
     >
       <!-- Case for previous and conversation conversation card -->

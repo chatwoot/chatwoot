@@ -77,6 +77,7 @@ const onSelectConversation = checked => {
           :selected="selected"
           :enable-selection="enableSelection"
           :hide-thumbnail="hideThumbnail"
+          class="mt-0.5"
           @select-conversation="onSelectConversation"
         />
 

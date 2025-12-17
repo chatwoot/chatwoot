@@ -623,10 +623,10 @@ const menuItems = computed(() => {
       <div class="flex gap-2 px-2">
         <RouterLink
           :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
+          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color"
         >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-11" />
-          <span class="flex-grow text-left">
+          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
+          <span class="flex-grow text-start text-n-slate-10 font-interDisplay">
             {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
           </span>
           <span

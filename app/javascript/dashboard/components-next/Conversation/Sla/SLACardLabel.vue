@@ -89,7 +89,7 @@ defineExpose({
         class="flex-shrink-0 size-3"
         :class="slaTextStyles"
       />
-      <span class="text-xs font-440" :class="slaTextStyles">
+      <span class="text-label-small" :class="slaTextStyles">
         {{ slaStatus.threshold }}
       </span>
     </div>

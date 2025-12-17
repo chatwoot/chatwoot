@@ -35,7 +35,7 @@ defineProps({
     <span
       v-else
       key="no-messages"
-      class="inline-grid grid-flow-col auto-cols-max items-center gap-1 text-sm font-420"
+      class="inline-grid grid-flow-col auto-cols-max items-center gap-1 text-body-main"
       :class="unreadCount > 0 ? 'text-n-slate-12' : 'text-n-slate-11'"
     >
       <Icon icon="i-lucide-info" class="size-3.5" />

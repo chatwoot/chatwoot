@@ -32,7 +32,7 @@ const selectedModel = computed({
 
 <template>
   <div
-    class="relative self-start"
+    class="relative flex items-center flex-shrink-0"
     @mouseenter="onThumbnailHover"
     @mouseleave="onThumbnailLeave"
   >
