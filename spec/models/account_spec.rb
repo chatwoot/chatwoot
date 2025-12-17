@@ -218,4 +218,59 @@ RSpec.describe Account do
       end
     end
   end
+
+  describe 'captain_preferences' do
+    let(:account) { create(:account) }
+
+    describe 'with no saved preferences' do
+      it 'returns defaults from llm.yml' do
+        prefs = account.captain_preferences
+
+        expect(prefs[:features].values).to all(be false)
+
+        Llm::ConfigService.feature_keys.each do |feature|
+          expect(prefs[:models][feature]).to eq(Llm::ConfigService.default_model_for_feature(feature))
+        end
+      end
+    end
+
+    describe 'with saved model preferences' do
+      it 'returns saved preferences merged with defaults' do
+        account.update!(captain_models: { 'editor' => 'gpt-4o', 'assistant' => 'gpt-5' })
+
+        prefs = account.captain_preferences
+
+        expect(prefs[:models]['editor']).to eq('gpt-4o')
+        expect(prefs[:models]['assistant']).to eq('gpt-5')
+        expect(prefs[:models]['copilot']).to eq(Llm::ConfigService.default_model_for_feature('copilot'))
+      end
+    end
+
+    describe 'with saved feature preferences' do
+      it 'returns saved feature states' do
+        account.update!(captain_features: { 'editor' => true, 'assistant' => true })
+
+        prefs = account.captain_preferences
+
+        expect(prefs[:features]['editor']).to be true
+        expect(prefs[:features]['assistant']).to be true
+        expect(prefs[:features]['copilot']).to be false
+      end
+    end
+
+    describe 'validation' do
+      it 'rejects invalid model for a feature' do
+        account.captain_models = { 'label_suggestion' => 'gpt-5' }
+
+        expect(account).not_to be_valid
+        expect(account.errors[:captain_models].first).to include('not a valid model for label_suggestion')
+      end
+
+      it 'accepts valid model for a feature' do
+        account.captain_models = { 'editor' => 'gpt-4o', 'label_suggestion' => 'gpt-4.1-nano' }
+
+        expect(account).to be_valid
+      end
+    end
+  end
 end
