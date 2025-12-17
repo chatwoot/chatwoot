@@ -36,7 +36,7 @@ class Whatsapp::EmbeddedSignupService
     channel
 
   rescue StandardError => e
-    Rails.logger.error "[WHATSAPP_SIGNUP] ❌ Embedded signup failed at step: #{identify_failure_step(e)}"
+    Rails.logger.error "[WHATSAPP_SIGNUP] Embedded signup failed at step: #{identify_failure_step(e)}"
     Rails.logger.error "[WHATSAPP_SIGNUP] Error: #{e.class.name} - #{e.message}"
     Rails.logger.error "[WHATSAPP_SIGNUP] Backtrace: #{e.backtrace.first(5).join("\n")}"
     raise e
@@ -87,7 +87,7 @@ class Whatsapp::EmbeddedSignupService
       Rails.logger.info "[WHATSAPP_HEALTH] ✓ Channel #{channel.phone_number} health check passed"
     end
   rescue StandardError => e
-    Rails.logger.error "[WHATSAPP_HEALTH] ❌ Health check failed for channel #{channel.phone_number}: #{e.class.name} - #{e.message}"
+    Rails.logger.error "[WHATSAPP_HEALTH] Health check failed for channel #{channel.phone_number}: #{e.class.name} - #{e.message}"
     Rails.logger.error "[WHATSAPP_HEALTH] Backtrace: #{e.backtrace.first(3).join("\n")}"
   end
 

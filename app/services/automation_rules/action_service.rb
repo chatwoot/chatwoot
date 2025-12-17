@@ -22,7 +22,7 @@ class AutomationRules::ActionService < ActionService
         send(action[:action_name], action[:action_params])
         Rails.logger.info "[AUTOMATION_RULES] ✅ Action #{action[:action_name]} completed"
       rescue StandardError => e
-        Rails.logger.error "[AUTOMATION_RULES] ❌ Action #{action[:action_name]} failed: #{e.message}"
+        Rails.logger.error "[AUTOMATION_RULES] Action #{action[:action_name]} failed: #{e.message}"
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end

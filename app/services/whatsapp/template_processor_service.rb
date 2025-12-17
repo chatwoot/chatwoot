@@ -28,11 +28,20 @@ class Whatsapp::TemplateProcessorService
     template = find_template
     return if template.blank?
 
+    Rails.logger.info "[WHATSAPP_TEMPLATE] 🔍 Processing template: #{template_params['name']}"
+    Rails.logger.info "[WHATSAPP_TEMPLATE] 📋 Original template_params: #{template_params.inspect}"
+
     # Convert legacy format to enhanced format before processing
     converter = Whatsapp::TemplateParameterConverterService.new(template_params, template)
     normalized_params = converter.normalize_to_enhanced
 
-    process_enhanced_template_params(template, normalized_params['processed_params'])
+    Rails.logger.info "[WHATSAPP_TEMPLATE] ✅ Normalized params: #{normalized_params.inspect}"
+    Rails.logger.info "[WHATSAPP_TEMPLATE] 📦 Processed params: #{normalized_params['processed_params'].inspect}"
+
+    result = process_enhanced_template_params(template, normalized_params['processed_params'])
+
+    Rails.logger.info "[WHATSAPP_TEMPLATE] 🎯 Final processed components: #{result.inspect}"
+    result
   end
 
   def process_enhanced_template_params(template, processed_params = nil)
@@ -75,20 +84,31 @@ class Whatsapp::TemplateProcessorService
   end
 
   def process_body_components(processed_params, template)
+    Rails.logger.info '[WHATSAPP_TEMPLATE] 🔍 Processing body components'
+    Rails.logger.info "[WHATSAPP_TEMPLATE] 📋 Body params from processed_params: #{processed_params['body'].inspect}"
+    Rails.logger.info "[WHATSAPP_TEMPLATE] 📋 Template parameter_format: #{template['parameter_format']}"
+
     return [] if processed_params['body'].blank?
 
     body_params = processed_params['body'].filter_map do |key, value|
       next if value.blank?
 
+      Rails.logger.info "[WHATSAPP_TEMPLATE] 🔨 Processing body param: key=#{key}, value=#{value} (#{value.class})"
+
       parameter_format = template['parameter_format']
-      if parameter_format == 'NAMED'
-        parameter_builder.build_named_parameter(key, value)
-      else
-        parameter_builder.build_parameter(value)
-      end
+      param = if parameter_format == 'NAMED'
+                parameter_builder.build_named_parameter(key, value)
+              else
+                parameter_builder.build_parameter(value)
+              end
+
+      Rails.logger.info "[WHATSAPP_TEMPLATE] ✅ Built parameter: #{param.inspect}"
+      param
     end
 
-    body_params.present? ? [{ type: 'body', parameters: body_params }] : []
+    result = body_params.present? ? [{ type: 'body', parameters: body_params }] : []
+    Rails.logger.info "[WHATSAPP_TEMPLATE] 🎯 Body components result: #{result.inspect}"
+    result
   end
 
   def process_footer_components(processed_params)
@@ -108,15 +128,14 @@ class Whatsapp::TemplateProcessorService
 
     button_params = processed_params['buttons'].filter_map.with_index do |button, index|
       next if button.blank?
+      next if button['parameter'].blank?
 
-      if button['type'] == 'url' || button['parameter'].present?
-        {
-          type: 'button',
-          sub_type: button['type'] || 'url',
-          index: index,
-          parameters: [parameter_builder.build_button_parameter(button)]
-        }
-      end
+      {
+        type: 'button',
+        sub_type: button['type'] || 'url',
+        index: index,
+        parameters: [parameter_builder.build_button_parameter(button)]
+      }
     end
 
     button_params.compact
