@@ -133,6 +133,7 @@ class Message < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
+  after_create :index_conversation_async
 
   after_update_commit :dispatch_update_event
   after_commit :reindex_for_search, if: :should_index?, on: [:create, :update]
@@ -407,6 +408,16 @@ class Message < ApplicationRecord
 
   def reindex_for_search
     reindex(mode: :async)
+  end
+
+  def index_conversation_async
+    # Only index for incoming/outgoing messages with content
+    return unless message_type.in?(%w[incoming outgoing])
+    return if content.blank?
+
+    Zerodb::IndexConversationJob.perform_later(conversation_id)
+  rescue StandardError => e
+    Rails.logger.error("[Message] Failed to enqueue ZeroDB indexing job: #{e.message}")
   end
 end
 

@@ -245,5 +245,44 @@ class Contact < ApplicationRecord
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
   end
+
+  # ZeroDB Memory helper methods
+  def store_memory(content, importance: 'medium', tags: [], memory_type: 'note')
+    return unless account.present?
+
+    Zerodb::AgentMemoryService.new(account_id).store_memory(
+      id,
+      content,
+      importance: importance,
+      tags: tags,
+      memory_type: memory_type
+    )
+  rescue StandardError => e
+    Rails.logger.error("Failed to store memory for contact #{id}: #{e.message}")
+    nil
+  end
+
+  def recall_memories(query: nil, limit: 10, importance: nil)
+    return [] unless account.present?
+
+    Zerodb::AgentMemoryService.new(account_id).recall_memories(
+      id,
+      query: query,
+      limit: limit,
+      importance: importance
+    )
+  rescue StandardError => e
+    Rails.logger.error("Failed to recall memories for contact #{id}: #{e.message}")
+    []
+  end
+
+  def memory_stats
+    return nil unless account.present?
+
+    Zerodb::AgentMemoryService.new(account_id).memory_stats(contact_id: id)
+  rescue StandardError => e
+    Rails.logger.error("Failed to get memory stats for contact #{id}: #{e.message}")
+    nil
+  end
 end
 Contact.include_mod_with('Concerns::Contact')

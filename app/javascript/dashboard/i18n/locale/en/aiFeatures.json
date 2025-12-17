@@ -1,0 +1,87 @@
+{
+  "SEMANTIC_SEARCH": {
+    "TITLE": "AI-Powered Search",
+    "SUBTITLE": "Search conversations by meaning, not just keywords",
+    "PLACEHOLDER": "Describe what you're looking for...",
+    "CLEAR": "Clear search",
+    "SEARCHING": "Searching with AI...",
+    "RESULTS_COUNT": "{count} similar conversations found",
+    "RESULTS_DESCRIPTION": "Conversations ranked by relevance using semantic understanding",
+    "ERROR": "Failed to search conversations. Please try again.",
+    "EMPTY_STATE": {
+      "TITLE": "No matching conversations",
+      "MESSAGE": "Try describing what you're looking for in different words"
+    },
+    "INITIAL_STATE": {
+      "TITLE": "Search by Meaning",
+      "MESSAGE": "Our AI understands context and finds relevant conversations even if they don't use your exact words."
+    },
+    "EXAMPLES": {
+      "HEADER": "Try searching for:"
+    }
+  },
+  "CANNED_RESPONSE_SUGGESTIONS": {
+    "TITLE": "AI Response Suggestions",
+    "SUBTITLE": "Smart recommendations based on conversation context",
+    "LOADING": "Finding best responses...",
+    "RETRY": "Try Again",
+    "REFRESH": "Refresh suggestions",
+    "USE": "Use",
+    "HELPFUL": "Was this helpful?",
+    "THUMBS_UP": "Good suggestion",
+    "THUMBS_DOWN": "Not helpful",
+    "EXPAND": "Show full response",
+    "COLLAPSE": "Hide details",
+    "EMPTY": "No suggestions available",
+    "EMPTY_HINT": "Suggestions appear when AI finds relevant canned responses",
+    "ERROR": "Failed to load suggestions",
+    "FEEDBACK_SUCCESS": "Thank you for your feedback!",
+    "FEEDBACK_ERROR": "Failed to submit feedback"
+  },
+  "CONTACT_MEMORIES": {
+    "TITLE": "Contact Memories",
+    "ADD": "Add memory",
+    "SAVE": "Save Memory",
+    "CANCEL": "Cancel",
+    "LOADING": "Loading memories...",
+    "PLACEHOLDER": "What would you like to remember about this contact?",
+    "INPUT_LABEL": "Memory content",
+    "IMPORTANCE": "Importance",
+    "SEARCH_PLACEHOLDER": "Search memories...",
+    "SEARCH_LABEL": "Search contact memories",
+    "CLEAR_SEARCH": "Clear search",
+    "EMPTY_STATE": "No memories yet",
+    "EMPTY_HINT": "Add important information about this contact to remember for future conversations",
+    "SUCCESS": {
+      "ADDED": "Memory saved successfully"
+    },
+    "ERROR": {
+      "LOAD": "Failed to load memories",
+      "ADD": "Failed to save memory",
+      "EMPTY_CONTENT": "Please enter a memory",
+      "SEARCH": "Failed to search memories"
+    }
+  },
+  "SIMILAR_TICKETS": {
+    "TITLE": "Similar Conversations",
+    "SUBTITLE": "AI-discovered related tickets",
+    "LOADING": "Finding similar conversations...",
+    "RETRY": "Try Again",
+    "EMPTY_STATE": "No similar conversations found",
+    "EMPTY_HINT": "AI will find related conversations as more context becomes available",
+    "STATUS": {
+      "OPEN": "Open",
+      "RESOLVED": "Resolved",
+      "PENDING": "Pending",
+      "SNOOZED": "Snoozed"
+    },
+    "TIME": {
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday",
+      "DAYS_AGO": "{count} days ago"
+    },
+    "ERROR": {
+      "LOAD": "Failed to load similar conversations"
+    }
+  }
+}
