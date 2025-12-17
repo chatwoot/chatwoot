@@ -215,6 +215,14 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  ## Prevent abuse of semantic search API (100 requests per minute per account)
+  throttle('/api/v1/accounts/:account_id/conversations/semantic_search', limit: ENV.fetch('RATE_LIMIT_SEMANTIC_SEARCH', '100').to_i, period: 1.minute) do |req|
+    if req.post?
+      match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/semantic_search}.match(req.path)
+      match_data[:account_id] if match_data.present?
+    end
+  end
+
   ## ----------------------------------------------- ##
 end
 

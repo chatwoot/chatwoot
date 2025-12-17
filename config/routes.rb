@@ -131,6 +131,9 @@ Rails.application.routes.draw do
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              resources :similar, only: [:index]
+              resources :canned_response_suggestions, only: [:index]
+              resource :semantic_search, only: [:create]
             end
             member do
               post :mute
@@ -180,6 +183,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              resources :memories, only: [:index, :create]
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
