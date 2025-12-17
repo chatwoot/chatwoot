@@ -13,6 +13,7 @@ module MailboxHelper
       message_type: 'incoming',
       content_type: 'incoming_email',
       source_id: processed_mail.message_id,
+      created_at: processed_mail.date&.utc || Time.current,
       content_attributes: {
         email: processed_mail.serialized_data,
         cc_email: processed_mail.cc,
