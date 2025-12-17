@@ -199,7 +199,6 @@
   description: 'The limits for the Captain AI service for different plans'
   value:
   type: code
-
 # End of Captain Config
 
 # ------- Chatwoot Internal Config for Cloud ----#
@@ -476,3 +475,28 @@
   locked: false
   description: 'Token expiry in days'
 ## ------ End of Customizations for Customers ------ ##
+
+## ----- LLM Observability ---- ##
+- name: OTEL_PROVIDER
+  display_title: 'OpenTelemetry Provider'
+  description: 'LLM observability provider (langfuse, langsmith, etc.)'
+  value: ''
+  locked: false
+- name: LANGFUSE_PUBLIC_KEY
+  display_title: 'Langfuse Public Key'
+  description: 'Public key for Langfuse authentication'
+  value: ''
+  locked: false
+  type: secret
+- name: LANGFUSE_SECRET_KEY
+  display_title: 'Langfuse Secret Key'
+  description: 'Secret key for Langfuse authentication'
+  value: ''
+  locked: false
+  type: secret
+- name: LANGFUSE_BASE_URL
+  display_title: 'Langfuse Base URL'
+  description: 'Langfuse endpoint (US: https://us.cloud.langfuse.com, EU: https://cloud.langfuse.com)'
+  value: 'https://us.cloud.langfuse.com'
+  locked: false
+## ---- End of LLM Observability ---- ##

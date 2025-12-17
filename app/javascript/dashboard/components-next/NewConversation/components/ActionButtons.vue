@@ -4,10 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
 import { vOnClickOutside } from '@vueuse/components';
+import { useEventListener } from '@vueuse/core';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
-import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
@@ -50,12 +51,6 @@ const EmojiInput = defineAsyncComponent(
   () => import('shared/components/emoji/EmojiInput.vue')
 );
 
-const signatureToApply = computed(() =>
-  props.isEmailOrWebWidgetInbox
-    ? props.messageSignature
-    : extractTextFromMarkdown(props.messageSignature)
-);
-
 const {
   fetchSignatureFlagFromUISettings,
   setSignatureFlagForInbox,
@@ -80,12 +75,20 @@ const isRegularMessageMode = computed(() => {
   return !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox;
 });
 
+const isVoiceInbox = computed(() => props.channelType === INBOX_TYPES.VOICE);
+
+const shouldShowSignatureButton = computed(() => {
+  return (
+    props.hasSelectedInbox && isRegularMessageMode.value && !isVoiceInbox.value
+  );
+});
+
 const setSignature = () => {
-  if (signatureToApply.value) {
+  if (props.messageSignature) {
     if (sendWithSignature.value) {
-      emit('addSignature', signatureToApply.value);
+      emit('addSignature', props.messageSignature);
     } else {
-      emit('removeSignature', signatureToApply.value);
+      emit('removeSignature', props.messageSignature);
     }
   }
 };
@@ -101,7 +104,7 @@ watch(
   () => props.hasSelectedInbox,
   newValue => {
     nextTick(() => {
-      if (newValue && props.isEmailOrWebWidgetInbox) setSignature();
+      if (newValue && !isVoiceInbox.value) setSignature();
     });
   },
   { immediate: true }
@@ -161,6 +164,20 @@ const keyboardEvents = {
   },
 };
 useKeyboardEvents(keyboardEvents);
+
+const onPaste = e => {
+  if (!props.isEmailOrWebWidgetInbox) return;
+
+  const files = e.clipboardData?.files;
+  if (!files?.length) return;
+
+  Array.from(files).forEach(file => {
+    const { name, type, size } = file;
+    onFileUpload({ file, name, type, size });
+  });
+};
+
+useEventListener(document, 'paste', onPaste);
 </script>
 
 <template>
@@ -220,7 +237,7 @@ useKeyboardEvents(keyboardEvents);
         />
       </FileUpload>
       <Button
-        v-if="hasSelectedInbox && isRegularMessageMode"
+        v-if="shouldShowSignatureButton"
         icon="i-lucide-signature"
         color="slate"
         size="sm"

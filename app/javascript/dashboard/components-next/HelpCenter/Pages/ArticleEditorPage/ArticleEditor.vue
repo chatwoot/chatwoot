@@ -172,7 +172,7 @@ const previewArticle = () => {
         @apply mr-0;
 
         .ProseMirror-icon {
-          @apply p-0 mt-1 !mr-0;
+          @apply p-0 mt-0 !mr-0;
 
           svg {
             width: 20px !important;
