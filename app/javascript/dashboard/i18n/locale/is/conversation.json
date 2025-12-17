@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Velkomin/n á {installationName}!",
-    "DESCRIPTION": "Takk fyrir að skrá þig. Við viljum að þú fáir sem mest út úr {installationName}. Hér eru nokkur atriði sem þú getur gert í {installationName} til að gera upplifunina ánægjulega.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Velkomin/n á AlooChat!",
+    "DESCRIPTION": "Takk fyrir að skrá þig. Við viljum að þú fáir sem mest út úr AlooChat. Hér eru nokkur atriði sem þú getur gert í AlooChat til að gera upplifunina ánægjulega.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Sjáðu nýjustu uppfærslurnar okkar",
     "ALL_CONVERSATION": {
       "TITLE": "Öll samtölin þin á einum stað",
