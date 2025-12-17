@@ -21,6 +21,11 @@ class Messages::MessageBuilder
   end
 
   def perform
+    if @user.is_a?(AgentBot) && @conversation.status != 'pending'
+      Rails.logger.info("Bot #{@user.id} tried to send a message to a non-pending conversation #{@conversation.id}")
+      return
+    end
+
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
