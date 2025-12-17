@@ -56,7 +56,13 @@ export function useConversationRequiredAttributes() {
     // Find attributes that are missing or empty
     const missing = requiredAttributes.value.filter(attribute => {
       const value = conversationCustomAttributes[attribute.value];
-      // Consider null, undefined, empty string, or whitespace-only as missing
+
+      // For checkbox/boolean attributes, only check if the key exists
+      if (attribute.type === 'checkbox') {
+        return !(attribute.value in conversationCustomAttributes);
+      }
+
+      // For other attribute types, consider null, undefined, empty string, or whitespace-only as missing
       return !value || String(value).trim() === '';
     });
 
