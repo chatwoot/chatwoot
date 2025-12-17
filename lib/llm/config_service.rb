@@ -19,10 +19,7 @@ module Llm::ConfigService
     end
 
     def models_for_feature(feature_key)
-      feature = features[feature_key.to_s]
-      return [] unless feature
-
-      feature['models'] || []
+      features.dig(feature_key.to_s, 'models') || []
     end
 
     def default_model_for_feature(feature_key)
