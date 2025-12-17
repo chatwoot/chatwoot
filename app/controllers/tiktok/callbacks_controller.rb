@@ -141,7 +141,7 @@ class Tiktok::CallbacksController < ApplicationController
   end
 
   def short_term_access_token
-    @short_term_access_token ||=  Tiktok::AuthClient.obtain_short_term_access_token(params[:code])
+    @short_term_access_token ||= Tiktok::AuthClient.obtain_short_term_access_token(params[:code])
   end
 
   def tiktok_client
@@ -151,5 +151,3 @@ class Tiktok::CallbacksController < ApplicationController
 
   def validate_limit; end
 end
-
-Tiktok::CallbacksController.prepend_mod_with('Tiktok::CallbacksController')
