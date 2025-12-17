@@ -63,6 +63,7 @@ class ConversationFinder
     set_assignee_type
 
     find_all_conversations
+    filter_by_contact
     filter_by_status unless params[:q]
     filter_by_team
     filter_by_labels
@@ -144,7 +145,17 @@ class ConversationFinder
   def filter_by_status
     return if params[:status] == 'all'
 
-    @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+    status = params[:status]
+    # Handle blank string - fall back to default
+    status = DEFAULT_STATUS if status.blank?
+    # Handle array of statuses - reject blank values for edge case handling
+    if status.is_a?(Array)
+      status = status.reject(&:blank?)
+      # If array became empty after rejecting blanks, use default
+      status = DEFAULT_STATUS if status.empty?
+    end
+
+    @conversations = @conversations.where(status: status)
   end
 
   def filter_by_team
@@ -164,6 +175,12 @@ class ConversationFinder
 
     @conversations = @conversations.joins(:contact_inbox)
     @conversations = @conversations.where(contact_inboxes: { source_id: params[:source_id] })
+  end
+
+  def filter_by_contact
+    return unless params[:contact_id]
+
+    @conversations = @conversations.where(contact_id: params[:contact_id])
   end
 
   def set_count_for_all_conversations

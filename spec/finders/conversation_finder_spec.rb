@@ -96,6 +96,76 @@ describe ConversationFinder do
       end
     end
 
+    context 'with multiple statuses as array' do
+      let(:params) { { status: %w[open pending] } }
+
+      it 'filters conversations by multiple statuses' do
+        create(:conversation, account: account, inbox: inbox, status: 'pending')
+
+        result = conversation_finder.perform
+        # Should return open (4 from setup) + pending (1 new) = 5
+        # But exclude resolved (1 from setup) and snoozed
+        expect(result[:conversations].length).to be 5
+        expect(result[:conversations].pluck(:status).uniq.sort).to eq %w[open pending]
+      end
+    end
+
+    context 'with single status as string (backwards compatibility)' do
+      let(:params) { { status: 'resolved' } }
+
+      it 'filters conversations by single status' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 1
+        expect(result[:conversations].first.status).to eq 'resolved'
+      end
+    end
+
+    context 'with empty status array (edge case)' do
+      let(:params) { { status: [] } }
+
+      it 'falls back to default status (open)' do
+        result = conversation_finder.perform
+        expect(result[:conversations].pluck(:status).uniq).to eq(['open'])
+      end
+    end
+
+    context 'with empty string status (edge case)' do
+      let(:params) { { status: '' } }
+
+      it 'falls back to default status (open)' do
+        result = conversation_finder.perform
+        expect(result[:conversations].pluck(:status).uniq).to eq(['open'])
+      end
+    end
+
+    context 'with array containing blank values (edge case)' do
+      let(:params) { { status: ['open', '', 'pending'] } }
+
+      it 'filters by non-blank statuses only' do
+        create(:conversation, account: account, inbox: inbox, status: 'pending')
+
+        result = conversation_finder.perform
+        statuses = result[:conversations].pluck(:status).uniq.sort
+        expect(statuses).to eq %w[open pending]
+      end
+    end
+
+    context 'with contact_id filter' do
+      let(:contact) { create(:contact, account: account) }
+      let(:params) { { status: 'all', contact_id: contact.id } }
+
+      before do
+        # Create a conversation for this specific contact
+        create(:conversation, account: account, inbox: inbox, contact: contact, status: 'open')
+      end
+
+      it 'filters conversations by contact' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 1
+        expect(result[:conversations].first.contact_id).to eq contact.id
+      end
+    end
+
     context 'with assignee_type assigned' do
       let(:params) { { assignee_type: 'assigned' } }
 

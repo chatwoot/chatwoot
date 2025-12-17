@@ -20,6 +20,17 @@ get:
       schema:
         type: number
       description: ID of the contact
+    - name: status
+      in: query
+      schema:
+        oneOf:
+          - type: string
+            enum: ['all', 'open', 'resolved', 'pending', 'snoozed']
+          - type: array
+            items:
+              type: string
+              enum: ['open', 'resolved', 'pending', 'snoozed']
+      description: Filter by conversation status. Can be a single status or an array of statuses (e.g., status[]=open&status[]=pending). Returns all statuses if not specified.
   security:
     - userApiKey: []
   responses:

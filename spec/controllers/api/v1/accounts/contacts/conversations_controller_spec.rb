@@ -60,6 +60,59 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
           expect(json_response['payload'].length).to eq 0
         end
       end
+
+      context 'with status filter' do
+        before do
+          # Create conversations with different statuses
+          create(:conversation, account: account, inbox: inbox_1, contact: contact,
+                                contact_inbox: contact_inbox_1, status: 'resolved')
+          create(:conversation, account: account, inbox: inbox_1, contact: contact,
+                                contact_inbox: contact_inbox_1, status: 'pending')
+        end
+
+        it 'filters by single status' do
+          get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+              headers: admin.create_new_auth_token,
+              params: { status: 'resolved' }
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          statuses = json_response['payload'].pluck('status').uniq
+          expect(statuses).to eq(['resolved'])
+        end
+
+        it 'filters by multiple statuses' do
+          get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+              headers: admin.create_new_auth_token,
+              params: { status: %w[open pending] }
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          statuses = json_response['payload'].pluck('status').uniq.sort
+          expect(statuses).to eq(%w[open pending])
+        end
+
+        it 'returns all conversations when status is all' do
+          get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+              headers: admin.create_new_auth_token,
+              params: { status: 'all' }
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          # 4 from setup + 2 new = 6
+          expect(json_response['payload'].length).to eq 6
+        end
+
+        it 'returns all conversations when no status filter is provided' do
+          get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+              headers: admin.create_new_auth_token
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          # 4 from setup + 2 new = 6
+          expect(json_response['payload'].length).to eq 6
+        end
+      end
     end
   end
 end

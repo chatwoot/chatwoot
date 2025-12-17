@@ -1,17 +1,28 @@
 class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::Contacts::BaseController
   def index
-    # Start with all conversations for this contact
-    conversations = Current.account.conversations.includes(
-      :assignee, :contact, :inbox, :taggings
-    ).where(contact_id: @contact.id)
+    result = conversation_finder.perform
+    @conversations = result[:conversations]
+  end
 
-    # Apply permission-based filtering using the existing service
-    conversations = Conversations::PermissionFilterService.new(
-      conversations,
+  private
+
+  def conversation_finder
+    @conversation_finder ||= ConversationFinder.new(
       Current.user,
-      Current.account
-    ).perform
+      conversation_finder_params
+    )
+  end
 
-    @conversations = conversations.order(last_activity_at: :desc).limit(20)
+  def conversation_finder_params
+    # Permit both scalar and array status values for flexibility
+    # Default to 'all' status for contact conversations (returns all statuses,
+    # matching the original behavior before this refactor)
+    permitted = params.permit(:status, status: [])
+    status_value = permitted[:status].presence || 'all'
+
+    {
+      contact_id: @contact.id,
+      status: status_value
+    }
   end
 end
