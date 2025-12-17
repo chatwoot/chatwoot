@@ -7,15 +7,11 @@ class Captain::BaseEditorService
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
   GPT_MODEL = Llm::Config::DEFAULT_MODEL
-  ALLOWED_EVENT_NAMES = %w[fix_spelling_grammar casual professional friendly confident
-                           straightforward improve summarize reply_suggestion label_suggestion].freeze
-  CACHEABLE_EVENTS = %w[label_suggestion].freeze
+  CACHEABLE_EVENTS = [].freeze
 
   pattr_initialize [:account!, :event!]
 
   def perform
-    return nil unless valid_event_name?
-
     return value_from_cache if value_from_cache.present?
 
     response = send("#{event_name}_message")
@@ -68,12 +64,6 @@ class Captain::BaseEditorService
 
   def conversation
     @conversation ||= account.conversations.find_by(display_id: event['data']['conversation_display_id'])
-  end
-
-  def valid_event_name?
-    # self.class::ALLOWED_EVENT_NAMES is way to access ALLOWED_EVENT_NAMES defined in the class hierarchy of the current object.
-    # This ensures that if ALLOWED_EVENT_NAMES is updated elsewhere in it's ancestors, we access the latest value.
-    self.class::ALLOWED_EVENT_NAMES.include?(event_name)
   end
 
   def event_is_cacheable?
@@ -168,8 +158,19 @@ class Captain::BaseEditorService
     { error: error.message, request_messages: messages }
   end
 
-  # To be overridden by child class
   def api_key
-    raise NotImplementedError, 'Subclasses must implement api_key method'
+    @api_key ||= openai_hook&.settings&.dig('api_key') || system_api_key
+  end
+
+  def openai_hook
+    @openai_hook ||= account.hooks.find_by(app_id: 'openai', status: 'enabled')
+  end
+
+  def system_api_key
+    @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+  end
+
+  def prompt_from_file(file_name)
+    Rails.root.join('lib/integrations/openai/openai_prompts', "#{file_name}.liquid").read
   end
 end
