@@ -57,7 +57,7 @@ class PaymentLink < ApplicationRecord
   }
 
   validates :external_payment_id, uniqueness: true, presence: true
-  validates :payment_url, presence: true, unless: :initiated?
+  validates :payment_url, presence: true, unless: -> { initiated? || failed? }
   validates :provider, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :currency, presence: true

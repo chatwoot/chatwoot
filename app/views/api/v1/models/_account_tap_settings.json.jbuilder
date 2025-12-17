@@ -1,0 +1,6 @@
+json.id account_tap_settings.id
+json.account_id account_tap_settings.account_id
+json.secret_key account_tap_settings.secret_key
+json.enabled account_tap_settings.enabled
+json.created_at account_tap_settings.created_at
+json.updated_at account_tap_settings.updated_at
