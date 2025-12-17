@@ -1,4 +1,5 @@
 import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
+import { useCallsStore } from 'dashboard/stores/calls';
 
 const VOICE_CALL_LEGACY_TYPE = 12;
 const VOICE_CALL_TYPES = [CONTENT_TYPES.VOICE_CALL, VOICE_CALL_LEGACY_TYPE];
@@ -43,13 +44,14 @@ export const handleVoiceMessageUpdated = (app, data) => {
   if (!isVoiceCallMessage(data)) return;
 
   const store = app.$store;
+  const callsStore = useCallsStore();
   const status = data?.content_attributes?.data?.status;
   const callSid = data?.content_attributes?.data?.call_sid;
   const conversationId = data?.conversation_id;
 
   if (!callSid || !status) return;
 
-  store.dispatch('calls/handleCallStatusChanged', {
+  callsStore.handleCallStatusChanged({
     callSid,
     status,
     conversationId,
@@ -60,15 +62,15 @@ export const handleVoiceMessageUpdated = (app, data) => {
     callStatus: status,
   });
 
-  const hasIncoming = store.getters['calls/hasIncomingCall'];
-  const hasActive = store.getters['calls/hasActiveCall'];
+  const hasIncoming = callsStore.hasIncomingCall;
+  const hasActive = callsStore.hasActiveCall;
 
   if (status !== 'ringing' || hasIncoming || hasActive) return;
 
   const payload = processVoiceCallData(store, data, conversationId);
 
   if (payload.callSid) {
-    store.dispatch('calls/setIncomingCall', payload);
+    callsStore.setIncomingCall(payload);
   }
 };
 
@@ -76,6 +78,7 @@ export const handleVoiceMessageCreated = (app, data) => {
   if (!isVoiceCallMessage(data)) return;
 
   const store = app.$store;
+  const callsStore = useCallsStore();
   const status = data?.content_attributes?.data?.status;
   const callSid = data?.content_attributes?.data?.call_sid;
   const conversationId = data?.conversation_id;
@@ -85,11 +88,11 @@ export const handleVoiceMessageCreated = (app, data) => {
   const payload = processVoiceCallData(store, data, conversationId);
 
   if (payload.callSid) {
-    store.dispatch('calls/setIncomingCall', payload);
+    callsStore.setIncomingCall(payload);
   }
 
   if (status) {
-    store.dispatch('calls/handleCallStatusChanged', {
+    callsStore.handleCallStatusChanged({
       callSid,
       status,
       conversationId,

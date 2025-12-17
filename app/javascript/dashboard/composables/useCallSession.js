@@ -1,6 +1,7 @@
 import { computed, ref, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import VoiceAPI from 'dashboard/api/channels/voice';
+import { useCallsStore } from 'dashboard/stores/calls';
 
 const CALL_STATES = {
   IDLE: 'idle',
@@ -11,16 +12,15 @@ const CALL_STATES = {
 
 export function useCallSession() {
   const store = useStore();
+  const callsStore = useCallsStore();
   const isJoining = ref(false);
   const callDuration = ref(0);
   const durationTimer = ref(null);
 
-  const activeCall = computed(() => store.getters['calls/getActiveCall']);
-  const incomingCall = computed(() => store.getters['calls/getIncomingCall']);
-  const hasActiveCall = computed(() => store.getters['calls/hasActiveCall']);
-  const hasIncomingCall = computed(
-    () => store.getters['calls/hasIncomingCall']
-  );
+  const activeCall = computed(() => callsStore.getActiveCall);
+  const incomingCall = computed(() => callsStore.getIncomingCall);
+  const hasActiveCall = computed(() => callsStore.hasActiveCall);
+  const hasIncomingCall = computed(() => callsStore.hasIncomingCall);
 
   const isJoined = computed(() => activeCall.value?.isJoined === true);
 
@@ -100,7 +100,7 @@ export function useCallSession() {
         await VoiceAPI.joinClientCall({ To: conferenceSid, conversationId });
       }
 
-      store.dispatch('calls/setActiveCall', {
+      callsStore.setActiveCall({
         callSid,
         conversationId,
         inboxId,
@@ -108,7 +108,7 @@ export function useCallSession() {
         startedAt: Date.now(),
         ...callMeta,
       });
-      store.dispatch('calls/clearIncomingCall');
+      callsStore.clearIncomingCall();
 
       return { conferenceSid };
     } finally {
@@ -124,8 +124,8 @@ export function useCallSession() {
     }
 
     VoiceAPI.endClientCall();
-    store.dispatch('calls/clearActiveCall');
-    store.dispatch('calls/clearIncomingCall');
+    callsStore.clearActiveCall();
+    callsStore.clearIncomingCall();
   };
 
   const acceptIncomingCall = async (call = incomingCall.value) => {
@@ -140,7 +140,7 @@ export function useCallSession() {
 
   const rejectIncomingCall = () => {
     VoiceAPI.endClientCall();
-    store.dispatch('calls/clearIncomingCall');
+    callsStore.clearIncomingCall();
   };
 
   const formattedCallDuration = computed(() => {
