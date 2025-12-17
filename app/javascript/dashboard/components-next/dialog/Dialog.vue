@@ -105,14 +105,11 @@ defineExpose({ open, close });
       <OnClickOutside @trigger="close">
         <form
           ref="dialogContentRef"
-          class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl max-h-[90vh] sm:max-h-none"
+          class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
           @submit.prevent="confirm"
           @click.stop
         >
-          <div
-            v-if="title || description"
-            class="flex flex-col gap-2 flex-shrink-0"
-          >
+          <div v-if="title || description" class="flex flex-col gap-2">
             <h3 class="text-base font-medium leading-6 text-n-slate-12">
               {{ title }}
             </h3>
@@ -122,14 +119,12 @@ defineExpose({ open, close });
               </p>
             </slot>
           </div>
-          <div class="flex-1 overflow-y-auto min-h-0">
-            <slot />
-          </div>
+          <slot />
           <!-- Dialog content will be injected here -->
           <slot name="footer">
             <div
               v-if="showCancelButton || showConfirmButton"
-              class="flex items-center justify-between w-full gap-3 flex-shrink-0"
+              class="flex items-center justify-between w-full gap-3"
             >
               <Button
                 v-if="showCancelButton"
