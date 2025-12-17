@@ -109,6 +109,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
     context 'when it is an authenticated agent bot' do
       let!(:agent_bot) { create(:agent_bot) }
+      let!(:conversation) { create(:conversation, inbox: inbox, account: account, status: 'pending') }
 
       it 'creates a new outgoing message' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
