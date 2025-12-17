@@ -36,25 +36,25 @@ class EditorAPI extends ApiClient {
       return this.labelSuggestion(conversationId, signal);
     }
 
-    // All other types are rewrite actions
-    return this.rewrite({ content, action: type, conversationId }, signal);
+    // All other types are rewrite operations
+    return this.rewrite({ content, operation: type, conversationId }, signal);
   }
 
   /**
-   * Rewrites content with a specific action.
+   * Rewrites content with a specific operation.
    * @param {Object} options - The rewrite options.
    * @param {string} options.content - The content to rewrite.
-   * @param {string} options.action - The rewrite action (fix_spelling_grammar, casual, professional, etc).
+   * @param {string} options.operation - The rewrite operation (fix_spelling_grammar, casual, professional, etc).
    * @param {string} [options.conversationId] - The conversation ID for context (required for 'improve').
    * @param {AbortSignal} [signal] - AbortSignal to cancel the request.
    * @returns {Promise} A promise that resolves with the rewritten content.
    */
-  rewrite({ content, action, conversationId }, signal) {
+  rewrite({ content, operation, conversationId }, signal) {
     return axios.post(
       `${this.url}/rewrite`,
       {
         content,
-        action,
+        operation,
         conversation_display_id: conversationId,
       },
       { signal }

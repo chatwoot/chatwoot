@@ -1,8 +1,8 @@
 class Captain::RewriteService < Captain::BaseEditorService
-  pattr_initialize [:account!, :content!, :action!, { conversation_display_id: nil }]
+  pattr_initialize [:account!, :content!, :operation!, { conversation_display_id: nil }]
 
   def perform
-    send(action)
+    send(operation)
   end
 
   private
@@ -62,6 +62,6 @@ class Captain::RewriteService < Captain::BaseEditorService
   end
 
   def event_name
-    action
+    operation
   end
 end

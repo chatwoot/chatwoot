@@ -5,8 +5,8 @@ RSpec.describe Captain::RewriteService do
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:content) { 'I need help with my order' }
-  let(:action) { 'fix_spelling_grammar' }
-  let(:service) { described_class.new(account: account, content: content, action: action, conversation_display_id: conversation.display_id) }
+  let(:operation) { 'fix_spelling_grammar' }
+  let(:service) { described_class.new(account: account, content: content, operation: operation, conversation_display_id: conversation.display_id) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
   let(:mock_response) { instance_double(RubyLLM::Message, content: 'Rewritten text', input_tokens: 10, output_tokens: 5) }
@@ -18,8 +18,8 @@ RSpec.describe Captain::RewriteService do
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
 
-  describe '#perform with fix_spelling_grammar action' do
-    let(:action) { 'fix_spelling_grammar' }
+  describe '#perform with fix_spelling_grammar operation' do
+    let(:operation) { 'fix_spelling_grammar' }
 
     it 'uses fix_spelling_grammar prompt' do
       expect(service).to receive(:prompt_from_file).with('fix_spelling_grammar').and_return('Fix errors')
@@ -41,8 +41,8 @@ RSpec.describe Captain::RewriteService do
       allow(service).to receive(:prompt_from_file).with('tone_rewrite').and_return(tone_prompt_template)
     end
 
-    describe '#perform with casual action' do
-      let(:action) { 'casual' }
+    describe '#perform with casual operation' do
+      let(:operation) { 'casual' }
 
       it 'uses casual tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -54,8 +54,8 @@ RSpec.describe Captain::RewriteService do
       end
     end
 
-    describe '#perform with professional action' do
-      let(:action) { 'professional' }
+    describe '#perform with professional operation' do
+      let(:operation) { 'professional' }
 
       it 'uses professional tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -67,8 +67,8 @@ RSpec.describe Captain::RewriteService do
       end
     end
 
-    describe '#perform with friendly action' do
-      let(:action) { 'friendly' }
+    describe '#perform with friendly operation' do
+      let(:operation) { 'friendly' }
 
       it 'uses friendly tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -80,8 +80,8 @@ RSpec.describe Captain::RewriteService do
       end
     end
 
-    describe '#perform with confident action' do
-      let(:action) { 'confident' }
+    describe '#perform with confident operation' do
+      let(:operation) { 'confident' }
 
       it 'uses confident tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -93,8 +93,8 @@ RSpec.describe Captain::RewriteService do
       end
     end
 
-    describe '#perform with straightforward action' do
-      let(:action) { 'straightforward' }
+    describe '#perform with straightforward operation' do
+      let(:operation) { 'straightforward' }
 
       it 'uses straightforward tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -107,8 +107,8 @@ RSpec.describe Captain::RewriteService do
     end
   end
 
-  describe '#perform with improve action' do
-    let(:action) { 'improve' }
+  describe '#perform with improve operation' do
+    let(:operation) { 'improve' }
     let(:improve_template) { 'Context: {{ conversation_context }}\nDraft: {{ draft_message }}' }
 
     before do

@@ -5,7 +5,7 @@ class Api::V1::Accounts::Captain::EditorController < Api::V1::Accounts::BaseCont
     result = Captain::RewriteService.new(
       account: Current.account,
       content: params[:content],
-      action: params[:action],
+      operation: params[:operation],
       conversation_display_id: params[:conversation_display_id]
     ).perform
 
