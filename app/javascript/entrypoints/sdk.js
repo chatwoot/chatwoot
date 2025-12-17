@@ -76,10 +76,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     welcomeDescription: chatwootSettings.welcomeDescription || '',
     availableMessage: chatwootSettings.availableMessage || '',
     unavailableMessage: chatwootSettings.unavailableMessage || '',
-    enableFileUpload: Object.prototype.hasOwnProperty.call(
-      chatwootSettings,
-      'enableFileUpload'
-    )
+    enableFileUpload: Object.hasOwn(chatwootSettings, 'enableFileUpload')
       ? chatwootSettings.enableFileUpload
       : undefined,
     enableEmojiPicker: chatwootSettings.enableEmojiPicker ?? true,
