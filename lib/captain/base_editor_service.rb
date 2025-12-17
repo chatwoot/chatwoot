@@ -79,6 +79,7 @@ class Captain::BaseEditorService
   end
 
   def make_api_call(payload)
+    payload = payload.deep_stringify_keys
     instrumentation_params = build_instrumentation_params(payload)
 
     instrument_llm_call(instrumentation_params) do
