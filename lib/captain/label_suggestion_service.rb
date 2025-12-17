@@ -1,5 +1,7 @@
 class Captain::LabelSuggestionService < Captain::BaseEditorService
-  def label_suggestion_message
+  pattr_initialize [:account!, :conversation_display_id!]
+
+  def perform
     # Check cache first
     cached_response = read_from_cache
     return cached_response if cached_response.present?
@@ -79,5 +81,9 @@ class Captain::LabelSuggestionService < Captain::BaseEditorService
     return false if conversation.messages.count > 20 && !conversation.messages.last.incoming?
 
     true
+  end
+
+  def event_name
+    'label_suggestion'
   end
 end

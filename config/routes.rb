@@ -70,7 +70,10 @@ Rails.application.routes.draw do
             resources :custom_tools
             resources :documents, only: [:index, :show, :create, :destroy]
             resource :editor, only: [], controller: 'editor' do
-              post :process_event
+              post :rewrite
+              post :summarize
+              post :reply_suggestion
+              post :label_suggestion
             end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]

@@ -5,16 +5,8 @@ RSpec.describe Captain::RewriteService do
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:content) { 'I need help with my order' }
-  let(:event) do
-    {
-      'name' => event_name,
-      'data' => {
-        'conversation_display_id' => conversation.display_id,
-        'content' => content
-      }
-    }
-  end
-  let(:service) { described_class.new(account: account, event: event) }
+  let(:action) { 'fix_spelling_grammar' }
+  let(:service) { described_class.new(account: account, content: content, action: action, conversation_display_id: conversation.display_id) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
   let(:mock_response) { instance_double(RubyLLM::Message, content: 'Rewritten text', input_tokens: 10, output_tokens: 5) }
@@ -26,8 +18,8 @@ RSpec.describe Captain::RewriteService do
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
 
-  describe '#fix_spelling_grammar_message' do
-    let(:event_name) { 'fix_spelling_grammar' }
+  describe '#perform with fix_spelling_grammar action' do
+    let(:action) { 'fix_spelling_grammar' }
 
     it 'uses fix_spelling_grammar prompt' do
       expect(service).to receive(:prompt_from_file).with('fix_spelling_grammar').and_return('Fix errors')
@@ -38,7 +30,7 @@ RSpec.describe Captain::RewriteService do
         { message: 'Fixed' }
       end
 
-      service.fix_spelling_grammar_message
+      service.perform
     end
   end
 
@@ -49,8 +41,8 @@ RSpec.describe Captain::RewriteService do
       allow(service).to receive(:prompt_from_file).with('tone_rewrite').and_return(tone_prompt_template)
     end
 
-    describe '#casual_message' do
-      let(:event_name) { 'casual' }
+    describe '#perform with casual action' do
+      let(:action) { 'casual' }
 
       it 'uses casual tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -58,12 +50,12 @@ RSpec.describe Captain::RewriteService do
           { message: 'Hey, need help?' }
         end
 
-        service.casual_message
+        service.perform
       end
     end
 
-    describe '#professional_message' do
-      let(:event_name) { 'professional' }
+    describe '#perform with professional action' do
+      let(:action) { 'professional' }
 
       it 'uses professional tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -71,12 +63,12 @@ RSpec.describe Captain::RewriteService do
           { message: 'Professional text' }
         end
 
-        service.professional_message
+        service.perform
       end
     end
 
-    describe '#friendly_message' do
-      let(:event_name) { 'friendly' }
+    describe '#perform with friendly action' do
+      let(:action) { 'friendly' }
 
       it 'uses friendly tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -84,12 +76,12 @@ RSpec.describe Captain::RewriteService do
           { message: 'Friendly text' }
         end
 
-        service.friendly_message
+        service.perform
       end
     end
 
-    describe '#confident_message' do
-      let(:event_name) { 'confident' }
+    describe '#perform with confident action' do
+      let(:action) { 'confident' }
 
       it 'uses confident tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -97,12 +89,12 @@ RSpec.describe Captain::RewriteService do
           { message: 'Confident text' }
         end
 
-        service.confident_message
+        service.perform
       end
     end
 
-    describe '#straightforward_message' do
-      let(:event_name) { 'straightforward' }
+    describe '#perform with straightforward action' do
+      let(:action) { 'straightforward' }
 
       it 'uses straightforward tone' do
         expect(service).to receive(:make_api_call) do |args|
@@ -110,13 +102,13 @@ RSpec.describe Captain::RewriteService do
           { message: 'Straightforward text' }
         end
 
-        service.straightforward_message
+        service.perform
       end
     end
   end
 
-  describe '#improve_message' do
-    let(:event_name) { 'improve' }
+  describe '#perform with improve action' do
+    let(:action) { 'improve' }
     let(:improve_template) { 'Context: {{ conversation_context }}\nDraft: {{ draft_message }}' }
 
     before do
@@ -134,11 +126,11 @@ RSpec.describe Captain::RewriteService do
         { message: 'Improved text' }
       end
 
-      service.improve_message
+      service.perform
     end
 
     it 'returns formatted response' do
-      result = service.improve_message
+      result = service.perform
 
       expect(result[:message]).to eq('Rewritten text')
     end

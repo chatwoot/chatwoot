@@ -4,15 +4,7 @@ RSpec.describe Captain::ReplySuggestionService do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-  let(:event) do
-    {
-      'name' => 'reply_suggestion',
-      'data' => {
-        'conversation_display_id' => conversation.display_id
-      }
-    }
-  end
-  let(:service) { described_class.new(account: account, event: event) }
+  let(:service) { described_class.new(account: account, conversation_display_id: conversation.display_id) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
   let(:mock_response) { instance_double(RubyLLM::Message, content: 'Suggested reply', input_tokens: 100, output_tokens: 50) }
@@ -25,7 +17,7 @@ RSpec.describe Captain::ReplySuggestionService do
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
 
-  describe '#reply_suggestion_message' do
+  describe '#perform' do
     let(:message1) { create(:message, conversation: conversation, message_type: :incoming, content: 'Hello') }
     let(:message2) { create(:message, conversation: conversation, message_type: :outgoing, content: 'Hi there') }
 
@@ -36,7 +28,7 @@ RSpec.describe Captain::ReplySuggestionService do
 
     it 'uses conversation_messages to build message history' do
       expect(service).to receive(:conversation_messages).and_call_original
-      service.reply_suggestion_message
+      service.perform
     end
 
     it 'concatenates system prompt with conversation history' do
@@ -53,7 +45,7 @@ RSpec.describe Captain::ReplySuggestionService do
         { message: 'Suggested reply' }
       end
 
-      service.reply_suggestion_message
+      service.perform
     end
 
     it 'passes correct model to API' do
@@ -61,11 +53,11 @@ RSpec.describe Captain::ReplySuggestionService do
         hash_including(model: Captain::BaseEditorService::GPT_MODEL)
       ).and_call_original
 
-      service.reply_suggestion_message
+      service.perform
     end
 
     it 'returns formatted response' do
-      result = service.reply_suggestion_message
+      result = service.perform
 
       expect(result[:message]).to eq('Suggested reply')
       expect(result[:usage]['prompt_tokens']).to eq(100)

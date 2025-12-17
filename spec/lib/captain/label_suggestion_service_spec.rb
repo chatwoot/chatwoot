@@ -6,15 +6,7 @@ RSpec.describe Captain::LabelSuggestionService do
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:label1) { create(:label, account: account, title: 'bug') }
   let(:label2) { create(:label, account: account, title: 'feature-request') }
-  let(:event) do
-    {
-      'name' => 'label_suggestion',
-      'data' => {
-        'conversation_display_id' => conversation.display_id
-      }
-    }
-  end
-  let(:service) { described_class.new(account: account, event: event) }
+  let(:service) { described_class.new(account: account, conversation_display_id: conversation.display_id) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
   let(:mock_response) { instance_double(RubyLLM::Message, content: 'bug, feature-request', input_tokens: 100, output_tokens: 20) }
@@ -39,7 +31,7 @@ RSpec.describe Captain::LabelSuggestionService do
       end
 
       it 'returns label suggestions' do
-        result = service.label_suggestion_message
+        result = service.perform
 
         expect(result[:message]).to eq('bug, feature-request')
       end
@@ -47,7 +39,7 @@ RSpec.describe Captain::LabelSuggestionService do
       it 'removes "Labels:" prefix from response' do
         allow(mock_response).to receive(:content).and_return('Labels: bug, feature-request')
 
-        result = service.label_suggestion_message
+        result = service.perform
 
         expect(result[:message]).to eq(' bug, feature-request')
       end
@@ -55,7 +47,7 @@ RSpec.describe Captain::LabelSuggestionService do
       it 'removes "Label:" prefix (singular) from response' do
         allow(mock_response).to receive(:content).and_return('label: bug')
 
-        result = service.label_suggestion_message
+        result = service.perform
 
         expect(result[:message]).to eq(' bug')
       end
@@ -70,7 +62,7 @@ RSpec.describe Captain::LabelSuggestionService do
           { message: 'bug' }
         end
 
-        service.label_suggestion_message
+        service.perform
       end
     end
 
@@ -79,7 +71,7 @@ RSpec.describe Captain::LabelSuggestionService do
         create(:message, conversation: conversation, message_type: :incoming, content: 'Message 1')
         create(:message, conversation: conversation, message_type: :incoming, content: 'Message 2')
 
-        result = service.label_suggestion_message
+        result = service.perform
 
         expect(result).to be_nil
       end
@@ -89,7 +81,7 @@ RSpec.describe Captain::LabelSuggestionService do
           create(:message, conversation: conversation, message_type: :incoming, content: "Message #{i}")
         end
 
-        result = service.label_suggestion_message
+        result = service.perform
 
         expect(result).to be_nil
       end
@@ -100,7 +92,7 @@ RSpec.describe Captain::LabelSuggestionService do
         end
         create(:message, conversation: conversation, message_type: :outgoing, content: 'Agent reply')
 
-        result = service.label_suggestion_message
+        result = service.perform
 
         expect(result).to be_nil
       end
@@ -116,13 +108,13 @@ RSpec.describe Captain::LabelSuggestionService do
 
       it 'reads from cache on cache hit' do
         # Warm up cache
-        service.label_suggestion_message
+        service.perform
 
         # Create new service instance to test cache read
-        new_service = described_class.new(account: account, event: event)
+        new_service = described_class.new(account: account, conversation_display_id: conversation.display_id)
 
         expect(new_service).not_to receive(:make_api_call)
-        result = new_service.label_suggestion_message
+        result = new_service.perform
 
         expect(result[:message]).to eq('bug, feature-request')
       end
@@ -130,7 +122,7 @@ RSpec.describe Captain::LabelSuggestionService do
       it 'writes to cache on cache miss' do
         expect(Redis::Alfred).to receive(:setex).and_call_original
 
-        service.label_suggestion_message
+        service.perform
       end
 
       it 'returns nil for invalid cached JSON' do
@@ -138,7 +130,7 @@ RSpec.describe Captain::LabelSuggestionService do
         cache_key = service.send(:cache_key)
         Redis::Alfred.set(cache_key, 'invalid json')
 
-        result = service.label_suggestion_message
+        result = service.perform
 
         # Should make API call since cache read failed
         expect(result[:message]).to eq('bug, feature-request')
@@ -150,7 +142,7 @@ RSpec.describe Captain::LabelSuggestionService do
 
         expect(Redis::Alfred).not_to receive(:setex)
 
-        service.label_suggestion_message
+        service.perform
       end
     end
 
@@ -164,7 +156,7 @@ RSpec.describe Captain::LabelSuggestionService do
       end
 
       it 'returns nil' do
-        result = service.label_suggestion_message
+        result = service.perform
 
         expect(result).to be_nil
       end

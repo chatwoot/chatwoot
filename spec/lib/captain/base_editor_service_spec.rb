@@ -4,36 +4,41 @@ RSpec.describe Captain::BaseEditorService do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-  let(:event) do
-    {
-      'name' => 'test_event',
-      'data' => {
-        'conversation_display_id' => conversation.display_id,
-        'content' => 'Test content'
-      }
-    }
-  end
 
   # Create a concrete test service class since BaseEditorService is abstract
   let(:test_service_class) do
     Class.new(described_class) do
-      def test_event_message
+      def perform
         { message: 'Test response' }
+      end
+
+      def event_name
+        'test_event'
       end
     end
   end
 
-  let(:service) { test_service_class.new(account: account, event: event) }
+  let(:service) { test_service_class.new(account: account, conversation_display_id: conversation.display_id) }
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
   end
 
   describe '#perform' do
-    it 'calls the correct service method based on event name' do
-      expect(service).to receive(:test_event_message).and_call_original
+    it 'returns the expected result' do
       result = service.perform
       expect(result).to eq({ message: 'Test response' })
+    end
+  end
+
+  describe '#event_name' do
+    it 'raises NotImplementedError for base class' do
+      base_service = described_class.new(account: account, conversation_display_id: conversation.display_id)
+      expect { base_service.send(:event_name) }.to raise_error(NotImplementedError, /must implement #event_name/)
+    end
+
+    it 'returns custom event name in subclass' do
+      expect(service.send(:event_name)).to eq('test_event')
     end
   end
 

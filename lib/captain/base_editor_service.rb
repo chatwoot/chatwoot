@@ -8,20 +8,16 @@ class Captain::BaseEditorService
   TOKEN_LIMIT = 400_000
   GPT_MODEL = Llm::Config::DEFAULT_MODEL
 
-  pattr_initialize [:account!, :event!]
-
-  def perform
-    send("#{event_name}_message")
-  end
+  pattr_initialize [:account!, { conversation_display_id: nil }]
 
   private
 
   def event_name
-    event['name']
+    raise NotImplementedError, "#{self.class} must implement #event_name"
   end
 
   def conversation
-    @conversation ||= account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+    @conversation ||= account.conversations.find_by(display_id: conversation_display_id)
   end
 
   def api_base
