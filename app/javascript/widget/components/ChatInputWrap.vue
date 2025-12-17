@@ -45,11 +45,13 @@ export default {
       shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
     showAttachment() {
-      return (
-        this.shouldShowFilePicker &&
-        this.hasAttachmentsEnabled &&
-        this.userInput.length === 0
-      );
+      // If enableFileUpload was explicitly set via SDK, prioritize that
+      if (this.shouldShowFilePicker !== undefined) {
+        return this.shouldShowFilePicker && this.userInput.length === 0;
+      }
+
+      // Otherwise, fall back to inbox settings only
+      return this.hasAttachmentsEnabled && this.userInput.length === 0;
     },
     showSendButton() {
       return this.userInput.length > 0;
