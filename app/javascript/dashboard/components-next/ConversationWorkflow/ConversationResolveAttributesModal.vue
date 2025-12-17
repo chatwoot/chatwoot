@@ -52,8 +52,13 @@ const open = (attributes = [], initialValues = {}) => {
   visibleAttributes.value = attributes;
   formValues.value = attributes.reduce((acc, attribute) => {
     const presetValue = initialValues[attribute.value];
-    acc[attribute.value] =
-      presetValue !== undefined && presetValue !== null ? presetValue : '';
+    if (presetValue !== undefined && presetValue !== null) {
+      acc[attribute.value] = presetValue;
+    } else {
+      // For checkbox attributes, initialize to null to avoid pre-selection
+      // For other attributes, initialize to empty string
+      acc[attribute.value] = attribute.type === 'checkbox' ? null : '';
+    }
     return acc;
   }, {});
   dialogRef.value?.open();
