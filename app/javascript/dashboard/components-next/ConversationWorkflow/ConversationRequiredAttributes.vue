@@ -10,11 +10,6 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import ConversationRequiredAttributeItem from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributeItem.vue';
 import ConversationRequiredEmpty from 'dashboard/components-next/Conversation/ConversationRequiredEmpty.vue';
 
-defineProps({
-  title: { type: String, default: '' },
-  description: { type: String, default: '' },
-});
-
 const emit = defineEmits(['click']);
 const { t } = useI18n();
 const { currentAccount, updateAccount } = useAccount();
@@ -105,7 +100,9 @@ const handleDelete = attribute => {
   >
     <div class="flex flex-col gap-2 items-start px-5 py-4">
       <div class="flex justify-between items-center w-full">
-        <h3 class="text-base font-medium text-n-slate-12">{{ title }}</h3>
+        <h3 class="text-base font-medium text-n-slate-12">
+          {{ $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE') }}
+        </h3>
         <div v-on-clickaway="closeDropdown" class="relative">
           <Button
             icon="i-lucide-circle-plus"
@@ -128,7 +125,9 @@ const handleDelete = attribute => {
           />
         </div>
       </div>
-      <p class="mb-0 text-sm text-n-slate-11">{{ description }}</p>
+      <p class="mb-0 text-sm text-n-slate-11">
+        {{ $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.DESCRIPTION') }}
+      </p>
     </div>
 
     <ConversationRequiredEmpty

@@ -36,13 +36,7 @@ const showAutoResolutionConfig = computed(() => {
     <template #body>
       <div class="flex flex-col gap-6">
         <AutoResolve v-if="showAutoResolutionConfig" />
-        <ConversationRequiredAttributes
-          v-if="isEnterprise"
-          :title="$t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE')"
-          :description="
-            $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.DESCRIPTION')
-          "
-        />
+        <ConversationRequiredAttributes v-if="isEnterprise" />
       </div>
     </template>
   </SettingsLayout>
