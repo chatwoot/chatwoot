@@ -16,13 +16,11 @@ class EditorAPI extends ApiClient {
      * The conversation events supported by the API.
      * @type {string[]}
      */
-    this.conversation_events = ['summarize', 'reply_suggestion'];
-
-    /**
-     * The message events supported by the API.
-     * @type {string[]}
-     */
-    this.message_events = ['rephrase'];
+    this.conversation_events = [
+      'summarize',
+      'reply_suggestion',
+      'label_suggestion',
+    ];
   }
 
   /**
@@ -35,7 +33,7 @@ class EditorAPI extends ApiClient {
    * @param {AbortSignal} [signal] - AbortSignal to cancel the request.
    * @returns {Promise} A promise that resolves with the result of the event processing.
    */
-  processEvent({ type = 'rephrase', content, tone, conversationId }, signal) {
+  processEvent({ type = 'improve', content, tone, conversationId }, signal) {
     /**
      * @type {Object}
      */
