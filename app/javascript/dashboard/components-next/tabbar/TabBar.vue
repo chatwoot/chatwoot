@@ -69,7 +69,7 @@ const showDivider = index => {
     class="relative flex items-center h-8 rounded-lg bg-n-alpha-1 w-fit transition-all duration-200 ease-out has-[button:active]:scale-[1.01]"
   >
     <div
-      class="absolute inset-y-0 h-8 rounded-lg shadow-sm pointer-events-none bg-n-solid-active outline-1 outline outline-n-container"
+      class="absolute rounded-lg bg-n-solid-active shadow-sm pointer-events-none h-8 outline-1 outline outline-n-container inset-y-0"
       :class="{ 'transition-all duration-300 ease-out': enableTransition }"
       :style="indicatorStyle"
     />
@@ -89,7 +89,7 @@ const showDivider = index => {
       </button>
       <div
         v-if="index < tabs.length - 1"
-        class="my-auto w-px h-3.5 rounded transition-colors duration-300 ease-in-out"
+        class="w-px h-3.5 rounded my-auto transition-colors duration-300 ease-in-out"
         :class="
           showDivider(index)
             ? 'bg-n-strong'

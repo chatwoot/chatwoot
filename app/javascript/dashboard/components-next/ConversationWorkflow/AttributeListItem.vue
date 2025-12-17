@@ -41,12 +41,17 @@ const attributeIcon = computed(() => {
         <h4 class="text-sm font-medium truncate text-n-slate-12">
           {{ attribute.label }}
         </h4>
+        <div class="w-px h-3 bg-n-strong" />
         <div class="flex gap-2 items-center text-sm text-n-slate-11">
-          <Icon :icon="attributeIcon" class="size-4" />
-          <span class="text-sm text-n-slate-11">{{ attribute.type }}</span>
+          <div class="flex items-center gap-1.5 text-n-slate-11">
+            <Icon :icon="attributeIcon" class="size-4" />
+            <span class="text-sm">{{ attribute.type }}</span>
+          </div>
           <div class="w-px h-3 bg-n-weak" />
-          <Icon icon="i-lucide-key-round" class="size-4" />
-          <span class="line-clamp-1">{{ attribute.value }}</span>
+          <div class="flex items-center gap-1.5 text-n-slate-11">
+            <Icon icon="i-lucide-key-round" class="size-4" />
+            <span class="line-clamp-1 text-sm">{{ attribute.value }}</span>
+          </div>
         </div>
       </div>
       <div class="flex gap-2 items-center">
@@ -55,7 +60,10 @@ const attributeIcon = computed(() => {
           :key="badge.type"
           :type="badge.type"
         />
-        <div v-if="badges.length > 0" class="w-px h-3 bg-n-strong" />
+        <div
+          v-if="badges.length > 0"
+          class="w-px h-3 bg-n-strong ltr:ml-1.5 rtl:mr-1.5"
+        />
         <Button
           icon="i-lucide-pencil-line"
           size="sm"
