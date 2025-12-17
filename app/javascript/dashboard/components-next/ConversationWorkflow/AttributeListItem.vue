@@ -34,7 +34,7 @@ const attributeIcon = computed(() => {
 
 <template>
   <div
-    class="flex flex-col gap-2 p-4 rounded-2xl bg-n-solid-1 outline outline-1 outline-n-container"
+    class="flex flex-col gap-2 p-4 bg-n-solid-1 rounded-2xl outline outline-1 outline-n-container"
   >
     <div class="flex flex-wrap gap-2 justify-between items-center">
       <div class="flex flex-wrap gap-2 items-center min-w-0">
@@ -43,14 +43,14 @@ const attributeIcon = computed(() => {
         </h4>
         <div class="w-px h-3 bg-n-strong" />
         <div class="flex gap-2 items-center text-sm text-n-slate-11">
-          <div class="flex gap-1.5 items-center text-n-slate-11">
+          <div class="flex items-center gap-1.5 text-n-slate-11">
             <Icon :icon="attributeIcon" class="size-4" />
             <span class="text-sm">{{ attribute.type }}</span>
           </div>
           <div class="w-px h-3 bg-n-weak" />
-          <div class="flex gap-1.5 items-center text-n-slate-11">
+          <div class="flex items-center gap-1.5 text-n-slate-11">
             <Icon icon="i-lucide-key-round" class="size-4" />
-            <span class="text-sm line-clamp-1">{{ attribute.value }}</span>
+            <span class="line-clamp-1 text-sm">{{ attribute.value }}</span>
           </div>
         </div>
       </div>
