@@ -7,10 +7,6 @@ RSpec.describe Tiktok::MessageService do
   let(:contact) { create(:contact, account: account) }
   let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'tt-conv-1') }
 
-  before do
-    allow_any_instance_of(described_class).to receive(:create_contact_inbox).and_return(contact_inbox)
-  end
-
   describe '#perform' do
     it 'creates an incoming text message' do
       content = {
@@ -26,7 +22,9 @@ RSpec.describe Tiktok::MessageService do
       }.deep_symbolize_keys
 
       expect do
-        described_class.new(channel: channel, content: content).perform
+        service = described_class.new(channel: channel, content: content)
+        allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+        service.perform
       end.to change(Message, :count).by(1)
 
       message = Message.last
@@ -50,7 +48,9 @@ RSpec.describe Tiktok::MessageService do
         to_user: { id: 'biz-123' }
       }.deep_symbolize_keys
 
-      described_class.new(channel: channel, content: content).perform
+      service = described_class.new(channel: channel, content: content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+      service.perform
 
       message = Message.last
       expect(message.content).to be_nil
@@ -70,7 +70,9 @@ RSpec.describe Tiktok::MessageService do
         to_user: { id: 'biz-123' }
       }.deep_symbolize_keys
 
-      described_class.new(channel: channel, content: content).perform
+      service = described_class.new(channel: channel, content: content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+      service.perform
 
       message = Message.last
       expect(message.attachments.count).to eq(1)
@@ -98,9 +100,11 @@ RSpec.describe Tiktok::MessageService do
       tempfile.define_singleton_method(:original_filename) { 'tiktok.png' }
       tempfile.define_singleton_method(:content_type) { 'image/png' }
 
-      allow_any_instance_of(described_class).to receive(:fetch_attachment).and_return(tempfile)
+      service = described_class.new(channel: channel, content: content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+      allow(service).to receive(:fetch_attachment).and_return(tempfile)
 
-      described_class.new(channel: channel, content: content).perform
+      service.perform
 
       message = Message.last
       expect(message.attachments.count).to eq(1)
@@ -111,4 +115,3 @@ RSpec.describe Tiktok::MessageService do
     end
   end
 end
-

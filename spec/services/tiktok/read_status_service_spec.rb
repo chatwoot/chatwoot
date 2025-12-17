@@ -33,4 +33,3 @@ RSpec.describe Tiktok::ReadStatusService do
     end
   end
 end
-

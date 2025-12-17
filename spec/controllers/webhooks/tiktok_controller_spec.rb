@@ -41,7 +41,7 @@ RSpec.describe 'Webhooks::TiktokController', type: :request do
 
     body = event_payload.to_json
     with_modified_env TIKTOK_APP_SECRET: client_secret do
-      post "/webhooks/tiktok?event=im_send_msg",
+      post '/webhooks/tiktok?event=im_send_msg',
            params: body,
            headers: { 'CONTENT_TYPE' => 'application/json', 'Tiktok-Signature' => "t=#{timestamp},s=#{signature_for(body)}" }
     end
