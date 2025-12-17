@@ -1,5 +1,17 @@
 class Captain::EditorPolicy < ApplicationPolicy
-  def process_event?
+  def rewrite?
+    true
+  end
+
+  def summarize?
+    true
+  end
+
+  def reply_suggestion?
+    true
+  end
+
+  def label_suggestion?
     true
   end
 end
