@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
-import configMixin from '../mixins/configMixin';
+import attachmentMixin from '../mixins/attachmentMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
@@ -18,7 +18,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [configMixin],
+  mixins: [attachmentMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -41,17 +41,10 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
-      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
       shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
     showAttachment() {
-      // If enableFileUpload was explicitly set via SDK, prioritize that
-      if (this.shouldShowFilePicker !== undefined) {
-        return this.shouldShowFilePicker && this.userInput.length === 0;
-      }
-
-      // Otherwise, fall back to inbox settings only
-      return this.hasAttachmentsEnabled && this.userInput.length === 0;
+      return this.canHandleAttachments && this.userInput.length === 0;
     },
     showSendButton() {
       return this.userInput.length > 0;
