@@ -224,6 +224,9 @@ export default {
       if (this.isAnInstagramChannel) {
         return MESSAGE_MAX_LENGTH.INSTAGRAM;
       }
+      if (this.isATiktokChannel) {
+        return MESSAGE_MAX_LENGTH.TIKTOK;
+      }
       if (this.isATwilioWhatsAppChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
