@@ -29,8 +29,16 @@ export default {
     },
   },
   setup() {
-    const { canHandleAttachments } = useAttachments();
-    return { canHandleAttachments };
+    const {
+      canHandleAttachments,
+      shouldShowEmojiPicker,
+      hasEmojiPickerEnabled,
+    } = useAttachments();
+    return {
+      canHandleAttachments,
+      shouldShowEmojiPicker,
+      hasEmojiPickerEnabled,
+    };
   },
   data() {
     return {

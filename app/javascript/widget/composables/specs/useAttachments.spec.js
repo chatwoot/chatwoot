@@ -171,19 +171,54 @@ describe('useAttachments', () => {
     });
   });
 
+  describe('hasEmojiPickerEnabled', () => {
+    it('returns true when emoji picker is enabled in channel config', () => {
+      window.chatwootWebChannel = {
+        enabledFeatures: ['emoji_picker', 'attachments'],
+      };
+
+      const { hasEmojiPickerEnabled } = useAttachments();
+
+      expect(hasEmojiPickerEnabled.value).toBe(true);
+    });
+
+    it('returns false when emoji picker is not enabled in channel config', () => {
+      window.chatwootWebChannel = {
+        enabledFeatures: ['attachments'],
+      };
+
+      const { hasEmojiPickerEnabled } = useAttachments();
+
+      expect(hasEmojiPickerEnabled.value).toBe(false);
+    });
+  });
+
+  describe('shouldShowEmojiPicker', () => {
+    it('returns value from store getter', () => {
+      mockGetters['appConfig/getShouldShowEmojiPicker'] = true;
+
+      const { shouldShowEmojiPicker } = useAttachments();
+
+      expect(shouldShowEmojiPicker.value).toBe(true);
+    });
+  });
+
   describe('integration test', () => {
     it('returns all expected properties', () => {
       mockGetters['appConfig/getShouldShowFilePicker'] = undefined;
+      mockGetters['appConfig/getShouldShowEmojiPicker'] = true;
       window.chatwootWebChannel = {
-        enabledFeatures: ['attachments'],
+        enabledFeatures: ['attachments', 'emoji_picker'],
       };
 
       const result = useAttachments();
 
       expect(result).toHaveProperty('shouldShowFilePicker');
+      expect(result).toHaveProperty('shouldShowEmojiPicker');
       expect(result).toHaveProperty('hasAttachmentsEnabled');
+      expect(result).toHaveProperty('hasEmojiPickerEnabled');
       expect(result).toHaveProperty('canHandleAttachments');
-      expect(Object.keys(result)).toHaveLength(3);
+      expect(Object.keys(result)).toHaveLength(5);
     });
   });
 });
