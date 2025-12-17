@@ -37,14 +37,13 @@ class Captain::RewriteService < Captain::BaseEditorService
   private
 
   def call_llm_with_prompt(system_content, user_content = event['data']['content'])
-    payload = {
+    make_api_call(
       model: GPT_MODEL,
       messages: [
         { role: 'system', content: system_content },
         { role: 'user', content: user_content }
       ]
-    }
-    make_api_call(payload)
+    )
   end
 
   def render_liquid_template(template_content, variables = {})

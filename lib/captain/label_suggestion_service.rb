@@ -2,10 +2,16 @@ class Captain::LabelSuggestionService < Captain::BaseEditorService
   CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
   def label_suggestion_message
-    payload = label_suggestion_body
-    return nil if payload.blank?
+    content = labels_with_messages
+    return nil if content.blank?
 
-    response = make_api_call(payload)
+    response = make_api_call(
+      model: GPT_MODEL, # TODO: Use separate model for label suggestion
+      messages: [
+        { role: 'system', content: prompt_from_file('label_suggestion') },
+        { role: 'user', content: content }
+      ]
+    )
     return response if response[:error].present?
 
     # LLMs are not deterministic - sometimes response includes "Labels:" prefix
@@ -14,27 +20,6 @@ class Captain::LabelSuggestionService < Captain::BaseEditorService
   end
 
   private
-
-  def label_suggestion_body
-    # TODO: Enable based on separate model and settings source
-    # Future: Different model for label suggestion
-    # Future: Settings-based feature gating
-    # For now: Enabled by default when API key available
-
-    content = labels_with_messages
-    return value_from_cache if content.blank?
-
-    {
-      model: GPT_MODEL, # TODO: Use separate model for label suggestion
-      messages: [
-        {
-          role: 'system',
-          content: prompt_from_file('label_suggestion')
-        },
-        { role: 'user', content: content }
-      ]
-    }
-  end
 
   def labels_with_messages
     return nil unless valid_conversation?(conversation)

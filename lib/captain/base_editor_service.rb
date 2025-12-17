@@ -78,19 +78,15 @@ class Captain::BaseEditorService
     "#{endpoint}/v1"
   end
 
-  def make_api_call(payload)
-    payload = payload.deep_stringify_keys
-    instrumentation_params = build_instrumentation_params(payload)
+  def make_api_call(model:, messages:)
+    instrumentation_params = build_instrumentation_params(model, messages)
 
     instrument_llm_call(instrumentation_params) do
-      execute_ruby_llm_request(payload)
+      execute_ruby_llm_request(model: model, messages: messages)
     end
   end
 
-  def execute_ruby_llm_request(payload)
-    messages = payload['messages']
-    model = payload['model']
-
+  def execute_ruby_llm_request(model:, messages:)
     Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
       chat = context.chat(model: model)
       setup_chat_with_messages(chat, messages)
@@ -109,24 +105,24 @@ class Captain::BaseEditorService
   end
 
   def apply_system_instructions(chat, messages)
-    system_msg = messages.find { |m| m['role'] == 'system' }
-    chat.with_instructions(system_msg['content']) if system_msg
+    system_msg = messages.find { |m| m[:role] == 'system' }
+    chat.with_instructions(system_msg[:content]) if system_msg
   end
 
   def send_conversation_messages(chat, messages)
-    conversation_messages = messages.reject { |m| m['role'] == 'system' }
+    conversation_messages = messages.reject { |m| m[:role] == 'system' }
 
     return nil if conversation_messages.empty?
 
-    return chat.ask(conversation_messages.first['content']) if conversation_messages.length == 1
+    return chat.ask(conversation_messages.first[:content]) if conversation_messages.length == 1
 
     add_conversation_history(chat, conversation_messages[0...-1])
-    chat.ask(conversation_messages.last['content'])
+    chat.ask(conversation_messages.last[:content])
   end
 
   def add_conversation_history(chat, messages)
     messages.each do |msg|
-      chat.add_message(role: msg['role'].to_sym, content: msg['content'])
+      chat.add_message(role: msg[:role].to_sym, content: msg[:content])
     end
   end
 
@@ -142,15 +138,15 @@ class Captain::BaseEditorService
     }
   end
 
-  def build_instrumentation_params(parsed_body)
+  def build_instrumentation_params(model, messages)
     {
       span_name: "llm.#{event_name}",
       account_id: account.id,
       conversation_id: conversation&.display_id,
       feature_name: event_name,
-      model: parsed_body['model'],
-      messages: parsed_body['messages'],
-      temperature: parsed_body['temperature']
+      model: model,
+      messages: messages,
+      temperature: nil
     }
   end
 
