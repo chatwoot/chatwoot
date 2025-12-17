@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import wootConstants from 'dashboard/constants/globals';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
@@ -199,6 +200,65 @@ const openConversation = async notificationItem => {
     // error
   }
 };
+
+const activeNotificationId = computed(() => Number(route.params.id));
+
+const activeNotification = computed(() => {
+  return notifications.value.find(
+    n => n.primaryActor?.id === activeNotificationId.value
+  );
+});
+
+const activeNotificationIndex = computed(() => {
+  return notifications.value.findIndex(
+    n => n.primaryActor?.id === activeNotificationId.value
+  );
+});
+
+const deleteAndNavigateNext = async () => {
+  if (!activeNotification.value) return;
+
+  useTrack(INBOX_EVENTS.DELETE_NOTIFICATION);
+
+  const currentIndex = activeNotificationIndex.value;
+  const nextNotificationId = notifications.value[currentIndex + 1]?.primaryActor?.id;
+
+  try {
+    await store.dispatch('notifications/delete', {
+      notification: activeNotification.value,
+      unread_count: meta.value.unreadCount,
+      count: meta.value.count,
+    });
+
+    useAlert(t('INBOX.ALERTS.DELETE'));
+  } catch {
+    return;
+  }
+
+  if (nextNotificationId) {
+    const nextNotification = notifications.value.find(
+      n => n.primaryActor?.id === nextNotificationId
+    );
+    if (nextNotification) {
+      await openConversation(nextNotification);
+    } else {
+      redirectToInbox();
+    }
+  } else {
+    redirectToInbox();
+  }
+};
+
+const keyboardEvents = {
+  KeyE: {
+    action: e => {
+      e.preventDefault();
+      deleteAndNavigateNext();
+    },
+  },
+};
+
+useKeyboardEvents(keyboardEvents);
 
 watch(
   inboxFilters,

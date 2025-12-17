@@ -540,7 +540,8 @@
       "GO_TO_SETTINGS": "Go to Settings",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown",
+      "DELETE_NOTIFICATION": "Delete notification and go to next"
     }
   },
   "ASSIGNMENT_POLICY": {
