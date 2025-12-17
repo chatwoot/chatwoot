@@ -12,7 +12,7 @@ class Captain::SummaryService < Captain::BaseEditorService
         { role: 'system', content: prompt_from_file('summary') },
         { role: 'user', content: conversation_messages }
       ]
-    }.to_json
+    }
   end
 
   def conversation_messages(in_array_format: false)

@@ -11,7 +11,7 @@ class Captain::ReplySuggestionService < Captain::BaseEditorService
       messages: [
         { role: 'system', content: prompt_from_file('reply') }
       ].concat(conversation_messages(in_array_format: true))
-    }.to_json
+    }
   end
 
   def conversation_messages(in_array_format: false)

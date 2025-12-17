@@ -78,18 +78,17 @@ class Captain::BaseEditorService
     "#{endpoint}/v1"
   end
 
-  def make_api_call(body)
-    parsed_body = JSON.parse(body)
-    instrumentation_params = build_instrumentation_params(parsed_body)
+  def make_api_call(payload)
+    instrumentation_params = build_instrumentation_params(payload)
 
     instrument_llm_call(instrumentation_params) do
-      execute_ruby_llm_request(parsed_body)
+      execute_ruby_llm_request(payload)
     end
   end
 
-  def execute_ruby_llm_request(parsed_body)
-    messages = parsed_body['messages']
-    model = parsed_body['model']
+  def execute_ruby_llm_request(payload)
+    messages = payload['messages']
+    model = payload['model']
 
     Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
       chat = context.chat(model: model)

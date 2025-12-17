@@ -33,7 +33,7 @@ class Captain::LabelSuggestionService < Captain::BaseEditorService
         },
         { role: 'user', content: content }
       ]
-    }.to_json
+    }
   end
 
   def labels_with_messages
