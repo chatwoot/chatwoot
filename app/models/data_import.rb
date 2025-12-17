@@ -2,15 +2,16 @@
 #
 # Table name: data_imports
 #
-#  id                :bigint           not null, primary key
-#  data_type         :string           not null
-#  processed_records :integer
-#  processing_errors :text
-#  status            :integer          default("pending"), not null
-#  total_records     :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  account_id        :bigint           not null
+#  id                       :bigint           not null, primary key
+#  data_type                :string           not null
+#  non_identifiable_records :integer          default(0), not null
+#  processed_records        :integer
+#  processing_errors        :text
+#  status                   :integer          default("pending"), not null
+#  total_records            :integer
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  account_id               :bigint           not null
 #
 # Indexes
 #
