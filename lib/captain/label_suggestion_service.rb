@@ -5,7 +5,7 @@ class Captain::LabelSuggestionService < Captain::BaseEditorService
     payload = label_suggestion_body
     return nil if payload.blank?
 
-    response = make_api_call(label_suggestion_body)
+    response = make_api_call(payload)
     return response if response[:error].present?
 
     # LLMs are not deterministic - sometimes response includes "Labels:" prefix
@@ -57,11 +57,6 @@ class Captain::LabelSuggestionService < Captain::BaseEditorService
     return false if conversation.messages.count > 20 && !conversation.messages.last.incoming?
 
     true
-  end
-
-  def conversation_messages(in_array_format: false)
-    messages = init_messages_body(in_array_format)
-    add_messages_until_token_limit(conversation, messages, in_array_format)
   end
 
   def init_messages_body(in_array_format)
