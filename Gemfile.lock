@@ -177,8 +177,8 @@ GEM
       uniform_notifier (~> 1.11)
     bundle-audit (0.1.0)
       bundler-audit
-    bundler-audit (0.9.1)
-      bundler (>= 1.2.0, < 3)
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
       thor (~> 1.0)
     byebug (11.1.3)
     childprocess (5.1.0)
@@ -1065,6 +1065,7 @@ DEPENDENCIES
   hairtrigger
   hashie
   html2text
+  httparty (~> 0.21.0)
   image_processing
   iso-639
   jbuilder
@@ -1159,7 +1160,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.4.4p34
+  ruby 3.4.4p34
 
 BUNDLED WITH
-   2.5.16
+  4.0.0

@@ -35,7 +35,8 @@ module Zerodb
     # @return [Hash] Headers including authentication and content type
     def headers
       {
-        'X-API-Key' => @api_key,
+        'Authorization' => "Bearer #{@api_key}",
+        'X-Project-ID' => @project_id,
         'Content-Type' => 'application/json',
         'Accept' => 'application/json'
       }
@@ -48,11 +49,11 @@ module Zerodb
       raise ConfigurationError, 'ZERODB_PROJECT_ID environment variable is not set' if @project_id.blank?
     end
 
-    # Build full API endpoint path with project ID
-    # @param path [String] API endpoint path
-    # @return [String] Complete path with project ID prefix
+    # Build full API endpoint path
+    # @param endpoint [String] API endpoint path
+    # @return [String] Complete endpoint path (project ID is sent in header)
     def api_path(endpoint)
-      "/#{@project_id}#{endpoint}"
+      endpoint
     end
 
     # Make HTTP request with retry logic and comprehensive error handling

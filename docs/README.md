@@ -16,7 +16,7 @@ This directory contains all planning and technical documentation for the Chatwoo
 
 ### 📋 Planning Documents
 
-1. **[BACKLOG_CHATWOOT_ZERODB.md](BACKLOG_CHATWOOT_ZERODB.md)** - Development Backlog
+1. **[backlog/BACKLOG_CHATWOOT_ZERODB.md](backlog/BACKLOG_CHATWOOT_ZERODB.md)** - Development Backlog
    - **Purpose:** Complete backlog of all development tasks
    - **Audience:** Development team
    - **Contents:** 89 story points across 7 epics, 12-week timeline
@@ -54,7 +54,7 @@ Start with `planning/CHATWOOT_ZERODB_FORK_MASTER_PLAN.md` to understand:
 - Overall architecture
 
 ### 2. Review the Backlog
-Open `BACKLOG_CHATWOOT_ZERODB.md` to see:
+Open `backlog/BACKLOG_CHATWOOT_ZERODB.md` to see:
 - All development tasks organized by epic
 - Story points and time estimates
 - Acceptance criteria for each task
@@ -219,7 +219,7 @@ ZERODB_POSTGRES_PASSWORD=generated_password
 We welcome contributions! Please follow these guidelines:
 
 1. **Read the documentation** - Understand the master plan and architecture
-2. **Pick a story from the backlog** - See `BACKLOG_CHATWOOT_ZERODB.md`
+2. **Pick a story from the backlog** - See `backlog/BACKLOG_CHATWOOT_ZERODB.md`
 3. **Create a feature branch** - Use naming: `feature/story-X.Y-description`
 4. **Write tests** - All new code must have RSpec tests
 5. **Submit PR** - Include story reference and acceptance criteria checklist

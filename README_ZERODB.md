@@ -100,7 +100,7 @@ Visit http://localhost:3000 and log in with default credentials.
 
 **Start Here:**
 - [docs/README.md](./docs/README.md) - Project overview and structure
-- [docs/BACKLOG_CHATWOOT_ZERODB.md](./docs/BACKLOG_CHATWOOT_ZERODB.md) - Development backlog (89 story points)
+- [docs/backlog/BACKLOG_CHATWOOT_ZERODB.md](./docs/backlog/BACKLOG_CHATWOOT_ZERODB.md) - Development backlog (89 story points)
 
 **Planning Documents:**
 - [Master Plan](./docs/planning/CHATWOOT_ZERODB_FORK_MASTER_PLAN.md) - Strategic plan and vision

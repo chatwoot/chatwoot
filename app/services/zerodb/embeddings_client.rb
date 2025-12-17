@@ -17,11 +17,13 @@ module Zerodb
       raise ValidationError, 'Text cannot be blank' if text.blank?
 
       payload = {
-        text: text,
-        model: options[:model] || 'text-embedding-3-small'
+        texts: [text],  # API expects array of texts
+        model: options[:model] || 'BAAI/bge-small-en-v1.5'  # ZeroDB uses BGE models, not OpenAI
       }
 
-      make_request(:post, api_path(GENERATE_ENDPOINT), body: payload.to_json)
+      response = make_request(:post, api_path(GENERATE_ENDPOINT), body: payload.to_json)
+      # Return first embedding from the array (BGE models return 384 dimensions)
+      response['embeddings']&.first || response
     end
 
     # Generate embeddings and store multiple documents in vector database
@@ -44,7 +46,7 @@ module Zerodb
       payload = {
         documents: documents,
         namespace: options[:namespace] || 'default',
-        model: options[:model] || 'text-embedding-3-small'
+        model: options[:model] || 'BAAI/bge-small-en-v1.5'
       }
 
       make_request(:post, api_path(EMBED_AND_STORE_ENDPOINT), body: payload.to_json)
@@ -67,7 +69,7 @@ module Zerodb
 
       payload = {
         texts: texts,
-        model: options[:model] || 'text-embedding-3-small'
+        model: options[:model] || 'BAAI/bge-small-en-v1.5'
       }
 
       make_request(:post, api_path("#{EMBEDDINGS_ENDPOINT}/batch"), body: payload.to_json)
