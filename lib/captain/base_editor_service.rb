@@ -8,8 +8,8 @@ class Captain::BaseEditorService
   TOKEN_LIMIT = 400_000
   GPT_MODEL = Llm::Config::DEFAULT_MODEL
   ALLOWED_EVENT_NAMES = %w[fix_spelling_grammar casual professional friendly confident
-                           straightforward improve].freeze
-  CACHEABLE_EVENTS = %w[].freeze
+                           straightforward improve summarize reply_suggestion label_suggestion].freeze
+  CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
   pattr_initialize [:account!, :event!]
 
