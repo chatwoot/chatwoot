@@ -9,6 +9,12 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
+
+    if @message.nil?
+      render json: {
+        error: 'Agent bots can only send messages to pending conversations'
+      }, status: :forbidden and return
+    end
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
