@@ -1,5 +1,6 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
+import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -13,8 +14,8 @@ import ConversationRequiredEmpty from 'dashboard/components-next/Conversation/Co
 const emit = defineEmits(['click']);
 const { t } = useI18n();
 const { currentAccount, updateAccount } = useAccount();
-const showDropdown = ref(false);
-const isSaving = ref(false);
+const [showDropdown, toggleDropdown] = useToggle(false);
+const [isSaving, toggleSaving] = useToggle(false);
 const conversationAttributes = useMapGetter(
   'attributes/getConversationAttributes'
 );
@@ -53,12 +54,12 @@ const conversationRequiredAttributes = computed(() =>
 
 const handleAddAttributesClick = event => {
   event.stopPropagation();
-  showDropdown.value = !showDropdown.value;
+  toggleDropdown();
 };
 
 const saveRequiredAttributes = async keys => {
   try {
-    isSaving.value = true;
+    toggleSaving(true);
     await updateAccount(
       { conversation_required_attributes: keys },
       { silent: true }
@@ -67,8 +68,8 @@ const saveRequiredAttributes = async keys => {
   } catch (error) {
     useAlert(t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.SAVE.ERROR'));
   } finally {
-    isSaving.value = false;
-    showDropdown.value = false;
+    toggleSaving(false);
+    toggleDropdown(false);
   }
 };
 
@@ -81,7 +82,7 @@ const handleAttributeAction = ({ value }) => {
 };
 
 const closeDropdown = () => {
-  showDropdown.value = false;
+  toggleDropdown(false);
 };
 
 const handleDelete = attribute => {
