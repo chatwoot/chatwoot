@@ -56,12 +56,18 @@ export default {
         twitter: '',
         linkedin: '',
         github: '',
+        threads: '',
+        youtube: '',
+        line: '',
       },
       socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
-        { key: 'twitter', prefixURL: 'https://twitter.com/' },
+        { key: 'twitter', prefixURL: 'https://x.com/' },
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
         { key: 'github', prefixURL: 'https://github.com/' },
+        { key: 'threads', prefixURL: 'https://threads.net/' },
+        { key: 'youtube', prefixURL: 'https://youtube.com/' },
+        { key: 'line', prefixURL: 'https://line.me/' },
       ],
     };
   },
@@ -173,6 +179,9 @@ export default {
         linkedin: socialProfiles.linkedin || '',
         github: socialProfiles.github || '',
         instagram: socialProfiles.instagram || '',
+        threads: socialProfiles.threads || '',
+        youtube: socialProfiles.youtube || '',
+        line: socialProfiles.line || '',
       };
     },
     getContactObject() {

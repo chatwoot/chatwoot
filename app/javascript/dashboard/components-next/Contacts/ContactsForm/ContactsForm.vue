@@ -46,6 +46,9 @@ const SOCIAL_CONFIG = {
   INSTAGRAM: 'i-ri-instagram-line',
   TWITTER: 'i-ri-twitter-x-fill',
   GITHUB: 'i-ri-github-fill',
+  THREADS: 'i-ri-threads-fill',
+  YOUTUBE: 'i-ri-youtube-fill',
+  LINE: 'i-ri-line-fill',
 };
 
 const defaultState = {
@@ -67,6 +70,9 @@ const defaultState = {
       instagram: '',
       linkedin: '',
       twitter: '',
+      threads: '',
+      youtube: '',
+      line: '',
     },
   },
 };
