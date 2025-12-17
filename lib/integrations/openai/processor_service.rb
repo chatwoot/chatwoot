@@ -50,7 +50,8 @@ class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
       messages: [
         { role: 'system', content: system_content },
         { role: 'user', content: user_content }
-      ]
+      ],
+      reasoning_effort: 'low' # TODO: make this configurable
     }.to_json
     make_api_call(body)
   end
