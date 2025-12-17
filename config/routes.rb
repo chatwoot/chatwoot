@@ -52,6 +52,7 @@ Rails.application.routes.draw do
             post :bulk_create, on: :collection
           end
           namespace :captain do
+            resource :config, only: [:show], controller: 'config'
             resources :assistants do
               member do
                 post :playground
