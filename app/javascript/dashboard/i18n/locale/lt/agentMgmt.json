@@ -1,10 +1,10 @@
 {
   "AGENT_MGMT": {
     "HEADER": "Agentai",
-    "HEADER_BTN_TXT": "Pridėti Agentą",
+    "HEADER_BTN_TXT": "Pridėti agentą",
     "LOADING": "Gaunamas agentų sąrašas",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "Agentas – tai jūsų klientų aptarnavimo komandos narys, galintis peržiūrėti ir atsakyti į vartotojų žinutes. Žemiau pateiktame sąraše rodomi visi jūsų paskyros agentai.",
+    "LEARN_MORE": "Sužinokite daugiau apie naudotojų roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administratorius",
       "AGENT": "Agentas"
@@ -19,7 +19,7 @@
       "ACTIONS": "Veiksmai",
       "VERIFIED": "Patikrinta",
       "VERIFICATION_PENDING": "Laukiama patvirtinimo",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Galimos pasirinktinių rolių teisės"
     },
     "ADD": {
       "TITLE": "Pridėti agentą prie komandos",
@@ -27,19 +27,19 @@
       "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "NAME": {
-          "LABEL": "Agento Vardas",
+          "LABEL": "Agento vardas",
           "PLACEHOLDER": "Įveskite agento vardą"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agento tipas",
-          "PLACEHOLDER": "Prašau pasirinkti agento tipą",
-          "ERROR": "Yra reikalingas agento tipas"
+          "LABEL": "Agento rolė",
+          "PLACEHOLDER": "Prašau pasirinkti agento rolę",
+          "ERROR": "Agento rolė yra privaloma"
         },
         "EMAIL": {
           "LABEL": "El. pašto adresas",
           "PLACEHOLDER": "Įveskite agento el. pašto adresą"
         },
-        "SUBMIT": "Pridėti Agentą"
+        "SUBMIT": "Pridėti agentą"
       },
       "API": {
         "SUCCESS_MESSAGE": "Agentas pridėtas sėkmingai",
@@ -56,21 +56,21 @@
       "CONFIRM": {
         "TITLE": "Patvirtinti Ištrynimą",
         "MESSAGE": "Ar tikrai norite ištrinti ",
-        "YES": "Taip, Trinti ",
+        "YES": "Taip, ištrinti ",
         "NO": "Ne, Išsaugoti "
       }
     },
     "EDIT": {
-      "TITLE": "Keisti Agentą",
+      "TITLE": "Redaguoti agentą",
       "FORM": {
         "NAME": {
-          "LABEL": "Agento Vardas",
+          "LABEL": "Agento vardas",
           "PLACEHOLDER": "Įveskite agento vardą"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agento tipas",
-          "PLACEHOLDER": "Prašau pasirinkti agento tipą",
-          "ERROR": "Yra reikalingas agento tipas"
+          "LABEL": "Agento rolė",
+          "PLACEHOLDER": "Prašome pasirinkti agento rolę",
+          "ERROR": "Agento rolė yra privaloma"
         },
         "EMAIL": {
           "LABEL": "El. pašto adresas",
@@ -79,9 +79,9 @@
         "AGENT_AVAILABILITY": {
           "LABEL": "Prieinamumas",
           "PLACEHOLDER": "Prašome pasirinkti prieinamumo būseną",
-          "ERROR": "Būtinas prieinamumas"
+          "ERROR": "Prieinamumą nustatyti privaloma"
         },
-        "SUBMIT": "Keisti Agentą"
+        "SUBMIT": "Redaguoti agentą"
       },
       "BUTTON_TEXT": "Redaguoti",
       "CANCEL_BUTTON_TEXT": "Atšaukti",
