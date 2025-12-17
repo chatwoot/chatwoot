@@ -62,8 +62,9 @@ export function useConversationRequiredAttributes() {
         return !(attribute.value in conversationCustomAttributes);
       }
 
-      // For other attribute types, consider null, undefined, empty string, or whitespace-only as missing
-      return !value || String(value).trim() === '';
+      // For other attribute types, only consider null, undefined, empty string, or whitespace-only as missing
+      // Allow falsy values like 0, false as they are valid filled values
+      return value == null || String(value).trim() === '';
     });
 
     return {
