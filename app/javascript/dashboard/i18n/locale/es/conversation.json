@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hola 👋, ¡Bienvenido a {installationName}!",
-    "DESCRIPTION": "Gracias por registrarse. Queremos que saque el máximo provecho de {installationName}. Aquí hay algunas cosas que puede hacer en {installationName} para hacer que la experiencia sea agradable.",
-    "GREETING_MORNING": "👋 Buenos días, {name}. Bienvenido a  {installationName}.",
-    "GREETING_AFTERNOON": "👋 Buenas tardes, {name}. Bienvenido a  {installationName}.",
-    "GREETING_EVENING": "👋 Buenas noches, {name}. Bienvenido a  {installationName}.",
+    "TITLE": "Hola 👋, ¡Bienvenido a AlooChat!",
+    "DESCRIPTION": "Gracias por registrarse. Queremos que saque el máximo provecho de AlooChat. Aquí hay algunas cosas que puede hacer en AlooChat para hacer que la experiencia sea agradable.",
+    "GREETING_MORNING": "👋 Buenos días, {name}. Bienvenido a  AlooChat.",
+    "GREETING_AFTERNOON": "👋 Buenas tardes, {name}. Bienvenido a  AlooChat.",
+    "GREETING_EVENING": "👋 Buenas noches, {name}. Bienvenido a  AlooChat.",
     "READ_LATEST_UPDATES": "Leer nuestras últimas actualizaciones",
     "ALL_CONVERSATION": {
       "TITLE": "Todas sus conversaciones en un solo lugar",

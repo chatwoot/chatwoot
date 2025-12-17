@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "こんにちは 👋, {installationName}へようこそ！",
-    "DESCRIPTION": "ご登録いただきありがとうございます。{installationName} を最大限に活用していただくために、いくつかのヒントをご紹介します。",
-    "GREETING_MORNING": "おはようございます 👋, {name} さん。{installationName} へようこそ。",
-    "GREETING_AFTERNOON": "こんにちは 👋, {name} さん。{installationName} へようこそ。",
-    "GREETING_EVENING": "こんばんは 👋, {name} さん。{installationName} へようこそ。",
+    "TITLE": "こんにちは 👋, AlooChatへようこそ！",
+    "DESCRIPTION": "ご登録いただきありがとうございます。AlooChat を最大限に活用していただくために、いくつかのヒントをご紹介します。",
+    "GREETING_MORNING": "おはようございます 👋, {name} さん。AlooChat へようこそ。",
+    "GREETING_AFTERNOON": "こんにちは 👋, {name} さん。AlooChat へようこそ。",
+    "GREETING_EVENING": "こんばんは 👋, {name} さん。AlooChat へようこそ。",
     "READ_LATEST_UPDATES": "最新のアップデートを読む",
     "ALL_CONVERSATION": {
       "TITLE": "すべての会話を1箇所で",

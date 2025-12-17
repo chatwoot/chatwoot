@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Ahoj, 👋, Vítejte na {installationName}!",
-    "DESCRIPTION": "Děkujeme za registraci. Chceme, abyste získali maximum z {installationName}. Zde je několik věcí, které můžete v {installationName} udělat, abyste udělali zážitek příjemný.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Ahoj, 👋, Vítejte na AlooChat!",
+    "DESCRIPTION": "Děkujeme za registraci. Chceme, abyste získali maximum z AlooChat. Zde je několik věcí, které můžete v AlooChat udělat, abyste udělali zážitek příjemný.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Přečtěte si nejnovější aktualizace",
     "ALL_CONVERSATION": {
       "TITLE": "Všechny vaše konverzace na jednom místě",

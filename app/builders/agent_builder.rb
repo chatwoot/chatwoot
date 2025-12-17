@@ -35,7 +35,7 @@ class AgentBuilder
     user = User.from_email(email)
     return user if user
 
-    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
+    temp_password = PasswordGeneratorService.generate
     @user = User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
 
     if @user
@@ -100,7 +100,7 @@ class AgentBuilder
       return existing_user
     end
 
-    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
+    temp_password = PasswordGeneratorService.generate
     user = User.new(
       email: ai_email,
       name: name,

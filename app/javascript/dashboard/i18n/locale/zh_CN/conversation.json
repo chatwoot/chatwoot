@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "您好 👋, 欢迎来到 {installationName}!",
-    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 {installationName}。 这里有几件您可以在 {installationName} 做的事情，让体验变得愉快。",
-    "GREETING_MORNING": "👋 早上好，{name}。欢迎来到 {installationName}。",
-    "GREETING_AFTERNOON": "👋 下午好，{name}。欢迎来到 {installationName}。",
-    "GREETING_EVENING": "👋 晚上好，{name}。欢迎来到 {installationName}。",
+    "TITLE": "您好 👋, 欢迎来到 AlooChat!",
+    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 AlooChat。 这里有几件您可以在 AlooChat 做的事情，让体验变得愉快。",
+    "GREETING_MORNING": "👋 早上好，{name}。欢迎来到 AlooChat。",
+    "GREETING_AFTERNOON": "👋 下午好，{name}。欢迎来到 AlooChat。",
+    "GREETING_EVENING": "👋 晚上好，{name}。欢迎来到 AlooChat。",
     "READ_LATEST_UPDATES": "阅读我们的最新升级日志",
     "ALL_CONVERSATION": {
       "TITLE": "您的所有对话都在一个地方",
