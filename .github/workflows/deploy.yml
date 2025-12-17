@@ -26,14 +26,6 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
       
-      # - name: Build and push base image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: .
-      #     file: ./docker/Dockerfile
-      #     push: true
-      #     tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-base:v1.0.69
-      
       - name: Build and push Rails image
         uses: docker/build-push-action@v4
         with:
