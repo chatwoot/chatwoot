@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
-import attachmentMixin from '../mixins/attachmentMixin';
+import { useAttachments } from '../composables/useAttachments';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
@@ -18,7 +18,6 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [attachmentMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -28,6 +27,10 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    const { canHandleAttachments } = useAttachments();
+    return { canHandleAttachments };
   },
   data() {
     return {

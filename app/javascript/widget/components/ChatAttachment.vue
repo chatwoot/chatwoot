@@ -11,16 +11,19 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
 import { emitter } from 'shared/helpers/mitt';
-import attachmentMixin from '../mixins/attachmentMixin';
+import { useAttachments } from '../composables/useAttachments';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
-  mixins: [attachmentMixin],
   props: {
     onAttach: {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    const { canHandleAttachments } = useAttachments();
+    return { canHandleAttachments };
   },
   data() {
     return { isUploading: false };
