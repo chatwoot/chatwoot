@@ -66,22 +66,38 @@ const inboxList = computed(() =>
 const formData = computed(() => ({
   name: selectedPolicy.value?.name || '',
   description: selectedPolicy.value?.description || '',
-  enabled: selectedPolicy.value?.enabled || false,
+  enabled: true,
   assignmentOrder: selectedPolicy.value?.assignmentOrder || ROUND_ROBIN,
   conversationPriority:
     selectedPolicy.value?.conversationPriority || EARLIEST_CREATED,
-  fairDistributionLimit: selectedPolicy.value?.fairDistributionLimit || 10,
-  fairDistributionWindow: selectedPolicy.value?.fairDistributionWindow || 60,
+  fairDistributionLimit: selectedPolicy.value?.fairDistributionLimit || 100,
+  fairDistributionWindow: selectedPolicy.value?.fairDistributionWindow || 3600,
 }));
 
-const handleDeleteInbox = inboxId =>
-  store.dispatch('assignmentPolicies/removeInboxPolicy', {
-    policyId: selectedPolicy.value?.id,
-    inboxId,
-  });
+const handleDeleteInbox = async inboxId => {
+  try {
+    await store.dispatch('assignmentPolicies/removeInboxPolicy', {
+      policyId: selectedPolicy.value?.id,
+      inboxId,
+    });
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_API.REMOVE.SUCCESS_MESSAGE`));
+  } catch {
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_API.REMOVE.ERROR_MESSAGE`));
+  }
+};
 
 const handleBreadcrumbClick = ({ routeName }) =>
   router.push({ name: routeName });
+
+const handleNavigateToInbox = inbox => {
+  router.push({
+    name: 'settings_inbox_show',
+    params: {
+      accountId: route.params.accountId,
+      inboxId: inbox.id,
+    },
+  });
+};
 
 const setInboxPolicy = async (inboxId, policyId) => {
   try {
@@ -186,6 +202,7 @@ watch(routeId, fetchPolicyData, { immediate: true });
         @submit="handleSubmit"
         @add-inbox="handleAddInbox"
         @delete-inbox="handleDeleteInbox"
+        @navigate-to-inbox="handleNavigateToInbox"
       />
     </template>
 
