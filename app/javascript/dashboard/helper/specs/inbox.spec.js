@@ -111,7 +111,7 @@ describe('#Inbox Helpers', () => {
 
       it('returns correct line icon for TikTok', () => {
         expect(getInboxIconByType(INBOX_TYPES.TIKTOK, null, 'line')).toBe(
-          'i-ri-tiktok-line'
+          'i-woot-tiktok'
         );
       });
 
