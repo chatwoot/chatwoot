@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useStoreGetters } from 'dashboard/composables/store';
@@ -9,7 +8,6 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const yearInReviewBannerImage =
   '/assets/images/dashboard/year-in-review/year-in-review-sidebar.png';
-const route = useRoute();
 const { t } = useI18n();
 const { uiSettings, updateUISettings } = useUISettings();
 const getters = useStoreGetters();
@@ -31,10 +29,7 @@ const isBannerClosed = computed(() => {
 });
 
 const shouldShowBanner = computed(
-  () =>
-    route.query['year-in-review'] === 'true' &&
-    !isBannerClosed.value &&
-    !isACustomBrandedInstance.value
+  () => !isBannerClosed.value && !isACustomBrandedInstance.value
 );
 
 const openModal = () => {
