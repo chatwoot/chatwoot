@@ -237,5 +237,135 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         expect(result).to eq('Created order #ORD-789 for Widget')
       end
     end
+
+    context 'with metadata headers' do
+      let(:conversation) { create(:conversation, account: account) }
+      let(:contact) { conversation.contact }
+      let(:tool_context_with_state) do
+        Struct.new(:state).new({
+                                 account_id: account.id,
+                                 assistant_id: assistant.id,
+                                 conversation: {
+                                   id: conversation.id,
+                                   display_id: conversation.display_id
+                                 },
+                                 contact: {
+                                   id: contact.id,
+                                   email: contact.email,
+                                   phone_number: contact.phone_number
+                                 }
+                               })
+      end
+
+      before do
+        custom_tool.update!(
+          endpoint_url: 'https://example.com/api/data',
+          response_template: nil
+        )
+      end
+
+      it 'includes metadata headers in GET request' do
+        stub_request(:get, 'https://example.com/api/data')
+          .with(headers: {
+                  'X-Chatwoot-Account-Id' => account.id.to_s,
+                  'X-Chatwoot-Assistant-Id' => assistant.id.to_s,
+                  'X-Chatwoot-Tool-Slug' => custom_tool.slug,
+                  'X-Chatwoot-Conversation-Id' => conversation.id.to_s,
+                  'X-Chatwoot-Conversation-Display-Id' => conversation.display_id.to_s,
+                  'X-Chatwoot-Contact-Id' => contact.id.to_s,
+                  'X-Chatwoot-Contact-Email' => contact.email
+                })
+          .to_return(status: 200, body: '{"success": true}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/api/data')
+          .with(headers: {
+                  'X-Chatwoot-Account-Id' => account.id.to_s,
+                  'X-Chatwoot-Contact-Email' => contact.email
+                })
+      end
+
+      it 'includes metadata headers in POST request' do
+        custom_tool.update!(http_method: 'POST', request_template: '{"data": "test"}')
+
+        stub_request(:post, 'https://example.com/api/data')
+          .with(
+            body: '{"data": "test"}',
+            headers: {
+              'Content-Type' => 'application/json',
+              'X-Chatwoot-Account-Id' => account.id.to_s,
+              'X-Chatwoot-Tool-Slug' => custom_tool.slug,
+              'X-Chatwoot-Contact-Email' => contact.email
+            }
+          )
+          .to_return(status: 200, body: '{"success": true}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to have_requested(:post, 'https://example.com/api/data')
+      end
+
+      it 'includes metadata headers along with authentication headers' do
+        custom_tool.update!(
+          auth_type: 'bearer',
+          auth_config: { 'token' => 'test_token' }
+        )
+
+        stub_request(:get, 'https://example.com/api/data')
+          .with(headers: {
+                  'Authorization' => 'Bearer test_token',
+                  'X-Chatwoot-Account-Id' => account.id.to_s,
+                  'X-Chatwoot-Contact-Id' => contact.id.to_s
+                })
+          .to_return(status: 200, body: '{"success": true}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/api/data')
+          .with(headers: {
+                  'Authorization' => 'Bearer test_token',
+                  'X-Chatwoot-Contact-Id' => contact.id.to_s
+                })
+      end
+
+      it 'handles missing contact in tool context' do
+        tool_context_no_contact = Struct.new(:state).new({
+                                                           account_id: account.id,
+                                                           assistant_id: assistant.id,
+                                                           conversation: {
+                                                             id: conversation.id,
+                                                             display_id: conversation.display_id
+                                                           }
+                                                         })
+
+        stub_request(:get, 'https://example.com/api/data')
+          .with(headers: {
+                  'X-Chatwoot-Account-Id' => account.id.to_s,
+                  'X-Chatwoot-Conversation-Id' => conversation.id.to_s
+                })
+          .to_return(status: 200, body: '{"success": true}')
+
+        tool.perform(tool_context_no_contact)
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/api/data')
+      end
+
+      it 'includes contact phone when present' do
+        contact.update!(phone_number: '+1234567890')
+        tool_context_with_state.state[:contact][:phone_number] = '+1234567890'
+
+        stub_request(:get, 'https://example.com/api/data')
+          .with(headers: {
+                  'X-Chatwoot-Contact-Phone' => '+1234567890'
+                })
+          .to_return(status: 200, body: '{"success": true}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/api/data')
+          .with(headers: { 'X-Chatwoot-Contact-Phone' => '+1234567890' })
+      end
+    end
   end
 end
