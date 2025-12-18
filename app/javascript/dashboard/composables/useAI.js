@@ -7,7 +7,7 @@ import {
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import OpenAPI from 'dashboard/api/integrations/openapi';
+import TasksAPI from 'dashboard/api/captain/tasks';
 
 /**
  * Cleans and normalizes a list of labels.
@@ -57,7 +57,7 @@ export function useAI() {
    * Computed property to check if AI integration is enabled.
    * @type {import('vue').ComputedRef<boolean>}
    */
-  const isAIIntegrationEnabled = computed(() => !!aiIntegration.value);
+  const isAIIntegrationEnabled = computed(() => true);
 
   /**
    * Computed property to check if label suggestion feature is enabled.
@@ -76,12 +76,6 @@ export function useAI() {
    * @type {import('vue').ComputedRef<boolean>}
    */
   const isFetchingAppIntegrations = computed(() => uiFlags.value.isFetching);
-
-  /**
-   * Computed property for the hook ID.
-   * @type {import('vue').ComputedRef<string|undefined>}
-   */
-  const hookId = computed(() => aiIntegration.value?.id);
 
   /**
    * Computed property for the conversation ID.
@@ -139,9 +133,8 @@ export function useAI() {
     if (!conversationId.value) return [];
 
     try {
-      const result = await OpenAPI.processEvent({
+      const result = await TasksAPI.processEvent({
         type: 'label_suggestion',
-        hookId: hookId.value,
         conversationId: conversationId.value,
       });
 
@@ -165,9 +158,8 @@ export function useAI() {
    */
   const processEvent = async (type = 'improve', content = '', options = {}) => {
     try {
-      const result = await OpenAPI.processEvent(
+      const result = await TasksAPI.processEvent(
         {
-          hookId: hookId.value,
           type,
           content: content || draftMessage.value,
           conversationId: conversationId.value,
