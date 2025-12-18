@@ -102,6 +102,9 @@
       },
       "contact": {
         "CONTENT": "共有連絡先"
+      },
+      "embed": {
+        "CONTENT": "Embedded content"
       }
     },
     "CHAT_SORT_BY_FILTER": {
