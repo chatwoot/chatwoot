@@ -101,10 +101,16 @@ const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
   });
 };
 
-const handleResolveWithAttributes = newAttributes => {
-  const currentCustomAttributes = currentChat.value.custom_attributes || {};
-  const mergedAttributes = { ...currentCustomAttributes, ...newAttributes };
-  toggleStatus(wootConstants.STATUS_TYPE.RESOLVED, null, mergedAttributes);
+const handleResolveWithAttributes = ({ attributes, context }) => {
+  if (context) {
+    const currentCustomAttributes = currentChat.value.custom_attributes || {};
+    const mergedAttributes = { ...currentCustomAttributes, ...attributes };
+    toggleStatus(
+      wootConstants.STATUS_TYPE.RESOLVED,
+      context.snoozedUntil,
+      mergedAttributes
+    );
+  }
 };
 
 const onCmdOpenConversation = () => {
@@ -118,7 +124,15 @@ const onCmdResolveConversation = () => {
   );
 
   if (hasMissing) {
-    resolveAttributesModalRef.value?.open(missing, currentCustomAttributes);
+    const conversationContext = {
+      id: currentChat.value.id,
+      snoozedUntil: null,
+    };
+    resolveAttributesModalRef.value?.open(
+      missing,
+      currentCustomAttributes,
+      conversationContext
+    );
   } else {
     toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
   }

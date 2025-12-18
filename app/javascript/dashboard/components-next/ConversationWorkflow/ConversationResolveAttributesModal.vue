@@ -14,6 +14,7 @@ const { t } = useI18n();
 const dialogRef = ref(null);
 const visibleAttributes = ref([]);
 const formValues = ref({});
+const conversationContext = ref(null);
 
 const getPlaceholder = type => {
   const placeholders = {
@@ -46,10 +47,12 @@ const isFormComplete = computed(() =>
 
 const close = () => {
   dialogRef.value?.close();
+  conversationContext.value = null;
 };
 
-const open = (attributes = [], initialValues = {}) => {
+const open = (attributes = [], initialValues = {}, context = null) => {
   visibleAttributes.value = attributes;
+  conversationContext.value = context;
   formValues.value = attributes.reduce((acc, attribute) => {
     const presetValue = initialValues[attribute.value];
     if (presetValue !== undefined && presetValue !== null) {
@@ -65,7 +68,10 @@ const open = (attributes = [], initialValues = {}) => {
 };
 
 const handleConfirm = () => {
-  emit('submit', { ...formValues.value });
+  emit('submit', {
+    attributes: { ...formValues.value },
+    context: conversationContext.value,
+  });
   close();
 };
 

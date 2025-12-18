@@ -769,33 +769,32 @@ function handleResolveConversation(conversationId, status, snoozedUntil) {
   );
 
   if (hasMissing) {
-    // Store conversation data for the modal
-    if (resolveAttributesModalRef.value) {
-      resolveAttributesModalRef.value.conversation = {
-        id: conversationId,
-        snoozedUntil,
-      };
-      resolveAttributesModalRef.value.open(missing, currentCustomAttributes);
-    }
+    // Pass conversation context through the modal's API
+    const conversationContext = {
+      id: conversationId,
+      snoozedUntil,
+    };
+    resolveAttributesModalRef.value?.open(
+      missing,
+      currentCustomAttributes,
+      conversationContext
+    );
   } else {
     toggleConversationStatus(conversationId, status, snoozedUntil);
   }
 }
 
-function handleResolveWithAttributes(newAttributes) {
-  const conversation = resolveAttributesModalRef.value?.conversation;
-  if (conversation) {
-    const existingConversation = store.getters.getConversationById(
-      conversation.id
-    );
+function handleResolveWithAttributes({ attributes, context }) {
+  if (context) {
+    const existingConversation = store.getters.getConversationById(context.id);
     const currentCustomAttributes =
       existingConversation?.custom_attributes || {};
-    const mergedAttributes = { ...currentCustomAttributes, ...newAttributes };
+    const mergedAttributes = { ...currentCustomAttributes, ...attributes };
 
     toggleConversationStatus(
-      conversation.id,
+      context.id,
       wootConstants.STATUS_TYPE.RESOLVED,
-      conversation.snoozedUntil,
+      context.snoozedUntil,
       mergedAttributes
     );
   }
