@@ -57,7 +57,7 @@ export const handleVoiceMessageUpdated = (app, data) => {
     conversationId,
   });
 
-  store.commit('UPDATE_CONVERSATION_CALL_STATUS', {
+  store.dispatch('updateCallStatus', {
     conversationId,
     callStatus: status,
   });
