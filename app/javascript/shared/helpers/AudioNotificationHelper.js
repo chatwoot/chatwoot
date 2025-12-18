@@ -13,35 +13,16 @@ export const getAudioContext = () => {
 // eslint-disable-next-line default-param-last
 export const getAlertAudio = async (baseUrl = '', requestContext) => {
   const audioCtx = getAudioContext();
-  let lastSource;
-  const stopLast = () => {
-    try {
-      if (lastSource) {
-        lastSource.stop();
-      }
-    } catch (_) {
-      // ignore stop errors
-    } finally {
-      lastSource = null;
-    }
-  };
-
   const playSound = audioBuffer => {
     window.playAudioAlert = () => {
       if (audioCtx) {
-        stopLast();
         const source = audioCtx.createBufferSource();
         source.buffer = audioBuffer;
         source.connect(audioCtx.destination);
         source.loop = false;
         source.start();
-        lastSource = source;
-        source.onended = () => {
-          if (lastSource === source) lastSource = null;
-        };
       }
     };
-    window.stopAudioAlert = stopLast;
   };
 
   if (audioCtx) {

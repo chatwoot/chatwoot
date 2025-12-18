@@ -1,13 +1,11 @@
 <script setup>
-import { computed, watch, onBeforeUnmount } from 'vue';
+import { computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useRingtone } from 'dashboard/composables/useRingtone';
 import { useCallSession } from 'dashboard/composables/useCallSession';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const router = useRouter();
 const route = useRoute();
-const { start: startRingTone, stop: stopRingTone } = useRingtone();
 
 const {
   callState,
@@ -51,7 +49,6 @@ const joinConference = async () => {
   if (result) {
     const path = `/app/accounts/${route.params.accountId}/conversations/${callData.conversationId}`;
     router.push({ path });
-    stopRingTone();
   }
 };
 
@@ -59,7 +56,6 @@ const endCall = async () => {
   const callData = currentCall.value;
   if (!callData) return;
 
-  stopRingTone();
   await endCallSession({
     conversationId: callData.conversationId,
     inboxId: callData.inboxId,
@@ -72,7 +68,6 @@ const acceptCall = async () => {
 
 const rejectCall = () => {
   rejectIncomingCall();
-  stopRingTone();
 };
 
 // Auto-join outgoing calls
@@ -85,23 +80,6 @@ watch(
   },
   { immediate: true }
 );
-
-// Manage ringtone based on call state
-watch(
-  callState,
-  state => {
-    if (state === CALL_STATES.INCOMING) {
-      startRingTone();
-    } else {
-      stopRingTone();
-    }
-  },
-  { immediate: true }
-);
-
-onBeforeUnmount(() => {
-  stopRingTone();
-});
 </script>
 
 <template>

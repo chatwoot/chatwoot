@@ -18,10 +18,6 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
-import {
-  getAlertAudio,
-  initOnEvents,
-} from 'shared/helpers/AudioNotificationHelper';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
@@ -87,21 +83,6 @@ export default {
     this.setLocale(
       this.uiSettings?.locale || window.chatwootConfig.selectedLocale
     );
-
-    // Prepare dashboard ringtone on first user gesture to unlock AudioContext
-    window.playAudioAlert = window.playAudioAlert || (() => {});
-    const setupDashboardAudio = () => {
-      getAlertAudio('', { type: 'dashboard', alertTone: 'call-ring' }).then(
-        () => {
-          initOnEvents.forEach(evt =>
-            document.removeEventListener(evt, setupDashboardAudio, false)
-          );
-        }
-      );
-    };
-    initOnEvents.forEach(evt =>
-      document.addEventListener(evt, setupDashboardAudio, false)
-    );
   },
   unmounted() {
     if (this.reconnectService) {
@@ -119,7 +100,6 @@ export default {
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },
-    // Call widget control and cleanup are handled via Vuex only for MVP
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
       this.$store.dispatch('setActiveAccount', {
