@@ -107,3 +107,20 @@ export const getRegexp = regexPatternValue => {
  * @returns {boolean} True if the slug is valid, false otherwise.
  */
 export const isValidSlug = value => /^[a-zA-Z0-9-]+$/.test(value);
+
+/**
+ * Validates if a URL is a localhost URL when the app is running on localhost.
+ * @param {string} value - The URL to validate.
+ * @returns {boolean} True if the URL is a localhost URL or empty, false otherwise.
+ */
+export const isLocalhostUrl = value => {
+  if (!value) {
+    return true;
+  }
+  const isRunningOnLocalhost = ['127.0.0.1', 'localhost'].includes(
+    window.location.hostname
+  );
+  const localUrlPattern =
+    /^(?:https?:\/\/)?(?:127\.0\.0\.1|localhost)(?::\d+)?(?:\/.*)?$/i;
+  return isRunningOnLocalhost && localUrlPattern.test(value);
+};
