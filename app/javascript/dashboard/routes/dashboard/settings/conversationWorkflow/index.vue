@@ -29,7 +29,7 @@ const showAutoResolutionConfig = computed(() => {
       <BaseSettingsHeader
         :title="$t('CONVERSATION_WORKFLOW.INDEX.HEADER.TITLE')"
         :description="$t('CONVERSATION_WORKFLOW.INDEX.HEADER.DESCRIPTION')"
-        feature-name="assignment-policy"
+        feature-name="conversation-workflow"
       />
     </template>
 
