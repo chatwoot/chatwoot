@@ -577,6 +577,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-credit-card',
           to: accountScopedRoute('billing_settings_index'),
         },
+        {
+          name: 'Settings Captain',
+          label: t('SIDEBAR.CAPTAIN_AI'),
+          icon: 'i-lucide-sparkles',
+          to: accountScopedRoute('captain_settings_index'),
+        },
       ],
     },
   ];
