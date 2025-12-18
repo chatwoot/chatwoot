@@ -1,8 +1,8 @@
 {
   "MACROS": {
     "HEADER": "מאקרו",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
+    "DESCRIPTION": "מאקרו הוא קבוצה של פעולות שמורות המסייעות לסוכני שירות לקוחות להשלים משימות בקלות. הסוכנים יכולים להגדיר קבוצה של פעולות כמו תיוג שיחה בתווית, שליחת תמלול דוא\"ל, עדכון תכונה מותאמת אישית וכו', והם יכולים להפעיל פעולות אלה בלחיצה אחת.",
+    "LEARN_MORE": "למד עוד על מאקרואים",
     "HEADER_BTN_TXT": "הוסף מאקרו חדש",
     "HEADER_BTN_TXT_SAVE": "שמור מאקרו",
     "LOADING": "מביא פקודות מאקרו",
@@ -76,36 +76,36 @@
       "EXECUTED_SUCCESSFULLY": "המאקרו הופעל בהצלחה"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "מפתח תכונה נדרש",
+      "FILTER_OPERATOR_REQUIRED": "אופרטור מסנן נדרש",
       "VALUE_REQUIRED": "חובה ערך",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "הערך חייב להיות בין 1 ל-998",
+      "ACTION_PARAMETERS_REQUIRED": "פרמטרי פעולה נדרשים",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "נדרש לפחות תנאי אחד",
+      "ATLEAST_ONE_ACTION_REQUIRED": "נדרשת לפחות פעולה אחת"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "ASSIGN_TEAM": "הקצה צוות",
+      "ASSIGN_AGENT": "הקצה סוכן",
+      "ADD_LABEL": "הוסף תווית",
+      "REMOVE_LABEL": "הסר תווית",
+      "REMOVE_ASSIGNED_TEAM": "הסר צוות שהוקצה",
+      "SEND_EMAIL_TRANSCRIPT": "שלח תמלול דוא\"ל",
       "MUTE_CONVERSATION": "השתק שיחה",
       "SNOOZE_CONVERSATION": "נודניק שיחה",
       "RESOLVE_CONVERSATION": "פתור שיחה",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Change Priority",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "SEND_ATTACHMENT": "שלח קובץ מצורף",
+      "SEND_MESSAGE": "שלח הודעה",
+      "CHANGE_PRIORITY": "שנה עדיפות",
+      "ADD_PRIVATE_NOTE": "הוסף הערה פרטית",
+      "SEND_WEBHOOK_EVENT": "שלח אירוע Webhook"
     },
     "PRIORITY_TYPES": {
       "NONE": "כלום",
-      "LOW": "Low",
-      "MEDIUM": "Medium",
-      "HIGH": "High",
-      "URGENT": "Urgent"
+      "LOW": "נמוכה",
+      "MEDIUM": "בינונית",
+      "HIGH": "גבוהה",
+      "URGENT": "דחופה"
     }
   }
 }

@@ -173,6 +173,13 @@ export const getters = {
         item.channel_type === INBOX_TYPES.INSTAGRAM
     );
   },
+  getTiktokInboxByBusinessId: $state => businessId => {
+    return $state.records.find(
+      item =>
+        item.business_id === businessId &&
+        item.channel_type === INBOX_TYPES.TIKTOK
+    );
+  },
 };
 
 const sendAnalyticsEvent = channelType => {
