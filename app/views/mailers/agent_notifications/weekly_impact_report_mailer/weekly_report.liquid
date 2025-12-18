@@ -1,19 +1,35 @@
-<p>Hello {{ account.name }} Team,</p>
+<p>Hello {{ account.name }},</p>
 
 <p><strong>Cruise Control Impact Report - {{ start_date | date: "%m/%d" }} - {{ end_date | date: "%m/%d" }}</strong></p>
 
 <p>Here’s a snapshot of your dealership’s performance for the week:</p>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-  <tr><td><strong>Dealership name:</strong> {{ dealership_name }}</td></tr>
-  <tr><td><strong>New conversations:</strong> {{ new_conversations }}</td></tr>
-  <tr><td><strong>Total messages:</strong> {{ total_messages }}</td></tr>
-  <tr><td><strong>Booking requests sent:</strong> {{ booking_links_sent }}</td></tr>
-  <tr><td><strong>Completed booking requests:</strong> {{ booking_forms_completed }}</td></tr>
-  <tr><td><strong>Handoff requests sent:</strong> {{ handoff_links_sent }}</td></tr>
-  <tr><td><strong>Completed handoff requests:</strong> {{ handoff_forms_completed }}</td></tr>
-  <tr><td><strong>Bookings conversion rate:</strong> {{ conversion_rate }}%</td></tr>
-  <tr><td><strong>Bookings Estimated value:</strong> ${{ estimated_value }}</td></tr>
+  <tr>
+    <td><strong>New conversations:</strong> {{ new_conversations }}</td>
+  </tr>
+  <tr>
+    <td><strong>Total messages:</strong> {{ total_messages }}</td>
+  </tr>
+  <tr>
+    <td><strong>New CRM leads pushed:</strong> {{ booking_forms_completed }}</td>
+  </tr>
+  <tr>
+    <td><strong>New handoff requests:</strong> {{ handoff_forms_completed }}</td>
+  </tr>
+  <tr>
+    <td><strong>Bookings conversion rate:</strong> {{ conversion_rate }}%</td>
+  </tr>
+
+  <tr>
+    <td style="height: 12px;"></td>
+  </tr>
+
+  <tr>
+    <td>
+      <strong>Bookings Estimated value: ${{ estimated_value }}</strong>
+    </td>
+  </tr>
 </table>
 
 <p>Visit our reports dashboard for a more detailed breakdown:</p>

@@ -1,8 +1,8 @@
 class WeeklyReports::GenerateMetricsService
   def initialize(account, start_date, end_date)
     @account = account
-    @start_date = start_date
-    @end_date = end_date
+    @start_date = start_date.beginning_of_day
+    @end_date = end_date.end_of_day
     @dealership_id = account.dealership_id
   end
 
