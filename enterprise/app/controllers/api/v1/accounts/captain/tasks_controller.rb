@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Captain::EditorController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def rewrite
@@ -52,6 +52,6 @@ class Api::V1::Accounts::Captain::EditorController < Api::V1::Accounts::BaseCont
   end
 
   def check_authorization
-    authorize(:'captain/editor')
+    authorize(:'captain/tasks')
   end
 end

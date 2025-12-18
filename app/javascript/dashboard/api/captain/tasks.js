@@ -2,19 +2,19 @@
 import ApiClient from '../ApiClient';
 
 /**
- * A client for the Captain Editor API.
+ * A client for the Captain Tasks API.
  * @extends ApiClient
  */
-class EditorAPI extends ApiClient {
+class TasksAPI extends ApiClient {
   /**
-   * Creates a new EditorAPI instance.
+   * Creates a new TasksAPI instance.
    */
   constructor() {
-    super('captain/editor', { accountScoped: true });
+    super('captain/tasks', { accountScoped: true });
   }
 
   /**
-   * Processes an event using the Captain Editor API.
+   * Processes an event using the Captain Tasks API.
    * @param {Object} options - The options for the event.
    * @param {string} [options.type='improve'] - The type of event to process.
    * @param {string} [options.content] - The content of the event.
@@ -110,4 +110,4 @@ class EditorAPI extends ApiClient {
   }
 }
 
-export default new EditorAPI();
+export default new TasksAPI();

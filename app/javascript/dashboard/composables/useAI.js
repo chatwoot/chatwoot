@@ -7,7 +7,7 @@ import {
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import EditorAPI from 'dashboard/api/captain/editor';
+import TasksAPI from 'dashboard/api/captain/tasks';
 
 /**
  * Cleans and normalizes a list of labels.
@@ -133,7 +133,7 @@ export function useAI() {
     if (!conversationId.value) return [];
 
     try {
-      const result = await EditorAPI.processEvent({
+      const result = await TasksAPI.processEvent({
         type: 'label_suggestion',
         conversationId: conversationId.value,
       });
@@ -158,7 +158,7 @@ export function useAI() {
    */
   const processEvent = async (type = 'improve', content = '', options = {}) => {
     try {
-      const result = await EditorAPI.processEvent(
+      const result = await TasksAPI.processEvent(
         {
           type,
           content: content || draftMessage.value,

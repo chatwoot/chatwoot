@@ -5,12 +5,12 @@ import {
   useMapGetter,
 } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
-import EditorAPI from 'dashboard/api/captain/editor';
+import TasksAPI from 'dashboard/api/captain/tasks';
 import analyticsHelper from 'dashboard/helper/AnalyticsHelper/index';
 
 vi.mock('dashboard/composables/store');
 vi.mock('vue-i18n');
-vi.mock('dashboard/api/captain/editor');
+vi.mock('dashboard/api/captain/tasks');
 vi.mock('dashboard/helper/AnalyticsHelper/index', async importOriginal => {
   const actual = await importOriginal();
   actual.default = {
@@ -94,7 +94,7 @@ describe('useAI', () => {
   });
 
   it('fetches label suggestions', async () => {
-    EditorAPI.processEvent.mockResolvedValue({
+    TasksAPI.processEvent.mockResolvedValue({
       data: { message: 'label1, label2' },
     });
 
@@ -111,7 +111,7 @@ describe('useAI', () => {
     const { fetchLabelSuggestions } = useAI();
     const result = await fetchLabelSuggestions();
 
-    expect(EditorAPI.processEvent).toHaveBeenCalledWith({
+    expect(TasksAPI.processEvent).toHaveBeenCalledWith({
       type: 'label_suggestion',
       conversationId: '123',
     });

@@ -1,4 +1,4 @@
-class Captain::EditorPolicy < ApplicationPolicy
+class Captain::TasksPolicy < ApplicationPolicy
   def rewrite?
     true
   end
