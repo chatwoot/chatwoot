@@ -15,7 +15,7 @@ import * as Sentry from '@sentry/vue';
 import {
   handleVoiceCallCreated,
   handleVoiceCallUpdated,
-} from 'dashboard/helper/voiceRealtime';
+} from 'dashboard/helper/voice';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
