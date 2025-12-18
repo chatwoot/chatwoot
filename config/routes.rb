@@ -345,6 +345,12 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+
+          # AINative/ZeroDB integration
+          resource :ainative, only: [:show, :update, :destroy], controller: 'ainative' do
+            post :provision, on: :collection
+            get :status, on: :collection
+          end
         end
       end
       # end of account scoped api routes

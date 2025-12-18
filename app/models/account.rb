@@ -2,24 +2,28 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  internal_attributes   :jsonb            not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  settings              :jsonb
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                         :integer          not null, primary key
+#  ainative_api_key_encrypted :string
+#  ainative_settings          :jsonb
+#  auto_resolve_duration      :integer
+#  custom_attributes          :jsonb
+#  domain                     :string(100)
+#  feature_flags              :bigint           default(0), not null
+#  internal_attributes        :jsonb            not null
+#  limits                     :jsonb
+#  locale                     :integer          default("en")
+#  name                       :string           not null
+#  settings                   :jsonb
+#  status                     :integer          default("active")
+#  support_email              :string(100)
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  ainative_project_id        :string
 #
 # Indexes
 #
-#  index_accounts_on_status  (status)
+#  index_accounts_on_ainative_project_id  (ainative_project_id) UNIQUE
+#  index_accounts_on_status               (status)
 #
 
 class Account < ApplicationRecord
@@ -54,12 +58,16 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
   validates :domain, length: { maximum: 100 }
+  validates :ainative_project_id, uniqueness: true, allow_nil: true
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.settings }
 
+  encrypts :ainative_api_key_encrypted, deterministic: true
+
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :conversation_required_attributes
+  store_accessor :ainative_settings, :embeddings_model, :vector_dimensions, :auto_indexing, :features
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -113,7 +121,9 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  after_create_commit :provision_ainative_project, if: :should_auto_provision_ainative?
   after_destroy :remove_account_sequences
+  after_destroy :deprovision_ainative_project, if: :ainative_configured?
 
   def agents
     users.where(account_users: { role: :agent })
@@ -164,10 +174,43 @@ class Account < ApplicationRecord
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
+  def ainative_configured?
+    ainative_project_id.present? && ainative_api_key_encrypted.present?
+  end
+
+  def ainative_client
+    return unless ainative_configured?
+
+    @ainative_client ||= Zerodb::Client.new(
+      api_key: ainative_api_key_encrypted,
+      project_id: ainative_project_id,
+      api_url: ENV.fetch('ZERODB_API_URL', 'https://api.ainative.studio/v1/public')
+    )
+  end
+
   private
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  def should_auto_provision_ainative?
+    # Auto-provision if master API key is configured
+    ENV['ZERODB_MASTER_API_KEY'].present? && !ainative_configured?
+  end
+
+  def provision_ainative_project
+    Zerodb::ProjectProvisionJob.perform_later(id)
+  rescue StandardError => e
+    Rails.logger.error("[Account] Failed to enqueue AINative provisioning job for account #{id}: #{e.message}")
+  end
+
+  def deprovision_ainative_project
+    return unless ainative_project_id.present?
+
+    Zerodb::ProjectProvisionService.new(self).deprovision!
+  rescue StandardError => e
+    Rails.logger.error("[Account] Failed to deprovision AINative project for account #{id}: #{e.message}")
   end
 
   trigger.after(:insert).for_each(:row) do
