@@ -16,11 +16,7 @@ const getters = {
   getUIFlags: $state => $state.uiFlags,
   getModelsForFeature: $state => featureKey => {
     const feature = $state.features[featureKey];
-    if (!feature?.models) return [];
-    return feature.models.map(modelKey => ({
-      key: modelKey,
-      ...$state.models[modelKey],
-    }));
+    return feature?.models || [];
   },
   getDefaultModelForFeature: $state => featureKey => {
     const feature = $state.features[featureKey];

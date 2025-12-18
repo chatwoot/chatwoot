@@ -24,7 +24,6 @@ const emit = defineEmits(['change']);
 const { t } = useI18n();
 const isOpen = ref(false);
 
-const models = useMapGetter('captainConfig/getModels');
 const getModelsForFeature = useMapGetter('captainConfig/getModelsForFeature');
 const getDefaultModelForFeature = useMapGetter(
   'captainConfig/getDefaultModelForFeature'
@@ -36,26 +35,23 @@ const availableModels = computed(() =>
 const defaultModel = computed(() =>
   getDefaultModelForFeature.value(props.featureKey)
 );
-const selectedModel = ref(null);
+const selectedModelId = ref(null);
 
 watch(
   defaultModel,
   newDefault => {
-    if (newDefault && !selectedModel.value) {
-      selectedModel.value = newDefault;
+    if (newDefault && !selectedModelId.value) {
+      selectedModelId.value = newDefault;
     }
   },
   { immediate: true }
 );
 
 const selectedModelDetails = computed(() => {
-  if (!selectedModel.value || !models.value[selectedModel.value]) {
-    return null;
-  }
-  return {
-    key: selectedModel.value,
-    ...models.value[selectedModel.value],
-  };
+  if (!selectedModelId.value) return null;
+  return (
+    availableModels.value.find(m => m.id === selectedModelId.value) || null
+  );
 });
 
 const toggleDropdown = () => {
@@ -67,8 +63,8 @@ const closeDropdown = () => {
 };
 
 const selectModel = model => {
-  selectedModel.value = model.key;
-  emit('change', { feature: props.featureKey, model: model.key });
+  selectedModelId.value = model.id;
+  emit('change', { feature: props.featureKey, model: model.id });
   closeDropdown();
 };
 
@@ -113,11 +109,11 @@ const getCreditLabel = model => {
         <div class="py-1">
           <button
             v-for="model in availableModels"
-            :key="model.key"
+            :key="model.id"
             type="button"
             class="flex flex-col w-full px-3 py-2 text-left hover:bg-n-alpha-1"
             :class="{
-              'bg-n-alpha-2': selectedModel === model.key,
+              'bg-n-alpha-2': selectedModelId === model.id,
             }"
             @click="selectModel(model)"
           >
