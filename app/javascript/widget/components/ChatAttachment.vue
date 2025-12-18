@@ -11,6 +11,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
 import { emitter } from 'shared/helpers/mitt';
+import { useAttachments } from '../composables/useAttachments';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -20,13 +21,16 @@ export default {
       default: () => {},
     },
   },
+  setup() {
+    const { canHandleAttachments } = useAttachments();
+    return { canHandleAttachments };
+  },
   data() {
     return { isUploading: false };
   },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
-      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
     }),
     fileUploadSizeLimit() {
       return resolveMaximumFileUploadSize(
@@ -46,7 +50,7 @@ export default {
   methods: {
     handleClipboardPaste(e) {
       // If file picker is not enabled, do not allow paste
-      if (!this.shouldShowFilePicker) return;
+      if (!this.canHandleAttachments) return;
 
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       // items is a DataTransferItemList object which does not have forEach method
