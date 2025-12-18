@@ -1,26 +1,17 @@
 <script setup>
 import { computed } from 'vue';
 
-const props = defineProps({
+defineProps({
   modelValue: {
-    type: [Boolean, String, Number],
-    default: null,
-  },
-  yesLabel: {
-    type: String,
-    default: 'Yes',
-  },
-  noLabel: {
-    type: String,
-    default: 'No',
+    type: Boolean,
   },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const options = computed(() => [
-  { label: props.yesLabel, value: true },
-  { label: props.noLabel, value: false },
+  { label: 'Yes', value: true },
+  { label: 'No', value: false },
 ]);
 
 const handleSelect = value => {
