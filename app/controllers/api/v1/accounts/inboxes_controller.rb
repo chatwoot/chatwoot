@@ -98,7 +98,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       channel.update_column(:facebook_page_url, url)
     end
 
-    instagram_inboxes = @inboxes.select(&:instagram?)
+    instagram_inboxes = @inboxes.select(&:instagram_direct?)
     instagram_inboxes.each do |inbox|
       channel = inbox.channel
       next unless channel.instagram_profile_url.blank? && inbox.name.present?
