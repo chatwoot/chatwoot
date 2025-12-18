@@ -96,18 +96,17 @@ export function useCallSession() {
     );
   });
 
-  const joinCall = async ({
-    conversationId,
-    inboxId,
-    callSid,
-    callMeta = {},
-  }) => {
+  const joinCall = async ({ conversationId, inboxId, callSid }) => {
     if (isJoining.value) return null;
 
     isJoining.value = true;
     try {
       const device = await TwilioVoiceClient.initializeDevice(inboxId);
-      if (!device) return null;
+      // TODO: Handle device initialization failure
+      if (!device) {
+        return null;
+      }
+
       const joinResponse = await VoiceAPI.joinConference({
         conversationId,
         inboxId,
@@ -115,24 +114,27 @@ export function useCallSession() {
       });
 
       const conferenceSid = joinResponse?.conference_sid;
-      if (conferenceSid) {
-        await TwilioVoiceClient.joinClientCall({
-          To: conferenceSid,
-          conversationId,
-        });
-      }
 
+      await TwilioVoiceClient.joinClientCall({
+        To: conferenceSid,
+        conversationId,
+      });
+
+      startDurationTimer();
+
+      callsStore.clearIncomingCall();
       callsStore.setActiveCall({
         callSid,
         conversationId,
         inboxId,
         isJoined: true,
-        startedAt: Date.now(),
-        ...callMeta,
       });
-      callsStore.clearIncomingCall();
 
       return { conferenceSid };
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to join call:', error);
+      return null;
     } finally {
       isJoining.value = false;
     }

@@ -1,12 +1,11 @@
 <script setup>
 import { computed, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useCallSession } from 'dashboard/composables/useCallSession';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const router = useRouter();
-const route = useRoute();
 const store = useStore();
 
 const {
@@ -59,8 +58,10 @@ const joinConference = async () => {
   });
 
   if (result) {
-    const path = `/app/accounts/${route.params.accountId}/conversations/${callData.conversationId}`;
-    router.push({ path });
+    router.push({
+      name: 'inbox_conversation',
+      params: { conversation_id: callData.conversationId },
+    });
   }
 };
 

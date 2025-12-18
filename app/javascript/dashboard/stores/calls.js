@@ -60,7 +60,6 @@ export const useCallsStore = defineStore('calls', {
       this.activeCall = {
         ...incomingCall,
         isJoined: true,
-        startedAt: Date.now(),
       };
       this.incomingCall = null;
     },

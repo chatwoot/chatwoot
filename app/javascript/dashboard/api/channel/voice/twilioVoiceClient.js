@@ -52,6 +52,10 @@ class TwilioVoiceClient extends EventTarget {
     return this.device;
   }
 
+  get hasActiveConnection() {
+    return !!this.activeConnection;
+  }
+
   endClientCall() {
     if (this.activeConnection) {
       this.activeConnection.disconnect();
