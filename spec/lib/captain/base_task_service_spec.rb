@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Captain::BaseEditorService do
+RSpec.describe Captain::BaseTaskService do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
 
-  # Create a concrete test service class since BaseEditorService is abstract
+  # Create a concrete test service class since BaseTaskService is abstract
   let(:test_service_class) do
     Class.new(described_class) do
       def perform
@@ -93,12 +93,12 @@ RSpec.describe Captain::BaseEditorService do
 
       messages = service.send(:conversation_messages)
       total_length = messages.sum { |m| m[:content].length }
-      expect(total_length).to be <= Captain::BaseEditorService::TOKEN_LIMIT
+      expect(total_length).to be <= Captain::BaseTaskService::TOKEN_LIMIT
     end
 
     it 'respects start_from offset for token counting' do
       # With a start_from offset, fewer messages should fit
-      start_from = Captain::BaseEditorService::TOKEN_LIMIT - 100
+      start_from = Captain::BaseTaskService::TOKEN_LIMIT - 100
       messages = service.send(:conversation_messages, start_from: start_from)
 
       total_length = messages.sum { |m| m[:content].length }

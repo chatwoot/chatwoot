@@ -19,7 +19,7 @@ RSpec.describe Captain::SummaryService do
   describe '#perform' do
     it 'passes correct model to API' do
       expect(service).to receive(:make_api_call).with(
-        hash_including(model: Captain::BaseEditorService::GPT_MODEL)
+        hash_including(model: Captain::BaseTaskService::GPT_MODEL)
       ).and_call_original
 
       service.perform

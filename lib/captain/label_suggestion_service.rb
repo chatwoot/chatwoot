@@ -1,4 +1,4 @@
-class Captain::LabelSuggestionService < Captain::BaseEditorService
+class Captain::LabelSuggestionService < Captain::BaseTaskService
   pattr_initialize [:account!, :conversation_display_id!]
 
   def perform

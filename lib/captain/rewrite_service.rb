@@ -1,4 +1,4 @@
-class Captain::RewriteService < Captain::BaseEditorService
+class Captain::RewriteService < Captain::BaseTaskService
   pattr_initialize [:account!, :content!, :operation!, { conversation_display_id: nil }]
 
   def perform

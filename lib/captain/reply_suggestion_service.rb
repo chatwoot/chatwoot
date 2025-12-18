@@ -1,4 +1,4 @@
-class Captain::ReplySuggestionService < Captain::BaseEditorService
+class Captain::ReplySuggestionService < Captain::BaseTaskService
   pattr_initialize [:account!, :conversation_display_id!]
 
   def perform
