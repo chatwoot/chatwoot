@@ -59,7 +59,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def inboxes
-    render json: { inboxes: @agent.assigned_inboxes }
+    agent_inboxes = @agent.inboxes.where(account_id: Current.account.id)
+    render json: { inboxes: agent_inboxes }
   end
 
   def teams
