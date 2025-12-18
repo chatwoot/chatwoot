@@ -13,7 +13,7 @@ cmds = [
 [phases.build]
 cmds = [
   'bundle exec bootsnap precompile --gemfile',
-  'RAILS_ENV=production SECRET_KEY_BASE=placeholder bundle exec rake assets:precompile'
+  'RAILS_ENV=production SECRET_KEY_BASE=precompile_placeholder DEVISE_SECRET_KEY=precompile_placeholder DATABASE_URL=postgresql://localhost/precompile bundle exec rake assets:precompile'
 ]
 
 [start]
