@@ -91,9 +91,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  onLogout = () => {
-    AuthAPI.logout();
-  };
+  onLogout = () => AuthAPI.logout();
 
   onMessageCreated = data => {
     const {
