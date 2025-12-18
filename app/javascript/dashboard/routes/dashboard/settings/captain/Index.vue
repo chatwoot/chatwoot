@@ -73,7 +73,7 @@ onMounted(() => {
       <BaseSettingsHeader
         :title="t('CAPTAIN_SETTINGS.TITLE')"
         :description="t('CAPTAIN_SETTINGS.DESCRIPTION')"
-        icon-name="bot"
+        icon-name="captain"
         feature-name="captain"
       />
     </template>
