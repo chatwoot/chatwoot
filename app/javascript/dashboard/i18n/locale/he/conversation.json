@@ -12,11 +12,11 @@
     "NO_INBOX_2": " להתחיל",
     "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
     "SEARCH_MESSAGES": "חפש הודעות בשיחות",
-    "VIEW_ORIGINAL": "View original",
-    "VIEW_TRANSLATED": "View translated",
+    "VIEW_ORIGINAL": "הצג מקור",
+    "VIEW_TRANSLATED": "הצג מתורגם",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "לפתיחת תפריט פקודות",
+      "KEYBOARD_SHORTCUTS": "להצגת קיצורי מקלדת"
     },
     "SEARCH": {
       "TITLE": "חפש הודעות",
@@ -32,41 +32,41 @@
     "LOADING_CONVERSATIONS": "טוען שיחות",
     "CANNOT_REPLY": "לא ניתן להשיב עקב",
     "24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
-    "API_HOURS_WINDOW": "ניתן להשיב לשיחה זו רק תוך {hours} שעות",
+    "API_HOURS_WINDOW": "תוכל להשיב לשיחה זו רק תוך {hours} שעות",
     "NOT_ASSIGNED_TO_YOU": "השיחה לא שייכת לך, האם תרצה לשייך אותה אליך?",
     "ASSIGN_TO_ME": "שייך לעצמך",
-    "BOT_HANDOFF_MESSAGE": "אתה מגיב לשיחה שמטופלת כרגע על ידי עוזר או בוט.",
-    "BOT_HANDOFF_ACTION": "סמן כפתוח והקצה לך",
+    "BOT_HANDOFF_MESSAGE": "אתה משיב לשיחה שמטופלת כרגע על ידי עוזר או בוט.",
+    "BOT_HANDOFF_ACTION": "סמן כפתוח והקצה לעצמך",
     "BOT_HANDOFF_REOPEN_ACTION": "סמן שיחה כפתוחה",
     "BOT_HANDOFF_SUCCESS": "השיחה הועברה אליך",
-    "BOT_HANDOFF_ERROR": "נכשל בניסיון להשתלט על השיחה. אנא נסה שוב.",
+    "BOT_HANDOFF_ERROR": "ההשתלטות על השיחה נכשלה. אנא נסה שוב.",
     "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "חשבון אינסטגרם זה הועבר לתיבת הדואר החדשה של ערוץ אינסטגרם. כל ההודעות החדשות יופיעו שם. לא תוכל לשלוח הודעות משיחה זו יותר.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "אתה משיב ל:",
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
     "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
+    "SAVE_CONTACT": "שמור איש קשר",
+    "NO_CONTENT": "אין תוכן להצגה",
     "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
-      "MEETING": "{sender} has started a meeting"
+      "CONTACT": "{sender} שיתף/ה איש קשר",
+      "LOCATION": "{sender} שיתף/ה מיקום",
+      "FILE": "{sender} שיתף/ה קובץ",
+      "MEETING": "{sender} התחיל/ה פגישה"
     },
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
-    "REPLIED_TO_STORY": "Replied to your story",
+    "REPLIED_TO_STORY": "השיב/ה לסטורי שלך",
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "הודעה זו אינה נתמכת. תוכל לצפות בהודעה זו באפליקציית Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "הודעה זו אינה נתמכת. תוכל לצפות בהודעה זו באפליקציית Instagram.",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
     "NO_RESPONSE": "אין תגובה",
-    "RESPONSE": "Response",
+    "RESPONSE": "תגובה",
     "RATING_TITLE": "דירוג",
     "FEEDBACK_TITLE": "משוב",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "ההודעה אינה זמינה",
     "CARD": {
       "SHOW_LABELS": "הצג תויות",
       "HIDE_LABELS": "הסתר תוויות"
@@ -74,23 +74,23 @@
     "VOICE_CALL": {
       "INCOMING_CALL": "שיחה נכנסת",
       "OUTGOING_CALL": "שיחה יוצאת",
-      "CALL_IN_PROGRESS": "שיחה מתקיימת",
+      "CALL_IN_PROGRESS": "שיחה מתבצעת",
       "NO_ANSWER": "אין מענה",
       "MISSED_CALL": "שיחה שלא נענתה",
       "CALL_ENDED": "השיחה הסתיימה",
-      "NOT_ANSWERED_YET": "לא ענה כרגע",
-      "THEY_ANSWERED": "ענה",
+      "NOT_ANSWERED_YET": "עדיין לא נענה",
+      "THEY_ANSWERED": "הם ענו",
       "YOU_ANSWERED": "אתה ענית"
     },
     "HEADER": {
       "RESOLVE_ACTION": "פתרון",
       "REOPEN_ACTION": "פתח מחדש",
       "OPEN_ACTION": "פתח",
-      "MORE_ACTIONS": "עוד פעולות",
+      "MORE_ACTIONS": "פעולות נוספות",
       "OPEN": "עוד",
       "CLOSE": "סגור",
       "DETAILS": "פרטים",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "מושתק עד",
       "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
       "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא",
       "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה",
@@ -98,8 +98,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "הוחמץ",
+        "DUE": "עקב"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -122,32 +122,32 @@
       "CANCEL": "ביטול"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "עדיפות",
       "OPTIONS": {
         "NONE": "כלום",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "URGENT": "דחוף",
+        "HIGH": "גבוהה",
+        "MEDIUM": "בינונית",
+        "LOW": "נמוכה"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "כלום",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "בחר עדיפות",
         "NO_RESULTS": "לא נמצאו תוצאות",
-        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "SUCCESSFUL": "העדיפות של שיחה מזהה {conversationId} שונתה ל- {priority}",
+        "FAILED": "לא ניתן לשנות עדיפות. אנא נסה שוב."
       }
     },
     "DELETE_CONVERSATION": {
       "TITLE": "מחק שיחה #{conversationId}",
-      "DESCRIPTION": "אתה בטוח שאתה רוצה למחוק את השיחה הזו?",
+      "DESCRIPTION": "האם אתה בטוח שברצונך למחוק שיחה זו?",
       "CONFIRM": "מחק"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "סמן כממתין",
       "RESOLVED": "סמן כפתור",
       "MARK_AS_UNREAD": "סמן כלא נקרא",
-      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_READ": "סמן כנקרא",
       "REOPEN": "פתח מחדש את השיחה",
       "SNOOZE": {
         "TITLE": "נודניק",
@@ -160,16 +160,16 @@
       "AGENTS_LOADING": "טוען סוכנים...",
       "ASSIGN_TEAM": "שייך צוות",
       "DELETE": "מחק שיחה",
-      "OPEN_IN_NEW_TAB": "פתח בכרטיסיה חדשה",
+      "OPEN_IN_NEW_TAB": "פתח בכרטיסייה חדשה",
       "COPY_LINK": "העתק קישור לשיחה",
-      "COPY_LINK_SUCCESS": "קישור לשיחה הועתק ללוח הגזירים",
+      "COPY_LINK_SUCCESS": "קישור השיחה הועתק ללוח",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "מזהה שיחה {conversationId} קושר ל {agentName}",
           "FAILED": "השמת הסוכן לא הצליחה. בבקשה נסה שנית."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "הוקצתה תווית #{labelName} לשיחה מזהה {conversationId}",
           "FAILED": "לא ניתן לקשר שורה. אנא נסו שנית"
         },
         "TEAM_ASSIGNMENT": {
@@ -194,8 +194,8 @@
       "SEND": "שלח",
       "CREATE": "הוסף הערה",
       "INSERT_READ_MORE": "קרא עוד",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "DISMISS_REPLY": "בטל תגובה",
+      "REPLYING_TO": "משיב/ה ל:",
       "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
       "TIP_EMOJI_ICON": "הצג בחירת אימוג'ים",
       "TIP_ATTACH_ICON": "הוסף קבצים",
@@ -207,15 +207,15 @@
       "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
       "": "",
       "EMAIL_HEAD": {
-        "TO": "TO",
+        "TO": "אל",
         "ADD_BCC": "הוסף bcc",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "עותק",
           "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
           "ERROR": "בבקשה הכנס כתוכת אימייל"
         },
         "BCC": {
-          "LABEL": "BBC",
+          "LABEL": "עותק מוסתר",
           "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
           "ERROR": "בבקשה הכנס כתוכת אימייל"
         }
@@ -229,9 +229,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "כלול שרשור אימייל מצוטט",
-        "DISABLE_TOOLTIP": "אל תכלול שרשור אימייל מצוטט",
-        "REMOVE_PREVIEW": "הסר שרשור אימייל מצוטט",
+        "ENABLE_TOOLTIP": "כלול שרשור דוא\"ל מצוטט",
+        "DISABLE_TOOLTIP": "אל תכלול שרשור דוא\"ל מצוטט",
+        "REMOVE_PREVIEW": "הסר שרשור דוא\"ל מצוטט",
         "COLLAPSE": "כווץ תצוגה מקדימה",
         "EXPAND": "הרחב תצוגה מקדימה"
       }
@@ -259,7 +259,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "העתק",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "השב להודעה זו",
       "DELETE": "מחק",
       "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות",
       "TRANSLATE": "תרגום",
@@ -338,26 +338,26 @@
       "CONTACT_ATTRIBUTES": "תכונות יצירת קשר",
       "PREVIOUS_CONVERSATION": "שיחות קודמות",
       "MACROS": "מאקרו",
-      "LINEAR_ISSUES": "בעיות ליניאריות מקושרות",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "LINEAR_ISSUES": "בעיות Linear מקושרות",
+      "SHOPIFY_ORDERS": "הזמנות Shopify"
     },
     "SHOPIFY": {
-      "ORDER_ID": "Order #{id}",
-      "ERROR": "Error loading orders",
-      "NO_SHOPIFY_ORDERS": "No orders found",
+      "ORDER_ID": "הזמנה #{id}",
+      "ERROR": "שגיאה בטעינת הזמנות",
+      "NO_SHOPIFY_ORDERS": "לא נמצאו הזמנות",
       "FINANCIAL_STATUS": {
         "PENDING": "ממתין ל",
-        "AUTHORIZED": "Authorized",
-        "PARTIALLY_PAID": "Partially Paid",
-        "PAID": "Paid",
-        "PARTIALLY_REFUNDED": "Partially Refunded",
-        "REFUNDED": "Refunded",
-        "VOIDED": "Voided"
+        "AUTHORIZED": "מאושר",
+        "PARTIALLY_PAID": "שולם חלקית",
+        "PAID": "שולם",
+        "PARTIALLY_REFUNDED": "הוחזר חלקית",
+        "REFUNDED": "הוחזר",
+        "VOIDED": "בוטל"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Fulfilled",
-        "PARTIALLY_FULFILLED": "Partially Fulfilled",
-        "UNFULFILLED": "Unfulfilled"
+        "FULFILLED": "מולא",
+        "PARTIALLY_FULFILLED": "מולא חלקית",
+        "UNFULFILLED": "לא מולא"
       }
     }
   },
@@ -389,17 +389,17 @@
     "BCC": "עותק מוסתר",
     "CC": "עותק",
     "SUBJECT": "נושא",
-    "EXPAND": "Expand email"
+    "EXPAND": "הרחב דוא\"ל"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "משתתף",
     "SIDEBAR_TITLE": "משתתפים בשיחה",
     "NO_RECORDS_FOUND": "לא נמצאו תוצאות",
     "ADD_PARTICIPANTS": "בחר משתתפים",
-    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} אחרים",
+    "REMANING_PARTICIPANT_TEXT": "+{count} אחר",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} אנשים משתתפים.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} אדם משתתף.",
     "NO_PARTICIPANTS_TEXT": "אף אחד לא משתתף!.",
     "WATCH_CONVERSATION": "הצטרף לשיחה",
     "YOU_ARE_WATCHING": "אתה משתתף",
@@ -421,9 +421,9 @@
     "MULTIPLE": "{user} ו {count} משתמשים אחרים מקלידים"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "Try these prompts"
+    "TRY_THESE_PROMPTS": "נסה הנחיות אלה"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+    "ERROR_DOWNLOADING": "לא ניתן להוריד קובץ מצורף. אנא נסה שוב"
   }
 }
