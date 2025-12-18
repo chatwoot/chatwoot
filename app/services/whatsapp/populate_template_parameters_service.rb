@@ -136,6 +136,9 @@ class Whatsapp::PopulateTemplateParametersService
     # Basic sanitization - remove dangerous characters and limit length
     sanitized = value.to_s.strip
     sanitized = sanitized.gsub(/[<>\"']/, '') # Remove potential HTML/JS chars
+    # WhatsApp API rejects newlines, tabs, and more than 4 consecutive spaces
+    sanitized = sanitized.gsub(/[\n\r\t]/, ' ') # Replace newlines and tabs with spaces
+    sanitized = sanitized.gsub(/\s{4,}/, '   ') # Collapse 4+ consecutive spaces to 3
     sanitized[0...1000] # Limit length to prevent DoS
   end
 
