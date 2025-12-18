@@ -1,6 +1,6 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
+    "SHOWING": "מציג פריטים {startItem} עד {endItem} מתוך {totalItems}",
     "CURRENT_PAGE_INFO": "{currentPage} מתוך {totalPages} עמודים"
   },
   "COMBOBOX": {
