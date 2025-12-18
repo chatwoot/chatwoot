@@ -1,16 +1,19 @@
 <script setup>
 import { computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import { useCallSession } from 'dashboard/composables/useCallSession';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 const {
   callState,
   CALL_STATES,
   currentCall,
+  isOutbound,
   isJoining,
   joinCall,
   endCall: endCallSession,
@@ -23,27 +26,36 @@ const isOutgoing = computed(() => callState.value === CALL_STATES.OUTGOING);
 const isJoined = computed(() => callState.value === CALL_STATES.JOINED);
 const showWidget = computed(() => callState.value !== CALL_STATES.IDLE);
 
+const conversation = computed(() => {
+  const conversationId = currentCall.value?.conversationId;
+  if (!conversationId) return null;
+  return store.getters.getConversationById(conversationId);
+});
+
+const inbox = computed(() => {
+  const inboxId = conversation.value?.inbox_id;
+  if (!inboxId) return null;
+  return store.getters['inboxes/getInbox'](inboxId);
+});
+
 const contactDisplayName = computed(() => {
-  return (
-    currentCall.value?.contactName ||
-    currentCall.value?.phoneNumber ||
-    'Call in progress'
-  );
+  const sender = conversation.value?.meta?.sender;
+  return sender?.name || sender?.phone_number || 'Unknown caller';
 });
 
 const inboxDisplayName = computed(() => {
-  return currentCall.value?.inboxName || 'Customer support';
+  return inbox.value?.name || 'Customer support';
 });
 
 const joinConference = async () => {
   const callData = currentCall.value;
-  if (!callData || isJoined.value || isJoining.value) return;
+  const conv = conversation.value;
+  if (!callData || !conv || isJoined.value || isJoining.value) return;
 
   const result = await joinCall({
     conversationId: callData.conversationId,
-    inboxId: callData.inboxId,
+    inboxId: conv.inbox_id,
     callSid: callData.callSid,
-    callMeta: callData,
   });
 
   if (result) {
@@ -54,11 +66,12 @@ const joinConference = async () => {
 
 const endCall = async () => {
   const callData = currentCall.value;
-  if (!callData) return;
+  const conv = conversation.value;
+  if (!callData || !conv) return;
 
   await endCallSession({
     conversationId: callData.conversationId,
-    inboxId: callData.inboxId,
+    inboxId: conv.inbox_id,
   });
 };
 
@@ -72,9 +85,9 @@ const rejectCall = () => {
 
 // Auto-join outgoing calls
 watch(
-  () => [callState.value, currentCall.value?.isOutbound],
-  ([state, isOutbound]) => {
-    if (state === CALL_STATES.OUTGOING && isOutbound && !isJoined.value) {
+  () => [callState.value, isOutbound.value],
+  ([state, outbound]) => {
+    if (state === CALL_STATES.OUTGOING && outbound && !isJoined.value) {
       joinConference();
     }
   },

@@ -23,9 +23,14 @@ export function useCallSession() {
 
   const isJoined = computed(() => activeCall.value?.isJoined === true);
 
+  const isOutbound = computed(() => {
+    const call = incomingCall.value || activeCall.value;
+    return call?.callDirection === 'outbound';
+  });
+
   const callState = computed(() => {
     if (isJoined.value) return CALL_STATES.JOINED;
-    if (hasIncomingCall.value && incomingCall.value?.isOutbound) {
+    if (hasIncomingCall.value && isOutbound.value) {
       return CALL_STATES.OUTGOING;
     }
     if (hasIncomingCall.value && !hasActiveCall.value) {
@@ -145,13 +150,13 @@ export function useCallSession() {
     callsStore.clearIncomingCall();
   };
 
-  const acceptIncomingCall = async (call = incomingCall.value) => {
-    if (!call) return null;
+  const acceptIncomingCall = async ({ inboxId }) => {
+    const call = incomingCall.value;
+    if (!call || !inboxId) return null;
     return joinCall({
       conversationId: call.conversationId,
-      inboxId: call.inboxId,
+      inboxId,
       callSid: call.callSid,
-      callMeta: call,
     });
   };
 
@@ -175,6 +180,7 @@ export function useCallSession() {
     incomingCall,
     hasActiveCall,
     hasIncomingCall,
+    isOutbound,
     isJoining,
     callDuration,
     formattedCallDuration,
