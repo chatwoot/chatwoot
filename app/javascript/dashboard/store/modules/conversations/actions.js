@@ -303,7 +303,7 @@ const actions = {
     }
   },
 
-  addMessage({ commit }, message) {
+  addMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
       commit(types.SET_CONVERSATION_CAN_REPLY, {
@@ -312,12 +312,12 @@ const actions = {
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
-    handleVoiceCallCreated(message);
+    handleVoiceCallCreated(message, rootGetters?.getCurrentUserID);
   },
 
-  updateMessage({ commit }, message) {
+  updateMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
-    handleVoiceCallUpdated(commit, message);
+    handleVoiceCallUpdated(commit, message, rootGetters?.getCurrentUserID);
   },
 
   deleteMessage: async function deleteLabels(

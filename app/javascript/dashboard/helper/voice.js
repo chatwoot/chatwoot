@@ -1,6 +1,5 @@
 import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
 import { useCallsStore } from 'dashboard/stores/calls';
-import store from 'dashboard/store';
 import types from 'dashboard/store/mutation-types';
 
 export const TERMINAL_STATUSES = [
@@ -19,8 +18,7 @@ const isVoiceCallMessage = message => {
   return CONTENT_TYPES.VOICE_CALL === message?.content_type;
 };
 
-const shouldSkipCall = (callDirection, senderId) => {
-  const currentUserId = store.getters.getCurrentUserID;
+const shouldSkipCall = (callDirection, senderId, currentUserId) => {
   return callDirection === 'outbound' && senderId !== currentUserId;
 };
 
@@ -35,13 +33,13 @@ function extractCallData(message) {
   };
 }
 
-export function handleVoiceCallCreated(message) {
+export function handleVoiceCallCreated(message, currentUserId) {
   if (!isVoiceCallMessage(message)) return;
 
   const { callSid, callDirection, conversationId, senderId } =
     extractCallData(message);
 
-  if (shouldSkipCall(callDirection, senderId)) return;
+  if (shouldSkipCall(callDirection, senderId, currentUserId)) return;
 
   const callsStore = useCallsStore();
   callsStore.addCall({
@@ -52,7 +50,7 @@ export function handleVoiceCallCreated(message) {
   });
 }
 
-export function handleVoiceCallUpdated(commit, message) {
+export function handleVoiceCallUpdated(commit, message, currentUserId) {
   if (!isVoiceCallMessage(message)) return;
 
   const { callSid, status, callDirection, conversationId, senderId } =
@@ -67,7 +65,8 @@ export function handleVoiceCallUpdated(commit, message) {
   commit(types.UPDATE_MESSAGE_CALL_STATUS, callInfo);
 
   const isNewCall =
-    status === 'ringing' && !shouldSkipCall(callDirection, senderId);
+    status === 'ringing' &&
+    !shouldSkipCall(callDirection, senderId, currentUserId);
 
   if (isNewCall) {
     callsStore.addCall({
