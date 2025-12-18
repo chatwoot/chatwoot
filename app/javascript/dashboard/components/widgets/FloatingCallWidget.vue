@@ -181,5 +181,4 @@ watch(
       </div>
     </div>
   </div>
-  <div v-else class="hidden" />
 </template>
