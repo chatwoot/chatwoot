@@ -37,7 +37,11 @@ class Account < ApplicationRecord
         'auto_resolve_message': { 'type': %w[string null] },
         'auto_resolve_ignore_waiting': { 'type': %w[boolean null] },
         'audio_transcriptions': { 'type': %w[boolean null] },
-        'auto_resolve_label': { 'type': %w[string null] }
+        'auto_resolve_label': { 'type': %w[string null] },
+        'conversation_required_attributes': {
+          'type': %w[array null],
+          'items': { 'type': 'string' }
+        }
       },
     'required': [],
     'additionalProperties': true
@@ -56,7 +60,8 @@ class Account < ApplicationRecord
   validate :validate_captain_models
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
-  store_accessor :settings, :audio_transcriptions, :auto_resolve_label
+
+  store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :conversation_required_attributes
   store_accessor :settings, :captain_models, :captain_features
 
   has_many :account_users, dependent: :destroy_async
@@ -80,6 +85,7 @@ class Account < ApplicationRecord
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
   has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'
+  has_many :tiktok_channels, dependent: :destroy_async, class_name: '::Channel::Tiktok'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
   has_many :labels, dependent: :destroy_async

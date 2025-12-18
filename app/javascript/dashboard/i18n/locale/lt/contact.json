@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Sukurta",
     "NEW_MESSAGE": "Naujas pranešimas",
     "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL_INITIATED": "Skambinama kontaktui...",
+    "CALL_FAILED": "Nepavyko pradėti skambučio. Bandykite dar kartą.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -455,6 +456,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"

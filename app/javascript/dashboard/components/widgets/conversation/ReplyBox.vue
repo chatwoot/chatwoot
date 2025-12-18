@@ -234,6 +234,9 @@ export default {
       if (this.isAnInstagramChannel) {
         return MESSAGE_MAX_LENGTH.INSTAGRAM;
       }
+      if (this.isATiktokChannel) {
+        return MESSAGE_MAX_LENGTH.TIKTOK;
+      }
       if (this.isATwilioWhatsAppChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
@@ -688,6 +691,10 @@ export default {
       );
     },
     onPaste(e) {
+      // Don't handle paste if compose new conversation modal is open
+      if (this.newConversationModalActive) {
+        return;
+      }
       const data = e.clipboardData.files;
       if (!this.showRichContentEditor && data.length !== 0) {
         this.$refs.messageInput?.$el?.blur();
