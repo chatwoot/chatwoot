@@ -477,6 +477,16 @@
   description: 'The base URL for the contests API'
   ## ------ End of Configs added for Contest API ------ ##
 
+
+# ------- Custom Configs ------- #
+- name: CONVERSATION_SUMMARY_API_URL
+  display_title: 'Conversation Summary API URL'
+  value: ''
+  description: 'The base URL for accessing conversation summary in your platform'
+  locked: false
+# ------- End of Custom Configs ------- #
+
+
 ## ------ Configs added for Twilio SMS Notifications ------ ##
 - name: TWILIO_ACCOUNT_SID
   display_title: 'Twilio Account SID'

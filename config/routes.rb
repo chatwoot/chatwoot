@@ -35,6 +35,9 @@ Rails.application.routes.draw do
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+      # Summary API endpoint
+      get 'summary', to: 'summaries#show'
+
       # External API routes
       namespace :external do
         resources :conversations, only: [] do

@@ -193,7 +193,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
             @click="() => openSnoozeModal()"
           />
         </WootDropdownItem>
-        <WootDropdownItem v-if="!isPending">
+        <!-- <WootDropdownItem v-if="!isPending">
           <Button
             :label="t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING')"
             ghost
@@ -204,7 +204,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
             class="w-full"
             @click="() => toggleStatus(wootConstants.STATUS_TYPE.PENDING)"
           />
-        </WootDropdownItem>
+        </WootDropdownItem> -->
       </WootDropdownMenu>
     </div>
   </div>

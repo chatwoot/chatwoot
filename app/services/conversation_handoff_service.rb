@@ -1,7 +1,7 @@
 class ConversationHandoffService
   HANDOFF_COOLDOWN_MINUTES = 240 # 4 hours in minutes
   HANDOFF_LABEL = %w[handoff].freeze
-  LABELS_LIST = %w[handoff stark].freeze
+  LABELS_LIST = %w[handoff].freeze
 
   def initialize(conversation)
     @conversation = conversation
@@ -38,7 +38,7 @@ class ConversationHandoffService
   def update_handoff_state
     conversation_labels = @conversation.label_list.to_a
 
-    @conversation.update_labels(conversation_labels - ['stark']) if @conversation.label_list.include?('stark')
+    @conversation.update_labels(conversation_labels)
     current_handoff_label = conversation_labels.find { |label| HANDOFF_LABEL.include?(label) }
     available_label = current_handoff_label || HANDOFF_LABEL.first
 

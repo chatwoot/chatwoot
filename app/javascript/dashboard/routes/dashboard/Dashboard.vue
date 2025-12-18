@@ -18,6 +18,7 @@ const CommandBar = defineAsyncComponent(
 
 import CopilotLauncher from 'dashboard/components-next/copilot/CopilotLauncher.vue';
 import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue';
+import ConversationSummaryContainer from 'dashboard/components/widgets/conversation/ConversationSummaryContainer.vue';
 
 import MobileSidebarLauncher from 'dashboard/components-next/sidebar/MobileSidebarLauncher.vue';
 
@@ -30,6 +31,7 @@ export default {
     UpgradePage,
     CopilotLauncher,
     CopilotContainer,
+    ConversationSummaryContainer,
     MobileSidebarLauncher,
   },
   setup() {
@@ -151,6 +153,7 @@ export default {
           @toggle="toggleMobileSidebar"
         />
         <CopilotContainer />
+        <ConversationSummaryContainer />
       </template>
       <AddAccountModal
         :show="showCreateAccountModal"

@@ -67,9 +67,9 @@
       "HIDE_LABELS": "Hide labels"
     },
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
+      "RESOLVE_ACTION": "Mark as Resolved",
       "REOPEN_ACTION": "Reopen",
-      "OPEN_ACTION": "Open",
+      "OPEN_ACTION": "Mark In Progress",
       "MORE_ACTIONS": "More actions",
       "OPEN": "More",
       "CLOSE": "Close",
@@ -251,7 +251,18 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contact",
-      "COPILOT": "Copilot"
+      "COPILOT": "Copilot",
+      "SUMMARY": "Conversation Summary"
+    },
+    "SUMMARY": {
+      "REFRESH_TOOLTIP": "Refresh summary",
+      "REFRESH_LABEL": "Refresh",
+      "LOADING_MESSAGE": "Generating summary...",
+      "ERROR": "Something went wrong while fetching the summary",
+      "EMPTY": "No summary available for this conversation",
+      "RETRY": "Retry",
+      "LAST_UPDATED": "Last updated: {timestamp}",
+      "DISCLAIMER": "Summaries are AI-generated. Accuracy may vary."
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -301,6 +312,8 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Assigned Agent",
+    "ENABLE_AI": "Un-assigning the conversation will enable AI responses for it",
+    "DISABLE_AI": "Assigning the conversation will disable AI responses for it",
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {

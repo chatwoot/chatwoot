@@ -9,6 +9,10 @@ class ConversationDrop < BaseDrop
     @obj.try(:contact).name.try(:capitalize) || 'Customer'
   end
 
+  def summary
+    @obj.try(:summary)
+  end
+
   def recent_messages
     @obj.try(:recent_messages).map do |message|
       {

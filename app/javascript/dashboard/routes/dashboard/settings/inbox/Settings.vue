@@ -195,6 +195,12 @@ export default {
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;
       }
+      if (this.isAFacebookInbox) {
+        return `${this.inbox.name} (${this.inbox.facebook_page_url})`;
+      }
+      if (this.isAnInstagramChannel) {
+        return `${this.inbox.name} (${this.inbox.instagram_profile_url})`;
+      }
       return this.inbox.name;
     },
     canLocktoSingleConversation() {

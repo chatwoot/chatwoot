@@ -55,12 +55,22 @@ end
 ## Facebook Attributes
 if resource.facebook?
   json.page_id resource.channel.try(:page_id)
+  # Generate URL on-the-fly if not stored
+  facebook_url = resource.channel.try(:facebook_page_url)
+  facebook_url ||= "https://www.facebook.com/#{resource.channel.page_id}" if resource.channel.page_id.present?
+  json.facebook_page_url facebook_url
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
 
 ## Instagram Attributes
-json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.instagram?
-json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
+if resource.instagram?
+  json.reauthorization_required resource.channel.try(:reauthorization_required?)
+  json.instagram_id resource.channel.try(:instagram_id)
+  # Generate URL on-the-fly if not stored
+  instagram_url = resource.channel.try(:instagram_profile_url)
+  instagram_url ||= "https://www.instagram.com/#{resource.name}" if resource.name.present?
+  json.instagram_profile_url instagram_url
+end
 
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)

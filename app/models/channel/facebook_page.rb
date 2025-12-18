@@ -3,6 +3,7 @@
 # Table name: channel_facebook_pages
 #
 #  id                :integer          not null, primary key
+#  facebook_page_url :string
 #  page_access_token :string           not null
 #  user_access_token :string           not null
 #  created_at        :datetime         not null
@@ -24,6 +25,8 @@ class Channel::FacebookPage < ApplicationRecord
   self.table_name = 'channel_facebook_pages'
 
   validates :page_id, uniqueness: { scope: :account_id }
+
+  before_save :ensure_facebook_page_url
 
   after_create_commit :subscribe
   before_destroy :unsubscribe
@@ -58,5 +61,13 @@ class Channel::FacebookPage < ApplicationRecord
   rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
+  end
+
+  private
+
+  def ensure_facebook_page_url
+    return if facebook_page_url.present?
+
+    self.facebook_page_url = "https://www.facebook.com/#{page_id}" if page_id.present?
   end
 end
