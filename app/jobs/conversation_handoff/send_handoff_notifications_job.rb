@@ -5,6 +5,9 @@ class ConversationHandoff::SendHandoffNotificationsJob < ApplicationJob
     return if conversation.blank?
 
     begin
+      # Generate conversation summary
+      Conversations::SummaryService.new(conversation: conversation, force_refresh: true, skip_rate_limit: true).perform
+
       # Send email notifications
       AdministratorNotifications::ConversationHandoffMailer.notify_handoff(conversation).deliver_later
       AgentNotifications::ConversationHandoffMailer.notify_handoff(conversation).deliver_later
