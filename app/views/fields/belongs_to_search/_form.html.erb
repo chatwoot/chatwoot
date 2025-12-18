@@ -1,0 +1,10 @@
+<div class="flex flex-col gap-1 field-unit--belongs-to-search">
+  <%= f.label field.permitted_attribute, class: "text-sm font-medium text-n-slate-11" %>
+  <%= f.select(field.permitted_attribute,
+               nil,
+               { include_blank: true },
+               class: "h-9 px-3 min-w-[200px] text-sm text-n-slate-12 bg-n-solid-2 border border-n-weak rounded-lg focus:ring-2 focus:ring-woot-500 focus:border-woot-500 outline-none selectize-input",
+               'data-url': polymorphic_url([namespace, field.associated_class], format: :json)) do %>
+    <%= options_for_select(field.associated_resource_options, field.selected_option) %>
+  <% end %>
+</div>

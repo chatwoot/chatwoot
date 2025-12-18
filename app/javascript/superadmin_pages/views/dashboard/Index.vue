@@ -38,38 +38,77 @@ const { accountsCount, usersCount, inboxesCount, conversationsCount } =
 </script>
 
 <template>
-  <div class="w-full h-full">
-    <header class="main-content__header" role="banner">
-      <h1 id="page-title" class="main-content__page-title">
-        {{ 'Admin Dashboard' }}
-      </h1>
-    </header>
-
-    <section class="main-content__body main-content__body--flush">
-      <div class="report--list">
-        <div class="report-card">
-          <div class="metric">{{ accountsCount }}</div>
-          <div>{{ 'Accounts' }}</div>
-        </div>
-        <div class="report-card">
-          <div class="metric">{{ usersCount }}</div>
-          <div>{{ 'Users' }}</div>
-        </div>
-        <div class="report-card">
-          <div class="metric">{{ inboxesCount }}</div>
-          <div>{{ 'Inboxes' }}</div>
-        </div>
-        <div class="report-card">
-          <div class="metric">{{ conversationsCount }}</div>
-          <div>{{ 'Conversations' }}</div>
+  <section class="flex flex-col w-full h-full">
+    <header
+      class="sticky top-0 z-10 bg-n-background border-b border-n-weak"
+      role="banner"
+    >
+      <div
+        class="flex items-center justify-between w-full h-20 mx-auto max-w-[60rem]"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="border border-n-weak p-2 rounded-full text-n-slate-11"
+          >
+            <svg width="24" height="24">
+              <use xlink:href="#icon-dashboard-line" />
+            </svg>
+          </div>
+          <div class="flex flex-col justify-center">
+            <h1 id="page-title" class="text-base font-medium tracking-tight text-n-slate-12">
+              Admin Dashboard
+            </h1>
+            <p class="text-xs text-n-slate-11 m-0">
+              Accounts, users, and conversation metrics
+            </p>
+          </div>
         </div>
       </div>
-    </section>
-    <!-- eslint-disable vue/no-static-inline-styles -->
-    <BarChart
-      class="p-8 w-full"
-      :collection="chartData"
-      style="max-height: 500px"
-    />
-  </div>
+    </header>
+
+    <main class="flex-1 px-6 overflow-y-auto">
+      <div class="w-full mx-auto max-w-[60rem] py-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div
+            class="p-4 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container shadow-sm"
+          >
+            <div class="text-3xl font-semibold text-n-slate-12">
+              {{ accountsCount }}
+            </div>
+            <div class="text-sm text-n-slate-11">Accounts</div>
+          </div>
+          <div
+            class="p-4 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container shadow-sm"
+          >
+            <div class="text-3xl font-semibold text-n-slate-12">
+              {{ usersCount }}
+            </div>
+            <div class="text-sm text-n-slate-11">Users</div>
+          </div>
+          <div
+            class="p-4 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container shadow-sm"
+          >
+            <div class="text-3xl font-semibold text-n-slate-12">
+              {{ inboxesCount }}
+            </div>
+            <div class="text-sm text-n-slate-11">Inboxes</div>
+          </div>
+          <div
+            class="p-4 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container shadow-sm"
+          >
+            <div class="text-3xl font-semibold text-n-slate-12">
+              {{ conversationsCount }}
+            </div>
+            <div class="text-sm text-n-slate-11">Conversations</div>
+          </div>
+        </div>
+
+        <div
+          class="p-6 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container shadow-sm"
+        >
+          <BarChart class="w-full max-h-[500px]" :collection="chartData" />
+        </div>
+      </div>
+    </main>
+  </section>
 </template>

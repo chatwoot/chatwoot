@@ -1,21 +1,23 @@
-<li class="px-4 mb-1">
+<li>
   <details class="group" <%= 'open' if open %>>
-    <summary class="-ml-1 flex items-center px-2 py-1.5 cursor-pointer rounded-lg <%= open ? 'text-woot-500 bg-slate-25' : 'text-slate-800 hover:text-woot-500 hover:bg-slate-25' %> list-none">
-      <%= link_to super_admin_settings_url, class: 'flex items-center flex-1' do %>
-        <svg width="16" height="16"><use xlink:href="#icon-settings-2-line" /></svg>
-        <span class="ml-2 text-sm">Settings</span>
+    <summary class="flex items-center gap-2 px-2.5 py-2 text-sm rounded-lg transition-colors cursor-pointer list-none <%= open ? 'text-woot-500 bg-woot-50' : 'text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-1' %>">
+      <%= link_to super_admin_settings_url, class: 'flex items-center gap-2 flex-1' do %>
+        <svg width="20" height="20" class="flex-shrink-0"><use xlink:href="#icon-settings-2-line" /></svg>
+        <span>Settings</span>
       <% end %>
-      <svg class="ml-auto w-4 h-4 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
       </svg>
     </summary>
-    <ul class="ml-4 mt-1">
+    <ul class="mt-1 ml-7 space-y-0.5">
       <% settings_pages.each do |_feature_key, attrs| %>
         <% url = super_admin_app_config_url(config: attrs['config_key']) %>
-        <li class="px-4 mb-1">
-          <% text_class = current_page?(url) ? 'text-woot-500 bg-slate-25' : 'text-slate-800' %>
-          <%= link_to url, class: text_class + ' -ml-1 flex items-center px-2 py-1.5 hover:text-woot-500 hover:bg-slate-25 rounded-lg' do %>
-            <span class="ml-2 text-sm"><%= attrs['name'] %></span>
+        <li>
+          <% is_active = current_page?(url) %>
+          <% base_class = "flex items-center px-2.5 py-1.5 text-sm rounded-lg transition-colors" %>
+          <% active_class = is_active ? "text-woot-500 bg-woot-50" : "text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-1" %>
+          <%= link_to url, class: "#{base_class} #{active_class}" do %>
+            <span><%= attrs['name'] %></span>
           <% end %>
         </li>
       <% end %>

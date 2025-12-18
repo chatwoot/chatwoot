@@ -18,48 +18,86 @@ as well as a link to its edit page.
 
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 
-<header class="main-content__header">
-  <h1 class="main-content__page-title">
-    <%= content_for(:title) %>
-  </h1>
+<%
+  resource_icons = {
+    'account' => 'icon-building-4-line',
+    'user' => 'icon-user-follow-line',
+    'account_user' => 'icon-user-follow-line',
+    'agent_bot' => 'icon-robot-line',
+    'response_source' => 'icon-book-2-line',
+    'response_document' => 'icon-draft-line',
+    'response' => 'icon-reply-line'
+  }
+  current_icon = resource_icons[page.resource_name] || 'icon-folder-3-line'
+%>
 
-  <div>
-    <%= link_to(
-      "Edit",
-      [:edit, namespace, page.resource],
-      class: "button",
-    ) if accessible_action?(page.resource, :edit) %>
+<section class="flex flex-col w-full h-full">
+  <header class="sticky top-0 z-10 bg-n-background border-b border-n-weak" role="banner">
+    <div class="flex items-center justify-between w-full h-20 mx-auto max-w-[60rem]">
+      <div class="flex items-center gap-3">
+        <div class="border border-n-weak p-2 rounded-full text-n-slate-11">
+          <svg width="24" height="24"><use xlink:href="#<%= current_icon %>" /></svg>
+        </div>
+        <div class="flex flex-col justify-center">
+          <h1 class="text-base font-medium tracking-tight text-n-slate-12">
+            <%= content_for(:title) %>
+          </h1>
+          <p class="text-xs text-n-slate-11 m-0">Resource details and configuration</p>
+        </div>
+      </div>
 
-    <%= link_to(
-      t("administrate.actions.destroy"),
-      [namespace, page.resource],
-      class: "button button--danger",
-      method: :delete,
-      data: { confirm: t("administrate.actions.confirm") }
-    ) if accessible_action?(page.resource, :destroy) %>
-  </div>
-</header>
-
-<section class="main-content__body">
-  <dl>
-    <% page.attributes.each do |title, attributes| %>
-      <fieldset class="<%= "field-unit--nested" if title.present? %>">
-        <% if title.present? %>
-          <legend><%= t "helpers.label.#{page.resource_name}.#{title}", default: title %></legend>
-        <% end %>
-
-        <% attributes.each do |attribute| %>
-          <dt class="attribute-label" id="<%= attribute.name %>">
-          <%= t(
-            "helpers.label.#{resource_name}.#{attribute.name}",
-            default: page.resource.class.human_attribute_name(attribute.name),
+      <div class="flex items-center gap-2">
+        <% if accessible_action?(page.resource, :edit) %>
+          <%= link_to(
+            t("administrate.actions.edit"),
+            [:edit, namespace, page.resource],
+            class: "inline-flex items-center justify-center h-8 px-3 text-sm font-medium text-white bg-woot-500 rounded-lg hover:bg-woot-600 transition-colors"
           ) %>
-          </dt>
-
-          <dd class="attribute-data attribute-data--<%=attribute.html_class%>"
-              ><%= render_field attribute, page: page %></dd>
         <% end %>
-      </fieldset>
-    <% end %>
-  </dl>
+
+        <% if accessible_action?(page.resource, :destroy) %>
+          <%= link_to(
+            t("administrate.actions.destroy"),
+            [namespace, page.resource],
+            class: "inline-flex items-center justify-center h-8 px-3 text-sm font-medium text-ruby-500 bg-ruby-100 rounded-lg hover:bg-ruby-200 transition-colors",
+            method: :delete,
+            data: { confirm: t("administrate.actions.confirm") }
+          ) %>
+        <% end %>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 px-6 overflow-y-auto">
+    <div class="w-full mx-auto max-w-[60rem] py-6 space-y-6">
+      <% page.attributes.each do |title, attributes| %>
+        <div class="rounded-xl bg-n-solid-2 shadow outline-1 outline outline-n-container overflow-hidden">
+          <div class="px-6 py-4 border-b border-n-weak">
+            <% if title.present? %>
+              <h2 class="text-base font-medium text-n-slate-12">
+                <%= t "helpers.label.#{page.resource_name}.#{title}", default: title.to_s.titleize %>
+              </h2>
+            <% else %>
+              <h2 class="text-base font-medium text-n-slate-12">Details</h2>
+            <% end %>
+          </div>
+          <div class="divide-y divide-n-weak">
+            <% attributes.each do |attribute| %>
+              <div class="grid grid-cols-[180px,1fr] items-center min-h-12 px-6">
+                <span class="text-sm text-n-slate-11">
+                  <%= t(
+                    "helpers.label.#{resource_name}.#{attribute.name}",
+                    default: page.resource.class.human_attribute_name(attribute.name),
+                  ) %>
+                </span>
+                <span class="text-sm text-n-slate-12 py-3">
+                  <%= render_field attribute, page: page %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </main>
 </section>

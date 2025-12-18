@@ -18,44 +18,151 @@ as well as a link to its edit page.
 
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 
-<header class="main-content__header" role="banner">
-  <h1 class="main-content__page-title">
-    <%= content_for(:title) %>
-  </h1>
+<section class="flex flex-col w-full h-full">
+  <header class="sticky top-0 z-10 bg-n-background border-b border-n-weak" role="banner">
+    <div class="flex items-center justify-between w-full h-20 mx-auto max-w-[60rem]">
+      <div class="flex items-center gap-3">
+        <div class="border border-n-weak p-2 rounded-full text-n-slate-11">
+          <svg width="24" height="24"><use xlink:href="#icon-user-follow-line" /></svg>
+        </div>
+        <div class="flex flex-col justify-center">
+          <h1 class="text-base font-medium tracking-tight text-n-slate-12">
+            <%= content_for(:title) %>
+          </h1>
+          <p class="text-xs text-n-slate-11 m-0">Profile, accounts, and access control</p>
+        </div>
+      </div>
 
-  <div>
-    <%= link_to(
+      <div class="flex items-center gap-2">
+        <% if authorized_action?(page.resource, :edit) %>
+          <%= link_to(
             t("administrate.actions.edit"),
-            [:edit, namespace,  page.resource.becomes(User)],
-            class: "button",
-          ) if authorized_action? page.resource, :edit %>
-  </div>
-</header>
-
-<section class="main-content__body">
-  <dl>
-    <% page.attributes.each do |title, attributes| %>
-      <fieldset class="<%= "field-unit--nested" if title.present? %>">
-        <% if title.present? %>
-          <legend><%= t "helpers.label.#{page.resource_name}.#{title}", default: title %></legend>
-        <% end %>
-
-        <% attributes.each do |attribute| %>
-          <dt class="attribute-label" id="<%= attribute.name %>">
-          <%= t(
-            "helpers.label.#{resource_name}.#{attribute.name}",
-            default: page.resource.class.human_attribute_name(attribute.name),
+            [:edit, namespace, page.resource.becomes(User)],
+            class: "inline-flex items-center justify-center h-8 px-3 text-sm font-medium text-white bg-woot-500 rounded-lg hover:bg-woot-600 transition-colors"
           ) %>
-          </dt>
-
-          <dd class="attribute-data attribute-data--<%=attribute.html_class%>"
-              ><%= render_field attribute, page: page %></dd>
         <% end %>
-      </fieldset>
-    <% end %>
-  </dl>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 px-6 overflow-y-auto">
+    <div class="w-full mx-auto max-w-[60rem] py-6 space-y-6">
+
+      <%# User Information Card %>
+      <div class="rounded-xl bg-n-solid-2 shadow outline-1 outline outline-n-container overflow-hidden">
+        <div class="px-6 py-4 border-b border-n-weak">
+          <h2 class="text-base font-medium text-n-slate-12">User Information</h2>
+        </div>
+        <div class="divide-y divide-n-weak">
+          <% page.attributes.each do |title, attributes| %>
+            <% next if title.present? %>
+            <% attributes.each do |attribute| %>
+              <% next if ['account_users', 'custom_attributes'].include?(attribute.name.to_s) %>
+              <div class="grid grid-cols-[180px,1fr] items-center min-h-12 px-6">
+                <span class="text-sm text-n-slate-11">
+                  <%= t(
+                    "helpers.label.#{resource_name}.#{attribute.name}",
+                    default: page.resource.class.human_attribute_name(attribute.name),
+                  ) %>
+                </span>
+                <span class="text-sm text-n-slate-12 py-3">
+                  <%= render_field attribute, page: page %>
+                </span>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Account Users Card %>
+      <% page.attributes.each do |title, attributes| %>
+        <% next if title.present? %>
+        <% attributes.each do |attribute| %>
+          <% if attribute.name.to_s == 'account_users' && page.resource.account_users.any? %>
+            <div class="rounded-xl bg-n-solid-2 shadow outline-1 outline outline-n-container overflow-hidden">
+              <div class="px-6 py-4 border-b border-n-weak">
+                <h2 class="text-base font-medium text-n-slate-12">Account Users</h2>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-n-slate-1">
+                    <tr>
+                      <th class="text-left py-3 px-6 text-sm font-medium text-n-slate-11">Account</th>
+                      <th class="text-left py-3 px-6 text-sm font-medium text-n-slate-11">User</th>
+                      <th class="text-left py-3 px-6 text-sm font-medium text-n-slate-11">Inviter</th>
+                      <th class="text-left py-3 px-6 text-sm font-medium text-n-slate-11">Role</th>
+                      <th class="text-left py-3 px-6 text-sm font-medium text-n-slate-11"></th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-n-weak">
+                    <% page.resource.account_users.each do |account_user| %>
+                      <tr class="hover:bg-n-alpha-1">
+                        <td class="py-3 px-6 text-sm text-n-slate-12">
+                          <%= link_to "##{account_user.account_id} #{account_user.account.name}", super_admin_account_path(account_user.account), class: "text-n-slate-12 hover:underline" %>
+                        </td>
+                        <td class="py-3 px-6 text-sm text-n-slate-12">
+                          <%= link_to "##{account_user.user_id} #{account_user.user.name}", super_admin_user_path(account_user.user), class: "text-n-slate-12 hover:underline" %>
+                        </td>
+                        <td class="py-3 px-6 text-sm text-n-slate-11">
+                          <% if account_user.inviter.present? %>
+                            <%= link_to account_user.inviter.name, super_admin_user_path(account_user.inviter), class: "text-n-slate-12 hover:underline" %>
+                          <% else %>
+                            <span class="text-n-slate-10">---</span>
+                          <% end %>
+                        </td>
+                        <td class="py-3 px-6">
+                          <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-n-alpha-2 text-n-slate-12 capitalize">
+                            <%= account_user.role %>
+                          </span>
+                        </td>
+                        <td class="py-3 px-6 text-right">
+                          <%= link_to "Destroy", super_admin_account_user_path(account_user), method: :delete, data: { confirm: "Are you sure?" }, class: "text-sm text-ruby-500 hover:text-ruby-600 hover:underline" %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%# Custom Attributes Card %>
+      <% if page.resource.try(:custom_attributes).present? %>
+        <div class="rounded-xl bg-n-solid-2 shadow outline-1 outline outline-n-container overflow-hidden">
+          <div class="px-6 py-4 border-b border-n-weak">
+            <h2 class="text-base font-medium text-n-slate-12">Custom Attributes</h2>
+          </div>
+          <div class="divide-y divide-n-weak">
+            <% page.resource.custom_attributes.each do |key, value| %>
+              <div class="grid grid-cols-[180px,1fr] items-start min-h-12 px-6">
+                <span class="text-sm text-n-slate-11 py-3">
+                  <%= key.to_s.titleize %>
+                </span>
+                <span class="text-sm text-n-slate-12 py-3 break-all font-mono">
+                  <%= value %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Actions Card %>
+      <div class="rounded-xl bg-n-solid-2 shadow outline-1 outline outline-n-container overflow-hidden">
+        <div class="px-6 py-4 border-b border-n-weak">
+          <h2 class="text-base font-medium text-n-slate-12">Actions</h2>
+        </div>
+        <div class="divide-y divide-n-weak">
+          <div class="px-6 py-4">
+            <h3 class="text-sm font-medium text-n-slate-12 mb-3">Add User to Account</h3>
+            <%= render 'super_admin/shared/account_user_form', page: page, namespace: namespace, resource_type: 'user' %>
+          </div>
+          <%= render partial: "impersonate", locals: {page: page} %>
+        </div>
+      </div>
+
+    </div>
+  </main>
 </section>
-
-<%= render 'super_admin/shared/account_user_form', page: page, namespace: namespace, resource_type: 'user' %>
-
-<%= render partial: "impersonate", locals: {page: page} %>

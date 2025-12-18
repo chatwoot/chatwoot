@@ -18,78 +18,80 @@ to display a collection of resources in an HTML table.
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
 %>
 
-<table aria-labelledby="<%= table_title %>">
-  <thead>
-    <tr>
-      <% collection_presenter.attribute_types.each do |attr_name, attr_type| %>
-        <th class="cell-label
-        cell-label--<%= attr_type.html_class %>
-        cell-label--<%= collection_presenter.ordered_html_class(attr_name) %>"
-        scope="col"
-        role="columnheader"
-        aria-sort="<%= sort_order(collection_presenter.ordered_html_class(attr_name)) %>">
-        <%= link_to(sanitized_order_params(page, collection_field_name).merge(
-          collection_presenter.order_params_for(attr_name, key: collection_field_name)
-        )) do %>
-        <%= t(
-          "helpers.label.#{collection_presenter.resource_name}.#{attr_name}",
-          default: attr_name.to_s,
-        ).titleize %>
-            <% if collection_presenter.ordered_by?(attr_name) %>
-              <span class="cell-label__sort-indicator cell-label__sort-indicator--<%= collection_presenter.ordered_html_class(attr_name) %>">
-                <svg aria-hidden="true">
-                  <use xlink:href="#icon-up-caret" />
-                </svg>
-              </span>
+<div class="rounded-xl bg-n-solid-2 shadow outline-1 outline outline-n-container overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full" aria-labelledby="<%= table_title %>">
+      <thead class="bg-n-slate-1">
+        <tr>
+          <% collection_presenter.attribute_types.each do |attr_name, attr_type| %>
+            <th class="text-left py-3 px-4 text-sm font-medium text-n-slate-11"
+            scope="col"
+            role="columnheader"
+            aria-sort="<%= sort_order(collection_presenter.ordered_html_class(attr_name)) %>">
+            <%= link_to(sanitized_order_params(page, collection_field_name).merge(
+              collection_presenter.order_params_for(attr_name, key: collection_field_name)
+            ), class: "inline-flex items-center gap-1 hover:text-n-slate-12") do %>
+            <%= t(
+              "helpers.label.#{collection_presenter.resource_name}.#{attr_name}",
+              default: attr_name.to_s,
+            ).titleize %>
+                <% if collection_presenter.ordered_by?(attr_name) %>
+                  <span class="<%= collection_presenter.ordered_html_class(attr_name) == 'asc' ? '' : 'rotate-180' %>">
+                    <svg class="w-3 h-3" aria-hidden="true">
+                      <use xlink:href="#icon-up-caret" />
+                    </svg>
+                  </span>
+                <% end %>
+              <% end %>
+            </th>
+          <% end %>
+          <% [existing_action?(collection_presenter.resource_name, :edit),
+              existing_action?(collection_presenter.resource_name, :destroy)].count(true).times do %>
+            <th scope="col" class="py-3 px-4"></th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-n-weak">
+        <% resources.each do |resource| %>
+          <tr class="js-table-row hover:bg-n-alpha-1 transition-colors"
+              tabindex="0"
+              <% if existing_action? collection_presenter.resource_name, :show %>
+                <%= %(role=link data-url=#{polymorphic_path([namespace, resource.becomes(User)])}) %>
+              <% end %>
+              >
+            <% collection_presenter.attributes_for(resource).each do |attribute| %>
+              <td class="py-3 px-4 text-sm text-n-slate-12">
+                <% if authorized_action? resource, :show -%>
+                  <a href="<%= polymorphic_path([namespace, resource.becomes(User)]) -%>"
+                     class="hover:underline"
+                     >
+                    <%= render_field attribute %>
+                  </a>
+                <% end -%>
+              </td>
             <% end %>
-          <% end %>
-        </th>
-      <% end %>
-      <% [existing_action?(collection_presenter.resource_name, :edit),
-          existing_action?(collection_presenter.resource_name, :destroy)].count(true).times do %>
-        <th scope="col"></th>
-      <% end %>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% resources.each do |resource| %>
-      <tr class="js-table-row"
-          tabindex="0"
-          <% if existing_action? collection_presenter.resource_name, :show %>
-            <%= %(role=link data-url=#{polymorphic_path([namespace, resource.becomes(User)])}) %>
-          <% end %>
-          >
-        <% collection_presenter.attributes_for(resource).each do |attribute| %>
-          <td class="cell-data cell-data--<%= attribute.html_class %>">
-            <% if authorized_action? resource,  :show -%>
-              <a href="<%= polymorphic_path([namespace, resource.becomes(User)]) -%>"
-                 class="action-show"
-                 >
-                <%= render_field attribute %>
-              </a>
-            <% end -%>
-          </td>
-        <% end %>
+            <% if existing_action? collection_presenter.resource_name, :edit %>
+              <td class="py-3 px-4 text-right"><%= link_to(
+                t("administrate.actions.edit"),
+                [:edit, namespace, resource.becomes(User)],
+                class: "text-sm text-woot-500 hover:text-woot-600 hover:underline",
+              ) if authorized_action? resource, :edit%></td>
+            <% end %>
 
-        <% if existing_action? collection_presenter.resource_name, :edit %>
-          <td><%= link_to(
-            t("administrate.actions.edit"),
-            [:edit, namespace, resource.becomes(User)],
-            class: "action-edit",
-          ) if authorized_action? resource, :edit%></td>
+            <% if existing_action? collection_presenter.resource_name, :destroy %>
+              <td class="py-3 px-4 text-right"><%= link_to(
+                t("administrate.actions.destroy"),
+                [namespace, collection_presenter.resource_name == 'account_user' ? resource : resource.becomes(User)],
+                class: "text-sm text-ruby-500 hover:text-ruby-600 hover:underline",
+                method: :delete,
+                data: { confirm: t("administrate.actions.confirm") }
+              ) if authorized_action? resource, :destroy %></td>
+            <% end %>
+          </tr>
         <% end %>
-
-        <% if existing_action? collection_presenter.resource_name, :destroy %>
-          <td><%= link_to(
-            t("administrate.actions.destroy"),
-            [namespace, collection_presenter.resource_name == 'account_user' ? resource : resource.becomes(User)],
-            class: "text-color-red",
-            method: :delete,
-            data: { confirm: t("administrate.actions.confirm") }
-          ) if authorized_action? resource, :destroy %></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
+</div>
