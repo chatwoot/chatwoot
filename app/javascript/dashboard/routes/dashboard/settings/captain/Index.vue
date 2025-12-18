@@ -1,8 +1,10 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useCaptain } from 'dashboard/composables/useCaptain';
+import { useConfig } from 'dashboard/composables/useConfig';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -13,6 +15,7 @@ import FeatureToggle from './components/FeatureToggle.vue';
 const { t } = useI18n();
 const store = useStore();
 const { captainEnabled } = useCaptain();
+const { isEnterprise } = useConfig();
 
 const uiFlags = useMapGetter('captainConfig/getUIFlags');
 const features = useMapGetter('captainConfig/getFeatures');
@@ -42,22 +45,53 @@ const featureToggles = computed(() => [
     key: 'audio_transcription',
     title: t('CAPTAIN_SETTINGS.FEATURES.AUDIO_TRANSCRIPTION.TITLE'),
     description: t('CAPTAIN_SETTINGS.FEATURES.AUDIO_TRANSCRIPTION.DESCRIPTION'),
+    enterprise: true,
   },
   {
     key: 'help_center_search',
     title: t('CAPTAIN_SETTINGS.FEATURES.HELP_CENTER_SEARCH.TITLE'),
     description: t('CAPTAIN_SETTINGS.FEATURES.HELP_CENTER_SEARCH.DESCRIPTION'),
+    enterprise: true,
   },
   {
     key: 'label_suggestion',
     title: t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.TITLE'),
     description: t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.DESCRIPTION'),
+    enterprise: false,
   },
 ]);
 
-const hasFeatureToggle = key => {
-  return features.value[key] !== undefined;
+const hasFeatureToggle = feature => {
+  const featureExists = features.value[feature.key] !== undefined;
+  const isEnterpriseAllowed = !feature.enterprise || isEnterprise;
+  return featureExists && isEnterpriseAllowed;
 };
+
+async function handleFeatureToggle({ feature, enabled }) {
+  try {
+    await store.dispatch('accounts/update', {
+      captain_features: { [feature]: enabled },
+    });
+    useAlert(t('CAPTAIN_SETTINGS.API.SUCCESS'));
+  } catch (error) {
+    useAlert(t('CAPTAIN_SETTINGS.API.ERROR'));
+    // Refetch to revert the toggle state
+    store.dispatch('captainConfig/fetch');
+  }
+}
+
+async function handleModelChange({ feature, model }) {
+  try {
+    await store.dispatch('accounts/update', {
+      captain_models: { [feature]: model },
+    });
+    useAlert(t('CAPTAIN_SETTINGS.API.SUCCESS'));
+  } catch (error) {
+    useAlert(t('CAPTAIN_SETTINGS.API.ERROR'));
+    // Refetch to revert the model selection
+    store.dispatch('captainConfig/fetch');
+  }
+}
 
 onMounted(() => {
   store.dispatch('captainConfig/fetch');
@@ -91,6 +125,7 @@ onMounted(() => {
               :feature-key="feature.key"
               :title="feature.title"
               :description="feature.description"
+              @change="handleModelChange"
             />
           </div>
         </SectionLayout>
@@ -104,11 +139,12 @@ onMounted(() => {
           <div class="grid gap-4">
             <FeatureToggle
               v-for="feature in featureToggles"
-              v-show="hasFeatureToggle(feature.key)"
+              v-show="hasFeatureToggle(feature)"
               :key="feature.key"
               :feature-key="feature.key"
               :title="feature.title"
               :description="feature.description"
+              @change="handleFeatureToggle"
             />
           </div>
         </SectionLayout>

@@ -25,23 +25,23 @@ const { t } = useI18n();
 const isOpen = ref(false);
 
 const getModelsForFeature = useMapGetter('captainConfig/getModelsForFeature');
-const getDefaultModelForFeature = useMapGetter(
-  'captainConfig/getDefaultModelForFeature'
+const getSelectedModelForFeature = useMapGetter(
+  'captainConfig/getSelectedModelForFeature'
 );
 
 const availableModels = computed(() =>
   getModelsForFeature.value(props.featureKey)
 );
-const defaultModel = computed(() =>
-  getDefaultModelForFeature.value(props.featureKey)
+const selectedModel = computed(() =>
+  getSelectedModelForFeature.value(props.featureKey)
 );
 const selectedModelId = ref(null);
 
 watch(
-  defaultModel,
-  newDefault => {
-    if (newDefault && !selectedModelId.value) {
-      selectedModelId.value = newDefault;
+  selectedModel,
+  newSelected => {
+    if (newSelected) {
+      selectedModelId.value = newSelected;
     }
   },
   { immediate: true }

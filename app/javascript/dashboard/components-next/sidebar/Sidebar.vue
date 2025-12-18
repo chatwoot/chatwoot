@@ -493,6 +493,13 @@ const menuItems = computed(() => {
           icon: 'i-lucide-briefcase',
           to: accountScopedRoute('general_settings_index'),
         },
+        // TODO: Hide before merging to develop until we have a way to manage captain settings
+        {
+          name: 'Settings Captain',
+          label: t('SIDEBAR.CAPTAIN_AI'),
+          icon: 'i-lucide-sparkles',
+          to: accountScopedRoute('captain_settings_index'),
+        },
         {
           name: 'Settings Agents',
           label: t('SIDEBAR.AGENTS'),
@@ -589,13 +596,6 @@ const menuItems = computed(() => {
           icon: 'i-lucide-credit-card',
           to: accountScopedRoute('billing_settings_index'),
         },
-        // Hidden until we have a way to manage captain settings
-        // {
-        //   name: 'Settings Captain',
-        //   label: t('SIDEBAR.CAPTAIN_AI'),
-        //   icon: 'i-lucide-sparkles',
-        //   to: accountScopedRoute('captain_settings_index'),
-        // },
       ],
     },
   ];

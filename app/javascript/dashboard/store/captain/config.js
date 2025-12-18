@@ -22,6 +22,10 @@ const getters = {
     const feature = $state.features[featureKey];
     return feature?.default || null;
   },
+  getSelectedModelForFeature: $state => featureKey => {
+    const feature = $state.features[featureKey];
+    return feature?.selected || feature?.default || null;
+  },
 };
 
 const mutations = {
