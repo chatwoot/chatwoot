@@ -41,9 +41,31 @@ const getPlaceholder = type => {
 const isFormComplete = computed(() =>
   visibleAttributes.value.every(attribute => {
     const value = formValues.value?.[attribute.value];
+    
+    // For checkbox attributes, only check if the key exists (matches composable logic)
+    if (attribute.type === 'checkbox') {
+      return attribute.value in formValues.value;
+    }
+    
+    // For other attribute types, check for valid non-empty values
     return value !== undefined && value !== null && String(value).trim() !== '';
   })
 );
+
+const comboBoxOptions = computed(() => {
+  const options = {};
+  visibleAttributes.value.forEach(attribute => {
+    if (attribute.type === 'list') {
+      options[attribute.value] = (attribute.attributeValues || []).map(
+        option => ({
+          value: option,
+          label: option,
+        })
+      );
+    }
+  });
+  return options;
+});
 
 const close = () => {
   dialogRef.value?.close();
@@ -145,31 +167,14 @@ defineExpose({ open, close });
         <template v-else-if="attribute.type === 'list'">
           <ComboBox
             v-model="formValues[attribute.value]"
-            :options="
-              (
-                attribute.attribute_values ||
-                attribute.attributeValues ||
-                []
-              ).map(option => ({
-                value: option,
-                label: option,
-              }))
-            "
+            :options="comboBoxOptions[attribute.value]"
             :placeholder="getPlaceholder('list')"
             class="w-full"
           />
         </template>
 
         <template v-else-if="attribute.type === 'checkbox'">
-          <ChoiceToggle
-            v-model="formValues[attribute.value]"
-            :yes-label="
-              t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.CHECKBOX.YES')
-            "
-            :no-label="
-              t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.CHECKBOX.NO')
-            "
-          />
+          <ChoiceToggle v-model="formValues[attribute.value]" />
         </template>
       </div>
     </div>

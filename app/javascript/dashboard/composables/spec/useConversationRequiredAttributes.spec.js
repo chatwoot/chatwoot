@@ -103,7 +103,6 @@ describe('useConversationRequiredAttributes', () => {
         value: 'priority',
         label: 'Priority',
         type: 'list',
-        attribute_values: ['High', 'Medium', 'Low'],
       });
     });
 

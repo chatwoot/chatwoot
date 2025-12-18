@@ -24,7 +24,7 @@ export function useConversationRequiredAttributes() {
       value: attribute.attributeKey,
       label: attribute.attributeDisplayName,
       type: attribute.attributeDisplayType,
-      attribute_values: attribute.attributeValues,
+      attributeValues: attribute.attributeValues,
     }))
   );
 
