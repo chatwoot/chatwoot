@@ -1,6 +1,6 @@
-import { computed, ref, watch, onUnmounted } from 'vue';
-import { useStore } from 'vuex';
-import VoiceAPI from 'dashboard/api/channels/voice';
+import { computed, ref, watch, onUnmounted, onMounted } from 'vue';
+import VoiceAPI from 'dashboard/api/channel/voice/voiceAPIClient';
+import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { useCallsStore } from 'dashboard/stores/calls';
 
 const CALL_STATES = {
@@ -11,7 +11,6 @@ const CALL_STATES = {
 };
 
 export function useCallSession() {
-  const store = useStore();
   const callsStore = useCallsStore();
   const isJoining = ref(false);
   const callDuration = ref(0);
@@ -73,8 +72,23 @@ export function useCallSession() {
     { immediate: true }
   );
 
+  const handleCallDisconnected = () => {
+    callsStore.clearActiveCall();
+  };
+
+  onMounted(() => {
+    TwilioVoiceClient.addEventListener(
+      'call:disconnected',
+      handleCallDisconnected
+    );
+  });
+
   onUnmounted(() => {
     stopDurationTimer();
+    TwilioVoiceClient.removeEventListener(
+      'call:disconnected',
+      handleCallDisconnected
+    );
   });
 
   const joinCall = async ({
@@ -87,7 +101,7 @@ export function useCallSession() {
 
     isJoining.value = true;
     try {
-      const device = await VoiceAPI.initializeDevice(inboxId, { store });
+      const device = await TwilioVoiceClient.initializeDevice(inboxId);
       if (!device) return null;
       const joinResponse = await VoiceAPI.joinConference({
         conversationId,
@@ -97,7 +111,10 @@ export function useCallSession() {
 
       const conferenceSid = joinResponse?.conference_sid;
       if (conferenceSid) {
-        await VoiceAPI.joinClientCall({ To: conferenceSid, conversationId });
+        await TwilioVoiceClient.joinClientCall({
+          To: conferenceSid,
+          conversationId,
+        });
       }
 
       callsStore.setActiveCall({
@@ -123,7 +140,7 @@ export function useCallSession() {
       await VoiceAPI.leaveConference(inboxId, conversationId);
     }
 
-    VoiceAPI.endClientCall();
+    TwilioVoiceClient.endClientCall();
     callsStore.clearActiveCall();
     callsStore.clearIncomingCall();
   };
@@ -139,7 +156,7 @@ export function useCallSession() {
   };
 
   const rejectIncomingCall = () => {
-    VoiceAPI.endClientCall();
+    TwilioVoiceClient.endClientCall();
     callsStore.clearIncomingCall();
   };
 

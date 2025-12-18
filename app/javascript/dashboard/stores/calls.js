@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import VoiceAPI from 'dashboard/api/channels/voice';
+import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { TERMINAL_STATUSES } from 'dashboard/helper/voice';
 
 export const useCallsStore = defineStore('calls', {
@@ -37,7 +37,7 @@ export const useCallsStore = defineStore('calls', {
     },
 
     clearActiveCall() {
-      VoiceAPI.endClientCall();
+      TwilioVoiceClient.endClientCall();
       this.activeCall = null;
     },
 

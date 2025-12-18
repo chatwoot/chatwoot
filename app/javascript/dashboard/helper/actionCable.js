@@ -1,5 +1,5 @@
 import AuthAPI from '../api/auth';
-import VoiceAPI from 'dashboard/api/channels/voice';
+import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -98,8 +98,8 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onLogout = () => {
-    VoiceAPI.endClientCall();
-    VoiceAPI.destroyDevice();
+    TwilioVoiceClient.endClientCall();
+    TwilioVoiceClient.destroyDevice();
     AuthAPI.logout();
   };
 
