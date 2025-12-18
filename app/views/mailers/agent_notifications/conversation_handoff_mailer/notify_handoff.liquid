@@ -4,7 +4,6 @@
   Cruise Control is initiating a client handoff that requires your attention. Please take over this conversation manually via the link below.
 </p>
 
-<p><strong>Conversation Summary:</strong></p>
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px;">
   <tr>
     <td style="padding: 5px 0;"><strong>Partner:</strong> {{ account.name }}</td>
@@ -28,25 +27,11 @@
   </tr>
 </table>
 
-{% if conversation.recent_messages %}
-  <p><strong>Recent Messages</strong></p>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-    {% for message in conversation.recent_messages %}
-      {% assign is_reply = false %}
-      {% assign sender_display = message.sender %}
-      {% if message.message_type == 'outgoing' or message.message_type == 'template' %}
-        {% assign is_reply = true %}
-        {% assign sender_display = 'You Replied' %}
-      {% endif %}
-
-      <tr>
-        <td class="message" align="left" style="padding: 5px 10px; border-radius: 4px;">
-          <strong style="font-size: 14px;" >{{ sender_display }}:</strong> <div style="background-color: #f3f4f6; color: #000000; border-radius: 6px;"> {{ message.content | truncate: 200 }}</div>
-        </td>
-      </tr>
-      <tr><td style="height: 10px;"></td></tr>
-    {% endfor %}
-  </table>
+{% if conversation.summary %}
+  <p><strong>Conversation Summary</strong></p>
+  <div style="background-color: #f3f4f6; padding: 10px; border-radius: 6px; margin-bottom: 20px;">
+    {{ conversation.summary }}
+  </div>
 {% endif %}
 
 <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 20px;">
