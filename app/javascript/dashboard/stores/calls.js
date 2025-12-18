@@ -4,64 +4,56 @@ import { TERMINAL_STATUSES } from 'dashboard/helper/voice';
 
 export const useCallsStore = defineStore('calls', {
   state: () => ({
-    activeCall: null,
-    incomingCall: null,
+    calls: [],
   }),
 
   getters: {
-    getActiveCall: state => state.activeCall,
-    hasActiveCall: state => !!state.activeCall,
-    getIncomingCall: state => state.incomingCall,
-    hasIncomingCall: state => !!state.incomingCall,
+    activeCall: state => state.calls.find(call => call.isActive) || null,
+    hasActiveCall: state => state.calls.some(call => call.isActive),
+    incomingCalls: state => state.calls.filter(call => !call.isActive),
+    hasIncomingCall: state => state.calls.some(call => !call.isActive),
   },
 
   actions: {
-    handleCallStatusChanged({ status }) {
+    handleCallStatusChanged({ callSid, status }) {
       if (TERMINAL_STATUSES.includes(status)) {
-        this.clearActiveCall();
-        this.clearIncomingCall();
+        this.removeCall(callSid);
       }
     },
 
-    setActiveCall(callData) {
+    addCall(callData) {
       if (!callData?.callSid) return;
+      const exists = this.calls.some(call => call.callSid === callData.callSid);
+      if (exists) return;
 
-      if (callData.status && TERMINAL_STATUSES.includes(callData.status)) {
-        if (callData.callSid === this.activeCall?.callSid) {
-          this.clearActiveCall();
-        }
-        return;
+      this.calls.push({
+        ...callData,
+        isActive: false,
+      });
+    },
+
+    removeCall(callSid) {
+      const callToRemove = this.calls.find(c => c.callSid === callSid);
+      if (callToRemove?.isActive) {
+        TwilioVoiceClient.endClientCall();
       }
+      this.calls = this.calls.filter(c => c.callSid !== callSid);
+    },
 
-      this.activeCall = callData;
+    setCallActive(callSid) {
+      this.calls = this.calls.map(call => ({
+        ...call,
+        isActive: call.callSid === callSid,
+      }));
     },
 
     clearActiveCall() {
       TwilioVoiceClient.endClientCall();
-      this.activeCall = null;
+      this.calls = this.calls.filter(call => !call.isActive);
     },
 
-    setIncomingCall(callData) {
-      if (!callData?.callSid) return;
-      if (this.activeCall?.callSid === callData.callSid) return;
-      if (this.incomingCall?.callSid === callData.callSid) return;
-
-      this.incomingCall = { ...callData, receivedAt: Date.now() };
-    },
-
-    clearIncomingCall() {
-      this.incomingCall = null;
-    },
-
-    acceptIncomingCall() {
-      const incomingCall = this.incomingCall;
-      if (!incomingCall) return;
-
-      this.activeCall = {
-        ...incomingCall,
-        isJoined: true,
-      };
-      this.incomingCall = null;
+    dismissCall(callSid) {
+      this.calls = this.calls.filter(call => call.callSid !== callSid);
     },
   },
 });

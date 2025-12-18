@@ -1,5 +1,6 @@
 import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
 import { useCallsStore } from 'dashboard/stores/calls';
+import store from 'dashboard/store';
 import types from 'dashboard/store/mutation-types';
 
 export const TERMINAL_STATUSES = [
@@ -18,6 +19,11 @@ const isVoiceCallMessage = message => {
   return CONTENT_TYPES.VOICE_CALL === message?.content_type;
 };
 
+const shouldSkipCall = (callDirection, senderId) => {
+  const currentUserId = store.getters.getCurrentUserID;
+  return callDirection === 'outbound' && senderId !== currentUserId;
+};
+
 function extractCallData(message) {
   const contentData = message?.content_attributes?.data || {};
   return {
@@ -25,21 +31,31 @@ function extractCallData(message) {
     status: contentData.status,
     callDirection: contentData.call_direction,
     conversationId: message?.conversation_id,
+    senderId: message?.sender?.id,
   };
 }
 
 export function handleVoiceCallCreated(message) {
   if (!isVoiceCallMessage(message)) return;
 
-  const { callSid, callDirection, conversationId } = extractCallData(message);
+  const { callSid, callDirection, conversationId, senderId } =
+    extractCallData(message);
+
+  if (shouldSkipCall(callDirection, senderId)) return;
+
   const callsStore = useCallsStore();
-  callsStore.setIncomingCall({ callSid, conversationId, callDirection });
+  callsStore.addCall({
+    callSid,
+    conversationId,
+    callDirection,
+    senderId,
+  });
 }
 
 export function handleVoiceCallUpdated(commit, message) {
   if (!isVoiceCallMessage(message)) return;
 
-  const { callSid, status, callDirection, conversationId } =
+  const { callSid, status, callDirection, conversationId, senderId } =
     extractCallData(message);
 
   const callsStore = useCallsStore();
@@ -50,12 +66,15 @@ export function handleVoiceCallUpdated(commit, message) {
   commit(types.UPDATE_CONVERSATION_CALL_STATUS, callInfo);
   commit(types.UPDATE_MESSAGE_CALL_STATUS, callInfo);
 
-  const isNewIncomingCall =
-    status === 'ringing' &&
-    !callsStore.hasIncomingCall &&
-    !callsStore.hasActiveCall;
+  const isNewCall =
+    status === 'ringing' && !shouldSkipCall(callDirection, senderId);
 
-  if (isNewIncomingCall) {
-    callsStore.setIncomingCall({ callSid, conversationId, callDirection });
+  if (isNewCall) {
+    callsStore.addCall({
+      callSid,
+      conversationId,
+      callDirection,
+      senderId,
+    });
   }
 }
