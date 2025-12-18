@@ -1,12 +1,7 @@
 class Conversations::EventDataPresenter < SimpleDelegator
   def push_data
     {
-      additional_attributes: additional_attributes,
-      can_reply: can_reply?,
-      channel: inbox.try(:channel_type),
-      contact_inbox: contact_inbox,
-      id: display_id,
-      inbox_id: inbox_id,
+      **push_core_attributes,
       messages: push_messages,
       labels: label_list,
       meta: push_meta,
@@ -25,6 +20,18 @@ class Conversations::EventDataPresenter < SimpleDelegator
 
   def push_messages
     [messages.chat.last&.push_event_data].compact
+  end
+
+  def push_core_attributes
+    {
+      additional_attributes: additional_attributes,
+      can_reply: can_reply?,
+      channel: inbox.try(:channel_type),
+      account_id: account_id,
+      contact_inbox: contact_inbox,
+      id: display_id,
+      inbox_id: inbox_id
+    }
   end
 
   def push_meta
