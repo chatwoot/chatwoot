@@ -1,14 +1,14 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "מציג פריטים {startItem} עד {endItem} מתוך {totalItems}",
+    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
     "CURRENT_PAGE_INFO": "{currentPage} מתוך {totalPages} עמודים"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "בחרו אפשרות...",
-    "EMPTY_SEARCH_RESULTS": "לא נמצאו פריטים עבור החיפוש `{searchTerm}`",
+    "PLACEHOLDER": "בחר אפשרות...",
+    "EMPTY_SEARCH_RESULTS": "לא נמצאו פריטים עבור מונח החיפוש `{searchTerm}`",
     "EMPTY_STATE": "לא נמצאו תוצאות.",
     "SEARCH_PLACEHOLDER": "חיפוש...",
-    "MORE": "עוד {count}"
+    "MORE": "+{count} נוספים"
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "חיפוש...",
@@ -22,33 +22,33 @@
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "חיפוש מדינה",
-    "ERROR": "מספר הטלפון חייב להיות ריק או בפורמט E.164",
-    "DIAL_CODE_ERROR": "יש לבחור קוד מדינה מהרשימה"
+    "SEARCH_PLACEHOLDER": "חפש מדינה",
+    "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
+    "DIAL_CODE_ERROR": "נא בחר קוד מדינה מהרשימה"
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "לא זמין"
+      "NOT_AVAILABLE": "המחבר אינו זמין"
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "פירורי לחם (Breadcrumb)"
   },
   "SWITCH": {
-    "TOGGLE": "Toggle switch"
+    "TOGGLE": "מתג הפעלה/כיבוי"
   },
   "LABEL": {
-    "TAG_BUTTON": "תיוג"
+    "TAG_BUTTON": "תג"
   },
   "FEATURE_SPOTLIGHT": {
-    "LEARN_MORE": "למדו עוד",
-    "WATCH_VIDEO": "צפו בסרטון"
+    "LEARN_MORE": "למד עוד",
+    "WATCH_VIDEO": "צפה בסרטון"
   },
   "DURATION_INPUT": {
     "MINUTES": "דקות",
     "HOURS": "שעות",
     "DAYS": "ימים",
-    "PLACEHOLDER": "משך זמן"
+    "PLACEHOLDER": "הזן משך זמן"
   },
   "CHANNEL_SELECTOR": {
     "COMING_SOON": "בקרוב!"
