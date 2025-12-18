@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
   modelValue: {
@@ -8,10 +9,11 @@ defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
+const { t } = useI18n();
 
 const options = computed(() => [
-  { label: 'Yes', value: true },
-  { label: 'No', value: false },
+  { label: t('CHOICE_TOGGLE.YES'), value: true },
+  { label: t('CHOICE_TOGGLE.NO'), value: false },
 ]);
 
 const handleSelect = value => {
