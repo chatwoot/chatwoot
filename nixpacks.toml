@@ -1,0 +1,20 @@
+[phases.setup]
+nixPkgs = ['nodejs_20', 'ruby_3_4', 'postgresql', 'libyaml']
+
+[phases.install]
+cmds = [
+  'mkdir -p log tmp/pids tmp/cache',
+  'bundle config set --local deployment true',
+  'bundle config set --local without development:test',
+  'bundle install',
+  'pnpm install --frozen-lockfile'
+]
+
+[phases.build]
+cmds = [
+  'bundle exec bootsnap precompile --gemfile',
+  'RAILS_ENV=production SECRET_KEY_BASE=placeholder bundle exec rake assets:precompile'
+]
+
+[start]
+cmd = 'bundle exec rails server -b 0.0.0.0 -p $PORT'
