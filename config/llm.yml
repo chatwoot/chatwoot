@@ -36,6 +36,14 @@ models:
     provider: openai
     display_name: "GPT-5.2"
     credit_multiplier: 1
+  whisper-1:
+    provider: openai
+    display_name: "Whisper"
+    credit_multiplier: 0.2
+  text-embedding-3-small:
+    provider: openai
+    display_name: "Text Embedding 3 Small"
+    credit_multiplier: 0.1
 
 features:
   editor:
@@ -51,4 +59,10 @@ features:
   label_suggestion:
     models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]
     default: gpt-4.1-nano
+  audio_transcription:
+    models: [whisper-1]
+    default: whisper-1
+  help_center_search:
+    models: [text-embedding-3-small]
+    default: text-embedding-3-small
 # add deprecation_map later
