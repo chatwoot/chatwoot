@@ -6,7 +6,7 @@
   },
   "deploy": {
     "numReplicas": 1,
-    "startCommand": "bundle exec rails server -b 0.0.0.0 -p $PORT",
+    "startCommand": "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p $PORT",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
