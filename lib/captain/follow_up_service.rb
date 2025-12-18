@@ -8,12 +8,16 @@ class Captain::FollowUpService < Captain::BaseTaskService
     # Build context-aware system prompt
     system_prompt = build_follow_up_system_prompt(session_data)
 
-    # Build full message array
+    # Build full message array (convert history from string keys to symbol keys)
+    history = session_data['conversation_history'].map do |msg|
+      { role: msg['role'], content: msg['content'] }
+    end
+
     messages = [
       { role: 'system', content: system_prompt },
       { role: 'user', content: session_data['original_context'] },
       { role: 'assistant', content: session_data['last_response'] },
-      *session_data['conversation_history'],
+      *history,
       { role: 'user', content: user_message }
     ]
 

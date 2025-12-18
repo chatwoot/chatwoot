@@ -1254,6 +1254,7 @@ export default {
           @clear-selection="clearEditorSelection"
           @close="copilot.showEditor.value = false"
           @content-ready="copilot.setContentReady"
+          @send="copilot.sendFollowUp"
         />
         <WootMessageEditor
           v-else-if="!showAudioRecorderEditor"

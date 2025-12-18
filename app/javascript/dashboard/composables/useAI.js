@@ -154,7 +154,7 @@ export function useAI() {
    * @param {string} [content=''] - The content to process (for full message) or selected text (for selection-based).
    * @param {Object} [options={}] - Additional options.
    * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
-   * @returns {Promise<string>} The generated message or an empty string if an error occurs.
+   * @returns {Promise<{message: string, sessionId?: string}>} The generated message and optional session ID.
    */
   const processEvent = async (type = 'improve', content = '', options = {}) => {
     try {
@@ -167,20 +167,49 @@ export function useAI() {
         options.signal
       );
       const {
-        data: { message: generatedMessage },
+        data: { message: generatedMessage, session_id: sessionId },
       } = result;
-      return generatedMessage;
+      return { message: generatedMessage, sessionId };
     } catch (error) {
       // Don't show error for aborted requests
       if (error.name === 'AbortError' || error.name === 'CanceledError') {
-        return '';
+        return { message: '' };
       }
       const errorData = error.response?.data?.error;
       const errorMessage =
         errorData?.error?.message ||
         t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
       useAlert(errorMessage);
-      return '';
+      return { message: '' };
+    }
+  };
+
+  /**
+   * Sends a follow-up message to refine a previous AI task result.
+   * @param {Object} options - The follow-up options.
+   * @param {string} options.sessionId - The session ID from a previous task.
+   * @param {string} options.message - The follow-up message/request from the user.
+   * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
+   * @returns {Promise<{message: string, sessionId: string}>} The follow-up response and updated session ID.
+   */
+  const followUp = async ({ sessionId, message, signal }) => {
+    try {
+      const result = await TasksAPI.followUp({ sessionId, message }, signal);
+      const {
+        data: { message: generatedMessage, session_id: updatedSessionId },
+      } = result;
+      return { message: generatedMessage, sessionId: updatedSessionId };
+    } catch (error) {
+      // Don't show error for aborted requests
+      if (error.name === 'AbortError' || error.name === 'CanceledError') {
+        return { message: '', sessionId };
+      }
+      const errorData = error.response?.data?.error;
+      const errorMessage =
+        errorData?.error?.message ||
+        t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
+      useAlert(errorMessage);
+      return { message: '', sessionId };
     }
   };
 
@@ -201,5 +230,6 @@ export function useAI() {
     recordAnalytics,
     fetchLabelSuggestions,
     processEvent,
+    followUp,
   };
 }
