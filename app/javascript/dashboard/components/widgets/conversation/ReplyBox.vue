@@ -437,10 +437,7 @@ export default {
         return;
       }
 
-      // Voice channels only allow private notes
-      if (this.isAVoiceChannel) {
-        this.replyType = REPLY_EDITOR_MODES.NOTE;
-      } else if (canReply || this.isAWhatsAppChannel || this.isAPIInbox) {
+      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -869,18 +866,12 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      // Voice channels are restricted to private notes only
-      if (this.isAVoiceChannel) {
-        this.replyType = REPLY_EDITOR_MODES.NOTE;
-      } else if (canReply || this.isAWhatsAppChannel || this.isAPIInbox) {
+      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox)
         this.replyType = mode;
-      }
-
-      if (this.isRecordingAudio) {
-        this.toggleAudioRecorder();
-      }
-
       if (this.showRichContentEditor) {
+        if (this.isRecordingAudio) {
+          this.toggleAudioRecorder();
+        }
         return;
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
