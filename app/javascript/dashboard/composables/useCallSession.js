@@ -2,6 +2,7 @@ import { computed, ref, watch, onUnmounted, onMounted } from 'vue';
 import VoiceAPI from 'dashboard/api/channel/voice/voiceAPIClient';
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { useCallsStore } from 'dashboard/stores/calls';
+import Timer from 'dashboard/helper/Timer';
 
 const CALL_STATES = {
   IDLE: 'idle',
@@ -14,7 +15,9 @@ export function useCallSession() {
   const callsStore = useCallsStore();
   const isJoining = ref(false);
   const callDuration = ref(0);
-  const durationTimer = ref(null);
+  const durationTimer = new Timer(elapsed => {
+    callDuration.value = elapsed;
+  });
 
   const activeCall = computed(() => callsStore.getActiveCall);
   const incomingCall = computed(() => callsStore.getIncomingCall);
@@ -47,31 +50,14 @@ export function useCallSession() {
     return activeCall.value || incomingCall.value;
   });
 
-  const startDurationTimer = () => {
-    if (durationTimer.value) {
-      clearInterval(durationTimer.value);
-    }
-    callDuration.value = 0;
-    durationTimer.value = setInterval(() => {
-      callDuration.value += 1;
-    }, 1000);
-  };
-
-  const stopDurationTimer = () => {
-    if (durationTimer.value) {
-      clearInterval(durationTimer.value);
-      durationTimer.value = null;
-    }
-    callDuration.value = 0;
-  };
-
   watch(
     callState,
     newState => {
       if (newState === CALL_STATES.JOINED) {
-        startDurationTimer();
+        durationTimer.start();
       } else {
-        stopDurationTimer();
+        durationTimer.stop();
+        callDuration.value = 0;
       }
     },
     { immediate: true }
@@ -89,7 +75,7 @@ export function useCallSession() {
   });
 
   onUnmounted(() => {
-    stopDurationTimer();
+    durationTimer.stop();
     TwilioVoiceClient.removeEventListener(
       'call:disconnected',
       handleCallDisconnected
@@ -114,13 +100,10 @@ export function useCallSession() {
       });
 
       const conferenceSid = joinResponse?.conference_sid;
-
       await TwilioVoiceClient.joinClientCall({
         To: conferenceSid,
         conversationId,
       });
-
-      startDurationTimer();
 
       callsStore.clearIncomingCall();
       callsStore.setActiveCall({
@@ -129,6 +112,7 @@ export function useCallSession() {
         inboxId,
         isJoined: true,
       });
+      durationTimer.start();
 
       return { conferenceSid };
     } catch (error) {
@@ -141,20 +125,16 @@ export function useCallSession() {
   };
 
   const endCall = async ({ conversationId, inboxId } = {}) => {
-    stopDurationTimer();
-
-    if (inboxId && conversationId) {
-      await VoiceAPI.leaveConference(inboxId, conversationId);
-    }
-
+    await VoiceAPI.leaveConference(inboxId, conversationId);
     TwilioVoiceClient.endClientCall();
+    durationTimer.stop();
     callsStore.clearActiveCall();
     callsStore.clearIncomingCall();
   };
 
   const acceptIncomingCall = async ({ inboxId }) => {
     const call = incomingCall.value;
-    if (!call || !inboxId) return null;
+
     return joinCall({
       conversationId: call.conversationId,
       inboxId,
