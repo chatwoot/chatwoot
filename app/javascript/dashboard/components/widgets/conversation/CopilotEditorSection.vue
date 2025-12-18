@@ -22,7 +22,13 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['focus', 'blur', 'clearSelection', 'contentReady']);
+const emit = defineEmits([
+  'focus',
+  'blur',
+  'clearSelection',
+  'contentReady',
+  'send',
+]);
 
 const copilotEditorContent = ref('');
 
@@ -36,6 +42,11 @@ const onBlur = () => {
 
 const clearEditorSelection = () => {
   emit('clearSelection');
+};
+
+const onSend = () => {
+  emit('send', copilotEditorContent.value);
+  copilotEditorContent.value = '';
 };
 </script>
 
@@ -62,6 +73,7 @@ const clearEditorSelection = () => {
       @focus="onFocus"
       @blur="onBlur"
       @clear-selection="clearEditorSelection"
+      @send="onSend"
     />
     <div
       v-else-if="isGeneratingContent"

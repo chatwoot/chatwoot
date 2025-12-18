@@ -50,7 +50,8 @@ export default {
 
     async generateAIContent(type = 'improve') {
       this.isGenerating = true;
-      this.generatedContent = await this.processEvent(type);
+      const { message } = await this.processEvent(type);
+      this.generatedContent = message;
       this.isGenerating = false;
     },
     applyText() {

@@ -120,7 +120,7 @@ RSpec.describe Captain::LabelSuggestionService do
       end
 
       it 'writes to cache on cache miss' do
-        expect(Redis::Alfred).to receive(:setex).and_call_original
+        expect(Redis::Alfred).to receive(:setex).twice.and_call_original
 
         service.perform
       end

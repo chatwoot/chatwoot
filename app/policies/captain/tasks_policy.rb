@@ -14,4 +14,8 @@ class Captain::TasksPolicy < ApplicationPolicy
   def label_suggestion?
     true
   end
+
+  def follow_up?
+    true
+  end
 end

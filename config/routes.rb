@@ -74,6 +74,7 @@ Rails.application.routes.draw do
               post :summarize
               post :reply_suggestion
               post :label_suggestion
+              post :follow_up
             end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
