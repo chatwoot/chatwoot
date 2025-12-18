@@ -3,6 +3,8 @@ import { computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useCallSession } from 'dashboard/composables/useCallSession';
+import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
+import WindowVisibilityHelper from 'dashboard/helper/AudioAlerts/WindowVisibilityHelper';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const router = useRouter();
@@ -24,6 +26,15 @@ const isIncoming = computed(() => callState.value === CALL_STATES.INCOMING);
 const isOutgoing = computed(() => callState.value === CALL_STATES.OUTGOING);
 const isJoined = computed(() => callState.value === CALL_STATES.JOINED);
 const showWidget = computed(() => callState.value !== CALL_STATES.IDLE);
+
+const currentUserId = computed(() => store.getters.getCurrentUserID);
+const isInitiatedByMe = computed(
+  () => currentCall.value?.senderId === currentUserId.value
+);
+const isHandledInAnotherTab = computed(
+  () =>
+    isOutgoing.value && isOutbound.value && !TwilioVoiceClient.hasActiveConnection
+);
 
 const conversation = computed(() => {
   const conversationId = currentCall.value?.conversationId;
@@ -84,11 +95,16 @@ const rejectCall = () => {
   rejectIncomingCall();
 };
 
-// Auto-join outgoing calls
+// Auto-join outgoing calls only if initiated by me and window is visible
 watch(
-  () => [callState.value, isOutbound.value],
-  ([state, outbound]) => {
-    if (state === CALL_STATES.OUTGOING && outbound && !isJoined.value) {
+  () => [callState.value, isOutbound.value, isInitiatedByMe.value],
+  ([state, outbound, initiatedByMe]) => {
+    const shouldAutoJoin =
+      state === CALL_STATES.OUTGOING &&
+      outbound &&
+      initiatedByMe &&
+      WindowVisibilityHelper.isWindowVisible();
+    if (shouldAutoJoin) {
       joinConference();
     }
   },
@@ -127,6 +143,15 @@ watch(
         </p>
         <p class="text-sm text-n-slate-11">
           {{ $t('CONVERSATION.VOICE_WIDGET.NOT_ANSWERED_YET') }}
+        </p>
+      </div>
+
+      <div v-else-if="isHandledInAnotherTab">
+        <p class="mb-1 text-lg font-semibold text-n-slate-12">
+          {{ $t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS') }}
+        </p>
+        <p class="text-sm text-n-slate-11">
+          {{ $t('CONVERSATION.VOICE_WIDGET.HANDLED_IN_ANOTHER_TAB') }}
         </p>
       </div>
 
@@ -176,7 +201,10 @@ watch(
     </div>
 
     <!-- Outgoing or Active Call Actions -->
-    <div v-else-if="isOutgoing || isJoined" class="flex justify-center p-4">
+    <div
+      v-else-if="(isOutgoing || isJoined) && !isHandledInAnotherTab"
+      class="flex justify-center p-4"
+    >
       <Button
         faded
         ruby

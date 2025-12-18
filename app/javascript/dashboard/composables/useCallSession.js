@@ -101,7 +101,7 @@ export function useCallSession() {
 
       const conferenceSid = joinResponse?.conference_sid;
       await TwilioVoiceClient.joinClientCall({
-        To: conferenceSid,
+        to: conferenceSid,
         conversationId,
       });
 

@@ -28,24 +28,16 @@ class TwilioVoiceClient extends EventTarget {
     this.device.removeAllListeners();
     this.device.on('connect', conn => {
       this.activeConnection = conn;
-
-      conn.on('disconnect', () => {
-        this.activeConnection = null;
-        this.dispatchEvent(createCallDisconnectedEvent());
-      });
+      conn.on('disconnect', this.onDisconnect);
     });
 
-    this.device.on('disconnect', () => {
-      this.activeConnection = null;
-      this.dispatchEvent(createCallDisconnectedEvent());
-    });
+    this.device.on('disconnect', this.onDisconnect);
 
     this.device.on('tokenWillExpire', async () => {
       const r = await VoiceAPI.getToken(this.inboxId);
       if (r?.token) this.device.updateToken(r.token);
     });
 
-    await this.device.register();
     this.initialized = true;
     this.inboxId = inboxId;
 
@@ -76,23 +68,28 @@ class TwilioVoiceClient extends EventTarget {
     this.inboxId = null;
   }
 
-  async joinClientCall({ To, conversationId }) {
-    if (!this.device || !this.initialized || !To) return null;
+  async joinClientCall({ to, conversationId }) {
+    if (!this.device || !this.initialized || !to) return null;
     if (this.activeConnection) return this.activeConnection;
 
-    const params = { To, is_agent: 'true' };
-    if (conversationId) params.conversation_id = String(conversationId);
+    const params = {
+      To: to,
+      is_agent: 'true',
+      conversation_id: conversationId,
+    };
 
     const connection = await this.device.connect({ params });
     this.activeConnection = connection;
 
-    connection.on('disconnect', () => {
-      this.activeConnection = null;
-      this.dispatchEvent(createCallDisconnectedEvent());
-    });
+    connection.on('disconnect', this.onDisconnect);
 
     return connection;
   }
+
+  onDisconnect = () => {
+    this.activeConnection = null;
+    this.dispatchEvent(createCallDisconnectedEvent());
+  };
 }
 
 export default new TwilioVoiceClient();
