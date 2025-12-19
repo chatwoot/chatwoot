@@ -56,7 +56,9 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     actions.each do |action|
       blob_id, blob_key = action['action_params']
       attach_blob_to(@macro.files, blob_id: blob_id, blob_key: blob_key)
+      action['action_params'] = [blob_id]
     end
+    @macro.save!
   end
 
   def permitted_params

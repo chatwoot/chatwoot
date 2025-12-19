@@ -52,7 +52,9 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     actions.each do |action|
       blob_id, blob_key = action['action_params']
       attach_blob_to(@automation_rule.files, blob_id: blob_id, blob_key: blob_key)
+      action['action_params'] = [blob_id]
     end
+    @automation_rule.save!
   end
 
   private
