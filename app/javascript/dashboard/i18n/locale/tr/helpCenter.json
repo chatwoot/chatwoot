@@ -629,7 +629,7 @@
     },
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "NEW_LOCALE_BUTTON_TEXT": "Yeni Dil",
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",

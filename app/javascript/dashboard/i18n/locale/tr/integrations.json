@@ -712,7 +712,7 @@
         "URL": {
           "LABEL": "URL",
           "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "ERROR": "Lütfen belge için geçerli bir URL sağlayın"
         },
         "PDF_FILE": {
           "LABEL": "PDF Dosya",
