@@ -100,7 +100,13 @@ const isFormInvalid = computed(() => {
 
   if (processedParams.value.buttons) {
     const hasEmptyButtonParameter = processedParams.value.buttons.some(
-      button => !button.parameter
+      button => {
+        // For catalog buttons, either parameter or thumbnail_product_retailer_id is valid
+        if (button.type === 'catalog') {
+          return !button.parameter && !button.thumbnail_product_retailer_id;
+        }
+        return !button.parameter;
+      }
     );
     if (hasEmptyButtonParameter) return true;
   }
@@ -283,6 +289,17 @@ defineExpose({
           class="flex items-center mb-2.5"
         >
           <Input
+            v-if="button.type === 'catalog'"
+            v-model="processedParams.buttons[index].parameter"
+            type="text"
+            class="flex-1"
+            :placeholder="
+              t('WHATSAPP_TEMPLATES.PARSER.CATALOG_PRODUCT_ID') ||
+              'Product Retailer ID'
+            "
+          />
+          <Input
+            v-else
             v-model="processedParams.buttons[index].parameter"
             type="text"
             class="flex-1"

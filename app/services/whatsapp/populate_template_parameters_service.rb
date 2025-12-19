@@ -13,7 +13,7 @@ class Whatsapp::PopulateTemplateParametersService
   def build_button_parameter(button)
     return { type: 'text', text: '' } if button.blank?
 
-    case button['type']
+    case button['type']&.downcase
     when 'copy_code'
       coupon_code = button['parameter'].to_s.strip
       raise ArgumentError, 'Coupon code cannot be empty' if coupon_code.blank?
@@ -22,6 +22,17 @@ class Whatsapp::PopulateTemplateParametersService
       {
         type: 'coupon_code',
         coupon_code: coupon_code
+      }
+    when 'catalog'
+      # Catalog buttons require an action parameter with thumbnail_product_retailer_id
+      product_retailer_id = button['parameter'].to_s.strip
+      product_retailer_id = button['thumbnail_product_retailer_id'].to_s.strip if product_retailer_id.blank?
+
+      {
+        type: 'action',
+        action: {
+          thumbnail_product_retailer_id: product_retailer_id
+        }
       }
     else
       # For URL buttons and other button types, treat parameter as text
