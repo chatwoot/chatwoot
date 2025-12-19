@@ -165,6 +165,14 @@ en:
       avg_resolution_time: Avg resolution time
       resolution_count: Resolution Count
       avg_customer_waiting_time: Avg customer waiting time
+    conversation_csv:
+      conversations_count: Conversations
+      incoming_messages_count: Messages received
+      outgoing_messages_count: Messages sent
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Resolution count
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
