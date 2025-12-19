@@ -57,6 +57,13 @@
         "NEW_INBOX_SUGGESTION": "Questo account Instagram era precedentemente collegato a una Inbox diversa ed è stato ora migrato qui. Tutti i nuovi messaggi appariranno qui. La vecchia Inbox non sarà più in grado di inviare o ricevere messaggi per questo account.",
         "DUPLICATE_INBOX_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Non sarai più in grado di inviare/ricevere messaggi Instagram da questa Inbox."
       },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
+        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
+        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+      },
       "TWITTER": {
         "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
         "ERROR_MESSAGE": "Si è verificato un errore nella connessione a Twitter, riprova",
@@ -381,7 +388,11 @@
         "API": {
           "ERROR_MESSAGE": "Impossibile salvare il canale email"
         },
-        "FINISH_MESSAGE": "Inizia a inoltrare le tue email al seguente indirizzo email."
+        "FINISH_MESSAGE": "Inizia a inoltrare le tue email al seguente indirizzo email.",
+        "FINISH_MESSAGE_NO_FORWARDING": "La tua Inbox email è stata creata con successo! Devi configurare le credenziali SMTP e IMAP per inviare e ricevere e-mail. Senza queste impostazioni non sarà possibile gestire le email.",
+        "FORWARDING_ADDRESS_LABEL": "Inoltra le email a questo indirizzo:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Clicca qui",
+        "CONFIGURE_SMTP_IMAP_TEXT": " per configurare le impostazioni IMAP e SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "Canale LINE",
@@ -466,6 +477,10 @@
           "INSTAGRAM": {
             "TITLE": "Instagram",
             "DESCRIPTION": "Connetti il tuo account Instagram"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Connect your TikTok account"
           },
           "VOICE": {
             "TITLE": "Voce",
@@ -707,6 +722,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Usa il token `inbox_identifier` mostrato qui per l'autenticazione dei tuoi client API.",
       "FORWARD_EMAIL_TITLE": "Inoltra a Email",
       "FORWARD_EMAIL_SUB_TEXT": "Inizia a inoltrare le tue email al seguente indirizzo email.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "L'inoltro delle email alla tua Inbox è attualmente disabilitato su questa installazione. Per utilizzare questa funzione, deve essere abilitata dal tuo amministratore, contattalo per procedere.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Consenti messaggi dopo la risoluzione della conversazione",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo che la conversazione è stata risolta.",
       "WHATSAPP_SECTION_SUBHEADER": "Questa chiave API viene utilizzata per l'integrazione con le API WhatsApp.",
@@ -1004,6 +1020,7 @@
       "LINE": "Line",
       "API": "Canale API",
       "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
       "VOICE": "Voce"
     }
   }
