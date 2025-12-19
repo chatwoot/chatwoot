@@ -690,7 +690,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script Messenger",
-      "MESSENGER_SUB_HEAD": "Posiziona questo pulsante all'interno del tuo tag body",
+      "MESSENGER_SUB_HEAD": "Incolla questo script alla fine del tag body",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domini Consentiti",
         "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, chatwoot.com.",
