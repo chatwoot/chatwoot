@@ -72,7 +72,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
   def instrumentation_params
     {
       span_name: 'llm.captain.website_analyzer',
-      model: @model,
+      model: model,
       temperature: 0.1,
       feature_name: 'website_analyzer',
       messages: [

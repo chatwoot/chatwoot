@@ -97,8 +97,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def instrumentation_params
     {
       span_name: 'llm.captain.conversation_faq',
-      model: @model,
-      temperature: @temperature,
+      model: model,
+      temperature: temperature,
       account_id: @conversation.account_id,
       conversation_id: @conversation.id,
       feature_name: 'conversation_faq',

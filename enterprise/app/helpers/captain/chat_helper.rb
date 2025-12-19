@@ -20,7 +20,7 @@ module Captain::ChatHelper
   private
 
   def build_chat
-    llm_chat = chat(model: @model, temperature: temperature)
+    llm_chat = chat(model: model, temperature: temperature)
     llm_chat = llm_chat.with_params(response_format: { type: 'json_object' })
 
     llm_chat = setup_tools(llm_chat)
@@ -74,7 +74,7 @@ module Captain::ChatHelper
       account_id: resolved_account_id,
       conversation_id: @conversation_id,
       feature_name: feature_name,
-      model: @model,
+      model: model,
       messages: chat ? chat.messages.map { |m| { role: m.role.to_s, content: m.content.to_s } } : @messages,
       temperature: temperature,
       metadata: {
