@@ -349,8 +349,8 @@
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
+      "ASSISTANTS": "Asistanlar",
+      "SWITCH_ASSISTANT": "Asistanlar arasında geçiş yap",
       "NEW_ASSISTANT": "Create Assistant",
       "EMPTY_LIST": "Asistan bulunamadı, başlamak için bir tane oluşturun"
     },
@@ -401,12 +401,12 @@
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
       "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
@@ -419,24 +419,24 @@
       "EDIT": "Güncelleme"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
+      "HEADER": "Asistanlar",
       "NO_ASSISTANTS_AVAILABLE": "Hesabınızda kullanılabilir asistan yok.",
-      "ADD_NEW": "Create a new assistant",
+      "ADD_NEW": "Yeni bir asistan oluştur",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "TITLE": "Asistanı silmek istediğinizden emin misiniz?",
+        "DESCRIPTION": "Bu işlem kalıcıdır. Bu asistanı silmek, onu tüm bağlı gelen kutularından kaldıracak ve oluşturulan tüm bilgileri kalıcı olarak silecektir.",
         "CONFIRM": "Evet, sil",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "SUCCESS_MESSAGE": "Asistan başarıyla silindi",
+        "ERROR_MESSAGE": "Asistanı silerken bir hata oluştu, lütfen tekrar deneyin."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Asistanınıza isim vermek, amacını tanımlamak ve destekleyeceği ürünü belirtmek için aşağıdaki ayrıntıları doldurun.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Bir asistan oluşturun",
+        "SUCCESS_MESSAGE": "Asistan başarıyla oluşturuldu",
+        "ERROR_MESSAGE": "Asistan oluşturulurken bir hata oluştu, lütfen tekrar deneyin."
       },
       "FORM": {
-        "UPDATE": "Güncelleme",
+        "UPDATE": "Güncelle",
         "SECTIONS": {
           "BASIC_INFO": "Temel Bilgiler",
           "SYSTEM_MESSAGES": "Sistem Mesajları",
