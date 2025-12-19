@@ -307,19 +307,6 @@ export const actions = {
     commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true });
     try {
       const response = await ContactAPI.initiateCall(contactId, inboxId);
-      const { call_sid: callSid, conversation_id: conversationId } =
-        response.data;
-
-      // Add call to store immediately so widget shows
-      const { useCallsStore } = await import('dashboard/stores/calls');
-      const callsStore = useCallsStore();
-      callsStore.addCall({
-        callSid,
-        conversationId,
-        inboxId,
-        callDirection: 'outbound',
-      });
-
       commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false });
       return response.data;
     } catch (error) {
