@@ -1,4 +1,6 @@
 class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
+  include ::BlobOwnershipValidation
+
   before_action :fetch_macro, only: [:show, :update, :destroy, :execute]
   before_action :check_authorization, only: [:show, :update, :destroy, :execute]
 
@@ -52,9 +54,8 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     return if actions.blank?
 
     actions.each do |action|
-      blob_id = action['action_params']
-      blob = ActiveStorage::Blob.find_by(id: blob_id)
-      @macro.files.attach(blob)
+      blob_id, blob_key = action['action_params']
+      attach_blob_to(@macro.files, blob_id: blob_id, blob_key: blob_key)
     end
   end
 

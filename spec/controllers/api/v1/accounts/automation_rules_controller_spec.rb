@@ -163,7 +163,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
           },
           {
             'action_name': :send_attachment,
-            'action_params': [blob['blob_id']]
+            'action_params': [blob['blob_id'], blob['blob_key']]
           }
         ]
 
@@ -195,11 +195,11 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         params[:actions] = [
           {
             'action_name': :send_attachment,
-            'action_params': [blob_1['blob_id']]
+            'action_params': [blob_1['blob_id'], blob_1['blob_key']]
           },
           {
             'action_name': :send_attachment,
-            'action_params': [blob_2['blob_id']]
+            'action_params': [blob_2['blob_id'], blob_2['blob_key']]
           }
         ]
 
@@ -209,6 +209,83 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         automation_rule = account.automation_rules.first
         expect(automation_rule.files.count).to eq(2)
+      end
+
+      it 'does not attach file when blob_key is missing' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/upload/",
+             headers: administrator.create_new_auth_token,
+             params: { attachment: file }
+
+        blob = response.parsed_body
+
+        params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob['blob_id']]
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        automation_rule = account.automation_rules.first
+        expect(automation_rule.files.count).to eq(0)
+      end
+
+      it 'does not attach file when blob_key is incorrect (prevents IDOR via enumeration)' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/upload/",
+             headers: administrator.create_new_auth_token,
+             params: { attachment: file }
+
+        blob = response.parsed_body
+
+        params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob['blob_id'], 'wrong_key']
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        automation_rule = account.automation_rules.first
+        expect(automation_rule.files.count).to eq(0)
+      end
+
+      it 'does not attach file when blob is already attached to another record' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/upload/",
+             headers: administrator.create_new_auth_token,
+             params: { attachment: file }
+
+        blob = response.parsed_body
+
+        # Attach blob to another record first
+        other_rule = create(:automation_rule, account: account, name: 'Other Rule')
+        other_rule.files.attach(ActiveStorage::Blob.find(blob['blob_id']))
+
+        # Try to reuse the blob - should fail
+        params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob['blob_id'], blob['blob_key']]
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        automation_rule = account.automation_rules.where.not(id: other_rule.id).first
+        expect(automation_rule.files.count).to eq(0)
       end
     end
   end

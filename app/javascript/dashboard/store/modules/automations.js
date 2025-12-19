@@ -78,8 +78,8 @@ export const actions = {
     }
   },
   uploadAttachment: async (_, file) => {
-    const { blobId } = await uploadFile(file);
-    return blobId;
+    const { blobId, blobKey } = await uploadFile(file);
+    return { blobId, blobKey };
   },
 };
 

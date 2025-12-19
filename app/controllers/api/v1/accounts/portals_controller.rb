@@ -1,5 +1,6 @@
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   include ::FileTypeHelper
+  include ::BlobOwnershipValidation
 
   before_action :fetch_portal, except: [:index, :create]
   before_action :check_authorization
@@ -61,9 +62,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def process_attached_logo
-    blob_id = params[:blob_id]
-    blob = ActiveStorage::Blob.find_by(id: blob_id)
-    @portal.logo.attach(blob)
+    attach_blob_to(@portal.logo, blob_id: params[:blob_id], blob_key: params[:blob_key])
   end
 
   private

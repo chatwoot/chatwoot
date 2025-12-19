@@ -1,4 +1,6 @@
 class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseController
+  include ::BlobOwnershipValidation
+
   before_action :check_authorization
   before_action :fetch_automation_rule, only: [:show, :update, :destroy, :clone]
 
@@ -48,9 +50,8 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     return if actions.blank?
 
     actions.each do |action|
-      blob_id = action['action_params']
-      blob = ActiveStorage::Blob.find_by(id: blob_id)
-      @automation_rule.files.attach(blob)
+      blob_id, blob_key = action['action_params']
+      attach_blob_to(@automation_rule.files, blob_id: blob_id, blob_key: blob_key)
     end
   end
 

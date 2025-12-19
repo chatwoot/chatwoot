@@ -38,4 +38,20 @@ describe('#actionQueryGenerator', () => {
       actionQueryGenerator(testData).every(i => Array.isArray(i.action_params))
     ).toBe(true);
   });
+
+  it('handles mixed primitive types in action_params (e.g., send_attachment with blob_id and blob_key)', () => {
+    const attachmentData = [
+      {
+        action_name: 'send_attachment',
+        action_params: [123, 'abc123xyz'],
+      },
+    ];
+    const result = actionQueryGenerator(attachmentData);
+    expect(result).toEqual([
+      {
+        action_name: 'send_attachment',
+        action_params: [123, 'abc123xyz'],
+      },
+    ]);
+  });
 });
