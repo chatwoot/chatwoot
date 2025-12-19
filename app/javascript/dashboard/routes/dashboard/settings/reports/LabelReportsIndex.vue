@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import ReportHeader from './components/ReportHeader.vue';
-import SummaryReports from './components/SummaryReports.vue';
+import HierarchicalLabelReports from './components/HierarchicalLabelReports.vue';
 import V4Button from 'dashboard/components-next/button/Button.vue';
 
 const summarReportsRef = ref(null);
@@ -24,12 +24,11 @@ const onDownloadClick = () => {
     />
   </ReportHeader>
 
-  <SummaryReports
+  <HierarchicalLabelReports
     ref="summarReportsRef"
     action-key="summaryReports/fetchLabelSummaryReports"
     getter-key="labels/getLabels"
     fetch-items-key="labels/get"
     summary-key="summaryReports/getLabelSummaryReports"
-    type="label"
   />
 </template>
