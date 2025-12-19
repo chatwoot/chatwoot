@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "נוצר",
     "NEW_MESSAGE": "הודעה חדשה",
     "CALL": "התקשר",
-    "CALL_UNDER_DEVELOPMENT": "השיחות נמצאות בפיתוח",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "בחר תיבת דואר קולי"
     },
@@ -455,6 +456,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "הוסף אינסטגרם"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "הוסף LinkedIn"

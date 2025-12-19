@@ -351,7 +351,8 @@
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "עוזרים",
       "SWITCH_ASSISTANT": "החלף בין עוזרים",
-      "NEW_ASSISTANT": "צור עוזר"
+      "NEW_ASSISTANT": "צור עוזר",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
     },
     "COPILOT": {
       "TITLE": "טייס משנה",

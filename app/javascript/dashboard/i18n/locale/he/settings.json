@@ -234,6 +234,7 @@
     "CONTACT_SUPPORT": "צור קשר עם התמיכה",
     "SELECTOR_SUBTITLE": "בחר חשבון מהרשימה הבאה",
     "PROFILE_SETTINGS": "הגדרות פרופיל",
+    "YEAR_IN_REVIEW": "Year in Review",
     "KEYBOARD_SHORTCUTS": "קיצורי מקלדת",
     "APPEARANCE": "שנה מראה",
     "SUPER_ADMIN_CONSOLE": "קונסולת מנהל-על",
@@ -306,6 +307,8 @@
     "SETTINGS": "הגדרות",
     "CONTACTS": "איש קשר",
     "ACTIVE": "פעיל",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "קפטן",
     "CAPTAIN_ASSISTANTS": "עוזרים",
     "CAPTAIN_DOCUMENTS": "מסמכים",
@@ -398,19 +401,44 @@
       "BUTTON_TXT": "קנה עוד זיכויים",
       "DOCUMENTS": "מסמכים",
       "RESPONSES": "תגובות",
-      "UPGRADE": "Captain אינו זמין בתוכנית החינמית, שדרג עכשיו כדי לקבל גישה לעוזרים, ל-Copilot ועוד."
+      "UPGRADE": "Captain אינו זמין בתוכנית החינמית, שדרג עכשיו כדי לקבל גישה לעוזרים, ל-Copilot ועוד.",
+      "REFRESH_CREDITS": "רענן"
     },
     "CHAT_WITH_US": {
       "TITLE": "זקוק לעזרה?",
       "DESCRIPTION": "האם אתה נתקל בבעיות כלשהן בחיוב? אנחנו כאן כדי לעזור.",
       "BUTTON_TXT": "דבר איתנו"
     },
-    "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב."
+    "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב.",
+    "TOPUP": {
+      "BUY_CREDITS": "קנה עוד זיכויים",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "הערה:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "ביטול",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "חזור",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "אבטחה",
     "DESCRIPTION": "נהל את הגדרות האבטחה של חשבונך.",
     "LINK_TEXT": "למד עוד על SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

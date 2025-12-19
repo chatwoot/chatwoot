@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
     "CALL": "დარეკვა",
-    "CALL_UNDER_DEVELOPMENT": "ზარის ფუნქცია დამუშავების პროცესშია",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "აირჩიეთ ხმოვანი საფოსტო ყუთი"
     },
@@ -455,6 +456,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"
