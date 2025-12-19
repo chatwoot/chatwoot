@@ -9,12 +9,15 @@
         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
       </svg>
     </summary>
-    <ul class="grid m-0 list-none">
+    <ul class="grid m-0 list-none settings-submenu">
       <% settings_pages.each do |_feature_key, attrs| %>
         <% url = super_admin_app_config_url(config: attrs['config_key']) %>
-        <li class="py-0.5 pl-3 ml-3 relative before:content-[''] before:absolute before:w-0.5 before:h-full before:bg-n-slate-4 before:left-0 before:rounded-full first:before:rounded-t last:before:h-1/2 last:before:top-0">
+        <li class="py-0.5 pl-3 ml-3 relative text-n-slate-11 settings-child-item">
           <% is_active = current_page?(url) %>
-          <%= link_to url, class: "flex h-8 items-center gap-2 px-2 py-1 rounded-lg text-sm hover:bg-n-alpha-2 #{is_active ? 'text-n-blue-text bg-n-alpha-2' : 'text-n-slate-11'}" do %>
+          <%= link_to url, class: "flex h-8 items-center gap-2 px-2 py-1 rounded-lg text-sm hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 max-w-[140px] #{is_active ? 'text-n-blue-text bg-n-alpha-2' : ''}" do %>
+            <% if attrs['icon'].present? %>
+              <svg width="16" height="16" class="flex-shrink-0"><use xlink:href="#<%= attrs['icon'] %>" /></svg>
+            <% end %>
             <span class="truncate"><%= attrs['name'] %></span>
           <% end %>
         </li>
@@ -22,3 +25,39 @@
     </ul>
   </details>
 </li>
+
+<style>
+.settings-submenu .settings-child-item::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgb(var(--slate-4));
+}
+
+.settings-submenu .settings-child-item:first-child::before {
+  border-radius: 4px 4px 0 0;
+}
+
+.settings-submenu .settings-child-item:last-child::before {
+  height: calc(50% - 4px);
+  top: 0;
+  border-radius: 4px 4px 0 0;
+}
+
+.settings-submenu .settings-child-item:last-child::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: calc(50% - 6px);
+  border-bottom: 2px solid rgb(var(--slate-4));
+  border-left: 2px solid rgb(var(--slate-4));
+  border-right: 0;
+  border-top: 0;
+  border-radius: 0 0 0 4px;
+  left: 0;
+}
+</style>
