@@ -9,7 +9,8 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
            account: account,
            first_response_time_threshold: nil,
            next_response_time_threshold: nil,
-           resolution_time_threshold: nil)
+           resolution_time_threshold: nil,
+           only_during_business_hours: true)
   end
   let!(:conversation) do
     create(:conversation,
@@ -220,6 +221,78 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(0)
       expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(2)
       expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(1)
+    end
+  end
+
+  describe 'SLA evaluation with business hours' do
+    let!(:inbox) { create(:inbox, account: account, working_hours_enabled: true) }
+    let!(:conversation) do
+      create(:conversation,
+             created_at: '15.05.2024 08:00'.to_datetime, assignee: user_1,
+             account: sla_policy.account,
+             sla_policy: sla_policy,
+             inbox: inbox)
+    end
+    let!(:applied_sla) { conversation.applied_sla }
+
+    before do
+      Time.zone = 'UTC'
+      travel_to '15.05.2024 10:00'.to_datetime
+      applied_sla.sla_policy.update(first_response_time_threshold: 2.hours)
+      applied_sla.sla_policy.update(only_during_business_hours: true)
+    end
+
+    context 'when first response threshold is not missed' do
+      before { applied_sla.sla_policy.update(first_response_time_threshold: 2.hours) }
+
+      it 'does nothing and SLA is still active' do
+        # conversation_created_at 8 am
+        # frt is 2 hours
+        # current time is 10 am
+        # without business_hours this would have missed
+        # frt would be due at 11am
+        allow(Rails.logger).to receive(:warn)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).not_to have_received(:warn)
+        expect(applied_sla.reload.sla_status).to eq('active')
+      end
+    end
+
+    context 'when first response SLA is missed' do
+      before do
+        Time.zone = 'UTC'
+        travel_to '15.05.2024 11:01'.to_datetime
+      end
+
+      it 'updates the SLA status to missed and logs a warning' do
+        # conversation_created_at 8 am
+        # frt is 2 hours
+        # frt would be due at 11am
+        # current time is 11.01 am
+        # this will miss
+        allow(Rails.logger).to receive(:warn)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:warn).with("SLA frt missed for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
+      end
+    end
+
+    context 'when first response SLA is hit' do
+      before do
+        conversation.update(first_reply_created_at: 30.minutes.ago)
+      end
+
+      it 'updates the SLA status to hit and logs an info when conversations is resolved' do
+        conversation.resolved!
+        allow(Rails.logger).to receive(:info)
+        described_class.new(applied_sla: applied_sla).perform
+        expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+        expect(applied_sla.reload.sla_status).to eq('hit')
+        expect(SlaEvent.count).to eq(0)
+        expect(Notification.count).to eq(0)
+      end
     end
   end
 end
