@@ -29,7 +29,7 @@ const chatSortFilter = useMapGetter('getChatSortFilter');
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const currentStatusFilter = computed(() => {
-  return chatStatusFilter.value || wootConstants.STATUS_TYPE.OPEN;
+  return chatStatusFilter.value || wootConstants.STATUS_TYPE.ALL;
 });
 
 const currentSortBy = computed(() => {
@@ -154,7 +154,7 @@ const handleSortChange = value => {
           {{ $t('CHAT_LIST.CHAT_SORT.STATUS') }}
         </span>
         <SelectMenu
-          :model-value="chatStatusFilter"
+          :model-value="currentStatusFilter"
           :options="chatStatusOptions"
           :label="activeChatStatusLabel"
           :sub-menu-position="isOnExpandedLayout ? 'left' : 'right'"
