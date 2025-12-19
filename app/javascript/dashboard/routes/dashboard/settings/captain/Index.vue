@@ -57,7 +57,7 @@ const featureToggles = computed(() => [
     key: 'label_suggestion',
     title: t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.TITLE'),
     description: t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.DESCRIPTION'),
-    enterprise: false,
+    enterprise: true,
   },
 ]);
 
