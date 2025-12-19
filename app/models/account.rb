@@ -82,6 +82,7 @@ class Account < ApplicationRecord
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
   has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'
+  has_many :tiktok_channels, dependent: :destroy_async, class_name: '::Channel::Tiktok'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
   has_many :labels, dependent: :destroy_async

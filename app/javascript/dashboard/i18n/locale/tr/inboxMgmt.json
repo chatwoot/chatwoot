@@ -57,6 +57,13 @@
         "NEW_INBOX_SUGGESTION": "Bu Instagram hesabı daha önce farklı bir gelen kutusuna bağlıydı ve şimdi buraya taşındı. Tüm yeni mesajlar burada görünecektir. Eski gelen kutusu, bu hesap için artık mesaj gönderemeyecek veya alamayacaktır.",
         "DUPLICATE_INBOX_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız."
       },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
+        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
+        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+      },
       "TWITTER": {
         "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
         "ERROR_MESSAGE": "Twitter'a bağlanırken bir hata oluştu, lütfen daha sonra tekrar deneyin",
@@ -381,7 +388,11 @@
         "API": {
           "ERROR_MESSAGE": "E-posta kanalını kaydedemedik"
         },
-        "FINISH_MESSAGE": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın."
+        "FINISH_MESSAGE": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın.",
+        "FINISH_MESSAGE_NO_FORWARDING": "E-posta gelen kutunuz başarıyla oluşturuldu! E-posta gönderip almak için SMTP ve IMAP bilgilerinizi yapılandırmanız gerekmektedir. Bu ayarlar yapılmadan hiçbir e-posta işlenmeyecektir.",
+        "FORWARDING_ADDRESS_LABEL": "E-postaları bu adrese yönlendirin:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Buraya Tıkla",
+        "CONFIGURE_SMTP_IMAP_TEXT": " IMAP ve SMTP ayarlarını yapılandırmak için"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE Kanalı",
@@ -466,6 +477,10 @@
           "INSTAGRAM": {
             "TITLE": "Instagram",
             "DESCRIPTION": "Instagram hesabınızı bağlayın"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Connect your TikTok account"
           },
           "VOICE": {
             "TITLE": "Ses",
@@ -707,6 +722,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "API istemcilerinizi kimlik doğrulamak için burada gösterilen `inbox_identifier` belirteci ile kullanın.",
       "FORWARD_EMAIL_TITLE": "E-postaya İlet",
       "FORWARD_EMAIL_SUB_TEXT": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "E-postaların gelen kutunuza yönlendirilmesi bu kurulumda şu anda devre dışı bırakılmıştır. Bu özelliği kullanabilmek için yöneticiniz tarafından etkinleştirilmesi gerekmektedir. Devam etmek için lütfen yönetici ile iletişime geçin.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Çözülen konuşmadan sonra mesajlara izin ver",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Konuşma çözüldükten sonra bile son kullanıcılara mesaj göndermelerine izin ver.",
       "WHATSAPP_SECTION_SUBHEADER": "Bu API Anahtarı, WhatsApp API'larıyla entegrasyon için kullanılır.",
@@ -1004,6 +1020,7 @@
       "LINE": "Line",
       "API": "API Kanalı",
       "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
       "VOICE": "Ses"
     }
   }
