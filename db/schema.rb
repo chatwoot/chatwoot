@@ -1186,7 +1186,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
     t.bigint "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "parent_id"
+    t.integer "depth"
+    t.integer "children_count"
+    t.index ["account_id", "parent_id"], name: "index_labels_on_account_id_and_parent_id"
     t.index ["account_id"], name: "index_labels_on_account_id"
+    t.index ["parent_id"], name: "index_labels_on_parent_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
@@ -1598,6 +1603,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_14_000000) do
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
+  add_foreign_key "labels", "labels", column: "parent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
