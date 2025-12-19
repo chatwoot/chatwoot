@@ -227,3 +227,6 @@
   enabled: false
   premium: true
   chatwoot_internal: true
+- name: channel_tiktok
+  display_name: TikTok Channel
+  enabled: true

@@ -47,8 +47,14 @@
 - Avoid writing specs unless explicitly asked
 - Remove dead/unreachable/unused code
 - Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
-- Don't reference Claude in commit messages
 - Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
+- Specs in parallel/reloading environments: prefer comparing `error.class.name` over constant class equality when asserting raised errors
+
+## Commit Messages
+
+- Prefer Conventional Commits: `type(scope): subject` (scope optional)
+- Example: `feat(auth): add user authentication`
+- Don't reference Claude in commit messages
 
 ## Project-Specific
 
