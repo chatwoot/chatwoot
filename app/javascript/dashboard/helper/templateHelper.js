@@ -88,6 +88,16 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
             parameter: '',
           };
         }
+
+        // Handle catalog buttons (for catalog-connected marketing templates)
+        if (button.type === 'CATALOG') {
+          if (!allVariables.buttons) allVariables.buttons = [];
+          allVariables.buttons[index] = {
+            type: 'catalog',
+            parameter: '',
+            thumbnail_product_retailer_id: '',
+          };
+        }
       });
     }
   });
