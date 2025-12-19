@@ -36,15 +36,71 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   end
 
   def build_label_report(label, report_data)
+    metrics = if label.children_count.positive?
+                aggregate_label_metrics(label, report_data)
+              else
+                simple_label_metrics(label.title, report_data)
+              end
+
+    metrics.merge(id: label.id, name: label.title)
+  end
+
+  def aggregate_label_metrics(label, report_data)
+    label_titles = label.self_and_descendants.map(&:title)
+    counts = aggregate_counts(label_titles, report_data)
+    time_metrics = aggregate_time_metrics(label_titles, report_data)
+
+    counts.merge(time_metrics)
+  end
+
+  def simple_label_metrics(title, report_data)
     {
-      id: label.id,
-      name: label.title,
-      conversations_count: report_data[:conversation_counts][label.title] || 0,
-      avg_resolution_time: report_data[:resolution_metrics][label.title] || 0,
-      avg_first_response_time: report_data[:first_response_metrics][label.title] || 0,
-      avg_reply_time: report_data[:reply_metrics][label.title] || 0,
-      resolved_conversations_count: report_data[:resolved_counts][label.title] || 0
+      conversations_count: report_data[:conversation_counts][title] || 0,
+      resolved_conversations_count: report_data[:resolved_counts][title] || 0,
+      avg_resolution_time: report_data[:resolution_metrics][title] || 0,
+      avg_first_response_time: report_data[:first_response_metrics][title] || 0,
+      avg_reply_time: report_data[:reply_metrics][title] || 0
     }
+  end
+
+  def aggregate_counts(label_titles, report_data)
+    {
+      conversations_count: label_titles.sum { |t| report_data[:conversation_counts][t] || 0 },
+      resolved_conversations_count: label_titles.sum { |t| report_data[:resolved_counts][t] || 0 }
+    }
+  end
+
+  def aggregate_time_metrics(label_titles, report_data)
+    {
+      avg_resolution_time: calculate_weighted_average(
+        label_titles, report_data[:resolution_metrics], report_data[:resolved_counts]
+      ),
+      avg_first_response_time: calculate_weighted_average(
+        label_titles, report_data[:first_response_metrics], report_data[:conversation_counts]
+      ),
+      avg_reply_time: calculate_weighted_average(
+        label_titles, report_data[:reply_metrics], report_data[:conversation_counts]
+      )
+    }
+  end
+
+  def calculate_weighted_average(label_titles, metrics_data, weights_data)
+    total_weight = 0
+    weighted_sum = 0
+
+    label_titles.each do |title|
+      metric_value = metrics_data[title] || 0
+      weight = weights_data[title] || 0
+
+      if weight.positive? && metric_value.positive?
+        weighted_sum += metric_value * weight
+        total_weight += weight
+      end
+    end
+
+    return 0 if total_weight.zero?
+
+    weighted_sum / total_weight
   end
 
   def use_business_hours?

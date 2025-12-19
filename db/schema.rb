@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_19_165533) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -909,7 +909,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.bigint "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "parent_id"
+    t.integer "depth"
+    t.integer "children_count"
+    t.index ["account_id", "parent_id"], name: "index_labels_on_account_id_and_parent_id"
     t.index ["account_id"], name: "index_labels_on_account_id"
+    t.index ["parent_id"], name: "index_labels_on_parent_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
@@ -1267,6 +1272,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "labels", "labels", column: "parent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
