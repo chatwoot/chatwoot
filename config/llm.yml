@@ -47,15 +47,14 @@ models:
 
 features:
   editor:
-    models:
-      [gpt-4.1-mini, gpt-4.1-nano, gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
-    default: gpt-5-mini
+    models: [gpt-4.1-mini, gpt-4.1-nano, gpt-5-mini, gpt-4.1, gpt-5]
+    default: gpt-4.1-mini
   assistant:
-    models: [gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
-    default: gpt-5-mini
+    models: [gpt-5-mini, gpt-4.1, gpt-5]
+    default: gpt-5
   copilot:
-    models: [gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
-    default: gpt-5-mini
+    models: [gpt-5-mini, gpt-4.1, gpt-5]
+    default: gpt-5
   label_suggestion:
     models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]
     default: gpt-4.1-nano
