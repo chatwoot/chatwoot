@@ -58,11 +58,11 @@
         "DUPLICATE_INBOX_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Non sarai più in grado di inviare/ricevere messaggi Instagram da questa Inbox."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Continua con TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connetti il tuo profilo TikTok",
+        "HELP": "Per aggiungere il tuo profilo TikTok come canale, devi autenticare il tuo profilo TikTok cliccando su 'Continua con TikTok' ",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a TikTok, riprova",
+        "ERROR_AUTH": "Si è verificato un errore nella connessione a TikTok, riprova"
       },
       "TWITTER": {
         "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
@@ -480,7 +480,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Collega il tuo account TikTok"
           },
           "VOICE": {
             "TITLE": "Voce",
