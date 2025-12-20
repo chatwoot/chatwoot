@@ -1,13 +1,15 @@
-const allElementsPrimitive = arr => {
-  return arr.every(
-    elem => typeof elem === 'string' || typeof elem === 'number'
-  );
+const allElementsString = arr => {
+  return arr.every(elem => typeof elem === 'string');
+};
+
+const allElementsNumbers = arr => {
+  return arr.every(elem => typeof elem === 'number');
 };
 
 const formatArray = params => {
   if (params.length <= 0) {
     params = [];
-  } else if (allElementsPrimitive(params)) {
+  } else if (allElementsString(params) || allElementsNumbers(params)) {
     params = [...params];
   } else {
     params = params.map(val => val.id);

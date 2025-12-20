@@ -45,7 +45,6 @@ const state = reactive({
   liveChatWidgetInboxId: '',
   logoUrl: '',
   avatarBlobId: '',
-  avatarBlobKey: '',
 });
 
 const originalState = reactive({ ...state });
@@ -121,16 +120,13 @@ watch(
       });
       if (newVal.logo) {
         const {
-          logo: { file_url: logoURL },
+          logo: { file_url: logoURL, blob_id: blobId },
         } = newVal;
         state.logoUrl = logoURL;
-        // Don't set blob IDs from existing logo - only set when uploading new
-        state.avatarBlobId = '';
-        state.avatarBlobKey = '';
+        state.avatarBlobId = blobId;
       } else {
         state.logoUrl = '';
         state.avatarBlobId = '';
-        state.avatarBlobKey = '';
       }
       Object.assign(originalState, state);
     }
@@ -152,7 +148,6 @@ const handleUpdatePortal = () => {
     header_text: state.headerText,
     homepage_link: state.homePageLink,
     blob_id: state.avatarBlobId,
-    blob_key: state.avatarBlobKey,
     inbox_id: state.liveChatWidgetInboxId,
   };
   emit('updatePortal', portal);
@@ -160,11 +155,10 @@ const handleUpdatePortal = () => {
 
 async function uploadLogoToStorage({ file }) {
   try {
-    const { fileUrl, blobId, blobKey } = await uploadFile(file);
+    const { fileUrl, blobId } = await uploadFile(file);
     if (fileUrl) {
       state.logoUrl = fileUrl;
       state.avatarBlobId = blobId;
-      state.avatarBlobKey = blobKey;
     }
     useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_SUCCESS'));
   } catch (error) {
@@ -200,7 +194,6 @@ const handleAvatarUpload = file => {
 const handleAvatarDelete = () => {
   state.logoUrl = '';
   state.avatarBlobId = '';
-  state.avatarBlobKey = '';
   deleteLogo();
 };
 </script>

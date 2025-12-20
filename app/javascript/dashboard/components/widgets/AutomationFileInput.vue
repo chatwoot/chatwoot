@@ -30,11 +30,11 @@ export default {
       this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOADING');
       try {
         const file = event.target.files[0];
-        const { blobId, blobKey } = await this.$store.dispatch(
+        const id = await this.$store.dispatch(
           'automations/uploadAttachment',
           file
         );
-        this.$emit('update:modelValue', [blobId, blobKey]);
+        this.$emit('update:modelValue', [id]);
         this.uploadState = 'uploaded';
         this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOADED');
       } catch (error) {
