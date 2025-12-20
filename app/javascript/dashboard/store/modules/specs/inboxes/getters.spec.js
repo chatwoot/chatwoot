@@ -27,7 +27,7 @@ describe('#getters', () => {
 
   it('dialogFlowEnabledInboxes', () => {
     const state = { records: inboxList };
-    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(7);
+    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(8);
   });
 
   it('getInbox', () => {
@@ -91,6 +91,18 @@ describe('#getters', () => {
       name: 'Test Instagram 1',
       channel_type: 'Channel::Instagram',
       instagram_id: 123456789,
+      provider: 'default',
+    });
+  });
+
+  it('getTiktokInboxByBusinessId', () => {
+    const state = { records: inboxList };
+    expect(getters.getTiktokInboxByBusinessId(state)(123456789)).toEqual({
+      id: 8,
+      channel_id: 8,
+      name: 'Test TikTok 1',
+      channel_type: 'Channel::Tiktok',
+      business_id: 123456789,
       provider: 'default',
     });
   });
