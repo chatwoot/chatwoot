@@ -1,8 +1,8 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "קמפיינים של צ'אט חי",
+      "NEW_CAMPAIGN": "צור קמפיין",
       "CARD": {
         "STATUS": {
           "ENABLED": "מופעל",
@@ -12,15 +12,15 @@
           "SENT_BY": "נשלח על ידי",
           "BOT": "בוט",
           "FROM": "מ",
-          "URL": "URL:"
+          "URL": "כתובת URL:"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "אין קמפיינים של צ'אט חי זמינים",
+        "SUBTITLE": "צור קשר עם הלקוחות שלך באמצעות הודעות יזומות. לחץ על 'צור קמפיין' כדי להתחיל."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "צור קמפיין צ'אט חי",
         "CANCEL_BUTTON_TEXT": "ביטול",
         "CREATE_BUTTON_TEXT": "צור",
         "FORM": {
@@ -41,11 +41,11 @@
           },
           "SENT_BY": {
             "LABEL": "נשלח על ידי",
-            "PLACEHOLDER": "Please select sender",
+            "PLACEHOLDER": "אנא בחר שולח",
             "ERROR": "שולח שדה חובה"
           },
           "END_POINT": {
-            "LABEL": "URL",
+            "LABEL": "כתובת URL",
             "PLACEHOLDER": "אנא הכנס כתובת URL",
             "ERROR": "אנא הכנס כתובת URL חוקית"
           },
@@ -55,7 +55,7 @@
             "ERROR": "זמן על הדף שדה חובה"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
+            "TITLE": "העדפות אחרות",
             "ENABLED": "הפעל קמפיין",
             "TRIGGER_ONLY_BUSINESS_HOURS": "הפעל רק בשעות העבודה"
           },
@@ -64,40 +64,40 @@
             "CANCEL": "ביטול"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "SUCCESS_MESSAGE": "קמפיין צ'אט חי נוצר בהצלחה",
             "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "ערוך קמפיין צ'אט חי",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "SUCCESS_MESSAGE": "קמפיין צ'אט חי עודכן בהצלחה",
             "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
           }
         }
       }
     },
     "SMS": {
-      "HEADER_TITLE": "SMS campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "קמפיינים של SMS",
+      "NEW_CAMPAIGN": "צור קמפיין",
       "EMPTY_STATE": {
-        "TITLE": "No SMS campaigns are available",
-        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "אין קמפיינים של SMS זמינים",
+        "SUBTITLE": "השק קמפיין SMS כדי להגיע ללקוחות שלך ישירות. שלח הצעות או פרסם הודעות בקלות. לחץ על 'צור קמפיין' כדי להתחיל."
       },
       "CARD": {
         "STATUS": {
           "COMPLETED": "הושלם",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "מתוזמן"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+          "SENT_FROM": "נשלח מ-",
+          "ON": "ב-"
         }
       },
       "CREATE": {
-        "TITLE": "Create SMS campaign",
+        "TITLE": "צור קמפיין SMS",
         "CANCEL_BUTTON_TEXT": "ביטול",
         "CREATE_BUTTON_TEXT": "צור",
         "FORM": {
@@ -131,31 +131,31 @@
             "CANCEL": "ביטול"
           },
           "API": {
-            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "SUCCESS_MESSAGE": "קמפיין SMS נוצר בהצלחה",
             "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
           }
         }
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "קמפיינים של WhatsApp",
+      "NEW_CAMPAIGN": "צור קמפיין",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "אין קמפיינים של WhatsApp זמינים",
+        "SUBTITLE": "השק קמפיין WhatsApp כדי להגיע ללקוחות שלך ישירות. שלח הצעות או פרסם הודעות בקלות. לחץ על 'צור קמפיין' כדי להתחיל."
       },
       "CARD": {
         "STATUS": {
           "COMPLETED": "הושלם",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "מתוזמן"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+          "SENT_FROM": "נשלח מ-",
+          "ON": "ב-"
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
+        "TITLE": "צור קמפיין WhatsApp",
         "CANCEL_BUTTON_TEXT": "ביטול",
         "CREATE_BUTTON_TEXT": "צור",
         "FORM": {
@@ -170,15 +170,15 @@
             "ERROR": "נדרשת תיבת דואר נכנס"
           },
           "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
+            "LABEL": "תבנית WhatsApp",
+            "PLACEHOLDER": "בחר תבנית",
+            "INFO": "בחר תבנית לשימוש בקמפיין זה.",
+            "ERROR": "תבנית נדרשת",
             "PREVIEW_TITLE": "עיבוד {templateName}",
             "LANGUAGE": "שפה",
             "CATEGORY": "קטגוריה",
             "VARIABLES_LABEL": "משתנים",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "VARIABLE_PLACEHOLDER": "הזן ערך עבור {variable}"
           },
           "AUDIENCE": {
             "LABEL": "קהל",
@@ -195,7 +195,7 @@
             "CANCEL": "ביטול"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "SUCCESS_MESSAGE": "קמפיין WhatsApp נוצר בהצלחה",
             "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
           }
         }
@@ -203,7 +203,7 @@
     },
     "CONFIRM_DELETE": {
       "TITLE": "האם אתה בטוח שברצונך למחוק?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "DESCRIPTION": "פעולת המחיקה היא קבועה ולא ניתנת לביטול.",
       "CONFIRM": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "מסע הפרסום נמחק בהצלחה",
