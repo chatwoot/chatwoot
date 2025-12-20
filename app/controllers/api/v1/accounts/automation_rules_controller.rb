@@ -1,6 +1,4 @@
 class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseController
-  include ::BlobOwnershipValidation
-
   before_action :check_authorization
   before_action :fetch_automation_rule, only: [:show, :update, :destroy, :clone]
 
@@ -12,7 +10,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def create
     @automation_rule = Current.account.automation_rules.new(automation_rules_permit)
-    @automation_rule.actions = processed_actions
+    @automation_rule.actions = params[:actions]
     @automation_rule.conditions = params[:conditions]
 
     render json: { error: @automation_rule.errors.messages }, status: :unprocessable_entity and return unless @automation_rule.valid?
@@ -46,11 +44,13 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   def process_attachments
-    params[:actions]&.each do |action|
-      next unless action['action_name'] == 'send_attachment'
+    actions = @automation_rule.actions.filter_map { |k, _v| k if k['action_name'] == 'send_attachment' }
+    return if actions.blank?
 
-      blob_id, blob_key = action['action_params']
-      attach_blob_to(@automation_rule.files, blob_id: blob_id, blob_key: blob_key)
+    actions.each do |action|
+      blob_id = action['action_params']
+      blob = ActiveStorage::Blob.find_by(id: blob_id)
+      @automation_rule.files.attach(blob)
     end
   end
 
@@ -58,7 +58,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def automation_rule_update
     @automation_rule.update!(automation_rules_permit)
-    @automation_rule.actions = processed_actions if params[:actions]
+    @automation_rule.actions = params[:actions] if params[:actions]
     @automation_rule.conditions = params[:conditions] if params[:conditions]
     @automation_rule.save!
   end
@@ -73,11 +73,5 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def fetch_automation_rule
     @automation_rule = Current.account.automation_rules.find_by(id: params[:id])
-  end
-
-  def processed_actions
-    params[:actions]&.each do |action|
-      action['action_params'] = action['action_params'].take(1) if action['action_name'] == 'send_attachment'
-    end
   end
 end

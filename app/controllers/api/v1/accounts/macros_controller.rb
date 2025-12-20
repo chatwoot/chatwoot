@@ -1,6 +1,4 @@
 class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
-  include ::BlobOwnershipValidation
-
   before_action :fetch_macro, only: [:show, :update, :destroy, :execute]
   before_action :check_authorization, only: [:show, :update, :destroy, :execute]
 
@@ -15,7 +13,7 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   def create
     @macro = Current.account.macros.new(macros_with_user.merge(created_by_id: current_user.id))
     @macro.set_visibility(current_user, permitted_params)
-    @macro.actions = processed_actions
+    @macro.actions = params[:actions]
 
     render json: { error: @macro.errors.messages }, status: :unprocessable_entity and return unless @macro.valid?
 
@@ -28,9 +26,8 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     ActiveRecord::Base.transaction do
       @macro.update!(macros_with_user)
       @macro.set_visibility(current_user, permitted_params)
-      @macro.actions = processed_actions if params[:actions]
-      @macro.save!
       process_attachments
+      @macro.save!
     rescue StandardError => e
       Rails.logger.error e
       render json: { error: @macro.errors.messages }.to_json, status: :unprocessable_entity
@@ -51,11 +48,13 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   private
 
   def process_attachments
-    params[:actions]&.each do |action|
-      next unless action['action_name'] == 'send_attachment'
+    actions = @macro.actions.filter_map { |k, _v| k if k['action_name'] == 'send_attachment' }
+    return if actions.blank?
 
-      blob_id, blob_key = action['action_params']
-      attach_blob_to(@macro.files, blob_id: blob_id, blob_key: blob_key)
+    actions.each do |action|
+      blob_id = action['action_params']
+      blob = ActiveStorage::Blob.find_by(id: blob_id)
+      @macro.files.attach(blob)
     end
   end
 
@@ -76,11 +75,5 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
 
   def check_authorization
     authorize(@macro) if @macro.present?
-  end
-
-  def processed_actions
-    params[:actions]&.each do |action|
-      action['action_params'] = action['action_params'].take(1) if action['action_name'] == 'send_attachment'
-    end
   end
 end

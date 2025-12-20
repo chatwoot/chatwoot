@@ -147,7 +147,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
           },
           {
             'action_name': :send_attachment,
-            'action_params': [blob['blob_id'], blob['blob_key']]
+            'action_params': [blob['blob_id']]
           }
         ]
 
@@ -158,83 +158,6 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         macro = account.macros.last
         expect(macro.files.presence).to be_truthy
         expect(macro.files.count).to eq(1)
-      end
-
-      it 'does not attach file when blob_key is missing' do
-        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-
-        post "/api/v1/accounts/#{account.id}/upload/",
-             headers: administrator.create_new_auth_token,
-             params: { attachment: file }
-
-        blob = response.parsed_body
-
-        params[:actions] = [
-          {
-            'action_name': :send_attachment,
-            'action_params': [blob['blob_id']]
-          }
-        ]
-
-        post "/api/v1/accounts/#{account.id}/macros",
-             headers: administrator.create_new_auth_token,
-             params: params
-
-        macro = account.macros.last
-        expect(macro.files.count).to eq(0)
-      end
-
-      it 'does not attach file when blob_key is incorrect (prevents IDOR via enumeration)' do
-        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-
-        post "/api/v1/accounts/#{account.id}/upload/",
-             headers: administrator.create_new_auth_token,
-             params: { attachment: file }
-
-        blob = response.parsed_body
-
-        params[:actions] = [
-          {
-            'action_name': :send_attachment,
-            'action_params': [blob['blob_id'], 'wrong_key']
-          }
-        ]
-
-        post "/api/v1/accounts/#{account.id}/macros",
-             headers: administrator.create_new_auth_token,
-             params: params
-
-        macro = account.macros.last
-        expect(macro.files.count).to eq(0)
-      end
-
-      it 'does not attach file when blob is already attached to another record' do
-        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-
-        post "/api/v1/accounts/#{account.id}/upload/",
-             headers: administrator.create_new_auth_token,
-             params: { attachment: file }
-
-        blob = response.parsed_body
-
-        # Attach blob to another macro first
-        other_macro = create(:macro, account: account, created_by: administrator, updated_by: administrator)
-        other_macro.files.attach(ActiveStorage::Blob.find(blob['blob_id']))
-
-        # Try to reuse the blob - should fail
-        params[:actions] = [
-          {
-            'action_name': :send_attachment,
-            'action_params': [blob['blob_id'], blob['blob_key']]
-          }
-        ]
-
-        post "/api/v1/accounts/#{account.id}/macros",
-             headers: administrator.create_new_auth_token,
-             params: params
-
-        macro = account.macros.where.not(id: other_macro.id).last
-        expect(macro.files.count).to eq(0)
       end
     end
   end
