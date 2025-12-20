@@ -53,7 +53,7 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
 
     actions.each do |action|
       blob_id = action['action_params']
-      blob = ActiveStorage::Blob.find_by(id: blob_id)
+      blob = ActiveStorage::Blob.find_signed(blob_id)
       @macro.files.attach(blob)
     end
   end

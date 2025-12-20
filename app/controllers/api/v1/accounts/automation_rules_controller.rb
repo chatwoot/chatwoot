@@ -49,7 +49,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
     actions.each do |action|
       blob_id = action['action_params']
-      blob = ActiveStorage::Blob.find_by(id: blob_id)
+      blob = ActiveStorage::Blob.find_signed(blob_id)
       @automation_rule.files.attach(blob)
     end
   end
