@@ -15,7 +15,7 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   def create
     @macro = Current.account.macros.new(macros_with_user.merge(created_by_id: current_user.id))
     @macro.set_visibility(current_user, permitted_params)
-    @macro.actions = params[:actions]
+    @macro.actions = processed_actions
 
     render json: { error: @macro.errors.messages }, status: :unprocessable_entity and return unless @macro.valid?
 
@@ -28,8 +28,9 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     ActiveRecord::Base.transaction do
       @macro.update!(macros_with_user)
       @macro.set_visibility(current_user, permitted_params)
-      process_attachments
+      @macro.actions = processed_actions if params[:actions]
       @macro.save!
+      process_attachments
     rescue StandardError => e
       Rails.logger.error e
       render json: { error: @macro.errors.messages }.to_json, status: :unprocessable_entity
@@ -50,15 +51,12 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   private
 
   def process_attachments
-    actions = @macro.actions.filter_map { |k, _v| k if k['action_name'] == 'send_attachment' }
-    return if actions.blank?
+    params[:actions]&.each do |action|
+      next unless action['action_name'] == 'send_attachment'
 
-    actions.each do |action|
       blob_id, blob_key = action['action_params']
       attach_blob_to(@macro.files, blob_id: blob_id, blob_key: blob_key)
-      action['action_params'] = [blob_id]
     end
-    @macro.save!
   end
 
   def permitted_params
@@ -78,5 +76,11 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
 
   def check_authorization
     authorize(@macro) if @macro.present?
+  end
+
+  def processed_actions
+    params[:actions]&.each do |action|
+      action['action_params'] = action['action_params'].take(1) if action['action_name'] == 'send_attachment'
+    end
   end
 end
