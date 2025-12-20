@@ -48,6 +48,8 @@ ru:
       failed: Ошибка регистрации
     assignment_policy:
       not_found: Политика назначения не найдена
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
       sso_not_enabled: SAML SSO is not enabled for this installation
