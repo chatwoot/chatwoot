@@ -827,7 +827,6 @@ GEM
       faraday-net_http (>= 1)
       faraday-retry (>= 1)
       marcel (~> 1.0)
-      ruby_llm-schema (~> 0.2.1)
       zeitwerk (~> 2)
     ruby_llm-schema (0.2.5)
     ruby_parser (3.20.0)
@@ -1162,4 +1161,4 @@ RUBY VERSION
    ruby 3.4.4p34
 
 BUNDLED WITH
-   2.5.16
+   2.7.2
