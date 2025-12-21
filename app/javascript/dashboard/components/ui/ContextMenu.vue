@@ -39,9 +39,11 @@ const calculatePosition = (x, y, menuW, menuH, windowW, windowH) => {
   let top = y;
   // Boundary checks
   const isOverflowingRight = left + menuW > windowW - PADDING;
+  const isOverflowingLeft = left < PADDING;
   const isOverflowingBottom = top + menuH > windowH - PADDING;
   // Adjust position if overflowing
   if (isOverflowingRight) left = windowW - menuW - PADDING;
+  if (isOverflowingLeft) left = PADDING;
   if (isOverflowingBottom) top = windowH - menuH - PADDING;
   return {
     left: Math.max(PADDING, left),
