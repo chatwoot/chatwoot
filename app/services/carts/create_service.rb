@@ -120,7 +120,7 @@ class Carts::CreateService
       lines << "#{item.product.title_en} x#{item.quantity}: #{item.total_price} #{currency}"
     end
     lines << "\nTotal: #{cart.total} #{currency}"
-    lines << "\nPay here: #{cart.payment_url}"
+    lines << "\nPay here: #{cart.preview_url}"
     lines.join("\n")
   end
 
@@ -129,6 +129,7 @@ class Carts::CreateService
       cart_id: cart.id,
       external_payment_id: cart.external_payment_id,
       payment_url: cart.payment_url,
+      preview_url: cart.preview_url,
       currency: currency,
       subtotal: cart.subtotal.to_f,
       total: cart.total.to_f,

@@ -40,6 +40,9 @@ Rails.application.routes.draw do
   get 'payment/success', to: 'payment#success', as: :payment_success
   get 'payment/failure', to: 'payment#failure', as: :payment_failure
 
+  # Public cart preview page
+  get 'cart/:id', to: 'cart#show', as: :cart_preview
+
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do

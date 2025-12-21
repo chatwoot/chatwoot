@@ -144,6 +144,10 @@ class Cart < ApplicationRecord
     payload['customer_data'] || {}
   end
 
+  def preview_url
+    Rails.application.routes.url_helpers.cart_preview_url(id: external_payment_id)
+  end
+
   private
 
   def generate_external_payment_id

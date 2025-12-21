@@ -17,6 +17,9 @@ const data = computed(() => contentAttributes.value?.data || {});
 const paymentUrl = computed(
   () => data.value?.payment_url || data.value?.paymentUrl
 );
+const previewUrl = computed(
+  () => data.value?.preview_url || data.value?.previewUrl
+);
 const total = computed(() => data.value?.total);
 const currency = computed(() => data.value?.currency || 'KWD');
 const status = computed(() => data.value?.status || 'pending');
@@ -39,14 +42,15 @@ const totalDisplay = computed(
 );
 
 const copyPaymentLink = async () => {
-  if (!paymentUrl.value) return;
+  const urlToCopy = previewUrl.value || paymentUrl.value;
+  if (!urlToCopy) return;
 
   try {
-    await navigator.clipboard.writeText(paymentUrl.value);
+    await navigator.clipboard.writeText(urlToCopy);
     useAlert(t('CART.LINK_COPIED'));
   } catch (error) {
     const textArea = document.createElement('textarea');
-    textArea.value = paymentUrl.value;
+    textArea.value = urlToCopy;
     textArea.style.position = 'fixed';
     textArea.style.left = '-999999px';
     document.body.appendChild(textArea);
@@ -153,7 +157,7 @@ const formatPrice = price => {
           <span>{{ $t(labelKey) }}</span>
         </div>
         <button
-          v-if="paymentUrl"
+          v-if="previewUrl || paymentUrl"
           type="button"
           class="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-n-iris-9 hover:text-n-iris-10 hover:bg-n-iris-3 rounded-md transition-colors"
           @click="copyPaymentLink"
@@ -170,8 +174,8 @@ const formatPrice = price => {
     <div class="space-y-2">
       <p class="text-sm whitespace-pre-wrap">{{ content }}</p>
       <a
-        v-if="paymentUrl"
-        :href="paymentUrl"
+        v-if="previewUrl || paymentUrl"
+        :href="previewUrl || paymentUrl"
         target="_blank"
         rel="noopener noreferrer"
         class="inline-flex items-center gap-2 text-sm font-medium text-n-iris-9 hover:text-n-iris-10"
