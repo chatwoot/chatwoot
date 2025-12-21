@@ -55,7 +55,7 @@ const handleContactAction = ({ action }) => {
     <DropdownMenu
       v-if="showActionsDropdown"
       :menu-items="contactMenuItems"
-      class="mt-1 w-52 top-full ltr:left-1/2 ltr:-translate-x-1/2 rtl:right-1/2 rtl:translate-x-1/2 sm:ltr:left-auto sm:ltr:translate-x-0 sm:rtl:right-auto sm:rtl:translate-x-0 sm:ltr:right-0 sm:rtl:left-0"
+      class="mt-1 w-52 top-full max-w-[calc(100vw-1rem)] ltr:right-0 rtl:left-0"
       @action="handleContactAction($event)"
     />
   </div>
