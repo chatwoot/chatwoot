@@ -1,6 +1,7 @@
 json.id resource.id
 json.external_payment_id resource.external_payment_id
 json.payment_url resource.payment_url
+json.preview_url resource.preview_url
 json.provider resource.provider
 json.subtotal resource.subtotal
 json.total resource.total

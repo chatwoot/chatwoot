@@ -219,22 +219,22 @@ const getStatusBadgeClasses = status => {
           <td class="py-4 ltr:pr-4 rtl:pl-4">
             <div class="flex items-center gap-2">
               <Button
-                v-if="cart.payment_url"
+                v-if="cart.preview_url"
                 v-tooltip.top="$t('CARTS_LIST.TABLE.COPY_URL')"
                 icon="i-lucide-copy"
                 slate
                 xs
                 faded
-                @click="copyToClipboard(cart.payment_url)"
+                @click="copyToClipboard(cart.preview_url)"
               />
               <Button
-                v-if="cart.payment_url"
+                v-if="cart.preview_url"
                 v-tooltip.top="$t('CARTS_LIST.TABLE.VIEW_PAYMENT')"
                 icon="i-lucide-external-link"
                 slate
                 xs
                 faded
-                @click="openPaymentLink(cart.payment_url)"
+                @click="openPaymentLink(cart.preview_url)"
               />
             </div>
           </td>
