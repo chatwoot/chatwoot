@@ -41,8 +41,11 @@ class Conversations::AutoAssignService
     message_threshold = 3
     time_threshold = 5.minutes
 
-    conversation.messages.incoming.count >= message_threshold ||
-      conversation.created_at <= time_threshold.ago
+    # 3+ messages always triggers
+    return true if conversation.messages.incoming.count >= message_threshold
+
+    # 5-minute threshold only applies if conversation has no labels
+    conversation.label_list.empty? && conversation.created_at <= time_threshold.ago
   end
 
   def should_apply_label?
