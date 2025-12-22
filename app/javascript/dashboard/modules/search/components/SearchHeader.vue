@@ -1,9 +1,12 @@
 <script setup>
 import { ref, watch, useTemplateRef, defineModel } from 'vue';
-import { useConfig } from 'dashboard/composables/useConfig';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
+import { ROLES } from 'dashboard/constants/permissions';
 
 import SearchInput from './SearchInput.vue';
 import SearchFilters from './SearchFilters.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
   initialQuery: { type: String, default: '' },
@@ -13,7 +16,6 @@ const emit = defineEmits(['search', 'filterChange']);
 
 const filters = defineModel('filters', { type: Object, default: () => ({}) });
 
-const { isEnterprise } = useConfig();
 const searchInputRef = useTemplateRef('searchInputRef');
 const searchQuery = ref(props.initialQuery);
 
@@ -48,11 +50,20 @@ watch(
       @search="onSearch"
       @select-recent-search="onSelectRecentSearch"
     >
-      <SearchFilters
-        v-if="isEnterprise"
-        v-model="filters"
-        @update-filters="$emit('filterChange', $event)"
-      />
+      <Policy
+        :permissions="ROLES"
+        :installation-types="[
+          INSTALLATION_TYPES.ENTERPRISE,
+          INSTALLATION_TYPES.CLOUD,
+        ]"
+        :feature-flag="FEATURE_FLAGS.ADVANCED_SEARCH"
+        class="w-full"
+      >
+        <SearchFilters
+          v-model="filters"
+          @update-filters="$emit('filterChange', $event)"
+        />
+      </Policy>
     </SearchInput>
   </div>
 </template>
