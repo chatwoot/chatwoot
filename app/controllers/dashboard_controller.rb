@@ -73,6 +73,7 @@ class DashboardController < ActionController::Base
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GOOGLE_OAUTH_CLIENT_ID: GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', ''),
+      GOOGLE_OAUTH_REDIRECT_URI: GlobalConfigService.load('GOOGLE_OAUTH_REDIRECT_URI', ''),
       FRONTEND_URL: ENV.fetch('FRONTEND_URL', ''),
       GIT_SHA: GIT_HASH
     }
